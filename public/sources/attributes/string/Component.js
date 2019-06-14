@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import Attribute from '../attribute'
 import { env, getService } from 'vc-cake'
 import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
+import Dropdown from '../dropdown/Component'
 
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -39,34 +40,24 @@ export default class StringAttribute extends Attribute {
         let blockInfo = value.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ].trim())
 
-        let selectOptions = []
         let fieldList = getDynamicFieldsList(this.props.fieldType)
-        let fieldKey = this.props.fieldKey
-        fieldList.forEach((dynamicFieldItem, index) => {
-          selectOptions.push(
-            <option
-              key={`dynamic-string-field-${fieldKey}-${index}-${dynamicFieldItem.key}`}
-              value={dynamicFieldItem.key}
-            >
-              {dynamicFieldItem.label}
-            </option>
-          )
-        })
         fieldComponent = (
-          <select
-            className='vcv-ui-form-dropdown vcv-ui-form-field-dynamic'
+          <Dropdown
             value={blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2')}
-            onChange={this.handleDynamicFieldChange}
-          >
-            {selectOptions}
-          </select>
+            fieldKey={`${this.props.fieldKey}-dynamic-dropdown`}
+            options={{
+              values: fieldList
+            }}
+            updater={this.handleDynamicFieldChange}
+            extraClass='vcv-ui-form-field-dynamic'
+          />
         )
 
         dynamicComponent = (
           <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
         )
         if (blockAtts.value.match(/::/)) {
-          const [dynamicFieldValue, extraValue] = blockAtts.value.split('::')
+          const [ dynamicFieldValue, extraValue ] = blockAtts.value.split('::')
           const updateExtraValue = (e) => {
             const extraDynamicFieldValue = e.currentTarget && e.currentTarget.value
             this.updateDynamicFieldValues(`${dynamicFieldValue}::${extraDynamicFieldValue}`)
@@ -75,7 +66,7 @@ export default class StringAttribute extends Attribute {
             'vcv-ui-form-field-dynamic-extra': true
           })
           extraDynamicComponent =
-            <input type='text' className={extraDynamicFieldClassNames} onChange={updateExtraValue} value={extraValue} placeholder='Enter valid key' />
+            <input type='text' className={extraDynamicFieldClassNames} onChange={updateExtraValue} value={extraValue} placeholder='Enter valid meta key' />
         }
       } else {
         dynamicComponent = (

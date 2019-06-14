@@ -1,15 +1,17 @@
 import React from 'react'
-import classnames from 'classnames'
-import TinyMceEditor from 'react-tinymce'
+import classNames from 'classnames'
 import TinyMceButtonsBuilder from 'public/components/layoutHelpers/contentEditable/lib/tinymceButtonsBuilder'
-// import './css/skin.css'
 import './css/content.css'
 import './css/wpEditor.css'
 import Attribute from '../attribute'
-import lodash from 'lodash'
-import vcCake from 'vc-cake'
 import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
+import { env, getService } from 'vc-cake'
+import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
+import Dropdown from 'public/sources/attributes/dropdown/Component'
+
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class HtmlEditorComponent extends Attribute {
   static defaultProps = {
@@ -18,32 +20,44 @@ export default class HtmlEditorComponent extends Attribute {
 
   constructor (props) {
     super(props)
+    this.handleChange = this.handleChange.bind(this)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
     this.handleSkinChange = this.handleSkinChange.bind(this)
     this.addFontDropdowns = this.addFontDropdowns.bind(this)
     this.handleFontChange = this.handleFontChange.bind(this)
     this.handleFontWeightChange = this.handleFontWeightChange.bind(this)
     this.handleCustomDropdownChange = this.handleCustomDropdownChange.bind(this)
+    this.initWpEditorJs = this.initWpEditorJs.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
     this.state.darkTextSkin = this.getDarkTextSkinState()
   }
 
-  shouldComponentUpdate (nextProps) {
-    if (this.state.editorLoaded && this.props.value !== nextProps.value && vcCake.env('platform') === 'wordpress') {
+  shouldComponentUpdate (newProps, newState) {
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && newProps.options && newProps.options.dynamicField
+    if (isDynamic) {
+      if (
+        (typeof newState.value === 'string' && newState.value.match(blockRegexp)) ||
+        (typeof this.state.value === 'string' && this.state.value.match(blockRegexp))
+      ) {
+        return true
+      }
+    }
+    if (this.state.editorLoaded && typeof window.tinymce !== 'undefined') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
-      window.tinymce.get(id).setContent(nextProps.value)
-      this.loadUsedFonts(nextProps)
+      const editor = window.tinymce.get(id)
+      if (editor) {
+        editor.getBody().style.backgroundColor = newState.darkTextSkin ? '#2f2f2f' : ''
+        if (this.props.value !== newProps.value) {
+          editor.setContent(newProps.value)
+          this.loadUsedFonts(newProps)
+        }
+      }
+
       return false
     }
-    return true
-  }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.value !== nextProps.value && vcCake.env('platform') !== 'wordpress') {
-      window.tinymce.EditorManager.get(this.id).setContent(nextProps.value)
-    }
-    // super.componentWillReceiveProps(nextProps)
+    return this.state.editorLoaded ? this.state.value !== newState.value : true
   }
 
   loadUsedFonts (props) {
@@ -207,20 +221,17 @@ export default class HtmlEditorComponent extends Attribute {
     this.handleChangeWpEditor(this.editor)
   }
 
-  handleChange (event, editor) {
-    const value = editor.getContent()
-    this.setFieldValue(value)
+  handleChange (event) {
+    this.setFieldValue(event.currentTarget.value)
   }
 
   handleChangeWpEditor (editor) {
-    const { updater, fieldKey } = this.props
-    updater(fieldKey, editor.getContent())
+    this.setFieldValue(editor.getContent())
   }
 
   handleChangeQtagsEditor (e) {
-    const { updater, fieldKey } = this.props
     const field = e.target
-    updater(fieldKey, field.value)
+    this.setFieldValue(field.value)
   }
 
   handleSkinChange (fieldKey, isDark) {
@@ -228,24 +239,20 @@ export default class HtmlEditorComponent extends Attribute {
     this.props.updater(fieldKey, isDark)
   }
 
-  renderEditor () {
+  renderFallbackEditor () {
     let { value } = this.state
-    let { options } = this.props
-    let tinymceConfig = lodash.extend({}, {
-      toolbar: [
-        'styleselect | bold italic | link image | alignleft aligncenter alignright'
-      ],
-      skin: false,
-      menubar: false
-    }, options.tinymce)
+
     return (
       <div className='vcv-ui-form-input vcv-ui-form-tinymce'>
-        <TinyMceEditor
+        <textarea
           id={this.id}
-          config={tinymceConfig}
           onChange={this.handleChange}
-          onKeyup={this.handleChange}
-          content={value} />
+          onKeyUp={this.handleChange}
+          value={value}
+          style={{
+            width: '100%',
+            minHeight: '300px'
+          }} />
       </div>
     )
   }
@@ -253,6 +260,9 @@ export default class HtmlEditorComponent extends Attribute {
   initWpEditorJs () {
     const { fieldKey } = this.props
     const id = `vcv-wpeditor-${fieldKey}`
+    if (!document.querySelector('#' + id)) {
+      return
+    }
     if (window.tinyMCEPreInit) {
       window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
         id: id,
@@ -273,25 +283,33 @@ export default class HtmlEditorComponent extends Attribute {
     }
 
     window.setTimeout(() => {
-      window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
-      window.switchEditors && window.switchEditors.go(id, 'tmce')
-      if (window.QTags) {
-        delete window.QTags.instances[ 0 ]
-        if (window.QTags.instances[ id ]) {
-          window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
+      if (document.querySelector('#' + id)) {
+        window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
+        window.switchEditors && window.switchEditors.go(id, 'tmce')
+        if (window.QTags) {
+          delete window.QTags.instances[ 0 ]
+          if (window.QTags.instances[ id ]) {
+            window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
+          }
         }
       }
-    }, 0)
+    }, 1)
   }
 
   componentDidMount () {
-    if (vcCake.env('platform') === 'wordpress') {
+    if (typeof window.tinymce !== 'undefined') {
       this.initWpEditorJs()
     }
   }
 
   componentWillUnmount () {
-    if (vcCake.env('platform') === 'wordpress') {
+    if (typeof window.tinymce !== 'undefined') {
+      this.destroyEditor()
+    }
+  }
+
+  destroyEditor () {
+    if (typeof window.tinymce !== 'undefined') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       window.tinyMCE && window.tinyMCE.editors && window.tinyMCE.editors[ id ] && window.tinyMCE.editors[ id ].destroy()
@@ -299,6 +317,7 @@ export default class HtmlEditorComponent extends Attribute {
         window.QTags.instances[ id ].canvas.removeEventListener('keyup', this.handleChangeQtagsEditor)
         delete window.QTags.instances[ id ]
       }
+      this.editor = false
     }
   }
 
@@ -317,6 +336,20 @@ export default class HtmlEditorComponent extends Attribute {
     )
   }
 
+  handleDynamicFieldClose (e) {
+    super.handleDynamicFieldClose(e)
+    if (typeof window.tinymce !== 'undefined') {
+      window.setTimeout(this.initWpEditorJs, 1)
+    }
+  }
+
+  handleDynamicFieldOpen (e) {
+    if (typeof window.tinymce !== 'undefined') {
+      this.destroyEditor()
+    }
+    super.handleDynamicFieldOpen(e)
+  }
+
   getDarkTextSkinState () {
     let { elementAccessPoint, options, editFormOptions } = this.props
     const toggleFieldKey = options && options.skinToggle
@@ -330,28 +363,81 @@ export default class HtmlEditorComponent extends Attribute {
   }
 
   render () {
-    if (vcCake.env('platform') === 'wordpress') {
+    if (typeof window.tinymce !== 'undefined') {
       const { value } = this.state
-      const { fieldKey } = this.props
+      const { fieldKey, options } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
-      if (this.state.editorLoaded) {
-        const editor = window.tinymce.get(id)
-        if (editor && editor.getBody()) {
-          editor.getBody().style.backgroundColor = this.state.darkTextSkin ? '#2f2f2f' : ''
-        }
-      }
+      const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
       const template = document.getElementById('vcv-wpeditor-template').innerHTML
         .replace(/__VCVID__/g, id)
         .replace(/%%content%%/g, value)
-      const cssClasses = classnames({
+      const cssClasses = classNames({
         'vcv-ui-form-wp-tinymce': true,
-        'vcv-is-invisible': this.state.editorLoaded !== true
+        'vcv-is-invisible': this.state.editorLoaded !== true,
+        'vcv-ui-form-field-dynamic': isDynamic
       })
-      return <div className={cssClasses}>
-        <div dangerouslySetInnerHTML={{ __html: template }} />
-        {this.getSkinToggle()}
-      </div>
+
+      let dynamicComponent = null
+      let extraDynamicComponent = null
+
+      let dynamicComponentOpen = null
+      if (isDynamic && typeof value === 'string' && !value.match(blockRegexp)) {
+        dynamicComponentOpen =
+          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control ' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
+      }
+
+      let fieldComponent = <React.Fragment>
+        <div className={cssClasses}>
+          <div dangerouslySetInnerHTML={{ __html: template }} />
+          {this.getSkinToggle()}
+          {dynamicComponentOpen}
+        </div>
+      </React.Fragment>
+
+      if (isDynamic && typeof value === 'string' && value.match(blockRegexp)) {
+        let blockInfo = value.split(blockRegexp)
+        let blockAtts = JSON.parse(blockInfo[ 4 ].trim())
+
+        let fieldList = getDynamicFieldsList(this.props.fieldType)
+        fieldComponent = (
+          <Dropdown
+            value={blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2')}
+            fieldKey={`${this.props.fieldKey}-dynamic-dropdown`}
+            options={{
+              values: fieldList
+            }}
+            updater={this.handleDynamicFieldChange}
+            extraClass='vcv-ui-form-field-dynamic'
+          />
+        )
+
+        dynamicComponent = (
+          <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
+        )
+        if (blockAtts.value.match(/::/)) {
+          const [ dynamicFieldValue, extraValue ] = blockAtts.value.split('::')
+          const updateExtraValue = (e) => {
+            const extraDynamicFieldValue = e.currentTarget && e.currentTarget.value
+            this.updateDynamicFieldValues(`${dynamicFieldValue}::${extraDynamicFieldValue}`)
+          }
+          const extraDynamicFieldClassNames = classNames({
+            'vcv-ui-form-input': true,
+            'vcv-ui-form-field-dynamic': true,
+            'vcv-ui-form-field-dynamic-extra': true
+          })
+          extraDynamicComponent =
+            <input type='text' className={extraDynamicFieldClassNames} onChange={updateExtraValue} value={extraValue} placeholder='Enter valid key' />
+        }
+      }
+
+      return (
+        <React.Fragment>
+          {fieldComponent}
+          {dynamicComponent}
+          {extraDynamicComponent}
+        </React.Fragment>
+      )
     }
-    return this.renderEditor()
+    return this.renderFallbackEditor()
   }
 }

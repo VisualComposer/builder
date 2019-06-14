@@ -47,10 +47,19 @@ export default class Attribute extends React.Component {
 
   handleDynamicFieldOpen (e) {
     e && e.preventDefault && e.preventDefault()
-    const { fieldKey, updater, fieldType, dynamicTemplate } = this.props
+    const { fieldKey, fieldType, dynamicTemplate } = this.props
 
     const dynamicFieldsList = getDynamicFieldsList(fieldType)
-    const dynamicFieldKey = dynamicFieldsList[ 0 ] ? dynamicFieldsList[ 0 ].key : ''
+    const dynamicFieldListValues = Object.values(dynamicFieldsList)
+    let dynamicFieldKey = ''
+
+    if (dynamicFieldListValues[ 0 ] && dynamicFieldListValues[ 0 ].group && dynamicFieldListValues[ 0 ].group.values && dynamicFieldListValues[ 0 ].group.values[ 0 ]) {
+      dynamicFieldKey = dynamicFieldListValues[ 0 ].group.values[ 0 ].value
+    }
+
+    if (this.state.prevAttrDynamicKey) {
+      dynamicFieldKey = this.state.prevAttrDynamicKey
+    }
 
     let newValue = null
 
@@ -76,24 +85,30 @@ export default class Attribute extends React.Component {
       })} -->`
     }
 
-    updater(fieldKey, newValue, this.state.value)
+    this.setState({
+      prevAttrValue: this.state.value
+    })
+    this.setFieldValue(newValue)
   }
 
-  handleDynamicFieldChange (e) {
-    const dynamicFieldValue = e.currentTarget && e.currentTarget.value
-    this.updateDynamicFieldValues(dynamicFieldValue)
+  handleDynamicFieldChange (fieldKey, value) {
+    const dynamicFieldKey = value
+    this.updateDynamicFieldValues(dynamicFieldKey)
   }
 
-  updateDynamicFieldValues (dynamicFieldValue) {
-    const { fieldKey, updater, dynamicTemplate } = this.props
+  updateDynamicFieldValues (dynamicFieldKey) {
+    const { fieldKey, dynamicTemplate } = this.props
     let newValue = null
+    this.setState({
+      prevAttrDynamicKey: dynamicFieldKey
+    })
     if (dynamicTemplate) {
-      newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldValue)
+      newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
     } else {
       const currentValue = getDynamicFieldsData(
         {
           blockAtts: {
-            value: dynamicFieldValue
+            value: dynamicFieldKey
           }
         },
         {
@@ -104,27 +119,29 @@ export default class Attribute extends React.Component {
         true
       )
       newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-        value: dynamicFieldValue,
+        value: dynamicFieldKey,
         currentValue: currentValue
       })} -->`
     }
-    updater(fieldKey, newValue)
+    this.setFieldValue(newValue)
   }
 
   handleDynamicFieldClose (e) {
     e && e.preventDefault && e.preventDefault()
-    const { fieldKey, elementAccessPoint, updater, prevValue } = this.props
-
+    const { fieldKey, elementAccessPoint } = this.props
     let cookElement = elementAccessPoint.cook()
 
     let { settings } = cookElement.settings(fieldKey)
-    let defaultValue = settings.defaultValue
-    if (typeof defaultValue === 'undefined' && settings.value) {
-      defaultValue = settings.value
-    } else if (prevValue) {
-      defaultValue = prevValue
+    let defaultValue
+    if (this.state.prevAttrValue) {
+      defaultValue = this.state.prevAttrValue
+    } else {
+      defaultValue = settings.defaultValue
+      if (typeof defaultValue === 'undefined' && settings.value) {
+        defaultValue = settings.value
+      }
     }
-    updater(fieldKey, defaultValue, null)
+    this.setFieldValue(defaultValue)
   }
 
   render () {

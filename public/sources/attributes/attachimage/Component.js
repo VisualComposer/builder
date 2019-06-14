@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import StockImagesMediaTab from './stockImagesMediaTab'
 import { env, getService, getStorage } from 'vc-cake'
 import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
+import Dropdown from 'public/sources/attributes/dropdown/Component'
 
 const notificationsStorage = getStorage('notifications')
 const { getBlockRegexp } = getService('utils')
@@ -209,6 +210,14 @@ export default class AttachImage extends Attribute {
     this.setFieldValue(fieldValue)
   }
 
+  setFieldValue (value) {
+    if (typeof value === 'string') {
+      let newState = this.updateState({ value: value })
+      value = newState.value
+    }
+    super.setFieldValue(value)
+  }
+
   onMediaSelect () {
     let selection = this.mediaUploader.state().get('selection')
     this.setFieldValue(this.parseSelection(selection))
@@ -348,7 +357,7 @@ export default class AttachImage extends Attribute {
   }
 
   render () {
-    const { options, fieldKey } = this.props
+    const { options } = this.props
     let { value, filter = false } = this.state
     let useDragHandle = true
     let cookElement = this.props.elementAccessPoint.cook()
@@ -398,23 +407,17 @@ export default class AttachImage extends Attribute {
         let blockInfo = imageValue.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ].trim())
 
-        let selectOptions = []
         let fieldList = getDynamicFieldsList(this.props.fieldType)
-        fieldList.forEach((dynamicFieldItem, index) => {
-          selectOptions.push(
-            <option
-              key={`dynamic-attachimage-field-${fieldKey}-${index}-${dynamicFieldItem.key}`}
-              value={dynamicFieldItem.key}
-            >
-              {dynamicFieldItem.label}
-            </option>
-          )
-        })
-
         fieldComponent = (
-          <select className='vcv-ui-form-dropdown vcv-ui-form-field-dynamic' value={blockAtts.value} onChange={this.handleDynamicFieldChange}>
-            {selectOptions}
-          </select>
+          <Dropdown
+            value={blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2')}
+            fieldKey={`${this.props.fieldKey}-dynamic-dropdown`}
+            options={{
+              values: fieldList
+            }}
+            updater={this.handleDynamicFieldChange}
+            extraClass='vcv-ui-form-field-dynamic'
+          />
         )
 
         dynamicComponent = (

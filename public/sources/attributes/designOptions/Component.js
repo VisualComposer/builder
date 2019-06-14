@@ -298,7 +298,8 @@ export default class DesignOptions extends Attribute {
           })
         } else {
           // image is empty
-          const isDynamic = typeof newValue[ device ].image === 'string' && newValue[ device ].image.match(blockRegexp)
+          let imageValue = newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls[ 0 ] ? newValue[ device ].image.urls[ 0 ].full : false
+          const isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
           if (!isDynamic && (!newValue[ device ].hasOwnProperty('image') || ((!newValue[ device ].image.urls || newValue[ device ].image.urls.length === 0) && newValue[ device ].image.length === 0))) {
             delete newValue[ device ].image
             delete newValue[ device ].backgroundStyle
@@ -426,9 +427,9 @@ export default class DesignOptions extends Attribute {
         }
       }
 
-      if (typeof newValue[ device ].image === 'string' && newValue[ device ].image.match(blockRegexp)) {
-        // TODO: Create featured image (or something) backgroundImage
-        let blockInfo = newValue[ device ].image.split(blockRegexp)
+      let imageValue = newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls[ 0 ] ? newValue[ device ].image.urls[ 0 ].full : false
+      if (imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)) {
+        let blockInfo = imageValue.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ])
         let imageUrl = getDynamicFieldsData({
           blockAtts: blockAtts
@@ -903,9 +904,8 @@ export default class DesignOptions extends Attribute {
       return null
     }
     const imageData = devices[ currentDevice ].image || ''
-    const isDynamic = typeof imageData === 'string' && imageData.match(blockRegexp)
 
-    if (!isDynamic && (!imageData || !imageData.urls || imageData.urls.length === 0)) {
+    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
       return null
     }
 
@@ -985,9 +985,8 @@ export default class DesignOptions extends Attribute {
     }
 
     const imageData = devices[ currentDevice ].image || ''
-    const isDynamic = typeof imageData === 'string' && imageData.match(blockRegexp)
 
-    if (!isDynamic && (!imageData || !imageData.urls || imageData.urls.length === 0)) {
+    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
       return null
     }
 

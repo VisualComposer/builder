@@ -16,6 +16,7 @@ import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
+
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 
@@ -389,8 +390,9 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[ device ].backgroundZoomReverse
           } else {
             let images = newValue[ device ].images
-            let isArray = images.constructor === Array
-            let isDynamic = typeof images === 'string' && images.match(blockRegexp)
+            let isArray = images ? images.constructor === Array : false
+            let imageValue = images && images.urls && images.urls[ 0 ] ? images.urls[ 0 ].full : false
+            let isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
 
             if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
               delete newValue[ device ].images
@@ -1150,9 +1152,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
-    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
@@ -1222,9 +1223,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
-    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
@@ -1302,9 +1302,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
-    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
@@ -1338,9 +1337,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
-    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
@@ -1372,9 +1370,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
     let images = deviceData.images
     let isArray = images.constructor === Array
-    const isDynamic = typeof images === 'string' && images.match(blockRegexp)
 
-    if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 

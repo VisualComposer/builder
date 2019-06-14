@@ -353,9 +353,11 @@ export default class ElementComponent extends React.Component {
       let backgroundElements = []
       let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
       let images = device[ deviceKey ].images
+      let imageValue = images && images.urls && images.urls[ 0 ] ? images.urls[ 0 ].full : false
+      let isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
 
-      if (typeof images === 'string' && images.match(blockRegexp)) {
-        let blockInfo = images.split(blockRegexp)
+      if (isDynamic) {
+        let blockInfo = imageValue.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ])
         let imageUrl = getDynamicFieldsData({
           blockAtts: blockAtts

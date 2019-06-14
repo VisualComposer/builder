@@ -7,11 +7,6 @@ import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
 import UrlDropdownInput from './UrlDropdownInput'
 import { getResponse } from 'public/tools/response'
-import { env, getService } from 'vc-cake'
-import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
-
-const { getBlockRegexp } = getService('utils')
-const blockRegexp = getBlockRegexp()
 
 let pagePosts = {
   data: [],
@@ -41,8 +36,7 @@ export default class Url extends Attribute {
 
   updateState (props) {
     let value = props.value
-    const isBlock = env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof props.value === 'string' && props.value.match(blockRegexp)
-    if (!lodash.isObject(value) && !isBlock) {
+    if (!lodash.isObject(value)) {
       value = {
         url: '',
         title: '',
@@ -55,7 +49,7 @@ export default class Url extends Attribute {
     return {
       value: value,
       unsavedValue: value,
-      isWindowOpen: isBlock,
+      isWindowOpen: false,
       updateState: false,
       shouldRenderExistingPosts: !!window.vcvAjaxUrl
     }
@@ -222,133 +216,6 @@ export default class Url extends Attribute {
     this.loadPosts(keyword)
   }
 
-  handleDynamicFieldOpen (e) {
-    e && e.preventDefault && e.preventDefault()
-    const fieldKey = e.target.dataset.fieldkey
-
-    // TODO: Get default value for dynamic field open from storage
-    const currentValue = getDynamicFieldsData({
-      blockAtts: {
-        value: 'featured_image'
-      }
-    })
-
-    const defaultValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-      value: 'featured_image', // TODO: Get default value type from storage
-      currentValue: currentValue
-    })} -->`
-
-    this.handleInputChange(fieldKey, defaultValue)
-  }
-
-  handleDynamicFieldChange (e) {
-    e && e.preventDefault && e.preventDefault()
-    const fieldKey = e.target.dataset.fieldkey
-    const dynamicFieldValue = e.currentTarget && e.currentTarget.value
-    const currentValue = getDynamicFieldsData({
-      blockAtts: {
-        value: dynamicFieldValue
-      }
-    })
-    const newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-      value: dynamicFieldValue,
-      currentValue: currentValue
-    })} -->`
-
-    this.handleInputChange(fieldKey, newValue)
-  }
-
-  handleDynamicFieldClose (e) {
-    e && e.preventDefault && e.preventDefault()
-    const { elementAccessPoint } = this.props
-    const fieldKey = e.target.dataset.fieldkey
-
-    let cookElement = elementAccessPoint.cook()
-
-    let { settings } = cookElement.settings(fieldKey)
-    let defaultValue = settings.defaultValue
-    if (typeof defaultValue === `undefined`) {
-      defaultValue = ''
-    }
-    this.handleInputChange(fieldKey, defaultValue)
-  }
-
-  getDynamicUrlField () {
-    const { options } = this.props
-    const value = this.state.unsavedValue.url
-    let dynamicComponent = null
-
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
-    let fieldComponent = <UrlDropdownInput
-      fieldKey='url'
-      ref={(c) => { this.urlInput = c }}
-      api={this.props.api}
-      value={this.state.unsavedValue.url || ''}
-      updater={this.handleInputChange}
-    />
-
-    if (isDynamic) {
-      fieldComponent = <div className='vcv-ui-form-field-dynamic-url vcv-ui-form-field-dynamic'>{fieldComponent}</div>
-
-      if (typeof value === 'string' && value.match(blockRegexp)) {
-        let blockInfo = value.split(blockRegexp)
-        let blockAtts = JSON.parse(blockInfo[ 4 ].trim())
-
-        let selectOptions = []
-        // TODO: Get fields for dropdown from storage
-        selectOptions.push(
-          <option
-            key={`dynamic-field-0`}
-            value='featured_image'
-          >
-            {'Featured Image'}
-          </option>)
-        selectOptions.push(
-          <option
-            key={`dynamic-field-1`}
-            value='product_image'
-          >
-            {'Product Image'}
-          </option>)
-
-        fieldComponent = (
-          <select
-            className='vcv-ui-form-dropdown vcv-ui-form-field-dynamic'
-            value={blockAtts.value}
-            onChange={this.handleDynamicFieldChange}
-          >
-            {selectOptions}
-          </select>
-        )
-
-        dynamicComponent = (
-          <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
-        )
-      } else {
-        dynamicComponent = (
-          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control ' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
-        )
-      }
-    }
-
-    return (
-      <React.Fragment>
-        {fieldComponent}
-        {dynamicComponent}
-      </React.Fragment>
-    )
-  }
-
-  getDynamicTitleField () {
-    return <String
-      fieldKey='title'
-      fieldType='string'
-      value={this.state.unsavedValue.title || ''}
-      api={this.props.api}
-      updater={this.handleInputChange}
-    />
-  }
-
   drawModal () {
     const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or Edit Link'
     const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter destination URL'
@@ -383,14 +250,24 @@ export default class Url extends Attribute {
               <span className='vcv-ui-form-group-heading'>
                URL
               </span>
-              {this.getDynamicUrlField()}
+              <UrlDropdownInput
+                fieldKey='url'
+                ref={(c) => { this.urlInput = c }}
+                api={this.props.api}
+                value={this.state.unsavedValue.url || ''}
+                updater={this.handleInputChange}
+              />
             </div>
 
             <div className='vcv-ui-form-group'>
               <span className='vcv-ui-form-group-heading'>
                 {title}
               </span>
-              {this.getDynamicTitleField()}
+              <String
+                fieldKey='title'
+                value={this.state.unsavedValue.title || ''}
+                api={this.props.api}
+                updater={this.handleInputChange} />
               <p className='vcv-ui-form-helper'>
                 {titleAttributeText}
               </p>
@@ -416,7 +293,6 @@ export default class Url extends Attribute {
           </section>
 
           <footer className='vcv-ui-modal-footer'>
-
             <div className='vcv-ui-modal-actions'>
               <span className='vcv-ui-modal-action' title={save} onClick={this.save}>
                 <span className='vcv-ui-modal-action-content'>
