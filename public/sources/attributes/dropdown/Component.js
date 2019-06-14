@@ -1,7 +1,19 @@
 import React from 'react'
+import classNames from 'classnames'
 import Attribute from '../attribute'
+import PropTypes from 'prop-types'
 
 export default class Dropdown extends Attribute {
+  static propTypes = {
+    updater: PropTypes.func.isRequired,
+    fieldKey: PropTypes.string.isRequired,
+    fieldType: PropTypes.string,
+    value: PropTypes.any.isRequired,
+    defaultValue: PropTypes.any,
+    options: PropTypes.any,
+    extraClass: PropTypes.any
+  }
+
   static defaultProps = {
     fieldType: 'dropdown'
   }
@@ -25,6 +37,9 @@ export default class Dropdown extends Attribute {
       if (values.hasOwnProperty(key)) {
         optionElements.push(this.createOptions(key, values, fieldKey))
       }
+    }
+    if (!optionElements.length) {
+      return null
     }
     return <optgroup key={fieldKey + ':' + key + ':' + labelValue} label={label}>{optionElements}</optgroup>
   }
@@ -60,7 +75,10 @@ export default class Dropdown extends Attribute {
     for (let key in values) {
       if (values.hasOwnProperty(key)) {
         if (values[ key ].hasOwnProperty('group')) {
-          optionElements.push(this.createGroup(key, values[ key ].group, fieldKey))
+          let group = this.createGroup(key, values[ key ].group, fieldKey)
+          if (group) {
+            optionElements.push(group)
+          }
         } else {
           optionElements.push(this.createOptions(key, values, fieldKey))
         }
@@ -71,13 +89,16 @@ export default class Dropdown extends Attribute {
   }
 
   render () {
-    let { value } = this.state
+    const { value } = this.state
+    const selectClass = classNames({
+      'vcv-ui-form-dropdown': true
+    }, this.props.extraClass)
 
     return (
       <select
         value={value}
         onChange={this.handleChange}
-        className='vcv-ui-form-dropdown'>
+        className={selectClass}>
         {this.selectChildren}
       </select>
     )

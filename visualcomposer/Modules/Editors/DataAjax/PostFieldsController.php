@@ -30,21 +30,74 @@ class PostFieldsController extends Container implements Module
 
     /**
      * @param $response
-     * @param $payload
      *
      * @return mixed
      */
-    protected function getPostFields($response, $payload)
+    protected function getPostFields($response)
     {
+        $fields = [
+            'attachimage' => [
+                'default' => [
+                    'group' => [
+                        'label' => __('Default', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
+            'designOptions' => [
+                'default' => [
+                    'group' => [
+                        'label' => __('Default', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
+            'designOptionsAdvanced' => [
+                'default' => [
+                    'group' => [
+                        'label' => __('Default', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
+            'string' => [
+                'default' => [
+                    'group' => [
+                        'label' => __('Default', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'meta' => [
+                    'group' => [
+                        'label' => __('Custom Meta Field', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'TEST' => [
+                    'group' => [
+                        'label' => __('TEST', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
+            'htmleditor' => [
+                'default' => [
+                    'group' => [
+                        'label' => __('Default', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'meta' => [
+                    'group' => [
+                        'label' => __('Custom Meta Field', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
+        ];
         $response['postFields'] = vcfilter(
             'vcv:editor:data:postFields',
-            [
-                'attachimage' => [],
-                'designOptions' => [],
-                'designOptionsAdvanced' => [],
-                'string' => [],
-                'htmleditor' => [],
-            ]
+            $fields
         );
 
         return $response;

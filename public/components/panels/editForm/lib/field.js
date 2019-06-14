@@ -23,8 +23,7 @@ export default class Field extends React.Component {
       dependenciesClasses: [],
       hasInnerFields: false
     }
-    // this.updateElement = lodash.debounce(this.updateElement.bind(this), 100) // TODO: Check debounce
-    this.updateElement = this.updateElement.bind(this) // TODO: Check debounce
+    this.updateElement = this.updateElement.bind(this)
     this.updateValue = this.updateValue.bind(this)
     this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
   }
@@ -60,11 +59,6 @@ export default class Field extends React.Component {
       this.props.elementAccessPoint.set(fieldKey, value)
       this.props.onAttributeChange(fieldKey)
     }
-    let newValue = {
-      value: value
-    }
-
-    this.setState(newValue)
   }
 
   setInnerFieldStatus () {
@@ -76,10 +70,13 @@ export default class Field extends React.Component {
 
   render () {
     let { fieldKey, tab, fieldType, elementAccessPoint } = this.props
-    let { value } = this.state
 
     let cookElement = elementAccessPoint.cook()
     let element = cookElement.toJS()
+    if (!element) {
+      console.warn('No element to render edit form fields')
+      return
+    }
     let classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
@@ -87,6 +84,7 @@ export default class Field extends React.Component {
       'vcv-ui-form-group': true,
       'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
     })
+    let value = null
     if (fieldKey && element) {
       value = element[ fieldKey ]
     }

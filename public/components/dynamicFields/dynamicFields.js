@@ -11,7 +11,7 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
   const { blockAtts } = props
   const postData = settingsStorage.state('postData').get()
   let key = blockAtts.value.replace('::', ':')
-  let result = `--vcv-dynamic-${blockAtts.value}-vcv--`
+  let result = null
   if (blockAtts && blockAtts.value && typeof postData[ key ] !== 'undefined') {
     if (postData[ key ].length) {
       // Value should be NEVER empty
@@ -23,6 +23,9 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
   if (!raw && attribute && [ 'string', 'htmleditor' ].indexOf(attribute.fieldType) !== -1) {
     const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
     if (isHtmlAllowed) {
+      if (!result) {
+        result = 'No Value'
+      }
       return React.createElement('div', {
         className: 'vcvhelper',
         dangerouslySetInnerHTML: {
@@ -37,7 +40,7 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
   }
 
   // Plain text
-  return result
+  return !result ? `No Value:${blockAtts.value}` : result
 }
 
 export function cleanComments (el, id) {
