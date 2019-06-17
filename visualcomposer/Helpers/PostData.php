@@ -17,7 +17,7 @@ class PostData implements Helper
         global $post;
         $urlHelper = vchelper('Url');
 
-        $postThumbnailUrl = get_the_post_thumbnail_url($post->ID);
+        $postThumbnailUrl = get_the_post_thumbnail_url($post->ID, 'full');
         if (empty($postThumbnailUrl)) {
             $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
         }
