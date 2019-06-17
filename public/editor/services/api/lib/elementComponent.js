@@ -284,7 +284,10 @@ export default class ElementComponent extends React.Component {
     let imageData = {}
     if (designOptions && designOptions.device) {
       Object.keys(designOptions.device).forEach((device) => {
-        if (typeof designOptions.device[ device ].image === 'string' && designOptions.device[ device ].image.match(blockRegexp)) {
+        let imgValueObj = typeof this.props.atts.designOptionsAdvanced !== 'undefined' ? designOptions.device[ device ].images : designOptions.device[ device ].image
+        let imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[ 0 ] ? imgValueObj.urls[ 0 ].full : ''
+
+        if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
           imageData[ `data-vce-dynamic-image-${device}` ] = this.props.id
         }
       })
