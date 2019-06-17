@@ -40,7 +40,7 @@ export function getDynamicFieldsData (props, attribute = null, raw = false) {
   }
 
   // Plain text
-  return !result ? `No Value:${blockAtts.value}` : result
+  return !result ? `No Value: ${blockAtts.value}` : result
 }
 
 export function cleanComments (el, id) {
