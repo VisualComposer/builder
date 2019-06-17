@@ -113,7 +113,8 @@ export function updateDynamicComments (ref, id, cookElement) {
       let designOptions = atts[ fieldKey ]
       if (designOptions && designOptions.device) {
         Object.keys(designOptions.device).forEach((device) => {
-          let imgValue = attrSettings.type.name === 'designOptionsAdvanced' ? designOptions.device[ device ].images : designOptions.device[ device ].image
+          let imgValueObj = attrSettings.type.name === 'designOptionsAdvanced' ? designOptions.device[ device ].images : designOptions.device[ device ].image
+          let imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[ 0 ] ? imgValueObj.urls[ 0 ].full : ''
           if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
             let blockInfo = parseDynamicBlock(imgValue)
             blockInfo.blockAtts.device = device
