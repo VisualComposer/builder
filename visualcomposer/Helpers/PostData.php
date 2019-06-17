@@ -90,7 +90,7 @@ class PostData implements Helper
         $customLogoId = get_theme_mod('custom_logo');
         $url = '';
         if (!empty($customLogoId)) {
-            $url = wp_get_attachment_image_url($customLogoId);
+            $url = wp_get_attachment_image_url($customLogoId, 'full');
         }
         if (empty($url)) {
             $url = $urlHelper->assetUrl('images/spacer.png');
