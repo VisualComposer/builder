@@ -855,7 +855,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     let options = {
       values: [
         {
-          label: 'Simple images',
+          label: 'Single image',
           value: 'imagesSimple'
         },
         {

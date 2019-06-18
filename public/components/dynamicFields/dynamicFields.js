@@ -85,19 +85,22 @@ export function updateDynamicComments (ref, id, cookElement) {
   let attributesLevel = 0
   Object.keys(atts).forEach((fieldKey) => {
     const attrSettings = cookElement.settings(fieldKey)
-    let isDynamic = attrSettings.settings.options &&
-      attrSettings.settings.options.dynamicField &&
-      typeof atts[ fieldKey ] === 'string' &&
-      atts[ fieldKey ].match(blockRegexp)
+    const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
+    const options = attrSettings.settings.options ? attrSettings.settings.options : {}
+    let value = atts[ fieldKey ]
 
-    if (isDynamic) {
-      if (attrSettings.type && attrSettings.type.name && [ 'string', 'htmleditor' ].indexOf(attrSettings.type.name) !== -1) {
-        if (attrSettings.settings.options.dynamicField === true || attrSettings.settings.options.dynamicField.html === true) {
-          // Skip for field that are string+HTML
-          return
-        }
+    // Check isDynamic for string/htmleditor/attachimage
+    let isDynamic = false
+    if (typeof options.dynamicField !== 'undefined' && (options.dynamicField || options.dynamicField.html)) {
+      if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
+        isDynamic = true
+      } else if ([ 'attachimage' ].indexOf(type) !== -1) {
+        value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+        isDynamic = value.match(blockRegexp)
       }
-      let blockInfo = parseDynamicBlock(atts[ fieldKey ])
+    }
+    if (isDynamic) {
+      let blockInfo = parseDynamicBlock(value)
       blockInfo.blockAtts.elementId = id
       if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
         blockInfo.blockAtts.currentValue = getDynamicFieldsData(blockInfo, {
@@ -109,7 +112,10 @@ export function updateDynamicComments (ref, id, cookElement) {
       hasDynamic = true
       attributesLevel++
       commentStack.push({ blockInfo, attributesLevel })
-    } else if (attrSettings.type && attrSettings.type.name && [ 'designOptions', 'designOptionsAdvanced' ].indexOf(attrSettings.type.name) !== -1) {
+    }
+
+    // Check isDynamic for designOptions/designOptionsAdvanced
+    if (attrSettings.type && attrSettings.type.name && [ 'designOptions', 'designOptionsAdvanced' ].indexOf(attrSettings.type.name) !== -1) {
       let designOptions = atts[ fieldKey ]
       if (designOptions && designOptions.device) {
         Object.keys(designOptions.device).forEach((device) => {
