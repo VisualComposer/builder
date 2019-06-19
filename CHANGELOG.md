@@ -1,3 +1,16 @@
+## ver 18.0 - 2019-06-25
+- New: Dynamic fields feature to replace static content with WordPress fields (ex. post titles, featured images, author name, etc.)
+- New: Dynamic fields feature to replace static content with WordPress custom fields
+- New: API for dynamic fields introduced to add this option to custom elements
+- New: Unsplash library access available in the Media Library
+- New: Data list attributed added and available for custom elements via API
+- Update: Single Image element improved
+- Update: Icon library sets updated to the latest versions
+- Update: Global element CSS split to reduce the size and improve performance
+- Update: Custom filter added to support block nesting
+- Fix: Free predefined templates updated properly
+- Fix: Full width works properly on iPad with Safari 4
+- Fix: Compatibility with Contact Form 7 improved to avoid duplication issues
 ## ver 17.2 - 2019-05-09
 - Fix: Control hover states work properly
 - Fix: PCSS mixins working properly for Post Grid elements
