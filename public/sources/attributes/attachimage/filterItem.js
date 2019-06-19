@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import { env, getService } from 'vc-cake'
-import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
 
 const { getBlockRegexp } = getService('utils')
+const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 class FilterItem extends React.Component {

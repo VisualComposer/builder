@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getDynamicFieldsData, getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
+import { getService } from 'vc-cake'
+
+const { getDynamicFieldsData, getDynamicFieldsList } = getService('cook').dynamicFields
 
 export default class Attribute extends React.Component {
   static propTypes = {

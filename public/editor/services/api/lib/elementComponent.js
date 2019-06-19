@@ -13,11 +13,11 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
-import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
 
 const shortcodesAssetsStorage = getStorage('shortcodeAssets')
 const assetsStorage = getStorage('assets')
 const { getShortcodesRegexp, getBlockRegexp } = getService('utils')
+const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 const dataProcessor = getService('dataProcessor')
 

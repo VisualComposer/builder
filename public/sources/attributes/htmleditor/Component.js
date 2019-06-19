@@ -7,10 +7,10 @@ import Attribute from '../attribute'
 import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
 import { env, getService } from 'vc-cake'
-import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 
 const { getBlockRegexp } = getService('utils')
+const { getDynamicFieldsList } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 export default class HtmlEditorComponent extends Attribute {

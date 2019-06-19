@@ -11,7 +11,6 @@ import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
-import { getDynamicFieldsData } from 'public/components/dynamicFields/dynamicFields'
 import { getStorage, getService, env } from 'vc-cake'
 
 const elementsStorage = getStorage('elements')
@@ -19,6 +18,7 @@ const workspaceStorage = getStorage('workspace')
 
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
+const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {

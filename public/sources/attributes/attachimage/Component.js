@@ -11,11 +11,11 @@ import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockImagesMediaTab from './stockImagesMediaTab'
 import { env, getService, getStorage } from 'vc-cake'
-import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 
 const notificationsStorage = getStorage('notifications')
 const { getBlockRegexp } = getService('utils')
+const { getDynamicFieldsList } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 const SortableList = SortableContainer((props) => {
