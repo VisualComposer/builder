@@ -6,9 +6,11 @@ import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import elementSettings from './element-settings'
 import elementComponent from './element-component'
+import DynamicElement from 'public/components/dynamicFields/dynamicElement'
 import { getAttributeType } from './tools'
 
-const { createKey } = vcCake.getService('utils')
+const { createKey, getBlockRegexp } = vcCake.getService('utils')
+const blockRegexp = getBlockRegexp()
 const hubElementService = vcCake.getService('hubElements')
 const assetsStorage = vcCake.getStorage('assets')
 const elData = Symbol('element data')
@@ -16,7 +18,8 @@ const elComponent = Symbol('element component')
 
 export default class Element {
   static propTypes = {
-    tag: PropTypes.string.isRequired
+    tag: PropTypes.string.isRequired,
+    cookApi: PropTypes.object.isRequired
   }
 
   constructor (data, dataSettings = null, cssSettings = null) {
@@ -27,6 +30,7 @@ export default class Element {
     let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, metaElementAssets, ...attr } = data
     attr.tag = tag
     attr.id = id
+    this.cookApi = data.cookApi
 
     let elements = hubElementService.all()
     let element = elements ? elements[ tag ] : null
@@ -249,7 +253,50 @@ export default class Element {
     return new Element({ tag: tag })
   }
 
-  render (content, editor) {
+  visualizeAttributes (atts) {
+    let layoutAtts = {}
+    Object.keys(atts).forEach((fieldKey) => {
+      const attrSettings = this.settings(fieldKey)
+      const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
+      const options = attrSettings.settings.options ? attrSettings.settings.options : {}
+      let value = atts[ fieldKey ]
+
+      // Check isDynamic for string/htmleditor/attachimage
+      let isDynamic = vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS')
+      if (typeof options.dynamicField !== 'undefined') {
+        if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
+          isDynamic = true
+        } else if ([ 'attachimage' ].indexOf(type) !== -1) {
+          value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+          isDynamic = value.match(blockRegexp)
+        }
+      }
+
+      if (isDynamic) {
+        const blockInfo = value.split(blockRegexp)
+
+        layoutAtts[ fieldKey ] = this.cookApi.dynamicFields.getDynamicFieldsData(
+          {
+            fieldKey: fieldKey,
+            value: value,
+            blockName: blockInfo[ 3 ],
+            blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
+            blockContent: blockInfo[ 7 ]
+          },
+          {
+            fieldKey: fieldKey,
+            fieldType: attrSettings.type.name,
+            fieldOptions: attrSettings.settings.options
+          }
+        )
+      } else {
+        layoutAtts[ fieldKey ] = value
+      }
+    })
+    return layoutAtts
+  }
+
+  render (content, editor, inner = true) {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
     }
@@ -263,10 +310,20 @@ export default class Element {
     if (typeof editor === 'undefined' || editor) {
       props.editor = editorProps
     }
-    props.atts = atts
+    props.atts = this.visualizeAttributes(atts) // TODO: VisualizeAttributes from htmlLayout/Element.js
+    props.rawAtts = atts
     props.content = content
-    assetsStorage.trigger('updateInnerElementByData', atts)
+    if (inner) {
+      assetsStorage.trigger('updateInnerElementByData', atts)
+    }
 
-    return <ElementToRender {...props} />
+    return <DynamicElement
+      cookApi={this.cookApi}
+      cookElement={this}
+      element={this.getAll()}
+      elementToRender={ElementToRender}
+      elementProps={{ ...props }}
+      inner={inner}
+    />
   }
 }

@@ -1,14 +1,21 @@
 import lodash from 'lodash'
-import { addService, getService, getStorage } from 'vc-cake'
+import { addService, env, getService, getStorage } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
 import elementSettings from './lib/element-settings'
 import attributeManager from './lib/attribute-manager'
 import Element from './lib/element'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 const DocumentData = getService('document')
+const { getBlockRegexp, parseDynamicBlock } = getService('utils')
+const blockRegexp = getBlockRegexp()
+
 const hubElementsStorage = getStorage('hubElements')
+const settingsStorage = getStorage('settings')
 let containerRelations = {}
+let innerRenderCount = 0
 
 const API = {
   get (data) {
@@ -16,9 +23,11 @@ const API = {
       console.error('No element Tag provided', data)
       return null
     }
+    data.cookApi = API
     return new Element(data)
   },
   buildSettingsElement (data, settings, cssSettings) {
+    data.cookApi = API
     return new Element(data, settings, cssSettings)
   },
   getSettings (tag) {
@@ -51,6 +60,159 @@ const API = {
       return null
     }
   },
+  dynamicFields: {
+    getDynamicFieldsData: (props, attribute = null, raw = false) => {
+      const { blockAtts } = props
+      const postData = settingsStorage.state('postData').get()
+      let key = blockAtts.value.replace('::', ':')
+      let result = null
+      if (blockAtts && blockAtts.value && typeof postData[ key ] !== 'undefined') {
+        if (postData && postData[ key ].length) {
+          // Value should be NEVER empty
+          result = postData[ key ]
+        }
+      }
+
+      // In case if type===string and HTML Then:
+      if (!raw && attribute && [ 'string', 'htmleditor' ].indexOf(attribute.fieldType) !== -1) {
+        const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
+        if (isHtmlAllowed) {
+          if (!result) {
+            result = 'No Value'
+          }
+          return React.createElement('div', {
+            className: 'vcvhelper',
+            dangerouslySetInnerHTML: {
+              __html: result
+            },
+            'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+              value: blockAtts.value,
+              currentValue: result
+            })} -->${result}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+          })
+        }
+      }
+
+      // Plain text
+      return !result ? `No Value: ${blockAtts.value}` : result
+    },
+    cleanComments: (el, id) => {
+      const clean = (el, type) => {
+        while (el[ type ]) {
+          let node = el[ type ]
+          if (node.nodeType === document.COMMENT_NODE) {
+            let textContent = node.textContent
+            if (textContent.indexOf('/dynamicElementComment') !== -1) {
+              if (textContent.indexOf(`/dynamicElementComment:${id}`) !== -1) {
+                // This is comment of element so we can remove it
+                node.remove()
+              }
+              break
+            } else {
+              node.remove()
+            }
+          } else {
+            break
+          }
+        }
+      }
+      clean(el, 'previousSibling')
+      clean(el, 'nextSibling')
+    },
+    updateDynamicComments: (ref, id, cookElement, inner) => {
+      if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        return
+      }
+      if (!ref || !cookElement) {
+        return
+      }
+      const el = ReactDOM.findDOMNode(ref)
+      // Clean everything before/after
+      API.dynamicFields.cleanComments(el, id)
+
+      let atts = cookElement.getAll(false)
+
+      let hasDynamic = false
+      let commentStack = []
+      let attributesLevel = 0
+      Object.keys(atts).forEach((fieldKey) => {
+        const attrSettings = cookElement.settings(fieldKey)
+        const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
+        const options = attrSettings.settings.options ? attrSettings.settings.options : {}
+        let value = atts[ fieldKey ]
+
+        // Check isDynamic for string/htmleditor/attachimage
+        let isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS')
+        if (typeof options.dynamicField !== 'undefined') {
+          if (options.dynamicField.html) {
+            // Ignore for HTML Enabled versions
+            return
+          }
+          if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
+            isDynamic = true
+          } else if ([ 'attachimage' ].indexOf(type) !== -1) {
+            value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+            isDynamic = value.match(blockRegexp)
+          }
+        }
+        if (isDynamic) {
+          let blockInfo = parseDynamicBlock(value)
+          blockInfo.blockAtts.elementId = id
+          if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
+            blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
+              fieldKey: fieldKey,
+              fieldType: attrSettings.type.name,
+              fieldOptions: attrSettings.settings.options
+            }, true)
+          }
+          hasDynamic = true
+          attributesLevel++
+          commentStack.push({ blockInfo, attributesLevel })
+        }
+
+        // Check isDynamic for designOptions/designOptionsAdvanced
+        if (attrSettings.type && attrSettings.type.name && [ 'designOptions', 'designOptionsAdvanced' ].indexOf(attrSettings.type.name) !== -1) {
+          let designOptions = value
+          if (designOptions && designOptions.device) {
+            Object.keys(designOptions.device).forEach((device) => {
+              let imgValueObj = attrSettings.type.name === 'designOptionsAdvanced' ? designOptions.device[ device ].images : designOptions.device[ device ].image
+              let imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[ 0 ] ? imgValueObj.urls[ 0 ].full : ''
+              if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
+                let blockInfo = parseDynamicBlock(imgValue)
+                blockInfo.blockAtts.device = device
+                blockInfo.blockAtts.elementId = id
+                if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
+                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true)
+                }
+                hasDynamic = true
+                attributesLevel++
+                commentStack.push({ blockInfo, attributesLevel })
+              }
+            })
+          }
+        }
+      })
+      if (hasDynamic) {
+        if (inner) {
+          innerRenderCount++
+        }
+        let nestingLevel = API.getParentCount(id)
+        let innerNestingLevel = inner ? innerRenderCount : 0
+        el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
+        el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
+        commentStack.forEach((commentData) => {
+          const { blockInfo, attributesLevel } = commentData
+          el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+          el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} -->`)
+        })
+      }
+    },
+    getDynamicFieldsList: (fieldType) => {
+      let postFields = settingsStorage.state('postFields').get() || []
+
+      return postFields[ fieldType ] || []
+    }
+  },
   list: {
     settings (sortSelector = [ 'name' ]) {
       let list = elementSettings.list()
@@ -70,7 +232,7 @@ const API = {
   },
   getParentCount: (id, count = 0) => {
     let element = DocumentData.get(id)
-    let parent = element.parent
+    let parent = !element || !element.parent ? false : element.parent
     if (parent) {
       let parentElement = DocumentData.get(parent)
       count++

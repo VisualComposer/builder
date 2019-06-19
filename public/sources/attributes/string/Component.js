@@ -2,10 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import { env, getService } from 'vc-cake'
-import { getDynamicFieldsList } from 'public/components/dynamicFields/dynamicFields'
 import Dropdown from '../dropdown/Component'
 
 const { getBlockRegexp } = getService('utils')
+const { getDynamicFieldsList } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 export default class StringAttribute extends Attribute {

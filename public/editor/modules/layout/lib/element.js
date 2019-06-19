@@ -7,11 +7,6 @@ import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
 import { isEqual } from 'lodash'
 import PropTypes from 'prop-types'
-import {
-  getDynamicFieldsData,
-  updateDynamicComments,
-  cleanComments
-} from 'public/components/dynamicFields/dynamicFields.js'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -19,6 +14,12 @@ const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 const { getBlockRegexp } = vcCake.getService('utils')
 const blockRegexp = getBlockRegexp()
+
+const {
+  getDynamicFieldsData,
+  updateDynamicComments,
+  cleanComments
+} = cook.dynamicFields
 
 export default class Element extends React.Component {
   static propTypes = {
@@ -167,52 +168,58 @@ export default class Element extends React.Component {
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
       allowInline = false
     }
-    Object.keys(atts).forEach((key) => {
-      const attrSettings = element.settings(key)
-      let isDynamic = false
-      if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-        isDynamic = attrSettings.settings.options &&
-          attrSettings.settings.options.dynamicField &&
-          typeof atts[ key ] === 'string' &&
-          atts[ key ].match(blockRegexp)
+    Object.keys(atts).forEach((fieldKey) => {
+      const attrSettings = element.settings(fieldKey)
+      const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
+      const options = attrSettings.settings.options ? attrSettings.settings.options : {}
+      let value = atts[ fieldKey ]
+
+      let isDynamic = vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS')
+      if (typeof options.dynamicField !== 'undefined') {
+        if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
+          isDynamic = true
+        } else if ([ 'attachimage' ].indexOf(type) !== -1) {
+          value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+          isDynamic = value.match(blockRegexp)
+        }
       }
 
       if (isDynamic) {
-        const blockInfo = atts[ key ].split(blockRegexp)
+        const blockInfo = value.split(blockRegexp)
 
-        layoutAtts[ key ] = getDynamicFieldsData(
+        layoutAtts[ fieldKey ] = getDynamicFieldsData(
           {
-            fieldKey: key,
-            value: atts[ key ],
+            fieldKey: fieldKey,
+            value: value,
             blockName: blockInfo[ 3 ],
             blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
             blockContent: blockInfo[ 7 ]
           },
           {
-            fieldKey: key,
+            fieldKey: fieldKey,
             fieldType: attrSettings.type.name,
             fieldOptions: attrSettings.settings.options
           }
         )
       } else if (attrSettings.settings.options && attrSettings.settings.options.inline) {
-        layoutAtts[ key ] =
-          <ContentEditableComponent id={atts.id} fieldKey={key} fieldType={attrSettings.type.name} api={this.props.api}
+        layoutAtts[ fieldKey ] =
+          <ContentEditableComponent id={atts.id} fieldKey={fieldKey} fieldType={attrSettings.type.name} api={this.props.api}
             options={{
               ...attrSettings.settings.options,
               allowInline
             }}>
-            {atts[ key ] || ''}
+            {value || ''}
           </ContentEditableComponent>
       } else if (attrSettings.settings.type === 'paramsGroup') {
         const options = {}
         options.element = element
-        options.attrKey = key
+        options.attrKey = fieldKey
         options.attrSettings = attrSettings
         options.allowInline = allowInline
         options.id = atts.id
-        layoutAtts[ key ] = this.visualizeNestedAttributes(options)
+        layoutAtts[ fieldKey ] = this.visualizeNestedAttributes(options)
       } else {
-        layoutAtts[ key ] = atts[ key ]
+        layoutAtts[ fieldKey ] = value
       }
     })
     return layoutAtts
