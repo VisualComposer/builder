@@ -71,7 +71,7 @@ export default class EditFromField extends React.Component {
       'vcv-ui-form-group': true,
       'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
     })
-    let value
+    let value = null
     if (fieldKey && element) {
       value = element[ fieldKey ]
     }
