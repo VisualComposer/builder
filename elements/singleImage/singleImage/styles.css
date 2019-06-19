@@ -17,6 +17,7 @@ a.vce-single-image-inner:focus {
   vertical-align: top;
   line-height: 1;
   max-width: 100%;
+  position: relative;
 }
 
 .vce-single-image-wrapper {
@@ -41,29 +42,6 @@ a.vce-single-image-inner:focus {
   overflow: hidden;
 }
 
-.vce-single-image--size-custom {
-  background-size: cover;
-  background-position: center;
-  max-width: 100%;
-}
-
-.vce-single-image--size-custom::after {
-  content:'';
-  display: block;
-  padding-bottom: 66.66%;
-}
-
-.vce-single-image--border-round.vce-single-image--size-custom::after {
-  padding-bottom: 100%;
-}
-
-.vce-single-image--size-custom .vce-single-image {
-  opacity: 0;
-  position: absolute;
-  max-width: 100%;
-  height: auto;
-}
-
 .vce-single-image--align-center {
   text-align: center;
 }
@@ -85,8 +63,13 @@ a.vce-single-image-inner:focus {
   margin-top: 10px;
 }
 
-.vce-single-image {
-  position: relative;
+.vce-single-image-inner .vce-single-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
 }
 
 .vce-single-image-container .vce-single-image-inner .vce-single-image {

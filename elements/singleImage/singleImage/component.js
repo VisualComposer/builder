@@ -203,7 +203,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     if (isDynamicImage) {
-      let blockInfo = parseDynamicBlock(this.props.rawAtts.image)
+      let blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
       shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
     }
 
@@ -304,7 +304,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     let imgElement = ''
-    let rawImage = this.props.rawAtts.image
+
+    let rawImage = this.props.rawAtts.image && this.props.rawAtts.image.full
 
     const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
     const shortcodeOptions = {
@@ -317,12 +318,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
     if (imgSrc) {
       imgElement = (
-        <span className={`${imageClasses} vcvhelper`}
-          {...customImageProps}
-          data-vcvs-html={this.getImageShortcode(shortcodeOptions)}
-          style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
-          <img src={imgSrc} />
-        </span>
+        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={this.getImageShortcode(shortcodeOptions)} />
       )
     }
 
@@ -336,7 +332,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     return <div className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
         <figure>
-          <CustomTag {...customProps} className={classes} ref='imageContainer'>
+          <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
             {imgElement}
           </CustomTag>
           {caption}
