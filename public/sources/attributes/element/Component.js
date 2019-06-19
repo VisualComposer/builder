@@ -61,6 +61,7 @@ export default class ElementAttribute extends Attribute {
           if (findKey > -1) {
             // Merge the value
             cookElement.set(key, allValues[ key ])
+            valueElementAccessPoint.set(key, allValues[ key ])
           }
         }
       })
