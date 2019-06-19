@@ -174,8 +174,8 @@ export default class Element extends React.Component {
       const options = attrSettings.settings.options ? attrSettings.settings.options : {}
       let value = atts[ fieldKey ]
 
-      let isDynamic = vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS')
-      if (typeof options.dynamicField !== 'undefined') {
+      let isDynamic = false
+      if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
         if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
           isDynamic = true
         } else if ([ 'attachimage' ].indexOf(type) !== -1) {

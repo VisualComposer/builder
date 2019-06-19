@@ -142,8 +142,8 @@ const API = {
         let value = atts[ fieldKey ]
 
         // Check isDynamic for string/htmleditor/attachimage
-        let isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS')
-        if (typeof options.dynamicField !== 'undefined') {
+        let isDynamic = false
+        if (env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
           if (options.dynamicField.html) {
             // Ignore for HTML Enabled versions
             return
