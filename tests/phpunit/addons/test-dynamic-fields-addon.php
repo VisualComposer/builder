@@ -39,7 +39,7 @@ class DynamicFieldsAddonTest extends WP_UnitTestCase
             ]
         );
 
-        $this->assertEquals($url . 'Me', $featuredValue);
+        $this->assertEquals($url . '?vcv-dynamic-field=featured_image' . 'Me', $featuredValue);
     }
 
     protected function assertNesting()
@@ -54,7 +54,7 @@ class DynamicFieldsAddonTest extends WP_UnitTestCase
             '<div class="replacedValue"><div class="test class1 replacedValue" id="el-replacedValue"><div class="vce-test" data-vcv-info="replacedValue">replacedValue</div></div></div>',
             $actual
         );
-//        $this->assertEquals(5, $this->calledApi);
+        //        $this->assertEquals(5, $this->calledApi);
     }
 
     protected function assertNestedFeatured()
@@ -80,7 +80,11 @@ class DynamicFieldsAddonTest extends WP_UnitTestCase
         $actual = apply_filters('the_content', $post->post_content);
 
         $this->assertEquals(
-            str_replace('-vcv--featured_image--vcv-', $featuredImageUrl, $postContentExpected),
+            str_replace(
+                '-vcv--featured_image--vcv-',
+                $featuredImageUrl . '?vcv-dynamic-field=featured_image',
+                $postContentExpected
+            ),
             $actual
         );
     }
