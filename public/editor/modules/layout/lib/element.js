@@ -179,8 +179,11 @@ export default class Element extends React.Component {
         if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
           isDynamic = true
         } else if ([ 'attachimage' ].indexOf(type) !== -1) {
-          value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
-          isDynamic = value.match(blockRegexp)
+          let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+          isDynamic = tempValue.match(blockRegexp)
+          if (isDynamic) {
+            value = tempValue
+          }
         }
       }
 
