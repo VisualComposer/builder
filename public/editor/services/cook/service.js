@@ -149,6 +149,10 @@ const API = {
             return
           }
           if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
+            if (options.dynamicField === true || options.dynamicField.html) {
+              // Ignore for HTML Enabled versions
+              return
+            }
             isDynamic = true
           } else if ([ 'attachimage' ].indexOf(type) !== -1) {
             value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
