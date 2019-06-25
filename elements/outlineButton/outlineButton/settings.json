@@ -23,9 +23,7 @@
     "value": "Apply Now",
     "options": {
       "label": "Button text",
-      "dynamicField": {
-        "html": false
-      }
+      "dynamicField": true
     }
   },
   "color": {
