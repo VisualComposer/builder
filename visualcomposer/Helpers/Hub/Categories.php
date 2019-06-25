@@ -171,7 +171,6 @@ class Categories implements Helper
                     'animatedIconButton',
                     'animatedTwoColorButton',
                     'separatedButton',
-                    'zigZagSeparator',
                     'buttonGroup',
                     'basicShadowButton',
                     'growShadowButton',
@@ -339,7 +338,13 @@ class Categories implements Helper
             ],
             'Separators' => [
                 'title' => 'Separators',
-                'elements' => ['separator', 'doubleSeparator', 'separatorIcon', 'separatorTitle'],
+                'elements' => [
+                    'separator',
+                    'doubleSeparator',
+                    'separatorIcon',
+                    'separatorTitle',
+                    'zigZagSeparator',
+                ],
                 'icon' => $urlHelper->to('public/categories/icons/Separator.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Separator.svg'),
             ],
