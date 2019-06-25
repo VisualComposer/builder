@@ -304,7 +304,7 @@ export default class Element {
     let props = {}
     let editorProps = {}
     let atts = this.toJS(true, false)
-    props.key = this[ elData ].id
+    props.key = this[ elData ].id + '-' + Date.now()
     props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
     editorProps[ 'data-vc-element' ] = this[ elData ].id
     if (typeof editor === 'undefined' || editor) {
@@ -318,6 +318,7 @@ export default class Element {
     }
 
     return <DynamicElement
+      key={this[ elData ].id + '-' + Date.now()} // key must be unique to call unmount on each update & replace
       cookApi={this.cookApi}
       cookElement={this}
       element={this.getAll()}

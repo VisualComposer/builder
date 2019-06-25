@@ -47,6 +47,7 @@ export default class ElementAttribute extends Attribute {
   }
 
   onClickReplacement (newElement) {
+    newElement.id = this.state.value.id
     let valueElementAccessPoint = elementAccessPointService.getInstance(null, newElement)
     let cookElement = valueElementAccessPoint.cook()
     let allValues = Object.assign({}, this.state.allValues, this.state.value)

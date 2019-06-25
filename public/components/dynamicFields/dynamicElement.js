@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
 
 export default class DynamicElement extends React.Component {
   static propTypes = {
@@ -18,6 +19,13 @@ export default class DynamicElement extends React.Component {
 
   componentDidMount () {
     this.updateComments()
+  }
+
+  componentWillUnmount () {
+    if (this.elementComponentRef && this.elementComponentRef.current) {
+      const el = ReactDOM.findDOMNode(this.elementComponentRef.current)
+      this.props.cookApi.dynamicFields.cleanComments(el, this.props.element.id)
+    }
   }
 
   componentDidUpdate () {
