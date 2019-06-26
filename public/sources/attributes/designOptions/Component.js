@@ -135,6 +135,17 @@ export default class DesignOptions extends Attribute {
         }
       }
     },
+    backgroundImageMixin: {
+      src: require('raw-loader!./cssMixins/backgroundImage.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        },
+        backgroundImage: {
+          value: false
+        }
+      }
+    },
     backgroundColorMixin: {
       src: require('raw-loader!./cssMixins/backgroundStyles.pcss'),
       variables: {
@@ -145,9 +156,6 @@ export default class DesignOptions extends Attribute {
           value: false
         },
         backgroundPosition: {
-          value: false
-        },
-        backgroundImage: {
           value: false
         },
         backgroundRepeat: {
@@ -418,8 +426,10 @@ export default class DesignOptions extends Attribute {
   static getBackgroundMixin (newValue, device, newMixins) {
     if (newValue[ device ] && (newValue[ device ].backgroundColor || newValue[ device ].image)) {
       let mixinName = `backgroundColorMixin:${device}`
+      let mixinNameImage = `backgroundImageMixin:${device}`
       newMixins[ mixinName ] = {}
       newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
+      newMixins[ mixinNameImage ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundImageMixin)
 
       if (newValue[ device ].backgroundColor) {
         newMixins[ mixinName ].variables.backgroundColor = {
@@ -434,13 +444,13 @@ export default class DesignOptions extends Attribute {
         let imageUrl = getDynamicFieldsData({
           blockAtts: blockAtts
         })
-        newMixins[ mixinName ].variables.backgroundImage = {
+        newMixins[ mixinNameImage ].variables.backgroundImage = {
           value: imageUrl
         }
         // We don't save this mixins for backend
-        newMixins[ mixinName ].skipOnSave = true
+        newMixins[ mixinNameImage ].skipOnSave = true
       } else if (newValue[ device ].image && newValue[ device ].image.urls && newValue[ device ].image.urls.length) {
-        newMixins[ mixinName ].variables.backgroundImage = {
+        newMixins[ mixinNameImage ].variables.backgroundImage = {
           value: newValue[ device ].image.urls[ 0 ].full
         }
       }
@@ -492,6 +502,9 @@ export default class DesignOptions extends Attribute {
       }
 
       newMixins[ mixinName ].variables.device = {
+        value: device
+      }
+      newMixins[ mixinNameImage ].variables.device = {
         value: device
       }
     }
