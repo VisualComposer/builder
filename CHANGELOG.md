@@ -5,7 +5,6 @@
 - New: Unsplash library access available in the Media Library
 - New: Data list attributed added and available for custom elements via API
 - Update: Single Image element improved
-- Update: Icon library sets updated to the latest versions
 - Update: Global element CSS split to reduce the size and improve performance
 - Update: Custom filter added to support block nesting
 - Fix: Free predefined templates updated properly
