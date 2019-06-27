@@ -164,7 +164,6 @@ const API = {
           blockInfo.blockAtts.elementId = id
           if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
-              fieldKey: fieldKey,
               fieldType: attrSettings.type.name,
               fieldOptions: attrSettings.settings.options
             }, true)
@@ -215,6 +214,55 @@ const API = {
       let postFields = settingsStorage.state('postFields').get() || []
 
       return postFields[ fieldType ] || []
+    },
+    getDynamicValue: (dynamicFieldKey, attribute = null, options = {}) => {
+      let { dynamicTemplate } = options
+      let newValue = null
+
+      if (dynamicTemplate) {
+        newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
+      } else {
+        const currentValue = API.dynamicFields.getDynamicFieldsData(
+          {
+            blockAtts: {
+              value: dynamicFieldKey
+            }
+          },
+          attribute,
+          true
+        )
+        newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+          value: dynamicFieldKey,
+          currentValue: currentValue
+        })} -->`
+      }
+      return newValue
+    },
+    getDefaultDynamicFieldKey: (fieldType) => {
+      const dynamicFieldsList = API.dynamicFields.getDynamicFieldsList(fieldType)
+      const dynamicFieldListValues = Object.values(dynamicFieldsList)
+      let dynamicFieldKey = ''
+
+      if (dynamicFieldListValues[ 0 ] && dynamicFieldListValues[ 0 ].group && dynamicFieldListValues[ 0 ].group.values && dynamicFieldListValues[ 0 ].group.values[ 0 ]) {
+        dynamicFieldKey = dynamicFieldListValues[ 0 ].group.values[ 0 ].value
+      }
+
+      return dynamicFieldKey
+    },
+    getDefaultValue: (options) => {
+      if (options.defaultValue) {
+        return options.defaultValue
+      }
+      const { fieldKey, elementAccessPoint } = options
+      let cookElement = elementAccessPoint.cook()
+
+      let { settings } = cookElement.settings(fieldKey)
+      let defaultValue = settings.defaultValue
+      if (typeof defaultValue === 'undefined' && settings.value) {
+        defaultValue = settings.value
+      }
+
+      return defaultValue || ''
     }
   },
   list: {

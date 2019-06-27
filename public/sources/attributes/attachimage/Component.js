@@ -30,7 +30,12 @@ export default class AttachImage extends Attribute {
     fieldKey: PropTypes.string.isRequired,
     fieldType: PropTypes.string,
     updater: PropTypes.func.isRequired,
-    elementAccessPoint: PropTypes.object.isRequired
+    elementAccessPoint: PropTypes.object.isRequired,
+    handleDynamicFieldOpen: PropTypes.func,
+    handleDynamicFieldChange: PropTypes.func,
+    handleDynamicFieldClose: PropTypes.func,
+    defaultValue: PropTypes.any,
+    options: PropTypes.any
   }
 
   static defaultProps = {

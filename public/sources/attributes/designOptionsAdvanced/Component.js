@@ -1099,6 +1099,9 @@ export default class DesignOptionsAdvanced extends Attribute {
         value={value}
         prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
         elementAccessPoint={this.props.elementAccessPoint}
+        handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
+        handleDynamicFieldChange={this.props.handleDynamicFieldChange}
+        handleDynamicFieldClose={this.props.handleDynamicFieldClose}
       />
     }
 
