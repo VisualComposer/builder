@@ -18,7 +18,7 @@ const workspaceStorage = getStorage('workspace')
 
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
-const { getDynamicValue, getDynamicFieldsData } = getService('cook').dynamicFields
+const { getDynamicValue, getDynamicFieldsData, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {
@@ -869,7 +869,11 @@ export default class DesignOptions extends Attribute {
         prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
         dynamicTemplate={dynamicTemplate}
         elementAccessPoint={this.props.elementAccessPoint}
-        handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
+        handleDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
+          let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
+          let newValue = getDynamicValue(defaultDynamicFieldKey, null, { dynamicTemplate: dynamicTemplate })
+          return newValue
+        }}
         handleDynamicFieldChange={(dynamicFieldKey) => {
           let newValue = getDynamicValue(dynamicFieldKey, null, { dynamicTemplate: dynamicTemplate })
           return newValue
