@@ -53,6 +53,15 @@ export default class Attribute extends React.Component {
       fieldType: this.props.fieldType,
       prevAttrDynamicKey: this.state.prevAttrDynamicKey
     })
+
+    if (this.state.value && this.state.value.urls) {
+      newValue = { ids: [], urls: [ { full: newValue } ] }
+
+      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
+        newValue.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+      }
+    }
+
     this.setFieldValue(newValue)
     this.setState({
       prevAttrValue: this.state.value
@@ -61,6 +70,15 @@ export default class Attribute extends React.Component {
 
   handleDynamicFieldChange (_, dynamicFieldKey) {
     let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey)
+
+    if (this.state.value && this.state.value.urls) {
+      newValue = { ids: [], urls: [ { full: newValue } ] }
+
+      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
+        newValue.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+      }
+    }
+
     this.setFieldValue(newValue)
     this.setState({
       prevAttrDynamicKey: dynamicFieldKey

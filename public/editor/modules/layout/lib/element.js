@@ -173,6 +173,7 @@ export default class Element extends React.Component {
       const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
       const options = attrSettings.settings.options ? attrSettings.settings.options : {}
       let value = atts[ fieldKey ]
+      let dynamicValue = value
 
       let isDynamic = false
       if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
@@ -182,18 +183,18 @@ export default class Element extends React.Component {
           let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
           isDynamic = tempValue.match(blockRegexp)
           if (isDynamic) {
-            value = tempValue
+            dynamicValue = tempValue
           }
         }
       }
 
       if (isDynamic) {
-        const blockInfo = value.split(blockRegexp)
+        const blockInfo = dynamicValue.split(blockRegexp)
 
-        layoutAtts[ fieldKey ] = getDynamicFieldsData(
+        let dynamicFieldsData = getDynamicFieldsData(
           {
             fieldKey: fieldKey,
-            value: value,
+            value: dynamicValue,
             blockName: blockInfo[ 3 ],
             blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
             blockContent: blockInfo[ 7 ]
@@ -204,6 +205,23 @@ export default class Element extends React.Component {
             fieldOptions: attrSettings.settings.options
           }
         )
+
+        if ([ 'attachimage' ].indexOf(type) !== -1) {
+          if (value && value.full) {
+            value.full = dynamicFieldsData
+            layoutAtts[ fieldKey ] = value
+          } else if (value.urls && value.urls[ 0 ]) {
+            let newValue = { ids: [], urls: [ { full: dynamicFieldsData } ] }
+            if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
+              newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
+            }
+            layoutAtts[ fieldKey ] = newValue
+          } else {
+            layoutAtts[ fieldKey ] = dynamicFieldsData
+          }
+        } else {
+          layoutAtts[ fieldKey ] = dynamicFieldsData
+        }
       } else if (attrSettings.settings.options && attrSettings.settings.options.inline) {
         layoutAtts[ fieldKey ] =
           <ContentEditableComponent id={atts.id} fieldKey={fieldKey} fieldType={attrSettings.type.name} api={this.props.api}
