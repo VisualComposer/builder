@@ -260,6 +260,7 @@ export default class Element {
       const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
       const options = attrSettings.settings.options ? attrSettings.settings.options : {}
       let value = atts[ fieldKey ]
+      let dynamicValue = value
 
       // Check isDynamic for string/htmleditor/attachimage
       let isDynamic = false
@@ -273,18 +274,18 @@ export default class Element {
           }
           isDynamic = testValue.match(blockRegexp)
           if (isDynamic) {
-            value = testValue
+            dynamicValue = testValue
           }
         }
       }
 
       if (isDynamic) {
-        const blockInfo = value.split(blockRegexp)
+        const blockInfo = dynamicValue.split(blockRegexp)
 
-        layoutAtts[ fieldKey ] = this.cookApi.dynamicFields.getDynamicFieldsData(
+        let dynamicFieldsData = this.cookApi.dynamicFields.getDynamicFieldsData(
           {
             fieldKey: fieldKey,
-            value: value,
+            value: dynamicValue,
             blockName: blockInfo[ 3 ],
             blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
             blockContent: blockInfo[ 7 ]
@@ -295,6 +296,23 @@ export default class Element {
             fieldOptions: attrSettings.settings.options
           }
         )
+
+        if ([ 'attachimage' ].indexOf(type) !== -1) {
+          if (value && value.full) {
+            value.full = dynamicFieldsData
+            layoutAtts[ fieldKey ] = value
+          } else if (value.urls && value.urls[ 0 ]) {
+            let newValue = { ids: [], urls: [ { full: dynamicFieldsData } ] }
+            if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
+              newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
+            }
+            layoutAtts[ fieldKey ] = newValue
+          } else {
+            layoutAtts[ fieldKey ] = dynamicFieldsData
+          }
+        } else {
+          layoutAtts[ fieldKey ] = dynamicFieldsData
+        }
       } else {
         layoutAtts[ fieldKey ] = value
       }
