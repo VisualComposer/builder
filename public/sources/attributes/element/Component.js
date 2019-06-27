@@ -283,6 +283,9 @@ export default class ElementAttribute extends Attribute {
         <AttributeElementFieldWrapper
           onChange={this.onChange}
           elementAccessPoint={this.state.elementAccessPoint}
+          handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
+          handleDynamicFieldChange={this.props.handleDynamicFieldChange}
+          handleDynamicFieldClose={this.props.handleDynamicFieldClose}
           allTabs={this.state.allTabs}
           exclude={exclude}
         />

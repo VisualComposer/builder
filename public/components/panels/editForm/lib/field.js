@@ -1,8 +1,10 @@
 import React from 'react'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
-import { env } from 'vc-cake'
+import { env, getService } from 'vc-cake'
 import classNames from 'classnames'
+
+const { getDynamicValue, getDefaultValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -143,6 +145,22 @@ export default class Field extends React.Component {
       elementAccessPoint={elementAccessPoint}
       setInnerFieldStatus={this.setInnerFieldStatus}
       editFormOptions={this.props.options}
+      handleDynamicFieldChange={(dynamicFieldKey) => {
+        let newValue = getDynamicValue(dynamicFieldKey)
+        return newValue
+      }}
+      handleDynamicFieldClose={(fieldKey, elementAccessPoint) => {
+        let newValue = getDefaultValue({
+          fieldKey: fieldKey,
+          elementAccessPoint: elementAccessPoint
+        })
+        return newValue
+      }}
+      handleDynamicFieldOpen={({ fieldType, prevAttrDynamicKey }) => {
+        let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType)
+        let newValue = getDynamicValue(defaultDynamicFieldKey)
+        return newValue
+      }}
       ref='attributeComponent'
     />
 

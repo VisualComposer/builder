@@ -5,7 +5,7 @@ import { env, getService } from 'vc-cake'
 import Dropdown from '../dropdown/Component'
 
 const { getBlockRegexp } = getService('utils')
-const { getDynamicFieldsList } = getService('cook').dynamicFields
+const { getDynamicFieldsList, getDynamicValue } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 
 export default class StringAttribute extends Attribute {
@@ -57,16 +57,22 @@ export default class StringAttribute extends Attribute {
           <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
         )
         if (blockAtts.value.match(/::/)) {
-          const [ dynamicFieldValue, extraValue ] = blockAtts.value.split('::')
-          const updateExtraValue = (e) => {
-            const extraDynamicFieldValue = e.currentTarget && e.currentTarget.value
-            this.updateDynamicFieldValues(`${dynamicFieldValue}::${extraDynamicFieldValue}`)
+          const [ dynamicFieldKey, extraKey ] = blockAtts.value.split('::')
+          const updateExtraKey = (e) => {
+            e && e.preventDefault()
+            const extraDynamicFieldKey = e.currentTarget && e.currentTarget.value
+            const dynamicFieldKeyFull = `${dynamicFieldKey}::${extraDynamicFieldKey}`
+            let newValue = getDynamicValue(dynamicFieldKeyFull)
+            this.setFieldValue(newValue)
+            this.setState({
+              prevAttrDynamicKey: dynamicFieldKeyFull
+            })
           }
           const extraDynamicFieldClassNames = classNames(fieldClassNames, {
             'vcv-ui-form-field-dynamic-extra': true
           })
           extraDynamicComponent =
-            <input type='text' className={extraDynamicFieldClassNames} onChange={updateExtraValue} value={extraValue} placeholder='Enter valid meta key' />
+            <input type='text' className={extraDynamicFieldClassNames} onChange={updateExtraKey} value={extraKey} placeholder='Enter valid meta key' />
         }
       } else {
         dynamicComponent = (

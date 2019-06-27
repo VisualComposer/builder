@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getService } from 'vc-cake'
-
-const { getDynamicFieldsData, getDynamicFieldsList } = getService('cook').dynamicFields
 
 export default class Attribute extends React.Component {
   static propTypes = {
     updater: PropTypes.func.isRequired,
+    handleDynamicFieldOpen: PropTypes.func,
+    handleDynamicFieldChange: PropTypes.func,
+    handleDynamicFieldClose: PropTypes.func,
     fieldKey: PropTypes.string.isRequired,
     fieldType: PropTypes.string,
     value: PropTypes.any.isRequired,
@@ -48,102 +48,34 @@ export default class Attribute extends React.Component {
   }
 
   handleDynamicFieldOpen (e) {
-    e && e.preventDefault && e.preventDefault()
-    const { fieldKey, fieldType, dynamicTemplate } = this.props
-
-    const dynamicFieldsList = getDynamicFieldsList(fieldType)
-    const dynamicFieldListValues = Object.values(dynamicFieldsList)
-    let dynamicFieldKey = ''
-
-    if (dynamicFieldListValues[ 0 ] && dynamicFieldListValues[ 0 ].group && dynamicFieldListValues[ 0 ].group.values && dynamicFieldListValues[ 0 ].group.values[ 0 ]) {
-      dynamicFieldKey = dynamicFieldListValues[ 0 ].group.values[ 0 ].value
-    }
-
-    if (this.state.prevAttrDynamicKey) {
-      dynamicFieldKey = this.state.prevAttrDynamicKey
-    }
-
-    let newValue = null
-
-    if (dynamicTemplate) {
-      newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
-    } else {
-      const currentValue = getDynamicFieldsData(
-        {
-          blockAtts: {
-            value: dynamicFieldKey
-          }
-        },
-        {
-          fieldKey: fieldKey,
-          fieldType: this.props.fieldType,
-          fieldOptions: this.props.options
-        },
-        true
-      )
-      newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-        value: dynamicFieldKey,
-        currentValue: currentValue
-      })} -->`
-    }
-
+    e && e.preventDefault()
+    let newValue = this.props.handleDynamicFieldOpen({
+      fieldType: this.props.fieldType,
+      prevAttrDynamicKey: this.state.prevAttrDynamicKey
+    })
+    this.setFieldValue(newValue)
     this.setState({
       prevAttrValue: this.state.value
     })
+  }
+
+  handleDynamicFieldChange (_, dynamicFieldKey) {
+    let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey)
     this.setFieldValue(newValue)
-  }
-
-  handleDynamicFieldChange (fieldKey, value) {
-    const dynamicFieldKey = value
-    this.updateDynamicFieldValues(dynamicFieldKey)
-  }
-
-  updateDynamicFieldValues (dynamicFieldKey) {
-    const { fieldKey, dynamicTemplate } = this.props
-    let newValue = null
     this.setState({
       prevAttrDynamicKey: dynamicFieldKey
     })
-    if (dynamicTemplate) {
-      newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
-    } else {
-      const currentValue = getDynamicFieldsData(
-        {
-          blockAtts: {
-            value: dynamicFieldKey
-          }
-        },
-        {
-          fieldKey: fieldKey,
-          fieldType: this.props.fieldType,
-          fieldOptions: this.props.options
-        },
-        true
-      )
-      newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-        value: dynamicFieldKey,
-        currentValue: currentValue
-      })} -->`
-    }
-    this.setFieldValue(newValue)
   }
 
   handleDynamicFieldClose (e) {
-    e && e.preventDefault && e.preventDefault()
-    const { fieldKey, elementAccessPoint } = this.props
-    let cookElement = elementAccessPoint.cook()
-
-    let { settings } = cookElement.settings(fieldKey)
-    let defaultValue
+    e && e.preventDefault()
+    let newValue = ''
     if (this.state.prevAttrValue) {
-      defaultValue = this.state.prevAttrValue
+      newValue = this.state.prevAttrValue
     } else {
-      defaultValue = settings.defaultValue
-      if (typeof defaultValue === 'undefined' && settings.value) {
-        defaultValue = settings.value
-      }
+      newValue = this.props.handleDynamicFieldClose(this.props.fieldKey, this.props.elementAccessPoint)
     }
-    this.setFieldValue(defaultValue)
+    this.setFieldValue(newValue)
   }
 
   render () {

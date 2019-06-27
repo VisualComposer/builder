@@ -869,6 +869,9 @@ export default class DesignOptions extends Attribute {
         prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
         dynamicTemplate={dynamicTemplate}
         elementAccessPoint={this.props.elementAccessPoint}
+        handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
+        handleDynamicFieldChange={this.props.handleDynamicFieldChange}
+        handleDynamicFieldClose={this.props.handleDynamicFieldClose}
       />
     }
 
