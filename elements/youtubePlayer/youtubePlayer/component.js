@@ -103,7 +103,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
     let source, videoWidth, videoId, loop
     let autoplay = advanced && atts.autoplay ? 1 : 0
     let color = advanced && atts.color ? atts.color : 'red'
-    let controls = 2
+    let controls = 1
     let rel = advanced && atts.rel ? 1 : 0
     let start = advanced && atts.start ? this.parseTime(atts.start) : 0
     let end = advanced && atts.end ? `&end=${this.parseTime(atts.end)}` : ''
@@ -111,7 +111,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
     let customProps = {}
 
     if (advanced) {
-      controls = atts.controls ? 2 : 0
+      controls = atts.controls ? 1 : 0
     }
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(` ${customClass}`)
