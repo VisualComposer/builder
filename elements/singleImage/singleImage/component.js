@@ -36,6 +36,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   componentWillUnmount () {
+    this.resolve && this.resolve(true)
     SingleImageElement.image && SingleImageElement.image.removeEventListener('load', this.setImageState)
     SingleImageElement.image && SingleImageElement.image.removeEventListener('error', this.setError)
   }
