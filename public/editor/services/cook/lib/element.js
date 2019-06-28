@@ -311,6 +311,9 @@ export default class Element {
             if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
               newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
             }
+            if (value.urls[ 0 ] && value.urls[ 0 ].link) {
+              newValue.urls[ 0 ].link = value.urls[ 0 ].link
+            }
             layoutAtts[ fieldKey ] = newValue
           } else {
             layoutAtts[ fieldKey ] = dynamicFieldsData

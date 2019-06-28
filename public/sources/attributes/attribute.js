@@ -60,6 +60,9 @@ export default class Attribute extends React.Component {
       if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
         newValue.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
       }
+      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].link) {
+        newValue.urls[ 0 ].link = this.state.value.urls[ 0 ].link
+      }
     }
 
     this.setFieldValue(newValue)
@@ -76,6 +79,9 @@ export default class Attribute extends React.Component {
 
       if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
         newValue.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+      }
+      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].link) {
+        newValue.urls[ 0 ].link = this.state.value.urls[ 0 ].link
       }
     }
 

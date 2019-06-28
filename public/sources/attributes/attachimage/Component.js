@@ -363,7 +363,7 @@ export default class AttachImage extends Attribute {
 
   render () {
     const { options } = this.props
-    let { value, filter = false } = this.state
+    let { value, filter = false, extraAttributes } = this.state
     let useDragHandle = true
     let cookElement = this.props.elementAccessPoint.cook()
     let metaAssetsPath = cookElement.get('metaAssetsPath')
@@ -393,6 +393,7 @@ export default class AttachImage extends Attribute {
     })
     const dragClass = 'vcv-ui-form-attach-image-item--dragging'
     let dynamicComponent = null
+    let dynamicUrlHtml = null
     let fieldComponent = <SortableList
       {...this.props}
       metaAssetsPath={metaAssetsPath}
@@ -428,6 +429,19 @@ export default class AttachImage extends Attribute {
         dynamicComponent = (
           <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
         )
+
+        const show = extraAttributes.url
+        if (show) {
+          let urlValue = value.urls[ 0 ].link || ''
+          dynamicUrlHtml = (
+            <Url
+              value={urlValue}
+              updater={this.handleUrlChange.bind(this, 0)}
+              api={this.props.api}
+              fieldKey={`${this.props.fieldKey}.linkUrl`}
+            />
+          )
+        }
       } else {
         dynamicComponent = (
           <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control ' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
@@ -440,6 +454,7 @@ export default class AttachImage extends Attribute {
         <div className={fieldClassNames}>
           {fieldComponent}
           {dynamicComponent}
+          {dynamicUrlHtml}
         </div>
         {filterControl}
         {filterList}
