@@ -93,12 +93,23 @@ export default class Attribute extends React.Component {
 
   handleDynamicFieldClose (e) {
     e && e.preventDefault()
+    const { prevAttrValue, value } = this.state
     let newValue = ''
-    if (this.state.prevAttrValue) {
-      newValue = this.state.prevAttrValue
+    if (prevAttrValue) {
+      newValue = prevAttrValue
     } else {
       newValue = this.props.handleDynamicFieldClose(this.props.fieldKey, this.props.elementAccessPoint)
     }
+
+    if (value && value.urls && newValue.urls && newValue.urls[ 0 ]) {
+      if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
+        newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
+      }
+      if (value.urls[ 0 ] && value.urls[ 0 ].link) {
+        newValue.urls[ 0 ].link = value.urls[ 0 ].link
+      }
+    }
+
     this.setFieldValue(newValue)
   }
 
