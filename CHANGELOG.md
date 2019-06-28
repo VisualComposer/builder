@@ -1,4 +1,4 @@
-## ver 18.0 - 2019-06-25
+## ver 18.0 - 2019-07-01
 - New: Dynamic fields feature to replace static content with WordPress fields (ex. post titles, featured images, author name, etc.)
 - New: Dynamic fields feature to replace static content with WordPress custom fields
 - New: API for dynamic fields introduced to add this option to custom elements
@@ -10,6 +10,7 @@
 - Fix: Free predefined templates updated properly
 - Fix: Full width works properly on iPad with Safari 4
 - Fix: Compatibility with Contact Form 7 improved to avoid duplication issues
+- Fix: YouTube cover image is displayed properly in the video elements
 ## ver 17.2 - 2019-05-09
 - Fix: Control hover states work properly
 - Fix: PCSS mixins working properly for Post Grid elements
