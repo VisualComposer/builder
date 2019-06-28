@@ -174,7 +174,7 @@ export default class Element extends React.Component {
       const options = attrSettings.settings.options ? attrSettings.settings.options : {}
 
       let value = null
-      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null) {
+      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array)) {
         value = Object.assign({}, atts[ fieldKey ])
       } else {
         value = atts[ fieldKey ]
