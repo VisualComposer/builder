@@ -259,7 +259,12 @@ export default class Element {
       const attrSettings = this.settings(fieldKey)
       const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
       const options = attrSettings.settings.options ? attrSettings.settings.options : {}
-      let value = atts[ fieldKey ]
+      let value = null
+      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null) {
+        value = Object.assign({}, atts[ fieldKey ])
+      } else {
+        value = atts[ fieldKey ]
+      }
       let dynamicValue = value
 
       // Check isDynamic for string/htmleditor/attachimage
