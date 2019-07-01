@@ -42,7 +42,8 @@ export default class HtmlEditorComponent extends Attribute {
         return true
       }
     }
-    if (this.state.editorLoaded && typeof window.tinymce !== 'undefined') {
+
+    if (newState.editorLoaded && typeof window.tinymce !== 'undefined') {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       const editor = window.tinymce.get(id)
@@ -54,10 +55,10 @@ export default class HtmlEditorComponent extends Attribute {
         }
       }
 
-      return false
+      return this.state.editorLoaded !== newState.editorLoaded
     }
 
-    return this.state.editorLoaded ? this.state.value !== newState.value : true
+    return newState.editorLoaded ? this.state.value !== newState.value : true
   }
 
   loadUsedFonts (props) {

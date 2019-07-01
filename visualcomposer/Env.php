@@ -28,9 +28,7 @@ class VcvEnv
 
     public static function set($key, $value)
     {
-        if (!VcvEnv::has($key)) {
-            VcvEnv::$variables[ $key ] = $value;
-        }
+        VcvEnv::$variables[ $key ] = $value;
     }
 
     public static function all()

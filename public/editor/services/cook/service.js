@@ -94,7 +94,7 @@ const API = {
       }
 
       // Plain text
-      return !result ? `No Value: ${blockAtts.value}` : result
+      return !result ? `No Value (${blockAtts.value})` : result
     },
     cleanComments: (el, id) => {
       const clean = (el, type) => {
