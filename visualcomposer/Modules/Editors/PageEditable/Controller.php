@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -27,7 +28,7 @@ class Controller extends Container implements Module
     /**
      * Controller constructor.
      */
-    public function __construct()
+    public function __construct(Request $requestHelper)
     {
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::templateRedirect */
         $this->wpAddAction('template_redirect', 'templateRedirect');
@@ -39,6 +40,11 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\PageEditable\Controller::pejQueryReady */
         $this->wpAddAction('wp_enqueue_scripts', 'pejQueryReady');
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets');
+
+        // Fix for staging auto urls 404->301
+        if ($requestHelper->exists('vcv-editable')) {
+            add_filter('redirect_canonical', '__return_false');
+        }
     }
 
     protected function check404($response, Frontend $frontendHelper)
