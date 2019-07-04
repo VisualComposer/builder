@@ -242,4 +242,249 @@ class WooCommerceController extends Container implements Module
 
         return true;
     }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getPrice($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return wc_price($product->get_price());
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getRegularPrice($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return wc_price($product->get_regular_price());
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getSalePrice($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return wc_price($product->get_sale_price());
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getShortDescription($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return $product->get_short_description();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getWeight($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return wc_format_weight($product->get_weight());
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getDimensions($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return $product->get_dimensions();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getAvailability($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+        $availability = $product->get_availability();
+
+        return $availability['availability'];
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getTotalSales($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return (string)$product->get_total_sales();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getAverageRating($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return $product->get_average_rating();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getRatingCount($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return $product->get_rating_count();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getDateOnSaleTo($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+        if ($product->get_date_on_sale_to()) {
+            return date(wc_date_format() . ' ' . wc_time_format(), $product->get_date_on_sale_to()->getTimestamp());
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getDateOnSaleFrom($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+        if ($product->get_date_on_sale_from()) {
+            return date(wc_date_format() . ' ' . wc_time_format(), $product->get_date_on_sale_from()->getTimestamp());
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getDownloads($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+        $fileData = $product->get_downloads();
+        if ($fileData) {
+            $fileLinks = [];
+            foreach ($fileData as $file) {
+                $fileLinks[] = '<a href="' . esc_url($file['file']) . '" target="_blank">' . esc_html($file['name'])
+                    . '</a>';
+            }
+
+            return implode(',', $fileLinks);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getDownloadExpiry($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return (string)$product->get_download_expiry();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getDownloadLimit($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return (string)$product->get_download_limit();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getStockQuantity($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return (string)$product->get_stock_quantity();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getSku($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return $product->get_sku();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getPurchaseNote($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return $product->get_purchase_note();
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
+    public function getCategories($sourceId = '')
+    {
+        $product = wc_get_product($sourceId);
+
+        return get_the_term_list($product->get_id(), 'product_cat', null, ', ');
+    }
 }

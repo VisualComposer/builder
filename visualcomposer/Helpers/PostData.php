@@ -50,32 +50,38 @@ class PostData implements Helper
         );
     }
 
-    public function getPostAuthor()
+    public function getPostAuthor($sourceId = '')
     {
-        global $post;
+        $post = get_post($sourceId);
 
         // @codingStandardsIgnoreLine
         return get_the_author_meta('display_name', $post->post_author);
     }
 
-    public function getPostTitle()
+    public function getPostTitle($sourceId = '')
     {
-        return get_the_title();
+        $post = get_post($sourceId);
+        //@codingStandardsIgnoreLine
+        return $post->post_title;
     }
 
-    public function getPostId()
+    public function getPostId($sourceId = '')
     {
-        return get_the_ID();
+        $post = get_post($sourceId);
+
+        return $post->ID;
     }
 
-    public function getPostExcerpt()
+    public function getPostExcerpt($sourceId = '')
     {
-        return get_the_excerpt();
+        $post = get_post($sourceId);
+        //@codingStandardsIgnoreLine
+        return $post->post_excerpt;
     }
 
-    public function getPostType()
+    public function getPostType($sourceId = '')
     {
-        global $post;
+        $post = get_post($sourceId);
 
         // @codingStandardsIgnoreLine
         $postTypeObject = get_post_type_object($post->post_type);
@@ -104,44 +110,45 @@ class PostData implements Helper
         );
     }
 
-    public function getPostCategories()
+    public function getPostCategories($sourceId = '')
     {
-        $categoriesList = get_the_category_list(', ');
+        $categoriesList = get_the_category_list(', ', '', $sourceId);
 
         return $categoriesList;
     }
 
-    public function getPostTags()
+    public function getPostTags($sourceId = '')
     {
-        $tagsList = get_the_term_list(0, 'post_tag', '', ', ', '');
+        $tagsList = get_the_term_list($sourceId, 'post_tag', '', ', ', '');
 
         return $tagsList;
     }
 
-    public function getPostCommentCount()
+    public function getPostCommentCount($sourceId = '')
     {
-        $commentCount = get_comments_number();
+        $post = get_post($sourceId);
+        $commentCount = get_comments_number($post->ID);
 
         return $commentCount;
     }
 
-    public function getPostDate()
+    public function getPostDate($sourceId = '')
     {
-        $date = get_the_date();
+        $date = get_the_date('', $sourceId);
 
         return $date;
     }
 
-    public function getPostModifyDate()
+    public function getPostModifyDate($sourceId = '')
     {
-        $date = get_the_modified_date();
+        $date = get_the_modified_date('', $sourceId);
 
         return $date;
     }
 
-    public function getPostParentName()
+    public function getPostParentName($sourceId = '')
     {
-        global $post;
+        $post = get_post($sourceId);
         $parentId = wp_get_post_parent_id($post);
 
         if ($parentId) {
@@ -154,9 +161,9 @@ class PostData implements Helper
         return false;
     }
 
-    public function getPostAuthorBio()
+    public function getPostAuthorBio($sourceId = '')
     {
-        global $post;
+        $post = get_post($sourceId);
         //@codingStandardsIgnoreLine
         $description = get_the_author_meta('description', $post->post_author);
 

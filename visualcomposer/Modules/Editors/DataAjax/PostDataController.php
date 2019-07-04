@@ -37,11 +37,13 @@ class PostDataController extends Container implements Module
      * @param $response
      * @param $payload
      *
+     * @param \VisualComposer\Helpers\PostData $postDataHelper
+     *
      * @return mixed
      */
     protected function getPostData($response, $payload, PostData $postDataHelper)
     {
-        $response['postData'] = vcfilter('vcv:editor:data:postData', $postDataHelper->getDefaultPostData());
+        $response['postData'] = vcfilter('vcv:editor:data:postData', $postDataHelper->getDefaultPostData(), $payload);
 
         return $response;
     }
