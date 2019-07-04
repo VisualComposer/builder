@@ -84,6 +84,7 @@ export default class HubTemplateControl extends React.Component {
         <span className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? showPreview : null}
           onMouseLeave={!disablePreview ? hidePreview : null}
+          title={name}
         >
           <span className='vcv-ui-item-element-content'>
             <img
