@@ -31,9 +31,11 @@ class PostFieldsController extends Container implements Module
     /**
      * @param $response
      *
+     * @param $payload
+     *
      * @return mixed
      */
-    protected function getPostFields($response)
+    protected function getPostFields($response, $payload)
     {
         $fields = [
             'attachimage' => [
@@ -73,12 +75,6 @@ class PostFieldsController extends Container implements Module
                         'values' => [],
                     ],
                 ],
-                'TEST' => [
-                    'group' => [
-                        'label' => __('TEST', 'vcwb'),
-                        'values' => [],
-                    ],
-                ],
             ],
             'htmleditor' => [
                 'default' => [
@@ -97,7 +93,8 @@ class PostFieldsController extends Container implements Module
         ];
         $response['postFields'] = vcfilter(
             'vcv:editor:data:postFields',
-            $fields
+            $fields,
+            $payload
         );
 
         return $response;
