@@ -294,7 +294,7 @@ export default class ControlsManager {
       if (data && data.type === 'mouseLeave') {
         this.outline.hide()
       }
-      if (data && data.type === 'controlClick') {
+      if (data && data.type === 'controlClick' && !data.vcControlIsPermanent) {
         this.toggleControls()
         this.outline.hide()
         this.frames.hide()
@@ -492,6 +492,8 @@ export default class ControlsManager {
    * Add event listener on documentBody to check if hide controls
    */
   handleFrameLeave () {
+    this.state.prevTarget = null
+    this.state.prevElement = null
     this.documentBody.addEventListener('mousemove', this.handleFrameMousemoveOnce)
   }
 

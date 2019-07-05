@@ -86,7 +86,8 @@ function getAdditionalControl (elementId, action, titleText, key) {
     title: `${titleText} ${elName}`,
     icon: iconClass,
     data: {
-      vcControlEvent: action
+      vcControlEvent: action,
+      vcControlIsPermanent: action === 'edit'
     }
   }
 
