@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { env, getService } from 'vc-cake'
 import classNames from 'classnames'
 
-const { getDynamicValue, getDefaultValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
+const { getDynamicValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
 
 export default class Field extends React.Component {
   static propTypes = {
@@ -131,7 +131,7 @@ export default class Field extends React.Component {
     }
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === `undefined`) {
-      defaultValue = settings.value
+      defaultValue = fieldType === 'element' ? settings.value[fieldKey] : settings.value
     }
 
     let fieldComponent = <AttributeComponent
@@ -150,11 +150,7 @@ export default class Field extends React.Component {
         return newValue
       }}
       handleDynamicFieldClose={(fieldKey, elementAccessPoint) => {
-        let newValue = getDefaultValue({
-          fieldKey: fieldKey,
-          elementAccessPoint: elementAccessPoint
-        })
-        return newValue
+        return defaultValue
       }}
       handleDynamicFieldOpen={({ fieldType, prevAttrDynamicKey }) => {
         let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType)
