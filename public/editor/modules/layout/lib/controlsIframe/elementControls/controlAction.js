@@ -34,7 +34,8 @@ export function ControlAction (props) {
     }
     layoutStorage.state('interactWithControls').set({
       type: 'controlClick',
-      vcElementId: id
+      vcElementId: id,
+      vcControlIsPermanent: options.data.vcControlIsPermanent
     })
   }
 
