@@ -24,6 +24,7 @@ import addElementIconLight from 'public/sources/images/blankRowPlaceholderIcons/
 import pasteIconLight from 'public/sources/images/blankRowPlaceholderIcons/pasteIconLight.raw'
 
 const cook = vcCake.getService('cook')
+const utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 
@@ -35,9 +36,6 @@ export default class BlankRowPlaceholder extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-  rowContainer = null
-  elementsContainer = null
-  initialSetControlsLayoutTimeout = null
   addedId = null
   iframeWindow = null
 
@@ -53,6 +51,8 @@ export default class BlankRowPlaceholder extends React.Component {
         copyData = false
       }
     }
+    this.rowContainer = React.createRef()
+    this.elementsContainer = React.createRef()
     this.state = {
       copyData
     }
@@ -63,24 +63,24 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   componentDidMount () {
-    this.setControlData()
-    // set timeout to get new state data from setControlData()
-    this.initialSetControlsLayoutTimeout = setTimeout(() => {
-      this.setControlsLayout()
-    }, 1)
-    this.addResizeListener(this.rowContainer, this.setControlsLayout)
+    utils.addResizeListener(this.rowContainer.current, {}, this.setControlsLayout)
   }
 
-  componentWillUnmount () {
-    this.removeResizeListener(this.rowContainer, this.setControlsLayout)
-    if (this.initialSetControlsLayoutTimeout) {
-      window.clearTimeout(this.initialSetControlsLayoutTimeout)
-      this.initialSetControlsLayoutTimeout = null
+  componentDidUpdate () {
+    if (!this.state.controlWidth) {
+      this.setControlData()
+    }
+    if (!this.state.containerWidth && this.state.controlWidth) {
+      this.setControlsLayout()
     }
   }
 
+  componentWillUnmount () {
+    utils.removeResizeListener(this.rowContainer.current, {}, this.setControlsLayout)
+  }
+
   getControls () {
-    var result = [
+    return [
       {
         tag: 'row',
         options: {
@@ -143,54 +143,15 @@ export default class BlankRowPlaceholder extends React.Component {
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? addElementIcon : addElementIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addElement : 'Add Element'
         }
+      },
+      {
+        tag: 'paste',
+        options: {
+          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
+        }
       }
     ]
-
-    result.push({
-      tag: 'paste',
-      options: {
-        icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
-        title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
-      }
-    })
-
-    return result
-  }
-
-  /**
-   * Add element resize listener
-   * @param element
-   * @param fn
-   */
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('iframe')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: calc(100% - 30px); width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function (e) {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  /**
-   * Remove element resize listener
-   * @param element
-   * @param fn
-   */
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   /**
@@ -203,7 +164,6 @@ export default class BlankRowPlaceholder extends React.Component {
 
   /**
    * Handle click for element control, don't open edit form
-   * @param element
    */
   handlePaste () {
     workspaceStorage.trigger('pasteEnd')
@@ -274,7 +234,7 @@ export default class BlankRowPlaceholder extends React.Component {
    * Set state for the single control width, sum width of all controls
    */
   setControlData () {
-    const controls = Array.prototype.slice.call(this.elementsContainer.children)
+    const controls = Array.prototype.slice.call(this.elementsContainer.current.children)
     const controlStyle = window.getComputedStyle(controls[0])
     const controlWidth = parseInt(controlStyle.width)
     const controlMargin = parseInt(controlStyle.marginLeft) + parseInt(controlStyle.marginRight)
@@ -290,7 +250,7 @@ export default class BlankRowPlaceholder extends React.Component {
    */
   setControlsLayout () {
     const { controlWidth, controlsWidth } = this.state
-    const containerWidth = this.rowContainer.getBoundingClientRect().width
+    const containerWidth = this.rowContainer.current.getBoundingClientRect().width
     const elementsCount = Math.floor(containerWidth / controlWidth)
     let elementsWidth = elementsCount * controlWidth
     elementsWidth = elementsWidth < controlsWidth ? elementsWidth : null
@@ -303,7 +263,7 @@ export default class BlankRowPlaceholder extends React.Component {
    * Get control props
    * @param control
    * @param index
-   * @return {}
+   * @return object
    */
   getControlProps (control, index) {
     return {
@@ -335,14 +295,14 @@ export default class BlankRowPlaceholder extends React.Component {
     return (
       <div
         className='vcvhelper vcv-ui-blank-row-container vcv-is-disabled-outline'
-        ref={(container) => { this.rowContainer = container }}
+        ref={this.rowContainer}
       >
         <div className='vcv-ui-blank-row' id='vcv-ui-blank-row'>
           <div className='vcv-ui-blank-row-drag-overlay' dangerouslySetInnerHTML={{ __html: dragOverlayIcon }} />
           <div
             className='vcv-ui-blank-row-controls-container'
             style={containerWidth}
-            ref={(container) => { this.elementsContainer = container }}
+            ref={this.elementsContainer}
           >
             {elementControls}
           </div>
