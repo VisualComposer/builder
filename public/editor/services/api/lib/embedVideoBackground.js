@@ -19,6 +19,7 @@ export default class VideoEmbedBackground extends React.Component {
         `vce-asset-video-embed-container`,
         `vce-visible-${deviceKey}-only`
       ]
+      const playsInline = true
 
       return <div className={classNames(containerClasses)}>
         <div className='vce-asset-video-embed-wrapper'>
@@ -27,7 +28,7 @@ export default class VideoEmbedBackground extends React.Component {
             data-vce-assets-video-replacer='.vce-asset-video-embed-player'
             data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'>
             <svg className='vce-asset-video-embed-sizer' />
-            <video key={videoKey} className='vce-asset-video-embed-player'>
+            <video key={videoKey} className='vce-asset-video-embed-player' playsInline={playsInline}>
               <source src={videoData.url} type='video/mp4' />
             </video>
           </div>
