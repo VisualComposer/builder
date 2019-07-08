@@ -23,12 +23,10 @@ const API = {
       console.error('No element Tag provided', data)
       return null
     }
-    data.cookApi = API
-    return new Element(data)
+    return new Element(data, null, null, API)
   },
   buildSettingsElement (data, settings, cssSettings) {
-    data.cookApi = API
-    return new Element(data, settings, cssSettings)
+    return new Element(data, settings, cssSettings, API)
   },
   getSettings (tag) {
     return elementSettings.get(tag)

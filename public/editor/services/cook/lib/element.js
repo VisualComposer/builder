@@ -3,7 +3,6 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 
-import PropTypes from 'prop-types'
 import elementSettings from './element-settings'
 import elementComponent from './element-component'
 import DynamicElement from 'public/components/dynamicFields/dynamicElement'
@@ -15,22 +14,17 @@ const hubElementService = vcCake.getService('hubElements')
 const assetsStorage = vcCake.getStorage('assets')
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
-
+let cookApi = null
 export default class Element {
-  static propTypes = {
-    tag: PropTypes.string.isRequired,
-    cookApi: PropTypes.object.isRequired
+  constructor (data, dataSettings = null, cssSettings = null, API) {
+    this.init(data, dataSettings, cssSettings, API)
   }
 
-  constructor (data, dataSettings = null, cssSettings = null) {
-    this.init(data, dataSettings, cssSettings)
-  }
-
-  init (data, dataSettings = null, cssSettings = null) {
+  init (data, dataSettings = null, cssSettings = null, API) {
     let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, metaElementAssets, ...attr } = data
     attr.tag = tag
     attr.id = id
-    this.cookApi = data.cookApi
+    cookApi = API
 
     let elements = hubElementService.all()
     let element = elements ? elements[ tag ] : null
@@ -287,7 +281,7 @@ export default class Element {
       if (isDynamic) {
         const blockInfo = dynamicValue.split(blockRegexp)
 
-        let dynamicFieldsData = this.cookApi.dynamicFields.getDynamicFieldsData(
+        let dynamicFieldsData = cookApi.dynamicFields.getDynamicFieldsData(
           {
             fieldKey: fieldKey,
             value: dynamicValue,
@@ -351,7 +345,7 @@ export default class Element {
 
     return <DynamicElement
       key={this[ elData ].id + '-' + Date.now()} // key must be unique to call unmount on each update & replace
-      cookApi={this.cookApi}
+      cookApi={cookApi}
       cookElement={this}
       element={this.getAll()}
       elementToRender={ElementToRender}
