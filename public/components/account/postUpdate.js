@@ -69,7 +69,7 @@ export default class {
       Object.keys(elements).forEach((key) => {
         const element = elements[ key ]
         elementBundles.push($.getScript(element.bundlePath).fail((jqxhr, settings, exception) => {
-          console.log(jqxhr, settings, exception)
+          console.warn(jqxhr, settings, exception)
         }))
       })
     }

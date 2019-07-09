@@ -1,4 +1,5 @@
-import { addStorage } from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
 
 addStorage('settings', (storage) => {
   storage.state('globalCss').onChange((data) => {
@@ -23,5 +24,46 @@ addStorage('settings', (storage) => {
     !storage.state('footerTemplate').get() && storage.state('footerTemplate').set(
       window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
     )
+  })
+
+  const dataProcessor = getService('dataProcessor')
+  storage.on('loadDynamicPost', (sourceId, successCallback, failureCallback) => {
+    let postData = storage.state('postData').get()
+    let postFields = storage.state('postFields').get()
+    if (sourceId === window.vcvSourceID) {
+      // Current Post
+      if (typeof successCallback === 'function') {
+        successCallback(sourceId, postData, postFields)
+      }
+    } else {
+      // Custom Post
+      if (typeof postData[ sourceId ] !== 'undefined') {
+        // Already loaded
+        if (typeof successCallback === 'function') {
+          successCallback(sourceId, postData[ sourceId ], postFields[ sourceId ])
+        }
+      } else {
+        dataProcessor.appAllDone().then(() => {
+          dataProcessor.appAdminServerRequest({
+            'vcv-action': 'getDynamicPost:adminNonce',
+            'vcv-source-id': sourceId
+          }).then((requestData) => {
+            let response = getResponse(requestData)
+            postData[ sourceId ] = response.postData || {}
+            postFields[ sourceId ] = response.postFields || {}
+            storage.state('postData').set(postData)
+            storage.state('postFields').set(postFields)
+            if (typeof successCallback === 'function') {
+              successCallback(sourceId, response.postData, response.postFields)
+            }
+          }, (error) => {
+            console.warn('Failed to load dynamic post data', sourceId, error)
+            if (typeof failureCallback === 'function') {
+              failureCallback(error)
+            }
+          })
+        })
+      }
+    }
   })
 })

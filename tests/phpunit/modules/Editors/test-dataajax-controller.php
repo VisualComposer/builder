@@ -19,11 +19,15 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
         $filterHelper = vchelper('Filters');
         $postTypeHelper = vchelper('PostType');
         $postTypeHelper->setupPost($postId);
-        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce');
+        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce', '', [
+            'sourceId' => $postId,
+        ]);
         $this->assertEquals('', $result['data']);
 
         update_post_meta($postId, VCV_PREFIX . 'pageContent', 'some test data');
-        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce');
+        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce', '', [
+            'sourceId' => $postId,
+        ]);
         $this->assertEquals('some test data', $result['data']);
 
         // Reset
@@ -48,7 +52,9 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
 
         /** @var \VisualComposer\Helpers\Filters $filterHelper */
         $filterHelper = vchelper('Filters');
-        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce');
+        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce', '', [
+            'sourceId' => $postId,
+        ]);
         $this->assertEquals('second test data', $result['data']);
 
         // Reset
@@ -77,12 +83,16 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
         $filterHelper = vchelper('Filters');
         $postTypeHelper = vchelper('PostType');
         $postTypeHelper->setupPost($postId);
-        $result = $filterHelper->fire('vcv:ajax:setData:adminNonce');
+        $result = $filterHelper->fire('vcv:ajax:setData:adminNonce', '', [
+            'sourceId' => $postId,
+        ]);
         $this->assertTrue(array_key_exists('status', $result));
         $this->assertEquals(true, $result['status']);
 
         // Test get
-        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce');
+        $result = $filterHelper->fire('vcv:ajax:getData:adminNonce', '', [
+            'sourceId' => $postId,
+        ]);
         $this->assertEquals(json_encode(['new elements!']), $result['data']);
         $this->assertEquals('some new content', get_post_field('post_content', $postId));
         // Reset
@@ -100,14 +110,6 @@ class DataAjaxControllerTest extends \WP_UnitTestCase
         $result = $filterHelper->fire('vcv:ajax:setData:adminNonce');
         $this->assertTrue(array_key_exists('status', $result));
         $this->assertEquals(false, $result['status']);
-
-        /** @var \VisualComposer\Helpers\Request $requestHelper */
-        $requestHelper = vchelper('Request');
-        $requestHelper->setData([]);
-        /** @var \VisualComposer\Helpers\Filters $filterHelper */
-        $filterHelper = vchelper('Filters');
-        $result = $filterHelper->fire('vcv:ajax:setData:adminNonce');
-        $this->assertEquals('', $result);
 
         // Reset
         $requestHelper->setData([]);

@@ -47,7 +47,9 @@ export default class Dropdown extends Attribute {
   createOptions (key, values, fieldKey) {
     let value = values[ key ].value
     let label = values[ key ].label
-    return <option key={fieldKey + ':' + key + ':' + value} value={value}>{label}</option>
+    let disabled = values[ key ].disabled
+    let selected = values[ key ].selected
+    return <option key={fieldKey + ':' + key + ':' + value} value={value} disabled={disabled} selected={selected}>{label}</option>
   }
 
   getSelectOptions (props) {

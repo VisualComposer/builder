@@ -30,7 +30,7 @@
 
         if (typeof YT === 'undefined' || !YT.loaded) {
           if (attempts > 100) {
-            console.log('Too many attempts to load YouTube IFrame API');
+            console.warn('Too many attempts to load YouTube IFrame API');
             return;
           }
           var _this = this;

@@ -170,24 +170,24 @@ class PostData implements Helper
         return $description;
     }
 
-    public function getDefaultPostData()
+    public function getDefaultPostData($sourceId = '')
     {
         $response = [];
-        $response['featured_image'] = $this->getFeaturedImage();
-        $response['post_author_image'] = $this->getPostAuthorImage();
-        $response['post_author'] = $this->getPostAuthor();
-        $response['post_title'] = $this->getPostTitle();
-        $response['post_id'] = (string)$this->getPostId();
-        $response['post_type'] = $this->getPostType();
-        $response['post_excerpt'] = $this->getPostExcerpt();
-        $response['wp_blog_logo'] = $this->getBlogLogo();
-        $response['post_categories'] = $this->getPostCategories();
-        $response['post_tags'] = $this->getPostTags();
-        $response['post_comment_count'] = $this->getPostCommentCount();
-        $response['post_date'] = $this->getPostDate();
-        $response['post_modify_date'] = $this->getPostModifyDate();
-        $response['post_parent_name'] = $this->getPostParentName();
-        $response['post_author_bio'] = $this->getPostAuthorBio();
+        $response['featured_image'] = $this->getFeaturedImage($sourceId);
+        $response['post_author_image'] = $this->getPostAuthorImage($sourceId);
+        $response['post_author'] = $this->getPostAuthor($sourceId);
+        $response['post_title'] = $this->getPostTitle($sourceId);
+        $response['post_id'] = (string)$this->getPostId($sourceId);
+        $response['post_type'] = $this->getPostType($sourceId);
+        $response['post_excerpt'] = $this->getPostExcerpt($sourceId);
+        $response['wp_blog_logo'] = $this->getBlogLogo($sourceId);
+        $response['post_categories'] = $this->getPostCategories($sourceId);
+        $response['post_tags'] = $this->getPostTags($sourceId);
+        $response['post_comment_count'] = $this->getPostCommentCount($sourceId);
+        $response['post_date'] = $this->getPostDate($sourceId);
+        $response['post_modify_date'] = $this->getPostModifyDate($sourceId);
+        $response['post_parent_name'] = $this->getPostParentName($sourceId);
+        $response['post_author_bio'] = $this->getPostAuthorBio($sourceId);
 
         return $response;
     }

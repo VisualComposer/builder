@@ -187,7 +187,7 @@ class Controller extends Container implements Module
                 $post = get_post((int)$token);
                 if ($post) {
                     // @codingStandardsIgnoreLine
-                    $tokenLabels[ (int)$token ] = $post->post_title;
+                    $tokenLabels[ (int)$token ] = $post->post_title . ' (' . $post->ID . ')';
                 }
         }
 

@@ -29,7 +29,7 @@ export default class Token extends React.Component {
   }
 
   render () {
-    let { title, value, valid, validating } = this.props
+    let { title, label, value, valid, validating } = this.props
 
     let tagClasses = classNames({
       'vcv-ui-tag-list-item': true,
@@ -40,8 +40,8 @@ export default class Token extends React.Component {
     return <span
       className={tagClasses}
       title={title}
-      data-vcv-tag-list-label={value}
-      data-vcv-tag-list-label-hover={value}
+      data-vcv-tag-list-label={label || value}
+      data-vcv-tag-list-label-hover={label || value}
     >
       <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
         <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
