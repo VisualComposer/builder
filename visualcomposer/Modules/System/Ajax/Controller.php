@@ -49,7 +49,19 @@ class Controller extends Container implements Module
 
     protected function getResponse($requestAction)
     {
-        $response = vcfilter('vcv:' . $this->scope . ':' . $requestAction, '');
+        $requestHelper = vchelper('Request');
+        global $post;
+        if (empty($post) && $requestHelper->exists('vcv-source-id')) {
+            return '';
+        }
+
+        $response = vcfilter(
+            'vcv:' . $this->scope . ':' . $requestAction,
+            '',
+            [
+                'sourceId' => $post ? $post->ID : false,
+            ]
+        );
 
         return $response;
     }

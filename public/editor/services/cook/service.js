@@ -61,10 +61,15 @@ const API = {
   dynamicFields: {
     getDynamicFieldsData: (props, attribute = null, raw = false) => {
       const { blockAtts } = props
-      const postData = settingsStorage.state('postData').get()
+      let postData = settingsStorage.state('postData').get()
       let key = blockAtts.value.replace('::', ':')
       let result = null
-      if (blockAtts && blockAtts.value && typeof postData[ key ] !== 'undefined') {
+      let sourceId = blockAtts.sourceId || window.vcvSourceID
+
+      if (window.vcvSourceID !== sourceId) {
+        postData = postData[ sourceId ]
+      }
+      if (blockAtts && blockAtts.value && postData && typeof postData[ key ] !== 'undefined') {
         if (postData && postData[ key ].length) {
           // Value should be NEVER empty
           result = postData[ key ]
@@ -213,10 +218,14 @@ const API = {
 
       return postFields[ fieldType ] || []
     },
-    getDynamicValue: (dynamicFieldKey, attribute = null, options = {}) => {
+    getDynamicValue: (dynamicFieldKey, sourceId = null, attribute = null, options = {}) => {
+      if (!sourceId) {
+        sourceId = window.vcvSourceID
+      }
       let { dynamicTemplate } = options
       let newValue = null
 
+      // TODO: Dynamic Template
       if (dynamicTemplate) {
         newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
       } else {
@@ -231,7 +240,8 @@ const API = {
         )
         newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
           value: dynamicFieldKey,
-          currentValue: currentValue
+          currentValue: currentValue,
+          sourceId: sourceId
         })} -->`
       }
       return newValue

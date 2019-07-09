@@ -4,9 +4,7 @@ import PropTypes from 'prop-types'
 export default class Attribute extends React.Component {
   static propTypes = {
     updater: PropTypes.func.isRequired,
-    handleDynamicFieldOpen: PropTypes.func,
-    handleDynamicFieldChange: PropTypes.func,
-    handleDynamicFieldClose: PropTypes.func,
+    elementAccessPoint: PropTypes.object,
     fieldKey: PropTypes.string.isRequired,
     fieldType: PropTypes.string,
     value: PropTypes.any.isRequired,
@@ -20,9 +18,6 @@ export default class Attribute extends React.Component {
 
     this.setFieldValue = this.setFieldValue.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
-    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
-    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -45,72 +40,6 @@ export default class Attribute extends React.Component {
     window.setTimeout(() => {
       updater(fieldKey, value, null, fieldType)
     }, 0)
-  }
-
-  handleDynamicFieldOpen (e) {
-    e && e.preventDefault()
-    let newValue = this.props.handleDynamicFieldOpen({
-      fieldType: this.props.fieldType,
-      prevAttrDynamicKey: this.state.prevAttrDynamicKey
-    })
-
-    if (this.state.value && this.state.value.urls) {
-      newValue = { ids: [], urls: [ { full: newValue } ] }
-
-      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
-        newValue.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
-      }
-      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].link) {
-        newValue.urls[ 0 ].link = this.state.value.urls[ 0 ].link
-      }
-    }
-
-    this.setFieldValue(newValue)
-    this.setState({
-      prevAttrValue: this.state.value
-    })
-  }
-
-  handleDynamicFieldChange (_, dynamicFieldKey) {
-    let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey)
-
-    if (this.state.value && this.state.value.urls) {
-      newValue = { ids: [], urls: [ { full: newValue } ] }
-
-      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
-        newValue.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
-      }
-      if (this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].link) {
-        newValue.urls[ 0 ].link = this.state.value.urls[ 0 ].link
-      }
-    }
-
-    this.setFieldValue(newValue)
-    this.setState({
-      prevAttrDynamicKey: dynamicFieldKey
-    })
-  }
-
-  handleDynamicFieldClose (e) {
-    e && e.preventDefault()
-    const { prevAttrValue, value } = this.state
-    let newValue = ''
-    if (prevAttrValue) {
-      newValue = prevAttrValue
-    } else {
-      newValue = this.props.handleDynamicFieldClose(this.props.fieldKey, this.props.elementAccessPoint)
-    }
-
-    if (value && value.urls && newValue.urls && newValue.urls[ 0 ]) {
-      if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
-        newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
-      }
-      if (value.urls[ 0 ] && value.urls[ 0 ].link) {
-        newValue.urls[ 0 ].link = value.urls[ 0 ].link
-      }
-    }
-
-    this.setFieldValue(newValue)
   }
 
   render () {

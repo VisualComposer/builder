@@ -12,7 +12,7 @@ import { getResponse } from 'public/tools/response'
 export default class TokenizationList extends React.Component {
   static propTypes = {
     validator: PropTypes.func.isRequired,
-    validation: PropTypes.bool.isRequired
+    validation: PropTypes.bool
   }
 
   stayEditing = false
@@ -28,7 +28,7 @@ export default class TokenizationList extends React.Component {
       value: value,
       editing: false,
       loading: false,
-      validating: this.props.validation,
+      validating: !!this.props.validation,
       inputValue: '',
       suggestedItems: [],
       loadTokenLabels: [],
@@ -302,6 +302,7 @@ export default class TokenizationList extends React.Component {
           removeCallback={this.removeToken}
           value={token}
           index={index}
+          label={this.props.single ? title : token}
         />)
       }
     })
@@ -393,7 +394,11 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-tag-list-input': true,
       'vcv-ui-tag-list-input-editing-disabled': !this.state.editing
     })
-    return <div className='vcv-ui-tag-list-container'>
+    let containerClasses = classNames({
+      'vcv-ui-tag-list-container': true
+    }, this.props.extraClass)
+
+    return <div className={containerClasses}>
       <Textarea
         minRows={1}
         className={cssClasses}

@@ -23,7 +23,7 @@ class PostFieldsController extends Container implements Module
     public function __construct()
     {
         $this->addFilter(
-            'vcv:dataAjax:getData',
+            'vcv:dataAjax:getData vcv:ajax:getDynamicPost:adminNonce',
             'getPostFields'
         );
     }
@@ -37,6 +37,9 @@ class PostFieldsController extends Container implements Module
      */
     protected function getPostFields($response, $payload)
     {
+        if (!is_array($response)) {
+            $response = ['status' => true];
+        }
         $fields = [
             'attachimage' => [
                 'default' => [
