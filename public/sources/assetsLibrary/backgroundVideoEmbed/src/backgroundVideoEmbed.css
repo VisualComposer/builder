@@ -7,6 +7,7 @@
   overflow: hidden;
   display: none;
   pointer-events: none;
+  border-radius: inherit;
 }
 .vce-asset-video-embed-wrapper {
   position: absolute;
