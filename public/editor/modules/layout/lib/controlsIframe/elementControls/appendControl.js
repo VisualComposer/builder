@@ -37,6 +37,12 @@ export function AppendControl (props) {
   const controlContainer = useRef()
   const [ containerPos, setContainerPos ] = useState(updateAppendContainerPosition(props.data, controlContainer))
 
+  useEffect(() => {
+    if (!containerPos) {
+      setContainerPos(updateAppendContainerPosition(props.data, controlContainer))
+    }
+  })
+
   const localizations = window.VCV_I18N && window.VCV_I18N()
   const addElementText = localizations ? localizations.addElement : 'Add Element'
   const elementIds = props.data.vcElementsPath
@@ -49,12 +55,6 @@ export function AppendControl (props) {
   if (!containerElement || !containerElement.relatedTo([ exceptionalElements ])) {
     return null
   }
-
-  useEffect(() => {
-    if (!containerPos) {
-      setContainerPos(updateAppendContainerPosition(props.data, controlContainer))
-    }
-  })
 
   const handleClick = () => {
     const options = {
