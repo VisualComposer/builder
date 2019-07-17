@@ -32,11 +32,12 @@
 .vce-asset-video-vimeo-background {
   position: absolute;
   height: 100%;
-  display: inline-block;
-  vertical-align: top;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-width: none;
+  object-fit: cover;
+  margin: 0;
 }
 .vce-asset-video-vimeo--state-landscape.vce-asset-video-vimeo-background,
 .vce-asset-video-vimeo--state-landscape .vce-asset-video-vimeo-sizer {

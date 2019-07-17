@@ -9,6 +9,7 @@
   pointer-events: none;
   border-radius: inherit;
 }
+
 .vce-asset-video-embed-wrapper {
   position: absolute;
   top: 0;
@@ -16,6 +17,7 @@
   right: 0;
   left: 0;
 }
+
 .vce-asset-video-embed-container .vce-asset-video-embed-sizer {
   border: none;
   max-width: none;
@@ -24,24 +26,24 @@
   display: inline-block;
   vertical-align: top;
 }
+
 .vce-asset-video-embed-sizer:not([data-vce-assets-video-state='visible']) {
   display: none;
 }
+
 .vce-asset-video-embed-container .vce-asset-video-embed-background {
   position: relative;
   height: 100%;
-  display: inline-block;
-  vertical-align: top;
+}
+
+.vce-asset-video-embed-container .vce-asset-video-embed-player {
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-.vce-asset-video-embed-container .vce-asset-video-embed-player {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
+  max-width: none;
+  object-fit: cover;
+  height: 100%;
   margin: 0;
 }
 
