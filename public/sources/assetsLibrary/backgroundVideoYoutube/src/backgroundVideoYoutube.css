@@ -29,13 +29,14 @@
 }
 
 .vce-asset-video-yt-background {
-  position: relative;
+  position: absolute;
   height: 100%;
-  display: inline-block;
-  vertical-align: top;
-  left: 50%;
   top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
+  max-width: none;
+  object-fit: cover;
+  margin: 0;
 }
 .vce-asset-video-yt--state-landscape.vce-asset-video-yt-background,
 .vce-asset-video-yt--state-landscape .vce-asset-video-yt-sizer {
