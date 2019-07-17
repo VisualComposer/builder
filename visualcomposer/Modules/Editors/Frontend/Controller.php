@@ -35,6 +35,9 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
         $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase');
+        /** @see \VisualComposer\Modules\Editors\Frontend\Controller::enableEditorForProtectedPosts */
+        $this->wpAddFilter('post_password_required', 'enableEditorForProtectedPosts');
+
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::init */
         defined('WP_ADMIN') && WP_ADMIN
         && $this->wpAddFilter(
@@ -150,5 +153,23 @@ class Controller extends Container implements Module
         }
 
         return false;
+    }
+
+    /**
+     * Enable editor for password protected posts
+     *
+     * @param $required
+     *
+     * @return bool
+     */
+    protected function enableEditorForProtectedPosts($required)
+    {
+        $frontendHelper = vchelper('Frontend');
+
+        if ($frontendHelper->isPageEditable()) {
+            return false;
+        }
+
+        return $required;
     }
 }
