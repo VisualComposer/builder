@@ -53,6 +53,7 @@ export default class AttachImage extends Attribute {
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.customDynamicRender = this.customDynamicRender.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
@@ -364,7 +365,10 @@ export default class AttachImage extends Attribute {
   customDynamicRender (dynamicApi) {
     const { dynamicFieldOpened } = dynamicApi.state
     if (dynamicFieldOpened) {
-      return dynamicApi.renderDynamicInputs()
+      return <React.Fragment>
+        {dynamicApi.renderDynamicInputs()}
+        {this.getUrlHtml(0)}
+      </React.Fragment>
     }
 
     return (
