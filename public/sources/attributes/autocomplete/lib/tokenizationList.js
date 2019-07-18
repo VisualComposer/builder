@@ -174,10 +174,6 @@ export default class TokenizationList extends React.Component {
     this.stayEditing = true
   }
 
-  componentDidMound () {
-    this.updateSuggestBoxPosition()
-  }
-
   componentDidUpdate () {
     this.updateSuggestBoxPosition()
   }

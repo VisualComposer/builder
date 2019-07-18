@@ -69,10 +69,6 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  componentDidMound () {
-    this.updateSuggestBoxPosition()
-  }
-
   componentDidUpdate () {
     this.updateSuggestBoxPosition()
   }
