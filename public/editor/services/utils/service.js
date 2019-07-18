@@ -268,7 +268,9 @@ const API = {
         blockScope: blockInfo[ 2 ],
         blockName: blockInfo[ 3 ],
         blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
-        blockContent: blockInfo[ 7 ]
+        blockContent: blockInfo[ 7 ],
+        beforeBlock: blockInfo[ 0 ] || '',
+        afterBlock: blockInfo[ 14 ] || ''
       }
     }
 

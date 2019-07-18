@@ -1095,6 +1095,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           multiple: true,
           dynamicField: true
         }}
+        defaultValue=''
         updater={this.attachImageChangeHandler}
         value={value}
         prevValue={this.state.devices[ this.state.currentDevice ].prevValue}

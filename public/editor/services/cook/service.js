@@ -60,8 +60,9 @@ const API = {
   },
   dynamicFields: {
     getDynamicFieldsData: (props, attribute = null, raw = false) => {
-      const { blockAtts } = props
+      const { blockAtts, beforeBlock, afterBlock } = props
       let postData = settingsStorage.state('postData').get()
+
       let key = blockAtts.value.replace('::', ':')
       let result = null
       let sourceId = blockAtts.sourceId || window.vcvSourceID
@@ -86,12 +87,12 @@ const API = {
           return React.createElement('div', {
             className: 'vcvhelper',
             dangerouslySetInnerHTML: {
-              __html: result
+              __html: beforeBlock + result + afterBlock
             },
             'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
               value: blockAtts.value,
               currentValue: result
-            })} -->${result}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+            })} -->${beforeBlock + result + afterBlock}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
           })
         }
       }
@@ -242,7 +243,7 @@ const API = {
           value: dynamicFieldKey,
           currentValue: currentValue,
           sourceId: sourceId
-        })} -->`
+        })} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       }
       return newValue
     },

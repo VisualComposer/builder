@@ -204,7 +204,9 @@ export default class Element extends React.Component {
             value: dynamicValue,
             blockName: blockInfo[ 3 ],
             blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
-            blockContent: blockInfo[ 7 ]
+            blockContent: blockInfo[ 7 ],
+            beforeBlock: blockInfo[ 0 ] || '',
+            afterBlock: blockInfo[ 14 ] || ''
           },
           {
             fieldKey: fieldKey,
