@@ -84,6 +84,14 @@
         border-left-color: $borderLeftColor;
       }
     }
+
+    .vce-content-background-container {
+      @if $borderWidth != false {
+        border-radius: calc($borderRadius - $borderWidth);
+      } @else {
+      border-radius: $borderRadius;
+    }
+    }
   }
 }
 
