@@ -52,6 +52,7 @@ export default class AttachImage extends Attribute {
     this.onSortEnd = this.onSortEnd.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
+    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
@@ -160,6 +161,9 @@ export default class AttachImage extends Attribute {
     let value = props.value
     if (!lodash.isObject(value)) {
       value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
+      if (value && this.state && this.state.value && this.state.value.urls && this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
+        value.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+      }
     } else if (lodash.isArray(value)) {
       if (value.length > 0) {
         let ids = []
@@ -358,10 +362,6 @@ export default class AttachImage extends Attribute {
   }
 
   customDynamicRender (dynamicApi) {
-    if (!dynamicApi.state.isDynamic) {
-      return dynamicApi.props.children
-    }
-
     const { dynamicFieldOpened } = dynamicApi.state
     if (dynamicFieldOpened) {
       return dynamicApi.renderDynamicInputs()
@@ -373,6 +373,19 @@ export default class AttachImage extends Attribute {
         {dynamicApi.renderOpenButton()}
       </div>
     )
+  }
+
+  handleDynamicFieldChange (dynamicFieldKey, sourceId) {
+    let dynamicValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId)
+    let newValue = dynamicValue
+    let { value } = this.state
+
+    if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ].full) {
+      newValue = value
+      newValue.urls[ 0 ].full = dynamicValue
+    }
+
+    return { fieldValue: newValue, dynamicValue: dynamicValue }
   }
 
   render () {
@@ -419,9 +432,15 @@ export default class AttachImage extends Attribute {
       getUrlHtml={this.getUrlHtml}
     />
 
+    let dynamicValue = value
+
+    if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ].full) {
+      dynamicValue = value.urls[ 0 ].full
+    }
+
     return (
       <React.Fragment>
-        <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={value} attachImageClassNames={fieldClassNames} attachImageComponent={fieldComponent} render={this.customDynamicRender.bind(this)}>
+        <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={dynamicValue} attachImageClassNames={fieldClassNames} attachImageComponent={fieldComponent} render={this.customDynamicRender.bind(this)} handleDynamicFieldChange={this.handleDynamicFieldChange} onOpen={this.props.handleDynamicFieldOpen} onClose={this.props.handleDynamicFieldClose}>
           <div className={fieldClassNames}>
             {fieldComponent}
           </div>

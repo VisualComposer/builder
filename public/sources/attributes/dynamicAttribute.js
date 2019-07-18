@@ -77,21 +77,40 @@ export default class DynamicAttribute extends React.Component {
 
   handleDynamicFieldChange (_, dynamicFieldKey) {
     let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey, this.state.sourceId)
-    let blockInfo = parseDynamicBlock(newValue)
+    let fieldValue = newValue
+    let dynamicValue = newValue
+
+    if (newValue.fieldValue && newValue.dynamicValue) {
+      fieldValue = newValue.fieldValue
+      dynamicValue = newValue.dynamicValue
+    }
+
+    let blockInfo = parseDynamicBlock(dynamicValue)
     this.setState({ blockInfo: blockInfo })
-    this.props.setFieldValue(newValue)
+    this.props.setFieldValue(fieldValue)
   }
 
   handleDynamicFieldOpen (e) {
     e && e.preventDefault()
     this.setState({
-      dynamicFieldOpened: true
+      dynamicFieldOpened: true,
+      prevValue: this.props.value
     })
+    if (this.state.blockInfo && this.state.blockInfo.value) {
+      this.props.setFieldValue(this.state.blockInfo.value)
+    }
+    this.props.onOpen && this.props.onOpen(this)
   }
 
   handleDynamicFieldClose (e) {
     e && e.preventDefault()
+    if (this.state.prevValue) {
+      this.props.setFieldValue(this.state.prevValue)
+    } else if (this.props.defaultValue !== undefined) {
+      this.props.setFieldValue(this.props.defaultValue)
+    }
     this.setState({ dynamicFieldOpened: false })
+    this.props.onClose && this.props.onClose(this)
   }
 
   renderOpenButton () {
@@ -121,7 +140,7 @@ export default class DynamicAttribute extends React.Component {
 
   renderDynamicFieldsDropdown (fieldsList) {
     let newFieldsList = Object.values(fieldsList)
-    newFieldsList.unshift({ label: 'Select your value', value: '', selected: true, disabled: true })
+    newFieldsList.unshift({ label: 'Select your value', value: '', disabled: true })
     return (
       <Dropdown
         value={this.state.blockInfo ? this.state.blockInfo.blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2') : ''}
@@ -188,7 +207,7 @@ export default class DynamicAttribute extends React.Component {
 
   render () {
     if (!this.state.isDynamic) {
-      return this.props.children
+      return this.props.children || null
     }
 
     // In case if custom render provided

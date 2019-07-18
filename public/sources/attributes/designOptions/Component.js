@@ -856,7 +856,7 @@ export default class DesignOptions extends Attribute {
       const dynamicTemplate = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
         value: '$dynamicFieldKey',
         type: 'backgroundImage'
-      })} -->`
+      })} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       fieldComponent = <AttachImage
         api={this.props.api}
         fieldKey={fieldKey}
@@ -866,6 +866,7 @@ export default class DesignOptions extends Attribute {
         }}
         updater={this.attachImageChangeHandler}
         value={value}
+        defaultValue=''
         prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
         dynamicTemplate={dynamicTemplate}
         elementAccessPoint={this.props.elementAccessPoint}
