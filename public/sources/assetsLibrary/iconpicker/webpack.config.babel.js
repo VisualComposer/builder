@@ -6,7 +6,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    fontawesome: ['./src/css/font-awesome-4.7.0/less/font-awesome.less'],
+    fontawesome: ['./src/css/font-awesome-5.9.0/less/fontawesome.less'],
     lineicons: ['./src/css/vcv-linecons/font.less'],
     entypo: ['./src/css/vcv-entypo/font.less'],
     monosocial: ['./src/css/vcv-monosocial-1.10/style.less'],

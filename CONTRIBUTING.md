@@ -154,6 +154,64 @@ $ cd public/sources/assetsLibrary/{assetDirectory}
 $ ../../../../node_modules/.bin/webpack --config=webpack.config.babel.js -p
 ```
 
+#### Updating icon libraries
+To update the icon set:
+1. Update iconpicker asset
+Each icon set library has its own folder under `public/sources/assetsLibrary/iconpicker/src`.
+Follow these steps to update the asset:
+- appropriate files needs to be updated in `fonts` and `less` folders
+- the **iconpicker** asset should be build as per **Build assets**
+- the `dist/fonts` folder should be populated with the updated font as well
+- update the name of the iconset folder if necessary
+- inside `webpack.config.babel.js` file update the path to the iconset folder if needed
+
+2. Update attribute
+*iconpicker* attribute is located under the `public/sources/attributes/iconpicker`.
+Each icon set library has its own JavaScript file that exports an object with settings.
+- generate an updated object
+- replace newly generated object
+- update filename if necessary
+- inside `Component.js` file update path to file if needed
+
+To generate an object with settings for the Font Awesome library:
+
+- you need an `icons.json` file and an `categories.yml` which you need to convert to `.json` format
+- copy each file contents and in browser console assign each to its own variable `icons` and `categories` accordingly
+- then run the script provided below
+- copy and paste the resulting object into the file
+
+Script to generate Font Awesome settings object:
+
+```
+var newCategories = {}
+
+Object.keys(categories).forEach((category) => {
+  newCategories[categories[category].label] = []
+  categories[category].icons.forEach((icon) => {
+    icons[icon].styles.forEach((style) => {
+      var iconId = ''
+      if (style === "solid") {
+        iconId = "fas"
+      }
+      if (style === "regular") {
+        iconId = "far"
+      }
+      if (style === "brands") {
+        iconId = "fab"
+      }
+      var iconData = {
+        title: icons[icon].label,
+        id: iconId + ' fa-' + icon
+      }
+      newCategories[categories[category].label].push(iconData)
+    })
+  })
+})
+JSON.stringify(newCategories)
+```
+**NOTE**: depending on the version and structure of the Font Awesome library some changes might be necessary.
+
+
 ##### Install local githooks
 Git hooks will add pre-commit hooks to keep commits clean.
 ```sh
