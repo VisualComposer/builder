@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
-import _ from 'lodash'
+import { _, debounce } from 'lodash'
 import Textarea from 'react-textarea-autosize'
 
 import Token from './token'
@@ -17,6 +17,12 @@ export default class TokenizationList extends React.Component {
 
   stayEditing = false
   keydownTimeout = 0
+
+  loadSuggestionsAfterStoppedTyping = debounce(
+    (value) => {
+      this.loadSuggestions(value[ value.length - 1 ])
+    },
+    400);
 
   constructor (props) {
     super(props)
@@ -195,7 +201,7 @@ export default class TokenizationList extends React.Component {
     if (nextState.callSuggestionAjax && nextState.inputValue) {
       let value = nextState.inputValue.split(',')
       if (!this.checkValue(nextState.inputValue)) {
-        this.loadSuggestions(value[ value.length - 1 ])
+        this.loadSuggestionsAfterStoppedTyping(value)
       } else {
         if (_.size(this.state.suggestedItems) > 0) {
           this.setState({ suggestedItems: [], loading: false })
