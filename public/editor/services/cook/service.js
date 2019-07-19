@@ -91,7 +91,8 @@ const API = {
             },
             'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
               value: blockAtts.value,
-              currentValue: result
+              currentValue: result,
+              sourceId: sourceId
             })} -->${beforeBlock + result + afterBlock}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
           })
         }
