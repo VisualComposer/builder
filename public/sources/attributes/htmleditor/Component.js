@@ -44,9 +44,11 @@ export default class HtmlEditorWrapper extends Attribute {
     let blockInfo = parseDynamicBlock(dynamicValue)
 
     if (blockInfo) {
-      let before = blockInfo.beforeBlock || ''
-      let after = blockInfo.afterBlock || ''
+      let before = blockInfo.beforeBlock || '<p>'
+      let after = blockInfo.afterBlock || '</p>'
       value = before + value + after
+    } else {
+      value = `<p>${value}</p>`
     }
 
     return value
