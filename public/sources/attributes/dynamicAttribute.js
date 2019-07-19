@@ -26,26 +26,61 @@ export default class DynamicAttribute extends React.Component {
     }
 
     if (isDynamic) {
-      const postData = settingsStorage.state('postData').get()
-      let sourceId = postData.post_id
-      state.dynamicFieldOpened = false
-      state.blockInfo = false // Default value is false if not matched
-      if (typeof this.props.value === 'string' && this.props.value.match(blockRegexp)) {
-        state.dynamicFieldOpened = true
-        const blockInfo = parseDynamicBlock(this.props.value)
-        if (blockInfo && blockInfo.blockAtts && blockInfo.blockAtts.sourceId) {
-          sourceId = blockInfo.blockAtts.sourceId
-          state.blockInfo = blockInfo
-        }
-      }
-      state.sourceId = parseInt(sourceId, 10)
-      state.dataLoaded = false
-      state.postFields = {}
+      let newState = this.getStateFromValue(this.props.value)
       window.setTimeout(() => {
         settingsStorage.trigger('loadDynamicPost', state.sourceId, this.onLoadPostFields)
       }, 1)
+      state = { ...state, ...newState }
     }
     this.state = state
+  }
+
+  componentDidUpdate (prevProps) {
+    // If value is changed from outside (ex. Design Options Custom Devices)
+    let newValue = window.decodeURIComponent(this.props.value)
+    let oldValue = window.decodeURIComponent(prevProps.value)
+    if (newValue && typeof newValue === 'string' && newValue.match(blockRegexp)) {
+      const blockInfo = parseDynamicBlock(newValue)
+      if (blockInfo) {
+        newValue = newValue.replace(blockInfo.beforeBlock, '').replace(blockInfo.afterBlock, '')
+      }
+    }
+    if (oldValue && typeof oldValue === 'string' && oldValue.match(blockRegexp)) {
+      const blockInfo = parseDynamicBlock(oldValue)
+      if (blockInfo) {
+        oldValue = oldValue.replace(blockInfo.beforeBlock, '').replace(blockInfo.afterBlock, '')
+      }
+    }
+
+    if (oldValue !== newValue) {
+      if (this.state.isDynamic) {
+        let newState = this.getStateFromValue(newValue)
+        window.setTimeout(() => {
+          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
+        }, 1)
+        this.setState(newState)
+      }
+    }
+  }
+
+  getStateFromValue (value) {
+    let state = {}
+    const postData = settingsStorage.state('postData').get()
+    let sourceId = postData.post_id
+    state.dynamicFieldOpened = false
+    state.blockInfo = false // Default value is false if not matched
+    if (typeof value === 'string' && value.match(blockRegexp)) {
+      state.dynamicFieldOpened = true
+      const blockInfo = parseDynamicBlock(value)
+      if (blockInfo && blockInfo.blockAtts && blockInfo.blockAtts.sourceId) {
+        sourceId = blockInfo.blockAtts.sourceId
+        state.blockInfo = blockInfo
+      }
+    }
+    state.sourceId = parseInt(sourceId, 10)
+    state.dataLoaded = false
+    state.postFields = {}
+    return state
   }
 
   onLoadPostFields (sourceId, postData, postFields) {
@@ -116,7 +151,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderOpenButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control ' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
+    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
   }
 
   renderCloseButton () {
