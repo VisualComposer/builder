@@ -11,8 +11,10 @@ import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockImagesMediaTab from './stockImagesMediaTab'
-import { env, getStorage } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 const notificationsStorage = getStorage('notifications')
 const SortableList = SortableContainer((props) => {
   return (
@@ -371,6 +373,17 @@ export default class AttachImage extends Attribute {
       </React.Fragment>
     }
 
+    const { value } = this.state
+    let dynamicValue = value
+    if (value && value.hasOwnProperty('urls')) {
+      dynamicValue = value.urls[ 0 ] && value.urls[ 0 ].full ? value.urls[ 0 ].full : ''
+    }
+    const isDynamicValue = !!(dynamicValue && typeof dynamicValue === 'string' && dynamicValue.match(blockRegexp))
+
+    if (isDynamicValue !== dynamicFieldOpened) {
+      return null
+    }
+
     return (
       <div className={dynamicApi.props.attachImageClassNames}>
         {dynamicApi.props.attachImageComponent}
@@ -438,8 +451,8 @@ export default class AttachImage extends Attribute {
 
     let dynamicValue = value
 
-    if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ].full) {
-      dynamicValue = value.urls[ 0 ].full
+    if (value && value.hasOwnProperty('urls')) {
+      dynamicValue = value.urls[ 0 ] && value.urls[ 0 ].full ? value.urls[ 0 ].full : ''
     }
 
     return (
