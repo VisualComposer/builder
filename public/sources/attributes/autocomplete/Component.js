@@ -15,7 +15,8 @@ export default class AutoComplete extends Attribute {
     value: PropTypes.any.isRequired,
     defaultValue: PropTypes.any,
     options: PropTypes.object.isRequired,
-    elementAccessPoint: PropTypes.object.isRequired
+    elementAccessPoint: PropTypes.object.isRequired,
+    description: PropTypes.string
   }
 
   static defaultProps = {
@@ -27,7 +28,7 @@ export default class AutoComplete extends Attribute {
   }
 
   render () {
-    const { value, fieldKey, elementAccessPoint, options, extraClass } = this.props
+    const { value, fieldKey, elementAccessPoint, options, extraClass, description } = this.props
     const { validation, action, single, labelAction, returnValue } = options
 
     return (
@@ -43,6 +44,7 @@ export default class AutoComplete extends Attribute {
         labelAction={labelAction}
         returnValue={returnValue}
         extraClass={extraClass}
+        description={description}
       />
     )
   }

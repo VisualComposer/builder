@@ -484,6 +484,14 @@ class Localizations extends Container implements Helper
                 'Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word.',
                 'vcwb'
             ),
+            'dynamicAutocompleteDescription' => __(
+                'Select the page, post, or custom post type (current post is selected by default).',
+                'vcwb'
+            ),
+            'dynamicTypeDescription' => __(
+                'Select the dynamic content data source.',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -11,7 +11,8 @@ export default class Dropdown extends Attribute {
     value: PropTypes.any.isRequired,
     defaultValue: PropTypes.any,
     options: PropTypes.any,
-    extraClass: PropTypes.any
+    extraClass: PropTypes.any,
+    description: PropTypes.string
   }
 
   static defaultProps = {
@@ -95,14 +96,21 @@ export default class Dropdown extends Attribute {
     const selectClass = classNames({
       'vcv-ui-form-dropdown': true
     }, this.props.extraClass)
+    let description = ''
+    if (this.props.description) {
+      description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
+    }
 
     return (
-      <select
-        value={value}
-        onChange={this.handleChange}
-        className={selectClass}>
-        {this.selectChildren}
-      </select>
+      <div>
+        <select
+          value={value}
+          onChange={this.handleChange}
+          className={selectClass}>
+          {this.selectChildren}
+        </select>
+        {description}
+      </div>
     )
   }
 }
