@@ -44,6 +44,7 @@ export default class HtmlEditorComponent extends React.Component {
         if (newProps.dynamicFieldOpened && this.props.value !== newProps.value) {
           editor.setContent(newProps.value)
           this.loadUsedFonts(newProps)
+          editor.nodeChanged()
         }
       }
 
