@@ -400,6 +400,11 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-tag-list-container': true
     }, this.props.extraClass)
 
+    let description = ''
+    if (this.props.description) {
+      description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
+    }
+
     return <div className={containerClasses}>
       <Textarea
         minRows={1}
@@ -415,6 +420,7 @@ export default class TokenizationList extends React.Component {
       {this.renderSuggestionBox()}
       {this.renderTokensList()}
       {this.getLoading()}
+      {description}
     </div>
   }
 }

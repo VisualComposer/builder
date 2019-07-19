@@ -9,6 +9,8 @@ const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
 export default class DynamicAttribute extends React.Component {
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
   constructor (props) {
     super(props)
 
@@ -135,6 +137,7 @@ export default class DynamicAttribute extends React.Component {
       }}
       updater={this.handleChangeSourceId}
       extraClass='vcv-ui-form-field-dynamic'
+      description={DynamicAttribute.localizations.dynamicAutocompleteDescription || 'Select the page, post, or custom post type (current post is selected by default).'}
     />
   }
 
@@ -150,6 +153,7 @@ export default class DynamicAttribute extends React.Component {
         }}
         updater={this.handleDynamicFieldChange}
         extraClass='vcv-ui-form-field-dynamic'
+        description={DynamicAttribute.localizations.dynamicTypeDescription || 'Select the dynamic content data source.'}
       />
     )
   }
