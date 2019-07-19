@@ -330,6 +330,9 @@ export default class HtmlEditorComponent extends React.Component {
             editor.on('BeforeExecCommand', function () {
               editor.selection.select(editor.getBody(), true)
             })
+            editor.on('nodeChange', () => {
+              editor.selection.select(editor.getBody(), true)
+            })
             editor.selection.select(editor.getBody(), true)
             this.props.setEditorLoaded(true)
           }
