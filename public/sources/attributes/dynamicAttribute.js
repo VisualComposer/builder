@@ -61,7 +61,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   handleChangeSourceId (_, value) {
-    if (value.trim().match(/^\d+$/)) {
+    if (value && value.trim().match(/^\d+$/)) {
       // Value is number, so we can try to set it
       const sourceId = parseInt(value, 10)
       let state = {}
