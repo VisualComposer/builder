@@ -132,13 +132,18 @@ class Controller extends Container implements Module
         UserCapabilities $userCapabilitiesHelper
     ) {
         global $post;
-        if (empty($post)) {
+        if (empty($post) && (!isset($payload['sourceId']) || $payload['sourceId'] !== 'template')) {
             return ['status' => false];
         }
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
-        $sourceId = $post->ID;
+        if (!empty($post)) {
+            $sourceId = $post->ID;
+        } else {
+            $sourceId = $payload['sourceId'];
+        }
+
         if (!is_numeric($sourceId) && !empty($sourceId)) {
             $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
         }
