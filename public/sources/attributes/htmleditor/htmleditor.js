@@ -294,7 +294,7 @@ export default class HtmlEditorComponent extends React.Component {
           statusbar: false,
           // inline: true,
           plugins: 'textcolor',
-          toolbar1: 'formatselect,bold,italic,alignleft,aligncenter,alignright,undo,redo',
+          toolbar1: 'formatselect,bold,italic,alignleft,aligncenter,alignright',
           toolbar2: 'fontselect,fontsizeselect,removeformat,forecolor',
           powerpaste_word_import: 'clean',
           powerpaste_html_import: 'clean',
