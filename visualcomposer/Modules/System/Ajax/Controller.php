@@ -51,7 +51,8 @@ class Controller extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         global $post;
-        if (empty($post) && $requestHelper->exists('vcv-source-id')) {
+        if (empty($post) && $requestHelper->exists('vcv-source-id')
+            && $requestHelper->input('vcv-source-id') !== 'template') {
             return '';
         }
 
@@ -59,7 +60,7 @@ class Controller extends Container implements Module
             'vcv:' . $this->scope . ':' . $requestAction,
             '',
             [
-                'sourceId' => $post ? $post->ID : false,
+                'sourceId' => $post ? $post->ID : $requestHelper->input('vcv-source-id'),
             ]
         );
 
