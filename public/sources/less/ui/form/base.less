@@ -109,6 +109,26 @@
 
     &.vcv-ui-form-field-dynamic-is-opened {
       .vcv-ui-form-wp-tinymce-inner {
+        position: relative;
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 99;
+          background: #fff;
+          opacity: .6;
+        }
+      }
+      &.vcv-ui-form-field-dynamic-is-active {
+        .vcv-ui-form-wp-tinymce-inner:after {
+          display: none;
+        }
+      }
+      .vcv-ui-form-wp-tinymce-inner {
         margin-bottom: 10px;
       }
       .vcv-ui-form-switch-small-container {
