@@ -405,22 +405,24 @@ export default class TokenizationList extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
     }
 
-    return <div className={containerClasses}>
-      <Textarea
-        minRows={1}
-        className={cssClasses}
-        type='text'
-        onChange={this.handleChange}
-        value={this.state.inputValue}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        data-vcv-type='vcv-tokenized-input'
-        onKeyDown={this.handleKeyDown}
-      />
-      {this.renderSuggestionBox()}
-      {this.renderTokensList()}
-      {this.getLoading()}
+    return <React.Fragment>
+      <div className={containerClasses}>
+        <Textarea
+          minRows={1}
+          className={cssClasses}
+          type='text'
+          onChange={this.handleChange}
+          value={this.state.inputValue}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          data-vcv-type='vcv-tokenized-input'
+          onKeyDown={this.handleKeyDown}
+        />
+        {this.renderSuggestionBox()}
+        {this.renderTokensList()}
+        {this.getLoading()}
+      </div>
       {description}
-    </div>
+    </React.Fragment>
   }
 }
