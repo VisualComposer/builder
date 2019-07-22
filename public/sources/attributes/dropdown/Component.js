@@ -102,7 +102,7 @@ export default class Dropdown extends Attribute {
     }
 
     return (
-      <div>
+      <React.Fragment>
         <select
           value={value}
           onChange={this.handleChange}
@@ -110,7 +110,7 @@ export default class Dropdown extends Attribute {
           {this.selectChildren}
         </select>
         {description}
-      </div>
+      </React.Fragment>
     )
   }
 }
