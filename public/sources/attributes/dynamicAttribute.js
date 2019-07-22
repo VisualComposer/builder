@@ -245,13 +245,13 @@ export default class DynamicAttribute extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <div className='vcv-ui-dynamic-field-container'>
         {autoCompleteComponent}
         {this.renderCloseButton()}
         {loader}
         {fieldComponent}
         {extraDynamicComponent}
-      </React.Fragment>
+      </div>
     )
   }
 
