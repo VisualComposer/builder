@@ -39,9 +39,11 @@ export default class DynamicAttribute extends React.Component {
     // If value is changed from outside (ex. Design Options Custom Devices)
     let newValue = window.decodeURIComponent(this.props.value)
     let oldValue = window.decodeURIComponent(prevProps.value)
+    let newSourceId = null
     if (newValue && typeof newValue === 'string' && newValue.match(blockRegexp)) {
       const blockInfo = parseDynamicBlock(newValue)
       if (blockInfo) {
+        newSourceId = blockInfo.blockAtts && blockInfo.blockAtts.sourceId
         newValue = newValue.replace(blockInfo.beforeBlock, '').replace(blockInfo.afterBlock, '')
       }
     }
@@ -54,16 +56,25 @@ export default class DynamicAttribute extends React.Component {
 
     if (oldValue !== newValue) {
       if (this.state.isDynamic) {
-        let newState = this.getStateFromValue(newValue)
-        window.setTimeout(() => {
-          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
-        }, 1)
+        let dataLoaded = true
+        let postFields = this.state.postFields
+        let oldSourceId = this.state.blockInfo && this.state.blockInfo.blockAtts.sourceId
+        if (newSourceId && (newSourceId !== oldSourceId)) {
+          dataLoaded = false
+          postFields = {}
+        }
+        let newState = this.getStateFromValue(newValue, dataLoaded, postFields)
+        if (!dataLoaded) {
+          window.setTimeout(() => {
+            settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
+          }, 1)
+        }
         this.setState(newState)
       }
     }
   }
 
-  getStateFromValue (value) {
+  getStateFromValue (value, dataLoaded = false, postFields = {}) {
     let state = {}
     const postData = settingsStorage.state('postData').get()
     let sourceId = postData.post_id
@@ -78,8 +89,8 @@ export default class DynamicAttribute extends React.Component {
       }
     }
     state.sourceId = parseInt(sourceId, 10)
-    state.dataLoaded = false
-    state.postFields = {}
+    state.dataLoaded = dataLoaded
+    state.postFields = postFields
     return state
   }
 
