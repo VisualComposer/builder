@@ -66,6 +66,7 @@ const API = {
       let key = blockAtts.value.replace('::', ':')
       let result = null
       let sourceId = blockAtts.sourceId || window.vcvSourceID
+      sourceId = parseInt(sourceId)
 
       if (window.vcvSourceID !== sourceId) {
         postData = postData[ sourceId ]

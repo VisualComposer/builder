@@ -873,11 +873,11 @@ export default class DesignOptions extends Attribute {
         elementAccessPoint={this.props.elementAccessPoint}
         handleDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
           let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
-          let newValue = getDynamicValue(defaultDynamicFieldKey, null, { dynamicTemplate: dynamicTemplate })
+          let newValue = getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplate: dynamicTemplate })
           return newValue
         }}
         handleDynamicFieldChange={(dynamicFieldKey, sourceId) => {
-          let newValue = getDynamicValue(dynamicFieldKey, sourceId, { dynamicTemplate: dynamicTemplate })
+          let newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplate: dynamicTemplate })
           return newValue
         }}
         handleDynamicFieldClose={this.props.handleDynamicFieldClose}
