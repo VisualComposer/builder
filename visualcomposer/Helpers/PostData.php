@@ -12,9 +12,9 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class PostData implements Helper
 {
-    public function getFeaturedImage()
+    public function getFeaturedImage($sourceId = '')
     {
-        global $post;
+        $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
 
         $postThumbnailUrl = get_the_post_thumbnail_url($post->ID, 'full');
