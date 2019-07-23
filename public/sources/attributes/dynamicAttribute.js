@@ -36,6 +36,9 @@ export default class DynamicAttribute extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
+    if (!this.state.isDynamic) {
+      return
+    }
     // If value is changed from outside (ex. Design Options Custom Devices)
     let newValue = window.decodeURIComponent(this.props.value)
     let oldValue = window.decodeURIComponent(prevProps.value)
@@ -55,22 +58,20 @@ export default class DynamicAttribute extends React.Component {
     }
 
     if (oldValue !== newValue) {
-      if (this.state.isDynamic) {
-        let dataLoaded = true
-        let postFields = this.state.postFields
-        let oldSourceId = this.state.blockInfo && this.state.blockInfo.blockAtts.sourceId
-        if (newSourceId && (newSourceId !== oldSourceId)) {
-          dataLoaded = false
-          postFields = {}
-        }
-        let newState = this.getStateFromValue(newValue, dataLoaded, postFields)
-        if (!dataLoaded) {
-          window.setTimeout(() => {
-            settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
-          }, 1)
-        }
-        this.setState(newState)
+      let dataLoaded = true
+      let postFields = this.state.postFields
+      let oldSourceId = this.state.blockInfo && this.state.blockInfo.blockAtts.sourceId
+      if (newSourceId && (newSourceId !== oldSourceId)) {
+        dataLoaded = false
+        postFields = {}
       }
+      let newState = this.getStateFromValue(newValue, dataLoaded, postFields)
+      if (!dataLoaded) {
+        window.setTimeout(() => {
+          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
+        }, 1)
+      }
+      this.setState(newState)
     }
   }
 
