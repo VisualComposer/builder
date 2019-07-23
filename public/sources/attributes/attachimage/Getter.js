@@ -15,8 +15,10 @@ export default (data, key, settings) => {
     } else {
       if (isMultiple) {
         returnValue = value.urls
-      } else {
+      } else if (value.urls && value.urls.length) {
         returnValue = value.urls[ 0 ]
+      } else {
+        returnValue = value
       }
     }
   }

@@ -329,7 +329,7 @@ export default class Element {
     let ElementToRender = this[ elComponent ].get()
     let props = {}
     let editorProps = {}
-    let atts = this.toJS(true, false)
+    let atts = this.getAll()
     props.key = this[ elData ].id + '-' + Date.now()
     props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
     editorProps[ 'data-vc-element' ] = this[ elData ].id
