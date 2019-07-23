@@ -855,7 +855,8 @@ export default class DesignOptions extends Attribute {
     if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
       const dynamicTemplate = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
         value: '$dynamicFieldKey',
-        type: 'backgroundImage'
+        type: 'backgroundImage',
+        sourceId: '$sourceId'
       })} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       fieldComponent = <AttachImage
         api={this.props.api}
@@ -875,8 +876,8 @@ export default class DesignOptions extends Attribute {
           let newValue = getDynamicValue(defaultDynamicFieldKey, null, { dynamicTemplate: dynamicTemplate })
           return newValue
         }}
-        handleDynamicFieldChange={(dynamicFieldKey) => {
-          let newValue = getDynamicValue(dynamicFieldKey, null, { dynamicTemplate: dynamicTemplate })
+        handleDynamicFieldChange={(dynamicFieldKey, sourceId) => {
+          let newValue = getDynamicValue(dynamicFieldKey, sourceId, { dynamicTemplate: dynamicTemplate })
           return newValue
         }}
         handleDynamicFieldClose={this.props.handleDynamicFieldClose}

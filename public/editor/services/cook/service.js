@@ -229,7 +229,7 @@ const API = {
 
       // TODO: Dynamic Template
       if (dynamicTemplate) {
-        newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey)
+        newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey).replace('$sourceId', sourceId)
       } else {
         const currentValue = API.dynamicFields.getDynamicFieldsData(
           {
