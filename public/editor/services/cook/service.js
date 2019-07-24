@@ -85,16 +85,19 @@ const API = {
           if (!result) {
             result = 'No Value'
           }
+          let dynamicProps = {
+            value: blockAtts.value,
+            currentValue: result
+          }
+          if (window.vcvSourceID !== sourceId) {
+            dynamicProps.sourceId = sourceId
+          }
           return React.createElement('div', {
             className: 'vcvhelper',
             dangerouslySetInnerHTML: {
               __html: beforeBlock + result + afterBlock
             },
-            'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
-              value: blockAtts.value,
-              currentValue: result,
-              sourceId: sourceId
-            })} -->${beforeBlock + result + afterBlock}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+            'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} -->${beforeBlock + result + afterBlock}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
           })
         }
       }
@@ -225,12 +228,18 @@ const API = {
       if (!sourceId) {
         sourceId = window.vcvSourceID
       }
-      let { dynamicTemplate } = options
+      let { dynamicTemplateProps } = options
       let newValue = null
 
-      // TODO: Dynamic Template
-      if (dynamicTemplate) {
-        newValue = dynamicTemplate.replace('$dynamicFieldKey', dynamicFieldKey).replace('$sourceId', sourceId)
+      if (dynamicTemplateProps) {
+        let dynamicProps = Object.assign({}, dynamicTemplateProps)
+        dynamicProps.value = dynamicFieldKey
+        if (window.vcvSourceID === sourceId) {
+          delete dynamicProps.sourceId
+        } else {
+          dynamicProps.sourceId = sourceId
+        }
+        newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       } else {
         const currentValue = API.dynamicFields.getDynamicFieldsData(
           {
@@ -241,11 +250,14 @@ const API = {
           attribute,
           true
         )
-        newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+        let dynamicProps = {
           value: dynamicFieldKey,
-          currentValue: currentValue,
-          sourceId: sourceId
-        })} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+          currentValue: currentValue
+        }
+        if (window.vcvSourceID !== sourceId) {
+          dynamicProps.sourceId = sourceId
+        }
+        newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       }
       return newValue
     },
