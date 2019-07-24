@@ -138,12 +138,23 @@ addStorage('wordpressData', (storage) => {
           settingsStorage.state('postName').set(permalinkData.permalinkFull)
         }
       }
+      let postData = {}
       if (responseData.hasOwnProperty('postData')) {
-        settingsStorage.state('postData').set(responseData.postData)
+        postData = responseData.postData
       }
       if (responseData.hasOwnProperty('postFields')) {
-        settingsStorage.state('postFields').set(responseData.postFields)
+        let postFields = responseData.postFields
+        if (postFields.hasOwnProperty('dynamicFieldCustomPostData')) {
+          let customPostData = postFields.dynamicFieldCustomPostData
+          Object.keys(customPostData).forEach((key) => {
+            let item = customPostData[ key ]
+            postData[ key ] = item.postData
+            postFields[ key ] = item.postFields
+          })
+        }
+        settingsStorage.state('postFields').set(postFields)
       }
+      settingsStorage.state('postData').set(postData)
 
       storage.state('status').set({ status: 'loaded' })
       settingsStorage.state('status').set({ status: 'ready' })
