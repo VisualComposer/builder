@@ -84,8 +84,8 @@ export default class DynamicAttribute extends React.Component {
     if (typeof value === 'string' && value.match(blockRegexp)) {
       state.dynamicFieldOpened = true
       const blockInfo = parseDynamicBlock(value)
-      if (blockInfo && blockInfo.blockAtts && blockInfo.blockAtts.sourceId) {
-        sourceId = blockInfo.blockAtts.sourceId
+      if (blockInfo && blockInfo.blockAtts) {
+        sourceId = blockInfo.blockAtts.sourceId || window.vcvSourceID
         state.blockInfo = blockInfo
       }
     }

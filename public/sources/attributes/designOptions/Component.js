@@ -853,11 +853,11 @@ export default class DesignOptions extends Attribute {
     />
 
     if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      const dynamicTemplate = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify({
+      const dynamicTemplateProps = {
         value: '$dynamicFieldKey',
         type: 'backgroundImage',
         sourceId: '$sourceId'
-      })} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+      }
       fieldComponent = <AttachImage
         api={this.props.api}
         fieldKey={fieldKey}
@@ -869,16 +869,13 @@ export default class DesignOptions extends Attribute {
         value={value}
         defaultValue=''
         prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
-        dynamicTemplate={dynamicTemplate}
         elementAccessPoint={this.props.elementAccessPoint}
         handleDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
           let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
-          let newValue = getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplate: dynamicTemplate })
-          return newValue
+          return getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplateProps: dynamicTemplateProps })
         }}
         handleDynamicFieldChange={(dynamicFieldKey, sourceId) => {
-          let newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplate: dynamicTemplate })
-          return newValue
+          return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps })
         }}
         handleDynamicFieldClose={this.props.handleDynamicFieldClose}
       />
