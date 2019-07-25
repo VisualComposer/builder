@@ -251,6 +251,8 @@ export default class Element extends React.Component {
         options.allowInline = allowInline
         options.id = atts.id
         layoutAtts[ fieldKey ] = this.visualizeNestedAttributes(options)
+      } else if (attrSettings.settings.type === 'htmleditor' && (!attrSettings.settings.options || !attrSettings.settings.options.inline)) {
+        layoutAtts[ fieldKey ] = <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
       } else {
         layoutAtts[ fieldKey ] = value
       }
