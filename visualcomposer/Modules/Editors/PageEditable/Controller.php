@@ -114,11 +114,6 @@ class Controller extends Container implements Module
     protected function buildPageEditable()
     {
         global $post;
-        ob_start();
-        // Fix for enqueue all required assets for post_content
-        // @codingStandardsIgnoreLine
-        apply_filters('the_content', $post->post_content);
-        ob_end_clean();
         // @codingStandardsIgnoreLine
         $post->post_content = vcview('editor/pageEditable/pageEditable.php');
         wp_cache_add($post->ID, $post, 'posts');
