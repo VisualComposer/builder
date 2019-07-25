@@ -32,4 +32,21 @@ class TemplatesControllerTest extends WP_UnitTestCase
         $this->assertEquals('Welcome-testAsyncTemplateLoad', $lastTemplate['name']);
         $this->assertEquals($postId, intval($lastTemplate['id']));
     }
+
+    public function testTemplateSave()
+    {
+        wp_set_current_user(1);
+        /** @var \VisualComposer\Helpers\Request $requestHelper */
+        $requestHelper = vchelper('Request');
+        $requestHelper->setData(['vcv-ready' => '1', 'vcv-source-id' => 'template']);
+        /** @var \VisualComposer\Modules\System\Ajax\Controller $module */
+        $module = vc_create_module_mock('\VisualComposer\Modules\System\Ajax\Controller');
+        $result = $module->call('getResponse', ['setData:adminNonce']);
+        $this->assertTrue(array_key_exists('status', $result));
+        $this->assertEquals(true, $result['status']);
+        $this->assertTrue(array_key_exists('postData', $result));
+
+        // Reset
+        $requestHelper->setData([]);
+    }
 }
