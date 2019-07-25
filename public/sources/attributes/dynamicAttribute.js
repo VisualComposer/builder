@@ -35,8 +35,11 @@ export default class DynamicAttribute extends React.Component {
     this.state = state
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate (prevProps, prevState) {
     if (!this.state.isDynamic) {
+      return
+    }
+    if (prevState.dynamicFieldOpened !== this.state.dynamicFieldOpened) {
       return
     }
     // If value is changed from outside (ex. Design Options Custom Devices)

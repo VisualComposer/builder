@@ -36,10 +36,15 @@ export default class HtmlEditorWrapper extends Attribute {
     }, 1)
   }
 
-  handleDynamicFieldOpen () {
+  handleDynamicFieldOpen (dynamicComponent) {
     this.setState({
       dynamicFieldOpened: true
     })
+    if (dynamicComponent && dynamicComponent.state && dynamicComponent.state.blockInfo && dynamicComponent.state.blockInfo.value) {
+      this.setState({
+        isDynamicSet: true
+      })
+    }
   }
 
   handleDynamicFieldChange (dynamicFieldKey, sourceId) {
