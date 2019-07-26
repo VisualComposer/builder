@@ -92,7 +92,7 @@ const API = {
           if (window.vcvSourceID !== sourceId) {
             dynamicProps.sourceId = sourceId
           }
-          return React.createElement('div', {
+          return React.createElement('span', {
             className: 'vcvhelper',
             dangerouslySetInnerHTML: {
               __html: beforeBlock + result + afterBlock
