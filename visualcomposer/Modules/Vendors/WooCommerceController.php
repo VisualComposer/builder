@@ -312,7 +312,7 @@ class WooCommerceController extends Container implements Module
     {
         $product = wc_get_product($sourceId);
 
-        return $product->get_dimensions();
+        return $product->get_dimensions(false);
     }
 
     /**
