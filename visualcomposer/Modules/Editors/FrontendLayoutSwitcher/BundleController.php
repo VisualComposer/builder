@@ -93,7 +93,7 @@ class BundleController extends Container implements Module
             $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
             // Disable TinyMCE to avoid markup break, empty tags removal and etc VC-516
-            add_filter( 'user_can_richedit' , '__return_false', 50 );
+            add_filter('user_can_richedit', '__return_false', 50);
         }
     }
 }
