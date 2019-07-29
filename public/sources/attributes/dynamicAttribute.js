@@ -178,6 +178,7 @@ export default class DynamicAttribute extends React.Component {
       value={this.state.sourceId + ''} // force string
       elementAccessPoint={this.props.elementAccessPoint}
       fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
+      key={`${this.props.fieldKey}-dynamic-source-autocomplete-${this.state.sourceId + ''}`}
       options={{
         // values: fieldList
         single: true,
