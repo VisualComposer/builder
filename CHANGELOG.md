@@ -2,6 +2,7 @@
 - New: Dynamic fields feature to replace static content with WordPress fields (ex. post titles, featured images, author name, etc.)
 - New: Dynamic fields feature to replace static content with WordPress custom fields
 - New: API for dynamic fields introduced to add this option to custom elements
+- New: Dynamic fields integration with WooCommerce
 - New: Unsplash library access available in the Media Library
 - New: Data list attributed added and available for custom elements via API
 - Update: Single Image element improved
@@ -11,6 +12,11 @@
 - Fix: Full width works properly on iPad with Safari 4
 - Fix: Compatibility with Contact Form 7 improved to avoid duplication issues
 - Fix: YouTube cover image is displayed properly in the video elements
+- Fix: Element controls work properly
+- Fix: Template description name is displayed properly
+- Fix: Self-hosted video background on mobile
+- Fix: Border Radius and Gradient
+- Fix: Update Icon Libraries
 ## ver 17.2 - 2019-05-09
 - Fix: Control hover states work properly
 - Fix: PCSS mixins working properly for Post Grid elements
