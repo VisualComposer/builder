@@ -1,0 +1,16 @@
+{
+  "youtubeLink": "https://www.youtube.com/watch?v=74mdJUaRNaA",
+  "customId": "youtube-player-id",
+  "customClass": "youtube-player-class",
+  "alignment": "center",
+  "customWidth": "460",
+  "size": "custom",
+  "designOptions": {
+    "animation": "slideInLeft",
+    "padding": "40px",
+    "margin": "10px",
+    "borderWidth": "2px",
+    "borderRadius": "10px",
+    "backgroundColor": "B93030"
+  }
+}

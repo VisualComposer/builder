@@ -77,3 +77,69 @@ Cypress.Commands.add('viewPage', () => {
     cy.visit(win.vcvPostData.permalink)
   })
 })
+
+// Set Design Options
+Cypress.Commands.add('setDO', (settings) => {
+  cy.get('.vcv-ui-form-switch-trigger-label')
+    .contains('Simple controls')
+    .then(($field) => {
+      cy.wrap($field)
+        .click()
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Padding')
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .type(settings.padding)
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Border')
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .type(settings.borderWidth)
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Radius')
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .type(settings.borderRadius)
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Margin')
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .type(settings.margin)
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Background color')
+    .then(($field) => {
+      cy.wrap($field)
+        .next('div')
+        .find('.vcv-ui-color-picker-dropdown')
+        .click()
+      cy.get('.vcv-ui-color-picker-custom-color input[value="000000"]')
+        .clear()
+        .type(settings.backgroundColor)
+      cy.wrap($field)
+        .next('div')
+        .find('.vcv-ui-color-picker-dropdown')
+        .click()
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Animate')
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .select(settings.animation)
+    })
+})
