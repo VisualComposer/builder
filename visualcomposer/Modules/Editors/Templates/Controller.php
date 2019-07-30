@@ -148,13 +148,25 @@ class Controller extends Container implements Module
     protected function read(
         Request $requestHelper,
         EditorTemplates $editorTemplatesHelper,
-        CurrentUser $currentUserHelper
+        CurrentUser $currentUserHelper,
+        PostType $postTypeHelper
     ) {
         $id = $requestHelper->input('vcv-template-id');
         if ($currentUserHelper->wpAll(['edit_posts', $id])) {
             $template = $editorTemplatesHelper->get($id);
+            $postTypeHelper->setupPost($id);
             if ($template) {
-                return ['status' => true, 'data' => $template->vcvTemplateElements];
+                return [
+                    'status' => true,
+                    'data' => $template->vcvTemplateElements,
+                    'allData' => vcfilter(
+                        'vcv:ajax:getData:adminNonce',
+                        [],
+                        [
+                            'sourceId' => $id,
+                        ]
+                    ),
+                ];
             }
         }
 
