@@ -1,6 +1,9 @@
 import React from 'react'
+import classNames from 'classnames'
 import Attribute from '../attribute'
 import options from './options'
+import DynamicAttribute from '../dynamicAttribute'
+import { env } from 'vc-cake'
 
 export default class InputSelect extends Attribute {
   static defaultProps = {
@@ -18,6 +21,7 @@ export default class InputSelect extends Attribute {
     this.setFieldValue = this.setFieldValue.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleDropdownChange = this.handleDropdownChange.bind(this)
+    this.handleDynamicChange = this.handleDynamicChange.bind(this)
   }
 
   updateState (props) {
@@ -139,6 +143,10 @@ export default class InputSelect extends Attribute {
     this.setFieldValue('select', event.target.value)
   }
 
+  handleDynamicChange (value) {
+    this.setFieldValue('input', value)
+  }
+
   hangleLargeListClick (value) {
     this.toggleSelect()
     this.setFieldValue('select', value)
@@ -204,29 +212,37 @@ export default class InputSelect extends Attribute {
   }
 
   render () {
-    let { input } = this.state
+    const { input } = this.state
     let { placeholder } = this.props
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
     }
 
-    let Select = this.getSelect(this.props)
-    let List = this.getList()
+    const Select = this.getSelect(this.props)
+    const List = this.getList()
+    const fieldClassNames = classNames({
+      'vcv-ui-form-input-select': true,
+      'vcv-ui-form-field-dynamic': env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
+    })
+
+    const fieldComponent = <div className={fieldClassNames}>
+      <div className='vcv-ui-form-input-group'>
+        <input
+          className='vcv-ui-form-input'
+          type='text'
+          onChange={this.handleInputChange}
+          placeholder={placeholder}
+          value={input}
+        />
+        {Select}
+      </div>
+      {List}
+    </div>
 
     return (
-      <div className='vcv-ui-form-input-select'>
-        <div className='vcv-ui-form-input-group'>
-          <input
-            className='vcv-ui-form-input'
-            type='text'
-            onChange={this.handleInputChange}
-            placeholder={placeholder}
-            value={input}
-          />
-          {Select}
-        </div>
-        {List}
-      </div>
+      <DynamicAttribute {...this.props} setFieldValue={this.handleDynamicChange} value={input}>
+        {fieldComponent}
+      </DynamicAttribute>
     )
   }
 }

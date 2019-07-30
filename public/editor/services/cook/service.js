@@ -79,7 +79,7 @@ const API = {
       }
 
       // In case if type===string and HTML Then:
-      if (!raw && attribute && [ 'string', 'htmleditor' ].indexOf(attribute.fieldType) !== -1) {
+      if (!raw && attribute && [ 'string', 'htmleditor', 'inputSelect' ].indexOf(attribute.fieldType) !== -1) {
         const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
         if (isHtmlAllowed) {
           if (!result) {
@@ -157,7 +157,8 @@ const API = {
             // Ignore for HTML Enabled versions
             return
           }
-          if ([ 'string', 'htmleditor' ].indexOf(type) !== -1 && value.match(blockRegexp)) {
+          const matchValue = value.input ? value.input.match(blockRegexp) : value.match(blockRegexp)
+          if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1 && matchValue) {
             if (options.dynamicField === true || options.dynamicField.html) {
               // Ignore for HTML Enabled versions
               return
