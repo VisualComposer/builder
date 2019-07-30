@@ -93,6 +93,20 @@ class PostFieldsController extends Container implements Module
                     ],
                 ],
             ],
+            'inputSelect' => [
+                'default' => [
+                    'group' => [
+                        'label' => __('Default', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'meta' => [
+                    'group' => [
+                        'label' => __('Custom Meta Field', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
         ];
         $response['postFields'] = vcfilter(
             'vcv:editor:data:postFields',
