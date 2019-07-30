@@ -11,6 +11,7 @@ const myTemplatesService = getService('myTemplates')
 const documentManager = getService('document')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = getStorage('workspace').state('settings')
+const settingsStorage = getStorage('settings')
 
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -347,6 +348,21 @@ export default class AddTemplatePanel extends React.Component {
       let id = data
       this.setState({ showLoading: id })
       myTemplatesService.load(id, (response) => {
+        let customPostData = response && response.allData && response.allData.postFields && response.allData.postFields.dynamicFieldCustomPostData
+        if (customPostData) {
+          let postData = settingsStorage.state('postData').get()
+          let postFields = settingsStorage.state('postFields').get()
+
+          Object.keys(customPostData).forEach((key) => {
+            let item = customPostData[ key ]
+            postData[ key ] = item.postData
+            postFields[ key ] = item.postFields
+          })
+
+          settingsStorage.state('postData').set(postData)
+          settingsStorage.state('postFields').set(postFields)
+        }
+
         this.setState({ showLoading: 0 })
         next(response.data)
       })

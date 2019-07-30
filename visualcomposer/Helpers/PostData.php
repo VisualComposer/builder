@@ -30,9 +30,9 @@ class PostData implements Helper
         );
     }
 
-    public function getPostAuthorImage()
+    public function getPostAuthorImage($sourceId = '')
     {
-        global $post;
+        $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
 
         // @codingStandardsIgnoreLine
