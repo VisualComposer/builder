@@ -261,17 +261,19 @@ export default class Element {
       }
       let dynamicValue = value
 
-      // Check isDynamic for string/htmleditor/attachimage
+      // Check isDynamic for string/htmleditor/attachimage/inputSelect
       let isDynamic = false
       if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
-        let matchValue
-        if (attrSettings.type.name === 'inputSelect') {
-          matchValue = value.input && value.input.match(blockRegexp)
-        } else {
-          matchValue = value.match(blockRegexp)
-        }
-        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1 && matchValue) {
-          isDynamic = true
+        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
+          let matchValue
+          if (type === 'inputSelect') {
+            matchValue = value.input && value.input.match(blockRegexp)
+          } else {
+            matchValue = value.match(blockRegexp)
+          }
+          if (matchValue) {
+            isDynamic = true
+          }
         } else if ([ 'attachimage' ].indexOf(type) !== -1) {
           let testValue = value
           if (typeof testValue !== 'string') {
@@ -285,8 +287,12 @@ export default class Element {
       }
 
       if (isDynamic) {
-        const blockInfo = dynamicValue.split(blockRegexp)
-
+        let blockInfo
+        if (type === 'inputSelect') {
+          blockInfo = dynamicValue.input && dynamicValue.input.split(blockRegexp)
+        } else {
+          blockInfo = dynamicValue.split(blockRegexp)
+        }
         let dynamicFieldsData = cookApi.dynamicFields.getDynamicFieldsData(
           {
             fieldKey: fieldKey,

@@ -150,31 +150,32 @@ const API = {
         const options = attrSettings.settings.options ? attrSettings.settings.options : {}
         let value = atts[ fieldKey ]
 
-        // Check isDynamic for string/htmleditor/attachimage
+        // Check isDynamic for string/htmleditor/attachimage/inputSelect
         let isDynamic = false
         if (env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
           if (options.dynamicField.html) {
             // Ignore for HTML Enabled versions
             return
           }
-          let matchValue
-          if (attrSettings.type.name === 'inputSelect') {
-            matchValue = value.input && value.input.match(blockRegexp)
-          } else {
-            matchValue = value.match(blockRegexp)
-          }
-          if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1 && matchValue) {
-            if (options.dynamicField === true || options.dynamicField.html) {
-              // Ignore for HTML Enabled versions
-              return
+          if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
+            let matchValue
+            if (type === 'inputSelect') {
+              matchValue = value.input && value.input.match(blockRegexp)
+            } else {
+              matchValue = value.match(blockRegexp)
             }
-            isDynamic = true
+            if (matchValue) {
+              isDynamic = true
+            }
           } else if ([ 'attachimage' ].indexOf(type) !== -1) {
             value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
             isDynamic = value.match(blockRegexp)
           }
         }
         if (isDynamic) {
+          if (type === 'inputSelect') {
+            value = value.input
+          }
           let blockInfo = parseDynamicBlock(value)
           blockInfo.blockAtts.elementId = id
           if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {

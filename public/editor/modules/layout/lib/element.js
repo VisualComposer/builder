@@ -184,14 +184,16 @@ export default class Element extends React.Component {
 
       let isDynamic = false
       if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
-        let matchValue
-        if (attrSettings.type.name === 'inputSelect') {
-          matchValue = value.input && value.input.match(blockRegexp)
-        } else {
-          matchValue = value.match(blockRegexp)
-        }
-        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1 && matchValue) {
-          isDynamic = true
+        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
+          let matchValue
+          if (type === 'inputSelect') {
+            matchValue = value.input && value.input.match(blockRegexp)
+          } else {
+            matchValue = value.match(blockRegexp)
+          }
+          if (matchValue) {
+            isDynamic = true
+          }
         } else if ([ 'attachimage' ].indexOf(type) !== -1) {
           let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
           isDynamic = tempValue.match(blockRegexp)
@@ -202,8 +204,12 @@ export default class Element extends React.Component {
       }
 
       if (isDynamic) {
-        const blockInfo = dynamicValue.input ? dynamicValue.input.split(blockRegexp) : dynamicValue.split(blockRegexp)
-
+        let blockInfo
+        if (type === 'inputSelect') {
+          blockInfo = dynamicValue.input && dynamicValue.input.split(blockRegexp)
+        } else {
+          blockInfo = dynamicValue.split(blockRegexp)
+        }
         let dynamicFieldsData = getDynamicFieldsData(
           {
             fieldKey: fieldKey,
