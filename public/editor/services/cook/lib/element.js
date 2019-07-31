@@ -264,7 +264,12 @@ export default class Element {
       // Check isDynamic for string/htmleditor/attachimage
       let isDynamic = false
       if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
-        const matchValue = value.input ? value.input.match(blockRegexp) : value.match(blockRegexp)
+        let matchValue
+        if (attrSettings.type.name === 'inputSelect') {
+          matchValue = value.input && value.input.match(blockRegexp)
+        } else {
+          matchValue = value.match(blockRegexp)
+        }
         if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1 && matchValue) {
           isDynamic = true
         } else if ([ 'attachimage' ].indexOf(type) !== -1) {
