@@ -157,7 +157,12 @@ const API = {
             // Ignore for HTML Enabled versions
             return
           }
-          const matchValue = value.input ? value.input.match(blockRegexp) : value.match(blockRegexp)
+          let matchValue
+          if (attrSettings.type.name === 'inputSelect') {
+            matchValue = value.input && value.input.match(blockRegexp)
+          } else {
+            matchValue = value.match(blockRegexp)
+          }
           if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1 && matchValue) {
             if (options.dynamicField === true || options.dynamicField.html) {
               // Ignore for HTML Enabled versions
