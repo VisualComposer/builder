@@ -33,7 +33,7 @@ class GutenbergAttributeController extends Container implements Module
     {
         $this->addEvent('vcv:system:activation:hook', 'setGutenbergEditor');
         $this->wpAddAction('init', 'initialize');
-        $this->addFilter('vcv:frontend:content:encode', 'doGutenbergBlocks');
+        $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'doGutenbergBlocks');
 
         $this->optionGroup = 'vcv-settings';
         $this->optionSlug = 'vcv-gutenberg-editor';
