@@ -318,8 +318,12 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     if (imgSrc) {
+      let dynamicProps = {}
+      if (isDynamic) {
+        dynamicProps['data-dynamic'] = true
+      }
       imgElement = (
-        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={this.getImageShortcode(shortcodeOptions)} />
+        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={this.getImageShortcode(shortcodeOptions)} {...dynamicProps} />
       )
     }
 
@@ -330,10 +334,20 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       )
     }
 
+    let styleProps = {}
+    if (!isDynamic) {
+      styleProps = {
+        style: {
+          paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`,
+          width: this.state.parsedWidth
+        }
+      }
+    }
+
     return <div className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
         <figure>
-          <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
+          <CustomTag {...customProps} className={classes} ref='imageContainer' {...styleProps}>
             {imgElement}
           </CustomTag>
           {caption}
