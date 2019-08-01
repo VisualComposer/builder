@@ -63,7 +63,7 @@ a.vce-single-image-inner:focus {
   margin-top: 10px;
 }
 
-.vce-single-image-inner .vce-single-image {
+.vce-single-image-inner .vce-single-image:not([data-dynamic]) {
   position: absolute;
   top: 0;
   left: 0;
