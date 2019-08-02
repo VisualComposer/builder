@@ -44,19 +44,20 @@ class FrontViewController extends Container implements Module
     {
         if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
             $content = preg_replace_callback(
-                '/((<!--vcv no format-->)(.*?)(<!--vcv no format-->))/si',
+                '/<!--vcv no format-->(.*)<!--vcv no format-->/si',
                 function ($matches) {
-                    return '<p>' . $matches[2] .
+                    $result = '<p><!--vcv no format-->' .
                         base64_encode(
                             do_shortcode(
                                 (string)vcfilter(
                                     'vcv:frontend:content:encode',
-                                    (string)$matches[3]
+                                    (string)$matches[1]
                                 )
                             )
-                        ) .
-                        $matches[4]
-                        . '</p>';
+                        )
+                        . '<!--vcv no format--></p>';
+
+                    return $result;
                 },
                 $content
             );
@@ -74,9 +75,9 @@ class FrontViewController extends Container implements Module
     {
         if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
             $content = preg_replace_callback(
-                '/(\<p\>(<!--vcv no format-->)(.*?)(<!--vcv no format-->)<\/p>)/si',
+                '/<p><!--vcv no format-->(.*)<!--vcv no format--><\/p>/si',
                 function ($matches) {
-                    return base64_decode($matches[3]);
+                    return base64_decode($matches[1]);
                 },
                 $content
             );
