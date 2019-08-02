@@ -49,20 +49,19 @@ class AddonsAutoload extends Autoload implements Module
         ];
 
         foreach ($hubHelper->getAddons() as $key => $addon) {
-            if (isset($addon['phpFiles'])) {
-                $all = array_merge_recursive($all, $this->getSingleComponent($addon));
+            $phpFiles = $hubHelper->getAddonPhpFiles($key);
+            if (is_array($phpFiles) && !empty($phpFiles)) {
+                $all = array_merge_recursive($all, $this->getSingleComponent($phpFiles));
             }
         }
 
         return $all;
     }
 
-    protected function getSingleComponent($addon)
+    protected function getSingleComponent($phpFiles)
     {
-        if (isset($addon['phpFiles'])) {
-            $components = $addon['phpFiles'];
-
-            return $this->tokenizeComponents($components);
+        if (is_array($phpFiles) && !empty($phpFiles)) {
+            return $this->tokenizeComponents($phpFiles);
         }
 
         return [
