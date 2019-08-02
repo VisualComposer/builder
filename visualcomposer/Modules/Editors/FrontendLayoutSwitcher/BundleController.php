@@ -29,8 +29,12 @@ class BundleController extends Container implements Module
         $this->wpAddAction('admin_enqueue_scripts', 'addBundleScript');
     }
 
-    protected function addCurrentEditorField($post, EditorPostType $editorPostTypeHelper, Options $optionsHelper, Request $requestHelper)
-    {
+    protected function addCurrentEditorField(
+        $post,
+        EditorPostType $editorPostTypeHelper,
+        Options $optionsHelper,
+        Request $requestHelper
+    ) {
         // @codingStandardsIgnoreLine
         if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
             $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
@@ -93,7 +97,10 @@ class BundleController extends Container implements Module
             $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
             // Disable TinyMCE to avoid markup break, empty tags removal and etc VC-516
-            add_filter('user_can_richedit', '__return_false', 50);
+            if (!(method_exists($screen, 'is_block_editor') && $screen->is_block_editor())) {
+                // Not Block editor, apply only in classic-mode
+                add_filter('user_can_richedit', '__return_false', 50);
+            }
         }
     }
 }
