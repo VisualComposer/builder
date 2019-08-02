@@ -17,6 +17,8 @@
 - Fix: Self-hosted video background on mobile
 - Fix: Border Radius and Gradient
 - Fix: Update Icon Libraries
+- Fix: Security issue with full path disclosure in add-ons output solved
+- Fix: Global Elements CSS file url option works properly
 ## ver 17.2 - 2019-05-09
 - Fix: Control hover states work properly
 - Fix: PCSS mixins working properly for Post Grid elements
