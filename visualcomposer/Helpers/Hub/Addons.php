@@ -16,7 +16,18 @@ class Addons implements Helper
     {
         $optionHelper = vchelper('Options');
 
-        return $optionHelper->get('hubAddons', []);
+        $addons = $optionHelper->get('hubAddons', []);
+
+        $outputAddons = [];
+        foreach ($addons as $key => $addon) {
+            $data = $addon;
+            // Clean secure variables
+            unset($data['elementRealPath']);
+            unset($data['phpFiles']);
+            $outputAddons[ $key ] = $data;
+        }
+
+        return $outputAddons;
     }
 
     public function setAddons($addons = [])
@@ -43,15 +54,8 @@ class Addons implements Helper
 
     protected function updateAddonData($key, $merged, $prev, $new)
     {
-        $merged['addonRealPath'] = $this->getAddonPath($key . '/' . $key . '/');
-        if (isset($merged['phpFiles'])) {
-            $files = isset($new['phpFiles']) ? $new['phpFiles'] : [];
-            $merged['phpFiles'] = [];
-            foreach ($files as $index => $filePath) {
-                $merged['phpFiles'][ $index ] = rtrim($merged['addonRealPath'], '\\/') . '/' . $filePath;
-            }
-            unset($index, $filePath);
-        }
+        unset($merged['addonRealPath']); // Never save it, load dynamically
+        unset($merged['phpFiles']); // Never save it, load dynamically
         array_walk_recursive($merged, [$this, 'fixDoubleSlash']);
 
         return $merged;
@@ -64,6 +68,10 @@ class Addons implements Helper
 
     public function getAddonPath($key = '')
     {
+        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+            return VCV_PLUGIN_DIR_PATH . 'devAddons/' . ltrim($key, '\\/');
+        }
+
         return VCV_PLUGIN_ASSETS_DIR_PATH . '/addons/' . ltrim($key, '\\/');
     }
 
@@ -104,18 +112,42 @@ class Addons implements Helper
     }
 
     /**
-     * @param $addon
+     * @param $addonKey
      *
      * @return false|string
      */
-    public function getAddonRealPath($addon)
+    public function getAddonRealPath($addonKey)
     {
-        $hubAddons = $this->getAddons();
+        $addonPath = $this->getAddonPath($addonKey);
+        $addonRealPath = $addonPath . '/' . $addonKey . '/';
 
-        if ($hubAddons[ $addon ]) {
-            return $hubAddons[ $addon ]['addonRealPath'];
+        return $addonRealPath;
+    }
+
+    public function getAddonPhpFiles($addonKey)
+    {
+        $fileHelper = vchelper('File');
+        $addonPath = $this->getAddonPath($addonKey);
+        $manifestPath = $addonPath . '/manifest.json';
+        $addonRealPath = $addonPath . '/' . $addonKey . '/';
+        $phpFiles = [];
+        if ($fileHelper->isFile($manifestPath)) {
+            $manifest = json_decode($fileHelper->getContents($manifestPath), true);
+            if (isset($manifest['addons'])) {
+                if (isset($manifest['addons'], $manifest['addons'][ $addonKey ], $manifest['addons'][ $addonKey ]['phpFiles'])) {
+                    $files = $manifest['addons'][ $addonKey ]['phpFiles'];
+                    foreach ($files as $index => $filePath) {
+                        $rtrim = rtrim(
+                            $addonRealPath,
+                            '\\/'
+                        );
+                        $phpFiles[] = $rtrim . '/' . $filePath;
+                    }
+                    unset($index, $filePath);
+                }
+            }
         }
 
-        return false;
+        return $phpFiles;
     }
 }

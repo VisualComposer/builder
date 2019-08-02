@@ -32,7 +32,7 @@ class Elements implements Helper
         return false;
     }
 
-    public function getElements($raw = false, $elementRealPath = true)
+    public function getElements($raw = false, $outputElementRealPath = true)
     {
         $optionHelper = vchelper('Options');
         $dbElements = $optionHelper->get('hubElements', []);
@@ -66,7 +66,7 @@ class Elements implements Helper
                 ]
             );
 
-            if (!$elementRealPath) {
+            if (!$outputElementRealPath) {
                 unset($data['elementRealPath']);
                 unset($data['phpFiles']);
             }
