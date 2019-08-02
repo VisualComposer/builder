@@ -40,7 +40,6 @@ class FileController extends Container implements Module
             'generateSourceCssFile'
         );
 
-
         /** @see \VisualComposer\Modules\Assets\FileController::deleteSourceAssetsFile */
         $this->wpAddAction(
             'before_delete_post',
@@ -69,8 +68,13 @@ class FileController extends Container implements Module
      * @return bool|string URL to generated bundle.
      * @throws \ReflectionException
      */
-    protected function generateSourceCssFile($response, $payload, Assets $assetsHelper, File $fileHelper, Options $optionsHelper)
-    {
+    protected function generateSourceCssFile(
+        $response,
+        $payload,
+        Assets $assetsHelper,
+        File $fileHelper,
+        Options $optionsHelper
+    ) {
         $globalElementsBaseCss = [];
         $globalElementsMixinsCss = [];
         $sourceId = $payload['sourceId'];
@@ -95,7 +99,8 @@ class FileController extends Container implements Module
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
-        $sourceCssContent = $globalElementsBaseCssContent . $globalElementsMixinsCssContent . $globalCss . $globalElementsAttributesCssContent . $sourceCss;
+        $sourceCssContent = $globalElementsBaseCssContent . $globalElementsMixinsCssContent . $globalCss
+            . $globalElementsAttributesCssContent . $sourceCss;
 
         $sourceChecksum = wp_hash($sourceCssContent);
         $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
@@ -164,14 +169,14 @@ class FileController extends Container implements Module
     }
 
     /**
-     * @deprecated 2.10
-     *
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Assets $assetsHelper
      * @param \VisualComposer\Helpers\File $fileHelper
      * @param $globalElementsCss
      *
      * @return bool|string
+     * @deprecated 2.10
+     *
      */
     protected function parseGlobalElementsCssFile(
         Options $optionsHelper,
@@ -182,14 +187,17 @@ class FileController extends Container implements Module
         // Remove previous file if possible
         $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
         $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
-        if (!empty($previousCssFile) && empty($previousCssHash)) {
-            $assetsPath = $assetsHelper->getFilePath($previousCssFile);
-            if (!empty($assetsPath)) {
-                $fileHelper->getFileSystem()->delete($assetsPath);
+
+        $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
+        if ($bundleUrl) {
+            if (!empty($previousCssFile) && empty($previousCssHash)) {
+                $assetsPath = $assetsHelper->getFilePath($previousCssFile);
+                if (!empty($assetsPath)) {
+                    $fileHelper->getFileSystem()->delete($assetsPath);
+                }
             }
         }
 
-        $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
         $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
 
         return $bundleUrl;

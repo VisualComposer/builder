@@ -71,25 +71,30 @@ class UpdateGlobalElementsMigration extends MigrationsController implements Modu
             // Remove previous file
             $previousCssFile = basename($optionsHelper->get('globalElementsCssFileUrl', ''));
             $previousCssHash = $optionsHelper->get('globalElementsCssHash', '');
-            if (!empty($previousCssFile) && empty($previousCssHash)) {
-                $assetsPath = $assetsHelper->getFilePath($previousCssFile);
-                if (!empty($assetsPath)) {
-                    $fileHelper->getFileSystem()->delete($assetsPath);
+
+            $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
+            if ($bundleUrl) {
+                $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
+                $optionsHelper->set('globalElementsCssDataUpdated', '1');
+                $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
+
+                if (!empty($previousCssFile) && empty($previousCssHash)) {
+                    $assetsPath = $assetsHelper->getFilePath($previousCssFile);
+                    if (!empty($assetsPath)) {
+                        $fileHelper->getFileSystem()->delete($assetsPath);
+                    }
                 }
             }
-            $bundleUrl = $assetsHelper->updateBundleFile($globalElementsCss, 'global-elements.css');
-            $optionsHelper->set('globalElementsCssFileUrl', $bundleUrl);
-            $optionsHelper->set('globalElementsCssDataUpdated', '1');
-            $optionsHelper->set('globalElementsCssHash', md5($globalElementsCss));
         }
 
         return true;
     }
 
     /**
+     * @param $toRemove
+     *
      * @todo remove few releases later (18-dec)
      *
-     * @param $toRemove
      */
     protected function removeGlobalElementsCssData($toRemove)
     {
