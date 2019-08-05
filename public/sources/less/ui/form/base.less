@@ -57,11 +57,16 @@
   .vcv-ui-form-input.vcv-ui-form-field-dynamic,
   .vcv-ui-tag-list-container.vcv-ui-form-field-dynamic,
   .vcv-ui-form-field-dynamic-url.vcv-ui-form-field-dynamic,
-  .vcv-ui-form-input-select.vcv-ui-form-field-dynamic {
+  .vcv-ui-form-input-select.vcv-ui-form-field-dynamic,
+  .vcv-ui-dynamic-field-container .vcv-ui-form-helper {
     width: 92%;
     margin-right: 5px;
     display: inline-block;
     vertical-align: top;
+  }
+
+  .vcv-ui-dynamic-field-container .vcv-ui-form-helper {
+    margin: 8px 0 20px;
   }
 
   .vcv-ui-form-input-select.vcv-ui-form-field-dynamic {
@@ -72,8 +77,7 @@
     margin-top: 10px;
   }
 
-  .vcv-ui-form-input.vcv-ui-form-field-dynamic-extra,
-  .vcv-ui-form-dropdown.vcv-ui-form-field-dynamic {
+  .vcv-ui-form-input.vcv-ui-form-field-dynamic-extra {
     margin-top: 10px;
   }
 
@@ -93,6 +97,7 @@
 
   .vcv-ui-dynamic-field-container {
     position: relative;
+    margin: 0 0 40px;
 
     .vcv-ui-dynamic-field-control {
       position: absolute;

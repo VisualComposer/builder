@@ -47,8 +47,8 @@ export default class HtmlEditorWrapper extends Attribute {
     }
   }
 
-  handleDynamicFieldChange (dynamicFieldKey, sourceId) {
-    let value = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId)
+  handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
+    let value = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
 
     let dynamicValue = window.decodeURIComponent(this.state.value)
     let blockInfo = parseDynamicBlock(dynamicValue)
