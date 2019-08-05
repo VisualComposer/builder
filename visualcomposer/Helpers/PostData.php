@@ -16,10 +16,10 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
+        $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
 
-        $postThumbnailUrl = get_the_post_thumbnail_url($post->ID, 'full');
-        if (empty($postThumbnailUrl)) {
-            $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
+        if (isset($post) && !empty(get_the_post_thumbnail_url($post->ID, 'full'))) {
+            $postThumbnailUrl = get_the_post_thumbnail_url($post->ID, 'full');
         }
 
         return $urlHelper->query(
@@ -34,12 +34,14 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
+        $url = $urlHelper->assetUrl('images/spacer.png');
+        if (isset($post)) {
+            // @codingStandardsIgnoreLine
+            $avatarData = get_avatar_data($post->post_author);
+            if (isset($avatarData['url']) && !empty($avatarData['url'])) {
+                $url = $avatarData['url'];
+            }
 
-        // @codingStandardsIgnoreLine
-        $avatarData = get_avatar_data($post->post_author);
-        $url = isset($avatarData['url']) ? $avatarData['url'] : '';
-        if (empty($url)) {
-            $url = $urlHelper->assetUrl('images/spacer.png');
         }
 
         return $urlHelper->query(
@@ -53,6 +55,9 @@ class PostData implements Helper
     public function getPostAuthor($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
 
         // @codingStandardsIgnoreLine
         return get_the_author_meta('display_name', $post->post_author);
@@ -61,6 +66,10 @@ class PostData implements Helper
     public function getPostTitle($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
+
         //@codingStandardsIgnoreLine
         return $post->post_title;
     }
@@ -68,6 +77,9 @@ class PostData implements Helper
     public function getPostId($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
 
         return $post->ID;
     }
@@ -75,6 +87,10 @@ class PostData implements Helper
     public function getPostExcerpt($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
+
         //@codingStandardsIgnoreLine
         return $post->post_excerpt;
     }
@@ -82,6 +98,9 @@ class PostData implements Helper
     public function getPostType($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
 
         // @codingStandardsIgnoreLine
         $postTypeObject = get_post_type_object($post->post_type);
@@ -127,6 +146,9 @@ class PostData implements Helper
     public function getPostCommentCount($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
         $commentCount = get_comments_number($post->ID);
 
         return $commentCount;
@@ -149,6 +171,9 @@ class PostData implements Helper
     public function getPostParentName($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
         $parentId = wp_get_post_parent_id($post);
 
         if ($parentId) {
@@ -164,6 +189,9 @@ class PostData implements Helper
     public function getPostAuthorBio($sourceId = '')
     {
         $post = get_post($sourceId);
+        if (!isset($post)) {
+            return false;
+        }
         //@codingStandardsIgnoreLine
         $description = get_the_author_meta('description', $post->post_author);
 
