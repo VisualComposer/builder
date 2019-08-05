@@ -49,7 +49,7 @@ class AddonsAutoload extends Autoload implements Module
         ];
 
         foreach ($hubHelper->getAddons(true) as $key => $addon) {
-            $phpFiles = $hubHelper->getAddonPhpFiles($key);
+            $phpFiles = $hubHelper->getAddonPhpFiles($key, $addon);
             if (is_array($phpFiles) && !empty($phpFiles)) {
                 $all = array_merge_recursive($all, $this->getSingleComponent($phpFiles));
             }
