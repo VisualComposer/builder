@@ -12,19 +12,23 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Addons implements Helper
 {
-    public function getAddons()
+    public function getAddons($outputAddonRealPath = true)
     {
         $optionHelper = vchelper('Options');
+        $outputAddons = [];
 
         $addons = $optionHelper->get('hubAddons', []);
 
-        $outputAddons = [];
-        foreach ($addons as $key => $addon) {
-            $data = $addon;
-            // Clean secure variables
-            unset($data['elementRealPath']);
-            unset($data['phpFiles']);
-            $outputAddons[ $key ] = $data;
+        if (is_array($addons)) {
+            foreach ($addons as $key => $addon) {
+                $data = $addon;
+                if (!$outputAddonRealPath) {
+                    // Clean secure variables
+                    unset($data['addonRealPath']);
+                    unset($data['phpFiles']);
+                }
+                $outputAddons[ $key ] = $data;
+            }
         }
 
         return $outputAddons;
@@ -54,8 +58,15 @@ class Addons implements Helper
 
     protected function updateAddonData($key, $merged, $prev, $new)
     {
-        unset($merged['addonRealPath']); // Never save it, load dynamically
-        unset($merged['phpFiles']); // Never save it, load dynamically
+        $merged['addonRealPath'] = $this->getAddonPath($key . '/' . $key . '/');
+        if (isset($merged['phpFiles']) || isset($new['phpFiles'])) {
+            $files = isset($new['phpFiles']) ? $new['phpFiles'] : [];
+            $merged['phpFiles'] = [];
+            foreach ($files as $index => $filePath) {
+                $merged['phpFiles'][ $index ] = rtrim($merged['addonRealPath'], '\\/') . '/' . $filePath;
+            }
+            unset($index, $filePath);
+        }
         array_walk_recursive($merged, [$this, 'fixDoubleSlash']);
 
         return $merged;
@@ -124,7 +135,7 @@ class Addons implements Helper
         return $addonRealPath;
     }
 
-    public function getAddonPhpFiles($addonKey)
+    public function getAddonPhpFiles($addonKey, $addon)
     {
         $fileHelper = vchelper('File');
         $addonPath = $this->getAddonPath($addonKey);
@@ -146,6 +157,18 @@ class Addons implements Helper
                     unset($index, $filePath);
                 }
             }
+        } elseif (isset($addon['phpFiles'])) {
+            $files = $addon['phpFiles'];
+            foreach ($files as $index => $filePath) {
+                $realPath = isset($addon['addonRealPath']) ? $addon['addonRealPath'] : $addonRealPath;
+                $filePath = rtrim(str_replace($realPath, '', $filePath), '\\/');
+                $rtrim = rtrim(
+                    $addonRealPath,
+                    '\\/'
+                );
+                $phpFiles[] = $rtrim . '/' . $filePath;
+            }
+            unset($index, $filePath);
         }
 
         return $phpFiles;

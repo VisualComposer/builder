@@ -44,10 +44,9 @@ class Addons extends Container implements Module
 
         $variables[] = [
             'key' => $key,
-            'value' => $hubHelper->getAddons(),
+            'value' => $hubHelper->getAddons(false),
             'type' => 'constant',
             'options' => JSON_FORCE_OBJECT | JSON_NUMERIC_CHECK,
-
         ];
 
         return $variables;
