@@ -392,8 +392,8 @@ export default class AttachImage extends Attribute {
     )
   }
 
-  handleDynamicFieldChange (dynamicFieldKey, sourceId) {
-    let dynamicValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId)
+  handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
+    let dynamicValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
     let newValue = dynamicValue
     let { value } = this.state
 

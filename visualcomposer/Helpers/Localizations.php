@@ -484,8 +484,24 @@ class Localizations extends Container implements Helper
                 'Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word.',
                 'vcwb'
             ),
+            'dynamicFieldsOpenText' => __(
+                'Replace static content with Dynamic Field',
+                'vcwb'
+            ),
+            'dynamicFieldsCloseText' => __(
+                'Disable Dynamic Fields',
+                'vcwb'
+            ),
             'dynamicAutocompleteDescription' => __(
                 'Select the page, post, or custom post type (current post is selected by default).',
+                'vcwb'
+            ),
+            'dynamicAutocompleteToggleDescription' => __(
+                'By default, dynamic content will be taken from the current post.',
+                'vcwb'
+            ),
+            'dynamicAutocompleteToggleLabel' => __(
+                'Set custom post source',
                 'vcwb'
             ),
             'dynamicTypeDescription' => __(

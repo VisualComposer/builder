@@ -89,7 +89,7 @@ const API = {
             value: blockAtts.value,
             currentValue: result
           }
-          if (window.vcvSourceID !== sourceId) {
+          if (window.vcvSourceID !== sourceId || blockAtts.sourceId) {
             dynamicProps.sourceId = sourceId
           }
           return React.createElement(attribute.fieldType === 'htmleditor' ? 'div' : 'span', {
@@ -157,16 +157,14 @@ const API = {
             // Ignore for HTML Enabled versions
             return
           }
-          if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
-            let matchValue
-            if (type === 'inputSelect') {
-              matchValue = value.input && value.input.match(blockRegexp)
-            } else {
-              matchValue = value.match(blockRegexp)
-            }
-            if (matchValue) {
-              isDynamic = true
-            }
+          if (type === 'htmleditor') {
+            // Ignore for HTML editor attribute
+            return
+          }
+          if (type === 'inputSelect') {
+            isDynamic = value.input && value.input.match(blockRegexp)
+          } else if (type === 'string') {
+            isDynamic = value.match(blockRegexp)
           } else if ([ 'attachimage' ].indexOf(type) !== -1) {
             value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
             isDynamic = value.match(blockRegexp)
@@ -235,13 +233,13 @@ const API = {
       if (!sourceId) {
         sourceId = window.vcvSourceID
       }
-      let { dynamicTemplateProps } = options
+      let { dynamicTemplateProps, forceSaveSourceId } = options
       let newValue = null
 
       if (dynamicTemplateProps) {
         let dynamicProps = Object.assign({}, dynamicTemplateProps)
         dynamicProps.value = dynamicFieldKey
-        if (window.vcvSourceID === sourceId) {
+        if (!forceSaveSourceId && (window.vcvSourceID === sourceId)) {
           delete dynamicProps.sourceId
         } else {
           dynamicProps.sourceId = sourceId
@@ -261,7 +259,7 @@ const API = {
           value: dynamicFieldKey,
           currentValue: currentValue
         }
-        if (window.vcvSourceID !== sourceId) {
+        if (window.vcvSourceID !== sourceId || forceSaveSourceId) {
           dynamicProps.sourceId = sourceId
         }
         newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`

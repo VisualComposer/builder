@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Autocomplete from './autocomplete/Component'
 import Dropdown from './dropdown/Component'
+import Toggle from './toggle/Component'
 import { env, getService, getStorage } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
@@ -18,6 +19,7 @@ export default class DynamicAttribute extends React.Component {
     this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
     this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.handleAutocompleteToggle = this.handleAutocompleteToggle.bind(this)
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
 
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
@@ -68,7 +70,7 @@ export default class DynamicAttribute extends React.Component {
         dataLoaded = false
         postFields = {}
       }
-      let newState = this.getStateFromValue(newValue, dataLoaded, postFields)
+      let newState = this.getStateFromValue(newValue, dataLoaded, postFields, newSourceId !== oldSourceId)
       if (!dataLoaded) {
         window.setTimeout(() => {
           settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
@@ -78,16 +80,21 @@ export default class DynamicAttribute extends React.Component {
     }
   }
 
-  getStateFromValue (value, dataLoaded = false, postFields = {}) {
+  getStateFromValue (value, dataLoaded = false, postFields = {}, updateAutocompleteToggle = true) {
     let state = {}
     const postData = settingsStorage.state('postData').get()
     let sourceId = postData.post_id
     state.dynamicFieldOpened = false
     state.blockInfo = false // Default value is false if not matched
+    state.showAutocomplete = false
     if (typeof value === 'string' && value.match(blockRegexp)) {
       state.dynamicFieldOpened = true
       const blockInfo = parseDynamicBlock(value)
       if (blockInfo && blockInfo.blockAtts) {
+        if (blockInfo.blockAtts.sourceId) {
+          // If sourceId explicitly set, then we expect that custom toggle is ON
+          state.showAutocomplete = true
+        }
         sourceId = blockInfo.blockAtts.sourceId || window.vcvSourceID
         state.blockInfo = blockInfo
       }
@@ -95,6 +102,7 @@ export default class DynamicAttribute extends React.Component {
     state.sourceId = parseInt(sourceId, 10)
     state.dataLoaded = dataLoaded
     state.postFields = postFields
+
     return state
   }
 
@@ -128,7 +136,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   handleDynamicFieldChange (_, dynamicFieldKey) {
-    let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey, this.state.sourceId)
+    let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey, this.state.sourceId, this.state.showAutocomplete)
     let fieldValue = newValue
     let dynamicValue = newValue
 
@@ -166,11 +174,11 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderOpenButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldOpen} title='Open Dynamic Field' />
+    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldOpen} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Replace static content with Dynamic Field'} />
   }
 
   renderCloseButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title='Close Dynamic Field' />
+    return <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title={DynamicAttribute.localizations.dynamicFieldsCloseText || 'Close Dynamic Field'} />
   }
 
   renderAutoCompleteInput () {
@@ -192,6 +200,21 @@ export default class DynamicAttribute extends React.Component {
     />
   }
 
+  renderAutocompleteToggle () {
+    return <React.Fragment>
+      <Toggle
+        value={this.state.showAutocomplete}
+        elementAccessPoint={this.props.elementAccessPoint}
+        fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
+        key={`${this.props.fieldKey}-dynamic-source-autocomplete-toggle-${this.state.sourceId + ''}`}
+        options={{ labelText: DynamicAttribute.localizations.dynamicAutocompleteToggleLabel || 'Set custom post source' }}
+        updater={this.handleAutocompleteToggle}
+        extraClass='vcv-ui-form-field-dynamic'
+      />
+      <p className='vcv-ui-form-helper'>{DynamicAttribute.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content will be taken from the current post.'}</p>
+    </React.Fragment>
+  }
+
   renderDynamicFieldsDropdown (fieldsList) {
     let newFieldsList = Object.values(fieldsList)
     newFieldsList.unshift({ label: 'Select your value', value: '', disabled: true })
@@ -207,6 +230,18 @@ export default class DynamicAttribute extends React.Component {
         description={DynamicAttribute.localizations.dynamicTypeDescription || 'Select the dynamic content data source.'}
       />
     )
+  }
+
+  handleAutocompleteToggle (_, value) {
+    if (!value && (this.state.sourceId !== window.vcvSourceID)) {
+      // Return back current source ID
+      this.handleChangeSourceId(_, window.vcvSourceID + '') // force string + change id
+    }
+    this.setState({
+      showAutocomplete: value
+    }, () => {
+      this.handleChangeSourceId(_, this.state.sourceId + '') // Re-trigger change to explicitly save the ID
+    })
   }
 
   renderDynamicFieldsExtra () {
@@ -232,7 +267,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderDynamicInputs () {
-    let autoCompleteComponent = this.renderAutoCompleteInput()
+    let autoCompleteComponent = this.state.showAutocomplete ? this.renderAutoCompleteInput() : null
 
     let loader = null
     let fieldComponent = null
@@ -251,6 +286,7 @@ export default class DynamicAttribute extends React.Component {
 
     return (
       <div className='vcv-ui-dynamic-field-container'>
+        {this.renderAutocompleteToggle()}
         {autoCompleteComponent}
         {this.renderCloseButton()}
         {loader}

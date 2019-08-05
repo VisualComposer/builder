@@ -874,8 +874,8 @@ export default class DesignOptions extends Attribute {
           let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
           return getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplateProps: dynamicTemplateProps })
         }}
-        handleDynamicFieldChange={(dynamicFieldKey, sourceId) => {
-          return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps })
+        handleDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
+          return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps, forceSaveSourceId })
         }}
         handleDynamicFieldClose={this.props.handleDynamicFieldClose}
       />

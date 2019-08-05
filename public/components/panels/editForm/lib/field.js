@@ -145,8 +145,8 @@ export default class Field extends React.Component {
       elementAccessPoint={elementAccessPoint}
       setInnerFieldStatus={this.setInnerFieldStatus}
       editFormOptions={this.props.options}
-      handleDynamicFieldChange={(dynamicFieldKey, sourceId) => {
-        let newValue = getDynamicValue(dynamicFieldKey, sourceId)
+      handleDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
+        let newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
         return newValue
       }}
       handleDynamicFieldClose={(fieldKey, elementAccessPoint) => {
