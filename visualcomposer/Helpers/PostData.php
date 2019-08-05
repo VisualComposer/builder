@@ -41,7 +41,6 @@ class PostData implements Helper
             if (isset($avatarData['url']) && !empty($avatarData['url'])) {
                 $url = $avatarData['url'];
             }
-
         }
 
         return $urlHelper->query(
