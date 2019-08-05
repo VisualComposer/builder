@@ -157,7 +157,7 @@ class Addons implements Helper
                     unset($index, $filePath);
                 }
             }
-        } else if (isset($addon['phpFiles'])) {
+        } elseif (isset($addon['phpFiles'])) {
             $files = $addon['phpFiles'];
             foreach ($files as $index => $filePath) {
                 $realPath = isset($addon['addonRealPath']) ? $addon['addonRealPath'] : $addonRealPath;
