@@ -17,8 +17,8 @@ class PostData implements Helper
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
         $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
-
-        if (isset($post) && !empty(get_the_post_thumbnail_url($post->ID, 'full'))) {
+        // @codingStandardsIgnoreLine
+        if (isset($post) && $post->post_status !== 'trash' && !empty(get_the_post_thumbnail_url($post->ID, 'full'))) {
             $postThumbnailUrl = get_the_post_thumbnail_url($post->ID, 'full');
         }
 
@@ -35,7 +35,8 @@ class PostData implements Helper
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
         $url = $urlHelper->assetUrl('images/spacer.png');
-        if (isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (isset($post) && $post->post_status !== 'trash') {
             // @codingStandardsIgnoreLine
             $avatarData = get_avatar_data($post->post_author);
             if (isset($avatarData['url']) && !empty($avatarData['url'])) {
@@ -54,7 +55,8 @@ class PostData implements Helper
     public function getPostAuthor($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
 
@@ -65,7 +67,8 @@ class PostData implements Helper
     public function getPostTitle($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
 
@@ -76,7 +79,8 @@ class PostData implements Helper
     public function getPostId($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
 
@@ -86,7 +90,8 @@ class PostData implements Helper
     public function getPostExcerpt($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
 
@@ -97,7 +102,8 @@ class PostData implements Helper
     public function getPostType($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
 
@@ -130,6 +136,12 @@ class PostData implements Helper
 
     public function getPostCategories($sourceId = '')
     {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
         $categoriesList = get_the_category_list(', ', '', $sourceId);
 
         return $categoriesList;
@@ -137,6 +149,12 @@ class PostData implements Helper
 
     public function getPostTags($sourceId = '')
     {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
         $tagsList = get_the_term_list($sourceId, 'post_tag', '', ', ', '');
 
         return $tagsList;
@@ -145,7 +163,8 @@ class PostData implements Helper
     public function getPostCommentCount($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
         $commentCount = get_comments_number($post->ID);
@@ -155,6 +174,12 @@ class PostData implements Helper
 
     public function getPostDate($sourceId = '')
     {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
         $date = get_the_date('', $sourceId);
 
         return $date;
@@ -162,6 +187,12 @@ class PostData implements Helper
 
     public function getPostModifyDate($sourceId = '')
     {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
         $date = get_the_modified_date('', $sourceId);
 
         return $date;
@@ -170,7 +201,8 @@ class PostData implements Helper
     public function getPostParentName($sourceId = '')
     {
         $post = get_post($sourceId);
-        if (!isset($post)) {
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
         $parentId = wp_get_post_parent_id($post);
