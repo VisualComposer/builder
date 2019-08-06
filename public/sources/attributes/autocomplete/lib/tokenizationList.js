@@ -253,7 +253,7 @@ export default class TokenizationList extends React.Component {
       'vcv-return-value': this.props.returnValue
     }, (request) => {
       let response = getResponse(request.response)
-      if (response.status) {
+      if (response.status && response.results && response.results.length) {
         this.setState({ suggestedItems: response.results, callSuggestionAjax: false, loading: false })
       }
     })
