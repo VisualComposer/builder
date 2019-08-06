@@ -287,9 +287,11 @@ export default class DynamicAttribute extends React.Component {
     return (
       <div className='vcv-ui-dynamic-field-container'>
         {this.renderAutocompleteToggle()}
-        {autoCompleteComponent}
+        <div className='vcv-ui-dynamic-field-autocomplete-container'>
+          {autoCompleteComponent}
+          {loader}
+        </div>
         {this.renderCloseButton()}
-        {loader}
         {fieldComponent}
         {extraDynamicComponent}
       </div>
