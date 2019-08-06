@@ -21,7 +21,7 @@ export default class HtmlEditorWrapper extends Attribute {
     this.setValueState = this.setValueState.bind(this)
     this.setEditorLoaded = this.setEditorLoaded.bind(this)
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && props.options && props.options.dynamicField
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && props.options && props.options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
     const isDynamicSet = isDynamic && typeof this.state.value === 'string' && this.state.value.match(blockRegexp)
     this.state.dynamicFieldOpened = isDynamicSet
     this.state.isDynamicSet = isDynamicSet
@@ -77,7 +77,7 @@ export default class HtmlEditorWrapper extends Attribute {
   }
 
   render () {
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
 
     const cssClasses = classNames({
       'vcv-ui-form-wp-tinymce': true,
