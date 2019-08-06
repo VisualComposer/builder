@@ -196,7 +196,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getImageShortcode (options) {
-    const { props, classes, isDefaultImage, src, isDynamicImage } = options
+    const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
     let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props[ 'data-img-src' ]}" alt="${props.alt}" title="${props.title}"`
 
     if (isDefaultImage) {
@@ -206,6 +206,10 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     if (isDynamicImage) {
       let blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
       shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
+
+      if (naturalSizes) {
+        shortcode += ` data-dynamic-natural-size="true"`
+      }
     }
 
     shortcode += ']'
@@ -309,45 +313,39 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     let rawImage = this.props.rawAtts.image && this.props.rawAtts.image.full
 
     const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
+
+    let naturalDynamicSizes = false
+    if (isDynamic && ((this.state.naturalWidth === 1 && this.state.naturalHeight === 1) || ((!size || size === 'full') && shape !== 'round'))) {
+      customProps[ 'data-vce-delete-attr' ] = 'style'
+      naturalDynamicSizes = true
+    }
+
     const shortcodeOptions = {
       props: customImageProps,
       classes: imageClasses,
       isDefaultImage: !(image && image.id),
       src: imgSrc,
-      isDynamicImage: isDynamic
+      isDynamicImage: isDynamic,
+      naturalSizes: naturalDynamicSizes
     }
 
     if (imgSrc) {
-      let dynamicProps = {}
-      if (isDynamic) {
-        dynamicProps['data-dynamic'] = true
-      }
       imgElement = (
-        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={this.getImageShortcode(shortcodeOptions)} {...dynamicProps} />
+        <img className={`${imageClasses} vcvhelper`} src={imgSrc} {...customImageProps} data-vcvs-html={this.getImageShortcode(shortcodeOptions)} />
       )
     }
 
     // Set original image if not resized
-    if (size === 'full' && shape !== 'round' && !isDynamic) {
+    if ((!size || size === 'full') && shape !== 'round' && !isDynamic) {
       imgElement = (
         <img className={imageClasses} src={imgSrc} {...customImageProps} />
       )
     }
 
-    let styleProps = {}
-    if (!isDynamic) {
-      styleProps = {
-        style: {
-          paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`,
-          width: this.state.parsedWidth
-        }
-      }
-    }
-
     return <div className={containerClasses} {...editor} {...containerProps}>
       <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
         <figure>
-          <CustomTag {...customProps} className={classes} ref='imageContainer' {...styleProps}>
+          <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
             {imgElement}
           </CustomTag>
           {caption}
