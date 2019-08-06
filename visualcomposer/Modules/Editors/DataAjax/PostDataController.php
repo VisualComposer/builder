@@ -46,6 +46,16 @@ class PostDataController extends Container implements Module
         if (!is_array($response)) {
             $response = ['status' => true];
         }
+
+        $post = get_post($payload['sourceId']);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            $response['postData'] = [];
+            $response['postFields']['htmleditor'] = [];
+
+            return $response;
+        }
+
         $response['postData'] = vcfilter(
             'vcv:editor:data:postData',
             $postDataHelper->getDefaultPostData($payload['sourceId']),

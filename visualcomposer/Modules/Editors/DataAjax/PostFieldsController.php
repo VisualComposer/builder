@@ -40,6 +40,16 @@ class PostFieldsController extends Container implements Module
         if (!is_array($response)) {
             $response = ['status' => true];
         }
+
+        $post = get_post($payload['sourceId']);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            $response['postFields'] = [];
+            $response['postFields']['htmleditor'] = [];
+
+            return $response;
+        }
+
         $fields = [
             'attachimage' => [
                 'default' => [

@@ -185,7 +185,8 @@ class Controller extends Container implements Module
                 break;
             default:
                 $post = get_post((int)$token);
-                if ($post) {
+                // @codingStandardsIgnoreLine
+                if (isset($post) && !empty($post) && $post->post_status !== 'trash') {
                     // @codingStandardsIgnoreLine
                     $tokenLabels[ (int)$token ] = $post->post_title . ' (' . $post->ID . ')';
                 }
