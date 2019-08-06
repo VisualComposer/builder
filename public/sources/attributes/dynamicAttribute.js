@@ -22,7 +22,7 @@ export default class DynamicAttribute extends React.Component {
     this.handleAutocompleteToggle = this.handleAutocompleteToggle.bind(this)
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
     let state = {
       isDynamic: isDynamic
     }
@@ -309,6 +309,10 @@ export default class DynamicAttribute extends React.Component {
 
   render () {
     if (!this.state.isDynamic) {
+      return this.props.children || null
+    }
+    if (this.props.editFormOptions && this.props.editFormOptions.nestedAttr) {
+      // We are inside paramsGroup, it is not implemented yet.
       return this.props.children || null
     }
 

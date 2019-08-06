@@ -18,7 +18,7 @@ export default class StringAttribute extends Attribute {
 
     let fieldClassNames = classNames({
       'vcv-ui-form-input': true,
-      'vcv-ui-form-field-dynamic': env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
+      'vcv-ui-form-field-dynamic': env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
     })
     let fieldComponent = <input
       className={fieldClassNames}

@@ -281,6 +281,7 @@ export default class ElementAttribute extends Attribute {
       return <div className='vcv-ui-form-element'>
         {replacementBlock}
         <AttributeElementFieldWrapper
+          {...this.props}
           onChange={this.onChange}
           elementAccessPoint={this.state.elementAccessPoint}
           handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
