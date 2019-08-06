@@ -30,7 +30,10 @@ export default class DynamicAttribute extends React.Component {
     if (isDynamic) {
       let newState = this.getStateFromValue(this.props.value)
       window.setTimeout(() => {
-        settingsStorage.trigger('loadDynamicPost', state.sourceId, this.onLoadPostFields)
+        settingsStorage.trigger('loadDynamicPost', state.sourceId, this.onLoadPostFields, function (error) {
+          console.warn('Error loading dynamic post info', error)
+          this.onLoadPostFields(this.state.sourceId, {}, {})
+        })
       }, 1)
       state = { ...state, ...newState }
     }
@@ -73,7 +76,10 @@ export default class DynamicAttribute extends React.Component {
       let newState = this.getStateFromValue(newValue, dataLoaded, postFields, newSourceId !== oldSourceId)
       if (!dataLoaded) {
         window.setTimeout(() => {
-          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
+          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields, function (error) {
+            console.warn('Error loading dynamic post info', error)
+            this.onLoadPostFields(this.state.sourceId, {}, {})
+          })
         }, 1)
       }
       this.setState(newState)
@@ -129,9 +135,15 @@ export default class DynamicAttribute extends React.Component {
       state.dataLoaded = false
       state.postFields = {}
       window.setTimeout(() => {
-        settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields)
+        settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields, function (error) {
+          console.warn('Error loading dynamic post info', error)
+          this.onLoadPostFields(this.state.sourceId, {}, {})
+        })
       }, 1)
       this.setState(state)
+    } else {
+      // We have wrong post at all :/
+      this.setState({ postFields: {} })
     }
   }
 
@@ -276,12 +288,9 @@ export default class DynamicAttribute extends React.Component {
       loader = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
     } else {
       let postFields = this.state.postFields
-      let postFieldsKeys = Object.keys(postFields)
-      if (postFieldsKeys.indexOf(this.props.fieldType) !== -1) {
-        let fieldsList = postFields[ this.props.fieldType ]
-        fieldComponent = this.renderDynamicFieldsDropdown(fieldsList)
-        extraDynamicComponent = this.renderDynamicFieldsExtra()
-      }
+      let fieldsList = postFields[ this.props.fieldType ] || {}
+      fieldComponent = this.renderDynamicFieldsDropdown(fieldsList)
+      extraDynamicComponent = this.renderDynamicFieldsExtra()
     }
 
     return (
