@@ -26,6 +26,7 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
         setFieldUnmount={this.setFieldUnmount}
         key={`element-edit-form-field-${this.props.elementAccessPoint.id}-${field.key}`}
         fieldKey={field.key}
+        fieldType={field.data.type.name || field.data.settings.type}
         updater={this.onElementChange}
       />
     )
