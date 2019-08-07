@@ -2,76 +2,188 @@
 # This file is distributed under the same license as the Visual Composer Website Builder package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-04-11 22:38:39+0000\n"
+"PO-Revision-Date: 2019-08-07 15:31+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: GlotPress/2.3.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "Language: es\n"
 "Project-Id-Version: Visual Composer Website Builder\n"
+"POT-Creation-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+
+#: Helpers/EditorTemplates.php:181
+msgid "Select your template"
+msgstr ""
+
+#: Helpers/Localizations.php:89
+msgid "Name Your Page, Select"
+msgstr ""
+
+#: Helpers/Localizations.php:90
+msgid "Layout and Start Building"
+msgstr ""
+
+#: Helpers/Localizations.php:98
+msgid "Page title"
+msgstr ""
+
+#: Helpers/Localizations.php:432
+msgid "Search free high-resolution photos on Unsplash"
+msgstr ""
+
+#: Helpers/Localizations.php:436
+msgid "Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium"
+msgstr ""
+
+#: Helpers/Localizations.php:440
+msgid "Download and Add Free Beautiful Photos to Your Site"
+msgstr ""
+
+#: Helpers/Localizations.php:444
+msgid "No access, please check your license!"
+msgstr ""
+
+#: Helpers/Localizations.php:448
+msgid "Could not connect to Unsplash Server!"
+msgstr ""
+
+#: Helpers/Localizations.php:452
+msgid "Image has been downloaded to your Media Library."
+msgstr ""
+
+#: Helpers/Localizations.php:456
+msgid "Could not parse data from server!"
+msgstr ""
+
+#: Helpers/Localizations.php:460
+msgid "Small"
+msgstr ""
+
+#: Helpers/Localizations.php:464
+msgid "Medium"
+msgstr ""
+
+#: Helpers/Localizations.php:468
+msgid "Large"
+msgstr ""
+
+#: Helpers/Localizations.php:472
+msgid "images"
+msgstr ""
+
+#: Helpers/Localizations.php:476
+msgid "Download images from Unsplash to your Media Library"
+msgstr ""
+
+#: Helpers/Localizations.php:480
+msgid "Permalink"
+msgstr ""
+
+#: Helpers/Localizations.php:484
+msgid "Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word."
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:74
+#: Modules/Editors/DataAjax/PostFieldsController.php:88
+msgid "Custom Meta Field"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:76
+msgid "Failed to get the image id, please try again!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:81
+msgid "No access, please check your license and make sure your capabilities allow to upload files!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:115
+msgid "Wrong image extension."
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:122
+msgid "Failed to download image, make sure that your upload folder is writable and please try again!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:128
+msgid "Unknown image format!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:131
+msgid "Unknown image provider!"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:155
+msgid "Post max size should be %sM, currently it is %s"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:62
+msgid "Woocommerce Product Category"
+msgstr ""
 
 #: Helpers/Localizations.php:95
 msgid "Start by adding an element to your layout or select one of the pre-defined templates."
 msgstr "Comienza añadiendo un elemento a tu diseño o selecciona uno desde las plantillas predefinidas."
 
-#: Helpers/Localizations.php:370
+#: Helpers/Localizations.php:371
 msgid "Access Visual Composer Hub - download additional elements, templates and extensions."
 msgstr "Acceda a Visual Composer Hub - descargue elementos, plantillas y extensiones adicionales."
 
-#: Helpers/Localizations.php:374
+#: Helpers/Localizations.php:375
 msgid "Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
 msgstr "Añadir código JavaScript personalizado para insertarlo en esta página en <header> o <footer>. Inserte Google Analytics, Tag Manager, Kissmetrics o otros snippets JavaScript."
 
-#: Helpers/Localizations.php:378
+#: Helpers/Localizations.php:379
 msgid "Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
 msgstr "Añadir código JavaScript personalizados para inyectarlo globalmente en cada página en <header> o <footer>. Inserta Google Analytics, Tag Manager, Kissmetrics o otros snipples JavaScript."
 
-#: Helpers/Localizations.php:381
+#: Helpers/Localizations.php:382
 msgid "Open Edit Form"
 msgstr "Abrir Formulario de Edición"
 
-#: Helpers/Localizations.php:383
+#: Helpers/Localizations.php:384
 msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing."
 msgstr "Elemento WPBakery se muestra como shortcode. Ajusta los parámetros de código o abre el editor de WPBakery para mayor facilidad."
 
-#: Helpers/Localizations.php:387
+#: Helpers/Localizations.php:388
 msgid "Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin."
 msgstr "Fallo al cargar formulario de edición WPBakery, por favor comprueba el plugin WPBakery Page Builder."
 
-#: Helpers/Localizations.php:391
+#: Helpers/Localizations.php:392
 msgid "WPBakery plugin and migration addon is required to use this attribute"
 msgstr "El plugin WPBakery y el addon de migración es necesario para usar este atributo"
 
-#: Helpers/Localizations.php:395
+#: Helpers/Localizations.php:396
 msgid "View WPBakery element/s as shortcodes"
 msgstr "Ver elemento/s WPBakery como shortcodes"
 
-#: Helpers/Localizations.php:399
+#: Helpers/Localizations.php:400
 msgid "Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements."
 msgstr "Elementos estructurales complejos (ej. pestañas con contenido) son representados en la Vista de Árbol. Use la vista de árbol para acceder y editar elementos individuales."
 
-#: Helpers/Localizations.php:403
+#: Helpers/Localizations.php:404
 msgid "WPBakery element structure"
 msgstr "Estructura de elemento WPBakery"
 
-#: Helpers/Localizations.php:407
+#: Helpers/Localizations.php:408
 msgid "WPBakery element"
 msgstr "Elemento WPBakery"
 
-#: Helpers/Localizations.php:411 Modules/Vendors/WpbakeryController.php:341
+#: Helpers/Localizations.php:412 Modules/Vendors/WpbakeryController.php:341
 msgid "Unlock Visual Composer Hub"
 msgstr "Desbloquear Visual Composer Hub"
 
-#: Helpers/Localizations.php:415
+#: Helpers/Localizations.php:416
 msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters."
 msgstr "Elemento WPBakery se muestra como shortcode. Ajusta los parámetros del código."
 
-#: Helpers/Localizations.php:419
+#: Helpers/Localizations.php:420
 msgid "Shortcode"
 msgstr "Código"
 
-#: Helpers/Localizations.php:423
+#: Helpers/Localizations.php:424
 msgid "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
 msgstr "Copia tu shortcode aquí con todos los parámetros correctos. El shortcode tiene que estar instalado en tu sitio WordPress por un plugin o tema."
 
@@ -118,7 +230,6 @@ msgstr "WP_DEBUG está activado"
 msgid "Unlimited"
 msgstr "Ilimitado"
 
-#: Modules/Settings/Pages/SystemStatus.php:155
 #: Modules/Settings/Pages/SystemStatus.php:169
 msgid "Memory limit should be %sM, currently it is %s"
 msgstr "Límite de memoria debería ser %sM, actualmente es %s"
@@ -193,23 +304,23 @@ msgstr "Estado del sistema"
 msgid "It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href=\"%s\">system status</a> page."
 msgstr "Parece que hay un problema con la configuración de su servidor que puede afectar a Visual Composer. Para más detalles, por favor visite la página <a href=\"%s\">system status</a> ."
 
-#: Modules/Vendors/WooCommerceController.php:44
+#: Modules/Vendors/WooCommerceController.php:46
 msgid "Woocommerce Shop"
 msgstr "Tienda Woocommerce"
 
-#: Modules/Vendors/WooCommerceController.php:48
+#: Modules/Vendors/WooCommerceController.php:50
 msgid "Woocommerce Cart"
 msgstr "Carrito Woocommerce"
 
-#: Modules/Vendors/WooCommerceController.php:52
+#: Modules/Vendors/WooCommerceController.php:54
 msgid "Woocommerce Checkout"
 msgstr "Caja Woocommerce"
 
-#: Modules/Vendors/WooCommerceController.php:56
+#: Modules/Vendors/WooCommerceController.php:58
 msgid "Woocommerce My Account"
 msgstr "Mi cuenta Woocommerce"
 
-#: Modules/Vendors/WooCommerceController.php:60
+#: Modules/Vendors/WooCommerceController.php:66
 msgid "Woocommerce Terms"
 msgstr "Términos de Woocommerce"
 
@@ -435,7 +546,7 @@ msgstr "Posibilidad de enviar datos grandes. En caso de fallo - ajusta tu archiv
 msgid "An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable."
 msgstr "Ocurrió un error creando los archivos de instalación temporales. Por favor verifique que WP_TEMP_DIR existe y es escribible."
 
-#: Framework/helpers.php:185 Helpers/Localizations.php:159
+#: Framework/helpers.php:185 Helpers/Localizations.php:160
 msgid ""
 "An error occurred during the Visual Composer extension download process. \n"
 "<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
@@ -511,83 +622,83 @@ msgstr "Conseguir Más Plantillas"
 msgid "Access Visual Composer Hub - to download additional elements, templates and extensions."
 msgstr "Acceder al Visual Composer Hub - para descargar elementos adicionales, plantillas y extensiones."
 
-#: Helpers/Localizations.php:328
+#: Helpers/Localizations.php:329
 msgid "Editor Settings"
 msgstr "Ajustes del editor"
 
-#: Helpers/Localizations.php:330
+#: Helpers/Localizations.php:331
 msgid "Disable element and template preview popup in Add Element and Add Template windows"
 msgstr "Desactivar popup de previsualización de elemento y plantilla en las ventanas de Añadir Elemento y Añadir Plantilla"
 
-#: Helpers/Localizations.php:333
+#: Helpers/Localizations.php:334
 msgid "Disable preview"
 msgstr "Desactivar previsualización"
 
-#: Helpers/Localizations.php:334
+#: Helpers/Localizations.php:335
 msgid "Click to edit column value"
 msgstr "Clickea para editar el valor de la columna"
 
-#: Helpers/Localizations.php:335
+#: Helpers/Localizations.php:336
 msgid "Add-on"
 msgstr "Add-on"
 
-#: Helpers/Localizations.php:337
+#: Helpers/Localizations.php:338
 msgid "Update Visual Composer plugin to the most recent version to download addon."
 msgstr "Actualiza Visual Composer a la versión más reciente para descargar el addon."
 
-#: Helpers/Localizations.php:340
+#: Helpers/Localizations.php:341
 msgid "This page was created with WPBakery Page Builder. What's next?"
 msgstr "Esta página fue creada con WPBakery Page Builder. ¿Qué es lo siguiente?"
 
-#: Helpers/Localizations.php:342
+#: Helpers/Localizations.php:343
 msgid "To take over and start using Visual Composer Website Builder for this page, you need to:"
 msgstr "Para volver a empezar y usar Visual Composer Website Builder para esta página, necesitas:"
 
-#: Helpers/Localizations.php:345
+#: Helpers/Localizations.php:346
 msgid "Download Migration addon from the Hub"
 msgstr "Descargar addon de Migración desde el Hub"
 
-#: Helpers/Localizations.php:346
+#: Helpers/Localizations.php:347
 msgid "Keep WPBakery Page Builder plugin activated"
 msgstr "Mantén el plugin WPBakery Page Builder activado"
 
-#: Helpers/Localizations.php:348
+#: Helpers/Localizations.php:349
 msgid "Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element."
 msgstr "Elementos respaldados serán convertidos en elementos Visual Composer, el resto serán convertidos en elementos Shortcode de WPBakery."
 
-#: Helpers/Localizations.php:351
+#: Helpers/Localizations.php:352
 msgid "Download Migration Addon"
 msgstr "Descargar el addon de Migración"
 
-#: Helpers/Localizations.php:353
+#: Helpers/Localizations.php:354
 msgid "Don't close this window while download is in the progress."
 msgstr "No cierre esta ventana mientras la descarga está en proceso."
 
-#: Helpers/Localizations.php:354
+#: Helpers/Localizations.php:355
 msgid "Create Your WordPress Website."
 msgstr "Crea Tu Sitio WordPress"
 
-#: Helpers/Localizations.php:357
+#: Helpers/Localizations.php:358
 msgid "Get More Elements, Templates, and Extensions"
 msgstr "Consigue más Elementos, Plantillas y Extensiones"
 
-#: Helpers/Localizations.php:359
+#: Helpers/Localizations.php:360
 msgid "Download additional content from the Visual Composer Hub - right in your editor instantly."
 msgstr "Descarga contenido adicional del Visual Compser Hub - directo a tu editor instantáneamente."
 
-#: Helpers/Localizations.php:362
+#: Helpers/Localizations.php:363
 msgid "Get Started"
 msgstr "Empieza"
 
-#: Helpers/Localizations.php:363
+#: Helpers/Localizations.php:364
 msgid "Sending Error Report"
 msgstr "Enviando Reporte de Error"
 
-#: Helpers/Localizations.php:365
+#: Helpers/Localizations.php:366
 msgid "Don't close this window while sending error is in the progress."
 msgstr "No cierre esta ventana mientras el envío de error esté en proceso."
 
-#: Helpers/Localizations.php:368
+#: Helpers/Localizations.php:369
 msgid "Oops ... Something Went Wrong"
 msgstr "Oops ... Algo Salió Mal"
 
@@ -609,19 +720,19 @@ msgstr ""
 msgid "Getting Started"
 msgstr "Empezando"
 
-#: Modules/License/UpdateVariablesController.php:42
+#: Modules/License/UpdateVariablesController.php:43
 msgid "Build your site with the help of drag and drop editor straight from the frontend - it's that easy."
 msgstr "Crea tu sitio con ayuda del editor arrastra y suelta directamente desde la interfaz - es así de fácil."
 
-#: Modules/License/UpdateVariablesController.php:50
+#: Modules/License/UpdateVariablesController.php:51
 msgid "Get more elements and templates from the Visual Composer Hub - a free online marketplace."
 msgstr "Consigue más elementos y plantillas desde Visual Composer Hub - un mercado online gratis."
 
-#: Modules/License/UpdateVariablesController.php:59
+#: Modules/License/UpdateVariablesController.php:60
 msgid "Unparallel performance for you and your website to rank higher and deliver faster."
 msgstr "Desempeño incomparable para usted y su página web para tener mejor puntuación y cargar más rápido."
 
-#: Modules/License/UpdateVariablesController.php:68
+#: Modules/License/UpdateVariablesController.php:69
 msgid "Control every detail of your website with flexible design options and customization tools."
 msgstr "Controla cada detalle de tu sitio con opciones de diseño flexible y herramientas de personalización."
 
@@ -629,7 +740,7 @@ msgstr "Controla cada detalle de tu sitio con opciones de diseño flexible y her
 msgid "Visual Composer asset reset was successful."
 msgstr "Archivo de visual composer fue reiniciado exitosamente."
 
-#: Modules/Vendors/GutenbergAttributeController.php:104
+#: Modules/Vendors/GutenbergAttributeController.php:114
 msgid "Gutenberg"
 msgstr "Gutenberg"
 
@@ -637,7 +748,7 @@ msgstr "Gutenberg"
 msgid "An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again."
 msgstr "Un error ocurrió recuperando la URL de descarga para las extensiones de Visual Composer. Por favor desactive otros plugins, reinstale Visual Composer o intente de nuevo."
 
-#: Modules/Vendors/GutenbergAttributeController.php:229
+#: Modules/Vendors/GutenbergAttributeController.php:257
 msgid "New Gutenberg attr"
 msgstr "Nuevo atributo Gutenberg"
 
@@ -645,7 +756,7 @@ msgstr "Nuevo atributo Gutenberg"
 msgid "My Templates"
 msgstr "Mis plantillas"
 
-#: Modules/Vendors/GutenbergAttributeController.php:230
+#: Modules/Vendors/GutenbergAttributeController.php:258
 msgid "Edit Gutenberg attr"
 msgstr "Editar atributo Gutenberg"
 
@@ -653,7 +764,7 @@ msgstr "Editar atributo Gutenberg"
 msgid "Premium Templates"
 msgstr "Plantillas premium"
 
-#: Modules/Vendors/GutenbergAttributeController.php:231
+#: Modules/Vendors/GutenbergAttributeController.php:259
 msgid "View Gutenberg attr"
 msgstr "Ver atributos Gutenberg"
 
@@ -661,7 +772,7 @@ msgstr "Ver atributos Gutenberg"
 msgid "Content Templates"
 msgstr "Plantillas de contenido"
 
-#: Modules/Vendors/GutenbergAttributeController.php:232
+#: Modules/Vendors/GutenbergAttributeController.php:260
 msgid "All Gutenberg attrs"
 msgstr "Todos los atributos Gutenberg"
 
@@ -669,11 +780,11 @@ msgstr "Todos los atributos Gutenberg"
 msgid "Failed to read remote bundle json"
 msgstr "Fallo al leer el paquete json remoto"
 
-#: Modules/Vendors/GutenbergAttributeController.php:233
+#: Modules/Vendors/GutenbergAttributeController.php:261
 msgid "Search Gutenberg attrs"
 msgstr "Buscar atributos Gutenberg"
 
-#: Modules/Vendors/GutenbergAttributeController.php:234
+#: Modules/Vendors/GutenbergAttributeController.php:262
 msgid "Parent Gutenberg attrs:"
 msgstr "Atributos Gutenberg superiores:"
 
@@ -681,7 +792,7 @@ msgstr "Atributos Gutenberg superiores:"
 msgid "Editor bundle"
 msgstr "Paquete de editor"
 
-#: Modules/Vendors/GutenbergAttributeController.php:235
+#: Modules/Vendors/GutenbergAttributeController.php:263
 msgid "No Gutenberg attrs found."
 msgstr "No se encontraron atributos Gutenberg."
 
@@ -689,7 +800,7 @@ msgstr "No se encontraron atributos Gutenberg."
 msgid "Categories bundle"
 msgstr "Paquete de categorías"
 
-#: Modules/Vendors/GutenbergAttributeController.php:236
+#: Modules/Vendors/GutenbergAttributeController.php:264
 msgid "No Gutenberg attrs found in Trash."
 msgstr "No se encontraron atributos Gutenberg en la Papelera"
 
@@ -697,7 +808,7 @@ msgstr "No se encontraron atributos Gutenberg en la Papelera"
 msgid "Library extensions"
 msgstr "Librería de extensiones"
 
-#: Modules/Vendors/GutenbergAttributeController.php:238
+#: Modules/Vendors/GutenbergAttributeController.php:266
 msgid "Gutenberg attr Cover Image"
 msgstr "Atributo Gutenberg Imagen de Portada"
 
@@ -705,11 +816,11 @@ msgstr "Atributo Gutenberg Imagen de Portada"
 msgid "Templates library"
 msgstr "Librería de plantillas"
 
-#: Modules/Vendors/GutenbergAttributeController.php:243
+#: Modules/Vendors/GutenbergAttributeController.php:271
 msgid "Set cover image"
 msgstr "Establecer imagen de cubierta"
 
-#: Modules/Vendors/GutenbergAttributeController.php:248
+#: Modules/Vendors/GutenbergAttributeController.php:276
 msgid "Remove cover image"
 msgstr "Borrar imagen de portada"
 
@@ -717,7 +828,7 @@ msgstr "Borrar imagen de portada"
 msgid "Visual Composer Website Builder license has expired."
 msgstr "La licencia Visual Composer Website Builder ha expirado"
 
-#: Modules/Vendors/GutenbergAttributeController.php:253
+#: Modules/Vendors/GutenbergAttributeController.php:281
 msgid "Use as cover image"
 msgstr "Usar como imagen de portada"
 
@@ -725,7 +836,7 @@ msgstr "Usar como imagen de portada"
 msgid "Couldn't find a valid Visual Composer Website Builder license."
 msgstr "No se pudo encontrar una licencia Visual Composer Website Builder válida."
 
-#: Modules/Vendors/GutenbergAttributeController.php:258
+#: Modules/Vendors/GutenbergAttributeController.php:286
 msgid "Gutenberg attr archives"
 msgstr "Archivos de atributos Gutenberg"
 
@@ -733,7 +844,7 @@ msgstr "Archivos de atributos Gutenberg"
 msgid "Visual Composer Website Builder license has been deactivated."
 msgstr "La licencia de Visual Composer Website Builder ha sido desactivada."
 
-#: Modules/Vendors/GutenbergAttributeController.php:263
+#: Modules/Vendors/GutenbergAttributeController.php:291
 msgid "Add into Gutenberg attr"
 msgstr "Añadir en atributo Gutenberg"
 
@@ -741,7 +852,7 @@ msgstr "Añadir en atributo Gutenberg"
 msgid "Add Element"
 msgstr "Añadir elemento"
 
-#: Modules/Vendors/GutenbergAttributeController.php:268
+#: Modules/Vendors/GutenbergAttributeController.php:296
 msgid "Uploaded to this Gutenberg attr"
 msgstr "Subido a este atributo Gutenberg"
 
@@ -749,7 +860,7 @@ msgstr "Subido a este atributo Gutenberg"
 msgid "Hub"
 msgstr "Hub"
 
-#: Modules/Vendors/GutenbergAttributeController.php:273
+#: Modules/Vendors/GutenbergAttributeController.php:301
 msgid "Filter Gutenberg attrs list"
 msgstr "Filtrar lista de atributos Gutenberg"
 
@@ -757,7 +868,7 @@ msgstr "Filtrar lista de atributos Gutenberg"
 msgid "Add Template"
 msgstr "Añadir plantilla"
 
-#: Modules/Vendors/GutenbergAttributeController.php:278
+#: Modules/Vendors/GutenbergAttributeController.php:306
 msgid "Gutenberg attrs list navigation"
 msgstr "Navegación lista de atributos Gutenberg"
 
@@ -765,7 +876,7 @@ msgstr "Navegación lista de atributos Gutenberg"
 msgid "Tree View"
 msgstr "Vista de árbol"
 
-#: Modules/Vendors/GutenbergAttributeController.php:283
+#: Modules/Vendors/GutenbergAttributeController.php:311
 msgid "Gutenberg attrs list"
 msgstr "Lista de atributos Gutenberg"
 
@@ -780,6 +891,10 @@ msgstr "Rehacer"
 #: Helpers/Localizations.php:31
 msgid "Responsive View"
 msgstr "Vista dinámica"
+
+#: Helpers/Localizations.php:428
+msgid "Activate Premium"
+msgstr ""
 
 #: Helpers/Localizations.php:32
 msgid "Desktop"
@@ -822,7 +937,7 @@ msgstr "Menu"
 msgid "View Page"
 msgstr "Ver Página"
 
-#: Helpers/Localizations.php:42 Helpers/Localizations.php:352
+#: Helpers/Localizations.php:42 Helpers/Localizations.php:353
 msgid "Back to WordPress"
 msgstr "Volver a WordPress"
 
@@ -830,7 +945,7 @@ msgstr "Volver a WordPress"
 msgid "WordPress Dashboard"
 msgstr "WordPress Dashboard"
 
-#: Helpers/Localizations.php:356
+#: Helpers/Localizations.php:357
 msgid "Skip this post"
 msgstr "Omitir este post"
 
@@ -861,7 +976,7 @@ msgstr "Cerrar"
 msgid "There is no content on your page - start by adding element or template."
 msgstr "No hay contenido en tu página - comienza añadiendo un elemento o plantilla"
 
-#: Helpers/Localizations.php:355
+#: Helpers/Localizations.php:356
 msgid "Any Layout. Fast and Easy."
 msgstr "Cualquier Diseño. Rápido y Sencillo."
 
@@ -990,14 +1105,6 @@ msgstr "Desactivar Visual Composer"
 msgid "Failed to remove template"
 msgstr "Error al borrar plantilla"
 
-#: Helpers/Localizations.php:89
-msgid "Select Blank Page"
-msgstr "Selecciona Página en Blanco"
-
-#: Helpers/Localizations.php:90
-msgid "or Start With a Template"
-msgstr "o Comienza Con una Plantilla"
-
 #: Helpers/Localizations.php:91
 msgid "Name Your "
 msgstr "Nombra Tu"
@@ -1006,400 +1113,400 @@ msgstr "Nombra Tu"
 msgid "and Start Building"
 msgstr "y Comienza a Maquetar"
 
-#: Helpers/Localizations.php:110
+#: Helpers/Localizations.php:111
 msgid "Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more."
 msgstr "Consigue una licencia Premium para acceder al Visual Composer Hub. Descarga plantillas diseñadas profesionalmente, más elementos de contenido, extensiones y más."
 
-#: Helpers/Localizations.php:100
+#: Helpers/Localizations.php:101
 msgid "Didn't find a perfect template? Get a Premium license to download it from Visual Composer Hub."
 msgstr "¿No encontraste la plantilla perfecta? Consigue una licencia Premium para descargarla del Visual Composer Hub."
 
-#: Helpers/Localizations.php:105
+#: Helpers/Localizations.php:106
 msgid "Didn't find an element? Get a Premium license to download the right content element in Visual Composer Hub."
 msgstr "¿No encontraste un elemento? Consigue una licencia Premium para descargar el contenido adecuado en el Visual Composer Hub."
 
-#: Helpers/Localizations.php:113
+#: Helpers/Localizations.php:114
 msgid "Add"
 msgstr "Añadir"
 
-#: Helpers/Localizations.php:114
+#: Helpers/Localizations.php:115
 msgid "Row Layout"
 msgstr "Disposición de filas"
 
-#: Helpers/Localizations.php:115
+#: Helpers/Localizations.php:116
 msgid "Edit"
 msgstr "Editar"
 
-#: Helpers/Localizations.php:116
+#: Helpers/Localizations.php:117
 msgid "Design Options"
 msgstr "Opciones de diseño"
 
-#: Helpers/Localizations.php:117
+#: Helpers/Localizations.php:118
 msgid "Clone"
 msgstr "Clonar"
 
-#: Helpers/Localizations.php:118
+#: Helpers/Localizations.php:119
 msgid "Copy"
 msgstr "Copiar"
 
-#: Helpers/Localizations.php:119
+#: Helpers/Localizations.php:120
 msgid "Paste"
 msgstr "Pegar"
 
-#: Helpers/Localizations.php:120
+#: Helpers/Localizations.php:121
 msgid "Paste After"
 msgstr "Pegar después de"
 
-#: Helpers/Localizations.php:121
+#: Helpers/Localizations.php:122
 msgid "Remove"
 msgstr "Borrar"
 
-#: Helpers/Localizations.php:122
+#: Helpers/Localizations.php:123
 msgid "Move"
 msgstr "Mover"
 
-#: Helpers/Localizations.php:123
+#: Helpers/Localizations.php:124
 msgid "Search content elements"
 msgstr "Buscar elementos de contenido"
 
-#: Helpers/Localizations.php:124
+#: Helpers/Localizations.php:125
 msgid "Search content elements and templates"
 msgstr "Buscar elementos y plantillas de contenido"
 
-#: Helpers/Localizations.php:125
+#: Helpers/Localizations.php:126
 msgid "Search content templates"
 msgstr "Buscar plantillas de contenido"
 
-#: Helpers/Localizations.php:127
+#: Helpers/Localizations.php:128
 msgid "Template with this name already exist. Please specify another name."
 msgstr "Ya existe una plantilla con este nombre. Por favor especifique otro nombre."
 
-#: Helpers/Localizations.php:130
+#: Helpers/Localizations.php:131
 msgid "There is no content on your page - nothing to save"
 msgstr "No hay contenido en tu página - nada que guardar"
 
-#: Helpers/Localizations.php:131
+#: Helpers/Localizations.php:132
 msgid "Enter template name to save your page as a template"
 msgstr "Introduce el nombre de la plantilla para guardar tu página como plantilla"
 
-#: Helpers/Localizations.php:132
+#: Helpers/Localizations.php:133
 msgid "Add one column"
 msgstr "Añadir una columna"
 
-#: Helpers/Localizations.php:133
+#: Helpers/Localizations.php:134
 msgid "Add two columns"
 msgstr "Añadir dos columnas"
 
-#: Helpers/Localizations.php:134
+#: Helpers/Localizations.php:135
 msgid "Add three columns"
 msgstr "Añadir 3 columnas"
 
-#: Helpers/Localizations.php:135
+#: Helpers/Localizations.php:136
 msgid "Add four columns"
 msgstr "Añadir 4 columnas"
 
-#: Helpers/Localizations.php:136
+#: Helpers/Localizations.php:137
 msgid "Add five columns"
 msgstr "Añadir 5 columnas"
 
-#: Helpers/Localizations.php:137
+#: Helpers/Localizations.php:138
 msgid "Add custom row layout"
 msgstr "Añadir disposición de fila personalizada"
 
-#: Helpers/Localizations.php:138
+#: Helpers/Localizations.php:139
 msgid "Add Text block"
 msgstr "Añadir bloque de Texto"
 
-#: Helpers/Localizations.php:139
+#: Helpers/Localizations.php:140
 #: Modules/Editors/EditPostLinks/Controller.php:93
 #: Modules/Editors/EditPostLinks/Controller.php:127
 #: Modules/Editors/EditPostLinks/Controller.php:128
-#: Modules/Editors/EditPostLinks/Controller.php:179
+#: Modules/Editors/EditPostLinks/Controller.php:180
 msgid "Edit with Visual Composer"
 msgstr "Editar con Visual Composer"
 
-#: Helpers/Localizations.php:140
+#: Helpers/Localizations.php:141
 msgid "Classic Editor"
 msgstr "Editor Clásico"
 
-#: Helpers/Localizations.php:143
+#: Helpers/Localizations.php:144
 msgid "You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder."
 msgstr "Estás cambiando a Visual Composer. Visual Composer cargará la última versión de contenido creado con esta herramienta."
 
-#: Helpers/Localizations.php:148
+#: Helpers/Localizations.php:149
 msgid "You are switching to Classic editor. The content created with Visual Composer will be copied to Classic editor (style changes may apply.) Any changes made in the Classic editor will not be synced with Visual Composer layout. Do you want to proceed?"
 msgstr "Estás cambiando al Editor Clásico. El contenido creado con Visual Composer será compiado al Editor Clásico (puede que los estilos cambien). Cualquier cambio hecho en el Editor Clásico no será sincronizado con el diseño de Visual Composer. ¿Quieres continuar?"
 
-#: Helpers/Localizations.php:151
+#: Helpers/Localizations.php:152
 msgid "Blank Page"
 msgstr "Página en blanco"
 
-#: Helpers/Localizations.php:152
+#: Helpers/Localizations.php:153
 msgid "Search templates by name and description"
 msgstr "Buscar plantillas por nombre y descripción"
 
-#: Helpers/Localizations.php:153
+#: Helpers/Localizations.php:154
 msgid "Open Visual Composer Hub"
 msgstr "Abrir Visual Composer Hub"
 
-#: Helpers/Localizations.php:155
+#: Helpers/Localizations.php:156
 msgid "Didn't find the right element? Check out Visual Composer Hub for more content elements."
 msgstr "¿No encontraste el elemento adecuado? Echa un vistazo al Visual Composer Hub para más contenido."
 
-#: Helpers/Localizations.php:163 Helpers/Localizations.php:174
+#: Helpers/Localizations.php:164 Helpers/Localizations.php:175
 msgid "Nothing found"
 msgstr "Nada encontrado"
 
-#: Helpers/Localizations.php:164
+#: Helpers/Localizations.php:165
 msgid "Add Image"
 msgstr "Añadir imagen"
 
-#: Helpers/Localizations.php:165
+#: Helpers/Localizations.php:166
 msgid "Remove Image"
 msgstr "Borrar Imagen"
 
-#: Helpers/Localizations.php:166
+#: Helpers/Localizations.php:167
 msgid "Move Image"
 msgstr "Mover Imagen"
 
-#: Helpers/Localizations.php:167
+#: Helpers/Localizations.php:168
 msgid "Edit or Replace Image"
 msgstr "Editar o Reemplazar Imagen"
 
-#: Helpers/Localizations.php:168
+#: Helpers/Localizations.php:169
 msgid "Add Link"
 msgstr "Añadir Enlace"
 
-#: Helpers/Localizations.php:169
+#: Helpers/Localizations.php:170
 msgid "Select URL"
 msgstr "Selecciona URL"
 
-#: Helpers/Localizations.php:170
+#: Helpers/Localizations.php:171
 msgid "Insert or Edit Link"
 msgstr "Inserta o Edita Enlace"
 
-#: Helpers/Localizations.php:171 Helpers/Localizations.php:177
+#: Helpers/Localizations.php:172 Helpers/Localizations.php:178
 msgid "Enter destination URL"
 msgstr "Introducir URL de destino"
 
-#: Helpers/Localizations.php:172
+#: Helpers/Localizations.php:173
 msgid "Or link to existing content"
 msgstr "O enlaza a contenido existente"
 
-#: Helpers/Localizations.php:173
+#: Helpers/Localizations.php:174
 msgid "Search existing content"
 msgstr "Buscar contenido existente"
 
-#: Helpers/Localizations.php:175
+#: Helpers/Localizations.php:176
 msgid "Open link in a new tab"
 msgstr "Abrir enlace en una nueva pestaña"
 
-#: Helpers/Localizations.php:176
+#: Helpers/Localizations.php:177
 msgid "Add nofollow option to link"
 msgstr "Añadir opción de no seguimiento al link"
 
-#: Helpers/Localizations.php:178
+#: Helpers/Localizations.php:179
 msgid "Title attribute will be displayed on link hover"
 msgstr "Los atributos del título serán mostrados al flotar el ratón"
 
-#: Helpers/Localizations.php:179
+#: Helpers/Localizations.php:180
 msgid "Title"
 msgstr "Título"
 
-#: Helpers/Localizations.php:180
+#: Helpers/Localizations.php:181
 msgid "Visual Composer Cloud update failed, please try again"
 msgstr "Falló la actualización de Visual Composer Cloud, por favor vuelva a intentarlo"
 
-#: Helpers/Localizations.php:181
+#: Helpers/Localizations.php:182
 msgid "Preview"
 msgstr "Previsualizar"
 
-#: Helpers/Localizations.php:182
+#: Helpers/Localizations.php:183
 msgid "Preview Changes"
 msgstr "Previsualizar Cambios"
 
-#: Helpers/Localizations.php:183
+#: Helpers/Localizations.php:184
 msgid "Saving Results"
 msgstr "Guardando Resultados"
 
-#: Helpers/Localizations.php:184
+#: Helpers/Localizations.php:185
 msgid "Hide: Off"
 msgstr "Ocultar: Desactivado"
 
-#: Helpers/Localizations.php:185
+#: Helpers/Localizations.php:186
 msgid "Hide: On"
 msgstr "Ocultar: Activo"
 
-#: Helpers/Localizations.php:186
+#: Helpers/Localizations.php:187
 msgid "Downloading initial extensions"
 msgstr "Descargando extensiones iniciales"
 
-#: Helpers/Localizations.php:187
+#: Helpers/Localizations.php:188
 msgid "Downloading assets {i} of {cnt}: {name}"
 msgstr "Descargando materiales {i} de {cnt}: {name}"
 
-#: Helpers/Localizations.php:188
+#: Helpers/Localizations.php:189
 msgid "Updating posts {i} in {cnt}: {name}"
 msgstr "Actualizando posts {i} in {cnt}: {name}"
 
-#: Helpers/Localizations.php:189
+#: Helpers/Localizations.php:190
 msgid "Failed to load: {file}"
 msgstr "Fallo al cargar: {file}"
 
-#: Helpers/Localizations.php:190
+#: Helpers/Localizations.php:191
 msgid "None"
 msgstr "Nada"
 
-#: Helpers/Localizations.php:193
+#: Helpers/Localizations.php:194
 msgid "Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view."
 msgstr "Haz doble click en un elemento para abrir la ventana de edición. Mantén pulsado para iniciar desplazamiento y soltar en una vista de árbol."
 
-#: Helpers/Localizations.php:196
+#: Helpers/Localizations.php:197
 msgid "Template"
 msgstr "Plantilla"
 
-#: Helpers/Localizations.php:197
+#: Helpers/Localizations.php:198
 msgid "Theme Default"
 msgstr "Plantilla por defecto"
 
-#: Helpers/Localizations.php:199
+#: Helpers/Localizations.php:200
 msgid "To apply a template save changes and reload the page"
 msgstr "Para aplicar una plantilla guarda los cambios y recarga la página"
 
-#: Helpers/Localizations.php:203
+#: Helpers/Localizations.php:204
 msgid "To apply a template you will need to save changes and content will be reloaded."
 msgstr "Para aplicar una plantilla tendrás que guardar los cambios y el contenido volverá a cargar."
 
-#: Helpers/Localizations.php:207
+#: Helpers/Localizations.php:208
 msgid "To apply title changes save changes and reload the page"
 msgstr "Para aplicar cambios de título guarda los cambios y recarga la página"
 
-#: Helpers/Localizations.php:210
+#: Helpers/Localizations.php:211
 msgid "Disable page title"
 msgstr "Desactivar título de página"
 
-#: Helpers/Localizations.php:212
+#: Helpers/Localizations.php:213
 msgid "{name} has been successfully downloaded from the Visual Composer Hub and added to your library"
 msgstr "{name} ha sido descargado exitosamente del Visual Composer Hub y añadido a tu librería"
 
-#: Helpers/Localizations.php:216
+#: Helpers/Localizations.php:217
 msgid "Failed to download element (license expired or request timed out)"
 msgstr "Fallo al descargar elemento (licencia expirada o tiempo de petición agotado)"
 
-#: Helpers/Localizations.php:219
+#: Helpers/Localizations.php:220
 msgid "Failed to download element"
 msgstr "Fallo al descargar elemento"
 
-#: Helpers/Localizations.php:222
+#: Helpers/Localizations.php:223
 msgid "It seems that something went wrong with loading content. Please make sure you are loading correct content and try again."
 msgstr "Parece que algo falló en la carga de contenido. Por favor compruebe que está cargando el contenido correcto y vuelva a intentar."
 
-#: Helpers/Localizations.php:225 Helpers/Localizations.php:231
-#: Helpers/Localizations.php:245
+#: Helpers/Localizations.php:226 Helpers/Localizations.php:232
+#: Helpers/Localizations.php:246
 msgid "Return to WordPress dashboard"
 msgstr "Volver al dashboard WordPress"
 
-#: Helpers/Localizations.php:228
+#: Helpers/Localizations.php:229
 msgid "It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin"
 msgstr "Parece que está intentando editar una página que muestra un historial de posts en vez de contenido. Antes de editar, asegúrese de convertirlo a una página estática por tu administración WordPress"
 
-#: Helpers/Localizations.php:233
+#: Helpers/Localizations.php:234
 msgid "You can replace the {elementLabel} within this element with another {elementLabel} from your elements"
 msgstr "Puedes reemplazar el {elementLabel} dentro de este elemento con otro {elementLabel} desde tus elementos"
 
-#: Helpers/Localizations.php:237
+#: Helpers/Localizations.php:238
 msgid "Replace current element with different element from the same category"
 msgstr "Reemplazar elemento actual con un elemento diferente de la misma categoría"
 
-#: Helpers/Localizations.php:241
+#: Helpers/Localizations.php:242
 msgid "We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response."
 msgstr "Nos gustaría reconocer que hemos recibido su petición y un ticket ha sido creado. Un representante de soporte revisará su petición y le enviará una respuesta personal."
 
-#: Helpers/Localizations.php:249
+#: Helpers/Localizations.php:250
 msgid "Thank You!"
 msgstr "Gracias!"
 
-#: Helpers/Localizations.php:254
+#: Helpers/Localizations.php:255
 msgid "There is a new version of Visual Composer Website Builder available. <a href=\"%s\">Update now</a> to version %s."
 msgstr "Hay una nueva versión de Visual Composer Website Builder disponible. <a href=\"%s\">Update now</a> to version %s."
 
-#: Helpers/Localizations.php:262
+#: Helpers/Localizations.php:263
 msgid "Choose %s or %screate new%s."
 msgstr "Elige %s o %screa nueva%s."
 
-#: Helpers/Localizations.php:274
+#: Helpers/Localizations.php:275
 msgid "Update Visual Composer plugin to the most recent version to download this content element."
 msgstr "Actualiza el Visual Composer a la última versión para descargar este elemento de contenido."
 
-#: Helpers/Localizations.php:278
+#: Helpers/Localizations.php:279
 msgid "Update Visual Composer plugin to the most recent version to download this template."
 msgstr "Actualiza Visual Composer a la verisón más reciente para descargar esta plantilla."
 
-#: Helpers/Localizations.php:281
+#: Helpers/Localizations.php:282
 msgid "Start Building"
 msgstr "Empezar a Maquetar"
 
-#: Helpers/Localizations.php:284
+#: Helpers/Localizations.php:285
 msgid "%s Name"
 msgstr "%s Nombre"
 
-#: Helpers/Localizations.php:290
+#: Helpers/Localizations.php:291
 msgid "Your WordPress theme defined layout for specific page, post, or custom post type."
 msgstr "El diseño definido por tu tema WordPress para una página, post o post personalizado específico."
 
-#: Helpers/Localizations.php:294
+#: Helpers/Localizations.php:295
 msgid "Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar."
 msgstr "Diseño de página en blanco con área de contenido en el medio de la página sin cabecera, pie de página o barra lateral."
 
-#: Helpers/Localizations.php:298
+#: Helpers/Localizations.php:299
 msgid "Full width blank page without header, footer, or sidebar."
 msgstr "Página en blanco sin cabecera, pie de página o barra lateral"
 
-#: Helpers/Localizations.php:302
+#: Helpers/Localizations.php:303
 msgid "Default layout with custom header, content, and footer area."
 msgstr "Diseño por defecto con cabecera, pie de página y barra lateral personalizados."
 
-#: Helpers/Localizations.php:306
+#: Helpers/Localizations.php:307
 msgid "Default layout with custom header, content, footer and sidebar area on the right."
 msgstr "Diseño por defecto con cabecera, pie de página y barra lateral derecha personalizados."
 
-#: Helpers/Localizations.php:310
+#: Helpers/Localizations.php:311
 msgid "Default layout with custom header, content, footer and sidebar area on the left."
 msgstr "El diseño por defecto con cabecera, contenido, pie de página y barra lateral en la izquierda personalizados."
 
-#: Helpers/Localizations.php:314
+#: Helpers/Localizations.php:315
 msgid "Available in Premium version."
 msgstr "Disponible en la versión Premium."
 
-#: Helpers/Localizations.php:318
+#: Helpers/Localizations.php:319
 msgid "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
 msgstr "Plugin Gutenberg no funciona adecuadamente. Compruebe el plugin Gutenberg."
 
-#: Helpers/Localizations.php:321
+#: Helpers/Localizations.php:322
 msgid "Free"
 msgstr "Gratis"
 
-#: Helpers/Localizations.php:322
+#: Helpers/Localizations.php:323
 msgid "Premium"
 msgstr "Premium"
 
-#: Helpers/Localizations.php:323
+#: Helpers/Localizations.php:324
 msgid "Remove All"
 msgstr "Borrar Todo"
 
-#: Helpers/Localizations.php:324
+#: Helpers/Localizations.php:325
 msgid "Continue import"
 msgstr "Continuar importación"
 
-#: Helpers/Localizations.php:325
+#: Helpers/Localizations.php:326
 msgid "Back to import"
 msgstr "Volver a importar"
 
-#: Helpers/Localizations.php:326
+#: Helpers/Localizations.php:327
 msgid "Starting import process..."
 msgstr "Comenzando proceso de importación..."
 
-#: Helpers/Localizations.php:327
+#: Helpers/Localizations.php:328
 msgid "Back to parent"
 msgstr "Volver al superior"
 
@@ -1479,34 +1586,6 @@ msgstr "Ver %s"
 msgid "All"
 msgstr "Todo"
 
-#: Helpers/Settings/Pages/About.php:25
-msgid "Set up your own navigation position or change it at any time."
-msgstr "Cree su propia navegación o cámbiela en cualquier momento."
-
-#: Helpers/Settings/Pages/About.php:29
-msgid "Access and see the path to your elements, columns, and rows from one control."
-msgstr "Accede y ve el camino a tus elementos, columnas y filas desde un control."
-
-#: Helpers/Settings/Pages/About.php:33
-msgid "Use inline text editing to change content with one click."
-msgstr "Usar edición de texto en línea para cambiar el contenido con un click."
-
-#: Helpers/Settings/Pages/About.php:37
-msgid "Control and overview your page structure from the Tree View mode."
-msgstr "Controla y visualiza la estructura de tu página desde el modo Vista de Árbol."
-
-#: Helpers/Settings/Pages/About.php:41
-msgid "Divide your row into columns with Row layout and pre-made layouts."
-msgstr "Divide tu fila en columnas con Diseño de Filas y plantillas hechas."
-
-#: Helpers/Settings/Pages/About.php:45
-msgid "Apply changes instantly and revert back with Undo/Redo at any time."
-msgstr "Aplicar cambios instantáneamente y volver con Deshacer/Rehacer en cualquier momento."
-
-#: Helpers/Settings/Pages/About.php:49
-msgid "Resize columns with easy to use resize tool."
-msgstr "Redimensiona columnas con la herramienta redimensionar."
-
 #: Helpers/Token.php:170
 msgid "Your Visual Composer Website Builder License will expire soon - %s"
 msgstr "Tu licencia Visual Composer Website Builder expirará pronto - %s"
@@ -1545,7 +1624,12 @@ msgstr "Plantilla encajada"
 msgid "Blank Template"
 msgstr "Plantilla vacía"
 
-#: Helpers/Localizations.php:270
+#: Helpers/Localizations.php:271
+#: Modules/Editors/DataAjax/PostFieldsController.php:44
+#: Modules/Editors/DataAjax/PostFieldsController.php:52
+#: Modules/Editors/DataAjax/PostFieldsController.php:60
+#: Modules/Editors/DataAjax/PostFieldsController.php:68
+#: Modules/Editors/DataAjax/PostFieldsController.php:82
 #: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
 msgid "Default"
 msgstr "Defecto"
@@ -1554,15 +1638,15 @@ msgstr "Defecto"
 msgid "Theme Templates"
 msgstr "Plantillas de Tema"
 
-#: Modules/Editors/Templates/PostType.php:36
+#: Modules/Editors/Templates/PostType.php:38
 msgid "Global Templates"
 msgstr "Plantillas globales"
 
-#: Modules/License/LicenseController.php:114
+#: Modules/License/LicenseController.php:108
 msgid "Invalid token -> Failed licence activation - Invalid token"
 msgstr "Token inválido -> Falló la activación de licencia -Token inválido"
 
-#: Modules/Settings/MenuController.php:75
+#: Modules/Settings/MenuController.php:69
 msgid "Visual Composer "
 msgstr "Visual Composer "
 
@@ -1640,29 +1724,29 @@ msgstr ""
 msgid "Failed to get changelog"
 msgstr "Fallo al obtener registro de cambios"
 
-#: Modules/Vendors/GutenbergAttributeController.php:80
+#: Modules/Vendors/GutenbergAttributeController.php:90
 msgid "Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer."
 msgstr "Activa/desactiva el editor Gutenberg para tu sitio WordPress. Desactivando el editor Gutenberg activará el editor Clásico. En ambos casos, puedes seguir usando Visual Composer."
 
-#: Modules/Vendors/GutenbergAttributeController.php:88
+#: Modules/Vendors/GutenbergAttributeController.php:98
 msgid "Gutenberg Editor"
 msgstr "Editor Gutenberg"
 
-#: Modules/Vendors/GutenbergAttributeController.php:223
-#: Modules/Vendors/GutenbergAttributeController.php:225
+#: Modules/Vendors/GutenbergAttributeController.php:251
+#: Modules/Vendors/GutenbergAttributeController.php:253
 msgid "Gutenberg attrs"
 msgstr "Atributos Gutenberg"
 
-#: Modules/Vendors/GutenbergAttributeController.php:224
-#: Modules/Vendors/GutenbergAttributeController.php:226
+#: Modules/Vendors/GutenbergAttributeController.php:252
+#: Modules/Vendors/GutenbergAttributeController.php:254
 msgid "Gutenberg attr"
 msgstr "Atributos Gutenberg"
 
-#: Modules/Vendors/GutenbergAttributeController.php:227
+#: Modules/Vendors/GutenbergAttributeController.php:255
 #: Modules/Vendors/WpbakeryController.php:136
 msgid "Add New"
 msgstr "Añadir Nuevo"
 
-#: Modules/Vendors/GutenbergAttributeController.php:228
+#: Modules/Vendors/GutenbergAttributeController.php:256
 msgid "Add New Gutenberg attr"
 msgstr "Añadir nuevo atributo Gutenberg"

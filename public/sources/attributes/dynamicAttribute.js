@@ -30,7 +30,10 @@ export default class DynamicAttribute extends React.Component {
     if (isDynamic) {
       let newState = this.getStateFromValue(this.props.value)
       window.setTimeout(() => {
-        settingsStorage.trigger('loadDynamicPost', state.sourceId, this.onLoadPostFields)
+        settingsStorage.trigger('loadDynamicPost', state.sourceId, this.onLoadPostFields, function (error) {
+          console.warn('Error loading dynamic post info', error)
+          this.onLoadPostFields(this.state.sourceId, {}, {})
+        })
       }, 1)
       state = { ...state, ...newState }
     }
@@ -73,7 +76,10 @@ export default class DynamicAttribute extends React.Component {
       let newState = this.getStateFromValue(newValue, dataLoaded, postFields, newSourceId !== oldSourceId)
       if (!dataLoaded) {
         window.setTimeout(() => {
-          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields)
+          settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields, function (error) {
+            console.warn('Error loading dynamic post info', error)
+            this.onLoadPostFields(this.state.sourceId, {}, {})
+          })
         }, 1)
       }
       this.setState(newState)
@@ -129,9 +135,15 @@ export default class DynamicAttribute extends React.Component {
       state.dataLoaded = false
       state.postFields = {}
       window.setTimeout(() => {
-        settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields)
+        settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields, function (error) {
+          console.warn('Error loading dynamic post info', error)
+          this.onLoadPostFields(this.state.sourceId, {}, {})
+        })
       }, 1)
       this.setState(state)
+    } else {
+      // We have wrong post at all :/
+      this.setState({ postFields: {} })
     }
   }
 
@@ -174,7 +186,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderOpenButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldOpen} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Replace static content with Dynamic Field'} />
+    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldOpen} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Insert dynamic content'} />
   }
 
   renderCloseButton () {
@@ -196,7 +208,7 @@ export default class DynamicAttribute extends React.Component {
       }}
       updater={this.handleChangeSourceId}
       extraClass='vcv-ui-form-field-dynamic'
-      description={DynamicAttribute.localizations.dynamicAutocompleteDescription || 'Select the page, post, or custom post type (current post is selected by default).'}
+      description={DynamicAttribute.localizations.dynamicAutocompleteDescription || 'Select page, post, or custom post type.'}
     />
   }
 
@@ -211,13 +223,13 @@ export default class DynamicAttribute extends React.Component {
         updater={this.handleAutocompleteToggle}
         extraClass='vcv-ui-form-field-dynamic'
       />
-      <p className='vcv-ui-form-helper'>{DynamicAttribute.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content will be taken from the current post.'}</p>
+      <p className='vcv-ui-form-helper'>{DynamicAttribute.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}</p>
     </React.Fragment>
   }
 
   renderDynamicFieldsDropdown (fieldsList) {
     let newFieldsList = Object.values(fieldsList)
-    newFieldsList.unshift({ label: 'Select your value', value: '', disabled: true })
+    newFieldsList.unshift({ label: 'Select data source', value: '', disabled: true })
     return (
       <Dropdown
         value={this.state.blockInfo ? this.state.blockInfo.blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2') : ''}
@@ -227,7 +239,7 @@ export default class DynamicAttribute extends React.Component {
         }}
         updater={this.handleDynamicFieldChange}
         extraClass='vcv-ui-form-field-dynamic'
-        description={DynamicAttribute.localizations.dynamicTypeDescription || 'Select the dynamic content data source.'}
+        description={DynamicAttribute.localizations.dynamicTypeDescription || 'Select data source for dynamic content.'}
       />
     )
   }
@@ -276,12 +288,9 @@ export default class DynamicAttribute extends React.Component {
       loader = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
     } else {
       let postFields = this.state.postFields
-      let postFieldsKeys = Object.keys(postFields)
-      if (postFieldsKeys.indexOf(this.props.fieldType) !== -1) {
-        let fieldsList = postFields[ this.props.fieldType ]
-        fieldComponent = this.renderDynamicFieldsDropdown(fieldsList)
-        extraDynamicComponent = this.renderDynamicFieldsExtra()
-      }
+      let fieldsList = postFields[ this.props.fieldType ] || {}
+      fieldComponent = this.renderDynamicFieldsDropdown(fieldsList)
+      extraDynamicComponent = this.renderDynamicFieldsExtra()
     }
 
     return (
