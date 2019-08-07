@@ -485,19 +485,19 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'dynamicFieldsOpenText' => __(
-                'Replace static content with Dynamic Field',
+                'Insert dynamic content',
                 'vcwb'
             ),
             'dynamicFieldsCloseText' => __(
-                'Disable Dynamic Fields',
+                'Remove dynamic content',
                 'vcwb'
             ),
             'dynamicAutocompleteDescription' => __(
-                'Select the page, post, or custom post type (current post is selected by default).',
+                'Select page, post, or custom post type.',
                 'vcwb'
             ),
             'dynamicAutocompleteToggleDescription' => __(
-                'By default, dynamic content will be taken from the current post.',
+                'By default, dynamic content is taken from the current post.',
                 'vcwb'
             ),
             'dynamicAutocompleteToggleLabel' => __(
@@ -505,7 +505,7 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'dynamicTypeDescription' => __(
-                'Select the dynamic content data source.',
+                'Select data source for dynamic content.',
                 'vcwb'
             ),
         ];
