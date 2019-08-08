@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Gutenberg;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -431,21 +432,14 @@ class GutenbergAttributeController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    protected function outputGutenberg(Options $optionsHelper, Request $requestHelper)
+    protected function outputGutenberg(Options $optionsHelper, Request $requestHelper, Gutenberg $gutenbergHelper)
     {
         if ($this->printed) {
             return;
         }
 
-        $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
         $available = false;
-        if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
-            && (!empty($settings) && in_array('gutenberg-editor', $settings))
-            && (!function_exists('classic_editor_init_actions'))
-            || (function_exists('classic_editor_init_actions')
-                && get_option('classic-editor-replace') === 'no-replace'
-                && !$requestHelper->exists('classic-editor'))
-        ) {
+        if ($gutenbergHelper->isGutenbergEnabled()) {
             $available = true;
         }
         evcview(

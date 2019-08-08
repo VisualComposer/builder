@@ -11,8 +11,12 @@ export default class FrontendClassicSwitcher extends React.Component {
     }
 
     const beEditorInput = document.getElementById('vcv-be-editor')
+    let url = window.location.href
+    if (url.indexOf('classic-editor') !== -1) {
+      beEditorInput.value = 'classic'
+    }
     let editor = beEditorInput.value
-    if ((beEditorInput && [ 'classic', 'gutenberg' ].indexOf(beEditorInput.value) === -1) || (beEditorInput.value === 'gutenberg' && !gutenberg)) {
+    if ((beEditorInput && [ 'classic', 'gutenberg' ].indexOf(editor) === -1) || (editor === 'gutenberg' && !gutenberg)) {
       editor = 'be'
       this.hideClassicEditor()
     }
@@ -64,16 +68,13 @@ export default class FrontendClassicSwitcher extends React.Component {
   }
 
   showClassicEditor () {
-    const beEditorInput = document.getElementById('vcv-be-editor')
-    beEditorInput.value = 'classic'
-
-    document.getElementById('postdivrich').classList.remove('vcv-hidden')
-    window.setTimeout(() => {
-      if (window.editorExpand) {
-        window.editorExpand.on()
-        window.editorExpand.on() // double call fixes "space" in height from VCPB
-      }
-    }, 0)
+    var url = window.location.href
+    if (url.indexOf('?') > -1) {
+      url += '&classic-editor=1'
+    } else {
+      url += '?classic-editor=1'
+    }
+    window.location.href = url
   }
 
   render () {

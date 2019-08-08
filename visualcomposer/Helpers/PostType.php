@@ -226,7 +226,7 @@ class PostType implements Helper
         // @codingStandardsIgnoreLine
             [$post_type_object->cap->publish_posts, $post->ID]
         )->get();
-        $data['backendEditorUrl'] = get_edit_post_link($post->ID, 'url');
+        $data['backendEditorUrl'] = str_replace('&classic-editor', '', get_edit_post_link($post->ID, 'url'));
         $data['adminDashboardUrl'] = self_admin_url('index.php');
         $data['adminDashboardPostTypeListUrl'] = self_admin_url('edit.php?post_type=' . get_post_type());
         // @codingStandardsIgnoreLine
