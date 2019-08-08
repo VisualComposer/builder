@@ -1,8 +1,8 @@
-## ver 18.0 - 2019-07-01
-- New: Dynamic fields feature to replace static content with WordPress fields (ex. post titles, featured images, author name, etc.)
-- New: Dynamic fields feature to replace static content with WordPress custom fields
-- New: API for dynamic fields introduced to add this option to custom elements
-- New: Dynamic fields integration with WooCommerce
+## ver 18.0 - 2019-08-08
+- New: Dynamic content feature to replace static content with WordPress fields (ex. post titles, featured images, author name, etc.)
+- New: Dynamic content feature to replace static content with WordPress custom fields
+- New: API for dynamic content introduced to add this option to custom elements
+- New: Dynamic content integration with WooCommerce
 - New: Unsplash library access available in the Media Library
 - New: Data list attributed added and available for custom elements via API
 - Update: Single Image element improved
