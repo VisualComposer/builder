@@ -231,7 +231,7 @@ class Categories implements Helper
             ],
             'Single image' => [
                 'title' => 'Single Image',
-                'elements' => ['singleImage', 'hoverImage'],
+                'elements' => ['singleImage', 'hoverImage', 'phoneMockup'],
                 'icon' => $urlHelper->to('public/categories/icons/Single-Image.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Single-Image.svg'),
             ],
