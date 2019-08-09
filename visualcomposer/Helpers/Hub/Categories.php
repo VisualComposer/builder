@@ -267,7 +267,8 @@ class Categories implements Helper
                     'globalTemplate',
                     'timelineWithIcons',
                     'bannerElement',
-                    'profileWithIcon'
+                    'profileWithIcon',
+                    'soundcloudPlayer'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
