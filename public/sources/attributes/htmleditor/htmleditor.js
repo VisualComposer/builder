@@ -41,10 +41,13 @@ export default class HtmlEditorComponent extends React.Component {
       const editor = window.tinymce.get(id)
       if (editor) {
         editor.getBody().style.backgroundColor = newState.darkTextSkin ? '#2f2f2f' : ''
-        if (newProps.dynamicFieldOpened && this.props.value !== newProps.value) {
+        if (this.props.value !== newProps.value && !this.editorValue) {
           editor.setContent(newProps.value)
           this.loadUsedFonts(newProps)
           editor.nodeChanged()
+        }
+        if (this.editorValue) {
+          this.editorValue = null
         }
       }
 
@@ -227,7 +230,7 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   handleChange (event) {
-    this.setFieldValue(event.currentTarget.value)
+    this.props.setFieldValue(event.currentTarget.value)
   }
 
   handleChangeWpEditor (editor) {
@@ -245,8 +248,8 @@ export default class HtmlEditorComponent extends React.Component {
     }
 
     let { updater, fieldKey, fieldType, setValueState } = this.props
+    this.editorValue = newValue
     setValueState(newValue)
-    // this.setState({ value: newValue })
     window.setTimeout(() => {
       updater(fieldKey, value, null, fieldType)
     }, 0)
@@ -254,7 +257,7 @@ export default class HtmlEditorComponent extends React.Component {
 
   handleChangeQtagsEditor (e) {
     const field = e.target
-    this.setFieldValue(field.value)
+    this.props.setFieldValue(field.value)
   }
 
   handleSkinChange (fieldKey, isDark) {

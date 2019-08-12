@@ -231,7 +231,7 @@ class Categories implements Helper
             ],
             'Single image' => [
                 'title' => 'Single Image',
-                'elements' => ['singleImage', 'hoverImage'],
+                'elements' => ['singleImage', 'hoverImage', 'phoneMockup'],
                 'icon' => $urlHelper->to('public/categories/icons/Single-Image.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Single-Image.svg'),
             ],
@@ -267,7 +267,8 @@ class Categories implements Helper
                     'globalTemplate',
                     'timelineWithIcons',
                     'bannerElement',
-                    'profileWithIcon'
+                    'profileWithIcon',
+                    'soundcloudPlayer'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
