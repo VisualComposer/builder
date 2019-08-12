@@ -98,7 +98,8 @@ class BundleController extends Container implements Module
             $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
             // Disable TinyMCE to avoid markup break, empty tags removal and etc VC-516
-            if (!$requestHelper->exists('classic-editor')
+            $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
+            if ($savedEditor !== 'classic' && !$requestHelper->exists('classic-editor')
                 && !(method_exists($screen, 'is_block_editor')
                     && $screen->is_block_editor())) {
                 // Not Block editor, apply only in classic-mode

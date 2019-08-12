@@ -155,14 +155,21 @@ class GutenbergAttributeController extends Container implements Module
     {
         $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
         $savedEditor = get_post_meta($requestHelper->input('post'), VCV_PREFIX . 'be-editor', true);
-        if ($requestHelper->input('vcv-set-editor') === 'gutenberg'
-            && (!empty($settings)
-                && in_array('gutenberg-editor', $settings))
-            || (!$this->isVcwbPage()
-                && (!empty($settings)
-                    && in_array('gutenberg-editor', $settings)))
-            || ($savedEditor === 'gutenberg' && !empty($settings)
-                && in_array('gutenberg-editor', $settings))) {
+        if ((
+                $requestHelper->input('vcv-set-editor') === 'gutenberg'
+                && !$requestHelper->exists('classic-editor')
+                && (
+                    !empty($settings) && in_array('gutenberg-editor', $settings)
+                )
+            )
+            || (!$requestHelper->exists('classic-editor') && !$this->isVcwbPage() && !empty($settings)
+                && in_array(
+                    'gutenberg-editor',
+                    $settings
+                ))
+            || ($savedEditor === 'gutenberg' && !empty($settings) && in_array('gutenberg-editor', $settings))
+            || ($requestHelper->exists('classic-editor__forget'))
+        ) {
             return;
         }
 
@@ -371,6 +378,7 @@ class GutenbergAttributeController extends Container implements Module
             .components-panel__header.edit-post-sidebar-header.edit-post-sidebar__panel-tabs li:first-child {
                 display: none;
             }
+
             .edit-post-sidebar .components-panel > :not(.edit-post-settings-sidebar__panel-block) {
                 display: none;
             }
@@ -439,7 +447,7 @@ class GutenbergAttributeController extends Container implements Module
         }
 
         $available = false;
-        if ($gutenbergHelper->isGutenbergEnabled()) {
+        if ($gutenbergHelper->isGutenbergAvailable()) {
             $available = true;
         }
         evcview(
