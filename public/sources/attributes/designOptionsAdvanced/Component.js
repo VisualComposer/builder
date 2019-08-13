@@ -1715,7 +1715,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay || this.state.devices[ this.state.currentDevice ].gradientType === 'radial') {
       return null
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientAngle || DesignOptionsAdvanced.deviceDefaults.gradientAngle
+    let value = this.state.devices[ this.state.currentDevice ].gradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle
