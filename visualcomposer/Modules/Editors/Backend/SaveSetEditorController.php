@@ -28,12 +28,14 @@ class SaveSetEditorController extends Container implements Module
         $this->wpAddFilter('wp_insert_post_data', 'skipContentUpdate');
     }
 
-    protected function setEditor(Request $requestHelper)
+    protected function setEditor($postId, Request $requestHelper)
     {
-        /** @var \WP_Post $post */
-        $post = get_post();
-        if ($post && $requestHelper->input('vcv-be-editor')) {
-            update_post_meta($post->ID, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
+        if ($requestHelper->exists('rest_route')) {
+            // We are in Gutenberg! It doesn't send all the fields..
+            update_post_meta($postId, VCV_PREFIX . 'be-editor', 'gutenberg');
+        }
+        if ($requestHelper->input('vcv-be-editor')) {
+            update_post_meta($postId, VCV_PREFIX . 'be-editor', $requestHelper->input('vcv-be-editor'));
         }
     }
 

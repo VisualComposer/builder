@@ -10,7 +10,7 @@ export default () => {
   let render = false
   const renderSwitcher = (switcherContainer) => {
     ReactDOM.render(
-      <FrontendClassicSwitcher />,
+      <FrontendClassicSwitcher isGutenbergEditor={!!gutenbergEditor} />,
       switcherContainer
     )
   }
