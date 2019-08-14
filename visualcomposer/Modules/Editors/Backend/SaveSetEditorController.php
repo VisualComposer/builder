@@ -30,7 +30,7 @@ class SaveSetEditorController extends Container implements Module
 
     protected function setEditor($postId, Request $requestHelper)
     {
-        if($requestHelper->exists('rest_route')) {
+        if ($requestHelper->exists('rest_route')) {
             // We are in Gutenberg! It doesn't send all the fields..
             update_post_meta($postId, VCV_PREFIX . 'be-editor', 'gutenberg');
         }
