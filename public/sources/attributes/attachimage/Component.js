@@ -380,7 +380,7 @@ export default class AttachImage extends Attribute {
     }
     const isDynamicValue = !!(dynamicValue && typeof dynamicValue === 'string' && dynamicValue.match(blockRegexp))
 
-    if (isDynamicValue !== dynamicFieldOpened) {
+    if (isDynamicValue !== !!dynamicFieldOpened) {
       return null
     }
 

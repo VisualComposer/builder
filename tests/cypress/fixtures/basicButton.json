@@ -1,0 +1,31 @@
+{
+  "customId": "basic-button-id",
+  "customClass": "basic-button-class",
+  "alignment": "center",
+  "buttonLink": "visualcomposer.com",
+  "buttonText": "Hello World",
+  "titleColor": {
+    "hex": "FFC000",
+    "rgb": "rgb(255, 192, 0)"
+  },
+  "backgroundColor": {
+    "hex": "9461D3",
+    "rgb": "rgb(148, 97, 211)"
+  },
+  "designOptions": {
+    "animation": "zoomInDown",
+    "padding": "30px",
+    "margin": "15px",
+    "borderWidth": "2px",
+    "borderRadius": "10px",
+    "backgroundColor": {
+      "hex": "B93030",
+      "rgb": "rgb(185, 48, 48)"
+    },
+    "borderStyle": "dotted",
+    "borderColor": {
+      "hex": "55E05D",
+      "rgb": "rgb(85, 224, 93)"
+    }
+  }
+}

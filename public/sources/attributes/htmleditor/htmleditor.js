@@ -6,7 +6,8 @@ import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
 import { getService } from 'vc-cake'
 
-const { parseDynamicBlock } = getService('utils')
+const { getBlockRegexp, parseDynamicBlock } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class HtmlEditorComponent extends React.Component {
   constructor (props) {
@@ -22,6 +23,16 @@ export default class HtmlEditorComponent extends React.Component {
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
     this.state = {}
     this.state.darkTextSkin = this.getDarkTextSkinState()
+    this.state.value = props.value
+  }
+
+  static getDerivedStateFromProps (props, currentState) {
+    if (currentState.value !== props.value) {
+      return {
+        value: props.value
+      }
+    }
+    return null
   }
 
   shouldComponentUpdate (newProps, newState) {
@@ -41,10 +52,39 @@ export default class HtmlEditorComponent extends React.Component {
       const editor = window.tinymce.get(id)
       if (editor) {
         editor.getBody().style.backgroundColor = newState.darkTextSkin ? '#2f2f2f' : ''
-        if (newProps.dynamicFieldOpened && this.props.value !== newProps.value) {
-          editor.setContent(newProps.value)
+        if (newState.value.match(blockRegexp)) {
+          let blockInfo = parseDynamicBlock(newState.value)
+          let blockValue = newState.value.match(blockRegexp)
+
+          if (blockInfo) {
+            let before = blockInfo.beforeBlock || ''
+            let after = blockInfo.afterBlock || ''
+            // We have to encode the html comment
+            let valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
+            editor.setContent(valueForEditor)
+          }
+        }
+        if (this.props.value !== newProps.value && !this.editorValue) {
+          if (newProps.value.match(blockRegexp)) {
+            let blockInfo = parseDynamicBlock(newProps.value)
+            let blockValue = newProps.value.match(blockRegexp)
+
+            if (blockInfo) {
+              let before = blockInfo.beforeBlock || ''
+              let after = blockInfo.afterBlock || ''
+
+              // We have to encode the html comment
+              let valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
+              editor.setContent(valueForEditor)
+            }
+          } else {
+            editor.setContent(newProps.value)
+          }
           this.loadUsedFonts(newProps)
           editor.nodeChanged()
+        }
+        if (this.editorValue) {
+          this.editorValue = null
         }
       }
 
@@ -227,17 +267,16 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   handleChange (event) {
-    this.setFieldValue(event.currentTarget.value)
+    this.props.setFieldValue(event.currentTarget.value)
   }
 
   handleChangeWpEditor (editor) {
     let value = editor.getContent()
-    let newValue = value
     if (this.props.dynamicFieldOpened) {
-      value = decodeURIComponent(newValue)
+      // the value html comment is encoded in this momment
+      value = decodeURIComponent(value)
       let blockInfo = parseDynamicBlock(value)
       if (blockInfo) {
-        newValue = blockInfo.beforeBlock + window.encodeURIComponent(`<!-- wp:${blockInfo.blockScope}${blockInfo.blockName} ${JSON.stringify(blockInfo.blockAtts)} -->${blockInfo.blockContent}<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName} -->`) + blockInfo.afterBlock
         this.setState({
           blockInfo: blockInfo
         })
@@ -245,8 +284,8 @@ export default class HtmlEditorComponent extends React.Component {
     }
 
     let { updater, fieldKey, fieldType, setValueState } = this.props
-    setValueState(newValue)
-    // this.setState({ value: newValue })
+    this.editorValue = true
+    setValueState(value)
     window.setTimeout(() => {
       updater(fieldKey, value, null, fieldType)
     }, 0)
@@ -254,7 +293,7 @@ export default class HtmlEditorComponent extends React.Component {
 
   handleChangeQtagsEditor (e) {
     const field = e.target
-    this.setFieldValue(field.value)
+    this.props.setFieldValue(field.value)
   }
 
   handleSkinChange (fieldKey, isDark) {
@@ -447,9 +486,23 @@ export default class HtmlEditorComponent extends React.Component {
 
       const { dynamicFieldOpened } = this.props
       if (dynamicFieldOpened) {
+        let valueForEditor = this.state.value
+        if (this.state.value.match(blockRegexp)) {
+          let blockInfo = parseDynamicBlock(this.state.value)
+          let blockValue = this.state.value.match(blockRegexp)
+
+          if (blockInfo) {
+            let before = blockInfo.beforeBlock || ''
+            let after = blockInfo.afterBlock || ''
+
+            // We have to encode the html comment
+            valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
+          }
+        }
+
         let template = document.getElementById('vcv-wpeditor-dynamic-template').innerHTML
           .replace(/__VCVIDDYNAMIC__/g, id)
-          .replace(/%%content%%/g, this.props.value)
+          .replace(/%%content%%/g, valueForEditor)
 
         return (
           <React.Fragment>
@@ -459,7 +512,7 @@ export default class HtmlEditorComponent extends React.Component {
       } else {
         let template = document.getElementById('vcv-wpeditor-template').innerHTML
           .replace(/__VCVID__/g, id)
-          .replace(/%%content%%/g, this.props.value)
+          .replace(/%%content%%/g, this.state.value)
 
         return (
           <React.Fragment>

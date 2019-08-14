@@ -53,6 +53,8 @@ export default class Divider extends Attribute {
     dividerTopBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerTopBackgroundGradientEndColor: 'rgb(93, 55, 216)',
     dividerTopBackgroundGradientAngle: 0,
+    dividerTopWidth: '100',
+    dividerTopHeight: '20',
     dividerBottomBackgroundStyle: 'cover',
     dividerBottomBackgroundPosition: 'center-top',
     dividerBottomFlipHorizontal: 'horizontally-left',
@@ -62,7 +64,9 @@ export default class Divider extends Attribute {
     dividerBottomBackgroundColor: '#6567df',
     dividerBottomBackgroundGradientStartColor: 'rgb(226, 135, 135)',
     dividerBottomBackgroundGradientEndColor: 'rgb(93, 55, 216)',
-    dividerBottomBackgroundGradientAngle: 0
+    dividerBottomBackgroundGradientAngle: 0,
+    dividerBottomWidth: '100',
+    dividerBottomHeight: '20'
   }
   static defaultState = {
     currentDevice: 'all',
@@ -596,7 +600,7 @@ export default class Divider extends Attribute {
       return null
     }
 
-    let value = deviceData[ dividerHeightName ] || '20'
+    let value = deviceData[ dividerHeightName ]
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -626,7 +630,7 @@ export default class Divider extends Attribute {
       return null
     }
 
-    let value = deviceData[ dividerWidthName ] || '100'
+    let value = deviceData[ dividerWidthName ]
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -804,7 +808,7 @@ export default class Divider extends Attribute {
       return null
     }
 
-    let value = deviceData[ dividerAngleName ] || Divider.deviceDefaults[ dividerAngleName ]
+    let value = deviceData[ dividerAngleName ]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider gradient angle
