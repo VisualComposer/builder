@@ -65,7 +65,7 @@ export default class DividerShape extends React.Component {
     }
 
     return (
-      <linearGradient id={id} gradientUnits='objectBoundingBox' gradientTransform={`rotate(${angle} 0.5 0.5)`}>
+      <linearGradient id={id} gradientUnits='objectBoundingBox' gradientTransform={`rotate(${angle || '0'} 0.5 0.5)`}>
         <stop offset='0%' style={{ stopColor: startColor, stopOpacity: startColorAlpha }} />
         <stop offset='100%' style={{ stopColor: endColor, stopOpacity: endColorAlpha }} />
       </linearGradient>
