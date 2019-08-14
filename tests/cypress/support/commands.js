@@ -90,56 +90,164 @@ Cypress.Commands.add('setDO', (settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains('Padding')
     .then(($field) => {
-      cy.wrap($field)
-        .next()
-        .type(settings.padding)
+      if (settings.padding) {
+        cy.wrap($field)
+          .next()
+          .type(settings.padding)
+      }
     })
 
   cy.get('.vcv-ui-form-group-heading')
     .contains('Border')
     .then(($field) => {
-      cy.wrap($field)
-        .next()
-        .type(settings.borderWidth)
+      if (settings.borderWidth) {
+        cy.wrap($field)
+          .next()
+          .type(settings.borderWidth)
+      }
     })
 
   cy.get('.vcv-ui-form-group-heading')
     .contains('Radius')
     .then(($field) => {
-      cy.wrap($field)
-        .next()
-        .type(settings.borderRadius)
+      if (settings.borderRadius) {
+        cy.wrap($field)
+          .next()
+          .type(settings.borderRadius)
+      }
     })
 
   cy.get('.vcv-ui-form-group-heading')
     .contains('Margin')
     .then(($field) => {
-      cy.wrap($field)
-        .next()
-        .type(settings.margin)
+      if (settings.margin) {
+        cy.wrap($field)
+          .next()
+          .type(settings.margin)
+      }
     })
 
   cy.get('.vcv-ui-form-group-heading')
     .contains('Background color')
     .then(($field) => {
-      cy.wrap($field)
-        .next('div')
-        .find('.vcv-ui-color-picker-dropdown')
-        .click()
-      cy.get('.vcv-ui-color-picker-custom-color input[value="000000"]')
-        .clear()
-        .type(settings.backgroundColor)
-      cy.wrap($field)
-        .next('div')
-        .find('.vcv-ui-color-picker-dropdown')
-        .click()
+      if (settings.backgroundColor && settings.backgroundColor.hex) {
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+        cy.get('.vcv-ui-color-picker-custom-color input[value="000000"]')
+          .clear()
+          .type(settings.backgroundColor.hex)
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+      }
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Border style')
+    .then(($field) => {
+      if (settings.borderStyle) {
+        cy.wrap($field)
+          .next()
+          .select(settings.borderStyle)
+      }
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Border color')
+    .then(($field) => {
+      if (settings.borderColor && settings.borderColor.hex) {
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+        cy.get('.vcv-ui-color-picker-custom-color input[value="000000"]')
+          .clear()
+          .type(settings.borderColor.hex)
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+      }
     })
 
   cy.get('.vcv-ui-form-group-heading')
     .contains('Animate')
     .then(($field) => {
+      if (settings.animation) {
+        cy.wrap($field)
+          .next()
+          .select(settings.animation)
+      }
+    })
+})
+
+// Set Design Options Advanced
+Cypress.Commands.add('setDOA', (settings) => {
+  cy.get('.vcv-ui-form-switch-trigger-label')
+    .contains('Use gradient overlay')
+    .then(($field) => {
       cy.wrap($field)
-        .next()
-        .select(settings.animation)
+        .click()
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Gradient type')
+    .then(($field) => {
+      if (settings.gradientType) {
+        cy.wrap($field)
+          .next()
+          .select(settings.gradientType)
+      }
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Start color')
+    .then(($field) => {
+      if (settings.gradientStartColor.hex) {
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+        cy.get('.vcv-ui-color-picker-custom-color input[value="E28787"]')
+          .clear()
+          .type(settings.gradientStartColor.hex)
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+      }
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('End color')
+    .then(($field) => {
+      if (settings.gradientEndColor.hex) {
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+        cy.get('.vcv-ui-color-picker-custom-color input[value="5D37D8"]')
+          .clear()
+          .type(settings.gradientEndColor.hex)
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+      }
+    })
+
+  cy.get('.vcv-ui-form-group-heading')
+    .contains('Gradient angle')
+    .then(($field) => {
+      if (settings.gradientAngle) {
+        cy.wrap($field)
+          .next()
+          .find('.vcv-ui-form-range-input')
+          .clear()
+          .type(settings.gradientAngle)
+      }
     })
 })
