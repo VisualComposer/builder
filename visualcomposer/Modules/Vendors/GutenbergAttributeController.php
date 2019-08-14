@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Gutenberg;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -154,14 +155,21 @@ class GutenbergAttributeController extends Container implements Module
     {
         $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
         $savedEditor = get_post_meta($requestHelper->input('post'), VCV_PREFIX . 'be-editor', true);
-        if ($requestHelper->input('vcv-set-editor') === 'gutenberg'
-            && (!empty($settings)
-                && in_array('gutenberg-editor', $settings))
-            || (!$this->isVcwbPage()
-                && (!empty($settings)
-                    && in_array('gutenberg-editor', $settings)))
-            || ($savedEditor === 'gutenberg' && !empty($settings)
-                && in_array('gutenberg-editor', $settings))) {
+        if ((
+                $requestHelper->input('vcv-set-editor') === 'gutenberg'
+                && !$requestHelper->exists('classic-editor')
+                && (
+                    !empty($settings) && in_array('gutenberg-editor', $settings)
+                )
+            )
+            || (!$requestHelper->exists('classic-editor') && !$this->isVcwbPage() && !empty($settings)
+                && in_array(
+                    'gutenberg-editor',
+                    $settings
+                ))
+            || ($savedEditor === 'gutenberg' && !empty($settings) && in_array('gutenberg-editor', $settings))
+            || ($requestHelper->exists('classic-editor__forget'))
+        ) {
             return;
         }
 
@@ -370,6 +378,7 @@ class GutenbergAttributeController extends Container implements Module
             .components-panel__header.edit-post-sidebar-header.edit-post-sidebar__panel-tabs li:first-child {
                 display: none;
             }
+
             .edit-post-sidebar .components-panel > :not(.edit-post-settings-sidebar__panel-block) {
                 display: none;
             }
@@ -431,21 +440,14 @@ class GutenbergAttributeController extends Container implements Module
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    protected function outputGutenberg(Options $optionsHelper, Request $requestHelper)
+    protected function outputGutenberg(Options $optionsHelper, Request $requestHelper, Gutenberg $gutenbergHelper)
     {
         if ($this->printed) {
             return;
         }
 
-        $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
         $available = false;
-        if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
-            && (!empty($settings) && in_array('gutenberg-editor', $settings))
-            && (!function_exists('classic_editor_init_actions'))
-            || (function_exists('classic_editor_init_actions')
-                && get_option('classic-editor-replace') === 'no-replace'
-                && !$requestHelper->exists('classic-editor'))
-        ) {
+        if ($gutenbergHelper->isGutenbergAvailable()) {
             $available = true;
         }
         evcview(

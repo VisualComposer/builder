@@ -844,6 +844,7 @@ export default class DesignOptions extends Attribute {
     let fieldComponent = <AttachImage
       api={this.props.api}
       fieldKey={fieldKey}
+      key={`${this.state.currentDevice}-${fieldKey}`}
       options={{
         multiple: true
       }}
@@ -861,6 +862,7 @@ export default class DesignOptions extends Attribute {
       fieldComponent = <AttachImage
         api={this.props.api}
         fieldKey={fieldKey}
+        key={`${this.state.currentDevice}-${fieldKey}`}
         options={{
           multiple: true,
           dynamicField: true
