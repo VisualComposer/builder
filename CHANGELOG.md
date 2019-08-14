@@ -4,6 +4,7 @@
 - Fix: TinyMCE controls are available in Classic Editor
 - Fix: Tabs element works correctly in Global Template
 - Fix: Text Block TinyMCE text mode handleChange works properly
+- Fix: WooCommerce product dimensions are displayed properly in dynamic content 
 ## ver 18.0 - 2019-08-08
 - New: Dynamic content feature to replace static content with WordPress fields (ex. post titles, featured images, author name, etc.)
 - New: Dynamic content feature to replace static content with WordPress custom fields
