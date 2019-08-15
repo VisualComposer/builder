@@ -1,3 +1,6 @@
+## ver 18.2 - 2019-08-15
+- Fix: Image display works properly 
+- Fix: Post data fetch for dynamic content works properly
 ## ver 18.1 - 2019-08-14
 - Fix: Text block editing does not cause the editor error
 - Fix: Range attribute updates properly
