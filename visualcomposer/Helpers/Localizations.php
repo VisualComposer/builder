@@ -504,8 +504,8 @@ class Localizations extends Container implements Helper
                 'Set custom post source',
                 'vcwb'
             ),
-            'dynamicTypeDescription' => __(
-                'Select data source for dynamic content.',
+            'dynamicSelectCustomField' => __(
+                'Select custom field',
                 'vcwb'
             ),
         ];

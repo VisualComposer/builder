@@ -228,8 +228,9 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderDynamicFieldsDropdown (fieldsList) {
+    let dropdownLabel = DynamicAttribute.localizations.dynamicSelectCustomField || 'Select custom field'
     let newFieldsList = Object.values(fieldsList)
-    newFieldsList.unshift({ label: 'Select data source', value: '', disabled: true })
+    newFieldsList.unshift({ label: dropdownLabel, value: '', disabled: true })
     return (
       <Dropdown
         value={this.state.blockInfo ? this.state.blockInfo.blockAtts.value.replace(/^(.+)(::)(.+)$/, '$1$2') : ''}
@@ -239,7 +240,6 @@ export default class DynamicAttribute extends React.Component {
         }}
         updater={this.handleDynamicFieldChange}
         extraClass='vcv-ui-form-field-dynamic'
-        description={DynamicAttribute.localizations.dynamicTypeDescription || 'Select data source for dynamic content.'}
       />
     )
   }
@@ -295,14 +295,18 @@ export default class DynamicAttribute extends React.Component {
 
     return (
       <div className='vcv-ui-dynamic-field-container'>
-        {this.renderAutocompleteToggle()}
-        <div className='vcv-ui-dynamic-field-autocomplete-container'>
-          {autoCompleteComponent}
-          {loader}
-        </div>
-        {this.renderCloseButton()}
-        {fieldComponent}
-        {extraDynamicComponent}
+        <span className='vcv-ui-dynamic-field-tag'>Post title</span>
+        <span className='vcv-ui-dynamic-field-controls'>
+          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' />
+          {this.renderCloseButton()}
+        </span>
+        {/*{fieldComponent}*/}
+        {/*{extraDynamicComponent}*/}
+        {/*{this.renderAutocompleteToggle()}*/}
+        {/*<div className='vcv-ui-dynamic-field-autocomplete-container'>*/}
+          {/*{autoCompleteComponent}*/}
+          {/*{loader}*/}
+        {/*</div>*/}
       </div>
     )
   }
