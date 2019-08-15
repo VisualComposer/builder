@@ -249,7 +249,8 @@ const API = {
         const currentValue = API.dynamicFields.getDynamicFieldsData(
           {
             blockAtts: {
-              value: dynamicFieldKey
+              value: dynamicFieldKey,
+              sourceId: sourceId
             }
           },
           attribute,
