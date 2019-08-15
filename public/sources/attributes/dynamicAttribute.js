@@ -24,7 +24,8 @@ export default class DynamicAttribute extends React.Component {
 
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
     let state = {
-      isDynamic: isDynamic
+      isDynamic: isDynamic,
+      dynamicFieldOpened: false
     }
 
     if (isDynamic) {
@@ -48,8 +49,8 @@ export default class DynamicAttribute extends React.Component {
       return
     }
     // If value is changed from outside (ex. Design Options Custom Devices)
-    let newValue = window.decodeURIComponent(this.props.value)
-    let oldValue = window.decodeURIComponent(prevProps.value)
+    let newValue = this.props.value
+    let oldValue = prevProps.value
     let newSourceId = null
     if (newValue && typeof newValue === 'string' && newValue.match(blockRegexp)) {
       const blockInfo = parseDynamicBlock(newValue)
@@ -90,7 +91,6 @@ export default class DynamicAttribute extends React.Component {
     let state = {}
     const postData = settingsStorage.state('postData').get()
     let sourceId = postData.post_id
-    state.dynamicFieldOpened = false
     state.blockInfo = false // Default value is false if not matched
     state.showAutocomplete = false
     if (typeof value === 'string' && value.match(blockRegexp)) {

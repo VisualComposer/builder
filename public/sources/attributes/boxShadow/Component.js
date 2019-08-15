@@ -124,18 +124,6 @@ export default class BoxShadow extends Attribute {
         if (!newState.devices[ device ].boxShadowEnable) {
           newState.devices[ device ].boxShadowEnable = BoxShadow.deviceDefaults.boxShadowEnable
         }
-        if (!newState.devices[ device ].horizontalOffset) {
-          newState.devices[ device ].horizontalOffset = BoxShadow.deviceDefaults.horizontalOffset
-        }
-        if (!newState.devices[ device ].verticalOffset) {
-          newState.devices[ device ].verticalOffset = BoxShadow.deviceDefaults.verticalOffset
-        }
-        if (!newState.devices[ device ].blurRadius) {
-          newState.devices[ device ].blurRadius = BoxShadow.deviceDefaults.blurRadius
-        }
-        if (!newState.devices[ device ].spreadRadius) {
-          newState.devices[ device ].spreadRadius = BoxShadow.deviceDefaults.spreadRadius
-        }
         if (!newState.devices[ device ].shadowColor) {
           newState.devices[ device ].shadowColor = BoxShadow.deviceDefaults.shadowColor
         }
@@ -243,7 +231,7 @@ export default class BoxShadow extends Attribute {
           fieldKey={effect.fieldKey}
           updater={this.valueChangeHandler}
           options={{ min: effect.min, max: effect.max, measurement: effect.measurement }}
-          value={deviceData[ effect.fieldKey ] || effect.value}
+          value={deviceData[ effect.fieldKey ]}
         />
       } else {
         field = <Color

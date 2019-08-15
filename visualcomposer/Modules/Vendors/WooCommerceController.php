@@ -312,7 +312,22 @@ class WooCommerceController extends Container implements Module
     {
         $product = wc_get_product($sourceId);
 
-        return $product->get_dimensions(false);
+        $length = $product->get_length();
+        $width = $product->get_width();
+        $height = $product->get_height();
+        $response = '';
+        if ($length) {
+            $response .= esc_html__('Length:') . ' ' . $length . ' ' . get_option('woocommerce_dimension_unit')
+                . '<br/>';
+        }
+        if ($width) {
+            $response .= esc_html__('Width:') . ' ' . $width . ' ' . get_option('woocommerce_dimension_unit') . '<br/>';
+        }
+        if ($height) {
+            $response .= esc_html__('Height:') . ' ' . $height . ' ' . get_option('woocommerce_dimension_unit');
+        }
+
+        return $response;
     }
 
     /**

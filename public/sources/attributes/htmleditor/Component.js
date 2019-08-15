@@ -48,9 +48,11 @@ export default class HtmlEditorWrapper extends Attribute {
   }
 
   handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
+    // New html dynamic comment
     let value = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
 
-    let dynamicValue = window.decodeURIComponent(this.state.value)
+    // Current value needed for .before/.after get, must be not encoded
+    let dynamicValue = this.state.value
     let blockInfo = parseDynamicBlock(dynamicValue)
 
     if (blockInfo) {
@@ -87,24 +89,10 @@ export default class HtmlEditorWrapper extends Attribute {
       'vcv-ui-form-field-has-dynamic': isDynamic
     })
 
-    let valueForEditor = this.state.value
-
-    if (isDynamic && typeof this.state.value === 'string' && this.state.value.match(blockRegexp)) {
-      let blockInfo = parseDynamicBlock(this.state.value)
-      let blockValue = this.state.value.match(blockRegexp)
-
-      if (blockInfo) {
-        let before = blockInfo.beforeBlock || ''
-        let after = blockInfo.afterBlock || ''
-
-        valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
-      }
-    }
-
     return <div className={cssClasses}>
       <HtmlEditor
         {...this.props}
-        value={valueForEditor}
+        value={this.state.value} // Must be not encoded
         setFieldValue={this.setFieldValue}
         setValueState={this.setValueState}
         setEditorLoaded={this.setEditorLoaded}
@@ -117,7 +105,7 @@ export default class HtmlEditorWrapper extends Attribute {
         onClose={this.handleDynamicFieldClose}
         handleDynamicFieldChange={this.handleDynamicFieldChange}
         setFieldValue={this.setFieldValue}
-        value={this.state.value}
+        value={this.state.value} // Must be not encoded
       />
     </div>
   }

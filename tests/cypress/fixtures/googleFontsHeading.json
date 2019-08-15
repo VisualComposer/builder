@@ -1,0 +1,39 @@
+{
+  "titleText": "The quick brown fox jumps over the lazy dog",
+  "fontFamily": "Ubuntu",
+  "fontStyle": "500regular",
+  "elementTag": "h1",
+  "gradientOverlayType": "gradient",
+  "startColor": {
+    "hex": "D81116",
+    "rgb": "rgb(216, 17, 22)"
+  },
+  "endColor": {
+    "hex": "00CAFF",
+    "rgb": "rgb(0, 202, 255)"
+  },
+  "gradientAngle": "12",
+  "fontSize": "34",
+  "alignment": "right",
+  "lineHeight": "44px",
+  "letterSpacing": "1px",
+  "linkSelection": "visualcomposer.com",
+  "customId": "google-fonts-heading-id",
+  "customClass": "google-fonts-heading-class",
+  "designOptions": {
+    "padding": "35px",
+    "margin": "5px",
+    "borderWidth": "3px",
+    "borderRadius": "5px",
+    "borderStyle": "double",
+    "borderColor": {
+      "hex": "C17171",
+      "rgb": "rgb(193, 113, 113)"
+    },
+    "backgroundColor": {
+      "hex": "FFF7A2",
+      "rgb": "rgb(255, 247, 162)"
+    },
+    "animation": "flipInX"
+  }
+}
