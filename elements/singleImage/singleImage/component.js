@@ -222,7 +222,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     let { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
     let containerClasses = 'vce-single-image-container'
     let wrapperClasses = 'vce vce-single-image-wrapper'
-    let classes = 'vce-single-image-inner'
+    let classes = 'vce-single-image-inner vce-single-image--absolute'
     let imageClasses = 'vce-single-image'
     let customProps = {}
     let containerProps = {}
