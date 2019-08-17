@@ -13,16 +13,6 @@ vcvAddElement(
   // css settings // css for element
   {
     css: require('raw-loader!./styles.css'),
-    editorCss: require('raw-loader!./editor.css'),
-    mixins: {
-      basicColor: {
-        mixin: require('raw-loader!./cssMixins/basicColor.pcss')
-      },
-      basicHoverColor: {
-        mixin: require('raw-loader!./cssMixins/basicHoverColor.pcss')
-      }
-    }
-  },
-  // javascript callback
-  ''
+    editorCss: require('raw-loader!./editor.css')
+  }
 )

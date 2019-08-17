@@ -31,11 +31,6 @@
     "value": "#fff",
     "options": {
       "label": "Title hover color",
-      "cssMixin": {
-        "mixin": "basicHoverColor",
-        "property": "hoverColor",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "toggleCustomHover": {
@@ -56,11 +51,6 @@
     "value": "#4d70ac",
     "options": {
       "label": "Background hover color",
-      "cssMixin": {
-        "mixin": "basicHoverColor",
-        "property": "hoverBackground",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "toggleCustomHover": {
@@ -89,12 +79,7 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Title color",
-      "cssMixin": {
-        "mixin": "basicColor",
-        "property": "color",
-        "namePattern": "[\\da-f]+"
-      }
+      "label": "Title color"
     }
   },
   "background": {
@@ -102,12 +87,7 @@
     "access": "public",
     "value": "#557cbf",
     "options": {
-      "label": "Background color",
-      "cssMixin": {
-        "mixin": "basicColor",
-        "property": "background",
-        "namePattern": "[\\da-f]+"
-      }
+      "label": "Background color"
     }
   },
   "shape": {
@@ -181,13 +161,6 @@
       "Buttons"
     ]
   },
-  "assetsLibrary": {
-    "access": "public",
-    "type": "string",
-    "value": [
-      "animate"
-    ]
-  },
   "alignment": {
     "type": "buttonGroup",
     "access": "public",
@@ -255,27 +228,13 @@
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
-  "metaBackendLabels": {
-    "type": "group",
-    "access": "protected",
-    "value": [
-      {
-        "value": [
-          "buttonText",
-          "buttonUrl",
-          "background",
-          "shape"
-        ]
-      }
-    ]
-  },
   "metaCustomId": {
     "type": "customId",
     "access": "public",
     "value": "",
     "options": {
       "label": "Element ID",
-      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+      "description": "Apply unique ID to element to link directly to it by using #your_id (for element ID use lowercase input only)."
     }
   },
   "tag": {

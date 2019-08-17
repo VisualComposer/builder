@@ -4,15 +4,16 @@ const vcvAPI = vcCake.getService('api')
 
 export default class ButtonElement extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton } = atts
+    const { id, atts, editor } = this.props
+    const { color, background, hoverColor, hoverBackground, buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
     let classes = 'vce-button--style-basic'
-    let buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
+
+    const cssProperties = {}
 
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
@@ -30,33 +31,59 @@ export default class ButtonElement extends vcvAPI.elementComponent {
     }
 
     if (shape) {
-      classes += ` vce-button--style-basic--border-${shape}`
+      const shapes = {
+        square: '0',
+        rounded: '5px',
+        round: '4em'
+      }
+      cssProperties['--button-border-radius'] = shapes[shape]
     }
 
     if (alignment) {
-      containerClasses += ` vce-button--style-basic-container--align-${alignment}`
+      cssProperties['--button-align'] = alignment
     }
 
     if (size) {
-      classes += ` vce-button--style-basic--size-${size}`
+      const sizes = {
+        small: {
+          font: '11px',
+          padding: '10px 30px'
+        },
+        medium: {
+          font: '16px',
+          padding: '15px 43px'
+        },
+        large: {
+          font: '21px',
+          padding: '20px 56px'
+        }
+      }
+      cssProperties['--button-size-padding'] = sizes[size].padding
+      cssProperties['--button-size-font'] = sizes[size].font
     }
 
     if (toggleStretchButton) {
-      wrapperClasses += ` vce-button--style-basic-wrapper--stretched`
+      cssProperties['--button-width'] = '100%'
     }
 
-    let mixinData = this.getMixinData('basicColor')
-
-    if (mixinData) {
-      classes += ` vce-button--style-basic--color-${mixinData.selector}`
+    if (color) {
+      cssProperties['--button-color'] = color
     }
 
-    if (toggleCustomHover) {
-      mixinData = this.getMixinData('basicHoverColor')
+    if (background) {
+      cssProperties['--button-background-color'] = background
+    }
 
-      if (mixinData) {
-        classes += ` vce-button--style-basic--hover-color-${mixinData.selector}`
-      }
+    if (toggleCustomHover && hoverColor) {
+      cssProperties['--button-hover-color'] = hoverColor
+    } else {
+      cssProperties['--button-hover-color'] = color
+    }
+
+    if (toggleCustomHover && hoverBackground) {
+      cssProperties['--button-hover-background-color'] = hoverBackground
+    } else {
+      cssProperties['--button-hover-background-color'] = this.lightenDarkenColor(background, -10)
     }
 
     if (metaCustomId) {
@@ -66,10 +93,10 @@ export default class ButtonElement extends vcvAPI.elementComponent {
     let doMargin = this.applyDO('margin')
     let doRest = this.applyDO('padding border background animation')
 
-    return <div className={containerClasses} {...editor}>
+    return <div className={containerClasses} {...editor} style={cssProperties}>
       <span className={wrapperClasses} id={'el-' + id} {...doMargin}>
         <CustomTag className={classes} {...customProps} {...doRest}>
-          {buttonHtml}
+          {buttonText}
         </CustomTag>
       </span>
     </div>
