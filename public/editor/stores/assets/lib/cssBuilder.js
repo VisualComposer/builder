@@ -2,6 +2,7 @@ import { getService, getStorage, env } from 'vc-cake'
 
 const cook = getService('cook')
 const assetsStorage = getStorage('assets')
+const elementsStorage = getStorage('elements')
 
 export default class CssBuilder {
   constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
@@ -112,7 +113,8 @@ export default class CssBuilder {
     this.addElementFiles(data, force)
 
     this.doJobs(data).then(() => {
-      this.addElementJobsToStorage(data, false)
+      // this.addElementJobsToStorage(data, false)
+      elementsStorage.trigger(`element:${data.id}:assets`, data.id)
       this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
     })
   }
@@ -141,7 +143,8 @@ export default class CssBuilder {
       this.addElementFiles(data)
     }
     this.doJobs(data).then(() => {
-      this.addElementJobsToStorage(data, false)
+      // this.addElementJobsToStorage(data, false)
+      elementsStorage.trigger(`element:${data.id}:assets`, data.id)
       this.window.vcv.trigger('ready', 'update', data.id, options, data.tag)
     })
   }
@@ -150,7 +153,7 @@ export default class CssBuilder {
     this.removeCssElementMixinByElement(id)
     this.removeAttributesCssByElement(id)
     this.window.vcv.trigger('ready', 'destroy', id, {}, tag)
-    this.removeElementJobsFromStorage(id)
+    // this.removeElementJobsFromStorage(id)
   }
 
   addElementJobsToStorage (data, status) {
