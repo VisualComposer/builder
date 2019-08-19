@@ -488,6 +488,10 @@ class Localizations extends Container implements Helper
                 'Insert dynamic content',
                 'vcwb'
             ),
+            'dynamicFieldsEditText' => __(
+                'Edit dynamic content',
+                'vcwb'
+            ),
             'dynamicFieldsCloseText' => __(
                 'Remove dynamic content',
                 'vcwb'

@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import options from './options'
-import DynamicAttribute from '../dynamicAttribute'
+import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import { env } from 'vc-cake'
 
 export default class InputSelect extends Attribute {

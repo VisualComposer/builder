@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Attribute from '../attribute'
-import DynamicAttribute from '../dynamicAttribute'
+import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import { env } from 'vc-cake'
 
 export default class StringAttribute extends Attribute {
