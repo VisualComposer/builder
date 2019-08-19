@@ -22,7 +22,7 @@ export default class Dropdown extends Attribute {
   selectChildren = null
 
   UNSAFE_componentWillReceiveProps (nextProps) {
-    super.componentWillReceiveProps(nextProps)
+    super.UNSAFE_componentWillReceiveProps(nextProps)
     this.generateSelectChildren(nextProps)
   }
 

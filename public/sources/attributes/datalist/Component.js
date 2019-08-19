@@ -9,7 +9,7 @@ export default class Datalist extends Attribute {
   selectChildren = null
 
   UNSAFE_componentWillReceiveProps (nextProps) {
-    super.componentWillReceiveProps(nextProps)
+    super.UNSAFE_componentWillReceiveProps(nextProps)
     this.generateSelectChildren(nextProps)
   }
 
