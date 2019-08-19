@@ -68,7 +68,7 @@ export default class AttachImage extends Attribute {
     }
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false

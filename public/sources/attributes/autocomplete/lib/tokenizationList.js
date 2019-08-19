@@ -184,7 +184,7 @@ export default class TokenizationList extends React.Component {
     this.updateSuggestBoxPosition()
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.loadTokenLabels(this.state.value)
   }
 
@@ -197,7 +197,7 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  componentWillUpdate (nextProps, nextState) {
+  UNSAFE_componentWillUpdate (nextProps, nextState) {
     if (nextState.callSuggestionAjax && nextState.inputValue) {
       let value = nextState.inputValue.split(',')
       if (!this.checkValue(nextState.inputValue)) {

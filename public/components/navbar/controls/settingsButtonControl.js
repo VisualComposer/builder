@@ -19,7 +19,7 @@ export default class SettingsButtonControl extends NavbarContent {
     this.setActiveState = this.setActiveState.bind(this)
   }
 
-  componentWillReceiveProps () {
+  UNSAFE_componentWillReceiveProps () {
     this.checkSettings()
   }
 

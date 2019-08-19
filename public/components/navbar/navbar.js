@@ -97,7 +97,7 @@ export default class Navbar extends React.Component {
       navPosY: this.state.navPosY - data.resizeTop
     })
   }
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     const { draggable } = this.props
     if (!draggable) {
       this.setState({
@@ -274,7 +274,7 @@ export default class Navbar extends React.Component {
     controls.reverse()
     return controls
   }
-  componentWillUpdate (nextProps, nextState) {
+  UNSAFE_componentWillUpdate (nextProps, nextState) {
     if (nextState.visibleControls.length !== this.state.visibleControls.length) {
       this.refreshControls(nextState.visibleControls)
     }

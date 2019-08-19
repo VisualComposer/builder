@@ -21,7 +21,7 @@ export default class AttachImageItem extends React.Component {
     this.checkImageSize(this.props.imgUrl, this.setImageClass)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.checkImageSize(nextProps.imgUrl, this.setImageClass)
   }
 

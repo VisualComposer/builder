@@ -40,7 +40,7 @@ export default class Element extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (!isEqual(this.state.element, nextProps.element)) {
       assetsStorage.trigger('updateElement', this.state.element.id)
     }

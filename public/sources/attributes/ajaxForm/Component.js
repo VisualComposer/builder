@@ -26,7 +26,7 @@ export default class AjaxForm extends Attribute {
     this.requestToServer()
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     // Intentionally left blank
     // TODO: Possibly remove this hook in Attributes.js
   }

@@ -29,7 +29,7 @@ class AttachVideo extends Attribute {
     this.onSortEnd = this.onSortEnd.bind(this)
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false

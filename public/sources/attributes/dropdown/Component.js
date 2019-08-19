@@ -21,12 +21,12 @@ export default class Dropdown extends Attribute {
 
   selectChildren = null
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     super.componentWillReceiveProps(nextProps)
     this.generateSelectChildren(nextProps)
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.generateSelectChildren(this.props)
   }
 

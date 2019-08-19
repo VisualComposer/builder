@@ -35,7 +35,7 @@ export default class AttachVideoList extends React.Component {
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       ...nextProps
     })

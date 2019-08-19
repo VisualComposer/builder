@@ -28,7 +28,7 @@ export default class SearchTemplate extends React.Component {
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.index !== this.state.activeIndex) {
       this.setState({
         activeIndex: nextProps.index,

@@ -33,7 +33,7 @@ export default class EditFromField extends React.Component {
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.props.setFieldMount(nextProps.fieldKey, {
       refWrapper: this.refs.fieldAttributeWrapper,
       refWrapperComponent: this,

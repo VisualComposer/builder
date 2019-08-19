@@ -48,7 +48,7 @@ export default class SearchElement extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       activeIndex: nextProps.index,
       content: this.getContentTitle(nextProps.index)

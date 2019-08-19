@@ -23,7 +23,7 @@ export default class ActivitiesManager extends React.Component {
     this.listeners = this.initListeners(this.props.elementAccessPoint.cook(), props)
   }
 
-  componentWillUpdate (nextProps) {
+  UNSAFE_componentWillUpdate (nextProps) {
     this.mount = {}
     this.stack = {}
     this.mountStack = {}

@@ -58,7 +58,7 @@ export default class TokenizationList extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({ value: nextProps.value })
   }
 

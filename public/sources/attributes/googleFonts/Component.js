@@ -43,7 +43,7 @@ export default class GoogleFonts extends Attribute {
     this.updateFieldValue = this.updateFieldValue.bind(this)
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     let { value } = this.state
     if (!googleFonts.find(font => font.family === this.state.value.fontFamily)) {
       value.fontFamily = GoogleFonts.defaultFontOptions.fontFamily

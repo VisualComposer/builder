@@ -76,7 +76,7 @@ export default class ContentEditableComponent extends React.Component {
     vcCake.setData('vcv:layoutCustomMode', null)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
       this.setState({ realContent: nextProps.children })
       this.debouncedUpdateHtmlWithServer(nextProps.children)
