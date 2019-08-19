@@ -95,18 +95,6 @@ export default class Element extends React.Component {
 
   cssJobsUpdate (data) {
     this.setState({ isRendered: true })
-    return
-    let elementJob = data.elements.find(element => element.id === this.state.element.id)
-    if (!elementJob) {
-      console.warn('Failed to find element', data, this.state.element)
-      return
-    }
-    if (this.state.cssBuildingProcess !== elementJob.jobs) {
-      this.setState({ cssBuildingProcess: elementJob.jobs })
-    }
-    if (!this.state.cssBuildingProcess && !elementJob.jobs && !this.state.isRendered) {
-      this.setState({ isRendered: true })
-    }
   }
 
   elementComponentTransformation (data) {
