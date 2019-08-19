@@ -46,10 +46,10 @@
     "file-loader": "4.2.0",
     "fs-extra": "8.1.0",
     "jest-cli": "24.9.0",
-    "less-loader": "5.0.0",
+    "less-loader": "4.1.0",
     "postcss-functions": "git://github.com/wpbakery/postcss-functions.git#8aa5a44c1c07c522f704ceaa6794b74682e444f1",
     "postcss-prefix-url": "git://github.com/wpbakery/postcss-prefix-url.git#60f177340ab35fce12cf4172752bd484ece3c7df",
-    "standard": "13.1.0",
+    "standard": "12.0.1",
     "style-loader": "1.0.0",
     "terser-webpack-plugin": "1.4.1",
     "tinycolor2": "1.4.1",
@@ -69,7 +69,7 @@
     "identity-obj-proxy": "3.0.0",
     "immutable": "4.0.0-rc.12",
     "imports-loader": "0.8.0",
-    "less": "3.10.1",
+    "less": "3.9.0",
     "lodash": "4.17.15",
     "mobile-detect": "1.4.3",
     "node-object-hash": "1.4.2",
@@ -88,7 +88,7 @@
     "postcss-math": "0.0.10",
     "postcss-nested": "4.1.2",
     "prop-types": "15.7.2",
-    "raw-loader": "3.1.0",
+    "raw-loader": "1.0.0",
     "react": "16.9.0",
     "react-addons-shallow-compare": "15.6.2",
     "react-color": "2.17.3",
@@ -158,16 +158,12 @@
   },
   "resolutions": {
     "postcss": "7.0.17",
-    "css-loader": "3.1.0",
+    "css-loader": "3.2.0",
     "color-name": "1.1.4",
     "eslint": "6.2.0"
   },
   "browserslist": [
     "ie >= 11",
     "last 2 version"
-  ],
-  "updateComments": [
-    "updating raw-loader to v3.0 causes issues with style compiling because it returns es6 module instead of object..",
-    "updating less-loader causes issues with css file minification (we have to use cssnano for css minification https://github.com/webpack-contrib/css-loader/issues/745)"
   ]
 }
