@@ -29,6 +29,7 @@ class AttachVideo extends Attribute {
     this.onSortEnd = this.onSortEnd.bind(this)
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
@@ -50,6 +51,7 @@ class AttachVideo extends Attribute {
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
   }
+  /* eslint-enable */
 
   updateState (props) {
     let value = props.value

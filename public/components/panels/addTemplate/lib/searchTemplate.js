@@ -28,6 +28,7 @@ export default class SearchTemplate extends React.Component {
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.index !== this.state.activeIndex) {
       this.setState({
@@ -36,6 +37,7 @@ export default class SearchTemplate extends React.Component {
       })
     }
   }
+  /* eslint-enable */
 
   // Get HTML elements
 

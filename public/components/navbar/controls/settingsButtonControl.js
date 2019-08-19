@@ -19,9 +19,11 @@ export default class SettingsButtonControl extends NavbarContent {
     this.setActiveState = this.setActiveState.bind(this)
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillReceiveProps () {
     this.checkSettings()
   }
+  /* eslint-enable */
 
   setActiveState (state) {
     this.setState({ isActive: state === 'settings' })

@@ -131,7 +131,7 @@ class StylesManager {
   compile (join = true) {
     let iterations = []
     this.get().forEach((style) => {
-      let hasher = objectHash({sort:true, coerce:true}).hash
+      let hasher = objectHash({ sort: true, coerce: true }).hash
       let hash = hasher(style)
 
       if (typeof cssHashes[ hash ] !== 'undefined' && typeof cssHashes[ hash ].result !== 'undefined') {

@@ -48,12 +48,14 @@ export default class SearchElement extends React.Component {
     }
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       activeIndex: nextProps.index,
       content: this.getContentTitle(nextProps.index)
     })
   }
+  /* eslint-enable */
 
   handleKeyPress (e) {
     if (e.key === 'Enter' && this.props.applyFirstElement) {

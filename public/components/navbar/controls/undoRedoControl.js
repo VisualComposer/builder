@@ -17,11 +17,14 @@ export default class UndoRedoControl extends NavbarContent {
     this.handleUndo = this.handleUndo.bind(this)
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillMount () {
     this.checkControls()
     historyStorage.state('canRedo').onChange(this.checkRedoState)
     historyStorage.state('canUndo').onChange(this.checkUndoState)
   }
+  /* eslint-enable */
+
   componentWillUnmount () {
     historyStorage.state('canRedo').ignoreChange(this.checkRedoState)
     historyStorage.state('canUndo').ignoreChange(this.checkUndoState)

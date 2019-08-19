@@ -184,9 +184,11 @@ export default class TokenizationList extends React.Component {
     this.updateSuggestBoxPosition()
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillMount () {
     this.loadTokenLabels(this.state.value)
   }
+  /* eslint-enable */
 
   componentWillUnmount () {
     if (this.serverRequest) {
@@ -197,6 +199,7 @@ export default class TokenizationList extends React.Component {
     }
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillUpdate (nextProps, nextState) {
     if (nextState.callSuggestionAjax && nextState.inputValue) {
       let value = nextState.inputValue.split(',')
@@ -209,6 +212,7 @@ export default class TokenizationList extends React.Component {
       }
     }
   }
+  /* eslint-enable */
 
   updateSuggestBoxPosition () {
     if (this.state.editing === false) {

@@ -35,11 +35,13 @@ export default class AttachVideoList extends React.Component {
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
   }
 
+  /* eslint-disable */
   UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({
       ...nextProps
     })
   }
+  /* eslint-enable */
 
   handleAttachmentData (index, data) {
     let icons = this.state.value.icons || []
