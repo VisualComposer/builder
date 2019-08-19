@@ -205,7 +205,9 @@ export default class DynamicPopup extends React.Component {
   }
 
   save () {
-    this.props.save(this.state.currentPostField, this.state.sourceId, this.state.showAutocomplete)
+    if (this.state.currentPostField) {
+      this.props.save(this.state.currentPostField, this.state.sourceId, this.state.showAutocomplete)
+    }
     this.props.hide()
   }
 
@@ -242,6 +244,7 @@ export default class DynamicPopup extends React.Component {
             <div className='vcv-ui-form-group'>
               {fieldComponent}
               {extraDynamicComponent}
+              {loader}
             </div>
             <div className='vcv-ui-form-group'>
               {this.renderAutocompleteToggle()}
@@ -249,7 +252,6 @@ export default class DynamicPopup extends React.Component {
             <div className='vcv-ui-form-group'>
               <div className='vcv-ui-dynamic-field-autocomplete-container'>
                 {autoCompleteComponent}
-                {loader}
               </div>
             </div>
           </div>
