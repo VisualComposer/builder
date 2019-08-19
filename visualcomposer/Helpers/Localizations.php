@@ -512,6 +512,10 @@ class Localizations extends Container implements Helper
                 'Select custom field',
                 'vcwb'
             ),
+            'dynamicContent' => __(
+                'Dynamic Content',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

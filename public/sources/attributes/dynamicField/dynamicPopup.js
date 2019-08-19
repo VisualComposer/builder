@@ -212,6 +212,9 @@ export default class DynamicPopup extends React.Component {
   }
 
   render () {
+    let popupTitle = DynamicPopup.localizations.dynamicContent || 'Dynamic Content'
+    let saveText = DynamicPopup.localizations.save || 'Save'
+    let closeText = DynamicPopup.localizations.close || 'Close'
     let autoCompleteComponent = this.state.showAutocomplete ? this.renderAutoCompleteInput() : null
     let loader = null
     let fieldComponent = null
@@ -234,10 +237,10 @@ export default class DynamicPopup extends React.Component {
 
       <div className='vcv-ui-modal'>
         <header className='vcv-ui-modal-header'>
-          <span className='vcv-ui-modal-close' onClick={this.cancel} title='Close'>
+          <span className='vcv-ui-modal-close' onClick={this.cancel} title={closeText}>
             <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
           </span>
-          <h1 className='vcv-ui-modal-header-title'>Dynamic Content</h1>
+          <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
         </header>
         <section className='vcv-ui-modal-content'>
           <div className='vcv-ui-dynamic-field-inner'>
@@ -258,10 +261,10 @@ export default class DynamicPopup extends React.Component {
         </section>
         <footer className='vcv-ui-modal-footer'>
           <div className='vcv-ui-modal-actions'>
-            <span className='vcv-ui-modal-action' title='Save' onClick={this.save}>
+            <span className='vcv-ui-modal-action' title={saveText} onClick={this.save}>
               <span className='vcv-ui-modal-action-content'>
                 <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
-                <span>Save</span>
+                <span>{saveText}</span>
               </span>
             </span>
           </div>

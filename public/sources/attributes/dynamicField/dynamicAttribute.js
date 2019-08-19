@@ -1,9 +1,10 @@
 import React from 'react'
-import { env, getService } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 import DynamicPopup from './dynamicPopup'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
+const settingsStorage = getStorage('settings')
 
 export default class DynamicAttribute extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -124,12 +125,64 @@ export default class DynamicAttribute extends React.Component {
     return <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title={DynamicAttribute.localizations.dynamicFieldsCloseText || 'Close Dynamic Field'} />
   }
 
+  getDynamicLabel (postField, sourceId) {
+    if (!postField) {
+      return null
+    }
+
+    let currentIdFields = settingsStorage.state('postFields').get()
+
+    if (postField && postField.match(/::/)) {
+      return postField.split('::')[ 1 ] // Return other value from input
+    }
+
+    if (sourceId) {
+      if (currentIdFields.hasOwnProperty(sourceId)) {
+        currentIdFields = currentIdFields[ sourceId ]
+      } else {
+        // Post doesn't exist or has been deleted
+        return null
+      }
+    }
+
+    const currentTypeFields = currentIdFields[ this.props.fieldType ]
+    let fieldLabel = null
+
+    if (currentTypeFields) {
+      for (let key in currentTypeFields) {
+        const item = currentTypeFields[ key ]
+        let breakLoop = false
+
+        if (item && item.group && item.group.values && item.group.values.length) {
+          for (let fieldItem of item.group.values) {
+            if (fieldItem.value === postField) {
+              fieldLabel = fieldItem.label
+              breakLoop = true
+            }
+          }
+        }
+
+        if (breakLoop) {
+          break
+        }
+      }
+    }
+
+    // Data not found for some reasons
+    return fieldLabel
+  }
+
   renderDynamicInputs () {
     const { blockInfo } = this.state
     let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive'>No value set</span>
 
     if (blockInfo && blockInfo.blockAtts) {
-      placeholderTag = <span className='vcv-ui-dynamic-field-tag'>{blockInfo.blockAtts.value}</span>
+      const label = this.getDynamicLabel(blockInfo.blockAtts.value, blockInfo.blockAtts.sourceId)
+      if (label) {
+        placeholderTag = <span className='vcv-ui-dynamic-field-tag'>{label}</span>
+      } else {
+        placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive'>{blockInfo.blockAtts.value}</span>
+      }
     }
 
     return (
