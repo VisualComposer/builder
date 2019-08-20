@@ -1,117 +1,1161 @@
+# Translation of vcwb in Ukrainian
+# This file is distributed under the same license as the vcwb package.
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-27 10:02+0200\n"
-"PO-Revision-Date: 2018-11-27 10:13+0200\n"
-"Last-Translator: \n"
-"Language-Team: WPBakery <hello@wpbakery.com>\n"
-"Language: uk\n"
+"PO-Revision-Date: 2019-08-20 08:39:44+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.2\n"
-"X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
-"esc_html_x;_x;__;_e\n"
-"X-Poedit-Basepath: ../visualcomposer\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: ../node_modules\n"
-"X-Poedit-SearchPathExcluded-1: ../ci\n"
-"X-Poedit-SearchPathExcluded-2: ../cache\n"
-"X-Poedit-SearchPathExcluded-3: ../devElements\n"
-"X-Poedit-SearchPathExcluded-4: ../devCategories\n"
-"X-Poedit-SearchPathExcluded-5: ../tools\n"
-"X-Poedit-SearchPathExcluded-6: ../tests\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: GlotPress/2.3.1\n"
+"Language: uk_UA\n"
+"Project-Id-Version: vcwb\n"
 
-#: Framework/helpers.php:175
-msgid ""
-"An error occurred while retrieving the download URL for Visual Composer "
-"extensions. Please deactivate other plugins, re-install Visual Composer and "
-"try again."
+#: Modules/Vendors/GutenbergAttributeController.php:258
+msgid "Edit Gutenberg attr"
 msgstr ""
 
-#: Framework/helpers.php:181
-msgid ""
-"An error occurred when creating temporary installation files. Please verify "
-"that WP_TEMP_DIR exists and is writable."
+#: Modules/Vendors/GutenbergAttributeController.php:259
+msgid "View Gutenberg attr"
 msgstr ""
 
-#: Framework/helpers.php:187 Helpers/Localizations.php:155
+#: Modules/Vendors/GutenbergAttributeController.php:260
+msgid "All Gutenberg attrs"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:261
+msgid "Search Gutenberg attrs"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:262
+msgid "Parent Gutenberg attrs:"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:263
+msgid "No Gutenberg attrs found."
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:264
+msgid "No Gutenberg attrs found in Trash."
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:266
+msgid "Gutenberg attr Cover Image"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:271
+msgid "Set cover image"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:276
+msgid "Remove cover image"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:281
+msgid "Use as cover image"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:286
+msgid "Gutenberg attr archives"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:291
+msgid "Add into Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:296
+msgid "Uploaded to this Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:301
+msgid "Filter Gutenberg attrs list"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:306
+msgid "Gutenberg attrs list navigation"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:311
+msgid "Gutenberg attrs list"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:46
+msgid "Woocommerce Shop"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:50
+msgid "Woocommerce Cart"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:54
+msgid "Woocommerce Checkout"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:58
+msgid "Woocommerce My Account"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:62
+msgid "Woocommerce Product Category"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:66
+msgid "Woocommerce Terms"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:132
+#: Modules/Vendors/WpbakeryController.php:134
+msgid "WPB attrs"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:133
+#: Modules/Vendors/WpbakeryController.php:135
+msgid "WPB attr"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:137
+msgid "Add New WPB attr"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:138
+msgid "New WPB attr"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:139
+msgid "Edit WPB attr"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:140
+msgid "View WPB attr"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:141
+msgid "All WPB attrs"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:142
+msgid "Search WPB attrs"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:143
+msgid "Parent WPB attrs:"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:329
+msgid "WPBakery Page Builder version is 5.0 or newer"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:332
+msgid "WPBakery Page Builder version is 5.0 or newer - your version is %s"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:335
+msgid "please update"
+msgstr ""
+
+#: Modules/Vendors/WpbakeryController.php:338
+msgid "Visual Composer Hub access to download migration add-on - Free or Premium"
+msgstr ""
+
+#: resources/views/editor/frontend/frontend.php:41
+#: resources/views/license/fe-update-wrapper.php:30
+msgid "Frontend editor: %s"
+msgstr ""
+
+#: resources/views/editor/pageEditable/pageEditable.php:22
+msgid "Loading..."
+msgstr "Завантаження..."
+
+#: resources/views/elements/widgets/variables.php:19
+msgid "No Custom widgets found"
+msgstr ""
+
+#: resources/views/elements/widgets/variables.php:36
+msgid "No Widgets found"
+msgstr ""
+
+#: resources/views/settings/option-toggle.php:22
+#: resources/views/settings/pages/html-fields/toggle.php:24
+#: resources/views/settings/pages/post-types/post-types-toggle.php:22
+msgid "on"
+msgstr "Ввімкнено"
+
+#: resources/views/settings/option-toggle.php:23
+#: resources/views/settings/pages/html-fields/toggle.php:25
+#: resources/views/settings/pages/post-types/post-types-toggle.php:23
+msgid "off"
+msgstr "Вимкнено"
+
+#: resources/views/settings/pages/index.php:110
+msgid "Save Changes"
+msgstr "Зберегти зміни"
+
+#: resources/views/settings/pages/plugins/notice.php:17
+msgid ""
+"You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use\n"
+"                    <a href=\"%s\">this free plugin</a> that will load CSS styles automatically."
+msgstr ""
+
+#: resources/views/settings/pages/plugins/notice.php:40
+msgid "Deactivate Visual Composer"
+msgstr "Деактивувати  Visual Composer"
+
+#: resources/views/settings/pages/system-status.php:27
+msgid "Check system status and WordPress configuration for compliance with Visual Composer requirements."
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:28
+msgid "Refresh"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:75
+msgid "WordPress environment"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:80
+msgid "WordPress Version"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:84
+msgid "The version of WordPress installed on your site"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:90
+msgid "PHP Version"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:94
+msgid "The version of PHP installed on your hosting server"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:100
+msgid "WP_DEBUG"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:104
+msgid "Displays whether of not WordPress is in Debug Mode"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:110
+msgid "Visual Composer Version"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:113
+msgid "The version of Visual Composer installed on your site"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:126
+msgid "There is a new version of Visual Composer Website Builder available."
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:141
+msgid "Configurations"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:146
+msgid "Memory Limit"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:151
+msgid "The maximum amout of memory (RAM) that your site can use at one time"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:159
+msgid "Post Max Size"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:164
+msgid "Sets max size of post data allowed. This setting also affects file upload."
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:172
+msgid "Max Input Nesting Level"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:177
+msgid "Sets the max nesting depth of input variables (i.e. $_GET, $_POST.)"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:185
+msgid "Max Input Vars"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:190
+msgid "How many input variables may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately)"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:198
+msgid "Timeout"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:202
+msgid "Amount of max execution time"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:208
+msgid "Upload Max Filesize"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:213
+msgid "The largest filesize that can be uploaded to your WordPress installation"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:221
+msgid "Access to Uploads Directory"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:226
+msgid "Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen."
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:234
+msgid "File System Method"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:238
+msgid "The File System method should be direct"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:249
+msgid "Extensions"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:254
+msgid "Zip Extension"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:258
+msgid "The Zip Extension should be enabled on your server"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:264
+msgid "Curl Extension"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:268
+msgid "The version of cURL installed on your server"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:279
+msgid "Connections"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:284
+msgid "Account"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:288
+msgid "Connection with the Account"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:294
+msgid "AWS"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:298
+msgid "The connection with the AWS"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:304
+msgid "Large Data Transfer"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:309
+msgid "Ability to send large data. In case if failed - adjust your php.ini file to increase memory_limit, post_max_size and execution time."
+msgstr ""
+
+#: Helpers/LoginCategory.php:37
+msgid "Other"
+msgstr "Інше"
+
+#: Helpers/PostType.php:233
+msgid "View %s"
+msgstr "Переглянути %s"
+
+#: Helpers/PostsGridSourcePosts.php:38
+msgid "All"
+msgstr "Все"
+
+#: Helpers/Token.php:170
+msgid "Your Visual Composer Website Builder License will expire soon - %s"
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:87
+#: Modules/Editors/DataAjax/PostFieldsController.php:101
+#: Modules/Editors/DataAjax/PostFieldsController.php:115
+msgid "Custom Meta Field"
+msgstr ""
+
+#: Modules/Editors/EditPostLinks/Controller.php:152
+#: Modules/Editors/Frontend/MenuController.php:76
+msgid "Add New with Visual Composer"
+msgstr ""
+
+#: Modules/Editors/Frontend/Controller.php:100
+msgid "Cheatin&#8217; uh?"
+msgstr ""
+
+#: Modules/Editors/Frontend/Controller.php:101
+msgid "Sorry, you are not allowed to create posts as this user."
+msgstr ""
+
+#: Modules/Editors/Frontend/MenuController.php:144
+msgid "Add New with Visual&nbsp;Composer"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:50
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:61
+msgid "Blank Template"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:57
+msgid "Boxed Template"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:74
+msgid "Visual Composer"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:110
+msgid "Theme Templates"
+msgstr "Шаблон теми"
+
+#: Modules/Editors/Templates/PostType.php:38
+msgid "Global Templates"
+msgstr ""
+
+#: Modules/FrontView/PluginsInfoController.php:42
+msgid "Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners."
+msgstr ""
+
+#: Modules/Hub/Assets/SharedDownloadController.php:138
+msgid "Failed to update shared libraries"
+msgstr ""
+
+#: Modules/Hub/Traits/Action.php:71
+msgid ""
+"A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.\n"
+"\n"
+"If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.\n"
+msgstr "\n"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:76
+msgid "Failed to get the image id, please try again!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:81
+msgid "No access, please check your license and make sure your capabilities allow to upload files!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:115
+msgid "Wrong image extension."
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:122
+msgid "Failed to download image, make sure that your upload folder is writable and please try again!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:128
+msgid "Unknown image format!"
+msgstr ""
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:131
+msgid "Unknown image provider!"
+msgstr ""
+
+#: Modules/License/LicenseController.php:108
+msgid "Invalid token -> Failed licence activation - Invalid token"
+msgstr ""
+
+#: Modules/License/Pages/GettingStarted.php:99
+msgid "Getting Started"
+msgstr ""
+
+#: Modules/License/UpdateVariablesController.php:43
+msgid "Build your site with the help of drag and drop editor straight from the frontend - it's that easy."
+msgstr ""
+
+#: Modules/License/UpdateVariablesController.php:51
+msgid "Get more elements and templates from the Visual Composer Hub - a free online marketplace."
+msgstr ""
+
+#: Modules/License/UpdateVariablesController.php:60
+msgid "Unparallel performance for you and your website to rank higher and deliver faster."
+msgstr ""
+
+#: Modules/License/UpdateVariablesController.php:69
+msgid "Control every detail of your website with flexible design options and customization tools."
+msgstr ""
+
+#: Modules/Settings/Fields/CssEditor.php:59
+msgid "Add custom CSS code to insert it globally on every page."
+msgstr ""
+
+#: Modules/Settings/Fields/FactoryResetController.php:67
+msgid "Proceed with a reset?"
+msgstr "Продовжити скидання?"
+
+#: Modules/Settings/Fields/FactoryResetController.php:68
+msgid "initiate reset"
+msgstr ""
+
+#: Modules/Settings/Fields/FactoryResetController.php:78
+msgid "Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s."
+msgstr ""
+
+#: Modules/Settings/Fields/FactoryResetController.php:90
+msgid "Reset"
+msgstr "Скинути"
+
+#: Modules/Settings/Fields/FactoryResetController.php:113
+msgid "Wrong permissions"
+msgstr ""
+
+#: Modules/Settings/Fields/FactoryResetController.php:118
+msgid "Session expired"
+msgstr "Сеанс закінчився"
+
+#: Modules/Settings/Fields/FactoryResetController.php:127
+msgid "Visual Composer asset reset was successful."
+msgstr ""
+
+#: Modules/Settings/Fields/JsEditor.php:60
+msgid "Add custom HTML or JavaScript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr ""
+
+#: Modules/Settings/Fields/JsEditor.php:68
+msgid "Custom HTML and JavaScript"
+msgstr ""
+
+#: Modules/Settings/Fields/PostTypes.php:53
+msgid "Specify post types where you want to use Visual Composer Website Builder."
+msgstr ""
+
+#: Modules/Settings/Fields/PostTypes.php:58
+msgid "Post Types"
+msgstr "Типи записів"
+
+#: Modules/Settings/MenuController.php:69
+msgid "Visual Composer "
+msgstr "Visual Composer "
+
+#: Modules/Settings/NoticeController.php:78
+msgid "Dismiss"
+msgstr "Відхилити"
+
+#: Modules/Settings/Pages/About.php:91
+msgid "About"
+msgstr "Про"
+
+#: Modules/Settings/Pages/CssJsSettings.php:66
+#: Modules/Settings/Pages/CssJsSettings.php:112
+msgid "CSS, HTML & JavaScript"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:85
+msgid "System Status"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:124
+msgid "PHP version %s or greater (recommended 7 or greater)"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:132
+msgid "WordPress version %s or greater"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:141
+msgid "WP_DEBUG is FALSE"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:141
+msgid "WP_DEBUG is TRUE"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:152
+#: Modules/Settings/Pages/SystemStatus.php:166
+#: Modules/Settings/Pages/SystemStatus.php:180
+msgid "Unlimited"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:155
+msgid "Post max size should be %sM, currently it is %s"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:169
+msgid "Memory limit should be %sM, currently it is %s"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:183
+msgid "post_max_size limit should be %sM, currently it is %s"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:194
+msgid "max_input_nesting_level should be %s, currently it is %s"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:205
+msgid "max_input_vars should be %s, currently it is %s"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:214
+msgid "Max execution time should be %sS, currently it is %sS"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:223
+msgid "File max upload size should be %sM, currently it is %s"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:231
+msgid "Writable"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:231
+msgid "Uploads directory is not writable"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:239
+msgid "Direct"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:239
+msgid "FS_METHOD should be direct"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:247
+msgid "Enabled"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:247
+msgid "Zip extension is not installed"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:255
+msgid "Curl extension is not installed"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:263
+#: Modules/Settings/Pages/SystemStatus.php:271
+msgid "Success"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:263
+msgid "Connection with AWS was unsuccessful"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:271
+msgid "Connection with Account was unsuccessful"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:329
+#: resources/views/settings/pages/system-status.php:25
+msgid "System status"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:352
+msgid "It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href=\"%s\">system status</a> page."
+msgstr ""
+
+#: Modules/Updates/UpdatesController.php:152
+msgid ""
+"\n"
+"<p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>\n"
+"<ul>\n"
+"<li>Use Frontend or Tree View to create structure</li>\n"
+"<li>Create responsive websites automatically</li>\n"
+"<li>Use with any WordPress theme</li>\n"
+"<li>Work with pages, posts and custom post types</li>\n"
+"<li>Access content elements and WordPress widgets</li>\n"
+"<li>Integrate any 3rd party shortcode easily</li>\n"
+"<li>Apply predefined pro quality templates</li>\n"
+"<li>Control look of elements via multiple parameters and rich design options</li>\n"
+"<li>Receive high-quality code optimized for SEO</li>\n"
+"</ul>"
+msgstr "\n"
+
+#: Modules/Updates/UpdatesController.php:181
+msgid "Failed to get changelog"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:90
+msgid "Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer."
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:98
+msgid "Gutenberg Editor"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:114
+msgid "Gutenberg"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:251
+#: Modules/Vendors/GutenbergAttributeController.php:253
+msgid "Gutenberg attrs"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:252
+#: Modules/Vendors/GutenbergAttributeController.php:254
+msgid "Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:255
+#: Modules/Vendors/WpbakeryController.php:136
+msgid "Add New"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:256
+msgid "Add New Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/GutenbergAttributeController.php:257
+msgid "New Gutenberg attr"
+msgstr ""
+
+#: Helpers/Localizations.php:263
+msgid "Choose %s or %screate new%s."
+msgstr ""
+
+#: Helpers/Localizations.php:271
+#: Modules/Editors/DataAjax/PostFieldsController.php:57
+#: Modules/Editors/DataAjax/PostFieldsController.php:65
+#: Modules/Editors/DataAjax/PostFieldsController.php:73
+#: Modules/Editors/DataAjax/PostFieldsController.php:81
+#: Modules/Editors/DataAjax/PostFieldsController.php:95
+#: Modules/Editors/DataAjax/PostFieldsController.php:109
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
+msgid "Default"
+msgstr "За замовчуванням"
+
+#: Helpers/Localizations.php:275
+msgid "Update Visual Composer plugin to the most recent version to download this content element."
+msgstr ""
+
+#: Helpers/Localizations.php:279
+msgid "Update Visual Composer plugin to the most recent version to download this template."
+msgstr ""
+
+#: Helpers/Localizations.php:282
+msgid "Start Building"
+msgstr ""
+
+#: Helpers/Localizations.php:285
+msgid "%s Name"
+msgstr "%s ім'я"
+
+#: Helpers/Localizations.php:291
+msgid "Your WordPress theme defined layout for specific page, post, or custom post type."
+msgstr ""
+
+#: Helpers/Localizations.php:295
+msgid "Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar."
+msgstr ""
+
+#: Helpers/Localizations.php:299
+msgid "Full width blank page without header, footer, or sidebar."
+msgstr ""
+
+#: Helpers/Localizations.php:303
+msgid "Default layout with custom header, content, and footer area."
+msgstr ""
+
+#: Helpers/Localizations.php:307
+msgid "Default layout with custom header, content, footer and sidebar area on the right."
+msgstr ""
+
+#: Helpers/Localizations.php:311
+msgid "Default layout with custom header, content, footer and sidebar area on the left."
+msgstr ""
+
+#: Helpers/Localizations.php:315
+msgid "Available in Premium version."
+msgstr ""
+
+#: Helpers/Localizations.php:319
+msgid "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
+msgstr ""
+
+#: Helpers/Localizations.php:322
+msgid "Free"
+msgstr ""
+
+#: Helpers/Localizations.php:323
+msgid "Premium"
+msgstr ""
+
+#: Helpers/Localizations.php:324
+msgid "Remove All"
+msgstr ""
+
+#: Helpers/Localizations.php:325
+msgid "Continue import"
+msgstr ""
+
+#: Helpers/Localizations.php:326
+msgid "Back to import"
+msgstr ""
+
+#: Helpers/Localizations.php:327
+msgid "Starting import process..."
+msgstr ""
+
+#: Helpers/Localizations.php:328
+msgid "Back to parent"
+msgstr ""
+
+#: Helpers/Localizations.php:329
+msgid "Editor Settings"
+msgstr ""
+
+#: Helpers/Localizations.php:331
+msgid "Disable element and template preview popup in Add Element and Add Template windows"
+msgstr ""
+
+#: Helpers/Localizations.php:334
+msgid "Disable preview"
+msgstr ""
+
+#: Helpers/Localizations.php:335
+msgid "Click to edit column value"
+msgstr ""
+
+#: Helpers/Localizations.php:336
+msgid "Add-on"
+msgstr ""
+
+#: Helpers/Localizations.php:338
+msgid "Update Visual Composer plugin to the most recent version to download addon."
+msgstr ""
+
+#: Helpers/Localizations.php:341
+msgid "This page was created with WPBakery Page Builder. What's next?"
+msgstr ""
+
+#: Helpers/Localizations.php:343
+msgid "To take over and start using Visual Composer Website Builder for this page, you need to:"
+msgstr ""
+
+#: Helpers/Localizations.php:346
+msgid "Download Migration addon from the Hub"
+msgstr ""
+
+#: Helpers/Localizations.php:347
+msgid "Keep WPBakery Page Builder plugin activated"
+msgstr ""
+
+#: Helpers/Localizations.php:349
+msgid "Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element."
+msgstr ""
+
+#: Helpers/Localizations.php:352
+msgid "Download Migration Addon"
+msgstr ""
+
+#: Helpers/Localizations.php:354
+msgid "Don't close this window while download is in the progress."
+msgstr ""
+
+#: Helpers/Localizations.php:355
+msgid "Create Your WordPress Website."
+msgstr ""
+
+#: Helpers/Localizations.php:356
+msgid "Any Layout. Fast and Easy."
+msgstr ""
+
+#: Helpers/Localizations.php:357
+msgid "Skip this post"
+msgstr ""
+
+#: Helpers/Localizations.php:358
+msgid "Get More Elements, Templates, and Extensions"
+msgstr ""
+
+#: Helpers/Localizations.php:360
+msgid "Download additional content from the Visual Composer Hub - right in your editor instantly."
+msgstr ""
+
+#: Helpers/Localizations.php:363
+msgid "Get Started"
+msgstr ""
+
+#: Helpers/Localizations.php:364
+msgid "Sending Error Report"
+msgstr ""
+
+#: Helpers/Localizations.php:366
+msgid "Don't close this window while sending error is in the progress."
+msgstr ""
+
+#: Helpers/Localizations.php:369
+msgid "Oops ... Something Went Wrong"
+msgstr ""
+
+#: Helpers/Localizations.php:371
+msgid "Access Visual Composer Hub - download additional elements, templates and extensions."
+msgstr ""
+
+#: Helpers/Localizations.php:375
+msgid "Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr ""
+
+#: Helpers/Localizations.php:379
+msgid "Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr ""
+
+#: Helpers/Localizations.php:382
+msgid "Open Edit Form"
+msgstr ""
+
+#: Helpers/Localizations.php:384
+msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing."
+msgstr ""
+
+#: Helpers/Localizations.php:388
+msgid "Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin."
+msgstr ""
+
+#: Helpers/Localizations.php:392
+msgid "WPBakery plugin and migration addon is required to use this attribute"
+msgstr ""
+
+#: Helpers/Localizations.php:396
+msgid "View WPBakery element/s as shortcodes"
+msgstr ""
+
+#: Helpers/Localizations.php:400
+msgid "Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements."
+msgstr ""
+
+#: Helpers/Localizations.php:404
+msgid "WPBakery element structure"
+msgstr ""
+
+#: Helpers/Localizations.php:408
+msgid "WPBakery element"
+msgstr ""
+
+#: Helpers/Localizations.php:412 Modules/Vendors/WpbakeryController.php:341
+msgid "Unlock Visual Composer Hub"
+msgstr ""
+
+#: Helpers/Localizations.php:416
+msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters."
+msgstr ""
+
+#: Helpers/Localizations.php:420
+msgid "Shortcode"
+msgstr ""
+
+#: Helpers/Localizations.php:424
+msgid "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
+msgstr ""
+
+#: Helpers/Localizations.php:428
+msgid "Activate Premium"
+msgstr ""
+
+#: Helpers/Localizations.php:432
+msgid "Search free high-resolution photos on Unsplash"
+msgstr ""
+
+#: Helpers/Localizations.php:436
+msgid "Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium"
+msgstr ""
+
+#: Helpers/Localizations.php:440
+msgid "Download and Add Free Beautiful Photos to Your Site"
+msgstr ""
+
+#: Helpers/Localizations.php:444
+msgid "No access, please check your license!"
+msgstr ""
+
+#: Helpers/Localizations.php:448
+msgid "Could not connect to Unsplash Server!"
+msgstr ""
+
+#: Helpers/Localizations.php:452
+msgid "Image has been downloaded to your Media Library."
+msgstr ""
+
+#: Helpers/Localizations.php:456
+msgid "Could not parse data from server!"
+msgstr ""
+
+#: Helpers/Localizations.php:460
+msgid "Small"
+msgstr ""
+
+#: Helpers/Localizations.php:464
+msgid "Medium"
+msgstr ""
+
+#: Helpers/Localizations.php:468
+msgid "Large"
+msgstr ""
+
+#: Helpers/Localizations.php:472
+msgid "images"
+msgstr ""
+
+#: Helpers/Localizations.php:476
+msgid "Download images from Unsplash to your Media Library"
+msgstr ""
+
+#: Helpers/Localizations.php:480
+msgid "Permalink"
+msgstr ""
+
+#: Helpers/Localizations.php:484
+msgid "Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word."
+msgstr ""
+
+#: Helpers/Localizations.php:488
+msgid "Insert dynamic content"
+msgstr ""
+
+#: Helpers/Localizations.php:492
+msgid "Remove dynamic content"
+msgstr ""
+
+#: Helpers/Localizations.php:496
+msgid "Select page, post, or custom post type."
+msgstr ""
+
+#: Helpers/Localizations.php:500
+msgid "By default, dynamic content is taken from the current post."
+msgstr ""
+
+#: Helpers/Localizations.php:504
+msgid "Set custom post source"
+msgstr ""
+
+#: Helpers/Localizations.php:508
+msgid "Select data source for dynamic content."
+msgstr ""
+
+#: Helpers/LoginCategory.php:21
+msgid "Business"
+msgstr "Бізнес"
+
+#: Helpers/LoginCategory.php:22
+msgid "Blog"
+msgstr "Блог"
+
+#: Helpers/LoginCategory.php:23
+msgid "Creative Arts"
+msgstr ""
+
+#: Helpers/LoginCategory.php:24
+msgid "Community & Education"
+msgstr ""
+
+#: Helpers/LoginCategory.php:25
+msgid "Design"
+msgstr "Дизайн"
+
+#: Helpers/LoginCategory.php:26
+msgid "Entertainment & Music"
+msgstr ""
+
+#: Helpers/LoginCategory.php:27
+msgid "Events"
+msgstr "Події"
+
+#: Helpers/LoginCategory.php:28
+msgid "Fashion & Beauty"
+msgstr "Мода і краса"
+
+#: Helpers/LoginCategory.php:29
+msgid "Health & Wellness"
+msgstr ""
+
+#: Helpers/LoginCategory.php:30
+msgid "Landing Pages"
+msgstr "Цільові сторінки"
+
+#: Helpers/LoginCategory.php:31
+msgid "Online Store"
+msgstr ""
+
+#: Helpers/LoginCategory.php:32
+msgid "Photography"
+msgstr "Фотографія"
+
+#: Helpers/LoginCategory.php:33
+msgid "Portfolio & Personal"
+msgstr ""
+
+#: Helpers/LoginCategory.php:34
+msgid "Restaurants & Food"
+msgstr "Ресторани & Їжа"
+
+#: Helpers/LoginCategory.php:35
+msgid "Services"
+msgstr "Послуги"
+
+#: Helpers/LoginCategory.php:36
+msgid "Travel & Accommodation"
+msgstr "Подорожі & Проживання"
+
+#: Framework/helpers.php:173
+msgid "An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again."
+msgstr ""
+
+#: Framework/helpers.php:179
+msgid "An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable."
+msgstr ""
+
+#: Framework/helpers.php:185 Helpers/Localizations.php:160
 msgid ""
 "An error occurred during the Visual Composer extension download process. \n"
-"<ul><li>- Check if your server has a connection to the Internet</li><li>- "
-"Check your server proxy configuration settings</li><li>- Check your server "
-"firewall settings and access to https://account.visualcomposer.io</li><li>- "
-"Check if your server has access to the <a href=\"https://s3-us-west-2."
-"amazonaws.com/updates.wpbakery.com/vcwb-teasers/"
-"youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank"
-"\">Amazon AWS</a></li></ul>"
+"<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
 msgstr ""
 
-#: Framework/helpers.php:194
+#: Framework/helpers.php:192
 msgid ""
 "An HTTP requests failed during the download process of the plugin.\n"
-"<ul><li>- Check if your server has a connection to the Internet</li><li>- "
-"Check your server proxy configuration settings</li><li>- Check your server "
-"firewall settings and access to <a href=\"https://account.visualcomposer.io"
-"\" target=\"_blank\">https://account.visualcomposer.io</a></li><li>- Check "
-"if your server has access to the <a href=\"https://s3-us-west-2.amazonaws."
-"com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200."
-"youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
+"<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to <a href=\"https://account.visualcomposer.io\" target=\"_blank\">https://account.visualcomposer.io</a></li><li>- Check if your server has access to the <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
 msgstr ""
 
-#: Framework/helpers.php:218
-msgid ""
-"An error occurred when extracting Visual Composer extension files. Visual "
-"Composer requires a direct access to the file system of your server. Check "
-"if FS_METHOD is defined in wp-config.php and disable it."
+#: Framework/helpers.php:216
+msgid "An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it."
 msgstr ""
 
-#: Framework/helpers.php:225
-msgid ""
-"A zip file of Visual Composer extension is broken. Please check your "
-"Internet connection, run Reset in Visual Composer Settings and try again."
+#: Framework/helpers.php:223
+msgid "A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again."
 msgstr ""
 
-#: Framework/helpers.php:231
-msgid ""
-"We could not copy files to your server. It seems that you have run out of "
-"the disk space. Please increase your server disk space and try again."
+#: Framework/helpers.php:229
+msgid "We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again."
 msgstr ""
 
-#: Framework/helpers.php:238
-msgid ""
-"We could not create a directory for the plugin in wp-content/uploads. Please "
-"check if your server has write permissions for wp-content/uploads."
+#: Framework/helpers.php:236
+msgid "We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads."
 msgstr ""
 
-#: Framework/helpers.php:244 Framework/helpers.php:250
-msgid ""
-"We could not copy a directory for the plugin in wp-content/uploads. Please "
-"check if your server has write permissions for wp-content/uploads."
+#: Framework/helpers.php:242 Framework/helpers.php:248
+msgid "We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads."
 msgstr ""
 
-#: Framework/helpers.php:259
-#, php-format
+#: Framework/helpers.php:257
 msgid "WordPress Error: %s"
 msgstr ""
 
-#: Framework/helpers.php:305
+#: Framework/helpers.php:304
 msgid "Wrong response body received."
 msgstr ""
 
-#: Framework/helpers.php:319
+#: Framework/helpers.php:318
 msgid "Bad status code received."
 msgstr ""
 
-#: Framework/helpers.php:335
-#, php-format
+#: Framework/helpers.php:334
 msgid "Bad response status code %d received."
 msgstr ""
 
-#: Framework/helpers.php:351
+#: Framework/helpers.php:350
 msgid "Failed to process action."
 msgstr ""
 
@@ -126,6 +1170,10 @@ msgstr "Преміум шаблони"
 #: Helpers/EditorTemplates.php:86
 msgid "Content Templates"
 msgstr "Шаблони вмісту"
+
+#: Helpers/EditorTemplates.php:181
+msgid "Select your template"
+msgstr ""
 
 #: Helpers/Hub/Bundle.php:158 Helpers/Hub/Bundle.php:360
 msgid "Failed to read remote bundle json"
@@ -148,16 +1196,12 @@ msgid "Templates library"
 msgstr "Бібліотека шаблонів"
 
 #: Helpers/Hub/Update.php:168
-#, fuzzy
-#| msgid "Create a blank page"
 msgid "Create new page"
-msgstr "Створити пусту сторінку"
+msgstr ""
 
 #: Helpers/Hub/Update.php:184
-#, fuzzy
-#| msgid "Create a blank post"
 msgid "Create new post"
-msgstr "Створити пустий пост"
+msgstr ""
 
 #: Helpers/License.php:168
 msgid "Visual Composer Website Builder license has expired."
@@ -219,7 +1263,7 @@ msgstr ""
 msgid "Mobile Portrait"
 msgstr ""
 
-#: Helpers/Localizations.php:37 Modules/Settings/Pages/Settings.php:91
+#: Helpers/Localizations.php:37 Modules/Settings/Pages/Settings.php:80
 #: resources/views/settings/layouts/settings-standalone.php:11
 msgid "Settings"
 msgstr "Налаштування"
@@ -228,7 +1272,7 @@ msgstr "Налаштування"
 msgid "Layout"
 msgstr "Макет"
 
-#: Helpers/Localizations.php:39 Modules/Hub/Pages/UpdateBePageRedesign.php:96
+#: Helpers/Localizations.php:39 Modules/Hub/Pages/UpdateBePage.php:92
 msgid "Update"
 msgstr "Оновити"
 
@@ -240,7 +1284,7 @@ msgstr "Меню"
 msgid "View Page"
 msgstr "Переглянути сторінку"
 
-#: Helpers/Localizations.php:42 Helpers/Localizations.php:343
+#: Helpers/Localizations.php:42 Helpers/Localizations.php:353
 msgid "Back to WordPress"
 msgstr ""
 
@@ -262,8 +1306,8 @@ msgstr "Зберегти Чернетку"
 
 #: Helpers/Localizations.php:47 Helpers/Localizations.php:49
 #: Helpers/Localizations.php:50 Helpers/Localizations.php:51
-#: Modules/License/Pages/GoPremium.php:107
-#: Modules/License/Pages/GoPremium.php:124
+#: Modules/License/Pages/GoPremium.php:103
+#: Modules/License/Pages/GoPremium.php:120
 msgid "Go Premium"
 msgstr ""
 
@@ -275,7 +1319,7 @@ msgstr "Закрити"
 msgid "There is no content on your page - start by adding element or template."
 msgstr ""
 
-#: Helpers/Localizations.php:56
+#: Helpers/Localizations.php:56 Modules/Settings/Fields/CssEditor.php:65
 msgid "Custom CSS"
 msgstr "Користувацький CSS"
 
@@ -344,1079 +1388,366 @@ msgid "Get More Elements"
 msgstr ""
 
 #: Helpers/Localizations.php:73
-#, fuzzy
-#| msgid "My Templates"
 msgid "Get More Templates"
-msgstr "Мої шаблони"
+msgstr ""
 
 #: Helpers/Localizations.php:76
-msgid ""
-"You don't have any templates yet. Try to save your current layout as a "
-"template or download templates from Visual Composer Hub."
+msgid "You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub."
 msgstr ""
 
 #: Helpers/Localizations.php:80
-msgid ""
-"Didn't find the right template? Check out Visual Composer Hub for more "
-"layout templates."
-msgstr ""
-
-#: Helpers/Localizations.php:83
-msgid ""
-"Access Visual Composer Hub - to download additional elements, templates and "
-"extensions."
+msgid "Didn't find the right template? Check out Visual Composer Hub for more layout templates."
 msgstr ""
 
 #: Helpers/Localizations.php:84
-msgid "Do you want to remove this template?"
-msgstr ""
-
-#: Helpers/Localizations.php:85
-msgid "Failed to remove template"
-msgstr ""
-
-#: Helpers/Localizations.php:86
-msgid "Select Blank Page"
+msgid "Access Visual Composer Hub - to download additional elements, templates and extensions."
 msgstr ""
 
 #: Helpers/Localizations.php:87
-msgid "or Start With a Template"
+msgid "Do you want to remove this template?"
 msgstr ""
 
 #: Helpers/Localizations.php:88
-msgid "Name Your "
+msgid "Failed to remove template"
 msgstr ""
 
 #: Helpers/Localizations.php:89
+msgid "Name Your Page, Select"
+msgstr ""
+
+#: Helpers/Localizations.php:90
+msgid "Layout and Start Building"
+msgstr ""
+
+#: Helpers/Localizations.php:91
+msgid "Name Your "
+msgstr ""
+
+#: Helpers/Localizations.php:92
 msgid "and Start Building"
 msgstr ""
 
-#: Helpers/Localizations.php:92 Helpers/Localizations.php:107
-msgid ""
-"Get a Premium license to access Visual Composer Hub. Download professionally "
-"designed templates, more content elements, extensions, and more."
+#: Helpers/Localizations.php:95
+msgid "Start by adding an element to your layout or select one of the pre-defined templates."
 msgstr ""
 
-#: Helpers/Localizations.php:97
-msgid ""
-"Didn't find a perfect template? Get a Premium license to download it from "
-"Visual Composer Hub."
+#: Helpers/Localizations.php:98
+msgid "Page title"
 msgstr ""
 
-#: Helpers/Localizations.php:102
-msgid ""
-"Didn't find an element? Get a Premium license to download the right content "
-"element in Visual Composer Hub."
+#: Helpers/Localizations.php:101
+msgid "Didn't find a perfect template? Get a Premium license to download it from Visual Composer Hub."
 msgstr ""
 
-#: Helpers/Localizations.php:110
+#: Helpers/Localizations.php:106
+msgid "Didn't find an element? Get a Premium license to download the right content element in Visual Composer Hub."
+msgstr ""
+
+#: Helpers/Localizations.php:111
+msgid "Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more."
+msgstr ""
+
+#: Helpers/Localizations.php:114
 msgid "Add"
 msgstr "Додати"
 
-#: Helpers/Localizations.php:111
+#: Helpers/Localizations.php:115
 msgid "Row Layout"
 msgstr "Макет рядка"
 
-#: Helpers/Localizations.php:112
+#: Helpers/Localizations.php:116
 msgid "Edit"
 msgstr "Редагувати"
 
-#: Helpers/Localizations.php:113
+#: Helpers/Localizations.php:117
 msgid "Design Options"
 msgstr "Параметри дизайну"
 
-#: Helpers/Localizations.php:114
+#: Helpers/Localizations.php:118
 msgid "Clone"
 msgstr "Клонувати"
 
-#: Helpers/Localizations.php:115
+#: Helpers/Localizations.php:119
 msgid "Copy"
 msgstr "Копіювати"
 
-#: Helpers/Localizations.php:116
+#: Helpers/Localizations.php:120
 msgid "Paste"
 msgstr "Вставити"
 
-#: Helpers/Localizations.php:117
-#, fuzzy
-#| msgid "Paste"
-msgid "Paste After"
-msgstr "Вставити"
-
-#: Helpers/Localizations.php:118
-msgid "Remove"
-msgstr "Видалити"
-
-#: Helpers/Localizations.php:119
-msgid "Move"
-msgstr "Перемістити"
-
-#: Helpers/Localizations.php:120
-msgid "Search content elements"
-msgstr ""
-
 #: Helpers/Localizations.php:121
-msgid "Search content elements and templates"
+msgid "Paste After"
 msgstr ""
 
 #: Helpers/Localizations.php:122
+msgid "Remove"
+msgstr "Видалити"
+
+#: Helpers/Localizations.php:123
+msgid "Move"
+msgstr "Перемістити"
+
+#: Helpers/Localizations.php:124
+msgid "Search content elements"
+msgstr ""
+
+#: Helpers/Localizations.php:125
+msgid "Search content elements and templates"
+msgstr ""
+
+#: Helpers/Localizations.php:126
 msgid "Search content templates"
 msgstr ""
 
-#: Helpers/Localizations.php:124
+#: Helpers/Localizations.php:128
 msgid "Template with this name already exist. Please specify another name."
 msgstr ""
 
-#: Helpers/Localizations.php:127
+#: Helpers/Localizations.php:131
 msgid "There is no content on your page - nothing to save"
 msgstr ""
 
-#: Helpers/Localizations.php:128
+#: Helpers/Localizations.php:132
 msgid "Enter template name to save your page as a template"
 msgstr ""
 
-#: Helpers/Localizations.php:129
+#: Helpers/Localizations.php:133
 msgid "Add one column"
 msgstr ""
 
-#: Helpers/Localizations.php:130
+#: Helpers/Localizations.php:134
 msgid "Add two columns"
 msgstr ""
 
-#: Helpers/Localizations.php:131
+#: Helpers/Localizations.php:135
 msgid "Add three columns"
 msgstr ""
 
-#: Helpers/Localizations.php:132
+#: Helpers/Localizations.php:136
 msgid "Add four columns"
 msgstr ""
 
-#: Helpers/Localizations.php:133
+#: Helpers/Localizations.php:137
 msgid "Add five columns"
 msgstr ""
 
-#: Helpers/Localizations.php:134
+#: Helpers/Localizations.php:138
 msgid "Add custom row layout"
 msgstr ""
 
-#: Helpers/Localizations.php:135
+#: Helpers/Localizations.php:139
 msgid "Add Text block"
 msgstr ""
 
-#: Helpers/Localizations.php:136
+#: Helpers/Localizations.php:140
 #: Modules/Editors/EditPostLinks/Controller.php:93
 #: Modules/Editors/EditPostLinks/Controller.php:127
 #: Modules/Editors/EditPostLinks/Controller.php:128
-#: Modules/Editors/EditPostLinks/Controller.php:179
+#: Modules/Editors/EditPostLinks/Controller.php:180
 msgid "Edit with Visual Composer"
 msgstr "Редагувати s з Visual Composer"
 
-#: Helpers/Localizations.php:137
+#: Helpers/Localizations.php:141
 msgid "Classic Editor"
 msgstr ""
 
-#: Helpers/Localizations.php:140
-msgid ""
-"You are switching to Visual Composer. Visual Composer will load the latest "
-"version of content created with the builder."
+#: Helpers/Localizations.php:144
+msgid "You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder."
 msgstr ""
-
-#: Helpers/Localizations.php:145
-msgid ""
-"You are switching to Classic editor. The content created with Visual "
-"Composer will be copied to Classic editor (style changes may apply.) Any "
-"changes made in the Classic editor will not be synced with Visual Composer "
-"layout. Do you want to proceed?"
-msgstr ""
-
-#: Helpers/Localizations.php:148
-msgid "Blank Page"
-msgstr "Порожня сторінка"
 
 #: Helpers/Localizations.php:149
-msgid "Search templates by name and description"
-msgstr ""
-
-#: Helpers/Localizations.php:150
-msgid "Open Visual Composer Hub"
+msgid "You are switching to Classic editor. The content created with Visual Composer will be copied to Classic editor (style changes may apply.) Any changes made in the Classic editor will not be synced with Visual Composer layout. Do you want to proceed?"
 msgstr ""
 
 #: Helpers/Localizations.php:152
-msgid ""
-"Didn't find the right element? Check out Visual Composer Hub for more "
-"content elements."
+msgid "Blank Page"
+msgstr "Порожня сторінка"
+
+#: Helpers/Localizations.php:153
+msgid "Search templates by name and description"
 msgstr ""
 
-#: Helpers/Localizations.php:157 Helpers/Localizations.php:168
+#: Helpers/Localizations.php:154
+msgid "Open Visual Composer Hub"
+msgstr ""
+
+#: Helpers/Localizations.php:156
+msgid "Didn't find the right element? Check out Visual Composer Hub for more content elements."
+msgstr ""
+
+#: Helpers/Localizations.php:164 Helpers/Localizations.php:175
 msgid "Nothing found"
 msgstr "Нічого не знайдено"
 
-#: Helpers/Localizations.php:158
+#: Helpers/Localizations.php:165
 msgid "Add Image"
 msgstr "Додати зображення"
 
-#: Helpers/Localizations.php:159
+#: Helpers/Localizations.php:166
 msgid "Remove Image"
 msgstr "Видалити зображення"
 
-#: Helpers/Localizations.php:160
+#: Helpers/Localizations.php:167
 msgid "Move Image"
 msgstr ""
 
-#: Helpers/Localizations.php:161
+#: Helpers/Localizations.php:168
 msgid "Edit or Replace Image"
 msgstr ""
 
-#: Helpers/Localizations.php:162
+#: Helpers/Localizations.php:169
 msgid "Add Link"
 msgstr "Додати посилання"
 
-#: Helpers/Localizations.php:163
+#: Helpers/Localizations.php:170
 msgid "Select URL"
 msgstr "Виберіть URL"
 
-#: Helpers/Localizations.php:164
+#: Helpers/Localizations.php:171
 msgid "Insert or Edit Link"
 msgstr ""
 
-#: Helpers/Localizations.php:165 Helpers/Localizations.php:171
+#: Helpers/Localizations.php:172 Helpers/Localizations.php:178
 msgid "Enter destination URL"
 msgstr ""
 
-#: Helpers/Localizations.php:166
+#: Helpers/Localizations.php:173
 msgid "Or link to existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:167
+#: Helpers/Localizations.php:174
 msgid "Search existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:169
+#: Helpers/Localizations.php:176
 msgid "Open link in a new tab"
 msgstr ""
 
-#: Helpers/Localizations.php:170
+#: Helpers/Localizations.php:177
 msgid "Add nofollow option to link"
 msgstr ""
 
-#: Helpers/Localizations.php:172
+#: Helpers/Localizations.php:179
 msgid "Title attribute will be displayed on link hover"
 msgstr ""
 
-#: Helpers/Localizations.php:173
+#: Helpers/Localizations.php:180
 msgid "Title"
 msgstr "Заголовок"
 
-#: Helpers/Localizations.php:174
+#: Helpers/Localizations.php:181
 msgid "Visual Composer Cloud update failed, please try again"
 msgstr ""
 
-#: Helpers/Localizations.php:175
+#: Helpers/Localizations.php:182
 msgid "Preview"
 msgstr "Перегляд"
 
-#: Helpers/Localizations.php:176
+#: Helpers/Localizations.php:183
 msgid "Preview Changes"
 msgstr "Перегляд Змін"
 
-#: Helpers/Localizations.php:177
+#: Helpers/Localizations.php:184
 msgid "Saving Results"
 msgstr "Збереження результатів"
 
-#: Helpers/Localizations.php:178
+#: Helpers/Localizations.php:185
 msgid "Hide: Off"
 msgstr ""
 
-#: Helpers/Localizations.php:179
+#: Helpers/Localizations.php:186
 msgid "Hide: On"
 msgstr ""
 
-#: Helpers/Localizations.php:180
+#: Helpers/Localizations.php:187
 msgid "Downloading initial extensions"
 msgstr ""
 
-#: Helpers/Localizations.php:181
+#: Helpers/Localizations.php:188
 msgid "Downloading assets {i} of {cnt}: {name}"
 msgstr ""
 
-#: Helpers/Localizations.php:182
+#: Helpers/Localizations.php:189
 msgid "Updating posts {i} in {cnt}: {name}"
 msgstr ""
 
-#: Helpers/Localizations.php:183
+#: Helpers/Localizations.php:190
 msgid "Failed to load: {file}"
 msgstr ""
 
-#: Helpers/Localizations.php:184
+#: Helpers/Localizations.php:191
 msgid "None"
 msgstr ""
 
-#: Helpers/Localizations.php:187
-msgid ""
-"Double tap on an element to open the edit window. Tap and hold to initiate "
-"drag and drop in a Tree view."
-msgstr ""
-
-#: Helpers/Localizations.php:190
-msgid "Template"
-msgstr "Шаблон"
-
-#: Helpers/Localizations.php:191
-msgid "Theme Default"
-msgstr "Типова Тема"
-
-#: Helpers/Localizations.php:193
-msgid "To apply a template save changes and reload the page"
+#: Helpers/Localizations.php:194
+msgid "Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view."
 msgstr ""
 
 #: Helpers/Localizations.php:197
-msgid ""
-"To apply a template you will need to save changes and content will be "
-"reloaded."
-msgstr ""
+msgid "Template"
+msgstr "Шаблон"
 
-#: Helpers/Localizations.php:201
-msgid "To apply title changes save changes and reload the page"
+#: Helpers/Localizations.php:198
+msgid "Theme Default"
+msgstr "Типова Тема"
+
+#: Helpers/Localizations.php:200
+msgid "To apply a template save changes and reload the page"
 msgstr ""
 
 #: Helpers/Localizations.php:204
+msgid "To apply a template you will need to save changes and content will be reloaded."
+msgstr ""
+
+#: Helpers/Localizations.php:208
+msgid "To apply title changes save changes and reload the page"
+msgstr ""
+
+#: Helpers/Localizations.php:211
 msgid "Disable page title"
 msgstr ""
 
-#: Helpers/Localizations.php:206
-msgid ""
-"{name} has been successfully downloaded from the Visual Composer Hub and "
-"added to your library"
+#: Helpers/Localizations.php:213
+msgid "{name} has been successfully downloaded from the Visual Composer Hub and added to your library"
 msgstr ""
 
-#: Helpers/Localizations.php:210
+#: Helpers/Localizations.php:217
 msgid "Failed to download element (license expired or request timed out)"
 msgstr ""
 
-#: Helpers/Localizations.php:213
+#: Helpers/Localizations.php:220
 msgid "Failed to download element"
 msgstr ""
 
-#: Helpers/Localizations.php:216
-msgid ""
-"It seems that something went wrong with loading content. Please make sure "
-"you are loading correct content and try again."
+#: Helpers/Localizations.php:223
+msgid "It seems that something went wrong with loading content. Please make sure you are loading correct content and try again."
 msgstr ""
 
-#: Helpers/Localizations.php:219 Helpers/Localizations.php:225
-#: Helpers/Localizations.php:239
+#: Helpers/Localizations.php:226 Helpers/Localizations.php:232
+#: Helpers/Localizations.php:246
 msgid "Return to WordPress dashboard"
 msgstr ""
 
-#: Helpers/Localizations.php:222
-msgid ""
-"It seems you are trying to edit archive page which displays your post "
-"archive instead of content. Before edit, please make sure to convert it to a "
-"static page via your WordPress admin"
+#: Helpers/Localizations.php:229
+msgid "It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin"
 msgstr ""
 
-#: Helpers/Localizations.php:227
-msgid ""
-"You can replace the {elementLabel} within this element with another "
-"{elementLabel} from your elements"
+#: Helpers/Localizations.php:234
+msgid "You can replace the {elementLabel} within this element with another {elementLabel} from your elements"
 msgstr ""
 
-#: Helpers/Localizations.php:231
+#: Helpers/Localizations.php:238
 msgid "Replace current element with different element from the same category"
 msgstr ""
 
-#: Helpers/Localizations.php:235
-msgid ""
-"We would like to acknowledge that we have received your request and a ticket "
-"has been created. A support representative will be reviewing your request "
-"and will send you a personal response."
+#: Helpers/Localizations.php:242
+msgid "We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response."
 msgstr ""
 
-#: Helpers/Localizations.php:243
+#: Helpers/Localizations.php:250
 msgid "Thank You!"
 msgstr "Дякуємо!"
 
-#: Helpers/Localizations.php:248
-#, php-format
-msgid ""
-"There is a new version of Visual Composer Website Builder available. <a href="
-"\"%s\">Update now</a> to version %s."
+#: Helpers/Localizations.php:255
+msgid "There is a new version of Visual Composer Website Builder available. <a href=\"%s\">Update now</a> to version %s."
 msgstr ""
-
-#: Helpers/Localizations.php:256
-#, php-format
-msgid "Choose %s or %screate new%s."
-msgstr ""
-
-#: Helpers/Localizations.php:264
-msgid "Select {name} template"
-msgstr ""
-
-#: Helpers/Localizations.php:268
-msgid ""
-"Update Visual Composer plugin to the most recent version to download this "
-"content element."
-msgstr ""
-
-#: Helpers/Localizations.php:272
-msgid ""
-"Update Visual Composer plugin to the most recent version to download this "
-"template."
-msgstr ""
-
-#: Helpers/Localizations.php:275
-msgid "Start Building"
-msgstr ""
-
-#: Helpers/Localizations.php:278
-#, php-format
-msgid "%s Name"
-msgstr "%s ім'я"
-
-#: Helpers/Localizations.php:284
-msgid ""
-"Your WordPress theme defined layout for specific page, post, or custom post "
-"type."
-msgstr ""
-
-#: Helpers/Localizations.php:288
-msgid ""
-"Blank page layout with boxed content area in the middle of the page without "
-"header, footer, or sidebar."
-msgstr ""
-
-#: Helpers/Localizations.php:292
-msgid "Full width blank page without header, footer, or sidebar."
-msgstr ""
-
-#: Helpers/Localizations.php:296
-msgid "Default layout with custom header, content, and footer area."
-msgstr ""
-
-#: Helpers/Localizations.php:300
-msgid ""
-"Default layout with custom header, content, footer and sidebar area on the "
-"right."
-msgstr ""
-
-#: Helpers/Localizations.php:304
-msgid ""
-"Default layout with custom header, content, footer and sidebar area on the "
-"left."
-msgstr ""
-
-#: Helpers/Localizations.php:308
-#, fuzzy
-#| msgid "Premium Version"
-msgid "Available in Premium version."
-msgstr "Преміум версія"
-
-#: Helpers/Localizations.php:312
-msgid "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
-msgstr ""
-
-#: Helpers/Localizations.php:315
-msgid "Free"
-msgstr ""
-
-#: Helpers/Localizations.php:316
-#, fuzzy
-#| msgid "Premium Version"
-msgid "Premium"
-msgstr "Преміум версія"
-
-#: Helpers/Localizations.php:317
-#, fuzzy
-#| msgid "Remove"
-msgid "Remove All"
-msgstr "Видалити"
-
-#: Helpers/Localizations.php:318
-msgid "Continue import"
-msgstr ""
-
-#: Helpers/Localizations.php:319
-msgid "Back to import"
-msgstr ""
-
-#: Helpers/Localizations.php:320
-msgid "Starting import process..."
-msgstr ""
-
-#: Helpers/Localizations.php:321
-msgid "Back to parent"
-msgstr ""
-
-#: Helpers/Localizations.php:322
-#, fuzzy
-#| msgid "Settings"
-msgid "Editor Settings"
-msgstr "Налаштування"
-
-#: Helpers/Localizations.php:324
-msgid ""
-"Disable element and template preview popup in Add Element and Add Template "
-"windows"
-msgstr ""
-
-#: Helpers/Localizations.php:327
-msgid "Disable preview"
-msgstr ""
-
-#: Helpers/Localizations.php:328
-msgid "Click to edit column value"
-msgstr ""
-
-#: Helpers/Localizations.php:329
-msgid "Add-on"
-msgstr ""
-
-#: Helpers/Localizations.php:331
-msgid ""
-"Update Visual Composer plugin to the most recent version to download addon."
-msgstr ""
-
-#: Helpers/Localizations.php:334
-msgid "This page was created with WPBakery Page Builder. What's next?"
-msgstr ""
-
-#: Helpers/Localizations.php:336
-msgid ""
-"To take over and start using Visual Composer Website Builder for this page, "
-"you need to:"
-msgstr ""
-
-#: Helpers/Localizations.php:339
-msgid "Download Migration addon from the Hub"
-msgstr ""
-
-#: Helpers/Localizations.php:340
-msgid "Keep WPBakery Page Builder plugin activated"
-msgstr ""
-
-#: Helpers/Localizations.php:341
-msgid ""
-"Supported elements will be converted into Visual Composer compatible "
-"elements, the rest of the elements will be converted into the WPBakery "
-"Shortcode element."
-msgstr ""
-
-#: Helpers/Localizations.php:342
-msgid "Download Migration Addon"
-msgstr ""
-
-#: Helpers/Localizations.php:344
-msgid "Don't close this window while download is in the progress."
-msgstr ""
-
-#: Helpers/Localizations.php:345
-msgid "Create Your WordPress Website."
-msgstr ""
-
-#: Helpers/Localizations.php:346
-msgid "Any Layout. Fast and Easy."
-msgstr ""
-
-#: Helpers/Localizations.php:347
-msgid "Skip this post"
-msgstr ""
-
-#: Helpers/Localizations.php:348
-msgid "Get More Elements, Templates, and Extensions"
-msgstr ""
-
-#: Helpers/Localizations.php:349
-msgid ""
-"Download additional content from the Visual Composer Hub - right in your "
-"editor instantly."
-msgstr ""
-
-#: Helpers/Localizations.php:350 Helpers/Localizations.php:352
-msgid "Get Started"
-msgstr ""
-
-#: Helpers/Localizations.php:351
-msgid "Sending Error Report"
-msgstr ""
-
-#: Helpers/Localizations.php:353
-msgid "Don't close this window while sending error is in the progress."
-msgstr ""
-
-#: Helpers/Localizations.php:354
-msgid "Oops ... Something Went Wrong"
-msgstr ""
-
-#: Helpers/LoginCategory.php:21
-msgid "Business"
-msgstr "Бізнес"
-
-#: Helpers/LoginCategory.php:22
-msgid "Blog"
-msgstr "Блог"
-
-#: Helpers/LoginCategory.php:23
-msgid "Creative Arts"
-msgstr ""
-
-#: Helpers/LoginCategory.php:24
-msgid "Community & Education"
-msgstr ""
-
-#: Helpers/LoginCategory.php:25
-msgid "Design"
-msgstr "Дизайн"
-
-#: Helpers/LoginCategory.php:26
-msgid "Entertainment & Music"
-msgstr ""
-
-#: Helpers/LoginCategory.php:27
-msgid "Events"
-msgstr "Події"
-
-#: Helpers/LoginCategory.php:28
-msgid "Fashion & Beauty"
-msgstr "Мода і краса"
-
-#: Helpers/LoginCategory.php:29
-msgid "Health & Wellness"
-msgstr ""
-
-#: Helpers/LoginCategory.php:30
-msgid "Landing Pages"
-msgstr "Цільові сторінки"
-
-#: Helpers/LoginCategory.php:31
-msgid "Online Store"
-msgstr ""
-
-#: Helpers/LoginCategory.php:32
-msgid "Photography"
-msgstr "Фотографія"
-
-#: Helpers/LoginCategory.php:33
-msgid "Portfolio & Personal"
-msgstr ""
-
-#: Helpers/LoginCategory.php:34
-msgid "Restaurants & Food"
-msgstr "Ресторани & Їжа"
-
-#: Helpers/LoginCategory.php:35
-msgid "Services"
-msgstr "Послуги"
-
-#: Helpers/LoginCategory.php:36
-msgid "Travel & Accommodation"
-msgstr "Подорожі & Проживання"
-
-#: Helpers/LoginCategory.php:37
-msgid "Other"
-msgstr "Інше"
-
-#: Helpers/PostType.php:229
-#, php-format
-msgid "View %s"
-msgstr "Переглянути %s"
-
-#: Helpers/PostsGridSourcePosts.php:38
-msgid "All"
-msgstr "Все"
-
-#: Helpers/Settings/Pages/About.php:25
-msgid "Set up your own navigation position or change it at any time."
-msgstr ""
-
-#: Helpers/Settings/Pages/About.php:29
-msgid ""
-"Access and see the path to your elements, columns, and rows from one control."
-msgstr ""
-
-#: Helpers/Settings/Pages/About.php:33
-msgid "Use inline text editing to change content with one click."
-msgstr ""
-
-#: Helpers/Settings/Pages/About.php:37
-msgid "Control and overview your page structure from the Tree View mode."
-msgstr ""
-
-#: Helpers/Settings/Pages/About.php:41
-msgid "Divide your row into columns with Row layout and pre-made layouts."
-msgstr ""
-
-#: Helpers/Settings/Pages/About.php:45
-msgid "Apply changes instantly and revert back with Undo/Redo at any time."
-msgstr ""
-
-#: Helpers/Settings/Pages/About.php:49
-msgid "Resize columns with easy to use resize tool."
-msgstr ""
-
-#: Helpers/Token.php:170
-#, php-format
-msgid "Your Visual Composer Website Builder License will expire soon - %s"
-msgstr ""
-
-#: Modules/Assets/SharedDownloadController.php:130
-msgid "Failed to update shared libraries"
-msgstr ""
-
-#: Modules/Editors/EditPostLinks/Controller.php:152
-#: Modules/Editors/Frontend/MenuController.php:76
-msgid "Add New with Visual Composer"
-msgstr ""
-
-#: Modules/Editors/Frontend/Controller.php:97
-msgid "Cheatin&#8217; uh?"
-msgstr ""
-
-#: Modules/Editors/Frontend/Controller.php:98
-msgid "Sorry, you are not allowed to create posts as this user."
-msgstr ""
-
-#: Modules/Editors/Frontend/MenuController.php:144
-msgid "Add New with Visual&nbsp;Composer"
-msgstr ""
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:50
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:61
-msgid "Blank Template"
-msgstr ""
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:57
-msgid "Boxed Template"
-msgstr ""
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:74
-msgid "Visual Composer"
-msgstr ""
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
-msgid "Default"
-msgstr "За замовчуванням"
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:110
-msgid "Theme Templates"
-msgstr "Шаблон теми"
-
-#: Modules/Editors/Templates/PostType.php:36
-#, fuzzy
-#| msgid "My Templates"
-msgid "Global Templates"
-msgstr "Мої шаблони"
-
-#: Modules/FrontView/PluginsInfoController.php:42
-msgid ""
-"Powered by Visual Composer Website Builder - fast and easy to use drag and "
-"drop builder for experts and beginners."
-msgstr ""
-
-#: Modules/Hub/Traits/Action.php:71
-#, php-format
-msgid ""
-"A zip file of Visual Composer extension is broken. Checksum check failed. "
-"Please check your Internet connection, run Reset in Visual Composer Settings "
-"and try again.\n"
-"\n"
-"If the problem still occurs, visit %ssupport.visualcomposer.io%s for "
-"technical assistance.\n"
-msgstr ""
-
-#: Modules/License/LicenseController.php:114
-msgid "Invalid token -> Failed licence activation - Invalid token"
-msgstr ""
-
-#: Modules/License/Pages/GettingStarted.php:103
-msgid "Getting Started"
-msgstr ""
-
-#: Modules/License/UpdateVariablesController.php:47
-msgid ""
-"Build your site with the help of drag and drop editor straight from the "
-"frontend - it's that easy."
-msgstr ""
-
-#: Modules/License/UpdateVariablesController.php:56
-msgid ""
-"Get more elements and templates from the Visual Composer Hub - a free online "
-"marketplace."
-msgstr ""
-
-#: Modules/License/UpdateVariablesController.php:65
-msgid ""
-"Unparallel performance for you and your website to rank higher and deliver "
-"faster."
-msgstr ""
-
-#: Modules/License/UpdateVariablesController.php:74
-msgid ""
-"Control every detail of your website with flexible design options and "
-"customization tools."
-msgstr ""
-
-#: Modules/Settings/Fields/FactoryResetController.php:67
-msgid "Proceed with a reset?"
-msgstr "Продовжити скидання?"
-
-#: Modules/Settings/Fields/FactoryResetController.php:68
-msgid "initiate reset"
-msgstr ""
-
-#: Modules/Settings/Fields/FactoryResetController.php:78
-#, php-format
-msgid ""
-"Restore default plugin state to re-download all installed bundles and auto-"
-"configure path after migration (don’t worry, the content of the site will "
-"not be affected) - %s."
-msgstr ""
-
-#: Modules/Settings/Fields/FactoryResetController.php:90
-msgid "Reset"
-msgstr "Скинути"
-
-#: Modules/Settings/Fields/FactoryResetController.php:113
-msgid "Wrong permissions"
-msgstr ""
-
-#: Modules/Settings/Fields/FactoryResetController.php:118
-msgid "Session expired"
-msgstr "Сеанс закінчився"
-
-#: Modules/Settings/Fields/FactoryResetController.php:127
-msgid "Visual Composer asset reset was successful."
-msgstr ""
-
-#: Modules/Settings/Fields/PostTypes.php:53
-msgid ""
-"Specify post types where you want to use Visual Composer Website Builder."
-msgstr ""
-
-#: Modules/Settings/Fields/PostTypes.php:58
-msgid "Post Types"
-msgstr "Типи записів"
-
-#: Modules/Settings/MenuController.php:75
-msgid "Visual Composer "
-msgstr "Visual Composer "
-
-#: Modules/Settings/NoticeController.php:78
-msgid "Dismiss"
-msgstr "Відхилити"
-
-#: Modules/Settings/Pages/AboutRedesign.php:95
-msgid "About"
-msgstr "Про"
-
-#: Modules/Updates/UpdatesController.php:161
-msgid ""
-"\n"
-"<p>Visual Composer Website Builder is a perfect solution to create your "
-"WordPress site via drag and drop interface. Use content elements or "
-"predefined layouts to create any layout fast and easy.</p>\n"
-"<ul>\n"
-"<li>Use Frontend or Tree View to create structure</li>\n"
-"<li>Create responsive websites automatically</li>\n"
-"<li>Use with any WordPress theme</li>\n"
-"<li>Work with pages, posts and custom post types</li>\n"
-"<li>Access content elements and WordPress widgets</li>\n"
-"<li>Integrate any 3rd party shortcode easily</li>\n"
-"<li>Apply predefined pro quality templates</li>\n"
-"<li>Control look of elements via multiple parameters and rich design "
-"options</li>\n"
-"<li>Receive high-quality code optimized for SEO</li>\n"
-"</ul>"
-msgstr ""
-
-#: Modules/Updates/UpdatesController.php:190
-msgid "Failed to get changelog"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:80
-msgid ""
-"Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg "
-"editor will enable Classic WordPress editor. In both cases, you can still "
-"use Visual Composer."
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:88
-msgid "Gutenberg Editor"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:104
-msgid "Gutenberg"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:223
-#: Modules/Vendors/GutenbergAttributeController.php:225
-msgid "Gutenberg attrs"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:224
-#: Modules/Vendors/GutenbergAttributeController.php:226
-msgid "Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:227
-#, fuzzy
-#| msgid "Add Image"
-msgid "Add New"
-msgstr "Додати зображення"
-
-#: Modules/Vendors/GutenbergAttributeController.php:228
-msgid "Add New Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:229
-msgid "New Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:230
-msgid "Edit Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:231
-msgid "View Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:232
-msgid "All Gutenberg attrs"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:233
-msgid "Search Gutenberg attrs"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:234
-msgid "Parent Gutenberg attrs:"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:235
-msgid "No Gutenberg attrs found."
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:236
-msgid "No Gutenberg attrs found in Trash."
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:238
-msgid "Gutenberg attr Cover Image"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:243
-#, fuzzy
-#| msgid "Remove Image"
-msgid "Set cover image"
-msgstr "Видалити зображення"
-
-#: Modules/Vendors/GutenbergAttributeController.php:248
-#, fuzzy
-#| msgid "Remove Image"
-msgid "Remove cover image"
-msgstr "Видалити зображення"
-
-#: Modules/Vendors/GutenbergAttributeController.php:253
-#, fuzzy
-#| msgid "Remove Image"
-msgid "Use as cover image"
-msgstr "Видалити зображення"
-
-#: Modules/Vendors/GutenbergAttributeController.php:258
-msgid "Gutenberg attr archives"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:263
-msgid "Add into Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:268
-msgid "Uploaded to this Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:273
-msgid "Filter Gutenberg attrs list"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:278
-msgid "Gutenberg attrs list navigation"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:283
-msgid "Gutenberg attrs list"
-msgstr ""
-
-#: resources/views/editor/frontend/frontend.php:41
-#: resources/views/license/fe-update-wrapper.php:30
-#, php-format
-msgid "Frontend editor: %s"
-msgstr ""
-
-#: resources/views/editor/pageEditable/pageEditable.php:8
-msgid "Loading..."
-msgstr "Завантаження..."
-
-#: resources/views/elements/widgets/variables.php:19
-msgid "No Custom widgets found"
-msgstr ""
-
-#: resources/views/elements/widgets/variables.php:36
-msgid "No Widgets found"
-msgstr ""
-
-#: resources/views/settings/option-toggle.php:22
-#: resources/views/settings/pages/post-types/post-types-toggle.php:22
-msgid "on"
-msgstr "Ввімкнено"
-
-#: resources/views/settings/option-toggle.php:23
-#: resources/views/settings/pages/post-types/post-types-toggle.php:23
-msgid "off"
-msgstr "Вимкнено"
-
-#: resources/views/settings/pages/index.php:39
-msgid "Save Changes"
-msgstr "Зберегти зміни"
-
-#: resources/views/settings/pages/plugins/noticeRedesign.php:17
-#, php-format
-msgid ""
-"You are about to deactivate your copy of Visual Composer Website Builder and "
-"won’t be able to manage your content. Your content remains untouched but due "
-"to plugin deactivation required CSS styles will be missing. To ensure "
-"correct content display use\n"
-"                    <a href=\"%s\">this free plugin</a> that will load CSS "
-"styles automatically."
-msgstr ""
-
-#: resources/views/settings/pages/plugins/noticeRedesign.php:40
-msgid "Deactivate Visual Composer"
-msgstr "Деактивувати  Visual Composer"
-
-#~ msgid "Activation"
-#~ msgstr "Активація"
-
-#, fuzzy
-#~| msgid "Edit"
-#~ msgid "Editor"
-#~ msgstr "Редагувати"
-
-#~ msgid "Free Version"
-#~ msgstr "Безкоштовна версія"
-
-#~ msgid "Premium Version"
-#~ msgstr "Преміум версія"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
-
-#~ msgid "Activate Now"
-#~ msgstr "Активувати Зараз"
-
-#~ msgid "Your E-mail"
-#~ msgstr "Ваш e-mail"
-
-#~ msgid "Oops!"
-#~ msgstr "Сталась помилка!"
-
-#~ msgid "Try Again"
-#~ msgstr "Спробуйте ще раз"
