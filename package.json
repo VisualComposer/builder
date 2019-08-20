@@ -104,8 +104,7 @@
     "simple-react-modal": "0.5.1",
     "striptags": "3.1.1",
     "vc-cake": "0.8.0",
-    "webfontloader": "1.6.28",
-    "yarn": "^1.17.3"
+    "webfontloader": "1.6.28"
   },
   "babel": {
     "presets": [
