@@ -187,19 +187,6 @@ export default class DynamicPopup extends React.Component {
     return extraDynamicComponent
   }
 
-  renderDynamicInputs () {
-    return (
-      <div className='vcv-ui-dynamic-field-container'>
-        <span className='vcv-ui-dynamic-field-tag'>Post title</span>
-        <span className='vcv-ui-dynamic-field-controls'>
-          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.open} />
-          {this.renderCloseButton()}
-        </span>
-        {this.drawModal()}
-      </div>
-    )
-  }
-
   cancel () {
     this.props.hide()
   }
