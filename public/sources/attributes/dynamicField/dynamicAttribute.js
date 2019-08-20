@@ -174,7 +174,8 @@ export default class DynamicAttribute extends React.Component {
 
   renderDynamicInputs () {
     const { blockInfo } = this.state
-    let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive'>No value set</span>
+    let noValueSetText = DynamicAttribute.localizations.noValueSet || 'No value set'
+    let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive'>{noValueSetText}</span>
 
     if (blockInfo && blockInfo.blockAtts) {
       const label = this.getDynamicLabel(blockInfo.blockAtts.value, blockInfo.blockAtts.sourceId)

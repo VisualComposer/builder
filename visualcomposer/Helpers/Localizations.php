@@ -516,6 +516,10 @@ class Localizations extends Container implements Helper
                 'Dynamic Content',
                 'vcwb'
             ),
+            'noValueSet' => __(
+                'No value set',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
