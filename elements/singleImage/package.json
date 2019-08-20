@@ -20,42 +20,7 @@
     "npm": ">=5.8"
   },
   "devDependencies": {
-    "@babel/cli": "7.2.3",
-    "@babel/core": "7.3.4",
-    "@babel/plugin-proposal-class-properties": "7.3.4",
-    "@babel/plugin-transform-runtime": "7.3.4",
-    "@babel/preset-env": "7.3.4",
-    "@babel/preset-react": "7.0.0",
-    "@babel/register": "7.0.0",
-    "@babel/runtime": "7.3.4",
-    "babel-eslint": "10.0.1",
-    "babel-loader": "8.0.5",
-    "classnames": "2.2.6",
-    "css-loader": "2.1.1",
-    "exports-loader": "0.7.0",
-    "extract-text-webpack-plugin": "4.0.0-beta.0",
-    "file-loader": "3.0.1",
-    "fs-extra": "7.0.1",
-    "less-loader": "4.1.0",
-    "standard": "12.0.1",
-    "style-loader": "0.23.1",
-    "terser-webpack-plugin": "1.2.3",
-    "url-loader": "1.1.2",
-    "vc-webpack-vendors": "1.0.2",
-    "virtual-module-webpack-plugin": "0.4.1",
-    "webpack": "4.29.6",
-    "webpack-cli": "3.2.3"
-  },
-  "dependencies": {
-    "base-64": "0.1.0",
-    "lodash": "4.17.11",
-    "prop-types": "15.7.2",
-    "raw-loader": "1.0.0",
-    "react": "16.8.4",
-    "react-dom": "16.8.4",
-    "vc-cake": "0.8.0",
-    "pako": "1.0.10",
-    "react-tinymce": "0.7.0"
+    "vc-webpack-vendors": "2.0.0"
   },
   "babel": {
     "presets": [
