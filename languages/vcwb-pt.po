@@ -1,308 +1,83 @@
-# Translation of Visual Composer Website Builder in Portuguese (Portugal)
-# This file is distributed under the same license as the Visual Composer Website Builder package.
+# Translation of vcwb in Portuguese (Portugal)
+# This file is distributed under the same license as the vcwb package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-08-07 15:26+0300\n"
+"PO-Revision-Date: 2019-08-20 08:11:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: GlotPress/2.3.1\n"
 "Language: pt\n"
-"Project-Id-Version: Visual Composer Website Builder\n"
-"POT-Creation-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-
-#: Helpers/EditorTemplates.php:181
-msgid "Select your template"
-msgstr "Seleccione o seu modelo"
-
-#: Helpers/Localizations.php:89
-msgid "Name Your Page, Select"
-msgstr "Nomeie sua página, selecione"
-
-#: Helpers/Localizations.php:90
-msgid "Layout and Start Building"
-msgstr "Layout e começar a construir"
-
-#: Helpers/Localizations.php:98
-msgid "Page title"
-msgstr "Título da página"
-
-#: Helpers/Localizations.php:432
-msgid "Search free high-resolution photos on Unsplash"
-msgstr "Pesquise fotos gratuitas de alta resolução no Unsplash"
-
-#: Helpers/Localizations.php:436
-msgid "Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium"
-msgstr "Baixe e adicione fotos bonitas gratuitas ao seu site com o Visual Composer Premium"
-
-#: Helpers/Localizations.php:440
-msgid "Download and Add Free Beautiful Photos to Your Site"
-msgstr "Baixe e adicione fotos bonitas gratuitas ao seu site"
-
-#: Helpers/Localizations.php:444
-msgid "No access, please check your license!"
-msgstr "Sem acesso, por favor verifique a sua licença!"
-
-#: Helpers/Localizations.php:448
-msgid "Could not connect to Unsplash Server!"
-msgstr "Não foi possível conectar ao Unsplash Server!"
-
-#: Helpers/Localizations.php:452
-msgid "Image has been downloaded to your Media Library."
-msgstr "A imagem foi transferida para a sua biblioteca multimédia."
-
-#: Helpers/Localizations.php:456
-msgid "Could not parse data from server!"
-msgstr "Não foi possível analisar os dados do alojamento!"
-
-#: Helpers/Localizations.php:460
-msgid "Small"
-msgstr "Pequeno"
-
-#: Helpers/Localizations.php:464
-msgid "Medium"
-msgstr "Média"
-
-#: Helpers/Localizations.php:468
-msgid "Large"
-msgstr "Grande"
-
-#: Helpers/Localizations.php:472
-msgid "images"
-msgstr "imagens"
-
-#: Helpers/Localizations.php:476
-msgid "Download images from Unsplash to your Media Library"
-msgstr "Transfira imagens do Unsplash para a sua biblioteca multimédia"
-
-#: Helpers/Localizations.php:480
-msgid "Permalink"
-msgstr "Permalink"
-
-#: Helpers/Localizations.php:484
-msgid "Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word."
-msgstr "Aproveitando o Visual Composer Website Builder? Informe os seus amigos sobre isso - espalhe a notícia."
-
-#: Modules/Editors/DataAjax/PostFieldsController.php:74
-#: Modules/Editors/DataAjax/PostFieldsController.php:88
-msgid "Custom Meta Field"
-msgstr "Meta Campo Personalizado"
-
-#: Modules/Hub/Unsplash/UnsplashDownloadController.php:76
-msgid "Failed to get the image id, please try again!"
-msgstr "Não foi possível obter a ID de imagem, por favor tente novamente!"
-
-#: Modules/Hub/Unsplash/UnsplashDownloadController.php:81
-msgid "No access, please check your license and make sure your capabilities allow to upload files!"
-msgstr "Sem acesso, por favor verifique a sua licença e certifique-se de que as suas capacidades permitem carregar ficheiros!"
-
-#: Modules/Hub/Unsplash/UnsplashDownloadController.php:115
-msgid "Wrong image extension."
-msgstr "Extensão errada da imagem."
-
-#: Modules/Hub/Unsplash/UnsplashDownloadController.php:122
-msgid "Failed to download image, make sure that your upload folder is writable and please try again!"
-msgstr "Falha ao baixar a imagem, certifique-se de que sua pasta de upload é gravável e tente novamente!"
-
-#: Modules/Hub/Unsplash/UnsplashDownloadController.php:128
-msgid "Unknown image format!"
-msgstr "Formato de imagem desconhecido!"
-
-#: Modules/Hub/Unsplash/UnsplashDownloadController.php:131
-msgid "Unknown image provider!"
-msgstr "Provedor de imagem desconhecido!"
-
-#: Modules/Settings/Pages/SystemStatus.php:155
-msgid "Post max size should be %sM, currently it is %s"
-msgstr "Post tamanho máximo deve ser %sM, atualmente é %s"
-
-#: Modules/Vendors/WooCommerceController.php:62
-msgid "Woocommerce Product Category"
-msgstr "Categoria de Produto do Woocommerce"
-
-#: Helpers/Localizations.php:95
-msgid "Start by adding an element to your layout or select one of the pre-defined templates."
-msgstr "Comece adicionando um elemento ao seu layout ou selecione um dos modelos predefinidos."
-
-#: Helpers/Localizations.php:371
-msgid "Access Visual Composer Hub - download additional elements, templates and extensions."
-msgstr "Acesse o Visual Composer Hub - baixe elementos adicionais, modelos e extensões."
-
-#: Helpers/Localizations.php:375
-msgid "Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
-msgstr "Adicione código JavaScript personalizado para inseri-lo localmente nesta página em <header> ou <footer>. Insira Google Analytics, Tag Manager, Kissmetrics ou outros trechos de código JavaScript."
-
-#: Helpers/Localizations.php:379
-msgid "Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
-msgstr "Adicione código JavaScript personalizado para inseri-lo globalmente em cada página em <header> ou <footer>. Insira Google Analytics, Tag Manager, Kissmetrics ou outros trechos de código JavaScript."
-
-#: Helpers/Localizations.php:382
-msgid "Open Edit Form"
-msgstr "Abrir formulário de edição"
-
-#: Helpers/Localizations.php:384
-msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing."
-msgstr "O elemento WPBakery é exibido como atalho. Ajuste os parâmetros do shortcode ou abra o formulário Editar WPBakery para facilitar a edição."
-
-#: Helpers/Localizations.php:388
-msgid "Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin."
-msgstr "Falha ao carregar o WPBakery Edit Form, por favor verifique o plugin do WPBakery Page Builder."
-
-#: Helpers/Localizations.php:392
-msgid "WPBakery plugin and migration addon is required to use this attribute"
-msgstr "WPBakery plugin e migration addon é necessário para usar este atributo"
-
-#: Helpers/Localizations.php:396
-msgid "View WPBakery element/s as shortcodes"
-msgstr "Ver elemento(s) WPBakery como atalhos"
-
-#: Helpers/Localizations.php:400
-msgid "Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements."
-msgstr "As estruturas de elementos complexos (por exemplo, tabulações com conteúdo) são representadas com a Vista em Árvore. Utilize a Vista em Árvore para aceder e editar elementos individuais."
-
-#: Helpers/Localizations.php:404
-msgid "WPBakery element structure"
-msgstr "Estrutura do elemento WPBakery"
-
-#: Helpers/Localizations.php:408
-msgid "WPBakery element"
-msgstr "Elemento WPBakery"
-
-#: Helpers/Localizations.php:412 Modules/Vendors/WpbakeryController.php:341
-msgid "Unlock Visual Composer Hub"
-msgstr "Desbloquear o Visual Composer Hub"
-
-#: Helpers/Localizations.php:416
-msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters."
-msgstr "O elemento WPBakery é exibido como atalho. Ajustar os parâmetros do shortcode."
-
-#: Helpers/Localizations.php:420
-msgid "Shortcode"
-msgstr "Shortcode"
-
-#: Helpers/Localizations.php:424
-msgid "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
-msgstr "Copie seu shortcode aqui com todos os parâmetros corretos. O shortcode deve ser instalado no seu site WordPress via plugin ou tema."
-
-#: Modules/Settings/Fields/CssEditor.php:59
-msgid "Add custom CSS code to insert it globally on every page."
-msgstr "Adicione código CSS personalizado para inseri-lo globalmente em cada página."
-
-#: Modules/Settings/Fields/JsEditor.php:60
-msgid "Add custom HTML or JavaScript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
-msgstr "Adicione código HTML ou JavaScript personalizado para inseri-lo globalmente em cada página em <header> e <footer>. Insira Google Analytics, Tag Manager, Kissmetrics ou outros trechos de código JavaScript."
-
-#: Modules/Settings/Fields/JsEditor.php:68
-msgid "Custom HTML and JavaScript"
-msgstr "HTML e JavaScript personalizados"
-
-#: Modules/Settings/Pages/CssJsSettings.php:66
-#: Modules/Settings/Pages/CssJsSettings.php:112
-msgid "CSS, HTML & JavaScript"
-msgstr "CSS, HTML e JavaScript"
-
-#: Modules/Settings/Pages/SystemStatus.php:85
-msgid "System Status"
-msgstr "Estado do Sistema"
-
-#: Modules/Settings/Pages/SystemStatus.php:124
-msgid "PHP version %s or greater (recommended 7 or greater)"
-msgstr "Versão PHP %s ou superior (recomendado 7 ou superior)"
-
-#: Modules/Settings/Pages/SystemStatus.php:132
-msgid "WordPress version %s or greater"
-msgstr "Versão WordPress %s ou superior"
-
-#: Modules/Settings/Pages/SystemStatus.php:141
-msgid "WP_DEBUG is FALSE"
-msgstr "WP_DEBUG é FALSO"
-
-#: Modules/Settings/Pages/SystemStatus.php:141
-msgid "WP_DEBUG is TRUE"
-msgstr "WP_DEBUG é VERDADEIRO"
-
-#: Modules/Settings/Pages/SystemStatus.php:152
-#: Modules/Settings/Pages/SystemStatus.php:166
-#: Modules/Settings/Pages/SystemStatus.php:180
-msgid "Unlimited"
-msgstr "Ilimitado"
-
-#: Modules/Settings/Pages/SystemStatus.php:169
-msgid "Memory limit should be %sM, currently it is %s"
-msgstr "O limite de memória deve ser %sM, atualmente é %s"
-
-#: Modules/Settings/Pages/SystemStatus.php:183
-msgid "post_max_size limit should be %sM, currently it is %s"
-msgstr "post_max_size limite deve ser %sM, atualmente é %s"
-
-#: Modules/Settings/Pages/SystemStatus.php:194
-msgid "max_input_nesting_level should be %s, currently it is %s"
-msgstr "max_input_nesting_level deve ser %s, atualmente é %s"
-
-#: Modules/Settings/Pages/SystemStatus.php:205
-msgid "max_input_vars should be %s, currently it is %s"
-msgstr "max_input_vars deve ser %s, atualmente é %s"
-
-#: Modules/Settings/Pages/SystemStatus.php:214
-msgid "Max execution time should be %sS, currently it is %sS"
-msgstr "O tempo máximo de execução deve ser %sS, atualmente é %sS"
-
-#: Modules/Settings/Pages/SystemStatus.php:223
-msgid "File max upload size should be %sM, currently it is %s"
-msgstr "Arquivo tamanho máximo de upload deve ser %sM, atualmente é %s"
-
-#: Modules/Settings/Pages/SystemStatus.php:231
-msgid "Writable"
-msgstr "Gravável"
-
-#: Modules/Settings/Pages/SystemStatus.php:231
-msgid "Uploads directory is not writable"
-msgstr "Diretório de Uploads não é gravável"
-
-#: Modules/Settings/Pages/SystemStatus.php:239
-msgid "Direct"
-msgstr "Direto"
-
-#: Modules/Settings/Pages/SystemStatus.php:239
-msgid "FS_METHOD should be direct"
-msgstr "FS_METHOD deve ser direto"
-
-#: Modules/Settings/Pages/SystemStatus.php:247
-msgid "Enabled"
-msgstr "Activado"
-
-#: Modules/Settings/Pages/SystemStatus.php:247
-msgid "Zip extension is not installed"
-msgstr "A extensão Zip não está instalada"
-
-#: Modules/Settings/Pages/SystemStatus.php:255
-msgid "Curl extension is not installed"
-msgstr "A extensão cURL não está instalada"
-
-#: Modules/Settings/Pages/SystemStatus.php:263
-#: Modules/Settings/Pages/SystemStatus.php:271
-msgid "Success"
-msgstr "Sucesso"
-
-#: Modules/Settings/Pages/SystemStatus.php:263
-msgid "Connection with AWS was unsuccessful"
-msgstr "A conexão com a AWS não teve sucesso"
-
-#: Modules/Settings/Pages/SystemStatus.php:271
-msgid "Connection with Account was unsuccessful"
-msgstr "Conexão com a conta não teve sucesso"
-
-#: Modules/Settings/Pages/SystemStatus.php:329
-#: resources/views/settings/pages/system-status.php:25
-msgid "System status"
-msgstr "Estado do sistema"
-
-#: Modules/Settings/Pages/SystemStatus.php:352
-msgid "It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href=\"%s\">system status</a> page."
-msgstr "Parece que você tem um problema com a configuração do seu alojamento que pode afetar o Visual Composer. Para obter mais detalhes, visite a página de <a href=\"%s\">status do sistema</a>."
+"Project-Id-Version: vcwb\n"
+
+#: Modules/Vendors/GutenbergAttributeController.php:258
+msgid "Edit Gutenberg attr"
+msgstr "Editar Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:259
+msgid "View Gutenberg attr"
+msgstr "Ver Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:260
+msgid "All Gutenberg attrs"
+msgstr "Todos os Gutenberg attrs"
+
+#: Modules/Vendors/GutenbergAttributeController.php:261
+msgid "Search Gutenberg attrs"
+msgstr "Procurar em Gutenberg attrs"
+
+#: Modules/Vendors/GutenbergAttributeController.php:262
+msgid "Parent Gutenberg attrs:"
+msgstr "Parent Gutenberg attrs:"
+
+#: Modules/Vendors/GutenbergAttributeController.php:263
+msgid "No Gutenberg attrs found."
+msgstr "Nenhum Gutenberg attrs encontrado."
+
+#: Modules/Vendors/GutenbergAttributeController.php:264
+msgid "No Gutenberg attrs found in Trash."
+msgstr "Nenhum Gutenberg attrs encontrado em Lixeira."
+
+#: Modules/Vendors/GutenbergAttributeController.php:266
+msgid "Gutenberg attr Cover Image"
+msgstr "Imagem da capa do Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:271
+msgid "Set cover image"
+msgstr "Definir imagem da capa"
+
+#: Modules/Vendors/GutenbergAttributeController.php:276
+msgid "Remove cover image"
+msgstr "Remover imagem da capa"
+
+#: Modules/Vendors/GutenbergAttributeController.php:281
+msgid "Use as cover image"
+msgstr "Usar como imagem de capa"
+
+#: Modules/Vendors/GutenbergAttributeController.php:286
+msgid "Gutenberg attr archives"
+msgstr "Arquivos de Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:291
+msgid "Add into Gutenberg attr"
+msgstr "Adicionar ao Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:296
+msgid "Uploaded to this Gutenberg attr"
+msgstr "Enviado para este Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:301
+msgid "Filter Gutenberg attrs list"
+msgstr "Filtrar lista de attrs de Gutenberg"
+
+#: Modules/Vendors/GutenbergAttributeController.php:306
+msgid "Gutenberg attrs list navigation"
+msgstr "Gutenberg attrs lista de navegação"
+
+#: Modules/Vendors/GutenbergAttributeController.php:311
+msgid "Gutenberg attrs list"
+msgstr "Lista de Attrs de Gutenberg"
 
 #: Modules/Vendors/WooCommerceController.php:46
 msgid "Woocommerce Shop"
@@ -319,6 +94,10 @@ msgstr "Woocommerce Checkout"
 #: Modules/Vendors/WooCommerceController.php:58
 msgid "Woocommerce My Account"
 msgstr "Woocommerce Minha Conta"
+
+#: Modules/Vendors/WooCommerceController.php:62
+msgid "Woocommerce Product Category"
+msgstr "Categoria de Produto do Woocommerce"
 
 #: Modules/Vendors/WooCommerceController.php:66
 msgid "Woocommerce Terms"
@@ -377,6 +156,51 @@ msgstr "por favor actualize"
 #: Modules/Vendors/WpbakeryController.php:338
 msgid "Visual Composer Hub access to download migration add-on - Free or Premium"
 msgstr "Acesso ao Visual Composer Hub para baixar o add-on de migração - Grátis ou Premium"
+
+#: resources/views/editor/frontend/frontend.php:41
+#: resources/views/license/fe-update-wrapper.php:30
+msgid "Frontend editor: %s"
+msgstr "Editor de front-end: %s"
+
+#: resources/views/editor/pageEditable/pageEditable.php:22
+msgid "Loading..."
+msgstr "A carregar..."
+
+#: resources/views/elements/widgets/variables.php:19
+msgid "No Custom widgets found"
+msgstr "Nenhum widget personalizado encontrado"
+
+#: resources/views/elements/widgets/variables.php:36
+msgid "No Widgets found"
+msgstr "Não foram encontrados Widgets"
+
+#: resources/views/settings/option-toggle.php:22
+#: resources/views/settings/pages/html-fields/toggle.php:24
+#: resources/views/settings/pages/post-types/post-types-toggle.php:22
+msgid "on"
+msgstr "ligado"
+
+#: resources/views/settings/option-toggle.php:23
+#: resources/views/settings/pages/html-fields/toggle.php:25
+#: resources/views/settings/pages/post-types/post-types-toggle.php:23
+msgid "off"
+msgstr "desligado"
+
+#: resources/views/settings/pages/index.php:110
+msgid "Save Changes"
+msgstr "Guardar alterações"
+
+#: resources/views/settings/pages/plugins/notice.php:17
+msgid ""
+"You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use\n"
+"                    <a href=\"%s\">this free plugin</a> that will load CSS styles automatically."
+msgstr ""
+"Você está prestes a desactivar sua cópia do Visual Composer Website Builder e não será capaz de gerenciar seu conteúdo. Seu conteúdo permanece intocado, mas devido à desativação do plugin, estilos CSS necessários estarão faltando. Para garantir a exibição correta do conteúdo, use\n"
+"                   <a href=\"%s\"> este plugin livre</a> que irá carregar estilos CSS automaticamente."
+
+#: resources/views/settings/pages/plugins/notice.php:40
+msgid "Deactivate Visual Composer"
+msgstr "Desativar o Visual Composer"
 
 #: resources/views/settings/pages/system-status.php:27
 msgid "Check system status and WordPress configuration for compliance with Visual Composer requirements."
@@ -542,6 +366,761 @@ msgstr "Grande transferência de dados"
 msgid "Ability to send large data. In case if failed - adjust your php.ini file to increase memory_limit, post_max_size and execution time."
 msgstr "Capacidade de enviar grandes volumes de dados. Em caso de falha - ajuste seu ficheiro php.ini para aumentar o limite de memória, post_max_size e tempo de execução."
 
+#: Helpers/LoginCategory.php:37
+msgid "Other"
+msgstr "Outro"
+
+#: Helpers/PostType.php:233
+msgid "View %s"
+msgstr "Ver %s"
+
+#: Helpers/PostsGridSourcePosts.php:38
+msgid "All"
+msgstr "Todos"
+
+#: Helpers/Token.php:170
+msgid "Your Visual Composer Website Builder License will expire soon - %s"
+msgstr "Sua licença do Visual Composer Website Builder expirará em breve - %s"
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:87
+#: Modules/Editors/DataAjax/PostFieldsController.php:101
+#: Modules/Editors/DataAjax/PostFieldsController.php:115
+msgid "Custom Meta Field"
+msgstr "Meta Campo Personalizado"
+
+#: Modules/Editors/EditPostLinks/Controller.php:152
+#: Modules/Editors/Frontend/MenuController.php:76
+msgid "Add New with Visual Composer"
+msgstr "Adicionar novo com Visual Composer"
+
+#: Modules/Editors/Frontend/Controller.php:100
+msgid "Cheatin&#8217; uh?"
+msgstr "Enganou-se?"
+
+#: Modules/Editors/Frontend/Controller.php:101
+msgid "Sorry, you are not allowed to create posts as this user."
+msgstr "Não tem permissões para criar artigos deste utilizador."
+
+#: Modules/Editors/Frontend/MenuController.php:144
+msgid "Add New with Visual&nbsp;Composer"
+msgstr "Adicionar novo com o Visual&nbsp;Composer"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:50
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:61
+msgid "Blank Template"
+msgstr "Molde em branco"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:57
+msgid "Boxed Template"
+msgstr "Template em caixa"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:74
+msgid "Visual Composer"
+msgstr "Visual Composer"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:110
+msgid "Theme Templates"
+msgstr "Modelos de temas"
+
+#: Modules/Editors/Templates/PostType.php:38
+msgid "Global Templates"
+msgstr "Modelos globais"
+
+#: Modules/FrontView/PluginsInfoController.php:42
+msgid "Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners."
+msgstr "Desenvolvido pelo Visual Composer Website Builder - Construtor de sites com recursos de arrastar e soltar, rápido e fácil de usar, para especialistas e iniciantes."
+
+#: Modules/Hub/Assets/SharedDownloadController.php:138
+msgid "Failed to update shared libraries"
+msgstr "Falha ao actualizar bibliotecas compartilhadas"
+
+#: Modules/Hub/Traits/Action.php:71
+msgid ""
+"A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.\n"
+"\n"
+"If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.\n"
+msgstr ""
+"Um ficheiro zip da extensão Visual Composer está quebrado. O checksum falhou. Verifique sua conexão com a Internet, execute Reset em Visual Composer Settings e tente novamente.\n"
+"\n"
+"Se o problema persistir, visite %ssupport.visualcomposer.io%s para assistência técnica.\n"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:76
+msgid "Failed to get the image id, please try again!"
+msgstr "Não foi possível obter a ID de imagem, por favor tente novamente!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:81
+msgid "No access, please check your license and make sure your capabilities allow to upload files!"
+msgstr "Sem acesso, por favor verifique a sua licença e certifique-se de que as suas capacidades permitem carregar ficheiros!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:115
+msgid "Wrong image extension."
+msgstr "Extensão errada da imagem."
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:122
+msgid "Failed to download image, make sure that your upload folder is writable and please try again!"
+msgstr "Falha ao baixar a imagem, certifique-se de que sua pasta de upload é gravável e tente novamente!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:128
+msgid "Unknown image format!"
+msgstr "Formato de imagem desconhecido!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:131
+msgid "Unknown image provider!"
+msgstr "Provedor de imagem desconhecido!"
+
+#: Modules/License/LicenseController.php:108
+msgid "Invalid token -> Failed licence activation - Invalid token"
+msgstr "Token inválido -> Falha na ativação da licença - Token inválido"
+
+#: Modules/License/Pages/GettingStarted.php:99
+msgid "Getting Started"
+msgstr "Começar"
+
+#: Modules/License/UpdateVariablesController.php:43
+msgid "Build your site with the help of drag and drop editor straight from the frontend - it's that easy."
+msgstr "Construa seu site com a ajuda do editor de arrastar e soltar diretamente do frontend - é muito fácil."
+
+#: Modules/License/UpdateVariablesController.php:51
+msgid "Get more elements and templates from the Visual Composer Hub - a free online marketplace."
+msgstr "Obtenha mais elementos e modelos do Visual Composer Hub - um mercado online gratuito."
+
+#: Modules/License/UpdateVariablesController.php:60
+msgid "Unparallel performance for you and your website to rank higher and deliver faster."
+msgstr "Desempenho sem paralelo para que você e seu site tenham uma classificação mais alta e entreguem mais rápido."
+
+#: Modules/License/UpdateVariablesController.php:69
+msgid "Control every detail of your website with flexible design options and customization tools."
+msgstr "Controle todos os detalhes do seu site com opções de design flexíveis e ferramentas de personalização."
+
+#: Modules/Settings/Fields/CssEditor.php:59
+msgid "Add custom CSS code to insert it globally on every page."
+msgstr "Adicione código CSS personalizado para inseri-lo globalmente em cada página."
+
+#: Modules/Settings/Fields/FactoryResetController.php:67
+msgid "Proceed with a reset?"
+msgstr "Prossiga com a reinicialização?"
+
+#: Modules/Settings/Fields/FactoryResetController.php:68
+msgid "initiate reset"
+msgstr "iniciar reinicialização"
+
+#: Modules/Settings/Fields/FactoryResetController.php:78
+msgid "Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s."
+msgstr "Restaurar o estado de plugin padrão para fazer o download de todos os pacotes instalados e o caminho de configuração automática após a migração (não se preocupe, o conteúdo do site não será afetado) - %s."
+
+#: Modules/Settings/Fields/FactoryResetController.php:90
+msgid "Reset"
+msgstr "Repor"
+
+#: Modules/Settings/Fields/FactoryResetController.php:113
+msgid "Wrong permissions"
+msgstr "Permissões erradas"
+
+#: Modules/Settings/Fields/FactoryResetController.php:118
+msgid "Session expired"
+msgstr "A sessão expirou"
+
+#: Modules/Settings/Fields/FactoryResetController.php:127
+msgid "Visual Composer asset reset was successful."
+msgstr "A redefinição de ativos do Visual Composer foi bem-sucedida."
+
+#: Modules/Settings/Fields/JsEditor.php:60
+msgid "Add custom HTML or JavaScript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr "Adicione código HTML ou JavaScript personalizado para inseri-lo globalmente em cada página em <header> e <footer>. Insira Google Analytics, Tag Manager, Kissmetrics ou outros trechos de código JavaScript."
+
+#: Modules/Settings/Fields/JsEditor.php:68
+msgid "Custom HTML and JavaScript"
+msgstr "HTML e JavaScript personalizados"
+
+#: Modules/Settings/Fields/PostTypes.php:53
+msgid "Specify post types where you want to use Visual Composer Website Builder."
+msgstr "Especifique os tipos de mensagens onde você deseja usar o Visual Composer Website Builder."
+
+#: Modules/Settings/Fields/PostTypes.php:58
+msgid "Post Types"
+msgstr "Tipos de conteúdo"
+
+#: Modules/Settings/MenuController.php:69
+msgid "Visual Composer "
+msgstr "Visual Composer "
+
+#: Modules/Settings/NoticeController.php:78
+msgid "Dismiss"
+msgstr "Ignorar"
+
+#: Modules/Settings/Pages/About.php:91
+msgid "About"
+msgstr "Sobre"
+
+#: Modules/Settings/Pages/CssJsSettings.php:66
+#: Modules/Settings/Pages/CssJsSettings.php:112
+msgid "CSS, HTML & JavaScript"
+msgstr "CSS, HTML e JavaScript"
+
+#: Modules/Settings/Pages/SystemStatus.php:85
+msgid "System Status"
+msgstr "Estado do Sistema"
+
+#: Modules/Settings/Pages/SystemStatus.php:124
+msgid "PHP version %s or greater (recommended 7 or greater)"
+msgstr "Versão PHP %s ou superior (recomendado 7 ou superior)"
+
+#: Modules/Settings/Pages/SystemStatus.php:132
+msgid "WordPress version %s or greater"
+msgstr "Versão WordPress %s ou superior"
+
+#: Modules/Settings/Pages/SystemStatus.php:141
+msgid "WP_DEBUG is FALSE"
+msgstr "WP_DEBUG é FALSO"
+
+#: Modules/Settings/Pages/SystemStatus.php:141
+msgid "WP_DEBUG is TRUE"
+msgstr "WP_DEBUG é VERDADEIRO"
+
+#: Modules/Settings/Pages/SystemStatus.php:152
+#: Modules/Settings/Pages/SystemStatus.php:166
+#: Modules/Settings/Pages/SystemStatus.php:180
+msgid "Unlimited"
+msgstr "Ilimitado"
+
+#: Modules/Settings/Pages/SystemStatus.php:155
+msgid "Post max size should be %sM, currently it is %s"
+msgstr "Post tamanho máximo deve ser %sM, atualmente é %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:169
+msgid "Memory limit should be %sM, currently it is %s"
+msgstr "O limite de memória deve ser %sM, atualmente é %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:183
+msgid "post_max_size limit should be %sM, currently it is %s"
+msgstr "post_max_size limite deve ser %sM, atualmente é %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:194
+msgid "max_input_nesting_level should be %s, currently it is %s"
+msgstr "max_input_nesting_level deve ser %s, atualmente é %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:205
+msgid "max_input_vars should be %s, currently it is %s"
+msgstr "max_input_vars deve ser %s, atualmente é %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:214
+msgid "Max execution time should be %sS, currently it is %sS"
+msgstr "O tempo máximo de execução deve ser %sS, atualmente é %sS"
+
+#: Modules/Settings/Pages/SystemStatus.php:223
+msgid "File max upload size should be %sM, currently it is %s"
+msgstr "Arquivo tamanho máximo de upload deve ser %sM, atualmente é %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:231
+msgid "Writable"
+msgstr "Gravável"
+
+#: Modules/Settings/Pages/SystemStatus.php:231
+msgid "Uploads directory is not writable"
+msgstr "Diretório de Uploads não é gravável"
+
+#: Modules/Settings/Pages/SystemStatus.php:239
+msgid "Direct"
+msgstr "Direto"
+
+#: Modules/Settings/Pages/SystemStatus.php:239
+msgid "FS_METHOD should be direct"
+msgstr "FS_METHOD deve ser direto"
+
+#: Modules/Settings/Pages/SystemStatus.php:247
+msgid "Enabled"
+msgstr "Activado"
+
+#: Modules/Settings/Pages/SystemStatus.php:247
+msgid "Zip extension is not installed"
+msgstr "A extensão Zip não está instalada"
+
+#: Modules/Settings/Pages/SystemStatus.php:255
+msgid "Curl extension is not installed"
+msgstr "A extensão cURL não está instalada"
+
+#: Modules/Settings/Pages/SystemStatus.php:263
+#: Modules/Settings/Pages/SystemStatus.php:271
+msgid "Success"
+msgstr "Sucesso"
+
+#: Modules/Settings/Pages/SystemStatus.php:263
+msgid "Connection with AWS was unsuccessful"
+msgstr "A conexão com a AWS não teve sucesso"
+
+#: Modules/Settings/Pages/SystemStatus.php:271
+msgid "Connection with Account was unsuccessful"
+msgstr "Conexão com a conta não teve sucesso"
+
+#: Modules/Settings/Pages/SystemStatus.php:329
+#: resources/views/settings/pages/system-status.php:25
+msgid "System status"
+msgstr "Estado do sistema"
+
+#: Modules/Settings/Pages/SystemStatus.php:352
+msgid "It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href=\"%s\">system status</a> page."
+msgstr "Parece que você tem um problema com a configuração do seu alojamento que pode afetar o Visual Composer. Para obter mais detalhes, visite a página de <a href=\"%s\">status do sistema</a>."
+
+#: Modules/Updates/UpdatesController.php:152
+msgid ""
+"\n"
+"<p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>\n"
+"<ul>\n"
+"<li>Use Frontend or Tree View to create structure</li>\n"
+"<li>Create responsive websites automatically</li>\n"
+"<li>Use with any WordPress theme</li>\n"
+"<li>Work with pages, posts and custom post types</li>\n"
+"<li>Access content elements and WordPress widgets</li>\n"
+"<li>Integrate any 3rd party shortcode easily</li>\n"
+"<li>Apply predefined pro quality templates</li>\n"
+"<li>Control look of elements via multiple parameters and rich design options</li>\n"
+"<li>Receive high-quality code optimized for SEO</li>\n"
+"</ul>"
+msgstr ""
+"\n"
+"<p>O Visual Composer Website Builder é uma solução perfeita para criar seu site WordPress através da interface de arrastar e soltar. Use elementos de conteúdo ou layouts predefinidos para criar qualquer layout de forma rápida e fácil.</p>\n"
+"<ul>\n"
+"<li>Usar Frontend ou Tree View para criar estrutura</li>\n"
+"<li>Crie sites responsivos automaticamente</li>\n"
+"<li>Use com qualquer tema do WordPress</li>\n"
+"<li>Trabalhar com páginas, posts e tipos de posts personalizados</li>\n"
+"<li>Acesse elementos de conteúdo e widgets do WordPress</li>\n"
+"<li>Integre facilmente qualquer código de atalho de terceiros</li>\n"
+"<li>Aplicar modelos de qualidade pro predefinidos</li>\n"
+"<li>Aparência de controle de elementos através de vários parâmetros e opções de design ricas</li>\n"
+"<li>Receba código de alta qualidade otimizado para SEO</li>\n"
+"</ul>"
+
+#: Modules/Updates/UpdatesController.php:181
+msgid "Failed to get changelog"
+msgstr "Falhou em conseguir o changelog"
+
+#: Modules/Vendors/GutenbergAttributeController.php:90
+msgid "Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer."
+msgstr "Activar/desactivar o editor Gutenberg para o seu sítio WordPress. Desactivar o editor Gutenberg irá activar o editor WordPress clássico. Em ambos os casos, você ainda pode usar o Visual Composer."
+
+#: Modules/Vendors/GutenbergAttributeController.php:98
+msgid "Gutenberg Editor"
+msgstr "Editor de Gutenberg"
+
+#: Modules/Vendors/GutenbergAttributeController.php:114
+msgid "Gutenberg"
+msgstr "Gutenberg"
+
+#: Modules/Vendors/GutenbergAttributeController.php:251
+#: Modules/Vendors/GutenbergAttributeController.php:253
+msgid "Gutenberg attrs"
+msgstr "Gutenberg attrs"
+
+#: Modules/Vendors/GutenbergAttributeController.php:252
+#: Modules/Vendors/GutenbergAttributeController.php:254
+msgid "Gutenberg attr"
+msgstr "Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:255
+#: Modules/Vendors/WpbakeryController.php:136
+msgid "Add New"
+msgstr "Adicionar novo"
+
+#: Modules/Vendors/GutenbergAttributeController.php:256
+msgid "Add New Gutenberg attr"
+msgstr "Adicionar Novo Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:257
+msgid "New Gutenberg attr"
+msgstr "Novo Gutenberg attr"
+
+#: Helpers/Localizations.php:263
+msgid "Choose %s or %screate new%s."
+msgstr "Escolha %s ou %scrie novo%s."
+
+#: Helpers/Localizations.php:271
+#: Modules/Editors/DataAjax/PostFieldsController.php:57
+#: Modules/Editors/DataAjax/PostFieldsController.php:65
+#: Modules/Editors/DataAjax/PostFieldsController.php:73
+#: Modules/Editors/DataAjax/PostFieldsController.php:81
+#: Modules/Editors/DataAjax/PostFieldsController.php:95
+#: Modules/Editors/DataAjax/PostFieldsController.php:109
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
+msgid "Default"
+msgstr "Padrão"
+
+#: Helpers/Localizations.php:275
+msgid "Update Visual Composer plugin to the most recent version to download this content element."
+msgstr "Actualize o plugin do Visual Composer para a versão mais recente para baixar esse elemento de conteúdo."
+
+#: Helpers/Localizations.php:279
+msgid "Update Visual Composer plugin to the most recent version to download this template."
+msgstr "Actualize o plugin do Visual Composer para a versão mais recente para baixar este modelo."
+
+#: Helpers/Localizations.php:282
+msgid "Start Building"
+msgstr "Comece a construir"
+
+#: Helpers/Localizations.php:285
+msgid "%s Name"
+msgstr "%s Nome"
+
+#: Helpers/Localizations.php:291
+msgid "Your WordPress theme defined layout for specific page, post, or custom post type."
+msgstr "Seu layout definido como tema do WordPress para uma página específica, publicação ou tipo de publicação personalizado."
+
+#: Helpers/Localizations.php:295
+msgid "Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar."
+msgstr "Esquema de página em branco com área de conteúdo em caixa no meio da página sem cabeçalho, rodapé ou barra lateral."
+
+#: Helpers/Localizations.php:299
+msgid "Full width blank page without header, footer, or sidebar."
+msgstr "Página em branco de largura total sem cabeçalho, rodapé ou barra lateral."
+
+#: Helpers/Localizations.php:303
+msgid "Default layout with custom header, content, and footer area."
+msgstr "Layout padrão com cabeçalho, conteúdo e área de rodapé personalizados."
+
+#: Helpers/Localizations.php:307
+msgid "Default layout with custom header, content, footer and sidebar area on the right."
+msgstr "Layout padrão com cabeçalho, conteúdo, rodapé e área da barra lateral personalizados à direita."
+
+#: Helpers/Localizations.php:311
+msgid "Default layout with custom header, content, footer and sidebar area on the left."
+msgstr "Layout padrão com cabeçalho, conteúdo, rodapé e área da barra lateral personalizados à esquerda."
+
+#: Helpers/Localizations.php:315
+msgid "Available in Premium version."
+msgstr "Disponível na versão Premium."
+
+#: Helpers/Localizations.php:319
+msgid "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
+msgstr "O plugin do Gutenberg não funciona correctamente. Por favor, verifique o plugin do Gutenberg."
+
+#: Helpers/Localizations.php:322
+msgid "Free"
+msgstr "Grátis"
+
+#: Helpers/Localizations.php:323
+msgid "Premium"
+msgstr "Premium"
+
+#: Helpers/Localizations.php:324
+msgid "Remove All"
+msgstr "Remover tudo"
+
+#: Helpers/Localizations.php:325
+msgid "Continue import"
+msgstr "Continuar a importação"
+
+#: Helpers/Localizations.php:326
+msgid "Back to import"
+msgstr "Voltar à importação"
+
+#: Helpers/Localizations.php:327
+msgid "Starting import process..."
+msgstr "Iniciando o processo de importação..."
+
+#: Helpers/Localizations.php:328
+msgid "Back to parent"
+msgstr "Voltar ao pai"
+
+#: Helpers/Localizations.php:329
+msgid "Editor Settings"
+msgstr "Configurações do editor"
+
+#: Helpers/Localizations.php:331
+msgid "Disable element and template preview popup in Add Element and Add Template windows"
+msgstr "Desabilitar o popup de visualização de elementos e modelos nas janelas Adicionar elemento e Adicionar modelo"
+
+#: Helpers/Localizations.php:334
+msgid "Disable preview"
+msgstr "Desactivar visualização"
+
+#: Helpers/Localizations.php:335
+msgid "Click to edit column value"
+msgstr "Clique para editar o valor da coluna"
+
+#: Helpers/Localizations.php:336
+msgid "Add-on"
+msgstr "Complemento"
+
+#: Helpers/Localizations.php:338
+msgid "Update Visual Composer plugin to the most recent version to download addon."
+msgstr "Actualize o plugin do Visual Composer para a versão mais recente para baixar o addon."
+
+#: Helpers/Localizations.php:341
+msgid "This page was created with WPBakery Page Builder. What's next?"
+msgstr "Esta página foi criada com o WPBakery Page Builder. O que se segue?"
+
+#: Helpers/Localizations.php:343
+msgid "To take over and start using Visual Composer Website Builder for this page, you need to:"
+msgstr "Para assumir e começar a usar o Visual Composer Website Builder para esta página, você precisa:"
+
+#: Helpers/Localizations.php:346
+msgid "Download Migration addon from the Hub"
+msgstr "Baixe o addon Migração do Hub"
+
+#: Helpers/Localizations.php:347
+msgid "Keep WPBakery Page Builder plugin activated"
+msgstr "Mantenha o plugin do WPBakery Page Builder ativado"
+
+#: Helpers/Localizations.php:349
+msgid "Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element."
+msgstr "Os elementos suportados serão convertidos em elementos compatíveis com o Visual Composer, o resto dos elementos serão convertidos no elemento WPBakery Shortcode."
+
+#: Helpers/Localizations.php:352
+msgid "Download Migration Addon"
+msgstr "Download do Addon de Migração"
+
+#: Helpers/Localizations.php:354
+msgid "Don't close this window while download is in the progress."
+msgstr "Não feche esta janela enquanto o download estiver em andamento."
+
+#: Helpers/Localizations.php:355
+msgid "Create Your WordPress Website."
+msgstr "Crie seu site WordPress."
+
+#: Helpers/Localizations.php:356
+msgid "Any Layout. Fast and Easy."
+msgstr "Qualquer Layout. Rápido e fácil."
+
+#: Helpers/Localizations.php:357
+msgid "Skip this post"
+msgstr "Pular este post"
+
+#: Helpers/Localizations.php:358
+msgid "Get More Elements, Templates, and Extensions"
+msgstr "Obtenha mais elementos, modelos e extensões"
+
+#: Helpers/Localizations.php:360
+msgid "Download additional content from the Visual Composer Hub - right in your editor instantly."
+msgstr "Baixe conteúdo adicional do Visual Composer Hub - diretamente no seu editor instantaneamente."
+
+#: Helpers/Localizations.php:363
+msgid "Get Started"
+msgstr "Iniciar"
+
+#: Helpers/Localizations.php:364
+msgid "Sending Error Report"
+msgstr "Envio de relatório de erros"
+
+#: Helpers/Localizations.php:366
+msgid "Don't close this window while sending error is in the progress."
+msgstr "Não feche esta janela enquanto o erro de envio estiver em andamento."
+
+#: Helpers/Localizations.php:369
+msgid "Oops ... Something Went Wrong"
+msgstr "Oops... Algo estava errado"
+
+#: Helpers/Localizations.php:371
+msgid "Access Visual Composer Hub - download additional elements, templates and extensions."
+msgstr "Acesse o Visual Composer Hub - baixe elementos adicionais, modelos e extensões."
+
+#: Helpers/Localizations.php:375
+msgid "Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr "Adicione código JavaScript personalizado para inseri-lo localmente nesta página em <header> ou <footer>. Insira Google Analytics, Tag Manager, Kissmetrics ou outros trechos de código JavaScript."
+
+#: Helpers/Localizations.php:379
+msgid "Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr "Adicione código JavaScript personalizado para inseri-lo globalmente em cada página em <header> ou <footer>. Insira Google Analytics, Tag Manager, Kissmetrics ou outros trechos de código JavaScript."
+
+#: Helpers/Localizations.php:382
+msgid "Open Edit Form"
+msgstr "Abrir formulário de edição"
+
+#: Helpers/Localizations.php:384
+msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing."
+msgstr "O elemento WPBakery é exibido como atalho. Ajuste os parâmetros do shortcode ou abra o formulário Editar WPBakery para facilitar a edição."
+
+#: Helpers/Localizations.php:388
+msgid "Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin."
+msgstr "Falha ao carregar o WPBakery Edit Form, por favor verifique o plugin do WPBakery Page Builder."
+
+#: Helpers/Localizations.php:392
+msgid "WPBakery plugin and migration addon is required to use this attribute"
+msgstr "WPBakery plugin e migration addon é necessário para usar este atributo"
+
+#: Helpers/Localizations.php:396
+msgid "View WPBakery element/s as shortcodes"
+msgstr "Ver elemento(s) WPBakery como atalhos"
+
+#: Helpers/Localizations.php:400
+msgid "Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements."
+msgstr "As estruturas de elementos complexos (por exemplo, tabulações com conteúdo) são representadas com a Vista em Árvore. Utilize a Vista em Árvore para aceder e editar elementos individuais."
+
+#: Helpers/Localizations.php:404
+msgid "WPBakery element structure"
+msgstr "Estrutura do elemento WPBakery"
+
+#: Helpers/Localizations.php:408
+msgid "WPBakery element"
+msgstr "Elemento WPBakery"
+
+#: Helpers/Localizations.php:412 Modules/Vendors/WpbakeryController.php:341
+msgid "Unlock Visual Composer Hub"
+msgstr "Desbloquear o Visual Composer Hub"
+
+#: Helpers/Localizations.php:416
+msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters."
+msgstr "O elemento WPBakery é exibido como atalho. Ajustar os parâmetros do shortcode."
+
+#: Helpers/Localizations.php:420
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: Helpers/Localizations.php:424
+msgid "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
+msgstr "Copie seu shortcode aqui com todos os parâmetros corretos. O shortcode deve ser instalado no seu site WordPress via plugin ou tema."
+
+#: Helpers/Localizations.php:428
+msgid "Activate Premium"
+msgstr "Ativar Premium"
+
+#: Helpers/Localizations.php:432
+msgid "Search free high-resolution photos on Unsplash"
+msgstr "Pesquise fotos gratuitas de alta resolução no Unsplash"
+
+#: Helpers/Localizations.php:436
+msgid "Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium"
+msgstr "Baixe e adicione fotos bonitas gratuitas ao seu site com o Visual Composer Premium"
+
+#: Helpers/Localizations.php:440
+msgid "Download and Add Free Beautiful Photos to Your Site"
+msgstr "Baixe e adicione fotos bonitas gratuitas ao seu site"
+
+#: Helpers/Localizations.php:444
+msgid "No access, please check your license!"
+msgstr "Sem acesso, por favor verifique a sua licença!"
+
+#: Helpers/Localizations.php:448
+msgid "Could not connect to Unsplash Server!"
+msgstr "Não foi possível conectar ao Unsplash Server!"
+
+#: Helpers/Localizations.php:452
+msgid "Image has been downloaded to your Media Library."
+msgstr "A imagem foi transferida para a sua biblioteca multimédia."
+
+#: Helpers/Localizations.php:456
+msgid "Could not parse data from server!"
+msgstr "Não foi possível analisar os dados do alojamento!"
+
+#: Helpers/Localizations.php:460
+msgid "Small"
+msgstr "Pequeno"
+
+#: Helpers/Localizations.php:464
+msgid "Medium"
+msgstr "Média"
+
+#: Helpers/Localizations.php:468
+msgid "Large"
+msgstr "Grande"
+
+#: Helpers/Localizations.php:472
+msgid "images"
+msgstr "imagens"
+
+#: Helpers/Localizations.php:476
+msgid "Download images from Unsplash to your Media Library"
+msgstr "Transfira imagens do Unsplash para a sua biblioteca multimédia"
+
+#: Helpers/Localizations.php:480
+msgid "Permalink"
+msgstr "Permalink"
+
+#: Helpers/Localizations.php:484
+msgid "Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word."
+msgstr "Aproveitando o Visual Composer Website Builder? Informe os seus amigos sobre isso - espalhe a notícia."
+
+#: Helpers/Localizations.php:488
+msgid "Insert dynamic content"
+msgstr ""
+
+#: Helpers/Localizations.php:492
+msgid "Remove dynamic content"
+msgstr ""
+
+#: Helpers/Localizations.php:496
+msgid "Select page, post, or custom post type."
+msgstr ""
+
+#: Helpers/Localizations.php:500
+msgid "By default, dynamic content is taken from the current post."
+msgstr ""
+
+#: Helpers/Localizations.php:504
+msgid "Set custom post source"
+msgstr ""
+
+#: Helpers/Localizations.php:508
+msgid "Select data source for dynamic content."
+msgstr ""
+
+#: Helpers/LoginCategory.php:21
+msgid "Business"
+msgstr "Negócio"
+
+#: Helpers/LoginCategory.php:22
+msgid "Blog"
+msgstr "Blog"
+
+#: Helpers/LoginCategory.php:23
+msgid "Creative Arts"
+msgstr "Artes Criativas"
+
+#: Helpers/LoginCategory.php:24
+msgid "Community & Education"
+msgstr "Comunidade e Educação"
+
+#: Helpers/LoginCategory.php:25
+msgid "Design"
+msgstr "Design"
+
+#: Helpers/LoginCategory.php:26
+msgid "Entertainment & Music"
+msgstr "Entretenimento & Música"
+
+#: Helpers/LoginCategory.php:27
+msgid "Events"
+msgstr "Eventos"
+
+#: Helpers/LoginCategory.php:28
+msgid "Fashion & Beauty"
+msgstr "Moda e Beleza"
+
+#: Helpers/LoginCategory.php:29
+msgid "Health & Wellness"
+msgstr "Saúde e Bem-Estar"
+
+#: Helpers/LoginCategory.php:30
+msgid "Landing Pages"
+msgstr "Páginas de Aterragem"
+
+#: Helpers/LoginCategory.php:31
+msgid "Online Store"
+msgstr "Loja online"
+
+#: Helpers/LoginCategory.php:32
+msgid "Photography"
+msgstr "Photography"
+
+#: Helpers/LoginCategory.php:33
+msgid "Portfolio & Personal"
+msgstr "Portfólio & Pessoal"
+
+#: Helpers/LoginCategory.php:34
+msgid "Restaurants & Food"
+msgstr "Restaurantes e alimentação"
+
+#: Helpers/LoginCategory.php:35
+msgid "Services"
+msgstr "Serviços"
+
+#: Helpers/LoginCategory.php:36
+msgid "Travel & Accommodation"
+msgstr "Viagem e Alojamento"
+
+#: Framework/helpers.php:173
+msgid "An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again."
+msgstr "Ocorreu um erro ao recuperar o URL de download para extensões do Visual Composer. Desative outros plugins, reinstale o Visual Composer e tente novamente."
+
 #: Framework/helpers.php:179
 msgid "An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable."
 msgstr "Ocorreu um erro ao criar arquivos de instalação temporários. Verifique se o WP_TEMP_DIR existe e é gravável."
@@ -602,6 +1181,42 @@ msgstr "Código de status de resposta ruim %d recebido."
 msgid "Failed to process action."
 msgstr "Falha ao processar a ação."
 
+#: Helpers/EditorTemplates.php:80
+msgid "My Templates"
+msgstr "Os meus modelos"
+
+#: Helpers/EditorTemplates.php:83
+msgid "Premium Templates"
+msgstr "Modelos Premium"
+
+#: Helpers/EditorTemplates.php:86
+msgid "Content Templates"
+msgstr "Modelos de conteúdo"
+
+#: Helpers/EditorTemplates.php:181
+msgid "Select your template"
+msgstr "Seleccione o seu modelo"
+
+#: Helpers/Hub/Bundle.php:158 Helpers/Hub/Bundle.php:360
+msgid "Failed to read remote bundle json"
+msgstr "Não conseguiu ler o pacote remoto Json"
+
+#: Helpers/Hub/Download.php:27
+msgid "Editor bundle"
+msgstr "Pacote de editores"
+
+#: Helpers/Hub/Download.php:30
+msgid "Categories bundle"
+msgstr "Pacote de categorias"
+
+#: Helpers/Hub/Download.php:33
+msgid "Library extensions"
+msgstr "Extensões de biblioteca"
+
+#: Helpers/Hub/Download.php:36
+msgid "Templates library"
+msgstr "Biblioteca de modelos"
+
 #: Helpers/Hub/Update.php:168
 msgid "Create new page"
 msgstr "Criar nova página"
@@ -610,275 +1225,33 @@ msgstr "Criar nova página"
 msgid "Create new post"
 msgstr "Criar novo artigo"
 
-#: Helpers/Localizations.php:72
-msgid "Get More Elements"
-msgstr "Obter mais elementos"
-
-#: Helpers/Localizations.php:73
-msgid "Get More Templates"
-msgstr "Obtenha mais modelos"
-
-#: Helpers/Localizations.php:84
-msgid "Access Visual Composer Hub - to download additional elements, templates and extensions."
-msgstr "Acesse o Visual Composer Hub - baixe elementos adicionais, modelos e extensões."
-
-#: Helpers/Localizations.php:329
-msgid "Editor Settings"
-msgstr "Configurações do editor"
-
-#: Helpers/Localizations.php:331
-msgid "Disable element and template preview popup in Add Element and Add Template windows"
-msgstr "Desabilitar o popup de visualização de elementos e modelos nas janelas Adicionar elemento e Adicionar modelo"
-
-#: Helpers/Localizations.php:334
-msgid "Disable preview"
-msgstr "Desactivar visualização"
-
-#: Helpers/Localizations.php:335
-msgid "Click to edit column value"
-msgstr "Clique para editar o valor da coluna"
-
-#: Helpers/Localizations.php:336
-msgid "Add-on"
-msgstr "Complemento"
-
-#: Helpers/Localizations.php:338
-msgid "Update Visual Composer plugin to the most recent version to download addon."
-msgstr "Actualize o plugin do Visual Composer para a versão mais recente para baixar o addon."
-
-#: Helpers/Localizations.php:341
-msgid "This page was created with WPBakery Page Builder. What's next?"
-msgstr "Esta página foi criada com o WPBakery Page Builder. O que se segue?"
-
-#: Helpers/Localizations.php:343
-msgid "To take over and start using Visual Composer Website Builder for this page, you need to:"
-msgstr "Para assumir e começar a usar o Visual Composer Website Builder para esta página, você precisa:"
-
-#: Helpers/Localizations.php:346
-msgid "Download Migration addon from the Hub"
-msgstr "Baixe o addon Migração do Hub"
-
-#: Helpers/Localizations.php:347
-msgid "Keep WPBakery Page Builder plugin activated"
-msgstr "Mantenha o plugin do WPBakery Page Builder ativado"
-
-#: Helpers/Localizations.php:349
-msgid "Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element."
-msgstr "Os elementos suportados serão convertidos em elementos compatíveis com o Visual Composer, o resto dos elementos serão convertidos no elemento WPBakery Shortcode."
-
-#: Helpers/Localizations.php:352
-msgid "Download Migration Addon"
-msgstr "Download do Addon de Migração"
-
-#: Helpers/Localizations.php:354
-msgid "Don't close this window while download is in the progress."
-msgstr "Não feche esta janela enquanto o download estiver em andamento."
-
-#: Helpers/Localizations.php:355
-msgid "Create Your WordPress Website."
-msgstr "Crie seu site WordPress."
-
-#: Helpers/Localizations.php:358
-msgid "Get More Elements, Templates, and Extensions"
-msgstr "Obtenha mais elementos, modelos e extensões"
-
-#: Helpers/Localizations.php:360
-msgid "Download additional content from the Visual Composer Hub - right in your editor instantly."
-msgstr "Baixe conteúdo adicional do Visual Composer Hub - diretamente no seu editor instantaneamente."
-
-#: Helpers/Localizations.php:363
-msgid "Get Started"
-msgstr "Iniciar"
-
-#: Helpers/Localizations.php:364
-msgid "Sending Error Report"
-msgstr "Envio de relatório de erros"
-
-#: Helpers/Localizations.php:366
-msgid "Don't close this window while sending error is in the progress."
-msgstr "Não feche esta janela enquanto o erro de envio estiver em andamento."
-
-#: Helpers/Localizations.php:369
-msgid "Oops ... Something Went Wrong"
-msgstr "Oops... Algo estava errado"
-
-#: Modules/FrontView/PluginsInfoController.php:42
-msgid "Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners."
-msgstr "Desenvolvido pelo Visual Composer Website Builder - Construtor de sites com recursos de arrastar e soltar, rápido e fácil de usar, para especialistas e iniciantes."
-
-#: Modules/Hub/Traits/Action.php:71
-msgid ""
-"A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.\n"
-"\n"
-"If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.\n"
-msgstr ""
-"Um ficheiro zip da extensão Visual Composer está quebrado. O checksum falhou. Verifique sua conexão com a Internet, execute Reset em Visual Composer Settings e tente novamente.\n"
-"\n"
-"Se o problema persistir, visite %ssupport.visualcomposer.io%s para assistência técnica.\n"
-
-#: Modules/License/Pages/GettingStarted.php:99
-msgid "Getting Started"
-msgstr "Começar"
-
-#: Modules/License/UpdateVariablesController.php:43
-msgid "Build your site with the help of drag and drop editor straight from the frontend - it's that easy."
-msgstr "Construa seu site com a ajuda do editor de arrastar e soltar diretamente do frontend - é muito fácil."
-
-#: Modules/License/UpdateVariablesController.php:51
-msgid "Get more elements and templates from the Visual Composer Hub - a free online marketplace."
-msgstr "Obtenha mais elementos e modelos do Visual Composer Hub - um mercado online gratuito."
-
-#: Modules/License/UpdateVariablesController.php:60
-msgid "Unparallel performance for you and your website to rank higher and deliver faster."
-msgstr "Desempenho sem paralelo para que você e seu site tenham uma classificação mais alta e entreguem mais rápido."
-
-#: Modules/License/UpdateVariablesController.php:69
-msgid "Control every detail of your website with flexible design options and customization tools."
-msgstr "Controle todos os detalhes do seu site com opções de design flexíveis e ferramentas de personalização."
-
-#: Modules/Settings/Fields/FactoryResetController.php:127
-msgid "Visual Composer asset reset was successful."
-msgstr "A redefinição de ativos do Visual Composer foi bem-sucedida."
-
-#: Modules/Vendors/GutenbergAttributeController.php:114
-msgid "Gutenberg"
-msgstr "Gutenberg"
-
-#: Framework/helpers.php:173
-msgid "An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again."
-msgstr "Ocorreu um erro ao recuperar o URL de download para extensões do Visual Composer. Desative outros plugins, reinstale o Visual Composer e tente novamente."
-
-#: Modules/Vendors/GutenbergAttributeController.php:257
-msgid "New Gutenberg attr"
-msgstr "Novo Gutenberg attr"
-
-#: Helpers/EditorTemplates.php:80
-msgid "My Templates"
-msgstr "Os meus modelos"
-
-#: Modules/Vendors/GutenbergAttributeController.php:258
-msgid "Edit Gutenberg attr"
-msgstr "Editar Gutenberg attr"
-
-#: Helpers/EditorTemplates.php:83
-msgid "Premium Templates"
-msgstr "Modelos Premium"
-
-#: Modules/Vendors/GutenbergAttributeController.php:259
-msgid "View Gutenberg attr"
-msgstr "Ver Gutenberg attr"
-
-#: Helpers/EditorTemplates.php:86
-msgid "Content Templates"
-msgstr "Modelos de conteúdo"
-
-#: Modules/Vendors/GutenbergAttributeController.php:260
-msgid "All Gutenberg attrs"
-msgstr "Todos os Gutenberg attrs"
-
-#: Helpers/Hub/Bundle.php:158 Helpers/Hub/Bundle.php:360
-msgid "Failed to read remote bundle json"
-msgstr "Não conseguiu ler o pacote remoto Json"
-
-#: Modules/Vendors/GutenbergAttributeController.php:261
-msgid "Search Gutenberg attrs"
-msgstr "Procurar em Gutenberg attrs"
-
-#: Modules/Vendors/GutenbergAttributeController.php:262
-msgid "Parent Gutenberg attrs:"
-msgstr "Parent Gutenberg attrs:"
-
-#: Helpers/Hub/Download.php:27
-msgid "Editor bundle"
-msgstr "Pacote de editores"
-
-#: Modules/Vendors/GutenbergAttributeController.php:263
-msgid "No Gutenberg attrs found."
-msgstr "Nenhum Gutenberg attrs encontrado."
-
-#: Helpers/Hub/Download.php:30
-msgid "Categories bundle"
-msgstr "Pacote de categorias"
-
-#: Modules/Vendors/GutenbergAttributeController.php:264
-msgid "No Gutenberg attrs found in Trash."
-msgstr "Nenhum Gutenberg attrs encontrado em Lixeira."
-
-#: Helpers/Hub/Download.php:33
-msgid "Library extensions"
-msgstr "Extensões de biblioteca"
-
-#: Modules/Vendors/GutenbergAttributeController.php:266
-msgid "Gutenberg attr Cover Image"
-msgstr "Imagem da capa do Gutenberg attr"
-
-#: Helpers/Hub/Download.php:36
-msgid "Templates library"
-msgstr "Biblioteca de modelos"
-
-#: Modules/Vendors/GutenbergAttributeController.php:271
-msgid "Set cover image"
-msgstr "Definir imagem da capa"
-
-#: Modules/Vendors/GutenbergAttributeController.php:276
-msgid "Remove cover image"
-msgstr "Remover imagem da capa"
-
 #: Helpers/License.php:168
 msgid "Visual Composer Website Builder license has expired."
 msgstr "A licença do Visual Composer Website Builder expirou."
-
-#: Modules/Vendors/GutenbergAttributeController.php:281
-msgid "Use as cover image"
-msgstr "Usar como imagem de capa"
 
 #: Helpers/License.php:171
 msgid "Couldn't find a valid Visual Composer Website Builder license."
 msgstr "Não foi possível encontrar uma licença válida do Visual Composer Website Builder."
 
-#: Modules/Vendors/GutenbergAttributeController.php:286
-msgid "Gutenberg attr archives"
-msgstr "Arquivos de Gutenberg attr"
-
 #: Helpers/License.php:174
 msgid "Visual Composer Website Builder license has been deactivated."
 msgstr "A licença do Visual Composer Website Builder foi desativada."
-
-#: Modules/Vendors/GutenbergAttributeController.php:291
-msgid "Add into Gutenberg attr"
-msgstr "Adicionar ao Gutenberg attr"
 
 #: Helpers/Localizations.php:25
 msgid "Add Element"
 msgstr "Adicionar Elemento"
 
-#: Modules/Vendors/GutenbergAttributeController.php:296
-msgid "Uploaded to this Gutenberg attr"
-msgstr "Enviado para este Gutenberg attr"
-
 #: Helpers/Localizations.php:26
 msgid "Hub"
 msgstr "Hub"
-
-#: Modules/Vendors/GutenbergAttributeController.php:301
-msgid "Filter Gutenberg attrs list"
-msgstr "Filtrar lista de attrs de Gutenberg"
 
 #: Helpers/Localizations.php:27
 msgid "Add Template"
 msgstr "Adicionar modelo"
 
-#: Modules/Vendors/GutenbergAttributeController.php:306
-msgid "Gutenberg attrs list navigation"
-msgstr "Gutenberg attrs lista de navegação"
-
 #: Helpers/Localizations.php:28
 msgid "Tree View"
 msgstr "Vista em Árvore"
-
-#: Modules/Vendors/GutenbergAttributeController.php:311
-msgid "Gutenberg attrs list"
-msgstr "Lista de Attrs de Gutenberg"
 
 #: Helpers/Localizations.php:29
 msgid "Undo"
@@ -891,10 +1264,6 @@ msgstr "Refazer"
 #: Helpers/Localizations.php:31
 msgid "Responsive View"
 msgstr "Visão Responsiva"
-
-#: Helpers/Localizations.php:428
-msgid "Activate Premium"
-msgstr "Ativar Premium"
 
 #: Helpers/Localizations.php:32
 msgid "Desktop"
@@ -945,10 +1314,6 @@ msgstr "Voltar para o OZON"
 msgid "WordPress Dashboard"
 msgstr "Painel WordPress"
 
-#: Helpers/Localizations.php:357
-msgid "Skip this post"
-msgstr "Pular este post"
-
 #: Helpers/Localizations.php:44
 msgid "Publish"
 msgstr "Publicar"
@@ -976,10 +1341,6 @@ msgstr "Fechar"
 msgid "There is no content on your page - start by adding element or template."
 msgstr "Não há conteúdo na sua página - comece por adicionar elementos ou modelos."
 
-#: Helpers/Localizations.php:356
-msgid "Any Layout. Fast and Easy."
-msgstr "Qualquer Layout. Rápido e fácil."
-
 #: Helpers/Localizations.php:56 Modules/Settings/Fields/CssEditor.php:65
 msgid "Custom CSS"
 msgstr "CSS personalizado"
@@ -1003,11 +1364,6 @@ msgstr "CSS global será aplicado em todo o site"
 #: Helpers/Localizations.php:61
 msgid "Custom JavaScript"
 msgstr "JavaScript personalizado"
-
-#: resources/views/editor/frontend/frontend.php:41
-#: resources/views/license/fe-update-wrapper.php:30
-msgid "Frontend editor: %s"
-msgstr "Editor de front-end: %s"
 
 #: Helpers/Localizations.php:62
 msgid "Local JavaScript"
@@ -1033,77 +1389,57 @@ msgstr "Guardar"
 msgid "Template Name"
 msgstr "Nome do modelo"
 
-#: resources/views/editor/pageEditable/pageEditable.php:22
-msgid "Loading..."
-msgstr "A carregar..."
-
 #: Helpers/Localizations.php:68
 msgid "Save Template"
 msgstr "Guardar Template"
-
-#: resources/views/elements/widgets/variables.php:19
-msgid "No Custom widgets found"
-msgstr "Nenhum widget personalizado encontrado"
 
 #: Helpers/Localizations.php:69
 msgid "Remove Template"
 msgstr "Remover modelo"
 
-#: resources/views/elements/widgets/variables.php:36
-msgid "No Widgets found"
-msgstr "Não foram encontrados Widgets"
-
 #: Helpers/Localizations.php:70
 msgid "Template save failed"
 msgstr "Salvar modelo falhou"
-
-#: resources/views/settings/option-toggle.php:22
-#: resources/views/settings/pages/html-fields/toggle.php:24
-#: resources/views/settings/pages/post-types/post-types-toggle.php:22
-msgid "on"
-msgstr "ligado"
 
 #: Helpers/Localizations.php:71
 msgid "Download More Templates"
 msgstr "Baixar mais modelos"
 
-#: resources/views/settings/option-toggle.php:23
-#: resources/views/settings/pages/html-fields/toggle.php:25
-#: resources/views/settings/pages/post-types/post-types-toggle.php:23
-msgid "off"
-msgstr "desligado"
+#: Helpers/Localizations.php:72
+msgid "Get More Elements"
+msgstr "Obter mais elementos"
+
+#: Helpers/Localizations.php:73
+msgid "Get More Templates"
+msgstr "Obtenha mais modelos"
 
 #: Helpers/Localizations.php:76
 msgid "You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub."
 msgstr "Ainda não tens modelos. Tente salvar seu layout actual como um modelo ou baixe modelos do Visual Composer Hub."
 
-#: resources/views/settings/pages/index.php:110
-msgid "Save Changes"
-msgstr "Guardar alterações"
-
 #: Helpers/Localizations.php:80
 msgid "Didn't find the right template? Check out Visual Composer Hub for more layout templates."
 msgstr "Não encontrou o modelo certo? Confira o Visual Composer Hub para mais modelos de layout."
 
-#: resources/views/settings/pages/plugins/notice.php:17
-msgid ""
-"You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use\n"
-"                    <a href=\"%s\">this free plugin</a> that will load CSS styles automatically."
-msgstr ""
-"Você está prestes a desactivar sua cópia do Visual Composer Website Builder e não será capaz de gerenciar seu conteúdo. Seu conteúdo permanece intocado, mas devido à desativação do plugin, estilos CSS necessários estarão faltando. Para garantir a exibição correta do conteúdo, use\n"
-"                   <a href=\"%s\"> este plugin livre</a> que irá carregar estilos CSS automaticamente."
+#: Helpers/Localizations.php:84
+msgid "Access Visual Composer Hub - to download additional elements, templates and extensions."
+msgstr "Acesse o Visual Composer Hub - baixe elementos adicionais, modelos e extensões."
 
 #: Helpers/Localizations.php:87
 msgid "Do you want to remove this template?"
 msgstr "Deseja remover este modelo?"
 
-#: resources/views/settings/pages/plugins/notice.php:40
-msgid "Deactivate Visual Composer"
-msgstr "Desativar o Visual Composer"
-
 #: Helpers/Localizations.php:88
 msgid "Failed to remove template"
 msgstr "Falha ao remover o modelo"
+
+#: Helpers/Localizations.php:89
+msgid "Name Your Page, Select"
+msgstr "Nomeie sua página, selecione"
+
+#: Helpers/Localizations.php:90
+msgid "Layout and Start Building"
+msgstr "Layout e começar a construir"
 
 #: Helpers/Localizations.php:91
 msgid "Name Your "
@@ -1113,9 +1449,13 @@ msgstr "Nomeie o seu "
 msgid "and Start Building"
 msgstr "e Comece a Construir"
 
-#: Helpers/Localizations.php:111
-msgid "Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more."
-msgstr "Obtenha uma licença Premium para acessar o Visual Composer Hub. Baixe modelos criados profissionalmente, mais elementos de conteúdo, extensões e muito mais."
+#: Helpers/Localizations.php:95
+msgid "Start by adding an element to your layout or select one of the pre-defined templates."
+msgstr "Comece adicionando um elemento ao seu layout ou selecione um dos modelos predefinidos."
+
+#: Helpers/Localizations.php:98
+msgid "Page title"
+msgstr "Título da página"
 
 #: Helpers/Localizations.php:101
 msgid "Didn't find a perfect template? Get a Premium license to download it from Visual Composer Hub."
@@ -1124,6 +1464,10 @@ msgstr "Não encontrou um modelo perfeito? Obtenha uma licença Premium para bai
 #: Helpers/Localizations.php:106
 msgid "Didn't find an element? Get a Premium license to download the right content element in Visual Composer Hub."
 msgstr "Não encontrou um elemento? Obtenha uma licença Premium para baixar o elemento de conteúdo correto no Visual Composer Hub."
+
+#: Helpers/Localizations.php:111
+msgid "Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more."
+msgstr "Obtenha uma licença Premium para acessar o Visual Composer Hub. Baixe modelos criados profissionalmente, mais elementos de conteúdo, extensões e muito mais."
 
 #: Helpers/Localizations.php:114
 msgid "Add"
@@ -1429,324 +1773,3 @@ msgstr "Obrigado!"
 #: Helpers/Localizations.php:255
 msgid "There is a new version of Visual Composer Website Builder available. <a href=\"%s\">Update now</a> to version %s."
 msgstr "Há uma nova versão do Visual Composer Website Builder disponível. <a href=\"%s\">Actualize agora</a> para a versão %s."
-
-#: Helpers/Localizations.php:263
-msgid "Choose %s or %screate new%s."
-msgstr "Escolha %s ou %scrie novo%s."
-
-#: Helpers/Localizations.php:275
-msgid "Update Visual Composer plugin to the most recent version to download this content element."
-msgstr "Actualize o plugin do Visual Composer para a versão mais recente para baixar esse elemento de conteúdo."
-
-#: Helpers/Localizations.php:279
-msgid "Update Visual Composer plugin to the most recent version to download this template."
-msgstr "Actualize o plugin do Visual Composer para a versão mais recente para baixar este modelo."
-
-#: Helpers/Localizations.php:282
-msgid "Start Building"
-msgstr "Comece a construir"
-
-#: Helpers/Localizations.php:285
-msgid "%s Name"
-msgstr "%s Nome"
-
-#: Helpers/Localizations.php:291
-msgid "Your WordPress theme defined layout for specific page, post, or custom post type."
-msgstr "Seu layout definido como tema do WordPress para uma página específica, publicação ou tipo de publicação personalizado."
-
-#: Helpers/Localizations.php:295
-msgid "Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar."
-msgstr "Esquema de página em branco com área de conteúdo em caixa no meio da página sem cabeçalho, rodapé ou barra lateral."
-
-#: Helpers/Localizations.php:299
-msgid "Full width blank page without header, footer, or sidebar."
-msgstr "Página em branco de largura total sem cabeçalho, rodapé ou barra lateral."
-
-#: Helpers/Localizations.php:303
-msgid "Default layout with custom header, content, and footer area."
-msgstr "Layout padrão com cabeçalho, conteúdo e área de rodapé personalizados."
-
-#: Helpers/Localizations.php:307
-msgid "Default layout with custom header, content, footer and sidebar area on the right."
-msgstr "Layout padrão com cabeçalho, conteúdo, rodapé e área da barra lateral personalizados à direita."
-
-#: Helpers/Localizations.php:311
-msgid "Default layout with custom header, content, footer and sidebar area on the left."
-msgstr "Layout padrão com cabeçalho, conteúdo, rodapé e área da barra lateral personalizados à esquerda."
-
-#: Helpers/Localizations.php:315
-msgid "Available in Premium version."
-msgstr "Disponível na versão Premium."
-
-#: Helpers/Localizations.php:319
-msgid "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
-msgstr "O plugin do Gutenberg não funciona correctamente. Por favor, verifique o plugin do Gutenberg."
-
-#: Helpers/Localizations.php:322
-msgid "Free"
-msgstr "Grátis"
-
-#: Helpers/Localizations.php:323
-msgid "Premium"
-msgstr "Premium"
-
-#: Helpers/Localizations.php:324
-msgid "Remove All"
-msgstr "Remover tudo"
-
-#: Helpers/Localizations.php:325
-msgid "Continue import"
-msgstr "Continuar a importação"
-
-#: Helpers/Localizations.php:326
-msgid "Back to import"
-msgstr "Voltar à importação"
-
-#: Helpers/Localizations.php:327
-msgid "Starting import process..."
-msgstr "Iniciando o processo de importação..."
-
-#: Helpers/Localizations.php:328
-msgid "Back to parent"
-msgstr "Voltar ao pai"
-
-#: Helpers/LoginCategory.php:21
-msgid "Business"
-msgstr "Negócio"
-
-#: Helpers/LoginCategory.php:22
-msgid "Blog"
-msgstr "Blog"
-
-#: Helpers/LoginCategory.php:23
-msgid "Creative Arts"
-msgstr "Artes Criativas"
-
-#: Helpers/LoginCategory.php:24
-msgid "Community & Education"
-msgstr "Comunidade e Educação"
-
-#: Helpers/LoginCategory.php:25
-msgid "Design"
-msgstr "Design"
-
-#: Helpers/LoginCategory.php:26
-msgid "Entertainment & Music"
-msgstr "Entretenimento & Música"
-
-#: Helpers/LoginCategory.php:27
-msgid "Events"
-msgstr "Eventos"
-
-#: Helpers/LoginCategory.php:28
-msgid "Fashion & Beauty"
-msgstr "Moda e Beleza"
-
-#: Helpers/LoginCategory.php:29
-msgid "Health & Wellness"
-msgstr "Saúde e Bem-Estar"
-
-#: Helpers/LoginCategory.php:30
-msgid "Landing Pages"
-msgstr "Páginas de Aterragem"
-
-#: Helpers/LoginCategory.php:31
-msgid "Online Store"
-msgstr "Loja online"
-
-#: Helpers/LoginCategory.php:32
-msgid "Photography"
-msgstr "Photography"
-
-#: Helpers/LoginCategory.php:33
-msgid "Portfolio & Personal"
-msgstr "Portfólio & Pessoal"
-
-#: Helpers/LoginCategory.php:34
-msgid "Restaurants & Food"
-msgstr "Restaurantes e alimentação"
-
-#: Helpers/LoginCategory.php:35
-msgid "Services"
-msgstr "Serviços"
-
-#: Helpers/LoginCategory.php:36
-msgid "Travel & Accommodation"
-msgstr "Viagem e Alojamento"
-
-#: Helpers/LoginCategory.php:37
-msgid "Other"
-msgstr "Outro"
-
-#: Helpers/PostType.php:233
-msgid "View %s"
-msgstr "Ver %s"
-
-#: Helpers/PostsGridSourcePosts.php:38
-msgid "All"
-msgstr "Todos"
-
-#: Helpers/Token.php:170
-msgid "Your Visual Composer Website Builder License will expire soon - %s"
-msgstr "Sua licença do Visual Composer Website Builder expirará em breve - %s"
-
-#: Modules/Hub/Assets/SharedDownloadController.php:138
-msgid "Failed to update shared libraries"
-msgstr "Falha ao actualizar bibliotecas compartilhadas"
-
-#: Modules/Editors/EditPostLinks/Controller.php:152
-#: Modules/Editors/Frontend/MenuController.php:76
-msgid "Add New with Visual Composer"
-msgstr "Adicionar novo com Visual Composer"
-
-#: Modules/Editors/Frontend/Controller.php:97
-msgid "Cheatin&#8217; uh?"
-msgstr "Enganou-se?"
-
-#: Modules/Editors/Frontend/Controller.php:98
-msgid "Sorry, you are not allowed to create posts as this user."
-msgstr "Não tem permissões para criar artigos deste utilizador."
-
-#: Modules/Editors/Frontend/MenuController.php:144
-msgid "Add New with Visual&nbsp;Composer"
-msgstr "Adicionar novo com o Visual&nbsp;Composer"
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:74
-msgid "Visual Composer"
-msgstr "Visual Composer"
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:57
-msgid "Boxed Template"
-msgstr "Template em caixa"
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:50
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:61
-msgid "Blank Template"
-msgstr "Molde em branco"
-
-#: Helpers/Localizations.php:271
-#: Modules/Editors/DataAjax/PostFieldsController.php:44
-#: Modules/Editors/DataAjax/PostFieldsController.php:52
-#: Modules/Editors/DataAjax/PostFieldsController.php:60
-#: Modules/Editors/DataAjax/PostFieldsController.php:68
-#: Modules/Editors/DataAjax/PostFieldsController.php:82
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
-msgid "Default"
-msgstr "Padrão"
-
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:110
-msgid "Theme Templates"
-msgstr "Modelos de temas"
-
-#: Modules/Editors/Templates/PostType.php:38
-msgid "Global Templates"
-msgstr "Modelos globais"
-
-#: Modules/License/LicenseController.php:108
-msgid "Invalid token -> Failed licence activation - Invalid token"
-msgstr "Token inválido -> Falha na ativação da licença - Token inválido"
-
-#: Modules/Settings/MenuController.php:69
-msgid "Visual Composer "
-msgstr "Visual Composer "
-
-#: Modules/Settings/Fields/FactoryResetController.php:67
-msgid "Proceed with a reset?"
-msgstr "Prossiga com a reinicialização?"
-
-#: Modules/Settings/Fields/FactoryResetController.php:68
-msgid "initiate reset"
-msgstr "iniciar reinicialização"
-
-#: Modules/Settings/Fields/FactoryResetController.php:78
-msgid "Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s."
-msgstr "Restaurar o estado de plugin padrão para fazer o download de todos os pacotes instalados e o caminho de configuração automática após a migração (não se preocupe, o conteúdo do site não será afetado) - %s."
-
-#: Modules/Settings/Fields/FactoryResetController.php:90
-msgid "Reset"
-msgstr "Repor"
-
-#: Modules/Settings/Fields/FactoryResetController.php:113
-msgid "Wrong permissions"
-msgstr "Permissões erradas"
-
-#: Modules/Settings/Fields/FactoryResetController.php:118
-msgid "Session expired"
-msgstr "A sessão expirou"
-
-#: Modules/Settings/NoticeController.php:78
-msgid "Dismiss"
-msgstr "Ignorar"
-
-#: Modules/Settings/Pages/About.php:91
-msgid "About"
-msgstr "Sobre"
-
-#: Modules/Settings/Fields/PostTypes.php:53
-msgid "Specify post types where you want to use Visual Composer Website Builder."
-msgstr "Especifique os tipos de mensagens onde você deseja usar o Visual Composer Website Builder."
-
-#: Modules/Settings/Fields/PostTypes.php:58
-msgid "Post Types"
-msgstr "Tipos de conteúdo"
-
-#: Modules/Updates/UpdatesController.php:152
-msgid ""
-"\n"
-"<p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>\n"
-"<ul>\n"
-"<li>Use Frontend or Tree View to create structure</li>\n"
-"<li>Create responsive websites automatically</li>\n"
-"<li>Use with any WordPress theme</li>\n"
-"<li>Work with pages, posts and custom post types</li>\n"
-"<li>Access content elements and WordPress widgets</li>\n"
-"<li>Integrate any 3rd party shortcode easily</li>\n"
-"<li>Apply predefined pro quality templates</li>\n"
-"<li>Control look of elements via multiple parameters and rich design options</li>\n"
-"<li>Receive high-quality code optimized for SEO</li>\n"
-"</ul>"
-msgstr ""
-"\n"
-"<p>O Visual Composer Website Builder é uma solução perfeita para criar seu site WordPress através da interface de arrastar e soltar. Use elementos de conteúdo ou layouts predefinidos para criar qualquer layout de forma rápida e fácil.</p>\n"
-"<ul>\n"
-"<li>Usar Frontend ou Tree View para criar estrutura</li>\n"
-"<li>Crie sites responsivos automaticamente</li>\n"
-"<li>Use com qualquer tema do WordPress</li>\n"
-"<li>Trabalhar com páginas, posts e tipos de posts personalizados</li>\n"
-"<li>Acesse elementos de conteúdo e widgets do WordPress</li>\n"
-"<li>Integre facilmente qualquer código de atalho de terceiros</li>\n"
-"<li>Aplicar modelos de qualidade pro predefinidos</li>\n"
-"<li>Aparência de controle de elementos através de vários parâmetros e opções de design ricas</li>\n"
-"<li>Receba código de alta qualidade otimizado para SEO</li>\n"
-"</ul>"
-
-#: Modules/Updates/UpdatesController.php:181
-msgid "Failed to get changelog"
-msgstr "Falhou em conseguir o changelog"
-
-#: Modules/Vendors/GutenbergAttributeController.php:90
-msgid "Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer."
-msgstr "Activar/desactivar o editor Gutenberg para o seu sítio WordPress. Desactivar o editor Gutenberg irá activar o editor WordPress clássico. Em ambos os casos, você ainda pode usar o Visual Composer."
-
-#: Modules/Vendors/GutenbergAttributeController.php:98
-msgid "Gutenberg Editor"
-msgstr "Editor de Gutenberg"
-
-#: Modules/Vendors/GutenbergAttributeController.php:251
-#: Modules/Vendors/GutenbergAttributeController.php:253
-msgid "Gutenberg attrs"
-msgstr "Gutenberg attrs"
-
-#: Modules/Vendors/GutenbergAttributeController.php:252
-#: Modules/Vendors/GutenbergAttributeController.php:254
-msgid "Gutenberg attr"
-msgstr "Gutenberg attr"
-
-#: Modules/Vendors/GutenbergAttributeController.php:255
-#: Modules/Vendors/WpbakeryController.php:136
-msgid "Add New"
-msgstr "Adicionar novo"
-
-#: Modules/Vendors/GutenbergAttributeController.php:256
-msgid "Add New Gutenberg attr"
-msgstr "Adicionar Novo Gutenberg attr"
