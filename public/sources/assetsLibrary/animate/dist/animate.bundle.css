@@ -1,7 +1,6 @@
 [data-vce-animate] {
   visibility: hidden;
 }
-
 [data-vcv-o-animated="true"] {
   -webkit-animation-duration: 0.7s;
           animation-duration: 0.7s;
@@ -9,12 +8,10 @@
           animation-fill-mode: both;
   visibility: visible;
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--infinite"] {
   -webkit-animation-iteration-count: infinite;
           animation-iteration-count: infinite;
 }
-
 @-webkit-keyframes vce-o-animate--bounce {
   from,
   20%,
@@ -44,7 +41,6 @@
             transform: translate3d(0, -4px, 0);
   }
 }
-
 @keyframes vce-o-animate--bounce {
   from,
   20%,
@@ -74,13 +70,11 @@
             transform: translate3d(0, -4px, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounce"] {
   animation-name: vce-o-animate--bounce;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
-
 @-webkit-keyframes vce-o-animate--flash {
   from,
   50%,
@@ -92,7 +86,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--flash {
   from,
   50%,
@@ -104,11 +97,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--flash"] {
   animation-name: vce-o-animate--flash;
 }
-
 @-webkit-keyframes vce-o-animate--headShake {
   0% {
     -webkit-transform: translateX(0);
@@ -135,7 +126,6 @@
             transform: translateX(0);
   }
 }
-
 @keyframes vce-o-animate--headShake {
   0% {
     -webkit-transform: translateX(0);
@@ -162,13 +152,11 @@
             transform: translateX(0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--headShake"] {
   -webkit-animation-timing-function: ease-in-out;
           animation-timing-function: ease-in-out;
   animation-name: vce-o-animate--headShake;
 }
-
 @-webkit-keyframes vce-o-animate--jello {
   from,
   11.1%,
@@ -205,7 +193,6 @@
             transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
   }
 }
-
 @keyframes vce-o-animate--jello {
   from,
   11.1%,
@@ -242,13 +229,11 @@
             transform: skewX(-0.1953125deg) skewY(-0.1953125deg);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--jello"] {
   animation-name: vce-o-animate--jello;
   -webkit-transform-origin: center;
           transform-origin: center;
 }
-
 /* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 @-webkit-keyframes vce-o-animate--pulse {
   from {
@@ -278,11 +263,9 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--pulse"] {
   animation-name: vce-o-animate--pulse;
 }
-
 @-webkit-keyframes vce-o-animate--rubberBand {
   from {
     -webkit-transform: scale3d(1, 1, 1);
@@ -313,7 +296,6 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 @keyframes vce-o-animate--rubberBand {
   from {
     -webkit-transform: scale3d(1, 1, 1);
@@ -344,11 +326,9 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rubberBand"] {
   animation-name: vce-o-animate--rubberBand;
 }
-
 @-webkit-keyframes vce-o-animate--shake {
   from,
   to {
@@ -371,7 +351,6 @@
             transform: translate3d(10px, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--shake {
   from,
   to {
@@ -394,11 +373,9 @@
             transform: translate3d(10px, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--shake"] {
   animation-name: vce-o-animate--shake;
 }
-
 @-webkit-keyframes vce-o-animate--swing {
   20% {
     -webkit-transform: rotate3d(0, 0, 1, 15deg);
@@ -421,7 +398,6 @@
             transform: rotate3d(0, 0, 1, 0deg);
   }
 }
-
 @keyframes vce-o-animate--swing {
   20% {
     -webkit-transform: rotate3d(0, 0, 1, 15deg);
@@ -444,13 +420,11 @@
             transform: rotate3d(0, 0, 1, 0deg);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--swing"] {
   -webkit-transform-origin: top center;
           transform-origin: top center;
   animation-name: vce-o-animate--swing;
 }
-
 @-webkit-keyframes vce-o-animate--tada {
   from {
     -webkit-transform: scale3d(1, 1, 1);
@@ -479,7 +453,6 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 @keyframes vce-o-animate--tada {
   from {
     -webkit-transform: scale3d(1, 1, 1);
@@ -508,11 +481,9 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--tada"] {
   animation-name: vce-o-animate--tada;
 }
-
 /* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 @-webkit-keyframes vce-o-animate--wobble {
   from {
@@ -574,11 +545,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--wobble"] {
   animation-name: vce-o-animate--wobble;
 }
-
 @-webkit-keyframes vce-o-animate--bounceIn {
   from,
   20%,
@@ -617,7 +586,6 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 @keyframes vce-o-animate--bounceIn {
   from,
   20%,
@@ -656,13 +624,11 @@
             transform: scale3d(1, 1, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceIn"] {
   animation-name: vce-o-animate--bounceIn;
   -webkit-animation-duration: 0.7s;
           animation-duration: 0.7s;
 }
-
 @-webkit-keyframes vce-o-animate--bounceInDown {
   from,
   60%,
@@ -695,7 +661,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--bounceInDown {
   from,
   60%,
@@ -728,11 +693,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceInDown"] {
   animation-name: vce-o-animate--bounceInDown;
 }
-
 @-webkit-keyframes vce-o-animate--bounceInLeft {
   from,
   60%,
@@ -765,7 +728,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--bounceInLeft {
   from,
   60%,
@@ -798,11 +760,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceInLeft"] {
   animation-name: vce-o-animate--bounceInLeft;
 }
-
 @-webkit-keyframes vce-o-animate--bounceInRight {
   from,
   60%,
@@ -835,7 +795,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--bounceInRight {
   from,
   60%,
@@ -868,11 +827,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceInRight"] {
   animation-name: vce-o-animate--bounceInRight;
 }
-
 @-webkit-keyframes vce-o-animate--bounceInUp {
   from,
   60%,
@@ -905,7 +862,6 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--bounceInUp {
   from,
   60%,
@@ -938,11 +894,9 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceInUp"] {
   animation-name: vce-o-animate--bounceInUp;
 }
-
 @-webkit-keyframes vce-o-animate--bounceOut {
   20% {
     -webkit-transform: scale3d(0.9, 0.9, 0.9);
@@ -960,7 +914,6 @@
             transform: scale3d(0.3, 0.3, 0.3);
   }
 }
-
 @keyframes vce-o-animate--bounceOut {
   20% {
     -webkit-transform: scale3d(0.9, 0.9, 0.9);
@@ -978,13 +931,11 @@
             transform: scale3d(0.3, 0.3, 0.3);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceOut"] {
   animation-name: vce-o-animate--bounceOut;
   -webkit-animation-duration: 0.7s;
           animation-duration: 0.7s;
 }
-
 @-webkit-keyframes vce-o-animate--bounceOutDown {
   20% {
     -webkit-transform: translate3d(0, 10px, 0);
@@ -1002,7 +953,6 @@
             transform: translate3d(0, 2000px, 0);
   }
 }
-
 @keyframes vce-o-animate--bounceOutDown {
   20% {
     -webkit-transform: translate3d(0, 10px, 0);
@@ -1020,11 +970,9 @@
             transform: translate3d(0, 2000px, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceOutDown"] {
   animation-name: vce-o-animate--bounceOutDown;
 }
-
 @-webkit-keyframes vce-o-animate--bounceOutLeft {
   20% {
     opacity: 1;
@@ -1037,7 +985,6 @@
             transform: translate3d(-2000px, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--bounceOutLeft {
   20% {
     opacity: 1;
@@ -1050,11 +997,9 @@
             transform: translate3d(-2000px, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceOutLeft"] {
   animation-name: vce-o-animate--bounceOutLeft;
 }
-
 @-webkit-keyframes vce-o-animate--bounceOutRight {
   20% {
     opacity: 1;
@@ -1067,7 +1012,6 @@
             transform: translate3d(2000px, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--bounceOutRight {
   20% {
     opacity: 1;
@@ -1080,11 +1024,9 @@
             transform: translate3d(2000px, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceOutRight"] {
   animation-name: vce-o-animate--bounceOutRight;
 }
-
 @-webkit-keyframes vce-o-animate--bounceOutUp {
   20% {
     -webkit-transform: translate3d(0, -10px, 0);
@@ -1102,7 +1044,6 @@
             transform: translate3d(0, -2000px, 0);
   }
 }
-
 @keyframes vce-o-animate--bounceOutUp {
   20% {
     -webkit-transform: translate3d(0, -10px, 0);
@@ -1120,11 +1061,9 @@
             transform: translate3d(0, -2000px, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounceOutUp"] {
   animation-name: vce-o-animate--bounceOutUp;
 }
-
 @-webkit-keyframes vce-o-animate--fadeIn {
   from {
     opacity: 0;
@@ -1133,7 +1072,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--fadeIn {
   from {
     opacity: 0;
@@ -1142,11 +1080,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeIn"] {
   animation-name: vce-o-animate--fadeIn;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInDown {
   from {
     opacity: 0;
@@ -1159,7 +1095,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInDown {
   from {
     opacity: 0;
@@ -1172,11 +1107,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInDown"] {
   animation-name: vce-o-animate--fadeInDown;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInDownBig {
   from {
     opacity: 0;
@@ -1189,7 +1122,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInDownBig {
   from {
     opacity: 0;
@@ -1202,11 +1134,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInDownBig"] {
   animation-name: vce-o-animate--fadeInDownBig;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInLeft {
   from {
     opacity: 0;
@@ -1219,7 +1149,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInLeft {
   from {
     opacity: 0;
@@ -1232,11 +1161,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInLeft"] {
   animation-name: vce-o-animate--fadeInLeft;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInLeftBig {
   from {
     opacity: 0;
@@ -1249,7 +1176,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInLeftBig {
   from {
     opacity: 0;
@@ -1262,11 +1188,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInLeftBig"] {
   animation-name: vce-o-animate--fadeInLeftBig;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInRight {
   from {
     opacity: 0;
@@ -1279,7 +1203,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInRight {
   from {
     opacity: 0;
@@ -1292,11 +1215,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInRight"] {
   animation-name: vce-o-animate--fadeInRight;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInRightBig {
   from {
     opacity: 0;
@@ -1309,7 +1230,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInRightBig {
   from {
     opacity: 0;
@@ -1322,11 +1242,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInRightBig"] {
   animation-name: vce-o-animate--fadeInRightBig;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInUp {
   from {
     opacity: 0;
@@ -1339,7 +1257,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInUp {
   from {
     opacity: 0;
@@ -1352,11 +1269,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInUp"] {
   animation-name: vce-o-animate--fadeInUp;
 }
-
 @-webkit-keyframes vce-o-animate--fadeInUpBig {
   from {
     opacity: 0;
@@ -1369,7 +1284,6 @@
             transform: none;
   }
 }
-
 @keyframes vce-o-animate--fadeInUpBig {
   from {
     opacity: 0;
@@ -1382,11 +1296,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeInUpBig"] {
   animation-name: vce-o-animate--fadeInUpBig;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOut {
   from {
     opacity: 1;
@@ -1395,7 +1307,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--fadeOut {
   from {
     opacity: 1;
@@ -1404,11 +1315,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOut"] {
   animation-name: vce-o-animate--fadeOut;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutDown {
   from {
     opacity: 1;
@@ -1419,7 +1328,6 @@
             transform: translate3d(0, 100%, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutDown {
   from {
     opacity: 1;
@@ -1430,11 +1338,9 @@
             transform: translate3d(0, 100%, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutDown"] {
   animation-name: vce-o-animate--fadeOutDown;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutDownBig {
   from {
     opacity: 1;
@@ -1445,7 +1351,6 @@
             transform: translate3d(0, 2000px, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutDownBig {
   from {
     opacity: 1;
@@ -1456,11 +1361,9 @@
             transform: translate3d(0, 2000px, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutDownBig"] {
   animation-name: vce-o-animate--fadeOutDownBig;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutLeft {
   from {
     opacity: 1;
@@ -1471,7 +1374,6 @@
             transform: translate3d(-100%, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutLeft {
   from {
     opacity: 1;
@@ -1482,11 +1384,9 @@
             transform: translate3d(-100%, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutLeft"] {
   animation-name: vce-o-animate--fadeOutLeft;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutLeftBig {
   from {
     opacity: 1;
@@ -1497,7 +1397,6 @@
             transform: translate3d(-2000px, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutLeftBig {
   from {
     opacity: 1;
@@ -1508,11 +1407,9 @@
             transform: translate3d(-2000px, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutLeftBig"] {
   animation-name: vce-o-animate--fadeOutLeftBig;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutRight {
   from {
     opacity: 1;
@@ -1523,7 +1420,6 @@
             transform: translate3d(100%, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutRight {
   from {
     opacity: 1;
@@ -1534,11 +1430,9 @@
             transform: translate3d(100%, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutRight"] {
   animation-name: vce-o-animate--fadeOutRight;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutUp {
   from {
     opacity: 1;
@@ -1549,7 +1443,6 @@
             transform: translate3d(0, -100%, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutUp {
   from {
     opacity: 1;
@@ -1560,11 +1453,9 @@
             transform: translate3d(0, -100%, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutUp"] {
   animation-name: vce-o-animate--fadeOutUp;
 }
-
 @-webkit-keyframes vce-o-animate--fadeOutUpBig {
   from {
     opacity: 1;
@@ -1575,7 +1466,6 @@
             transform: translate3d(0, -2000px, 0);
   }
 }
-
 @keyframes vce-o-animate--fadeOutUpBig {
   from {
     opacity: 1;
@@ -1586,11 +1476,9 @@
             transform: translate3d(0, -2000px, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--fadeOutUpBig"] {
   animation-name: vce-o-animate--fadeOutUpBig;
 }
-
 @-webkit-keyframes vce-o-animate--flip {
   from {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
@@ -1623,7 +1511,6 @@
             animation-timing-function: ease-in;
   }
 }
-
 @keyframes vce-o-animate--flip {
   from {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
@@ -1656,13 +1543,11 @@
             animation-timing-function: ease-in;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--flip"] {
   -webkit-backface-visibility: visible;
           backface-visibility: visible;
   animation-name: vce-o-animate--flip;
 }
-
 @-webkit-keyframes vce-o-animate--flipInX {
   from {
     -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
@@ -1691,7 +1576,6 @@
             transform: perspective(400px);
   }
 }
-
 @keyframes vce-o-animate--flipInX {
   from {
     -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
@@ -1720,13 +1604,11 @@
             transform: perspective(400px);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--flipInX"] {
   -webkit-backface-visibility: visible !important;
           backface-visibility: visible !important;
   animation-name: vce-o-animate--flipInX;
 }
-
 @-webkit-keyframes vce-o-animate--flipInY {
   from {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
@@ -1755,7 +1637,6 @@
             transform: perspective(400px);
   }
 }
-
 @keyframes vce-o-animate--flipInY {
   from {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
@@ -1784,13 +1665,11 @@
             transform: perspective(400px);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--flipInY"] {
   -webkit-backface-visibility: visible !important;
           backface-visibility: visible !important;
   animation-name: vce-o-animate--flipInY;
 }
-
 @-webkit-keyframes vce-o-animate--flipOutX {
   from {
     -webkit-transform: perspective(400px);
@@ -1807,7 +1686,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--flipOutX {
   from {
     -webkit-transform: perspective(400px);
@@ -1824,7 +1702,6 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--flipOutX"] {
   animation-name: vce-o-animate--flipOutX;
   -webkit-backface-visibility: visible !important;
@@ -1832,7 +1709,6 @@
   -webkit-animation-duration: 0.7s;
           animation-duration: 0.7s;
 }
-
 @-webkit-keyframes vce-o-animate--flipOutY {
   from {
     -webkit-transform: perspective(400px);
@@ -1849,7 +1725,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--flipOutY {
   from {
     -webkit-transform: perspective(400px);
@@ -1866,7 +1741,6 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--flipOutY"] {
   -webkit-backface-visibility: visible !important;
           backface-visibility: visible !important;
@@ -1874,7 +1748,6 @@
   -webkit-animation-duration: 0.7s;
           animation-duration: 0.7s;
 }
-
 @-webkit-keyframes vce-o-animate--lightSpeedIn {
   from {
     -webkit-transform: translate3d(100%, 0, 0) skewX(-30deg);
@@ -1897,7 +1770,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--lightSpeedIn {
   from {
     -webkit-transform: translate3d(100%, 0, 0) skewX(-30deg);
@@ -1920,13 +1792,11 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--lightSpeedIn"] {
   animation-name: vce-o-animate--lightSpeedIn;
   -webkit-animation-timing-function: ease-out;
           animation-timing-function: ease-out;
 }
-
 @-webkit-keyframes vce-o-animate--lightSpeedOut {
   from {
     opacity: 1;
@@ -1937,7 +1807,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--lightSpeedOut {
   from {
     opacity: 1;
@@ -1948,13 +1817,11 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--lightSpeedOut"] {
   animation-name: vce-o-animate--lightSpeedOut;
   -webkit-animation-timing-function: ease-in;
           animation-timing-function: ease-in;
 }
-
 @-webkit-keyframes vce-o-animate--rotateIn {
   from {
     -webkit-transform-origin: center;
@@ -1971,7 +1838,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--rotateIn {
   from {
     -webkit-transform-origin: center;
@@ -1988,11 +1854,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateIn"] {
   animation-name: vce-o-animate--rotateIn;
 }
-
 @-webkit-keyframes vce-o-animate--rotateInDownLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2009,7 +1873,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--rotateInDownLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2026,11 +1889,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateInDownLeft"] {
   animation-name: vce-o-animate--rotateInDownLeft;
 }
-
 @-webkit-keyframes vce-o-animate--rotateInDownRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2047,7 +1908,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--rotateInDownRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2064,11 +1924,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateInDownRight"] {
   animation-name: vce-o-animate--rotateInDownRight;
 }
-
 @-webkit-keyframes vce-o-animate--rotateInUpLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2085,7 +1943,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--rotateInUpLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2102,11 +1959,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateInUpLeft"] {
   animation-name: vce-o-animate--rotateInUpLeft;
 }
-
 @-webkit-keyframes vce-o-animate--rotateInUpRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2123,7 +1978,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--rotateInUpRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2140,11 +1994,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateInUpRight"] {
   animation-name: vce-o-animate--rotateInUpRight;
 }
-
 @-webkit-keyframes vce-o-animate--rotateOut {
   from {
     -webkit-transform-origin: center;
@@ -2159,7 +2011,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--rotateOut {
   from {
     -webkit-transform-origin: center;
@@ -2174,11 +2025,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateOut"] {
   animation-name: vce-o-animate--rotateOut;
 }
-
 @-webkit-keyframes vce-o-animate--rotateOutDownLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2193,7 +2042,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--rotateOutDownLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2208,11 +2056,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateOutDownLeft"] {
   animation-name: vce-o-animate--rotateOutDownLeft;
 }
-
 @-webkit-keyframes vce-o-animate--rotateOutDownRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2227,7 +2073,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--rotateOutDownRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2242,11 +2087,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateOutDownRight"] {
   animation-name: vce-o-animate--rotateOutDownRight;
 }
-
 @-webkit-keyframes vce-o-animate--rotateOutUpLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2261,7 +2104,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--rotateOutUpLeft {
   from {
     -webkit-transform-origin: left bottom;
@@ -2276,11 +2118,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateOutUpLeft"] {
   animation-name: vce-o-animate--rotateOutUpLeft;
 }
-
 @-webkit-keyframes vce-o-animate--rotateOutUpRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2295,7 +2135,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--rotateOutUpRight {
   from {
     -webkit-transform-origin: right bottom;
@@ -2310,11 +2149,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rotateOutUpRight"] {
   animation-name: vce-o-animate--rotateOutUpRight;
 }
-
 @-webkit-keyframes vce-o-animate--slideInDown {
   from {
     -webkit-transform: translate3d(0, -100%, 0);
@@ -2326,7 +2163,6 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--slideInDown {
   from {
     -webkit-transform: translate3d(0, -100%, 0);
@@ -2338,11 +2174,9 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideInDown"] {
   animation-name: vce-o-animate--slideInDown;
 }
-
 @-webkit-keyframes vce-o-animate--slideInLeft {
   from {
     -webkit-transform: translate3d(-100%, 0, 0);
@@ -2354,7 +2188,6 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--slideInLeft {
   from {
     -webkit-transform: translate3d(-100%, 0, 0);
@@ -2366,11 +2199,9 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideInLeft"] {
   animation-name: vce-o-animate--slideInLeft;
 }
-
 @-webkit-keyframes vce-o-animate--slideInRight {
   from {
     -webkit-transform: translate3d(100%, 0, 0);
@@ -2382,7 +2213,6 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--slideInRight {
   from {
     -webkit-transform: translate3d(100%, 0, 0);
@@ -2394,11 +2224,9 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideInRight"] {
   animation-name: vce-o-animate--slideInRight;
 }
-
 @-webkit-keyframes vce-o-animate--slideInUp {
   from {
     -webkit-transform: translate3d(0, 100%, 0);
@@ -2410,7 +2238,6 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--slideInUp {
   from {
     -webkit-transform: translate3d(0, 100%, 0);
@@ -2422,11 +2249,9 @@
             transform: translate3d(0, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideInUp"] {
   animation-name: vce-o-animate--slideInUp;
 }
-
 @-webkit-keyframes vce-o-animate--slideOutDown {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2438,7 +2263,6 @@
             transform: translate3d(0, 100%, 0);
   }
 }
-
 @keyframes vce-o-animate--slideOutDown {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2450,11 +2274,9 @@
             transform: translate3d(0, 100%, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideOutDown"] {
   animation-name: vce-o-animate--slideOutDown;
 }
-
 @-webkit-keyframes vce-o-animate--slideOutLeft {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2466,7 +2288,6 @@
             transform: translate3d(-100%, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--slideOutLeft {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2478,11 +2299,9 @@
             transform: translate3d(-100%, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideOutLeft"] {
   animation-name: vce-o-animate--slideOutLeft;
 }
-
 @-webkit-keyframes vce-o-animate--slideOutRight {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2494,7 +2313,6 @@
             transform: translate3d(100%, 0, 0);
   }
 }
-
 @keyframes vce-o-animate--slideOutRight {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2506,11 +2324,9 @@
             transform: translate3d(100%, 0, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideOutRight"] {
   animation-name: vce-o-animate--slideOutRight;
 }
-
 @-webkit-keyframes vce-o-animate--slideOutUp {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2522,7 +2338,6 @@
             transform: translate3d(0, -100%, 0);
   }
 }
-
 @keyframes vce-o-animate--slideOutUp {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2534,11 +2349,9 @@
             transform: translate3d(0, -100%, 0);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--slideOutUp"] {
   animation-name: vce-o-animate--slideOutUp;
 }
-
 @-webkit-keyframes vce-o-animate--hinge {
   0% {
     -webkit-transform-origin: top left;
@@ -2571,7 +2384,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--hinge {
   0% {
     -webkit-transform-origin: top left;
@@ -2604,13 +2416,11 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--hinge"] {
   animation-name: vce-o-animate--hinge;
   -webkit-animation-duration: 1.5s;
           animation-duration: 1.5s;
 }
-
 /* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 @-webkit-keyframes vce-o-animate--rollIn {
   from {
@@ -2636,11 +2446,9 @@
             transform: none;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rollIn"] {
   animation-name: vce-o-animate--rollIn;
 }
-
 /* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
 @-webkit-keyframes vce-o-animate--rollOut {
   from {
@@ -2662,11 +2470,9 @@
             transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--rollOut"] {
   animation-name: vce-o-animate--rollOut;
 }
-
 @-webkit-keyframes vce-o-animate--zoomIn {
   from {
     opacity: 0;
@@ -2677,7 +2483,6 @@
     opacity: 1;
   }
 }
-
 @keyframes vce-o-animate--zoomIn {
   from {
     opacity: 0;
@@ -2688,11 +2493,9 @@
     opacity: 1;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomIn"] {
   animation-name: vce-o-animate--zoomIn;
 }
-
 @-webkit-keyframes vce-o-animate--zoomInDown {
   from {
     opacity: 0;
@@ -2709,7 +2512,6 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 @keyframes vce-o-animate--zoomInDown {
   from {
     opacity: 0;
@@ -2726,11 +2528,9 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomInDown"] {
   animation-name: vce-o-animate--zoomInDown;
 }
-
 @-webkit-keyframes vce-o-animate--zoomInLeft {
   from {
     opacity: 0;
@@ -2747,7 +2547,6 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 @keyframes vce-o-animate--zoomInLeft {
   from {
     opacity: 0;
@@ -2764,11 +2563,9 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomInLeft"] {
   animation-name: vce-o-animate--zoomInLeft;
 }
-
 @-webkit-keyframes vce-o-animate--zoomInRight {
   from {
     opacity: 0;
@@ -2785,7 +2582,6 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 @keyframes vce-o-animate--zoomInRight {
   from {
     opacity: 0;
@@ -2802,11 +2598,9 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomInRight"] {
   animation-name: vce-o-animate--zoomInRight;
 }
-
 @-webkit-keyframes vce-o-animate--zoomInUp {
   from {
     opacity: 0;
@@ -2823,7 +2617,6 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 @keyframes vce-o-animate--zoomInUp {
   from {
     opacity: 0;
@@ -2840,11 +2633,9 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomInUp"] {
   animation-name: vce-o-animate--zoomInUp;
 }
-
 @-webkit-keyframes vce-o-animate--zoomOut {
   from {
     opacity: 1;
@@ -2858,7 +2649,6 @@
     opacity: 0;
   }
 }
-
 @keyframes vce-o-animate--zoomOut {
   from {
     opacity: 1;
@@ -2872,11 +2662,9 @@
     opacity: 0;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomOut"] {
   animation-name: vce-o-animate--zoomOut;
 }
-
 @-webkit-keyframes vce-o-animate--zoomOutDown {
   40% {
     opacity: 1;
@@ -2895,7 +2683,6 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 @keyframes vce-o-animate--zoomOutDown {
   40% {
     opacity: 1;
@@ -2914,11 +2701,9 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomOutDown"] {
   animation-name: vce-o-animate--zoomOutDown;
 }
-
 @-webkit-keyframes vce-o-animate--zoomOutLeft {
   40% {
     opacity: 1;
@@ -2933,7 +2718,6 @@
             transform-origin: left center;
   }
 }
-
 @keyframes vce-o-animate--zoomOutLeft {
   40% {
     opacity: 1;
@@ -2948,11 +2732,9 @@
             transform-origin: left center;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomOutLeft"] {
   animation-name: vce-o-animate--zoomOutLeft;
 }
-
 @-webkit-keyframes vce-o-animate--zoomOutRight {
   40% {
     opacity: 1;
@@ -2967,7 +2749,6 @@
             transform-origin: right center;
   }
 }
-
 @keyframes vce-o-animate--zoomOutRight {
   40% {
     opacity: 1;
@@ -2982,11 +2763,9 @@
             transform-origin: right center;
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomOutRight"] {
   animation-name: vce-o-animate--zoomOutRight;
 }
-
 @-webkit-keyframes vce-o-animate--zoomOutUp {
   40% {
     opacity: 1;
@@ -3005,7 +2784,6 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 @keyframes vce-o-animate--zoomOutUp {
   40% {
     opacity: 1;
@@ -3024,1926 +2802,1475 @@
             animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
   }
 }
-
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--zoomOutUp"] {
   animation-name: vce-o-animate--zoomOutUp;
 }
-
 @media (min-width: 0) and (max-width: 543px) {
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounce-xs"] {
     animation-name: vce-o-animate--bounce;
     -webkit-transform-origin: center bottom;
             transform-origin: center bottom;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flash-xs"] {
     animation-name: vce-o-animate--flash;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--headShake-xs"] {
     animation-name: vce-o-animate--headShake;
     -webkit-animation-timing-function: ease-in-out;
             animation-timing-function: ease-in-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--jello-xs"] {
     animation-name: vce-o-animate--jello;
     -webkit-transform-origin: center;
             transform-origin: center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--pulse-xs"] {
     animation-name: vce-o-animate--pulse;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rubberBand-xs"] {
     animation-name: vce-o-animate--rubberBand;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--shake-xs"] {
     animation-name: vce-o-animate--shake;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--swing-xs"] {
     animation-name: vce-o-animate--swing;
     -webkit-transform-origin: top center;
             transform-origin: top center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--tada-xs"] {
     animation-name: vce-o-animate--tada;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--wobble-xs"] {
     animation-name: vce-o-animate--wobble;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flip-xs"] {
     animation-name: vce-o-animate--flip;
     -webkit-backface-visibility: visible;
             backface-visibility: visible;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInX-xs"] {
     animation-name: vce-o-animate--flipInX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInY-xs"] {
     animation-name: vce-o-animate--flipInY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutX-xs"] {
     animation-name: vce-o-animate--flipOutX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutY-xs"] {
     animation-name: vce-o-animate--flipOutY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedIn-xs"] {
     animation-name: vce-o-animate--lightSpeedIn;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedOut-xs"] {
     animation-name: vce-o-animate--lightSpeedOut;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-xs"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-xs"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-xs"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-xs"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-xs"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOut-xs"] {
     animation-name: vce-o-animate--bounceOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutDown-xs"] {
     animation-name: vce-o-animate--bounceOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutLeft-xs"] {
     animation-name: vce-o-animate--bounceOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutRight-xs"] {
     animation-name: vce-o-animate--bounceOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutUp-xs"] {
     animation-name: vce-o-animate--bounceOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-xs"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-xs"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-xs"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-xs"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-xs"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-xs"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-xs"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-xs"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-xs"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-xs"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-xs"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-xs"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-xs"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-xs"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOut-xs"] {
     animation-name: vce-o-animate--fadeOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDown-xs"] {
     animation-name: vce-o-animate--fadeOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDownBig-xs"] {
     animation-name: vce-o-animate--fadeOutDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeft-xs"] {
     animation-name: vce-o-animate--fadeOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeftBig-xs"] {
     animation-name: vce-o-animate--fadeOutLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRight-xs"] {
     animation-name: vce-o-animate--fadeOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRightBig-xs"] {
     animation-name: vce-o-animate--fadeOutRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUp-xs"] {
     animation-name: vce-o-animate--fadeOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUpBig-xs"] {
     animation-name: vce-o-animate--fadeOutUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-xs"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-xs"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-xs"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-xs"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-xs"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-xs"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-xs"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-xs"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-xs"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateIn-xs"] {
     animation-name: vce-o-animate--rotateIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownLeft-xs"] {
     animation-name: vce-o-animate--rotateInDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownRight-xs"] {
     animation-name: vce-o-animate--rotateInDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpLeft-xs"] {
     animation-name: vce-o-animate--rotateInUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpRight-xs"] {
     animation-name: vce-o-animate--rotateInUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOut-xs"] {
     animation-name: vce-o-animate--rotateOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownLeft-xs"] {
     animation-name: vce-o-animate--rotateOutDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownRight-xs"] {
     animation-name: vce-o-animate--rotateOutDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpLeft-xs"] {
     animation-name: vce-o-animate--rotateOutUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpRight-xs"] {
     animation-name: vce-o-animate--rotateOutUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInDown-xs"] {
     animation-name: vce-o-animate--slideInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInLeft-xs"] {
     animation-name: vce-o-animate--slideInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInRight-xs"] {
     animation-name: vce-o-animate--slideInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInUp-xs"] {
     animation-name: vce-o-animate--slideInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutDown-xs"] {
     animation-name: vce-o-animate--slideOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutLeft-xs"] {
     animation-name: vce-o-animate--slideOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutRight-xs"] {
     animation-name: vce-o-animate--slideOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutUp-xs"] {
     animation-name: vce-o-animate--slideOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--hinge-xs"] {
     animation-name: vce-o-animate--hinge;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollIn-xs"] {
     animation-name: vce-o-animate--rollIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollOut-xs"] {
     animation-name: vce-o-animate--rollOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomIn-xs"] {
     animation-name: vce-o-animate--zoomIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInDown-xs"] {
     animation-name: vce-o-animate--zoomInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInLeft-xs"] {
     animation-name: vce-o-animate--zoomInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInRight-xs"] {
     animation-name: vce-o-animate--zoomInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInUp-xs"] {
     animation-name: vce-o-animate--zoomInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOut-xs"] {
     animation-name: vce-o-animate--zoomOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutDown-xs"] {
     animation-name: vce-o-animate--zoomOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutLeft-xs"] {
     animation-name: vce-o-animate--zoomOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutRight-xs"] {
     animation-name: vce-o-animate--zoomOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-xs"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
 }
-
 @media (min-width: 544px) and (max-width: 767px) {
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounce-sm"] {
     animation-name: vce-o-animate--bounce;
     -webkit-transform-origin: center bottom;
             transform-origin: center bottom;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flash-sm"] {
     animation-name: vce-o-animate--flash;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--headShake-sm"] {
     animation-name: vce-o-animate--headShake;
     -webkit-animation-timing-function: ease-in-out;
             animation-timing-function: ease-in-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--jello-sm"] {
     animation-name: vce-o-animate--jello;
     -webkit-transform-origin: center;
             transform-origin: center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--pulse-sm"] {
     animation-name: vce-o-animate--pulse;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rubberBand-sm"] {
     animation-name: vce-o-animate--rubberBand;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--shake-sm"] {
     animation-name: vce-o-animate--shake;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--swing-sm"] {
     animation-name: vce-o-animate--swing;
     -webkit-transform-origin: top center;
             transform-origin: top center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--tada-sm"] {
     animation-name: vce-o-animate--tada;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--wobble-sm"] {
     animation-name: vce-o-animate--wobble;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flip-sm"] {
     animation-name: vce-o-animate--flip;
     -webkit-backface-visibility: visible;
             backface-visibility: visible;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInX-sm"] {
     animation-name: vce-o-animate--flipInX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInY-sm"] {
     animation-name: vce-o-animate--flipInY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutX-sm"] {
     animation-name: vce-o-animate--flipOutX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutY-sm"] {
     animation-name: vce-o-animate--flipOutY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedIn-sm"] {
     animation-name: vce-o-animate--lightSpeedIn;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedOut-sm"] {
     animation-name: vce-o-animate--lightSpeedOut;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-sm"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-sm"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-sm"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-sm"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-sm"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOut-sm"] {
     animation-name: vce-o-animate--bounceOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutDown-sm"] {
     animation-name: vce-o-animate--bounceOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutLeft-sm"] {
     animation-name: vce-o-animate--bounceOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutRight-sm"] {
     animation-name: vce-o-animate--bounceOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutUp-sm"] {
     animation-name: vce-o-animate--bounceOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-sm"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-sm"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-sm"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-sm"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-sm"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-sm"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-sm"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-sm"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-sm"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-sm"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-sm"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-sm"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-sm"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-sm"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOut-sm"] {
     animation-name: vce-o-animate--fadeOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDown-sm"] {
     animation-name: vce-o-animate--fadeOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDownBig-sm"] {
     animation-name: vce-o-animate--fadeOutDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeft-sm"] {
     animation-name: vce-o-animate--fadeOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeftBig-sm"] {
     animation-name: vce-o-animate--fadeOutLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRight-sm"] {
     animation-name: vce-o-animate--fadeOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRightBig-sm"] {
     animation-name: vce-o-animate--fadeOutRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUp-sm"] {
     animation-name: vce-o-animate--fadeOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUpBig-sm"] {
     animation-name: vce-o-animate--fadeOutUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-sm"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-sm"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-sm"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-sm"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-sm"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-sm"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-sm"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-sm"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-sm"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateIn-sm"] {
     animation-name: vce-o-animate--rotateIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownLeft-sm"] {
     animation-name: vce-o-animate--rotateInDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownRight-sm"] {
     animation-name: vce-o-animate--rotateInDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpLeft-sm"] {
     animation-name: vce-o-animate--rotateInUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpRight-sm"] {
     animation-name: vce-o-animate--rotateInUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOut-sm"] {
     animation-name: vce-o-animate--rotateOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownLeft-sm"] {
     animation-name: vce-o-animate--rotateOutDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownRight-sm"] {
     animation-name: vce-o-animate--rotateOutDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpLeft-sm"] {
     animation-name: vce-o-animate--rotateOutUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpRight-sm"] {
     animation-name: vce-o-animate--rotateOutUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInDown-sm"] {
     animation-name: vce-o-animate--slideInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInLeft-sm"] {
     animation-name: vce-o-animate--slideInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInRight-sm"] {
     animation-name: vce-o-animate--slideInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInUp-sm"] {
     animation-name: vce-o-animate--slideInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutDown-sm"] {
     animation-name: vce-o-animate--slideOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutLeft-sm"] {
     animation-name: vce-o-animate--slideOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutRight-sm"] {
     animation-name: vce-o-animate--slideOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutUp-sm"] {
     animation-name: vce-o-animate--slideOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--hinge-sm"] {
     animation-name: vce-o-animate--hinge;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollIn-sm"] {
     animation-name: vce-o-animate--rollIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollOut-sm"] {
     animation-name: vce-o-animate--rollOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomIn-sm"] {
     animation-name: vce-o-animate--zoomIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInDown-sm"] {
     animation-name: vce-o-animate--zoomInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInLeft-sm"] {
     animation-name: vce-o-animate--zoomInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInRight-sm"] {
     animation-name: vce-o-animate--zoomInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInUp-sm"] {
     animation-name: vce-o-animate--zoomInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOut-sm"] {
     animation-name: vce-o-animate--zoomOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutDown-sm"] {
     animation-name: vce-o-animate--zoomOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutLeft-sm"] {
     animation-name: vce-o-animate--zoomOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutRight-sm"] {
     animation-name: vce-o-animate--zoomOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-sm"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
 }
-
 @media (min-width: 768px) and (max-width: 991px) {
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounce-md"] {
     animation-name: vce-o-animate--bounce;
     -webkit-transform-origin: center bottom;
             transform-origin: center bottom;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flash-md"] {
     animation-name: vce-o-animate--flash;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--headShake-md"] {
     animation-name: vce-o-animate--headShake;
     -webkit-animation-timing-function: ease-in-out;
             animation-timing-function: ease-in-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--jello-md"] {
     animation-name: vce-o-animate--jello;
     -webkit-transform-origin: center;
             transform-origin: center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--pulse-md"] {
     animation-name: vce-o-animate--pulse;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rubberBand-md"] {
     animation-name: vce-o-animate--rubberBand;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--shake-md"] {
     animation-name: vce-o-animate--shake;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--swing-md"] {
     animation-name: vce-o-animate--swing;
     -webkit-transform-origin: top center;
             transform-origin: top center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--tada-md"] {
     animation-name: vce-o-animate--tada;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--wobble-md"] {
     animation-name: vce-o-animate--wobble;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flip-md"] {
     animation-name: vce-o-animate--flip;
     -webkit-backface-visibility: visible;
             backface-visibility: visible;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInX-md"] {
     animation-name: vce-o-animate--flipInX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInY-md"] {
     animation-name: vce-o-animate--flipInY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutX-md"] {
     animation-name: vce-o-animate--flipOutX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutY-md"] {
     animation-name: vce-o-animate--flipOutY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedIn-md"] {
     animation-name: vce-o-animate--lightSpeedIn;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedOut-md"] {
     animation-name: vce-o-animate--lightSpeedOut;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-md"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-md"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-md"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-md"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-md"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOut-md"] {
     animation-name: vce-o-animate--bounceOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutDown-md"] {
     animation-name: vce-o-animate--bounceOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutLeft-md"] {
     animation-name: vce-o-animate--bounceOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutRight-md"] {
     animation-name: vce-o-animate--bounceOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutUp-md"] {
     animation-name: vce-o-animate--bounceOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-md"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-md"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-md"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-md"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-md"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-md"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-md"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-md"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-md"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-md"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-md"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-md"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-md"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-md"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOut-md"] {
     animation-name: vce-o-animate--fadeOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDown-md"] {
     animation-name: vce-o-animate--fadeOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDownBig-md"] {
     animation-name: vce-o-animate--fadeOutDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeft-md"] {
     animation-name: vce-o-animate--fadeOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeftBig-md"] {
     animation-name: vce-o-animate--fadeOutLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRight-md"] {
     animation-name: vce-o-animate--fadeOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRightBig-md"] {
     animation-name: vce-o-animate--fadeOutRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUp-md"] {
     animation-name: vce-o-animate--fadeOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUpBig-md"] {
     animation-name: vce-o-animate--fadeOutUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-md"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-md"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-md"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-md"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-md"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-md"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-md"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-md"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-md"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateIn-md"] {
     animation-name: vce-o-animate--rotateIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownLeft-md"] {
     animation-name: vce-o-animate--rotateInDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownRight-md"] {
     animation-name: vce-o-animate--rotateInDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpLeft-md"] {
     animation-name: vce-o-animate--rotateInUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpRight-md"] {
     animation-name: vce-o-animate--rotateInUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOut-md"] {
     animation-name: vce-o-animate--rotateOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownLeft-md"] {
     animation-name: vce-o-animate--rotateOutDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownRight-md"] {
     animation-name: vce-o-animate--rotateOutDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpLeft-md"] {
     animation-name: vce-o-animate--rotateOutUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpRight-md"] {
     animation-name: vce-o-animate--rotateOutUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInDown-md"] {
     animation-name: vce-o-animate--slideInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInLeft-md"] {
     animation-name: vce-o-animate--slideInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInRight-md"] {
     animation-name: vce-o-animate--slideInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInUp-md"] {
     animation-name: vce-o-animate--slideInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutDown-md"] {
     animation-name: vce-o-animate--slideOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutLeft-md"] {
     animation-name: vce-o-animate--slideOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutRight-md"] {
     animation-name: vce-o-animate--slideOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutUp-md"] {
     animation-name: vce-o-animate--slideOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--hinge-md"] {
     animation-name: vce-o-animate--hinge;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollIn-md"] {
     animation-name: vce-o-animate--rollIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollOut-md"] {
     animation-name: vce-o-animate--rollOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomIn-md"] {
     animation-name: vce-o-animate--zoomIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInDown-md"] {
     animation-name: vce-o-animate--zoomInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInLeft-md"] {
     animation-name: vce-o-animate--zoomInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInRight-md"] {
     animation-name: vce-o-animate--zoomInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInUp-md"] {
     animation-name: vce-o-animate--zoomInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOut-md"] {
     animation-name: vce-o-animate--zoomOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutDown-md"] {
     animation-name: vce-o-animate--zoomOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutLeft-md"] {
     animation-name: vce-o-animate--zoomOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutRight-md"] {
     animation-name: vce-o-animate--zoomOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-md"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
 }
-
 @media (min-width: 992px) and (max-width: 1199px) {
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounce-lg"] {
     animation-name: vce-o-animate--bounce;
     -webkit-transform-origin: center bottom;
             transform-origin: center bottom;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flash-lg"] {
     animation-name: vce-o-animate--flash;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--headShake-lg"] {
     animation-name: vce-o-animate--headShake;
     -webkit-animation-timing-function: ease-in-out;
             animation-timing-function: ease-in-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--jello-lg"] {
     animation-name: vce-o-animate--jello;
     -webkit-transform-origin: center;
             transform-origin: center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--pulse-lg"] {
     animation-name: vce-o-animate--pulse;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rubberBand-lg"] {
     animation-name: vce-o-animate--rubberBand;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--shake-lg"] {
     animation-name: vce-o-animate--shake;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--swing-lg"] {
     animation-name: vce-o-animate--swing;
     -webkit-transform-origin: top center;
             transform-origin: top center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--tada-lg"] {
     animation-name: vce-o-animate--tada;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--wobble-lg"] {
     animation-name: vce-o-animate--wobble;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flip-lg"] {
     animation-name: vce-o-animate--flip;
     -webkit-backface-visibility: visible;
             backface-visibility: visible;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInX-lg"] {
     animation-name: vce-o-animate--flipInX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInY-lg"] {
     animation-name: vce-o-animate--flipInY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutX-lg"] {
     animation-name: vce-o-animate--flipOutX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutY-lg"] {
     animation-name: vce-o-animate--flipOutY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedIn-lg"] {
     animation-name: vce-o-animate--lightSpeedIn;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedOut-lg"] {
     animation-name: vce-o-animate--lightSpeedOut;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-lg"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-lg"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-lg"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-lg"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-lg"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOut-lg"] {
     animation-name: vce-o-animate--bounceOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutDown-lg"] {
     animation-name: vce-o-animate--bounceOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutLeft-lg"] {
     animation-name: vce-o-animate--bounceOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutRight-lg"] {
     animation-name: vce-o-animate--bounceOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutUp-lg"] {
     animation-name: vce-o-animate--bounceOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-lg"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-lg"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-lg"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-lg"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-lg"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-lg"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-lg"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-lg"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-lg"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-lg"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-lg"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-lg"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-lg"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-lg"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOut-lg"] {
     animation-name: vce-o-animate--fadeOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDown-lg"] {
     animation-name: vce-o-animate--fadeOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDownBig-lg"] {
     animation-name: vce-o-animate--fadeOutDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeft-lg"] {
     animation-name: vce-o-animate--fadeOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeftBig-lg"] {
     animation-name: vce-o-animate--fadeOutLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRight-lg"] {
     animation-name: vce-o-animate--fadeOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRightBig-lg"] {
     animation-name: vce-o-animate--fadeOutRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUp-lg"] {
     animation-name: vce-o-animate--fadeOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUpBig-lg"] {
     animation-name: vce-o-animate--fadeOutUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-lg"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-lg"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-lg"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-lg"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-lg"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-lg"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-lg"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-lg"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-lg"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateIn-lg"] {
     animation-name: vce-o-animate--rotateIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownLeft-lg"] {
     animation-name: vce-o-animate--rotateInDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownRight-lg"] {
     animation-name: vce-o-animate--rotateInDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpLeft-lg"] {
     animation-name: vce-o-animate--rotateInUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpRight-lg"] {
     animation-name: vce-o-animate--rotateInUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOut-lg"] {
     animation-name: vce-o-animate--rotateOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownLeft-lg"] {
     animation-name: vce-o-animate--rotateOutDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownRight-lg"] {
     animation-name: vce-o-animate--rotateOutDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpLeft-lg"] {
     animation-name: vce-o-animate--rotateOutUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpRight-lg"] {
     animation-name: vce-o-animate--rotateOutUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInDown-lg"] {
     animation-name: vce-o-animate--slideInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInLeft-lg"] {
     animation-name: vce-o-animate--slideInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInRight-lg"] {
     animation-name: vce-o-animate--slideInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInUp-lg"] {
     animation-name: vce-o-animate--slideInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutDown-lg"] {
     animation-name: vce-o-animate--slideOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutLeft-lg"] {
     animation-name: vce-o-animate--slideOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutRight-lg"] {
     animation-name: vce-o-animate--slideOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutUp-lg"] {
     animation-name: vce-o-animate--slideOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--hinge-lg"] {
     animation-name: vce-o-animate--hinge;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollIn-lg"] {
     animation-name: vce-o-animate--rollIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollOut-lg"] {
     animation-name: vce-o-animate--rollOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomIn-lg"] {
     animation-name: vce-o-animate--zoomIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInDown-lg"] {
     animation-name: vce-o-animate--zoomInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInLeft-lg"] {
     animation-name: vce-o-animate--zoomInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInRight-lg"] {
     animation-name: vce-o-animate--zoomInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInUp-lg"] {
     animation-name: vce-o-animate--zoomInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOut-lg"] {
     animation-name: vce-o-animate--zoomOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutDown-lg"] {
     animation-name: vce-o-animate--zoomOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutLeft-lg"] {
     animation-name: vce-o-animate--zoomOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutRight-lg"] {
     animation-name: vce-o-animate--zoomOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-lg"] {
     animation-name: vce-o-animate--zoomOutUp;
   }
 }
-
 @media (min-width: 1200px) {
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounce-xl"] {
     animation-name: vce-o-animate--bounce;
     -webkit-transform-origin: center bottom;
             transform-origin: center bottom;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flash-xl"] {
     animation-name: vce-o-animate--flash;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--headShake-xl"] {
     animation-name: vce-o-animate--headShake;
     -webkit-animation-timing-function: ease-in-out;
             animation-timing-function: ease-in-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--jello-xl"] {
     animation-name: vce-o-animate--jello;
     -webkit-transform-origin: center;
             transform-origin: center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--pulse-xl"] {
     animation-name: vce-o-animate--pulse;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rubberBand-xl"] {
     animation-name: vce-o-animate--rubberBand;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--shake-xl"] {
     animation-name: vce-o-animate--shake;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--swing-xl"] {
     animation-name: vce-o-animate--swing;
     -webkit-transform-origin: top center;
             transform-origin: top center;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--tada-xl"] {
     animation-name: vce-o-animate--tada;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--wobble-xl"] {
     animation-name: vce-o-animate--wobble;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flip-xl"] {
     animation-name: vce-o-animate--flip;
     -webkit-backface-visibility: visible;
             backface-visibility: visible;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInX-xl"] {
     animation-name: vce-o-animate--flipInX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipInY-xl"] {
     animation-name: vce-o-animate--flipInY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutX-xl"] {
     animation-name: vce-o-animate--flipOutX;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--flipOutY-xl"] {
     animation-name: vce-o-animate--flipOutY;
     -webkit-backface-visibility: visible !important;
             backface-visibility: visible !important;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedIn-xl"] {
     animation-name: vce-o-animate--lightSpeedIn;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--lightSpeedOut-xl"] {
     animation-name: vce-o-animate--lightSpeedOut;
     -webkit-animation-timing-function: ease-out;
             animation-timing-function: ease-out;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-xl"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-xl"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-xl"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-xl"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-xl"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOut-xl"] {
     animation-name: vce-o-animate--bounceOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutDown-xl"] {
     animation-name: vce-o-animate--bounceOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutLeft-xl"] {
     animation-name: vce-o-animate--bounceOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutRight-xl"] {
     animation-name: vce-o-animate--bounceOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceOutUp-xl"] {
     animation-name: vce-o-animate--bounceOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceIn-xl"] {
     animation-name: vce-o-animate--bounceIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInDown-xl"] {
     animation-name: vce-o-animate--bounceInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInLeft-xl"] {
     animation-name: vce-o-animate--bounceInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInRight-xl"] {
     animation-name: vce-o-animate--bounceInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--bounceInUp-xl"] {
     animation-name: vce-o-animate--bounceInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-xl"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-xl"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-xl"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-xl"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-xl"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-xl"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-xl"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-xl"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-xl"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOut-xl"] {
     animation-name: vce-o-animate--fadeOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDown-xl"] {
     animation-name: vce-o-animate--fadeOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutDownBig-xl"] {
     animation-name: vce-o-animate--fadeOutDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeft-xl"] {
     animation-name: vce-o-animate--fadeOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutLeftBig-xl"] {
     animation-name: vce-o-animate--fadeOutLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRight-xl"] {
     animation-name: vce-o-animate--fadeOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutRightBig-xl"] {
     animation-name: vce-o-animate--fadeOutRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUp-xl"] {
     animation-name: vce-o-animate--fadeOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeOutUpBig-xl"] {
     animation-name: vce-o-animate--fadeOutUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeIn-xl"] {
     animation-name: vce-o-animate--fadeIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDown-xl"] {
     animation-name: vce-o-animate--fadeInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInDownBig-xl"] {
     animation-name: vce-o-animate--fadeInDownBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeft-xl"] {
     animation-name: vce-o-animate--fadeInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInLeftBig-xl"] {
     animation-name: vce-o-animate--fadeInLeftBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRight-xl"] {
     animation-name: vce-o-animate--fadeInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInRightBig-xl"] {
     animation-name: vce-o-animate--fadeInRightBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUp-xl"] {
     animation-name: vce-o-animate--fadeInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--fadeInUpBig-xl"] {
     animation-name: vce-o-animate--fadeInUpBig;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateIn-xl"] {
     animation-name: vce-o-animate--rotateIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownLeft-xl"] {
     animation-name: vce-o-animate--rotateInDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInDownRight-xl"] {
     animation-name: vce-o-animate--rotateInDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpLeft-xl"] {
     animation-name: vce-o-animate--rotateInUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateInUpRight-xl"] {
     animation-name: vce-o-animate--rotateInUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOut-xl"] {
     animation-name: vce-o-animate--rotateOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownLeft-xl"] {
     animation-name: vce-o-animate--rotateOutDownLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutDownRight-xl"] {
     animation-name: vce-o-animate--rotateOutDownRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpLeft-xl"] {
     animation-name: vce-o-animate--rotateOutUpLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rotateOutUpRight-xl"] {
     animation-name: vce-o-animate--rotateOutUpRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInDown-xl"] {
     animation-name: vce-o-animate--slideInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInLeft-xl"] {
     animation-name: vce-o-animate--slideInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInRight-xl"] {
     animation-name: vce-o-animate--slideInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideInUp-xl"] {
     animation-name: vce-o-animate--slideInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutDown-xl"] {
     animation-name: vce-o-animate--slideOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutLeft-xl"] {
     animation-name: vce-o-animate--slideOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutRight-xl"] {
     animation-name: vce-o-animate--slideOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--slideOutUp-xl"] {
     animation-name: vce-o-animate--slideOutUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--hinge-xl"] {
     animation-name: vce-o-animate--hinge;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollIn-xl"] {
     animation-name: vce-o-animate--rollIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--rollOut-xl"] {
     animation-name: vce-o-animate--rollOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomIn-xl"] {
     animation-name: vce-o-animate--zoomIn;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInDown-xl"] {
     animation-name: vce-o-animate--zoomInDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInLeft-xl"] {
     animation-name: vce-o-animate--zoomInLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInRight-xl"] {
     animation-name: vce-o-animate--zoomInRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomInUp-xl"] {
     animation-name: vce-o-animate--zoomInUp;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOut-xl"] {
     animation-name: vce-o-animate--zoomOut;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutDown-xl"] {
     animation-name: vce-o-animate--zoomOutDown;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutLeft-xl"] {
     animation-name: vce-o-animate--zoomOutLeft;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutRight-xl"] {
     animation-name: vce-o-animate--zoomOutRight;
   }
-
   [data-vcv-o-animated="true"][data-vce-animate*="vce-o-animate--zoomOutUp-xl"] {
     animation-name: vce-o-animate--zoomOutUp;
   }

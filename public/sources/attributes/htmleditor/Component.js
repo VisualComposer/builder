@@ -1,7 +1,7 @@
 import React from 'react'
 import HtmlEditor from './htmleditor'
 import Attribute from '../attribute'
-import DynamicAttribute from '../dynamicAttribute'
+import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import classNames from 'classnames'
 import { env, getService } from 'vc-cake'
 

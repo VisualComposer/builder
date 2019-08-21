@@ -488,6 +488,10 @@ class Localizations extends Container implements Helper
                 'Insert dynamic content',
                 'vcwb'
             ),
+            'dynamicFieldsEditText' => __(
+                'Edit dynamic content',
+                'vcwb'
+            ),
             'dynamicFieldsCloseText' => __(
                 'Remove dynamic content',
                 'vcwb'
@@ -504,8 +508,16 @@ class Localizations extends Container implements Helper
                 'Set custom post source',
                 'vcwb'
             ),
-            'dynamicTypeDescription' => __(
-                'Select data source for dynamic content.',
+            'dynamicSelectCustomField' => __(
+                'Select custom field',
+                'vcwb'
+            ),
+            'dynamicContent' => __(
+                'Dynamic Content',
+                'vcwb'
+            ),
+            'noValueSet' => __(
+                'No value set',
                 'vcwb'
             ),
         ];

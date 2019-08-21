@@ -1073,7 +1073,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       allowedBackgroundTypes.indexOf(backgroundTypeToSearch) === -1) {
       return null
     }
-    let value = this.state.devices[ this.state.currentDevice ].images || {}
+    let value = this.state.devices[ this.state.currentDevice ].images || ''
 
     const fieldKey = 'attachImage'
     let fieldComponent = <AttachImage
