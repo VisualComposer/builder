@@ -90,7 +90,7 @@ export default class DynamicPopup extends React.Component {
       state.dataLoaded = false
       state.postFields = {}
       window.setTimeout(() => {
-        settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields, function (error) {
+        settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields, (error) => {
           console.warn('Error loading dynamic post info', error)
           this.onLoadPostFields(this.state.sourceId, {}, {})
         })
@@ -192,6 +192,10 @@ export default class DynamicPopup extends React.Component {
   }
 
   save () {
+    if (!this.props.dynamicFieldOpened && this.state.currentPostField) {
+      this.props.open()
+    }
+
     if (this.state.currentPostField) {
       this.props.save(this.state.currentPostField, this.state.sourceId, this.state.showAutocomplete)
     }
