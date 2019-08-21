@@ -56,8 +56,8 @@
     "url-loader": "2.1.0",
     "vc-webpack-vendors": "1.1.0",
     "virtual-module-webpack-plugin": "0.4.1",
-    "webpack": "4.39.2",
-    "webpack-cli": "3.3.7"
+    "webpack": "4.29.6",
+    "webpack-cli": "3.2.3"
   },
   "dependencies": {
     "autoprefixer": "9.6.1",
