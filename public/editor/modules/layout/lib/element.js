@@ -5,7 +5,7 @@ import ContentControls from 'public/components/layoutHelpers/contentControls/com
 import ContentEditableComponent from 'public/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
-import { isEqual } from 'lodash'
+import { isEqual, defer } from 'lodash'
 import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
@@ -57,9 +57,9 @@ export default class Element extends React.Component {
       let cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
     }
-    window.setTimeout(() => {
+    defer(() => {
       assetsStorage.trigger('addElement', this.state.element.id)
-    }, 0)
+    })
   }
 
   componentWillUnmount () {
@@ -94,7 +94,17 @@ export default class Element extends React.Component {
   }
 
   cssJobsUpdate (data) {
-    this.setState({ isRendered: true })
+    let elementJob = data.elements.find(element => element.id === this.state.element.id)
+    if (!elementJob) {
+      console.warn('Failed to find element', data, this.state.element)
+      return
+    }
+    if (this.state.cssBuildingProcess !== elementJob.jobs) {
+      this.setState({ cssBuildingProcess: elementJob.jobs })
+    }
+    if (!this.state.cssBuildingProcess && !elementJob.jobs && !this.state.isRendered) {
+      this.setState({ isRendered: true })
+    }
   }
 
   elementComponentTransformation (data) {
