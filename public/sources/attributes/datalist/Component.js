@@ -8,14 +8,16 @@ export default class Datalist extends Attribute {
 
   selectChildren = null
 
-  componentWillReceiveProps (nextProps) {
-    super.componentWillReceiveProps(nextProps)
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    super.UNSAFE_componentWillReceiveProps(nextProps)
     this.generateSelectChildren(nextProps)
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.generateSelectChildren(this.props)
   }
+  /* eslint-enable */
 
   createOptions (key, values, fieldKey) {
     let value = values[ key ].value

@@ -41,12 +41,14 @@ export default class Element extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (!isEqual(this.state.element, nextProps.element)) {
       assetsStorage.trigger('updateElement', this.state.element.id)
     }
     this.setState({ element: nextProps.element })
   }
+  /* eslint-enable */
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
