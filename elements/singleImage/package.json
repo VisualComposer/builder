@@ -20,7 +20,7 @@
     "npm": ">=5.8"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "2.0.0"
+    "vc-webpack-vendors": "2.0.1"
   },
   "babel": {
     "presets": [
