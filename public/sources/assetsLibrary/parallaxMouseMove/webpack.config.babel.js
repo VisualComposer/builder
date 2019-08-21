@@ -54,9 +54,7 @@ module.exports = {
           use: [ 'css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer')({
-                browsers: [ 'ie >= 11', 'last 2 version' ]
-              }) ]
+              plugins: () => [ require('autoprefixer')() ]
             }
           }, 'less-loader' ]
         })
@@ -68,9 +66,7 @@ module.exports = {
           use: [ 'css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer')({
-                browsers: [ 'ie >= 11', 'last 2 version' ]
-              }) ]
+              plugins: () => [ require('autoprefixer')() ]
             }
           }, 'less-loader' ]
         })

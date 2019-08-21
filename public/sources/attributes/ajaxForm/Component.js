@@ -26,10 +26,12 @@ export default class AjaxForm extends Attribute {
     this.requestToServer()
   }
 
-  componentWillReceiveProps (nextProps) {
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
     // Intentionally left blank
     // TODO: Possibly remove this hook in Attributes.js
   }
+  /* eslint-enable */
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.formStatus && this.fieldContainer && !this.state.formBound) {

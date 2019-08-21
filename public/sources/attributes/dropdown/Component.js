@@ -21,14 +21,16 @@ export default class Dropdown extends Attribute {
 
   selectChildren = null
 
-  componentWillReceiveProps (nextProps) {
-    super.componentWillReceiveProps(nextProps)
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    super.UNSAFE_componentWillReceiveProps(nextProps)
     this.generateSelectChildren(nextProps)
   }
 
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     this.generateSelectChildren(this.props)
   }
+  /* eslint-enable */
 
   createGroup (key, groupObject, fieldKey) {
     let optionElements = []
