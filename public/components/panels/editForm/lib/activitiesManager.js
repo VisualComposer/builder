@@ -23,13 +23,15 @@ export default class ActivitiesManager extends React.Component {
     this.listeners = this.initListeners(this.props.elementAccessPoint.cook(), props)
   }
 
-  componentWillUpdate (nextProps) {
+  /* eslint-disable */
+  UNSAFE_componentWillUpdate (nextProps) {
     this.mount = {}
     this.stack = {}
     this.mountStack = {}
     this.initialStack = {}
     this.listeners = this.initListeners(nextProps.elementAccessPoint.cook(), nextProps)
   }
+  /* eslint-enable */
 
   initListeners (cookElement, props = false) {
     let listeners = []

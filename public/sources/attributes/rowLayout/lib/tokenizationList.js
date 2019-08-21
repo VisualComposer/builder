@@ -58,9 +58,11 @@ export default class TokenizationList extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({ value: nextProps.value })
   }
+  /* eslint-enable */
 
   componentWillUnmount () {
     if (this.keydownTimeout) {
