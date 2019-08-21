@@ -1,0 +1,1775 @@
+# Translation of Visual Composer Website Builder in Bulgarian
+# This file is distributed under the same license as the Visual Composer Website Builder package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-08-18 06:13:32+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/2.3.1\n"
+"Language: bg\n"
+"Project-Id-Version: Visual Composer Website Builder\n"
+
+#: Helpers/Localizations.php:492
+msgid "Remove dynamic content"
+msgstr "Премахване на динамичното съдържание"
+
+#: Helpers/Localizations.php:508
+msgid "Select data source for dynamic content."
+msgstr "Задайте източник за потребителска публикация"
+
+#: Helpers/Localizations.php:504
+msgid "Set custom post source"
+msgstr "По подразбиране, динамичното съдържание е заето от последната публикация."
+
+#: Helpers/Localizations.php:500
+msgid "By default, dynamic content is taken from the current post."
+msgstr "По подразбиране, динамичното съдържание е заето от съществуващата публикация."
+
+#: Helpers/Localizations.php:496
+msgid "Select page, post, or custom post type."
+msgstr "Изберете страница, публикация, или потребителски тип на публикация."
+
+#: Helpers/Localizations.php:488
+msgid "Insert dynamic content"
+msgstr "Добавяне на динамично съдържание"
+
+#: Modules/Vendors/WooCommerceController.php:62
+msgid "Woocommerce Product Category"
+msgstr "Woocommerce продуктова категория"
+
+#: Modules/Settings/Pages/SystemStatus.php:155
+msgid "Post max size should be %sM, currently it is %s"
+msgstr "Post max size трябва да е %sM, в момента е %s"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:131
+msgid "Unknown image provider!"
+msgstr "Непознат доставчик на снимки!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:128
+msgid "Unknown image format!"
+msgstr "Непознат формат за изображения!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:122
+msgid "Failed to download image, make sure that your upload folder is writable and please try again!"
+msgstr "Грешка при сваляне на изображения, уверете се, че папката за качване е с права за писане и моля опитайте отново!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:115
+msgid "Wrong image extension."
+msgstr "Грешно разширение за изображение."
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:81
+msgid "No access, please check your license and make sure your capabilities allow to upload files!"
+msgstr "Няма достъп, моля проверете Вашият лиценз и се уверете, че Вашите с възможности можете да качите файлове!"
+
+#: Modules/Hub/Unsplash/UnsplashDownloadController.php:76
+msgid "Failed to get the image id, please try again!"
+msgstr "Провалено е взимането на ID на изображението, моля опитайте отново!"
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:87
+#: Modules/Editors/DataAjax/PostFieldsController.php:101
+#: Modules/Editors/DataAjax/PostFieldsController.php:115
+msgid "Custom Meta Field"
+msgstr "Потребителско Мета поле"
+
+#: Helpers/Localizations.php:484
+msgid "Enjoy Visual Composer Website Builder? Let your friends know about it - spread the word."
+msgstr "Наслаждавате ли се на Visual Composer строител на уебсайтове? Помогнете на Вашите приятели да узнаят за него - съберете света."
+
+#: Helpers/Localizations.php:480
+msgid "Permalink"
+msgstr "Постоянни връзки"
+
+#: Helpers/Localizations.php:476
+msgid "Download images from Unsplash to your Media Library"
+msgstr "Свалете изображения от Unsplash във Вашата медийна библиотека"
+
+#: Helpers/Localizations.php:472
+msgid "images"
+msgstr "Изображения"
+
+#: Helpers/Localizations.php:468
+msgid "Large"
+msgstr "Голям"
+
+#: Helpers/Localizations.php:464
+msgid "Medium"
+msgstr "Среден"
+
+#: Helpers/Localizations.php:460
+msgid "Small"
+msgstr "Малък"
+
+#: Helpers/Localizations.php:456
+msgid "Could not parse data from server!"
+msgstr "Не може да се извлекат данни от сървъра!"
+
+#: Helpers/Localizations.php:452
+msgid "Image has been downloaded to your Media Library."
+msgstr "Изображението беше свалено във Вашата медийна библиотека."
+
+#: Helpers/Localizations.php:448
+msgid "Could not connect to Unsplash Server!"
+msgstr "Не може да се свържете със сървъра на Unsplash!"
+
+#: Helpers/Localizations.php:444
+msgid "No access, please check your license!"
+msgstr "Няма достъп, моля проверете Вашият лиценз!"
+
+#: Helpers/Localizations.php:440
+msgid "Download and Add Free Beautiful Photos to Your Site"
+msgstr "Свалете и добавете безплатни хубави снимки на Вашият сайт"
+
+#: Helpers/Localizations.php:436
+msgid "Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium"
+msgstr "Свалете и добавете безплатно хубави снимки на Вашият сайт с Visual Composer Премиум"
+
+#: Helpers/Localizations.php:432
+msgid "Search free high-resolution photos on Unsplash"
+msgstr "Търсене на безплатни снимки с висока резолюция на Unsplash"
+
+#: Helpers/Localizations.php:98
+msgid "Page title"
+msgstr "Заглавие на страница"
+
+#: Helpers/Localizations.php:90
+msgid "Layout and Start Building"
+msgstr "Оформление и започване на строене"
+
+#: Helpers/Localizations.php:89
+msgid "Name Your Page, Select"
+msgstr "Задайте име на Вашата страница, Изберете"
+
+#: Helpers/EditorTemplates.php:181
+msgid "Select your template"
+msgstr "Изберете Вашият шаблон"
+
+#: resources/views/settings/pages/system-status.php:309
+msgid "Ability to send large data. In case if failed - adjust your php.ini file to increase memory_limit, post_max_size and execution time."
+msgstr "Възможност за изпращане на големи данни. В случай, че е провалено - настройте Вашият php.ini файл за увеличаване на memory_limit, post_max_size и execution time."
+
+#: resources/views/settings/pages/system-status.php:304
+msgid "Large Data Transfer"
+msgstr "Голям трансфер на данни"
+
+#: resources/views/settings/pages/system-status.php:298
+msgid "The connection with the AWS"
+msgstr "Връзката с AWS"
+
+#: resources/views/settings/pages/system-status.php:294
+msgid "AWS"
+msgstr "AWS"
+
+#: resources/views/settings/pages/system-status.php:288
+msgid "Connection with the Account"
+msgstr "Връзка с акаунта"
+
+#: resources/views/settings/pages/system-status.php:284
+msgid "Account"
+msgstr "Акаунт"
+
+#: resources/views/settings/pages/system-status.php:279
+msgid "Connections"
+msgstr "Връзки"
+
+#: resources/views/settings/pages/system-status.php:268
+msgid "The version of cURL installed on your server"
+msgstr "Версията на cURL инсталирано на Вашият сървър"
+
+#: resources/views/settings/pages/system-status.php:264
+msgid "Curl Extension"
+msgstr "Curl Разширение"
+
+#: resources/views/settings/pages/system-status.php:258
+msgid "The Zip Extension should be enabled on your server"
+msgstr "Zip разширението трябва да е разрешено на Вашият сървър"
+
+#: resources/views/settings/pages/system-status.php:254
+msgid "Zip Extension"
+msgstr "Zip разширение"
+
+#: resources/views/settings/pages/system-status.php:249
+msgid "Extensions"
+msgstr "Разширения"
+
+#: resources/views/settings/pages/system-status.php:238
+msgid "The File System method should be direct"
+msgstr "Методът на файловата система трябва да бъде директен"
+
+#: resources/views/settings/pages/system-status.php:234
+msgid "File System Method"
+msgstr "Метод на файловата система"
+
+#: resources/views/settings/pages/system-status.php:226
+msgid "Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen."
+msgstr "Visual Composer запазва активите в WordPress директорията за качване. Директорията трябва да има права за писане за да може това да се случи."
+
+#: resources/views/settings/pages/system-status.php:221
+msgid "Access to Uploads Directory"
+msgstr "Достъп до всички директирии за качване"
+
+#: resources/views/settings/pages/system-status.php:213
+msgid "The largest filesize that can be uploaded to your WordPress installation"
+msgstr "Най-големият размер на файлове, който може да бъде качен на Вашата WordPress инсталация"
+
+#: resources/views/settings/pages/system-status.php:208
+msgid "Upload Max Filesize"
+msgstr "Upload Max Filesize"
+
+#: resources/views/settings/pages/system-status.php:202
+msgid "Amount of max execution time"
+msgstr "Размер на максималното време за изпълнение"
+
+#: resources/views/settings/pages/system-status.php:198
+msgid "Timeout"
+msgstr "Таймаут"
+
+#: resources/views/settings/pages/system-status.php:190
+msgid "How many input variables may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately)"
+msgstr "Колко входни променливи могат да бъдат приети (лимитът е приложен към $_GET, $_POST и $_COOKIE суперглобално отделно)"
+
+#: resources/views/settings/pages/system-status.php:185
+msgid "Max Input Vars"
+msgstr "Max Input Vars"
+
+#: resources/views/settings/pages/system-status.php:177
+msgid "Sets the max nesting depth of input variables (i.e. $_GET, $_POST.)"
+msgstr "Задава максималната дълбочина на влагане на входните променливи (напр. $_GET, $_POST.)"
+
+#: resources/views/settings/pages/system-status.php:172
+msgid "Max Input Nesting Level"
+msgstr "Max Input Nesting Level"
+
+#: resources/views/settings/pages/system-status.php:164
+msgid "Sets max size of post data allowed. This setting also affects file upload."
+msgstr "Задава максимум размер на позволените публикувани данни. Тази настройка също афектира на качването на файлове."
+
+#: resources/views/settings/pages/system-status.php:159
+msgid "Post Max Size"
+msgstr "Post Max Size"
+
+#: resources/views/settings/pages/system-status.php:151
+msgid "The maximum amout of memory (RAM) that your site can use at one time"
+msgstr "Максимума размер на памет (RAM) която Вашият сайт може да използва едновременно"
+
+#: resources/views/settings/pages/system-status.php:146
+msgid "Memory Limit"
+msgstr "Memory Limit"
+
+#: resources/views/settings/pages/system-status.php:141
+msgid "Configurations"
+msgstr "Конфигурации"
+
+#: resources/views/settings/pages/system-status.php:126
+msgid "There is a new version of Visual Composer Website Builder available."
+msgstr "Има нова достъпна версия на Visual Composer Уебсайт строителя."
+
+#: resources/views/settings/pages/system-status.php:113
+msgid "The version of Visual Composer installed on your site"
+msgstr "Версията на Visual Composer инсталирана на Вашият сайт"
+
+#: resources/views/settings/pages/system-status.php:110
+msgid "Visual Composer Version"
+msgstr "Visual Composer Версия"
+
+#: resources/views/settings/pages/system-status.php:104
+msgid "Displays whether of not WordPress is in Debug Mode"
+msgstr "Показва дали или не WordPress е в Режим на Дебъг"
+
+#: resources/views/settings/pages/system-status.php:100
+msgid "WP_DEBUG"
+msgstr "WP_DEBUG"
+
+#: resources/views/settings/pages/system-status.php:94
+msgid "The version of PHP installed on your hosting server"
+msgstr "Версията на PHP инсталирана на Вашият хостинг сървър"
+
+#: resources/views/settings/pages/system-status.php:90
+msgid "PHP Version"
+msgstr "PHP версия"
+
+#: resources/views/settings/pages/system-status.php:84
+msgid "The version of WordPress installed on your site"
+msgstr "Версията на WordPress инсталирана на Вашият сайт"
+
+#: resources/views/settings/pages/system-status.php:80
+msgid "WordPress Version"
+msgstr "WordPress Версия"
+
+#: resources/views/settings/pages/system-status.php:75
+msgid "WordPress environment"
+msgstr "WordPress среда"
+
+#: resources/views/settings/pages/system-status.php:28
+msgid "Refresh"
+msgstr "Обновяване"
+
+#: resources/views/settings/pages/system-status.php:27
+msgid "Check system status and WordPress configuration for compliance with Visual Composer requirements."
+msgstr "Проверете системният статус и WordPress конфигурацията за съгласия с Visual Composer изискванията."
+
+#: Modules/Vendors/WpbakeryController.php:338
+msgid "Visual Composer Hub access to download migration add-on - Free or Premium"
+msgstr "Visual Composer Хъб достъп за сваляне на добавката за миграция - Безплатно или Премиум"
+
+#: Modules/Vendors/WpbakeryController.php:335
+msgid "please update"
+msgstr "моля обновете"
+
+#: Modules/Vendors/WpbakeryController.php:332
+msgid "WPBakery Page Builder version is 5.0 or newer - your version is %s"
+msgstr "WPBakery Строител на страници версия 5 или по-нова - Вашата версия е %s"
+
+#: Modules/Vendors/WpbakeryController.php:329
+msgid "WPBakery Page Builder version is 5.0 or newer"
+msgstr "WPBakery Строител на страници версия 5 или по-нова"
+
+#: Modules/Vendors/WpbakeryController.php:143
+msgid "Parent WPB attrs:"
+msgstr "Родителски WPB attrs:"
+
+#: Modules/Vendors/WpbakeryController.php:142
+msgid "Search WPB attrs"
+msgstr "Търсене на WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:141
+msgid "All WPB attrs"
+msgstr "Всички WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:140
+msgid "View WPB attr"
+msgstr "Преглед на WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:139
+msgid "Edit WPB attr"
+msgstr "Редактиране на WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:138
+msgid "New WPB attr"
+msgstr "Нов WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:137
+msgid "Add New WPB attr"
+msgstr "Добавяне на нов WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:133
+#: Modules/Vendors/WpbakeryController.php:135
+msgid "WPB attr"
+msgstr "WPB attr"
+
+#: Modules/Vendors/WpbakeryController.php:132
+#: Modules/Vendors/WpbakeryController.php:134
+msgid "WPB attrs"
+msgstr "WPB attrs"
+
+#: Modules/Vendors/WooCommerceController.php:66
+msgid "Woocommerce Terms"
+msgstr "Woocommerce Правила за ползване"
+
+#: Modules/Vendors/WooCommerceController.php:58
+msgid "Woocommerce My Account"
+msgstr "Woocommerce Моят акаунт"
+
+#: Modules/Vendors/WooCommerceController.php:54
+msgid "Woocommerce Checkout"
+msgstr "Woocommerce Плащане"
+
+#: Modules/Vendors/WooCommerceController.php:50
+msgid "Woocommerce Cart"
+msgstr "Woocommerce Количка"
+
+#: Modules/Vendors/WooCommerceController.php:46
+msgid "Woocommerce Shop"
+msgstr "Woocommerce Магазин"
+
+#: Modules/Settings/Pages/SystemStatus.php:352
+msgid "It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href=\"%s\">system status</a> page."
+msgstr "ИЗглежда, че имате проблем с конфигурацията на Вашият сървър което афектира на Visual Composer. За повече детайли, моля посетете <a href=\"%s\">system status</a> страница."
+
+#: Modules/Settings/Pages/SystemStatus.php:329
+#: resources/views/settings/pages/system-status.php:25
+msgid "System status"
+msgstr "Системно състояние"
+
+#: Modules/Settings/Pages/SystemStatus.php:271
+msgid "Connection with Account was unsuccessful"
+msgstr "Свързаността с Акаунта беше успешна"
+
+#: Modules/Settings/Pages/SystemStatus.php:263
+msgid "Connection with AWS was unsuccessful"
+msgstr "Свързаността с AWS беше успешна"
+
+#: Modules/Settings/Pages/SystemStatus.php:263
+#: Modules/Settings/Pages/SystemStatus.php:271
+msgid "Success"
+msgstr "Успех"
+
+#: Modules/Settings/Pages/SystemStatus.php:255
+msgid "Curl extension is not installed"
+msgstr "Curl разширението не е инсталирано"
+
+#: Modules/Settings/Pages/SystemStatus.php:247
+msgid "Zip extension is not installed"
+msgstr "Zip разширението не е инсталирано"
+
+#: Modules/Settings/Pages/SystemStatus.php:247
+msgid "Enabled"
+msgstr "Разрешено"
+
+#: Modules/Settings/Pages/SystemStatus.php:239
+msgid "FS_METHOD should be direct"
+msgstr "FS_METHOD трябва да е директен"
+
+#: Modules/Settings/Pages/SystemStatus.php:239
+msgid "Direct"
+msgstr "Директно"
+
+#: Modules/Settings/Pages/SystemStatus.php:231
+msgid "Uploads directory is not writable"
+msgstr "Директорията за качване не е с права за писане"
+
+#: Modules/Settings/Pages/SystemStatus.php:231
+msgid "Writable"
+msgstr "С права за писане"
+
+#: Modules/Settings/Pages/SystemStatus.php:223
+msgid "File max upload size should be %sM, currently it is %s"
+msgstr "File max upload size трябва да е %sM, в момента е %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:214
+msgid "Max execution time should be %sS, currently it is %sS"
+msgstr "Max execution time трябва да е %sS, в момента е %sS"
+
+#: Modules/Settings/Pages/SystemStatus.php:205
+msgid "max_input_vars should be %s, currently it is %s"
+msgstr "max_input_vars трябва да е %s, в момента е %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:194
+msgid "max_input_nesting_level should be %s, currently it is %s"
+msgstr "max_input_nesting_level трябва да бъде %s, в момента е %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:183
+msgid "post_max_size limit should be %sM, currently it is %s"
+msgstr "post_max_size лимита трябва да бъде %sM, в момента е %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:169
+msgid "Memory limit should be %sM, currently it is %s"
+msgstr "Memory limit трябва да е %sM, в момента е %s"
+
+#: Modules/Settings/Pages/SystemStatus.php:152
+#: Modules/Settings/Pages/SystemStatus.php:166
+#: Modules/Settings/Pages/SystemStatus.php:180
+msgid "Unlimited"
+msgstr "Безлимитно"
+
+#: Modules/Settings/Pages/SystemStatus.php:141
+msgid "WP_DEBUG is TRUE"
+msgstr "WP_DEBUG е TRUE"
+
+#: Modules/Settings/Pages/SystemStatus.php:141
+msgid "WP_DEBUG is FALSE"
+msgstr "WP_DEBUG е FALSE"
+
+#: Modules/Settings/Pages/SystemStatus.php:132
+msgid "WordPress version %s or greater"
+msgstr "WordPress версия %s или по-висока"
+
+#: Modules/Settings/Pages/SystemStatus.php:124
+msgid "PHP version %s or greater (recommended 7 or greater)"
+msgstr "PHP версия %s или по-висока (препоръчителна 7 или по-висока)"
+
+#: Modules/Settings/Pages/SystemStatus.php:85
+msgid "System Status"
+msgstr "Системно състояние"
+
+#: Modules/Settings/Pages/CssJsSettings.php:66
+#: Modules/Settings/Pages/CssJsSettings.php:112
+msgid "CSS, HTML & JavaScript"
+msgstr "CSS, HTML & JavaScript"
+
+#: Modules/Settings/Fields/JsEditor.php:68
+msgid "Custom HTML and JavaScript"
+msgstr "Потребителски HTML и JavaScript"
+
+#: Modules/Settings/Fields/JsEditor.php:60
+msgid "Add custom HTML or JavaScript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr "Добавете потребителски HTML или JavaScript код за да го вмъкнете глобално на всяка страница в <header> и <footer>. Вмъкнете Google Analytics, Tag Manager, Kissmetrics или други JavaScript откъси от код."
+
+#: Modules/Settings/Fields/CssEditor.php:59
+msgid "Add custom CSS code to insert it globally on every page."
+msgstr "Добавяне на потребителски CSS код за вмъкването му глобално на всяка страница."
+
+#: Helpers/Localizations.php:424
+msgid "Copy your shortcode here with all the correct parameters. The shortcode must be installed on your WordPress site via plugin or theme."
+msgstr "Копирайте Вашият кратък код тук с всичките коректни параметри. Краткия код трябва да бъде инсталиран на Вашият WordPRess сайт чрез плъгин или тема."
+
+#: Helpers/Localizations.php:420
+msgid "Shortcode"
+msgstr "Кратък код"
+
+#: Helpers/Localizations.php:416
+msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters."
+msgstr "WPBakery елемнтът се показва като кратък код. Настройте параметрите на краткия код."
+
+#: Helpers/Localizations.php:412 Modules/Vendors/WpbakeryController.php:341
+msgid "Unlock Visual Composer Hub"
+msgstr "Отключете Visual Composer Хъба"
+
+#: Helpers/Localizations.php:408
+msgid "WPBakery element"
+msgstr "WPBakery елемент"
+
+#: Helpers/Localizations.php:404
+msgid "WPBakery element structure"
+msgstr "WPBakery структура на елементи"
+
+#: Helpers/Localizations.php:400
+msgid "Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements."
+msgstr "Комплексни структури на елементи (напр. раздели със съдържание) са представяни с дървовиден изглед. Използвайте дървовидния изглед за да достъпите и редактирате индивидуални елементи."
+
+#: Helpers/Localizations.php:396
+msgid "View WPBakery element/s as shortcodes"
+msgstr "Прегледайте WPBakery елемент/и като кратки кодове"
+
+#: Helpers/Localizations.php:392
+msgid "WPBakery plugin and migration addon is required to use this attribute"
+msgstr "WPBakery плъгин и миграция добавки са задължителни за да се използва този атрибут"
+
+#: Helpers/Localizations.php:388
+msgid "Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin."
+msgstr "Не успешно зареждане на WPBakery формата за редактиране, моля проверете страницата на плъгина WPBakery строител."
+
+#: Helpers/Localizations.php:384
+msgid "WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing."
+msgstr "WPBakery елементът се показва като кратък код. Нагласете параметрите на кратките кодове или отворете WPBakery формата за редактиране за по-лесно редактиране."
+
+#: Helpers/Localizations.php:382
+msgid "Open Edit Form"
+msgstr "Отваряне на редактиране на формата"
+
+#: Helpers/Localizations.php:379
+msgid "Add custom JavaScript code to insert it globally on every page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr "Добавете потребителски JavaScript код за да го вмъкнете глобално на всяка страница в <header> или <footer>. Вмъкнете Google Analytics, Tag Manager, Kissmetrics или други JavaScript откъси от кодове."
+
+#: Helpers/Localizations.php:375
+msgid "Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets."
+msgstr "Добавете потребителски JavaScript код за да го вмъкнете локално в тази страница и <header> или <footer>. Вмъкнете Google Analytics, Tag Manager, Kissmetrics или други JavaScript откъси от кодове."
+
+#: Helpers/Localizations.php:371
+msgid "Access Visual Composer Hub - download additional elements, templates and extensions."
+msgstr "Започнете чрез добавяне на елемент към Вашето оформление или изберете един от пре-дефинираните шаблони."
+
+#: Helpers/Localizations.php:95
+msgid "Start by adding an element to your layout or select one of the pre-defined templates."
+msgstr "Започнете чрез добавяне на елемент към Вашето оформление или изберете един от предефинираните шаблони."
+
+#: Modules/Vendors/GutenbergAttributeController.php:114
+msgid "Gutenberg"
+msgstr "Gutenberg"
+
+#: Modules/Settings/Fields/FactoryResetController.php:127
+msgid "Visual Composer asset reset was successful."
+msgstr "Активите на Visual Composer са ресетнати успешно."
+
+#: Modules/License/UpdateVariablesController.php:69
+msgid "Control every detail of your website with flexible design options and customization tools."
+msgstr "Контролирайте всеки детайл от Вашият уебсайт с гъвкавите опции за дизайн и инструментите за персонализиране."
+
+#: Modules/License/UpdateVariablesController.php:60
+msgid "Unparallel performance for you and your website to rank higher and deliver faster."
+msgstr "Несравнима производителност за Вашият уебсайт за да се качи по-нависоко и да се доставя бързо."
+
+#: Modules/License/UpdateVariablesController.php:51
+msgid "Get more elements and templates from the Visual Composer Hub - a free online marketplace."
+msgstr "Вземете повече елементи и шаблони от Visual Composer Hub-а - безплатния онлайн пазар."
+
+#: Modules/License/UpdateVariablesController.php:43
+msgid "Build your site with the help of drag and drop editor straight from the frontend - it's that easy."
+msgstr "Постройте Вашият сайте с помоща на редактора чрез влачене и пускане директно от клиентската част - толкова е лесно."
+
+#: Modules/License/Pages/GettingStarted.php:99
+msgid "Getting Started"
+msgstr "Започнете"
+
+#: Modules/Hub/Traits/Action.php:71
+msgid ""
+"A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.\n"
+"\n"
+"If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.\n"
+msgstr ""
+"Zip файл на добавката за Visual Composer е счупена. Проверката на checksum е провалена. Моля проверете Вашата интернет връзка, направете Ресет във настройките на Visual Composer и опитайте отново.\n"
+"\n"
+"Ако проблемът продължава, посетете %ssupport.visualcomposer.io%s за техническа помощ.\n"
+
+#: Modules/FrontView/PluginsInfoController.php:42
+msgid "Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners."
+msgstr "Задвижвано чрез Visual Composer Уебсайт строител - бърз и лесен за използване строител чрез влачене и пускане за експерти и начинаещи."
+
+#: Helpers/Localizations.php:369
+msgid "Oops ... Something Went Wrong"
+msgstr "Опа ... Нещо се обърка"
+
+#: Helpers/Localizations.php:366
+msgid "Don't close this window while sending error is in the progress."
+msgstr "Не затваряйте този прозорец докато изпращането на грешката е в прогрес."
+
+#: Helpers/Localizations.php:364
+msgid "Sending Error Report"
+msgstr "Изпращане на доклад за грешка"
+
+#: Helpers/Localizations.php:363
+msgid "Get Started"
+msgstr "Започнете"
+
+#: Helpers/Localizations.php:360
+msgid "Download additional content from the Visual Composer Hub - right in your editor instantly."
+msgstr "Сваляне на допълнително съдържание от Visual Composer Hub-а директно в редактора моментално."
+
+#: Helpers/Localizations.php:358
+msgid "Get More Elements, Templates, and Extensions"
+msgstr "Вземете повече елементи, Шаблони, и Добавки"
+
+#: Helpers/Localizations.php:355
+msgid "Create Your WordPress Website."
+msgstr "Създайте Вашият WordPress уебсайт."
+
+#: Helpers/Localizations.php:354
+msgid "Don't close this window while download is in the progress."
+msgstr "Не затваряйте този прозорец докато свалянето е в прогрес."
+
+#: Helpers/Localizations.php:352
+msgid "Download Migration Addon"
+msgstr "Сваляне на добавката за миграция"
+
+#: Helpers/Localizations.php:349
+msgid "Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element."
+msgstr "Поддържаните елементи ще бъдат конвертирани във Visual Composer съвместими елементи, останалите елементи ще бъдат конвертирани в WPBakery елемент с кратък код."
+
+#: Helpers/Localizations.php:347
+msgid "Keep WPBakery Page Builder plugin activated"
+msgstr "Задръжте плъгина WPBakery строителя на страници активиран"
+
+#: Helpers/Localizations.php:346
+msgid "Download Migration addon from the Hub"
+msgstr "Сваляне на добавка за миграция от Hub-а"
+
+#: Helpers/Localizations.php:343
+msgid "To take over and start using Visual Composer Website Builder for this page, you need to:"
+msgstr "За да започнете да използвате Visual Composer уебсайт строителя за тази страниця Вие търябва да:"
+
+#: Helpers/Localizations.php:341
+msgid "This page was created with WPBakery Page Builder. What's next?"
+msgstr "Тази страница беше създадена с WPBakery строител на страници. Какво следва?"
+
+#: Helpers/Localizations.php:338
+msgid "Update Visual Composer plugin to the most recent version to download addon."
+msgstr "Обновете Visual Composer плъгина до най-новата версия за да свалите добавката."
+
+#: Helpers/Localizations.php:336
+msgid "Add-on"
+msgstr "Добавка"
+
+#: Helpers/Localizations.php:335
+msgid "Click to edit column value"
+msgstr "Натиснете за да редактирате стойността на колоната"
+
+#: Helpers/Localizations.php:334
+msgid "Disable preview"
+msgstr "Забранете предварителния преглед"
+
+#: Helpers/Localizations.php:331
+msgid "Disable element and template preview popup in Add Element and Add Template windows"
+msgstr "Забранете предварителен преглед на изкачащ елемент и шаблон в прозорците за Добавяне на елемент и Добавяне на шаблон."
+
+#: Helpers/Localizations.php:329
+msgid "Editor Settings"
+msgstr "Настройки на редактора"
+
+#: Helpers/Localizations.php:84
+msgid "Access Visual Composer Hub - to download additional elements, templates and extensions."
+msgstr "Достъпете Visual Composer Hub-а за сваляне на допълнителните елементи, шаблони и добавки."
+
+#: Helpers/Localizations.php:73
+msgid "Get More Templates"
+msgstr "Вземете повече шаблони"
+
+#: Helpers/Localizations.php:72
+msgid "Get More Elements"
+msgstr "Вземете повече елементи"
+
+#: Helpers/Hub/Update.php:184
+msgid "Create new post"
+msgstr "Създайте нова публикация"
+
+#: Helpers/Hub/Update.php:168
+msgid "Create new page"
+msgstr "Създаване на нова страница"
+
+#: Framework/helpers.php:350
+msgid "Failed to process action."
+msgstr "Провал при изпълняване на действието."
+
+#: Framework/helpers.php:334
+msgid "Bad response status code %d received."
+msgstr "Получен е ко %d за грешен отговор."
+
+#: Framework/helpers.php:318
+msgid "Bad status code received."
+msgstr "Получен е код за грешен статус."
+
+#: Framework/helpers.php:304
+msgid "Wrong response body received."
+msgstr "Получен е грешен оговор за body-то."
+
+#: Framework/helpers.php:257
+msgid "WordPress Error: %s"
+msgstr "WordPress Грешка: %s"
+
+#: Framework/helpers.php:242 Framework/helpers.php:248
+msgid "We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads."
+msgstr "Ние не можем да копираме директорията за плъгинът в wp-content/uploads. Моля проверете дали Вашият сървър има права за писане за wp-content/uploads."
+
+#: Framework/helpers.php:236
+msgid "We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads."
+msgstr "Ние не можем да създадем директория за плъгинът в wp-content/uploads. Моля проверете дали Вашият сървър има права за писаное за wp-content/uploads."
+
+#: Framework/helpers.php:229
+msgid "We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again."
+msgstr "Ние не можем да копираме файлове до Вашият сървър. Изглежда, че нямате празно място на диска. Моля увеличете Вашето дисково пространство на сървъра и опитайте отново."
+
+#: Framework/helpers.php:223
+msgid "A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again."
+msgstr "Zip файла на Visual Composer добавката е счупен. Моля проверете Вашата интернет връзка, стартирайте Ресет във Visual Composer настройките и опитайте отново."
+
+#: Framework/helpers.php:216
+msgid "An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it."
+msgstr "Появи се грешка при разархивирането на файловете за добавката към Visual Composer. Той изисква директен достъп до файловата система на Вашият сървър. Проверете дали FS_METHOD е дефиниран във wp-config.php и го забранете."
+
+#: Framework/helpers.php:192
+msgid ""
+"An HTTP requests failed during the download process of the plugin.\n"
+"<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to <a href=\"https://account.visualcomposer.io\" target=\"_blank\">https://account.visualcomposer.io</a></li><li>- Check if your server has access to the <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
+msgstr ""
+"HTTP заявките са провалени по време на процеса на сваляне на плъгина.\n"
+"<ul><li>- Проверете дали сървъра има връзка с интернет</li><li>- Проверете Вашите настройки за proxy на сървъра</li><li>- Проверете настройките на защитната стена на Вашият сървър и достъп до <a href=\"https://account.visualcomposer.io\" target=\"_blank\">https://account.visualcomposer.io</a></li><li>- Проверете дали Вашият сървър има достъп до <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
+
+#: Framework/helpers.php:185 Helpers/Localizations.php:160
+msgid ""
+"An error occurred during the Visual Composer extension download process. \n"
+"<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
+msgstr ""
+"Получи се грешка шп време на сваляне на добавка към Visual Composer.\n"
+"<ul><li>- Проверете дали Вашият сървър има връзка с интернет</li><li>- Моля проверете настройките на proxy за сървъра Ви</li><li>- Проверете настройките на защитната стена на Вашият сървър и достъпа до https://account.visualcomposer.io</li><li>- Проверете дали Вашият сървър има достъп до <a href=\"https://s3-us-west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
+
+#: Framework/helpers.php:179
+msgid "An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable."
+msgstr "Получи се грешка при създаването на временни инсталационни файлове. Моля проверете дали WP_TEMP_DIR съществува и дали е с права за писане."
+
+#: Framework/helpers.php:173
+msgid "An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again."
+msgstr "Появи се грешка по време на получаване на URL за сваляне за добавката на Visual Composer. Моля деактивирайте другите плъгини, преинсталирайте Visual Composer и опитайте отново."
+
+#: resources/views/settings/pages/plugins/notice.php:40
+msgid "Deactivate Visual Composer"
+msgstr "Деактивиране на Visual Composer"
+
+#: resources/views/settings/pages/plugins/notice.php:17
+msgid ""
+"You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use\n"
+"                    <a href=\"%s\">this free plugin</a> that will load CSS styles automatically."
+msgstr ""
+"Вие сте на път да деактивирате Вашето копие на Visual Composer Уебсайт строителя и няма да можете да управлявате Вашето съдържание. Вашето съдържание ще остане непокътнато, но поради исканата деактивация на плъгина CSS стиловете ще липсват. За да се гарантира правилното показване на съдържанието използвайте\n"
+"                                                                                             <a href=\"%s\">този безплатен плъгин</a> който ще зареди CSS стиловете автоматично."
+
+#: resources/views/settings/pages/index.php:110
+msgid "Save Changes"
+msgstr "Запазване на промените"
+
+#: resources/views/settings/option-toggle.php:23
+#: resources/views/settings/pages/html-fields/toggle.php:25
+#: resources/views/settings/pages/post-types/post-types-toggle.php:23
+msgid "off"
+msgstr "изключено"
+
+#: resources/views/settings/option-toggle.php:22
+#: resources/views/settings/pages/html-fields/toggle.php:24
+#: resources/views/settings/pages/post-types/post-types-toggle.php:22
+msgid "on"
+msgstr "включено"
+
+#: resources/views/elements/widgets/variables.php:36
+msgid "No Widgets found"
+msgstr "Няма намерени джаджи"
+
+#: resources/views/elements/widgets/variables.php:19
+msgid "No Custom widgets found"
+msgstr "Няма намерени потребителски джаджи"
+
+#: resources/views/editor/pageEditable/pageEditable.php:22
+msgid "Loading..."
+msgstr "Зареждане..."
+
+#: resources/views/editor/frontend/frontend.php:41
+#: resources/views/license/fe-update-wrapper.php:30
+msgid "Frontend editor: %s"
+msgstr "Редактор на клиентска част: %s"
+
+#: Helpers/Localizations.php:356
+msgid "Any Layout. Fast and Easy."
+msgstr "Всякакво оформление, бързо и лесно."
+
+#: Helpers/Localizations.php:357
+msgid "Skip this post"
+msgstr "Пропуснете тази публикация"
+
+#: Helpers/Localizations.php:428
+msgid "Activate Premium"
+msgstr "Активирайте премиум"
+
+#: Modules/Vendors/GutenbergAttributeController.php:311
+msgid "Gutenberg attrs list"
+msgstr "Списък на Gutenberg attr-и"
+
+#: Modules/Vendors/GutenbergAttributeController.php:306
+msgid "Gutenberg attrs list navigation"
+msgstr "Gutenberg attr-и списъчна навигация"
+
+#: Modules/Vendors/GutenbergAttributeController.php:301
+msgid "Filter Gutenberg attrs list"
+msgstr "Филтриране на Gutenberg attrs списък"
+
+#: Modules/Vendors/GutenbergAttributeController.php:296
+msgid "Uploaded to this Gutenberg attr"
+msgstr "Качени към този Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:291
+msgid "Add into Gutenberg attr"
+msgstr "Добавяне към Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:286
+msgid "Gutenberg attr archives"
+msgstr "Gutenberg attr архиви"
+
+#: Modules/Vendors/GutenbergAttributeController.php:281
+msgid "Use as cover image"
+msgstr "Използвайте като изображение за обложка"
+
+#: Modules/Vendors/GutenbergAttributeController.php:276
+msgid "Remove cover image"
+msgstr "Премахване на изображение на обложка"
+
+#: Modules/Vendors/GutenbergAttributeController.php:271
+msgid "Set cover image"
+msgstr "Задайте изображение за обложка"
+
+#: Modules/Vendors/GutenbergAttributeController.php:266
+msgid "Gutenberg attr Cover Image"
+msgstr "Gutenberg attr Изображение за обложка"
+
+#: Modules/Vendors/GutenbergAttributeController.php:264
+msgid "No Gutenberg attrs found in Trash."
+msgstr "Няма намерени Gutenberg attrs в Кошчето."
+
+#: Modules/Vendors/GutenbergAttributeController.php:263
+msgid "No Gutenberg attrs found."
+msgstr "Няма намерени Gutenberg attrs."
+
+#: Modules/Vendors/GutenbergAttributeController.php:262
+msgid "Parent Gutenberg attrs:"
+msgstr "Родителски Gutenberg attr-и:"
+
+#: Modules/Vendors/GutenbergAttributeController.php:261
+msgid "Search Gutenberg attrs"
+msgstr "Търсене на Gutenberg attrs"
+
+#: Modules/Vendors/GutenbergAttributeController.php:260
+msgid "All Gutenberg attrs"
+msgstr "Всички Gutenberg attrs"
+
+#: Modules/Vendors/GutenbergAttributeController.php:259
+msgid "View Gutenberg attr"
+msgstr "Преглед на Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:258
+msgid "Edit Gutenberg attr"
+msgstr "Редактиране на Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:257
+msgid "New Gutenberg attr"
+msgstr "Нов Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:256
+msgid "Add New Gutenberg attr"
+msgstr "Добавяне на нов Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:255
+#: Modules/Vendors/WpbakeryController.php:136
+msgid "Add New"
+msgstr "Добавяне на ново"
+
+#: Modules/Vendors/GutenbergAttributeController.php:252
+#: Modules/Vendors/GutenbergAttributeController.php:254
+msgid "Gutenberg attr"
+msgstr "Gutenberg attr"
+
+#: Modules/Vendors/GutenbergAttributeController.php:251
+#: Modules/Vendors/GutenbergAttributeController.php:253
+msgid "Gutenberg attrs"
+msgstr "Gutenberg attr-и"
+
+#: Modules/Vendors/GutenbergAttributeController.php:98
+msgid "Gutenberg Editor"
+msgstr "Gutenberg Редактор"
+
+#: Modules/Vendors/GutenbergAttributeController.php:90
+msgid "Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer."
+msgstr "Разрешаване/забраняване на Gutenberg редактор за Вашият WordPress сайт. Забраняването на Gutenberg редактора ще разреши класическия WordPress редактор. И в двата случая, Вие ще може да използвате Visual Composer."
+
+#: Modules/Updates/UpdatesController.php:181
+msgid "Failed to get changelog"
+msgstr "Проблем с взимането на лог с промени"
+
+#: Modules/Updates/UpdatesController.php:152
+msgid ""
+"\n"
+"<p>Visual Composer Website Builder is a perfect solution to create your WordPress site via drag and drop interface. Use content elements or predefined layouts to create any layout fast and easy.</p>\n"
+"<ul>\n"
+"<li>Use Frontend or Tree View to create structure</li>\n"
+"<li>Create responsive websites automatically</li>\n"
+"<li>Use with any WordPress theme</li>\n"
+"<li>Work with pages, posts and custom post types</li>\n"
+"<li>Access content elements and WordPress widgets</li>\n"
+"<li>Integrate any 3rd party shortcode easily</li>\n"
+"<li>Apply predefined pro quality templates</li>\n"
+"<li>Control look of elements via multiple parameters and rich design options</li>\n"
+"<li>Receive high-quality code optimized for SEO</li>\n"
+"</ul>"
+msgstr ""
+"\n"
+"<p>Visual Composer Уебсайт строител е перфектното решение за създаване на Вашият WordPress сайт чрез интерфейс за влачене и пускане. Използвайте елементи за съдържание или предефинирани оформления за да създадете всякакъв тип оформление бързо и лесно .</p>\n"
+"<ul>\n"
+"<li>Използвайте Клиентската част или дървовиден изглед за да създадете структура</li>\n"
+"<li>Създайте риспонзив уебсайтове автоматично</li>\n"
+"<li>Използвайте Всякаква WordPress тема</li>\n"
+"<li>Работи със страници, публикации и потребителски типове на публикации</li>\n"
+"<li>Дотъп до елементи за съдържание и WordPress джаджи</li>\n"
+"<li>Лесно интегриране на на кратки кодове от трети стърани</li>\n"
+"<li>Прилагане на предефинирани шаблони с професионално качество</li>\n"
+"<li>Контролиране на изгледа на елементите чрез множество параметри и богати на дизайн опции</li>\n"
+"<li>Получаване на код с високо качество оптимизиран за SEO</li>\n"
+"</ul>"
+
+#: Modules/Settings/Fields/PostTypes.php:58
+msgid "Post Types"
+msgstr "Типове на публикация"
+
+#: Modules/Settings/Fields/PostTypes.php:53
+msgid "Specify post types where you want to use Visual Composer Website Builder."
+msgstr "Уточнете тип на публикацията където искате да използвате Visual Composer Уебсайт строителя."
+
+#: Modules/Settings/Pages/About.php:91
+msgid "About"
+msgstr "Относно"
+
+#: Modules/Settings/NoticeController.php:78
+msgid "Dismiss"
+msgstr "Отхвърлете"
+
+#: Modules/Settings/Fields/FactoryResetController.php:118
+msgid "Session expired"
+msgstr "Сесията е изтекла"
+
+#: Modules/Settings/Fields/FactoryResetController.php:113
+msgid "Wrong permissions"
+msgstr "Грешни права"
+
+#: Modules/Settings/Fields/FactoryResetController.php:90
+msgid "Reset"
+msgstr "Ресет"
+
+#: Modules/Settings/Fields/FactoryResetController.php:78
+msgid "Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s."
+msgstr "Възстановяване на състоянието по подразбиране на плъгина за да се пре-свалят всички пакети и авто-конфигурират пътищата след миграцията (не се притеснявайте, съдържанието на сайта няма да бъде засегнато) - %s."
+
+#: Modules/Settings/Fields/FactoryResetController.php:68
+msgid "initiate reset"
+msgstr "иницииране на ресет"
+
+#: Modules/Settings/Fields/FactoryResetController.php:67
+msgid "Proceed with a reset?"
+msgstr "Продължете с ресет?"
+
+#: Modules/Settings/MenuController.php:69
+msgid "Visual Composer "
+msgstr "Visual Composer"
+
+#: Modules/License/LicenseController.php:108
+msgid "Invalid token -> Failed licence activation - Invalid token"
+msgstr "Невалидна заявка -> Проблем при активация на лиценз - Невалидна заявка"
+
+#: Modules/Editors/Templates/PostType.php:38
+msgid "Global Templates"
+msgstr "Глобални шаблони"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:110
+msgid "Theme Templates"
+msgstr "Шаблони на темата"
+
+#: Helpers/Localizations.php:271
+#: Modules/Editors/DataAjax/PostFieldsController.php:57
+#: Modules/Editors/DataAjax/PostFieldsController.php:65
+#: Modules/Editors/DataAjax/PostFieldsController.php:73
+#: Modules/Editors/DataAjax/PostFieldsController.php:81
+#: Modules/Editors/DataAjax/PostFieldsController.php:95
+#: Modules/Editors/DataAjax/PostFieldsController.php:109
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
+msgid "Default"
+msgstr "По подразбиране"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:50
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:61
+msgid "Blank Template"
+msgstr "Празен шаблон"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:57
+msgid "Boxed Template"
+msgstr "Кутийков шаблон"
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:74
+msgid "Visual Composer"
+msgstr "Visual Composer"
+
+#: Modules/Editors/Frontend/MenuController.php:144
+msgid "Add New with Visual&nbsp;Composer"
+msgstr "Добавяне на нова с Visual&nbsp;Composer"
+
+#: Modules/Editors/Frontend/Controller.php:101
+msgid "Sorry, you are not allowed to create posts as this user."
+msgstr "Съжаляваме, Вие нямате позволение да създавате публикации като този потребител."
+
+#: Modules/Editors/Frontend/Controller.php:100
+msgid "Cheatin&#8217; uh?"
+msgstr "Шмекерувате&#8217; ли?"
+
+#: Modules/Editors/EditPostLinks/Controller.php:152
+#: Modules/Editors/Frontend/MenuController.php:76
+msgid "Add New with Visual Composer"
+msgstr "Добавяне на нова с Visual Composer"
+
+#: Modules/Hub/Assets/SharedDownloadController.php:138
+msgid "Failed to update shared libraries"
+msgstr "Проблем при обновяването на споделени библиотеки"
+
+#: Helpers/Token.php:170
+msgid "Your Visual Composer Website Builder License will expire soon - %s"
+msgstr "Вашият лиценз за Visual Composer Уебсайт строител изтича скоро - %s"
+
+#: Helpers/PostsGridSourcePosts.php:38
+msgid "All"
+msgstr "Всички"
+
+#: Helpers/PostType.php:233
+msgid "View %s"
+msgstr "Преглед на %s"
+
+#: Helpers/LoginCategory.php:37
+msgid "Other"
+msgstr "Други"
+
+#: Helpers/LoginCategory.php:36
+msgid "Travel & Accommodation"
+msgstr "Пътуване и настаняване"
+
+#: Helpers/LoginCategory.php:35
+msgid "Services"
+msgstr "Услуги"
+
+#: Helpers/LoginCategory.php:34
+msgid "Restaurants & Food"
+msgstr "Рестуранти & Храна"
+
+#: Helpers/LoginCategory.php:33
+msgid "Portfolio & Personal"
+msgstr "Портфолио & Персонални"
+
+#: Helpers/LoginCategory.php:32
+msgid "Photography"
+msgstr "Фотография"
+
+#: Helpers/LoginCategory.php:31
+msgid "Online Store"
+msgstr "Онлайн магазин"
+
+#: Helpers/LoginCategory.php:30
+msgid "Landing Pages"
+msgstr "Начални станици /Landing pages/"
+
+#: Helpers/LoginCategory.php:29
+msgid "Health & Wellness"
+msgstr "Здраве & Уелнес"
+
+#: Helpers/LoginCategory.php:28
+msgid "Fashion & Beauty"
+msgstr "Мода & красота"
+
+#: Helpers/LoginCategory.php:27
+msgid "Events"
+msgstr "Събития"
+
+#: Helpers/LoginCategory.php:26
+msgid "Entertainment & Music"
+msgstr "Развлечения и музика"
+
+#: Helpers/LoginCategory.php:25
+msgid "Design"
+msgstr "Дизайн"
+
+#: Helpers/LoginCategory.php:24
+msgid "Community & Education"
+msgstr "Общност и образование"
+
+#: Helpers/LoginCategory.php:23
+msgid "Creative Arts"
+msgstr "Креативно изкуство"
+
+#: Helpers/LoginCategory.php:22
+msgid "Blog"
+msgstr "Блог"
+
+#: Helpers/LoginCategory.php:21
+msgid "Business"
+msgstr "Бизнес"
+
+#: Helpers/Localizations.php:328
+msgid "Back to parent"
+msgstr "Назад към предната"
+
+#: Helpers/Localizations.php:327
+msgid "Starting import process..."
+msgstr "Започване на процеса на импорт..."
+
+#: Helpers/Localizations.php:326
+msgid "Back to import"
+msgstr "Назад към импортирането"
+
+#: Helpers/Localizations.php:325
+msgid "Continue import"
+msgstr "Продължаване на импорт"
+
+#: Helpers/Localizations.php:324
+msgid "Remove All"
+msgstr "Премахване на всички"
+
+#: Helpers/Localizations.php:323
+msgid "Premium"
+msgstr "Премиум"
+
+#: Helpers/Localizations.php:322
+msgid "Free"
+msgstr "Безплатно"
+
+#: Helpers/Localizations.php:319
+msgid "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
+msgstr "Gutenberg плъгина не работи правилно. Моля проверете Gutenberg плъгина."
+
+#: Helpers/Localizations.php:315
+msgid "Available in Premium version."
+msgstr "Достъпни в премиум версията."
+
+#: Helpers/Localizations.php:311
+msgid "Default layout with custom header, content, footer and sidebar area on the left."
+msgstr "Оформление по подразбиране за потребителска област на хедъра, съдържанието, футъра и странична лента в ляво."
+
+#: Helpers/Localizations.php:307
+msgid "Default layout with custom header, content, footer and sidebar area on the right."
+msgstr "Оформление по подразбиране за потребителска област на хедъра, съдържанието, футъра и странична лента в дясно."
+
+#: Helpers/Localizations.php:303
+msgid "Default layout with custom header, content, and footer area."
+msgstr "Оформление по подразбиране с потребителски области за хедър, съдържание, и футър."
+
+#: Helpers/Localizations.php:299
+msgid "Full width blank page without header, footer, or sidebar."
+msgstr "Пълна ширина с празна страница без хедър, футър, или странична лента."
+
+#: Helpers/Localizations.php:295
+msgid "Blank page layout with boxed content area in the middle of the page without header, footer, or sidebar."
+msgstr "Оформление за празна страница с област за съдържание под формата на кутийки в средата на страницата без хедър, футър, или странична лента."
+
+#: Helpers/Localizations.php:291
+msgid "Your WordPress theme defined layout for specific page, post, or custom post type."
+msgstr "Вашиата WordPress тема определя оформлението за специфични страници, публикации, или потребителски типове публикации."
+
+#: Helpers/Localizations.php:285
+msgid "%s Name"
+msgstr "%s Име"
+
+#: Helpers/Localizations.php:282
+msgid "Start Building"
+msgstr "Започнете да строите"
+
+#: Helpers/Localizations.php:279
+msgid "Update Visual Composer plugin to the most recent version to download this template."
+msgstr "Обновете Visual Composer плъгина до най-новата версия за да свалите този шаблон."
+
+#: Helpers/Localizations.php:275
+msgid "Update Visual Composer plugin to the most recent version to download this content element."
+msgstr "Обновяване на Visual Composer плъгина към най-новата версия за да свалите този елемент на съдържание."
+
+#: Helpers/Localizations.php:263
+msgid "Choose %s or %screate new%s."
+msgstr "Изберете %s или %sсъздайте нов%s."
+
+#: Helpers/Localizations.php:255
+msgid "There is a new version of Visual Composer Website Builder available. <a href=\"%s\">Update now</a> to version %s."
+msgstr "Има достъпна нова версия на Visual Composer Уебсайт строител. <a href=\"%s\">Обновете сега </a> до версия %s."
+
+#: Helpers/Localizations.php:250
+msgid "Thank You!"
+msgstr "Благодарим Ви!"
+
+#: Helpers/Localizations.php:242
+msgid "We would like to acknowledge that we have received your request and a ticket has been created. A support representative will be reviewing your request and will send you a personal response."
+msgstr "Ние искаме да потвърдим, че сме получили Вашата заявка и тикет беше създаден. Представите на поддръжката ни ще прегледа Вашата заявка и ще Ви изпрати личен отговор."
+
+#: Helpers/Localizations.php:238
+msgid "Replace current element with different element from the same category"
+msgstr "Заместване на сегашните елементи с различни елементи от същата категория"
+
+#: Helpers/Localizations.php:234
+msgid "You can replace the {elementLabel} within this element with another {elementLabel} from your elements"
+msgstr "Вие можете да замените {elementLabel} в този елемент  с друг {elementLabel} от Вашите елемнти"
+
+#: Helpers/Localizations.php:229
+msgid "It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin"
+msgstr "Изглежда, че Вие опитвате да редактирате архивирана страница, която показва Ваши публикации вместо съдържание. Преди да редактирате се уверете, че сте я конвертирали в статична страница чрез Вашето WordPress табло"
+
+#: Helpers/Localizations.php:226 Helpers/Localizations.php:232
+#: Helpers/Localizations.php:246
+msgid "Return to WordPress dashboard"
+msgstr "Връщане към WordPress таблото"
+
+#: Helpers/Localizations.php:223
+msgid "It seems that something went wrong with loading content. Please make sure you are loading correct content and try again."
+msgstr "Изглежда, че нещо се обърка със зареждането на съдържанието. Моля уверете се, че сте заредили правилното съдържание и опитайте отново."
+
+#: Helpers/Localizations.php:220
+msgid "Failed to download element"
+msgstr "Проблем със сваляне на елемент"
+
+#: Helpers/Localizations.php:217
+msgid "Failed to download element (license expired or request timed out)"
+msgstr "Проблем със сваляне на елемент (изтекъл лиценз или времето на заявката е изтекло)"
+
+#: Helpers/Localizations.php:213
+msgid "{name} has been successfully downloaded from the Visual Composer Hub and added to your library"
+msgstr "(name) беше успешно свалено от Visual Composer хъба и е добавено във Вашата библиотека"
+
+#: Helpers/Localizations.php:211
+msgid "Disable page title"
+msgstr "Изключете заглавието на страницата"
+
+#: Helpers/Localizations.php:208
+msgid "To apply title changes save changes and reload the page"
+msgstr "За да приложите промените запазете промените и презаредете страницата"
+
+#: Helpers/Localizations.php:204
+msgid "To apply a template you will need to save changes and content will be reloaded."
+msgstr "За да приложите шаблон Вие трябва да запазите промените и съдържанието ще се презареди."
+
+#: Helpers/Localizations.php:200
+msgid "To apply a template save changes and reload the page"
+msgstr "За да приложите шаблона запазете промените и презаредете страницата"
+
+#: Helpers/Localizations.php:198
+msgid "Theme Default"
+msgstr "Тема по подразбиране"
+
+#: Helpers/Localizations.php:197
+msgid "Template"
+msgstr "Шаблон"
+
+#: Helpers/Localizations.php:194
+msgid "Double tap on an element to open the edit window. Tap and hold to initiate drag and drop in a Tree view."
+msgstr "Натиснете два пъти на елемент за да отворите прозореца за редактиране. Натиснете и задръжте за да инициирате дървовидния изглед за влачене и пускане."
+
+#: Helpers/Localizations.php:191
+msgid "None"
+msgstr "Няма"
+
+#: Helpers/Localizations.php:190
+msgid "Failed to load: {file}"
+msgstr "Проблем с получаването: {file}"
+
+#: Helpers/Localizations.php:189
+msgid "Updating posts {i} in {cnt}: {name}"
+msgstr "Обновяване на публикации {i} в {cnt}: {name}"
+
+#: Helpers/Localizations.php:188
+msgid "Downloading assets {i} of {cnt}: {name}"
+msgstr "Изтегляне на активи {i} от {cnt}: {name}"
+
+#: Helpers/Localizations.php:187
+msgid "Downloading initial extensions"
+msgstr "Изтегляне на първоначални разширения"
+
+#: Helpers/Localizations.php:186
+msgid "Hide: On"
+msgstr "Скриване: Включено"
+
+#: Helpers/Localizations.php:185
+msgid "Hide: Off"
+msgstr "Скриване: Изключена"
+
+#: Helpers/Localizations.php:184
+msgid "Saving Results"
+msgstr "Запазване на резултатите"
+
+#: Helpers/Localizations.php:183
+msgid "Preview Changes"
+msgstr "Преглед на промени"
+
+#: Helpers/Localizations.php:182
+msgid "Preview"
+msgstr "Преглед"
+
+#: Helpers/Localizations.php:181
+msgid "Visual Composer Cloud update failed, please try again"
+msgstr "Провалено обновяване на Visual Composer cloud, моля опитайте отново"
+
+#: Helpers/Localizations.php:180
+msgid "Title"
+msgstr "Заглавие"
+
+#: Helpers/Localizations.php:179
+msgid "Title attribute will be displayed on link hover"
+msgstr "Атрибутът заглавие ще се показва при покриването на линк"
+
+#: Helpers/Localizations.php:177
+msgid "Add nofollow option to link"
+msgstr "Опция за добавяне на не следващ линк"
+
+#: Helpers/Localizations.php:176
+msgid "Open link in a new tab"
+msgstr "Отваряне на линк в нов раздел"
+
+#: Helpers/Localizations.php:174
+msgid "Search existing content"
+msgstr "Търсене на съществуващо съдържание"
+
+#: Helpers/Localizations.php:173
+msgid "Or link to existing content"
+msgstr "Или линк към съществуващо съдържание"
+
+#: Helpers/Localizations.php:172 Helpers/Localizations.php:178
+msgid "Enter destination URL"
+msgstr "Въведете целевия URL"
+
+#: Helpers/Localizations.php:171
+msgid "Insert or Edit Link"
+msgstr "Вкарване или редактиране на линк"
+
+#: Helpers/Localizations.php:170
+msgid "Select URL"
+msgstr "Изберете URL"
+
+#: Helpers/Localizations.php:169
+msgid "Add Link"
+msgstr "Добавяне на линк"
+
+#: Helpers/Localizations.php:168
+msgid "Edit or Replace Image"
+msgstr "Редактиране или заместване на изображение"
+
+#: Helpers/Localizations.php:167
+msgid "Move Image"
+msgstr "Местене на изображение"
+
+#: Helpers/Localizations.php:166
+msgid "Remove Image"
+msgstr "Премахване на изображение"
+
+#: Helpers/Localizations.php:165
+msgid "Add Image"
+msgstr "Добавяне на изображение"
+
+#: Helpers/Localizations.php:164 Helpers/Localizations.php:175
+msgid "Nothing found"
+msgstr "Няма нищо намерено"
+
+#: Helpers/Localizations.php:156
+msgid "Didn't find the right element? Check out Visual Composer Hub for more content elements."
+msgstr "Не намерихте правилният елемент? Проверете Visual Composer Хъб-а за повече елементи на съдържание."
+
+#: Helpers/Localizations.php:154
+msgid "Open Visual Composer Hub"
+msgstr "Отваряне на Visual Composer Хъб"
+
+#: Helpers/Localizations.php:153
+msgid "Search templates by name and description"
+msgstr "Търсене на шаблони по име и описание"
+
+#: Helpers/Localizations.php:152
+msgid "Blank Page"
+msgstr "Празна страница"
+
+#: Helpers/Localizations.php:149
+msgid "You are switching to Classic editor. The content created with Visual Composer will be copied to Classic editor (style changes may apply.) Any changes made in the Classic editor will not be synced with Visual Composer layout. Do you want to proceed?"
+msgstr "Вие превключвате на класическия редактор. Съдържанието създадено с Visual Composer ще бъде копирано в класическия редактор (промените по стиловете ще се приложат.) Всяка промяна направена с класическия редактор няма да се синхронизира с Visual Composer оформлението. Искате ли да продължите?"
+
+#: Helpers/Localizations.php:144
+msgid "You are switching to Visual Composer. Visual Composer will load the latest version of content created with the builder."
+msgstr "Вие превключвате на Visual Composer. Visual Composer ще зареди последната версиа на съдържание създаден със строителя."
+
+#: Helpers/Localizations.php:141
+msgid "Classic Editor"
+msgstr "Класически редактор"
+
+#: Helpers/Localizations.php:140
+#: Modules/Editors/EditPostLinks/Controller.php:93
+#: Modules/Editors/EditPostLinks/Controller.php:127
+#: Modules/Editors/EditPostLinks/Controller.php:128
+#: Modules/Editors/EditPostLinks/Controller.php:180
+msgid "Edit with Visual Composer"
+msgstr "Редактиране с Visual Composer"
+
+#: Helpers/Localizations.php:139
+msgid "Add Text block"
+msgstr "Добавяне на текстов блок"
+
+#: Helpers/Localizations.php:138
+msgid "Add custom row layout"
+msgstr "Добавяне на потребителско оформление"
+
+#: Helpers/Localizations.php:137
+msgid "Add five columns"
+msgstr "Добавяне на пет колони"
+
+#: Helpers/Localizations.php:136
+msgid "Add four columns"
+msgstr "Добавяне на четири колони"
+
+#: Helpers/Localizations.php:135
+msgid "Add three columns"
+msgstr "Добавяне на три колони"
+
+#: Helpers/Localizations.php:134
+msgid "Add two columns"
+msgstr "Добавяне на две колони"
+
+#: Helpers/Localizations.php:133
+msgid "Add one column"
+msgstr "Добавяне на една колона"
+
+#: Helpers/Localizations.php:132
+msgid "Enter template name to save your page as a template"
+msgstr "Въведете името на шаблона за да запазите Вашата страница като шаблон"
+
+#: Helpers/Localizations.php:131
+msgid "There is no content on your page - nothing to save"
+msgstr "Няма съдържание на Вашата страница - няма нищо за запазване"
+
+#: Helpers/Localizations.php:128
+msgid "Template with this name already exist. Please specify another name."
+msgstr "Шаблон с това име вече съществува. Моля посочете друго име."
+
+#: Helpers/Localizations.php:126
+msgid "Search content templates"
+msgstr "Търсене на шаблони за съдържание"
+
+#: Helpers/Localizations.php:125
+msgid "Search content elements and templates"
+msgstr "Търсене на елементи на съдържание и шаблони"
+
+#: Helpers/Localizations.php:124
+msgid "Search content elements"
+msgstr "Търсене на елементи на съдържание"
+
+#: Helpers/Localizations.php:123
+msgid "Move"
+msgstr "Местене"
+
+#: Helpers/Localizations.php:122
+msgid "Remove"
+msgstr "Премахване"
+
+#: Helpers/Localizations.php:121
+msgid "Paste After"
+msgstr "Поставяне след"
+
+#: Helpers/Localizations.php:120
+msgid "Paste"
+msgstr "Поставяне"
+
+#: Helpers/Localizations.php:119
+msgid "Copy"
+msgstr "Копиране"
+
+#: Helpers/Localizations.php:118
+msgid "Clone"
+msgstr "Клониране"
+
+#: Helpers/Localizations.php:117
+msgid "Design Options"
+msgstr "Опции за дизайна"
+
+#: Helpers/Localizations.php:116
+msgid "Edit"
+msgstr "Редактиране"
+
+#: Helpers/Localizations.php:115
+msgid "Row Layout"
+msgstr "Оформление на ред"
+
+#: Helpers/Localizations.php:114
+msgid "Add"
+msgstr "Добавяне"
+
+#: Helpers/Localizations.php:106
+msgid "Didn't find an element? Get a Premium license to download the right content element in Visual Composer Hub."
+msgstr "Не намерихте елемент? Вземете премиум лиценз за да свалите правилния елементс със съдържание във Visual Composer хъб-а."
+
+#: Helpers/Localizations.php:101
+msgid "Didn't find a perfect template? Get a Premium license to download it from Visual Composer Hub."
+msgstr "Не намерихте перфектни шаблон? Вземете премиум лиценз за да ги свалите от Visual Composer хъб-а."
+
+#: Helpers/Localizations.php:111
+msgid "Get a Premium license to access Visual Composer Hub. Download professionally designed templates, more content elements, extensions, and more."
+msgstr "Вземете Премиум лиценз за да достъпите Visual Composer Хъб. Свателе шаблони с професионален дизайн, повече елементи за съдържание, добавки и други."
+
+#: Helpers/Localizations.php:92
+msgid "and Start Building"
+msgstr "и започнете да строите"
+
+#: Helpers/Localizations.php:91
+msgid "Name Your "
+msgstr "Наименувайте Вашият"
+
+#: Helpers/Localizations.php:88
+msgid "Failed to remove template"
+msgstr "Проблем с премахването на шаблон"
+
+#: Helpers/Localizations.php:87
+msgid "Do you want to remove this template?"
+msgstr "Искате ли да премахнете този шаблон?"
+
+#: Helpers/Localizations.php:80
+msgid "Didn't find the right template? Check out Visual Composer Hub for more layout templates."
+msgstr "Не намерихте правилният шаблон? Проверете Visual Composer Хъб-а за повече шаблони за оформление."
+
+#: Helpers/Localizations.php:76
+msgid "You don't have any templates yet. Try to save your current layout as a template or download templates from Visual Composer Hub."
+msgstr "Вие нямате още никакъв шаблон. Опитайте да запазите Вашето моментно оформление като шаблон или свалете шаблони от Visual Composer Хъб-а."
+
+#: Helpers/Localizations.php:71
+msgid "Download More Templates"
+msgstr "Свалете повече шаблони"
+
+#: Helpers/Localizations.php:70
+msgid "Template save failed"
+msgstr "Проблем при запазването на шаблон"
+
+#: Helpers/Localizations.php:69
+msgid "Remove Template"
+msgstr "Премахване на шаблон"
+
+#: Helpers/Localizations.php:68
+msgid "Save Template"
+msgstr "Запазване на шаблона"
+
+#: Helpers/Localizations.php:67
+msgid "Template Name"
+msgstr "Име на шаблона"
+
+#: Helpers/Localizations.php:66
+msgid "Save"
+msgstr "Запазване"
+
+#: Helpers/Localizations.php:65
+msgid "Global JavaScript will be applied site wide"
+msgstr "Глобалния JavaScript ще бъде приложен за сайта изцяло"
+
+#: Helpers/Localizations.php:64
+msgid "Global JavaScript"
+msgstr "Глобален JavaScript"
+
+#: Helpers/Localizations.php:63
+msgid "Local JavaScript will be applied to this particular page only"
+msgstr "Локалният JavaScript ще се приложи само на тази обикновена страница"
+
+#: Helpers/Localizations.php:62
+msgid "Local JavaScript"
+msgstr "Локален JavaSript"
+
+#: Helpers/Localizations.php:61
+msgid "Custom JavaScript"
+msgstr "Потребителски JavaScript"
+
+#: Helpers/Localizations.php:60
+msgid "Global CSS will be applied site wide"
+msgstr "Глобалния CSS ще бъде приложен към сайта изцяло"
+
+#: Helpers/Localizations.php:59
+msgid "Global CSS"
+msgstr "Глобален CSS"
+
+#: Helpers/Localizations.php:58
+msgid "Local CSS will be applied to this particular page only"
+msgstr "Локалният CSS ще се приложи само към тази обикновена страница"
+
+#: Helpers/Localizations.php:57
+msgid "Local CSS"
+msgstr "Локален CSS"
+
+#: Helpers/Localizations.php:56 Modules/Settings/Fields/CssEditor.php:65
+msgid "Custom CSS"
+msgstr "Потребителски CSS"
+
+#: Helpers/Localizations.php:53
+msgid "There is no content on your page - start by adding element or template."
+msgstr "Няма съдържание на Вашата страница - започнете чрез добавяне на елемент или шаблон."
+
+#: Helpers/Localizations.php:48
+msgid "Close"
+msgstr "Затворете"
+
+#: Helpers/Localizations.php:47 Helpers/Localizations.php:49
+#: Helpers/Localizations.php:50 Helpers/Localizations.php:51
+#: Modules/License/Pages/GoPremium.php:103
+#: Modules/License/Pages/GoPremium.php:120
+msgid "Go Premium"
+msgstr "Преминете към премиум"
+
+#: Helpers/Localizations.php:46
+msgid "Save Draft"
+msgstr "Запазване на чернова"
+
+#: Helpers/Localizations.php:45
+msgid "Submit for Review"
+msgstr "Подайте отзив"
+
+#: Helpers/Localizations.php:44
+msgid "Publish"
+msgstr "Публикуване"
+
+#: Helpers/Localizations.php:43
+msgid "WordPress Dashboard"
+msgstr "WordPress табло"
+
+#: Helpers/Localizations.php:42 Helpers/Localizations.php:353
+msgid "Back to WordPress"
+msgstr "Назад към WordPress"
+
+#: Helpers/Localizations.php:41
+msgid "View Page"
+msgstr "Преглед на страницата"
+
+#: Helpers/Localizations.php:40
+msgid "Menu"
+msgstr "Меню"
+
+#: Helpers/Localizations.php:39 Modules/Hub/Pages/UpdateBePage.php:92
+msgid "Update"
+msgstr "Обновяване"
+
+#: Helpers/Localizations.php:38
+msgid "Layout"
+msgstr "Оформление"
+
+#: Helpers/Localizations.php:37 Modules/Settings/Pages/Settings.php:80
+#: resources/views/settings/layouts/settings-standalone.php:11
+msgid "Settings"
+msgstr "Настройки"
+
+#: Helpers/Localizations.php:36
+msgid "Mobile Portrait"
+msgstr "Мобилен портрет"
+
+#: Helpers/Localizations.php:35
+msgid "Mobile Landscape"
+msgstr "Мобилен пейзаж"
+
+#: Helpers/Localizations.php:34
+msgid "Tablet Portrait"
+msgstr "Портрет при таблет"
+
+#: Helpers/Localizations.php:33
+msgid "Tablet Landscape"
+msgstr "Пейзаж при таблет"
+
+#: Helpers/Localizations.php:32
+msgid "Desktop"
+msgstr "Десктоп"
+
+#: Helpers/Localizations.php:31
+msgid "Responsive View"
+msgstr "Респонзив изглед"
+
+#: Helpers/Localizations.php:30
+msgid "Redo"
+msgstr "Предна"
+
+#: Helpers/Localizations.php:29
+msgid "Undo"
+msgstr "Стъпка назад"
+
+#: Helpers/Localizations.php:28
+msgid "Tree View"
+msgstr "Дървовиден изглед"
+
+#: Helpers/Localizations.php:27
+msgid "Add Template"
+msgstr "Добавяне на шаблон"
+
+#: Helpers/Localizations.php:26
+msgid "Hub"
+msgstr "Хъб"
+
+#: Helpers/Localizations.php:25
+msgid "Add Element"
+msgstr "Добавяне на елемент"
+
+#: Helpers/License.php:174
+msgid "Visual Composer Website Builder license has been deactivated."
+msgstr "Лицензът на Visual Composer Уебсайт строител беше деактивиран."
+
+#: Helpers/License.php:171
+msgid "Couldn't find a valid Visual Composer Website Builder license."
+msgstr "Не може да се намери валиден Visual Composer уебсайт стоител лиценз."
+
+#: Helpers/License.php:168
+msgid "Visual Composer Website Builder license has expired."
+msgstr "Лицензът за Visual Composer Уебсайт строителя изтече."
+
+#: Helpers/Hub/Download.php:36
+msgid "Templates library"
+msgstr "Библиотека със шаблони"
+
+#: Helpers/Hub/Download.php:33
+msgid "Library extensions"
+msgstr "Добавки на библиотеката"
+
+#: Helpers/Hub/Download.php:30
+msgid "Categories bundle"
+msgstr "Категории в пакет"
+
+#: Helpers/Hub/Download.php:27
+msgid "Editor bundle"
+msgstr "Редактор на пакети"
+
+#: Helpers/Hub/Bundle.php:158 Helpers/Hub/Bundle.php:360
+msgid "Failed to read remote bundle json"
+msgstr "Проблем при четенето на отаделен пакет json"
+
+#: Helpers/EditorTemplates.php:86
+msgid "Content Templates"
+msgstr "Шаблони със съдържание"
+
+#: Helpers/EditorTemplates.php:83
+msgid "Premium Templates"
+msgstr "Премиум шаблони"
+
+#: Helpers/EditorTemplates.php:80
+msgid "My Templates"
+msgstr "Моите шаблони"
