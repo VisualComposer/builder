@@ -94,8 +94,7 @@ export default class DynamicAttribute extends React.Component {
     this.props.setFieldValue(fieldValue)
   }
 
-  handleDynamicFieldOpen (e) {
-    e && e.preventDefault()
+  handleDynamicFieldOpen () {
     this.setState({
       dynamicFieldOpened: true,
       prevValue: this.props.value
@@ -108,17 +107,21 @@ export default class DynamicAttribute extends React.Component {
 
   handleDynamicFieldClose (e) {
     e && e.preventDefault()
+    let prevDynamicValue = this.state.blockInfo.value
     if (this.state.prevValue) {
       this.props.setFieldValue(this.state.prevValue)
     } else if (this.props.defaultValue !== undefined) {
       this.props.setFieldValue(this.props.defaultValue)
     }
-    this.setState({ dynamicFieldOpened: false })
+    this.setState({
+      prevDynamicValue: prevDynamicValue,
+      dynamicFieldOpened: false
+    })
     this.props.onClose && this.props.onClose(this)
   }
 
   renderOpenButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldOpen} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Insert dynamic content'} />
+    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.open} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Insert dynamic content'} />
   }
 
   renderCloseButton () {
@@ -136,7 +139,7 @@ export default class DynamicAttribute extends React.Component {
       return postField.split('::')[ 1 ] // Return other value from input
     }
 
-    if (sourceId) {
+    if (sourceId && (window.vcvSourceID !== sourceId)) {
       if (currentIdFields.hasOwnProperty(sourceId)) {
         currentIdFields = currentIdFields[ sourceId ]
       } else {
@@ -175,14 +178,14 @@ export default class DynamicAttribute extends React.Component {
   renderDynamicInputs () {
     const { blockInfo } = this.state
     let noValueSetText = DynamicAttribute.localizations.noValueSet || 'No value set'
-    let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive'>{noValueSetText}</span>
+    let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive' onClick={this.open}>{noValueSetText}</span>
 
     if (blockInfo && blockInfo.blockAtts) {
       const label = this.getDynamicLabel(blockInfo.blockAtts.value, blockInfo.blockAtts.sourceId)
       if (label) {
-        placeholderTag = <span className='vcv-ui-dynamic-field-tag'>{label}</span>
+        placeholderTag = <span className='vcv-ui-dynamic-field-tag' onClick={this.open}>{label}</span>
       } else {
-        placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive'>{blockInfo.blockAtts.value}</span>
+        placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive' onClick={this.open}>{blockInfo.blockAtts.value}</span>
       }
     }
 
@@ -193,7 +196,6 @@ export default class DynamicAttribute extends React.Component {
           <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.open} title={DynamicAttribute.localizations.dynamicFieldsEditText || 'Edit dynamic content'} />
           {this.renderCloseButton()}
         </span>
-        {this.state.isWindowOpen ? this.getDynamicPopup() : null}
       </div>
     )
   }
@@ -202,8 +204,10 @@ export default class DynamicAttribute extends React.Component {
     return <DynamicPopup
       save={this.handleDynamicFieldChange}
       hide={this.hide}
+      open={this.handleDynamicFieldOpen}
       fieldType={this.props.fieldType}
-      value={this.props.value}
+      dynamicFieldOpened={this.state.dynamicFieldOpened}
+      value={this.state.prevDynamicValue || this.props.value}
       elementAccessPoint={this.props.elementAccessPoint}
     />
   }
@@ -223,28 +227,38 @@ export default class DynamicAttribute extends React.Component {
   }
 
   render () {
-    if (!this.state.isDynamic) {
-      return this.props.children || null
+    const { dynamicFieldOpened, isDynamic, isWindowOpen } = this.state
+    const { children, editFormOptions, render } = this.props
+
+    if (!isDynamic) {
+      return children || null
     }
-    if (this.props.editFormOptions && this.props.editFormOptions.nestedAttr) {
+    if (editFormOptions && editFormOptions.nestedAttr) {
       // We are inside paramsGroup, it is not implemented yet.
-      return this.props.children || null
+      return children || null
     }
 
     // In case if custom render provided
-    if (this.props.render) {
-      return this.props.render(this)
+    if (render) {
+      return render(this)
     }
 
-    const { dynamicFieldOpened } = this.state
+    let content = ''
     if (dynamicFieldOpened) {
-      return this.renderDynamicInputs()
+      content = this.renderDynamicInputs()
+    } else {
+      content = (
+        <React.Fragment>
+          {children}
+          {this.renderOpenButton()}
+        </React.Fragment>
+      )
     }
 
     return (
       <React.Fragment>
-        {this.props.children}
-        {this.renderOpenButton()}
+        {content}
+        {isWindowOpen ? this.getDynamicPopup() : null}
       </React.Fragment>
     )
   }

@@ -367,9 +367,10 @@ export default class AttachImage extends Attribute {
   }
 
   customDynamicRender (dynamicApi) {
-    const { dynamicFieldOpened } = dynamicApi.state
+    const { dynamicFieldOpened, isWindowOpen } = dynamicApi.state
+    let content = ''
     if (dynamicFieldOpened) {
-      return <React.Fragment>
+      content = <React.Fragment>
         {dynamicApi.renderDynamicInputs()}
         {this.getUrlHtml(0)}
       </React.Fragment>
@@ -386,11 +387,18 @@ export default class AttachImage extends Attribute {
       return null
     }
 
-    return (
-      <div className={dynamicApi.props.attachImageClassNames}>
+    if (!dynamicFieldOpened) {
+      content = <div className={dynamicApi.props.attachImageClassNames}>
         {dynamicApi.props.attachImageComponent}
         {dynamicApi.renderOpenButton()}
       </div>
+    }
+
+    return (
+      <React.Fragment>
+        {content}
+        {isWindowOpen ? dynamicApi.getDynamicPopup() : null}
+      </React.Fragment>
     )
   }
 
