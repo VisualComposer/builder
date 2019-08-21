@@ -10,5 +10,5 @@
   },
   "video": false,
   "pageLoadTimeout": 80000,
-  "execTimeout": 300000
+  "execTimeout": 350000
 }

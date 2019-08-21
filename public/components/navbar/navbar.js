@@ -23,6 +23,7 @@ export default class Navbar extends React.Component {
     draggable: PropTypes.bool,
     editor: PropTypes.string
   }
+
   constructor (props) {
     super(props)
     let navbarPosition = 'left'
@@ -83,6 +84,7 @@ export default class Navbar extends React.Component {
     this.updateNavbarBounding = this.updateNavbarBounding.bind(this)
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
   }
+
   setVisibleControls () {
     const children = React.Children.toArray(this.props.children)
     return children.filter((node) => {
@@ -91,13 +93,16 @@ export default class Navbar extends React.Component {
       return node.key
     })
   }
+
   updateNavbarBounding (data) {
     this.setState({
       navPosX: this.state.navPosX - data.resizeLeft,
       navPosY: this.state.navPosY - data.resizeTop
     })
   }
-  componentWillMount () {
+
+  /* eslint-disable */
+  UNSAFE_componentWillMount () {
     const { draggable } = this.props
     if (!draggable) {
       this.setState({
@@ -133,6 +138,8 @@ export default class Navbar extends React.Component {
     this.setState(cookieState)
   }
 
+  /* eslint-enable */
+
   componentDidMount () {
     boundingRectState.onChange(this.updateNavbarBounding)
     this.addResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
@@ -140,6 +147,7 @@ export default class Navbar extends React.Component {
     wordpressBackendDataStorage.state('activeEditor').onChange(this.handleVisibilityChange)
     this.handleElementResize()
   }
+
   updateWrapper () {
     if (this.props.editor && this.props.editor === 'backend') {
       return
@@ -193,12 +201,15 @@ export default class Navbar extends React.Component {
       targetStyle[ prop ] = navBarStyle[ prop ]
     }
   }
+
   handleElementResize () {
     this.refreshControls(this.state.visibleControls)
   }
+
   handleVisibilityChange () {
     this.refreshControls(this.state.visibleControls, true)
   }
+
   handleWindowResize () {
     let navbarPosition = this.state.navbarPosition
     if (this.isMobile) {
@@ -274,11 +285,15 @@ export default class Navbar extends React.Component {
     controls.reverse()
     return controls
   }
-  componentWillUpdate (nextProps, nextState) {
+
+  /* eslint-disable */
+  UNSAFE_componentWillUpdate (nextProps, nextState) {
     if (nextState.visibleControls.length !== this.state.visibleControls.length) {
       this.refreshControls(nextState.visibleControls)
     }
   }
+  /* eslint-enable */
+
   closeDropdown (e) {
     if (e && (e.target.closest('.vcv-ui-navbar-dropdown-trigger') || e.target.closest('.vcv-ui-navbar-sandwich--stop-close')) && e.target.closest('.vcv-ui-navbar-sandwich')) {
       return
@@ -298,9 +313,11 @@ export default class Navbar extends React.Component {
       isActiveSandwich: !this.state.isActiveSandwich
     })
   }
+
   setHiddenControlsReference (ref) {
     this.hiddenControlsWrapper = ref
   }
+
   buildHiddenControls () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const menuTitle = localizations ? localizations.menu : 'Menu'
@@ -417,7 +434,7 @@ export default class Navbar extends React.Component {
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
         const lastControl = hiddenAndUnpinnedControls.pop()
         const lastControlIndex = this.hiddenControlsIndex.indexOf(lastControl.key)
-        const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
+        const controlDOM = this.hiddenControlsWrapper.childNodes[ lastControlIndex ]
         if (!controlDOM || controlDOM.nodeType !== controlDOM.ELEMENT_NODE) {
           break
         }
@@ -553,6 +570,7 @@ export default class Navbar extends React.Component {
     movingEvent.initEvent('vc.ui.navbar.dragging', true, true)
     e.target.dispatchEvent(movingEvent)
   }
+
   renderDragHandler () {
     const { draggable } = this.props
     if (!draggable || this.isMobile) {
@@ -562,6 +580,7 @@ export default class Navbar extends React.Component {
       <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
     </div>
   }
+
   render () {
     let { isDragging } = this.state
     let navbarContainerClasses = classNames({

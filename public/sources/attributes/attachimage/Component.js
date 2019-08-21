@@ -68,7 +68,8 @@ export default class AttachImage extends Attribute {
     }
   }
 
-  componentWillMount () {
+  /* eslint-disable */
+  UNSAFE_componentWillMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
@@ -159,6 +160,7 @@ export default class AttachImage extends Attribute {
     this.mediaUploader.on('close', this.onMediaClose)
     this.mediaUploader.on('uploader:ready', this.onMediaOpen)
   }
+  /* eslint-enable */
 
   updateState (props) {
     let value = props.value
