@@ -11,10 +11,12 @@
   },
   "scripts": {
     "post-update-cmd": [
-      "ComposerHooks\\Registry::postUpdateCmd"
+      "ComposerHooks\\Registry::postUpdateCmd",
+      "php tools/vcwb-languages/cli.php"
     ],
     "post-install-cmd": [
-      "ComposerHooks\\Registry::postInstallCmd"
+      "ComposerHooks\\Registry::postInstallCmd",
+      "php tools/vcwb-languages/cli.php"
     ],
     "post-autoload-dump": [
       "ComposerHooks\\Registry::postUpdateCmd"
