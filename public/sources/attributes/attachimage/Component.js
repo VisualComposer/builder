@@ -131,14 +131,8 @@ export default class AttachImage extends Attribute {
       remove: function () {
         ReactDOM.unmountComponentAtNode(this.$el.get(0))
         window.setTimeout(() => {
-          if (
-            _this.mediaUploader.content &&
-            _this.mediaUploader.content.get('gallery') &&
-            _this.mediaUploader.content.get('gallery').collection &&
-            _this.mediaUploader.content.get('gallery').collection.props &&
-            _this.mediaUploader.content.get('gallery').collection.props.set
-          ) {
-            _this.mediaUploader.content.get('gallery').collection.props.set({ ignore: (+new Date()) })
+          if (_this.mediaUploader.state() && _this.mediaUploader.state().get('library')) {
+            _this.mediaUploader.state().get('library')._requery( true )
           }
         }, 0)
         return this
@@ -314,14 +308,8 @@ export default class AttachImage extends Attribute {
   }
 
   onMediaOpen () {
-    if (
-      this.mediaUploader.content &&
-      this.mediaUploader.content.get('gallery') &&
-      this.mediaUploader.content.get('gallery').collection &&
-      this.mediaUploader.content.get('gallery').collection.props &&
-      this.mediaUploader.content.get('gallery').collection.props.set
-    ) {
-      this.mediaUploader.content.get('gallery').collection.props.set({ ignore: (+new Date()) })
+    if (this.mediaUploader.state() && this.mediaUploader.state().get('library')) {
+      this.mediaUploader.state().get('library')._requery( true )
     }
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
