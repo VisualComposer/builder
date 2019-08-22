@@ -319,7 +319,7 @@ export default class HtmlEditorComponent extends React.Component {
     )
   }
 
-  initWpEditorJs () {
+  initWpEditorJs (firstLoad) {
     const { fieldKey } = this.props
     let id = `vcv-wpeditor-${fieldKey}`
     if (!document.querySelector('#' + id)) {
@@ -364,6 +364,21 @@ export default class HtmlEditorComponent extends React.Component {
             this.addFontDropdowns(editor)
           },
           init_instance_callback: (editor) => {
+            if (!firstLoad) {
+              let editorWrapper = document.querySelector('.vcv-ui-form-wp-tinymce')
+              const isInViewport = (elem) => {
+                const bounding = elem.getBoundingClientRect()
+                return (
+                  bounding.top >= 0 &&
+                  bounding.left >= 0 &&
+                  bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                  bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+                )
+              }
+              if (editorWrapper && !isInViewport(editorWrapper)) {
+                editorWrapper.scrollIntoView()
+              }
+            }
             this.loadUsedFonts(this.props)
             editor.iframeElement.style.display = 'none'
             editor.on('BeforeExecCommand', function () {
@@ -420,7 +435,9 @@ export default class HtmlEditorComponent extends React.Component {
 
   componentDidMount () {
     if (typeof window.tinymce !== 'undefined') {
-      window.setTimeout(this.initWpEditorJs, 1)
+      window.setTimeout(() => {
+        this.initWpEditorJs(true)
+      }, 1)
     }
   }
 

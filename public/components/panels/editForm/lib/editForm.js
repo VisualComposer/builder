@@ -33,12 +33,14 @@ export default class EditForm extends React.Component {
     return activeTab > -1 ? activeTab : 0
   }
 
-  componentWillReceiveProps (nextProps) {
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.allTabs = this.updateTabs(nextProps)
     this.setState({
       activeTabIndex: this.getActiveTabIndex(nextProps.activeTabId)
     })
   }
+  /* eslint-enable */
 
   updateTabs (props) {
     return this.editFormTabs(props).map((tab, index) => {

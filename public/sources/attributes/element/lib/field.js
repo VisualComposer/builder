@@ -33,13 +33,15 @@ export default class EditFromField extends React.Component {
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
-  componentWillReceiveProps (nextProps) {
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
     this.props.setFieldMount(nextProps.fieldKey, {
       refWrapper: this.refs.fieldAttributeWrapper,
       refWrapperComponent: this,
       refAttributeComponent: this.refs.attributeComponent
     }, 'field')
   }
+  /* eslint-enable */
 
   setInnerFieldStatus () {
     // If field has other fields inside add class to remove margin from parent field

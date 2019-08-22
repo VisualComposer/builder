@@ -1,0 +1,161 @@
+.vcv-layout-header .vcv-ui-form-group {
+  .vcv-ui-form-dropdown.vcv-ui-form-field-dynamic,
+  .vcv-ui-form-input.vcv-ui-form-field-dynamic,
+  .vcv-ui-tag-list-container.vcv-ui-form-field-dynamic,
+  .vcv-ui-form-field-dynamic-url.vcv-ui-form-field-dynamic,
+  .vcv-ui-form-input-select.vcv-ui-form-field-dynamic {
+    width: 92%;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.vcv-ui-dynamic-field-autocomplete-container {
+  position: relative;
+
+  > .vcv-ui-wp-spinner {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+  }
+}
+
+.vcv-ui-form-field-dynamic + .vcv-ui-form-link {
+  margin-top: 10px;
+}
+
+.vcv-ui-form-attach-image.vcv-ui-form-field-dynamic {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .vcv-ui-form-attach-image-items {
+    margin-right: 5px;
+  }
+
+  .vcv-ui-form-link {
+    margin-top: 10px;
+  }
+}
+
+.vcv-ui-dynamic-field-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 20px;
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 3px;
+  padding: 3px 2px;
+
+  .vcv-ui-dynamic-field-control {
+    padding: 0 5px;
+  }
+}
+
+.vcv-ui-dynamic-field-tag {
+  background: #2A4B80;
+  color: #fff;
+  margin: 1px 3px;
+  border-radius: 2em;
+  padding: 1px 11px 0;
+  font-size: 12px;
+  word-break: break-all;
+  cursor: pointer;
+
+  &.vcv-ui-dynamic-field-tag--inactive {
+    background: #ed5656;
+  }
+}
+
+.vcv-ui-form-wp-tinymce {
+  &.vcv-ui-form-field-has-dynamic:not(.vcv-ui-form-field-dynamic-is-opened) {
+    .vcv-ui-form-switch-small-container {
+      margin-top: 8px;
+      position: absolute;
+      right: 30px;
+    }
+    .vcv-ui-dynamic-field-control {
+      margin-top: 5px;
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      right: 2px;
+    }
+  }
+
+  .wp-editor-container {
+    border: 1px solid #d1d1d1;
+    border-bottom: 0;
+  }
+
+  .mce-top-part::before {
+    display: none;
+  }
+
+  div.mce-toolbar-grp {
+    border-bottom: 0;
+  }
+
+  &.vcv-ui-form-field-dynamic-is-opened {
+    .vcv-ui-form-wp-tinymce-inner {
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 99;
+        background: #fff;
+        opacity: .6;
+      }
+    }
+    &.vcv-ui-form-field-dynamic-is-active {
+      .vcv-ui-form-wp-tinymce-inner:after {
+        display: none;
+      }
+    }
+    .vcv-ui-dynamic-field-container {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .vcv-ui-form-switch-small-container {
+      display: none;
+    }
+    + .vcv-ui-form-helper {
+      display: none;
+    }
+  }
+}
+
+.vcv-ui-dynamic-field-controls {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.vcv-ui-dynamic-field-control {
+  display: inline-block;
+  border: none;
+  background: transparent;
+  vertical-align: middle;
+  cursor: pointer;
+  padding: 6px 0 6px 5px;
+  font-size: 16px;
+  transition: color @transition-duration @transition-timing-function;
+
+  &:hover {
+    color: #2A4B80;
+  }
+}
+
+.vcv-ui-dynamic-field-inner {
+  padding: 5px 0 20px;
+}
+
+.vcv-ui-form-input.vcv-ui-form-field-dynamic-extra {
+  margin-top: 10px;
+}
