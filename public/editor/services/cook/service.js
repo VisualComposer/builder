@@ -324,7 +324,7 @@ const API = {
 
     return count
   },
-  visualizeAttributes: (element, api = false, props = false) => {
+  visualizeAttributes: (element, api = false, props = false, isNested = false) => {
     const atts = props ? props.atts : element.getAll(false)
     const id = props ? props.id : atts.id
     let layoutAtts = {}
@@ -416,7 +416,7 @@ const API = {
         } else {
           layoutAtts[ fieldKey ] = dynamicFieldsData
         }
-      } else if (options && options.inline) {
+      } else if (!isNested && options && options.inline) {
         layoutAtts[ fieldKey ] =
           <ContentEditableComponent id={id} fieldKey={fieldKey} fieldType={type} api={api} cook={API}
             options={{
