@@ -1,10 +1,13 @@
 import React from 'react'
 import Attribute from '../attribute'
+import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import lodash from 'lodash'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'react-sortable-hoc'
 
 const workspaceStorage = getStorage('workspace')
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 export default class ParamsGroupAttribute extends Attribute {
   static defaultProps = {
@@ -57,11 +60,19 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   clickEdit (index) {
-    let groupName = this.state.value.value[ index ]
-    let options = {
+    const groupData = this.state.value.value[ index ]
+    const attrOptions = this.props.options.settings.title.options
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && attrOptions && attrOptions.dynamicField && groupData.title.match(blockRegexp)
+    let groupTitle = groupData.title
+    if (isDynamic) {
+      const blockInfo = groupData.title.split(blockRegexp)
+      groupTitle = JSON.parse(blockInfo[ 4 ].trim()).currentValue
+    }
+    const options = {
       nestedAttr: true,
       parentElementAccessPoint: this.props.elementAccessPoint,
-      activeParamGroup: groupName,
+      activeParamGroup: groupData,
+      activeParamGroupTitle: groupTitle,
       activeParamGroupIndex: index,
       fieldKey: this.props.fieldKey,
       customUpdater: this.onParamChange.bind(this)
@@ -107,6 +118,13 @@ export default class ParamsGroupAttribute extends Attribute {
   getSortableItems () {
     const SortableItem = SortableElement(({ value, groupIndex }) => {
       let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
+      const attrOptions = this.props.options.settings.title.options
+      const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && attrOptions && attrOptions.dynamicField && value.title.match(blockRegexp)
+      let title = value.title
+      if (isDynamic) {
+        const blockInfo = value.title.split(blockRegexp)
+        title = JSON.parse(blockInfo[ 4 ].trim()).currentValue
+      }
 
       return (
         <div className='vcv-ui-form-params-group-item vcv-ui-tree-layout-control'>
@@ -123,7 +141,7 @@ export default class ParamsGroupAttribute extends Attribute {
                 onBlur={this.validateContent}
                 data-index={groupIndex}
               >
-                {value.title}
+                {title}
               </span>
             </span>
             {this.getChildControls(groupIndex)}
@@ -266,7 +284,7 @@ export default class ParamsGroupAttribute extends Attribute {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
     return (
-      <React.Fragment>
+      <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={value}>
         {value.value && value.value.length ? null : (
           <div className='vcv-ui-form-group-heading'>{options.title}</div>
         )}
@@ -274,7 +292,7 @@ export default class ParamsGroupAttribute extends Attribute {
           {this.getSortableList()}
           {!maximum && <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} title={addText} />}
         </div>
-      </React.Fragment>
+      </DynamicAttribute>
     )
   }
 }
