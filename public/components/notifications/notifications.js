@@ -19,9 +19,20 @@ export default class Notifications extends React.Component {
     notificationsPortalState.onChange(this.changePortalContainer)
   }
 
+  getVisibleContainer (selector) {
+    let portals = [].slice.call(document.querySelectorAll(selector))
+    if (portals.length) {
+      const visibleItems = portals.filter((item) => {
+        return item.offsetParent !== null
+      })
+      return visibleItems[0]
+    }
+    return null
+  }
+
   changePortalContainer (selector) {
     this.setState({
-      portalContainer: selector ? document.querySelector(selector) : selector
+      portalContainer: selector ? this.getVisibleContainer(selector) : selector
     })
   }
 
