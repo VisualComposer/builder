@@ -34,10 +34,9 @@ class AssetResetController extends Container implements Module
                 function (File $fileHelper) {
                     $this->fileHelper = $fileHelper;
                     $this->call('updateCssFiles');
-                    if ($this->changed) {
-                        $this->call('updatePosts');
-                    }
-                }
+                    $this->call('updatePosts');
+                },
+                100
             );
         }
     }
@@ -74,7 +73,7 @@ class AssetResetController extends Container implements Module
                 'post_type' => 'any',
                 'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
                 'posts_per_page' => -1,
-                'meta_key' => VCV_PREFIX . 'globalElementsCssData',
+                'meta_key' => VCV_PREFIX . 'pageContent',
                 'suppress_filters' => true,
             ]
         );
@@ -84,6 +83,7 @@ class AssetResetController extends Container implements Module
             $postId = get_the_ID();
             $this->updatePageElementsCssData($postId);
             $this->updatePageContent($postId);
+            $this->updatePostContent($postId);
         }
         wp_reset_postdata();
     }
@@ -93,23 +93,32 @@ class AssetResetController extends Container implements Module
      *
      * @return null|string|string[]
      */
-    protected function findLinks($content)
+    protected function findLinks($content, $sourceId = '')
     {
-        $content = preg_replace_callback(
-            '/(http|https)\:\/\/([a-zA-Z0-9\-\.:]+)(\/\S[^.]*)+(\.[a-zA-Z0-9]{2,4})/',
-            function ($link) {
-                return $this->parseLink($link);
-            },
-            $content
-        );
+        if (!empty($content)) {
+            $replacedContent = preg_replace_callback(
+                '/(http|https)\:\/\/([a-zA-Z0-9\-\.:]+)(\/\S[^.]*)+(\.[a-zA-Z0-9]{2,4})/',
+                function ($link) use ($sourceId) {
+                    return $this->parseLink($link, $sourceId);
+                },
+                $content
+            );
+
+            $content = apply_filters('vc_migration_replace_content', $replacedContent ? $replacedContent : $content, $this, $sourceId);
+        }
 
         return $content;
     }
 
-    protected function parseLink($link)
+    public function setChanged($changed = true)
+    {
+        $this->changed = $changed;
+    }
+
+    protected function parseLink($link, $sourceId)
     {
         if (array_key_exists($link[0], $this->cache)) {
-            return $this->cache[ $link[0] ];
+            return $this->cache[$link[0]];
         }
         $contentDirPattern = str_replace(
             '/',
@@ -121,13 +130,14 @@ class AssetResetController extends Container implements Module
         if ($this->fileHelper->isFile($path)) {
             $this->changed = true;
             $updatedLink = set_url_scheme(WP_CONTENT_URL . '/' . $relative);
-            $this->cache[ $link[0] ] = $updatedLink;
+            $this->cache[$link[0]] = $updatedLink;
 
             return $updatedLink;
         }
-        $this->cache[ $link[0] ] = $link[0];
+        $updatedLink = apply_filters('vc_migration_link', $link[0], $sourceId);
+        $this->cache[$link[0]] = $updatedLink;
 
-        return $link[0];
+        return $updatedLink;
     }
 
     /**
@@ -143,8 +153,11 @@ class AssetResetController extends Container implements Module
             if (is_array($decodedPageContent)) {
                 array_walk_recursive(
                     $decodedPageContent,
-                    function (&$value, $key) {
-                        $value = $this->call('findLinks', [$value, $key]);
+                    function (&$value, $key) use ($postId) {
+                        $value = $this->call('findLinks', [
+                            'content' => $value,
+                            'sourceId' => $postId,
+                        ]);
                     }
                 );
                 if ($this->changed) {
@@ -159,6 +172,25 @@ class AssetResetController extends Container implements Module
     /**
      * @param $postId
      */
+    protected function updatePostContent($postId)
+    {
+        $post = get_post($postId);
+        //@codingStandardsIgnoreLine
+        $postContent = $post->post_content;
+        if (!empty($postContent)) {
+            $this->changed = false;
+            $postContent = $this->findLinks($postContent, $postId);
+            if ($this->changed) {
+                //@codingStandardsIgnoreLine
+                $post->post_content = $postContent;
+                wp_update_post($post);
+            }
+        }
+    }
+
+    /**
+     * @param $postId
+     */
     protected function updatePageElementsCssData($postId)
     {
         $globalElementsCssData = get_post_meta($postId, VCV_PREFIX . 'globalElementsCssData', true);
@@ -166,8 +198,11 @@ class AssetResetController extends Container implements Module
             $this->changed = false;
             array_walk_recursive(
                 $globalElementsCssData,
-                function (&$value, $key) {
-                    $value = $this->call('findLinks', [$value, $key]);
+                function (&$value, $key) use ($postId) {
+                    $value = $this->call('findLinks', [
+                        'content' => $value,
+                        'sourceId' => $postId
+                    ]);
                 }
             );
             if ($this->changed) {
