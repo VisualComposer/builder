@@ -17,7 +17,7 @@ export default class DynamicAttribute extends React.Component {
     this.open = this.open.bind(this)
     this.hide = this.hide.bind(this)
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
     let state = {
       isDynamic: isDynamic,
       dynamicFieldOpened: false,
@@ -228,13 +228,9 @@ export default class DynamicAttribute extends React.Component {
 
   render () {
     const { dynamicFieldOpened, isDynamic, isWindowOpen } = this.state
-    const { children, editFormOptions, render } = this.props
+    const { children, render } = this.props
 
     if (!isDynamic) {
-      return children || null
-    }
-    if (editFormOptions && editFormOptions.nestedAttr) {
-      // We are inside paramsGroup, it is not implemented yet.
       return children || null
     }
 

@@ -429,7 +429,7 @@ export default class AttachImage extends Attribute {
       filterList = ''
     }
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField && !(this.props.editFormOptions && this.props.editFormOptions.nestedAttr)
+    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
     let fieldClassNames = classNames({
       'vcv-ui-form-attach-image': true,
       'vcv-ui-form-field-dynamic': isDynamic
