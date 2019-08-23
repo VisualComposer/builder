@@ -2,6 +2,7 @@ import { getService, getStorage, env } from 'vc-cake'
 
 const cook = getService('cook')
 const assetsStorage = getStorage('assets')
+const elementsStorage = getStorage('elements')
 
 export default class CssBuilder {
   constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
@@ -113,6 +114,8 @@ export default class CssBuilder {
 
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
+      const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
+      elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
       this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
     })
   }
@@ -142,6 +145,8 @@ export default class CssBuilder {
     }
     this.doJobs(data).then(() => {
       this.addElementJobsToStorage(data, false)
+      const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
+      elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
       this.window.vcv.trigger('ready', 'update', data.id, options, data.tag)
     })
   }
