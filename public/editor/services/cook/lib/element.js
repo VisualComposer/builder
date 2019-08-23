@@ -8,8 +8,7 @@ import elementComponent from './element-component'
 import DynamicElement from 'public/components/dynamicFields/dynamicElement'
 import { getAttributeType } from './tools'
 
-const { createKey, getBlockRegexp } = vcCake.getService('utils')
-const blockRegexp = getBlockRegexp()
+const { createKey } = vcCake.getService('utils')
 const hubElementService = vcCake.getService('hubElements')
 const assetsStorage = vcCake.getStorage('assets')
 const elData = Symbol('element data')
@@ -247,99 +246,6 @@ export default class Element {
     return new Element({ tag: tag })
   }
 
-  visualizeAttributes (atts) {
-    let layoutAtts = {}
-    Object.keys(atts).forEach((fieldKey) => {
-      const attrSettings = this.settings(fieldKey)
-      const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
-      const options = attrSettings.settings.options ? attrSettings.settings.options : {}
-      let value = null
-      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array)) {
-        value = Object.assign({}, atts[ fieldKey ])
-      } else {
-        value = atts[ fieldKey ]
-      }
-      let dynamicValue = value
-
-      // Check isDynamic for string/htmleditor/attachimage/inputSelect
-      let isDynamic = false
-      if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
-        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
-          let matchValue
-          if (type === 'inputSelect') {
-            matchValue = value.input && value.input.match(blockRegexp)
-          } else {
-            matchValue = value.match(blockRegexp)
-          }
-          if (matchValue) {
-            isDynamic = true
-          }
-        } else if ([ 'attachimage' ].indexOf(type) !== -1) {
-          let testValue = value
-          if (typeof testValue !== 'string') {
-            testValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
-          }
-          isDynamic = testValue.match(blockRegexp)
-          if (isDynamic) {
-            dynamicValue = testValue
-          }
-        }
-      }
-
-      if (isDynamic) {
-        let blockInfo
-        if (type === 'inputSelect') {
-          blockInfo = dynamicValue.input && dynamicValue.input.split(blockRegexp)
-        } else {
-          blockInfo = dynamicValue.split(blockRegexp)
-        }
-        let dynamicFieldsData = cookApi.dynamicFields.getDynamicFieldsData(
-          {
-            fieldKey: fieldKey,
-            value: dynamicValue,
-            blockName: blockInfo[ 3 ],
-            blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
-            blockContent: blockInfo[ 7 ],
-            beforeBlock: blockInfo[ 0 ] || '',
-            afterBlock: blockInfo[ 14 ] || ''
-          },
-          {
-            fieldKey: fieldKey,
-            fieldType: attrSettings.type.name,
-            fieldOptions: attrSettings.settings.options
-          }
-        )
-
-        if ([ 'attachimage' ].indexOf(type) !== -1) {
-          if (value && value.full) {
-            value.full = dynamicFieldsData
-            layoutAtts[ fieldKey ] = value
-          } else if (value.urls && value.urls[ 0 ]) {
-            let newValue = { ids: [], urls: [ { full: dynamicFieldsData } ] }
-            if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
-              newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
-            }
-            if (value.urls[ 0 ] && value.urls[ 0 ].link) {
-              newValue.urls[ 0 ].link = value.urls[ 0 ].link
-            }
-            layoutAtts[ fieldKey ] = newValue
-          } else {
-            layoutAtts[ fieldKey ] = dynamicFieldsData
-          }
-        } else if (attrSettings.settings.type === 'inputSelect') {
-          value.input = dynamicFieldsData
-          value.select = null
-          layoutAtts[ fieldKey ] = value
-        } else {
-          layoutAtts[ fieldKey ] = dynamicFieldsData
-        }
-      } else {
-        layoutAtts[ fieldKey ] = value
-      }
-    })
-    return layoutAtts
-  }
-
   render (content, editor, inner = true) {
     if (!this[ elComponent ].has()) {
       elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
@@ -354,7 +260,7 @@ export default class Element {
     if (typeof editor === 'undefined' || editor) {
       props.editor = editorProps
     }
-    props.atts = this.visualizeAttributes(atts) // TODO: VisualizeAttributes from htmlLayout/Element.js
+    props.atts = cookApi.visualizeAttributes(cookApi.get(atts))
     props.rawAtts = atts
     props.content = content
     if (inner) {

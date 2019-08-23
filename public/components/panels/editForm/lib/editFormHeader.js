@@ -123,8 +123,8 @@ export default class EditFormHeader extends React.Component {
       <span className='vcv-ui-edit-form-back-button' onClick={this.goBack} title={backToParentTitle}>
         <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
 
-    if (isNested && options.activeParamGroup) {
-      content = options.activeParamGroup.title
+    if (isNested && options.activeParamGroupTitle) {
+      content = options.activeParamGroupTitle
     }
 
     const sectionImageSrc = hubCategories.getElementIcon(elementAccessPoint.tag)

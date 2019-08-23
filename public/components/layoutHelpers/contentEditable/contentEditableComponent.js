@@ -6,7 +6,6 @@ import lodash from 'lodash'
 import TinymceButtonsBuilder from './lib/tinymceButtonsBuilder'
 
 const documentManager = vcCake.getService('document')
-const cook = vcCake.getService('cook')
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
@@ -33,7 +32,8 @@ export default class ContentEditableComponent extends React.Component {
       PropTypes.string
     ]),
     className: PropTypes.string,
-    options: PropTypes.object
+    options: PropTypes.object,
+    cook: PropTypes.object
   }
 
   constructor (props) {
@@ -94,7 +94,7 @@ export default class ContentEditableComponent extends React.Component {
       this.removeOverlay()
       // Save data to map to undo/Redo
       const data = documentManager.get(this.props.id)
-      const element = cook.get(data)
+      const element = this.props.cook.get(data)
       const content = this.editor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
         ? striptags(content) : content
