@@ -98,12 +98,12 @@ We use PSR-2 Code style and CodeSniffer is configured in ruleset.xml to check PS
 All javascript is build with webpack module builder. Install the plugin and checked that it works, you can make changes to it to get acquainted with the code.
 
 ### Requirements
-* PHP >= 5.4
-* WordPress >= 4.6
-* PHP `gd2/imagick` and `php-zip` extensions to be loaded
-* Node >=8.0
-* npm >=5.8
-* yarn
+* PHP >= 5.4.0 (PHP 7+ is recommended)
+* WordPress >= 5.0.0
+* PHP `gd2/imagick`, `php-curl` and `php-zip` extensions to be loaded
+* Node >= 10.16.0
+* npm >= 6.9.0
+* yarn >= 1.17.3
 
 Locate plugin folder in your WordPress installation under `wp-content/plugins` and clone builder repo here.
 

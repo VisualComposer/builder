@@ -5,7 +5,7 @@ import ContentControls from 'public/components/layoutHelpers/contentControls/com
 import ContentEditableComponent from 'public/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import MobileDetect from 'mobile-detect'
-import { isEqual } from 'lodash'
+import { isEqual, defer } from 'lodash'
 import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
@@ -36,7 +36,8 @@ export default class Element extends React.Component {
     this.state = {
       element: props.element,
       cssBuildingProcess: true,
-      isRendered: false
+      isRendered: false,
+      currentContent: null
     }
   }
 
@@ -52,20 +53,21 @@ export default class Element extends React.Component {
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
-    assetsStorage.state('jobs').onChange(this.cssJobsUpdate)
-    assetsStorage.trigger('addElement', this.state.element.id)
+    elementsStorage.on(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
     if (this.elementComponentRef && this.elementComponentRef.current) {
       let cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
     }
+    defer(() => {
+      assetsStorage.trigger('addElement', this.state.element.id)
+    })
   }
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
     elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
-    assetsStorage.state('jobs').ignoreChange(this.cssJobsUpdate)
-    assetsStorage.trigger('removeElement', this.state.element.id)
+    elementsStorage.off(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
     // Clean everything before/after
     if (!this.elementComponentRef || !this.elementComponentRef.current) {
@@ -270,7 +272,8 @@ export default class Element extends React.Component {
         options.id = atts.id
         layoutAtts[ fieldKey ] = this.visualizeNestedAttributes(options)
       } else if (attrSettings.settings.type === 'htmleditor' && (!attrSettings.settings.options || !attrSettings.settings.options.inline)) {
-        layoutAtts[ fieldKey ] = <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
+        layoutAtts[ fieldKey ] =
+          <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
       } else {
         layoutAtts[ fieldKey ] = value
       }
