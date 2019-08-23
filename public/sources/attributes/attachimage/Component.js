@@ -132,7 +132,7 @@ export default class AttachImage extends Attribute {
         ReactDOM.unmountComponentAtNode(this.$el.get(0))
         window.setTimeout(() => {
           if (_this.mediaUploader.state() && _this.mediaUploader.state().get('library')) {
-            _this.mediaUploader.state().get('library')._requery( true )
+            _this.mediaUploader.state().get('library')._requery(true)
           }
         }, 0)
         return this
@@ -154,6 +154,7 @@ export default class AttachImage extends Attribute {
     this.mediaUploader.on('close', this.onMediaClose)
     this.mediaUploader.on('uploader:ready', this.onMediaOpen)
   }
+
   /* eslint-enable */
 
   updateState (props) {
@@ -309,7 +310,7 @@ export default class AttachImage extends Attribute {
 
   onMediaOpen () {
     if (this.mediaUploader.state() && this.mediaUploader.state().get('library')) {
-      this.mediaUploader.state().get('library')._requery( true )
+      this.mediaUploader.state().get('library')._requery(true)
     }
     let selection = this.mediaUploader.state().get('selection')
     let ids = this.state.value.ids
