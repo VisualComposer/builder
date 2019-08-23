@@ -120,6 +120,7 @@ class FactoryResetController extends Container implements Module
             return false;
         }
         $optionsHelper->deleteTransient('vcv:settings:factoryReset:allow');
+        $optionsHelper->set('settingsResetInitiated', time());
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
         $noticeHelper->addNotice(
