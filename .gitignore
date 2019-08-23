@@ -81,3 +81,6 @@ elements/**/public/dist/*.bundle.js
 tests/cypress.env.json
 tests/cypress/screenshots/
 tests/cypress/videos/
+
+# languages, auto-downloadable
+languages/vcwb-*
