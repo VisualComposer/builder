@@ -7,6 +7,8 @@ import attributeManager from './lib/attribute-manager'
 import Element from './lib/element'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import MobileDetect from 'mobile-detect'
+import ContentEditableComponent from 'public/components/layoutHelpers/contentEditable/contentEditableComponent'
 
 const DocumentData = getService('document')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
@@ -321,6 +323,131 @@ const API = {
     }
 
     return count
+  },
+  visualizeAttributes: (element, api = false, props = false) => {
+    const atts = props ? props.atts : element.getAll(false)
+    const id = props ? props.id : atts.id
+    let layoutAtts = {}
+    let allowInline = true
+    const mobileDetect = new MobileDetect(window.navigator.userAgent)
+    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
+      allowInline = false
+    }
+    Object.keys(atts).forEach((fieldKey) => {
+      const attrSettings = props ? props.attrSettings.settings.options.settings : element.settings(fieldKey)
+      const type = props ? attrSettings[ fieldKey ].type : attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
+      const options = props ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
+
+      let value = null
+      const isDateObject = atts[ fieldKey ].getMonth && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[fieldKey] instanceof window.Date)
+      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array) && isDateObject) {
+        value = Object.assign({}, atts[ fieldKey ])
+      } else {
+        value = atts[ fieldKey ]
+      }
+
+      let dynamicValue = value
+
+      let isDynamic = false
+      if (env('VCV_JS_FT_DYNAMIC_FIELDS') && options && typeof options.dynamicField !== 'undefined') {
+        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
+          let matchValue
+          if (type === 'inputSelect') {
+            matchValue = value.input && value.input.match(blockRegexp)
+          } else {
+            matchValue = value.match(blockRegexp)
+          }
+          if (matchValue) {
+            isDynamic = true
+          }
+        } else if ([ 'attachimage' ].indexOf(type) !== -1) {
+          let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+          isDynamic = tempValue.match(blockRegexp)
+          if (isDynamic) {
+            dynamicValue = tempValue
+          }
+        }
+      }
+
+      if (isDynamic) {
+        let blockInfo
+        if (type === 'inputSelect') {
+          blockInfo = dynamicValue.input && dynamicValue.input.split(blockRegexp)
+        } else {
+          blockInfo = dynamicValue.split(blockRegexp)
+        }
+        let dynamicFieldsData = API.dynamicFields.getDynamicFieldsData(
+          {
+            fieldKey: fieldKey,
+            value: dynamicValue,
+            blockName: blockInfo[ 3 ],
+            blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
+            blockContent: blockInfo[ 7 ],
+            beforeBlock: blockInfo[ 0 ] || '',
+            afterBlock: blockInfo[ 14 ] || ''
+          },
+          {
+            fieldKey: fieldKey,
+            fieldType: type,
+            fieldOptions: options
+          }
+        )
+
+        if ([ 'attachimage' ].indexOf(type) !== -1) {
+          if (value && value.full) {
+            value.full = dynamicFieldsData
+            layoutAtts[ fieldKey ] = value
+          } else if (value.urls && value.urls[ 0 ]) {
+            let newValue = { ids: [], urls: [ { full: dynamicFieldsData } ] }
+            if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
+              newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
+            }
+            if (value.urls[ 0 ] && value.urls[ 0 ].link) {
+              newValue.urls[ 0 ].link = value.urls[ 0 ].link
+            }
+            layoutAtts[ fieldKey ] = newValue
+          } else {
+            layoutAtts[ fieldKey ] = dynamicFieldsData
+          }
+        } else if (type === 'inputSelect') {
+          value.input = dynamicFieldsData
+          value.select = null
+          layoutAtts[ fieldKey ] = value
+        } else {
+          layoutAtts[ fieldKey ] = dynamicFieldsData
+        }
+      } else if (options && options.inline) {
+        layoutAtts[ fieldKey ] =
+          <ContentEditableComponent id={id} fieldKey={fieldKey} fieldType={type} api={api} cook={API}
+            options={{
+              ...options,
+              allowInline
+            }}>
+            {value || ''}
+          </ContentEditableComponent>
+      } else if (type === 'paramsGroup') {
+        const paramsGroupProps = {}
+        paramsGroupProps.element = element
+        paramsGroupProps.attrKey = fieldKey
+        paramsGroupProps.attrSettings = attrSettings
+        paramsGroupProps.allowInline = allowInline
+        paramsGroupProps.id = id
+        let fieldValue = {}
+        fieldValue.value = []
+        const attrValue = element.get(fieldKey).value
+        attrValue.forEach((value, i) => {
+          paramsGroupProps.atts = value
+          fieldValue.value[ i ] = API.visualizeAttributes(element, api, paramsGroupProps)
+        })
+        layoutAtts[ fieldKey ] = fieldValue
+      } else if (type === 'htmleditor' && (!options || !options.inline)) {
+        layoutAtts[ fieldKey ] =
+          <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
+      } else {
+        layoutAtts[ fieldKey ] = value
+      }
+    })
+    return layoutAtts
   }
 }
 

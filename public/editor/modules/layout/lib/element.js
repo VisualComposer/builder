@@ -2,9 +2,7 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
-import ContentEditableComponent from 'public/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
-import MobileDetect from 'mobile-detect'
 import { isEqual, defer } from 'lodash'
 import PropTypes from 'prop-types'
 
@@ -12,11 +10,8 @@ const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
-const { getBlockRegexp } = vcCake.getService('utils')
-const blockRegexp = getBlockRegexp()
 
 const {
-  getDynamicFieldsData,
   updateDynamicComments,
   cleanComments
 } = cook.dynamicFields
@@ -138,150 +133,6 @@ export default class Element extends React.Component {
     return returnData
   }
 
-  visualizeNestedAttributes (options) {
-    const returnValue = {}
-    returnValue.value = []
-    const { element, attrKey, attrSettings, allowInline, id } = options
-    const settings = attrSettings.settings.options.settings
-    const attrValue = element.get(attrKey).value
-    attrValue.forEach((value, i) => {
-      returnValue.value[ i ] = {}
-      Object.keys(value).forEach((propKey) => {
-        if (settings[ propKey ] && settings[ propKey ].options && settings[ propKey ].options.inline) {
-          returnValue.value[ i ][ propKey ] =
-            <ContentEditableComponent id={id} fieldKey={attrKey} paramIndex={i} paramField={propKey} fieldType={settings[ propKey ].type} api={this.props.api}
-              options={{
-                ...attrSettings.settings.options,
-                allowInline
-              }}>
-              {value[ propKey ] || ''}
-            </ContentEditableComponent>
-        } else {
-          returnValue.value[ i ][ propKey ] = value[ propKey ]
-        }
-      })
-    })
-    return returnValue
-  }
-
-  visualizeAttributes (element) {
-    let layoutAtts = {}
-    let atts = element.getAll(false)
-    let allowInline = true
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-      allowInline = false
-    }
-    Object.keys(atts).forEach((fieldKey) => {
-      const attrSettings = element.settings(fieldKey)
-      const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
-      const options = attrSettings.settings.options ? attrSettings.settings.options : {}
-
-      let value = null
-      const isDateObject = atts[ fieldKey ].getMonth && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[fieldKey] instanceof window.Date)
-      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array) && isDateObject) {
-        value = Object.assign({}, atts[ fieldKey ])
-      } else {
-        value = atts[ fieldKey ]
-      }
-
-      let dynamicValue = value
-
-      let isDynamic = false
-      if (vcCake.env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
-        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(type) !== -1) {
-          let matchValue
-          if (type === 'inputSelect') {
-            matchValue = value.input && value.input.match(blockRegexp)
-          } else {
-            matchValue = value.match(blockRegexp)
-          }
-          if (matchValue) {
-            isDynamic = true
-          }
-        } else if ([ 'attachimage' ].indexOf(type) !== -1) {
-          let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
-          isDynamic = tempValue.match(blockRegexp)
-          if (isDynamic) {
-            dynamicValue = tempValue
-          }
-        }
-      }
-
-      if (isDynamic) {
-        let blockInfo
-        if (type === 'inputSelect') {
-          blockInfo = dynamicValue.input && dynamicValue.input.split(blockRegexp)
-        } else {
-          blockInfo = dynamicValue.split(blockRegexp)
-        }
-        let dynamicFieldsData = getDynamicFieldsData(
-          {
-            fieldKey: fieldKey,
-            value: dynamicValue,
-            blockName: blockInfo[ 3 ],
-            blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
-            blockContent: blockInfo[ 7 ],
-            beforeBlock: blockInfo[ 0 ] || '',
-            afterBlock: blockInfo[ 14 ] || ''
-          },
-          {
-            fieldKey: fieldKey,
-            fieldType: attrSettings.type.name,
-            fieldOptions: attrSettings.settings.options
-          }
-        )
-
-        if ([ 'attachimage' ].indexOf(type) !== -1) {
-          if (value && value.full) {
-            value.full = dynamicFieldsData
-            layoutAtts[ fieldKey ] = value
-          } else if (value.urls && value.urls[ 0 ]) {
-            let newValue = { ids: [], urls: [ { full: dynamicFieldsData } ] }
-            if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
-              newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
-            }
-            if (value.urls[ 0 ] && value.urls[ 0 ].link) {
-              newValue.urls[ 0 ].link = value.urls[ 0 ].link
-            }
-            layoutAtts[ fieldKey ] = newValue
-          } else {
-            layoutAtts[ fieldKey ] = dynamicFieldsData
-          }
-        } else if (attrSettings.settings.type === 'inputSelect') {
-          value.input = dynamicFieldsData
-          value.select = null
-          layoutAtts[ fieldKey ] = value
-        } else {
-          layoutAtts[ fieldKey ] = dynamicFieldsData
-        }
-      } else if (attrSettings.settings.options && attrSettings.settings.options.inline) {
-        layoutAtts[ fieldKey ] =
-          <ContentEditableComponent id={atts.id} fieldKey={fieldKey} fieldType={attrSettings.type.name} api={this.props.api}
-            options={{
-              ...attrSettings.settings.options,
-              allowInline
-            }}>
-            {value || ''}
-          </ContentEditableComponent>
-      } else if (attrSettings.settings.type === 'paramsGroup') {
-        const options = {}
-        options.element = element
-        options.attrKey = fieldKey
-        options.attrSettings = attrSettings
-        options.allowInline = allowInline
-        options.id = atts.id
-        layoutAtts[ fieldKey ] = this.visualizeNestedAttributes(options)
-      } else if (attrSettings.settings.type === 'htmleditor' && (!attrSettings.settings.options || !attrSettings.settings.options.inline)) {
-        layoutAtts[ fieldKey ] =
-          <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
-      } else {
-        layoutAtts[ fieldKey ] = value
-      }
-    })
-    return layoutAtts
-  }
-
   render () {
     if (this.state.cssBuildingProcess && !this.state.isRendered) {
       return null
@@ -312,7 +163,7 @@ export default class Element extends React.Component {
         ref={this.elementComponentRef}
         id={id}
         key={'vcvLayoutContentComponent' + id}
-        atts={this.visualizeAttributes(cookElement)}
+        atts={cook.visualizeAttributes(cookElement, api)}
         rawAtts={cookElement.getAll(false)}
         api={api}
         editor={editor}
