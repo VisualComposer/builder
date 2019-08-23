@@ -260,7 +260,7 @@ export default class Element {
     if (typeof editor === 'undefined' || editor) {
       props.editor = editorProps
     }
-    props.atts = cookApi.visualizeAttributes(cookApi.get(atts))
+    props.atts = cookApi.visualizeAttributes(cookApi.get(atts), false, false, true)
     props.rawAtts = atts
     props.content = content
     if (inner) {
