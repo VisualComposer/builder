@@ -52,67 +52,139 @@ class PostFieldsController extends Container implements Module
 
         $fields = [
             'attachimage' => [
-                'default' => [
+                'post' => [
                     'group' => [
-                        'label' => __('Default', 'vcwb'),
+                        'label' => __('Post', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'author' => [
+                    'group' => [
+                        'label' => __('Author', 'vcwb'),
                         'values' => [],
                     ],
                 ],
             ],
             'designOptions' => [
-                'default' => [
+                'post' => [
                     'group' => [
-                        'label' => __('Default', 'vcwb'),
+                        'label' => __('Post', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'author' => [
+                    'group' => [
+                        'label' => __('Author', 'vcwb'),
                         'values' => [],
                     ],
                 ],
             ],
             'designOptionsAdvanced' => [
-                'default' => [
+                'post' => [
                     'group' => [
-                        'label' => __('Default', 'vcwb'),
+                        'label' => __('Post', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'author' => [
+                    'group' => [
+                        'label' => __('Author', 'vcwb'),
                         'values' => [],
                     ],
                 ],
             ],
             'string' => [
-                'default' => [
+                'post' => [
                     'group' => [
-                        'label' => __('Default', 'vcwb'),
+                        'label' => __('Post', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'author' => [
+                    'group' => [
+                        'label' => __('Author', 'vcwb'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Meta Field', 'vcwb'),
+                        'label' => __('Custom Fields', 'vcwb'),
                         'values' => [],
                     ],
                 ],
             ],
             'htmleditor' => [
-                'default' => [
+                'post' => [
                     'group' => [
-                        'label' => __('Default', 'vcwb'),
+                        'label' => __('Post', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'author' => [
+                    'group' => [
+                        'label' => __('Author', 'vcwb'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Meta Field', 'vcwb'),
+                        'label' => __('Custom Fields', 'vcwb'),
                         'values' => [],
                     ],
                 ],
             ],
             'inputSelect' => [
-                'default' => [
+                'post' => [
                     'group' => [
-                        'label' => __('Default', 'vcwb'),
+                        'label' => __('Post', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'author' => [
+                    'group' => [
+                        'label' => __('Author', 'vcwb'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Meta Field', 'vcwb'),
+                        'label' => __('Custom Fields', 'vcwb'),
                         'values' => [],
                     ],
                 ],

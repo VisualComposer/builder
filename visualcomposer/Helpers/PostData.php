@@ -230,6 +230,34 @@ class PostData implements Helper
         return $description;
     }
 
+    public function getSiteTitle()
+    {
+        $name = get_bloginfo('name');
+
+        return $name;
+    }
+
+    public function getSiteTagline()
+    {
+        $tagline = get_bloginfo('description');
+
+        return $tagline;
+    }
+
+    public function getSiteUrl()
+    {
+        $url = get_bloginfo('url');
+
+        return $url;
+    }
+
+    public function getCurrentYear()
+    {
+        $date = date('Y');
+
+        return $date;
+    }
+
     public function getDefaultPostData($sourceId = '')
     {
         $response = [];
@@ -248,6 +276,10 @@ class PostData implements Helper
         $response['post_modify_date'] = $this->getPostModifyDate($sourceId);
         $response['post_parent_name'] = $this->getPostParentName($sourceId);
         $response['post_author_bio'] = $this->getPostAuthorBio($sourceId);
+        $response['site_title'] = $this->getSiteTitle($sourceId);
+        $response['site_tagline'] = $this->getSiteTagline($sourceId);
+        $response['site_url'] = $this->getSiteUrl($sourceId);
+        $response['current_year'] = $this->getCurrentYear($sourceId);
 
         return $response;
     }
