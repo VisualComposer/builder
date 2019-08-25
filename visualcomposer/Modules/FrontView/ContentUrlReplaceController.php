@@ -198,7 +198,6 @@ class ContentUrlReplaceController extends Container implements Module
                 function (&$value, $key) use ($siteUrls) {
                     $value = str_replace($siteUrls['prevUrls'], $siteUrls['currentUrl'], $value, $this->replaceCount);
                 }
-
             );
 
             if ($this->replaceCount > 0) {
