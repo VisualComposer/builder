@@ -43,7 +43,7 @@ class Controller extends Container implements Module
 
         // Fix for staging auto urls 404->301
         if ($requestHelper->exists('vcv-editable')) {
-            add_filter('redirect_canonical', '__return_false');
+            add_filter('redirect_canonical', '__return_false', 100);
         }
     }
 
