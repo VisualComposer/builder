@@ -79,6 +79,7 @@ describe(ELEMENT_NAME, function () {
             .clear()
             .type(settings.rowBoxShadow.horizontalOffset)
         })
+      cy.wait(100)
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Vertical offset')
@@ -89,6 +90,7 @@ describe(ELEMENT_NAME, function () {
             .clear()
             .type(settings.rowBoxShadow.verticalOffset)
         })
+      cy.wait(100)
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Blur radius')
@@ -99,6 +101,7 @@ describe(ELEMENT_NAME, function () {
             .clear()
             .type(settings.rowBoxShadow.blurRadius)
         })
+      cy.wait(100)
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Spread radius')
@@ -109,6 +112,7 @@ describe(ELEMENT_NAME, function () {
             .clear()
             .type(settings.rowBoxShadow.spreadRadius)
         })
+      cy.wait(100)
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Shadow color')
