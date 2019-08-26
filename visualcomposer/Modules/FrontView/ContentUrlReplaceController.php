@@ -1,5 +1,7 @@
 <?php
+
 namespace VisualComposer\Modules\FrontView;
+
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
     header('HTTP/1.1 403 Forbidden');
@@ -11,6 +13,7 @@ use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+
 /**
  * Class ContentUrlReplaceController
  * @package VisualComposer\Modules\FrontView
