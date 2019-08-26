@@ -42,6 +42,11 @@ class PostFieldsController extends Container implements Module
         }
 
         $post = get_post($payload['sourceId']);
+        $postType = get_post_type($post);
+        if (in_array($postType, ['vcv_headers', 'vcv_footers', 'vcv_sidebars', 'vcv_templates'])) {
+            $payload['forceAddField'] = true;
+        }
+
         // @codingStandardsIgnoreLine
         if (!isset($post) || $post->post_status === 'trash') {
             $response['postFields'] = [];
