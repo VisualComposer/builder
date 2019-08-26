@@ -1,3 +1,13 @@
+## ver 19.0 - 2019-08-27
+- New: Dynamic Content UI/UX improvements and popup window
+- New: Dynamic Content works for the param group attributes for complex elements
+- New: Dynamic Content works with Advanced Custom Fields (ACF)
+- New: All Dynamic Content fields are available in Global Templates
+- New: Visual Composer automatically adjusts links after site migration
+- Update: Dynamic Content grouping introduced in the field drop-down
+- Update: Editor performance improvements
+- Fix: Single Image sizes works properly
+- Fix: Background image works properly with Dynamic Content featured image
 ## ver 18.2 - 2019-08-15
 - Fix: Image display works properly 
 - Fix: Post data fetch for dynamic content works properly
