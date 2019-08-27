@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
+
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
@@ -22,11 +23,13 @@ class ContentUrlReplaceController extends Container implements Module
 {
     use EventsFilters;
     use WpFiltersActions;
+
     /**
      * Stores temporary str_replace replaced values count
      * @var int
      */
     protected $replaceCount = 0;
+
     /**
      * AssetUrlReplaceController constructor.
      */
@@ -39,6 +42,7 @@ class ContentUrlReplaceController extends Container implements Module
         /** @see \VisualComposer\Modules\FrontView\ContentUrlReplaceController::replaceContentUrls */
         $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'replaceContentUrls', 100);
     }
+
     /**
      * Store the current site url if it has been changed since last time, also store the old url
      */
@@ -67,6 +71,7 @@ class ContentUrlReplaceController extends Container implements Module
             $optionsHelper->set('siteUrls', ['prevUrls' => $siteUrls['prevUrls'], 'currentUrl' => $siteUrl]);
         }
     }
+
     protected function replaceMetaUrls($response, Options $optionsHelper)
     {
         $sourceId = get_the_ID();
@@ -89,8 +94,10 @@ class ContentUrlReplaceController extends Container implements Module
                 update_post_meta($post->ID, '_' . VCV_PREFIX . 'postMetaResetInitiated', time());
             }
         }
+
         return $response;
     }
+
     protected function replaceContentUrls($content, Options $optionsHelper, Frontend $frontendHelper)
     {
         $sourceId = get_the_ID();
@@ -129,8 +136,10 @@ class ContentUrlReplaceController extends Container implements Module
                 }
             }
         }
+
         return $content;
     }
+
     /**
      * @param $response
      * @param $sourceId
@@ -148,7 +157,11 @@ class ContentUrlReplaceController extends Container implements Module
             array_walk_recursive(
                 $decodedPageContent,
                 function (&$value, $key) use ($siteUrls) {
-                    $value = str_replace($siteUrls['prevUrls'], $siteUrls['currentUrl'], $value, $this->replaceCount);
+                    $replaceCount = 0;
+                    $value = str_replace($siteUrls['prevUrls'], $siteUrls['currentUrl'], $value, $replaceCount);
+                    if ($replaceCount > 0) {
+                        $this->replaceCount++;
+                    }
                 }
             );
             if ($this->replaceCount > 0) {
@@ -158,8 +171,10 @@ class ContentUrlReplaceController extends Container implements Module
                 $response['data'] = $encodedPageContent;
             }
         }
+
         return $response;
     }
+
     /**
      * @param $sourceId
      * @param $siteUrls
@@ -174,13 +189,18 @@ class ContentUrlReplaceController extends Container implements Module
             array_walk_recursive(
                 $globalElementsCssData,
                 function (&$value, $key) use ($siteUrls) {
-                    $value = str_replace($siteUrls['prevUrls'], $siteUrls['currentUrl'], $value, $this->replaceCount);
+                    $replaceCount = 0;
+                    $value = str_replace($siteUrls['prevUrls'], $siteUrls['currentUrl'], $value, $replaceCount);
+                    if ($replaceCount > 0) {
+                        $this->replaceCount++;
+                    }
                 }
             );
             if ($this->replaceCount > 0) {
                 update_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', $globalElementsCssData);
             }
         }
+
         return $globalElementsCssData;
     }
 }
