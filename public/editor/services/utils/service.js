@@ -157,7 +157,7 @@ const API = {
       if (elementChildren[ i ].nodeType === document.ELEMENT_NODE) {
         html += elementChildren[ i ].outerHTML
       } else if (elementChildren[ i ].nodeType === document.COMMENT_NODE) {
-        html += `<!-- ${elementChildren[ i ].nodeValue} -->`
+        html += `<!-- ${elementChildren[ i ].nodeValue.trim()} -->`
       }
     }
     const urlRegex = /url\(\s*(['"]?)(.*?)\1\s*\)/g
