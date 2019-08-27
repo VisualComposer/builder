@@ -28,6 +28,15 @@ class Assets extends Container implements Helper
         if (preg_match('/^http/', $filePath)) {
             return set_url_scheme($filePath);
         }
+        if (strpos($filePath, VCV_PLUGIN_URL) !== false) {
+            return $filePath;
+        }
+        $uploadDir = wp_upload_dir();
+        $url = $uploadDir['baseurl'];
+        if (strpos($filePath, $url) !== false) {
+            return $filePath;
+        }
+
         if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
             $uploadDir = wp_upload_dir();
             $url = set_url_scheme(

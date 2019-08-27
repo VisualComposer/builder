@@ -189,8 +189,7 @@ class Elements implements Helper
         if (file_exists($path) || is_dir($path)) {
             return $path;
         }
-        $pattern = '/' . VCV_PLUGIN_ASSETS_DIRNAME . '\//';
-        if (preg_match($pattern, $path)) {
+        if (strpos($path, VCV_PLUGIN_ASSETS_DIRNAME) !== false) {
             return $path;
         }
 
@@ -205,6 +204,15 @@ class Elements implements Helper
 
         if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
             return VCV_PLUGIN_URL . 'devElements/' . $path;
+        }
+
+        if (strpos($path, VCV_PLUGIN_URL) !== false) {
+            return $path;
+        }
+        $uploadDir = wp_upload_dir();
+        $url = $uploadDir['baseurl'];
+        if (strpos($path, $url) !== false) {
+            return $path;
         }
 
         $assetsHelper = vchelper('Assets');
