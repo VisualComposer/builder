@@ -97,12 +97,12 @@ class Image implements Helper
             }
 
             $originalWidth = $width;
-            $sizes = [320, 480, 800, $originalWidth];
+            $sizes = [320, 480, 800, (int)$originalWidth];
             $aspectRatio = $originalWidth / $height;
 
             foreach ($sizes as $width) {
                 if ($width > $originalWidth) {
-                    break;
+                    continue;
                 }
                 $image = wp_get_image_editor($imageData['path']);
                 $height = round($width / $aspectRatio);
