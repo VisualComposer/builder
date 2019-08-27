@@ -1,0 +1,28 @@
+{
+  "customId": "separator-id",
+  "customClass": "separator-class",
+  "alignment": "right",
+  "style": "dotted",
+  "thickness": "10",
+  "width": "75",
+  "color": {
+    "hex": "C715BC",
+    "rgb": "rgb(199 , 21, 188)"
+  },
+  "designOptions": {
+    "animation": "fadeIn",
+    "padding": "24px",
+    "margin": "13px",
+    "borderWidth": "6px",
+    "borderRadius": "16px",
+    "backgroundColor": {
+      "hex": "B93030",
+      "rgb": "rgb(185, 48, 48)"
+    },
+    "borderStyle": "dashed",
+    "borderColor": {
+      "hex": "55E05D",
+      "rgb": "rgb(85, 224, 93)"
+    }
+  }
+}
