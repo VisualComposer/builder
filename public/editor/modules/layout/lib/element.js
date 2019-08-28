@@ -87,11 +87,11 @@ export default class Element extends React.Component {
 
   dataUpdate (data, source, options) {
     const { disableUpdateAssets, disableUpdateComponent } = options || {}
-    if (disableUpdateComponent !== true) {
-      this.setState({ element: data || this.props.element })
-    }
     if (disableUpdateAssets !== true) {
       assetsStorage.trigger('updateElement', this.state.element.id, options)
+    }
+    if (disableUpdateComponent !== true) {
+      this.setState({ element: data || this.props.element })
     }
   }
 
