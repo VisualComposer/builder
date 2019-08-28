@@ -95,7 +95,7 @@ class UnsplashDownloadController extends Container implements Module
     protected function downloadImage($imageUrl, $imageSize, File $fileHelper)
     {
         $parseUrl = parse_url($imageUrl);
-        if (preg_match('|(.*)(.unsplash.com)$|', $parseUrl['host'])) {
+        if (preg_match('/(.*)(\.unsplash\.com)$/', $parseUrl['host'])) {
             $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
             $imageType = exif_imagetype($tempImage);
             if (in_array(
