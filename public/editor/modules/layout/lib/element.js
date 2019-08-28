@@ -178,7 +178,8 @@ export default class Element extends React.Component {
       const options = attrSettings.settings.options ? attrSettings.settings.options : {}
 
       let value = null
-      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array)) {
+      const isDateObject = atts[ fieldKey ].getMonth && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[fieldKey] instanceof window.Date)
+      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array) && isDateObject) {
         value = Object.assign({}, atts[ fieldKey ])
       } else {
         value = atts[ fieldKey ]
