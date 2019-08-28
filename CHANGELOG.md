@@ -12,6 +12,7 @@
 - Fix: Visual Composer works properly with URLs in Multisite
 - Fix: Visual Composer works properly with Polylang when editing the home page
 - Fix: System reset does not remove downloaded elements
+- Fix: Countdown timer date attribute works properly
 ## ver 18.2 - 2019-08-15
 - Fix: Image display works properly 
 - Fix: Post data fetch for dynamic content works properly
