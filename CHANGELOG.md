@@ -11,6 +11,7 @@
 - Fix: Dynamic Content does not cause Fatal error for WordPress version lower than 5.0
 - Fix: Visual Composer works properly with URLs in Multisite
 - Fix: Visual Composer works properly with Polylang when editing the home page
+- Fix: System reset does not remove downloaded elements
 ## ver 18.2 - 2019-08-15
 - Fix: Image display works properly 
 - Fix: Post data fetch for dynamic content works properly
