@@ -110,9 +110,9 @@ const API = {
     cleanComments: (el, id) => {
       const clean = (el, type) => {
         while (el[ type ]) {
-          let node = el[ type ]
+          const node = el[ type ]
           if (node.nodeType === document.COMMENT_NODE) {
-            let textContent = node.textContent
+            const textContent = node.textContent
             if (textContent.indexOf('/dynamicElementComment') !== -1) {
               if (textContent.indexOf(`/dynamicElementComment:${id}`) !== -1) {
                 // This is comment of element so we can remove it
@@ -130,31 +130,33 @@ const API = {
       clean(el, 'previousSibling')
       clean(el, 'nextSibling')
     },
-    updateDynamicComments: (ref, id, cookElement, inner) => {
-      if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-        return
-      }
-      if (!ref || !cookElement) {
-        return
-      }
-      const el = ReactDOM.findDOMNode(ref)
-      // Clean everything before/after
-      API.dynamicFields.cleanComments(el, id)
-
-      let atts = cookElement.getAll(false)
-
-      let hasDynamic = false
+    getCommentsStack: function (id, cookElement, inner, attributesLevel = 0) {
+      let atts = cookElement.getAll ? cookElement.getAll(false) : cookElement.atts
       let commentStack = []
-      let attributesLevel = 0
+
       Object.keys(atts).forEach((fieldKey) => {
-        const attrSettings = cookElement.settings(fieldKey)
-        const type = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
-        const options = attrSettings.settings.options ? attrSettings.settings.options : {}
+        let isDynamic = false
+        const attrSettings = cookElement.settings ? cookElement.settings(fieldKey) : cookElement.attrSettings.settings.options.settings
+        const type = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].type ? attrSettings[ fieldKey ].type : attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
+        const options = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].options ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
         let value = atts[ fieldKey ]
 
-        // Check isDynamic for string/htmleditor/attachimage/inputSelect
-        let isDynamic = false
-        if (env('VCV_JS_FT_DYNAMIC_FIELDS') && typeof options.dynamicField !== 'undefined') {
+        if (type === 'paramsGroup') {
+          const attrValue = cookElement.get(fieldKey).value
+          attrValue.forEach((value, i) => {
+            const paramsGroupProps = {}
+            paramsGroupProps.element = cookElement
+            paramsGroupProps.attrKey = fieldKey
+            paramsGroupProps.attrSettings = attrSettings
+            paramsGroupProps.atts = value
+            paramsGroupProps.paramGroupItemId = `${i}-${id}`
+            let commentsStackResult = API.dynamicFields.getCommentsStack(id, paramsGroupProps, inner, attributesLevel)
+            attributesLevel = commentsStackResult.attributesLevel
+            commentStack = commentStack.concat(commentsStackResult.commentStack)
+          })
+        }
+
+        if (env('VCV_JS_FT_DYNAMIC_FIELDS') && options && typeof options.dynamicField !== 'undefined') {
           if (options.dynamicField.html) {
             // Ignore for HTML Enabled versions
             return
@@ -180,11 +182,13 @@ const API = {
           blockInfo.blockAtts.elementId = id
           if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
-              fieldType: attrSettings.type.name,
-              fieldOptions: attrSettings.settings.options
+              fieldType: type,
+              fieldOptions: options
             }, true)
           }
-          hasDynamic = true
+          if (cookElement.paramGroupItemId) {
+            blockInfo.blockAtts.paramGroupItemId = cookElement.paramGroupItemId
+          }
           attributesLevel++
           commentStack.push({ blockInfo, attributesLevel })
         }
@@ -203,7 +207,6 @@ const API = {
                 if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
                   blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true)
                 }
-                hasDynamic = true
                 attributesLevel++
                 commentStack.push({ blockInfo, attributesLevel })
               }
@@ -211,7 +214,27 @@ const API = {
           }
         }
       })
-      if (hasDynamic) {
+
+      return {
+        attributesLevel,
+        commentStack
+      }
+    },
+    updateDynamicComments: (ref, id, cookElement, inner) => {
+      if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        return
+      }
+      if (!ref || !cookElement) {
+        return
+      }
+      const el = ReactDOM.findDOMNode(ref)
+
+      // Clean all comments before/after element dom ref
+      API.dynamicFields.cleanComments(el, id)
+
+      let commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
+
+      if (commentsStackResult.commentStack.length) {
         if (inner) {
           innerRenderCount++
         }
@@ -219,10 +242,10 @@ const API = {
         let innerNestingLevel = inner ? innerRenderCount : 0
         el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
         el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
-        commentStack.forEach((commentData) => {
+        commentsStackResult.commentStack.forEach((commentData) => {
           const { blockInfo, attributesLevel } = commentData
           el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-          el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} -->`)
+          el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
         })
       }
     },
@@ -339,7 +362,7 @@ const API = {
       const options = props ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
 
       let value = null
-      const isDateObject = atts[ fieldKey ].getMonth && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[fieldKey] instanceof window.Date)
+      const isDateObject = atts[ fieldKey ].getMonth && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[ fieldKey ] instanceof window.Date)
       if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array) && isDateObject) {
         value = Object.assign({}, atts[ fieldKey ])
       } else {
@@ -437,7 +460,7 @@ const API = {
         const attrValue = element.get(fieldKey).value
         attrValue.forEach((value, i) => {
           paramsGroupProps.atts = value
-          fieldValue.value[ i ] = API.visualizeAttributes(element, api, paramsGroupProps)
+          fieldValue.value[ i ] = API.visualizeAttributes(element, api, paramsGroupProps, isNested)
         })
         layoutAtts[ fieldKey ] = fieldValue
       } else if (type === 'htmleditor' && (!options || !options.inline)) {
