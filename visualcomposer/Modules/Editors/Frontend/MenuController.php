@@ -70,7 +70,11 @@ class MenuController extends Container implements Module
                     '/\<[a] href="(.[^\"]+)" class="page-title-action"\>(.[^\<\/]+)\<\/a\>/',
                     function ($data) {
                         $urlHelper = vchelper('Url');
-                        $newUrl = $urlHelper->query($data[1], ['vcv-action' => 'frontend']);
+                        $newUrl = vcfilter(
+                            'vcv:frontend:url',
+                            $urlHelper->query($data[1], ['vcv-action' => 'frontend']),
+                            ['query' => ['vcv-action' => 'frontend']]
+                        );
                         $newLink = '<a href="' . $newUrl . '" class="page-title-action">' .
                             __(
                                 'Add New with Visual Composer',
@@ -143,7 +147,11 @@ class MenuController extends Container implements Module
                     $submenu[ $key ][ $newIndex ] = [
                         __('Add New with Visual&nbsp;Composer', 'vcwb'),
                         $link[1],
-                        $urlHelper->query($link[2], ['vcv-action' => 'frontend']),
+                        vcfilter(
+                            'vcv:frontend:url',
+                            $urlHelper->query($link[2], ['vcv-action' => 'frontend']),
+                            ['query' => ['vcv-action' => 'frontend']]
+                        ),
                         $linkInfo,
                         $linkClass,
                     ];
