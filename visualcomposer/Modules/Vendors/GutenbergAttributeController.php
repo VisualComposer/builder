@@ -437,10 +437,9 @@ class GutenbergAttributeController extends Container implements Module
     /**
      * Output global variables
      *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Gutenberg $gutenbergHelper
      */
-    protected function outputGutenberg(Options $optionsHelper, Request $requestHelper, Gutenberg $gutenbergHelper)
+    protected function outputGutenberg(Gutenberg $gutenbergHelper)
     {
         if ($this->printed) {
             return;

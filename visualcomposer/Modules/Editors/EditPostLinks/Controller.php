@@ -150,7 +150,11 @@ class Controller extends Container implements Module
                     'parent' => $data['id'],
                     'id' => 'add-new-' . $key . '-vc',
                     'title' => __('Add New with Visual Composer', 'vcwb'),
-                    'href' => $urlHelper->query(admin_url($key), ['vcv-action' => 'frontend']),
+                    'href' => vcfilter(
+                        'vcv:frontend:url',
+                        $urlHelper->query(admin_url($key), ['vcv-action' => 'frontend']),
+                        ['query' => ['vcv-action' => 'frontend']]
+                    ),
                 ]
             );
         }

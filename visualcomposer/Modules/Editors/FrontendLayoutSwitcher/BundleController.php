@@ -54,7 +54,7 @@ class BundleController extends Container implements Module
             } else {
                 $editor = $currentEditor;
             }
-            echo '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="' . esc_attr($editor) . '">';
+            echo '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="' . esc_attr(vcfilter('vcv:editors:frontendLayoutSwitcher:currentEditor', $editor)) . '">';
         }
     }
 

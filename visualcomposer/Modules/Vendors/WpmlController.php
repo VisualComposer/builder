@@ -37,7 +37,14 @@ class WpmlController extends Container implements Module
                 'insertTrid'
             );
             $this->wpAddAction('admin_print_scripts', 'outputWpml');
-
+            if (class_exists('\SitePress')) {
+                /** @see \VisualComposer\Modules\Vendors\WpmlController::disableGutenberg */
+                $this->wpAddAction(
+                    'admin_init',
+                    'disableGutenberg',
+                    11
+                );
+            }
             if ($requestHelper->exists(VCV_AJAX_REQUEST)) {
                 global $sitepress;
                 remove_action(
@@ -51,11 +58,55 @@ class WpmlController extends Container implements Module
         }
     }
 
+    /**
+     * Disable the gutenberg
+     *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     */
+    protected function disableGutenberg(Request $requestHelper)
+    {
+        global $pagenow;
+        if (!empty($pagenow) && $pagenow === 'post-new.php' && $requestHelper->exists('trid')
+            && $requestHelper->exists(
+                'source_lang'
+            )
+            && !$requestHelper->exists('vcv-set-editor')) {
+            $trid = intval($requestHelper->input('trid'));
+            $sourceElementId = \SitePress::get_original_element_id_by_trid($trid);
+            if ($sourceElementId) {
+                $isVc = get_post_meta($sourceElementId, VCV_PREFIX . 'pageContent', true);
+                if (!empty($isVc)) {
+                    if (function_exists('use_block_editor_for_post')) {
+                        $this->wpAddFilter('use_block_editor_for_post', '__return_false');
+                    } elseif (function_exists('the_gutenberg_project')) {
+                        $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
+                    }
+                    $screen = get_current_screen();
+                    if (!$requestHelper->exists('classic-editor')
+                        && !(method_exists($screen, 'is_block_editor')
+                            && $screen->is_block_editor())) {
+                        // Not Block editor, apply only in classic-mode
+                        add_filter('user_can_richedit', '__return_false', 50);
+                        // $this->addFilter('vcv:helpers:gutenberg:isAvailable', '__return_false');
+                        $this->addFilter(
+                            'vcv:editors:frontendLayoutSwitcher:currentEditor',
+                            function () {
+                                return 'be';
+                            }
+                        );
+                    }
+                }
+            }
+        }
+    }
+
     protected function addLangToLink($url, $payload)
     {
         global $sitepress;
         if (is_object($sitepress) && strpos($url, 'lang') === false) {
-            return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
+            if ($sitepress->get_current_language() !== 'all') {
+                return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
+            }
         }
 
         return $url;
