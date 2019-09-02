@@ -40,14 +40,12 @@ addStorage('workspace', (storage) => {
     }
     const elementAccessPointService = getService('elementAccessPoint')
     let elementAccessPoint = elementAccessPointService.getInstance(id)
-    // TODO: Check options.element?
-    // if (!elementAccessPoint) {
-    //   if (options && options.element) {
-    //     element = options.element
-    //   } else {
-    //     return
-    //   }
-    // }
+
+    if (options && options.nestedAttr) {
+      // Trigger edit inside nestedAttr
+      elementAccessPoint = options.parentElementAccessPoint
+    }
+
     storage.state('settings').set({
       action: 'edit',
       elementAccessPoint: elementAccessPoint,

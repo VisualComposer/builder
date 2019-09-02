@@ -36,6 +36,7 @@ export default class ElementAttribute extends Attribute {
 
   updateState (props) {
     let valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value)
+    valueElementAccessPoint.parentElementAccessPoint = this.props.elementAccessPoint
 
     return {
       allValues: Object.assign({}, props.value),
@@ -49,6 +50,7 @@ export default class ElementAttribute extends Attribute {
   onClickReplacement (newElement) {
     newElement.id = this.state.value.id
     let valueElementAccessPoint = elementAccessPointService.getInstance(null, newElement)
+    valueElementAccessPoint.parentElementAccessPoint = this.props.elementAccessPoint
     let cookElement = valueElementAccessPoint.cook()
     let allValues = Object.assign({}, this.state.allValues, this.state.value)
     if (this.props.options && this.props.options.merge) {

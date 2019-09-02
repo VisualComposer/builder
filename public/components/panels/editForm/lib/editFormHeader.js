@@ -105,8 +105,16 @@ export default class EditFormHeader extends React.Component {
   }
 
   goBack () {
-    let { parentElementAccessPoint, options } = this.props.options
-    workspaceStorage.trigger('edit', parentElementAccessPoint.id, parentElementAccessPoint.tag, options)
+    let { parentElementAccessPoint: accessPoint, options } = this.props.options
+    // If multiple nesting used we can goBack only to ROOT
+    while (accessPoint.inner) {
+      if (accessPoint.parentElementAccessPoint) {
+        accessPoint = accessPoint.parentElementAccessPoint
+      } else {
+        break
+      }
+    }
+    workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
   }
 
   render () {
