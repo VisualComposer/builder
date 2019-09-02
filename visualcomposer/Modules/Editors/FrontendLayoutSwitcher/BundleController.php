@@ -103,7 +103,18 @@ class BundleController extends Container implements Module
                 && !(method_exists($screen, 'is_block_editor')
                     && $screen->is_block_editor())) {
                 // Not Block editor, apply only in classic-mode
-                add_filter('user_can_richedit', '__return_false', 50);
+                add_filter(
+                    'user_can_richedit',
+                    function ($result) {
+                        if (did_action('media_buttons')) {
+                            // Prevent another tinymce disabling (ACF fields)
+                            return $result;
+                        }
+
+                        return false;
+                    },
+                    50
+                );
             }
         }
     }
