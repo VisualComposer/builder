@@ -1,6 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default class Modal extends React.Component {
+  static propTypes = {
+    closeOnOuterClick: PropTypes.bool,
+    onClose: PropTypes.func.isRequired
+  }
+
   constructor (props) {
     super(props)
     this.hideOnOuterClick = this.hideOnOuterClick.bind(this)
