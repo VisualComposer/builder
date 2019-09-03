@@ -4,7 +4,12 @@ import PropTypes from 'prop-types'
 export default class Modal extends React.Component {
   static propTypes = {
     closeOnOuterClick: PropTypes.bool,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node
+    ])
   }
 
   constructor (props) {
