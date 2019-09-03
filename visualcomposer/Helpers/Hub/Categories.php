@@ -43,7 +43,7 @@ class Categories implements Helper
                 if (empty($oldValue)) {
                     return []; // Do not allow to create 'new' categories
                 }
-                $mergedValue['elements'] = array_unique(array_merge($oldValue['elements'], $newValue['elements']));
+                $mergedValue['elements'] = array_values(array_unique(array_merge($oldValue['elements'], $newValue['elements'])));
 
                 return $mergedValue;
             }
@@ -440,6 +440,7 @@ class Categories implements Helper
                     'wpDataTables',
                     'captainForm',
                     'simpleSearch',
+                    'translatePressLanguageSwitcher',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/WordPress.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/WordPress.svg'),
