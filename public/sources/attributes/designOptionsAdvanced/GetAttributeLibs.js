@@ -78,7 +78,11 @@ export default (value) => {
           if (value.device[ device ].hasOwnProperty(fieldKey)) {
             let matchField = libNames.find((lib) => {
               let matchKey = lib.fieldKey === fieldKey
-              let matchValue = lib.value === value.device[ device ][ fieldKey ]
+              let currentValue = value.device[ device ][ fieldKey ]
+              if (currentValue === '0' || currentValue === '1') {
+                currentValue = !!parseInt(currentValue)
+              }
+              let matchValue = lib.value === currentValue
               return (matchKey && matchValue) || (fieldKey === 'animation')
             })
             if (matchField) {
