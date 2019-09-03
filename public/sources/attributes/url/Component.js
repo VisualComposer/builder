@@ -1,6 +1,6 @@
 import React from 'react'
 import lodash from 'lodash'
-import Modal from 'simple-react-modal'
+import Modal from 'public/components/modal/modal'
 import Attribute from '../attribute'
 import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
@@ -228,9 +228,8 @@ export default class Url extends Attribute {
     return (
       <Modal
         show={this.state.isWindowOpen}
-        className='vcv-ui-modal-overlay'
-        containerClassName='vcv-ui-modal-container'
-        onClose={this.cancel}>
+        onClose={this.cancel}
+      >
 
         <div className='vcv-ui-modal'>
 

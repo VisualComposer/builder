@@ -4,7 +4,7 @@ import Autocomplete from './../autocomplete/Component'
 import Dropdown from './../dropdown/Component'
 import Toggle from './../toggle/Component'
 import { getService, getStorage } from 'vc-cake'
-import Modal from 'simple-react-modal'
+import Modal from 'public/components/modal/modal'
 import PropTypes from 'prop-types'
 
 const settingsStorage = getStorage('settings')
@@ -222,9 +222,8 @@ export default class DynamicPopup extends React.Component {
 
     return <Modal
       show={showModal}
-      className='vcv-ui-modal-overlay'
-      containerClassName='vcv-ui-modal-container'
-      onClose={this.cancel}>
+      onClose={this.cancel}
+    >
 
       <div className='vcv-ui-modal'>
         <header className='vcv-ui-modal-header'>
