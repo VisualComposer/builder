@@ -153,7 +153,7 @@ class Controller extends Container implements Module
                     'href' => vcfilter(
                         'vcv:frontend:url',
                         $urlHelper->query(admin_url($key), ['vcv-action' => 'frontend']),
-                        ['query' => ['vcv-action' => 'frontend']]
+                        ['query' => ['vcv-action' => 'frontend'], 'sourceId' => null]
                     ),
                 ]
             );
