@@ -5,6 +5,7 @@ import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
+import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
 
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const myTemplatesService = getService('myTemplates')
@@ -12,6 +13,8 @@ const documentManager = getService('document')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = getStorage('workspace').state('settings')
 const settingsStorage = getStorage('settings')
+const assetsStorage = getStorage('assets')
+const utils = getService('utils')
 
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -341,12 +344,33 @@ export default class AddTemplatePanel extends React.Component {
 
   handleApplyTemplate (data) {
     const next = (elements) => {
+      const existingElements = documentManager.all()
+
+      const visibleExistingElements = utils.getVisibleElements(existingElements)
+      const visibleAddedElements = utils.getVisibleElementsWithoutDocument(elements)
+      const existingElementCount = Object.keys(visibleExistingElements).length
+      const addedElementsCount = Object.keys(visibleAddedElements).length
+
       elementsStorage.trigger('merge', elements)
-      workspaceSettings.set(false)
+
+      const handleJobsChange = (data) => {
+        let visibleJobs = data.elements.filter(element => !element.hidden)
+        if (existingElementCount + addedElementsCount === visibleJobs.length) {
+          let jobsInProgress = data.elements.find(element => element.jobs)
+          if (jobsInProgress) {
+            return
+          }
+          this.setState({ showLoading: 0 })
+          workspaceSettings.set(false)
+          assetsStorage.state('jobs').ignoreChange(handleJobsChange)
+        }
+      }
+      assetsStorage.state('jobs').onChange(handleJobsChange)
     }
+    let id = data
+    this.setState({ showLoading: id })
+
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
-      let id = data
-      this.setState({ showLoading: id })
       myTemplatesService.load(id, (response) => {
         let customPostData = response && response.allData && response.allData.postFields && response.allData.postFields.dynamicFieldCustomPostData
         if (customPostData) {
@@ -362,8 +386,6 @@ export default class AddTemplatePanel extends React.Component {
           settingsStorage.state('postData').set(postData)
           settingsStorage.state('postFields').set(postFields)
         }
-
-        this.setState({ showLoading: 0 })
         next(response.data)
       })
     } else {
@@ -432,6 +454,7 @@ export default class AddTemplatePanel extends React.Component {
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         {env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <TransparentOverlayComponent disableNavBar parent='.vcv-layout' /> : null}
+        {this.state.showLoading ? <LoadingOverlayComponent /> : null}
         <div className='vcv-ui-tree-content'>
           {this.getSearch()}
           <div className='vcv-ui-tree-content-section'>
