@@ -344,17 +344,16 @@ export default class AddTemplatePanel extends React.Component {
 
   handleApplyTemplate (data) {
     const next = (elements) => {
-      const existingElements = documentManager.all()
-      const visibleExistingElements = utils.getVisibleElements(existingElements)
+      const existingJobs = assetsStorage.state('jobs').get()
+      const existingJobsCount = existingJobs && existingJobs.elements && existingJobs.elements.length || 0
       const visibleAddedElements = utils.getVisibleElements(elements)
-      const existingElementCount = Object.keys(visibleExistingElements).length
       const addedElementsCount = Object.keys(visibleAddedElements).length
 
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
         let visibleJobs = data.elements.filter(element => !element.hidden)
-        if (existingElementCount + addedElementsCount === visibleJobs.length) {
+        if (existingJobsCount + addedElementsCount === visibleJobs.length) {
           let jobsInProgress = data.elements.find(element => element.jobs)
           if (jobsInProgress) {
             return
