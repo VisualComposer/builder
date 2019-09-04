@@ -73,7 +73,7 @@ class MenuController extends Container implements Module
                         $newUrl = vcfilter(
                             'vcv:frontend:url',
                             $urlHelper->query($data[1], ['vcv-action' => 'frontend']),
-                            ['query' => ['vcv-action' => 'frontend']]
+                            ['query' => ['vcv-action' => 'frontend'], 'sourceId' => null]
                         );
                         $newLink = '<a href="' . $newUrl . '" class="page-title-action">' .
                             __(
@@ -150,7 +150,7 @@ class MenuController extends Container implements Module
                         vcfilter(
                             'vcv:frontend:url',
                             $urlHelper->query($link[2], ['vcv-action' => 'frontend']),
-                            ['query' => ['vcv-action' => 'frontend']]
+                            ['query' => ['vcv-action' => 'frontend'], 'sourceId' => null]
                         ),
                         $linkInfo,
                         $linkClass,
