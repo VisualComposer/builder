@@ -362,7 +362,7 @@ const API = {
       const options = props ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
 
       let value = null
-      const isDateObject = atts[ fieldKey ].getMonth && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[ fieldKey ] instanceof window.Date)
+      const isDateObject = atts[ fieldKey ] && typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ].constructor === Object && atts[ fieldKey ].hasOwnProperty('getMonth') && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[ fieldKey ] instanceof window.Date)
       if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array) && isDateObject) {
         value = Object.assign({}, atts[ fieldKey ])
       } else {
