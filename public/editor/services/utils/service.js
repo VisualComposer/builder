@@ -209,6 +209,27 @@ const API = {
     }
     return visibleElements
   },
+  getVisibleElementsWithoutDocument (allElements) {
+    let visibleElements = Object.assign({}, allElements)
+    const checkIfHidden = (el) => {
+      if (el.hidden) {
+        return true
+      } else if (el.parent && allElements[ el.parent ]) {
+        return checkIfHidden(allElements[ el.parent ])
+      } else {
+        return false
+      }
+    }
+
+    Object.keys(visibleElements).forEach((id) => {
+      const currentElement = visibleElements[ id ]
+      const isHidden = checkIfHidden(currentElement)
+      if (isHidden) {
+        delete visibleElements[ id ]
+      }
+    })
+    return visibleElements
+  },
   buildVariables (variables) {
     if (variables.length) {
       variables.forEach((item) => {
