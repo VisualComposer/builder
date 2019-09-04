@@ -345,9 +345,8 @@ export default class AddTemplatePanel extends React.Component {
   handleApplyTemplate (data) {
     const next = (elements) => {
       const existingElements = documentManager.all()
-
       const visibleExistingElements = utils.getVisibleElements(existingElements)
-      const visibleAddedElements = utils.getVisibleElementsWithoutDocument(elements)
+      const visibleAddedElements = utils.getVisibleElements(elements)
       const existingElementCount = Object.keys(visibleExistingElements).length
       const addedElementsCount = Object.keys(visibleAddedElements).length
 

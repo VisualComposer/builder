@@ -186,36 +186,17 @@ const API = {
     return string
   },
   getVisibleElements (allElements) {
-    const documentManager = getService('document')
-    let visibleElements = Object.assign({}, allElements)
-    const removeHiddenElements = (hiddenElement, removeOnlyChildren) => {
-      if (!removeOnlyChildren) {
-        delete visibleElements[ hiddenElement.id ]
-      }
-      const children = documentManager.children(hiddenElement.id)
-      if (children.length) {
-        children.forEach((child) => {
-          removeHiddenElements(child)
-        })
-      }
-    }
-    for (let key in visibleElements) {
-      if (visibleElements.hasOwnProperty(key)) {
-        const currentElement = visibleElements[ key ]
-        if (currentElement.hidden) {
-          removeHiddenElements(currentElement)
-        }
-      }
-    }
-    return visibleElements
-  },
-  getVisibleElementsWithoutDocument (allElements) {
     let visibleElements = Object.assign({}, allElements)
     const checkIfHidden = (el) => {
       if (el.hidden) {
         return true
       } else if (el.parent && allElements[ el.parent ]) {
-        return checkIfHidden(allElements[ el.parent ])
+        const elParent = allElements[ el.parent ]
+        if (elParent.parent && elParent.parent === el.id) {
+          return true
+        } else {
+          return checkIfHidden(allElements[ el.parent ])
+        }
       } else {
         return false
       }
