@@ -6,7 +6,6 @@ import lodash from 'lodash'
 import TinymceButtonsBuilder from './lib/tinymceButtonsBuilder'
 
 const documentManager = vcCake.getService('document')
-const dataProcessor = vcCake.getService('dataProcessor')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
@@ -394,6 +393,7 @@ export default class ContentEditableComponent extends React.Component {
   updateHtmlWithServer (content) {
     if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
       this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
+      const dataProcessor = vcCake.getService('dataProcessor')
       dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
