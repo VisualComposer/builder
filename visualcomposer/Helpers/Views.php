@@ -83,6 +83,7 @@ class Views extends container implements Helper
 
         if (!isset($wpSettingsFields) || !isset($wpSettingsFields[ $slug ])
             || !isset($wpSettingsFields[ $slug ][ $section['id'] ])) {
+            echo '</div>';
             return;
         }
         echo '<table class="form-table">';

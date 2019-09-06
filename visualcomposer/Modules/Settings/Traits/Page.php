@@ -44,6 +44,7 @@ trait Page
      */
     public function render($page)
     {
+        vcevent('vcv:settings:page:' . $page['slug'] . ':beforeRender', $page);
         /**
          * @var $this \VisualComposer\Application|\VisualComposer\Framework\Container
          * @see \VisualComposer\Framework\Container::call
