@@ -161,7 +161,9 @@
     "eslint": "5.15.1"
   },
   "browserslist": [
-    "ie >= 11",
-    "last 2 version"
+    ">1%",
+    "ios_saf 8",
+    "ie 10",
+    "ie 11"
   ]
 }
