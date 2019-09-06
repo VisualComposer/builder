@@ -43,8 +43,8 @@ class GutenbergAttributeController extends Container implements Module
         /**
          * @see  \VisualComposer\Modules\Vendors\GutenbergAttributeController::buildPage
          */
-        $this->addEvent(
-            'vcv:settings:page:vcv-settings:beforeRender',
+        $this->wpAddAction(
+            'admin_init',
             'buildPage',
             30
         );
