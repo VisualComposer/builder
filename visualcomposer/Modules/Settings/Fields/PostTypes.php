@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -35,9 +34,9 @@ class PostTypes extends Container implements Module
         /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */
         $this->wpAddAction(
             'admin_init',
-            'buildPage'
+            'buildPage',
+            9
         );
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
@@ -89,10 +88,5 @@ class PostTypes extends Container implements Module
                 'enabledPostTypes' => $editorPostTypeHelper->getEnabledPostTypes(),
             ]
         );
-    }
-
-    protected function unsetOptions(Options $optionsHelper)
-    {
-        $optionsHelper->delete('post-types');
     }
 }

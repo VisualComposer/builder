@@ -35,7 +35,7 @@ class FactoryResetController extends Container implements Module
         $this->wpAddAction(
             'admin_init',
             'buildPage',
-            20
+            1000
         );
 
         $this->addFilter('vcv:ajax:vcv:settings:factoryReset:adminNonce', 'initiateFactoryReset');

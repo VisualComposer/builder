@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
@@ -26,26 +25,20 @@ class JsEditor extends Container implements Module
 
     /**
      * GlobalCssJs constructor.
-     *
-     * @param \VisualComposer\Helpers\Request $requestHelper
      */
-    public function __construct(Request $requestHelper)
+    public function __construct()
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = $this->slug;
-
-        if (($requestHelper->input('page') === $this->slug)) {
-            $this->wpAddAction(
-                'admin_enqueue_scripts',
-                'beforeRender'
-            );
-        }
 
         $this->wpAddAction(
             'admin_init',
             'buildPage'
         );
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+        $this->addEvent(
+            'vcv:settings:page:vcv-global-css-js:beforeRender',
+            'enqueueAssets'
+        );
     }
 
     /**
@@ -113,7 +106,7 @@ class JsEditor extends Container implements Module
         );
     }
 
-    protected function beforeRender()
+    protected function enqueueAssets()
     {
         if (function_exists('wp_enqueue_code_editor')) {
             wp_enqueue_code_editor(['type' => 'text/javascript']);
@@ -121,10 +114,5 @@ class JsEditor extends Container implements Module
             wp_enqueue_script('csslint');
             wp_enqueue_script('jshint');
         }
-    }
-
-    protected function unsetOptions(Options $optionsHelper)
-    {
-        $optionsHelper->delete('vcv-global-js');
     }
 }
