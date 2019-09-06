@@ -58,7 +58,12 @@ mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
 mainPlugins.push(postcssClean)
 mainPlugins.push(autoprefixer({
-  overrideBrowserslist: [ 'ie >= 11', 'last 2 version' ]
+  overrideBrowserslist: [
+    '>1%',
+    'ios_saf 8',
+    'ie 10',
+    'ie 11'
+  ]
 }))
 
 class StylesManager {
