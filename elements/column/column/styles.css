@@ -41,9 +41,9 @@
 /* styles for mobile-portrait */
 @media (min-width: 0) {
   .vce-col--xs-auto {
-    -ms-flex: 1 1 0px;
+    -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 1px;
+    width: auto;
   }
   .vce-col--xs-1 {
     -ms-flex: 0 0 100%;
@@ -66,9 +66,9 @@
 /* styles for mobile-landscape */
 @media (min-width: 544px) {
   .vce-col--sm-auto {
-    -ms-flex: 1 1 0px;
+    -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 1px;
+    width: auto;
   }
   .vce-col--sm-1 {
     -ms-flex: 0 0 100%;
@@ -86,9 +86,9 @@
 /* styles for mobile-landscape */
 @media (min-width: 768px) {
   .vce-col--md-auto {
-    -ms-flex: 1 1 0px;
+    -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 1px;
+    width: auto;
   }
   .vce-col--md-1 {
     -ms-flex: 0 0 100%;
@@ -106,7 +106,7 @@
 /* styles for mobile-landscape */
 @media (min-width: 992px) {
   .vce-col--lg-auto {
-    -ms-flex: 1 1 0px;
+    -ms-flex: 1 1 0;
         flex: 1 1 0;
     width: 1px;
   }
@@ -126,9 +126,9 @@
 /* styles for mobile-landscape */
 @media (min-width: 1200px) {
   .vce-col--xl-auto {
-    -ms-flex: 1 1 0px;
+    -ms-flex: 1 1 0;
         flex: 1 1 0;
-    width: 1px;
+    width: auto;
   }
   .vce-col--xl-1 {
     -ms-flex: 0 0 100%;
