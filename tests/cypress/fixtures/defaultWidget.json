@@ -1,0 +1,22 @@
+{
+  "customId": "default-widget-id",
+  "customClass": "default-widget-class",
+  "widgetType": "WP_Widget_Text",
+  "widgetText": "This is a Wordpress text widget",
+  "designOptions": {
+    "animation": "tada",
+    "padding": "9px",
+    "margin": "23px",
+    "borderWidth": "1px",
+    "borderRadius": "5px",
+    "backgroundColor": {
+      "hex": "B93030",
+      "rgb": "rgb(185, 48, 48)"
+    },
+    "borderStyle": "solid",
+    "borderColor": {
+      "hex": "55E05D",
+      "rgb": "rgb(85, 224, 93)"
+    }
+  }
+}
