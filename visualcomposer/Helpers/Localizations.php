@@ -20,7 +20,7 @@ class Localizations extends Container implements Helper
      */
     public function getLocalizations()
     {
-        $optionsHelper = vchelper('Options');
+        $wpHelper = vchelper('Wp');
         $locale = [
             'addElement' => __('Add Element', 'vcwb'),
             'addPremiumElement' => __('Hub', 'vcwb'),
@@ -256,7 +256,7 @@ class Localizations extends Container implements Helper
                     'vcwb'
                 ),
                 self_admin_url('plugins.php'),
-                $optionsHelper->getTransient('pluginUpdateAvailable')
+                $wpHelper->getUpdateVersionFromWordpressOrg()
             ),
             'chooseHFS' => sprintf(
                 __(
