@@ -1,0 +1,15 @@
+{
+  "customId": "outline-button-id",
+  "customClass": "outline-button-class",
+  "alignment": "right",
+  "buttonLink": "visualcomposer.com",
+  "buttonText": "Hello Outline Button",
+  "hoverEffect": "outline-animated-slidein",
+  "titleColor": {
+    "hex": "FFC000",
+    "rgb": "rgb(255, 192, 0)"
+  },
+  "designOptions": {
+    "animation": "wobble"
+  }
+}
