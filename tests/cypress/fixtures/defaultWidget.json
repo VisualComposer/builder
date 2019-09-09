@@ -2,7 +2,7 @@
   "customId": "default-widget-id",
   "customClass": "default-widget-class",
   "widgetType": "WP_Widget_Text",
-  "widgetText": "This is a Wordpress text widget",
+  "widgetText": "This is a WordPress text widget",
   "designOptions": {
     "animation": "tada",
     "padding": "9px",
