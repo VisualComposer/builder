@@ -75,11 +75,7 @@ describe(ELEMENT_NAME, function () {
         .should('have.class', settings.customClass)
         .should('have.attr', 'id', settings.customId)
 
-      cy.get('.textwidget')
-        .find('p')
-        .contains(settings.widgetText)
-
-      cy.get('.vce vce-widgets-wrapper')
+      cy.get('.vce-widgets-wrapper')
         .should('have.css', 'border-radius', settings.designOptions.borderRadius)
         .and('have.css', 'border-width', settings.designOptions.borderWidth)
         .and('have.css', 'border-style', settings.designOptions.borderStyle)
@@ -89,6 +85,10 @@ describe(ELEMENT_NAME, function () {
         .and('have.css', 'animation-name', `vce-o-animate--${settings.designOptions.animation}`)
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
+
+      cy.wait(200)
+      cy.get('.textwidget p')
+        .contains(settings.widgetText)
     })
   })
 })
