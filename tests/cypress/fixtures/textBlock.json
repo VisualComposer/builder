@@ -1,0 +1,24 @@
+{
+  "customId": "text-block-id",
+  "customClass": "text-block-class",
+  "text": {
+    "h2HeadingText": "Typography is the art and technique",
+    "paragraphText": "Typography is the art and technique of arranging type to make written language legible, readable and appealing when displayed."
+  },
+  "designOptions": {
+    "animation": "lightSpeedIn",
+    "padding": "19px",
+    "margin": "11px",
+    "borderWidth": "3px",
+    "borderRadius": "15px",
+    "backgroundColor": {
+      "hex": "B93030",
+      "rgb": "rgb(185, 48, 48)"
+    },
+    "borderStyle": "dotted",
+    "borderColor": {
+      "hex": "55E05D",
+      "rgb": "rgb(85, 224, 93)"
+    }
+  }
+}
