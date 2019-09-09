@@ -142,7 +142,7 @@ class Update implements Helper
         ];
         $variables[] = [
             'key' => 'VCV_UPDATE_VENDOR_URL',
-            'value' => $urlHelper->to('public/dist/vendor.bundle.js'). '?v=' . VCV_VERSION,
+            'value' => $urlHelper->to('public/dist/vendor.bundle.js') . '?v=' . VCV_VERSION,
             'type' => 'constant',
         ];
         $variables[] = [
