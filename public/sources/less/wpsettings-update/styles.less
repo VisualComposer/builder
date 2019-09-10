@@ -1,3 +1,5 @@
+@arrow-padding: 2em;
+
 .vcv-settings {
   margin: 0 20px 0 0;
 }
@@ -525,36 +527,19 @@
     }
   }
 
-  .vcv-ui-form-dropdown {
-    position: relative;
-    display: inline-block;
-
-    &::before {
-      content: '';
-      position: absolute;
-      right: 10px;
-      top: 16px;
-      font-size: 30px;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 5px solid #777;
-      z-index: 1;
-    }
-  }
-
   select {
-    position: relative;
+    line-height: 1.5;
     height: auto;
-    line-height: 1;
-    padding: 10px 15px;
+    padding: @vcui-form-input-padding;
+    padding-right: @arrow-padding;
     width: 400px;
-    border: 1px solid #ddd;
-    color: #555;
-    background: #fff;
-    appearance: none;
-    border-radius: 5px;
-    box-shadow: none;
   }
+}
+
+.rtl .vcv-settings-tab-content[data-vcv-ui-element="settings-tab-vcv-headers-footers"] select {
+  background: url('../../images/icons/triangle-up-down.svg') left 1em center no-repeat @vcui-form-input-background;
+  padding: @vcui-form-input-padding;
+  padding-left: @arrow-padding;
 }
 
 @media screen and (max-width: 782px) {
