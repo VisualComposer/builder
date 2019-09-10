@@ -29,6 +29,7 @@ class UpdatesController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:editor:variables', 'addPluginUpdateNoticeVariable');
+        $this->wpAddAction('upgrader_process_complete', 'resetUpdateMessageCookies');
     }
 
     protected function addPluginUpdateNoticeVariable($variables, Wp $wpHelper)
@@ -42,5 +43,12 @@ class UpdatesController extends Container implements Module
         ];
 
         return $variables;
+    }
+
+    protected function resetUpdateMessageCookies($upgrader_object, $options)
+    {
+        // Delete message cookie from editor on update of any Wp plugins
+        unset($_COOKIE['vcv-update-notice']);
+        setcookie('vcv-update-notice', '', time() - (15 * 60));
     }
 }
