@@ -23,9 +23,9 @@ import './photoswipe.css';
       // parse data from images
       var parseElements = function () {
         var items = [];
-        var imageList = domGallery.querySelectorAll('[data-photoswipe-item]:not([data-cloned])[data-photoswipe-image]');
+        var imageList = domGallery.querySelectorAll('[data-photoswipe-item]:not(.slick-cloned)[data-photoswipe-image]');
         if (!imageList.length) {
-          imageList = domGallery.querySelectorAll('[data-photoswipe-item]:not([data-cloned]) [data-photoswipe-image]');
+          imageList = domGallery.querySelectorAll('[data-photoswipe-item]:not(.slick-cloned) [data-photoswipe-image]');
         }
         if (imageList) {
           imageList = Array.prototype.slice.call(imageList);
