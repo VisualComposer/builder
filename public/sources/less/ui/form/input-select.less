@@ -53,3 +53,26 @@
     background: @vcui-form-input-select-item-active-background;
   }
 }
+
+.rtl {
+  .vcv-layout-header {
+    .vcv-ui-form-input-select {
+      .vcv-ui-form-input {
+        border-left: 0;
+        border-right: 1px solid #d1d1d1;
+        border-left: 1px solid #d1d1d1;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+
+      .vcv-ui-form-dropdown {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+    }
+  }
+}
