@@ -76,6 +76,7 @@
       position: absolute;
       right: 30px;
     }
+
     .vcv-ui-dynamic-field-control {
       margin-top: 5px;
       display: inline-block;
@@ -114,18 +115,22 @@
         opacity: .6;
       }
     }
+
     &.vcv-ui-form-field-dynamic-is-active {
       .vcv-ui-form-wp-tinymce-inner:after {
         display: none;
       }
     }
+
     .vcv-ui-dynamic-field-container {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
+
     .vcv-ui-form-switch-small-container {
       display: none;
     }
+
     + .vcv-ui-form-helper {
       display: none;
     }
@@ -158,4 +163,30 @@
 
 .vcv-ui-form-input.vcv-ui-form-field-dynamic-extra {
   margin-top: 10px;
+}
+
+.rtl {
+  .vcv-ui-form-wp-tinymce.vcv-ui-form-field-has-dynamic:not(.vcv-ui-form-field-dynamic-is-opened) {
+    .vcv-ui-form-switch-small-container {
+      right: auto;
+      left: 30px;
+    }
+
+    .vcv-ui-dynamic-field-control {
+      right: auto;
+      left: 2px;
+    }
+  }
+
+  .vcv-ui-dynamic-field-control {
+    padding: 6px 5px 6px 0;
+  }
+
+  .vcv-layout-header .vcv-ui-form-group {
+    .vcv-ui-form-input.vcv-ui-form-field-dynamic,
+    .vcv-ui-form-input-select.vcv-ui-form-field-dynamic {
+      margin-right: 0;
+      margin-left: 5px;
+    }
+  }
 }

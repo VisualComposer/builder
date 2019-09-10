@@ -134,6 +134,7 @@
 
 .vcv-ui-form-button-group--large {
   border: @vcui-button-group-attribute-border;
+  direction: ltr;
 
   .vcv-ui-form-button {
     margin: 0;
@@ -208,46 +209,6 @@
     &.vcv-ui-form-button-group-dropdown-item--active,
     &:hover {
       background: @vcui-button-group-attribute-background-active;
-    }
-  }
-}
-
-.rtl {
-  .vcv-ui-form-button-group--attribute,
-  .vcv-ui-form-button-group--large {
-    > .vcv-ui-form-button {
-      &:first-child {
-        border-left: @control-border;
-      }
-
-      &:last-child {
-        border-left: none;
-      }
-    }
-
-    .vcv-ui-form-button {
-      .vcv-ui-icon-expand {
-        margin-left: 0;
-        margin-right: 8px;
-      }
-    }
-
-    .vcv-ui-form-button-group-item {
-      &:first-child {
-        .vcv-ui-form-button {
-          border-left: @control-border;
-        }
-      }
-
-      &:last-child {
-        .vcv-ui-form-button {
-          border-left: none;
-        }
-      }
-    }
-
-    .vcv-ui-form-button-group-dropdown-item {
-      text-align: right;
     }
   }
 }
