@@ -70,9 +70,7 @@ class Views extends container implements Helper
         global $wp_settings_fields;
         $wpSettingsFields = $wp_settings_fields;
         // @codingStandardsIgnoreEnd
-        $class = isset($section['vcv-args']) && isset($section['vcv-args']['class']) ? ' ' . esc_attr(
-                $section['vcv-args']['class']
-            ) : '';
+        $class = isset($section['vcv-args']['class']) ? ' ' . esc_attr($section['vcv-args']['class']) : '';
 
         echo '<div class="' . esc_attr($slug) . '-section ' . esc_attr($section['id']) . $class . '">';
         if ($section['title']) {
@@ -83,7 +81,7 @@ class Views extends container implements Helper
             call_user_func($section['callback'], $section);
         }
 
-        if (isset($wpSettingsFields, $wpSettingsFields[ $slug ], $wpSettingsFields[ $slug ][ $section['id'] ])) {
+        if (isset($wpSettingsFields[ $slug ][ $section['id'] ])) {
             echo '<table class="form-table">';
             do_settings_fields($slug, $section['id']);
             echo '</table>';
