@@ -78,18 +78,24 @@ if (!defined('ABSPATH')) {
 
     $sections = (array)$wpSettingsSection[ $slug ];
     $orderedSections = [];
-    foreach ($sections as $key => $section) {
-        if (isset($section['vcv-args']) & isset($section['vcv-args']['parent'])) {
-            $localFound = array_key_exists($section['vcv-args']['parent'], $orderedSections);
-            if (!$localFound) {
-                $orderedSections[ $key ] = $section;
-            }
-            $orderedSections[ $section['vcv-args']['parent'] ]['children'][ $key ] = $section;
-        } else {
-            $orderedSections[ $key ] = $section;
-        }
-    }
+    $buildTree = function (array $elements, $parentId = null, $buildTree) {
+        $branch = [];
 
+        foreach ($elements as $key => $element) {
+            $isset = isset($element['vcv-args'], $element['vcv-args']['parent']);
+            if ((!$isset && !$parentId) || ($isset && $element['vcv-args']['parent'] === $parentId)) {
+                $children = $buildTree($elements, $element['id'], $buildTree);
+                if ($children) {
+                    $element['children'] = $children;
+                }
+                $branch[ $key ] = $element;
+            }
+        }
+
+        return $branch;
+    };
+
+    $orderedSections = $buildTree($sections, null, $buildTree);
     foreach ($orderedSections as $section) {
         vchelper('Views')->doNestedSection($section, $slug);
     }
