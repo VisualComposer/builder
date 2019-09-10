@@ -45,7 +45,7 @@ class UpdatesController extends Container implements Module
         return $variables;
     }
 
-    protected function resetUpdateMessageCookies($upgrader_object, $options)
+    protected function resetUpdateMessageCookies($upgraderObject, $options)
     {
         // Delete message cookie from editor on update of any Wp plugins
         unset($_COOKIE['vcv-update-notice']);
