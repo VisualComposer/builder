@@ -4,7 +4,7 @@ version: 2
 jobs:
   js-codestyle:
     docker:
-      - image: wpbakery/vc-hub-docker
+      - image: visualcomposer/ci-wordpress:php7.3
     steps:
       - checkout
       - restore_cache:
@@ -19,7 +19,7 @@ jobs:
             - ./node_modules
   php-codestyle:
     docker:
-      - image: wpbakery/vc-hub-docker
+      - image: visualcomposer/ci-wordpress:php7.3
     steps:
       - checkout
       - run: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
@@ -122,7 +122,7 @@ jobs:
       - run: yarn run cypress run --project ./tests/
   js-stores-tests:
     docker:
-      - image: wpbakery/vc-hub-docker
+      - image: visualcomposer/ci-wordpress:php7.3
     steps:
       - checkout
       - restore_cache:
