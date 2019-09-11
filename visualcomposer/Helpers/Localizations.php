@@ -334,23 +334,6 @@ class Localizations extends Container implements Helper
             'disablePreview' => __('Disable preview', 'vcwb'),
             'clickToEditColumnValue' => __('Click to edit column value', 'vcwb'),
             'addOn' => __('Add-on', 'vcwb'),
-            'addonWpbMigration_download_update_required' => __(
-                'Update Visual Composer plugin to the most recent version to download addon.',
-                'vcwb'
-            ),
-            'addonWpbMigration_title' => __('This page was created with WPBakery Page Builder. What\'s next?', 'vcwb'),
-            'addonWpbMigration_intro' => __(
-                'To take over and start using Visual Composer Website Builder for this page, you need to:',
-                'vcwb'
-            ),
-            'addonWpbMigration_checkAddon' => __('Download Migration addon from the Hub', 'vcwb'),
-            'addonWpbMigration_checkWpb' => __('Keep WPBakery Page Builder plugin activated', 'vcwb'),
-            'addonWpbMigration_note' => __(
-                'Supported elements will be converted into Visual Composer compatible elements, the rest of the elements will be converted into the WPBakery Shortcode element.',
-                'vcwb'
-            ),
-            'addonWpbMigration_download_button' => __('Download Migration Addon', 'vcwb'),
-            'addonWpbMigration_backToWordpress' => __('Back to WordPress', 'vcwb'),
             'doNotCloseWhileUpdateText' => __('Don\'t close this window while download is in the progress.', 'vcwb'),
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'vcwb'),
             'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'vcwb'),
@@ -380,40 +363,8 @@ class Localizations extends Container implements Helper
                 'vcwb'
             ),
             'openEditForm' => __('Open Edit Form', 'vcwb'),
-            'wpbakeryAttrDescription' => __(
-                'WPBakery element is displayed as shortcode. Adjust shortcode parameters or open WPBakery Edit form for easier editing.',
-                'vcwb'
-            ),
-            'wpbakeryAttrError' => __(
-                'Failed to load WPBakery Edit Form, please check WPBakery Page Builder Plugin.',
-                'vcwb'
-            ),
-            'wpbakeryAttrPluginAndAddonRequired' => __(
-                'WPBakery plugin and migration addon is required to use this attribute',
-                'vcwb'
-            ),
-            'wpbakeryAttrToggleDescription' => __(
-                'View WPBakery element/s as shortcodes',
-                'vcwb'
-            ),
-            'wpbakeryTreeViewAttrDescription' => __(
-                'Complex element structures (ex. tabs with content) are represented with the Tree view. Use the Tree view to access and edit individual elements.',
-                'vcwb'
-            ),
-            'wpbakeryStructureTitle' => __(
-                'WPBakery element structure',
-                'vcwb'
-            ),
-            'wpbakeryTitle' => __(
-                'WPBakery element',
-                'vcwb'
-            ),
             'unlockHub' => __(
                 'Unlock Visual Composer Hub',
-                'vcwb'
-            ),
-            'wpbakeryAttrDescriptionNoEditForm' => __(
-                'WPBakery element is displayed as shortcode. Adjust shortcode parameters.',
                 'vcwb'
             ),
             'shortcode' => __(
