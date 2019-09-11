@@ -138,7 +138,7 @@ const API = {
         let isDynamic = false
         const attrSettings = cookElement.settings ? cookElement.settings(fieldKey) : cookElement.attrSettings.settings.options.settings
         const type = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].type ? attrSettings[ fieldKey ].type : attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
-        const options = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].options ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
+        const options = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].options ? attrSettings[ fieldKey ].options : attrSettings.settings && attrSettings.settings.options ? attrSettings.settings.options : {}
         let value = atts[ fieldKey ]
 
         if (type === 'paramsGroup') {
