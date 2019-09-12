@@ -119,14 +119,7 @@ $ yarn build
 # watch
 $ yarn watch
 ```
-##### 3. Build settings (Welcome page, Activation page)
-```sh
-$ yarn build-settings
-# watch
-$ yarn watch-settings
-```
-
-##### 4. Build elements
+##### 3. Build elements
 ```sh
 $ bash tools/elements/buildScript.sh
 # or production version
