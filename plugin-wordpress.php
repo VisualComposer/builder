@@ -1,17 +1,18 @@
 <?php
 /**
- * Plugin Name: Visual Composer Website Builder
- * Plugin URI: https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=plugin-link
+ * Plugin Name: Visual Composer
+ * Plugin URI: https://visualcomposer.com/premium/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=plugin-link
  * Description: Create your WordPress website with the fast and easy-to-use drag-and-drop builder for experts and beginners.
  * Version: dev
- * Author: Visual Composer Team
+ * Author: visualcomposer.com
  * Author URI: https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=author-link
  * Copyright: (c) 2017 TechMill Ltd.
- * License: GNU General Public License v2.0
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Requires at least: 4.5
- * Tested up to: 4.9.4
+ * License: GPLv3
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.html
+ * Requires at least: 4.6
+ * Tested up to: 5.2.3
  * Text Domain: vcwb
+ * Domain Path: /languages/
  */
 
 /**
