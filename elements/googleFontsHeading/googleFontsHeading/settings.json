@@ -70,7 +70,13 @@
       "fontText": "The sky was cloudless and of a deep dark blue."
     },
     "options": {
-      "label": ""
+      "label": "",
+      "cssMixin": {
+        "mixin": "fontFamily",
+        "property": "fontFamily",
+        "namePattern": "[a-z]+",
+        "valueKey": "fontFamily"
+      }
     }
   },
   "elementTag": {

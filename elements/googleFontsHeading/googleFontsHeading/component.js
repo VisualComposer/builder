@@ -92,9 +92,13 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
       }
     }
 
+    mixinData = this.getMixinData('fontFamily')
+    if (mixinData) {
+      classes += ` vce-google-fonts-heading--font-family-${mixinData.selector}`
+    }
+
     if (font && font.status === 'active') {
       let fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? null : font.fontStyle.style) : null
-      innerCustomProps.style.fontFamily = font.fontFamily
       innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : null
       innerCustomProps.style.fontStyle = fontStyle
     }

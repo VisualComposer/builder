@@ -182,6 +182,10 @@ export default class {
               mixinValue = tempValue.mixinValue
             }
 
+            if (typeof tempValue === 'object' && tempValue.constructor === Object && mixin.valueKey) {
+              mixinValue = tempValue[mixin.valueKey]
+            }
+
             foundMixins[ mixin.mixin ].variables[ mixin.property ] = { value: mixinValue }
             if (mixin.namePattern) {
               foundMixins[ mixin.mixin ].variables[ mixin.property ].namePattern = mixin.namePattern
