@@ -14,6 +14,7 @@ export default class DynamicAttribute extends React.Component {
     this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
     this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.onLoadPostFields = this.onLoadPostFields.bind(this)
     this.open = this.open.bind(this)
     this.hide = this.hide.bind(this)
 
@@ -28,8 +29,21 @@ export default class DynamicAttribute extends React.Component {
     if (isDynamic) {
       let newState = this.getStateFromValue(this.props.value)
       state = { ...state, ...newState }
+      if (state.blockInfo && state.blockInfo.blockAtts && state.blockInfo.blockAtts.sourceId) {
+        window.setTimeout(() => {
+          settingsStorage.trigger('loadDynamicPost', state.blockInfo.blockAtts.sourceId, this.onLoadPostFields, (error) => {
+            console.warn('Error loading dynamic post info', error)
+            this.onLoadPostFields(state.blockInfo.blockAtts.sourceId, {}, {})
+          })
+        }, 1)
+      }
     }
+
     this.state = state
+  }
+
+  onLoadPostFields (sourceId, postData, postFields) {
+    this.setState({ dataLoaded: sourceId })
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -58,6 +72,14 @@ export default class DynamicAttribute extends React.Component {
 
     if (oldValue !== newValue) {
       let newState = this.getStateFromValue(newValue)
+      if (newState.blockInfo && newState.blockInfo.blockAtts && newState.blockInfo.blockAtts.sourceId) {
+        window.setTimeout(() => {
+          settingsStorage.trigger('loadDynamicPost', newState.blockInfo.blockAtts.sourceId, this.onLoadPostFields, (error) => {
+            console.warn('Error loading dynamic post info', error)
+            this.onLoadPostFields(newState.blockInfo.blockAtts.sourceId, {}, {})
+          })
+        }, 1)
+      }
       this.setState(newState)
     }
   }
