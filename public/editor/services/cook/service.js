@@ -85,7 +85,7 @@ const API = {
         const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
         if (isHtmlAllowed) {
           if (!result) {
-            result = 'No Value'
+            result = `No Value (${blockAtts.value})`
           }
           let dynamicProps = {
             value: blockAtts.value,
