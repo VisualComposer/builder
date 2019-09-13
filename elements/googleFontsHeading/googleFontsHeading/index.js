@@ -18,6 +18,9 @@ vcvAddElement(
     mixins: {
       textColor: {
         mixin: require('raw-loader!./cssMixins/textColor.pcss')
+      },
+      fontFamily: {
+        mixin: require('raw-loader!./cssMixins/fontFamily.pcss')
       }
     }
   },
