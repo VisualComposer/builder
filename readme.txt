@@ -78,6 +78,10 @@ Visual Composer is not only for the front-end users. With its API in front, deve
 * [Theme Integration](https://visualcomposer.com/blog/visual-composer-theme-integration/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)
 * [Staging Environment](https://visualcomposer.com/blog/visual-composer-on-staging/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)
 
+**Contributors & Developers**
+
+If you want to contribute to the development of the Visual Composer plugin, visit the [Visual Composer GitHub Repository](https://github.com/VisualComposer/builder) and help with your knowledge.
+
 **PREMIUM SUPPORT**
 
 Visual Composer team provides one-on-one email support that is available to Visual Composer Premium users. However, all Visual Composer users can ask for help in the WordPress.org forum, find answers in our Help Center, or ask for advice to other Visual Composer users in our community.
