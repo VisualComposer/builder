@@ -18,16 +18,20 @@ const getLibsFromAttribute = (attributeSettings, cookElement, attrKey, value) =>
     assetLibraries = assetLibraries.concat(getElementLibNames(innerElementValue.id, innerElementValue).assetLibraries)
   }
   if (attributeSettings.settings.type === 'paramsGroup') {
-    let attributeSettings = cookElement.settings(attrKey).settings.options.settings
-    let elementSettingsAttributes = Object.keys(attributeSettings)
-    elementSettingsAttributes.forEach((settingsKey) => {
-      let innerAttributeSettings = cookElement.settings(settingsKey, attributeSettings)
-      value.value.forEach((paramGroupItemValue) => {
-        let innerValue = paramGroupItemValue[ settingsKey ]
-        const settingsLibs = getLibsFromAttribute(innerAttributeSettings, cookElement, settingsKey, innerValue)
-        assetLibraries = assetLibraries.concat(settingsLibs)
+    let attribute = cookElement.settings(attrKey)
+    // TODO: Fix paramsGroup inside paramsGroup (disable this if)
+    if (attribute && attribute.settings && attribute.settings.options && attribute.settings.options.settings) {
+      let attributeSettings = cookElement.settings(attrKey).settings.options.settings
+      let elementSettingsAttributes = Object.keys(attributeSettings)
+      elementSettingsAttributes.forEach((settingsKey) => {
+        let innerAttributeSettings = cookElement.settings(settingsKey, attributeSettings)
+        value.value.forEach((paramGroupItemValue) => {
+          let innerValue = paramGroupItemValue[ settingsKey ]
+          const settingsLibs = getLibsFromAttribute(innerAttributeSettings, cookElement, settingsKey, innerValue)
+          assetLibraries = assetLibraries.concat(settingsLibs)
+        })
       })
-    })
+    }
   }
 
   return assetLibraries
