@@ -168,6 +168,10 @@ export default class {
               }
             }
           } else {
+            if (!foundMixins.hasOwnProperty(mixin.mixin)) {
+              console.warn(`${mixin.mixin} not found in element! Please check your mixin!`)
+              return {}
+            }
             let mixinValue = settings[ key ].value
             let tempValue = element.get(key)
             if (typeof tempValue === 'number') {
