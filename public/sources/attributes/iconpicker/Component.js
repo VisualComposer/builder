@@ -10,17 +10,17 @@ let setList = {
     monosocial: require('./lib/monosocial-1.10-303'), // v1.10 https://drinchev.github.io/monosocialiconsfont/
     typicons: require('./lib/typicons-2.0.7'), // v2.0.7, v2.0.9 available, but not needed https://www.s-ings.com/typicons/
     openiconic: require('./lib/openiconic-1.1.1'), // v1.1.1 https://useiconic.com/open
-    material: require('./lib/material-845'), // ??? https://material.io/resources/icons/?style=baseline
+    material: require('./lib/material-3.0.1'), // v3.0.1 https://material.io/resources/icons/?style=baseline
     batch: require('./lib/batch-1.3'), // v1.3 http://adamwhitcroft.com/batch/
     mfglabs: require('./lib/mfglabs'), // NA https://mfglabs.github.io/mfglabs-iconset/
     metrize: require('./lib/metrize-1.0'), // v1.0 http://www.alessioatzeni.com/metrize-icons/
     dripicons: require('./lib/dripicons-2.0'), // v2.0 http://demo.amitjakhu.com/dripicons/
-    feather: require('./lib/feather-163'), // ??? https://feathericons.com
+    feather: require('./lib/feather-4.24.0'), // v4.24.0 https://feathericons.com
     linearicons: require('./lib/linearicons-1.0-170') // v1.0 https://linearicons.com/free
   },
   socials: {
     socials: require('./lib/socials')
-  }, 
+  },
   cart: {
     cart: require('./lib/cart')
   }
