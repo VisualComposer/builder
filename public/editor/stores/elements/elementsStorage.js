@@ -231,8 +231,6 @@ addStorage('elements', (storage) => {
       storage.state('document').set(documentManager.children(false))
     }
     updateTimeMachine()
-  }, {
-    debounce: 250
   })
   storage.on('move', (id, data) => {
     let element = documentManager.get(id)
