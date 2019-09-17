@@ -1,3 +1,4 @@
+import { debounce } from 'lodash'
 import { addStorage, getService, getStorage } from 'vc-cake'
 
 const createKey = getService('utils').createKey
@@ -66,6 +67,8 @@ addStorage('workspace', (storage) => {
   })
   storage.on('clone', (id) => {
     elementsStorage.trigger('clone', id)
+  }, {
+    debounce: 250
   })
   storage.on('copy', (id, tag, options) => {
     let element = documentManager.copy(id)
