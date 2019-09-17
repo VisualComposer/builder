@@ -30,7 +30,7 @@ class Status implements Helper
     {
         $this->updateVersionUrl = vcvenv(
             'VCV_ENV_PLUGIN_UPDATE_VERSION_URL',
-            'http://updates.visualcomposer.io/visual-composer-website-builder/index.html'
+            'http://cdn.hub.visualcomposer.com/vcwb-bundles/status.json'
         );
     }
 
