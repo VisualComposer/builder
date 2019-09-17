@@ -279,15 +279,10 @@ class Status implements Helper
      */
     public function getAccountConnection()
     {
-        $id = vchelper('Options')->get('hubTokenId');
         $body = [
-            'hoster_id' => 'account',
-            'id' => $id,
-            'domain' => get_site_url(),
-            'url' => VCV_PLUGIN_URL,
-            'vcv-version' => VCV_VERSION,
+            'type' => 'ping'
         ];
-        $url = vcvenv('VCV_TOKEN_URL');
+        $url = vcvenv('VCV_HUB_URL');
         $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
             $url,
@@ -296,7 +291,7 @@ class Status implements Helper
             ]
         );
 
-        if (!vcIsBadResponse($result)) {
+        if (wp_remote_retrieve_response_code($result) === 200) {
             return true;
         }
 
