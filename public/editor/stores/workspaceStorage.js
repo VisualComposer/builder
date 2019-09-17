@@ -1,4 +1,3 @@
-import { debounce } from 'lodash'
 import { addStorage, getService, getStorage } from 'vc-cake'
 
 const createKey = getService('utils').createKey
