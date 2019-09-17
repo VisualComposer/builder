@@ -45,7 +45,6 @@ describe('Test elementsStorage', () => {
     })
     test('ElementsStorage clone textBlock', () => {
       elementsStorage.trigger('clone', id)
-      jest.runAllTimers()
       const textBlocks = documentManager.filter((data) => {
         return data.get('tag') === 'textBlock'
       })
