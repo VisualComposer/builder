@@ -59,7 +59,7 @@ class SystemStatus extends Container implements Module
             'systemCheck'
         );
 
-        $this->wpAddAction('admin_init', 'addWarningNotice');
+        $this->wpAddAction('current_screen', 'addWarningNotice');
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
@@ -81,7 +81,7 @@ class SystemStatus extends Container implements Module
      */
     protected function addSettingsTab($tabs)
     {
-        $tabs['vcv-system-status'] = [
+        $tabs[$this->slug] = [
             'name' => __('System Status', 'vcwb'),
         ];
 
@@ -301,6 +301,7 @@ class SystemStatus extends Container implements Module
      */
     protected function beforeRender()
     {
+        $this->statusHelper->checkSystemStatusAndSetFlag();
         $urlHelper = vchelper('Url');
         wp_register_style(
             'vcv:wpUpdate:style',
@@ -339,9 +340,14 @@ class SystemStatus extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param \VisualComposer\Modules\Settings\Pages\SystemStatus $systemStatus
+     * @param Status $statusHelper
      */
-    protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus)
+    protected function addWarningNotice(Notice $noticeHelper, SystemStatus $systemStatus, Status $statusHelper)
     {
+        $screen = get_current_screen();
+        if (strpos($screen->id, $this->slug)) {
+            $statusHelper->checkSystemStatusAndSetFlag();
+        }
         $notices = $noticeHelper->all();
         if ($this->optionsHelper->get('systemCheckFailing')) {
             if (!isset($notices['systemCheckStatus'])) {
