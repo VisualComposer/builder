@@ -46,6 +46,7 @@ class PostsGridPostIterator extends Container implements Helper
                 setup_postdata($post);
                 $compiledTemplate = $this->renderPost($template, $queryPost);
                 $output .= trim($compiledTemplate);
+                $output = vcfilter('vcv:frontend:content', $output);
                 wp_reset_postdata();
             }
         }

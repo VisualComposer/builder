@@ -4,19 +4,19 @@ import classNames from 'classnames'
 
 let setList = {
   icons: {
-    fontawesome: require('./lib/fontawesome-5.9.0'),
-    lineicons: require('./lib/lineicons-13.07-48'),
-    entypo: require('./lib/entypo-13.07-411'),
-    monosocial: require('./lib/monosocial-1.10-303'),
-    typicons: require('./lib/typicons-2.0.7'),
-    openiconic: require('./lib/openiconic-1.1.1'),
-    material: require('./lib/material-845'),
-    batch: require('./lib/batch-1.3'),
-    mfglabs: require('./lib/mfglabs'),
-    metrize: require('./lib/metrize-1.0'),
-    dripicons: require('./lib/dripicons-2.0'),
-    feather: require('./lib/feather-163'),
-    linearicons: require('./lib/linearicons-1.0-170')
+    fontawesome: require('./lib/fontawesome-5.10.2'), // v5.10.2 https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself
+    lineicons: require('./lib/lineicons-13.07-48'), // NA https://designmodo.com/linecons-free/
+    entypo: require('./lib/entypo-13.07-411'), // NA http://www.entypo.com/
+    monosocial: require('./lib/monosocial-1.10-303'), // v1.10 https://drinchev.github.io/monosocialiconsfont/
+    typicons: require('./lib/typicons-2.0.7'), // v2.0.7, v2.0.9 available, but not needed https://www.s-ings.com/typicons/
+    openiconic: require('./lib/openiconic-1.1.1'), // v1.1.1 https://useiconic.com/open
+    material: require('./lib/material-3.0.1'), // v3.0.1 https://material.io/resources/icons/?style=baseline
+    batch: require('./lib/batch-1.3'), // v1.3 http://adamwhitcroft.com/batch/
+    mfglabs: require('./lib/mfglabs'), // NA https://mfglabs.github.io/mfglabs-iconset/
+    metrize: require('./lib/metrize-1.0'), // v1.0 http://www.alessioatzeni.com/metrize-icons/
+    dripicons: require('./lib/dripicons-2.0'), // v2.0 http://demo.amitjakhu.com/dripicons/
+    feather: require('./lib/feather-4.24.0'), // v4.24.0 https://feathericons.com
+    linearicons: require('./lib/linearicons-1.0-170') // v1.0 https://linearicons.com/free
   },
   socials: {
     socials: require('./lib/socials')

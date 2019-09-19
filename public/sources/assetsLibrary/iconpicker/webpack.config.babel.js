@@ -6,13 +6,13 @@ import TerserPlugin from 'terser-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    fontawesome: ['./src/css/font-awesome-5.9.0/less/fontawesome.less'],
+    fontawesome: ['./src/css/font-awesome-5.10.2/less/fontawesome.less'],
     lineicons: ['./src/css/vcv-linecons/font.less'],
     entypo: ['./src/css/vcv-entypo/font.less'],
     monosocial: ['./src/css/vcv-monosocial-1.10/style.less'],
     typicons: ['./src/css/vcv-typicons-2.0.7/font.less'],
     openiconic: ['./src/css/vcv-openiconic-1.1.1/font.less'],
-    material: ['./src/css/vcv-material-845/font.less'],
+    material: ['./src/css/vcv-material-3.0.1/font.less'],
     batch: ['./src/css/vcv-batch-1.3/font.less'],
     mfglabs: ['./src/css/vcv-mfglabs/font.less'],
     metrize: ['./src/css/vcv-metrize-1.0/font.less'],
