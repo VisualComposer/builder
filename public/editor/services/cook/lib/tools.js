@@ -8,7 +8,7 @@ export function buildSettingsObject (settings) {
 }
 export function getAttributeType (k, settings) {
   let data = { type: false, settings: false }
-  let attrSettings = settings[ k ]
+  let attrSettings = Object.assign({}, settings[ k ])
   if (attrSettings && attrSettings.type) {
     data.settings = attrSettings
     data.type = attributeManager.get(attrSettings.type) || false
