@@ -300,6 +300,9 @@ class Status implements Helper
 
     public function getSystemStatus()
     {
+        if (function_exists('current_user_can') && function_exists('wp_raise_memory_limit') && current_user_can('manage_options')) {
+            wp_raise_memory_limit('admin');
+        }
         $results = [
             $this->getMemoryLimitStatus(),
             $this->getFileSystemStatus(),
