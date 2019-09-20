@@ -211,14 +211,32 @@ class AssetsShared extends Container implements Helper
                     $name = $asset->name;
                     $assetsLibraries[ $name ] = [
                         'dependencies' => $asset->dependencies,
-                        'jsBundle' => isset($asset->jsBundle) ? $this->renameLocalPath($name, $asset->jsBundle) : '',
-                        'cssBundle' => isset($asset->cssBundle) ? $this->renameLocalPath($name, $asset->cssBundle) : '',
+                        'jsBundle' => isset($asset->jsBundle) ? add_query_arg(
+                            'v',
+                            VCV_VERSION,
+                            $this->renameLocalPath(
+                                $name,
+                                $asset->jsBundle
+                            )
+                        ) : '',
+                        'cssBundle' => isset($asset->cssBundle) ? add_query_arg(
+                            'v',
+                            VCV_VERSION,
+                            $this->renameLocalPath(
+                                $name,
+                                $asset->cssBundle
+                            )
+                        ) : '',
                     ];
 
                     if (isset($asset->cssSubsetBundles)) {
                         $cssSubsetBundles = [];
                         foreach ($asset->cssSubsetBundles as $singleKey => $single) {
-                            $cssSubsetBundles[ $singleKey ] = $this->renameLocalPath($name, $single);
+                            $cssSubsetBundles[ $singleKey ] = add_query_arg(
+                                'v',
+                                VCV_VERSION,
+                                $this->renameLocalPath($name, $single)
+                            );
                         }
                         $assetsLibraries[ $name ]['cssSubsetBundles'] = $cssSubsetBundles;
                     }
