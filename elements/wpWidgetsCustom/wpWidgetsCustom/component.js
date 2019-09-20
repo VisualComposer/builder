@@ -4,7 +4,6 @@ import { getService } from 'vc-cake'
 const vcvAPI = getService('api')
 
 export default class WpWidgetsCustom extends vcvAPI.elementComponent {
-
   componentDidMount () {
     super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.refs.vcvhelper)
   }
