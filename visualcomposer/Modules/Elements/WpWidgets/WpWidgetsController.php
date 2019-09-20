@@ -10,9 +10,8 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\WpWidgets;
 
 /**
@@ -22,15 +21,15 @@ use VisualComposer\Helpers\WpWidgets;
 class WpWidgetsController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * WpWidgetsController constructor.
      */
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::addGlobalVariables */
         $this->addFilter('vcv:frontend:head:extraOutput', 'addGlobalVariables');
-        /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::render */
-        $this->addFilter('vcv:ajax:elements:widget:adminNonce', 'renderEditor');
 
         /** @see \VisualComposer\Modules\Elements\WpWidgets\WpWidgetsController::renderForm */
         $this->addFilter('vcv:ajaxForm:render:response', 'renderForm');
@@ -49,55 +48,6 @@ class WpWidgetsController extends Container implements Module
         $variables[] = sprintf('<script>%s</script>', vcview('elements/widgets/variables'));
 
         return array_merge($scripts, $variables);
-    }
-
-    /**
-     * @param $response
-     * @param $payload
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\WpWidgets $widgets
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
-     *
-     * @return array
-     */
-    protected function renderEditor(
-        $response,
-        $payload,
-        Request $requestHelper,
-        WpWidgets $widgets,
-        CurrentUser $currentUserAccessHelper
-    ) {
-        $sourceId = (int)$requestHelper->input('vcv-source-id');
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
-            if (!is_array($response)) {
-                $response = [];
-            }
-            $widgetKey = $requestHelper->input('vcv-widget-key');
-            if (!$widgetKey) {
-                $widgetKey = $widgets->defaultKey($requestHelper->input('vcv-element-tag'));
-            }
-            // If still not key return!
-            if (!$widgetKey) {
-                return $response;
-            }
-            $args = $requestHelper->input('vcv-atts');
-            $instance = $requestHelper->input('vcv-widget-value');
-
-            if (isset($instance['widget-form'])) {
-                $instance = $instance['widget-form'][1];
-            }
-
-            $response['status'] = true;
-            $response['shortcodeContent'] = $widgets->render($widgetKey, $args, $instance);
-            $response['shortcode'] = $widgets->getShortcode(
-                $requestHelper->input('vcv-element-tag'),
-                urlencode($requestHelper->input('vcv-widget-key')),
-                rawurlencode(json_encode($requestHelper->input('vcv-widget-value'))),
-                rawurlencode(json_encode($requestHelper->input('vcv-atts')))
-            );
-        }
-
-        return $response;
     }
 
     /**
