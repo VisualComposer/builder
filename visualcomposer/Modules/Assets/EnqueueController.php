@@ -29,6 +29,15 @@ class EnqueueController extends Container implements Module
     {
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAllAssets', 50);
         $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
+        $this->wpAddAction('init', 'setCustomWpScripts');
+    }
+
+    protected function setCustomWpScripts()
+    {
+        // @codingStandardsIgnoreStart
+        global $wp_scripts;
+        $wp_scripts = new VcwbWpScripts();
+        // @codingStandardsIgnoreEnd
     }
 
     protected function enqueueAllAssets()

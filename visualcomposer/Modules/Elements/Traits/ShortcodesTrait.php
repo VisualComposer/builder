@@ -68,7 +68,9 @@ trait ShortcodesTrait
         wp_print_styles();
         print_late_styles();
         wp_print_head_scripts();
-        wp_print_footer_scripts();
+        // wp_print_footer_scripts();
+        wp_scripts()->do_items(false, 2); // Group === 2 to exclude vcv: scripts in content
+
         $content = ob_get_clean();
 
         return $content;

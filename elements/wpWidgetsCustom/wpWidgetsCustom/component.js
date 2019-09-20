@@ -4,71 +4,36 @@ import { getService } from 'vc-cake'
 const vcvAPI = getService('api')
 
 export default class WpWidgetsCustom extends vcvAPI.elementComponent {
-  state = {
-    shortcode: '',
-    shortcodeContent: this.spinnerHTML()
-  }
 
   componentDidMount () {
-    this.requestToServer()
+    super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.refs.vcvhelper)
   }
 
-  componentDidUpdate (prevProps) {
-    let isEqual = require('lodash').isEqual
-    if (!isEqual(this.props.atts, prevProps.atts)) {
-      this.requestToServer()
+  componentDidUpdate (props) {
+    // update only if shortcode field did change
+    if (WpWidgetsCustom.getShortcode(this.props.atts) !== WpWidgetsCustom.getShortcode(props.atts)) {
+      super.updateShortcodeToHtml(WpWidgetsCustom.getShortcode(this.props.atts), this.refs.vcvhelper)
     }
   }
 
-  componentwillUnmount () {
-    if (this.serverRequest) {
-      this.serverRequest.cancelled = true
+  static getShortcode (atts) {
+    const widgetAtts = {
+      before_title: atts.customWidgetHtml ? atts.atts_before_title : '',
+      after_title: atts.customWidgetHtml ? atts.atts_after_title : '',
+      before_widget: atts.customWidgetHtml ? atts.atts_before_widget : '',
+      after_widget: atts.customWidgetHtml ? atts.atts_after_widget : ''
     }
-  }
 
-  requestToServer () {
-    let atts = {
-      before_title: this.props.atts.customWidgetHtml ? this.props.atts.atts_before_title : '',
-      after_title: this.props.atts.customWidgetHtml ? this.props.atts.atts_after_title : '',
-      before_widget: this.props.atts.customWidgetHtml ? this.props.atts.atts_before_widget : '',
-      after_widget: this.props.atts.customWidgetHtml ? this.props.atts.atts_after_widget : ''
-    }
-    this.setState({
-      shortcodeContent: this.spinnerHTML()
-    })
-    const dataProcessService = getService('dataProcessor')
+    const widgetKey = window.encodeURIComponent(atts.widgetKey)
+    const instance = window.encodeURIComponent(JSON.stringify(atts.widget))
+    const args = window.encodeURIComponent(JSON.stringify(widgetAtts))
 
-    this.serverRequest = dataProcessService.appServerRequest({
-      'vcv-action': 'elements:widget:adminNonce',
-      'vcv-nonce': window.vcvNonce,
-      'vcv-widget-key': this.props.atts.widgetKey,
-      'vcv-element-tag': this.props.atts.tag,
-      'vcv-widget-value': this.props.atts.widget,
-      'vcv-atts': atts,
-      'vcv-source-id': window.vcvSourceID
-    }).then((result) => {
-      if (this.serverRequest && this.serverRequest.cancelled) {
-        this.serverRequest = null
-        return
-      }
-      let response = this.getResponse(result)
-      if (response && response.status) {
-        this.setState({
-          shortcode: response.shortcode,
-          shortcodeContent: response.shortcodeContent || ''
-        })
-      } else {
-        this.setState({
-          shortcode: 'Failed to render widget',
-          shortcodeContent: ''
-        })
-      }
-    })
+    return `[vcv_widgets tag="${atts.tag}" key="${widgetKey}" instance="${instance}" args="${args}"]`
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, metaCustomId } = atts
     let containerClasses = [ 'vce-widgets-container' ]
 
     let customProps = {}
@@ -79,13 +44,12 @@ export default class WpWidgetsCustom extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
     return (
       <div className={containerClasses.join(' ')} {...customProps} {...editor}>
         <div className='vce vce-widgets-wrapper' id={'el-' + id} {...doAll}>
-          <div className='vcvhelper' data-vcvs-html={this.state.shortcode || ''}
-            dangerouslySetInnerHTML={{ __html: this.state.shortcodeContent || '' }} />
+          <div className='vcvhelper' ref='vcvhelper' data-vcvs-html={WpWidgetsCustom.getShortcode(this.props.atts)} />
         </div>
       </div>
     )
