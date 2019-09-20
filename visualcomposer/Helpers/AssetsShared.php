@@ -261,17 +261,29 @@ class AssetsShared extends Container implements Helper
             foreach ($assets as $key => $value) {
                 if (!isset($assetsLibraries[ $key ])) {
                     if (isset($value['jsBundle'])) {
-                        $value['jsBundle'] = $assetsHelper->getAssetUrl($value['jsBundle']);
+                        $value['jsBundle'] = add_query_arg(
+                            'v',
+                            VCV_VERSION,
+                            $assetsHelper->getAssetUrl($value['jsBundle'])
+                        );
                     }
                     if (isset($value['cssBundle'])) {
-                        $value['cssBundle'] = $assetsHelper->getAssetUrl($value['cssBundle']);
+                        $value['cssBundle'] = add_query_arg(
+                            'v',
+                            VCV_VERSION,
+                            $assetsHelper->getAssetUrl($value['cssBundle'])
+                        );
                     }
                     $assetsLibraries[ $key ] = $value;
 
                     if (isset($value['cssSubsetBundles'])) {
                         $cssSubsetBundles = [];
                         foreach ($value['cssSubsetBundles'] as $singleKey => $single) {
-                            $cssSubsetBundles[ $singleKey ] = $assetsHelper->getAssetUrl($single);
+                            $cssSubsetBundles[ $singleKey ] = add_query_arg(
+                                'v',
+                                VCV_VERSION,
+                                $assetsHelper->getAssetUrl($single)
+                            );
                         }
                         $assetsLibraries[ $key ]['cssSubsetBundles'] = $cssSubsetBundles;
                     }
