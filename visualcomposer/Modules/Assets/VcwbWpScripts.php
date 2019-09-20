@@ -12,6 +12,13 @@ use \WP_Scripts;
 
 class VcwbWpScripts extends WP_Scripts
 {
+    /**
+     * @codingStandardsIgnoreStart
+     * @param bool|array $handles
+     * @param bool $group
+     *
+     * @return array
+     */
     public function do_items($handles = false, $group = false)
     {
         /*
