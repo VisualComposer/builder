@@ -1,0 +1,23 @@
+{
+  "customId": "custom-widget-id",
+  "customClass": "custom-widget-class",
+  "widgetType": "WP_Widget_Custom_HTML",
+  "widgetHTML": "<h1>Visual Composer Custom WordPress Widget element</h1>",
+  "widgetText": "Visual Composer Custom WordPress Widget element",
+  "designOptions": {
+    "animation": "tada",
+    "padding": "9px",
+    "margin": "23px",
+    "borderWidth": "1px",
+    "borderRadius": "5px",
+    "backgroundColor": {
+      "hex": "B93030",
+      "rgb": "rgb(185, 48, 48)"
+    },
+    "borderStyle": "solid",
+    "borderColor": {
+      "hex": "55E05D",
+      "rgb": "rgb(85, 224, 93)"
+    }
+  }
+}
