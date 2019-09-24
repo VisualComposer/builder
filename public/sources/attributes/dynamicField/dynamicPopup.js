@@ -107,21 +107,25 @@ export default class DynamicPopup extends React.Component {
   }
 
   renderAutoCompleteInput () {
-    return <Autocomplete
-      value={this.state.sourceId + ''} // force string
-      elementAccessPoint={this.props.elementAccessPoint}
-      fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
-      key={`${this.props.fieldKey}-dynamic-source-autocomplete-${this.state.sourceId + ''}`}
-      options={{
-        // values: fieldList
-        single: true,
-        action: 'dynamicPosts',
-        labelAction: '',
-        validation: true
-      }}
-      updater={this.handleChangeSourceId}
-      description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select page, post, or custom post type.'}
-    />
+    return <div className='vcv-ui-form-group'>
+      <div className='vcv-ui-dynamic-field-autocomplete-container'>
+        <Autocomplete
+          value={this.state.sourceId + ''} // force string
+          elementAccessPoint={this.props.elementAccessPoint}
+          fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
+          key={`${this.props.fieldKey}-dynamic-source-autocomplete-${this.state.sourceId + ''}`}
+          options={{
+            // values: fieldList
+            single: true,
+            action: 'dynamicPosts',
+            labelAction: '',
+            validation: true
+          }}
+          updater={this.handleChangeSourceId}
+          description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select page, post, or custom post type.'}
+        />
+      </div>
+    </div>
   }
 
   renderAutocompleteToggle () {
@@ -242,11 +246,8 @@ export default class DynamicPopup extends React.Component {
             <div className='vcv-ui-form-group'>
               {this.renderAutocompleteToggle()}
             </div>
-            <div className='vcv-ui-form-group'>
-              <div className='vcv-ui-dynamic-field-autocomplete-container'>
-                {autoCompleteComponent}
-              </div>
-            </div>
+            {autoCompleteComponent}
+            {this.props.renderExtraOptions && this.props.renderExtraOptions()}
           </div>
         </section>
         <footer className='vcv-ui-modal-footer'>

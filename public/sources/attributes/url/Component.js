@@ -7,6 +7,11 @@ import Checkbox from '../checkbox/Component'
 import classNames from 'classnames'
 import UrlDropdownInput from './UrlDropdownInput'
 import { getResponse } from 'public/tools/response'
+import { getService } from 'vc-cake'
+import DynamicAttribute from '../dynamicField/dynamicAttribute'
+
+const { getBlockRegexp } = getService('utils')
+const blockRegexp = getBlockRegexp()
 
 let pagePosts = {
   data: [],
@@ -32,6 +37,9 @@ export default class Url extends Attribute {
     super(props)
     this.delayedSearch = lodash.debounce(this.performSearch, 800)
     this.open = this.open.bind(this)
+    this.handleDynamicChange = this.handleDynamicChange.bind(this)
+    this.renderExtraDynamicOptions = this.renderExtraDynamicOptions.bind(this)
+    this.handleDynamicOpen = this.handleDynamicOpen.bind(this)
   }
 
   updateState (props) {
@@ -216,13 +224,54 @@ export default class Url extends Attribute {
     this.loadPosts(keyword)
   }
 
+  renderTitleInput () {
+    const title = this.localizations ? this.localizations.title : 'Title'
+    const titleAttributeText = this.localizations ? this.localizations.titleAttributeText : 'Title attribute will be displayed on link hover'
+
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          {title}
+        </span>
+        <String
+          fieldKey='title'
+          value={this.state.unsavedValue.title || ''}
+          api={this.props.api}
+          updater={this.handleInputChange} />
+        <p className='vcv-ui-form-helper'>
+          {titleAttributeText}
+        </p>
+      </div>
+    )
+  }
+
+  renderCheckboxes () {
+    const openLinkInTab = this.localizations ? this.localizations.openLinkInTab : 'Open link in a new tab'
+    const addNofollow = this.localizations ? this.localizations.addNofollow : 'Add nofollow option to link'
+
+    return (
+      <div className='vcv-ui-form-group'>
+        <Checkbox
+          fieldKey='targetBlank'
+          fieldType='checkbox'
+          options={{ values: [ { label: openLinkInTab, value: '1' } ] }}
+          value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
+          api={this.props.api}
+          updater={this.handleInputChange} />
+        <Checkbox
+          fieldKey='relNofollow'
+          fieldType='checkbox'
+          options={{ values: [ { label: addNofollow, value: '1' } ] }}
+          api={this.props.api}
+          value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
+          updater={this.handleInputChange} />
+      </div>
+    )
+  }
+
   drawModal () {
     const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or Edit Link'
     const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter destination URL'
-    const title = this.localizations ? this.localizations.title : 'Title'
-    const titleAttributeText = this.localizations ? this.localizations.titleAttributeText : 'Title attribute will be displayed on link hover'
-    const openLinkInTab = this.localizations ? this.localizations.openLinkInTab : 'Open link in a new tab'
-    const addNofollow = this.localizations ? this.localizations.addNofollow : 'Add nofollow option to link'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
     return (
@@ -257,37 +306,8 @@ export default class Url extends Attribute {
                 updater={this.handleInputChange}
               />
             </div>
-
-            <div className='vcv-ui-form-group'>
-              <span className='vcv-ui-form-group-heading'>
-                {title}
-              </span>
-              <String
-                fieldKey='title'
-                value={this.state.unsavedValue.title || ''}
-                api={this.props.api}
-                updater={this.handleInputChange} />
-              <p className='vcv-ui-form-helper'>
-                {titleAttributeText}
-              </p>
-            </div>
-
-            <div className='vcv-ui-form-group'>
-              <Checkbox
-                fieldKey='targetBlank'
-                fieldType='checkbox'
-                options={{ values: [ { label: openLinkInTab, value: '1' } ] }}
-                value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
-                api={this.props.api}
-                updater={this.handleInputChange} />
-              <Checkbox
-                fieldKey='relNofollow'
-                fieldType='checkbox'
-                options={{ values: [ { label: addNofollow, value: '1' } ] }}
-                api={this.props.api}
-                value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
-                updater={this.handleInputChange} />
-            </div>
+            {this.renderTitleInput()}
+            {this.renderCheckboxes()}
             {this.renderExistingPostsBlock()}
           </section>
 
@@ -307,37 +327,108 @@ export default class Url extends Attribute {
     )
   }
 
+  handleDynamicChange (value) {
+    let valueToSave = Object.assign({}, this.state.unsavedValue)
+    if (value && typeof value === 'string' && value.match(blockRegexp)) {
+      valueToSave.url = value
+    } else {
+      valueToSave.url = value.url
+    }
+    this.setFieldValue(valueToSave)
+  }
+
+  renderExtraDynamicOptions () {
+    return (
+      <>
+        {this.renderTitleInput()}
+        {this.renderCheckboxes()}
+      </>
+    )
+  }
+
+  handleDynamicOpen () {
+    let unsavedValue = {}
+    Object.assign(unsavedValue, this.state.value)
+
+    this.setState({
+      unsavedValue: unsavedValue
+    })
+  }
+
+  customDynamicRender (dynamicApi) {
+    const { dynamicFieldOpened, isWindowOpen } = dynamicApi.state
+
+    let content = ''
+    if (dynamicFieldOpened) {
+      content = dynamicApi.renderDynamicInputs()
+    } else {
+      content = (
+        <React.Fragment>
+          <div className='vcv-ui-form-link-button-group'>
+            {dynamicApi.props.linkButton}
+            {dynamicApi.renderOpenButton()}
+          </div>
+          {dynamicApi.props.linkDataComponent}
+        </React.Fragment>
+      )
+    }
+
+    return (
+      <React.Fragment>
+        {content}
+        {isWindowOpen ? dynamicApi.getDynamicPopup() : null}
+      </React.Fragment>
+    )
+  }
+
   render () {
     let { title, url } = this.state.value
     const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select URL'
     const addLink = this.localizations ? this.localizations.addLink : 'Add Link'
+    const linkDataHtml = (
+      <div className='vcv-ui-form-link-data'>
+        <span
+          className='vcv-ui-form-link-title'
+          data-vc-link-title='Title: '
+          title={title}>
+          {title}
+        </span>
+        <span
+          className='vcv-ui-form-link-title'
+          data-vc-link-title='Url: '
+          title={url}>
+          {url}
+        </span>
+        {this.drawModal()}
+      </div>
+    )
+    const linkButton = (
+      <button
+        className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
+        onClick={this.open}
+        type='button'
+        title={addLink}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-link' />
+        <span>{selectUrl}</span>
+      </button>
+    )
 
     return (
       <div className='vcv-ui-form-link'>
-        <button
-          className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
-          onClick={this.open}
-          type='button'
-          title={addLink}
+        <DynamicAttribute
+          {...this.props}
+          setFieldValue={this.handleDynamicChange}
+          value={url}
+          renderExtraOptions={this.renderExtraDynamicOptions}
+          handleOpenClick={this.handleDynamicOpen}
+          render={this.customDynamicRender.bind(this)}
+          linkDataComponent={linkDataHtml}
+          linkButton={linkButton}
         >
-          <i className='vcv-ui-icon vcv-ui-icon-link' />
-          <span>{selectUrl}</span>
-        </button>
-        <div className='vcv-ui-form-link-data'>
-          <span
-            className='vcv-ui-form-link-title'
-            data-vc-link-title='Title: '
-            title={title}>
-            {title}
-          </span>
-          <span
-            className='vcv-ui-form-link-title'
-            data-vc-link-title='Url: '
-            title={url}>
-            {url}
-          </span>
-          {this.drawModal()}
-        </div>
+          {linkButton}
+          {linkDataHtml}
+        </DynamicAttribute>
       </div>
     )
   }

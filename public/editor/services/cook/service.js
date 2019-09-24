@@ -172,6 +172,9 @@ const API = {
           } else if ([ 'attachimage' ].indexOf(type) !== -1) {
             value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
             isDynamic = value.match(blockRegexp)
+          } else if ([ 'url' ].indexOf(type) !== -1) {
+            value = value && value.url ? value.url : ''
+            isDynamic = value.match(blockRegexp)
           }
         }
         if (isDynamic) {
@@ -362,9 +365,8 @@ const API = {
       const options = props ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
 
       let value = null
-      const isDateObject = atts[ fieldKey ] && typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ].constructor === Object && atts[ fieldKey ].hasOwnProperty('getMonth') && typeof atts[ fieldKey ].getMonth !== 'function' && !(atts[ fieldKey ] instanceof window.Date)
-      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array) && isDateObject) {
-        value = Object.assign({}, atts[ fieldKey ])
+      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array)) {
+        value = JSON.parse(JSON.stringify(atts[ fieldKey ]))
       } else {
         value = atts[ fieldKey ]
       }
@@ -385,6 +387,12 @@ const API = {
           }
         } else if ([ 'attachimage' ].indexOf(type) !== -1) {
           let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+          isDynamic = tempValue.match(blockRegexp)
+          if (isDynamic) {
+            dynamicValue = tempValue
+          }
+        } else if ([ 'url' ].indexOf(type) !== -1) {
+          let tempValue = value && value.url ? value.url : ''
           isDynamic = tempValue.match(blockRegexp)
           if (isDynamic) {
             dynamicValue = tempValue
@@ -435,6 +443,9 @@ const API = {
         } else if (type === 'inputSelect') {
           value.input = dynamicFieldsData
           value.select = null
+          layoutAtts[ fieldKey ] = value
+        } else if (type === 'url') {
+          value.url = dynamicFieldsData
           layoutAtts[ fieldKey ] = value
         } else {
           layoutAtts[ fieldKey ] = dynamicFieldsData
