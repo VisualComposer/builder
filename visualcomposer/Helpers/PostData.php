@@ -258,6 +258,20 @@ class PostData implements Helper
         return $date;
     }
 
+    public function getPostUrl($sourceId = '')
+    {
+        $url = get_permalink($sourceId);
+
+        return $url;
+    }
+
+    public function getCommentUrl($sourceId = '')
+    {
+        $url = get_comments_link($sourceId);
+
+        return $url;
+    }
+
     public function getDefaultPostData($sourceId = '')
     {
         $response = [];
@@ -280,6 +294,8 @@ class PostData implements Helper
         $response['site_tagline'] = $this->getSiteTagline($sourceId);
         $response['site_url'] = $this->getSiteUrl($sourceId);
         $response['current_year'] = $this->getCurrentYear($sourceId);
+        $response['post_url'] = $this->getPostUrl($sourceId);
+        $response['comment_url'] = $this->getCommentUrl($sourceId);
 
         return $response;
     }

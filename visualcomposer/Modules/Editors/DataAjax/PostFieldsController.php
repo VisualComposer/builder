@@ -194,6 +194,20 @@ class PostFieldsController extends Container implements Module
                     ],
                 ],
             ],
+            'url' => [
+                'post' => [
+                    'group' => [
+                        'label' => __('Post URLs', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+                'site' => [
+                    'group' => [
+                        'label' => __('Site URLs', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
+            ],
         ];
         $response['postFields'] = vcfilter(
             'vcv:editor:data:postFields',
