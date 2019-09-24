@@ -146,7 +146,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
       }
     }
 
-    source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
+    source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&mute=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
 
     if (metaCustomId) {
       customProps.id = metaCustomId
