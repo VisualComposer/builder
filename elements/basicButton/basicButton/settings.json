@@ -14,7 +14,8 @@
       "relNofollow": false
     },
     "options": {
-      "label": "Link selection"
+      "label": "Link selection",
+      "dynamicField": true
     }
   },
   "toggleCustomHover": {
