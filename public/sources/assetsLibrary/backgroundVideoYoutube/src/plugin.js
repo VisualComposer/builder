@@ -58,7 +58,8 @@
             loop: 1,
             playlist: this.videoId,
             rel: 0,
-            showinfo: 0
+            showinfo: 0,
+            mute: 1
           },
           events: {
             onReady: function onReady(event) {
