@@ -496,7 +496,7 @@ class WooCommerceController extends Container implements Module
      */
     public function getShopUrl()
     {
-        $url = get_permalink( wc_get_page_id( 'shop' ) );
+        $url = get_permalink(wc_get_page_id('shop'));
 
         return $url;
     }
