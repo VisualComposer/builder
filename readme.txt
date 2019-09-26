@@ -1,5 +1,5 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer, cozmoslabs
+Contributors: VisualComposer,cozmoslabs
 Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
 Requires PHP: 5.4
 Requires at least: 4.6
