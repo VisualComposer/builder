@@ -58,6 +58,7 @@ Being responsive today is essential. Visual Composer makes sure that your websit
 **COMPATIBILITY ELEMENTS**
 
 Visual Composer is compatible with other popular plugins, offering compatibility elements inside its asset library. This means that you can insert these and more plugins directly from the front-end editor:
+
 * WooCommerce
 * Contact Form 7
 * Gutenberg
@@ -87,14 +88,15 @@ If you want to contribute to the development of the Visual Composer plugin, visi
 Visual Composer team provides one-on-one email support that is available to Visual Composer Premium users. However, all Visual Composer users can ask for help in the WordPress.org forum, find answers in our Help Center, or ask for advice to other Visual Composer users in our community.
 
 **Where To Look For Support?**
+
 * Visual Composer [Help Center](https://visualcomposer.com/help/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)
 * Facebook [Community](https://www.facebook.com/groups/VisualComposers/)
 * WordPress.org support section
 * Real-person [Dedicated Support](https://visualcomposer.com/support/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) (*available for Premium users*)
 
 **LET'S GET YOU ONBOARD**
-* Learn about Visual Composer from tutorials on [YouTube](https://www.youtube.com/VisualComposer)
 
+* Learn about Visual Composer from tutorials on [YouTube](https://www.youtube.com/VisualComposer)
 * Join our community on [Slack](http://slack.visualcomposer.com/)
 * Follow us on Facebook and join our lovely [community](https://www.facebook.com/groups/VisualComposers)
 
