@@ -232,7 +232,6 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
-    this.parallaxSpeedChangeHandler = this.parallaxSpeedChangeHandler.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleElementChange = this.handleElementChange.bind(this)
   }
@@ -485,20 +484,6 @@ export default class DesignOptionsAdvanced extends Attribute {
           // background color is empty
           if (newValue[ device ].backgroundColor === '') {
             delete newValue[ device ].backgroundColor
-          }
-
-          let parallaxBackgrounds = [
-            'imagesSimple',
-            'backgroundZoom',
-            'imagesSlideshow',
-            'videoYoutube',
-            'videoVimeo',
-            'videoEmbed'
-          ]
-          if (parallaxBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1 || newValue[ device ].parallax === '') {
-            // not parallax background selected
-            delete newValue[ device ].parallax
-            delete newValue[ device ].parallaxSpeed
           }
 
           // animation is not set
@@ -1800,120 +1785,6 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   /**
-   * Render parallax control
-   * @returns {*}
-   */
-  getParallaxRender () {
-    let allowedBackgroundTypes = [
-      'imagesSimple',
-      'backgroundZoom',
-      'imagesSlideshow',
-      'videoYoutube',
-      'videoVimeo',
-      'videoEmbed'
-    ]
-
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      allowedBackgroundTypes.indexOf(this.state.devices[ this.state.currentDevice ].backgroundType) === -1) {
-      return null
-    }
-
-    let options = {
-      values: [
-        {
-          label: 'None',
-          value: ''
-        },
-        {
-          label: 'Simple',
-          value: 'simple'
-        },
-        {
-          label: 'Simple with fade',
-          value: 'simple-fade'
-        },
-        {
-          label: 'Mouse move',
-          value: 'mouse-move'
-        }
-      ]
-    }
-    let value = this.state.devices[ this.state.currentDevice ].parallax || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Parallax effect
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='parallax'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value} />
-    </div>
-  }
-
-  /**
-   * Render parallax speed field
-   * @returns {*}
-   */
-  getParallaxSpeedRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].parallax) {
-      return null
-    }
-
-    let value = this.state.devices[ this.state.currentDevice ].parallaxSpeed || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Parallax effect speed
-      </span>
-      <Number
-        api={this.props.api}
-        fieldKey='parallaxSpeed'
-        updater={this.parallaxSpeedChangeHandler}
-        placeholder='30'
-        options={{
-          min: 1
-        }}
-        value={value}
-      />
-    </div>
-  }
-
-  /**
-   * Handle parallax speed change
-   * @param fieldKey
-   * @param value
-   */
-  parallaxSpeedChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
-    this.updateValue(newState, fieldKey)
-  }
-
-  /**
-   * Render parallax reverse field
-   * @returns {*}
-   */
-  getParallaxReverseRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].parallax) {
-      return null
-    }
-
-    let value = this.state.devices[ this.state.currentDevice ].parallaxReverse || false
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Reverse parallax effect
-      </span>
-      <Toggle
-        api={this.props.api}
-        fieldKey='parallaxReverse'
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
-  }
-
-  /**
    * Render Self hosted video control
    * @returns {*}
    */
@@ -1974,9 +1845,6 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getGradientStartColorRender()}
             {this.getGradientEndColorRender()}
             {this.getGradientAngleRender()}
-            {this.getParallaxRender()}
-            {this.getParallaxSpeedRender()}
-            {this.getParallaxReverseRender()}
             {this.getAnimationRender()}
           </div>
         </div>
