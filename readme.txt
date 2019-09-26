@@ -171,6 +171,33 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 20.0 =
+*Release Date - 2019-09-26*
+
+#### Free:
+- New: Plugin upload to WordPress.org plugin repository
+- New: Templates are added to the editor page with smooth loading
+- Update: Icon library sets updated
+- Update: License updated from GPLv2 to GPLv3
+- Update: Video autoplay options updated in the video elements
+- Fix: System Status message works properly in WordPress Dashboard
+- Fix: All Google Fonts work properly
+- Fix: Column width works properly on iOS
+- Fix: Free template downloading works properly
+- Fix: Yoast SEO analyzes content properly
+
+#### Premium:
+- New: Maintenance mode controls to set site under maintenance
+- New: Dynamic Content option is available for advanced elements with parameter groups
+- New: Dynamic Content works with ACF in Global Templates
+- Update: Dynamic Content works with RTL
+- Fix: SoundCloud element Design Options works properly
+- Fix: Visual Composer Widget element and Global Templates work without compatibility issues
+- Fix: Sandwich menu square style displayed properly
+- Fix: Simple Image Slider works properly
+- Fix: Post grid elements work properly in the editor
+- Fix: Post Grid buttons work properly with Dynamic Content
+
 = 19.0 =
 *Release Date - 2019-08-28*
 
