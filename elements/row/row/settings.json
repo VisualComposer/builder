@@ -40,6 +40,14 @@
       "label": "Box Shadow"
     }
   },
+  "parallax": {
+    "type": "parallax",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Parallax"
+    }
+  },
   "designOptionsAdvanced": {
     "type": "designOptionsAdvanced",
     "access": "public",
@@ -73,6 +81,7 @@
       "editFormTab1",
       "layout",
       "designOptionsAdvanced",
+      "parallax",
       "boxShadow",
       "dividers",
       "sticky"

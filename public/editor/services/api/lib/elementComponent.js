@@ -345,20 +345,19 @@ export default class ElementComponent extends React.Component {
   }
 
   getBackgroundTypeContent () {
-    let { designOptionsAdvanced } = this.props.atts
+    let { designOptionsAdvanced, parallax } = this.props.atts
     if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
       return null
     }
     let { device } = designOptionsAdvanced
     let backgroundData = []
-    Object.keys(device).forEach((deviceKey) => {
-      let { parallax, gradientOverlay } = device[ deviceKey ]
-      let backgroundElements = []
-      let reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ].backgroundType}`
-      let images = device[ deviceKey ].images
+    let devices = ['xs', 'sm', 'md', 'lg', 'xl']
+    const getBackgroundDeviceData = (deviceKey, deviceData, parallaxData) => {
+      const { gradientOverlay } = deviceData
+      let reactKey = `${this.props.id}-${deviceKey}-${deviceData.backgroundType}`
+      let images = deviceData.images
       let imageValue = images && images.urls && images.urls[ 0 ] ? images.urls[ 0 ].full : false
       let isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
-
       if (isDynamic) {
         let blockInfo = imageValue.split(blockRegexp)
         let blockAtts = JSON.parse(blockInfo[ 4 ])
@@ -367,57 +366,78 @@ export default class ElementComponent extends React.Component {
         })
         images = [ imageUrl ]
       }
+      let deviceBackgroundElements = []
+      let deviceBackgroundData = []
 
-      switch (device[ deviceKey ].backgroundType) {
+      switch (deviceData.backgroundType) {
         case 'imagesSimple':
-          backgroundElements.push(
-            <ImageSimpleBackground images={images} deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+          deviceBackgroundElements.push(
+            <ImageSimpleBackground images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'backgroundZoom':
-          backgroundElements.push(
-            <ImageBackgroundZoom images={images} deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+          deviceBackgroundElements.push(
+            <ImageBackgroundZoom images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'imagesSlideshow':
-          backgroundElements.push(
-            <ImageSlideshowBackground images={images} deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+          deviceBackgroundElements.push(
+            <ImageSlideshowBackground images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'videoYoutube':
-          backgroundElements.push(
-            <YoutubeBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+          deviceBackgroundElements.push(
+            <YoutubeBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'videoVimeo':
-          backgroundElements.push(
-            <VimeoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+          deviceBackgroundElements.push(
+            <VimeoBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
         case 'videoEmbed':
-          backgroundElements.push(
-            <EmbedVideoBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+          deviceBackgroundElements.push(
+            <EmbedVideoBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
               key={reactKey} atts={this.props.atts} />)
           break
       }
 
-      // parallax
       if (gradientOverlay) {
-        reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-gradientOverlay`
-        backgroundElements.push(
-          <ColorGradientBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
+        reactKey = `${this.props.id}-${deviceKey}-${deviceData}-gradientOverlay`
+        deviceBackgroundElements.push(
+          <ColorGradientBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
             key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')} />)
       }
 
-      if (parallax) {
+      if (parallaxData && parallaxData.parallaxEnable) {
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-parallax`
-        backgroundData.push(
-          <ParallaxBackground deviceData={device[ deviceKey ]} deviceKey={deviceKey} reactKey={reactKey}
-            key={reactKey} atts={this.props.atts} content={backgroundElements} />)
+        deviceBackgroundData.push(
+          <ParallaxBackground deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
+            key={reactKey} atts={this.props.atts} content={deviceBackgroundElements} />)
       } else {
-        backgroundData.push(backgroundElements)
+        deviceBackgroundData.push(deviceBackgroundElements)
       }
-    })
+
+      return deviceBackgroundData
+    }
+
+    // Merge parallax and design options background for devices
+    if (designOptionsAdvanced.device.hasOwnProperty('all') && parallax && parallax.device && !parallax.device.hasOwnProperty('all')) {
+      devices.forEach((deviceKey) => {
+        backgroundData.push(getBackgroundDeviceData(deviceKey, device[ 'all' ], parallax.device[ deviceKey ]))
+      })
+    } else {
+      Object.keys(device).forEach((deviceKey) => {
+        let parallaxData = parallax && parallax.device
+        let parallaxDeviceData = null
+        if (parallaxData) {
+          parallaxDeviceData = parallax.device.hasOwnProperty(deviceKey) ? parallax.device[ deviceKey ] : parallax.device[ 'all' ]
+        }
+
+        backgroundData.push(getBackgroundDeviceData(deviceKey, device[ deviceKey ], parallaxDeviceData))
+      })
+    }
+
     if (backgroundData.length) {
       return <div className='vce-content-background-container'>
         {backgroundData}
