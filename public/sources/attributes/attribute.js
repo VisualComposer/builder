@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
+import { getStorage } from 'vc-cake'
 
 export default class Attribute extends React.Component {
   static propTypes = {
@@ -120,6 +121,8 @@ export default class Attribute extends React.Component {
   }
 
   valueChangeHandler (fieldKey, value) {
+    const storage = getStorage('fieldOptions')
+    storage.trigger('fieldOptionsChange', fieldKey, value, this.props.elementAccessPoint.id)
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState, fieldKey)

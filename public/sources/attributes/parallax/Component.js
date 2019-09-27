@@ -6,6 +6,7 @@ import Toggle from '../toggle/Component'
 import Devices from '../devices/Component'
 import Dropdown from '../dropdown/Component'
 import Number from '../number/Component'
+import { getStorage } from 'vc-cake'
 
 export default class Parallax extends Attribute {
   static defaultProps = {
@@ -137,7 +138,7 @@ export default class Parallax extends Attribute {
       return null
     }
 
-    const options = {
+    let options = {
       values: [
         {
           label: 'Simple',
@@ -154,6 +155,13 @@ export default class Parallax extends Attribute {
       ]
     }
 
+    // console.log('this', this)
+    const storage = getStorage('fieldOptions')
+    storage.state('currentAttribute:settings').set(options)
+    const name = 'parallax'
+    storage.trigger('fieldOptions', name, options)
+    options = storage.state('currentAttribute:settings').get()
+    storage.state('currentAttribute:settings').delete()
     const value = this.state.devices[ this.state.currentDevice ].parallax || 'simple'
 
     return <div className='vcv-ui-form-group'>

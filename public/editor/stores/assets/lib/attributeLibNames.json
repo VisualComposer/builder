@@ -1,0 +1,70 @@
+[
+  {
+    "fieldKey": "animation",
+    "library": "animate",
+    "dependencies": [
+      "waypoints"
+    ]
+  },
+  {
+    "fieldKey": "gradientOverlay",
+    "value": true,
+    "library": "backgroundColorGradient"
+  },
+  {
+    "fieldKey": "backgroundType",
+    "value": "imagesSimple",
+    "library": "backgroundSimple"
+  },
+  {
+    "fieldKey": "backgroundType",
+    "value": "imagesSlideshow",
+    "library": "backgroundSlider"
+  },
+  {
+    "fieldKey": "backgroundType",
+    "value": "videoEmbed",
+    "library": "backgroundVideoEmbed"
+  },
+  {
+    "fieldKey": "backgroundType",
+    "value": "videoVimeo",
+    "library": "backgroundVideoVimeo"
+  },
+  {
+    "fieldKey": "backgroundType",
+    "value": "videoYoutube",
+    "library": "backgroundVideoYoutube"
+  },
+  {
+    "fieldKey": "backgroundType",
+    "value": "backgroundZoom",
+    "library": "backgroundZoom",
+    "dependencies": [
+      "waypoints"
+    ]
+  },
+  {
+    "fieldKey": "parallax",
+    "value": "simple",
+    "library": "parallaxBackground",
+    "dependencies": [
+      "waypoints"
+    ]
+  },
+  {
+    "fieldKey": "parallax",
+    "value": "simple-fade",
+    "library": "parallaxFade",
+    "dependencies": [
+      "waypoints",
+      "parallaxBackground"
+    ]
+  },
+  {
+    "fieldKey": "parallax",
+    "value": "mouse-move",
+    "library": "parallaxMouseMove",
+    "dependencies": []
+  }
+]
