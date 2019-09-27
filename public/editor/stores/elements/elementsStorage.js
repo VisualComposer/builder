@@ -70,7 +70,6 @@ addStorage('elements', (storage) => {
           let newDeviceData = Object.assign({}, deviceData)
 
           if (deviceData.parallax) {
-            console.log('old data')
             let parallaxData = {
               parallaxEnable: true,
               parallax: deviceData.parallax
