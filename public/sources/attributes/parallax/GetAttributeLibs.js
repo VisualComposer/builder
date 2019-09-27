@@ -1,30 +1,10 @@
+import { getStorage } from 'vc-cake'
+
+const assetsStorage = getStorage('assets')
+
 export default (value) => {
   let libs = []
-  const libNames = [
-    {
-      fieldKey: 'parallax',
-      value: 'simple',
-      library: 'parallaxBackground',
-      dependencies: [
-        'waypoints'
-      ]
-    },
-    {
-      fieldKey: 'parallax',
-      value: 'simple-fade',
-      library: 'parallaxFade',
-      dependencies: [
-        'waypoints',
-        'parallaxBackground'
-      ]
-    },
-    {
-      fieldKey: 'parallax',
-      value: 'mouse-move',
-      library: 'parallaxMouseMove',
-      dependencies: []
-    }
-  ]
+  const libNames = assetsStorage.state('attributeLibs').get()
 
   if (value && value.device && Object.keys(value.device).length) {
     for (let device in value.device) {

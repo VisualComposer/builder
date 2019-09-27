@@ -1,11 +1,13 @@
 import React from 'react'
-import vcCake from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import lodash from 'lodash'
 
-const vcvAPI = vcCake.getService('api')
+const vcvAPI = getService('api')
 
-const documentManager = vcCake.getService('document')
-const assetsStorage = vcCake.getStorage('assets')
+const documentManager = getService('document')
+const assetsStorage = getStorage('assets')
+const elementsSettingsStorage = getStorage('elementsSettings')
+
 const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
 
 export default class RowElement extends vcvAPI.elementComponent {
@@ -286,7 +288,7 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (!vcCake.env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
+    if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       return null
     }
     const { atts, id } = nextProps
@@ -331,6 +333,17 @@ export default class RowElement extends vcvAPI.elementComponent {
     this.state = {
       layout: {}
     }
+    this.rowRef = React.createRef()
+    this.handleStorageChange = this.handleStorageChange.bind(this)
+  }
+
+  componentDidMount () {
+    elementsSettingsStorage.state('extendedOptions').onChange(this.handleStorageChange)
+  }
+
+  handleStorageChange (data) {
+    const ref = this.rowRef.current
+    elementsSettingsStorage.state('elementOptions').set({...data, ref})
   }
 
   render () {
@@ -434,7 +447,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     let doAll = this.applyDO('all')
 
     return <div className={containerClasses} {...containerProps}>
-      <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll}>
+      <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll} ref={this.rowRef}>
         {this.getBackgroundTypeContent()}
         {this.getContainerDivider()}
         <div className='vce-row-content' {...customProps}>

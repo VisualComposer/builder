@@ -2,6 +2,7 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 
 import CssBuilder from './lib/cssBuilder'
 import AssetsLibraryManager from './lib/assetsLibraryManager'
+import AttributeLibNames from './lib/attributeLibNames'
 
 addStorage('assets', (storage) => {
   const cook = getService('cook')
@@ -18,8 +19,18 @@ addStorage('assets', (storage) => {
   const getAssetsWindow = () => {
     return window && window.document.querySelector('.vcv-layout-iframe') ? window.document.querySelector('.vcv-layout-iframe').contentWindow : window
   }
+  const setAttributeLibNames = () => {
+    let storageLibs = storage.state('attributeLibs').get()
+    if (!storageLibs) {
+      storageLibs = AttributeLibNames
+    } else {
+      storageLibs = [...storageLibs, ...AttributeLibNames]
+    }
+    storage.state('attributeLibs').set(storageLibs)
+  }
   let builder
   wordpressDataStorage.on('start', () => {
+    setAttributeLibNames()
     builder = new CssBuilder(globalAssetsStorage, elementAssetsLibrary, stylesManager, getAssetsWindow(), utils.slugify)
     builder.buildStylesContainers()
   })
