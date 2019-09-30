@@ -207,6 +207,12 @@ class PostFieldsController extends Container implements Module
                         'values' => [],
                     ],
                 ],
+                'meta' => [
+                    'group' => [
+                        'label' => __('Custom Fields', 'vcwb'),
+                        'values' => [],
+                    ],
+                ],
             ],
         ];
         $response['postFields'] = vcfilter(
