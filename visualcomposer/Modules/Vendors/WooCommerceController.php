@@ -484,6 +484,76 @@ class WooCommerceController extends Container implements Module
      *
      * @return string
      */
+    public function getProductUrl($sourceId = '')
+    {
+        $url = get_permalink($sourceId);
+
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShopUrl()
+    {
+        $url = get_permalink(wc_get_page_id('shop'));
+
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCheckoutUrl()
+    {
+        $url = wc_get_checkout_url();
+
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCartUrl()
+    {
+        $url = wc_get_cart_url();
+
+        return $url;
+    }
+
+    /**
+     * @param $sourceId
+     *
+     * @return string
+     */
+    public function getAddToCartUrl($sourceId)
+    {
+        $url = wc_get_cart_url();
+
+        if (!$sourceId) {
+            $sourceId = get_the_ID();
+        }
+        $url = add_query_arg('add-to-cart', $sourceId, $url);
+
+        return $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountUrl()
+    {
+        $accountPageId = get_option('woocommerce_myaccount_page_id');
+        $url = get_permalink($accountPageId);
+
+        return $url;
+    }
+
+    /**
+     * @param string $sourceId
+     *
+     * @return string
+     */
     public function getPurchaseNote($sourceId = '')
     {
         $product = wc_get_product($sourceId);

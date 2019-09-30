@@ -35,6 +35,38 @@
       display: none;
     }
   }
+
+
+  .vcv-ui-form-link-button-group {
+    display: flex;
+    align-items: stretch;
+    direction: ltr;
+
+    .vcv-ui-form-link-button {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .vcv-ui-dynamic-field-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid #d1d1d1;
+      color: #707070;
+      background-color: #fff;
+      padding: 6px;
+      border-left: 0;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      font-size: 14px;
+      transition-property: color, background, border, opacity;
+      transition-duration: 0.2s;
+      transition-timing-function: ease-in-out;
+
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+  }
 }
 
 

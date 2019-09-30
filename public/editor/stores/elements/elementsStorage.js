@@ -1,5 +1,6 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
 import { rebuildRawLayout, addRowColumnBackground } from './lib/tools'
+import lodash from 'lodash'
 
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
@@ -55,6 +56,46 @@ addStorage('elements', (storage) => {
       if (typeof firstInRowValue !== 'object') {
         firstInRowValue = { all: firstInRowValue }
         cookElement.set('firstInRow', firstInRowValue)
+      }
+    }
+
+    // Move parallax settings to new attribute
+    if (cookGetAll.tag === 'row' || cookGetAll.tag === 'column' || cookGetAll.tag === 'section') {
+      const designOptions = cookElement.get('designOptionsAdvanced')
+      if (designOptions && designOptions.device) {
+        let newParallaxData = {}
+        let newDesignOptionsData = {}
+        Object.keys(designOptions.device).forEach((deviceKey) => {
+          const deviceData = designOptions.device[ deviceKey ]
+          let newDeviceData = Object.assign({}, deviceData)
+
+          if (deviceData.parallax) {
+            let parallaxData = {
+              parallaxEnable: true,
+              parallax: deviceData.parallax
+            }
+            if (deviceData.hasOwnProperty('parallaxReverse')) {
+              parallaxData.parallaxReverse = deviceData.parallaxReverse
+            }
+            if (deviceData.hasOwnProperty('parallaxSpeed')) {
+              parallaxData.parallaxSpeed = deviceData.parallaxSpeed
+            }
+            newParallaxData[ deviceKey ] = parallaxData
+
+            delete newDeviceData.parallax
+            delete newDeviceData.parallaxReverse
+            delete newDeviceData.parallaxSpeed
+          }
+
+          newDesignOptionsData[ deviceKey ] = newDeviceData
+        })
+
+        if (!lodash.isEmpty(newParallaxData)) {
+          cookElement.set('parallax', { device: newParallaxData })
+          let newDesignOptions = Object.assign({}, designOptions)
+          newDesignOptions.device = newDesignOptionsData
+          cookElement.set('designOptionsAdvanced', newDesignOptions)
+        }
       }
     }
 

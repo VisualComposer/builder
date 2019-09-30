@@ -231,11 +231,13 @@ export default class DynamicAttribute extends React.Component {
       dynamicFieldOpened={this.state.dynamicFieldOpened}
       value={this.state.prevDynamicValue || this.props.value}
       elementAccessPoint={this.props.elementAccessPoint}
+      renderExtraOptions={this.props.renderExtraOptions}
     />
   }
 
   open (e) {
     e && e.preventDefault()
+    this.props.handleOpenClick && this.props.handleOpenClick()
 
     this.setState({
       isWindowOpen: true

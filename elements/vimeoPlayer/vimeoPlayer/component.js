@@ -65,7 +65,7 @@ export default class VimeoPlayerComponent extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&color=${color}&loop=${loop}`
+    source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&muted=${autoplay}&color=${color}&loop=${loop}`
 
     let html = `<iframe class='vce-vim-video-player-iframe' src='${source}' frameBorder='0' allowFullScreen='true' />`
 

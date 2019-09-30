@@ -28,6 +28,14 @@
       "description": "Add an extra class name to the element and refer to it from Custom CSS option."
     }
   },
+  "parallax": {
+    "type": "parallax",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Parallax"
+    }
+  },
   "designOptionsAdvanced": {
     "type": "designOptionsAdvanced",
     "access": "public",
@@ -77,6 +85,7 @@
     "value": [
       "editFormTab1",
       "designOptionsAdvanced",
+      "parallax",
       "boxShadow",
       "dividers",
       "sticky"

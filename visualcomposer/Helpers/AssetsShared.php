@@ -23,7 +23,7 @@ class AssetsShared extends Container implements Helper
         $assetsLibraries = $this->parseJsonFile([]);
         $assetsLibraries = $this->parseOptions($assetsLibraries);
 
-        return $assetsLibraries;
+        return vcfilter('vcv:helper:assetsShared:getLibraries', $assetsLibraries);
     }
 
     public function setSharedAssets($assets)

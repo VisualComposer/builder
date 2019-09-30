@@ -54,7 +54,8 @@
           portrait: false,
           title: false,
           autoplay: true,
-          loop: true
+          loop: true,
+          muted: true
         });
         this.vimeoPlayer.setVolume(0);
         this.vimeoPlayer.on('loaded', function () {
