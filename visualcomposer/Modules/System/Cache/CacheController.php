@@ -27,6 +27,24 @@ class CacheController extends Controller implements Module
                 vcevent('vcv:system:cache:clearCache');
             }
         );
+        $this->wpAddAction(
+            'update_option_vcv-globalElementsCss',
+            function () {
+                vcevent('vcv:system:cache:clearCache');
+            }
+        );
+        $this->wpAddAction(
+            'update_option_vcv-settingsGlobalJsHead',
+            function () {
+                vcevent('vcv:system:cache:clearCache');
+            }
+        );
+        $this->wpAddAction(
+            'update_option_vcv-settingsGlobalJsFooter',
+            function () {
+                vcevent('vcv:system:cache:clearCache');
+            }
+        );
         $this->addEvent('vcv:system:factory:reset', 'clearCache');
     }
 
