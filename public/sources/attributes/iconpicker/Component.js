@@ -1,30 +1,9 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
+import { getStorage } from 'vc-cake'
 
-let setList = {
-  icons: {
-    fontawesome: require('./lib/fontawesome-5.10.2'), // v5.10.2 https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself
-    lineicons: require('./lib/lineicons-13.07-48'), // NA https://designmodo.com/linecons-free/
-    entypo: require('./lib/entypo-13.07-411'), // NA http://www.entypo.com/
-    monosocial: require('./lib/monosocial-1.10-303'), // v1.10 https://drinchev.github.io/monosocialiconsfont/
-    typicons: require('./lib/typicons-2.0.7'), // v2.0.7, v2.0.9 available, but not needed https://www.s-ings.com/typicons/
-    openiconic: require('./lib/openiconic-1.1.1'), // v1.1.1 https://useiconic.com/open
-    material: require('./lib/material-3.0.1'), // v3.0.1 https://material.io/resources/icons/?style=baseline
-    batch: require('./lib/batch-1.3'), // v1.3 http://adamwhitcroft.com/batch/
-    mfglabs: require('./lib/mfglabs'), // NA https://mfglabs.github.io/mfglabs-iconset/
-    metrize: require('./lib/metrize-1.0'), // v1.0 http://www.alessioatzeni.com/metrize-icons/
-    dripicons: require('./lib/dripicons-2.0'), // v2.0 http://demo.amitjakhu.com/dripicons/
-    feather: require('./lib/feather-4.24.0'), // v4.24.0 https://feathericons.com
-    linearicons: require('./lib/linearicons-1.0-170') // v1.0 https://linearicons.com/free
-  },
-  socials: {
-    socials: require('./lib/socials')
-  },
-  cart: {
-    cart: require('./lib/cart')
-  }
-}
+const attributesStorage = getStorage('attributes')
 
 class Iconpicker extends Attribute {
   static defaultProps = {
@@ -33,6 +12,7 @@ class Iconpicker extends Attribute {
 
   constructor (props) {
     super(props)
+    const setList = attributesStorage.state('iconpicker:iconSet').get()
     this.state = {
       search: '',
       category: '',
@@ -42,7 +22,7 @@ class Iconpicker extends Attribute {
         iconSet: props.value.iconSet
       },
       showSearch: 'search' in props.options ? props.options.search : true,
-      iconSetList: setList[ props.options.iconType ] || setList[ 'icons' ]
+      iconSetList: setList[ props.options.iconType ] || setList.icons
     }
   }
 
@@ -56,23 +36,26 @@ class Iconpicker extends Attribute {
     let icons = []
     let iconsIds = []
 
-    let addIcons = (categoryIcons) => {
+    let addIcons = (categoryIcons, isDisabled) => {
       categoryIcons.forEach((icon) => {
         if (iconsIds.indexOf(icon.id) > -1) {
           return
+        }
+        if (isDisabled) {
+          icon.disabled = true
         }
         iconsIds.push(icon.id)
         icons.push(icon)
       })
     }
     if (category) {
-      addIcons(iconSetList[ iconSet ][ category ])
+      addIcons(iconSetList[ iconSet ][ category ].iconData, iconSetList[ iconSet ][ category ].disabled)
     } else {
-      if (Array.isArray(iconSetList[ iconSet ])) {
-        addIcons(iconSetList[ iconSet ])
+      if (Array.isArray(iconSetList[ iconSet ].iconData)) {
+        addIcons(iconSetList[ iconSet ].iconData, iconSetList[ iconSet ].disabled)
       } else {
-        Object.keys(iconSetList[ iconSet ]).forEach((category) => {
-          addIcons(iconSetList[ iconSet ][ category ])
+        Object.keys(iconSetList[ iconSet ].iconData).forEach((cat) => {
+          addIcons(iconSetList[ iconSet ].iconData[ cat ], iconSetList[ iconSet ].disabled)
         })
       }
     }
@@ -91,7 +74,8 @@ class Iconpicker extends Attribute {
     this.filteredIcons().forEach((icon) => {
       let iconClasses = classNames({
         'vcv-ui-form-iconpicker-option': true,
-        'vcv-ui-form-state--active': icon.id === value
+        'vcv-ui-form-state--active': icon.id === value,
+        'vcv-ui-form-iconpicker--disabled': icon.disabled
       })
       iconsContent.push(
         <span
@@ -112,8 +96,8 @@ class Iconpicker extends Attribute {
     let categories = []
     let { iconSetList } = this.state
     let { iconSet } = this.state.value
-    if (iconSet && typeof iconSetList[ iconSet ] !== 'undefined' && !Array.isArray(iconSetList[ iconSet ])) {
-      Object.keys(iconSetList[ iconSet ]).forEach((category) => {
+    if (iconSet && typeof iconSetList[ iconSet ] !== 'undefined' && typeof iconSetList[ iconSet ].iconData !== 'undefined' && !Array.isArray(iconSetList[ iconSet ].iconData)) {
+      Object.keys(iconSetList[ iconSet ].iconData).forEach((category) => {
         categories.push(<option key={'innerCategory' + category} value={category}>{category}</option>)
       })
     }
@@ -152,7 +136,8 @@ class Iconpicker extends Attribute {
       let innerSetContent = []
       Object.keys(iconSetList).forEach((i) => {
         let name = i.charAt(0).toUpperCase() + i.slice(1)
-        innerSetContent.push(<option key={'inner' + i} value={i}>{name}</option>)
+        let optionText = iconSetList[ i ].disabled ? name + ` (Premium)` : name
+        innerSetContent.push(<option key={'inner' + i} value={i}>{optionText}</option>)
       })
       iconsSetContent = (
         <select onChange={this.iconSet} value={iconSet} className='vcv-ui-form-dropdown'>

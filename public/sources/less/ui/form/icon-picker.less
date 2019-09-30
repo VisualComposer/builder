@@ -68,6 +68,16 @@
   padding: @vcui-form-iconpicker-error-padding;
 }
 
+.vcv-ui-form-iconpicker-option.vcv-ui-form-iconpicker--disabled {
+  color: #eee;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.vcv-ui-form-iconpicker-option.vcv-ui-form-iconpicker--disabled:hover {
+  background-color: #fff;
+}
+
 .rtl {
   .vcv-ui-form-iconpicker-option {
     border: 1px solid @vcui-form-iconpicker-border-color;
