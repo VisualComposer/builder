@@ -14,6 +14,7 @@ use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\AssetsEnqueue;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
@@ -25,11 +26,16 @@ class EnqueueController extends Container implements Module
 
     protected $lastEnqueueIdAssetsAll = [];
 
-    public function __construct(Frontend $frontendHelper)
+    public function __construct(Request $requestHelper)
     {
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAllAssets', 50);
         $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
-        $this->wpAddAction('init', 'setCustomWpScripts');
+        if ((defined('DOING_AJAX') && DOING_AJAX) || !is_admin() || $requestHelper->isAjax()
+            || $requestHelper->exists(
+                VCV_ADMIN_AJAX_REQUEST
+            )) {
+            $this->wpAddAction('init', 'setCustomWpScripts');
+        }
     }
 
     protected function setCustomWpScripts()
