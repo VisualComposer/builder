@@ -471,6 +471,10 @@ class Localizations extends Container implements Helper
                 'No value set',
                 'vcwb'
             ),
+            'activatePremiumToUnlockStockImages' => __(
+                'Activate Premium to Unlock Stock Images',
+                'vcwb'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
