@@ -4,7 +4,7 @@ Tags: Visual Composer, drag and drop, visual editor, visual builder, landing pag
 Requires PHP: 5.4
 Requires at least: 4.6
 Tested up to: 5.2.3
-Stable tag: 20.0
+Stable tag: 21.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
