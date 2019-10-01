@@ -49,6 +49,8 @@ class UpdatesController extends Container implements Module
     {
         // Delete message cookie from editor on update of any Wp plugins
         unset($_COOKIE['vcv-update-notice']);
-        setcookie('vcv-update-notice', '', time() - (15 * 60));
+        if (!headers_sent()) {
+            setcookie('vcv-update-notice', '', time() - (15 * 60));
+        }
     }
 }
