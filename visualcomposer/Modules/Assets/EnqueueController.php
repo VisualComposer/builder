@@ -36,7 +36,13 @@ class EnqueueController extends Container implements Module
     {
         // @codingStandardsIgnoreStart
         global $wp_scripts;
-        $wp_scripts = new VcwbWpScripts();
+        $newScripts = new VcwbWpScripts();
+        if (is_object($wp_scripts)) {
+            foreach (get_object_vars($wp_scripts) as $key => $value) {
+                $newScripts->{$key} = $value;
+            }
+        }
+        $wp_scripts = $newScripts;
         // @codingStandardsIgnoreEnd
     }
 
