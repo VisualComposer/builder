@@ -155,11 +155,10 @@ export default class Parallax extends Attribute {
       ]
     }
 
-    // console.log('this', this)
     const storage = getStorage('fieldOptions')
     storage.state('currentAttribute:settings').set(options)
-    const name = 'parallax'
-    storage.trigger('fieldOptions', name, options)
+    const fieldKey = 'parallax'
+    storage.trigger('fieldOptions', fieldKey, options)
     options = storage.state('currentAttribute:settings').get()
     storage.state('currentAttribute:settings').delete()
     const value = this.state.devices[ this.state.currentDevice ].parallax || 'simple'
@@ -170,7 +169,7 @@ export default class Parallax extends Attribute {
       </span>
       <Dropdown
         api={this.props.api}
-        fieldKey='parallax'
+        fieldKey={fieldKey}
         options={options}
         updater={this.valueChangeHandler}
         value={value} />

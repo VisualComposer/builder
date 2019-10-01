@@ -342,8 +342,10 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   handleStorageChange (data) {
-    const ref = this.rowRef.current
-    elementsSettingsStorage.state('elementOptions').set({ ...data, ref })
+    if (data.id === this.props.id) {
+      const ref = this.rowRef.current
+      elementsSettingsStorage.state('elementOptions').set({ ...data, ref })
+    }
   }
 
   render () {
