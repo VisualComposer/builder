@@ -19,7 +19,7 @@ export default class StockImagesResultsPanel extends React.Component {
   maxColumnCount = 5
   abortController = new window.AbortController()
   componentUnmounted = false
-  unsplashLicenseKey = window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY() || 'free'
+  unsplashLicenseKey = (window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()) || 'free'
   allowDownload = true
 
   constructor (props) {
@@ -380,21 +380,21 @@ export default class StockImagesResultsPanel extends React.Component {
                 id={image.id}
               >
                 <img {...props} />
-                {allowDownload ?
-                  <div className='vcv-stock-image-hover-download' onClick={this.showDownloadOptions}>
+                {allowDownload
+                  ? (<div className='vcv-stock-image-hover-download' onClick={this.showDownloadOptions}>
                     <span className='vcv-ui-icon vcv-ui-icon-download' />
-                  </div> :
-                  <div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText}>
+                  </div>)
+                  : (<div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText}>
                     <span className='vcv-ui-icon vcv-ui-icon-lock' />
-                  </div>
+                  </div>)
                 }
 
                 <a href={user && user.url} target='_blank' className='vcv-stock-image-author'>
                   <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
                   {user && user.name}
                 </a>
-                {allowDownload ?
-                  <>
+                {allowDownload
+                  ? <>
                     <div className='vcv-stock-image-download-container'>
                       <div className='vcv-stock-image-download-options'>
                         <button
@@ -426,7 +426,8 @@ export default class StockImagesResultsPanel extends React.Component {
                     <div className='vcv-stock-image-loading'>
                       <span className='vcv-ui-icon vcv-ui-wp-spinner-light' />
                     </div>
-                  </> : null
+                  </>
+                  : null
                 }
               </div>
             </div>
