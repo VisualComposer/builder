@@ -122,7 +122,7 @@ export default class Attribute extends React.Component {
 
   valueChangeHandler (fieldKey, value) {
     const storage = getStorage('fieldOptions')
-    storage.trigger('fieldOptionsChange', fieldKey, value, this.props.elementAccessPoint.id)
+    storage.trigger('fieldOptionsChange', fieldKey, value, this.props.elementAccessPoint.id, false)
     let newState = lodash.defaultsDeep({}, this.state)
     newState.devices[ newState.currentDevice ][ fieldKey ] = value
     this.updateValue(newState, fieldKey)

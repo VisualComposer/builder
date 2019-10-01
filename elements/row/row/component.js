@@ -7,6 +7,7 @@ const vcvAPI = getService('api')
 const documentManager = getService('document')
 const assetsStorage = getStorage('assets')
 const elementsSettingsStorage = getStorage('elementsSettings')
+const fieldOptionsStorage = getStorage('fieldOptions')
 
 const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
 
@@ -339,6 +340,9 @@ export default class RowElement extends vcvAPI.elementComponent {
 
   componentDidMount () {
     elementsSettingsStorage.state('extendedOptions').onChange(this.handleStorageChange)
+    if (!elementsSettingsStorage.state('extendedOptions').get()) {
+      fieldOptionsStorage.trigger('fieldOptionsChange', false, false, this.props.id, this.props.atts)
+    }
   }
 
   handleStorageChange (data) {
