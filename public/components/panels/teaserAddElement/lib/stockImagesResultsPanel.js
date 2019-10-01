@@ -19,6 +19,8 @@ export default class StockImagesResultsPanel extends React.Component {
   maxColumnCount = 5
   abortController = new window.AbortController()
   componentUnmounted = false
+  unsplashLicenseKey = window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY() || 'free'
+  allowDownload = true
 
   constructor (props) {
     super(props)
@@ -132,23 +134,7 @@ export default class StockImagesResultsPanel extends React.Component {
     }
     const vcvApiUrl = window.VCV_API_URL && window.VCV_API_URL()
     const unsplashUrl = `${vcvApiUrl}/api/unsplash/${action}`
-    const unsplashLicenseKey = window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()
-
-    if (!unsplashLicenseKey) {
-      notificationsStorage.trigger('add', {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
-        text: `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10085` || 'No access, please check your license! #10085',
-        time: 3000,
-        type: 'error',
-        id: 'unsplash-error'
-      })
-      this.setState({
-        hasError: true
-      })
-      return
-    }
+    const unsplashLicenseKey = this.unsplashLicenseKey
 
     this.setState({
       page: page,
@@ -168,6 +154,11 @@ export default class StockImagesResultsPanel extends React.Component {
       .then(
         (result) => {
           if (result) {
+            if (result.hasOwnProperty('allowDownload')) {
+              this.allowDownload = result.allowDownload
+            } else {
+              this.allowDownload = true
+            }
             this.prepareImages(result)
             if (result.results && result.results.length) {
               this.showImages()
@@ -359,6 +350,8 @@ export default class StockImagesResultsPanel extends React.Component {
 
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
+    let allowDownload = this.allowDownload && this.unsplashLicenseKey !== 'free'
+    const unlockText = StockImagesResultsPanel.localizations ? StockImagesResultsPanel.localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Stock Images'
     return columnData[ columnCount ].map((col, colIndex) => {
       return (
         <div className='vcv-stock-images-col' key={`vcv-stock-image-column-${columnCount}-${colIndex}`}>
@@ -387,44 +380,54 @@ export default class StockImagesResultsPanel extends React.Component {
                 id={image.id}
               >
                 <img {...props} />
-                <div className='vcv-stock-image-hover-download' onClick={this.showDownloadOptions}>
-                  <span className='vcv-ui-icon vcv-ui-icon-download' />
-                </div>
+                {allowDownload ?
+                  <div className='vcv-stock-image-hover-download' onClick={this.showDownloadOptions}>
+                    <span className='vcv-ui-icon vcv-ui-icon-download' />
+                  </div> :
+                  <div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText}>
+                    <span className='vcv-ui-icon vcv-ui-icon-lock' />
+                  </div>
+                }
+
                 <a href={user && user.url} target='_blank' className='vcv-stock-image-author'>
                   <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
                   {user && user.name}
                 </a>
-                <div className='vcv-stock-image-download-container'>
-                  <div className='vcv-stock-image-download-options'>
-                    <button
-                      className='vcv-stock-image-download-button'
-                      onClick={this.downloadImage}
-                      data-img-size='400'
-                    >
-                      {StockImagesResultsPanel.localizations.small || 'Small'}
-                      <span> (400 x {Math.round(400 * imageProportions)})</span>
-                    </button>
-                    <button
-                      className='vcv-stock-image-download-button'
-                      onClick={this.downloadImage}
-                      data-img-size='800'
-                    >
-                      {StockImagesResultsPanel.localizations.medium || 'Medium'}
-                      <span> (800 x {Math.round(800 * imageProportions)})</span>
-                    </button>
-                    <button
-                      className='vcv-stock-image-download-button'
-                      onClick={this.downloadImage}
-                      data-img-size='1600'
-                    >
-                      {StockImagesResultsPanel.localizations.large || 'large'}
-                      <span> (1600 x {Math.round(1600 * imageProportions)})</span>
-                    </button>
-                  </div>
-                </div>
-                <div className='vcv-stock-image-loading'>
-                  <span className='vcv-ui-icon vcv-ui-wp-spinner-light' />
-                </div>
+                {allowDownload ?
+                  <>
+                    <div className='vcv-stock-image-download-container'>
+                      <div className='vcv-stock-image-download-options'>
+                        <button
+                          className='vcv-stock-image-download-button'
+                          onClick={this.downloadImage}
+                          data-img-size='400'
+                        >
+                          {StockImagesResultsPanel.localizations.small || 'Small'}
+                          <span> (400 x {Math.round(400 * imageProportions)})</span>
+                        </button>
+                        <button
+                          className='vcv-stock-image-download-button'
+                          onClick={this.downloadImage}
+                          data-img-size='800'
+                        >
+                          {StockImagesResultsPanel.localizations.medium || 'Medium'}
+                          <span> (800 x {Math.round(800 * imageProportions)})</span>
+                        </button>
+                        <button
+                          className='vcv-stock-image-download-button'
+                          onClick={this.downloadImage}
+                          data-img-size='1600'
+                        >
+                          {StockImagesResultsPanel.localizations.large || 'large'}
+                          <span> (1600 x {Math.round(1600 * imageProportions)})</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div className='vcv-stock-image-loading'>
+                      <span className='vcv-ui-icon vcv-ui-wp-spinner-light' />
+                    </div>
+                  </> : null
+                }
               </div>
             </div>
           })}

@@ -157,7 +157,7 @@ class UnsplashDownloadController extends Container implements Module
      */
     protected function addVariables($variables, License $licenseHelper, CurrentUser $currentUserHelper)
     {
-        if ($currentUserHelper->wpAll($this->capability)->get() && $licenseHelper->isActivated()) {
+        if ($currentUserHelper->wpAll($this->capability)->get()) {
             $variables[] = [
                 'key' => 'VCV_LICENSE_KEY',
                 'value' => $licenseHelper->getKey(),
