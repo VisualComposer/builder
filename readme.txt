@@ -1,5 +1,5 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer,cozmoslabs
+Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cozmoslabs
 Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
 Requires PHP: 5.4
 Requires at least: 4.6
@@ -172,6 +172,19 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 21.0 =
+*Release Date - 2019-10-01*
+
+#### Free:
+- Update: Parallax settings moved from Design Options to the separate section
+- Update: Cache is cleared for the most popular plugins and hostings on the editor save
+- Update: Unsplash featured image preview available for the free version users
+- Fix: Gravity Forms, ACF, and WooCommerce works properly with Visual Composer
+
+#### Premium:
+- New: Dynamic Content is available in Link Selector
+- Fix: Header and Footer settings display/hide properly
 
 = 20.0 =
 *Release Date - 2019-09-26*
