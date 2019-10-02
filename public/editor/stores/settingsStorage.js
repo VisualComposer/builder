@@ -27,10 +27,10 @@ addStorage('settings', (storage) => {
   })
 
   const dataProcessor = getService('dataProcessor')
-  storage.on('loadDynamicPost', (sourceId, successCallback, failureCallback) => {
+  storage.on('loadDynamicPost', (sourceId, successCallback, failureCallback, isCustomID) => {
     let postData = storage.state('postData').get()
     let postFields = storage.state('postFields').get()
-    if (sourceId === window.vcvSourceID) {
+    if (!isCustomID) {
       // Current Post
       if (typeof successCallback === 'function') {
         successCallback(sourceId, postData, postFields)
@@ -46,7 +46,8 @@ addStorage('settings', (storage) => {
         dataProcessor.appAllDone().then(() => {
           dataProcessor.appAdminServerRequest({
             'vcv-action': 'getDynamicPost:adminNonce',
-            'vcv-source-id': sourceId
+            'vcv-source-id': sourceId,
+            'vcv-custom-post': isCustomID ? '1' : '0'
           }).then((requestData) => {
             let response = getResponse(requestData)
             postData[ sourceId ] = response.postData || {}

@@ -6,6 +6,7 @@ import Toggle from './../toggle/Component'
 import { getService, getStorage } from 'vc-cake'
 import Modal from 'public/components/modal/modal'
 import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
 
 const settingsStorage = getStorage('settings')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
@@ -31,6 +32,8 @@ export default class DynamicPopup extends React.Component {
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
     this.cancel = this.cancel.bind(this)
     this.save = this.save.bind(this)
+
+    this.dropdownRef = React.createRef();
 
     let state = {
       postFields: null,
@@ -63,7 +66,7 @@ export default class DynamicPopup extends React.Component {
       settingsStorage.trigger('loadDynamicPost', this.state.sourceId, this.onLoadPostFields, (error) => {
         console.warn('Error loading dynamic post info', error)
         this.onLoadPostFields(this.state.sourceId, {}, {})
-      })
+      }, state.showAutocomplete)
     }, 1)
   }
 
@@ -74,8 +77,9 @@ export default class DynamicPopup extends React.Component {
         postFields: postFields || {}
       }, () => {
         // Update attribute value with new sourceId
-        if (this.state.currentPostField) {
-          this.handleDynamicFieldChange(undefined, this.state.currentPostField)
+        const dropdownRealValue = ReactDOM.findDOMNode(this.dropdownRef.current).value
+        if (this.state.currentPostField !== dropdownRealValue) {
+          this.handleDynamicFieldChange(undefined, dropdownRealValue)
         }
       })
     }
@@ -89,11 +93,12 @@ export default class DynamicPopup extends React.Component {
       state.sourceId = sourceId
       state.dataLoaded = false
       state.postFields = {}
+
       window.setTimeout(() => {
         settingsStorage.trigger('loadDynamicPost', sourceId, this.onLoadPostFields, (error) => {
           console.warn('Error loading dynamic post info', error)
           this.onLoadPostFields(this.state.sourceId, {}, {})
-        })
+        }, this.state.showAutocomplete)
       }, 1)
       this.setState(state)
     } else {
@@ -115,7 +120,6 @@ export default class DynamicPopup extends React.Component {
           fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
           key={`${this.props.fieldKey}-dynamic-source-autocomplete-${this.state.sourceId + ''}`}
           options={{
-            // values: fieldList
             single: true,
             action: 'dynamicPosts',
             labelAction: '',
@@ -154,6 +158,7 @@ export default class DynamicPopup extends React.Component {
           values: newFieldsList
         }}
         updater={this.handleDynamicFieldChange}
+        ref={this.dropdownRef}
       />
     )
   }
