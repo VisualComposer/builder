@@ -7,6 +7,7 @@
   const headerZone = '[data-vcv-layout-zone="header"]'
   const footerZone = '[data-vcv-layout-zone="footer"]'
   const headerFooterEditor = '.vcv-editor-theme-hf'
+  const customContainerSelector = '.vce-full-width-custom-container'
 
   function getFullWidthElements() {
     fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"],[data-vce-full-width-section="true"]'))
@@ -23,7 +24,6 @@
       const mainBody = document.body
       const elementParent = element.parentElement
       const elementContent = element.querySelector('[data-vce-element-content="true"]')
-      const elementCustomContainer = document.querySelector('.vce-full-width-custom-container')
 
       const elMarginLeft = parseInt(window.getComputedStyle(element, null)['margin-left'], 10)
       const elMarginRight = parseInt(window.getComputedStyle(element, null)['margin-right'], 10)
@@ -33,9 +33,10 @@
         return
       }
 
-      if (document.body.contains(elementCustomContainer)) {
-        offset = 0 - elementParent.getBoundingClientRect().left - elMarginLeft + elementCustomContainer.getBoundingClientRect().left
-        width = elementCustomContainer.getBoundingClientRect().width
+      let customContainer = element.closest(customContainerSelector)
+      if (customContainer) {
+        offset = 0 - elementParent.getBoundingClientRect().left - elMarginLeft + customContainer.getBoundingClientRect().left
+        width = customContainer.getBoundingClientRect().width
       } else {
         offset = 0 - elementParent.getBoundingClientRect().left - elMarginLeft
         width = document.documentElement.getBoundingClientRect().width
