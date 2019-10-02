@@ -34,7 +34,7 @@ export default class DynamicAttribute extends React.Component {
           settingsStorage.trigger('loadDynamicPost', state.blockInfo.blockAtts.sourceId, this.onLoadPostFields, (error) => {
             console.warn('Error loading dynamic post info', error)
             this.onLoadPostFields(state.blockInfo.blockAtts.sourceId, {}, {})
-          })
+          }, true)
         }, 1)
       }
     }
@@ -77,7 +77,7 @@ export default class DynamicAttribute extends React.Component {
           settingsStorage.trigger('loadDynamicPost', newState.blockInfo.blockAtts.sourceId, this.onLoadPostFields, (error) => {
             console.warn('Error loading dynamic post info', error)
             this.onLoadPostFields(newState.blockInfo.blockAtts.sourceId, {}, {})
-          })
+          }, true)
         }, 1)
       }
       this.setState(newState)
@@ -228,6 +228,7 @@ export default class DynamicAttribute extends React.Component {
       hide={this.hide}
       open={this.handleDynamicFieldOpen}
       fieldType={this.props.fieldType}
+      fieldKey={this.props.fieldKey}
       dynamicFieldOpened={this.state.dynamicFieldOpened}
       value={this.state.prevDynamicValue || this.props.value}
       elementAccessPoint={this.props.elementAccessPoint}

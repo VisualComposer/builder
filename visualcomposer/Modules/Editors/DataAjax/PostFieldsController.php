@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
@@ -33,9 +34,11 @@ class PostFieldsController extends Container implements Module
      *
      * @param $payload
      *
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
      * @return mixed
      */
-    protected function getPostFields($response, $payload)
+    protected function getPostFields($response, $payload, Request $requestHelper)
     {
         if (!is_array($response)) {
             $response = ['status' => true];
@@ -43,7 +46,7 @@ class PostFieldsController extends Container implements Module
 
         $post = get_post($payload['sourceId']);
         $postType = get_post_type($post);
-        if (in_array($postType, ['vcv_headers', 'vcv_footers', 'vcv_sidebars', 'vcv_templates'])) {
+        if (in_array($postType, ['vcv_headers', 'vcv_footers', 'vcv_sidebars', 'vcv_templates']) && empty($requestHelper->input('vcv-custom-post')) && empty($payload['vcv-custom-post'])) {
             $payload['forceAddField'] = true;
         }
 
