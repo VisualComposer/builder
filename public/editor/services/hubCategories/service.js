@@ -8,10 +8,10 @@ const hubElementsStorage = vcCake.getStorage('hubElements')
 let categoryByTag = (tag) => {
   const categories = hubElementsStorage.state('categories').get()
   const key = Object.keys(categories).find((cat) => {
-    const category = categories[ cat ]
+    const category = categories[cat]
     return category.elements && category.elements.indexOf(tag) > -1
   })
-  return categories[ key ]
+  return categories[key]
 }
 
 const API = {
@@ -19,9 +19,10 @@ const API = {
     return hubElementsStorage.state('categories').get()
   },
   get: (key) => {
-    return API.all()[ key ]
+    return API.all()[key]
   },
   getSortedElements: lodash.memoize((category) => {
+    const hubElements = hubElementsStorage.state('elements').get()
     let cook = vcCake.getService('cook')
     let allCategories = API.all()
     let elements = []
@@ -35,17 +36,19 @@ const API = {
       Object.keys(allCategories).forEach(setElements)
     }
     // Make unique
-    elements = [ ...new Set(elements) ]
+    elements = [...new Set(elements)]
 
     // Get sorted cook elements
     let cookElements = []
     elements.forEach((element) => {
       let cookElement = cook.get({ tag: element })
       if (cookElement) {
-        cookElements.push(cookElement.toJS(true, false))
+        const elementObject = cookElement.toJS(true, false)
+        const elementHubElement = hubElements[elementObject.tag]
+        elementObject.thirdParty = elementHubElement && elementHubElement.hasOwnProperty('thirdParty') && elementHubElement.thirdParty === true
+        cookElements.push(elementObject)
       }
     })
-
     return cookElements.sort(sortingTool)
   }),
   getElementIcon: (tag, dark = false) => {
@@ -60,7 +63,7 @@ const API = {
   getElementCategoryName: (tag) => {
     const categories = hubElementsStorage.state('categories').get()
     return Object.keys(categories).find((cat) => {
-      const category = categories[ cat ]
+      const category = categories[cat]
       return category.elements && category.elements.includes(tag)
     })
   }
