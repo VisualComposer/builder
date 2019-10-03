@@ -1,17 +1,28 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
 
 const vcvAPI = vcCake.getService('api')
 
 export default class ShortcodeElement extends vcvAPI.elementComponent {
+  constructor (props) {
+    super(props)
+
+    this.delayedShortcodeUpdate = lodash.debounce(this.updateShortcodeElement, 500)
+  }
+
   componentDidMount () {
+    super.updateShortcodeToHtml(this.props.atts.shortcode, this.refs.vcvhelper)
+  }
+
+  updateShortcodeElement () {
     super.updateShortcodeToHtml(this.props.atts.shortcode, this.refs.vcvhelper)
   }
 
   componentDidUpdate (props) {
     // update only if shortcode field did change
     if (this.props.atts.shortcode !== props.atts.shortcode) {
-      super.updateShortcodeToHtml(this.props.atts.shortcode, this.refs.vcvhelper)
+      this.delayedShortcodeUpdate()
     }
   }
 
