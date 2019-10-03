@@ -33,7 +33,7 @@ export default class DynamicPopup extends React.Component {
     this.cancel = this.cancel.bind(this)
     this.save = this.save.bind(this)
 
-    this.dropdownRef = React.createRef();
+    this.dropdownRef = React.createRef()
 
     let state = {
       postFields: null,
