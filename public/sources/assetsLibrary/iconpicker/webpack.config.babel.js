@@ -6,7 +6,9 @@ import TerserPlugin from 'terser-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    fontawesome: ['./src/css/font-awesome-5.10.2/less/fontawesome.less']
+    fontawesome: ['./src/css/font-awesome-5.10.2/less/fontawesome.less'],
+    socials: ['./src/css/vcv-socials/font.less'],
+    cart: ['./src/css/vcv-cart/font.less']
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path

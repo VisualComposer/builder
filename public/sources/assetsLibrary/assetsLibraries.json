@@ -80,7 +80,9 @@
       "name": "iconpicker",
       "dependencies": [],
       "cssSubsetBundles": {
-        "fontawesome": "[publicPath]/dist/fontawesome.bundle.css"
+        "fontawesome": "[publicPath]/dist/fontawesome.bundle.css",
+        "socials": "[publicPath]/dist/socials.bundle.css",
+        "cart": "[publicPath]/dist/cart.bundle.css"
       }
     },
     {
