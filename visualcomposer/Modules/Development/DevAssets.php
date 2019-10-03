@@ -33,10 +33,11 @@ class DevAssets extends Container implements Module
             if ($parsed['assetsLibrary'][0]['name'] === 'iconpicker') {
                 $paths = [];
                 foreach ($parsed['assetsLibrary'][0]['cssSubsetBundles'] as $key => $val) {
-                    $path = str_replace('[publicPath]/',
-                                        VCV_PLUGIN_URL
-                                        . 'devAssets/iconpicker/public/sources/assetsLibrary/iconpicker/',
-                                        $val
+                    $path = str_replace(
+                        '[publicPath]/',
+                        VCV_PLUGIN_URL
+                        . 'devAssets/iconpicker/public/sources/assetsLibrary/iconpicker/',
+                        $val
                     );
                     $paths[ $key ] = $path;
                 }
