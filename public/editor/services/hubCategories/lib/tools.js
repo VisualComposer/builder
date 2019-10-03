@@ -1,5 +1,9 @@
 export const sortingTool = (a, b) => {
-  if (a.metaOrder && b.metaOrder === undefined) {
+  if (a.thirdParty) {
+    return 1
+  } else if (b.thirdParty) {
+    return -1
+  } else if (a.metaOrder && b.metaOrder === undefined) {
     return -1
   } else if (a.metaOrder === undefined && b.metaOrder) {
     return 1
