@@ -170,7 +170,7 @@ export default class SaveController {
         window.vcvPostData = data.postData
       }
       status && status.set({
-        status: 'success',
+        status: 'failed',
         request: request
       })
       return
