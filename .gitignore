@@ -65,8 +65,6 @@ cache/*
 !cache/.gitkeep
 devElements/*
 !devElements/.gitkeep
-devCategories/*
-!devCategories/.gitkeep
 devAddons/*
 !devAddons/.gitkeep
 devAssets/*
