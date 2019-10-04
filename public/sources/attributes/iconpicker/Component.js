@@ -13,16 +13,23 @@ class Iconpicker extends Attribute {
   constructor (props) {
     super(props)
     const setList = attributesStorage.state('iconpicker:iconSet').get()
+    let iconSetList = setList[ props.options.iconType ] || setList.icons
+    let iconSet = props.value.iconSet
+    if (!iconSetList[ iconSet ]) {
+      let keys = Object.keys(iconSetList)
+      // In case if not set available
+      iconSet = keys[ 0 ]
+    }
     this.state = {
       search: '',
       category: '',
       popupOpen: false,
       value: {
         icon: props.value.icon,
-        iconSet: props.value.iconSet
+        iconSet: iconSet
       },
       showSearch: 'search' in props.options ? props.options.search : true,
-      iconSetList: setList[ props.options.iconType ] || setList.icons
+      iconSetList: iconSetList
     }
   }
 
@@ -36,6 +43,11 @@ class Iconpicker extends Attribute {
     let icons = []
     let iconsIds = []
 
+    if (!iconSetList[ iconSet ]) {
+      let keys = Object.keys(iconSetList)
+      // In case if not set available
+      iconSet = keys[ 0 ]
+    }
     let addIcons = (categoryIcons, isDisabled) => {
       categoryIcons.forEach((icon) => {
         if (iconsIds.indexOf(icon.id) > -1) {
@@ -96,6 +108,11 @@ class Iconpicker extends Attribute {
     let categories = []
     let { iconSetList } = this.state
     let { iconSet } = this.state.value
+    if (!iconSetList[ iconSet ]) {
+      let keys = Object.keys(iconSetList)
+      // In case if not set available
+      iconSet = keys[ 0 ]
+    }
     if (iconSet && typeof iconSetList[ iconSet ] !== 'undefined' && typeof iconSetList[ iconSet ].iconData !== 'undefined' && !Array.isArray(iconSetList[ iconSet ].iconData)) {
       Object.keys(iconSetList[ iconSet ].iconData).forEach((category) => {
         categories.push(<option key={'innerCategory' + category} value={category}>{category}</option>)
