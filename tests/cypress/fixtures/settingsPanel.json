@@ -4,5 +4,5 @@
   "localCSSString": "body { background-color: red; }",
   "globalCSSString": "h1 { color: red; }",
   "localJavaScriptString": "<script>document.body.classList.add(\"vc-settings-test\")</script>",
-  "globalJavaScriptString": "<script>document.getElementById(\"header\").classList.add(\"vc-settings-test\")</script>"
+  "globalJavaScriptString": "<script>document.querySelector(\".vce-button--style-basic-container\").classList.add(\"vc-settings-test\")</script>"
 }
