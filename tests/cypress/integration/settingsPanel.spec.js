@@ -55,9 +55,6 @@ describe('Settings Panel', function () {
         .clear()
         .type(settings.globalJavaScriptString, {parseSpecialCharSequences: false})
 
-      cy.get('.vcv-ui-form-switch-trigger-label')
-        .contains('Disable preview')
-        .click()
       cy.get('#vcv-page-element-preview-disable')
         .click({force: true})
 
