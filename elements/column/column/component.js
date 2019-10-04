@@ -1,13 +1,43 @@
 import React from 'react'
-import vcCake from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 
-const vcvAPI = vcCake.getService('api')
+const vcvAPI = getService('api')
+const elementsSettingsStorage = getStorage('elementsSettings')
+const fieldOptionsStorage = getStorage('fieldOptions')
+const extendedOptionsState = elementsSettingsStorage.state('extendedOptions')
 
 export default class ColumnElement extends vcvAPI.elementComponent {
+  constructor (props) {
+    super(props)
+
+    this.columnRef = React.createRef()
+    this.handleStorageChange = this.handleStorageChange.bind(this)
+  }
+
+  componentDidMount () {
+    extendedOptionsState.onChange(this.handleStorageChange)
+    const currentState = extendedOptionsState.get()
+    if (!currentState || (currentState && !currentState.elements.includes(this.props.id))) {
+      fieldOptionsStorage.trigger('fieldOptionsChange', false, false, this.props.id, this.props.atts)
+    }
+  }
+
+  componentWillUnmount () {
+    extendedOptionsState.ignoreChange(this.handleStorageChange)
+  }
+
+  handleStorageChange (data) {
+    const elementData = data.elements.find(el => el.id === this.props.id)
+    if (elementData) {
+      const ref = this.columnRef.current
+      elementsSettingsStorage.state('elementOptions').set({ ...elementData, ref })
+    }
+  }
+
   render () {
     // import variables
-    let { id, atts, editor, isBackend } = this.props
-    let { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow } = atts
+    const { id, atts, editor, isBackend } = this.props
+    const { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow } = atts
 
     // import template js
     const classNames = require('classnames')
@@ -101,10 +131,10 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     let contentProps = {}
     contentProps[ 'data-vce-element-content' ] = true
 
-    let doPadding = this.applyDO('padding')
-    let doRest = this.applyDO('border margin background animation')
+    const doPadding = this.applyDO('padding')
+    const doRest = this.applyDO('border margin background animation')
 
-    return (<div className={className} {...customColProps} id={'el-' + id} {...editor}>
+    return (<div className={className} {...customColProps} id={'el-' + id} {...editor} ref={this.columnRef}>
       <div className='vce-col-inner' {...doRest} {...innerProps} {...boxShadowAttributes}>
         {this.getBackgroundTypeContent()}
         {this.getContainerDivider()}

@@ -1,8 +1,8 @@
 /* eslint-disable import/no-webpack-loader-syntax */
-import vcCake from 'vc-cake'
+import { getService } from 'vc-cake'
 import RowElement from './component'
 
-const vcvAddElement = vcCake.getService('cook').add
+const vcvAddElement = getService('cook').add
 
 vcvAddElement(
   require('./settings.json'),
@@ -19,7 +19,5 @@ vcvAddElement(
         mixin: require('raw-loader!./cssMixins/columnGap.pcss')
       }
     }
-  },
-  // javascript callback
-  ''
+  }
 )

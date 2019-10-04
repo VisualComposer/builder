@@ -8,6 +8,7 @@ const documentManager = getService('document')
 const assetsStorage = getStorage('assets')
 const elementsSettingsStorage = getStorage('elementsSettings')
 const fieldOptionsStorage = getStorage('fieldOptions')
+const extendedOptionsState = elementsSettingsStorage.state('extendedOptions')
 
 const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
 
@@ -339,24 +340,30 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    elementsSettingsStorage.state('extendedOptions').onChange(this.handleStorageChange)
-    if (!elementsSettingsStorage.state('extendedOptions').get()) {
+    extendedOptionsState.onChange(this.handleStorageChange)
+    const currentState = extendedOptionsState.get()
+    if (!currentState || (currentState && !currentState.elements.includes(this.props.id))) {
       fieldOptionsStorage.trigger('fieldOptionsChange', false, false, this.props.id, this.props.atts)
     }
   }
 
+  componentWillUnmount () {
+    extendedOptionsState.ignoreChange(this.handleStorageChange)
+  }
+
   handleStorageChange (data) {
-    if (data.id === this.props.id) {
+    const elementData = data.elements.find(el => el.id === this.props.id)
+    if (elementData) {
       const ref = this.rowRef.current
-      elementsSettingsStorage.state('elementOptions').set({ ...data, ref })
+      elementsSettingsStorage.state('elementOptions').set({ ...elementData, ref })
     }
   }
 
   render () {
     const classNames = require('classnames')
-    let { id, atts, editor, isBackend } = this.props
-    let { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky, boxShadow } = atts
-    let content = this.props.children
+    const { id, atts, editor, isBackend } = this.props
+    const { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky, boxShadow } = atts
+    const content = this.props.children
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
     let containerClasses = classNames({
@@ -450,7 +457,7 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     customProps['data-vce-element-content'] = true
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
     return <div className={containerClasses} {...containerProps}>
       <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll} ref={this.rowRef}>
