@@ -1,0 +1,8 @@
+{
+  "pageTitle": "Visual Composer Settings Panel",
+  "pagePermalink": "visual-composer-settings-panel",
+  "localCSSString": "body { background-color: red; }",
+  "globalCSSString": "h1 { color: red; }",
+  "localJavaScriptString": "<script>document.body.classList.add(\"vc-settings-test\")</script>",
+  "globalJavaScriptString": "<script>document.getElementById(\"header\").classList.add(\"vc-settings-test\")</script>"
+}
