@@ -65,11 +65,8 @@ describe('Settings Panel', function () {
       cy.savePage()
       cy.viewPage()
 
-      cy.get('#header')
-        .should('have.class', 'vc-settings-test')
-
-      cy.get('.container')
-      cy.get('#footer')
+      cy.get('header')
+      cy.get('footer')
 
       cy.get('.entry-title')
         .contains(settings.pageTitle)
@@ -79,6 +76,7 @@ describe('Settings Panel', function () {
         .should('include', settings.pagePermalink)
 
       cy.get('.vce-button--style-basic-container')
+        .should('have.class', 'vc-settings-test')
 
       cy.get('body')
         .should('have.css', 'background-color', 'rgb(255, 0, 0)')
