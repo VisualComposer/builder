@@ -62,7 +62,7 @@ describe('Settings Panel', function () {
         .click({force: true})
 
       cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
-      cy.get('.vcv-ui-item-element[title="Section"]').trigger('mouseover')
+      cy.get('.vcv-ui-item-element[title="Row"]').trigger('mouseover')
       cy.get('.vcv-ui-item-preview-container.vcv-ui-state--visible').should('not.exist')
 
       cy.savePage()
