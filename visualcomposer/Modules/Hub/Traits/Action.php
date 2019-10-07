@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Helpers\Filters;
-use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 trait Action
@@ -21,7 +20,7 @@ trait Action
         $this->addFilter('vcv:hub:process:action:' . $this->actionName, 'processAction');
     }
 
-    protected function processAction($response, $payload, Filters $filterHelper, Logger $loggerHelper)
+    protected function processAction($response, $payload, Filters $filterHelper)
     {
         if (!vcIsBadResponse($response) && $payload['data']) {
             $hubHelper = vchelper($this->helperName);

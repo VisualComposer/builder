@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
-use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class AddonsUpdater extends Container implements Module
@@ -23,8 +22,11 @@ class AddonsUpdater extends Container implements Module
         $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:addon/*', 'updateAddons');
     }
 
-    protected function updateAddons($response, $payload, Logger $loggerHelper)
+    protected function updateAddons($response, $payload)
     {
+        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
+            return ['status' => true];
+        }
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
             return ['status' => false];
