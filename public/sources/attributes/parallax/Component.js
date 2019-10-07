@@ -8,6 +8,8 @@ import Dropdown from '../dropdown/Component'
 import Number from '../number/Component'
 import { getStorage } from 'vc-cake'
 
+const defaultValues = ['simple', 'simple-fade', 'mouse-move']
+
 export default class Parallax extends Attribute {
   static defaultProps = {
     fieldType: 'parallax'
@@ -183,7 +185,7 @@ export default class Parallax extends Attribute {
   }
 
   getParallaxSpeedInput () {
-    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable) {
+    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable || !defaultValues.includes(this.state.devices[ this.state.currentDevice ].parallax)) {
       return null
     }
 
@@ -206,7 +208,7 @@ export default class Parallax extends Attribute {
   }
 
   getParallaxReverseToggle () {
-    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable) {
+    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable || !defaultValues.includes(this.state.devices[ this.state.currentDevice ].parallax)) {
       return null
     }
 
