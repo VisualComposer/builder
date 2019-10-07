@@ -12,7 +12,6 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Differ;
 use VisualComposer\Helpers\Hub\Elements as HubElements;
-use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class ElementsUpdater extends Container implements Module
@@ -26,8 +25,11 @@ class ElementsUpdater extends Container implements Module
         }
     }
 
-    protected function updateElements($response, $payload, Logger $loggerHelper, HubElements $elementsHelper)
+    protected function updateElements($response, $payload, HubElements $elementsHelper)
     {
+        if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
+            return ['status' => true];
+        }
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
             return ['status' => false];
