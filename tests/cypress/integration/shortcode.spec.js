@@ -8,11 +8,16 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
+      cy.window().then((window) => {
+        cy.route('POST', window.vcvAjaxUrl).as('renderShortcode')
+      })
+
+
       cy.get('.vcv-ui-form-input').first()
         .clear()
         .type(settings.shortcode)
 
-      cy.wait(3000)
+      cy.wait('@renderShortcode')
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Element ID')
