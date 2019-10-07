@@ -1,0 +1,6 @@
+{
+  "customId": "shortcode-id",
+  "customClass": "shortcode-class",
+  "shortcode": "[embed]https://visualcomposer.com/[/embed]",
+  "embedHref": "https://visualcomposer.com/"
+}
