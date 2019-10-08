@@ -20,12 +20,12 @@ Make fork for of VCWB repo in GitHub. Go to your active WordPress `wp-content/pl
 ```sh
 $ git clone git@github.com:<Username>/builder.git
 $ cd builder
-$ git remote add upstream git@gihub.com:Visualcomposer/builder.git
+$ git remote add upstream git@github.com:VisualComposer/builder.git
 $ git remote set-url --push upstream no_push
 $ git remote -v
 origin	git@github.com:<Username>/builder.git (fetch)
 origin	git@github.com:<Username>/builder.git (push)
-upstream	git@github.com:Visualcomposer/builder.git (fetch)
+upstream	git@github.com:VisualComposer/builder.git (fetch)
 upstream	no_push (push)
 ```
 
