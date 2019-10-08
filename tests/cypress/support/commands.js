@@ -30,7 +30,7 @@
 Cypress.Commands.add('login', () => {
   cy.server()
   cy.visit('/wp-login.php')
-  cy.wait(100)
+  cy.wait(200)
   cy.get('#user_login').type(Cypress.env('wpUserName'))
   cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
   // // Plugin activation
@@ -80,14 +80,14 @@ Cypress.Commands.add('viewPage', () => {
 
 // Set Design Options
 Cypress.Commands.add('setDO', (settings) => {
-  cy.get('.vcv-ui-form-switch-trigger-label')
+  cy.get('.advanced-design-options .vcv-ui-form-switch-trigger-label')
     .contains('Simple controls')
     .then(($field) => {
       cy.wrap($field)
         .click()
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Padding')
     .then(($field) => {
       if (settings.padding) {
@@ -97,7 +97,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Border')
     .then(($field) => {
       if (settings.borderWidth) {
@@ -107,7 +107,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Radius')
     .then(($field) => {
       if (settings.borderRadius) {
@@ -117,7 +117,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Margin')
     .then(($field) => {
       if (settings.margin) {
@@ -127,7 +127,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Background color')
     .then(($field) => {
       if (settings.backgroundColor && settings.backgroundColor.hex) {
@@ -145,7 +145,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Border style')
     .then(($field) => {
       if (settings.borderStyle) {
@@ -155,7 +155,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Border color')
     .then(($field) => {
       if (settings.borderColor && settings.borderColor.hex) {
@@ -173,7 +173,7 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Animate')
     .then(($field) => {
       if (settings.animation) {
