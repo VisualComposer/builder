@@ -409,7 +409,7 @@ export default class ElementComponent extends React.Component {
             key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')} />)
       }
 
-      if (parallaxData && parallaxData.parallaxEnable) {
+      if (parallaxData && parallaxData.parallaxEnable && parallaxData.parallax && (parallaxData.parallax === 'simple' || parallaxData.parallax === 'simple-fade' || parallaxData.parallax === 'mouse-move')) {
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-parallax`
         deviceBackgroundData.push(
           <ParallaxBackground deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}

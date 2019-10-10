@@ -1,6 +1,7 @@
 import React from 'react'
 import { getService, getStorage, env } from 'vc-cake'
 import lodash from 'lodash'
+import classNames from 'classnames'
 
 const vcvAPI = getService('api')
 
@@ -340,18 +341,23 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   componentDidMount () {
-    extendedOptionsState.onChange(this.handleStorageChange)
     const currentState = extendedOptionsState.get()
     if (!currentState || (currentState && !currentState.elements.includes(this.props.id))) {
-      fieldOptionsStorage.trigger('fieldOptionsChange', false, false, this.props.id, this.props.atts)
+      const options = {
+        fieldKey: false,
+        fieldType: false,
+        id: this.props.id
+      }
+      fieldOptionsStorage.trigger('fieldOptionsChange', options)
     }
   }
 
-  componentWillUnmount () {
-    extendedOptionsState.ignoreChange(this.handleStorageChange)
+  componentDidUpdate () {
+    this.handleStorageChange()
   }
 
-  handleStorageChange (data) {
+  handleStorageChange () {
+    const data = extendedOptionsState.get()
     const elementData = data.elements.find(el => el.id === this.props.id)
     if (elementData) {
       const ref = this.rowRef.current
@@ -360,7 +366,6 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   render () {
-    const classNames = require('classnames')
     const { id, atts, editor, isBackend } = this.props
     const { customClass, rowWidth, removeSpaces, columnGap, fullHeight, metaCustomId, equalHeight, columnPosition, contentPosition, designOptionsAdvanced, layout, columnBackground, hidden, sticky, boxShadow } = atts
     const content = this.props.children
