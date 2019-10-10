@@ -2,6 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
+
+const utils = vcCake.getService('utils')
 
 export default class PanelNavigation extends React.Component {
   buttonsGroup = null
@@ -28,37 +31,11 @@ export default class PanelNavigation extends React.Component {
   componentDidMount () {
     this.setState({ totalControlWidth: this.getControlsTotalWidth() })
     this.handleResize()
-    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleResize)
+    utils.addResizeListener(ReactDOM.findDOMNode(this), {}, this.handleResize)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleResize)
-  }
-
-  addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    let obj = element.__resizeTrigger__ = document.createElement('iframe')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function () {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
+    utils.removeResizeListener(ReactDOM.findDOMNode(this), {}, this.handleResize)
   }
 
   getControlsTotalWidth () {
