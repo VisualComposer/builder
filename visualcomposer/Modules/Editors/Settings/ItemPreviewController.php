@@ -102,8 +102,11 @@ class ItemPreviewController extends Container implements Module
     {
         $frontendSettings = (array)$optionsHelper->get('frontendSettings', []);
 
-        $response['itemPreviewDisabled'] = array_key_exists('itemPreviewDisabled', $frontendSettings)
-            ? $frontendSettings['itemPreviewDisabled'] : in_array('itemPreviewDisabled', $frontendSettings, true);
+        $response['itemPreviewDisabled'] = false;
+        if ((array_key_exists('itemPreviewDisabled', $frontendSettings) && $frontendSettings['itemPreviewDisabled'])
+            || in_array('itemPreviewDisabled', $frontendSettings, true)) {
+            $response['itemPreviewDisabled'] = true;
+        }
 
         return $response;
     }
