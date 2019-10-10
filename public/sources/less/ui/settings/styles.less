@@ -10,8 +10,24 @@
   line-height: 37px;
   padding: 12px 60px 12px 20px;
   font-size: 16px;
+
+  .vcv-ui-panel-heading-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 12px;
+  }
+
+  .vcv-ui-panel-heading-text {
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 
+.vcv-ui-tree-view-content--full-width {
+  .vcv-ui-form-input {
+    max-width: 500px;
+  }
+}
 
 .vcv-ui-panel-controls-container.vcv-is-hidden .vcv-ui-form-buttons-group {
   position: fixed;
@@ -167,13 +183,11 @@
   .vcv-ui-template-options-item-icon {
     display: inline-block;
     background-color: #fff;
-    height: 60px;
     cursor: pointer;
     margin: 0 32px 25px 0;
 
     svg {
-      width: 60px;
-      height: 60px;
+      vertical-align: top;
     }
   }
 }
