@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     <label class="vcv-ui-form-switch">
         <input type="checkbox" value="<?php echo esc_attr(
             $value
-        ); ?>" name="vcv-settings[]" <?php echo in_array(
+        ); ?>" name="<?php echo esc_attr(isset($key) ? $key : 'vcv-settings'); ?>[]" <?php echo in_array(
             $value,
             $enabledOptions,
             true

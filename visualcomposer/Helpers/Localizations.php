@@ -327,11 +327,6 @@ class Localizations extends Container implements Helper
             'startingImportProcess' => __('Starting import process...', 'vcwb'),
             'backToParent' => __('Back to parent', 'vcwb'),
             'editorSettings' => __('Editor Settings', 'vcwb'),
-            'disablePreviewDescription' => __(
-                'Disable element and template preview popup in Add Element and Add Template windows',
-                'vcwb'
-            ),
-            'disablePreview' => __('Disable preview', 'vcwb'),
             'clickToEditColumnValue' => __('Click to edit column value', 'vcwb'),
             'addOn' => __('Add-on', 'vcwb'),
             'doNotCloseWhileUpdateText' => __('Don\'t close this window while download is in the progress.', 'vcwb'),
