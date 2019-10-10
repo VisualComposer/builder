@@ -6,6 +6,10 @@ describe('Settings Panel', function () {
       cy.createPage()
       cy.addElement('Basic Button')
 
+      cy.window().then((window) => {
+        cy.route('POST', window.vcvAdminAjaxUrl).as('setPostPermalink')
+      })
+
       cy.get('.vcv-ui-navbar-control[title="Settings"]').click()
       cy.get('.vcv-ui-panel-heading-text').contains('Settings')
 
@@ -26,6 +30,8 @@ describe('Settings Panel', function () {
         })
 
       cy.get('.vcv-ui-start-layout-list-item[title="Theme default"]').click()
+
+      cy.wait('@setPostPermalink')
 
       cy.get('.vcv-ui-form-button')
         .contains('Custom CSS')
