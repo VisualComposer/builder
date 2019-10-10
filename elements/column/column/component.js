@@ -1,5 +1,6 @@
 import React from 'react'
 import { getService, getStorage } from 'vc-cake'
+import classNames from 'classnames'
 
 const vcvAPI = getService('api')
 const elementsSettingsStorage = getStorage('elementsSettings')
@@ -18,15 +19,21 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     extendedOptionsState.onChange(this.handleStorageChange)
     const currentState = extendedOptionsState.get()
     if (!currentState || (currentState && !currentState.elements.includes(this.props.id))) {
-      fieldOptionsStorage.trigger('fieldOptionsChange', false, false, this.props.id, this.props.atts)
+      const options = {
+        fieldKey: false,
+        fieldType: false,
+        id: this.props.id
+      }
+      fieldOptionsStorage.trigger('fieldOptionsChange', options)
     }
   }
 
-  componentWillUnmount () {
-    extendedOptionsState.ignoreChange(this.handleStorageChange)
+  componentDidUpdate () {
+    this.handleStorageChange()
   }
 
-  handleStorageChange (data) {
+  handleStorageChange () {
+    const data = extendedOptionsState.get()
     const elementData = data.elements.find(el => el.id === this.props.id)
     if (elementData) {
       const ref = this.columnRef.current
@@ -40,7 +47,6 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     const { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow } = atts
 
     // import template js
-    const classNames = require('classnames')
     let customColProps = {}
     let innerProps = {}
     let classes = [ 'vce-col' ]
