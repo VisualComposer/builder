@@ -30,8 +30,6 @@ export default class PageSettings extends React.Component {
     return (
       <React.Fragment>
         {content}
-        <h2>{editorSettingsText}</h2>
-        <PreviewToggle />
       </React.Fragment>
     )
   }

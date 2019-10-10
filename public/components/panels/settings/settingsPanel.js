@@ -54,8 +54,13 @@ export default class SettingsPanel extends React.Component {
     const settingsText = localizations ? localizations.settings : 'Settings'
 
     return (
-      <div className='vcv-ui-tree-view-content'>
-        <div className='vcv-ui-panel-heading'>{settingsText}</div>
+      <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
+        <div className='vcv-ui-panel-heading'>
+          <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-cog' />
+          <span className='vcv-ui-panel-heading-text'>
+             {settingsText}
+          </span>
+        </div>
         <PanelNavigation controls={controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
