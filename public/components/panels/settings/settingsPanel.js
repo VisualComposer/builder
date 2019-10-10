@@ -12,25 +12,24 @@ const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
 const settingsText = localizations ? localizations.layout : 'Layout'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
-
 const controls = {
-  "layout": {
-    "index": 0,
-    "type": "layout",
-    "title": settingsText,
-    "content": <PageSettings />
+  'layout': {
+    'index': 0,
+    'type': 'layout',
+    'title': settingsText,
+    'content': <PageSettings />
   },
-  "customCss": {
-    "index": 1,
-    "type": "customCss",
-    "title": customCSSText,
-    "content": <CustomStyles />
+  'customCss': {
+    'index': 1,
+    'type': 'customCss',
+    'title': customCSSText,
+    'content': <CustomStyles />
   },
-  "customJs": {
-    "index": 2,
-    "type": "customJs",
-    "title": customJSText,
-    "content": <CustomScripts />
+  'customJs': {
+    'index': 2,
+    'type': 'customJs',
+    'title': customJSText,
+    'content': <CustomScripts />
   }
 }
 
@@ -58,7 +57,7 @@ export default class SettingsPanel extends React.Component {
         <div className='vcv-ui-panel-heading'>
           <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-cog' />
           <span className='vcv-ui-panel-heading-text'>
-             {settingsText}
+            {settingsText}
           </span>
         </div>
         <PanelNavigation controls={controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />

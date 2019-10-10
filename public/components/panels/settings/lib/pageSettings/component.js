@@ -4,10 +4,6 @@ import TitleSettings from './settings/title'
 import LayoutTemplates from './settings/layoutTemplates'
 import TemplateLayoutSettings from './settings/templateLayout'
 import Permalink from 'public/components/permalink/permalink'
-import PreviewToggle from './settings/previewToggle'
-
-const localizations = window.VCV_I18N && window.VCV_I18N()
-const editorSettingsText = localizations ? localizations.editorSettings : 'Editor Settings'
 
 export default class PageSettings extends React.Component {
   render () {
