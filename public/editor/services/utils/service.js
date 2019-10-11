@@ -119,7 +119,7 @@ const API = {
   },
   normalizeHtml (data) {
     data = data
-      .replace(/\s*\bdata-vcv-[^"]+"[^"]+"+/g, '')
+      .replace(/\s*\bdata-vcv-[^"<>]+"[^"<>]+"+/g, '')
       .replace(/<!--\[vcvSourceHtml]/g, '')
       .replace(/\[\/vcvSourceHtml]-->/g, '')
     // .replace(/&quot;/g, "'")
