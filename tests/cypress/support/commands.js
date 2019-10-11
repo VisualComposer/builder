@@ -25,6 +25,9 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 /* global Cypress, cy */
+import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
+
+addMatchImageSnapshotCommand()
 
 // Login to WordPress dashboard
 Cypress.Commands.add('login', () => {
