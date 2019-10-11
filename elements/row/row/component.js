@@ -343,6 +343,7 @@ export default class RowElement extends vcvAPI.elementComponent {
   componentDidMount () {
     const currentState = extendedOptionsState.get()
     if (!currentState || (currentState && !currentState.elements.includes(this.props.id))) {
+      extendedOptionsState.onChange(this.handleStorageChange)
       const options = {
         fieldKey: false,
         fieldType: false,
@@ -353,12 +354,16 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   componentDidUpdate () {
-    this.handleStorageChange()
+    this.handleStorageChange(false)
   }
 
-  handleStorageChange () {
-    const data = extendedOptionsState.get()
-    const elementData = data.elements.find(el => el.id === this.props.id)
+  handleStorageChange (data) {
+    let dataFromState = extendedOptionsState.get()
+    if (data) {
+      dataFromState = data
+      extendedOptionsState.ignoreChange(this.handleStorageChange)
+    }
+    const elementData = dataFromState.elements.find(el => el.id === this.props.id)
     if (elementData) {
       const ref = this.rowRef.current
       elementsSettingsStorage.state('elementOptions').set({ ...elementData, ref })
