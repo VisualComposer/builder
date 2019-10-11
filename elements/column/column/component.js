@@ -38,6 +38,9 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       dataFromState = data
       extendedOptionsState.ignoreChange(this.handleStorageChange)
     }
+    if (!dataFromState) {
+      return
+    }
     const elementData = dataFromState.elements.find(el => el.id === this.props.id)
     if (elementData) {
       const ref = this.columnRef.current
