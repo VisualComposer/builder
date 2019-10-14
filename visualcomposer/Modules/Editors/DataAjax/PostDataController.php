@@ -56,6 +56,10 @@ class PostDataController extends Container implements Module
             return $response;
         }
 
+        if (isset($response['forceAddField'])) {
+            $payload = array_merge($payload, ['forceAddField' => $response['forceAddField']]);
+        }
+
         $response['postData'] = vcfilter(
             'vcv:editor:data:postData',
             $postDataHelper->getDefaultPostData($payload['sourceId']),

@@ -6,8 +6,12 @@ describe('Settings Panel', function () {
       cy.createPage()
       cy.addElement('Basic Button')
 
+      cy.window().then((window) => {
+        cy.route('POST', window.vcvAdminAjaxUrl).as('setPostPermalink')
+      })
+
       cy.get('.vcv-ui-navbar-control[title="Settings"]').click()
-      cy.get('.vcv-ui-edit-form-header-title').contains('Settings')
+      cy.get('.vcv-ui-panel-heading-text').contains('Settings')
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Title')
@@ -27,6 +31,13 @@ describe('Settings Panel', function () {
 
       cy.get('.vcv-ui-start-layout-list-item[title="Theme default"]').click()
 
+      cy.wait('@setPostPermalink')
+
+      cy.get('.vcv-ui-form-button')
+        .contains('Custom CSS')
+        .click()
+
+
       cy.get('.vcv-ui-style-editor.vcv-ui-state--active .CodeMirror-code')
         .clear()
         .type(settings.localCSSString, {parseSpecialCharSequences: false})
@@ -37,6 +48,10 @@ describe('Settings Panel', function () {
       cy.get('.vcv-ui-style-editor.vcv-ui-state--active .CodeMirror-code')
         .clear()
         .type(settings.globalCSSString, {parseSpecialCharSequences: false})
+
+      cy.get('.vcv-ui-form-button')
+        .contains('Custom JavaScript')
+        .click()
 
       cy.get('.vcv-ui-script-editor-tag')
         .contains('<footer>')
@@ -54,13 +69,6 @@ describe('Settings Panel', function () {
         .find('.CodeMirror-code')
         .clear()
         .type(settings.globalJavaScriptString, {parseSpecialCharSequences: false})
-
-      cy.get('#vcv-page-element-preview-disable')
-        .click({force: true})
-
-      cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
-      cy.get('.vcv-ui-item-element[title="Row"]').trigger('mouseover')
-      cy.get('.vcv-ui-item-preview-container.vcv-ui-state--visible').should('not.exist')
 
       cy.savePage()
       cy.viewPage()
