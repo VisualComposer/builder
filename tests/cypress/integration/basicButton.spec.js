@@ -1,4 +1,4 @@
-/* global describe, it, cy */
+/* global describe, it, cy, Cypress */
 
 const ELEMENT_NAME = 'Basic Button'
 
@@ -141,6 +141,11 @@ describe(ELEMENT_NAME, function () {
         .and('have.attr', 'data-vcv-o-animated', 'true')
         .and('have.attr', 'href', `http://${settings.buttonLink}`)
         .and('have.attr', 'target', '_blank')
+
+      if (Cypress.env('checkSnapshots')) {
+        cy.wait(2000)
+        cy.get(`#${settings.customId}`).matchImageSnapshot()
+      }
     })
   })
 })

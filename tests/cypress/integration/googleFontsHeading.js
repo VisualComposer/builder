@@ -1,4 +1,4 @@
-/* global describe, it, cy */
+/* global describe, it, cy, Cypress */
 
 const ELEMENT_NAME = 'Google Fonts Heading'
 
@@ -187,6 +187,11 @@ describe(ELEMENT_NAME, function () {
         .contains(settings.titleText)
         .should('have.attr', 'href', `http://${settings.linkSelection}`)
         .and('have.attr', 'target', '_blank')
+
+      if (Cypress.env('checkSnapshots')) {
+        cy.wait(2000)
+        cy.get(`#${settings.customId}`).matchImageSnapshot()
+      }
     })
   })
 })

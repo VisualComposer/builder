@@ -47,6 +47,14 @@ Cypress.Commands.add('login', () => {
       }
     })
   }
+  if (Cypress.env('checkSnapshots')) {
+    cy.visit('/wp-admin/themes.php')
+    cy.get('[data-slug="twentynineteen"]').then(($block) => {
+      if (!$block.hasClass('active')) {
+        cy.get('[data-slug="twentynineteen"] a.activate').click()
+      }
+    })
+  }
 })
 
 // Create a new page with Visual Composer
