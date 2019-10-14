@@ -77,13 +77,13 @@ class EditorTemplates implements Helper
         switch ($key) {
             case '':
             case 'custom':
-                $name = __('My Templates', 'vcwb');
+                $name = __('My Templates', 'visualcomposer');
                 break;
             case 'hub':
-                $name = __('Premium Templates', 'vcwb');
+                $name = __('Premium Templates', 'visualcomposer');
                 break;
             case 'predefined':
-                $name = __('Content Templates', 'vcwb');
+                $name = __('Content Templates', 'visualcomposer');
                 break;
         }
 
@@ -178,7 +178,7 @@ class EditorTemplates implements Helper
         $templateGroups = $this->all();
         $options = [];
         $options[] = [
-            'label' => __('Select your template', 'vcwb'),
+            'label' => __('Select your template', 'visualcomposer'),
             'value' => '',
         ];
 

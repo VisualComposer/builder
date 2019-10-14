@@ -135,7 +135,7 @@ class SharedDownloadController extends Container implements Module
     protected function logErrors($response, Logger $loggerHelper, $bundleJson)
     {
         $messages = [];
-        $messages[] = __('Failed to update shared libraries', 'vcwb') . ' #10021';
+        $messages[] = __('Failed to update shared libraries', 'visualcomposer') . ' #10021';
         if (is_wp_error($response)) {
             /** @var \WP_Error $response */
             $messages[] = implode('. ', $response->get_error_messages()) . ' #10022';

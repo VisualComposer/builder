@@ -58,19 +58,19 @@ class PostFieldsController extends Container implements Module
             'attachimage' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post', 'vcwb'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site', 'vcwb'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'author' => [
                     'group' => [
-                        'label' => __('Author', 'vcwb'),
+                        'label' => __('Author', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
@@ -78,19 +78,19 @@ class PostFieldsController extends Container implements Module
             'designOptions' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post', 'vcwb'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site', 'vcwb'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'author' => [
                     'group' => [
-                        'label' => __('Author', 'vcwb'),
+                        'label' => __('Author', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
@@ -98,19 +98,19 @@ class PostFieldsController extends Container implements Module
             'designOptionsAdvanced' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post', 'vcwb'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site', 'vcwb'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'author' => [
                     'group' => [
-                        'label' => __('Author', 'vcwb'),
+                        'label' => __('Author', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
@@ -118,25 +118,25 @@ class PostFieldsController extends Container implements Module
             'string' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post', 'vcwb'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site', 'vcwb'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'author' => [
                     'group' => [
-                        'label' => __('Author', 'vcwb'),
+                        'label' => __('Author', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Fields', 'vcwb'),
+                        'label' => __('Custom Fields', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
@@ -144,25 +144,25 @@ class PostFieldsController extends Container implements Module
             'htmleditor' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post', 'vcwb'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site', 'vcwb'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'author' => [
                     'group' => [
-                        'label' => __('Author', 'vcwb'),
+                        'label' => __('Author', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Fields', 'vcwb'),
+                        'label' => __('Custom Fields', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
@@ -170,25 +170,25 @@ class PostFieldsController extends Container implements Module
             'inputSelect' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post', 'vcwb'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site', 'vcwb'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'author' => [
                     'group' => [
-                        'label' => __('Author', 'vcwb'),
+                        'label' => __('Author', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Fields', 'vcwb'),
+                        'label' => __('Custom Fields', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
@@ -196,19 +196,19 @@ class PostFieldsController extends Container implements Module
             'url' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post URLs', 'vcwb'),
+                        'label' => __('Post URLs', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site URLs', 'vcwb'),
+                        'label' => __('Site URLs', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'meta' => [
                     'group' => [
-                        'label' => __('Custom Fields', 'vcwb'),
+                        'label' => __('Custom Fields', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],

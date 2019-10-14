@@ -165,13 +165,13 @@ class License extends Container implements Helper
         $message = '';
         switch ($errorCode) {
             case 1:
-                $message = __('Visual Composer Website Builder license has expired.', 'vcwb');
+                $message = __('Visual Composer Website Builder license has expired.', 'visualcomposer');
                 break;
             case 2:
-                $message = __('Couldn\'t find a valid Visual Composer Website Builder license.', 'vcwb');
+                $message = __('Couldn\'t find a valid Visual Composer Website Builder license.', 'visualcomposer');
                 break;
             case 3:
-                $message = __('Visual Composer Website Builder license has been deactivated.', 'vcwb');
+                $message = __('Visual Composer Website Builder license has been deactivated.', 'visualcomposer');
                 break;
         }
 

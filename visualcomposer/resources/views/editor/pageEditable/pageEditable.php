@@ -19,4 +19,4 @@ wp_editor(
 );
 ob_get_clean();
 ?>
-<div id="vcv-editor"><?php echo esc_html__('Loading...', 'vcwb'); ?></div>
+<div id="vcv-editor"><?php echo esc_html__('Loading...', 'visualcomposer'); ?></div>

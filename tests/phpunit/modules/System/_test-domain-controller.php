@@ -14,6 +14,6 @@ class DomainControllerTest extends \WP_UnitTestCase
         add_filter('plugin_locale', $callback, 10, 2);
         vcevent('vcv:inited');
         $this->assertTrue($called);
-        $this->assertEquals($dom, 'vcwb');
+        $this->assertEquals($dom, 'visualcomposer');
     }
 }

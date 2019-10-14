@@ -105,7 +105,7 @@ class LicenseController extends Container implements Module
                 $noticeHelper->addNotice(
                     'activation:failed',
                     // TODO: Error texts
-                    __('Invalid token -> Failed licence activation - Invalid token', 'vcwb')
+                    __('Invalid token -> Failed licence activation - Invalid token', 'visualcomposer')
                 );
             }
         }

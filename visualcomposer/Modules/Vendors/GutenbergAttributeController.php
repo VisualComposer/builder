@@ -96,7 +96,7 @@ class GutenbergAttributeController extends Container implements Module
 
             $this->addSection(
                 [
-                    'title' => __('Gutenberg Editor', 'vcwb'),
+                    'title' => __('Gutenberg Editor', 'visualcomposer'),
                     'page' => 'vcv-settings',
                     'callback' => $sectionCallback,
                 ]
@@ -112,7 +112,7 @@ class GutenbergAttributeController extends Container implements Module
             $this->addField(
                 [
                     'page' => 'vcv-settings',
-                    'title' => __('Gutenberg', 'vcwb'),
+                    'title' => __('Gutenberg', 'visualcomposer'),
                     'name' => 'settings',
                     'id' => 'vcv-settings-gutenberg-editor',
                     'fieldCallback' => $fieldCallback,
@@ -256,20 +256,20 @@ class GutenbergAttributeController extends Container implements Module
     protected function registerGutenbergAttributeType()
     {
         $labels = [
-            'name' => _x('Gutenberg attrs', 'Post type general name', 'vcwb'),
-            'singular_name' => _x('Gutenberg attr', 'Post type singular name', 'vcwb'),
-            'menu_name' => _x('Gutenberg attrs', 'Admin Menu text', 'vcwb'),
-            'name_admin_bar' => _x('Gutenberg attr', 'Add New on Toolbar', 'vcwb'),
-            'add_new' => __('Add New', 'vcwb'),
-            'add_new_item' => __('Add New Gutenberg attr', 'vcwb'),
-            'new_item' => __('New Gutenberg attr', 'vcwb'),
-            'edit_item' => __('Edit Gutenberg attr', 'vcwb'),
-            'view_item' => __('View Gutenberg attr', 'vcwb'),
-            'all_items' => __('All Gutenberg attrs', 'vcwb'),
-            'search_items' => __('Search Gutenberg attrs', 'vcwb'),
-            'parent_item_colon' => __('Parent Gutenberg attrs:', 'vcwb'),
-            'not_found' => __('No Gutenberg attrs found.', 'vcwb'),
-            'not_found_in_trash' => __('No Gutenberg attrs found in Trash.', 'vcwb'),
+            'name' => _x('Gutenberg attrs', 'Post type general name', 'visualcomposer'),
+            'singular_name' => _x('Gutenberg attr', 'Post type singular name', 'visualcomposer'),
+            'menu_name' => _x('Gutenberg attrs', 'Admin Menu text', 'visualcomposer'),
+            'name_admin_bar' => _x('Gutenberg attr', 'Add New on Toolbar', 'visualcomposer'),
+            'add_new' => __('Add New', 'visualcomposer'),
+            'add_new_item' => __('Add New Gutenberg attr', 'visualcomposer'),
+            'new_item' => __('New Gutenberg attr', 'visualcomposer'),
+            'edit_item' => __('Edit Gutenberg attr', 'visualcomposer'),
+            'view_item' => __('View Gutenberg attr', 'visualcomposer'),
+            'all_items' => __('All Gutenberg attrs', 'visualcomposer'),
+            'search_items' => __('Search Gutenberg attrs', 'visualcomposer'),
+            'parent_item_colon' => __('Parent Gutenberg attrs:', 'visualcomposer'),
+            'not_found' => __('No Gutenberg attrs found.', 'visualcomposer'),
+            'not_found_in_trash' => __('No Gutenberg attrs found in Trash.', 'visualcomposer'),
             'featured_image' => _x(
                 'Gutenberg attr Cover Image',
                 'Overrides the “Featured Image” phrase for this post type. Added in 4.3',

@@ -54,7 +54,7 @@ class ItemPreviewController extends Container implements Module
         };
         $this->addSection(
             [
-                'title' => __('Disable preview', 'vcwb'),
+                'title' => __('Disable preview', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
@@ -67,7 +67,7 @@ class ItemPreviewController extends Container implements Module
         $this->addField(
             [
                 'page' => $this->slug,
-                'title' => __('Disable Preview', 'vcwb'),
+                'title' => __('Disable Preview', 'visualcomposer'),
                 'name' => 'frontendSettings',
                 'id' => 'vcv-frontendSettings-itemPreviewDisabled',
                 'fieldCallback' => $fieldCallback,

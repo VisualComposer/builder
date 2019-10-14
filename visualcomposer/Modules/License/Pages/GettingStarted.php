@@ -96,7 +96,7 @@ class GettingStarted extends Container implements Module
     {
         return sprintf(
             '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
-            __('Getting Started', 'vcwb')
+            __('Getting Started', 'visualcomposer')
         );
     }
 }

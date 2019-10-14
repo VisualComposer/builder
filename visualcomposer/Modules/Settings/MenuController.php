@@ -66,7 +66,7 @@ class MenuController extends Container implements Module
     protected function addMenuPage(Url $urlHelper, Settings $settingsController)
     {
         if (!is_network_admin()) {
-            $title = __('Visual Composer ', 'vcwb');
+            $title = __('Visual Composer ', 'visualcomposer');
             $iconUrl = $urlHelper->assetUrl('images/logo/20x14.png');
 
             add_menu_page($title, $title, 'edit_posts', $settingsController->getMainPageSlug(), null, $iconUrl, 76);

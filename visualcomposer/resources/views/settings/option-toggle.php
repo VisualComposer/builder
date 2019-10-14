@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
             true
         ) ? 'checked="checked"' : ''; ?> />
         <span class="vcv-ui-form-switch-indicator"></span>
-        <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo esc_attr__('on', 'vcwb'); ?>"></span>
-        <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo esc_attr__('off', 'vcwb'); ?>"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo esc_attr__('on', 'visualcomposer'); ?>"></span>
+        <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo esc_attr__('off', 'visualcomposer'); ?>"></span>
     </label>
 </div>

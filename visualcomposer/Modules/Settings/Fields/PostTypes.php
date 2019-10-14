@@ -49,12 +49,12 @@ class PostTypes extends Container implements Module
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
-                esc_html__('Specify post types where you want to use Visual Composer Website Builder.', 'vcwb')
+                esc_html__('Specify post types where you want to use Visual Composer Website Builder.', 'visualcomposer')
             );
         };
         $this->addSection(
             [
-                'title' => __('Post Types', 'vcwb'),
+                'title' => __('Post Types', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]

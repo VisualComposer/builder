@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 evcview('settings/partials/admin-nonce');
 ?>
 <div class="wrap vcv-settings">
-    <h2><?php echo esc_html__('Settings', 'vcwb') ?></h2>
+    <h2><?php echo esc_html__('Settings', 'visualcomposer') ?></h2>
     <?php
     // @codingStandardsIgnoreLine
     echo $content;

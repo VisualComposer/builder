@@ -64,8 +64,8 @@ class FactoryResetController extends Container implements Module
             $url = $urlHelper->adminAjax(
                 ['vcv-action' => 'vcv:settings:factoryReset:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
             );
-            $confirm = __('Proceed with a reset?', 'vcwb');
-            $linkTitle = __('initiate reset', 'vcwb');
+            $confirm = __('Proceed with a reset?', 'visualcomposer');
+            $linkTitle = __('initiate reset', 'visualcomposer');
             $link = sprintf(
                 '<a href="%s" onclick="return confirm(\'%s\')">%s</a>',
                 // @codingStandardsIgnoreLine
@@ -87,7 +87,7 @@ class FactoryResetController extends Container implements Module
         };
         $this->addSection(
             [
-                'title' => __('Reset', 'vcwb'),
+                'title' => __('Reset', 'visualcomposer'),
                 'page' => 'vcv-settings',
                 'callback' => $sectionCallback,
             ]
@@ -110,12 +110,12 @@ class FactoryResetController extends Container implements Module
         Notice $noticeHelper
     ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
-            $loggerHelper->log(__('Wrong permissions', 'vcwb') . ' #10072');
+            $loggerHelper->log(__('Wrong permissions', 'visualcomposer') . ' #10072');
             wp_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
             exit;
         }
         if (!$optionsHelper->getTransient('vcv:settings:factoryReset:allow')) {
-            $loggerHelper->log(__('Session expired', 'vcwb') . ' #10073');
+            $loggerHelper->log(__('Session expired', 'visualcomposer') . ' #10073');
 
             return false;
         }
@@ -125,7 +125,7 @@ class FactoryResetController extends Container implements Module
         wp_cache_flush();
         $noticeHelper->addNotice(
             'vcv-reset-success',
-            __('Visual Composer asset reset was successful.', 'vcwb'),
+            __('Visual Composer asset reset was successful.', 'visualcomposer'),
             'success',
             true
         );

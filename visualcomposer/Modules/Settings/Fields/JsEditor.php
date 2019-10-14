@@ -58,7 +58,7 @@ class JsEditor extends Container implements Module
 
         $this->addSection(
             [
-                'title' => __('Custom HTML and JavaScript', 'vcwb'),
+                'title' => __('Custom HTML and JavaScript', 'visualcomposer'),
                 'slug' => 'settingsGlobalJs',
                 'page' => $this->slug,
                 'callback' => $sectionCallback,

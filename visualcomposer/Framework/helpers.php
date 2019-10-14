@@ -254,7 +254,7 @@ function vcLogWpErrorByCode($code, $errorMessage)
         $message .= PHP_EOL
             . '<span class="vcv-error-screen-text-default">You may need to contact your hosting provider for assistance. If the problem still occurs, visit <a href="https://support.visualcomposer.io/" target="_blank">support.visualcomposer.io</a> for technical assistance</span>';
     }
-    $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'vcwb'), $errorMessage);
+    $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'visualcomposer'), $errorMessage);
     vchelper('Logger')->log($message);
 
     return true;
@@ -301,7 +301,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong JSON response
                 $loggerHelper->log(
-                    __('Wrong response body received.', 'vcwb'),
+                    __('Wrong response body received.', 'visualcomposer'),
                     [
                         'body' => $body,
                     ]
@@ -315,7 +315,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong Response status
                 $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
-                $message = __('Bad status code received.', 'vcwb') . $additionalMessage;
+                $message = __('Bad status code received.', 'visualcomposer') . $additionalMessage;
                 $loggerHelper->log(
                     $message,
                     [
@@ -331,7 +331,7 @@ function _vcCheckIsResponseBad($response)
             $responseCode = wp_remote_retrieve_response_code($response);
             $isRequestError = $responseCode !== 200;
             if ($isRequestError) {
-                $message = sprintf(__('Bad response status code %d received.', 'vcwb'), $responseCode);
+                $message = sprintf(__('Bad response status code %d received.', 'visualcomposer'), $responseCode);
                 $loggerHelper->log(
                     $message,
                     [
@@ -347,7 +347,7 @@ function _vcCheckIsResponseBad($response)
     $isFilterError = isset($response['status']) && !$response['status'];
     if ($isFilterError) {
         $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
-        $message = __('Failed to process action.', 'vcwb') . $additionalMessage;
+        $message = __('Failed to process action.', 'visualcomposer') . $additionalMessage;
         $loggerHelper->log(
             $message,
             [

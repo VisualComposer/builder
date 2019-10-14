@@ -50,13 +50,13 @@ class CssEditor extends Container implements Module
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
-                esc_html__('Add custom CSS code to insert it globally on every page.', 'vcwb')
+                esc_html__('Add custom CSS code to insert it globally on every page.', 'visualcomposer')
             );
         };
 
         $fieldSlug = 'settingsGlobalCss';
         $globalSetting = [
-            'label' => __('Custom CSS', 'vcwb'),
+            'label' => __('Custom CSS', 'visualcomposer'),
             'slug' => $fieldSlug,
             'value' => $optionsHelper->get($fieldSlug),
         ];

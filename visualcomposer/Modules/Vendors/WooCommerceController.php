@@ -43,27 +43,27 @@ class WooCommerceController extends Container implements Module
     protected function addPages($pages)
     {
         $pages[] = [
-            'title' => __('Woocommerce Shop', 'vcwb'),
+            'title' => __('Woocommerce Shop', 'visualcomposer'),
             'name' => 'woocommerce-shop',
         ];
         $pages[] = [
-            'title' => __('Woocommerce Cart', 'vcwb'),
+            'title' => __('Woocommerce Cart', 'visualcomposer'),
             'name' => 'woocommerce-cart',
         ];
         $pages[] = [
-            'title' => __('Woocommerce Checkout', 'vcwb'),
+            'title' => __('Woocommerce Checkout', 'visualcomposer'),
             'name' => 'woocommerce-checkout',
         ];
         $pages[] = [
-            'title' => __('Woocommerce My Account', 'vcwb'),
+            'title' => __('Woocommerce My Account', 'visualcomposer'),
             'name' => 'woocommerce-account',
         ];
         $pages[] = [
-            'title' => __('Woocommerce Product Category', 'vcwb'),
+            'title' => __('Woocommerce Product Category', 'visualcomposer'),
             'name' => 'woocommerce-category',
         ];
         $pages[] = [
-            'title' => __('Woocommerce Terms', 'vcwb'),
+            'title' => __('Woocommerce Terms', 'visualcomposer'),
             'name' => 'woocommerce-terms',
         ];
 

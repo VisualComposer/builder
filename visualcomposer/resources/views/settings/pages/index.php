@@ -113,7 +113,7 @@ if (!defined('ABSPATH')) {
     );
     ?>
 
-    <?php submit_button(__('Save Changes', 'vcwb'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>
+    <?php submit_button(__('Save Changes', 'visualcomposer'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>
 
     <input type="hidden" name="vcv_action" value="vcv_action-<?php echo esc_attr(
         $slug

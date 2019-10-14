@@ -77,7 +77,7 @@ class Settings extends Container implements Module
 
         $page = [
             'slug' => $this->slug,
-            'title' => __('Settings', 'vcwb'),
+            'title' => __('Settings', 'visualcomposer'),
             'showTab' => false,
             'layout' => $layout,
             'controller' => $this,
