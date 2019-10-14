@@ -82,7 +82,7 @@ class SystemStatus extends Container implements Module
     protected function addSettingsTab($tabs)
     {
         $tabs[$this->slug] = [
-            'name' => __('System Status', 'vcwb'),
+            'name' => __('System Status', 'visualcomposer'),
         ];
 
         return $tabs;
@@ -121,7 +121,7 @@ class SystemStatus extends Container implements Module
     public function getPhpVersionStatusForView()
     {
         $checkVersion = $this->statusHelper->getPhpVersionStatus();
-        $textResponse = $checkVersion ? PHP_VERSION : sprintf(__('PHP version %s or greater (recommended 7 or greater)', 'vcwb'), VCV_REQUIRED_PHP_VERSION);
+        $textResponse = $checkVersion ? PHP_VERSION : sprintf(__('PHP version %s or greater (recommended 7 or greater)', 'visualcomposer'), VCV_REQUIRED_PHP_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($checkVersion)];
     }
@@ -129,7 +129,7 @@ class SystemStatus extends Container implements Module
     public function getWpVersionStatusForView()
     {
         $wpVersionCheck = $this->statusHelper->getWpVersionStatus();
-        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf(__('WordPress version %s or greater', 'vcwb'), VCV_REQUIRED_BLOG_VERSION);
+        $textResponse = $wpVersionCheck ? get_bloginfo('version') : sprintf(__('WordPress version %s or greater', 'visualcomposer'), VCV_REQUIRED_BLOG_VERSION);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($wpVersionCheck)];
     }
@@ -138,7 +138,7 @@ class SystemStatus extends Container implements Module
     {
         $check = $this->statusHelper->getWpDebugStatus();
 
-        $textResponse = $check ? __('WP_DEBUG is FALSE', 'vcwb') : __('WP_DEBUG is TRUE', 'vcwb');
+        $textResponse = $check ? __('WP_DEBUG is FALSE', 'visualcomposer') : __('WP_DEBUG is TRUE', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -149,10 +149,10 @@ class SystemStatus extends Container implements Module
         $postMaxSizeTest = $this->statusHelper->getPostMaxSizeStatus();
 
         if ($postMaxSize === '-1') {
-            $postMaxSize = __('Unlimited', 'vcwb');
+            $postMaxSize = __('Unlimited', 'visualcomposer');
         }
 
-        $textResponse = $postMaxSizeTest ? $postMaxSize : sprintf(__('Post max size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
+        $textResponse = $postMaxSizeTest ? $postMaxSize : sprintf(__('Post max size should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($postMaxSizeTest)];
     }
@@ -163,10 +163,10 @@ class SystemStatus extends Container implements Module
         $memoryLimitCheck = $this->statusHelper->getMemoryLimitStatus();
 
         if ($memoryLimit === '-1') {
-            $memoryLimit = __('Unlimited', 'vcwb');
+            $memoryLimit = __('Unlimited', 'visualcomposer');
         }
 
-        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
+        $textResponse = $memoryLimitCheck ? $memoryLimit : sprintf(__('Memory limit should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultMemoryLimit(), $memoryLimit);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($memoryLimitCheck)];
     }
@@ -177,10 +177,10 @@ class SystemStatus extends Container implements Module
         $postMaxSizeCheck = $this->statusHelper->getPostMaxSizeStatus();
 
         if ($postMaxSize === '0') {
-            $postMaxSize = __('Unlimited', 'vcwb');
+            $postMaxSize = __('Unlimited', 'visualcomposer');
         }
 
-        $textResponse = $postMaxSizeCheck ? $postMaxSize : sprintf(__('post_max_size limit should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
+        $textResponse = $postMaxSizeCheck ? $postMaxSize : sprintf(__('post_max_size limit should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultPostMaxSize(), $postMaxSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($postMaxSizeCheck)];
     }
@@ -191,7 +191,7 @@ class SystemStatus extends Container implements Module
         $maxInputNestingLevelCheck = $this->statusHelper->getMaxInputNestingLevelStatus();
 
 
-        $textResponse = $maxInputNestingLevelCheck ? $maxInputNestingLevel : sprintf(__('max_input_nesting_level should be %s, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMaxInputNestingLevel(), $maxInputNestingLevel);
+        $textResponse = $maxInputNestingLevelCheck ? $maxInputNestingLevel : sprintf(__('max_input_nesting_level should be %s, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputNestingLevel(), $maxInputNestingLevel);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputNestingLevelCheck)];
     }
@@ -202,7 +202,7 @@ class SystemStatus extends Container implements Module
         $maxInputVarsCheck = $this->statusHelper->getMaxInputVarsStatus();
 
 
-        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %s, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultMaxInputVars(), $maxInputVars);
+        $textResponse = $maxInputVarsCheck ? $maxInputVars : sprintf(__('max_input_vars should be %s, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultMaxInputVars(), $maxInputVars);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxInputVarsCheck)];
     }
@@ -211,7 +211,7 @@ class SystemStatus extends Container implements Module
     {
         $maxExecutionTime = (int)$this->statusHelper->getPhpVariable('max_execution_time');
         $maxExecutionTimeCheck = $this->statusHelper->getTimeoutStatus();
-        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'vcwb'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
+        $textResponse = $maxExecutionTimeCheck ? $maxExecutionTime : sprintf(__('Max execution time should be %sS, currently it is %sS', 'visualcomposer'), $this->statusHelper->getDefaultExecutionTime(), $maxExecutionTime);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxExecutionTimeCheck)];
     }
@@ -220,7 +220,7 @@ class SystemStatus extends Container implements Module
     {
         $maxFileSize = $this->statusHelper->getPhpVariable('upload_max_filesize');
         $maxFileSizeCheck = $this->statusHelper->getUploadMaxFileSizeStatus();
-        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'vcwb'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
+        $textResponse = $maxFileSizeCheck ? $maxFileSize : sprintf(__('File max upload size should be %sM, currently it is %s', 'visualcomposer'), $this->statusHelper->getDefaultFileUploadSize(), $maxFileSize);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($maxFileSizeCheck)];
     }
@@ -228,7 +228,7 @@ class SystemStatus extends Container implements Module
     protected function getUploadDirAccessStatusForView()
     {
         $accessCheck = $this->statusHelper->getUploadDirAccessStatus();
-        $textResponse = $accessCheck ? __('Writable', 'vcwb') : __('Uploads directory is not writable', 'vcwb');
+        $textResponse = $accessCheck ? __('Writable', 'visualcomposer') : __('Uploads directory is not writable', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($accessCheck)];
     }
@@ -236,7 +236,7 @@ class SystemStatus extends Container implements Module
     protected function getFileSystemStatusForView()
     {
         $fsStatus = $this->statusHelper->getFileSystemStatus();
-        $textResponse = $fsStatus ? __('Direct', 'vcwb') : __('FS_METHOD should be direct', 'vcwb');
+        $textResponse = $fsStatus ? __('Direct', 'visualcomposer') : __('FS_METHOD should be direct', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($fsStatus)];
     }
@@ -244,7 +244,7 @@ class SystemStatus extends Container implements Module
     protected function getZipStatusForView()
     {
         $zipStatus = $this->statusHelper->getZipStatus();
-        $textResponse = $zipStatus ? __('Enabled', 'vcwb') : __('Zip extension is not installed', 'vcwb');
+        $textResponse = $zipStatus ? __('Enabled', 'visualcomposer') : __('Zip extension is not installed', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($zipStatus)];
     }
@@ -252,7 +252,7 @@ class SystemStatus extends Container implements Module
     protected function getCurlStatusForView()
     {
         $curlStatus = $this->statusHelper->getCurlStatus();
-        $textResponse = $curlStatus ? curl_version()['version'] : __('Curl extension is not installed', 'vcwb');
+        $textResponse = $curlStatus ? curl_version()['version'] : __('Curl extension is not installed', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($curlStatus)];
     }
@@ -260,7 +260,7 @@ class SystemStatus extends Container implements Module
     protected function getAwsConnectionStatusForView()
     {
         $check = $this->statusHelper->getAwsConnection();
-        $textResponse = $check ? __('Success', 'vcwb') : __('Connection with AWS was unsuccessful', 'vcwb');
+        $textResponse = $check ? __('Success', 'visualcomposer') : __('Connection with AWS was unsuccessful', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -268,7 +268,7 @@ class SystemStatus extends Container implements Module
     protected function getAccountConnectionStatusForView()
     {
         $check = $this->statusHelper->getAccountConnection();
-        $textResponse = $check ? __('Success', 'vcwb') : __('Connection with Account was unsuccessful', 'vcwb');
+        $textResponse = $check ? __('Success', 'visualcomposer') : __('Connection with Account was unsuccessful', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -327,7 +327,7 @@ class SystemStatus extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('System status', 'vcwb'),
+            'title' => __('System status', 'visualcomposer'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
             'controller' => $this,

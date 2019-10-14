@@ -230,7 +230,7 @@ class PostType implements Helper
         $data['adminDashboardUrl'] = self_admin_url('index.php');
         $data['adminDashboardPostTypeListUrl'] = self_admin_url('edit.php?post_type=' . get_post_type());
         // @codingStandardsIgnoreLine
-        $data['viewText'] = sprintf(__('View %s', 'vcwb'), $post_type_object->labels->singular_name);
+        $data['viewText'] = sprintf(__('View %s', 'visualcomposer'), $post_type_object->labels->singular_name);
 
         return $data;
     }
@@ -266,11 +266,11 @@ class PostType implements Helper
         /*
         $postTypesList[] = [
             'value' => 'custom',
-            'label' => __('Custom Query', 'vcwb'),
+            'label' => __('Custom Query', 'visualcomposer'),
         ];
         $postTypesList[] = [
             'value' => 'ids',
-            'label' => __('List of IDs', 'vcwb'),
+            'label' => __('List of IDs', 'visualcomposer'),
         ];
         */
 

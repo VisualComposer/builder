@@ -75,7 +75,7 @@ class NoticeController extends Container implements Module
                         $notice['message'],
                         // @codingStandardsIgnoreLine
                         $dismissUrl,
-                        esc_html__('Dismiss', 'vcwb')
+                        esc_html__('Dismiss', 'visualcomposer')
                     );
                 } else {
                     printf(

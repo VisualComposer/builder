@@ -165,7 +165,7 @@ class Update implements Helper
             ];
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new page', 'vcwb'),
+                'value' => __('Create new page', 'visualcomposer'),
                 'type' => 'constant',
             ];
         } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
@@ -181,7 +181,7 @@ class Update implements Helper
 
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new post', 'vcwb'),
+                'value' => __('Create new post', 'visualcomposer'),
                 'type' => 'constant',
             ];
         }

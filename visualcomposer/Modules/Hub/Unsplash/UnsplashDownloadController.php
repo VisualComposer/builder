@@ -73,12 +73,12 @@ class UnsplashDownloadController extends Container implements Module
             }
 
             $this->message = $this->setMessage(
-                __('Failed to get the image id, please try again!', 'vcwb') . ' #10084'
+                __('Failed to get the image id, please try again!', 'visualcomposer') . ' #10084'
             );
         }
 
         $this->message = $this->setMessage(
-            __('No access, please check your license and make sure your capabilities allow to upload files!', 'vcwb')
+            __('No access, please check your license and make sure your capabilities allow to upload files!', 'visualcomposer')
             . ' #10083'
         );
 
@@ -112,7 +112,7 @@ class UnsplashDownloadController extends Container implements Module
                     /** @var \WP_Error $results */
                     $this->message = $this->setMessage(
                         esc_html(
-                            is_object($results) ? $results->get_error_message() : __('Wrong image extension.', 'vcwb')
+                            is_object($results) ? $results->get_error_message() : __('Wrong image extension.', 'visualcomposer')
                         ) . ' #10080'
                     );
                 }
@@ -125,10 +125,10 @@ class UnsplashDownloadController extends Container implements Module
                 );
             } else {
                 $fileHelper->removeFile($tempImage);
-                $this->message = $this->setMessage(__('Unknown image format!', 'vcwb') . ' #10085');
+                $this->message = $this->setMessage(__('Unknown image format!', 'visualcomposer') . ' #10085');
             }
         }
-        $this->message = $this->setMessage(__('Unknown image provider!', 'vcwb') . ' #10082');
+        $this->message = $this->setMessage(__('Unknown image provider!', 'visualcomposer') . ' #10082');
 
         return ['status' => false, 'message' => $this->message];
     }

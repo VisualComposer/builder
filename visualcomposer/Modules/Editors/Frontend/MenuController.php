@@ -145,7 +145,7 @@ class MenuController extends Container implements Module
                     $linkClass = isset($link[4]) ? $link[4] : null;
                     $linkClass .= ' vcv-dashboard-admin-menu--add';
                     $submenu[ $key ][ $newIndex ] = [
-                        __('Add New with Visual&nbsp;Composer', 'vcwb'),
+                        __('Add New with Visual&nbsp;Composer', 'visualcomposer'),
                         $link[1],
                         vcfilter(
                             'vcv:frontend:url',

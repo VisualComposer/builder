@@ -90,7 +90,7 @@ class Controller extends Container implements Module
                 ' <a href="%s">%s</a>',
                 // @codingStandardsIgnoreLine
                 $url,
-                __('Edit with Visual Composer', 'vcwb')
+                __('Edit with Visual Composer', 'visualcomposer')
             );
         }
 
@@ -124,8 +124,8 @@ class Controller extends Container implements Module
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $wpAdminBar->add_menu(
                 [
-                    'id' => __('Edit with Visual Composer', 'vcwb'),
-                    'title' => __('Edit with Visual Composer', 'vcwb'),
+                    'id' => __('Edit with Visual Composer', 'visualcomposer'),
+                    'title' => __('Edit with Visual Composer', 'visualcomposer'),
                     'href' => $url,
                 ]
             );
@@ -149,7 +149,7 @@ class Controller extends Container implements Module
                 [
                     'parent' => $data['id'],
                     'id' => 'add-new-' . $key . '-vc',
-                    'title' => __('Add New with Visual Composer', 'vcwb'),
+                    'title' => __('Add New with Visual Composer', 'visualcomposer'),
                     'href' => vcfilter(
                         'vcv:frontend:url',
                         $urlHelper->query(admin_url($key), ['vcv-action' => 'frontend']),
@@ -181,7 +181,7 @@ class Controller extends Container implements Module
             && $userCapabilitiesHelper->canEdit(get_the_ID())
             && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => get_the_ID()])) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
-            $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'vcwb'));
+            $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'visualcomposer'));
         }
 
         return $actions;

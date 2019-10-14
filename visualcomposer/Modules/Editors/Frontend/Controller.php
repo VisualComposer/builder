@@ -97,8 +97,8 @@ class Controller extends Container implements Module
 
                 if (empty($content)) {
                     wp_die(
-                        '<h1>' . __('Cheatin&#8217; uh?', 'vcwb') . '</h1>' .
-                        '<p>' . __('Sorry, you are not allowed to create posts as this user.', 'vcwb') . '</p>',
+                        '<h1>' . __('Cheatin&#8217; uh?', 'visualcomposer') . '</h1>' .
+                        '<p>' . __('Sorry, you are not allowed to create posts as this user.', 'visualcomposer') . '</p>',
                         403
                     );
                 }

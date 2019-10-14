@@ -73,7 +73,7 @@ class EditPostLinksControllerTest extends WP_UnitTestCase
         $return = $module->call('adminRowLinks', [$actions]);
         $this->assertTrue(is_array($return));
         $this->assertTrue(array_key_exists('edit_vc5', $return));
-        $this->assertTrue(strpos($return['edit_vc5'], __('Edit with Visual Composer', 'vcwb')) !== false);
+        $this->assertTrue(strpos($return['edit_vc5'], __('Edit with Visual Composer', 'visualcomposer')) !== false);
         $this->assertTrue(strpos($return['edit_vc5'], '<a href=') !== false);
     }
 }

@@ -100,7 +100,7 @@ class GoPremium extends Container implements Module
     {
         return sprintf(
             '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
-            __('Go Premium', 'vcwb')
+            __('Go Premium', 'visualcomposer')
         );
     }
 
@@ -117,7 +117,7 @@ class GoPremium extends Container implements Module
         $goPremiumLink = sprintf(
             '<a href="%s">%s</a>',
             esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
-            __('Go Premium', 'vcwb')
+            __('Go Premium', 'visualcomposer')
         );
 
         array_push($links, $goPremiumLink);

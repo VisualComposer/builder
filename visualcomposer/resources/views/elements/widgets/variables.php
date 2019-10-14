@@ -16,7 +16,7 @@ if (!empty($groups['wpWidgetsCustom'])) {
         json_encode(
             [
                 [
-                    'label' => __('No Custom widgets found', 'vcwb'),
+                    'label' => __('No Custom widgets found', 'visualcomposer'),
                     'value' => '',
                 ],
             ]
@@ -33,7 +33,7 @@ if (!empty($groups['wpWidgetsDefault'])) {
         json_encode(
             [
                 [
-                    'label' => __('No Widgets found', 'vcwb'),
+                    'label' => __('No Widgets found', 'visualcomposer'),
                     'value' => '',
                 ],
             ]

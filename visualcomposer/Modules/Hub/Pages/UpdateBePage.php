@@ -89,7 +89,7 @@ class UpdateBePage extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('Update', 'vcwb'),
+            'title' => __('Update', 'visualcomposer'),
             'showTab' => false,
             'layout' => 'standalone',
             'controller' => $this,

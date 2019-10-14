@@ -88,7 +88,7 @@ class About extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('About', 'vcwb'),
+            'title' => __('About', 'visualcomposer'),
             'layout' => 'standalone',
             'showTab' => false,
             'controller' => $this,

@@ -18,7 +18,7 @@ $tabsHtml = '';
 
 foreach ($tabs as $tabKey => $tab) {
     $activeClass = $tabKey === $activeTab ? ' nav-tab-active' : '';
-    $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="nav-tab' . esc_attr($activeClass) . '">' . esc_html__($tab['name'], 'vcwb') . '</a>';
+    $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="nav-tab' . esc_attr($activeClass) . '">' . esc_html__($tab['name'], 'visualcomposer') . '</a>';
 }
 
 evcview('settings/partials/admin-nonce');

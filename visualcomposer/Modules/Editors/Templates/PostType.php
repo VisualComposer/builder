@@ -35,7 +35,7 @@ class PostType extends Container implements Module
         register_post_type(
             $this->postType,
             [
-                'label' => __('Global Templates', 'vcwb'),
+                'label' => __('Global Templates', 'visualcomposer'),
                 'public' => false,
                 'publicly_queryable' => false,
                 'exclude_from_search' => true,

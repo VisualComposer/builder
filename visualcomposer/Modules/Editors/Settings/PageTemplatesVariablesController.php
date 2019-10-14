@@ -47,18 +47,18 @@ class PageTemplatesVariablesController extends Container implements Module
         if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
             $value = [
                 [
-                    'label' => __('Blank Template', 'vcwb'),
+                    'label' => __('Blank Template', 'visualcomposer'),
                     'value' => 'blank',
                 ],
             ];
         } else {
             $value = [
                 [
-                    'label' => __('Boxed Template', 'vcwb'),
+                    'label' => __('Boxed Template', 'visualcomposer'),
                     'value' => 'boxed',
                 ],
                 [
-                    'label' => __('Blank Template', 'vcwb'),
+                    'label' => __('Blank Template', 'visualcomposer'),
                     'value' => 'blank',
                 ],
             ];
@@ -71,7 +71,7 @@ class PageTemplatesVariablesController extends Container implements Module
                 [
                     [
                         'type' => 'vc',
-                        'title' => __('Visual Composer', 'vcwb'),
+                        'title' => __('Visual Composer', 'visualcomposer'),
                         'values' => $value,
                     ],
                 ]
@@ -87,7 +87,7 @@ class PageTemplatesVariablesController extends Container implements Module
         $pageTemplates = get_page_templates();
         $pageTemplatesList = [
             [
-                'label' => __('Default', 'vcwb'),
+                'label' => __('Default', 'visualcomposer'),
                 'value' => 'default',
             ],
         ];
@@ -107,7 +107,7 @@ class PageTemplatesVariablesController extends Container implements Module
                 [
                     [
                         'type' => 'theme',
-                        'title' => __('Theme Templates', 'vcwb'),
+                        'title' => __('Theme Templates', 'visualcomposer'),
                         'values' => $pageTemplatesList,
                     ],
                 ]

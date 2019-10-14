@@ -11,7 +11,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.6
  * Tested up to: 5.2.3
- * Text Domain: vcwb
+ * Text Domain: visualcomposer
  * Domain Path: /languages/
  */
 
