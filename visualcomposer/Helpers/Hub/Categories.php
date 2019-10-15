@@ -269,7 +269,8 @@ class Categories implements Helper
                     'timelineWithIcons',
                     'bannerElement',
                     'profileWithIcon',
-                    'soundcloudPlayer'
+                    'soundcloudPlayer',
+                    'simpleContactForm'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
