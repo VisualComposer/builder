@@ -120,7 +120,7 @@ class UnsplashDownloadController extends Container implements Module
                 $this->message = $this->setMessage(
                     __(
                         'Failed to download image, make sure that your upload folder is writable and please try again!',
-                        'vcwb'
+                        'visualcomposer'
                     ) . ' #10081'
                 );
             } else {

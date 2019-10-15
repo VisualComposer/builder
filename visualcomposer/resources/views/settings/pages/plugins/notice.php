@@ -16,7 +16,7 @@ global $status, $page, $s, $totals;
                         __(
                             'You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use
                     <a href="%s">this free plugin</a> that will load CSS styles automatically.',
-                            'vcwb'
+                            'visualcomposer'
                         ),
                         'https://visualcomposer.com/deactivate'
                     );
@@ -38,7 +38,7 @@ global $status, $page, $s, $totals;
                     ?>" class="vcv-deactivation-submit-button button button-primary"><?php
                         echo esc_html__(
                             'Deactivate Visual Composer',
-                            'vcwb'
+                            'visualcomposer'
                         ); ?></a>
                 </p>
             </div>

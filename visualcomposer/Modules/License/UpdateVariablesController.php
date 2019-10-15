@@ -41,7 +41,7 @@ class UpdateVariablesController extends Container implements Module
                         'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-01.png'),
                         'title' => __(
                             'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
-                            'vcwb'
+                            'visualcomposer'
                         ),
                     ],
                     [
@@ -49,7 +49,7 @@ class UpdateVariablesController extends Container implements Module
                         'title' => esc_js(
                             __(
                                 'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
-                                'vcwb'
+                                'visualcomposer'
                             )
                         ),
                     ],
@@ -58,7 +58,7 @@ class UpdateVariablesController extends Container implements Module
                         'title' => esc_js(
                             __(
                                 'Unparallel performance for you and your website to rank higher and deliver faster.',
-                                'vcwb'
+                                'visualcomposer'
                             )
                         ),
                     ],
@@ -67,7 +67,7 @@ class UpdateVariablesController extends Container implements Module
                         'title' => esc_js(
                             __(
                                 'Control every detail of your website with flexible design options and customization tools.',
-                                'vcwb'
+                                'visualcomposer'
                             )
                         ),
                     ],

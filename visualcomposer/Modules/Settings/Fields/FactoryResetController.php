@@ -76,7 +76,7 @@ class FactoryResetController extends Container implements Module
 
             $sectionDescription = __(
                 'Restore default plugin state to re-download all installed bundles and auto-configure path after migration (don’t worry, the content of the site will not be affected) - %s.',
-                'vcwb'
+                'visualcomposer'
             );
             // @codingStandardsIgnoreStart
             echo sprintf(

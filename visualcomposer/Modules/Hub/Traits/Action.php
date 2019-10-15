@@ -71,7 +71,7 @@ trait Action
 
 If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.
 ',
-                            'vcwb'
+                            'visualcomposer'
                         ),
                         '<a href="https://support.visualcomposer.io/" target="_blank">',
                         '</a>'

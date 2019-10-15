@@ -89,7 +89,7 @@ class GutenbergAttributeController extends Container implements Module
                     '<p class="description">%s</p>',
                     esc_html__(
                         'Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer.',
-                        'vcwb'
+                        'visualcomposer'
                     )
                 );
             };
@@ -273,52 +273,52 @@ class GutenbergAttributeController extends Container implements Module
             'featured_image' => _x(
                 'Gutenberg attr Cover Image',
                 'Overrides the “Featured Image” phrase for this post type. Added in 4.3',
-                'vcwb'
+                'visualcomposer'
             ),
             'set_featured_image' => _x(
                 'Set cover image',
                 'Overrides the “Set featured image” phrase for this post type. Added in 4.3',
-                'vcwb'
+                'visualcomposer'
             ),
             'remove_featured_image' => _x(
                 'Remove cover image',
                 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3',
-                'vcwb'
+                'visualcomposer'
             ),
             'use_featured_image' => _x(
                 'Use as cover image',
                 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3',
-                'vcwb'
+                'visualcomposer'
             ),
             'archives' => _x(
                 'Gutenberg attr archives',
                 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4',
-                'vcwb'
+                'visualcomposer'
             ),
             'insert_into_item' => _x(
                 'Add into Gutenberg attr',
                 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4',
-                'vcwb'
+                'visualcomposer'
             ),
             'uploaded_to_this_item' => _x(
                 'Uploaded to this Gutenberg attr',
                 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4',
-                'vcwb'
+                'visualcomposer'
             ),
             'filter_items_list' => _x(
                 'Filter Gutenberg attrs list',
                 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4',
-                'vcwb'
+                'visualcomposer'
             ),
             'items_list_navigation' => _x(
                 'Gutenberg attrs list navigation',
                 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4',
-                'vcwb'
+                'visualcomposer'
             ),
             'items_list' => _x(
                 'Gutenberg attrs list',
                 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4',
-                'vcwb'
+                'visualcomposer'
             ),
         ];
         $args = [

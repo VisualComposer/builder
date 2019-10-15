@@ -78,7 +78,7 @@ class MenuController extends Container implements Module
                         $newLink = '<a href="' . $newUrl . '" class="page-title-action">' .
                             __(
                                 'Add New with Visual Composer',
-                                'vcwb'
+                                'visualcomposer'
                             ) . '</a>';
 
                         return $data[0] . $newLink;

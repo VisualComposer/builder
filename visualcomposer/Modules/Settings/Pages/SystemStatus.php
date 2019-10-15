@@ -356,7 +356,7 @@ class SystemStatus extends Container implements Module
                     sprintf(
                         __(
                             'It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href="%s">system status</a> page.',
-                            'vcwb'
+                            'visualcomposer'
                         ),
                         admin_url('admin.php?page=' . $systemStatus->slug)
                     ),
