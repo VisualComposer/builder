@@ -48,7 +48,7 @@ class ItemPreviewController extends Container implements Module
                 '<p class="description">%s</p>',
                 esc_html__(
                     'Disable element and template preview popup in Add Element and Add Template windows.',
-                    'vcwb'
+                    'visualcomposer'
                 )
             );
         };

@@ -51,7 +51,7 @@ class JsEditor extends Container implements Module
                 '<p class="description">%s</p>',
                 esc_html__(
                     'Add custom HTML or JavaScript code to insert it globally on every page in <header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.',
-                    'vcwb'
+                    'visualcomposer'
                 )
             );
         };

@@ -171,27 +171,27 @@ function vcLogWpHttpCodes($code)
         case 'http_no_url':
             $message = __(
                 'An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'http_no_file':
             $message = __(
                 'An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'http_404':
             $message = __(
                 'An error occurred during the Visual Composer extension download process. 
 <ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'http_request_failed':
             $message = __(
                 'An HTTP requests failed during the download process of the plugin.
 <ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to <a href="https://account.visualcomposer.io" target="_blank">https://account.visualcomposer.io</a></li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
-                'vcwb'
+                'visualcomposer'
             );
             break;
     }
@@ -214,39 +214,39 @@ function vcLogWpErrorByCode($code, $errorMessage)
         case 'fs_unavailable':
             $message = __(
                 'An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'incompatible_archive':
         case 'stat_failed_ziparchive':
             $message = __(
                 'A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'disk_full_unzip_file':
             $message = __(
                 'We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'mkdir_failed_ziparchive':
         case 'mkdir_failed_copy_dir':
             $message = __(
                 'We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'copy_failed_ziparchive':
             $message = __(
                 'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
         case 'copy_failed_copy_dir':
             $message = __(
                 'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
-                'vcwb'
+                'visualcomposer'
             );
             break;
     }

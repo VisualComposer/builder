@@ -124,7 +124,7 @@ if (!defined('ABSPATH')) {
                             <p>
                                 <?php echo esc_html__(
                                     'There is a new version of Visual Composer Website Builder available.',
-                                    'vcwb'
+                                    'visualcomposer'
                                 ); ?>
                                 <a href="<?php echo self_admin_url('plugins.php'); ?>" class="update-link"><?php echo esc_html('Update', 'visualcomposer'); ?></a>.
                             </p>
@@ -149,7 +149,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'The maximum amout of memory (RAM) that your site can use at one time',
-                            'vcwb'
+                            'visualcomposer'
                         ); ?>
                     </span>
                 </td>
@@ -162,7 +162,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'Sets max size of post data allowed. This setting also affects file upload.',
-                            'vcwb'
+                            'visualcomposer'
                         ) ?>
                     </span>
                 </td>
@@ -175,7 +175,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'Sets the max nesting depth of input variables (i.e. $_GET, $_POST.)',
-                            'vcwb'
+                            'visualcomposer'
                         ) ?>
                     </span>
                 </td>
@@ -188,7 +188,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'How many input variables may be accepted (limit is applied to $_GET, $_POST and $_COOKIE superglobal separately)',
-                            'vcwb'
+                            'visualcomposer'
                         ); ?>
                     </span>
                 </td>
@@ -211,7 +211,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'The largest filesize that can be uploaded to your WordPress installation',
-                            'vcwb'
+                            'visualcomposer'
                         ) ?>
                     </span>
                 </td>
@@ -224,7 +224,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen.',
-                            'vcwb'
+                            'visualcomposer'
                         ) ?>
                     </span>
                 </td>
@@ -307,7 +307,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
                             'Ability to send large data. In case if failed - adjust your php.ini file to increase memory_limit, post_max_size and execution time.',
-                            'vcwb'
+                            'visualcomposer'
                         ) ?>
                 </span>
                 </td>

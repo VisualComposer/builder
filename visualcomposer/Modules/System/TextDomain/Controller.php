@@ -33,6 +33,6 @@ class Controller extends Container implements Module
 
     protected function setDomain()
     {
-        load_plugin_textdomain('vcwb', false, VCV_PLUGIN_DIRNAME . '/languages');
+        load_plugin_textdomain('visualcomposer', false, VCV_PLUGIN_DIRNAME . '/languages');
     }
 }

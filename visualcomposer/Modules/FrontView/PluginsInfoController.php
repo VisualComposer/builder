@@ -40,7 +40,7 @@ class PluginsInfoController extends Container implements Module
         if (apply_filters('vcv:api:output:meta', apply_filters('vcv:output:meta', true))) {
             $text = __(
                 'Powered by Visual Composer Website Builder - fast and easy to use drag and drop builder for experts and beginners.',
-                'vcwb'
+                'visualcomposer'
             );
             echo sprintf(
                 '<meta name="generator" content="%s"/>',
