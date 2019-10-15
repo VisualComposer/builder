@@ -93,6 +93,9 @@ jobs:
             wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=test --dbuser=wpuser --allow-root
             wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --allow-root --debug
             sudo chmod 777 /var/www/html/wp-content/uploads
+      - run:
+          name: Activate plugin
+          command: wp plugin activate visualcomposer
       - run: php ci/composer.phar install
       - run:
           name: Link files and directories

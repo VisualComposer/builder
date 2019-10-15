@@ -37,7 +37,7 @@ Cypress.Commands.add('login', () => {
   cy.get('#user_login').type(Cypress.env('wpUserName'))
   cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
   // // Plugin activation
-  if (Cypress.env('serverType') !== 'local') {
+  if (Cypress.env('serverType') !== 'local' && Cypress.env('serverType') !== 'ci') {
     cy.visit('/wp-admin/plugins.php')
     cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"]`).then(($block) => {
       if (!$block.hasClass('active')) {
