@@ -95,7 +95,7 @@ jobs:
             sudo chmod 777 /var/www/html/wp-content/uploads
       - run:
           name: Activate plugin
-          command: wp plugin activate visualcomposer
+          command: wp plugin activate visualcomposer --path=/var/www/html
       - run: php ci/composer.phar install
       - run:
           name: Link files and directories
