@@ -102,11 +102,10 @@ class DataController extends Container implements Module
 
     protected function updateGlobalCssFromSettings(Request $requestHelper, Options $optionsHelper)
     {
-        if ($GLOBALS['this_file'] === 'options.php'
-            && $requestHelper->input(
-                'vcv-settingsGlobalCss-compiled',
-                'not-changed'
-            ) !== 'not-changed') {
+        if ($requestHelper->input('vcv-settingsGlobalCss-compiled', 'not-changed') !== 'not-changed'
+            && $requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)
+            && $requestHelper->input('vcv-action') === 'settings:save:adminNonce'
+        ) {
             // Save Request from vcv-settings page custom-css tab
             $optionsHelper->set('globalElementsCss', $requestHelper->input('vcv-settingsGlobalCss-compiled'));
         }

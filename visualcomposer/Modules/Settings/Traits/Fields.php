@@ -45,25 +45,8 @@ trait Fields
             $sectionData
         );
 
-        add_settings_section(
-            $sectionData['group'] . '_' . $sectionData['slug'],
-            $sectionData['title'],
-            $sectionData['callback'],
-            $sectionData['page']
-        );
-
-        if (isset($sectionData['vcv-args']) && !empty($sectionData['vcv-args'])) {
-            // @codingStandardsIgnoreStart
-            global $wp_settings_sections;
-
-            if (isset($sectionData['vcv-args']['parent'])) {
-                $sectionData['vcv-args']['parent'] = $sectionData['group'] . '_' . $sectionData['vcv-args']['parent'];
-            }
-
-            $wp_settings_sections[ $sectionData['group'] ][ $sectionData['group'] . '_'
-            . $sectionData['slug'] ]['vcv-args'] = $sectionData['vcv-args'];
-            // @codingStandardsIgnoreEnd
-        }
+        $sectionsRegistry = vchelper('SettingsSectionsRegistry');
+        $sectionsRegistry->set($sectionData['group'] . '_' . $sectionData['slug'], $sectionData);
 
         return $this;
     }
@@ -82,7 +65,7 @@ trait Fields
                 'slug' => $this->optionSlug,
                 'name' => '',
                 'title' => '',
-                'page' => '',
+                'page' => 'vcv-settings',
                 'fieldCallback' => function ($data) {
                     return $data;
                 },
@@ -94,18 +77,10 @@ trait Fields
             $fieldData
         );
 
-        register_setting(
-            $fieldData['group'] . '_' . $fieldData['page'],
-            VCV_PREFIX . $fieldData['name'],
-            $fieldData['sanitizeCallback']
-        );
-        add_settings_field(
+        $fieldsRegistry = vchelper('SettingsFieldsRegistry');
+        $fieldsRegistry->set(
             $fieldData['id'] ? $fieldData['id'] : VCV_PREFIX . $fieldData['name'],
-            $fieldData['title'],
-            $fieldData['fieldCallback'],
-            $fieldData['page'],
-            $fieldData['group'] . '_' . $fieldData['slug'],
-            $fieldData['args']
+            $fieldData
         );
 
         return $this;

@@ -16,12 +16,19 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Fields;
 
+/**
+ * Class PostTypes
+ * @package VisualComposer\Modules\Settings\Fields
+ */
 class PostTypes extends Container implements Module
 {
     use Fields;
     use WpFiltersActions;
     use EventsFilters;
 
+    /**
+     * @var string
+     */
     protected $slug = 'vcv-settings';
 
     /**
@@ -49,7 +56,10 @@ class PostTypes extends Container implements Module
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
-                esc_html__('Specify post types where you want to use Visual Composer Website Builder.', 'visualcomposer')
+                esc_html__(
+                    'Specify post types where you want to use Visual Composer Website Builder.',
+                    'visualcomposer'
+                )
             );
         };
         $this->addSection(
@@ -63,7 +73,7 @@ class PostTypes extends Container implements Module
         $availablePostTypes = $postTypeHelper->getPostTypes(['attachment']);
         foreach ($availablePostTypes as $postType) {
             $fieldCallback = function ($data) use ($postType) {
-                /** @see \VisualComposer\Modules\Settings\Pages\PostTypes::renderPostTypes */
+                /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::renderPostTypes */
                 echo $this->call('renderPostTypes', ['data' => $data, 'postType' => $postType]);
             };
 
@@ -79,10 +89,19 @@ class PostTypes extends Container implements Module
         }
     }
 
+    /**
+     * Render post types toggle list
+     *
+     * @param $data
+     * @param $postType
+     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     *
+     * @return mixed|string
+     */
     protected function renderPostTypes($data, $postType, EditorPostType $editorPostTypeHelper)
     {
         return vcview(
-            'settings/pages/post-types/post-types-toggle',
+            'settings/fields/post-types/post-types-toggle',
             [
                 'postType' => $postType,
                 'enabledPostTypes' => $editorPostTypeHelper->getEnabledPostTypes(),

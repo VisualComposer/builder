@@ -16,13 +16,13 @@ class Gutenberg implements Helper
     {
         $optionsHelper = vchelper('Options');
         $requestHelper = vchelper('Request');
-        $settings = $optionsHelper->get('settings', ['gutenberg-editor']);
-        $screen = get_current_screen();
+        $isEnabled = (bool)$optionsHelper->get('settings-gutenberg-editor-enabled', true);
 
+        $screen = get_current_screen();
 
         $available = false;
         if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
-            && (!empty($settings) && in_array('gutenberg-editor', $settings))
+            && $isEnabled
             && (method_exists($screen, 'is_block_editor')
                 && !$screen->is_block_editor())
             && !$requestHelper->exists('classic-editor')

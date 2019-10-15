@@ -5,21 +5,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/** @var array $enabledOptions */
-/** @var sting $value */
+/** @var bool $isEnabled */
+/** @var string $name */
+/** @var string $value */
+/** @var string $title */
 ?>
 
 <div class="vcv-ui-form-switch-container">
     <label class="vcv-ui-form-switch">
-        <input type="checkbox" value="<?php echo esc_attr(
-            $value
-        ); ?>" name="<?php echo esc_attr(isset($key) ? $key : 'vcv-settings'); ?>[]" <?php echo in_array(
-            $value,
-            $enabledOptions,
-            true
-        ) ? 'checked="checked"' : ''; ?> />
+        <input type="checkbox" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($name); ?>" <?php echo $isEnabled ? 'checked="checked"' : ''; ?> />
         <span class="vcv-ui-form-switch-indicator"></span>
         <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo esc_attr__('on', 'visualcomposer'); ?>"></span>
         <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo esc_attr__('off', 'visualcomposer'); ?>"></span>
     </label>
+    <span><?php echo isset($title) ? $title : ''; ?></span>
 </div>
