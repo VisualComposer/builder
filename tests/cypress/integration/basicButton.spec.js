@@ -144,7 +144,7 @@ describe(ELEMENT_NAME, function () {
 
       if (Cypress.env('checkSnapshots')) {
         cy.wait(2000)
-        cy.get(`#${settings.customId}`).matchImageSnapshot({ blur: 1 })
+        cy.get(`#${settings.customId}`).matchImageSnapshot({ blur: 2 })
       }
     })
   })
