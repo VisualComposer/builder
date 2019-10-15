@@ -91,7 +91,7 @@ class CssEditor extends Container implements Module
     protected function renderEditor($data, $globalSetting)
     {
         return vcview(
-            'settings/pages/css-editor/css-editor',
+            'settings/fields/css-editor/css-editor',
             [
                 'globalSetting' => $globalSetting,
             ]

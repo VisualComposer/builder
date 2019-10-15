@@ -54,50 +54,20 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 <?php } ?>
-<form action="options.php"
+<form action="<?php echo vchelper('Url')->adminAjax(
+    ['vcv-action' => 'settings:save:adminNonce', 'vcv-nonce' => vchelper('Nonce')->admin()]
+); ?>"
         method="post"
         data-vcv-ui-element="settings-tab-<?php echo esc_attr($slug); ?>"
-        class="vcv-settings-tab-content vcv-settings-tab-content-active"
-    <?php
-    // @codingStandardsIgnoreLine
-    echo apply_filters('vc_setting-tab-form-' . esc_attr($slug), '');
-    ?>
->
-    <?php settings_fields($slug . '_' . $slug) ?>
-
+        class="vcv-settings-tab-content vcv-settings-tab-content-active">
     <?php
 
-    // @codingStandardsIgnoreStart
-    global $wp_settings_sections;
-    $wpSettingsSection = $wp_settings_sections;
-    // @codingStandardsIgnoreEnd
+    $sectionsRegistry = vchelper('SettingsSectionsRegistry');
+    $orderedSections = $sectionsRegistry->getHiearchy($sectionsRegistry->findBySlug($slug));
 
-    if (!isset($wpSettingsSection[ $slug ])) {
-        return;
-    }
-
-    $sections = (array)$wpSettingsSection[ $slug ];
-    $orderedSections = [];
-    $buildTree = function ($buildTree, array $elements, $parentId = null) {
-        $branch = [];
-
-        foreach ($elements as $key => $element) {
-            $isset = isset($element['vcv-args'], $element['vcv-args']['parent']);
-            if ((!$isset && !$parentId) || ($isset && $element['vcv-args']['parent'] === $parentId)) {
-                $children = $buildTree($buildTree, $elements, $element['id']);
-                if ($children) {
-                    $element['children'] = $children;
-                }
-                $branch[ $key ] = $element;
-            }
-        }
-
-        return $branch;
-    };
-
-    $orderedSections = $buildTree($buildTree, $sections, null);
+    $viewsHelper = vchelper('Views');
     foreach ($orderedSections as $section) {
-        vchelper('Views')->doNestedSection($section, $slug);
+        $viewsHelper->doNestedSection($section, $slug);
     }
 
     $submitButtonAttributes = [];
@@ -113,6 +83,7 @@ if (!defined('ABSPATH')) {
     );
     ?>
 
+    <?php $viewsHelper->renderedFieldsList(); ?>
     <?php submit_button(__('Save Changes', 'visualcomposer'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>
 
     <input type="hidden" name="vcv_action" value="vcv_action-<?php echo esc_attr(

@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 /** @var string $emptyTitle */
 ?>
 
-<div class="vcv-ui-form-switch-container<?php echo isset($description) ? ' vcv-ui-form-switch-container-has-description' : ''; ?>">
+<div class="vcv-ui-form-group<?php echo isset($description) ? ' vcv-ui-form-switch-container-has-description' : ''; ?>">
     <select class="vcv-ui-form-dropdown" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
         <?php if (isset($emptyTitle)) : ?>
             <option value=""><?php echo $emptyTitle; ?></option>

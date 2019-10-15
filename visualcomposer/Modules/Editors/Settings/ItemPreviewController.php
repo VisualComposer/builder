@@ -30,14 +30,14 @@ class ItemPreviewController extends Container implements Module
     public function __construct()
     {
         $this->optionGroup = $this->slug;
-        $this->optionSlug = 'vcv-frontendSettings';
+        $this->optionSlug = 'vcv-settings-itempreview-enabled';
         $this->addFilter('vcv:dataAjax:getData', 'outputItemPreview');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
 
         $this->wpAddAction(
             'admin_init',
             'buildPage',
-            11
+            50
         );
     }
 
@@ -47,29 +47,30 @@ class ItemPreviewController extends Container implements Module
             echo sprintf(
                 '<p class="description">%s</p>',
                 esc_html__(
-                    'Disable element and template preview popup in Add Element and Add Template windows.',
+                    'Enable element and template preview popup in Add Element and Add Template windows.',
                     'visualcomposer'
                 )
             );
         };
         $this->addSection(
             [
-                'title' => __('Disable preview', 'visualcomposer'),
+                'title' => __('Enable Preview', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
         );
 
         $fieldCallback = function () {
+            /** @see \VisualComposer\Modules\Editors\Settings\ItemPreviewController::renderToggle */
             echo $this->call('renderToggle', ['value' => 'itemPreviewDisabled']);
         };
 
         $this->addField(
             [
                 'page' => $this->slug,
-                'title' => __('Disable Preview', 'visualcomposer'),
-                'name' => 'frontendSettings',
-                'id' => 'vcv-frontendSettings-itemPreviewDisabled',
+                'title' => __('Preview', 'visualcomposer'),
+                'name' => 'settings-itempreview-enabled',
+                'id' => $this->optionSlug,
                 'fieldCallback' => $fieldCallback,
             ]
         );
@@ -83,36 +84,28 @@ class ItemPreviewController extends Container implements Module
      */
     protected function renderToggle($value, Options $optionsHelper)
     {
-        $settings = (array)$optionsHelper->get('frontendSettings', []);
-        if (array_key_exists('itemPreviewDisabled', $settings) && $settings['itemPreviewDisabled']) {
-            $settings[] = 'itemPreviewDisabled';
-        }
+        $isEnabled = (bool)$optionsHelper->get('settings-itempreview-enabled', true);
 
         return vcview(
-            'settings/option-toggle',
+            'settings/fields/toggle',
             [
-                'key' => $this->optionSlug,
+                'name' => $this->optionSlug,
                 'value' => $value,
-                'enabledOptions' => $settings,
+                'isEnabled' => $isEnabled,
             ]
         );
     }
 
     protected function outputItemPreview($response, $payload, Options $optionsHelper)
     {
-        $frontendSettings = (array)$optionsHelper->get('frontendSettings', []);
-
-        $response['itemPreviewDisabled'] = false;
-        if ((array_key_exists('itemPreviewDisabled', $frontendSettings) && $frontendSettings['itemPreviewDisabled'])
-            || in_array('itemPreviewDisabled', $frontendSettings, true)) {
-            $response['itemPreviewDisabled'] = true;
-        }
+        $isEnabled = $optionsHelper->get('settings-itempreview-enabled', true);
+        $response['itemPreviewDisabled'] = !$isEnabled;
 
         return $response;
     }
 
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper->delete('frontendSettings');
+        $optionsHelper->delete('settings-itempreview-disabled');
     }
 }

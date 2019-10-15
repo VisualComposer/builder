@@ -11,8 +11,8 @@ if (isset($_GET['page'])) {
     $activeTab = esc_attr($_GET['page']);
 }
 
-$tabsHelper = vchelper('Tabs');
-$tabs = $tabsHelper->getTabs();
+$tabsHelper = vchelper('SettingsTabsRegistry');
+$tabs = vcfilter('vcv:settings:tabs', $tabsHelper->all());
 
 $tabsHtml = '';
 
@@ -28,7 +28,7 @@ evcview('settings/partials/admin-nonce');
   window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
 </script>
 <div class="wrap vcv-settings">
-    <h1 /> <!--DONT REMOVE, WP SHOWS NOTICES AFTER FIRST Hx TAG-->
+    <h1></h1> <!--DONT REMOVE, WP SHOWS NOTICES AFTER FIRST Hx TAG-->
     <h2 class="nav-tab-wrapper">
         <?php echo $tabsHtml ?>
     </h2>

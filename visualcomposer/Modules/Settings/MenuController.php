@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Pages\Settings;
@@ -20,21 +21,6 @@ use VisualComposer\Modules\Settings\Pages\Settings;
 class MenuController extends Container implements Module
 {
     use WpFiltersActions;
-
-    /**
-     * @var null
-     */
-    protected $pages = null;
-
-    /**
-     * @var string
-     */
-    protected $optionGroup = 'vcv-settings';
-
-    /**
-     * @var string
-     */
-    protected $pageSlug = 'vcv-settings';
 
     public function __construct()
     {
@@ -50,6 +36,9 @@ class MenuController extends Container implements Module
             'network_admin_menu',
             'addMenuPage'
         );
+
+        /** @see \VisualComposer\Modules\Settings\MenuController::addGeneralTab */
+        $this->wpAddAction('admin_menu', 'addGeneralTab', -1);
     }
 
     /**
@@ -66,10 +55,15 @@ class MenuController extends Container implements Module
     protected function addMenuPage(Url $urlHelper, Settings $settingsController)
     {
         if (!is_network_admin()) {
-            $title = __('Visual Composer ', 'visualcomposer');
+            $title = __('Visual Composer', 'visualcomposer');
             $iconUrl = $urlHelper->assetUrl('images/logo/20x14.png');
 
             add_menu_page($title, $title, 'edit_posts', $settingsController->getMainPageSlug(), null, $iconUrl, 76);
         }
+    }
+
+    protected function addGeneralTab(TabsRegistry $tabsRegistry)
+    {
+        $tabsRegistry->set('vcv-settings', ['name' => __('General', 'vcwb')]);
     }
 }

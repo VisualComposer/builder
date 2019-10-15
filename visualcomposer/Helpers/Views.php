@@ -17,6 +17,8 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Views extends container implements Helper
 {
+    protected $renderedFields = [];
+
     /**
      * Render template.
      *
@@ -66,13 +68,15 @@ class Views extends container implements Helper
      */
     public function doNestedSection($section, $slug)
     {
-        // @codingStandardsIgnoreStart
-        global $wp_settings_fields;
-        $wpSettingsFields = $wp_settings_fields;
-        // @codingStandardsIgnoreEnd
         $class = isset($section['vcv-args']['class']) ? ' ' . esc_attr($section['vcv-args']['class']) : '';
 
-        echo '<div class="' . esc_attr($slug) . '-section ' . esc_attr($section['id']) . $class . '">';
+        echo sprintf(
+            '<div class="%s-section %s_%s%s">',
+            esc_attr($slug),
+            esc_attr($section['group']),
+            esc_attr($section['slug']),
+            $class
+        );
         if ($section['title']) {
             echo "<h2>{$section['title']}</h2>\n";
         }
@@ -81,9 +85,11 @@ class Views extends container implements Helper
             call_user_func($section['callback'], $section);
         }
 
-        if (isset($wpSettingsFields[ $slug ][ $section['id'] ])) {
+        $fieldsRegistry = vchelper('SettingsFieldsRegistry');
+        $fields = $fieldsRegistry->findBySlug($section['slug']);
+        if (!empty($fields)) {
             echo '<table class="form-table">';
-            do_settings_fields($slug, $section['id']);
+            $this->doNestedFields($fields);
             echo '</table>';
         }
         if (isset($section['children']) && !empty($section['children'])) {
@@ -98,5 +104,41 @@ class Views extends container implements Helper
             <?php
         }
         echo '</div>';
+    }
+
+    public function doNestedFields($fields)
+    {
+        foreach ($fields as $field) {
+            $this->renderedFields[] = 'vcv-' . $field['name'];
+            $class = '';
+
+            if (!empty($field['args']['class'])) {
+                $class = ' class="' . esc_attr($field['args']['class']) . '"';
+            }
+
+            echo "<tr{$class}>";
+
+            if (!empty($field['args']['label_for'])) {
+                echo '<th scope="row"><label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title']
+                    . '</label></th>';
+            } else {
+                echo '<th scope="row">' . $field['title'] . '</th>';
+            }
+
+            echo '<td>';
+            vcapp()->call($field['fieldCallback'], $field['args']);
+            echo '</td>';
+            echo '</tr>';
+        }
+    }
+
+    public function renderedFieldsList()
+    {
+        // Redirect back referer
+        echo '<input type="hidden" name="_wp_http_referer" value="' . esc_attr(wp_unslash($_SERVER['REQUEST_URI'])) . '" />';
+        echo sprintf(
+            '<input type="hidden" name="vcv-settings-rendered-fields" value="%s" />',
+            htmlentities(wp_json_encode(array_values(array_unique($this->renderedFields))))
+        );
     }
 }

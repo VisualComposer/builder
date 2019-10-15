@@ -99,7 +99,7 @@ class JsEditor extends Container implements Module
     protected function renderEditor($data, $globalSetting)
     {
         return vcview(
-            'settings/pages/js-editor/js-editor',
+            'settings/fields/js-editor/js-editor',
             [
                 'globalSetting' => $globalSetting,
             ]

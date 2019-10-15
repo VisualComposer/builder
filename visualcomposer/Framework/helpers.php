@@ -373,6 +373,6 @@ function vcvdie($message = '')
     if (defined('VCV_DIE_EXCEPTION') && VCV_DIE_EXCEPTION) {
         throw new \Exception($message);
     } else {
-        die;
+        exit;
     }
 }
