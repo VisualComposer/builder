@@ -104,13 +104,14 @@ class WpmlController extends Container implements Module
     {
         global $sitepress;
         if (is_object($sitepress) && strpos($url, 'lang') === false) {
-            $postType = false;
+            $postTypeSupported = true;
             if (isset($payload['query']['vcv-source-id'])) {
                 $post = get_post($payload['query']['vcv-source-id']);
                 $postType = $post->post_type;
+                $postTypeSupported = $sitepress->is_translated_post_type($postType);
             }
 
-            if ($sitepress->get_current_language() !== 'all' && $sitepress->is_translated_post_type($postType)) {
+            if ($sitepress->get_current_language() !== 'all' && $postTypeSupported) {
                 return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
             }
         }
