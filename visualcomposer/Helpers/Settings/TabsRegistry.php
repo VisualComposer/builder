@@ -22,7 +22,7 @@ class TabsRegistry extends Container implements Helper
 
     public function get($key)
     {
-        return self::$tabs[ $key ];
+        return isset(self::$tabs[ $key ]) ? self::$tabs[ $key ] : null;
     }
 
     public function all()
