@@ -27,13 +27,16 @@ class SettingsMigration extends MigrationsController implements Module
         $settings = $optionsHelper->get('settings');
         if (is_array($settings)) {
             $gutenbergEnabled = in_array('gutenberg-editor', $settings, true);
+            // Gutenberg
+            $optionsHelper->set('settings-gutenberg-editor-enabled', $gutenbergEnabled);
+
+            // Maintenance Mode
             $maintenanceModeEnabled = in_array('maintenanceMode-enabled', $settings, true);
             $maintenanceModePage = array_key_exists(
                 'vcv-maintenanceMode-page',
                 $settings
             ) ? $settings['vcv-maintenanceMode-page'] : '';
 
-            $optionsHelper->set('settings-gutenberg-editor-disabled', !$gutenbergEnabled);
             $optionsHelper->set('settings-maintenanceMode-enabled', $maintenanceModeEnabled);
             $optionsHelper->set('settings-maintenanceMode-page', $maintenanceModePage);
 
