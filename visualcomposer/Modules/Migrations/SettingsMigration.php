@@ -25,7 +25,7 @@ class SettingsMigration extends MigrationsController implements Module
         // Migrate vcv-settings (gutenberg, maintenanceMode)
         $settings = $optionsHelper->get('settings', 'not-exists');
         if ($settings !== 'not-exists') {
-            $gutenbergEnabled = is_array($settings) ? in_array('gutenberg-editor', $settings, true) : false;
+            $gutenbergEnabled = is_array($settings) ? in_array('gutenberg-editor', $settings, true) : '';
             // Gutenberg
             $optionsHelper->set('settings-gutenberg-editor-enabled', $gutenbergEnabled);
 
@@ -48,7 +48,8 @@ class SettingsMigration extends MigrationsController implements Module
         $frontendSettings = $optionsHelper->get('frontendSettings', 'not-exists');
         if (is_array($frontendSettings)) {
             $isDisabled = array_key_exists('itemPreviewDisabled', $frontendSettings) && $frontendSettings['itemPreviewDisabled'];
-            $optionsHelper->set('settings-itempreview-enabled', !$isDisabled);
+            $isEnabled = !$isDisabled ? 1 : ''; // update_option false may not work.
+            $optionsHelper->set('settings-itempreview-enabled', $isEnabled);
 
             $optionsHelper->delete('frontendSettings');
         }

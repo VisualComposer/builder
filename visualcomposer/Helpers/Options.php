@@ -34,7 +34,7 @@ class Options implements Helper
      */
     public function set($optionName, $value)
     {
-        update_option(VCV_PREFIX . $optionName, $value);
+        update_option(VCV_PREFIX . $optionName, $value === false ? '' : $value);
 
         return $this;
     }
