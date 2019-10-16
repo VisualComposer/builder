@@ -100,15 +100,15 @@ class WpmlController extends Container implements Module
         }
     }
 
-    protected function addLangToLink($url, $payload, Request $request)
+    protected function addLangToLink($url, $payload)
     {
         global $sitepress;
         if (is_object($sitepress) && strpos($url, 'lang') === false) {
             $postTypeSupported = true;
             if (isset($payload['query']['vcv-source-id'])) {
                 $post = get_post($payload['query']['vcv-source-id']);
-                $postType = $post->post_type;
-                $postTypeSupported = $sitepress->is_translated_post_type($postType);
+                //@codingStandardsIgnoreLine
+                $postTypeSupported = $sitepress->is_translated_post_type($post->post_type);
             }
 
             if ($sitepress->get_current_language() !== 'all' && $postTypeSupported) {
