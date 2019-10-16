@@ -11,6 +11,8 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -26,6 +28,7 @@ class SettingsController extends Container implements Module
             'admin_notices',
             'saveNotice'
         );
+        $this->wpAddAction('admin_init', 'beforeRenderRedirect', 100);
     }
 
     protected function saveSettings($response, $payload, CurrentUser $currentUserAccess)
@@ -68,6 +71,24 @@ class SettingsController extends Container implements Module
                 '<div class="notice notice-success"><p>%s</p></div>',
                 __('Settings Saved', 'visualcomposer')
             );
+        }
+    }
+
+    protected function beforeRenderRedirect(Request $requestHelper, TabsRegistry $tabsRegistry)
+    {
+        $page = $requestHelper->input('page');
+        if ($page && $page !== 'vcv-settings' && $page !== 'vcv-update' && strpos($page, 'vcv-') !== false) {
+            $updateRequired = vchelper('Options')->get('bundleUpdateRequired');
+            if ($updateRequired) {
+                $tabs = vcfilter('vcv:settings:tabs', $tabsRegistry->all());
+                // Redirect only if requested page is settings page
+                if (array_key_exists($page, $tabs)) {
+                    // Redirect if bundle update available
+                    // Redirect only if slug !== vcv-settings (to allow reset)
+                    wp_redirect(admin_url('admin.php?page=vcv-update'));
+                    exit;
+                }
+            }
         }
     }
 }

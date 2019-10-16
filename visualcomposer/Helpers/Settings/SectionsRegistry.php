@@ -26,7 +26,7 @@ class SectionsRegistry extends Container implements Helper
 
     public function get($key)
     {
-        return self::$sections[ $key ];
+        return isset(self::$sections[ $key ]) ? self::$sections[ $key ] : null;
     }
 
     public function all()

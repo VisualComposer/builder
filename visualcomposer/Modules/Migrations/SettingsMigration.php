@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Options;
 
 class SettingsMigration extends MigrationsController implements Module
@@ -24,32 +23,36 @@ class SettingsMigration extends MigrationsController implements Module
         // Now ALL Visual Composer settings options will be single values
 
         // Migrate vcv-settings (gutenberg, maintenanceMode)
-        $settings = $optionsHelper->get('settings');
-        if (is_array($settings)) {
-            $gutenbergEnabled = in_array('gutenberg-editor', $settings, true);
+        $settings = $optionsHelper->get('settings', 'not-exists');
+        if ($settings !== 'not-exists') {
+            $gutenbergEnabled = is_array($settings) ? in_array('gutenberg-editor', $settings, true) : false;
             // Gutenberg
             $optionsHelper->set('settings-gutenberg-editor-enabled', $gutenbergEnabled);
 
             // Maintenance Mode
-            $maintenanceModeEnabled = in_array('maintenanceMode-enabled', $settings, true);
-            $maintenanceModePage = array_key_exists(
-                'vcv-maintenanceMode-page',
-                $settings
-            ) ? $settings['vcv-maintenanceMode-page'] : '';
+            if (is_array($settings)) {
+                $maintenanceModeEnabled = in_array('maintenanceMode-enabled', $settings, true);
+                $maintenanceModePage = array_key_exists(
+                    'vcv-maintenanceMode-page',
+                    $settings
+                ) ? $settings['vcv-maintenanceMode-page'] : '';
 
-            $optionsHelper->set('settings-maintenanceMode-enabled', $maintenanceModeEnabled);
-            $optionsHelper->set('settings-maintenanceMode-page', $maintenanceModePage);
+                $optionsHelper->set('settings-maintenanceMode-enabled', $maintenanceModeEnabled);
+                $optionsHelper->set('settings-maintenanceMode-page', $maintenanceModePage);
+            }
 
             $optionsHelper->delete('settings');
         }
 
         // Migrate vcv-frontendSettings (preview)
-        $frontendSettings = $optionsHelper->get('frontendSettings');
-        if (is_array($settings)) {
+        $frontendSettings = $optionsHelper->get('frontendSettings', 'not-exists');
+        if (is_array($frontendSettings)) {
             $isDisabled = array_key_exists('itemPreviewDisabled', $frontendSettings) && $frontendSettings['itemPreviewDisabled'];
             $optionsHelper->set('settings-itempreview-enabled', !$isDisabled);
 
             $optionsHelper->delete('frontendSettings');
         }
+
+        return true;
     }
 }
