@@ -106,6 +106,6 @@ class ItemPreviewController extends Container implements Module
 
     protected function unsetOptions(Options $optionsHelper)
     {
-        $optionsHelper->delete('settings-itempreview-disabled');
+        $optionsHelper->delete('settings-itempreview-enabled');
     }
 }
