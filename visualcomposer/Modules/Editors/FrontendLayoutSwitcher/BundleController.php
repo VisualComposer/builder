@@ -38,12 +38,10 @@ class BundleController extends Container implements Module
         // @codingStandardsIgnoreLine
         if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
             $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
-            $defaultEditor = $optionsHelper->get('settings', ['gutenberg-editor']);
+            $isGutenbergEnabled = $optionsHelper->get('settings-gutenberg-editor-enabled', true);
+
             $currentEditor = false;
-            if ((!empty($defaultEditor) && in_array('gutenberg-editor', $defaultEditor))
-                && $requestHelper->input(
-                    'vcv-set-editor'
-                ) === 'gutenberg') {
+            if ($isGutenbergEnabled && $requestHelper->input('vcv-set-editor') === 'gutenberg') {
                 $currentEditor = 'gutenberg';
             }
 

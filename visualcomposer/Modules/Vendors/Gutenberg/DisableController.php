@@ -84,10 +84,11 @@ class DisableController extends Container implements Module
 
         if (($savedEditor === 'gutenberg' && $isEnabled)
             || $requestHelper->exists('classic-editor__forget')
-            || ($requestHelper->input('vcv-set-editor') === 'gutenberg' && !$requestHelper->exists('classic-editor')
-                && $isEnabled)
-            || ($sourceId && !$requestHelper->exists('classic-editor') && !$this->isVisualComposerPage($sourceId)
-                && $isEnabled)
+            || ($isEnabled && $requestHelper->input('vcv-set-editor') === 'gutenberg'
+                && !$requestHelper->exists(
+                    'classic-editor'
+                ))
+            || ($isEnabled && !$requestHelper->exists('classic-editor') && !$this->isVisualComposerPage($sourceId))
         ) {
             return;
         }
@@ -109,6 +110,10 @@ class DisableController extends Container implements Module
      */
     protected function isVisualComposerPage($sourceId)
     {
+        if (!$sourceId) {
+            // New page cannot be VC
+            return false;
+        }
         $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
         /** @see \VisualComposer\Modules\Vendors\Gutenberg\DisableController::overrideDisableGutenberg */
         if (!empty($postContent) && !$this->call('overrideDisableGutenberg', ['sourceId' => $sourceId])) {
