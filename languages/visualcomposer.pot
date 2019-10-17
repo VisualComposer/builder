@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-07 16:17+0300\n"
+"POT-Creation-Date: 2019-10-17 15:37+0300\n"
 "PO-Revision-Date: 2017-03-20 21:48+0200\n"
 "Last-Translator: WPBakery <hello@wpbakery.com>\n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
 "esc_html_x;_x;__;_e\n"
 "X-Poedit-Basepath: ../visualcomposer\n"
@@ -43,10 +43,9 @@ msgid ""
 "<ul><li>- Check if your server has a connection to the Internet</li><li>- "
 "Check your server proxy configuration settings</li><li>- Check your server "
 "firewall settings and access to https://account.visualcomposer.io</"
-"li><li>- Check if your server has access to the <a href=\"https://s3-us-"
-"west-2.amazonaws.com/updates.wpbakery.com/vcwb-teasers/"
-"youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target="
-"\"_blank\">Amazon AWS</a></li></ul>"
+"li><li>- Check if your server has access to the <a href=\"https://cdn.hub."
+"visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-"
+"player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
 msgstr ""
 
 #: Framework/helpers.php:192
@@ -56,9 +55,9 @@ msgid ""
 "Check your server proxy configuration settings</li><li>- Check your server "
 "firewall settings and access to <a href=\"https://account.visualcomposer.io"
 "\" target=\"_blank\">https://account.visualcomposer.io</a></li><li>- Check "
-"if your server has access to the <a href=\"https://s3-us-west-2.amazonaws."
-"com/updates.wpbakery.com/vcwb-teasers/youtubePlayer.3307569.1518529200."
-"youtube-player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
+"if your server has access to the <a href=\"https://cdn.hub.visualcomposer."
+"com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview."
+"jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
 msgstr ""
 
 #: Framework/helpers.php:216
@@ -218,8 +217,7 @@ msgstr ""
 msgid "Mobile Portrait"
 msgstr ""
 
-#: Helpers/Localizations.php:37 Modules/Settings/Pages/Settings.php:80
-#: resources/views/settings/layouts/settings-standalone.php:11
+#: Helpers/Localizations.php:37 Modules/Settings/Pages/Settings.php:76
 msgid "Settings"
 msgstr ""
 
@@ -239,7 +237,7 @@ msgstr ""
 msgid "View Page"
 msgstr ""
 
-#: Helpers/Localizations.php:42 Helpers/Localizations.php:353
+#: Helpers/Localizations.php:42
 msgid "Back to WordPress"
 msgstr ""
 
@@ -275,7 +273,7 @@ msgid ""
 "There is no content on your page - start by adding element or template."
 msgstr ""
 
-#: Helpers/Localizations.php:56 Modules/Settings/Fields/CssEditor.php:65
+#: Helpers/Localizations.php:56 Modules/Settings/Fields/CssEditor.php:59
 msgid "Custom CSS"
 msgstr ""
 
@@ -514,7 +512,7 @@ msgstr ""
 #: Modules/Editors/EditPostLinks/Controller.php:93
 #: Modules/Editors/EditPostLinks/Controller.php:127
 #: Modules/Editors/EditPostLinks/Controller.php:128
-#: Modules/Editors/EditPostLinks/Controller.php:180
+#: Modules/Editors/EditPostLinks/Controller.php:184
 msgid "Edit with Visual Composer"
 msgstr ""
 
@@ -619,6 +617,7 @@ msgid "Visual Composer Cloud update failed, please try again"
 msgstr ""
 
 #: Helpers/Localizations.php:182
+#: Modules/Editors/Settings/ItemPreviewController.php:71
 msgid "Preview"
 msgstr ""
 
@@ -756,12 +755,6 @@ msgid "Choose %s or %screate new%s."
 msgstr ""
 
 #: Helpers/Localizations.php:271
-#: Modules/Editors/DataAjax/PostFieldsController.php:57
-#: Modules/Editors/DataAjax/PostFieldsController.php:65
-#: Modules/Editors/DataAjax/PostFieldsController.php:73
-#: Modules/Editors/DataAjax/PostFieldsController.php:81
-#: Modules/Editors/DataAjax/PostFieldsController.php:95
-#: Modules/Editors/DataAjax/PostFieldsController.php:109
 #: Modules/Editors/Settings/PageTemplatesVariablesController.php:90
 msgid "Default"
 msgstr ""
@@ -860,263 +853,196 @@ msgstr ""
 msgid "Editor Settings"
 msgstr ""
 
-#: Helpers/Localizations.php:331
-msgid ""
-"Disable element and template preview popup in Add Element and Add Template "
-"windows"
-msgstr ""
-
-#: Helpers/Localizations.php:334
-msgid "Disable preview"
-msgstr ""
-
-#: Helpers/Localizations.php:335
+#: Helpers/Localizations.php:330
 msgid "Click to edit column value"
 msgstr ""
 
-#: Helpers/Localizations.php:336
+#: Helpers/Localizations.php:331
 msgid "Add-on"
 msgstr ""
 
-#: Helpers/Localizations.php:338
-msgid ""
-"Update Visual Composer plugin to the most recent version to download addon."
-msgstr ""
-
-#: Helpers/Localizations.php:341
-msgid "This page was created with WPBakery Page Builder. What's next?"
-msgstr ""
-
-#: Helpers/Localizations.php:343
-msgid ""
-"To take over and start using Visual Composer Website Builder for this "
-"page, you need to:"
-msgstr ""
-
-#: Helpers/Localizations.php:346
-msgid "Download Migration addon from the Hub"
-msgstr ""
-
-#: Helpers/Localizations.php:347
-msgid "Keep WPBakery Page Builder plugin activated"
-msgstr ""
-
-#: Helpers/Localizations.php:349
-msgid ""
-"Supported elements will be converted into Visual Composer compatible "
-"elements, the rest of the elements will be converted into the WPBakery "
-"Shortcode element."
-msgstr ""
-
-#: Helpers/Localizations.php:352
-msgid "Download Migration Addon"
-msgstr ""
-
-#: Helpers/Localizations.php:354
+#: Helpers/Localizations.php:332
 msgid "Don't close this window while download is in the progress."
 msgstr ""
 
-#: Helpers/Localizations.php:355
+#: Helpers/Localizations.php:333
 msgid "Create Your WordPress Website."
 msgstr ""
 
-#: Helpers/Localizations.php:356
+#: Helpers/Localizations.php:334
 msgid "Any Layout. Fast and Easy."
 msgstr ""
 
-#: Helpers/Localizations.php:357
+#: Helpers/Localizations.php:335
 msgid "Skip this post"
 msgstr ""
 
-#: Helpers/Localizations.php:358
+#: Helpers/Localizations.php:336
 msgid "Get More Elements, Templates, and Extensions"
 msgstr ""
 
-#: Helpers/Localizations.php:360
+#: Helpers/Localizations.php:338
 msgid ""
 "Download additional content from the Visual Composer Hub - right in your "
 "editor instantly."
 msgstr ""
 
-#: Helpers/Localizations.php:363
+#: Helpers/Localizations.php:341
 msgid "Get Started"
 msgstr ""
 
-#: Helpers/Localizations.php:364
+#: Helpers/Localizations.php:342
 msgid "Sending Error Report"
 msgstr ""
 
-#: Helpers/Localizations.php:366
+#: Helpers/Localizations.php:344
 msgid "Don't close this window while sending error is in the progress."
 msgstr ""
 
-#: Helpers/Localizations.php:369
+#: Helpers/Localizations.php:347
 msgid "Oops ... Something Went Wrong"
 msgstr ""
 
-#: Helpers/Localizations.php:371
+#: Helpers/Localizations.php:349
 msgid ""
 "Access Visual Composer Hub - download additional elements, templates and "
 "extensions."
 msgstr ""
 
-#: Helpers/Localizations.php:375
+#: Helpers/Localizations.php:353
 msgid ""
 "Add custom JavaScript code to insert it localy on this page in <header> or "
 "<footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other "
 "JavaScript code snippets."
 msgstr ""
 
-#: Helpers/Localizations.php:379
+#: Helpers/Localizations.php:357
 msgid ""
 "Add custom JavaScript code to insert it globally on every page in <header> "
 "or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other "
 "JavaScript code snippets."
 msgstr ""
 
-#: Helpers/Localizations.php:382
+#: Helpers/Localizations.php:360
 msgid "Open Edit Form"
 msgstr ""
 
-#: Helpers/Localizations.php:384
-msgid ""
-"WPBakery element is displayed as shortcode. Adjust shortcode parameters or "
-"open WPBakery Edit form for easier editing."
-msgstr ""
-
-#: Helpers/Localizations.php:388
-msgid ""
-"Failed to load WPBakery Edit Form, please check WPBakery Page Builder "
-"Plugin."
-msgstr ""
-
-#: Helpers/Localizations.php:392
-msgid "WPBakery plugin and migration addon is required to use this attribute"
-msgstr ""
-
-#: Helpers/Localizations.php:396
-msgid "View WPBakery element/s as shortcodes"
-msgstr ""
-
-#: Helpers/Localizations.php:400
-msgid ""
-"Complex element structures (ex. tabs with content) are represented with "
-"the Tree view. Use the Tree view to access and edit individual elements."
-msgstr ""
-
-#: Helpers/Localizations.php:404
-msgid "WPBakery element structure"
-msgstr ""
-
-#: Helpers/Localizations.php:408
-msgid "WPBakery element"
-msgstr ""
-
-#: Helpers/Localizations.php:412 Modules/Vendors/WpbakeryController.php:341
+#: Helpers/Localizations.php:362
 msgid "Unlock Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:416
-msgid ""
-"WPBakery element is displayed as shortcode. Adjust shortcode parameters."
-msgstr ""
-
-#: Helpers/Localizations.php:420
+#: Helpers/Localizations.php:366
 msgid "Shortcode"
 msgstr ""
 
-#: Helpers/Localizations.php:424
+#: Helpers/Localizations.php:370
 msgid ""
 "Copy your shortcode here with all the correct parameters. The shortcode "
 "must be installed on your WordPress site via plugin or theme."
 msgstr ""
 
-#: Helpers/Localizations.php:428
+#: Helpers/Localizations.php:374
 msgid "Activate Premium"
 msgstr ""
 
-#: Helpers/Localizations.php:432
+#: Helpers/Localizations.php:378
 msgid "Search free high-resolution photos on Unsplash"
 msgstr ""
 
-#: Helpers/Localizations.php:436
+#: Helpers/Localizations.php:382
 msgid ""
 "Download and Add Free Beautiful Photos to Your Site With Visual Composer "
 "Premium"
 msgstr ""
 
-#: Helpers/Localizations.php:440
+#: Helpers/Localizations.php:386
 msgid "Download and Add Free Beautiful Photos to Your Site"
 msgstr ""
 
-#: Helpers/Localizations.php:444
+#: Helpers/Localizations.php:390
 msgid "No access, please check your license!"
 msgstr ""
 
-#: Helpers/Localizations.php:448
+#: Helpers/Localizations.php:394
 msgid "Could not connect to Unsplash Server!"
 msgstr ""
 
-#: Helpers/Localizations.php:452
+#: Helpers/Localizations.php:398
 msgid "Image has been downloaded to your Media Library."
 msgstr ""
 
-#: Helpers/Localizations.php:456
+#: Helpers/Localizations.php:402
 msgid "Could not parse data from server!"
 msgstr ""
 
-#: Helpers/Localizations.php:460
+#: Helpers/Localizations.php:406
 msgid "Small"
 msgstr ""
 
-#: Helpers/Localizations.php:464
+#: Helpers/Localizations.php:410
 msgid "Medium"
 msgstr ""
 
-#: Helpers/Localizations.php:468
+#: Helpers/Localizations.php:414
 msgid "Large"
 msgstr ""
 
-#: Helpers/Localizations.php:472
+#: Helpers/Localizations.php:418
 msgid "images"
 msgstr ""
 
-#: Helpers/Localizations.php:476
+#: Helpers/Localizations.php:422
 msgid "Download images from Unsplash to your Media Library"
 msgstr ""
 
-#: Helpers/Localizations.php:480
+#: Helpers/Localizations.php:426
 msgid "Permalink"
 msgstr ""
 
-#: Helpers/Localizations.php:484
+#: Helpers/Localizations.php:430
 msgid ""
 "Enjoy Visual Composer Website Builder? Let your friends know about it - "
 "spread the word."
 msgstr ""
 
-#: Helpers/Localizations.php:488
+#: Helpers/Localizations.php:434
 msgid "Insert dynamic content"
 msgstr ""
 
-#: Helpers/Localizations.php:492
+#: Helpers/Localizations.php:438
+msgid "Edit dynamic content"
+msgstr ""
+
+#: Helpers/Localizations.php:442
 msgid "Remove dynamic content"
 msgstr ""
 
-#: Helpers/Localizations.php:496
+#: Helpers/Localizations.php:446
 msgid "Select page, post, or custom post type."
 msgstr ""
 
-#: Helpers/Localizations.php:500
+#: Helpers/Localizations.php:450
 msgid "By default, dynamic content is taken from the current post."
 msgstr ""
 
-#: Helpers/Localizations.php:504
+#: Helpers/Localizations.php:454
 msgid "Set custom post source"
 msgstr ""
 
-#: Helpers/Localizations.php:508
-msgid "Select data source for dynamic content."
+#: Helpers/Localizations.php:458
+msgid "Select custom field"
+msgstr ""
+
+#: Helpers/Localizations.php:462
+msgid "Dynamic Content"
+msgstr ""
+
+#: Helpers/Localizations.php:466
+msgid "No value set"
+msgstr ""
+
+#: Helpers/Localizations.php:470
+msgid "Activate Premium to Unlock Stock Images"
 msgstr ""
 
 #: Helpers/LoginCategory.php:21
@@ -1201,14 +1127,50 @@ msgstr ""
 msgid "Your Visual Composer Website Builder License will expire soon - %s"
 msgstr ""
 
-#: Modules/Editors/DataAjax/PostFieldsController.php:87
+#: Modules/Editors/DataAjax/PostFieldsController.php:61
+#: Modules/Editors/DataAjax/PostFieldsController.php:81
 #: Modules/Editors/DataAjax/PostFieldsController.php:101
-#: Modules/Editors/DataAjax/PostFieldsController.php:115
-msgid "Custom Meta Field"
+#: Modules/Editors/DataAjax/PostFieldsController.php:121
+#: Modules/Editors/DataAjax/PostFieldsController.php:147
+#: Modules/Editors/DataAjax/PostFieldsController.php:173
+msgid "Post"
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:67
+#: Modules/Editors/DataAjax/PostFieldsController.php:87
+#: Modules/Editors/DataAjax/PostFieldsController.php:107
+#: Modules/Editors/DataAjax/PostFieldsController.php:127
+#: Modules/Editors/DataAjax/PostFieldsController.php:153
+#: Modules/Editors/DataAjax/PostFieldsController.php:179
+msgid "Site"
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:73
+#: Modules/Editors/DataAjax/PostFieldsController.php:93
+#: Modules/Editors/DataAjax/PostFieldsController.php:113
+#: Modules/Editors/DataAjax/PostFieldsController.php:133
+#: Modules/Editors/DataAjax/PostFieldsController.php:159
+#: Modules/Editors/DataAjax/PostFieldsController.php:185
+msgid "Author"
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:139
+#: Modules/Editors/DataAjax/PostFieldsController.php:165
+#: Modules/Editors/DataAjax/PostFieldsController.php:191
+#: Modules/Editors/DataAjax/PostFieldsController.php:211
+msgid "Custom Fields"
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:199
+msgid "Post URLs"
+msgstr ""
+
+#: Modules/Editors/DataAjax/PostFieldsController.php:205
+msgid "Site URLs"
 msgstr ""
 
 #: Modules/Editors/EditPostLinks/Controller.php:152
-#: Modules/Editors/Frontend/MenuController.php:76
+#: Modules/Editors/Frontend/MenuController.php:80
 msgid "Add New with Visual Composer"
 msgstr ""
 
@@ -1220,8 +1182,18 @@ msgstr ""
 msgid "Sorry, you are not allowed to create posts as this user."
 msgstr ""
 
-#: Modules/Editors/Frontend/MenuController.php:144
+#: Modules/Editors/Frontend/MenuController.php:148
 msgid "Add New with Visual&nbsp;Composer"
+msgstr ""
+
+#: Modules/Editors/Settings/ItemPreviewController.php:50
+msgid ""
+"Enable element and template preview popup in Add Element and Add Template "
+"windows."
+msgstr ""
+
+#: Modules/Editors/Settings/ItemPreviewController.php:57
+msgid "Enable Preview"
 msgstr ""
 
 #: Modules/Editors/Settings/PageTemplatesVariablesController.php:50
@@ -1234,6 +1206,7 @@ msgid "Boxed Template"
 msgstr ""
 
 #: Modules/Editors/Settings/PageTemplatesVariablesController.php:74
+#: Modules/Settings/MenuController.php:58
 msgid "Visual Composer"
 msgstr ""
 
@@ -1255,7 +1228,7 @@ msgstr ""
 msgid "Failed to update shared libraries"
 msgstr ""
 
-#: Modules/Hub/Traits/Action.php:71
+#: Modules/Hub/Traits/Action.php:70
 #, php-format
 msgid ""
 "A zip file of Visual Composer extension is broken. Checksum check failed. "
@@ -1326,7 +1299,7 @@ msgid ""
 "customization tools."
 msgstr ""
 
-#: Modules/Settings/Fields/CssEditor.php:59
+#: Modules/Settings/Fields/CssEditor.php:53
 msgid "Add custom CSS code to insert it globally on every page."
 msgstr ""
 
@@ -1358,32 +1331,32 @@ msgstr ""
 msgid "Session expired"
 msgstr ""
 
-#: Modules/Settings/Fields/FactoryResetController.php:127
+#: Modules/Settings/Fields/FactoryResetController.php:128
 msgid "Visual Composer asset reset was successful."
 msgstr ""
 
-#: Modules/Settings/Fields/JsEditor.php:60
+#: Modules/Settings/Fields/JsEditor.php:53
 msgid ""
 "Add custom HTML or JavaScript code to insert it globally on every page in "
 "<header> and <footer>. Insert Google Analytics, Tag Manager, Kissmetrics "
 "or other JavaScript code snippets."
 msgstr ""
 
-#: Modules/Settings/Fields/JsEditor.php:68
+#: Modules/Settings/Fields/JsEditor.php:61
 msgid "Custom HTML and JavaScript"
 msgstr ""
 
-#: Modules/Settings/Fields/PostTypes.php:53
+#: Modules/Settings/Fields/PostTypes.php:60
 msgid ""
 "Specify post types where you want to use Visual Composer Website Builder."
 msgstr ""
 
-#: Modules/Settings/Fields/PostTypes.php:58
+#: Modules/Settings/Fields/PostTypes.php:67
 msgid "Post Types"
 msgstr ""
 
-#: Modules/Settings/MenuController.php:69
-msgid "Visual Composer "
+#: Modules/Settings/MenuController.php:67
+msgid "General"
 msgstr ""
 
 #: Modules/Settings/NoticeController.php:78
@@ -1503,12 +1476,12 @@ msgstr ""
 msgid "Connection with Account was unsuccessful"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:329
+#: Modules/Settings/Pages/SystemStatus.php:330
 #: resources/views/settings/pages/system-status.php:25
 msgid "System status"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:352
+#: Modules/Settings/Pages/SystemStatus.php:358
 #, php-format
 msgid ""
 "It seems that you have a problem with your server configuration that might "
@@ -1516,134 +1489,113 @@ msgid ""
 "\">system status</a> page."
 msgstr ""
 
-#: Modules/Updates/UpdatesController.php:152
-msgid ""
-"\n"
-"<p>Visual Composer Website Builder is a perfect solution to create your "
-"WordPress site via drag and drop interface. Use content elements or "
-"predefined layouts to create any layout fast and easy.</p>\n"
-"<ul>\n"
-"<li>Use Frontend or Tree View to create structure</li>\n"
-"<li>Create responsive websites automatically</li>\n"
-"<li>Use with any WordPress theme</li>\n"
-"<li>Work with pages, posts and custom post types</li>\n"
-"<li>Access content elements and WordPress widgets</li>\n"
-"<li>Integrate any 3rd party shortcode easily</li>\n"
-"<li>Apply predefined pro quality templates</li>\n"
-"<li>Control look of elements via multiple parameters and rich design "
-"options</li>\n"
-"<li>Receive high-quality code optimized for SEO</li>\n"
-"</ul>"
+#: Modules/Settings/SettingsController.php:72
+msgid "Settings Saved"
 msgstr ""
 
-#: Modules/Updates/UpdatesController.php:181
-msgid "Failed to get changelog"
+#: Modules/Vendors/Gutenberg/AttributeController.php:77
+#: Modules/Vendors/Gutenberg/AttributeController.php:79
+msgid "Gutenberg attrs"
 msgstr ""
 
-#: Modules/Vendors/GutenbergAttributeController.php:90
+#: Modules/Vendors/Gutenberg/AttributeController.php:78
+#: Modules/Vendors/Gutenberg/AttributeController.php:80
+msgid "Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:81
+msgid "Add New"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:82
+msgid "Add New Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:83
+msgid "New Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:84
+msgid "Edit Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:85
+msgid "View Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:86
+msgid "All Gutenberg attrs"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:87
+msgid "Search Gutenberg attrs"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:88
+msgid "Parent Gutenberg attrs:"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:89
+msgid "No Gutenberg attrs found."
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:90
+msgid "No Gutenberg attrs found in Trash."
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:92
+msgid "Gutenberg attr Cover Image"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:97
+msgid "Set cover image"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:102
+msgid "Remove cover image"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:107
+msgid "Use as cover image"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:112
+msgid "Gutenberg attr archives"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:117
+msgid "Add into Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:122
+msgid "Uploaded to this Gutenberg attr"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:127
+msgid "Filter Gutenberg attrs list"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:132
+msgid "Gutenberg attrs list navigation"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/AttributeController.php:137
+msgid "Gutenberg attrs list"
+msgstr ""
+
+#: Modules/Vendors/Gutenberg/SettingsController.php:73
 msgid ""
 "Enable/disable Gutenberg editor for your WordPress site. Disabling "
 "Gutenberg editor will enable Classic WordPress editor. In both cases, you "
 "can still use Visual Composer."
 msgstr ""
 
-#: Modules/Vendors/GutenbergAttributeController.php:98
+#: Modules/Vendors/Gutenberg/SettingsController.php:81
 msgid "Gutenberg Editor"
 msgstr ""
 
-#: Modules/Vendors/GutenbergAttributeController.php:114
+#: Modules/Vendors/Gutenberg/SettingsController.php:97
 msgid "Gutenberg"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:251
-#: Modules/Vendors/GutenbergAttributeController.php:253
-msgid "Gutenberg attrs"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:252
-#: Modules/Vendors/GutenbergAttributeController.php:254
-msgid "Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:255
-#: Modules/Vendors/WpbakeryController.php:136
-msgid "Add New"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:256
-msgid "Add New Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:257
-msgid "New Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:258
-msgid "Edit Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:259
-msgid "View Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:260
-msgid "All Gutenberg attrs"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:261
-msgid "Search Gutenberg attrs"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:262
-msgid "Parent Gutenberg attrs:"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:263
-msgid "No Gutenberg attrs found."
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:264
-msgid "No Gutenberg attrs found in Trash."
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:266
-msgid "Gutenberg attr Cover Image"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:271
-msgid "Set cover image"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:276
-msgid "Remove cover image"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:281
-msgid "Use as cover image"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:286
-msgid "Gutenberg attr archives"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:291
-msgid "Add into Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:296
-msgid "Uploaded to this Gutenberg attr"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:301
-msgid "Filter Gutenberg attrs list"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:306
-msgid "Gutenberg attrs list navigation"
-msgstr ""
-
-#: Modules/Vendors/GutenbergAttributeController.php:311
-msgid "Gutenberg attrs list"
 msgstr ""
 
 #: Modules/Vendors/WooCommerceController.php:46
@@ -1670,60 +1622,16 @@ msgstr ""
 msgid "Woocommerce Terms"
 msgstr ""
 
-#: Modules/Vendors/WpbakeryController.php:132
-#: Modules/Vendors/WpbakeryController.php:134
-msgid "WPB attrs"
+#: Modules/Vendors/WooCommerceController.php:320
+msgid "Length:"
 msgstr ""
 
-#: Modules/Vendors/WpbakeryController.php:133
-#: Modules/Vendors/WpbakeryController.php:135
-msgid "WPB attr"
+#: Modules/Vendors/WooCommerceController.php:324
+msgid "Width:"
 msgstr ""
 
-#: Modules/Vendors/WpbakeryController.php:137
-msgid "Add New WPB attr"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:138
-msgid "New WPB attr"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:139
-msgid "Edit WPB attr"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:140
-msgid "View WPB attr"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:141
-msgid "All WPB attrs"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:142
-msgid "Search WPB attrs"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:143
-msgid "Parent WPB attrs:"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:329
-msgid "WPBakery Page Builder version is 5.0 or newer"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:332
-#, php-format
-msgid "WPBakery Page Builder version is 5.0 or newer - your version is %s"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:335
-msgid "please update"
-msgstr ""
-
-#: Modules/Vendors/WpbakeryController.php:338
-msgid ""
-"Visual Composer Hub access to download migration add-on - Free or Premium"
+#: Modules/Vendors/WooCommerceController.php:327
+msgid "Height:"
 msgstr ""
 
 #: resources/views/editor/frontend/frontend.php:41
@@ -1744,19 +1652,17 @@ msgstr ""
 msgid "No Widgets found"
 msgstr ""
 
-#: resources/views/settings/option-toggle.php:22
-#: resources/views/settings/pages/html-fields/toggle.php:24
-#: resources/views/settings/pages/post-types/post-types-toggle.php:22
+#: resources/views/settings/fields/post-types/post-types-toggle.php:22
+#: resources/views/settings/fields/toggle.php:18
 msgid "on"
 msgstr ""
 
-#: resources/views/settings/option-toggle.php:23
-#: resources/views/settings/pages/html-fields/toggle.php:25
-#: resources/views/settings/pages/post-types/post-types-toggle.php:23
+#: resources/views/settings/fields/post-types/post-types-toggle.php:23
+#: resources/views/settings/fields/toggle.php:19
 msgid "off"
 msgstr ""
 
-#: resources/views/settings/pages/index.php:110
+#: resources/views/settings/pages/index.php:87
 msgid "Save Changes"
 msgstr ""
 

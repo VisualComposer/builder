@@ -4,7 +4,7 @@ Tags: Visual Composer, drag and drop, visual editor, visual builder, landing pag
 Requires PHP: 5.4
 Requires at least: 4.6
 Tested up to: 5.2.3
-Stable tag: 21.0
+Stable tag: 22.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -172,6 +172,31 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 22.0 =
+*Release Date - 2019-10-18*
+
+#### Free:
+- Update: Settings window displayed in full width for a better user experience
+- Update: Text domain updated to “visualcomposer” for proper translations
+- Update: Custom element order updated and displayed after default elements
+- Fix: Shortcode element works properly
+- Fix: Settings save works properly
+- Fix: Raw JS element works properly
+- Fix: Element update works properly
+- Fix: Save button display proper state upon save
+
+#### Premium:
+- New: Tilt parallax effects added to a row, column, and section Design Options
+- New: Dynamic content works with Toolset plugin
+- New: Post Slider element available in Visual Composer Hub
+- Update: Parallax controls moved to the separate section
+- Update: Dynamic content works properly with Yoast SEO
+- Update: Post grid elements can be replaced
+- Fix: Dynamic content dropdown works properly
+- Fix: Template export works properly
+- Fix: Icons in message box display properly
+- Fix: Post Grid with Box element works properly
 
 = 21.0 =
 *Release Date - 2019-10-01*
