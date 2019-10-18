@@ -423,7 +423,7 @@ export default class ElementComponent extends React.Component {
       const isBasicParallax = parallaxData &&
         parallaxData.parallaxEnable &&
         parallaxData.parallax &&
-        (parallaxData.parallax === 'simple' ||parallaxData.parallax === 'simple-fade' || parallaxData.parallax === 'mouse-move')
+        (parallaxData.parallax === 'simple' || parallaxData.parallax === 'simple-fade' || parallaxData.parallax === 'mouse-move')
 
       if (isBasicParallax) {
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-parallax`
