@@ -20,6 +20,7 @@ const { getShortcodesRegexp, getBlockRegexp } = getService('utils')
 const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 const dataProcessor = getService('dataProcessor')
+const elementsSettingsStorage = getStorage('elementsSettings')
 
 export default class ElementComponent extends React.Component {
   static propTypes = {
@@ -409,10 +410,31 @@ export default class ElementComponent extends React.Component {
             key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')} />)
       }
 
-      if (parallaxData && parallaxData.parallaxEnable && parallaxData.parallax && (parallaxData.parallax === 'simple' || parallaxData.parallax === 'simple-fade' || parallaxData.parallax === 'mouse-move')) {
+      const isBackgroundAnimation = parallaxData &&
+        parallaxData.parallaxEnable &&
+        parallaxData.parallax &&
+        parallaxData.parallax === 'backgroundAnimation' &&
+        deviceData &&
+        deviceData.images &&
+        deviceData.images.urls &&
+        deviceData.images.urls.length > 1 &&
+        deviceData.backgroundType === 'imagesSimple'
+
+      const isBasicParallax = parallaxData &&
+        parallaxData.parallaxEnable &&
+        parallaxData.parallax &&
+        (parallaxData.parallax === 'simple' ||parallaxData.parallax === 'simple-fade' || parallaxData.parallax === 'mouse-move')
+
+      if (isBasicParallax) {
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-parallax`
         deviceBackgroundData.push(
           <ParallaxBackground deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
+            key={reactKey} atts={this.props.atts} content={deviceBackgroundElements} />)
+      } else if (isBackgroundAnimation) {
+        const BackgroundAnimation = elementsSettingsStorage.state('extendedOptions').get().backgroundAnimationComponent
+        reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-background-animation`
+        deviceBackgroundData.push(
+          <BackgroundAnimation deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
             key={reactKey} atts={this.props.atts} content={deviceBackgroundElements} />)
       } else {
         deviceBackgroundData.push(deviceBackgroundElements)
