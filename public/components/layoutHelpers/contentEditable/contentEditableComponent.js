@@ -3,7 +3,9 @@ import vcCake from 'vc-cake'
 import striptags from 'striptags'
 import PropTypes from 'prop-types'
 import lodash from 'lodash'
-import TinymceButtonsBuilder from './lib/tinymceButtonsBuilder'
+import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
+import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
+import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts.js'
 
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
@@ -83,6 +85,7 @@ export default class ContentEditableComponent extends React.Component {
       this.debouncedUpdateHtmlWithServer(nextProps.children)
     }
   }
+
   /* eslint-enable */
 
   handleLayoutModeChange (mode) {
@@ -105,7 +108,7 @@ export default class ContentEditableComponent extends React.Component {
       }
 
       if (this.props.fieldType === 'htmleditor') {
-        const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.ref)
+        const usedGoogleFonts = getUsedFonts(this.ref)
         if (usedGoogleFonts) {
           const sharedAssetsData = element.get('metaElementAssets')
           let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
@@ -297,32 +300,12 @@ export default class ContentEditableComponent extends React.Component {
       target: this.ref,
       menubar: false,
       inline: true,
-      plugins: 'lists',
+      plugins: 'lists vcvhtmleditor',
       toolbar: [
-        'formatselect | googleFonts | fontWeight | bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
+        'formatselect | VcvFontsSelect | fontWeight | bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
       ],
       powerpaste_word_import: 'clean',
       powerpaste_html_import: 'clean',
-      formats: {
-        fontweight: {
-          inline: 'span',
-          toggle: false,
-          styles: { fontWeight: '%value' },
-          clear_child_styles: true
-        },
-        fontstyle: {
-          inline: 'span',
-          toggle: false,
-          styles: { fontStyle: '%value' },
-          clear_child_styles: true
-        },
-        defaultfont: {
-          inline: 'span',
-          toggle: false,
-          styles: { fontFamily: '' },
-          clear_child_styles: true
-        }
-      },
       init_instance_callback: (editor) => {
         editor.on('Change', (e) => {
           this.updateElementData(e.target.getContent())
@@ -340,38 +323,22 @@ export default class ContentEditableComponent extends React.Component {
         editor.on('remove', () => {
           this.iframeDocument.body.removeAttribute('vcv-tinymce-active')
         })
-        this.buttonBuilder = new TinymceButtonsBuilder(editor, this.globalEditor, false)
-
-        this.buttonBuilder.addButton('dotButton', {
+        editor.addButton('dotButton', {
           icon: 'vcv-ui-icon-more-dots',
           tooltip: 'Open Element in Edit Form',
           onclick: this.handleMoreButtonClick
-        })
-
-        this.buttonBuilder.addGoogleFontsDropdown('googleFonts', {
-          type: 'listbox',
-          text: 'Font Family',
-          tooltip: 'Font Family',
-          icon: false,
-          fixedWidth: true
-        })
-
-        this.buttonBuilder.addFontWeightDropdown('fontWeight', {
-          type: 'listbox',
-          text: 'Font Weight',
-          tooltip: 'Font Weight',
-          icon: false,
-          fixedWidth: true
         })
       }
     }
     if (this.iframeDocument.body && (this.iframeDocument.body.clientWidth < 768)) {
       editorSettings.toolbar = [
-        'formatselect | googleFonts | fontWeight',
+        'formatselect | VcvFontsSelect | fontWeight',
         'bold italic | numlist bullist | alignleft aligncenter alignright | dotButton'
       ]
     }
     if (this.globalEditor && this.globalEditor.init) {
+      initializeJqueryPlugin(this.iframeWindow)
+      initializeTinymce(this.globalEditor, this.iframeWindow)
       this.globalEditor.init(editorSettings)
     } else {
       console.warn('TinyMCE editor is not enqueued')

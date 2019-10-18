@@ -1,0 +1,72 @@
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-filter.vcv-ui-form-input {
+  margin: 0 10px;
+  width: 75%;
+}
+
+/** Fonts list dropdown */
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.vcv-ui-tinymce-fonts-selectbox.mce-active > .vcv-ui-tinymce-fonts-selectbox-options {
+  display: block;
+}
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul {
+  max-height: 350px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 5px 0 0 0;
+  width: 240px;
+}
+
+/** Add spacing for first element bottom */
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul > li:first-child {
+  margin-bottom: 12px;
+}
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul > li {
+  margin-bottom: 6px;
+}
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul > li:last-child {
+  margin-bottom: 0;
+}
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a {
+  height: 25px;
+  text-indent: -9999px;
+  background-image: url("http://127.0.0.1:8000/wp-content/plugins/visualcomposer/public/dist/images/fonts3.jpg");
+  background-repeat: no-repeat;
+}
+
+/** On hover/focus */
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a:hover, .vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a:focus {
+  box-shadow: none;
+  opacity: 0.7;
+  text-decoration: none;
+  border: 1px solid #a9a9a9;
+}
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a {
+  display: block;
+  padding: 3px 10px;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+  height: 20px;
+  color: #333;
+  white-space: nowrap;
+  text-decoration: none;
+  box-sizing: border-box;
+}
