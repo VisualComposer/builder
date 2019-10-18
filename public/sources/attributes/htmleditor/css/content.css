@@ -1,21 +1,26 @@
 .vcv-ui-form-input.vcv-ui-form-tinymce {
   padding: 0;
 }
+
 .vcv-ui-form-input.vcv-ui-form-tinymce p {
   margin: 5px 10px;
 }
+
 .vcv-ui-form-wp-tinymce {
   position: relative;
 }
+
 .vcv-ui-form-wp-tinymce .vcv-ui-form-switch-small-container {
   margin-top: 8px;
   position: absolute;
   right: 0;
 }
+
 .rtl .vcv-ui-form-wp-tinymce .vcv-ui-form-switch-small-container {
   right: auto;
   left: 0;
 }
+
 .mce-content-body .mce-reset {
   margin: 0;
   padding: 0;
