@@ -1,0 +1,4 @@
+{
+  "templateName": "Hello World",
+  "elements": [ "Text Block", "Basic Button", "Single Image"]
+}
