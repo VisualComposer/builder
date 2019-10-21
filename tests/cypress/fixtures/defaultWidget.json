@@ -3,6 +3,10 @@
   "customClass": "default-widget-class",
   "widgetType": "WP_Widget_Text",
   "widgetText": "This is a WordPress text widget",
+  "beforeWidgetHTML": "<b class='vce-before-widget'>Before widget HTML</b>",
+  "beforeWidgetHTMLText": "Before widget HTML",
+  "afterWidgetHTML": "<i class='vce-after-widget'>After widget HTML</i>",
+  "afterWidgetHTMLText": "After widget HTML",
   "designOptions": {
     "animation": "tada",
     "padding": "9px",
