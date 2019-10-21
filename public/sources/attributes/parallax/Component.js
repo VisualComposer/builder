@@ -164,6 +164,8 @@ export default class Parallax extends Attribute {
     options = storage.state('currentAttribute:settings').get()
     storage.state('currentAttribute:settings').delete()
     const value = this.state.devices[ this.state.currentDevice ].parallax || 'simple'
+    const currentOption = options.values.find(option => option.value === value)
+    const description = currentOption && currentOption.description ? <p className='vcv-ui-form-helper'>{currentOption.description}</p> : null
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -175,6 +177,7 @@ export default class Parallax extends Attribute {
         options={options}
         updater={this.valueChangeHandler}
         value={value} />
+      {description}
     </div>
   }
 
