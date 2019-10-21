@@ -10,7 +10,7 @@ describe('Template Panel', function () {
         cy.addElement(element)
       })
 
-      // 2. Create and save a template
+      // 2. Create and save two templates
       cy.get('.vcv-ui-navbar-control[title="Add Template"]').click()
       cy.window().then((window) => {
         cy.route('POST', window.vcvAdminAjaxUrl).as('saveTemplate')
@@ -18,13 +18,19 @@ describe('Template Panel', function () {
       cy.get('.vcv-ui-form-group-heading')
         .contains('Template Name')
         .then(($field) => {
-          const form = cy.wrap($field).next()
-
+          let form = cy.wrap($field).next()
           form.find('.vcv-ui-form-input')
               .clear()
-              .type(settings.templateName)
+              .type(settings.templateOneName)
               .next()
               .click()
+
+          form = cy.wrap($field).next()
+          form.find('.vcv-ui-form-input')
+            .clear()
+            .type(settings.templateTwoName)
+            .next()
+            .click()
         })
       cy.wait('@saveTemplate')
 
@@ -36,7 +42,7 @@ describe('Template Panel', function () {
       // 4. Check if element thumbnail is visible in the panel
       cy.get('.vcv-ui-item-element-name')
         .find('span')
-        .contains(settings.templateName)
+        .contains(settings.templateOneName)
 
       // 5. Remove all elements from the page
       cy.get('.vcv-ui-navbar-control[title="Tree View"]').click()
@@ -46,15 +52,15 @@ describe('Template Panel', function () {
       cy.get('.vcv-ui-navbar-control[title="Add Template"]').click()
       cy.get('#add-template-search')
         .clear()
-        .type(settings.templateName)
+        .type(settings.templateOneName)
 
       // 7. Add a template to the page
-      cy.get(`.vcv-ui-item-element[title="${settings.templateName}"]`)
+      cy.get(`.vcv-ui-item-element[title="${settings.templateOneName}"]`)
         .find('.vcv-ui-item-control[title="Add Template"]')
         .click({ force: true })
 
       // 8. Remove template
-      cy.get(`.vcv-ui-item-element[title="${settings.templateName}"]`)
+      cy.get(`.vcv-ui-item-element[title="${settings.templateOneName}"]`)
         .find('.vcv-ui-item-control[title="Remove Template"]')
         .click({ force: true })
 
@@ -68,7 +74,7 @@ describe('Template Panel', function () {
       cy.get('.vcv-ui-navbar-control[title="Add Template"]').click()
       cy.get('.vcv-ui-item-element-name')
         .find('span')
-        .contains(settings.templateName)
+        .contains(settings.templateOneName)
         .should('not.exist')
 
       // 11. Save and view page
