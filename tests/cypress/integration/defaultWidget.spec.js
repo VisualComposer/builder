@@ -46,9 +46,19 @@ describe(ELEMENT_NAME, function () {
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Before Widget html')
+        .next()
+        .next()
+        .find('.CodeMirror-code')
+        .clear()
+        .type(settings.beforeWidgetHTML, {parseSpecialCharSequences: false})
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('After Widget html')
+        .next()
+        .next()
+        .find('.CodeMirror-code')
+        .clear()
+        .type(settings.afterWidgetHTML, {parseSpecialCharSequences: false})
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Element ID')
@@ -85,6 +95,12 @@ describe(ELEMENT_NAME, function () {
         .and('have.css', 'animation-name', `vce-o-animate--${settings.designOptions.animation}`)
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
+
+      cy.get('.vce-before-widget')
+        .contains(settings.beforeWidgetHTMLText)
+
+      cy.get('.vce-after-widget')
+        .contains(settings.afterWidgetHTMLText)
 
       cy.wait(200)
       cy.get('.textwidget p')
