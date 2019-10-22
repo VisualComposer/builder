@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
  * Registers post type vc_gutenberg_attr for custom edit form attribute gutenberg
@@ -21,7 +22,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 class AttributeController extends Container implements Module
 {
     use WpFiltersActions;
-
+    use EventsFilters;
     /**
      * @var string
      */
@@ -33,6 +34,7 @@ class AttributeController extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction('init', 'initialize');
+        $this->addFilter('vcv:frontend:content vcv:frontend:content:encode', 'doGutenbergBlocks');
     }
 
     /**
@@ -230,5 +232,14 @@ class AttributeController extends Container implements Module
         add_filter('admin_body_class', 'gutenberg_add_admin_body_class');
         include_once ABSPATH . 'wp-admin/admin-header.php';
         the_gutenberg_project();
+    }
+
+    protected function doGutenbergBlocks($content, $payload)
+    {
+        if (function_exists('do_blocks')) {
+            $content = do_blocks($content);
+        }
+
+        return $content;
     }
 }
