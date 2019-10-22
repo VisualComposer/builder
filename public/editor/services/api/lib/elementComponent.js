@@ -410,7 +410,10 @@ export default class ElementComponent extends React.Component {
             key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')} />)
       }
 
-      const isBackgroundAnimation = parallaxData &&
+      const extendedOptionsState = elementsSettingsStorage.state('extendedOptions').get()
+      const isBackgroundAnimation = extendedOptionsState &&
+        extendedOptionsState.backgroundAnimationComponent &&
+        parallaxData &&
         parallaxData.parallaxEnable &&
         parallaxData.parallax &&
         parallaxData.parallax === 'backgroundAnimation' &&
@@ -431,7 +434,7 @@ export default class ElementComponent extends React.Component {
           <ParallaxBackground deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
             key={reactKey} atts={this.props.atts} content={deviceBackgroundElements} />)
       } else if (isBackgroundAnimation) {
-        const BackgroundAnimation = elementsSettingsStorage.state('extendedOptions').get().backgroundAnimationComponent
+        const BackgroundAnimation = extendedOptionsState.backgroundAnimationComponent
         reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-background-animation`
         deviceBackgroundData.push(
           <BackgroundAnimation deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
