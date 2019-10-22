@@ -474,7 +474,7 @@ const API = {
           fieldValue.value[ i ] = API.visualizeAttributes(element, api, paramsGroupProps, isNested)
         })
         layoutAtts[ fieldKey ] = fieldValue
-      } else if (type === 'htmleditor' && (!options || !options.inline)) {
+      } else if ((type === 'htmleditor' && (!options || !options.inline)) || (isNested && options && options.inline)) {
         layoutAtts[ fieldKey ] =
           <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
       } else {
