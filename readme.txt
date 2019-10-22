@@ -188,6 +188,7 @@ Yes, we have an awesome online community that you can join to share your experti
 
 #### Premium:
 - New: Tilt parallax effects added to a row, column, and section Design Options
+- New: Mouse follow parallax background added to a row, column, and section Design Options
 - New: Dynamic content works with Toolset plugin
 - New: Post Slider element available in Visual Composer Hub
 - Update: Parallax controls moved to the separate section
