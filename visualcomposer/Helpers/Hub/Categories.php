@@ -270,7 +270,8 @@ class Categories implements Helper
                     'bannerElement',
                     'profileWithIcon',
                     'soundcloudPlayer',
-                    'simpleContactForm'
+                    'simpleContactForm',
+                    'foodAndDrinksMenu'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
