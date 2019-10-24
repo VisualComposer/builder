@@ -30,8 +30,36 @@
   float: right;
 }
 
+.vcv-ui-form-attach-image-item-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .vcv-ui-form-attach-image-item-inner {
   position: relative;
+}
+
+.vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-item-inner {
+  margin-right: 5px;
+}
+
+.rtl .vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-item-inner {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+.vcv-ui-form-attach-image-item-add-control {
+  display: flex;
+  align-items: center;
+}
+
+.vcv-ui-form-attach-image-item-add-control.vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-control {
+  margin-right: 5px;
+}
+
+.rtl .vcv-ui-form-attach-image-item-add-control.vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-control {
+  margin-right: 0;
+  margin-left: 5px;
 }
 
 .vcv-ui-form-attach-image-thumbnail {
@@ -145,6 +173,26 @@
   width: 100%;
   font-size: @vcui-attach-image-url-button-font-size;
 }
+
+.vcv-ui-form-group .vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link-button {
+
+}
+
+
+.vcv-ui-form-group .vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link-button,
+.vcv-ui-form-attach-image-item .vcv-ui-form-link .vcv-ui-form-link-button {
+  width: auto;
+  padding: 6px 8px;
+
+  .vcv-ui-icon {
+    vertical-align: middle;
+    font-size: 9px;
+  }
+}
+//.vcv-ui-form-attach-image.vcv-ui-form-field-dynamic .vcv-ui-form-attach-image-item .vcv-ui-form-link .vcv-ui-form-link-button {
+//  width: auto;
+//  flex-grow: 1;
+//}
 
 .vcv-ui-form-attach-image-item.vcv-ui-form-attach-image-item-has-link-value .vcv-ui-form-link .vcv-ui-form-link-button {
   &.vcv-ui-form-button--default {

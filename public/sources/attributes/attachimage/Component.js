@@ -335,12 +335,19 @@ export default class AttachImage extends Attribute {
     const show = this.state.extraAttributes.url
     if (show) {
       let urlValue = this.state.value.urls[ key ].link || ''
+      let imageLink = true
       urlHtml = (
         <Url
           value={urlValue}
           updater={this.handleUrlChange.bind(this, key)}
           api={this.props.api}
           fieldKey={`${this.props.fieldKey}.linkUrl`}
+          options={this.props.options}
+          elementAccessPoint={this.props.elementAccessPoint}
+          handleDynamicFieldChange={this.props.handleDynamicFieldChange}
+          handleDynamicFieldClose={this.props.handleDynamicFieldClose}
+          handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
+          imageLink={imageLink}
         />
       )
     }
@@ -361,7 +368,9 @@ export default class AttachImage extends Attribute {
     if (dynamicFieldOpened) {
       content = <React.Fragment>
         {dynamicApi.renderDynamicInputs()}
-        {this.getUrlHtml(0)}
+        <div className='vcv-ui-form-attach-image-url-dynamic'>
+          {this.getUrlHtml(0)}
+        </div>
       </React.Fragment>
     }
 
@@ -378,8 +387,7 @@ export default class AttachImage extends Attribute {
 
     if (!dynamicFieldOpened) {
       content = <div className={dynamicApi.props.attachImageClassNames}>
-        {dynamicApi.props.attachImageComponent}
-        {dynamicApi.renderOpenButton()}
+        {dynamicApi.props.getAttachImageComponent(dynamicApi)}
       </div>
     }
 
@@ -389,6 +397,10 @@ export default class AttachImage extends Attribute {
         {isWindowOpen ? dynamicApi.getDynamicPopup() : null}
       </React.Fragment>
     )
+  }
+
+  getDynamicButtonHtml (dynamicApi) {
+    return dynamicApi.renderOpenButton()
   }
 
   handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
@@ -404,10 +416,33 @@ export default class AttachImage extends Attribute {
     return { fieldValue: newValue, dynamicValue: dynamicValue }
   }
 
+  getAttachImageComponent (dynamicApi) {
+    let useDragHandle = true
+    let cookElement = this.props.elementAccessPoint.cook()
+    let metaAssetsPath = cookElement.get('metaAssetsPath')
+    const dragClass = 'vcv-ui-form-attach-image-item--dragging'
+
+    let fieldComponent = <SortableList
+      {...this.props}
+      metaAssetsPath={metaAssetsPath}
+      helperClass={dragClass}
+      useDragHandle={useDragHandle}
+      onSortEnd={this.onSortEnd}
+      axis='xy'
+      value={this.state.value}
+      openLibrary={this.openLibrary}
+      handleRemove={this.handleRemove}
+      getUrlHtml={this.getUrlHtml}
+      dynamicApi={dynamicApi}
+    />
+
+    return fieldComponent
+  }
+
   render () {
     const { options } = this.props
     let { value, filter = false } = this.state
-    let useDragHandle = true
+
     let cookElement = this.props.elementAccessPoint.cook()
     let metaAssetsPath = cookElement.get('metaAssetsPath')
     let filterControl = (
@@ -434,19 +469,6 @@ export default class AttachImage extends Attribute {
       'vcv-ui-form-attach-image': true,
       'vcv-ui-form-field-dynamic': isDynamic
     })
-    const dragClass = 'vcv-ui-form-attach-image-item--dragging'
-    let fieldComponent = <SortableList
-      {...this.props}
-      metaAssetsPath={metaAssetsPath}
-      helperClass={dragClass}
-      useDragHandle={useDragHandle}
-      onSortEnd={this.onSortEnd}
-      axis='xy'
-      value={value}
-      openLibrary={this.openLibrary}
-      handleRemove={this.handleRemove}
-      getUrlHtml={this.getUrlHtml}
-    />
 
     let dynamicValue = value
 
@@ -456,9 +478,9 @@ export default class AttachImage extends Attribute {
 
     return (
       <React.Fragment>
-        <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={dynamicValue} attachImageClassNames={fieldClassNames} attachImageComponent={fieldComponent} render={this.customDynamicRender.bind(this)} handleDynamicFieldChange={this.handleDynamicFieldChange} onOpen={this.props.handleDynamicFieldOpen} onClose={this.props.handleDynamicFieldClose}>
+        <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={dynamicValue} attachImageClassNames={fieldClassNames} getAttachImageComponent={this.getAttachImageComponent.bind(this)} render={this.customDynamicRender.bind(this)} handleDynamicFieldChange={this.handleDynamicFieldChange} onOpen={this.props.handleDynamicFieldOpen} onClose={this.props.handleDynamicFieldClose}>
           <div className={fieldClassNames}>
-            {fieldComponent}
+            {this.getAttachImageComponent(false)}
           </div>
         </DynamicAttribute>
         {filterControl}

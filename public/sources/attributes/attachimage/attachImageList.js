@@ -90,6 +90,7 @@ export default class AttachImageList extends React.Component {
           />
         )
       } else {
+        childProps.dynamicApi = this.props.dynamicApi
         images.push(
           <AttachImageItem
             key={index}
@@ -99,11 +100,20 @@ export default class AttachImageList extends React.Component {
       }
     })
 
+    let controlClasses = 'vcv-ui-form-attach-image-item vcv-ui-form-attach-image-item-add-control'
+
+    let dynamicControl = null
+    if (this.props.dynamicApi) {
+      controlClasses += ` vcv-ui-form-attach-image-item-has-dynamic`
+      dynamicControl = this.props.dynamicApi.renderOpenButton()
+    }
+
     let addControl = (
-      <li className='vcv-ui-form-attach-image-item'>
+      <li className={controlClasses}>
         <a className='vcv-ui-form-attach-image-control' onClick={this.handleOpenLibrary.bind(this)} title={addImage}>
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
+        {dynamicControl}
       </li>
     )
 
