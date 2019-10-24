@@ -170,6 +170,35 @@ const API = {
           } else if (type === 'string') {
             isDynamic = value.match(blockRegexp)
           } else if ([ 'attachimage' ].indexOf(type) !== -1) {
+            let linkValue = value.link ? value.link : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].link : '')
+            if (linkValue && linkValue.url) {
+              let isLinkDynamic = linkValue.url.match(blockRegexp)
+              if (isLinkDynamic) {
+                const urlAttribute = {}
+                urlAttribute.element = cookElement
+                urlAttribute.settings = () => {
+                  return {
+                    settings: {
+                      options: {
+                        dynamicField: true
+                      }
+                    },
+                    type: {
+                      name: 'url'
+                    }
+                  }
+                }
+
+                urlAttribute.atts = {
+                  url: linkValue
+                }
+
+                let commentsStackResult = API.dynamicFields.getCommentsStack(id, urlAttribute, inner, attributesLevel)
+                attributesLevel = commentsStackResult.attributesLevel
+                commentStack = commentStack.concat(commentsStackResult.commentStack)
+              }
+            }
+
             value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
             isDynamic = value.match(blockRegexp)
           } else if ([ 'url' ].indexOf(type) !== -1) {
@@ -360,7 +389,7 @@ const API = {
       allowInline = false
     }
     Object.keys(atts).forEach((fieldKey) => {
-      const attrSettings = props ? props.attrSettings.settings.options.settings : element.settings(fieldKey)
+      const attrSettings = props && props.attrSettings ? props.attrSettings.settings.options.settings : element.settings(fieldKey)
       const type = props ? attrSettings[ fieldKey ].type : attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
       const options = props ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
 
@@ -390,6 +419,36 @@ const API = {
           isDynamic = tempValue.match(blockRegexp)
           if (isDynamic) {
             dynamicValue = tempValue
+          }
+
+          const linkValue = value.link ? value.link : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].link : '')
+          const isLinkDynamic = linkValue && linkValue.url && linkValue.url.match(blockRegexp)
+          if (isLinkDynamic) {
+            const urlElement = {
+              settings: () => {
+                return {
+                  url: {
+                    options: {
+                      dynamicField: true
+                    },
+                    type: 'url'
+                  }
+                }
+              }
+            }
+            const linkProps = {
+              atts: {
+                url: linkValue
+              }
+            }
+
+            let newLinkValue = API.visualizeAttributes(urlElement, false, linkProps)
+
+            if (value.link) {
+              value.link = newLinkValue.url
+            } else if (value.urls && value.urls[ 0 ] && value.urls[ 0 ].link) {
+              value.urls[ 0 ].link = newLinkValue.url
+            }
           }
         } else if ([ 'url' ].indexOf(type) !== -1) {
           let tempValue = value && value.url ? value.url : ''

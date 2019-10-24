@@ -61,24 +61,33 @@ export default class AttachImageItem extends React.Component {
     className = classNames(className, {
       'vcv-ui-form-attach-image-item': true,
       'vcv-ui-form-attach-image-item-has-link-value': url.link && url.link.url,
-      'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait
+      'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait,
+      'vcv-ui-form-attach-image-item-has-dynamic': !!this.props.dynamicApi
     })
+
+    let dynamicControl = null
+    if (this.props.dynamicApi) {
+      dynamicControl = this.props.dynamicApi.renderOpenButton()
+    }
 
     return (
       <li className={className}>
-        <div className='vcv-ui-form-attach-image-item-inner'>
-          <figure className='vcv-ui-form-attach-image-thumbnail'>
-            <img src={imgUrl} />
-          </figure>
-          <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
-            {oneMoreControl}
-            <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
-              onClick={this.handleRemove.bind(this, indexValue)}
-              title={removeImage}
-            >
-              <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
-            </a>
+        <div className='vcv-ui-form-attach-image-item-wrapper'>
+          <div className='vcv-ui-form-attach-image-item-inner'>
+            <figure className='vcv-ui-form-attach-image-thumbnail'>
+              <img src={imgUrl} />
+            </figure>
+            <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
+              {oneMoreControl}
+              <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
+                onClick={this.handleRemove.bind(this, indexValue)}
+                title={removeImage}
+              >
+                <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
+              </a>
+            </div>
           </div>
+          {dynamicControl}
         </div>
         {this.getLinkHtml(indexValue)}
       </li>
