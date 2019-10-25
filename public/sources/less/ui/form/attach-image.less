@@ -174,8 +174,63 @@
   font-size: @vcui-attach-image-url-button-font-size;
 }
 
-.vcv-ui-form-group .vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link-button {
+.vcv-ui-form-attach-image-url-dynamic,
+.vcv-ui-form-attach-image {
+  .vcv-ui-form-link {
+    max-width: 80px;
+    justify-content: center;
 
+    .vcv-ui-form-link-button-group {
+      justify-content: center;
+    }
+
+    .vcv-ui-dynamic-field-container {
+      flex-basis: auto;
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+
+    .vcv-ui-dynamic-field-controls {
+      direction: ltr;
+      flex-flow: row wrap;
+
+      .vcv-ui-icon {
+        background: #fff;
+        font-size: 12px;
+        padding: 6px;
+        color: #6f747b;
+        transition: background .2s;
+        border: 1px solid #d0d0d0;
+        border-radius: 0;
+        border-left: none;
+
+        &:hover {
+          background: #ddd;
+        }
+
+        &:first-child {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+          border-left: 1px solid #d0d0d0;
+        }
+
+        &:last-child {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
+
+      .vcv-ui-icon-close {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link .vcv-ui-form-link-button-group,
+.vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link {
+  justify-content: flex-start;
 }
 
 
@@ -183,23 +238,23 @@
 .vcv-ui-form-attach-image-item .vcv-ui-form-link .vcv-ui-form-link-button {
   width: auto;
   padding: 6px 8px;
+  line-height: 13px;
 
   .vcv-ui-icon {
     vertical-align: middle;
     font-size: 9px;
   }
 }
-//.vcv-ui-form-attach-image.vcv-ui-form-field-dynamic .vcv-ui-form-attach-image-item .vcv-ui-form-link .vcv-ui-form-link-button {
-//  width: auto;
-//  flex-grow: 1;
-//}
 
-.vcv-ui-form-attach-image-item.vcv-ui-form-attach-image-item-has-link-value .vcv-ui-form-link .vcv-ui-form-link-button {
-  &.vcv-ui-form-button--default {
-    background-color: @vcui-button-default-background-hover;
-    &.vcv-ui-state--active,
-    &:hover {
-      background-color: @vcui-button-default-background;
+.vcv-ui-form-attach-image-url-dynamic.vcv-ui-form-attach-image-item-has-link-value,
+.vcv-ui-form-attach-image-item.vcv-ui-form-attach-image-item-has-link-value {
+  .vcv-ui-form-link .vcv-ui-form-link-button {
+    &.vcv-ui-form-button--default {
+      background-color: @vcui-button-default-background-hover;
+      &.vcv-ui-state--active,
+      &:hover {
+        background-color: @vcui-button-default-background;
+      }
     }
   }
 }

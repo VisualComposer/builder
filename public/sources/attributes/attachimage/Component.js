@@ -161,8 +161,13 @@ export default class AttachImage extends Attribute {
     let value = props.value
     if (!lodash.isObject(value)) {
       value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
-      if (value && this.state && this.state.value && this.state.value.urls && this.state.value.urls[ 0 ] && this.state.value.urls[ 0 ].filter) {
-        value.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+      if (value && this.state && this.state.value && this.state.value.urls && this.state.value.urls[ 0 ]) {
+        if (this.state.value.urls[ 0 ].filter) {
+          value.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+        }
+        if (this.state.value.urls[ 0 ].link) {
+          value.urls[ 0 ].link = this.state.value.urls[ 0 ].link
+        }
       }
     } else if (lodash.isArray(value)) {
       if (value.length > 0) {
@@ -334,8 +339,9 @@ export default class AttachImage extends Attribute {
     let urlHtml = ''
     const show = this.state.extraAttributes.url
     if (show) {
-      let urlValue = this.state.value.urls[ key ].link || ''
-      let imageLink = true
+      const urlValue = this.state.value.urls[ key ].link || ''
+      const imageLink = true
+      const defaultValue = { url: "", title: "", targetBlank: false, relNofollow: false }
       urlHtml = (
         <Url
           value={urlValue}
@@ -345,8 +351,8 @@ export default class AttachImage extends Attribute {
           options={this.props.options}
           elementAccessPoint={this.props.elementAccessPoint}
           handleDynamicFieldChange={this.props.handleDynamicFieldChange}
-          handleDynamicFieldClose={this.props.handleDynamicFieldClose}
-          handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
+          defaultValue={defaultValue}
+          dynamicFieldType={'imageUrl'}
           imageLink={imageLink}
         />
       )
@@ -364,17 +370,21 @@ export default class AttachImage extends Attribute {
 
   customDynamicRender (dynamicApi) {
     const { dynamicFieldOpened, isWindowOpen } = dynamicApi.state
+    let { value } = this.state
     let content = ''
     if (dynamicFieldOpened) {
+      let urlClasses = 'vcv-ui-form-attach-image-url-dynamic'
+      if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ] && value.urls[ 0 ].link && value.urls[ 0 ].link.url) {
+        urlClasses += ' vcv-ui-form-attach-image-item-has-link-value'
+      }
       content = <React.Fragment>
         {dynamicApi.renderDynamicInputs()}
-        <div className='vcv-ui-form-attach-image-url-dynamic'>
+        <div className={urlClasses}>
           {this.getUrlHtml(0)}
         </div>
       </React.Fragment>
     }
 
-    const { value } = this.state
     let dynamicValue = value
     if (value && value.hasOwnProperty('urls')) {
       dynamicValue = value.urls[ 0 ] && value.urls[ 0 ].full ? value.urls[ 0 ].full : ''
