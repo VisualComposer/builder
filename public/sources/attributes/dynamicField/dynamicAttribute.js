@@ -199,23 +199,33 @@ export default class DynamicAttribute extends React.Component {
 
   renderDynamicInputs () {
     const { blockInfo } = this.state
+    const { dynamicFieldType } = this.props
     let noValueSetText = DynamicAttribute.localizations.noValueSet || 'No value set'
     let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive' onClick={this.open}>{noValueSetText}</span>
+    let labelText = noValueSetText
 
     if (blockInfo && blockInfo.blockAtts) {
       const label = this.getDynamicLabel(blockInfo.blockAtts.value, blockInfo.blockAtts.sourceId)
       if (label) {
         placeholderTag = <span className='vcv-ui-dynamic-field-tag' onClick={this.open}>{label}</span>
+        labelText = label
       } else {
         placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive' onClick={this.open}>{blockInfo.blockAtts.value}</span>
+        labelText = blockInfo.blockAtts.value
       }
+    }
+    let plugIconTitle = DynamicAttribute.localizations.dynamicFieldsEditText || 'Edit dynamic content'
+
+    if (dynamicFieldType === 'imageUrl') {
+      plugIconTitle = labelText
+      placeholderTag = null
     }
 
     return (
       <div className='vcv-ui-dynamic-field-container'>
         {placeholderTag}
         <span className='vcv-ui-dynamic-field-controls'>
-          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.open} title={DynamicAttribute.localizations.dynamicFieldsEditText || 'Edit dynamic content'} />
+          <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.open} title={plugIconTitle} />
           {this.renderCloseButton()}
         </span>
       </div>
