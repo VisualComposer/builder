@@ -341,7 +341,7 @@ export default class AttachImage extends Attribute {
     if (show) {
       const urlValue = this.state.value.urls[ key ].link || ''
       const imageLink = true
-      const defaultValue = { url: "", title: "", targetBlank: false, relNofollow: false }
+      const defaultValue = { url: '', title: '', targetBlank: false, relNofollow: false }
       urlHtml = (
         <Url
           value={urlValue}
