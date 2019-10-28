@@ -8,7 +8,7 @@ import { env, getService, getStorage } from 'vc-cake'
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const settingsStorage = getStorage('settings')
 const blockRegexp = getBlockRegexp()
-const exceptionalFieldTypes = ['wysiwyg']
+const exceptionalFieldTypes = ['wysiwyg', 'textarea']
 
 export default class HtmlEditorWrapper extends Attribute {
   static defaultProps = {
