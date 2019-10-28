@@ -176,6 +176,7 @@ class Categories implements Helper
                     'growShadowButton',
                     '3ColorButton',
                     'doubleTextButton',
+                    'callToActionButton'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Button.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Button.svg'),
