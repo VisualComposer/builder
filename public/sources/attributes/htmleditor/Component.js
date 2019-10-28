@@ -52,7 +52,7 @@ export default class HtmlEditorWrapper extends Attribute {
   handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
     // New html dynamic comment
     let value = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
-    const exceptionField = this.getExceptionField (value, this.props.fieldType)
+    const exceptionField = this.getExceptionField(value, this.props.fieldType)
 
     // Current value needed for .before/.after get, must be not encoded
     let dynamicValue = this.state.value
@@ -88,7 +88,7 @@ export default class HtmlEditorWrapper extends Attribute {
     if (blockInfo.length > 1) {
       const blockAtts = JSON.parse(blockInfo[ 4 ].trim())
       const fieldValue = blockAtts.value
-      const isVendorValue = fieldValue.includes(':') && fieldValue.split(":")
+      const isVendorValue = fieldValue.includes(':') && fieldValue.split(':')
       const postFields = settingsStorage.state('postFields').get()
       if (isVendorValue && postFields && postFields[ fieldType ]) {
         const vendorName = isVendorValue[ 0 ]
