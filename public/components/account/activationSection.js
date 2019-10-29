@@ -2,6 +2,8 @@ import React from 'react'
 import LoadingScreen from './loadingScreen'
 import FinalScreen from './finalScreen'
 import InitialScreen from './initialScreen'
+import FeatureScreen from './featureScreen'
+import ActivatePremiumScreen from './activatePremiumScreen'
 import PostUpdater from './postUpdate'
 import OopsScreenController from './oopsScreenController'
 import ThankYouScreen from './thankYouScreen'
@@ -12,8 +14,6 @@ const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
 
 export default class ActivationSectionProvider extends React.Component {
-  static activePage = window.VCV_SLUG && window.VCV_SLUG()
-  static shouldDoUpdate = ActivationSectionProvider.activePage === 'vcv-update' || ActivationSectionProvider.activePage === 'vcv-update-fe'
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static texts = {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
@@ -72,6 +72,7 @@ export default class ActivationSectionProvider extends React.Component {
     const isLoadingFinished = !assetsActions.length && !postUpdateActions.length
 
     this.state = {
+      activePage: window.VCV_SLUG && window.VCV_SLUG(),
       assetsActions: assetsActions,
       postUpdateActions: postUpdateActions,
       activeAssetsAction: 0,
@@ -88,6 +89,8 @@ export default class ActivationSectionProvider extends React.Component {
       loadingDescription: null
     }
 
+    ActivationSectionProvider.shouldDoUpdate = this.state.activePage === 'vcv-update' || this.state.activePage === 'vcv-update-fe'
+
     this.doAction = this.doAction.bind(this)
     this.doneActions = this.doneActions.bind(this)
     this.doPostUpdate = this.doPostUpdate.bind(this)
@@ -95,6 +98,7 @@ export default class ActivationSectionProvider extends React.Component {
     this.setError = this.setError.bind(this)
     this.sendErrorReport = this.sendErrorReport.bind(this)
     this.sendErrorCallback = this.sendErrorCallback.bind(this)
+    this.setActiveScreen = this.setActiveScreen.bind(this)
   }
 
   componentDidMount () {
@@ -222,7 +226,8 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   getActiveScreen () {
-    const { activePage, shouldDoUpdate } = ActivationSectionProvider
+    const { activePage } = this.state
+    const { shouldDoUpdate } = ActivationSectionProvider
 
     if (this.state.error) {
       return <OopsScreenController />
@@ -248,9 +253,19 @@ export default class ActivationSectionProvider extends React.Component {
       }
     } else if (activePage === 'vcv-about') {
       return <FinalScreen />
+    } else if (activePage === 'vcv-license-options') {
+      return <FeatureScreen setActiveScreen={this.setActiveScreen} />
+    } else if (activePage === 'vcv-activate-premium') {
+      return <ActivatePremiumScreen />
     } else if (activePage === 'vcv-getting-started') {
-      return <InitialScreen />
+      return <InitialScreen setActiveScreen={this.setActiveScreen} />
     }
+  }
+
+  setActiveScreen (screenName) {
+    this.setState({
+      activePage: screenName
+    })
   }
 
   sendErrorCallback () {
