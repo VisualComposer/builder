@@ -125,17 +125,20 @@ const API = {
     // .replace(/&quot;/g, "'")
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
-    let vcvHelper = documentFragment.querySelectorAll('vcvhelper, .vcvhelper')
-    vcvHelper = [].slice.call(vcvHelper)
-    vcvHelper.forEach((node) => {
-      let parentNode = node.parentNode
-      let sourceHtml = node.getAttribute('data-vcvs-html')
+
+    let helper = documentFragment.querySelector('vcvhelper') || documentFragment.querySelector('.vcvhelper')
+
+    while (helper) {
+      let parentNode = helper.parentNode
+      let sourceHtml = helper.getAttribute('data-vcvs-html')
       if (sourceHtml) {
         let textNode = range.createContextualFragment(sourceHtml)
-        parentNode.insertBefore(textNode, node)
+        parentNode.insertBefore(textNode, helper)
       }
-      parentNode.removeChild(node)
-    })
+      parentNode.removeChild(helper)
+      helper = documentFragment.querySelector('vcvhelper') || documentFragment.querySelector('.vcvhelper')
+    }
+
     let deleteAttribute = 'data-vce-delete-attr'
     let deleteAttrElements = documentFragment.querySelectorAll(`[${deleteAttribute}]`)
     deleteAttrElements = [].slice.call(deleteAttrElements)
