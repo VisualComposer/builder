@@ -126,7 +126,7 @@ const API = {
     let range = document.createRange()
     let documentFragment = range.createContextualFragment(data)
 
-    let helper = documentFragment.querySelector('vcvhelper') || documentFragment.querySelector('.vcvhelper')
+    let helper = documentFragment.querySelector('vcvhelper, .vcvhelper')
 
     while (helper) {
       let parentNode = helper.parentNode
@@ -136,7 +136,7 @@ const API = {
         parentNode.insertBefore(textNode, helper)
       }
       parentNode.removeChild(helper)
-      helper = documentFragment.querySelector('vcvhelper') || documentFragment.querySelector('.vcvhelper')
+      helper = documentFragment.querySelector('vcvhelper, .vcvhelper')
     }
 
     let deleteAttribute = 'data-vce-delete-attr'
