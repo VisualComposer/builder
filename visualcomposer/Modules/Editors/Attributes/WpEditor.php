@@ -85,7 +85,7 @@ class WpEditor extends Container implements Module
         ob_start();
         $this->getEditorButtonStyles();
         /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addCustomTinymcePlugins */
-        $filter_plugins = $this->wpAddFilter(
+        $filterPlugins = $this->wpAddFilter(
             'tiny_mce_plugins',
             'addCustomTinymcePlugins',
             1000,
@@ -93,26 +93,26 @@ class WpEditor extends Container implements Module
         ); // take over of tinymce advanced
         /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::updateTinymceButtons */
         $filter = $this->wpAddFilter('mce_buttons', 'updateTinymceButtons', 1000, 1); // take over of tinymce advanced
-        $filter_2 = $this->wpAddFilter(
+        $filterFirstToolbar = $this->wpAddFilter(
             'mce_buttons_2',
             'updateTinymceButtons',
             1000,
             1
         ); // take over of tinymce advanced
         /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addCustomTinymceButtons */
-        $filter_add_2 = $this->wpAddFilter(
+        $filterSecondToolbar = $this->wpAddFilter(
             'mce_buttons_2',
             'addCustomTinymceButtons',
             1000,
             1
         ); // take over of tinymce advanced
-        $filter_3 = $this->wpAddFilter(
+        $filterThirdToolbar = $this->wpAddFilter(
             'mce_buttons_3',
             'updateTinymceButtons',
             1000,
             1
         ); // take over of tinymce advanced
-        $filter_4 = $this->wpAddFilter(
+        $filterFourthToolbar = $this->wpAddFilter(
             'mce_buttons_4',
             'updateTinymceButtons',
             1000,
@@ -131,11 +131,11 @@ class WpEditor extends Container implements Module
         );
 
         remove_filter('mce_buttons', $filter);
-        remove_filter('mce_buttons_2', $filter_2);
-        remove_filter('mce_buttons_2', $filter_add_2);
-        remove_filter('mce_buttons_3', $filter_3);
-        remove_filter('mce_buttons_4', $filter_4);
-        remove_filter('tiny_mce_plugins', $filter_plugins);
+        remove_filter('mce_buttons_2', $filterFirstToolbar);
+        remove_filter('mce_buttons_2', $filterSecondToolbar);
+        remove_filter('mce_buttons_3', $filterThirdToolbar);
+        remove_filter('mce_buttons_4', $filterFourthToolbar);
+        remove_filter('tiny_mce_plugins', $filterPlugins);
 
         $output = ob_get_clean();
 
