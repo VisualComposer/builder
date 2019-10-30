@@ -9,8 +9,6 @@ export default class FeatureScreen extends React.Component {
   constructor (props) {
     super(props)
     this.activationContent = React.createRef()
-
-    this.handleFreeClick = this.handleFreeClick.bind(this)
   }
 
   componentDidMount () {
@@ -19,14 +17,9 @@ export default class FeatureScreen extends React.Component {
     }, 200)
   }
 
-
-
-  handleFreeClick () {
-    console.log('free')
-  }
-
-
   render () {
+    const activateFreeLink = window.VCV_PREMIUM_URL()
+
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -34,7 +27,6 @@ export default class FeatureScreen extends React.Component {
         <p className='vcv-activation-heading'>
           Get Access to the Visual Composer Hub
         </p>
-
         <div className='vcv-activation-box-container'>
           <div className='vcv-activation-box'>
             <h3 className='vcv-activation-box-heading'>Free License</h3>
@@ -45,7 +37,7 @@ export default class FeatureScreen extends React.Component {
               <li className='vcv-basic-list-item vcv-basic-list-item--not-included'>Premium support and updates</li>
             </ul>
             <div className='vcv-activation-button-container'>
-              <button type='button' onClick={this.handleFreeClick} className='vcv-activation-button vcv-activation-button--dark'>Activate free</button>
+              <a href={activateFreeLink} className='vcv-activation-button vcv-activation-button--dark'>Activate free</a>
             </div>
           </div>
           <div className='vcv-activation-box'>
