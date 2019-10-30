@@ -27,13 +27,17 @@ export default class HtmlEditorWrapper extends Attribute {
     const isDynamicSet = isDynamic && typeof this.state.value === 'string' && this.state.value.match(blockRegexp)
     this.state.dynamicFieldOpened = isDynamicSet
     this.state.isDynamicSet = isDynamicSet
+    if (isDynamicSet) {
+      this.state.exceptionField = this.getExceptionField(this.state.value, this.props.fieldType)
+    }
   }
 
   handleDynamicFieldClose () {
     window.setTimeout(() => {
       this.setState({
         dynamicFieldOpened: false,
-        isDynamicSet: false
+        isDynamicSet: false,
+        exceptionField: false
       })
     }, 1)
   }
@@ -92,9 +96,13 @@ export default class HtmlEditorWrapper extends Attribute {
       const postFields = settingsStorage.state('postFields').get()
       if (isVendorValue && postFields && postFields[ fieldType ]) {
         const vendorName = isVendorValue[ 0 ]
-        const vendorValues = postFields[ fieldType ][ vendorName ].group.values
-        const currentValue = vendorValues.find(item => item.value === fieldValue)
-        isExceptionField = currentValue && currentValue.fieldType && exceptionalFieldTypes.includes(currentValue.fieldType)
+        const vendorGroup = postFields[ fieldType ][ vendorName ]
+        if (vendorGroup && vendorGroup.group && vendorGroup.group.values) {
+          const vendorValues = vendorGroup.group.values
+          const currentValue = vendorValues.find(item => item.value === fieldValue)
+          isExceptionField = currentValue && currentValue.fieldType && exceptionalFieldTypes.includes(currentValue.fieldType)
+        }
+
       }
     }
     return isExceptionField
