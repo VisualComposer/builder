@@ -1,6 +1,10 @@
 import React from 'react'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
+import { getService } from 'vc-cake'
+import { getResponse } from 'public/tools/response'
+
+const dataProcessor = getService('dataProcessor')
 
 export default class FeatureScreen extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -32,13 +36,32 @@ export default class FeatureScreen extends React.Component {
 
   handleActivateClick (type, e) {
     e.preventDefault()
-
-    console.log(type)
-    console.log(this.state.licenseValue)
-
+    console.log('ActivateClick')
+    if (this.state.licenseValue) {
+      console.log('sending request')
+      const $ = window.jQuery
+      dataProcessor.appAdminServerRequest({
+        'vcv-action': 'activateLicense:adminNonce',
+        'vcv-license-key': this.state.licenseValue,
+        'vcv-activation-type': type ? type : 'premium'
+      }).then((responseData) => {
+        let response = getResponse(responseData)
+        console.log(response)
+      }, (error) => {
+        console.log(error)
+      })
+    }
   }
 
   render () {
+    let stagingButton = null
+    if (window.VCV_STAGING_AVAILABLE && window.VCV_STAGING_AVAILABLE()) {
+      stagingButton = <div className='vcv-activation-button-container'>
+        <button className='vcv-activation-button vcv-activation-button--dark' type='submit' onClick={this.handleActivateClick.bind(this, 'staging')}>
+          Activate staging
+        </button>
+      </div>
+    }
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -66,18 +89,14 @@ export default class FeatureScreen extends React.Component {
               <input placeholder='Enter your license key' className='vcv-basic-input' required='' name='licenseKey' type='text' value={this.state.licenseValue} onChange={this.handleInputChange} maxLength='36' />
             </div>
             <div className='vcv-activation-input-description'>
-              You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at <a href="#" className='vcv-activation-link'>my.visualcomposer.com</a>
+              You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at <a href="https://account.visualcomposer.com" className='vcv-activation-link'>account.visualcomposer.com</a>
             </div>
             <div className='vcv-activation-button-container'>
               <button className='vcv-activation-button' type='submit' onClick={this.handleActivateClick.bind(this, 'premium')}>
                 Activate premium
               </button>
             </div>
-            <div className='vcv-activation-button-container'>
-              <button className='vcv-activation-button vcv-activation-button--dark' type='submit' onClick={this.handleActivateClick.bind(this, 'staging')}>
-                Activate staging
-              </button>
-            </div>
+            {stagingButton}
           </div>
         </div>
       </div>
