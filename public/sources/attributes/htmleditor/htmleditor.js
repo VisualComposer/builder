@@ -13,7 +13,6 @@ const blockRegexp = getBlockRegexp()
 if (window.tinymce) {
   initializeTinymce(window.tinymce, window)
 }
-initializeJqueryPlugin(window)
 
 export default class HtmlEditorComponent extends React.Component {
   constructor (props) {
@@ -27,6 +26,7 @@ export default class HtmlEditorComponent extends React.Component {
     this.state = {}
     this.state.darkTextSkin = this.getDarkTextSkinState()
     this.state.value = props.value
+    initializeJqueryPlugin(window)
   }
 
   static getDerivedStateFromProps (props, currentState) {
