@@ -102,7 +102,6 @@ export default class HtmlEditorWrapper extends Attribute {
           const currentValue = vendorValues.find(item => item.value === fieldValue)
           isExceptionField = currentValue && currentValue.fieldType && exceptionalFieldTypes.includes(currentValue.fieldType)
         }
-
       }
     }
     return isExceptionField
