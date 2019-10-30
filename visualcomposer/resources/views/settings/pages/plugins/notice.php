@@ -14,8 +14,7 @@ global $status, $page, $s, $totals;
                 <p><?php
                     printf(
                         __(
-                            'You are about to deactivate your copy of Visual Composer Website Builder and won’t be able to manage your content. Your content remains untouched but due to plugin deactivation required CSS styles will be missing. To ensure correct content display use
-                    <a href="%s">this free plugin</a> that will load CSS styles automatically.',
+                            'We are sad to see you go. To deactivate the plugin click on the Deactivate button below. Also, we would appreciate <a href="%s">your feedback</a> on the reasons for the plugin deactivation so we can become better.',
                             'visualcomposer'
                         ),
                         'https://visualcomposer.com/deactivate'
