@@ -16,11 +16,17 @@ const ButtonsRegister = function (editor, window) {
   }
 
   const onPostRender = function (editor) {
+
     return function (e) {
       const ctrl = e.control
-
       // Wrap by jQuery to fix on('change') issue!!!
-      const $input = $(ctrl.$el).find('.vcv-ui-tinymce-fonts-selectbox-font-family')
+      let $ctrl = $(ctrl.$el)
+
+      function clearMenus ($el) {
+        $el.is('.vcv-ui-tinymce-fonts-selectbox') ? $el.removeClass('mce-active') : $el.closest('.vcv-ui-tinymce-fonts-selectbox').removeClass('mce-active')
+      }
+
+      const $input = $ctrl.find('.vcv-ui-tinymce-fonts-selectbox-font-family')
       const $label = ctrl.$el.find('.vcv-ui-tinymce-fonts-selectbox-label')
 
       const fontFamilies = getFontFamilies()
@@ -39,6 +45,7 @@ const ButtonsRegister = function (editor, window) {
           $input.val(currentFontFamily || '')
           ctrl.state.set('value', '')
         }
+        clearMenus($ctrl)
       })
 
       // Once font family is selected we need to change node style
