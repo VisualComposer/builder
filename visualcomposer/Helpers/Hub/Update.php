@@ -162,6 +162,11 @@ class Update implements Helper
             'value' => $this->isUrlDev(VCV_PLUGIN_URL),
             'type' => 'constant',
         ];
+        $variables[] = [
+            'key' => 'VCV_UPDATE_URL',
+            'value' => admin_url('admin.php?page=vcv-update'),
+            'type' => 'constant',
+        ];
         if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
