@@ -11,6 +11,30 @@ const initializeJqueryPlugin = function (window) {
   window.vcvTinymcePluginInitialized = true
   const toggleSelector = '[data-toggle=vcv-ui-tinymce-fonts-selectbox]'
 
+  const clearMenus = function ($el) {
+    if ($el) {
+      $el.closest('.vcv-ui-tinymce-fonts-selectbox').removeClass('mce-active')
+    } else {
+      $('.vcv-ui-tinymce-fonts-selectbox').removeClass('mce-active')
+    }
+    document.body.removeEventListener('click', closeIfNotInside)
+  }
+
+  const closeIfNotInside = function (e) {
+    e && e.preventDefault()
+    let $el = $(e.target)
+
+    let $dropDown = '.vcv-ui-tinymce-fonts-selectbox-options'
+    let mainWrapper = '.vcv-ui-tinymce-fonts-selectbox'
+    let container = $el.closest($dropDown) || $el.closest(mainWrapper)
+
+    if (container && container.length) {
+      return
+    }
+
+    clearMenus()
+  }
+
   const toggle = function (e) {
     e && e.preventDefault()
     const $el = $(this)
@@ -48,8 +72,17 @@ const initializeJqueryPlugin = function (window) {
       }
     }
 
+    if (!isActive) {
+      // this means it will be active now
+      document.body.addEventListener('click', closeIfNotInside)
+    } else {
+      // this means popup is closed
+      document.body.removeEventListener('click', closeIfNotInside)
+    }
+
     return false
   }
+
   const filter = function () {
     const $el = $(this)
     const $parent = $el.closest('.vcv-ui-tinymce-fonts-selectbox')
@@ -58,6 +91,7 @@ const initializeJqueryPlugin = function (window) {
 
     $items.filter(function () { return ($(this).text().toUpperCase().indexOf($el.val().toUpperCase()) !== -1) }).show()
   }
+
   const select = function (e) {
     const $el = $(this)
     e.preventDefault()
@@ -79,10 +113,6 @@ const initializeJqueryPlugin = function (window) {
     })
     $input.trigger('change')
     clearMenus($el)
-  }
-
-  function clearMenus ($el) {
-    $el.closest('.vcv-ui-tinymce-fonts-selectbox').removeClass('mce-active')
   }
 
   $('body')
