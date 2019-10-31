@@ -16,7 +16,6 @@ const ButtonsRegister = function (editor, window) {
   }
 
   const onPostRender = function (editor) {
-
     return function (e) {
       const ctrl = e.control
       // Wrap by jQuery to fix on('change') issue!!!
