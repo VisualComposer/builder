@@ -26,4 +26,10 @@ class LicenseControllerTest extends WP_UnitTestCase
     {
         $this->assertEquals('https://account.visualcomposer.io/activate-license', vcvenv('VCV_ACTIVATE_LICENSE_URL'));
     }
+
+    public function testLicenseActivateUrl()
+    {
+        $this->assertEquals('https://account.visualcomposer.io/activation', vcvenv('VCV_LICENSE_ACTIVATE_URL'));
+    }
+
 }
