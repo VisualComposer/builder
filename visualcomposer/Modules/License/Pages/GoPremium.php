@@ -10,13 +10,14 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Logger;
+use VisualComposer\Helpers\Notice;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Utm;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -39,6 +40,8 @@ class GoPremium extends Container implements Module
 
     public function __construct(License $licenseHelper)
     {
+        $this->addFilter('vcv:ajax:activateLicense:adminNonce', 'activateInAccount');
+
         if (!$licenseHelper->isActivated()) {
             $this->wpAddAction(
                 'in_admin_footer',
@@ -78,6 +81,8 @@ class GoPremium extends Container implements Module
                 'pluginsPageLink'
             );
         }
+
+        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
@@ -126,54 +131,70 @@ class GoPremium extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Logger $loggerHelper
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
      * @param \VisualComposer\Helpers\Token $tokenHelper
      *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @param \VisualComposer\Helpers\Utm $utmHelper
-     *
-     * @return bool|void
-     * @throws \ReflectionException
+     * @return array|mixed|object
      */
-    protected function activateInAccount(
-        CurrentUser $currentUserHelper,
-        License $licenseHelper,
-        Token $tokenHelper,
+    public function activateInAccount(
         Request $requestHelper,
-        Utm $utmHelper
+        Logger $loggerHelper,
+        Notice $noticeHelper,
+        License $licenseHelper,
+        Options $optionsHelper,
+        Token $tokenHelper
     ) {
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
-        }
-        $urlHelper = vchelper('Url');
-        $nonceHelper = vchelper('Nonce');
+        $body = [
+            'url' => VCV_PLUGIN_URL,
+            'activation-type' => $requestHelper->input('vcv-activation-type'),
+            'license-key' => $requestHelper->input('vcv-license-key'),
+        ];
 
-        $vcvRef = $requestHelper->input('vcv-ref');
-        $utm = $utmHelper->get($vcvRef);
-
-        if (!$utm) {
-            $utm = '&utm_medium=wp-dashboard&utm_source=wp-menu&utm_campaign=gopremium';
-        }
-
-        wp_redirect(
-            vcvenv('VCV_LICENSE_ACTIVATE_URL') .
-            '/?redirect=' . rawurlencode(
-                $urlHelper->adminAjax(
-                    [
-                        'vcv-action' => 'license:activate:adminNonce',
-                        'vcv-nonce' => $nonceHelper->admin(),
-                    ]
-                )
-            ) .
-            '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-            '&url=' . VCV_PLUGIN_URL .
-            '&siteAuthorized=' . $tokenHelper->isSiteAuthorized() .
-            '&domain=' . get_site_url() .
-            $utm
+        $url = vchelper('Url')->query(vcvenv('VCV_ACTIVATE_LICENSE_URL'), $body);
+        $result = wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
         );
-        exit;
+
+        $resultBody = [];
+        if (is_array($result) && isset($result['body'])) {
+            $resultBody = json_decode($result['body'], true);
+        }
+
+        if ($resultBody && isset($resultBody['error'], $resultBody['error']['type'], $resultBody['error']['code'])) {
+            $code = $resultBody['error']['code'];
+            $message = $licenseHelper->licenseErrorCodes($code);
+            $loggerHelper->log(
+                $message,
+                [
+                    'result' => $body,
+                ]
+            );
+            $noticeHelper->addNotice(
+                'license:activation',
+                $message
+            );
+
+            return ['status' => false, 'response' => $resultBody];
+        }
+
+        if (!vcIsBadResponse($resultBody)) {
+            $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
+            $optionsHelper->deleteTransient('lastBundleUpdate');
+            $tokenHelper->setSiteAuthorized();
+            $noticeHelper->removeNotice('premium:deactivated');
+
+            return ['status' => true];
+        }
+
+        return $resultBody;
     }
 
     /**
@@ -190,5 +211,15 @@ class GoPremium extends Container implements Module
     protected function addCss()
     {
         evcview('license/get-premium-css');
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
+    protected function unsetOptions(Options $optionsHelper)
+    {
+        $optionsHelper
+            ->delete('siteRegistered')
+            ->delete('license-key');
     }
 }
