@@ -56,7 +56,7 @@ class NoticeController extends Container implements Module
                         'vcv:' . $notice['name'] . ':notice:' . $notice['time']
                     )
                 ) {
-                    return;
+                    continue;
                 }
 
                 $class = 'notice notice-' . $notice['type'];
