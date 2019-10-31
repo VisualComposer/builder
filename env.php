@@ -37,31 +37,10 @@ if (!VcvEnv::has('VCV_API_URL')) {
     VcvEnv::set('VCV_API_URL', defined('VCV_API_URL') ? constant('VCV_API_URL') : 'https://api.visualcomposer.com');
 }
 
-if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_URL')) {
+if (!VcvEnv::has('VCV_ACTIVATE_LICENSE_URL')) {
     VcvEnv::set(
-        'VCV_LICENSE_ACTIVATE_URL',
-        defined('VCV_LICENSE_ACTIVATE_URL') ? constant('VCV_LICENSE_ACTIVATE_URL') : 'https://account.visualcomposer.io/activation'
-    );
-}
-
-if (!VcvEnv::has('VCV_LICENSE_DEACTIVATE_URL')) {
-    VcvEnv::set(
-        'VCV_LICENSE_DEACTIVATE_URL',
-        defined('VCV_LICENSE_DEACTIVATE_URL') ? constant('VCV_LICENSE_DEACTIVATE_URL') : 'https://account.visualcomposer.io/deactivate-license'
-    );
-}
-
-if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_FINISH_URL')) {
-    VcvEnv::set(
-        'VCV_LICENSE_ACTIVATE_FINISH_URL',
-        defined('VCV_LICENSE_ACTIVATE_FINISH_URL') ? constant('VCV_LICENSE_ACTIVATE_FINISH_URL') : 'https://account.visualcomposer.io/finish-license-activation'
-    );
-}
-
-if (!VcvEnv::has('VCV_LICENSE_DEACTIVATE_FINISH_URL')) {
-    VcvEnv::set(
-        'VCV_LICENSE_DEACTIVATE_FINISH_URL',
-        defined('VCV_LICENSE_DEACTIVATE_FINISH_URL') ? constant('VCV_LICENSE_DEACTIVATE_FINISH_URL') : 'https://account.visualcomposer.io/finish-license-deactivation'
+        'VCV_ACTIVATE_LICENSE_URL',
+        defined('VCV_ACTIVATE_LICENSE_URL') ? constant('VCV_ACTIVATE_LICENSE_URL') : 'https://account.visualcomposer.io/activate-license'
     );
 }
 

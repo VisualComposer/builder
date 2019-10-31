@@ -51,29 +51,6 @@ class License extends Container implements Helper
         return $optionsHelper->get('license-key-token');
     }
 
-    public function deactivateInAccount()
-    {
-        $currentUserHelper = vchelper('AccessCurrentUser');
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return;
-        }
-        $urlHelper = vchelper('Url');
-        $nonceHelper = vchelper('Nonce');
-        wp_redirect(
-            vcvenv('VCV_LICENSE_DEACTIVATE_URL') .
-            '/?redirect=' . rawurlencode(
-                $urlHelper->adminAjax(
-                    ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
-                )
-            ) .
-            '&token=' . rawurlencode($this->newKeyToken()) .
-            '&license_key=' . rawurlencode($this->getKey()) .
-            '&url=' . VCV_PLUGIN_URL .
-            '&domain=' . get_site_url()
-        );
-        exit;
-    }
-
     /**
      * Set license key token.
      *
@@ -172,6 +149,18 @@ class License extends Container implements Helper
                 break;
             case 3:
                 $message = __('Visual Composer Website Builder license has been deactivated.', 'visualcomposer');
+                break;
+            case 4:
+                $message = __('License key is missing, please enter a valid license key.', 'visualcomposer');
+                break;
+            case 5:
+                $message = __('Url is missing, please try again.', 'visualcomposer');
+                break;
+            case 6:
+                $message = __('Visual Composer Website Builder license is already activated.', 'visualcomposer');
+                break;
+            case 7:
+                $message = __('Activation failed, please try again.', 'visualcomposer');
                 break;
         }
 
