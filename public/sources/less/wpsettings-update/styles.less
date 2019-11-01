@@ -88,6 +88,7 @@
     outline: none;
     transition: background @vcv-transitionDuration @vcv-transitionTimingFunction;
     cursor: pointer;
+    position: relative;
 
     &:hover,
     &:focus {
@@ -100,6 +101,33 @@
       &:hover,
       &:focus {
         background: #1e1e1e;
+      }
+    }
+
+    &.vcv-activation-button--loading {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0,0,0,.5);
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        height: @wp-spinner-base-size;
+        width: @wp-spinner-base-size;
+        background: transparent url('../../images/loaders/spinner-light.svg') 50% 50% no-repeat;
+        background-size: contain;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        animation: vcv-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
+        z-index: 1;
       }
     }
   }
@@ -648,6 +676,12 @@
   .vcv-basic-input-container--password {
     margin-top: 22px;
   }
+
+  &.vcv-activation--loading {
+    .vcv-activation-button {
+      pointer-events: none;
+    }
+  }
 }
 
 .vcv-activation-box {
@@ -769,7 +803,8 @@ input.vcv-basic-input {
   vertical-align: middle;
   margin-bottom: 19px;
   border: 0;
-  box-shadow: none;
+  box-shadow: 0 0 0 1px transparent;
+  transition: box-shadow .2s;
 
   &:focus,
   &:hover {
@@ -781,6 +816,25 @@ input.vcv-basic-input {
   &::-webkit-input-placeholder {
     color: #CDCDCD;
   }
+
+  &.vcv-ui-form-input--error {
+    box-shadow: 0 0 0 1px @state-color-error;
+  }
+}
+
+.vcv-activation-box-error-box {
+  margin-top: 22px;
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  color: #fff;
+  line-height: 24px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-align: left;
+  background: #f57e7c;
+  padding: 8px 15px;
+  border-radius: 5px;
 }
 
 .vcv-activation-input-description {
