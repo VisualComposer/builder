@@ -5,7 +5,7 @@
   border: 1px solid #ddd;
   box-shadow: none;
   outline: none;
-  padding: 4px;
+  padding: 4px 4px 4px 24px;
   box-sizing: border-box;
 }
 
@@ -68,4 +68,22 @@
   opacity: 0.7;
   text-decoration: none;
   box-shadow: 0 0 0 1px #a9a9a9;
+}
+
+/** Add search icon */
+.vcv-ui-tinymce-fonts-selectbox-input-box:before {
+  content: @vcv-ui-icon-search;
+  color: #c5c5c5;
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  font-family: 'VC-Icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
