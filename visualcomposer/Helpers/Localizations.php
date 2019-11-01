@@ -374,6 +374,10 @@ class Localizations extends Container implements Helper
                 'Activate Premium',
                 'visualcomposer'
             ),
+            'activateStaging' => __(
+                'Activate Staging',
+                'visualcomposer'
+            ),
             'searchPhotosOnUnsplash' => __(
                 'Search free high-resolution photos on Unsplash',
                 'visualcomposer'
@@ -468,6 +472,62 @@ class Localizations extends Container implements Helper
             ),
             'activatePremiumToUnlockStockImages' => __(
                 'Activate Premium to Unlock Stock Images',
+                'visualcomposer'
+            ),
+            'getAccessToTheVisualComposerHub' => __(
+                'Get Access to the Visual Composer Hub',
+                'visualcomposer'
+            ),
+            'freeLicense' => __(
+                'Free License',
+                'visualcomposer'
+            ),
+            'limitedAccessToExtensions' => __(
+                'Limited access to the Visual Composer Hub of elements, templates, and extensions',
+                'visualcomposer'
+            ),
+            'themeBuilderWithHFS' => __(
+                'Theme builder with Header, Footer, and Sidebar editor',
+                'visualcomposer'
+            ),
+            'wooCommerceCompatibility' => __(
+                'WooCommerce compatibility',
+                'visualcomposer'
+            ),
+            'premiumSupportAndUpdates' => __(
+                'Premium support and updates',
+                'visualcomposer'
+            ),
+            'activateFree' => __(
+                'Activate Free',
+                'visualcomposer'
+            ),
+            'premiumLicense' => __(
+                'Premium License',
+                'visualcomposer'
+            ),
+            'unlimitedAccessToExtensions' => __(
+                'Unlimited access to the Visual Composer Hub of elements, templates, and extensions',
+                'visualcomposer'
+            ),
+            'getPremiumFeaturesText1' => __(
+                'Get Premium Elements, Templates,',
+                'visualcomposer'
+            ),
+            'getPremiumFeaturesText2' => __(
+                'Extensions, and Support',
+                'visualcomposer'
+            ),
+            'whatYouWillGet' => __(
+                'What You Will Get?',
+                'visualcomposer'
+            ),
+            'iWantToGoPremium' => __(
+                'I want to go premium',
+                'visualcomposer'
+            ),
+            'findSubscriptionLicenseAt' => __(
+                'You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at',
                 'visualcomposer'
             ),
         ];
