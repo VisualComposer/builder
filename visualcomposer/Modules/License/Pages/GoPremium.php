@@ -38,7 +38,7 @@ class GoPremium extends Container implements Module
     /**
      * @var string
      */
-    protected $templatePath = '';
+    protected $templatePath = 'license/layout';
 
     public function __construct(License $licenseHelper)
     {
@@ -267,7 +267,7 @@ class GoPremium extends Container implements Module
         wp_enqueue_script('vcv:wpUpdate:script');
         wp_enqueue_style('vcv:wpUpdate:style');
     }
-    
+
     /**
      * Add target _blank to external "Go Premium" link in sidebar
      */
