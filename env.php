@@ -37,10 +37,10 @@ if (!VcvEnv::has('VCV_API_URL')) {
     VcvEnv::set('VCV_API_URL', defined('VCV_API_URL') ? constant('VCV_API_URL') : 'https://api.visualcomposer.com');
 }
 
-if (!VcvEnv::has('VCV_LICENSE_ACTIVATE_URL')) {
+if (!VcvEnv::has('VCV_FREE_ACTIVATE_URL')) {
     VcvEnv::set(
-        'VCV_LICENSE_ACTIVATE_URL',
-        defined('VCV_LICENSE_ACTIVATE_URL') ? constant('VCV_LICENSE_ACTIVATE_URL') : 'https://account.visualcomposer.io/activation'
+        'VCV_FREE_ACTIVATE_URL',
+        defined('VCV_FREE_ACTIVATE_URL') ? constant('VCV_FREE_ACTIVATE_URL') : 'https://account.visualcomposer.io/activation'
     );
 }
 
