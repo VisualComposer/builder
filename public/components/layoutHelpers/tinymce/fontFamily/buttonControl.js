@@ -29,7 +29,9 @@ const ButtonControl = function (tinymce) {
          <span class="vcv-ui-tinymce-fonts-selectbox-label mce-txt">Default Font</span><i class="mce-caret"></i>
         </button>
         <div class="vcv-ui-tinymce-fonts-selectbox-options">
-          <input type="text" class="vcv-ui-tinymce-fonts-selectbox-filter">
+          <div class="vcv-ui-tinymce-fonts-selectbox-input-box">
+            <input type="text" class="vcv-ui-tinymce-fonts-selectbox-filter">
+          </div>  
           <div role="listbox">
             <ul role="option">${getFontFamilyList()}</ul>
           </div>
