@@ -160,7 +160,7 @@ class GoPremium extends Container implements Module
         $nonceHelper = vchelper('Nonce');
         $utm = $utmHelper->get('getting-started');
         wp_redirect(
-            vcvenv('VCV_LICENSE_ACTIVATE_URL') .
+            vcvenv('VCV_FREE_ACTIVATE_URL') .
             '/?redirect=' . rawurlencode(
                 $urlHelper->adminAjax(
                     [
@@ -172,6 +172,7 @@ class GoPremium extends Container implements Module
             '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
             '&url=' . VCV_PLUGIN_URL .
             '&siteAuthorized=0' .
+            '&vcv-version=' . VCV_VERSION .
             '&domain=' . get_site_url() .
             $utm
         );
