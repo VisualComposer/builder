@@ -49,7 +49,7 @@ export default class FeatureScreen extends React.Component {
               <li className='vcv-basic-list-item'>Premium support and updates</li>
             </ul>
             <div className='vcv-activation-button-container'>
-              <button type='button' onClick={this.props.setActiveScreen.bind(this, 'vcv-activate-premium')} className='vcv-activation-button'>Activate Premium</button>
+              <button type='button' onClick={this.props.setActiveScreen.bind(this, 'vcv-go-premium')} className='vcv-activation-button'>Activate Premium</button>
             </div>
           </div>
         </div>
