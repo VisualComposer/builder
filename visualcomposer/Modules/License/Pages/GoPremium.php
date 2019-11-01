@@ -247,6 +247,28 @@ class GoPremium extends Container implements Module
     }
 
     /**
+     *
+     */
+    protected function beforeRender()
+    {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:wpUpdate:script',
+            $urlHelper->to('public/dist/wpUpdate.bundle.js'),
+            ['vcv:assets:vendor:script'],
+            VCV_VERSION
+        );
+        wp_register_style(
+            'vcv:wpUpdate:style',
+            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:wpUpdate:script');
+        wp_enqueue_style('vcv:wpUpdate:style');
+    }
+    
+    /**
      * Add target _blank to external "Go Premium" link in sidebar
      */
     protected function addJs()
