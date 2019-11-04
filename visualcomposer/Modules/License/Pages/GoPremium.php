@@ -201,7 +201,7 @@ class GoPremium extends Container implements Module
         $body = [
             'url' => VCV_PLUGIN_URL,
             'activation-type' => $requestHelper->input('vcv-activation-type'),
-            'license-key' => $requestHelper->input('vcv-license-key'),
+            'license' => $requestHelper->input('vcv-license-key'),
         ];
 
         $url = vchelper('Url')->query(vcvenv('VCV_ACTIVATE_LICENSE_URL'), $body);
@@ -217,8 +217,8 @@ class GoPremium extends Container implements Module
             $resultBody = json_decode($result['body'], true);
         }
 
-        if ($resultBody && isset($resultBody['error'], $resultBody['error']['type'], $resultBody['error']['code'])) {
-            $code = $resultBody['error']['code'];
+        if ($resultBody && isset($resultBody['success'], $resultBody['error']) && !$resultBody['success']) {
+            $code = $resultBody['error'];
             $message = $licenseHelper->licenseErrorCodes($code);
             $loggerHelper->log(
                 $message,
