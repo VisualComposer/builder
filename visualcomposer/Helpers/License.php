@@ -141,12 +141,19 @@ class License extends Container implements Helper
     {
         $message = '';
         switch ($errorCode) {
+            case 'expired':
             case 1:
                 $message = __('Visual Composer Website Builder license has expired.', 'visualcomposer');
                 break;
+            case 'missing':
+            case 'item_name_mismatch':
             case 2:
                 $message = __('Couldn\'t find a valid Visual Composer Website Builder license.', 'visualcomposer');
                 break;
+            case 'invalid':
+            case 'site_inactive':
+            case 'disabled':
+            case 'revoked':
             case 3:
                 $message = __('Visual Composer Website Builder license has been deactivated.', 'visualcomposer');
                 break;
@@ -161,6 +168,12 @@ class License extends Container implements Helper
                 break;
             case 7:
                 $message = __('Activation failed, please try again.', 'visualcomposer');
+                break;
+            case 'no_activations_left':
+                $message = __('Your license key has reached its activation limit.', 'visualcomposer');
+                break;
+            default :
+                $message = __('An error occurred, please try again.', 'visualcomposer');
                 break;
         }
 
