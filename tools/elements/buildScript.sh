@@ -16,7 +16,7 @@ do {
   CNT=$(($CNT+1))
   if cd $i; then
     cd $i
-    ../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --no-info & pid=$1
+    ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js --no-info & pid=$1
   fi
 
   PID_LIST+=" $pid";

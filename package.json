@@ -25,7 +25,7 @@
     "npm": ">=5.8"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "git://github.com/pavelthq/vc-webpack-vendors.git#01408f6dfdf35be53539d3b397ce5a65d9bb9ffc",
+    "vc-webpack-vendors": "2.4.0",
     "color-blend": "git://github.com/wpbakery/color-blend.git#5dd059a6dbdc6754f53f4eca09800953534d8322",
     "combokeys": "3.0.0",
     "event-emitter": "0.3.5",
@@ -40,7 +40,6 @@
     "react-slick": "0.25.2",
     "react-sortable-hoc": "1.9.1",
     "react-textarea-autosize": "7.1.0",
-    "react-tinymce": "0.7.0",
     "reactcss": "1.2.3",
     "tinycolor2": "1.4.1",
     "webfontloader": "1.6.28"
@@ -96,10 +95,10 @@
   },
   "resolutions": {
     "core-js": "3.2.1",
-    "postcss": "7.0.18",
+    "postcss": "7.0.21",
     "css-loader": "3.2.0",
     "color-name": "1.1.4",
-    "eslint": "6.5.1",
+    "eslint": "6.6.0",
     "less": "3.10.3"
   },
   "browserslist": [
