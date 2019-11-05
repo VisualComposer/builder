@@ -137,6 +137,11 @@ class License extends Container implements Helper
         return true;
     }
 
+    /**
+     * @param $errorCode
+     * @codingStandardsIgnoreStart
+     * @return string|void
+     */
     public function licenseErrorCodes($errorCode)
     {
         $message = '';
@@ -172,11 +177,12 @@ class License extends Container implements Helper
             case 'no_activations_left':
                 $message = __('Your license key has reached its activation limit.', 'visualcomposer');
                 break;
-            default :
+            default:
                 $message = __('An error occurred, please try again.', 'visualcomposer');
                 break;
         }
 
+        // @codingStandardsIgnoreEnd
         return $message;
     }
 }

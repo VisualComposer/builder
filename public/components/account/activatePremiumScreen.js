@@ -51,7 +51,7 @@ export default class ActivatePremiumScreen extends React.Component {
       dataProcessor.appAdminServerRequest({
         'vcv-action': 'activateLicense:adminNonce',
         'vcv-license-key': this.state.licenseValue,
-        'vcv-activation-type': type ? type : 'premium'
+        'vcv-activation-type': type || 'premium'
       }).then((responseData) => {
         let response = getResponse(responseData)
         if (response && response.status) {
@@ -169,7 +169,7 @@ export default class ActivatePremiumScreen extends React.Component {
               <input placeholder='Enter your license key' className={inputClasses} required='' name='licenseKey' type='text' value={this.state.licenseValue} onChange={this.handleInputChange} maxLength='36' onFocus={this.handleInputFocus} />
             </div>
             <div className='vcv-activation-input-description'>
-              {findSubscriptionLicenseAtText} <a href="https://account.visualcomposer.com" className='vcv-activation-link'>account.visualcomposer.com</a>
+              {findSubscriptionLicenseAtText} <a href='https://account.visualcomposer.com' className='vcv-activation-link'>account.visualcomposer.com</a>
             </div>
             <div className='vcv-activation-button-container'>
               <button className={premiumButtonClasses} onClick={this.handleActivateClick.bind(this, 'premium')}>
