@@ -61,7 +61,7 @@ class Iconpicker extends Attribute {
       })
     }
     if (category) {
-      addIcons(iconSetList[ iconSet ][ category ].iconData, iconSetList[ iconSet ][ category ].disabled)
+      addIcons(iconSetList[ iconSet ].iconData[ category ], iconSetList[ iconSet ].iconData[ category ].disabled)
     } else {
       if (Array.isArray(iconSetList[ iconSet ].iconData)) {
         addIcons(iconSetList[ iconSet ].iconData, iconSetList[ iconSet ].disabled)
