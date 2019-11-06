@@ -29,9 +29,15 @@ export default class InitialScreen extends React.Component {
     let goPremiumButton = ''
 
     if (window.VCV_MANAGE_OPTIONS()) {
-      goPremiumButton = (
-        <button onClick={this.props.setActiveScreen.bind(this, 'vcv-license-options')} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</button>
-      )
+      if (window.VCV_IS_ACTIVATED()) {
+        goPremiumButton = (
+          <button onClick={this.props.setActiveScreen.bind(this, 'vcv-go-premium')} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</button>
+        )
+      } else {
+        goPremiumButton = (
+          <button onClick={this.props.setActiveScreen.bind(this, 'vcv-license-options')} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</button>
+        )
+      }
     }
 
     return (

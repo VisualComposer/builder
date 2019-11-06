@@ -160,7 +160,7 @@ export default class ActivatePremiumScreen extends React.Component {
               <li className='vcv-basic-list-item'>{premiumSupportAndUpdatesText}</li>
             </ul>
             <div className='vcv-activation-button-container'>
-              <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{iWantToGoPremiumText}</a>
+              <a href={window.VCV_GO_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{iWantToGoPremiumText}</a>
             </div>
           </div>
           <div className='vcv-activation-box'>
