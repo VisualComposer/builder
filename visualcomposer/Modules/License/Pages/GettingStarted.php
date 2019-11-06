@@ -61,7 +61,6 @@ class GettingStarted extends Container implements Module
                         exit;
                     }
                 }
-
             },
             70
         );
