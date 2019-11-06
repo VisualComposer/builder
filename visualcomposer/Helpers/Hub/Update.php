@@ -108,6 +108,7 @@ class Update implements Helper
     public function getVariables()
     {
         $urlHelper = vchelper('Url');
+        $utmHelper = vchelper('Utm');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
         $requiredHelper = vchelper('Request');
@@ -208,8 +209,20 @@ class Update implements Helper
         ];
 
         $variables[] = [
+            'key' => 'VCV_GO_PREMIUM_URL',
+            'value' => $utmHelper->get($vcvRef),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
             'key' => 'VCV_MANAGE_OPTIONS',
             'value' => vchelper('AccessCurrentUser')->wpAll('manage_options')->get(),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_ACTIVATE_FREE_URL',
+            'value' => admin_url('admin.php?page=vcv-activate-free&vcv-ref=' . $vcvRef),
             'type' => 'constant',
         ];
 

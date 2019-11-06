@@ -65,13 +65,10 @@ class GoPremium extends Container implements Module
                 if (!$licenseHelper->isActivated()) {
                     $this->call('addPage');
                 }
-                if ($requestHelper->input('page') === $this->getSlug()) {
-                    if (!$licenseHelper->isActivated()) {
-                        $this->call('activateInAccount');
-                    } else {
-                        wp_redirect(admin_url('admin.php?page=vcv-about'));
-                        exit;
-                    }
+
+                if ($requestHelper->input('page') === $this->getSlug() && $licenseHelper->isActivated()) {
+                    wp_redirect(admin_url('admin.php?page=vcv-about'));
+                    exit;
                 }
             },
             70
@@ -130,53 +127,6 @@ class GoPremium extends Container implements Module
         array_push($links, $goPremiumLink);
 
         return $links;
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Token $tokenHelper
-     *
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     *
-     * @param \VisualComposer\Helpers\Utm $utmHelper
-     *
-     * @return bool|void
-     * @throws \ReflectionException
-     */
-    protected function activateInAccount(
-        CurrentUser $currentUserHelper,
-        License $licenseHelper,
-        Token $tokenHelper,
-        Request $requestHelper,
-        Utm $utmHelper
-    ) {
-        if (!$currentUserHelper->wpAll('manage_options')->get()
-            || !$requestHelper->exists('vcv-ref')
-            || $requestHelper->input('vcv-ref') !== 'getting-started') {
-            return;
-        }
-        $urlHelper = vchelper('Url');
-        $nonceHelper = vchelper('Nonce');
-        $utm = $utmHelper->get('getting-started');
-        wp_redirect(
-            vcvenv('VCV_FREE_ACTIVATE_URL') .
-            '/?redirect=' . rawurlencode(
-                $urlHelper->adminAjax(
-                    [
-                        'vcv-action' => 'license:activate:adminNonce',
-                        'vcv-nonce' => $nonceHelper->admin(),
-                    ]
-                )
-            ) .
-            '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-            '&url=' . VCV_PLUGIN_URL .
-            '&siteAuthorized=0' .
-            '&vcv-version=' . VCV_VERSION .
-            '&domain=' . get_site_url() .
-            $utm
-        );
-        exit;
     }
 
     /**
