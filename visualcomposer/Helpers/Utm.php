@@ -25,13 +25,13 @@ class Utm implements Helper
             'feAddElementSearchPremiumVersion' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
             'feHubTeaserPremiumVersion' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium',
             'goPremiumElementDownload' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium&utm_content=locked-item',
-            'getting-started' => '&utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium',
-            'nav-bar' => '&utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
-            'activation-page' => '&utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=gopremium',
-            'logoFrontend' => '&utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=gopremium',
-            'hub-banner' => '&utm_medium=frontend-editor&utm_source=hub&utm_campaign=hub-banner',
-            'plugins-page' => '&utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium',
-            'start-blank' => '&utm_medium=frontend-editor&utm_source=start-blank&utm_campaign=gopremium',
+            'getting-started' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium',
+            'nav-bar' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
+            'activation-page' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=gopremium',
+            'logoFrontend' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=gopremium',
+            'hub-banner' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=hub-banner',
+            'plugins-page' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium',
+            'start-blank' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=start-blank&utm_campaign=gopremium',
         ];
 
         return $utm;

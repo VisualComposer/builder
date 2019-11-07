@@ -90,8 +90,8 @@ $postTypeHelper = vchelper('PostType');
       admin_url('post-new.php?post_type=vcv_gutenberg_attr')
   ); ?>';
   window.vcvIsActivated = Boolean(<?php echo $tokenHelper->isSiteAuthorized(); ?>);
-  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=hub-banner')); ?>';
-  window.vcvUpgradeUrlUnsplash = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium&vcv-ref=unsplash')); ?>';
+  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=hub-banner')); ?>';
+  window.vcvUpgradeUrlUnsplash = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=unsplash')); ?>';
   <?php if (isset($feError) && $feError) : ?>
   window.vcvFeError = '<?php echo $feError; ?>'
   <?php endif; ?>

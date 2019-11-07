@@ -7,7 +7,7 @@
 .vcv-screen-section,
 .vcv-activation-section {
   position: relative;
-  padding: 20px 20px 0 0;
+  padding: 20px 0 0 0;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   text-align: center;
@@ -34,8 +34,8 @@
 
 .vcv-activation-plugin-version-box {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 37px;
+  right: 0;
   background: #fff;
   padding: 9px 12px;
   border-radius: 30px;
@@ -88,6 +88,7 @@
     outline: none;
     transition: background @vcv-transitionDuration @vcv-transitionTimingFunction;
     cursor: pointer;
+    position: relative;
 
     &:hover,
     &:focus {
@@ -100,6 +101,33 @@
       &:hover,
       &:focus {
         background: #1e1e1e;
+      }
+    }
+
+    &.vcv-activation-button--loading {
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0,0,0,.5);
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        height: @wp-spinner-base-size;
+        width: @wp-spinner-base-size;
+        background: transparent url('../../images/loaders/spinner-light.svg') 50% 50% no-repeat;
+        background-size: contain;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        animation: vcv-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
+        z-index: 1;
       }
     }
   }
@@ -633,6 +661,205 @@
   }
 }
 
+.vcv-activation-box-container {
+  display: flex;
+  margin: auto;
+  max-width: 930px;
+  overflow: hidden;
+  align-items: center;
+  flex-direction: column-reverse;
+}
+
+.vcv-activation-box-container-premium {
+  align-items: center;
+
+  .vcv-basic-input-container--password {
+    margin-top: 22px;
+  }
+
+  &.vcv-activation--loading {
+    .vcv-activation-button {
+      pointer-events: none;
+    }
+  }
+}
+
+.vcv-activation-box {
+  width: 435px;
+  max-width: 100%;
+  padding: 0 20px;
+  margin-bottom: 50px;
+}
+
+.vcv-activation-box-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #363636;
+  font-size: 22px;
+  letter-spacing: .69px;
+  line-height: 28px;
+  text-align: left;
+  margin: 22px 0;
+}
+
+.vcv-activation-box-container .vcv-basic-list {
+  min-height: 230px;
+  margin-bottom: 10px;
+}
+
+.vcv-basic-list {
+  list-style-type: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+
+.vcv-basic-list-item {
+  padding-left: 38px;
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  color: #999999;
+  font-size: 13px;
+  line-height: 24px;
+  letter-spacing: .8px;
+  margin-bottom: 24px;
+}
+
+.vcv-basic-list-item:before {
+  content: @vcv-ui-icon-save;
+  font-family: 'VC-Icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 20px;
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  color: #6DAB3C;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vcv-basic-list-item.vcv-basic-list-item--not-included:before {
+  content: @vcv-ui-icon-close;
+  color: #E97070;
+}
+
+.vcv-activation-box .vcv-activation-button-container a.vcv-activation-button,
+.vcv-activation-box .vcv-activation-button-container button.vcv-activation-button {
+  margin: 0;
+  width: 100%;
+}
+
+.vcv-basic-input-container--password {
+  position: relative;
+
+  &:before {
+    content: @vcv-ui-icon-key;
+    font-size: 28px;
+    height: 28px;
+    font-family: 'VC-Icons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    color: #DADADA;
+  }
+
+  .vcv-basic-input {
+    padding-left: 60px;
+  }
+}
+
+input.vcv-basic-input {
+  display: block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 20px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 13px;
+  color: #363636;
+  letter-spacing: .80px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  margin-bottom: 19px;
+  border: 0;
+  box-shadow: 0 0 0 1px transparent;
+  transition: box-shadow .2s;
+
+  &:focus,
+  &:hover {
+    outline: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  &::-webkit-input-placeholder {
+    color: #CDCDCD;
+  }
+
+  &.vcv-ui-form-input--error {
+    box-shadow: 0 0 0 1px @state-color-error;
+  }
+}
+
+.vcv-activation-box-error-box {
+  margin-top: 22px;
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  color: #fff;
+  line-height: 24px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-align: left;
+  background: #f57e7c;
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+.vcv-activation-input-description {
+  font-family: Roboto, sans-serif;
+  font-size: 13px;
+  color: #999;
+  line-height: 24px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-align: left;
+  margin-bottom: 20px;
+
+  .vcv-activation-link {
+    color: #363636;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+
+    &:hover {
+      border-bottom: 1px solid #363636;
+    }
+  }
+}
+
 @media screen and (min-width: 768px) {
   .vcv-activation-share-buttons {
     flex-wrap: nowrap;
@@ -641,5 +868,14 @@
       flex-basis: auto;
       margin: 4px 10px;
     }
+  }
+
+  .vcv-activation-box-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .vcv-activation-box-container-premium {
+    align-items: start;
   }
 }
