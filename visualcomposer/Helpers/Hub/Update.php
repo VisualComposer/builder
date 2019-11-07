@@ -358,7 +358,8 @@ class Update implements Helper
             return true;
         }
         $extraStagingPattern = '/^(.*)staging(\d?)\.(.[^\.]*)\.(.[^\.]*)$/';
-        if (preg_match($extraStagingPattern, $parsedUrl['host'])) {
+        $extraStagingPattern2 = '/^(.*)staging(\d?)(.[^\.]*)\.(.[^\.]*)\.(.[^\.]*)$/';
+        if (preg_match($extraStagingPattern, $parsedUrl['host']) || preg_match($extraStagingPattern2, $parsedUrl['host'])) {
             return true;
         }
         $extraTestPattern = '/^(.*)test(\d?)\.(.[^\.]*)\.(.[^\.]*)$/';
