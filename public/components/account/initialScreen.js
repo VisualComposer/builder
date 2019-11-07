@@ -27,10 +27,17 @@ export default class InitialScreen extends React.Component {
   render () {
     const buttonText = window.VCV_IS_ACTIVATED() ? InitialScreen.texts.goPremium : InitialScreen.texts.unlockHub
     let goPremiumButton = ''
+
     if (window.VCV_MANAGE_OPTIONS()) {
-      goPremiumButton = (
-        <a href={window.VCV_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</a>
-      )
+      if (window.VCV_IS_ACTIVATED()) {
+        goPremiumButton = (
+          <button onClick={this.props.setActiveScreen.bind(this, 'vcv-go-premium')} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</button>
+        )
+      } else {
+        goPremiumButton = (
+          <button onClick={this.props.setActiveScreen.bind(this, 'vcv-license-options')} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</button>
+        )
+      }
     }
 
     return (
@@ -43,7 +50,7 @@ export default class InitialScreen extends React.Component {
         <SliderComponent />
         <div className='vcv-activation-button-container'>
           <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
-          { goPremiumButton }
+          {goPremiumButton}
         </div>
         <ShareButtons />
       </div>
