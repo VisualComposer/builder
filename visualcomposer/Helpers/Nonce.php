@@ -86,9 +86,9 @@ class Nonce implements Helper
     protected function createPageEditableNonce()
     {
         $i = wp_nonce_tick();
-        $nonce_key = get_option('nonce_key', '');
-        $nonce_salt = get_option('nonce_salt', '');
+        $nonceKey = get_option('nonce_key', '');
+        $nonceSalt = get_option('nonce_salt', '');
 
-        return substr(wp_hash($i . '|' . $nonce_key . '|' . $nonce_salt, 'pageEditable'), -12, 10);
+        return substr(wp_hash($i . '|' . $nonceKey . '|' . $nonceSalt, 'pageEditable'), -12, 10);
     }
 }
