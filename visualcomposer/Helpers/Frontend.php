@@ -50,7 +50,7 @@ class Frontend implements Helper
         $query = [
             'vcv-editable' => '1',
             'vcv-source-id' => $sourceId,
-            'vcv-nonce' => vchelper('Nonce')->admin(),
+            'vcv-nonce' => vchelper('Nonce')->pageEditable(),
         ];
 
         $editableUrl = $link . $question . http_build_query($query, '', '&');
@@ -95,7 +95,7 @@ class Frontend implements Helper
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             if ($requestHelper->exists('vcv-editable')
                 && $requestHelper->exists('vcv-nonce')
-                && $nonceHelper->verifyAdmin($requestHelper->input('vcv-nonce'))
+                && $nonceHelper->verifyPageEditable($requestHelper->input('vcv-nonce'))
             ) {
                 return true;
             }

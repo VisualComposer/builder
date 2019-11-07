@@ -54,4 +54,41 @@ class Nonce implements Helper
                 'vcv:nonce:admin'
             );
     }
+
+    /**
+     * Create nonce for pageEditable url
+     *
+     * @return mixed
+     */
+    public function pageEditable()
+    {
+        return vchelper('AccessCurrentUser')->wpAll('edit_posts')->get() ? $this->createPageEditableNonce() : false;
+    }
+
+    /**
+     * Verify pageEditable nonce
+     *
+     * @param $nonce
+     *
+     * @return bool
+     */
+    public function verifyPageEditable($nonce)
+    {
+        return !empty($nonce) && vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()
+            && $nonce === $this->createPageEditableNonce();
+    }
+
+    /**
+     * Create nonce string for pageEditable
+     *
+     * @return string
+     */
+    protected function createPageEditableNonce()
+    {
+        $i = wp_nonce_tick();
+        $nonce_key = get_option('nonce_key', '');
+        $nonce_salt = get_option('nonce_salt', '');
+
+        return substr(wp_hash($i . '|' . $nonce_key . '|' . $nonce_salt, 'pageEditable'), -12, 10);
+    }
 }
