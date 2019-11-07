@@ -182,7 +182,7 @@ vcCake.add('contentLayout', (api) => {
         write && arr.push(item)
         return arr
       }, [])
-      params.push(`vcv-nonce=${window.vcvNonce}`)
+      params.push(`vcv-nonce=${window.vcvPageEditableNonce}`)
       if (template) {
         params.push(`vcv-template=${template.value}`)
         params.push(`vcv-template-type=${template.type}`)

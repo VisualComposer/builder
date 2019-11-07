@@ -78,6 +78,7 @@ $postTypeHelper = vchelper('PostType');
   window.vcvAjaxUrl = '<?php echo $urlHelper->ajax() ?>';
   window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
   window.vcvNonce = '<?php echo esc_js($nonceHelper->admin()); ?>';
+  window.vcvPageEditableNonce = '<?php echo esc_js($nonceHelper->pageEditable()); ?>';
   window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
   window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
   window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
