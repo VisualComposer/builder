@@ -125,6 +125,7 @@ jobs:
       - run: yarn run cypress run --project ./tests/
       - store_artifacts:
           path: ./tests/cypress/snapshots
+          path: ./tests/cypress/screenshots
   js-stores-tests:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
