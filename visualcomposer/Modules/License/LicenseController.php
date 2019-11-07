@@ -34,7 +34,6 @@ class LicenseController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:ajax:license:activate:adminNonce', 'getLicenseKey');
-        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'unsetLicenseKey');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
@@ -66,40 +65,12 @@ class LicenseController extends Container implements Module
 
         if ($requestHelper->input('activate')) {
             $token = $requestHelper->input('activate');
-
             if ($licenseHelper->isValidToken($token)) {
                 if ($requestHelper->exists('type') && $requestHelper->input('type') === 'free') {
                     $tokenHelper->setSiteAuthorized();
                     $optionsHelper->deleteTransient('lastBundleUpdate');
                     wp_redirect(admin_url('admin.php?page=vcv-update'));
                     exit;
-                } else {
-                    $body = [
-                        'token' => $licenseHelper->getKeyToken(),
-                        'id' => get_site_url(),
-                        'hoster_id' => vcvenv('VCV_ENV_ADDONS_ID'),
-                        'domain' => get_site_url(),
-                        'url' => VCV_PLUGIN_URL,
-                    ];
-                    $url = vcvenv('VCV_LICENSE_ACTIVATE_FINISH_URL');
-                    $url = vchelper('Url')->query($url, $body);
-
-                    $result = wp_remote_get(
-                        $url,
-                        [
-                            'timeout' => 30,
-                        ]
-                    );
-
-                    if (!vcIsBadResponse($result)) {
-                        $result = json_decode($result['body'], true);
-                        $licenseHelper->setKey($result['license_key']);
-                        $tokenHelper->setSiteAuthorized();
-                        $noticeHelper->removeNotice('premium:deactivated');
-                        $optionsHelper->deleteTransient('lastBundleUpdate');
-                        wp_redirect(admin_url('admin.php?page=vcv-update'));
-                        exit;
-                    }
                 }
             } else {
                 $noticeHelper->addNotice(
@@ -114,67 +85,10 @@ class LicenseController extends Container implements Module
         exit;
     }
 
-    /**
-     * Receive licence key and store it in DB
-     *
-     * @param $response
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return mixed
-     */
-    protected function unsetLicenseKey(
-        $response,
-        Request $requestHelper,
-        CurrentUser $currentUserHelper,
-        License $licenseHelper,
-        Options $optionsHelper
-    ) {
-        if (!$currentUserHelper->wpAll('manage_options')->get()) {
-            return $response;
-        }
-
-        if ($requestHelper->input('deactivate')) {
-            $token = $requestHelper->input('deactivate');
-
-            if ($licenseHelper->isValidToken($token)) {
-                $body = [
-                    'token' => $licenseHelper->getKeyToken(),
-                    'url' => VCV_PLUGIN_URL,
-                    'domain' => get_site_url(),
-                ];
-
-                $url = vcvenv('VCV_LICENSE_DEACTIVATE_FINISH_URL');
-                $url = vchelper('Url')->query($url, $body);
-
-                $result = wp_remote_get(
-                    $url,
-                    [
-                        'timeout' => 30,
-                    ]
-                );
-
-                if (!vcIsBadResponse($result)) {
-                    $licenseHelper->setKey('');
-                    $licenseHelper->setKeyToken('');
-                    $optionsHelper->deleteTransient('lastBundleUpdate');
-                    wp_redirect(admin_url('index.php'));
-                    exit;
-                }
-            }
-        }
-
-        wp_redirect(admin_url('index.php'));
-        exit;
-    }
-
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper
             ->delete('license-key-token')
-            ->delete('siteRegistered')
             ->delete('license-key');
     }
 }
