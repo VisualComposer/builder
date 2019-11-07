@@ -1,11 +1,11 @@
 const $ = window.jQuery
 const editLinkClass = 'vcv-custom-page-templates-404-page-edit-link'
-const dropdownItem = $('#vcv-custom-page-templates-404-page')
 
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const editLinkText = localizations && localizations.edit ? localizations.edit : 'Edit'
 
 const changeEditLink = () => {
+  const dropdownItem = $('#vcv-custom-page-templates-404-page')
   const selectedPageUrl = dropdownItem.find('option:selected').attr('data-url')
   const dropdownContainer = dropdownItem.closest('.vcv-ui-form-group').parent('td')
   const editLinkItem = $('.' + editLinkClass)
@@ -22,6 +22,7 @@ const changeEditLink = () => {
 }
 
 export const dropdownEditLink = () => {
+  const dropdownItem = $('#vcv-custom-page-templates-404-page')
   // Initial Page Load
   if (dropdownItem.find('option:selected').length) {
     changeEditLink()
