@@ -1,7 +1,7 @@
 import React from 'react'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
-import { getService } from 'vc-cake'
+import { env, getService } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 
 const dataProcessor = getService('dataProcessor')
@@ -169,7 +169,7 @@ export default class ActivatePremiumScreen extends React.Component {
               <input placeholder='Enter your license key' className={inputClasses} required='' name='licenseKey' type='text' value={this.state.licenseValue} onChange={this.handleInputChange} maxLength='36' onFocus={this.handleInputFocus} />
             </div>
             <div className='vcv-activation-input-description'>
-              {findSubscriptionLicenseAtText} <a href='https://account.visualcomposer.com' className='vcv-activation-link'>account.visualcomposer.com</a>
+              {findSubscriptionLicenseAtText}<a href={env('VCV_ACCOUNT_URL')} className='vcv-activation-link' target='_blank'>{env('VCV_ACCOUNT_URL').replace(/^https:\/\//i, ' ')}</a>
             </div>
             <div className='vcv-activation-button-container'>
               <button className={premiumButtonClasses} onClick={this.handleActivateClick.bind(this, 'premium')}>
