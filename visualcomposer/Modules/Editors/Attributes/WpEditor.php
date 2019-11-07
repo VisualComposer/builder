@@ -11,10 +11,12 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class WpEditor extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     protected $editorButtonStyles = false;
 
@@ -38,6 +40,42 @@ class WpEditor extends Container implements Module
         return $output;
     }
 
+    protected function updateTinymceButtons($mceButtons)
+    {
+        // Remove default fontselect
+        if (($key = array_search('fontselect', $mceButtons, true)) !== false) {
+            unset($mceButtons[ $key ]);
+        }
+
+        // Remove default fontsizeselect
+        if (($key = array_search('fontsizeselect', $mceButtons, true)) !== false) {
+            unset($mceButtons[ $key ]);
+        }
+
+        return array_values($mceButtons);
+    }
+
+    protected function addCustomTinymceButtons($mceButtons)
+    {
+        // only add in tinymce_2
+
+        // Add custom vcvFontsSelect (with google fonts)
+        array_unshift($mceButtons, 'letterSpacing');
+        array_unshift($mceButtons, 'lineHeight');
+        array_unshift($mceButtons, 'fontSizeSelectAdvanced');
+        array_unshift($mceButtons, 'fontWeight');
+        array_unshift($mceButtons, 'VcvFontsSelect');
+
+        return $mceButtons;
+    }
+
+    protected function addCustomTinymcePlugins($plugins)
+    {
+        $plugins[] = 'vcvhtmleditor';
+
+        return $plugins;
+    }
+
     protected function getWpEditor()
     {
         // @codingStandardsIgnoreStart
@@ -46,6 +84,41 @@ class WpEditor extends Container implements Module
         // @codingStandardsIgnoreEnd
         ob_start();
         $this->getEditorButtonStyles();
+        /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addCustomTinymcePlugins */
+        $filterPlugins = $this->wpAddFilter(
+            'tiny_mce_plugins',
+            'addCustomTinymcePlugins',
+            1000,
+            1
+        ); // take over of tinymce advanced
+        /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::updateTinymceButtons */
+        $filter = $this->wpAddFilter('mce_buttons', 'updateTinymceButtons', 1000, 1); // take over of tinymce advanced
+        $filterFirstToolbar = $this->wpAddFilter(
+            'mce_buttons_2',
+            'updateTinymceButtons',
+            1000,
+            1
+        ); // take over of tinymce advanced
+        /** @see \VisualComposer\Modules\Editors\Attributes\WpEditor::addCustomTinymceButtons */
+        $filterSecondToolbar = $this->wpAddFilter(
+            'mce_buttons_2',
+            'addCustomTinymceButtons',
+            1000,
+            1
+        ); // take over of tinymce advanced
+        $filterThirdToolbar = $this->wpAddFilter(
+            'mce_buttons_3',
+            'updateTinymceButtons',
+            1000,
+            1
+        ); // take over of tinymce advanced
+        $filterFourthToolbar = $this->wpAddFilter(
+            'mce_buttons_4',
+            'updateTinymceButtons',
+            1000,
+            1
+        ); // take over of tinymce advanced
+
         wp_editor(
             '%%content%%',
             '__VCVID__',
@@ -56,6 +129,14 @@ class WpEditor extends Container implements Module
                 ],
             ]
         );
+
+        remove_filter('mce_buttons', $filter);
+        remove_filter('mce_buttons_2', $filterFirstToolbar);
+        remove_filter('mce_buttons_2', $filterSecondToolbar);
+        remove_filter('mce_buttons_3', $filterThirdToolbar);
+        remove_filter('mce_buttons_4', $filterFourthToolbar);
+        remove_filter('tiny_mce_plugins', $filterPlugins);
+
         $output = ob_get_clean();
 
         return $output;

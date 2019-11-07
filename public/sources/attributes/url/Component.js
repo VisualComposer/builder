@@ -402,6 +402,10 @@ export default class Url extends Attribute {
         {this.drawModal()}
       </div>
     )
+    let linkButtonText = <span>{selectUrl}</span>
+    if (this.props.imageLink && this.props.options.dynamicField) {
+      linkButtonText = null
+    }
     const linkButton = (
       <button
         className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
@@ -410,7 +414,7 @@ export default class Url extends Attribute {
         title={addLink}
       >
         <i className='vcv-ui-icon vcv-ui-icon-link' />
-        <span>{selectUrl}</span>
+        {linkButtonText}
       </button>
     )
 

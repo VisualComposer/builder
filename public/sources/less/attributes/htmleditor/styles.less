@@ -1,0 +1,89 @@
+.vcv-ui-tinymce-fonts-selectbox input.vcv-ui-tinymce-fonts-selectbox-filter {
+  margin: 5px 9px;
+  width: calc(100% - 18px);
+  cursor: text;
+  border: 1px solid #ddd;
+  box-shadow: none;
+  outline: none;
+  padding: 4px 4px 4px 24px;
+  box-sizing: border-box;
+}
+
+/** Fonts list dropdown */
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 0;
+  margin: 2px 0 0;
+  background-color: #fff;
+  box-shadow: 0 3px 5px rgba(0,0,0,.2);
+}
+
+.vcv-ui-tinymce-fonts-selectbox.mce-active > .vcv-ui-tinymce-fonts-selectbox-options {
+  display: block;
+}
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul {
+  max-height: 350px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 5px 0 0 0;
+  width: 240px;
+}
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul > li {
+  margin-bottom: 2px;
+}
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options ul > li:last-child {
+  margin-bottom: 0;
+}
+
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a {
+  display: block;
+  padding: 3px 10px;
+  clear: both;
+  font-weight: normal;
+  line-height: 16px;
+  height: 22px;
+  color: #333;
+  white-space: nowrap;
+  text-decoration: none;
+  box-sizing: border-box;
+  text-indent: -9999px;
+  background-image: url("https://cdn.hub.visualcomposer.com/plugin-assets/fonts.png");
+  background-repeat: no-repeat;
+  border: none;
+  box-shadow: 0 0 0 1px transparent;
+  transition: box-shadow .2s, opacity .2s;
+}
+
+/** On hover/focus */
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a:hover,
+.vcv-ui-tinymce-fonts-selectbox .vcv-ui-tinymce-fonts-selectbox-options a:focus {
+  opacity: 0.7;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px #a9a9a9;
+}
+
+/** Add search icon */
+.vcv-ui-tinymce-fonts-selectbox-input-box:before {
+  content: @vcv-ui-icon-search;
+  color: #c5c5c5;
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  font-family: 'VC-Icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

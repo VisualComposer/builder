@@ -3,10 +3,12 @@ import HtmlEditor from './htmleditor'
 import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import classNames from 'classnames'
-import { env, getService } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
+const settingsStorage = getStorage('settings')
 const blockRegexp = getBlockRegexp()
+const exceptionalFieldTypes = ['wysiwyg', 'textarea']
 
 export default class HtmlEditorWrapper extends Attribute {
   static defaultProps = {
@@ -25,13 +27,17 @@ export default class HtmlEditorWrapper extends Attribute {
     const isDynamicSet = isDynamic && typeof this.state.value === 'string' && this.state.value.match(blockRegexp)
     this.state.dynamicFieldOpened = isDynamicSet
     this.state.isDynamicSet = isDynamicSet
+    if (isDynamicSet) {
+      this.state.exceptionField = this.getExceptionField(this.state.value, this.props.fieldType)
+    }
   }
 
   handleDynamicFieldClose () {
     window.setTimeout(() => {
       this.setState({
         dynamicFieldOpened: false,
-        isDynamicSet: false
+        isDynamicSet: false,
+        exceptionField: false
       })
     }, 1)
   }
@@ -50,6 +56,7 @@ export default class HtmlEditorWrapper extends Attribute {
   handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
     // New html dynamic comment
     let value = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
+    const exceptionField = this.getExceptionField(value, this.props.fieldType)
 
     // Current value needed for .before/.after get, must be not encoded
     let dynamicValue = this.state.value
@@ -64,7 +71,8 @@ export default class HtmlEditorWrapper extends Attribute {
     }
 
     this.setState({
-      isDynamicSet: true
+      isDynamicSet: true,
+      exceptionField: exceptionField
     })
 
     return value
@@ -78,6 +86,27 @@ export default class HtmlEditorWrapper extends Attribute {
     this.setState({ editorLoaded: loadedState })
   }
 
+  getExceptionField (value, fieldType) {
+    let isExceptionField = false
+    const blockInfo = value && value.split(blockRegexp)
+    if (blockInfo.length > 1) {
+      const blockAtts = JSON.parse(blockInfo[ 4 ].trim())
+      const fieldValue = blockAtts.value
+      const isVendorValue = fieldValue.includes(':') && fieldValue.split(':')
+      const postFields = settingsStorage.state('postFields').get()
+      if (isVendorValue && postFields && postFields[ fieldType ]) {
+        const vendorName = isVendorValue[ 0 ]
+        const vendorGroup = postFields[ fieldType ][ vendorName ]
+        if (vendorGroup && vendorGroup.group && vendorGroup.group.values) {
+          const vendorValues = vendorGroup.group.values
+          const currentValue = vendorValues.find(item => item.value === fieldValue)
+          isExceptionField = currentValue && currentValue.fieldType && exceptionalFieldTypes.includes(currentValue.fieldType)
+        }
+      }
+    }
+    return isExceptionField
+  }
+
   render () {
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
 
@@ -86,7 +115,8 @@ export default class HtmlEditorWrapper extends Attribute {
       'vcv-is-invisible': this.state.editorLoaded !== true,
       'vcv-ui-form-field-dynamic-is-opened': this.state.dynamicFieldOpened,
       'vcv-ui-form-field-dynamic-is-active': this.state.isDynamicSet,
-      'vcv-ui-form-field-has-dynamic': isDynamic
+      'vcv-ui-form-field-has-dynamic': isDynamic,
+      'vcv-ui-form-field-has-exception-field': this.state.exceptionField
     })
 
     return <div className={cssClasses}>

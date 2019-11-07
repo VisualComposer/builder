@@ -43,7 +43,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 20px;
+  margin: 0 0 10px;
   background-color: #fff;
   border: 1px solid #d1d1d1;
   border-radius: 3px;
@@ -142,6 +142,10 @@
       display: none;
     }
   }
+
+  &.vcv-ui-form-field-has-exception-field .vcv-ui-form-wp-tinymce-inner {
+    display: none;
+  }
 }
 
 .vcv-ui-dynamic-field-controls {
@@ -170,6 +174,12 @@
 
 .vcv-ui-form-input.vcv-ui-form-field-dynamic-extra {
   margin-top: 10px;
+}
+
+.vcv-ui-form-attach-image-item-dynamic-open {
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .rtl {

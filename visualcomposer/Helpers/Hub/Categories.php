@@ -176,6 +176,7 @@ class Categories implements Helper
                     'growShadowButton',
                     '3ColorButton',
                     'doubleTextButton',
+                    'callToActionButton'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Button.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Button.svg'),
@@ -271,7 +272,8 @@ class Categories implements Helper
                     'profileWithIcon',
                     'soundcloudPlayer',
                     'simpleContactForm',
-                    'foodAndDrinksMenu'
+                    'foodAndDrinksMenu',
+                    'starRanking'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),

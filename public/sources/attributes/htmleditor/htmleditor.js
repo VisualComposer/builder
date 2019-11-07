@@ -1,5 +1,7 @@
 import React from 'react'
-import TinyMceButtonsBuilder from 'public/components/layoutHelpers/contentEditable/lib/tinymceButtonsBuilder'
+import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
+import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
+import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts'
 import './css/content.css'
 import './css/wpEditor.css'
 import ToggleSmall from '../toggleSmall/Component'
@@ -8,6 +10,9 @@ import { getService } from 'vc-cake'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
+if (window.tinymce) {
+  initializeTinymce(window.tinymce, window)
+}
 
 export default class HtmlEditorComponent extends React.Component {
   constructor (props) {
@@ -15,15 +20,13 @@ export default class HtmlEditorComponent extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
     this.handleSkinChange = this.handleSkinChange.bind(this)
-    this.addFontDropdowns = this.addFontDropdowns.bind(this)
     this.handleFontChange = this.handleFontChange.bind(this)
-    this.handleFontWeightChange = this.handleFontWeightChange.bind(this)
-    this.handleCustomDropdownChange = this.handleCustomDropdownChange.bind(this)
     this.initWpEditorJs = this.initWpEditorJs.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
     this.state = {}
     this.state.darkTextSkin = this.getDarkTextSkinState()
     this.state.value = props.value
+    initializeJqueryPlugin(window)
   }
 
   static getDerivedStateFromProps (props, currentState) {
@@ -118,142 +121,9 @@ export default class HtmlEditorComponent extends React.Component {
     }
   }
 
-  addFontDropdowns (editor) {
-    let toolbars = [ 'toolbar1', 'toolbar2', 'toolbar3', 'toolbar4' ]
-    let overwriteGoogleFonts = false
-    let overwriteFontSize = false
-    let buttonsToAdd = 'googleFonts,fontWeight'
-    let sizeButtons = 'fontSizeSelectAdvanced,lineHeight,letterSpacing'
-
-    // overwrite default fontselect dropdown
-    toolbars.forEach((toolbar) => {
-      if (editor.settings.hasOwnProperty(toolbar)) {
-        if (editor.settings[ toolbar ].indexOf('fontselect') > -1) {
-          editor.settings[ toolbar ] = editor.settings[ toolbar ].replace('fontselect', buttonsToAdd)
-          overwriteGoogleFonts = true
-        }
-        if (editor.settings[ toolbar ].indexOf('fontsizeselect') > -1) {
-          editor.settings[ toolbar ] = editor.settings[ toolbar ].replace('fontsizeselect', sizeButtons)
-          overwriteFontSize = true
-        }
-      }
-    })
-    // Toolbar as array
-    if (editor.settings.hasOwnProperty('toolbar')) {
-      if (editor.settings.toolbar[ 0 ].indexOf('fontselect') > -1) {
-        editor.settings.toolbar[ 0 ] = editor.settings.toolbar[ 0 ].replace('fontselect', buttonsToAdd)
-        overwriteGoogleFonts = true
-      }
-      if (editor.settings.toolbar[ 0 ].indexOf('fontsizeselect') > -1) {
-        editor.settings.toolbar[ 0 ] = editor.settings.toolbar[ 0 ].replace('fontsizeselect', sizeButtons)
-        overwriteFontSize = true
-      }
-    }
-
-    if (!overwriteGoogleFonts) {
-      if (editor.settings.toolbar2) {
-        editor.settings.toolbar2 = buttonsToAdd + ',' + editor.settings.toolbar2
-      } else {
-        editor.settings.toolbar2 = buttonsToAdd
-      }
-    }
-
-    if (!overwriteFontSize) {
-      let toolbar2 = editor.settings.toolbar2.split(buttonsToAdd)
-      editor.settings.toolbar2 = buttonsToAdd + `,${sizeButtons}` + toolbar2[ 1 ]
-    }
-
-    this.buttonBuilder = new TinyMceButtonsBuilder(editor, window.tinymce, true)
-
-    this.buttonBuilder.addGoogleFontsDropdown('googleFonts', {
-      type: 'listbox',
-      text: 'Font Family',
-      tooltip: 'Font Family',
-      icon: false,
-      fixedWidth: true,
-      onselect: this.handleFontChange
-    })
-
-    this.buttonBuilder.addFontWeightDropdown('fontWeight', {
-      type: 'listbox',
-      text: 'Font Weight',
-      tooltip: 'Font Weight',
-      icon: false,
-      fixedWidth: true,
-      onselect: this.handleFontWeightChange
-    })
-
-    this.buttonBuilder.addFontSizeDropdown('fontSizeSelectAdvanced', {
-      type: 'listbox',
-      text: 'Font Sizes',
-      tooltip: 'Font Sizes',
-      fixedWidth: true,
-      onselect: this.handleCustomDropdownChange
-    })
-
-    this.buttonBuilder.addLineHeightDropdown('lineHeight', {
-      type: 'listbox',
-      text: 'Line Height',
-      tooltip: 'Line Height',
-      fixedWidth: true,
-      onselect: this.handleCustomDropdownChange
-    })
-
-    this.buttonBuilder.addLetterSpacingDropdown('letterSpacing', {
-      type: 'listbox',
-      text: 'Letter Spacing',
-      tooltip: 'Letter Spacing',
-      fixedWidth: true,
-      onselect: this.handleCustomDropdownChange
-    })
-
-    editor.on('init', () => {
-      editor.formatter.register('fontweight', {
-        inline: 'span',
-        toggle: false,
-        styles: { fontWeight: '%value' },
-        clear_child_styles: true
-      })
-      editor.formatter.register('fontstyle', {
-        inline: 'span',
-        toggle: false,
-        styles: { fontStyle: '%value' },
-        clear_child_styles: true
-      })
-      editor.formatter.register('lineheight', {
-        selector: 'figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
-        toggle: false,
-        styles: { lineHeight: '%value' },
-        clear_child_styles: true
-      })
-      editor.formatter.register('letterspacing', {
-        selector: 'span,figure,p,h1,h2,h3,h4,h5,h6,td,th,tr,div,ul,ol,li',
-        toggle: false,
-        styles: { letterSpacing: '%value' },
-        clear_child_styles: true
-      })
-      editor.formatter.register('defaultfont', {
-        inline: 'span',
-        toggle: false,
-        styles: { fontFamily: '' },
-        clear_child_styles: true
-      })
-    })
-  }
-
-  handleCustomDropdownChange () {
-    this.handleChangeWpEditor(this.editor)
-  }
-
-  handleFontWeightChange () {
-    this.handleFontChange()
-    this.handleChangeWpEditor(this.editor)
-  }
-
-  handleFontChange () {
+  handleFontChange (editor) {
     const { fieldKey, elementAccessPoint, options } = this.props
-    const usedGoogleFonts = this.buttonBuilder.getUsedFonts(this.editor.getBody())
-
+    const usedGoogleFonts = getUsedFonts(editor.getBody())
     if (usedGoogleFonts) {
       const element = elementAccessPoint.cook()
       const sharedAssetsData = element.get('metaElementAssets')
@@ -263,7 +133,6 @@ export default class HtmlEditorComponent extends React.Component {
       sharedAssetsData.googleFonts = sharedGoogleFonts
       elementAccessPoint.set('metaElementAssets', sharedAssetsData)
     }
-    this.handleChangeWpEditor(this.editor)
   }
 
   handleChange (event) {
@@ -272,8 +141,9 @@ export default class HtmlEditorComponent extends React.Component {
 
   handleChangeWpEditor (editor) {
     let value = editor.getContent()
+    this.handleFontChange(editor)
     if (this.props.dynamicFieldOpened) {
-      // the value html comment is encoded in this momment
+      // the value html comment is encoded in this moment
       value = decodeURIComponent(value)
       let blockInfo = parseDynamicBlock(value)
       if (blockInfo) {
@@ -361,7 +231,7 @@ export default class HtmlEditorComponent extends React.Component {
           setup: (editor) => {
             this.editor = editor
             editor.on('keyup change undo redo', this.handleChangeWpEditor.bind(this, editor))
-            this.addFontDropdowns(editor)
+            // this.addFontDropdowns(editor)
           },
           init_instance_callback: (editor) => {
             if (!firstLoad) {
@@ -400,19 +270,20 @@ export default class HtmlEditorComponent extends React.Component {
           }
         }, 10)
       } else {
+        // Html tinymce mode
         window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
           id: id,
           selector: '#' + id,
           setup: (editor) => {
             this.editor = editor
             editor.on('keyup change undo redo', this.handleChangeWpEditor.bind(this, editor))
-            this.addFontDropdowns(editor)
           },
           init_instance_callback: () => {
             this.loadUsedFonts(this.props)
             this.props.setEditorLoaded(true)
           }
         })
+        // classic text mode
         window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVID__' ], {
           id: id
         })
