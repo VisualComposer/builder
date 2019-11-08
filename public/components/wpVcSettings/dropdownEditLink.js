@@ -2,7 +2,7 @@ const $ = window.jQuery
 const editLinkClass = 'vcv-custom-page-templates-404-page-edit-link'
 
 const localizations = window.VCV_I18N && window.VCV_I18N()
-const editLinkText = localizations && localizations.edit ? localizations.edit : 'Edit'
+const editLinkText = localizations && localizations.edit404Template ? localizations.edit404Template : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this 404-page template.</div>'
 
 const changeEditLink = () => {
   const dropdownItem = $('#vcv-custom-page-templates-404-page')
@@ -12,9 +12,9 @@ const changeEditLink = () => {
 
   if (dropdownItem.val()) {
     if (editLinkItem.length) {
-      editLinkItem.attr('href', selectedPageUrl)
+      editLinkItem.find('a').attr('href', selectedPageUrl)
     } else {
-      dropdownContainer.append(`<a href='${selectedPageUrl}' class='${editLinkClass}' target='_blank'>${editLinkText}</a>`)
+      dropdownContainer.append(editLinkText.replace('{link}', selectedPageUrl).replace('{class}', editLinkClass))
     }
   } else {
     editLinkItem.remove()
