@@ -530,6 +530,15 @@ class Localizations extends Container implements Helper
                 'You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at',
                 'visualcomposer'
             ),
+            'edit404Template' => sprintf(
+                __(
+                    '%sEdit%s this 404-page template.%s',
+                    'visualcomposer'
+                ),
+                '<div class={class}"><a href="{link}" target="_blank">',
+                '</a>',
+                '</div>'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
