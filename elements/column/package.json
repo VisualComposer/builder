@@ -9,9 +9,9 @@
   },
   "scripts": {
     "standard": "standard --version && standard",
-    "build": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors",
-    "build-production": "webpack --version && webpack --config webpack.config.4x.production.babel.js -p --silent",
-    "watch": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors --watch"
+    "build": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors",
+    "build-production": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.production.js -p",
+    "watch": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors --watch"
   },
   "author": "@visualcomposer",
   "license": "GPL-2.0+",
@@ -20,7 +20,7 @@
     "npm": ">=5.8"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "2.0.1"
+    "vc-webpack-vendors": "2.4.0"
   },
   "babel": {
     "presets": [
@@ -46,8 +46,15 @@
     }
   },
   "resolutions": {
-    "css-loader": "2.1.1",
+    "core-js": "3.2.1",
+    "postcss": "7.0.21",
+    "css-loader": "3.2.0",
     "color-name": "1.1.4",
-    "eslint": "5.15.1"
-  }
+    "eslint": "6.6.0",
+    "less": "3.10.3"
+  },
+  "browserslist": [
+    "ie >= 11",
+    "last 2 version"
+  ]
 }

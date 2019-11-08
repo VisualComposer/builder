@@ -47,18 +47,24 @@
 }
 
 .vcv-ui-panel-controls-container .vcv-ui-form-button-group--large {
+  display: flex;
   flex-wrap: nowrap;
   border: 0;
   border-radius: 0;
 }
 
 .vcv-ui-panel-navigation-container .vcv-ui-form-button-group--large .vcv-ui-form-button {
+  width: 100%;
   border: 0;
   background: transparent;
   color: #f6f6f6;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.5px;
+}
+
+.vcv-ui-form-button-group-item:last-child {
+  flex-grow: 1;
 }
 
 .vcv-ui-panel-navigation-container .vcv-ui-form-button-group--large .vcv-ui-form-button.vcv-ui-form-button--active,
