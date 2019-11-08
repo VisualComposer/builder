@@ -28,7 +28,7 @@ class Plugin {
          */
         'bundlePath': {
           value: bundlePath,
-          writable: false,
+          writable: false
         },
         /**
          * @property {String}
@@ -36,7 +36,7 @@ class Plugin {
          */
         'repoPath': {
           value: repoPath,
-          writable: false,
+          writable: false
         },
         /**
          * @property {String}
@@ -51,7 +51,7 @@ class Plugin {
          * @name Builder#ignoreLibraries
          */
         'ignoreLibraries': {
-          value: [ 'faqToggle', 'menuToggle', 'slickSlider' ],
+          value: ['faqToggle', 'menuToggle', 'slickSlider'],
           writable: false
         }
       }
@@ -106,6 +106,7 @@ class Plugin {
     })
     return Promise.all(cleanupPromises)
   }
+
   cleanupElementFiles (elementPath, tag) {
     const promises = []
     const join = path.join
@@ -151,6 +152,7 @@ class Plugin {
     }
     return promises
   }
+
   async cleanupFiles () {
     const bundlePath = this.bundlePath
     return this.execute('rm -f ' + bundlePath + '/cache/.gitkeep', 'cleanupFiles')
@@ -201,6 +203,7 @@ class Plugin {
       fs.writeFileSync(pluginsWordpressFilePath, pluginWordpressContent)
     }
   }
+
   async installBuildProject () {
     process.chdir(this.repoPath)
     await this.execute('mv ./visualcomposer/Modules/Development ./ && php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
@@ -209,6 +212,7 @@ class Plugin {
     await this.execute('yarn build-production', 'Yarn build production...')
     await this.execute('bash ./tools/elements/buildProductionScript.sh', 'Build default elements...')
   }
+
   async build () {
     try {
       await this.installBuildProject()
