@@ -19,7 +19,8 @@ if (!defined('ABSPATH')) {
         <?php if (!empty($enabledOptions)) : ?>
             <?php foreach ($enabledOptions as $option) : ?>
                 <?php $selected = ($option['id'] === $value) ? 'selected' : ''; ?>
-                <option value="<?php echo $option['id']; ?>" <?php echo $selected; ?>><?php echo $option['title']; ?></option>
+                <?php $url = isset($option['url']) ? 'data-url="' . $option['url'] . '"' : ''; ?>
+                <option value="<?php echo $option['id']; ?>" <?php echo $url ?> <?php echo $selected; ?>><?php echo $option['title']; ?></option>
             <?php endforeach; ?>
         <?php endif; ?>
     </select>
