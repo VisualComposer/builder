@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@master
       - name: Build project
         run: |
+          yarn install
           node _infrastructure/vcwb-builder/builder plugin -b dev -p ./
       - name: Create Release
         id: create_release
