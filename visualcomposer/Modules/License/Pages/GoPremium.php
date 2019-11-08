@@ -176,10 +176,6 @@ class GoPremium extends Container implements Module
                     'result' => $body,
                 ]
             );
-            $noticeHelper->addNotice(
-                'license:activation',
-                $message
-            );
 
             return ['status' => false, 'response' => $resultBody];
         }
@@ -193,7 +189,14 @@ class GoPremium extends Container implements Module
             return ['status' => true];
         }
 
-        return $resultBody;
+        $loggerHelper->log(
+            esc_html__('Failed to activate the license, please try again.', 'visualcomposer'),
+            [
+                'result' => $body,
+            ]
+        );
+
+        return ['status' => false];
     }
 
     /**
