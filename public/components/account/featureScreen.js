@@ -14,6 +14,8 @@ export default class FeatureScreen extends React.Component {
     setTimeout(() => {
       this.activationContent.current && this.activationContent.current.classList.add('vcv-activation-content--active')
     }, 200)
+    // Prevent offset on smaller screen sizes
+    window.scrollTo(0,0)
   }
 
   render () {
