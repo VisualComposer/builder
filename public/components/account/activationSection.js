@@ -68,11 +68,13 @@ export default class ActivationSectionProvider extends React.Component {
     const updateActions = window.VCV_UPDATE_ACTIONS()
     const assetsActions = updateActions && updateActions.actions
     const postUpdateActions = updateActions && updateActions.posts
-    const { shouldDoUpdate } = ActivationSectionProvider
     const isLoadingFinished = !assetsActions.length && !postUpdateActions.length
+    const activePage = window.VCV_SLUG && window.VCV_SLUG()
+
+    ActivationSectionProvider.shouldDoUpdate = activePage === 'vcv-update' || activePage === 'vcv-update-fe'
 
     this.state = {
-      activePage: window.VCV_SLUG && window.VCV_SLUG(),
+      activePage: activePage,
       assetsActions: assetsActions,
       postUpdateActions: postUpdateActions,
       activeAssetsAction: 0,
@@ -81,15 +83,13 @@ export default class ActivationSectionProvider extends React.Component {
       showSkipPostButton: false,
       assetsActionsDone: !assetsActions.length,
       postUpdateDone: !postUpdateActions.length,
-      actionsStarted: shouldDoUpdate,
+      actionsStarted: ActivationSectionProvider.shouldDoUpdate,
       isLoadingFinished: isLoadingFinished,
       sendingErrorReport: false,
       errorReported: false,
       loadingText: null,
       loadingDescription: null
     }
-
-    ActivationSectionProvider.shouldDoUpdate = this.state.activePage === 'vcv-update' || this.state.activePage === 'vcv-update-fe'
 
     this.doAction = this.doAction.bind(this)
     this.doneActions = this.doneActions.bind(this)
