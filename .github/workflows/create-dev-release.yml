@@ -15,7 +15,7 @@ jobs:
       - name: Build project
         run: |
           yarn install
-          node _infrastructure/vcwb-builder/builder plugin -b dev -p ./
+          node _infrastructure/vcwb-builder/builder plugin -b dev -p ./_infrastructure
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
@@ -33,6 +33,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./visualcomposer.zip
+          asset_path: ./_infrastructure/visualcomposer.zip
           asset_name: visualcomposer.zip
           asset_content_type: application/zip
