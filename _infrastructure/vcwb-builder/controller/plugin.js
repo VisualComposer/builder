@@ -14,48 +14,47 @@ class Plugin {
     const repoPath = path.join(__dirname, '..', '..', '..')
 
     Object.defineProperties(this, {
-        /**
-         * @property {String}
-         * @name Builder#dir
-         */
-        'dir': {
-          value: dir,
-          writable: true
-        },
-        /**
-         * @property {String}
-         * @name Builder#bundlePath
-         */
-        'bundlePath': {
-          value: bundlePath,
-          writable: false
-        },
-        /**
-         * @property {String}
-         * @name Builder#repoPath
-         */
-        'repoPath': {
-          value: repoPath,
-          writable: false
-        },
-        /**
-         * @property {String}
-         * @name Builder#version
-         */
-        'version': {
-          value: version,
-          writable: false
-        },
-        /**
-         * @property {Array}
-         * @name Builder#ignoreLibraries
-         */
-        'ignoreLibraries': {
-          value: ['faqToggle', 'menuToggle', 'slickSlider'],
-          writable: false
-        }
+      /**
+       * @property {String}
+       * @name Builder#dir
+       */
+      'dir': {
+        value: dir,
+        writable: true
+      },
+      /**
+       * @property {String}
+       * @name Builder#bundlePath
+       */
+      'bundlePath': {
+        value: bundlePath,
+        writable: false
+      },
+      /**
+       * @property {String}
+       * @name Builder#repoPath
+       */
+      'repoPath': {
+        value: repoPath,
+        writable: false
+      },
+      /**
+       * @property {String}
+       * @name Builder#version
+       */
+      'version': {
+        value: version,
+        writable: false
+      },
+      /**
+       * @property {Array}
+       * @name Builder#ignoreLibraries
+       */
+      'ignoreLibraries': {
+        value: ['faqToggle', 'menuToggle', 'slickSlider'],
+        writable: false
       }
-    )
+    })
   }
 
   async execute (cmd, message = '') {
@@ -78,7 +77,7 @@ class Plugin {
     console.log('\nCleanup assetsLibraries json...')
     const fileJSON = `${this.bundlePath}/public/sources/assetsLibrary/assetsLibraries.json`
     const settings = fs.readJsonSync(fileJSON)
-    const bundleJSON = {assetsLibrary: []}
+    const bundleJSON = { assetsLibrary: [] }
     if (settings && settings.assetsLibrary) {
       settings.assetsLibrary.forEach((lib) => {
         fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name, 'src'))
@@ -208,7 +207,6 @@ class Plugin {
     process.chdir(this.repoPath)
     await this.execute('mv ./visualcomposer/Modules/Development ./ && php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
     await this.execute('php tools/php-composer/cli.php', 'PHP CLI...')
-//    await this.execute('yarn install', 'Yarn install...')
     await this.execute('yarn build-production', 'Yarn build production...')
     await this.execute('bash ./tools/elements/buildProductionScript.sh', 'Build default elements...')
   }
