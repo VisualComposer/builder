@@ -264,7 +264,7 @@ export default class WordPressAdminControl extends NavbarContent {
         className='vcv-ui-navbar-control'
         onClick={this.handleClick}
         title={wordPressDashboard}
-        data-href={env('VCV_JS_THEME_EDITOR') ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()}
+        data-href={env('VCV_JS_THEME_EDITOR') || env('VCV_JS_ARCHIVE_TEMPLATE') ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()}
       >
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>

@@ -47,7 +47,7 @@ export default class startBlank extends React.Component {
     let headingPart2
 
     let startBlankContent
-    if (window.VCV_EDITOR_TYPE) {
+    if (window.VCV_EDITOR_TYPE && !vcCake.env('VCV_JS_ARCHIVE_TEMPLATE')) {
       let type = window.VCV_EDITOR_TYPE()
       type = type.charAt(0).toUpperCase() + type.slice(1)
       headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
