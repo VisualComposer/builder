@@ -539,6 +539,15 @@ class Localizations extends Container implements Helper
                 '</a>',
                 '</div>'
             ),
+            'editArchiveTemplate' => sprintf(
+                __(
+                    '%sEdit%s this archive page template.%s',
+                    'visualcomposer'
+                ),
+                '<div class={class}"><a href="{link}" target="_blank">',
+                '</a>',
+                '</div>'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
