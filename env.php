@@ -117,6 +117,11 @@ if (!VcvEnv::has('VCV_JS_THEME_EDITOR')) {
 }
 
 
+if (!VcvEnv::has('VCV_JS_ARCHIVE_TEMPLATE')) {
+    VcvEnv::set('VCV_JS_ARCHIVE_TEMPLATE', false);
+}
+
+
 if (!VcvEnv::has('VCV_JS_SAVE_ZIP')) {
     VcvEnv::set('VCV_JS_SAVE_ZIP', true);
 }

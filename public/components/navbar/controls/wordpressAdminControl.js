@@ -269,12 +269,12 @@ export default class WordPressAdminControl extends NavbarContent {
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
     )
-    if (!env('VCV_JS_THEME_EDITOR')) {
+    if (!env('VCV_JS_THEME_EDITOR') && !env('VCV_JS_ARCHIVE_TEMPLATE')) {
       wordpressDashboardButton = null
     }
 
     return (
-      env('VCV_JS_THEME_EDITOR') ? (
+      env('VCV_JS_THEME_EDITOR') || env('VCV_JS_ARCHIVE_TEMPLATE') ? (
         <div className='vcv-ui-navbar-controls-set'>
           {saveDraftButton}
           {wordpressDashboardButton}

@@ -198,6 +198,16 @@ export default class PagePanelContent extends React.Component {
     return layouts
   }
 
+  getPermalink () {
+    let permalink = []
+    if (!vcCake.env('VCV_JS_ARCHIVE_TEMPLATE')) {
+      permalink.push(
+        <Permalink />
+      )
+    }
+    return permalink
+  }
+
   handleLayoutClick (layoutType, layoutValue) {
     settingsStorage.state('skipBlank').set(true)
     let activeLayout = settingsStorage.state('pageTemplate').get() || { type: 'vc', value: 'blank' }
@@ -273,7 +283,7 @@ export default class PagePanelContent extends React.Component {
         <div className='vcv-start-blank-title-input-container'>
           <input className='vcv-start-blank-title-input' type='text' placeholder={placeholderText} value={this.state.title} onChange={this.handleTitleChange} />
         </div>
-        <Permalink />
+        {this.getPermalink()}
         <ul
           className='vcv-ui-item-list vcv-start-blank-item-list'
           style={containerWidth}
