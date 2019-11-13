@@ -6,7 +6,7 @@ import TerserPlugin from 'terser-webpack-plugin'
 module.exports = {
   mode: 'production',
   entry: {
-    accordion: [ './src/accordion.js' ]
+    accordion: ['./src/accordion.js']
   },
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path
@@ -15,7 +15,7 @@ module.exports = {
     chunkFilename: '[id].js'
   },
   node: {
-    'fs': 'empty'
+    fs: 'empty'
   },
   optimization: {
     minimize: true,
@@ -51,24 +51,24 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [ 'css-loader', {
+          use: ['css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer')() ]
+              plugins: () => [require('autoprefixer')()]
             }
-          }, 'less-loader' ]
+          }, 'less-loader']
         })
       },
       {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [ 'css-loader', {
+          use: ['css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer')() ]
+              plugins: () => [require('autoprefixer')()]
             }
-          }, 'less-loader' ]
+          }, 'less-loader']
         })
       },
       // use ! to chain loaders./
