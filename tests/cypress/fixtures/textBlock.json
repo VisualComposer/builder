@@ -1,10 +1,7 @@
 {
   "customId": "text-block-id",
   "customClass": "text-block-class",
-  "text": {
-    "h2HeadingText": "Typography is the art and technique",
-    "paragraphText": "Typography is the art and technique of arranging type to make written language legible, readable and appealing when displayed."
-  },
+  "text": "Visual Composer Text Block element e2e text",
   "designOptions": {
     "animation": "lightSpeedIn",
     "padding": "19px",

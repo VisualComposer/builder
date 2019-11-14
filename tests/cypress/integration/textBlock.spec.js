@@ -9,6 +9,19 @@ describe(ELEMENT_NAME, function () {
       cy.addElement(ELEMENT_NAME)
 
       cy.get('.vcv-ui-form-group-heading')
+        .contains('Content')
+        .then(($field) => {
+          cy.wrap($field)
+            .next()
+            .find('#vcv-wpeditor-output_ifr').then(($iframe) => {
+              const document = $iframe.contents()
+              const body = document.find('body')
+
+              cy.wrap(body).focus().clear().type(settings.text)
+          })
+        })
+
+      cy.get('.vcv-ui-form-group-heading')
         .contains('Element ID')
         .then(($field) => {
           cy.wrap($field)
@@ -44,8 +57,7 @@ describe(ELEMENT_NAME, function () {
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
         .within(($wrapper) => {
-          cy.get('h2').contains(settings.text.h2HeadingText)
-          cy.get('p').contains(settings.text.paragraphText)
+          cy.get('h2').contains(settings.text)
         })
     })
   })
