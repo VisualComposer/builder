@@ -8,6 +8,7 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
+      // Testing TinyMce editor: iframe content and controls
       cy.get('.vcv-ui-form-group-heading')
         .contains('Content')
         .then(($field) => {
@@ -19,6 +20,23 @@ describe(ELEMENT_NAME, function () {
 
               cy.wrap(body).focus().clear().type(settings.text)
           })
+
+          cy.wrap($field)
+            .next()
+            .find(`.mce-btn[aria-label*="${settings.alignment.name}"] button`)
+            .click()
+
+          cy.wrap($field)
+            .next()
+            .find('.mce-btn .mce-txt')
+            .contains('Heading')
+            .closest('button')
+            .click()
+
+          cy.get('.mce-menu-item .mce-text')
+            .contains(settings.elementType.name)
+            .parent()
+            .click()
         })
 
       cy.get('.vcv-ui-form-group-heading')
@@ -57,7 +75,9 @@ describe(ELEMENT_NAME, function () {
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
         .within(($wrapper) => {
-          cy.get('h2').contains(settings.text)
+          cy.get(settings.elementType.tag)
+            .contains(settings.text)
+            .should('have.css', 'text-align', settings.alignment.type)
         })
     })
   })

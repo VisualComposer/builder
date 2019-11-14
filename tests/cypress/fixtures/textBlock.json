@@ -2,6 +2,14 @@
   "customId": "text-block-id",
   "customClass": "text-block-class",
   "text": "Visual Composer Text Block element e2e text",
+  "elementType": {
+    "name": "Heading 6",
+    "tag": "h6"
+  },
+  "alignment": {
+    "name": "Align right",
+    "type": "right"
+  },
   "designOptions": {
     "animation": "lightSpeedIn",
     "padding": "19px",
