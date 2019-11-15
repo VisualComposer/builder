@@ -34,7 +34,7 @@ class Controller extends Container implements Module
     public function __construct()
     {
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::renderEditorBase */
-        $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase');
+        $this->addFilter('vcv:editors:frontend:render', 'renderEditorBase', 1);
         /** @see \VisualComposer\Modules\Editors\Frontend\Controller::enableEditorForProtectedPosts */
         $this->wpAddFilter('post_password_required', 'enableEditorForProtectedPosts');
 
