@@ -265,3 +265,69 @@ Cypress.Commands.add('setDOA', (settings) => {
       }
     })
 })
+
+Cypress.Commands.add('setClassAndId', (id, className) => {
+  cy.setInput('Element ID', id)
+  cy.setInput('Extra class name', className)
+})
+
+Cypress.Commands.add('setInput', (title, value) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .clear()
+        .type(value)
+    })
+})
+
+Cypress.Commands.add('setSwitch', (title) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next('.vcv-ui-form-switch-container')
+        .find('.vcv-ui-form-switch')
+        .click()
+    })
+})
+
+Cypress.Commands.add('setSelect', (title, value) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .select(value)
+    })
+})
+
+Cypress.Commands.add('setButtonGroup', (title, value) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .find(`.vcv-ui-form-button[data-value="${value}"]`)
+        .click()
+    })
+})
+
+Cypress.Commands.add('setColor', (settings) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(settings.title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next('div')
+        .find('.vcv-ui-color-picker-dropdown')
+        .click()
+      cy.get(`.vcv-ui-color-picker-custom-color input[value="${settings.initialValue}"]`)
+        .clear()
+        .type(settings.value)
+      cy.wrap($field)
+        .next('div')
+        .find('.vcv-ui-color-picker-dropdown')
+        .click()
+    })
+})
