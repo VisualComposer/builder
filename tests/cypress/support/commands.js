@@ -331,3 +331,41 @@ Cypress.Commands.add('setColor', (settings) => {
         .click()
     })
 })
+
+// Creates a new post in WordPress admin dashboard,
+// returns post id
+Cypress.Commands.add('createWpPost', (settings) => {
+  let postId
+
+  cy.visit('/wp-admin/post-new.php')
+
+  cy.get('.editor-post-title__input')
+    .type(settings.postTitle, { force: true })
+
+  cy.get('.editor-default-block-appender__content')
+    .click({ force: true })
+
+  cy.get('.block-editor-rich-text__editable')
+    .type(settings.postContent, { force: true })
+
+  cy.get('.edit-post-sidebar__panel-tab[data-label="Document"]')
+    .click()
+
+  cy.contains('.components-button.components-panel__body-toggle', 'Excerpt')
+    .click()
+
+  cy.get('.editor-post-excerpt .components-textarea-control__input')
+    .type(settings.postContent)
+
+  cy.window().then((window) => {
+    postId = window.document.getElementById('post_ID').value
+  })
+
+  cy.get('.editor-post-publish-panel__toggle')
+    .click()
+
+  cy.get('.editor-post-publish-button')
+    .click()
+
+  return postId
+})
