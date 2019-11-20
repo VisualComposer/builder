@@ -54,7 +54,7 @@ window.vcv.on('ready', function (action, id, options) {
           element.parentElement.style.overflowX = 'hidden'
           window.setTimeout(() => {
             element.parentElement.style.overflowX = ''
-          }, 0)
+          }, 50)
         }, duration + 200)
       },
       offset: '85%'
