@@ -199,13 +199,10 @@ export default class PagePanelContent extends React.Component {
   }
 
   getPermalink () {
-    let permalink = []
     if (!vcCake.env('VCV_JS_ARCHIVE_TEMPLATE')) {
-      permalink.push(
-        <Permalink />
-      )
+      return <Permalink />
     }
-    return permalink
+    return null
   }
 
   handleLayoutClick (layoutType, layoutValue) {
