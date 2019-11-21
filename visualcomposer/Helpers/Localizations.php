@@ -518,6 +518,10 @@ class Localizations extends Container implements Helper
                 'Extensions, and Support',
                 'visualcomposer'
             ),
+            'getFreeAccessToTheVisualComposerHub' => __(
+                'Get Free Access to the Visual Composer Hub',
+                'visualcomposer'
+            ),
             'whatYouWillGet' => __(
                 'What You Will Get?',
                 'visualcomposer'

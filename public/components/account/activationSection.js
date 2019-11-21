@@ -255,8 +255,9 @@ export default class ActivationSectionProvider extends React.Component {
       return <FinalScreen />
     } else if (activePage === 'vcv-license-options') {
       return <FeatureScreen setActiveScreen={this.setActiveScreen} />
-    } else if (activePage === 'vcv-go-premium') {
-      return <ActivatePremiumScreen />
+    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free') {
+      const activationType = activePage === 'vcv-go-premium' ? 'premium' : 'free'
+      return <ActivatePremiumScreen activationType={activationType} />
     } else if (activePage === 'vcv-getting-started') {
       return <InitialScreen setActiveScreen={this.setActiveScreen} />
     }

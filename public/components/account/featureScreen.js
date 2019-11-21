@@ -19,7 +19,6 @@ export default class FeatureScreen extends React.Component {
   }
 
   render () {
-    const activateFreeLink = window.VCV_ACTIVATE_FREE_URL()
     const activatePremiumText = FeatureScreen.localizations ? FeatureScreen.localizations.activatePremium : 'Activate Premium'
     const headingText = FeatureScreen.localizations ? FeatureScreen.localizations.getAccessToTheVisualComposerHub : 'Get Access to the Visual Composer Hub'
     const freeText = FeatureScreen.localizations ? FeatureScreen.localizations.freeLicense : 'Free License'
@@ -46,7 +45,7 @@ export default class FeatureScreen extends React.Component {
               <li className='vcv-basic-list-item vcv-basic-list-item--not-included'>{premiumSupportAndUpdatesText}</li>
             </ul>
             <div className='vcv-activation-button-container'>
-              <a href={activateFreeLink} className='vcv-activation-button vcv-activation-button--dark'>{activateFreeText}</a>
+              <button type='button' onClick={this.props.setActiveScreen.bind(this, 'vcv-go-free')} className='vcv-activation-button vcv-activation-button--dark'>{activateFreeText}</button>
             </div>
           </div>
           <div className='vcv-activation-box'>
