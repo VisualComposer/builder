@@ -57,7 +57,7 @@ class Controller extends Container implements Module
         $response = [
             'status' => true,
         ];
-        if ($currentUserAccessHelper->wpAll(['activate_plugins'])->get()) {
+        if ($currentUserAccessHelper->wpAll(['edit_posts'])->get()) {
             $response['vcvGlobals'] = [
                 'VCV_HUB_GET_ELEMENTS' => $hubElements->getElements(false, false),
                 'VCV_HUB_GET_CATEGORIES' => $hubCategories->getCategories(),
