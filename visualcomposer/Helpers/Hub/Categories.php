@@ -114,6 +114,8 @@ class Categories implements Helper
         $urlHelper = vchelper('Url');
         $categoriesDiffer = vchelper('Differ');
         $hubCategoriesHelper = vchelper('HubCategories');
+        $requestHelper = vchelper('Request');
+        $frontendHelper = vchelper('Frontend');
 
         $defaultCategories = [
             'Row' => [
@@ -380,6 +382,7 @@ class Categories implements Helper
             '_postsGridSources' => [
                 'title' => 'Post Grid Data Sources',
                 'elements' => [
+                    'postsGridDataSourceArchive',
                     'postsGridDataSourcePost',
                     'postsGridDataSourcePage',
                     'postsGridDataSourceCustomPostType',
@@ -502,6 +505,12 @@ class Categories implements Helper
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
             ],
         ];
+
+        // Remove Dynamic Archive source if editor type is not vcv_archives
+        if ($requestHelper->input('vcv-editor-type') !== 'vcv_archives' && $frontendHelper->isFrontend()) {
+            unset($defaultCategories["_postsGridSources"]["elements"][0]);
+            $defaultCategories["_postsGridSources"]["elements"] = array_values($defaultCategories["_postsGridSources"]["elements"]);
+        }
 
         $hubCategories = $optionHelper->get('hubCategories', []);
         if (!empty($hubCategories)) {
