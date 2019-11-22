@@ -434,7 +434,7 @@
     $container.setAttribute('data-vcv-tabs-opened', $elementId)
     $container.dispatchEvent(event)
 
-    that.triggerEvent(settings.showTabSelector, opt)
+    that.triggerEvent(settings.showAccordionSelector, opt)
 
     // if showed no need to do anything
     if (that.isActive()) {

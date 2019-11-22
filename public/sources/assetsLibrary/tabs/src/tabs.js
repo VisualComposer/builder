@@ -272,7 +272,7 @@
       return
     }
 
-    this.triggerEvent(settings.showTabSelector)
+    this.triggerEvent(settings.hideTabSelector)
     this.getTargetTab().removeAttr(this.activeAttribute)
   }
 
