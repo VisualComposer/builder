@@ -431,7 +431,7 @@
     $elementId = that.$element.attr('href')
 
     var event = new CustomEvent('attrChange')
-    $container.setAttribute('data-vcv-tabs-opened', $elementId)
+    $container.setAttribute(settings.openedAttribute, $elementId)
     $container.dispatchEvent(event)
 
     that.triggerEvent(settings.showAccordionSelector, opt)
@@ -808,7 +808,7 @@
 
     $tabs && $tabs.each(function (index, element) {
       var $element = $(element)
-      var activeTabIndex = parseInt($element.attr('data-active-tab'))
+      var activeTabIndex = parseInt($element.attr(settings.activeTabAttribute))
       var accordionPanelContainer = $element.find(settings.slidePanelsSelector)[0]
       var accordionPanels = $(accordionPanelContainer).find('> ' + settings.slidePanelSelector)
       var tabsInner = $element.find(settings.slideInnerSelector)[0]
@@ -843,7 +843,7 @@
         }
       })
 
-      tabsInner.setAttribute('data-vcv-tabs-opened', activeId)
+      tabsInner.setAttribute(settings.openedAttribute, activeId)
       tabsInner.dispatchEvent(event)
     })
   }
