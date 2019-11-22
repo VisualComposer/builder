@@ -1,9 +1,5 @@
 /* =========================================================
- * vce-tta-autoplay.js v1.0.0
- * =========================================================
- * Copyright 2013 Wpbakery
- *
- * Visual composer tabs, tours, accordion auto play
+ * Visual Composer tabs, accordion auto play
  * ========================================================= */
 +(function ($) {
   'use strict'
@@ -59,7 +55,7 @@
    * Method called on timeout hook call
    */
   TtaAutoPlay.prototype.show = function () {
-    this.$element.find('[data-vce-accordion]:eq(0)').vceAccordion('showNext', { changeHash: false, scrollTo: false })
+    this.$element.find(settings.accordionDataSelector + ':eq(0)')[settings.accordionPropertyName]('showNext', { changeHash: false, scrollTo: false })
   }
 
   /**
