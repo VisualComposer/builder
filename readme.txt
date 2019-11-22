@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
 Requires PHP: 5.4
 Requires at least: 4.6
-Tested up to: 5.2.3
-Stable tag: 22.0
+Tested up to: 5.3.0
+Stable tag: 23.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,7 +13,7 @@ The best drag & drop website builder for WordPress. Professional templates, elem
 
 == Description ==
 
-**Brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Get the best website builder for your website.
+**Brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Get the best page builder for your website.
 
 Visual Composer Website Builder is an intuitive drag and drop editor that gives you powerful tools and assets to create a professional WordPress site. Rich library of assets - Visual Composer Hub offers 250+ Templates and Elements, Add-ons, Header, Footer builder, and more.
 
@@ -172,6 +172,30 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 23.0 =
+*Release Date - 2019-11-25*
+
+#### Free:
+- New: Google Fonts search and preview in TinyMCE editor
+- Update: Settings panel width reduced in size to see the settings and content
+- Fix: Using a proper wp-admin URL for staging sites
+- Fix: Admin panel notices displayed properly
+- Fix: Fontawesome categories and search works properly
+- Fix: Background image radius works properly
+- Fix: Animation effect works properly in Firefox
+
+#### Premium:
+- New: Dynamic Content is available in single image link selector
+- Update: Option to edit the selected template in a Theme Template page
+- Update: New premium activation flow with license input
+- Fix: Dynamic content with HTML works properly in TinyMCE
+- Fix: WooCommerce variable product page works properly
+- Fix: Toolset custom fields displayed properly in Dynamic Content
+- Fix: Dynamic Content works properly in Faq elements
+- Fix: Mouse follow animation works properly in Preview mode
+- Element: Star ranking element to display customer feedback
+- Fix: Tilt parallax effect works properly after template import
 
 = 22.0 =
 *Release Date - 2019-10-18*
