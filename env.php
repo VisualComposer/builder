@@ -16,20 +16,20 @@ if (!VcvEnv::has('VCV_ENV_EXTENSION_DOWNLOAD')) {
 }
 
 if (!VcvEnv::has('VCV_HUB_URL')) {
-    VcvEnv::set('VCV_HUB_URL', defined('VCV_HUB_URL') ? constant('VCV_HUB_URL') : 'https://account.visualcomposer.io');
+    VcvEnv::set('VCV_HUB_URL', defined('VCV_HUB_URL') ? constant('VCV_HUB_URL') : 'https://my.visualcomposer.com/');
 }
 
 if (!VcvEnv::has('VCV_TOKEN_URL')) {
     VcvEnv::set(
         'VCV_TOKEN_URL',
-        defined('VCV_TOKEN_URL') ? constant('VCV_TOKEN_URL') : 'https://account.visualcomposer.io/authorization-token'
+        defined('VCV_TOKEN_URL') ? constant('VCV_TOKEN_URL') : 'https://my.visualcomposer.com/authorization-token'
     );
 }
 
 if (!VcvEnv::has('VCV_PREMIUM_TOKEN_URL')) {
     VcvEnv::set(
         'VCV_PREMIUM_TOKEN_URL',
-        defined('VCV_PREMIUM_TOKEN_URL') ? constant('VCV_PREMIUM_TOKEN_URL') : 'https://account.visualcomposer.io/authorization-token'
+        defined('VCV_PREMIUM_TOKEN_URL') ? constant('VCV_PREMIUM_TOKEN_URL') : 'https://my.visualcomposer.com//authorization-token'
     );
 }
 
@@ -47,7 +47,7 @@ if (!VcvEnv::has('VCV_FREE_ACTIVATE_URL')) {
 if (!VcvEnv::has('VCV_ACTIVATE_LICENSE_URL')) {
     VcvEnv::set(
         'VCV_ACTIVATE_LICENSE_URL',
-        defined('VCV_ACTIVATE_LICENSE_URL') ? constant('VCV_ACTIVATE_LICENSE_URL') : 'https://account.visualcomposer.io/activate-license'
+        defined('VCV_ACTIVATE_LICENSE_URL') ? constant('VCV_ACTIVATE_LICENSE_URL') : 'https://my.visualcomposer.com/?edd_action=activate_license&item_name=Visual%20Composer'
     );
 }
 
