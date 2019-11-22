@@ -814,8 +814,8 @@
       var tabsInner = $element.find(settings.slideInnerSelector)[0]
       var activeId = null
       var event = new CustomEvent('attrChange')
-      var tabContainer = $element.find(settings.tabContainerSelector)[0]
-      var tabHeadings = $(tabContainer).find('> ' + settings.tabDataSelector)
+      var tabContainer = settings.tabsAndAccordion && $element.find(settings.tabContainerSelector)[0]
+      var tabHeadings = settings.tabsAndAccordion && $(tabContainer).find('> ' + settings.tabDataSelector)
 
       activeTabIndex = accordionPanels.length >= activeTabIndex ? activeTabIndex - 1 : 0
 
@@ -834,14 +834,16 @@
         }
       })
 
-      $(tabHeadings).each(function (i, elem) {
-        var $elem = $(elem)
-        $elem.removeAttr(settings.activeAttribute)
+      if (tabHeadings) {
+        $(tabHeadings).each(function (i, elem) {
+          var $elem = $(elem)
+          $elem.removeAttr(settings.activeAttribute)
 
-        if (i === activeTabIndex) {
-          $elem.attr(settings.activeAttribute, true)
-        }
-      })
+          if (i === activeTabIndex) {
+            $elem.attr(settings.activeAttribute, true)
+          }
+        })
+      }
 
       tabsInner.setAttribute(settings.openedAttribute, activeId)
       tabsInner.dispatchEvent(event)
