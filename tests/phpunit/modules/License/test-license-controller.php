@@ -14,14 +14,14 @@ class LicenseControllerTest extends WP_UnitTestCase
 
     public function testHubUrl()
     {
-        $this->assertEquals('https://account.visualcomposer.io', vcvenv('VCV_HUB_URL'));
+        $this->assertEquals('https://my.visualcomposer.com/', vcvenv('VCV_HUB_URL'));
     }
 
     public function testTokenUrl()
     {
-        $this->assertEquals('https://account.visualcomposer.io/authorization-token', vcvenv('VCV_TOKEN_URL'));
+        $this->assertEquals('https://my.visualcomposer.com/authorization-token', vcvenv('VCV_TOKEN_URL'));
     }
-    
+
     public function testLicenseActivateUrl()
     {
         $this->assertEquals('https://account.visualcomposer.io/activation', vcvenv('VCV_FREE_ACTIVATE_URL'));
