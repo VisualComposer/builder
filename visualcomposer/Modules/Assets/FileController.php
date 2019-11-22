@@ -99,7 +99,7 @@ class FileController extends Container implements Module
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
         $globalElementsMixinsCssContent = join('', array_values($globalElementsMixinsCss));
-        $sourceCssContent = $globalElementsBaseCssContent . $globalElementsMixinsCssContent . $globalCss
+        $sourceCssContent = $globalElementsBaseCssContent . $globalElementsMixinsCssContent
             . $globalElementsAttributesCssContent . $sourceCss;
 
         $sourceChecksum = wp_hash($sourceCssContent);
