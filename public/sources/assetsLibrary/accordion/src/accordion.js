@@ -600,13 +600,8 @@
     } else {
       Plugin.call($this, 'show', opt)
       $(document).on(settings.accordionDropdownEventSelector, function (e) {
-        // Fix for https://app.asana.com/0/90442874619636/58756889349011
-        // var isTarget;
-        // isTarget = $( e.target ).closest( that.getTarget() ).length;
-        // if ( ! isTarget ) {
         Plugin.call($this, 'hide', opt)
         $(document).off(e)
-        // }
       })
     }
   }
@@ -657,7 +652,7 @@
     if ($triggers.length) {
       if ($activeTriggers.length) {
         var lastActiveAccordion
-        lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1).vceAccordion().data('vce.accordion')
+        lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1)[settings.accordionPropertyName]().data(settings.accordionContainer)
         if (lastActiveAccordion && lastActiveAccordion.getIndex) {
           activeIndex = lastActiveAccordion.getIndex()
         }
@@ -686,7 +681,7 @@
     if ($triggers.length) {
       if ($activeTriggers.length) {
         var lastActiveAccordion
-        lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1).vceAccordion().data('vce.accordion')
+        lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1)[accordionPropertyName]().data(settings.accordionContainer)
         if (lastActiveAccordion && lastActiveAccordion.getIndex) {
           activeIndex = lastActiveAccordion.getIndex()
         }
