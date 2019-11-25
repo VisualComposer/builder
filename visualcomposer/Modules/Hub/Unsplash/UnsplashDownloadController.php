@@ -200,10 +200,20 @@ class UnsplashDownloadController extends Container implements Module
             include_once(ABSPATH . 'wp-admin/includes/image.php');
         }
 
-        return wp_generate_attachment_metadata(
-            $attachment,
-            $results['file']
-        );
+        if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
+            return wp_generate_attachment_metadata(
+                $attachment,
+                $results['file']
+            );
+        } else {
+            return wp_update_attachment_metadata(
+                $attachment,
+                wp_generate_attachment_metadata(
+                    $attachment,
+                    $results['file']
+                )
+            );
+        }
     }
 
     /**
