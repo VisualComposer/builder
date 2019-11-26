@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Application as ApplicationVc;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use \VisualComposer\Helpers\Hub\Addons;
 
 class AddonsAutoload extends Autoload implements Module
 {
@@ -30,8 +31,15 @@ class AddonsAutoload extends Autoload implements Module
 
         $this->addEvent(
             'vcv:hub:addons:autoload',
-            function ($element) {
-                $components = $this->getSingleComponent($element);
+            function ($addon, Addons $addonsHubHelper) {
+                $phpFiles = $addonsHubHelper->getAddonPhpFiles($addon['tag'], $addon);
+                $components = [
+                    'helpers' => [],
+                    'modules' => [],
+                ];
+                if (is_array($phpFiles) && !empty($phpFiles)) {
+                    $components = $this->getSingleComponent($phpFiles);
+                }
                 $this->doComponents($components);
             }
         );
