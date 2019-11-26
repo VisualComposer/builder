@@ -16,11 +16,7 @@ class AssetsEnqueue extends Container implements Helper
     public function enqueueAssets($sourceId)
     {
         $assetsSharedHelper = vchelper('AssetsShared');
-        $assetsHelper = vchelper('Assets');
-        $optionsHelper = vchelper('Options');
         $strHelper = vchelper('Str');
-        $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
-
         $assetsFiles = get_post_meta($sourceId, 'vcvSourceAssetsFiles', true);
 
         if (!is_array($assetsFiles)) {
@@ -31,19 +27,13 @@ class AssetsEnqueue extends Container implements Helper
             foreach ($assetsFiles['cssBundles'] as $asset) {
                 $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
                 foreach ((array)$asset as $single) {
-                    if (strpos($single, 'assetsLibrary') !== false) {
-                        $url = $assetsSharedHelper->getPluginsAssetUrl($single);
-                        $version = VCV_VERSION;
-                    } else {
-                        $url = $assetsHelper->getAssetUrl($single);
-                        $version = $assetsVersion;
-                    }
+                    $assetData = $this->getAssetData($single);
 
                     wp_enqueue_style(
                         'vcv:assets:source:styles:' . $strHelper->slugify($single),
-                        $url,
+                        $assetData['url'],
                         [],
-                        $version
+                        $assetData['version']
                     );
                 }
             }
@@ -54,24 +44,47 @@ class AssetsEnqueue extends Container implements Helper
             foreach ($assetsFiles['jsBundles'] as $asset) {
                 $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
                 foreach ((array)$asset as $single) {
-                    if (strpos($single, 'assetsLibrary') !== false) {
-                        $url = $assetsSharedHelper->getPluginsAssetUrl($single);
-                        $version = VCV_VERSION;
-                    } else {
-                        $url = $assetsHelper->getAssetUrl($single);
-                        $version = $assetsVersion;
-                    }
+                    $assetData = $this->getAssetData($single);
 
-                    wp_enqueue_script(
-                        'vcv:assets:source:scripts:' . $strHelper->slugify($single),
-                        $url,
-                        ['jquery'],
-                        $version,
-                        true
-                    );
+                    // Remove Version and GET Parameters From URL
+                    $url = strtok($assetData['url'], '?');
+                    $single = strtok($single, '?');
+
+                    $scriptName = 'vcv:assets:source:scripts:' . $strHelper->slugify($single);
+                    if (!wp_script_is($scriptName, 'enqueued')) {
+                        wp_enqueue_script(
+                            $scriptName,
+                            $url,
+                            ['jquery'],
+                            $assetData['version'],
+                            true
+                        );
+                    }
                 }
             }
             unset($asset);
         }
+    }
+
+    protected function getAssetData($asset)
+    {
+        $assetsSharedHelper = vchelper('AssetsShared');
+        $assetsHelper = vchelper('Assets');
+        $optionsHelper = vchelper('Options');
+        $assetsVersion = $optionsHelper->get('hubAction:assets', '0');
+
+        if (strpos($asset, 'assetsLibrary') !== false) {
+            $url = $assetsSharedHelper->getPluginsAssetUrl($asset);
+            $version = VCV_VERSION;
+        } else {
+            $url = $assetsHelper->getAssetUrl($asset);
+            $version = $assetsVersion;
+        }
+
+        $response = array(
+            'url' => $url,
+            'version' => $version
+        );
+        return $response;
     }
 }
