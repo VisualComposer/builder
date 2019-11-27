@@ -6,7 +6,7 @@
   'use strict'
   window.VcvTabs = function (settings) {
 
-    var Tabs, old
+    let Tabs, old
     this.settings = settings
 
     /**
@@ -33,8 +33,8 @@
      * @returns {boolean}
      */
     Tabs.prototype.isCacheUsed = function () {
-      var that = this
-      var useCache = function () {
+      const that = this
+      const useCache = function () {
         return that.$element.data('vceUseCache') !== false
       }
 
@@ -66,7 +66,7 @@
      * @returns {window.jQuery}
      */
     Tabs.prototype.findContainer = function () {
-      var $container = this.$element.closest(this.$element.data('vceContainer'))
+      let $container = this.$element.closest(this.$element.data('vceContainer'))
       if (!$container.length) {
         $container = $('body')
       }
@@ -86,9 +86,9 @@
      * @returns {*}
      */
     Tabs.prototype.getSelector = function () {
-      var $this = this.$element
-      var findSelector = function () {
-        var selector = $this.data('vceTarget')
+      const $this = this.$element
+      const findSelector = function () {
+        let selector = $this.data('vceTarget')
         if (!selector) {
           selector = $this.attr('href')
         }
@@ -112,7 +112,7 @@
      * @returns {*}
      */
     Tabs.prototype.getTarget = function () {
-      var selector = this.getSelector()
+      const selector = this.getSelector()
 
       if (!this.isCacheUsed()) {
         return this.getContainer().find(selector)
@@ -130,11 +130,11 @@
      * @returns {*}
      */
     Tabs.prototype.getRelatedAccordion = function () {
-      var tab = this
-      var filterElements = function () {
-        var $elements = tab.getContainerAccordion().filter(function () {
-          var $that = $(this)
-          var accordion = $that.data(settings.accordionContainer)
+      const tab = this
+      const filterElements = function () {
+        const $elements = tab.getContainerAccordion().filter(function () {
+          const $that = $(this)
+          let accordion = $that.data(settings.accordionContainer)
 
           if (typeof (accordion) === 'undefined') {
             $that[ settings.accordionPropertyName ]()
@@ -165,7 +165,7 @@
      */
     Tabs.prototype.triggerEvent = function (event) {
       if (typeof (event) === 'string') {
-        var $event = $.Event(event)
+        const $event = $.Event(event)
         this.$element.trigger($event)
       }
     }
@@ -175,7 +175,7 @@
      * @returns {*|Number}
      */
     Tabs.prototype.getTargetTab = function () {
-      var $this = this.$element
+      const $this = this.$element
 
       if (!this.isCacheUsed()) {
         return $this.closest(this.tabSelector)
@@ -199,15 +199,15 @@
      * Move tab title slider
      */
     Tabs.prototype.moveSlider = function () {
-      var target = this.getTargetTab()
-      var targetTitle = target.find('[class*="title"]')
-      var targetAccordion = this.getRelatedAccordion()
-      var targetAccordionTitle = targetAccordion.find('span')
-      var tabsVisible = this.getTargetTab().is(':visible')
-      var width = tabsVisible ? targetTitle.width() : targetAccordionTitle.width()
-      var margin = parseInt(targetTitle.css('marginLeft')) || 0
-      var left = tabsVisible && target ? target.position().left + margin : this.getTabPosition(target)
-      var slider = this.getContainer().find(settings.sliderSelector).first()
+      const target = this.getTargetTab()
+      const targetTitle = target.find('[class*="title"]')
+      const targetAccordion = this.getRelatedAccordion()
+      const targetAccordionTitle = targetAccordion.find('span')
+      const tabsVisible = this.getTargetTab().is(':visible')
+      const width = tabsVisible ? targetTitle.width() : targetAccordionTitle.width()
+      const margin = parseInt(targetTitle.css('marginLeft')) || 0
+      const left = tabsVisible && target ? target.position().left + margin : this.getTabPosition(target)
+      const slider = this.getContainer().find(settings.sliderSelector).first()
       slider.css('width', width)
       slider.css('left', left)
     }
@@ -216,18 +216,18 @@
      * Get tab left position from related accordion
      */
     Tabs.prototype.getTabPosition = function (target) {
-      var title = target.find('[class*="title"]')
-      var tabs = this.getContainer().find(this.tabSelector)
-      var accordions = this.getContainerAccordion()
-      var activeTabIndex = tabs.index(target)
-      var position = parseInt(title.css('marginLeft'))
+      const title = target.find('[class*="title"]')
+      const tabs = this.getContainer().find(this.tabSelector)
+      const accordions = this.getContainerAccordion()
+      const activeTabIndex = tabs.index(target)
+      let position = parseInt(title.css('marginLeft'))
 
-      for (var i = 0; i < activeTabIndex; i++) {
-        var $tab = $(tabs[ i ]).find('[class*="title"]')
-        var $accordion = $(accordions[ i ]).find('span')
-        var marginLeft = parseInt($tab.css('marginLeft'))
-        var marginRight = (i - 1) === activeTabIndex ? 0 : parseInt($tab.css('marginRight'))
-        var width = parseInt($accordion.width())
+      for (let i = 0; i < activeTabIndex; i++) {
+        const $tab = $(tabs[ i ]).find('[class*="title"]')
+        const $accordion = $(accordions[ i ]).find('span')
+        const marginLeft = parseInt($tab.css('marginLeft'))
+        const marginRight = (i - 1) === activeTabIndex ? 0 : parseInt($tab.css('marginRight'))
+        const width = parseInt($accordion.width())
         position += marginLeft + width + marginRight
       }
 
@@ -268,10 +268,10 @@
     // Tabs plugin definition
     // ==========================
     function Plugin (action, options) {
-      var args = Array.prototype.slice.call(arguments, 1)
+      const args = Array.prototype.slice.call(arguments, 1)
       return this.each(function () {
-        var $this = $(this)
-        var data = $this.data(settings.tabsDataSelector)
+        const $this = $(this)
+        let data = $this.data(settings.tabsDataSelector)
         if (!data) {
           data = new Tabs($this, $.extend(true, {}, options))
           $this.data(settings.tabsDataSelector, data)
@@ -300,13 +300,17 @@
     // =================
 
     this.clickHandler = function (e) {
-      var $this = $(this)
+      const $this = $(this)
       e.preventDefault()
       Plugin.call($this, 'tabClick')
     }
 
     this.changeHandler = function (e) {
-      var caller = $(e.target).data(settings.accordionContainer)
+      const caller = $(e.target).data(settings.accordionContainer)
+
+      if (!caller) {
+        return
+      }
 
       if (typeof (caller.getRelatedTab) === 'undefined') {
         /**
@@ -314,10 +318,10 @@
          * @returns {*}
          */
         caller.getRelatedTab = function () {
-          var findTargets = function () {
-            var $targets = caller.getContainer().find(settings.dataAttr).filter(function () {
-              var $this = $(this)
-              var tab = $this.data(settings.accordionContainer)
+          const findTargets = function () {
+            const $targets = caller.getContainer().find(settings.dataAttr).filter(function () {
+              const $this = $(this)
+              let tab = $this.data(settings.accordionContainer)
               if (typeof (tab) === 'undefined') {
                 $this[ settings.accordionPropertyName ]()
               }
@@ -345,14 +349,14 @@
     }
 
     this.setActiveTab = function (action, elementId) {
-      var $tabs = $(settings.tabsSelector)
+      let $tabs = $(settings.tabsSelector)
 
       if (action !== undefined && action !== 'add' && action !== 'update') {
         return
       }
 
       if (action === 'update') {
-        var el = $('#el-' + elementId)
+        const el = $('#el-' + elementId)
 
         if (el && el.hasClass('vce-global-element')) {
           $tabs = el.find(settings.tabsSelector)
@@ -362,7 +366,7 @@
       }
 
       if (action && action === 'add' && elementId) {
-        var id = '#el-' + elementId
+        let id = '#el-' + elementId
         $tabs = $(id + settings.tabsSelector)
 
         if (!$tabs) {
@@ -372,13 +376,13 @@
       }
 
       $tabs && $tabs.each(function (index, element) {
-        var $element = $(element)
-        var activeTabIndex = parseInt($element.attr('data-active-tab'))
-        var tabsSlider = settings.isSlider && $element.find(settings.sliderSelector)[ 0 ]
-        var tabContainer = $element.find(settings.tabContainerSelector)[ 0 ]
-        var tabHeadings = $(tabContainer).find('> ' + settings.tabDataSelector)
-        var resizeContainer = element
-        var activeElem = null
+        const $element = $(element)
+        let activeTabIndex = parseInt($element.attr('data-active-tab'))
+        const tabsSlider = settings.isSlider && $element.find(settings.sliderSelector)[ 0 ]
+        const tabContainer = $element.find(settings.tabContainerSelector)[ 0 ]
+        const tabHeadings = $(tabContainer).find('> ' + settings.tabDataSelector)
+        let resizeContainer = element
+        let activeElem = null
 
         activeTabIndex = tabHeadings.length >= activeTabIndex ? activeTabIndex - 1 : 0
 
@@ -392,7 +396,7 @@
           resizeContainer = $(element).find('> ' + settings.resizeSelector)[ 0 ]
         }
 
-        var resizeOptions = {
+        const resizeOptions = {
           activeTab: activeElem
         }
         if (settings.isSlider) {
@@ -406,19 +410,19 @@
     function setSliderPosition ($tabs, tabsSlider, activeTab) {
       if (activeTab && activeTab.length) {
         if (activeTab.is(':visible')) {
-          var width = parseInt(activeTab.find('[class*="title"]').width())
-          var margin = parseInt(activeTab.find('[class*="title"]').css('marginLeft'))
-          var left = activeTab.position().left
+          const width = parseInt(activeTab.find('[class*="title"]').width())
+          const margin = parseInt(activeTab.find('[class*="title"]').css('marginLeft'))
+          const left = activeTab.position().left
 
           if (width > 0) {
             tabsSlider.css('width', width)
             tabsSlider.css('left', left + margin)
           }
         } else {
-          var modelId = activeTab.attr('data-vce-target-model-id')
-          var accordion = $tabs.find('[data-model-id="' + modelId + '"]')
-          var accordionTitle = accordion.find(settings.slidePanelTitleSelector)
-          var width = accordionTitle.find('span').width()
+          const modelId = activeTab.attr('data-vce-target-model-id')
+          const accordion = $tabs.find('[data-model-id="' + modelId + '"]')
+          const accordionTitle = accordion.find(settings.slidePanelTitleSelector)
+          const width = accordionTitle.find('span').width()
           tabsSlider.css('width', width)
         }
       } else {
@@ -428,15 +432,15 @@
     }
 
     function addResizeListener (element, fn, options) {
-      var _this = this
+      const _this = this
       if ($(element).find('> object').length) {
         return
       }
-      var isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+      const isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
       if (window.getComputedStyle(element).position === 'static') {
         element.style.position = 'relative'
       }
-      var obj = element.__resizeTrigger__ = document.createElement('object')
+      const obj = element.__resizeTrigger__ = document.createElement('object')
       obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
       obj.__resizeElement__ = element
       obj.onload = function () {
@@ -444,7 +448,7 @@
         fn(element)
 
         if (settings.isSlider) {
-          var $element = $(element)
+          const $element = $(element)
           if (!$element.attr('data-vcv-initialized')) {
             setSliderPosition($element, options && options.tabSlider, options && options.activeTab)
           }
@@ -462,11 +466,11 @@
     }
 
     function checkOnResize (element) {
-      var $element = $(element)
-      var tabContainer = $element.find(settings.tabContainerSelector).first()
-      var $tabs = $(tabContainer).find('> ' + settings.tabDataSelector)
-      var totalTabsWidth = 0
-      var tabContainerWidth = $element.outerWidth()
+      const $element = $(element)
+      const tabContainer = $element.find(settings.tabContainerSelector).first()
+      const $tabs = $(tabContainer).find('> ' + settings.tabDataSelector)
+      let totalTabsWidth = 0
+      const tabContainerWidth = $element.outerWidth()
 
       $tabs.each(function (i, tab) {
         totalTabsWidth += $(tab).outerWidth()

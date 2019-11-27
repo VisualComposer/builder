@@ -6,7 +6,7 @@
 
   function CustomEvent (event, params) {
     params = params || { bubbles: false, cancelable: false, detail: undefined }
-    var evt = document.createEvent('CustomEvent')
+    const evt = document.createEvent('CustomEvent')
     evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail)
     return evt
   }
@@ -25,8 +25,8 @@
 
   window.VcvAccordion = function (props) {
 
-    var Accordion, old
-    var settings = props
+    let Accordion, old
+    const settings = props
     this.settings = props
 
     /**
@@ -34,13 +34,11 @@
      * @param action {string}
      * @param options {object}
      */
-    var Plugin = function (action, options) {
-      var args = Array.prototype.slice.call(arguments, 1)
+    const Plugin = function (action, options) {
+      const args = Array.prototype.slice.call(arguments, 1)
       return this.each(function () {
-        var $this, data
-
-        $this = $(this)
-        data = $this.data(settings.accordionContainer)
+        const $this = $(this)
+        let data = $this.data(settings.accordionContainer)
         if (!data) {
           data = new Accordion($this, $.extend(true, {}, options))
           $this.data(settings.accordionContainer, data)
@@ -84,17 +82,16 @@
      * @returns {*}
      */
     Accordion.transitionEvent = function () {
-      var transition, transitions, el
-      el = document.createElement('vcFakeElement')
-      transitions = {
+      let transition
+      const el = document.createElement('vcFakeElement')
+      const transitions = {
         transition: 'transitionend',
         MSTransition: 'msTransitionEnd',
         MozTransition: 'transitionend',
         WebkitTransition: 'webkitTransitionEnd'
       }
 
-      for (transition in
-        transitions) {
+      for (transition in transitions) {
         if (typeof (el.style[ transition ]) !== 'undefined') {
           return transitions[ transition ]
         }
@@ -107,8 +104,8 @@
      * @param duration
      */
     Accordion.emulateTransitionEnd = function ($el, duration) {
-      var callback, called
-      called = false
+      let called = false
+      let callback
       if (!duration) {
         duration = 250
       }
@@ -132,8 +129,8 @@
      * @param options
      */
     Accordion.prototype.controller = function (options) {
-      var $this = this.$element
-      var action = options
+      const $this = this.$element
+      let action = options
       if (typeof (action) !== 'string') {
         action = $this.data('vceAction') || this.getContainer().data('vceAction')
       }
@@ -151,8 +148,8 @@
      * @returns {boolean}
      */
     Accordion.prototype.isCacheUsed = function () {
-      var that = this
-      var useCache = function () {
+      const that = this
+      const useCache = function () {
         return that.$element.data('vceUseCache') !== false
       }
 
@@ -168,9 +165,9 @@
      * @returns {*}
      */
     Accordion.prototype.getSelector = function () {
-      var $this = this.$element
-      var findSelector = function () {
-        var selector = $this.data('vceTarget')
+      const $this = this.$element
+      const findSelector = function () {
+        let selector = $this.data('vceTarget')
         if (!selector) {
           selector = $this.attr('href')
         }
@@ -194,7 +191,7 @@
      * @returns {window.jQuery}
      */
     Accordion.prototype.findContainer = function () {
-      var $container = this.$element.closest(this.$element.data('vceContainer'))
+      let $container = this.$element.closest(this.$element.data('vceContainer'))
       if (!$container.length) {
         $container = $('body')
       }
@@ -222,10 +219,10 @@
      * @returns {*}
      */
     Accordion.prototype.getTarget = function () {
-      var that = this
-      var selector = that.getSelector()
-      var getTarget = function () {
-        var element
+      const that = this
+      const selector = that.getSelector()
+      const getTarget = function () {
+        let element
         element = that.getContainer().find(selector)
         if (!element.length) {
           element = that.getContainer().filter(selector)
@@ -249,8 +246,8 @@
      * @returns {*}
      */
     Accordion.prototype.getTargetContent = function () {
-      var $targetContent
-      var $target = this.getTarget()
+      let $targetContent
+      const $target = this.getTarget()
       if (!this.isCacheUsed()) {
         if ($target.data('vceContent')) {
           $targetContent = $target.find($target.data('vceContent'))
@@ -280,13 +277,12 @@
      * @returns {*}
      */
     Accordion.prototype.getTriggers = function () {
-      var i = 0
-      var panels = this.getContainer().find(settings.slidePanelsSelector)[ 0 ]
+      let i = 0
+      const panels = this.getContainer().find(settings.slidePanelsSelector)[ 0 ]
 
       return $(panels).find(settings.slidePanelHeadingSelector).each(function () {
-        var accordion, $this
-        $this = $(this)
-        accordion = $this.data(settings.accordionContainer)
+        const $this = $(this)
+        let accordion = $this.data(settings.accordionContainer)
         if (typeof (accordion) === 'undefined') {
           $this[ settings.accordionPropertyName ]()
           accordion = $this.data(settings.accordionContainer)
@@ -316,7 +312,7 @@
      */
     Accordion.prototype.triggerEvent = function (event, opt) {
       if (typeof (event) === 'string') {
-        var $event = $.Event(event)
+        const $event = $.Event(event)
         this.$element.trigger($event, opt)
       }
     }
@@ -326,9 +322,9 @@
      * @returns {*}
      */
     Accordion.prototype.getActiveTriggers = function () {
-      var $triggers = this.getTriggers().filter(function () {
-        var $this = $(this)
-        var accordion = $this.data(settings.accordionContainer)
+      const $triggers = this.getTriggers().filter(function () {
+        const $this = $(this)
+        const accordion = $this.data(settings.accordionContainer)
 
         return accordion.getTarget().attr(accordion.activeAttribute) === 'true'
       })
@@ -339,8 +335,8 @@
      * change document location hash
      */
     Accordion.prototype.changeLocationHash = function () {
-      var id
-      var $target = this.getTarget()
+      let id
+      const $target = this.getTarget()
       if ($target.length) {
         id = $target.attr('id')
       }
@@ -366,9 +362,9 @@
      * @returns {*|Number}
      */
     Accordion.prototype.getAnimationDuration = function () {
-      var that = this
-      var findAnimationDuration = function () {
-        var $targetContent, duration
+      const that = this
+      const findAnimationDuration = function () {
+        let $targetContent, duration
 
         if (typeof (Accordion.transitionName) === 'undefined') {
           return '0s'
@@ -395,7 +391,7 @@
      * @returns {*|Number}
      */
     Accordion.prototype.getAnimationDurationMilliseconds = function () {
-      var duration = this.getAnimationDuration()
+      const duration = this.getAnimationDuration()
 
       if (duration.substr(-2) === 'ms') {
         return parseInt(duration)
@@ -418,13 +414,13 @@
      * Show accordion panel
      */
     Accordion.prototype.show = function (opt) {
-      var that = this
-      var $target = that.getTarget()
-      var $targetContent = that.getTargetContent()
-      var $container = that.getContainer()[ 0 ]
-      var $elementId = that.$element.attr('href')
+      const that = this
+      const $target = that.getTarget()
+      const $targetContent = that.getTargetContent()
+      const $container = that.getContainer()[ 0 ]
+      const $elementId = that.$element.attr('href')
 
-      var event = new CustomEvent('attrChange')
+      const event = new CustomEvent('attrChange')
       $container.setAttribute(settings.openedAttribute, $elementId)
       $container.dispatchEvent(event)
 
@@ -453,7 +449,7 @@
               visibility: 'hidden',
               display: 'block'
             })
-            var height = $targetContent.height()
+            const height = $targetContent.height()
             $targetContent.data('vceHeight', height)
             $targetContent.attr('style', '')
             next()
@@ -476,7 +472,7 @@
             next()
           })
           .queue(function (next) {
-            var height = $targetContent.data('vceHeight')
+            const height = $targetContent.data('vceHeight')
             $targetContent.animate({ height: height }, {
               duration: that.getAnimationDurationMilliseconds(),
               complete: function () {
@@ -492,17 +488,17 @@
             next()
           })
           .queue(function (next) {
-            var previousTabs = $target.prevAll()
-            var nextTabs = $target.nextAll()
+            const previousTabs = $target.prevAll()
+            const nextTabs = $target.nextAll()
 
             previousTabs.each(function (i, elem) {
-              var $elem = $(elem)
+              const $elem = $(elem)
               $elem.attr(that.positionToActive, 'before')
               $elem.removeAttr(that.activeAttribute)
             })
 
             nextTabs.each(function (i, elem) {
-              var $elem = $(elem)
+              const $elem = $(elem)
               $elem.attr(that.positionToActive, 'after')
               $elem.removeAttr(that.activeAttribute)
             })
@@ -519,9 +515,9 @@
      * Hide accordion panel
      */
     Accordion.prototype.hide = function (opt) {
-      var that = this
-      var $target = that.getTarget()
-      var $targetContent = that.getTargetContent()
+      const that = this
+      const $target = that.getTarget()
+      const $targetContent = that.getTargetContent()
 
       // if hidden no need to do anything
       if (!that.isActive()) {
@@ -547,7 +543,7 @@
             next()
           })
           .queue(function (next) {
-            var height = $targetContent.height()
+            const height = $targetContent.height()
             $targetContent.height(height)
             next()
           })
@@ -569,7 +565,7 @@
      * Accordion type: toggle
      */
     Accordion.prototype.toggle = function (opt) {
-      var $this = this.$element
+      const $this = this.$element
 
       if (this.isActive()) {
         Plugin.call($this, 'hide', opt)
@@ -582,7 +578,7 @@
      * Accordion type: dropdown
      */
     Accordion.prototype.dropdown = function (opt) {
-      var $this = this.$element
+      const $this = this.$element
 
       if (this.isActive()) {
         Plugin.call($this, 'hide', opt)
@@ -599,8 +595,8 @@
      * Accordion type: collapse
      */
     Accordion.prototype.collapse = function (opt) {
-      var $this = this.$element
-      var $triggers = this.getActiveTriggers().filter(function () {
+      const $this = this.$element
+      const $triggers = this.getActiveTriggers().filter(function () {
         return $this[ 0 ] !== this
       })
 
@@ -614,8 +610,8 @@
      * Accordion type: collapse all
      */
     Accordion.prototype.collapseAll = function (opt) {
-      var $this = this.$element
-      var $triggers = this.getActiveTriggers().filter(function () {
+      const $this = this.$element
+      const $triggers = this.getActiveTriggers().filter(function () {
         return $this[ 0 ] !== this
       })
 
@@ -626,14 +622,13 @@
     }
 
     Accordion.prototype.showNext = function (opt) {
-      var activeIndex
+      let activeIndex
 
-      var $triggers = this.getTriggers()
-      var $activeTriggers = this.getActiveTriggers()
+      const $triggers = this.getTriggers()
+      const $activeTriggers = this.getActiveTriggers()
       if ($triggers.length) {
         if ($activeTriggers.length) {
-          var lastActiveAccordion
-          lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1)[ settings.accordionPropertyName ]().data(settings.accordionContainer)
+          let lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1)[ settings.accordionPropertyName ]().data(settings.accordionContainer)
           if (lastActiveAccordion && lastActiveAccordion.getIndex) {
             activeIndex = lastActiveAccordion.getIndex()
           }
@@ -653,15 +648,13 @@
     }
 
     Accordion.prototype.showPrev = function (opt) {
-      var $triggers,
-        $activeTriggers,
-        activeIndex
+      let activeIndex
 
-      $triggers = this.getTriggers()
-      $activeTriggers = this.getActiveTriggers()
+      const $triggers = this.getTriggers()
+      const $activeTriggers = this.getActiveTriggers()
       if ($triggers.length) {
         if ($activeTriggers.length) {
-          var lastActiveAccordion
+          let lastActiveAccordion
           lastActiveAccordion = $activeTriggers.eq($activeTriggers.length - 1)[ accordionPropertyName ]().data(settings.accordionContainer)
           if (lastActiveAccordion && lastActiveAccordion.getIndex) {
             activeIndex = lastActiveAccordion.getIndex()
@@ -682,9 +675,7 @@
     }
 
     Accordion.prototype.showAt = function (index, opt) {
-      var $triggers
-
-      $triggers = this.getTriggers()
+      const $triggers = this.getTriggers()
       if ($triggers.length && index && index < $triggers.length) {
         Plugin.call($triggers.eq(index), 'controller', opt)
       }
@@ -694,17 +685,16 @@
       if (typeof opt !== 'undefined' && typeof opt.scrollTo !== 'undefined' && !opt.scrollTo) {
         return
       }
-      var that, $targetElement, offset, delay, speed
-      that = this
-      offset = 1
-      delay = 300
-      speed = 300
+      const that = this
+      const offset = 1
+      const delay = 300
+      const speed = 300
 
-      $targetElement = $(this.getTarget())
+      const $targetElement = $(this.getTarget())
       if ($targetElement.length) {
         if (this.$element.length) {
           setTimeout(function () {
-            var posY = $targetElement.offset().top - $(window).scrollTop() - that.$element.outerHeight() * offset
+            const posY = $targetElement.offset().top - $(window).scrollTop() - that.$element.outerHeight() * offset
             if (posY < 0) {
               $('html, body').animate({
                 scrollTop: $targetElement.offset().top - that.$element.outerHeight() * offset
@@ -732,19 +722,19 @@
     // Accordion data-api
     // =================
     this.clickHandler = function (e) {
-      var $this = $(this)
+      const $this = $(this)
       e.preventDefault()
       Plugin.call($this, 'controller')
     }
 
     this.hashNavigation = function () {
-      var offset = 0.2
-      var delay = 300
-      var speed = 0
+      const offset = 0.2
+      const delay = 300
+      const speed = 0
 
-      var hash = window.location.hash
-      var $targetElement = hash && $(hash)
-      var $accordion = $targetElement.length && $targetElement.find(settings.getAccordionHashSelector())
+      const hash = window.location.hash
+      const $targetElement = hash && $(hash)
+      const $accordion = $targetElement.length && $targetElement.find(settings.getAccordionHashSelector())
 
       if ($accordion.length) {
         setTimeout(function () {
@@ -759,14 +749,14 @@
     }
 
     this.setActiveTab = function (action, elementId) {
-      var $tabs = $(settings.tabsSelector + ':not([data-vcv-hash-navigated])')
+      let $tabs = $(settings.tabsSelector + ':not([data-vcv-hash-navigated])')
 
       if (action !== undefined && action !== 'add' && action !== 'update') {
         return
       }
 
       if (action === 'update') {
-        var el = $('#el-' + elementId)
+        const el = $('#el-' + elementId)
 
         if (el && el.hasClass('vce-global-element')) {
           $tabs = el.find(settings.tabsSelector)
@@ -776,7 +766,7 @@
       }
 
       if (action && action === 'add' && elementId) {
-        var id = '#el-' + elementId
+        let id = '#el-' + elementId
         $tabs = $(id + settings.tabsSelector)
 
         if ($tabs.length < 1) {
@@ -786,20 +776,20 @@
       }
 
       $tabs && $tabs.each(function (index, element) {
-        var $element = $(element)
-        var activeTabIndex = parseInt($element.attr(settings.activeTabAttribute))
-        var accordionPanelContainer = $element.find(settings.slidePanelsSelector)[ 0 ]
-        var accordionPanels = $(accordionPanelContainer).find('> ' + settings.slidePanelSelector)
-        var tabsInner = $element.find(settings.slideInnerSelector)[ 0 ]
-        var activeId = null
-        var event = new CustomEvent('attrChange')
-        var tabContainer = settings.tabsAndAccordion && $element.find(settings.tabContainerSelector)[ 0 ]
-        var tabHeadings = settings.tabsAndAccordion && $(tabContainer).find('> ' + settings.tabDataSelector)
+        const $element = $(element)
+        let activeTabIndex = parseInt($element.attr(settings.activeTabAttribute))
+        const accordionPanelContainer = $element.find(settings.slidePanelsSelector)[ 0 ]
+        const accordionPanels = $(accordionPanelContainer).find('> ' + settings.slidePanelSelector)
+        const tabsInner = $element.find(settings.slideInnerSelector)[ 0 ]
+        let activeId = null
+        const event = new CustomEvent('attrChange')
+        const tabContainer = settings.tabsAndAccordion && $element.find(settings.tabContainerSelector)[ 0 ]
+        const tabHeadings = settings.tabsAndAccordion && $(tabContainer).find('> ' + settings.tabDataSelector)
 
         activeTabIndex = accordionPanels.length >= activeTabIndex ? activeTabIndex - 1 : 0
 
         $(accordionPanels).each(function (i, elem) {
-          var $elem = $(elem)
+          const $elem = $(elem)
           $elem.removeAttr(settings.activeAttribute)
 
           if (i < activeTabIndex) {
@@ -815,7 +805,7 @@
 
         if (tabHeadings) {
           $(tabHeadings).each(function (i, elem) {
-            var $elem = $(elem)
+            const $elem = $(elem)
             $elem.removeAttr(settings.activeAttribute)
 
             if (i === activeTabIndex) {
@@ -829,11 +819,11 @@
       })
     }
 
-    var setActiveTab = this.setActiveTab
+    const setActiveTab = this.setActiveTab
   }
 
   window.VcvAccordion.prototype.init = function () {
-    var Plugin = this.getPlugin()
+    const Plugin = this.getPlugin()
     this.setActiveTab('add')
     this.setupAccordionProperty()
     $(window).on(this.settings.accordionHashChangeEvent, this.hashNavigation)

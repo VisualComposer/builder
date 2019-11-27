@@ -6,14 +6,14 @@
   'use strict'
 
   window.VcvAccordionAutoplay = function (props) {
-    var Plugin, TtaAutoPlay, old
-    var settings = props
+    let Plugin, TtaAutoPlay, old
+    const settings = props
 
     Plugin = function (action, options) {
-      var args = Array.prototype.slice.call(arguments, 1)
+      const args = Array.prototype.slice.call(arguments, 1)
       return this.each(function () {
-        var $this = $(this)
-        var data = $this.data(settings.autoplayDataSelector)
+        const $this = $(this)
+        let data = $this.data(settings.autoplayDataSelector)
 
         if ($this.data('vcv-autoplay-on-editor-disabled')) {
           return
@@ -94,8 +94,8 @@
      * Starts the autoplay timer with multiple call preventions
      */
     TtaAutoPlay.prototype.start = function () {
-      var $this = this.$element
-      var that = this
+      const $this = this.$element
+      const that = this
 
       /**
        * Local method called when accordion title being clicked
@@ -161,7 +161,7 @@
      * Pause the autoplay timer
      */
     TtaAutoPlay.prototype.pause = function () {
-      var timer = this.getTimer()
+      const timer = this.getTimer()
       if (undefined !== timer) {
         window.clearInterval(timer)
       }
