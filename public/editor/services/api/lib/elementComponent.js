@@ -651,6 +651,9 @@ export default class ElementComponent extends React.Component {
           if (device.boxShadowEnable) {
             attributes[ 'vce-box-shadow' ] = `el-${id}`
           }
+          if (device.hoverBoxShadowEnable) {
+            attributes[ 'vce-hover-box-shadow' ] = `el-${id}`
+          }
         }
       })
     }

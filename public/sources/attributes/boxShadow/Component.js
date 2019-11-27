@@ -6,50 +6,52 @@ import Toggle from '../toggle/Component'
 import Color from '../color/Component'
 import Range from '../range/Component'
 
-const BoxShadowEffects = [
-  {
-    fieldKey: 'horizontalOffset',
-    value: '0',
-    min: -300,
-    max: 300,
-    measurement: 'px',
-    description: 'Horizontal offset',
-    attributeType: 'range'
-  },
-  {
-    fieldKey: 'verticalOffset',
-    value: '5',
-    min: -300,
-    max: 300,
-    measurement: 'px',
-    description: 'Vertical offset',
-    attributeType: 'range'
-  },
-  {
-    fieldKey: 'blurRadius',
-    value: '8',
-    min: 0,
-    max: 300,
-    measurement: 'px',
-    description: 'Blur radius',
-    attributeType: 'range'
-  },
-  {
-    fieldKey: 'spreadRadius',
-    value: '3',
-    min: -300,
-    max: 300,
-    measurement: 'px',
-    description: 'Spread radius',
-    attributeType: 'range'
-  },
-  {
-    fieldKey: 'shadowColor',
-    value: '#555',
-    description: 'Shadow color',
-    attributeType: 'color'
-  }
-]
+const getBoxShadowEffects = (hover) => {
+  return [
+    {
+      fieldKey: hover ? 'hoverHorizontalOffset' : 'horizontalOffset',
+      value: '0',
+      min: -300,
+      max: 300,
+      measurement: 'px',
+      description: hover ? 'Hover horizontal offset' : 'Horizontal offset',
+      attributeType: 'range'
+    },
+    {
+      fieldKey: hover ? 'hoverVerticalOffset' : 'verticalOffset',
+      value: '5',
+      min: -300,
+      max: 300,
+      measurement: 'px',
+      description: hover ? 'Hover vertical offset' : 'Vertical offset',
+      attributeType: 'range'
+    },
+    {
+      fieldKey: hover ? 'hoverBlurRadius' : 'blurRadius',
+      value: '8',
+      min: 0,
+      max: 300,
+      measurement: 'px',
+      description: hover ? 'Hover blur radius' : 'Blur radius',
+      attributeType: 'range'
+    },
+    {
+      fieldKey: hover ? 'hoverSpreadRadius' : 'spreadRadius',
+      value: '3',
+      min: -300,
+      max: 300,
+      measurement: 'px',
+      description: hover ? 'Hover spread radius' : 'Spread radius',
+      attributeType: 'range'
+    },
+    {
+      fieldKey: hover ? 'hoverShadowColor' : 'shadowColor',
+      value: '#555',
+      description: hover ? 'Hover shadow color' : 'Shadow color',
+      attributeType: 'color'
+    }
+  ]
+}
 
 export default class BoxShadow extends Attribute {
   static defaultProps = {
@@ -62,7 +64,13 @@ export default class BoxShadow extends Attribute {
     verticalOffset: '0',
     blurRadius: '4',
     spreadRadius: '2',
-    shadowColor: 'rgba(85, 85, 85, 0.5)'
+    shadowColor: 'rgba(85, 85, 85, 0.5)',
+    hoverBoxShadowEnable: false,
+    hoverHorizontalOffset: '0',
+    hoverVerticalOffset: '0',
+    hoverBlurRadius: '4',
+    hoverSpreadRadius: '2',
+    hoverShadowColor: 'rgba(85, 85, 85, 0.8)'
   }
 
   static defaultState = {
@@ -74,6 +82,14 @@ export default class BoxShadow extends Attribute {
   static attributeMixins = {
     boxShadow: {
       src: require('raw-loader!./cssMixins/boxShadow.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        }
+      }
+    },
+    hoverBoxShadow: {
+      src: require('raw-loader!./cssMixins/hoverBoxShadow.pcss'),
       variables: {
         device: {
           value: `all`
@@ -98,13 +114,24 @@ export default class BoxShadow extends Attribute {
         value: value
       }
     }
-    return device
+    if (newValue[ device ].hasOwnProperty('hoverBoxShadow')) {
+      const value = newValue[ device ].hoverBoxShadow
+      const mixinName = `hoverBoxShadowMixin:${device}`
+      newMixins[ mixinName ] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.hoverBoxShadow)
+      newMixins[ mixinName ].variables.device = {
+        value: device
+      }
+      newMixins[ mixinName ].variables.hoverBoxShadow = {
+        value: value
+      }
+    }
   }
 
   constructor (props) {
     super(props)
     props.setInnerFieldStatus && props.setInnerFieldStatus()
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
+    this.showHoverFields = (!(props.options && (props.options.hoverBoxShadow === false)))
   }
 
   updateValue (newState, fieldKey) {
@@ -128,6 +155,15 @@ export default class BoxShadow extends Attribute {
           newState.devices[ device ].shadowColor = BoxShadow.deviceDefaults.shadowColor
         }
 
+        if (this.showHoverFields) {
+          if (!newState.devices[ device ].hoverBoxShadowEnable) {
+            newState.devices[ device ].hoverBoxShadowEnable = BoxShadow.deviceDefaults.hoverBoxShadowEnable
+          }
+          if (!newState.devices[ device ].hoverShadowColor) {
+            newState.devices[ device ].hoverShadowColor = BoxShadow.deviceDefaults.hoverShadowColor
+          }
+        }
+
         // Compile and assign actual box-shadow value
         const horizontalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].horizontalOffset)
         const verticalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].verticalOffset)
@@ -136,8 +172,20 @@ export default class BoxShadow extends Attribute {
         const shadowColor = newState.devices[ device ].shadowColor
         newState.devices[ device ].boxShadow = `${horizontalOffset} ${verticalOffset} ${blurRadius} ${spreadRadius} ${shadowColor}`
 
+        if (this.showHoverFields) {
+          // Compile and assign actual hover box-shadow value
+          const hoverHorizontalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverHorizontalOffset)
+          const hoverVerticalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverVerticalOffset)
+          const hoverBlurRadius = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverBlurRadius)
+          const hoverSpreadRadius = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverSpreadRadius)
+          const hoverShadowColor = newState.devices[ device ].hoverShadowColor
+          newState.devices[ device ].hoverBoxShadow = `${hoverHorizontalOffset} ${hoverVerticalOffset} ${hoverBlurRadius} ${hoverSpreadRadius} ${hoverShadowColor}`
+        }
+
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
-        device = BoxShadow.getMixins(newValue, device, newMixins)
+
+        // Prepare newMixins object
+        BoxShadow.getMixins(newValue, device, newMixins)
 
         // remove device from list if it's empty
         if (!Object.keys(newValue[ device ]).length) {
@@ -197,11 +245,11 @@ export default class BoxShadow extends Attribute {
     }, innerFieldKey)
   }
 
-  getBoxShadowToggle () {
-    const fieldKey = 'boxShadowEnable'
+  getBoxShadowToggle (hover) {
+    const fieldKey = hover ? 'hoverBoxShadowEnable' : 'boxShadowEnable'
     const deviceData = this.state.devices[ this.state.currentDevice ]
     const value = deviceData[ fieldKey ] || false
-    const labelText = 'Enable box shadow'
+    const labelText = hover ? 'Enable hover box shadow' : 'Enable box shadow'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -216,14 +264,15 @@ export default class BoxShadow extends Attribute {
     )
   }
 
-  getBoxShadowFields () {
+  getBoxShadowFields (hover) {
     const deviceData = this.state.devices[ this.state.currentDevice ]
+    const enableToggleKey = hover ? 'hoverBoxShadowEnable' : 'boxShadowEnable'
 
-    if (!deviceData[ 'boxShadowEnable' ]) {
+    if (!deviceData[ enableToggleKey ]) {
       return null
     }
 
-    const getFields = BoxShadowEffects.map((effect, i) => {
+    const getFields = getBoxShadowEffects(hover).map((effect, i) => {
       let field
       if (effect.attributeType === 'range') {
         field = <Range
@@ -255,10 +304,19 @@ export default class BoxShadow extends Attribute {
   }
 
   render () {
+    let hoverBoxShadowFields = null
+    if (this.showHoverFields) {
+      hoverBoxShadowFields = <>
+        {this.getBoxShadowToggle(true)}
+        {this.getBoxShadowFields(true)}
+      </>
+    }
+
     return (
       <div className='vcv-ui-box-shadow'>
         {this.getBoxShadowToggle()}
         {this.getBoxShadowFields()}
+        {hoverBoxShadowFields}
       </div>
     )
   }
