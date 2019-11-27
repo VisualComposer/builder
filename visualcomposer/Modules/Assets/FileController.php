@@ -94,7 +94,6 @@ class FileController extends Container implements Module
                 }
             }
         }
-        $globalCss = $optionsHelper->get('globalElementsCss', '');
 
         $globalElementsAttributesCssContent = join('', array_values($globalElementsAttributesCss));
         $globalElementsBaseCssContent = join('', array_values($globalElementsBaseCss));
