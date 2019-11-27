@@ -28,13 +28,16 @@ class AssetsEnqueue extends Container implements Helper
                 $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
                 foreach ((array)$asset as $single) {
                     $assetData = $this->getAssetData($single);
+                    $styleName = 'vcv:assets:source:styles:' . $strHelper->slugify($assetData['asset']);
 
-                    wp_enqueue_style(
-                        'vcv:assets:source:styles:' . $strHelper->slugify($single),
-                        $assetData['url'],
-                        [],
-                        $assetData['version']
-                    );
+                    if (!wp_style_is($styleName, 'enqueued')) {
+                        wp_enqueue_style(
+                            $styleName,
+                            $assetData['url'],
+                            [],
+                            $assetData['version']
+                        );
+                    }
                 }
             }
             unset($asset);
@@ -45,16 +48,12 @@ class AssetsEnqueue extends Container implements Helper
                 $asset = $assetsSharedHelper->findLocalAssetsPath($asset);
                 foreach ((array)$asset as $single) {
                     $assetData = $this->getAssetData($single);
+                    $scriptName = 'vcv:assets:source:scripts:' . $strHelper->slugify($assetData['asset']);
 
-                    // Remove Version and GET Parameters From URL
-                    $url = strtok($assetData['url'], '?');
-                    $single = strtok($single, '?');
-
-                    $scriptName = 'vcv:assets:source:scripts:' . $strHelper->slugify($single);
                     if (!wp_script_is($scriptName, 'enqueued')) {
                         wp_enqueue_script(
                             $scriptName,
-                            $url,
+                            $assetData['url'],
                             ['jquery'],
                             $assetData['version'],
                             true
@@ -80,11 +79,16 @@ class AssetsEnqueue extends Container implements Helper
             $url = $assetsHelper->getAssetUrl($asset);
             $version = $assetsVersion;
         }
+        // Remove Version From URL
+        $url = preg_replace('/(\?)ver=[^&]*(?:&|$)|&ver=[^&]*|(\?)v=[^&]*(?:&|$)|&v=[^&]*/', '', $url);
+        $asset = preg_replace('/(\?)ver=[^&]*(?:&|$)|&ver=[^&]*|(\?)v=[^&]*(?:&|$)|&v=[^&]*/', '', $asset);
 
-        $response = array(
+        $response = [
             'url' => $url,
-            'version' => $version
-        );
+            'version' => $version,
+            'asset' => $asset,
+        ];
+
         return $response;
     }
 }
