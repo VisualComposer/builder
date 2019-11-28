@@ -183,19 +183,19 @@ class AssetsShared extends Container implements Helper
             ],
 
             // BC: ClassicTabs to new tabs assets
-            'elements/classicTabs/classicTabs/public/dist/vc-accordion.min.js' => 'assetsLibrary/accordion/dist/accordion.bundle.js',
-            'elements/classicTabs/classicTabs/public/dist/vc-tabs.min.js' => [
+            'elements/classicTabs/classicTabs/public/dist/vc-classic-tabs-accordion.min.js' => 'assetsLibrary/accordion/dist/accordion.bundle.js',
+            'elements/classicTabs/classicTabs/public/dist/vc-classic-tabs-tabs.min.js' => [
                 'assetsLibrary/tabs/dist/tabs.bundle.js',
                 'elements/classicTabs/classicTabs/public/dist/vcClassicTabs.min.js',
             ],
-            'elements/classicTabs/classicTabs/public/dist/vc-accordion-autoplay.min.js' => 'assetsLibrary/accordionAutoplay/dist/accordionAutoplay.bundle.js',
+            'elements/classicTabs/classicTabs/public/dist/vc-classic-tabs-accordion-autoplay.min.js' => 'assetsLibrary/accordionAutoplay/dist/accordionAutoplay.bundle.js',
 
             // BC: ClassicAccordion
-            'elements/classicAccordion/classicAccordion/public/dist/vc-accordion.min.js' => [
+            'elements/classicAccordion/classicAccordion/public/dist/vc-classic-accordion.min.js' => [
                 'assetsLibrary/accordion/dist/accordion.bundle.js',
                 'elements/classicAccordion/classicAccordion/public/dist/vcClassicAccordion.min.js',
             ],
-            'elements/classicAccordion/classicAccordion/public/dist/vc-accordion-autoplay.min.js' => 'assetsLibrary/accordionAutoplay/dist/accordionAutoplay.bundle.js',
+            'elements/classicAccordion/classicAccordion/public/dist/vc-classic-accordion-autoplay.min.js' => 'assetsLibrary/accordionAutoplay/dist/accordionAutoplay.bundle.js',
 
             // BC: tabsWithSlide
             'elements/tabsWithSlide/tabsWithSlide/public/dist/vc-accordion.min.js' => 'assetsLibrary/accordion/dist/accordion.bundle.js',
