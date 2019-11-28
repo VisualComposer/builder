@@ -134,6 +134,45 @@ export default class BoxShadow extends Attribute {
     this.showHoverFields = (!(props.options && (props.options.hoverBoxShadow === false)))
   }
 
+  getBoxShadowValue (deviceValue) {
+    const newDeviceValue = lodash.defaultsDeep({}, deviceValue)
+    if (!newDeviceValue.boxShadowEnable) {
+      newDeviceValue.boxShadowEnable = BoxShadow.deviceDefaults.boxShadowEnable
+    }
+    if (!newDeviceValue.shadowColor) {
+      newDeviceValue.shadowColor = BoxShadow.deviceDefaults.shadowColor
+    }
+
+    if (this.showHoverFields) {
+      if (!newDeviceValue.hoverBoxShadowEnable) {
+        newDeviceValue.hoverBoxShadowEnable = BoxShadow.deviceDefaults.hoverBoxShadowEnable
+      }
+      if (!newDeviceValue.hoverShadowColor) {
+        newDeviceValue.hoverShadowColor = BoxShadow.deviceDefaults.hoverShadowColor
+      }
+    }
+
+    // Compile and assign actual box-shadow value
+    const horizontalOffset = BoxShadow.addPixelToNumber(newDeviceValue.horizontalOffset)
+    const verticalOffset = BoxShadow.addPixelToNumber(newDeviceValue.verticalOffset)
+    const blurRadius = BoxShadow.addPixelToNumber(newDeviceValue.blurRadius)
+    const spreadRadius = BoxShadow.addPixelToNumber(newDeviceValue.spreadRadius)
+    const shadowColor = newDeviceValue.shadowColor
+    newDeviceValue.boxShadow = `${horizontalOffset} ${verticalOffset} ${blurRadius} ${spreadRadius} ${shadowColor}`
+
+    if (this.showHoverFields) {
+      // Compile and assign actual hover box-shadow value
+      const hoverHorizontalOffset = BoxShadow.addPixelToNumber(newDeviceValue.hoverHorizontalOffset)
+      const hoverVerticalOffset = BoxShadow.addPixelToNumber(newDeviceValue.hoverVerticalOffset)
+      const hoverBlurRadius = BoxShadow.addPixelToNumber(newDeviceValue.hoverBlurRadius)
+      const hoverSpreadRadius = BoxShadow.addPixelToNumber(newDeviceValue.hoverSpreadRadius)
+      const hoverShadowColor = newDeviceValue.hoverShadowColor
+      newDeviceValue.hoverBoxShadow = `${hoverHorizontalOffset} ${hoverVerticalOffset} ${hoverBlurRadius} ${hoverSpreadRadius} ${hoverShadowColor}`
+    }
+
+    return newDeviceValue
+  }
+
   updateValue (newState, fieldKey) {
     let newValue = {}
     let newMixins = {}
@@ -148,39 +187,7 @@ export default class BoxShadow extends Attribute {
 
     checkDevices.forEach((device) => {
       if (!lodash.isEmpty(newState.devices[ device ])) {
-        if (!newState.devices[ device ].boxShadowEnable) {
-          newState.devices[ device ].boxShadowEnable = BoxShadow.deviceDefaults.boxShadowEnable
-        }
-        if (!newState.devices[ device ].shadowColor) {
-          newState.devices[ device ].shadowColor = BoxShadow.deviceDefaults.shadowColor
-        }
-
-        if (this.showHoverFields) {
-          if (!newState.devices[ device ].hoverBoxShadowEnable) {
-            newState.devices[ device ].hoverBoxShadowEnable = BoxShadow.deviceDefaults.hoverBoxShadowEnable
-          }
-          if (!newState.devices[ device ].hoverShadowColor) {
-            newState.devices[ device ].hoverShadowColor = BoxShadow.deviceDefaults.hoverShadowColor
-          }
-        }
-
-        // Compile and assign actual box-shadow value
-        const horizontalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].horizontalOffset)
-        const verticalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].verticalOffset)
-        const blurRadius = BoxShadow.addPixelToNumber(newState.devices[ device ].blurRadius)
-        const spreadRadius = BoxShadow.addPixelToNumber(newState.devices[ device ].spreadRadius)
-        const shadowColor = newState.devices[ device ].shadowColor
-        newState.devices[ device ].boxShadow = `${horizontalOffset} ${verticalOffset} ${blurRadius} ${spreadRadius} ${shadowColor}`
-
-        if (this.showHoverFields) {
-          // Compile and assign actual hover box-shadow value
-          const hoverHorizontalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverHorizontalOffset)
-          const hoverVerticalOffset = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverVerticalOffset)
-          const hoverBlurRadius = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverBlurRadius)
-          const hoverSpreadRadius = BoxShadow.addPixelToNumber(newState.devices[ device ].hoverSpreadRadius)
-          const hoverShadowColor = newState.devices[ device ].hoverShadowColor
-          newState.devices[ device ].hoverBoxShadow = `${hoverHorizontalOffset} ${hoverVerticalOffset} ${hoverBlurRadius} ${hoverSpreadRadius} ${hoverShadowColor}`
-        }
+        newState.devices[ device ] = this.getBoxShadowValue(newState.devices[ device ])
 
         newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
 
@@ -203,6 +210,7 @@ export default class BoxShadow extends Attribute {
     // data came from props if there is set value
     if (props.value) {
       newState = this.parseValue(props.value)
+      this.setFieldValue(newState.devices, newState.attributeMixins)
     } else {
       // data came from state update
       newState = lodash.defaultsDeep({}, props, BoxShadow.defaultState)
@@ -219,6 +227,7 @@ export default class BoxShadow extends Attribute {
   parseValue (value) {
     // set default values
     let newState = lodash.defaultsDeep({}, BoxShadow.defaultState)
+    let newMixins = {}
     // get devices data
     let devices = []
     // set current device
@@ -232,7 +241,10 @@ export default class BoxShadow extends Attribute {
       if (value.device && value.device[ device ]) {
         newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
       }
+      newState.devices[ device ] = this.getBoxShadowValue(newState.devices[ device ])
+      BoxShadow.getMixins(newState.devices, device, newMixins)
     })
+    newState.attributeMixins = newMixins
 
     return newState
   }
