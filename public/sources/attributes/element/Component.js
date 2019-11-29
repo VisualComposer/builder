@@ -196,9 +196,9 @@ export default class ElementAttribute extends Attribute {
 
         replacements = (
           <div className='vcv-ui-replace-element-container'>
-          <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
-            <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-          </span>
+            <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
+              <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
+            </span>
             <ul className='vcv-ui-replace-element-list'>
               {replacementItemsOutput}
             </ul>
