@@ -168,25 +168,27 @@ export default class ElementAttribute extends Attribute {
 
         let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
 
-        return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
-          <span
-            className='vcv-ui-item-element'
-            onClick={this.onClickReplacement.bind(this, { tag: tag })}
-          >
-            <span className={itemContentClasses}>
-              <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
-                alt={cookElement.get('name')} />
-              <span className='vcv-ui-item-overlay'>
-                <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
+        return (
+          <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
+            <span
+              className='vcv-ui-item-element'
+              onClick={this.onClickReplacement.bind(this, { tag: tag })}
+            >
+              <span className={itemContentClasses}>
+                <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
+                  alt={cookElement.get('name')} />
+                <span className='vcv-ui-item-overlay'>
+                  <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
+                </span>
+              </span>
+              <span className='vcv-ui-item-element-name'>
+                <span className={nameClasses}>
+                  {cookElement.get('name')}
+                </span>
               </span>
             </span>
-            <span className='vcv-ui-item-element-name'>
-              <span className={nameClasses}>
-                {cookElement.get('name')}
-              </span>
-            </span>
-          </span>
-        </li>
+          </li>
+        )
       })
 
       replacements = (
