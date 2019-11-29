@@ -128,11 +128,11 @@ export default class ElementAttribute extends Attribute {
       return value.each(ElementAttribute.editFormTabsIterator.bind(this, element))
     }
     // In case if tab is single param holder
-    return [ {
+    return [{
       key: tabName,
       value: value,
       data: settings
-    } ]
+    }]
   }
 
   onChange () {
@@ -144,31 +144,34 @@ export default class ElementAttribute extends Attribute {
   }
 
   render () {
-    let { category, tabLabel, replaceView, exclude } = this.props.options
+    let { category, tabLabel, replaceView, exclude, disableReplaceable } = this.props.options
     let replacements = ''
     category = category || '*'
     let elementLabel = (tabLabel && tabLabel.toLowerCase()) || category.toLowerCase() || 'element'
     let categorySettings = hubCategoriesService.get(category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations.replaceElementText.split('{elementLabel}').join(elementLabel)
-    if (categorySettings && this.state.showReplacements) {
-      let replacementItemsOutput = categorySettings.elements.map((tag) => {
-        let cookElement = Cook.get({ tag: tag })
-        if (!cookElement || !cookElement.get('name') || cookElement.get('name') === '--') {
-          return null
-        }
-        let nameClasses = classNames({
-          'vcv-ui-item-badge vcv-ui-badge--success': false,
-          'vcv-ui-item-badge vcv-ui-badge--warning': false
-        })
-        let itemContentClasses = classNames({
-          'vcv-ui-item-element-content': true,
-          'vcv-ui-item-list-item-content--active': this.state.tag === tag
-        })
+    let replacementBlock = ''
 
-        let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+    if (!disableReplaceable) {
+      if (categorySettings && this.state.showReplacements) {
+        let replacementItemsOutput = categorySettings.elements.map((tag) => {
+          let cookElement = Cook.get({ tag: tag })
+          if (!cookElement || !cookElement.get('name') || cookElement.get('name') === '--') {
+            return null
+          }
+          let nameClasses = classNames({
+            'vcv-ui-item-badge vcv-ui-badge--success': false,
+            'vcv-ui-item-badge vcv-ui-badge--warning': false
+          })
+          let itemContentClasses = classNames({
+            'vcv-ui-item-element-content': true,
+            'vcv-ui-item-list-item-content--active': this.state.tag === tag
+          })
 
-        return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
+          let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+
+          return <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
           <span
             className='vcv-ui-item-element'
             onClick={this.onClickReplacement.bind(this, { tag: tag })}
@@ -186,70 +189,69 @@ export default class ElementAttribute extends Attribute {
               </span>
             </span>
           </span>
-        </li>
-      })
+          </li>
+        })
 
-      replacements = (
-        <div className='vcv-ui-replace-element-container'>
+        replacements = (
+          <div className='vcv-ui-replace-element-container'>
           <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
             <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
           </span>
-          <ul className='vcv-ui-replace-element-list'>
-            {replacementItemsOutput}
-          </ul>
-        </div>
-      )
-    } else {
-      replacements = (
-        <div>
-          <p
-            className='vcv-ui-form-helper'
-          >
-            {replaceElementText}
-
-          </p>
-          <button type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
-            onClick={this.changeShowReplacements}>
-            Replace {elementLabel}
-          </button>
-        </div>
-      )
-    }
-
-    let replacementBlock = ''
-    if (categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
-      // TODO: show another wrapper
-      if (replaceView && replaceView === 'dropdown') {
-        let dropdownValues = categorySettings.elements.map(
-          (tag) => {
-            let cookElement = Cook.get({ tag: tag })
-            if (!cookElement) {
-              return {}
-            }
-            return {
-              label: cookElement.get('name'),
-              value: tag
-            }
-          }
-        )
-        replacementBlock = (
-          <div className='vcv-ui-form-group vcv-ui-replace-element-block-dropdown'>
-            <Dropdown
-              fieldKey='replaceElement'
-              updater={this.onClickReplacementDropdown.bind(this)} // TODO: Tag
-              value={this.state.value.tag}
-              options={{
-                values: dropdownValues
-              }}
-            />
+            <ul className='vcv-ui-replace-element-list'>
+              {replacementItemsOutput}
+            </ul>
           </div>
         )
       } else {
-        replacementBlock = (
-          <div className='vcv-ui-replace-element-block'>
-            {replacements}
+        replacements = (
+          <div>
+            <p
+              className='vcv-ui-form-helper'
+            >
+              {replaceElementText}
+
+            </p>
+            <button type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
+              onClick={this.changeShowReplacements}>
+              Replace {elementLabel}
+            </button>
           </div>
         )
+      }
+      if (categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
+        // TODO: show another wrapper
+        if (replaceView && replaceView === 'dropdown') {
+          let dropdownValues = categorySettings.elements.map(
+            (tag) => {
+              let cookElement = Cook.get({ tag: tag })
+              if (!cookElement) {
+                return {}
+              }
+              return {
+                label: cookElement.get('name'),
+                value: tag
+              }
+            }
+          )
+          replacementBlock = (
+            <div className='vcv-ui-form-group vcv-ui-replace-element-block-dropdown'>
+              <Dropdown
+                fieldKey='replaceElement'
+                updater={this.onClickReplacementDropdown.bind(this)} // TODO: Tag
+                value={this.state.value.tag}
+                options={{
+                  values: dropdownValues
+                }}
+              />
+            </div>
+          )
+        } else {
+          replacementBlock = (
+            <div className='vcv-ui-replace-element-block'>
+              {replacements}
+            </div>
+          )
+        }
       }
     }
 
