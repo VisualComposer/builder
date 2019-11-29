@@ -1,4 +1,7 @@
-// source: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+/**
+ * Create a CustomEvent Polyfill to support IE >= 9 browsers
+ * source: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+ */
 (function () {
   if (typeof window.CustomEvent === 'function') {
     return false
@@ -420,7 +423,7 @@
       const $container = that.getContainer()[ 0 ]
       const $elementId = that.$element.attr('href')
 
-      const event = new CustomEvent('attrChange')
+      const event = new CustomEvent('vcvAccordionAttrChange')
       $container.setAttribute(settings.openedAttribute, $elementId)
       $container.dispatchEvent(event)
 
@@ -782,7 +785,7 @@
         const accordionPanels = $(accordionPanelContainer).find('> ' + settings.slidePanelSelector)
         const tabsInner = $element.find(settings.slideInnerSelector)[ 0 ]
         let activeId = null
-        const event = new CustomEvent('attrChange')
+        const event = new CustomEvent('vcvAccordionAttrChange')
         const tabContainer = settings.tabsAndAccordion && $element.find(settings.tabContainerSelector)[ 0 ]
         const tabHeadings = settings.tabsAndAccordion && $(tabContainer).find('> ' + settings.tabDataSelector)
 
