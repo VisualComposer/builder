@@ -434,6 +434,15 @@
         return
       }
 
+      // Trigger vcv reInit for nested elements that are hidden and requires initialization
+      const innerElements = [].slice.call($targetContent[ 0 ].querySelectorAll('*[id^="el"]'))
+      if (innerElements && innerElements.length) {
+        innerElements.forEach((el) => {
+          const id = el.id.replace('el-', '')
+          window.vcv.trigger('reInit', 'reInit', id)
+        })
+      }
+
       if (that.isAnimated()) {
         that.triggerEvent(settings.beforeShowAccordionSelector)
         $target
