@@ -281,7 +281,11 @@ class Categories implements Helper
             ],
             'Pricing table' => [
                 'title' => 'Pricing Table',
-                'elements' => ['pricingTable', 'outlinePricingTable'],
+                'elements' => [
+                    'pricingTable',
+                    'outlinePricingTable',
+                    'shadowPricingTable'
+                ],
                 'icon' => $urlHelper->to('public/categories/icons/Pricing-Table.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Pricing-Table.svg'),
             ],
