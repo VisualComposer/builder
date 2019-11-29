@@ -134,9 +134,18 @@ export default class EditFormSection extends React.Component {
     let replaceElement = null
 
     if (tab.fieldKey === 'editFormTab1') {
-      replaceElement = (
-        <EditFormReplaceElement {...this.props} />
-      )
+      let disableReplaceable = false
+      if (this.props.options.nestedAttr) {
+        disableReplaceable = tab.data.options.disableReplaceable
+      } else {
+        disableReplaceable = tab.data.settings.options.disableReplaceable
+      }
+
+      if (!disableReplaceable) {
+        replaceElement = (
+          <EditFormReplaceElement {...this.props} />
+        )
+      }
     }
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
