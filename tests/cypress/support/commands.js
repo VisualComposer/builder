@@ -332,6 +332,49 @@ Cypress.Commands.add('setColor', (settings) => {
     })
 })
 
+Cypress.Commands.add('setURL', (title, settings) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next('div')
+        .find('.vcv-ui-form-link-button')
+        .click()
+    })
+
+  cy.get('.vcv-ui-modal .vcv-ui-form-group-heading')
+    .contains('URL')
+    .then(($field) => {
+      cy.wrap($field)
+        .next('.vcv-ui-editor-dropdown-input-container')
+        .find('input')
+        .type(settings.url)
+    })
+
+  cy.get('.vcv-ui-modal label[for="targetBlank-0-1"]').click()
+  cy.get('.vcv-ui-modal .vcv-ui-modal-action').click()
+})
+
+Cypress.Commands.add('setIcon', (title, settings) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next('div')
+        .find('.vcv-ui-form-dropdown')
+        .click()
+    })
+
+  cy.get('.vcv-ui-form-iconpicker-content-heading .vcv-ui-form-dropdown:first-of-type')
+    .select(settings.iconFamily)
+
+  cy.get('.vcv-ui-form-iconpicker-content-heading .vcv-ui-form-input')
+    .type(settings.iconName)
+
+  cy.get(`.vcv-ui-form-iconpicker-option[title="${settings.iconTitle}"]`)
+    .click()
+})
+
 // Creates a new post in WordPress admin dashboard,
 // returns post id
 Cypress.Commands.add('createWpPost', (settings) => {
