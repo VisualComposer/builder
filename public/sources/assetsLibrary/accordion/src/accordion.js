@@ -3,12 +3,12 @@
  * source: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
  */
 (function () {
-  if (typeof window.CustomEvent === 'function') {
+  if (typeof window.VcvCustomEvent === 'function') {
     return false
   }
 
   function CustomEvent (event, params) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined }
+    params = params || Object.assign({},{ bubbles: false, cancelable: false, detail: undefined })
     const evt = document.createEvent('CustomEvent')
     evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail)
     return evt
@@ -16,7 +16,7 @@
 
   CustomEvent.prototype = window.Event.prototype
 
-  window.CustomEvent = CustomEvent
+  window.VcvCustomEvent = CustomEvent
 })();
 
 /* =========================================================
@@ -423,7 +423,7 @@
       const $container = that.getContainer()[ 0 ]
       const $elementId = that.$element.attr('href')
 
-      const event = new CustomEvent('vcvAccordionAttrChange')
+      const event = new window.VcvCustomEvent('vcvAccordionAttrChange')
       $container.setAttribute(settings.openedAttribute, $elementId)
       $container.dispatchEvent(event)
 
@@ -794,7 +794,7 @@
         const accordionPanels = $(accordionPanelContainer).find('> ' + settings.slidePanelSelector)
         const tabsInner = $element.find(settings.slideInnerSelector)[ 0 ]
         let activeId = null
-        const event = new CustomEvent('vcvAccordionAttrChange')
+        const event = new window.VcvCustomEvent('vcvAccordionAttrChange')
         const tabContainer = settings.tabsAndAccordion && $element.find(settings.tabContainerSelector)[ 0 ]
         const tabHeadings = settings.tabsAndAccordion && $(tabContainer).find('> ' + settings.tabDataSelector)
 
