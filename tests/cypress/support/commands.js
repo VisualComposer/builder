@@ -355,7 +355,7 @@ Cypress.Commands.add('createWpPost', (settings) => {
     .click()
 
   cy.get('.editor-post-excerpt .components-textarea-control__input')
-    .type(settings.postContent)
+    .type(settings.postContent, { force: true })
 
   cy.window().then((window) => {
     postId = window.document.getElementById('post_ID').value
