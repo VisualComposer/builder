@@ -68,10 +68,26 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
         vchelper('AssetsEnqueue')->enqueueAssets($headerPostId);
         vchelper('AssetsEnqueue')->enqueueAssets($postId);
 
-        // Check is asset exist
+        // @codingStandardsIgnoreLine
         global $wp_scripts,$wp_styles;
-        $this->assertContains('vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs', $wp_scripts->queue);
-        $this->assertContains('vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs', $wp_scripts->queue);
-        $this->assertContains('vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss', $wp_styles->queue);
+        // @codingStandardsIgnoreLine
+        $enqueuedScript = $wp_scripts->queue;
+        // @codingStandardsIgnoreLine
+        $enqueuedStyle = $wp_styles->queue;
+
+        // Check is asset enqueued
+        $this->assertContains('vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs', $enqueuedScript);
+        $this->assertContains('vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs', $enqueuedScript);
+        $this->assertContains('vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss', $enqueuedStyle);
+
+        // Check enqueued script and styles count
+        $countEnqueuedFaqBundle = count(array_keys($enqueuedScript, 'vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs'));
+        $this->assertGreaterThanOrEqual($countEnqueuedFaqBundle, 1);
+
+        $countEnqueuedFaqToggleMin = count(array_keys($enqueuedScript, 'vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs'));
+        $this->assertGreaterThanOrEqual($countEnqueuedFaqToggleMin, 1);
+
+        $countEnqueuedImageFilter = count(array_keys($enqueuedStyle, 'vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss'));
+        $this->assertGreaterThanOrEqual($countEnqueuedImageFilter, 1);
     }
 }
