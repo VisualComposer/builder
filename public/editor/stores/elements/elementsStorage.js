@@ -381,9 +381,8 @@ addStorage('elements', (storage) => {
     })
     createdElements.push(data.id)
 
-    let containerTags = [ 'tabsWithSlide', 'classicTabs', 'classicAccordion', 'pageableContainer' ]
     let children = documentManager.children(id)
-    if (cookElement.containerFor() && containerTags.includes(cookElement.get('tag'))) {
+    if (cookElement.containerFor()) {
       let childTag = cookElement.settings('containerFor').settings && cookElement.settings('containerFor').settings.options && cookElement.settings('containerFor').settings.options.elementDependencies && cookElement.settings('containerFor').settings.options.elementDependencies.tag
       if (children && childTag) {
         children.forEach(child => {
