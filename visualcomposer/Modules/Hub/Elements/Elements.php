@@ -38,7 +38,7 @@ class Elements extends Container implements Module
             'outputWebpackBc'
         );
         $this->addFilter('vcv:frontend:head:extraOutput', 'outputElements');
-        $this->addFilter('vcv:frontend:footer:extraOutput', 'outputElementsBundle', 3);
+        $this->addFilter('vcv:frontend:footer:extraOutput', 'outputElementsBundle', 15); // more than addons
     }
 
     /**
