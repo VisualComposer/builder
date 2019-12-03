@@ -131,13 +131,23 @@ class Categories implements Helper
             ],
             'Tabs' => [
                 'title' => 'Tabs',
-                'elements' => ['tabsWithSlide', 'classicTabs', 'pageableContainer'],
+                'elements' => [
+                    'tabsWithSlide',
+                    'classicTabs',
+                    'pageableContainer',
+                    'contentSlider'
+                    ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
             ],
             'Tab' => [
                 'title' => 'Tab',
-                'elements' => ['tab', 'classicTab', 'pageableTab'],
+                'elements' => [
+                    'tab',
+                    'classicTab',
+                    'pageableTab',
+                    'contentSlide'
+                ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
             ],
