@@ -1,5 +1,37 @@
 <?php
 
+class VcCustomForTestWpScripts extends \WP_Scripts
+{
+    public $enqueuedScripts = [];
+
+    public function enqueue($handle)
+    {
+        if (isset($this->enqueuedScripts[ $handle ])) {
+            $this->enqueuedScripts[ $handle ]++;
+        } else {
+            $this->enqueuedScripts[ $handle ] = 1;
+        }
+
+        return parent::enqueue($handle);
+    }
+}
+
+class VcCustomForTestWpStyles extends \WP_Styles
+{
+    public $enqueuedStyles = [];
+
+    public function enqueue($handle)
+    {
+        if (isset($this->enqueuedStyles[ $handle ])) {
+            $this->enqueuedStyles[ $handle ]++;
+        } else {
+            $this->enqueuedStyles[ $handle ] = 1;
+        }
+
+        return parent::enqueue($handle);
+    }
+}
+
 class HelpersAssetsEnqueueTest extends WP_UnitTestCase
 {
     public function testAssetEnqueue()
@@ -24,8 +56,8 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
                             'http://127.0.0.1:8000/wp-content/plugins/builder/devElements/faqToggle/faqToggle/public/dist/faqToggle.min.js?ver=20.0',
                         ],
                         'cssBundles' => [
-                            'assetsLibrary/imageFilter/dist/imageFilter.bundle.css?v=21.0'
-                        ]
+                            'assetsLibrary/imageFilter/dist/imageFilter.bundle.css?v=21.0',
+                        ],
                     ],
                 ],
             ]
@@ -55,8 +87,8 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
                             'http://127.0.0.1:8000/wp-content/plugins/builder/devElements/faqToggle/faqToggle/public/dist/faqToggle.min.js?ver=21.0',
                         ],
                         'cssBundles' => [
-                            'assetsLibrary/imageFilter/dist/imageFilter.bundle.css?v=22.0'
-                        ]
+                            'assetsLibrary/imageFilter/dist/imageFilter.bundle.css?v=22.0',
+                        ],
                     ],
                 ],
             ]
@@ -64,30 +96,56 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
         $this->assertTrue(is_numeric($postId));
         vchelper('PostType')->setupPost($postId);
 
+        // @codingStandardsIgnoreStart
+        global $wp_scripts, $wp_styles;
+        $backupScripts = $wp_scripts;
+        $backupStyles = $wp_styles;
+        $wp_scripts = new VcCustomForTestWpScripts();
+        $wp_styles = new VcCustomForTestWpStyles();
+        // @codingStandardsIgnoreEnd
+
         // Enqueue Assets
         vchelper('AssetsEnqueue')->enqueueAssets($headerPostId);
         vchelper('AssetsEnqueue')->enqueueAssets($postId);
 
         // @codingStandardsIgnoreLine
-        global $wp_scripts,$wp_styles;
+        $enqueuedScript = $wp_scripts->enqueuedScripts;
         // @codingStandardsIgnoreLine
-        $enqueuedScript = $wp_scripts->queue;
-        // @codingStandardsIgnoreLine
-        $enqueuedStyle = $wp_styles->queue;
+        $enqueuedStyle = $wp_styles->enqueuedStyles;
 
         // Check is asset enqueued
-        $this->assertContains('vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs', $enqueuedScript);
-        $this->assertContains('vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs', $enqueuedScript);
-        $this->assertContains('vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss', $enqueuedStyle);
+        $this->assertArrayHasKey(
+            'vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs',
+            $enqueuedScript
+        );
+        $this->assertArrayHasKey(
+            'vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs',
+            $enqueuedScript
+        );
+        $this->assertArrayHasKey(
+            'vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss',
+            $enqueuedStyle
+        );
 
         // Check enqueued script and styles count
-        $countEnqueuedFaqBundle = count(array_keys($enqueuedScript, 'vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs'));
-        $this->assertEquals($countEnqueuedFaqBundle, 1);
+        $this->assertEquals(
+            $enqueuedScript['vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs'],
+            1
+        );
 
-        $countEnqueuedFaqToggleMin = count(array_keys($enqueuedScript, 'vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs'));
-        $this->assertEquals($countEnqueuedFaqToggleMin, 1);
+        $this->assertEquals(
+            $enqueuedScript['vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs'],
+            1
+        );
 
-        $countEnqueuedImageFilter = count(array_keys($enqueuedStyle, 'vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss'));
-        $this->assertEquals($countEnqueuedImageFilter, 1);
+        $this->assertEquals(
+            $enqueuedStyle['vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss'],
+            1
+        );
+
+        // @codingStandardsIgnoreStart
+        $wp_scripts = $backupScripts;
+        $wp_styles = $backupStyles;
+        // @codingStandardsIgnoreEnd
     }
 }
