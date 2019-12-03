@@ -82,12 +82,12 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
 
         // Check enqueued script and styles count
         $countEnqueuedFaqBundle = count(array_keys($enqueuedScript, 'vcv:assets:source:scripts:assetslibraryfaqtoggledistfaqtogglebundlejs'));
-        $this->assertGreaterThanOrEqual($countEnqueuedFaqBundle, 1);
+        $this->assertEquals($countEnqueuedFaqBundle, 1);
 
         $countEnqueuedFaqToggleMin = count(array_keys($enqueuedScript, 'vcv:assets:source:scripts:http1270018000wp-contentpluginsbuilderdevelementsfaqtogglefaqtogglepublicdistfaqtoggleminjs'));
-        $this->assertGreaterThanOrEqual($countEnqueuedFaqToggleMin, 1);
+        $this->assertEquals($countEnqueuedFaqToggleMin, 1);
 
         $countEnqueuedImageFilter = count(array_keys($enqueuedStyle, 'vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss'));
-        $this->assertGreaterThanOrEqual($countEnqueuedImageFilter, 1);
+        $this->assertEquals($countEnqueuedImageFilter, 1);
     }
 }
