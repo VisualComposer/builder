@@ -2,6 +2,8 @@ import { defaultsDeep } from 'lodash'
 import { getStorage } from 'vc-cake'
 import { getAttributeType } from './tools'
 
+const fieldOptionsStorage = getStorage('fieldOptions')
+
 let items = {}
 export default {
   add (settings, componentCallback, cssSettings, modifierOnCreate) {
@@ -13,6 +15,20 @@ export default {
     }
 
     let dataSettings = JSON.parse(settingsCloneJsonString)
+
+    // Change elements initial values from storage
+    const elementInitialValues = fieldOptionsStorage.state('elementInitialValue').get()
+    if (elementInitialValues) {
+      const currentElementValues = elementInitialValues[dataSettings.tag.value]
+      if (dataSettings.tag.value && currentElementValues) {
+        Object.keys(currentElementValues).forEach((attrKey) => {
+          if (dataSettings[attrKey] && dataSettings[attrKey].hasOwnProperty('value')) {
+            dataSettings[attrKey].value = currentElementValues[attrKey]
+          }
+        })
+      }
+    }
+
     for (let k in dataSettings) {
       if (dataSettings.hasOwnProperty(k)) {
         const attrSettings = getAttributeType(k, dataSettings)
