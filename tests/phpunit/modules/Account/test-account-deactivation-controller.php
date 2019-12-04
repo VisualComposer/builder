@@ -12,12 +12,13 @@ class TestAccountDeactivationController extends WP_UnitTestCase
         );
         $optionsHelper = vchelper('Options');
         $licenseHelper = vchelper('License');
-        $this->assertFalse($licenseHelper->isActivated());
+        $this->assertFalse($licenseHelper->isPremiumActivated());
         $optionsHelper->setTransient('lastBundleUpdate', 1, 3600);
         $response = vcfilter('vcv:ajax:license:deactivation:ping');
         $this->assertEquals(['status' => true], $response);
         $this->assertEquals(1, $optionsHelper->getTransient('lastBundleUpdate'));
         $licenseHelper->setKey('test');
+        $licenseHelper->setType('premium');
 
         // check wrong
         $requestHelper->setData(
@@ -25,7 +26,7 @@ class TestAccountDeactivationController extends WP_UnitTestCase
                 'code' => 'wrong',
             ]
         );
-        $this->assertTrue($licenseHelper->isActivated());
+        $this->assertTrue($licenseHelper->isPremiumActivated());
         $response = vcfilter('vcv:ajax:license:deactivation:ping');
         $this->assertEquals(1, $optionsHelper->getTransient('lastBundleUpdate'));
 
@@ -35,10 +36,11 @@ class TestAccountDeactivationController extends WP_UnitTestCase
             ]
         );
         // Now the transient must be deleted
-        $this->assertTrue($licenseHelper->isActivated());
+        $this->assertTrue($licenseHelper->isPremiumActivated());
         $response = vcfilter('vcv:ajax:license:deactivation:ping');
         $this->assertFalse($optionsHelper->getTransient('lastBundleUpdate'));
 
         $licenseHelper->setKey('');
+        $licenseHelper->setType('');
     }
 }

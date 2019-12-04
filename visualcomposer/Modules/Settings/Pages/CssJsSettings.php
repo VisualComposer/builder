@@ -86,12 +86,12 @@ class CssJsSettings extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_style('vcv:wpUpdate:style');
+        wp_enqueue_style('vcv:wpVcSettings:style');
 
         wp_register_script(
             'vcv:wpVcSettings:script',
@@ -112,7 +112,6 @@ class CssJsSettings extends Container implements Module
             'title' => __('CSS, HTML & JavaScript', 'visualcomposer'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
-            'controller' => $this,
         ];
         $this->addSubmenuPage($page);
     }

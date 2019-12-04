@@ -53,10 +53,10 @@ class UnsplashDownloadController extends Container implements Module
         License $licenseHelper,
         CurrentUser $currentUserHelper
     ) {
-        if ($currentUserHelper->wpAll($this->capability)->get() && $licenseHelper->isActivated()
-            && $requestHelper->exists(
-                'vcv-imageId'
-            )) {
+        if ($licenseHelper->isPremiumActivated()
+            && $requestHelper->exists('vcv-imageId')
+            && $currentUserHelper->wpAll($this->capability)->get()
+        ) {
             $imageId = $requestHelper->input('vcv-imageId');
             $imageSize = $requestHelper->input('vcv-imageSize');
             $imageUrl = $this->getDownloadUrl($imageId);
@@ -75,10 +75,15 @@ class UnsplashDownloadController extends Container implements Module
             $this->message = $this->setMessage(
                 __('Failed to get the image id, please try again!', 'visualcomposer') . ' #10084'
             );
+
+            return ['status' => false, 'message' => $this->message];
         }
 
         $this->message = $this->setMessage(
-            __('No access, please check your license and make sure your capabilities allow to upload files!', 'visualcomposer')
+            __(
+                'No access, please check your license and make sure your capabilities allow to upload files!',
+                'visualcomposer'
+            )
             . ' #10083'
         );
 
@@ -98,10 +103,7 @@ class UnsplashDownloadController extends Container implements Module
         if (preg_match('/(.*)(\.unsplash\.com)$/', $parseUrl['host'])) {
             $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
             $imageType = exif_imagetype($tempImage);
-            if (in_array(
-                $imageType,
-                [IMAGETYPE_JPEG, IMAGETYPE_PNG]
-            )) {
+            if (in_array($imageType, [IMAGETYPE_JPEG, IMAGETYPE_PNG], true)) {
                 if (!vcIsBadResponse($tempImage)) {
                     $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
 
@@ -115,6 +117,8 @@ class UnsplashDownloadController extends Container implements Module
                             is_object($results) ? $results->get_error_message() : __('Wrong image extension.', 'visualcomposer')
                         ) . ' #10080'
                     );
+
+                    return ['status' => false, 'message' => $this->message];
                 }
 
                 $this->message = $this->setMessage(
@@ -123,10 +127,14 @@ class UnsplashDownloadController extends Container implements Module
                         'visualcomposer'
                     ) . ' #10081'
                 );
-            } else {
-                $fileHelper->removeFile($tempImage);
-                $this->message = $this->setMessage(__('Unknown image format!', 'visualcomposer') . ' #10085');
+
+                return ['status' => false, 'message' => $this->message];
             }
+
+            $fileHelper->removeFile($tempImage);
+            $this->message = $this->setMessage(__('Unknown image format!', 'visualcomposer') . ' #10085');
+
+            return ['status' => false, 'message' => $this->message];
         }
         $this->message = $this->setMessage(__('Unknown image provider!', 'visualcomposer') . ' #10082');
 
@@ -205,15 +213,15 @@ class UnsplashDownloadController extends Container implements Module
                 $attachment,
                 $results['file']
             );
-        } else {
-            return wp_update_attachment_metadata(
-                $attachment,
-                wp_generate_attachment_metadata(
-                    $attachment,
-                    $results['file']
-                )
-            );
         }
+
+        return wp_update_attachment_metadata(
+            $attachment,
+            wp_generate_attachment_metadata(
+                $attachment,
+                $results['file']
+            )
+        );
     }
 
     /**

@@ -7,7 +7,6 @@ class FrontendControllerTest extends WP_UnitTestCase
      */
     public function testRenderEditorBase()
     {
-        // TODO: Update tests
         wp_set_current_user(1);
         /** @var $module \VisualComposer\Modules\Editors\Frontend\Controller */
         $module = vc_create_module_mock('\VisualComposer\Modules\Editors\Frontend\Controller');
@@ -19,16 +18,16 @@ class FrontendControllerTest extends WP_UnitTestCase
         $postId = $this->post->create(['post_title' => 'Test Post']);
         $requestHelper->setData(['vcv-source-id' => $postId]);
         vchelper('PostType')->setupPost($postId);
-        vchelper('Token')->setSiteAuthorized();
         vchelper('Options')->set('bundleUpdateRequired', false);
         $output = vchelper('Filters')->fire('vcv:editors:frontend:render');
 
         $patterns = [
             '<!DOCTYPE html>',
             'window\.vcvSourceID = ' . $postId . ';',
-            'window\.vcvAjaxUrl = \'.+[\?|\&]vcv-ajax=1\';',
-            'window\.vcvNonce = \'.+\';',
-            'window\.vcvIsPremium',
+            'window\.vcvAjaxUrl = ".+[\?|\&]vcv-ajax=1";',
+            'window\.vcvNonce = ".+";',
+            'window\.vcvIsPremiumActivated',
+            'window\.vcvIsFreeActivated',
             '<iframe class="vcv-layout-iframe"',
             'src=".+vcv-editable=1&vcv-source-id=' . $postId . '&vcv-nonce=.+" id="vcv-editor-iframe"',
             'script id="vcv-script-fe-bundle"',

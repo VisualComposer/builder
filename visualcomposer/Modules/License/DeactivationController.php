@@ -48,7 +48,7 @@ class DeactivationController extends Container implements Module
     protected function pingDeactivation(Request $requestHelper, License $licenseHelper, Options $optionsHelper)
     {
         $code = $requestHelper->input('code');
-        if ($code && $licenseHelper->isActivated()) {
+        if ($code && $licenseHelper->isAnyActivated()) {
             if ($code === sha1($licenseHelper->getKey())) {
                 $optionsHelper->deleteTransient('lastBundleUpdate');
             }

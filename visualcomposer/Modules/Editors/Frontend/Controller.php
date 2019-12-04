@@ -140,14 +140,12 @@ class Controller extends Container implements Module
 
         $sourceId = $post->ID;
         if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
-            $feError = intval(get_option('page_for_posts')) === $sourceId ? 'page_for_posts' : false;
-
             return $templates->render(
                 'editor/frontend/frontend.php',
                 [
                     'editableLink' => $frontendHelper->getEditableUrl($sourceId),
                     'preRenderOutput' => vcfilter('vcv:frontend:preRenderOutput', []),
-                    'feError' => $feError,
+                    'sourceId' => $sourceId
                 ]
             );
         }

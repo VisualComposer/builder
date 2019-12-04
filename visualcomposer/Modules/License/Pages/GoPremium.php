@@ -10,19 +10,20 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
-use VisualComposer\Helpers\Utm;
 
+/**
+ * Class GoPremium
+ * @package VisualComposer\Modules\License\Pages
+ */
 class GoPremium extends Container implements Module
 {
     use Page;
@@ -36,23 +37,21 @@ class GoPremium extends Container implements Module
     protected $slug = 'vcv-go-premium';
 
     /**
-     * @var string
+     * GoPremium constructor.
+     *
+     * @param \VisualComposer\Helpers\License $licenseHelper
      */
-    protected $templatePath = 'license/layout';
-
     public function __construct(License $licenseHelper)
     {
+        /** @see \VisualComposer\Modules\License\Pages\GoPremium::activateLicense */
         $this->addFilter('vcv:ajax:activateLicense:adminNonce', 'activateLicense');
 
-        if (!$licenseHelper->isActivated()) {
-            $this->wpAddAction(
-                'in_admin_footer',
-                'addJs'
-            );
-            $this->wpAddAction(
-                'in_admin_header',
-                'addCss'
-            );
+        if (!$licenseHelper->isPremiumActivated()) {
+            /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
+            $this->wpAddAction('in_admin_footer', 'addJs');
+
+            /** @see \VisualComposer\Modules\License\Pages\GoPremium::addCss */
+            $this->wpAddAction('in_admin_header', 'addCss');
         }
 
         $this->wpAddAction(
@@ -62,11 +61,11 @@ class GoPremium extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isActivated()) {
+                if (!$licenseHelper->isPremiumActivated()) {
                     $this->call('addPage');
                 }
 
-                if ($requestHelper->input('page') === $this->getSlug() && $licenseHelper->isActivated()) {
+                if ($requestHelper->input('page') === $this->getSlug() && $licenseHelper->isPremiumActivated()) {
                     wp_redirect(admin_url('admin.php?page=vcv-about'));
                     exit;
                 }
@@ -74,13 +73,15 @@ class GoPremium extends Container implements Module
             70
         );
 
-        if (!$licenseHelper->isActivated()) {
+        if (!$licenseHelper->isPremiumActivated()) {
+            /** @see \VisualComposer\Modules\License\Pages\GoPremium::pluginsPageLink */
             $this->wpAddFilter(
                 'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
                 'pluginsPageLink'
             );
         }
 
+        /** @see \VisualComposer\Modules\License\Pages\GoPremium::unsetOptions */
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
@@ -94,12 +95,14 @@ class GoPremium extends Container implements Module
             'title' => $this->buttonTitle(),
             'layout' => 'standalone',
             'showTab' => false,
-            'controller' => $this,
             'capability' => 'manage_options',
         ];
         $this->addSubmenuPage($page);
     }
 
+    /**
+     * @return string
+     */
     protected function buttonTitle()
     {
         return sprintf(
@@ -124,7 +127,7 @@ class GoPremium extends Container implements Module
             __('Go Premium', 'visualcomposer')
         );
 
-        array_push($links, $goPremiumLink);
+        $links[] = $goPremiumLink;
 
         return $links;
     }
@@ -136,8 +139,6 @@ class GoPremium extends Container implements Module
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
-     * @param \VisualComposer\Helpers\Token $tokenHelper
-     *
      * @return array|mixed|object
      */
     public function activateLicense(
@@ -145,8 +146,7 @@ class GoPremium extends Container implements Module
         Logger $loggerHelper,
         Notice $noticeHelper,
         License $licenseHelper,
-        Options $optionsHelper,
-        Token $tokenHelper
+        Options $optionsHelper
     ) {
         $body = [
             'url' => VCV_PLUGIN_URL,
@@ -181,9 +181,10 @@ class GoPremium extends Container implements Module
         }
 
         if (!vcIsBadResponse($resultBody)) {
+            $priceId = $resultBody['price_id'];
             $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
+            $licenseHelper->setType($priceId === '0' ? 'free' : 'premium');
             $optionsHelper->deleteTransient('lastBundleUpdate');
-            $tokenHelper->setSiteAuthorized();
             $noticeHelper->removeNotice('premium:deactivated');
 
             return ['status' => true];
@@ -212,13 +213,13 @@ class GoPremium extends Container implements Module
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
             [],
             VCV_VERSION
         );
         wp_enqueue_script('vcv:wpUpdate:script');
-        wp_enqueue_style('vcv:wpUpdate:style');
+        wp_enqueue_style('vcv:wpVcSettings:style');
     }
 
     /**
@@ -238,12 +239,23 @@ class GoPremium extends Container implements Module
     }
 
     /**
+     * @param $response
+     *
+     * @return string
+     */
+    protected function afterRender($response)
+    {
+        return $response . implode('', vcfilter('vcv:update:extraOutput', []));
+    }
+
+    /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper
             ->delete('siteRegistered')
-            ->delete('license-key');
+            ->delete('license-key')
+            ->delete('license-type');
     }
 }

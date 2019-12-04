@@ -45,6 +45,9 @@ const setStatus = (status) => {
 }
 
 export const checkStatus = () => {
+  if (!$checkContainer.length) {
+    return
+  }
   const binaryString = deflate(JSON.stringify({
     'vcv-action': 'checkPayloadProcessing:adminNonce',
     'vcv-nonce': window.vcvNonce,

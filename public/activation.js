@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './sources/less/wpsettings-update/init.less'
 import 'public/variables'
 import 'public/config/wp-services'
 import 'public/config/wp-attributes'

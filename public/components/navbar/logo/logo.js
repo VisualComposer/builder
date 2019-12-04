@@ -15,7 +15,7 @@ export default class Logo extends React.Component {
       </a>
     )
 
-    if (typeof window.vcvIsPremium !== 'undefined' && window.vcvIsPremium) {
+    if (typeof window.vcvIsPremiumActivated !== 'undefined' && window.vcvIsPremiumActivated) {
       output = (
         <span className='vcv-ui-navbar-logo vcv-ui-navbar-logo--no-click' title='Visual Composer Website Builder'>
           <span className='vcv-ui-navbar-logo-title'>Visual Composer Website Builder</span>

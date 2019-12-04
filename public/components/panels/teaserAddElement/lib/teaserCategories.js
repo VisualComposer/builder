@@ -261,7 +261,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     const subtitleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
     const goPremiumText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.goPremium : 'Go Premium'
     const unlockHubText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.unlockHub : 'Unlock Visual Composer Hub'
-    const buttonText = window.vcvIsActivated ? goPremiumText : unlockHubText
+    const buttonText = window.vcvIsFreeActivated ? goPremiumText : unlockHubText
 
     return <div className='vcv-hub-banner'>
       <div className='vcv-hub-banner-content'>
@@ -298,7 +298,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     } else {
       panelContent = (
         <div className={innerSectionClasses}>
-          {(typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) ? this.getHubBanner() : null}
+          {(typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) ? this.getHubBanner() : null}
           <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
             <div className='vcv-ui-editor-plates'>
               <div className='vcv-ui-editor-plate vcv-ui-state--active'>

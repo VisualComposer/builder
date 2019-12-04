@@ -13,16 +13,29 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class TeasersController
+ * @package VisualComposer\Modules\Hub\Addons\Teasers
+ */
 class TeasersController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * TeasersController constructor.
+     */
     public function __construct()
     {
-        $this->addFilter('vcv:editor:variables', 'outputTeaserAddons');
+        $this->addFilter('vcv:editor:variables', 'addTeaserAddonsVariables');
     }
 
-    protected function outputTeaserAddons($variables, Options $optionsHelper)
+    /**
+     * @param $variables
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
+    protected function addTeaserAddonsVariables($variables, Options $optionsHelper)
     {
         $value = array_values(
             (array)$optionsHelper->get(

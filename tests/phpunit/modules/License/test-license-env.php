@@ -1,6 +1,6 @@
 <?php
 
-class LicenseControllerTest extends WP_UnitTestCase
+class LicenseEnvTest extends WP_UnitTestCase
 {
     public function testHubDownload()
     {
@@ -24,7 +24,6 @@ class LicenseControllerTest extends WP_UnitTestCase
 
     public function testLicenseActivateUrl()
     {
-        $this->assertEquals('https://account.visualcomposer.io/activation', vcvenv('VCV_FREE_ACTIVATE_URL'));
+        $this->assertEquals('https://my.visualcomposer.com/?edd_action=activate_license&item_name=Visual%20Composer', vcvenv('VCV_ACTIVATE_LICENSE_URL'));
     }
-
 }
