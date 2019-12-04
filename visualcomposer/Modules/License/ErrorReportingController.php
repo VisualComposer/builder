@@ -12,21 +12,34 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\License;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 
+/**
+ * Class ErrorReportingController
+ * @package VisualComposer\Modules\License
+ */
 class ErrorReportingController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * ErrorReportingController constructor.
+     */
     public function __construct()
     {
         $this->addFilter('vcv:editor:variables', 'addVariables');
         $this->addFilter('vcv:ajax:account:error:report:adminNonce', 'sendReport');
     }
 
+    /**
+     * @param $variables
+     * @param $payload
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     *
+     * @return array
+     */
     protected function addVariables($variables, $payload, Url $urlHelper)
     {
         $variables[] = [
@@ -38,6 +51,15 @@ class ErrorReportingController extends Container implements Module
         return $variables;
     }
 
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     *
+     * @return array
+     * @throws \ReflectionException
+     */
     protected function sendReport(
         $response,
         $payload,
@@ -62,15 +84,16 @@ class ErrorReportingController extends Container implements Module
 
     /**
      * @param $licenseHelper
-     * @param $optionsHelper
      *
      * @return mixed
      */
-    protected function getDetails(License $licenseHelper, Options $optionsHelper)
+    protected function getDetails(License $licenseHelper)
     {
         $data = [];
-        $data['isActivated'] = $licenseHelper->isActivated();
+        $data['isFreeActivated'] = $licenseHelper->isFreeActivated();
+        $data['isPremiumActivated'] = $licenseHelper->isPremiumActivated();
         $data['license-key'] = $licenseHelper->getKey();
+        $data['license-type'] = $licenseHelper->getType();
         $data['site'] = get_site_url();
         $data['url'] = VCV_PLUGIN_URL;
         $data['version'] = VCV_VERSION;
@@ -79,7 +102,6 @@ class ErrorReportingController extends Container implements Module
         $currentUser = wp_get_current_user();
         // @codingStandardsIgnoreLine
         $data['current-email'] = $currentUser->user_email;
-        $data['siteAuthState'] = $optionsHelper->get('siteAuthState');
         $theme = wp_get_theme();
         $data['active-theme'] = [];
         $data['active-theme']['name'] = $theme->get('Name');

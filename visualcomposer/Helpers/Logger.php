@@ -29,7 +29,7 @@ class Logger implements Helper
         $message = preg_replace(
             '/\.+/',
             '.',
-            implode('. ', $dataHelper->arrayColumn($this->logs, 'message'))
+            implode('. ', array_unique($dataHelper->arrayColumn($this->logs, 'message')))
         );
 
         if ($message) {

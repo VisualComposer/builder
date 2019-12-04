@@ -109,7 +109,7 @@ export default class StockImages extends React.Component {
     const activatePremium = StockImages.localizations ? StockImages.localizations.activatePremium : 'Activate Premium'
 
     let content = ''
-    if (typeof window.vcvIsPremium !== 'undefined' && !window.vcvIsPremium) {
+    if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {
       content = (
         <React.Fragment>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: unsplashLogo }} />

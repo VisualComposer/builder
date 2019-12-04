@@ -37,7 +37,7 @@ trait SubMenu
             global $submenu;
 
             if (isset($page['external'])) {
-                $submenu[$parentSlug][] = array($page['title'], $capability, $page['external']);
+                $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
             } else {
                 add_submenu_page(
                     isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
@@ -69,15 +69,14 @@ trait SubMenu
         if (isset($page['layout'])) {
             $layout = $page['layout'];
         }
-        /** @var \visualComposer\Modules\Settings\Traits\Page $controller */
-        $controller = $page['controller'];
 
         return vcview(
             'settings/layouts/' . $layout,
             [
-                'content' => $controller->render($page),
+                'content' => $this->call('render', [$page]),
                 'tabs' => $pages,
                 'activeSlug' => $page['slug'],
+                'slug' => $page['slug'],
                 'page' => $page,
             ]
         );

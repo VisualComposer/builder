@@ -180,9 +180,7 @@ class Update implements Helper
                 'type' => 'constant',
             ];
         } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
-            && $editorPostTypeHelper->isEditorEnabled(
-                'post'
-            )
+            && $editorPostTypeHelper->isEditorEnabled('post')
         ) {
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
@@ -262,7 +260,7 @@ class Update implements Helper
             $optionsHelper = vchelper('Options');
             $hubUpdateHelper = vchelper('HubUpdate');
             if ($hubUpdateHelper->checkIsUpdateRequired($json)) {
-                $optionsHelper->set('bundleUpdateRequired', true);
+                $optionsHelper->set('bundleUpdateRequired', 1);
                 // Save in database cache for 30m
                 $optionsHelper->setTransient('bundleUpdateJson', $json, 1800);
             }
@@ -287,7 +285,7 @@ class Update implements Helper
     }
 
     //@codingStandardsIgnoreStart
-    protected function isUrlDev($url)
+    public function isUrlDev($url)
     {
         // Codestyle is disabled due to count of comparisons
         $originalUrl = $url;
@@ -358,7 +356,7 @@ class Update implements Helper
             return true;
         }
         $extraStagingPattern = '/^(.*)staging(\d?)\.(.[^\.]*)\.(.[^\.]*)$/';
-        $subdomainStaging  = '/^(.*)staging(\d?)(.[^\.]*)\.(.[^\.]*)\.(.[^\.]*)$/';
+        $subdomainStaging = '/^(.*)staging(\d?)(.[^\.]*)\.(.[^\.]*)\.(.[^\.]*)$/';
         if (preg_match($extraStagingPattern, $parsedUrl['host']) || preg_match($subdomainStaging, $parsedUrl['host'])) {
             return true;
         }

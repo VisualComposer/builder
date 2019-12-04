@@ -18,6 +18,10 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
+/**
+ * Class UpdateBePage
+ * @package VisualComposer\Modules\Hub\Pages
+ */
 class UpdateBePage extends Container implements Module
 {
     use Page;
@@ -31,10 +35,8 @@ class UpdateBePage extends Container implements Module
     protected $slug = 'vcv-update';
 
     /**
-     * @var string
+     * UpdateBePage constructor.
      */
-    protected $templatePath = 'license/layout';
-
     public function __construct()
     {
         $this->wpAddAction(
@@ -73,13 +75,13 @@ class UpdateBePage extends Container implements Module
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
             [],
             VCV_VERSION
         );
         wp_enqueue_script('vcv:wpUpdate:script');
-        wp_enqueue_style('vcv:wpUpdate:style');
+        wp_enqueue_style('vcv:wpVcSettings:style');
     }
 
     /**
@@ -92,9 +94,18 @@ class UpdateBePage extends Container implements Module
             'title' => __('Update', 'visualcomposer'),
             'showTab' => false,
             'layout' => 'standalone',
-            'controller' => $this,
             'capability' => 'edit_posts',
         ];
         $this->addSubmenuPage($page);
+    }
+
+    /**
+     * @param $response
+     *
+     * @return string
+     */
+    protected function afterRender($response)
+    {
+        return $response . implode('', vcfilter('vcv:update:extraOutput', []));
     }
 }

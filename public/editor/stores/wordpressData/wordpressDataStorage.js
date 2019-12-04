@@ -15,7 +15,10 @@ addStorage('wordpressData', (storage) => {
 
   storage.on('start', () => {
     // Here we call data load
-    controller.load(window.vcvSourceID, {}, storage.state('status'))
+    if (window.vcvSourceID) {
+      // Fix trigger.start on initial post update action (performance)
+      controller.load(window.vcvSourceID, {}, storage.state('status'))
+    }
   })
 
   let lockData = {

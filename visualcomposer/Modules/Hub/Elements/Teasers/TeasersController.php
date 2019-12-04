@@ -14,10 +14,17 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class TeasersController
+ * @package VisualComposer\Modules\Hub\Elements\Teasers
+ */
 class TeasersController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * TeasersController constructor.
+     */
     public function __construct()
     {
         $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserElements');
@@ -27,6 +34,13 @@ class TeasersController extends Container implements Module
         $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserDownload');
     }
 
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
     protected function outputTeaserElements($response, $payload, Options $optionsHelper)
     {
         $value = array_values(
@@ -57,6 +71,13 @@ class TeasersController extends Container implements Module
         );
     }
 
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
     protected function outputTeaserBadge($response, $payload, Options $optionsHelper)
     {
         return array_merge(
@@ -77,6 +98,11 @@ class TeasersController extends Container implements Module
         );
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return bool
+     */
     protected function ajaxSetTeaserBadge(Options $optionsHelper)
     {
         $optionsHelper->setUser('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
@@ -84,6 +110,13 @@ class TeasersController extends Container implements Module
         return true;
     }
 
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     *
+     * @return array
+     */
     protected function outputTeaserDownload($response, $payload, License $licenseHelper)
     {
         return array_merge(
@@ -93,7 +126,7 @@ class TeasersController extends Container implements Module
                     'partials/constant-script',
                     [
                         'key' => 'VCV_HUB_ALLOW_DOWNLOAD',
-                        'value' => $licenseHelper->isActivated(),
+                        'value' => $licenseHelper->isAnyActivated(),
                     ]
                 ),
             ]

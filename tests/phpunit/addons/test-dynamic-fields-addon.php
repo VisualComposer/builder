@@ -102,7 +102,7 @@ class DynamicFieldsAddonTest extends WP_UnitTestCase
         );
         $this->assertTrue(is_array($addonsMeta));
         $this->assertTrue(array_key_exists($addon, $addonsMeta));
-
+        $addonsMeta[ $addon ]['tag'] = $addon;
         vcevent(
             'vcv:hub:addons:autoload',
             [

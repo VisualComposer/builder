@@ -10,16 +10,17 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Utm;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
+/**
+ * Class GettingStarted
+ * @package VisualComposer\Modules\License\Pages
+ */
 class GettingStarted extends Container implements Module
 {
     use Page;
@@ -33,10 +34,8 @@ class GettingStarted extends Container implements Module
     protected $slug = 'vcv-getting-started';
 
     /**
-     * @var string
+     * GettingStarted constructor.
      */
-    protected $templatePath = 'license/layout';
-
     public function __construct()
     {
         $this->wpAddAction(
@@ -46,62 +45,15 @@ class GettingStarted extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isActivated()) {
+                if (!$licenseHelper->isPremiumActivated()) {
                     $this->call('addPage');
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    wp_redirect(admin_url('admin.php?page=vcv-about'));
+                    wp_redirect(admin_url('admin.php?page=vcv-update'));
                     exit;
-                }
-
-                if ($requestHelper->input('page') === 'vcv-activate-free') {
-                    if (!$licenseHelper->isActivated()) {
-                        $this->call('activateInAccount');
-                    } else {
-                        wp_redirect(admin_url('admin.php?page=vcv-about'));
-                        exit;
-                    }
                 }
             },
             70
         );
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Utm $utmHelper
-     *
-     * @return bool|void
-     * @throws \ReflectionException
-     */
-    protected function activateInAccount(
-        CurrentUser $currentUserHelper,
-        License $licenseHelper,
-        Request $requestHelper,
-        Utm $utmHelper
-    ) {
-        $urlHelper = vchelper('Url');
-        $nonceHelper = vchelper('Nonce');
-        $utm = $utmHelper->get('getting-started');
-        wp_redirect(
-            vcvenv('VCV_FREE_ACTIVATE_URL') .
-            '/?redirect=' . rawurlencode(
-                $urlHelper->adminAjax(
-                    [
-                        'vcv-action' => 'license:activate:adminNonce',
-                        'vcv-nonce' => $nonceHelper->admin(),
-                    ]
-                )
-            ) .
-            '&token=' . rawurlencode($licenseHelper->newKeyToken()) .
-            '&url=' . VCV_PLUGIN_URL .
-            '&siteAuthorized=0' .
-            '&vcv-version=' . VCV_VERSION .
-            '&domain=' . get_site_url() .
-            $utm
-        );
-        exit;
     }
 
     /**
@@ -117,13 +69,13 @@ class GettingStarted extends Container implements Module
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
             [],
             VCV_VERSION
         );
         wp_enqueue_script('vcv:wpUpdate:script');
-        wp_enqueue_style('vcv:wpUpdate:style');
+        wp_enqueue_style('vcv:wpVcSettings:style');
     }
 
     /**
@@ -136,17 +88,29 @@ class GettingStarted extends Container implements Module
             'title' => $this->buttonTitle(),
             'layout' => 'standalone',
             'showTab' => false,
-            'controller' => $this,
             'capability' => 'edit_posts',
         ];
         $this->addSubmenuPage($page);
     }
 
+    /**
+     * @return string
+     */
     protected function buttonTitle()
     {
         return sprintf(
             '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
             __('Getting Started', 'visualcomposer')
         );
+    }
+
+    /**
+     * @param $response
+     *
+     * @return string
+     */
+    protected function afterRender($response)
+    {
+        return $response . implode('', vcfilter('vcv:update:extraOutput', []));
     }
 }

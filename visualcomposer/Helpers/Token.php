@@ -55,6 +55,7 @@ class Token extends Container implements Helper
             ->delete('siteAuthTokenTtl')
             ->delete('lastBundleUpdate')
             ->delete('license-key')
+            ->delete('license-type')
             ->delete('license-key-token');
 
         return true;
@@ -78,7 +79,7 @@ class Token extends Container implements Helper
             'url' => VCV_PLUGIN_URL,
             'vcv-version' => VCV_VERSION,
         ];
-        if ($licenseHelper->isActivated()) {
+        if ($licenseHelper->isFreeActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
         } else {
             $token = 'free-token';
@@ -86,7 +87,7 @@ class Token extends Container implements Helper
             return $token;
         }
 
-        $url = $licenseHelper->isActivated() ? vcvenv('VCV_PREMIUM_TOKEN_URL') : vcvenv('VCV_TOKEN_URL');
+        $url = $licenseHelper->isFreeActivated() ? vcvenv('VCV_PREMIUM_TOKEN_URL') : vcvenv('VCV_TOKEN_URL');
         $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
             $url,
@@ -96,22 +97,6 @@ class Token extends Container implements Helper
         );
 
         return $this->getTokenResponse($result);
-    }
-
-    public function setSiteAuthorized()
-    {
-        return $this->optionsHelper->set(
-            'siteAuthState',
-            1
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSiteAuthorized()
-    {
-        return (int)$this->optionsHelper->get('siteAuthState', 0) > 0;
     }
 
     /**

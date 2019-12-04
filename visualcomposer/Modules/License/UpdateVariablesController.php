@@ -11,75 +11,92 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
-use VisualComposer\Helpers\Token;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class UpdateVariablesController
+ * @package VisualComposer\Modules\License
+ */
 class UpdateVariablesController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * UpdateVariablesController constructor.
+     */
     public function __construct()
     {
-        $this->addFilter('vcv:editor:variables', 'addVariables');
-//        $this->addFilter('vcv:editor:variables', 'addVariables');
+        /** @see \VisualComposer\Modules\License\UpdateVariablesController::addVariables */
+        $this->addFilter('vcv:wp:dashboard:variables vcv:editor:variables', 'addVariables');
     }
 
-    protected function addVariables($variables, $payload, Update $updateHelper, Token $tokenHelper)
+    /**
+     * @param $variables
+     * @param $payload
+     * @param \VisualComposer\Helpers\Hub\Update $updateHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     *
+     * @return array
+     */
+    protected function addVariables($variables, $payload, Update $updateHelper, License $licenseHelper)
     {
-        $variables = array_merge($variables, $updateHelper->getVariables());
-        if (isset($payload['slug']) && $payload['slug'] === 'vcv-about') {
-            $variables[] = [
-                'key' => 'VCV_ACTIVE_PAGE',
-                'value' => 'last',
-                'type' => 'constant',
-            ];
-        } elseif (isset($payload['slug']) && $payload['slug'] === 'vcv-getting-started') {
-            $variables[] = [
-                'key' => 'VCV_ACTIVATION_SLIDES',
-                'value' => [
-                    [
-                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-01.png'),
-                        'title' => __(
-                            'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
-                            'visualcomposer'
-                        ),
-                    ],
-                    [
-                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-02.png'),
-                        'title' => esc_js(
-                            __(
-                                'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
+        if (isset($payload['slug'])) {
+            $variables = array_merge($variables, $updateHelper->getVariables());
+            if ($payload['slug'] === 'vcv-about') {
+                $variables[] = [
+                    'key' => 'VCV_ACTIVE_PAGE',
+                    'value' => 'last',
+                    'type' => 'constant',
+                ];
+            } elseif ($payload['slug'] === 'vcv-getting-started') {
+                $variables[] = [
+                    'key' => 'VCV_ACTIVATION_SLIDES',
+                    'value' => [
+                        [
+                            'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-01.png'),
+                            'title' => __(
+                                'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.',
                                 'visualcomposer'
-                            )
-                        ),
+                            ),
+                        ],
+                        [
+                            'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-02.png'),
+                            'title' => esc_js(
+                                __(
+                                    'Get more elements and templates from the Visual Composer Hub - a free online marketplace.',
+                                    'visualcomposer'
+                                )
+                            ),
+                        ],
+                        [
+                            'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-03.png'),
+                            'title' => esc_js(
+                                __(
+                                    'Unparallel performance for you and your website to rank higher and deliver faster.',
+                                    'visualcomposer'
+                                )
+                            ),
+                        ],
+                        [
+                            'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-04.png'),
+                            'title' => esc_js(
+                                __(
+                                    'Control every detail of your website with flexible design options and customization tools.',
+                                    'visualcomposer'
+                                )
+                            ),
+                        ],
                     ],
-                    [
-                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-03.png'),
-                        'title' => esc_js(
-                            __(
-                                'Unparallel performance for you and your website to rank higher and deliver faster.',
-                                'visualcomposer'
-                            )
-                        ),
-                    ],
-                    [
-                        'url' => esc_js('https://cdn.hub.visualcomposer.com/plugin-assets/slideshow-04.png'),
-                        'title' => esc_js(
-                            __(
-                                'Control every detail of your website with flexible design options and customization tools.',
-                                'visualcomposer'
-                            )
-                        ),
-                    ],
-                ],
-                'type' => 'constant',
-            ];
+                    'type' => 'constant',
+                ];
 
-            $variables[] = [
-                'key' => 'VCV_IS_ACTIVATED',
-                'value' => $tokenHelper->isSiteAuthorized(),
-                'type' => 'constant',
-            ];
+                $variables[] = [
+                    'key' => 'VCV_IS_FREE_ACTIVATED',
+                    'value' => $licenseHelper->isFreeActivated(),
+                    'type' => 'constant',
+                ];
+            }
         }
 
         return $variables;

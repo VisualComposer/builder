@@ -329,7 +329,10 @@ class Localizations extends Container implements Helper
             'editorSettings' => __('Editor Settings', 'visualcomposer'),
             'clickToEditColumnValue' => __('Click to edit column value', 'visualcomposer'),
             'addOn' => __('Add-on', 'visualcomposer'),
-            'doNotCloseWhileUpdateText' => __('Don\'t close this window while download is in the progress.', 'visualcomposer'),
+            'doNotCloseWhileUpdateText' => __(
+                'Don\'t close this window while download is in the progress.',
+                'visualcomposer'
+            ),
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
             'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'visualcomposer'),
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),

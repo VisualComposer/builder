@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-require_once(ABSPATH . 'wp-admin/includes/admin.php');
+require_once ABSPATH . 'wp-admin/includes/admin.php';
 
 // @codingStandardsIgnoreStart
 global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
@@ -20,17 +20,9 @@ $typenow = get_post_type();
 /**
  * @var $editableLink - link to editable content
  */
-/** @var \VisualComposer\Helpers\Url $urlHelper */
-$urlHelper = vchelper('Url');
-/** @var \VisualComposer\Helpers\Nonce $nonceHelper */
-$nonceHelper = vchelper('Nonce');
-/** @var \VisualComposer\Helpers\Token $nonceHelper */
-$tokenHelper = vchelper('Token');
-
+/** @var integer $sourceId - id of current edited post */
 wp_enqueue_style('wp-admin');
 wp_enqueue_media();
-$licenseHelper = vchelper('License');
-$postTypeHelper = vchelper('PostType');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
@@ -42,15 +34,14 @@ $postTypeHelper = vchelper('PostType');
     <link rel="stylesheet"
             href="//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,greek,greek-ext,cyrillic-ext,latin-ext,cyrillic">
     <?php
-    // @codingStandardsIgnoreLine
-    vcevent('vcv:frontend:render');
+    vcevent('vcv:frontend:render', ['sourceId' => $sourceId]);
     do_action('admin_enqueue_scripts', $hookSuffix);
     do_action('admin_print_styles');
     do_action('admin_print_scripts');
     do_action('admin_head');
     do_action('embed_head');
     wp_print_head_scripts();
-    $extraOutput = vcfilter('vcv:frontend:head:extraOutput', []);
+    $extraOutput = vcfilter('vcv:frontend:head:extraOutput', [], ['sourceId' => $sourceId]);
     if (is_array($extraOutput)) {
         foreach ($extraOutput as $output) {
             // @codingStandardsIgnoreLine
@@ -58,7 +49,7 @@ $postTypeHelper = vchelper('PostType');
         }
         unset($output);
     }
-    $variables = vcfilter('vcv:editor:variables', []);
+    $variables = vcfilter('vcv:editor:variables', [], ['sourceId' => $sourceId]);
     if (is_array($variables)) {
         foreach ($variables as $variable) {
             if (is_array($variable) && isset($variable['key'], $variable['value'])) {
@@ -71,34 +62,8 @@ $postTypeHelper = vchelper('PostType');
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
-<?php // @codingStandardsIgnoreStart ?>
-<script>
-  window.ajaxurl = '<?php echo admin_url('admin-ajax.php', 'relative'); ?>';
-  window.vcvSourceID = <?php echo get_the_ID(); ?>;
-  window.vcvAjaxUrl = '<?php echo $urlHelper->ajax() ?>';
-  window.vcvAdminAjaxUrl = '<?php echo $urlHelper->adminAjax(); ?>';
-  window.vcvNonce = '<?php echo esc_js($nonceHelper->admin()); ?>';
-  window.vcvPageEditableNonce = '<?php echo esc_js($nonceHelper->pageEditable()); ?>';
-  window.vcvPluginUrl = '<?php echo VCV_PLUGIN_URL; ?>';
-  window.vcvPluginSourceUrl = '<?php echo VCV_PLUGIN_URL; ?>' + 'public/sources/';
-  window.vcvPostData = <?php echo json_encode($postTypeHelper->getPostData()); ?>;
-  window.vcvPostPermanentLink = '<?php echo set_url_scheme(get_permalink(get_the_ID())); ?>';
-  window.vcvIsPremium = Boolean(<?php echo $licenseHelper->isActivated(); ?>);
-  window.vcvGoPremiumUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-go-premium')); ?>';
-  window.vcvGettingStartedUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=logoFrontend')); ?>';
-  window.vcvGutenbergEditorUrl = '<?php echo set_url_scheme(
-      admin_url('post-new.php?post_type=vcv_gutenberg_attr')
-  ); ?>';
-  window.vcvIsActivated = Boolean(<?php echo $tokenHelper->isSiteAuthorized(); ?>);
-  window.vcvUpgradeUrl = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=hub-banner')); ?>';
-  window.vcvUpgradeUrlUnsplash = '<?php echo set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=unsplash')); ?>';
-  <?php if (isset($feError) && $feError) : ?>
-  window.vcvFeError = '<?php echo $feError; ?>'
-  <?php endif; ?>
-</script>
 <?php
-// @codingStandardsIgnoreEnd
-$extraOutput = vcfilter('vcv:frontend:body:extraOutput', []);
+$extraOutput = vcfilter('vcv:frontend:body:extraOutput', [], ['sourceId' => $sourceId]);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
         // @codingStandardsIgnoreLine
@@ -143,7 +108,7 @@ do_action('admin_footer', '');
 do_action('admin_print_footer_scripts-{$hookSuffix}');
 do_action('admin_print_footer_scripts');
 do_action('admin_footer-{$hookSuffix}');
-$extraOutput = vcfilter('vcv:frontend:footer:extraOutput', []);
+$extraOutput = vcfilter('vcv:frontend:footer:extraOutput', [], ['sourceId' => $sourceId]);
 if (is_array($extraOutput)) {
     foreach ($extraOutput as $output) {
         // @codingStandardsIgnoreLine

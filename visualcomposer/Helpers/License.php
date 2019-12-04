@@ -39,106 +39,46 @@ class License extends Container implements Helper
         $optionsHelper->set('license-key', trim($licenseKey));
     }
 
-    /**
-     * Get license key token.
-     *
-     * @return string
-     */
-    public function getKeyToken()
+    public function setType($type)
     {
         $optionsHelper = vchelper('Options');
-
-        return $optionsHelper->get('license-key-token');
+        $optionsHelper->set('license-type', $type);
     }
 
-    /**
-     * Set license key token.
-     *
-     * @param string $token
-     */
-    public function setKeyToken($token)
+    public function getType()
     {
         $optionsHelper = vchelper('Options');
-        $optionsHelper->set('license-key-token', trim($token));
+
+        return $optionsHelper->get('license-type');
     }
 
     /**
      * @return bool
      */
-    public function isActivated()
+    public function isFreeActivated()
     {
-        return (bool)$this->getKey();
+        return (bool)$this->getKey() && $this->getType() === 'free';
     }
 
     /**
-     * Return new license key token.
-     *
-     * Token is used to change license key from remote location.
-     *
-     * Format is: timestamp|20-random-characters.
-     *
-     * @param Str $strHelper
-     *
-     * @param \VisualComposer\Helpers\Nonce $nonceHelper
-     *
-     * @return string
-     */
-    protected function generateKeyToken(Str $strHelper, Nonce $nonceHelper)
-    {
-        $token = $nonceHelper->admin() . '|' . time() . '|' . $strHelper->quickRandom(10);
-
-        return $token;
-    }
-
-    /**
-     * Generate and set new license key token.
-     *
-     * @return string
-     * @throws \ReflectionException
-     */
-    public function newKeyToken()
-    {
-        /** @see \VisualComposer\Helpers\License::generateKeyToken */
-        $token = $this->call('generateKeyToken');
-
-        /** @see \VisualComposer\Helpers\License::setKeyToken */
-        $this->setKeyToken($token);
-
-        return $token;
-    }
-
-    /**
-     * Check if specified license key token is valid.
-     *
-     * @param string $tokenToCheck SHA1 hashed token.
-     * @param int $ttlInSeconds Time to live in seconds. Default = 20min.
-     *
      * @return bool
      */
-    public function isValidToken($tokenToCheck, $ttlInSeconds = 1200)
+    public function isAnyActivated()
     {
-        $token = $this->getKeyToken();
+        return (bool)$this->getKey() && $this->getType();
+    }
 
-        if (!$tokenToCheck || $tokenToCheck !== sha1($token)) {
-            return false;
-        }
-
-        $chunks = explode('|', $token);
-        $nonceHelper = vchelper('Nonce');
-
-        $diff = time() - $ttlInSeconds;
-        if (!$nonceHelper->verifyAdmin($chunks[0])) {
-            return false;
-        }
-        if (intval($chunks[1]) < $diff) {
-            return false;
-        }
-
-        return true;
+    /**
+     * @return bool
+     */
+    public function isPremiumActivated()
+    {
+        return (bool)$this->getKey() && $this->getType() !== 'free';
     }
 
     /**
      * @param $errorCode
+     *
      * @codingStandardsIgnoreStart
      * @return string|void
      */

@@ -15,10 +15,17 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
 
+/**
+ * Class UpdateFePage
+ * @package VisualComposer\Modules\Hub\Pages
+ */
 class UpdateFePage extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * UpdateFePage constructor.
+     */
     public function __construct()
     {
         $this->addFilter('vcv:editors:frontend:render', 'setUpdatingViewFe', -1);
@@ -38,14 +45,9 @@ class UpdateFePage extends Container implements Module
         if ($optionsHelper->get('bundleUpdateRequired')) {
             $requiredActions = $updateHelper->getRequiredActions();
             if (!empty($requiredActions['actions']) || !empty($requiredActions['posts'])) {
-                $content = vcview(
-                    'license/layout',
-                    [
-                        'slug' => 'vcv-update-fe',
-                    ]
-                );
+                $content = implode('', vcfilter('vcv:update:extraOutput', []));
                 vcvdie(
-                    vcview('license/fe-update-wrapper', ['content' => $content])
+                    vcview('editor/frontend/fe-update-wrapper', ['content' => $content])
                 );
             } else {
                 $optionsHelper->set('bundleUpdateRequired', false);
@@ -55,6 +57,13 @@ class UpdateFePage extends Container implements Module
         return $response;
     }
 
+    /**
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     *
+     * @return array
+     */
     protected function addUpdateAssets($response, $payload, Url $urlHelper)
     {
         // Add Vendor JS
@@ -64,7 +73,7 @@ class UpdateFePage extends Container implements Module
                 sprintf(
                     '<link rel="stylesheet" href="%s"></link>',
                     $urlHelper->to(
-                        'public/dist/wpUpdate.bundle.css?v=' . VCV_VERSION
+                        'public/dist/wpVcSettings.bundle.css?v=' . VCV_VERSION
                     )
                 ),
                 sprintf(

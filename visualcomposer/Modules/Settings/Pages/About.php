@@ -33,11 +33,6 @@ class About extends Container implements Module
     protected $slug = 'vcv-about';
 
     /**
-     * @var string
-     */
-    protected $templatePath = 'license/layout';
-
-    /**
      * About constructor.
      */
     public function __construct()
@@ -45,7 +40,7 @@ class About extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             function (Request $requestHelper, License $licenseHelper) {
-                if (!$licenseHelper->getKey()) {
+                if (!$licenseHelper->isPremiumActivated()) {
                     if ($requestHelper->input('page') === $this->getSlug()) {
                         wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                         exit;
@@ -72,13 +67,13 @@ class About extends Container implements Module
             VCV_VERSION
         );
         wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
             [],
             VCV_VERSION
         );
         wp_enqueue_script('vcv:wpUpdate:script');
-        wp_enqueue_style('vcv:wpUpdate:style');
+        wp_enqueue_style('vcv:wpVcSettings:style');
     }
 
     /**
@@ -91,9 +86,18 @@ class About extends Container implements Module
             'title' => __('About', 'visualcomposer'),
             'layout' => 'standalone',
             'showTab' => false,
-            'controller' => $this,
             'capability' => 'edit_posts',
         ];
         $this->addSubmenuPage($page);
+    }
+
+    /**
+     * @param $response
+     *
+     * @return string
+     */
+    public function afterRender($response)
+    {
+        return $response . implode('', vcfilter('vcv:update:extraOutput', []));
     }
 }

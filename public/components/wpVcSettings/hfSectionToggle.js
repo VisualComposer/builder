@@ -29,6 +29,10 @@ const handleToggleSections = (value) => {
 }
 
 export const hfSectionToggle = () => {
+  // Not in hfs page
+  if (!$mainHFSDropdown.length || !$toggleCells) {
+    return
+  }
   $toggleCells.attr('colspan', '2')
   handleToggleSections($mainHFSDropdown.val())
   $separatePostTypeToggle.each((index, item) => {

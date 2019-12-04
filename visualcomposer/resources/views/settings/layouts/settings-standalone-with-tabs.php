@@ -21,12 +21,27 @@ foreach ($tabs as $tabKey => $tab) {
     $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="nav-tab' . esc_attr($activeClass) . '">' . esc_html__($tab['name'], 'visualcomposer') . '</a>';
 }
 
-evcview('settings/partials/admin-nonce');
+$variables = vcfilter(
+    'vcv:wp:dashboard:variables',
+    [
+        [
+            'key' => 'VCV_SLUG',
+            'value' => $slug,
+            'type' => 'constant',
+        ],
+    ],
+    ['slug' => $slug]
+);
+if (is_array($variables)) {
+    foreach ($variables as $variable) {
+        if (is_array($variable) && isset($variable['key'], $variable['value'])) {
+            $type = isset($variable['type']) ? $variable['type'] : 'variable';
+            evcview('partials/variableTypes/' . $type, $variable);
+        }
+    }
+    unset($variable);
+}
 ?>
-<script>
-  window.vcvAjaxUrl = '<?php echo vchelper('Url')->ajax(); ?>';
-  window.vcvAdminAjaxUrl = '<?php echo vchelper('Url')->adminAjax(); ?>';
-</script>
 <div class="wrap vcv-settings">
     <h1></h1> <!--DONT REMOVE, WP SHOWS NOTICES AFTER FIRST Hx TAG-->
     <h2 class="nav-tab-wrapper">

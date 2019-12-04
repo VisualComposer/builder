@@ -55,12 +55,12 @@ class Settings extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         wp_register_style(
-            'vcv:wpUpdate:style',
-            $urlHelper->to('public/dist/wpUpdate.bundle.css'),
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
             [],
             VCV_VERSION
         );
-        wp_enqueue_style('vcv:wpUpdate:style');
+        wp_enqueue_style('vcv:wpVcSettings:style');
     }
 
     /**
@@ -76,7 +76,6 @@ class Settings extends Container implements Module
             'title' => __('Settings', 'visualcomposer'),
             'showTab' => false,
             'layout' => $layout,
-            'controller' => $this,
             'capability' => 'edit_pages',
         ];
         $this->addSubmenuPage($page);
@@ -93,7 +92,7 @@ class Settings extends Container implements Module
         if ($hasAccess) {
             $pageSlug = $this->getSlug();
         } else {
-            if ($licenseHelper->isActivated()) {
+            if ($licenseHelper->isPremiumActivated()) {
                 $pageSlug = $aboutConroller->getSlug();
             } else {
                 $pageSlug = $gettingStartedController->getSlug();

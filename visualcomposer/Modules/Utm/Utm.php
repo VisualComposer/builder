@@ -13,34 +13,41 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Utm as UtmHelper;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class Utm
+ * @package VisualComposer\Modules\Utm
+ */
 class Utm extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * Utm constructor.
+     */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Utm\Utm::outputUtm */
+        /** @see \VisualComposer\Modules\Utm\Utm::addUtmVariable */
         $this->addFilter(
-            'vcv:frontend:head:extraOutput vcv:update:extraOutput',
-            'outputUtm'
+            'vcv:editor:variables',
+            'addUtmVariable'
         );
     }
 
-    protected function outputUtm($response, $payload, UtmHelper $utmHelper)
+    /**
+     * @param $variables
+     * @param $payload
+     * @param \VisualComposer\Helpers\Utm $utmHelper
+     *
+     * @return array
+     */
+    protected function addUtmVariable($variables, $payload, UtmHelper $utmHelper)
     {
-        $response = array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_UTM',
-                        'value' => $utmHelper->all(),
-                    ]
-                ),
-            ]
-        );
+        $variables[] = [
+            'key' => 'VCV_UTM',
+            'value' => $utmHelper->all(),
+            'type' => 'constant',
+        ];
 
-        return $response;
+        return $variables;
     }
 }

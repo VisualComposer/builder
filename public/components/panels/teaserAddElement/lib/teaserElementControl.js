@@ -100,7 +100,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadAddon (e) {
-    if (!this.props.element.allowDownload || !window.vcvIsActivated) {
+    if (!this.props.element.allowDownload || !window.vcvIsAnyActivated) {
       return
     }
 
@@ -122,7 +122,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadElement (e) {
-    if (!this.props.element.allowDownload || !window.vcvIsActivated) {
+    if (!this.props.element.allowDownload || !window.vcvIsAnyActivated) {
       return
     }
 
@@ -144,7 +144,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadTemplate (e) {
-    if (!this.props.element.allowDownload || !window.vcvIsActivated) {
+    if (!this.props.element.allowDownload || !window.vcvIsAnyActivated) {
       return
     }
 
@@ -244,7 +244,7 @@ export default class TeaserElementControl extends ElementControl {
 
     let publicPathThumbnail = element.metaThumbnailUrl
     let publicPathPreview = element.metaPreviewUrl
-    let lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsActivated
+    let lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
 
     let iconClasses = classNames({
       'vcv-ui-item-add': true,
