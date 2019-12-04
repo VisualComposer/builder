@@ -548,6 +548,18 @@ class Localizations extends Container implements Helper
                 '</a>',
                 '</div>'
             ),
+            'getFreeAccessToTheVisualComposerHub' => __(
+                'Get Free Access to the Visual Composer Hub',
+                'visualcomposer'
+            ),
+            'whatYouWillGetForFree' => __(
+                'What You Will Get For Free?',
+                'visualcomposer'
+            ),
+            'getYourFreeLicense' => __(
+                'Get Your Free License',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
