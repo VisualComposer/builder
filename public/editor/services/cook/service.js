@@ -143,7 +143,6 @@ const API = {
         } else if (attrSettings.type && attrSettings.type.name) {
           typeName = attrSettings.type.name
         } else {
-          env('VCV_DEBUG') && console.warn('Attribute settings for fieldKey is undefined', fieldKey, attrSettings, attrSettings[ fieldKey ], cookElement, atts)
           return
         }
         const options = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].options ? attrSettings[ fieldKey ].options : attrSettings.settings && attrSettings.settings.options ? attrSettings.settings.options : {}
@@ -403,7 +402,6 @@ const API = {
         if (attrSettings[ fieldKey ] && attrSettings[ fieldKey ].type) {
           typeName = attrSettings[ fieldKey ].type
         } else {
-          env('VCV_DEBUG') && console.warn('Attribute settings for fieldKey is undefined', fieldKey, attrSettings, attrSettings[ fieldKey ], element, atts)
           return
         }
       } else if (attrSettings.type && attrSettings.type.name) {
