@@ -154,6 +154,11 @@ vcCake.add('contentLayout', (api) => {
         assetsStorage.trigger('reset')
         const data = vcCake.getService('document').all()
         const visibleElements = Utils.getVisibleElements(data)
+
+        elementsStorage.on('elementsRenderDone', () => {
+          workspaceIFrame.set({ type: 'layoutLoaded' })
+        })
+
         workspaceIFrame.set({ type: 'loaded' })
         window.setTimeout(() => {
           elementsStorage.trigger('updateAll', data)
@@ -220,6 +225,7 @@ vcCake.add('contentLayout', (api) => {
       iframe.src = url.join('?')
     } else if (type === 'loaded') {
       renderLayout(true)
+    } else if (type === 'layoutLoaded') {
       removeLoadingScreen()
     }
   }

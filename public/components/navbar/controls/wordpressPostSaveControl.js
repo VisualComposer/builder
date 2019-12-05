@@ -5,6 +5,8 @@ import NavbarContent from '../navbarContent'
 
 const PostData = vcCake.getService('wordpress-post-data')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
+const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceIFrame = workspaceStorage.state('iframe')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 export default class WordPressPostSaveControl extends NavbarContent {
@@ -14,10 +16,12 @@ export default class WordPressPostSaveControl extends NavbarContent {
     super(props)
     this.state = {
       saving: false,
+      loading: false,
       status: ''
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.clickSaveData = this.clickSaveData.bind(this)
+    this.handleIframeChange = this.handleIframeChange.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
@@ -61,10 +65,24 @@ export default class WordPressPostSaveControl extends NavbarContent {
 
   componentDidMount () {
     wordpressDataStorage.state('status').onChange(this.updateControlOnStatusChange)
+    workspaceIFrame.onChange(this.handleIframeChange)
   }
 
   componentWillUnmount () {
     wordpressDataStorage.state('status').ignoreChange(this.updateControlOnStatusChange)
+    workspaceIFrame.ignoreChange(this.handleIframeChange)
+  }
+
+  handleIframeChange (data) {
+    if (data && data.type === 'reload') {
+      this.setState({ loading: true })
+    } else if (data && data.type === 'layoutLoaded') {
+      this.setState({ loading: false })
+      if (this.state.status === 'saving') {
+        this.setState({ status: '' })
+        this.clickSaveData()
+      }
+    }
   }
 
   clearTimer () {
@@ -84,6 +102,9 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.setState({
       status: 'saving'
     })
+    if (this.state.loading) {
+      return
+    }
     window.setTimeout(() => {
       let url = window.location.href
       let captureType = /vcv-editor-type=([^&]+)/.exec(url)
