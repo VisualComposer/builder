@@ -155,9 +155,12 @@ vcCake.add('contentLayout', (api) => {
         const data = vcCake.getService('document').all()
         const visibleElements = Utils.getVisibleElements(data)
 
-        elementsStorage.on('elementsRenderDone', () => {
+        const setIframeLoaded = () => {
           workspaceIFrame.set({ type: 'layoutLoaded' })
-        })
+          elementsStorage.off('elementsRenderDone', setIframeLoaded)
+        }
+
+        elementsStorage.on('elementsRenderDone', setIframeLoaded)
 
         workspaceIFrame.set({ type: 'loaded' })
         window.setTimeout(() => {
