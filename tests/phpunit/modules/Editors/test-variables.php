@@ -125,17 +125,7 @@ class TestVariables extends WP_UnitTestCase
 
         $dataHelper = vchelper('Data');
 
-        wp_set_current_user(1);
-        $postTypeHelper = vchelper('PostType');
-        $postId = $postTypeHelper->create(
-            [
-                'post_type' => 'page',
-                'post_content' => '',
-            ]
-        );
-        $this->assertTrue(is_numeric($postId));
-        $this->assertTrue($postId > 0);
-        $postTypeHelper->setupPost($postId);
+        $postId = $this->createPost();
 
         $variables = vcfilter('vcv:editor:variables', [], ['sourceId' => $postId]);
 
@@ -159,5 +149,40 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('vcvIsAnyActivated', $variableKeys, 'vcvIsAnyActivated');
         $this->assertContains('vcvUpgradeUrl', $variableKeys, 'vcvUpgradeUrl');
         $this->assertContains('vcvUpgradeUrlUnsplash', $variableKeys, 'vcvUpgradeUrlUnsplash');
+    }
+
+    public function testJsonVariables()
+    {
+        wp_set_current_user(1);
+        $dataHelper = vchelper('Data');
+        $postId = $this->createPost();
+
+        $variables = vcfilter('vcv:editor:variables', [], ['sourceId' => $postId]);
+
+        $variableKeys = $dataHelper->arrayColumn($variables, 'key');
+        $this->assertContains('vcvPostData', $variableKeys, 'vcvPostData');
+        $keyPostData = array_search('vcvPostData', $variableKeys);
+
+        $this->assertIsArray($variables[ $keyPostData ]);
+    }
+
+    /**
+     * @return int|\WP_Error
+     */
+    protected function createPost()
+    {
+        wp_set_current_user(1);
+        $postTypeHelper = vchelper('PostType');
+        $postId = $postTypeHelper->create(
+            [
+                'post_type' => 'page',
+                'post_content' => '',
+            ]
+        );
+        $this->assertTrue(is_numeric($postId));
+        $this->assertTrue($postId > 0);
+        $postTypeHelper->setupPost($postId);
+
+        return $postId;
     }
 }

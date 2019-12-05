@@ -19,7 +19,7 @@ if ($addScript) : ?>
             value: function () {
               return <?php
                 // @codingStandardsIgnoreLine
-                echo json_encode($value, isset($options) ? $options : 0);
+                echo wp_json_encode($value, isset($options) ? $options : 0);
                 ?> },
             writable: false
           });

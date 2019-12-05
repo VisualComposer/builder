@@ -113,7 +113,7 @@ class VariablesController extends Container implements Module
             ];
             $variables[] = [
                 'key' => 'vcvPostData',
-                'value' => json_encode($postTypeHelper->getPostData()),
+                'value' => $postTypeHelper->getPostData(),
                 'type' => 'variable',
             ];
             $variables[] = [
