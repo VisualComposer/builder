@@ -30,7 +30,7 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('VCV_HUB_GET_ADDONS', $variableKeys, 'VCV_HUB_GET_ADDONS');
         $key = array_search('VCV_HUB_GET_ADDONS', $variableKeys);
 
-        $this->assertNotEmpty($key);
+        $this->assertIsNumeric($key, 'key:' . $key);
         $this->assertTrue(isset($variables[ $key ]));
         $this->assertTrue(isset($variables[ $key ]['value']));
         $hubHelper = vcapp('\VisualComposer\Helpers\Hub\Addons');
@@ -98,7 +98,7 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('VCV_ACTIVE_PAGE', $variableKeys, 'VCV_ACTIVE_PAGE');
         $key = array_search('VCV_ACTIVE_PAGE', $variableKeys);
 
-        $this->assertNotEmpty($key);
+        $this->assertIsNumeric($key, 'key: ' . $key);
         $this->assertTrue(isset($variables[ $key ]));
         $this->assertTrue(isset($variables[ $key ]['value']));
         $this->assertEquals('last', $variables[ $key ]['value']);
@@ -114,7 +114,7 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('VCV_IS_FREE_ACTIVATED', $variableKeys, 'VCV_IS_FREE_ACTIVATED');
         $key = array_search('VCV_IS_FREE_ACTIVATED', $variableKeys);
 
-        $this->assertNotEmpty($key);
+        $this->assertIsNumeric($key, 'key: ' . $key);
         $this->assertTrue(isset($variables[ $key ]));
         $this->assertTrue(isset($variables[ $key ]['value']));
         $this->assertEquals(vchelper('License')->isFreeActivated(), $variables[ $key ]['value']);
