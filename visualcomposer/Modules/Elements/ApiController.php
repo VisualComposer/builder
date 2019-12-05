@@ -83,7 +83,7 @@ class ApiController extends Container implements Module
                 str_replace(
                     '[publicPath]',
                     $elementBaseUrl . '/' . $tag . '/public',
-                    json_encode($elementSettings)
+                    wp_json_encode($elementSettings)
                 ),
                 true
             );

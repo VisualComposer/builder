@@ -165,7 +165,7 @@ class ContentUrlReplaceController extends Container implements Module
                 }
             );
             if ($this->replaceCount > 0) {
-                $encodedPageContent = json_encode($decodedPageContent);
+                $encodedPageContent = wp_json_encode($decodedPageContent);
                 $encodedPageContent = rawurlencode($encodedPageContent);
                 update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $encodedPageContent);
                 $response['data'] = $encodedPageContent;

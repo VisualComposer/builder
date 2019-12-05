@@ -161,7 +161,7 @@ class AssetResetController extends Container implements Module
                     }
                 );
                 if ($this->changed) {
-                    $encodedPageContent = json_encode($decodedPageContent);
+                    $encodedPageContent = wp_json_encode($decodedPageContent);
                     $encodedPageContent = rawurlencode($encodedPageContent);
                     update_post_meta($postId, VCV_PREFIX . 'pageContent', $encodedPageContent);
                 }

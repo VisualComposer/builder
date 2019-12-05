@@ -15,7 +15,7 @@ if ($addScript) : ?>
     <?php endif; ?>
     // Write-able data
     // @codingStandardsIgnoreLine
-    window.<?php echo esc_attr($key); ?> = <?php echo json_encode($value); ?>;
+    window.<?php echo esc_attr($key); ?> = <?php echo wp_json_encode($value); ?>;
     <?php if ($addScript) : ?>
 </script>
 <?php endif;

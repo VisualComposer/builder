@@ -93,7 +93,7 @@ class TemplatesUpdater extends Container implements Module
             str_replace(
                 '[publicPath]',
                 $hubTemplatesHelper->getTemplatesUrl($template['id']),
-                json_encode($templateElements)
+                wp_json_encode($templateElements)
             ),
             true
         );

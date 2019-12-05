@@ -92,7 +92,7 @@ class Controller extends Container implements Module
                 // @codingStandardsIgnoreLine
                 if ($post->post_type === 'vcv_templates') {
                     $data = rawurlencode(
-                        json_encode(
+                        wp_json_encode(
                             [
                                 'elements' => get_post_meta($sourceId, 'vcvEditorTemplateElements', true),
                             ]

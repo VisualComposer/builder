@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
     Object.defineProperty(window, '<?php echo esc_js($key); ?>', {
       value: function () {
         // @codingStandardsIgnoreLine
-        return <?php echo json_encode($value, isset($options) ? $options : 0); ?> },
+        return <?php echo wp_json_encode($value, isset($options) ? $options : 0); ?> },
       writable: false
     });
   }

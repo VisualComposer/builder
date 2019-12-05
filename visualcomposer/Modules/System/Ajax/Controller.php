@@ -72,10 +72,10 @@ class Controller extends Container implements Module
         if (is_string($response)) {
             return $response;
         } elseif ($response === false) {
-            return json_encode(['status' => false]);
+            return wp_json_encode(['status' => false]);
         }
 
-        return json_encode($response);
+        return wp_json_encode($response);
     }
 
     protected function disableAjaxErrors(Request $requestHelper)
@@ -146,7 +146,7 @@ class Controller extends Container implements Module
                 }
             }
             if (count($messages) > 0) {
-                echo json_encode(
+                echo wp_json_encode(
                     [
                         'status' => false,
                         'response' => $rawResponse,
@@ -156,7 +156,7 @@ class Controller extends Container implements Module
                 );
                 vcvdie(); // DO NOT USE WP_DIE because it can be overwritten by 3rd and cause plugin issues.
             } else {
-                echo json_encode(
+                echo wp_json_encode(
                     [
                         'status' => false,
                         'response' => $rawResponse,
