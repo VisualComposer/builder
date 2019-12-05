@@ -78,10 +78,17 @@ class PageTemplatesSaveController extends Container implements Module
         return $response;
     }
 
-    protected function setLayout(Request $requestHelper)
+    protected function setLayout($payload, Request $requestHelper)
     {
         /** @var \WP_Post $post */
         $post = get_post();
+
+        if (defined('REST_REQUEST') && REST_REQUEST === true) {
+            // We are in Gutenberg! It doesn't send all the fields..
+            delete_metadata('post', $payload, '_vcv-page-template');
+            delete_metadata('post', $payload, '_vcv-page-template-type');
+        }
+
         if ($post && $requestHelper->exists('vcv-be-editor')) {
             $editor = $requestHelper->input('vcv-be-editor');
             if ($editor === 'classic') {
