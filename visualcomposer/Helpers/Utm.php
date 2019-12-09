@@ -17,13 +17,8 @@ class Utm implements Helper
      */
     public function all()
     {
+        $hubUrl = vcvenv('VCV_HUB_URL');
         $utm = [
-            'updatesChangelogAuthorLink' => 'https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog-author',
-            'updatesChangelogHomepageLink' => 'https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=changelog',
-            'feBlankPagePremiumTemplates' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=blank-page-wizard&utm_campaign=gopremium',
-            'feAddTemplateSearchPremiumTemplates' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=add-template&utm_campaign=gopremium&utm_content=search',
-            'feAddElementSearchPremiumVersion' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=add-element&utm_campaign=gopremium&utm_content=search',
-            'feHubTeaserPremiumVersion' => 'https://visualcomposer.com/premium/?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium',
             'goPremiumElementDownload' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium&utm_content=locked-item',
             'getting-started' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium',
             'nav-bar' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=vcwb-navbar&utm_campaign=gopremium',
@@ -31,16 +26,39 @@ class Utm implements Helper
             'logoFrontend' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=gopremium',
             'hub-banner' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=hub-banner',
             'plugins-page' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=plugin-activation&utm_campaign=gopremium',
-            'start-blank' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=start-blank&utm_campaign=gopremium',
+            'unsplash' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=unsplash&utm_campaign=gopremium',
+
+            // TODO: Change free hub element download urls (in js)
+            // 'free-goPremiumElementDownload' => 'https://my.visualcomposer.com/free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=locked-item',
+            'free-getting-started' => $hubUrl
+                . 'free-license?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=get-free-license',
+            'free-activation-page' => $hubUrl
+                . 'free-license?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-free-license',
+            'free-logoFrontend' => $hubUrl
+                . 'free-license?utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=get-free-license',
+            'free-hub-banner' => $hubUrl
+                . 'free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=hub-banner',
+            'free-unsplash' => $hubUrl
+                . 'free-license?utm_medium=frontend-editor&utm_source=unsplash&utm_campaign=get-free-license',
         ];
 
         return $utm;
     }
 
-    public function get($key)
+    public function get($key, $type = 'premium')
     {
         $all = $this->all();
 
-        return isset($all[ $key ]) ? $all[ $key ] : '';
+        $keyToSearch = $type === 'free' ? 'free-' . $key : $key;
+
+        if (array_key_exists($keyToSearch, $all)) {
+            return $all[ $keyToSearch ];
+        }
+
+        if ($type === 'free') {
+            return $all['free-getting-started'];
+        }
+
+        return $all['getting-started'];
     }
 }

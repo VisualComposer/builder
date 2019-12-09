@@ -18,9 +18,12 @@ class TokenTest extends WP_UnitTestCase
 
         $licenseHelper->setType('premium');
         $this->assertFalse($tokenHelper->getToken());
-        $this->assertContains(
+        $this->assertEquals(
             'Couldn\'t find a valid Visual Composer Website Builder license.',
             vchelper('Logger')->all()
         );
+
+        $licenseHelper->setType('');
+        $licenseHelper->setKey('');
     }
 }

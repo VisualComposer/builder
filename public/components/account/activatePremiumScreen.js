@@ -125,7 +125,7 @@ export default class ActivatePremiumScreen extends React.Component {
     }
 
     let premiumButtonClasses = 'vcv-activation-button'
-    if (loading === 'premium') {
+    if (loading === 'premium' || loading === 'free') {
       premiumButtonClasses += ' vcv-activation-button--loading'
     }
 
@@ -160,6 +160,21 @@ export default class ActivatePremiumScreen extends React.Component {
       )
     }
 
+    let activationButton
+    if (activationType === 'premium') {
+      activationButton = (
+        <a href={window.VCV_GO_PREMIUM_URL()} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
+          {iWantToGoPremiumText}
+        </a>
+      )
+    } else {
+      activationButton = (
+        <a href={window.VCV_GO_FREE_URL()} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
+          {getYourFreeLicenseText}
+        </a>
+      )
+    }
+
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -179,9 +194,7 @@ export default class ActivatePremiumScreen extends React.Component {
               <li className={this.getListItemClass(activationType)}>{premiumSupportAndUpdatesText}</li>
             </ul>
             <div className='vcv-activation-button-container'>
-              <a href={window.VCV_GO_PREMIUM_URL()} className='vcv-activation-button vcv-activation-button--dark'>
-                {activationType === 'premium' ? iWantToGoPremiumText : getYourFreeLicenseText}
-              </a>
+              {activationButton}
             </div>
           </div>
           <div className='vcv-activation-box'>
