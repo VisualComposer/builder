@@ -111,7 +111,7 @@ class Update implements Helper
         $utmHelper = vchelper('Utm');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
-        $requiredHelper = vchelper('Request');
+        $requestHelper = vchelper('Request');
 
         if (vchelper('Options')->get('bundleUpdateRequired')) {
             $requiredActions = vchelper('HubUpdate')->getRequiredActions();
@@ -195,7 +195,7 @@ class Update implements Helper
             ];
         }
 
-        $vcvRef = $requiredHelper->input('vcv-ref');
+        $vcvRef = $requestHelper->input('vcv-ref');
         if (!$vcvRef) {
             $vcvRef = 'getting-started';
         }
@@ -209,6 +209,12 @@ class Update implements Helper
         $variables[] = [
             'key' => 'VCV_GO_PREMIUM_URL',
             'value' => $utmHelper->get($vcvRef),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_GO_FREE_URL',
+            'value' => $utmHelper->get($vcvRef, 'free'),
             'type' => 'constant',
         ];
 
