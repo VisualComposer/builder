@@ -45,6 +45,7 @@ describe('Editor Type Change', function () {
         cy.visit(response.response.body.postData.backendEditorUrl)
       })
 
+      cy.reload()
       cy.get('input[name="vcv-be-editor"]')
         .should('have.value', 'gutenberg')
 
