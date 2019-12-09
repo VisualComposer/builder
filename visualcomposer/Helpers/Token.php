@@ -79,7 +79,7 @@ class Token extends Container implements Helper
             'url' => VCV_PLUGIN_URL,
             'vcv-version' => VCV_VERSION,
         ];
-        if ($licenseHelper->isFreeActivated()) {
+        if ($licenseHelper->isPremiumActivated()) {
             $body['license-key'] = $licenseHelper->getKey();
         } else {
             $token = 'free-token';
@@ -87,7 +87,7 @@ class Token extends Container implements Helper
             return $token;
         }
 
-        $url = $licenseHelper->isFreeActivated() ? vcvenv('VCV_PREMIUM_TOKEN_URL') : vcvenv('VCV_TOKEN_URL');
+        $url = $licenseHelper->isPremiumActivated() ? vcvenv('VCV_PREMIUM_TOKEN_URL') : vcvenv('VCV_TOKEN_URL');
         $url = vchelper('Url')->query($url, $body);
         $result = wp_remote_get(
             $url,
