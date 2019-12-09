@@ -16,7 +16,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class Wp implements Helper
 {
-    static private $isMetaInput;
+    private static $isMetaInput;
 
     public function isMetaInput()
     {

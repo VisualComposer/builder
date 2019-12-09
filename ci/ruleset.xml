@@ -59,7 +59,7 @@
     <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
     <rule ref="Generic.PHP.NoSilencedErrors"/>
     <rule ref="Squiz.PHP.Eval"/>
-    <rule ref="Squiz.PHP.DisallowObEndFlush"/>
+    <rule ref="Generic.PHP.ForbiddenFunctions"/>
     <rule ref="Zend.Files.ClosingTag"/>
     <rule ref="Squiz.PHP.NonExecutableCode"/>
     <rule ref="Zend.NamingConventions.ValidVariableName">
