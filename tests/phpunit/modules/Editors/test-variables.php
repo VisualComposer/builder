@@ -14,7 +14,7 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('VCV_SITE_URL', $variableKeys, 'VCV_SITE_URL');
         $keyEnv = array_search('VCV_ENV', $variableKeys);
 
-        $this->assertNotEmpty($keyEnv);
+        $this->assertIsNumeric($keyEnv);
         $this->assertTrue(isset($variables[ $keyEnv ]));
         $this->assertTrue(isset($variables[ $keyEnv ]['value']));
         $this->assertContains('VCV_HUB_URL', $variables[ $keyEnv ]['value']);
