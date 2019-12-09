@@ -48,12 +48,7 @@ class UpdateBePage extends Container implements Module
          * @param \VisualComposer\Helpers\Hub\Update $updateHelper
          */ 'admin_menu',
             function (License $licenseHelper, Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
-                if (!$licenseHelper->isAnyActivated()) {
-                    $optionsHelper->set('bundleUpdateRequired', false);
-
-                    return;
-                }
-                if ($optionsHelper->get('bundleUpdateRequired')) {
+                if ($licenseHelper->isAnyActivated() && $optionsHelper->get('bundleUpdateRequired')) {
                     $actions = $updateHelper->getRequiredActions();
                     if (!empty($actions['actions']) || !empty($actions['posts'])) {
                         $this->call('addPage');
