@@ -86,8 +86,10 @@ export default class ParamsGroupAttribute extends Attribute {
     const { options } = this.props
     const { settings } = options
     let newValue = {}
-    Object.keys(settings).forEach((setting) => {
-      newValue[ setting ] = settings[ setting ].value
+    Object.keys(settings).forEach((settingKey) => {
+      if (settings[ settingKey ].access === 'public') {
+        newValue[ settingKey ] = settings[ settingKey ].value
+      }
     })
     newValue.title = options.title || 'Group title'
     value.push(lodash.defaultsDeep({}, newValue))
