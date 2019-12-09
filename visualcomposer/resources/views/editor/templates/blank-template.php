@@ -25,7 +25,7 @@ while (have_posts()) :
             </div>
         </article>
     </div>
-<?php
+    <?php
 endwhile;
 wp_footer(); ?>
 </body>

@@ -23,7 +23,7 @@ while (have_posts()) :
             <?php the_content(); ?>
         </div>
     </article>
-<?php
+    <?php
 endwhile;
 wp_footer(); ?>
 </body>

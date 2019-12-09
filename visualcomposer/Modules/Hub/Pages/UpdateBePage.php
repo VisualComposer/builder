@@ -41,12 +41,7 @@ class UpdateBePage extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction(
-        /**
-         * @param \VisualComposer\Helpers\License $licenseHelper
-         * @param \VisualComposer\Helpers\Options $optionsHelper
-         * @param \VisualComposer\Helpers\Request $requestHelper
-         * @param \VisualComposer\Helpers\Hub\Update $updateHelper
-         */ 'admin_menu',
+            'admin_menu',
             function (License $licenseHelper, Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
                 if ($licenseHelper->isAnyActivated() && $optionsHelper->get('bundleUpdateRequired')) {
                     $actions = $updateHelper->getRequiredActions();
