@@ -49,6 +49,8 @@ class UpdateFePage extends Container implements Module
         License $licenseHelper
     ) {
         if (!$licenseHelper->isAnyActivated()) {
+            $optionsHelper->set('bundleUpdateRequired', false);
+
             return $response;
         }
         if ($optionsHelper->get('bundleUpdateRequired')) {
