@@ -41,6 +41,9 @@ class TestPostUpdate extends WP_UnitTestCase
     {
         // Previous test have Post Update action.
         $optionsHelper = vchelper('Options');
+        $licenseHelper = vchelper('License');
+        $licenseHelper->setType('free');
+        $licenseHelper->setKey('test');
         $this->assertFalse($optionsHelper->get('bundleUpdateRequired'));
         $optionsHelper = vchelper('Options');
         $postId = $this->createPost('megaTest3');
@@ -68,6 +71,8 @@ class TestPostUpdate extends WP_UnitTestCase
         }
 
         $this->assertTrue($exceptionCalled);
+        $licenseHelper->setType('');
+        $licenseHelper->setKey('');
     }
 
     public function testRenderUpdateBe()
