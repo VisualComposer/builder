@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -40,8 +41,18 @@ class UpdateBePage extends Container implements Module
     public function __construct()
     {
         $this->wpAddAction(
-            'admin_menu',
-            function (Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
+        /**
+         * @param \VisualComposer\Helpers\License $licenseHelper
+         * @param \VisualComposer\Helpers\Options $optionsHelper
+         * @param \VisualComposer\Helpers\Request $requestHelper
+         * @param \VisualComposer\Helpers\Hub\Update $updateHelper
+         */ 'admin_menu',
+            function (License $licenseHelper, Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
+                if (!$licenseHelper->isAnyActivated()) {
+                    $optionsHelper->set('bundleUpdateRequired', false);
+
+                    return;
+                }
                 if ($optionsHelper->get('bundleUpdateRequired')) {
                     $actions = $updateHelper->getRequiredActions();
                     if (!empty($actions['actions']) || !empty($actions['posts'])) {

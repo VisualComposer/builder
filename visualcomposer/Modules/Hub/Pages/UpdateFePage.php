@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Update;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Url;
@@ -36,12 +37,20 @@ class UpdateFePage extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Hub\Update $updateHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
      *
      * @return mixed
      * @throws \ReflectionException
      */
-    protected function setUpdatingViewFe($response, Options $optionsHelper, Update $updateHelper)
-    {
+    protected function setUpdatingViewFe(
+        $response,
+        Options $optionsHelper,
+        Update $updateHelper,
+        License $licenseHelper
+    ) {
+        if (!$licenseHelper->isAnyActivated()) {
+            return $response;
+        }
         if ($optionsHelper->get('bundleUpdateRequired')) {
             $requiredActions = $updateHelper->getRequiredActions();
             if (!empty($requiredActions['actions']) || !empty($requiredActions['posts'])) {
