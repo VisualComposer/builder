@@ -327,7 +327,13 @@ class Categories implements Helper
             ],
             'Videos' => [
                 'title' => 'Videos',
-                'elements' => ['youtubePlayer', 'vimeoPlayer', 'videoPlayer', 'videoPopup'],
+                'elements' => [
+                    'youtubePlayer',
+                    'vimeoPlayer',
+                    'videoPlayer',
+                    'videoPopup',
+                    'videoButtonPopup',
+                ],
                 'icon' => $urlHelper->to('public/categories/icons/Video.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Video.svg'),
             ],
