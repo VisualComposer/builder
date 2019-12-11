@@ -146,6 +146,7 @@ export default class ActivatePremiumScreen extends React.Component {
     const iWantToGoPremiumText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.iWantToGoPremium : 'I want to go premium'
     const getYourFreeLicenseText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getYourFreeLicense : 'Get Your Free License'
     const findSubscriptionLicenseAtText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findSubscriptionLicenseAt : 'You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at'
+    const findFreeLicenseAt = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findFreeLicenseAt : 'Get your free Visual Composer Hub access at'
     const activatePremiumText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activatePremium : 'Activate Premium'
     const activateFreeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activateFree : 'Activate Free'
 
@@ -172,6 +173,22 @@ export default class ActivatePremiumScreen extends React.Component {
         <a href={window.VCV_GO_FREE_URL()} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
           {getYourFreeLicenseText}
         </a>
+      )
+    }
+
+    let findNewLicenseAtText
+    if (activationType === 'premium') {
+      findNewLicenseAtText = (
+        <React.Fragment>{findSubscriptionLicenseAtText}
+          <a href={window.VCV_GO_PREMIUM_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+        </React.Fragment>
+      )
+    } else {
+      findNewLicenseAtText = (
+        <React.Fragment>
+          {findFreeLicenseAt}
+          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+        </React.Fragment>
       )
     }
 
@@ -203,7 +220,7 @@ export default class ActivatePremiumScreen extends React.Component {
               <input placeholder='Enter your license key' className={inputClasses} required='' name='licenseKey' type='text' value={this.state.licenseValue} onChange={this.handleInputChange} maxLength='36' onFocus={this.handleInputFocus} />
             </div>
             <div className='vcv-activation-input-description'>
-              {findSubscriptionLicenseAtText}<a href={env('VCV_ACCOUNT_URL')} className='vcv-activation-link' target='_blank'>{env('VCV_ACCOUNT_URL').replace(/^https:\/\//i, ' ')}</a>
+              {findNewLicenseAtText}
             </div>
             <div className='vcv-activation-button-container'>
               <button className={premiumButtonClasses} onClick={this.handleActivateClick.bind(this, activationType)}>

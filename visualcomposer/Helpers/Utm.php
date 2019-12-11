@@ -30,16 +30,16 @@ class Utm implements Helper
 
             // TODO: Change free hub element download urls (in js)
             // 'free-goPremiumElementDownload' => 'https://my.visualcomposer.com/free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=locked-item',
-            'free-getting-started' => $hubUrl
-                . 'free-license?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=get-free-license',
-            'free-activation-page' => $hubUrl
-                . 'free-license?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-free-license',
-            'free-logoFrontend' => $hubUrl
-                . 'free-license?utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=get-free-license',
-            'free-hub-banner' => $hubUrl
-                . 'free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=hub-banner',
-            'free-unsplash' => $hubUrl
-                . 'free-license?utm_medium=frontend-editor&utm_source=unsplash&utm_campaign=get-free-license',
+            'free-getting-started' => rtrim($hubUrl, '\//')
+                . '/free-license?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=get-free-license',
+            'free-activation-page' => rtrim($hubUrl, '\//')
+                . '/free-license?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-free-license',
+            'free-logoFrontend' => rtrim($hubUrl, '\//')
+                . '/free-license?utm_medium=frontend-editor&utm_source=vcv-logo&utm_campaign=get-free-license',
+            'free-hub-banner' => rtrim($hubUrl, '\//')
+                . '/free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=hub-banner',
+            'free-unsplash' => rtrim($hubUrl, '\//')
+                . '/free-license?utm_medium=frontend-editor&utm_source=unsplash&utm_campaign=get-free-license',
         ];
 
         return $utm;
