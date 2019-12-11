@@ -49,7 +49,7 @@ export default class ActivatePremiumScreen extends React.Component {
         loading: type
       })
       dataProcessor.appAdminServerRequest({
-        'vcv-action': 'activateLicense:adminNonce',
+        'vcv-action': 'license:activate:adminNonce',
         'vcv-license-key': this.state.licenseValue,
         'vcv-activation-type': type || 'premium'
       }).then((responseData) => {

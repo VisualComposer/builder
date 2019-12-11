@@ -30,12 +30,35 @@ class UpdateController extends Container implements Module
      */
     public function __construct()
     {
-        $this->addEvent('vcv:admin:inited vcv:system:activation:hook', 'checkForUpdate');
+        /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdateAction */
+        $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'checkForUpdateAction');
+        /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
         $this->wpAddAction('admin_menu', 'checkForUpdate', 9);
+        /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
         $this->addFilter('vcv:editors:frontend:render', 'checkForUpdate', -1);
 
         // System reset
+        /** @see \VisualComposer\Modules\Hub\UpdateController::unsetOptions */
         $this->addEvent('vcv:system:activation:hook vcv:system:factory:reset', 'unsetOptions', -1);
+    }
+
+    /**
+     * @param $response
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Hub\Update $hubUpdateHelper
+     *
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     *
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    protected function checkForUpdateAction(
+        $payload,
+        Options $optionsHelper,
+        Update $hubUpdateHelper,
+        License $licenseHelper
+    ) {
+        return $this->call('checkForUpdate', ['response' => [], 'payload' => $payload]);
     }
 
     /**
@@ -50,13 +73,14 @@ class UpdateController extends Container implements Module
      */
     protected function checkForUpdate(
         $response,
+        $payload,
         Options $optionsHelper,
         Update $hubUpdateHelper,
         License $licenseHelper
     ) {
         // Check for update in case if activated
-        if ($licenseHelper->isAnyActivated() && $optionsHelper->getTransient('lastBundleUpdate') < time()) {
-            $result = $hubUpdateHelper->checkVersion();
+        if ($licenseHelper->isAnyActivated() && intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
+            $result = $hubUpdateHelper->checkVersion($payload);
             if (!vcIsBadResponse($result)) {
                 $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
             } else {

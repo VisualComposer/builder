@@ -10,72 +10,27 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Hub\Update;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Class SystemStatusController
+ * @package VisualComposer\Modules\Settings\Ajax
+ */
 class SystemStatusController extends Container implements Module
 {
     use EventsFilters;
 
+    /**
+     * SystemStatusController constructor.
+     */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::checkVersion */
+        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::checkPayloadProcessing */
         $this->addFilter(
-            'vcv:ajax:checkVersion:adminNonce',
-            'checkVersion'
-        );
-
-        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::runAllChecks */
-        $this->addFilter(
-            'vcv:ajax:checkSystem:adminNonce',
-            'checkSystem'
-        );
-
-        /** @see \VisualComposer\Modules\Settings\Ajax\SystemStatusController::runAllChecks */
-        $this->addFilter(
-            'vcv:ajax:checkPayloadProcessing:adminNonce',
+            'vcv:ajax:settings:systemStatus:checkPayloadProcessing:adminNonce',
             'checkPayloadProcessing'
         );
-    }
-
-    /**
-     * @param $response
-     * @param \VisualComposer\Helpers\Hub\Update $hubUpdateHelper
-     *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return mixed
-     * @throws \ReflectionException
-     */
-    protected function checkVersion($response, Update $hubUpdateHelper, Options $optionsHelper)
-    {
-        if (!is_array($response)) {
-            $response = [];
-        }
-        $checkVersion = $hubUpdateHelper->checkVersion();
-        $response['status'] = $checkVersion['status'];
-
-        if ($response['status'] === true) {
-            $optionsHelper->setTransient('lastBundleUpdate', 1);
-        }
-
-        return $response;
-    }
-
-    /**
-     * @param $response
-     * @param \VisualComposer\Helpers\Status $statusHelper
-     *
-     * @return mixed
-     */
-    protected function checkSystem($response, Status $statusHelper)
-    {
-        $statusHelper->checkSystemStatusAndSetFlag();
-
-        return $response;
     }
 
     /**

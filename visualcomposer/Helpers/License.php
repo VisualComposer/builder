@@ -39,12 +39,18 @@ class License extends Container implements Helper
         $optionsHelper->set('license-key', trim($licenseKey));
     }
 
+    /**
+     * @param $type
+     */
     public function setType($type)
     {
         $optionsHelper = vchelper('Options');
         $optionsHelper->set('license-type', $type);
     }
 
+    /**
+     * @return mixed
+     */
     public function getType()
     {
         $optionsHelper = vchelper('Options');
@@ -53,11 +59,44 @@ class License extends Container implements Helper
     }
 
     /**
+     * @param $expiration
+     */
+    public function setExpirationDate($expiration)
+    {
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->set('license-expiration', $expiration);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpirationDate()
+    {
+        $optionsHelper = vchelper('Options');
+
+        return $optionsHelper->get('license-expiration');
+    }
+
+    /**
      * @return bool
      */
     public function isFreeActivated()
     {
         return (bool)$this->getKey() && $this->getType() === 'free';
+    }
+
+    /**
+     * @param string $redirectTo
+     */
+    public function refresh($redirectTo = 'vcv-update')
+    {
+        $token = vchelper('Token')->getToken(true);
+        if ($token !== 'free-token') {
+            // License is upgraded: fire check for update
+            vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
+            wp_redirect(admin_url('admin.php?page=' . $redirectTo));
+            exit;
+        }
     }
 
     /**

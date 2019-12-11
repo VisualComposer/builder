@@ -10,7 +10,7 @@ class LicenseActivationTest extends WP_UnitTestCase
         $loggerHelper = vchelper('Logger');
         $loggerHelper->reset();
 
-        $result = vchelper('Filters')->fire('vcv:ajax:activateLicense:adminNonce');
+        $result = vchelper('Filters')->fire('vcv:ajax:license:activate:adminNonce');
 
         // Expect false result as no license and etc provided
         $this->assertEquals(
@@ -39,7 +39,7 @@ class LicenseActivationTest extends WP_UnitTestCase
                 'vcv-license-key' => 'anything',
             ]
         );
-        $result = vchelper('Filters')->fire('vcv:ajax:activateLicense:adminNonce');
+        $result = vchelper('Filters')->fire('vcv:ajax:license:activate:adminNonce');
         $this->assertEquals(
             [
                 'status' => false,

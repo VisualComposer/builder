@@ -10,9 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Logger;
-use VisualComposer\Helpers\Notice;
-use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
@@ -43,9 +40,6 @@ class GoPremium extends Container implements Module
      */
     public function __construct(License $licenseHelper)
     {
-        /** @see \VisualComposer\Modules\License\Pages\GoPremium::activateLicense */
-        $this->addFilter('vcv:ajax:activateLicense:adminNonce', 'activateLicense');
-
         if (!$licenseHelper->isPremiumActivated()) {
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
             $this->wpAddAction('in_admin_footer', 'addJs');
@@ -65,9 +59,14 @@ class GoPremium extends Container implements Module
                     $this->call('addPage');
                 }
 
-                if ($requestHelper->input('page') === $this->getSlug() && $licenseHelper->isPremiumActivated()) {
-                    wp_redirect(admin_url('admin.php?page=vcv-about'));
-                    exit;
+                if ($requestHelper->input('page') === $this->getSlug()) {
+                    if ($licenseHelper->isFreeActivated()) {
+                        // Check is license is upgraded?
+                        $licenseHelper->refresh();
+                    } elseif ($licenseHelper->isPremiumActivated()) {
+                        wp_redirect(admin_url('admin.php?page=vcv-about'));
+                        exit;
+                    }
                 }
             },
             70
@@ -80,9 +79,6 @@ class GoPremium extends Container implements Module
                 'pluginsPageLink'
             );
         }
-
-        /** @see \VisualComposer\Modules\License\Pages\GoPremium::unsetOptions */
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
 
     /**
@@ -133,74 +129,6 @@ class GoPremium extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Logger $loggerHelper
-     * @param \VisualComposer\Helpers\Notice $noticeHelper
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return array|mixed|object
-     */
-    public function activateLicense(
-        Request $requestHelper,
-        Logger $loggerHelper,
-        Notice $noticeHelper,
-        License $licenseHelper,
-        Options $optionsHelper
-    ) {
-        $body = [
-            'url' => VCV_PLUGIN_URL,
-            'activation-type' => $requestHelper->input('vcv-activation-type'),
-            'license' => $requestHelper->input('vcv-license-key'),
-        ];
-
-        $url = vchelper('Url')->query(vcvenv('VCV_ACTIVATE_LICENSE_URL'), $body);
-        $result = wp_remote_get(
-            $url,
-            [
-                'timeout' => 30,
-            ]
-        );
-
-        $resultBody = [];
-        if (is_array($result) && isset($result['body'])) {
-            $resultBody = json_decode($result['body'], true);
-        }
-
-        if ($resultBody && isset($resultBody['success'], $resultBody['error']) && !$resultBody['success']) {
-            $code = $resultBody['error'];
-            $message = $licenseHelper->licenseErrorCodes($code);
-            $loggerHelper->log(
-                $message,
-                [
-                    'result' => $body,
-                ]
-            );
-
-            return ['status' => false, 'response' => $resultBody];
-        }
-
-        if (!vcIsBadResponse($resultBody)) {
-            $priceId = $resultBody['price_id'];
-            $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
-            $licenseHelper->setType($priceId === '0' ? 'free' : 'premium');
-            $optionsHelper->deleteTransient('lastBundleUpdate');
-            $noticeHelper->removeNotice('premium:deactivated');
-
-            return ['status' => true];
-        }
-
-        $loggerHelper->log(
-            esc_html__('Failed to activate the license, please try again.', 'visualcomposer'),
-            [
-                'result' => $body,
-            ]
-        );
-
-        return ['status' => false];
-    }
-
-    /**
      *
      */
     protected function beforeRender()
@@ -246,16 +174,5 @@ class GoPremium extends Container implements Module
     protected function afterRender($response)
     {
         return $response . implode('', vcfilter('vcv:update:extraOutput', []));
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     */
-    protected function unsetOptions(Options $optionsHelper)
-    {
-        $optionsHelper
-            ->delete('siteRegistered')
-            ->delete('license-key')
-            ->delete('license-type');
     }
 }
