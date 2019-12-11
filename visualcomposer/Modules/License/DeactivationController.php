@@ -13,7 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
-use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
@@ -32,8 +31,8 @@ class DeactivationController extends Container implements Module
         /** @see \VisualComposer\Modules\License\DeactivationController::pingDeactivation */
         $this->addFilter('vcv:ajax:license:deactivation:ping', 'pingDeactivation');
 
-        /** @see \VisualComposer\Modules\License\DeactivationController::unsetOptions */
-        $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
+        /** @see \VisualComposer\Modules\License\DeactivationController::deactivate */
+        $this->addFilter('vcv:ajax:license:deactivate', 'deactivate');
     }
 
     /**
@@ -58,10 +57,38 @@ class DeactivationController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Token $tokenHelper
+     * @param $response
+     * @param $payload
+     * @param \VisualComposer\Helpers\License $licenseHelper
      */
-    protected function unsetOptions(Token $tokenHelper)
+    protected function deactivate($response, $payload, License $licenseHelper)
     {
-        $tokenHelper->reset();
+        // data to send in our API request
+        $params = [
+            'edd_action' => 'deactivate_license',
+            'license' => $licenseHelper->getKey(),
+            'item_name' => 'Visual Composer',
+            'url' => VCV_PLUGIN_URL,
+        ];
+        // Send the remote request
+        $request = wp_remote_post(
+            vcvenv('VCV_HUB_URL'),
+            [
+                'body' => $params,
+                'timeout' => 30,
+            ]
+        );
+
+        if (wp_remote_retrieve_response_code($request) === 200) {
+            $licenseHelper->setKey('');
+            $licenseHelper->setType('');
+            $licenseHelper->setExpirationDate('');
+
+            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+            exit;
+        }
+
+        wp_redirect(admin_url('admin.php?page=vcv-settings'));
+        exit;
     }
 }

@@ -49,7 +49,7 @@ export const checkStatus = () => {
     return
   }
   const binaryString = deflate(JSON.stringify({
-    'vcv-action': 'checkPayloadProcessing:adminNonce',
+    'vcv-action': 'settings:systemStatus:checkPayloadProcessing:adminNonce',
     'vcv-nonce': window.vcvNonce,
     'vcv-check-payload': generateFakeData()
   }), { to: 'string' })

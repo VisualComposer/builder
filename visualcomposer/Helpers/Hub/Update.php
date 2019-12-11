@@ -234,14 +234,20 @@ class Update implements Helper
     }
 
     /**
+     * @param array $payload
+     *
      * @return array|bool
      * @throws \ReflectionException
      */
-    public function checkVersion()
+    public function checkVersion($payload = [])
     {
         $hubBundleHelper = vchelper('HubBundle');
         $tokenHelper = vchelper('Token');
-        $token = $tokenHelper->getToken();
+        if (is_array($payload) && isset($payload['token'])) {
+            $token = $payload['token'];
+        } else {
+            $token = $tokenHelper->getToken();
+        }
         if ($token) {
             $url = $hubBundleHelper->getJsonDownloadUrl(['token' => $token]);
             $json = $hubBundleHelper->getRemoteBundleJson($url);
