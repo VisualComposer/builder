@@ -73,6 +73,7 @@ Cypress.Commands.add('createPage', () => {
 Cypress.Commands.add('addElement', (elementName) => {
   cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
   cy.get(`.vcv-ui-item-element[title="${elementName}"]`).click()
+  cy.wait(200)
   cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
 })
 
