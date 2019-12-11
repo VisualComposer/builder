@@ -533,6 +533,10 @@ class Localizations extends Container implements Helper
                 'You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at',
                 'visualcomposer'
             ),
+            'findFreeLicenseAt' => __(
+                'Get your free Visual Composer Hub access at',
+                'visualcomposer'
+            ),
             'edit404Template' => sprintf(
                 __(
                     '%sEdit%s this 404-page template.%s',
