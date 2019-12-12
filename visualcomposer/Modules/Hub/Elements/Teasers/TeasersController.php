@@ -34,7 +34,6 @@ class TeasersController extends Container implements Module
             'vcv:editor:variables',
             'addVariables'
         );
-
     }
 
     /**
