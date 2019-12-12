@@ -60,6 +60,9 @@ class LicenseStatus extends Container implements Module
                         'in_admin_header',
                         'addCss'
                     );
+                } elseif ($requestHelper->input('page') === $this->getSlug()) {
+                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    exit;
                 }
             },
             70

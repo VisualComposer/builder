@@ -43,7 +43,6 @@ class LicenseController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Logger $loggerHelper
-     * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
@@ -52,7 +51,6 @@ class LicenseController extends Container implements Module
     protected function activate(
         Request $requestHelper,
         Logger $loggerHelper,
-        Notice $noticeHelper,
         License $licenseHelper,
         Options $optionsHelper
     ) {
@@ -121,7 +119,11 @@ class LicenseController extends Container implements Module
     {
         $licenseHelper->refresh('vcv-license');
 
-        wp_redirect(admin_url('admin.php?page=vcv-license'));
+        if ($licenseHelper->isAnyActivated()) {
+            wp_redirect(admin_url('admin.php?page=vcv-license'));
+        } else {
+            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+        }
         exit;
     }
 
