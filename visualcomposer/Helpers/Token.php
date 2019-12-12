@@ -98,7 +98,7 @@ class Token extends Container implements Helper
                 if (isset($body['data']['price_id'])) {
                     $previousType = $licenseHelper->getType();
                     $priceId = $body['data']['price_id'];
-                    if ($priceId !== '0' && $previousType !== 'premium') {
+                    if ($priceId !== '4' && $previousType !== 'premium') {
                         $optionsHelper->deleteTransient('lastBundleUpdate');
                         $licenseHelper->setType('premium');
                     }
