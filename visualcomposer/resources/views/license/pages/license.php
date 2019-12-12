@@ -21,7 +21,7 @@ $expirationDate = vchelper('License')->getExpirationDate();
     <h2><?php echo esc_html__('License Information', 'visualcomposer') ?></h2>
     <div class="vcv-description">
         <p><?php echo esc_html__(
-            'License Information. Click refresh to check for license updates',
+            'Visual Composer license information. Click refresh to check for license updates',
             'visualcomposer'
         ); ?></p>
         <a href="<?php echo esc_url($refreshUrl); ?>" class="button vcv-license-btn-refresh"><?php echo esc_html__(
