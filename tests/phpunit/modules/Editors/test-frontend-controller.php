@@ -38,7 +38,6 @@ class FrontendControllerTest extends WP_UnitTestCase
             'Object\.defineProperty\(window, \\\'VCV_HUB_GET_ADDONS\\\'',
             'Object\.defineProperty\(window, \\\'VCV_HUB_GET_ELEMENTS\\\'',
             'Object\.defineProperty\(window, \\\'VCV_HUB_GET_TEASER\\\'',
-            'Object\.defineProperty\(window, \\\'VCV_HUB_ALLOW_DOWNLOAD\\\'',
             'Object\.defineProperty\(window, \\\'VCV_PLUGIN_UPDATE\\\'',
             'Object\.defineProperty\(window, \\\'VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT\\\'',
             'Object\.defineProperty\(window, \\\'VCV_PAGE_TEMPLATES_LAYOUTS\\\'',

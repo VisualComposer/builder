@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
@@ -27,75 +26,15 @@ class TeasersController extends Container implements Module
      */
     public function __construct()
     {
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserElements');
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserBadge');
+        /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::ajaxSetTeaserBadge */
         $this->addFilter('vcv:ajax:vcv:hub:teaser:visit:adminNonce', 'ajaxSetTeaserBadge');
 
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputTeaserDownload');
-    }
-
-    /**
-     * @param $response
-     * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return array
-     */
-    protected function outputTeaserElements($response, $payload, Options $optionsHelper)
-    {
-        $value = array_values(
-            (array)$optionsHelper->get(
-                'hubTeaserElements',
-                [
-                    'All Elements' => [
-                        'id' => 'AllElements0',
-                        'index' => 0,
-                        'title' => 'All Elements',
-                        'elements' => [],
-                    ],
-                ]
-            )
+        /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::addVariables */
+        $this->addFilter(
+            'vcv:editor:variables',
+            'addVariables'
         );
 
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_HUB_GET_TEASER',
-                        'value' => $value,
-                    ]
-                ),
-            ]
-        );
-    }
-
-    /**
-     * @param $response
-     * @param $payload
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return array
-     */
-    protected function outputTeaserBadge($response, $payload, Options $optionsHelper)
-    {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/variable',
-                    [
-                        'key' => 'vcvHubTeaserShowBadge',
-                        'value' => version_compare(
-                            $optionsHelper->getUser('hubTeaserVisit'),
-                            $optionsHelper->get('hubAction:hubTeaser', '1.0'),
-                            '<'
-                        ),
-                    ]
-                ),
-            ]
-        );
     }
 
     /**
@@ -111,25 +50,45 @@ class TeasersController extends Container implements Module
     }
 
     /**
-     * @param $response
+     * @param $variables
      * @param $payload
-     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return array
      */
-    protected function outputTeaserDownload($response, $payload, License $licenseHelper)
+    protected function addVariables($variables, $payload, Options $optionsHelper)
     {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_HUB_ALLOW_DOWNLOAD',
-                        'value' => $licenseHelper->isAnyActivated(),
-                    ]
-                ),
-            ]
+        $variables[] = [
+            'key' => 'vcvHubTeaserShowBadge',
+            'value' => version_compare(
+                $optionsHelper->getUser('hubTeaserVisit'),
+                $optionsHelper->get('hubAction:hubTeaser', '1.0'),
+                '<'
+            ),
+            'type' => 'variable',
+        ];
+
+        $value = array_values(
+            (array)$optionsHelper->get(
+                'hubTeaserElements',
+                [
+                    'All Elements' => [
+                        'id' => 'AllElements0',
+                        'index' => 0,
+                        'title' => 'All Elements',
+                        'elements' => [],
+                    ],
+                ]
+            )
         );
+
+        $variables[] = [
+            'key' => 'VCV_HUB_GET_TEASER',
+            'value' => $value,
+            'type' => 'constant',
+
+        ];
+
+        return $variables;
     }
 }
