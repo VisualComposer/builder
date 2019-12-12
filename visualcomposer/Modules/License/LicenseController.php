@@ -91,7 +91,7 @@ class LicenseController extends Container implements Module
         if (!vcIsBadResponse($resultBody)) {
             $priceId = $resultBody['price_id'];
             $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
-            $licenseHelper->setType($priceId === '0' ? 'free' : 'premium');
+            $licenseHelper->setType($priceId === '4' ? 'free' : 'premium');
             $licenseHelper->setExpirationDate(
                 $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
             );
