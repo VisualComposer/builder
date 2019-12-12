@@ -2,6 +2,26 @@
 
 class TestVariables extends WP_UnitTestCase
 {
+    public function testVariablesTypes()
+    {
+        $variables = vcfilter('vcv:editor:variables', []);
+
+        foreach ($variables as $variable) {
+            $this->assertContains(
+                $variable['type'],
+                ['variable', 'constant'],
+                'Variable type unknown:' . $variable['type'] . ' name: ' . $variable['key']
+            );
+            if ($variable['type'] === 'variable') {
+                $this->assertNotEquals(
+                    $variable['key'],
+                    strtoupper($variable['key']),
+                    'Avoid use CAMEL_CASE in non-constant variables: ' . $variable['key']
+                );
+            }
+        }
+    }
+
     public function testEnvVariables()
     {
         $dataHelper = vchelper('Data');
