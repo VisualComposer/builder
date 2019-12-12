@@ -32,7 +32,7 @@ class DeactivationController extends Container implements Module
         $this->addFilter('vcv:ajax:license:deactivation:ping', 'pingDeactivation');
 
         /** @see \VisualComposer\Modules\License\DeactivationController::deactivate */
-        $this->addFilter('vcv:ajax:license:deactivate', 'deactivate');
+        $this->addFilter('vcv:ajax:license:deactivate:adminNonce', 'deactivate');
     }
 
     /**
@@ -63,32 +63,34 @@ class DeactivationController extends Container implements Module
      */
     protected function deactivate($response, $payload, License $licenseHelper)
     {
-        // data to send in our API request
-        $params = [
-            'edd_action' => 'deactivate_license',
-            'license' => $licenseHelper->getKey(),
-            'item_name' => 'Visual Composer',
-            'url' => VCV_PLUGIN_URL,
-        ];
-        // Send the remote request
-        $request = wp_remote_post(
-            vcvenv('VCV_HUB_URL'),
-            [
-                'body' => $params,
-                'timeout' => 30,
-            ]
-        );
+        if (vchelper('AccessCurrentUser')->wpAll('manage_options')->get()) {
+            // data to send in our API request
+            $params = [
+                'edd_action' => 'deactivate_license',
+                'license' => $licenseHelper->getKey(),
+                'item_name' => 'Visual Composer',
+                'url' => VCV_PLUGIN_URL,
+            ];
+            // Send the remote request
+            $request = wp_remote_post(
+                vcvenv('VCV_HUB_URL'),
+                [
+                    'body' => $params,
+                    'timeout' => 30,
+                ]
+            );
 
-        if (wp_remote_retrieve_response_code($request) === 200) {
-            $licenseHelper->setKey('');
-            $licenseHelper->setType('');
-            $licenseHelper->setExpirationDate('');
+            if (wp_remote_retrieve_response_code($request) === 200) {
+                $licenseHelper->setKey('');
+                $licenseHelper->setType('');
+                $licenseHelper->setExpirationDate('');
 
-            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-            exit;
+                wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                vcvdie();
+            }
         }
 
         wp_redirect(admin_url('admin.php?page=vcv-settings'));
-        exit;
+        vcvdie();
     }
 }
