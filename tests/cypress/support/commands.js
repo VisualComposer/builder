@@ -384,6 +384,59 @@ Cypress.Commands.add('setIcon', (title, settings) => {
     .click()
 })
 
+// Set htmleditor (TinyMce editor) attribute value
+Cypress.Commands.add('setTinyMce', (settings) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(settings.title)
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .find('.vcv-ui-form-wp-tinymce-inner iframe').then(($iframe) => {
+        // get body within TinyMCE's iframe content
+        const document = $iframe.contents()
+        const body = document.find('body')
+
+        cy.wrap(body).focus().clear().type(settings.text)
+      })
+
+      // Click on TinyMCE alignment control
+      if (settings.alignment && settings.alignment.name) {
+        cy.wrap($field)
+          .next()
+          .find(`.mce-btn[aria-label*="${settings.alignment.name}"] button`)
+          .click()
+      }
+
+      // Select which HTML tag will be used from the TinyMCE tag dropdown list
+      if (settings.elementType && settings.elementType.name) {
+        cy.wrap($field)
+          .next()
+          .find('.mce-stack-layout-item.mce-first .mce-btn .mce-txt')
+          .contains('Heading')
+          .closest('button')
+          .click()
+
+        cy.get('.mce-menu-item .mce-text')
+          .contains(settings.elementType.name)
+          .parent()
+          .click()
+      }
+    })
+})
+
+// Click on the Replace button within a section
+Cypress.Commands.add('replaceElement', (settings) => {
+  cy.get('.vcv-ui-edit-form-section-header')
+    .contains(settings.sectionName)
+    .next()
+    .find('.vcv-ui-replace-element-block .vcv-ui-form-button')
+    .click()
+
+  cy.get('.vcv-ui-replace-element-block .vcv-ui-item-list-item')
+    .contains(settings.elementName)
+    .click()
+})
+
 // Creates a new post in WordPress admin dashboard,
 // returns post id
 Cypress.Commands.add('createWpPost', (settings) => {
