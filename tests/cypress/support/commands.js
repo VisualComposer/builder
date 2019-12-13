@@ -399,26 +399,28 @@ Cypress.Commands.add('setTinyMce', (settings) => {
         cy.wrap(body).focus().clear().type(settings.text)
       })
 
-      // Click on TinyMCE alignment control
-      if (settings.alignment && settings.alignment.name) {
-        cy.wrap($field)
-          .next()
-          .find(`.mce-btn[aria-label*="${settings.alignment.name}"] button`)
-          .click()
-      }
-
       // Select which HTML tag will be used from the TinyMCE tag dropdown list
       if (settings.elementType && settings.elementType.name) {
+        // The dropdown might contain Heading or Paragraph word when clearing the area.
+        const inputValue = /\b(?:Heading|Paragraph)\b/g
         cy.wrap($field)
           .next()
           .find('.mce-stack-layout-item.mce-first .mce-btn .mce-txt')
-          .contains('Heading')
+          .contains(inputValue)
           .closest('button')
           .click()
 
         cy.get('.mce-menu-item .mce-text')
           .contains(settings.elementType.name)
           .parent()
+          .click()
+      }
+
+      // Click on TinyMCE alignment control
+      if (settings.alignment && settings.alignment.name) {
+        cy.wrap($field)
+          .next()
+          .find(`.mce-btn[aria-label*="${settings.alignment.name}"] button`)
           .click()
       }
     })
