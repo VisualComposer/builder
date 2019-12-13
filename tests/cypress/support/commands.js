@@ -267,11 +267,13 @@ Cypress.Commands.add('setDOA', (settings) => {
     })
 })
 
+// Set custom class name and custom ID
 Cypress.Commands.add('setClassAndId', (id, className) => {
   cy.setInput('Element ID', id)
   cy.setInput('Extra class name', className)
 })
 
+// Set input attribute value
 Cypress.Commands.add('setInput', (title, value) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -283,6 +285,7 @@ Cypress.Commands.add('setInput', (title, value) => {
     })
 })
 
+// Set toggle attribute value (click on a toggle)
 Cypress.Commands.add('setSwitch', (title) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -294,6 +297,7 @@ Cypress.Commands.add('setSwitch', (title) => {
     })
 })
 
+// Set dropdown attribute value (choose a value from select)
 Cypress.Commands.add('setSelect', (title, value) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -304,6 +308,7 @@ Cypress.Commands.add('setSelect', (title, value) => {
     })
 })
 
+// Set button group attribute value (click on a button)
 Cypress.Commands.add('setButtonGroup', (title, value) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -315,6 +320,7 @@ Cypress.Commands.add('setButtonGroup', (title, value) => {
     })
 })
 
+// Set color picker attribute value
 Cypress.Commands.add('setColor', (settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(settings.title)
@@ -333,6 +339,7 @@ Cypress.Commands.add('setColor', (settings) => {
     })
 })
 
+// Set link selector attribute value
 Cypress.Commands.add('setURL', (title, settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -356,6 +363,7 @@ Cypress.Commands.add('setURL', (title, settings) => {
   cy.get('.vcv-ui-modal .vcv-ui-modal-action').click()
 })
 
+// Set icon picker attribute value
 Cypress.Commands.add('setIcon', (title, settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
