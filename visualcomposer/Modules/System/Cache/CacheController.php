@@ -77,7 +77,7 @@ class CacheController extends Controller implements Module
 
             // Endurance Cache
             if (class_exists('Endurance_Page_Cache') && method_exists('Endurance_Page_Cache', 'purge_all')) {
-                $e = new \Endurance_Page_Cache;
+                $e = new \Endurance_Page_Cache();
                 $e->purge_all();
             }
 

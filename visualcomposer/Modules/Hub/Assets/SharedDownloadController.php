@@ -141,7 +141,7 @@ class SharedDownloadController extends Container implements Module
             $messages[] = implode('. ', $response->get_error_messages()) . ' #10022';
         } elseif (is_array($response) && isset($response['body'])) {
             // @codingStandardsIgnoreLine
-            $resultDetails = @json_decode($response['body'], 1);
+            $resultDetails = json_decode($response['body'], 1);
             if (is_array($resultDetails) && isset($resultDetails['message'])) {
                 $messages[] = $resultDetails['message'] . ' #10023';
             }
@@ -151,7 +151,7 @@ class SharedDownloadController extends Container implements Module
             $messages[] = implode('. ', $bundleJson->get_error_messages()) . ' #10024';
         } elseif (is_array($bundleJson) && isset($bundleJson['body'])) {
             // @codingStandardsIgnoreLine
-            $resultDetails = @json_decode($bundleJson['body'], 1);
+            $resultDetails = json_decode($bundleJson['body'], 1);
             if (is_array($resultDetails) && isset($resultDetails['message'])) {
                 $messages[] = $resultDetails['message'] . ' #10025';
             }
