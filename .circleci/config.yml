@@ -22,7 +22,12 @@ jobs:
       - image: visualcomposer/ci-wordpress:php7.3
     steps:
       - checkout
-      - run: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
+      - run:
+        name: CodeStyle check
+        command: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
+      -run:
+        name: PHPGrep check
+        command: ci/phpgrep-lint.sh visualcomposer/ ci/patterns.txt
   php-tests:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
@@ -54,7 +59,7 @@ jobs:
           name: Install Wordpress
           command: |
             wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=$MYSQL_DB --dbuser=wpuser --allow-root
-            wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --allow-root --debug
+            wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --skip-email --allow-root --debug
             sudo chmod 777 /var/www/html/wp-content/uploads
       - run: php ci/composer.phar install
       - run: php tools/php-composer/cli.php
@@ -91,7 +96,7 @@ jobs:
           name: Install Wordpress
           command: |
             wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=test --dbuser=wpuser --allow-root
-            wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --allow-root --debug
+            wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --skip-email --allow-root --debug
             sudo chmod 777 /var/www/html/wp-content/uploads
       - run: php ci/composer.phar install
       - run:

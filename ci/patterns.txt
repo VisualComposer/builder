@@ -1,0 +1,145 @@
+# Self-assignments are a bad smell in 99% of cases.
+'$x = $x'
+
+# Suspicious empty body of the if statement.
+'if ($_);'
+
+# Using "==" instead of "=" inside init context.
+'for ($_ == $_; $_; $_) $_'
+
+# Using assignment as expression inside boolean context.
+'for ($_; $_ = []; $_) $_'
+'for ($_; $_ = ${"const"}; $_) $_'
+'for ($_; $_ = ${"num"}; $_) $_'
+'for ($_; $_ = ${"str"}; $_) $_'
+'while ($_ = []) $_'
+'while ($_ = ${"const"}) $_'
+'while ($_ = ${"num"}) $_'
+'while ($_ = ${"str"}) $_'
+'if ($_ = []) $_'
+'if ($_ = ${"const"}) $_'
+'if ($_ = ${"str"}) $_'
+'if ($_ = ${"num"}) $_'
+'$_ = [] ? $_ : $_'
+'$_ = ${"const"} ? $_ : $_'
+'$_ = ${"str"} ? $_ : $_'
+'$_ = ${"num"} ? $_ : $_'
+'($_ = []) && $_'
+'($_ = ${"const"}) && $_'
+'($_ = ${"str"}) && $_'
+'($_ = ${"num"}) && $_'
+'$_ && $_ = []'
+'$_ && $_ = ${"const"}'
+'$_ && $_ = ${"str"}'
+'$_ && $_ = ${"num"}'
+'($_ = []) || $_'
+'($_ = ${"const"}) || $_'
+'($_ = ${"str"}) || $_'
+'($_ = ${"num"}) || $_'
+'$_ || $_ = []'
+'$_ || $_ = ${"const"}'
+'$_ || $_ = ${"str"}'
+'$_ || $_ = ${"num"}'
+
+# Suspicious (and sometimes always true/false) boolean expressions.
+'$x == $x'
+'$x === $x'
+'$x && !$x'
+'$x || $a && !$x'
+'$x != $a || $x != $b'
+'$x !== $a || $x != $b'
+'$x != $a || $x !== $b'
+'$x !== $a || $x !== $b'
+'$x == $a || $x != $b'
+'$x == $a || $x !== $b'
+'$x === $a || $x != $b'
+'$x === $a || $x !== $b'
+'$x == $a && $x != $b'
+'$x == $a && $x !== $b'
+'$x === $a && $x != $b'
+'$x === $a && $x !== $b'
+
+# Potential issues due to the operators precedence.
+'$x & $mask == $y'
+'$x & $mask === $y'
+'$x & $mask !== $y'
+'$x & $mask != $y'
+'$x | $mask == $y'
+'$x | $mask === $y'
+'$x | $mask !== $y'
+'$x | $mask != $y'
+
+# Potentially incorrect usage of ternary operator (due to the precedence).
+'$_ == $_ ? $_ : $_ ? $_ : $_'
+'$_ === $_ ? $_ : $_ ? $_ : $_'
+'$_ != $_ ? $_ : $_ ? $_ : $_'
+'$_ !== $_ ? $_ : $_ ? $_ : $_'
+
+# Duplicated true-false branches.
+'$_ ? $x : $x'
+'if ($cond) $x; else $x'
+
+# Incorrect/suspicious order of arguments.
+'stripos(${"str"}, ${"*"})'
+'strpos(${"str"}, ${"*"})'
+'explode($_, ${"str"}, ${"*"})'
+'array_diff($x, $x)'
+'array_intersect($x, $x)'
+'array_filter(${"func"}, $_)'
+'array_reduce(${"func"}, $_)'
+'array_map($_, ${"func"})'
+
+# Calls that always lead to unwanted results.
+'explode("", ${"*"})'
+
+# Duplicated sub-expressions inside boolean expressions.
+'$x && $x'
+'$x && $_ && $x'
+'$x && $_ && $_ && $x'
+'$x && $_ && $_ && $_ && $x'
+'$x || $x'
+'$x || $_ || $x'
+'$x || $_ || $_ || $x'
+'$x || $_ || $_ || $_ || $x'
+
+# Duplicated array keys.
+'[${"*"}, $k => $_, ${"*"}, $k => $_, ${"*"}]'
+
+# Using "==" for string comparison (should use "===" instead).
+'${"s:str"} == $x' 's~^.\d'
+'$x == ${"s:str"}' 's~^.\d'
+
+# Using "==" when comparing against falsy constant.
+'false == $x'
+'$x == false'
+'null == $x'
+'$x == null'
+'false != $x'
+'$x != false'
+'null != $x'
+'$x != null'
+
+# Find unescaped "." (dots) inside regexps that match URLs.
+'preg_match(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_match_all(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_replace(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_replace_callback(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_replace_callback_array(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_filter(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_grep(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+'preg_split(${"pat:str"}, ${"*"})' 'pat~[^\\]\.(com|ru|net|org|edu|gov|uk|de|lv)\b'
+
+# Find new calls without parentheses.
+'new $t'
+
+# Find all if statements with a body without {}.
+'if ($cond) $x' 'x!~^\{'
+# or without expression
+'if ($code) ${"expr"}'
+
+# All silenced
+'@$_'
+
+#
+'$${"var"}'
+'${${"var"}}'

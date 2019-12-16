@@ -295,7 +295,7 @@ function _vcCheckIsResponseBad($response)
         // Check that body is correct JSON
         if (is_string($body)) {
             // @codingStandardsIgnoreLine
-            $arr = @json_decode($body, true);
+            $arr = json_decode($body, true);
             $isBodyErr = (is_array($arr) && isset($arr['status']) && !$arr['status']) || !is_array($arr);
 
             if ($isBodyErr) {

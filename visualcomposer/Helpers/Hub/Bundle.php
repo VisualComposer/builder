@@ -158,7 +158,7 @@ class Bundle implements Helper
             $messages[] = __('Failed to read remote bundle json', 'visualcomposer') . ' #10006';
             if (is_array($response) && isset($response['body'])) {
                 // @codingStandardsIgnoreLine
-                $resultDetails = @json_decode($result['body'], 1);
+                $resultDetails = json_decode($result['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10026';
                 }
@@ -365,7 +365,7 @@ class Bundle implements Helper
                 $messages[] = implode('. ', $response->get_error_messages()) . ' #10007';
             } elseif (is_array($response) && isset($response['body'])) {
                 // @codingStandardsIgnoreLine
-                $resultDetails = @json_decode($result['body'], 1);
+                $resultDetails = json_decode($result['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10026';
                 }
