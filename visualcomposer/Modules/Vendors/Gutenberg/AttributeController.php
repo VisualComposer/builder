@@ -45,11 +45,14 @@ class AttributeController extends Container implements Module
         global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        if ('post-new.php' === $pagenow
+        $postID = $requestHelper->input('post');
+        $isGutentebergPostType = $postID && get_post_type($postID) === $this->postTypeSlug;
+        if ($isGutentebergPostType ||
+            ('post-new.php' === $pagenow
             && $requestHelper->input('post_type') === $this->postTypeSlug
             && $currentUserAccessHelper->wpAll(
                 'edit_posts'
-            )->get()
+            )->get())
         ) {
             $this->registerGutenbergAttributeType();
             /** @see \VisualComposer\Modules\Vendors\Gutenberg\AttributeController::removeUiMetaboxes */
