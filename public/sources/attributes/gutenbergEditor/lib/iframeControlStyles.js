@@ -36,29 +36,10 @@ export const iframeControlStyles = () => {
       opacity: .9;
     }
     .vcv-ui-icon-close-thin {
-      position: relative;
-      display: inline-flex;
-      width: 18px;
-      height: 18px;
-      justify-content: center;
-      align-items: center;
-      transform: rotate(45deg);
+      color: #7f7f7f;
+      font-style: normal;
+      font-size: 20px;
       opacity: .7;
-      transition: opacity .2s ease-in-out;
-    }
-    .vcv-ui-icon-close-thin::before,
-    .vcv-ui-icon-close-thin::after {
-      content: '';
-      position: absolute;
-      background: #7f7f7f;
-    }
-    .vcv-ui-icon-close-thin::before {
-      width: 2px;
-      height: 100%;
-    }
-    .vcv-ui-icon-close-thin::after {
-      width: 100%;
-      height: 2px;
     }
   </style>`
 }
