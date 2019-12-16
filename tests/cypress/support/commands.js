@@ -29,7 +29,14 @@ import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 
 addMatchImageSnapshotCommand()
 
-// Login to WordPress dashboard
+/** Login to WordPress dashboard
+ *  Visits /wp-login.php page,
+ *  Enters username and password.
+ *
+ *  On CI environment activates Visual Composer plugin.
+ *
+ *  @param none
+ */
 Cypress.Commands.add('login', () => {
   cy.server()
   if (Cypress.env('serverType') !== 'ci') {
@@ -60,7 +67,12 @@ Cypress.Commands.add('login', () => {
   }
 })
 
-// Create a new page with Visual Composer
+/** Create a new page with Visual Composer
+ *  Visits the new page by opening a link,
+ *  link is specified in the cypress.json file under newPage property.
+ *
+ * @param none
+ */
 Cypress.Commands.add('createPage', () => {
   cy.visit(Cypress.env('newPage'))
   cy.window().then((win) => {
@@ -69,7 +81,14 @@ Cypress.Commands.add('createPage', () => {
   cy.wait('@loadContentRequest')
 })
 
-// Add element
+/** Add element
+ *  Opens Add Element panel by clicking on the Add Element icon in the navbar,
+ *  searches for element (elementName) in the element list,
+ *  clicks on it.
+ *  Checks if Edit Form is opened by looking for element title.
+ *
+ * @param elementName [string]
+ */
 Cypress.Commands.add('addElement', (elementName) => {
   cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
   cy.get(`.vcv-ui-item-element[title="${elementName}"]`).click()
@@ -77,7 +96,11 @@ Cypress.Commands.add('addElement', (elementName) => {
   cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
 })
 
-// Save page
+/** Save page
+ * Clicks on the Save Page icon in the navbar.
+ *
+ * @param none
+ */
 Cypress.Commands.add('savePage', () => {
   cy.window().then((win) => {
     cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
@@ -86,14 +109,22 @@ Cypress.Commands.add('savePage', () => {
   cy.wait('@saveRequest')
 })
 
-// View page
+/** View page
+ * Opens View Page by visiting page url located in window.vcvPostData.permalink.
+ *
+ * @param none
+ */
 Cypress.Commands.add('viewPage', () => {
   cy.window().then((win) => {
     cy.visit(win.vcvPostData.permalink)
   })
 })
 
-// Set Design Options
+/** Set Design Options
+ * Fills out fields under Design Option section of Edit Form.
+ *
+ * @param settings [object]
+ */
 Cypress.Commands.add('setDO', (settings) => {
   cy.get('.advanced-design-options .vcv-ui-form-switch-trigger-label')
     .contains('Simple controls')
@@ -102,63 +133,15 @@ Cypress.Commands.add('setDO', (settings) => {
         .click()
     })
 
-  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
-    .contains('Padding')
-    .then(($field) => {
-      if (settings.padding) {
-        cy.wrap($field)
-          .next()
-          .type(settings.padding)
-      }
-    })
+  cy.setDoInput('Padding', settings.padding)
+  cy.setDoInput('Border', settings.borderWidth)
+  cy.setDoInput('Radius', settings.borderRadius)
+  cy.setDoInput('Margin', settings.margin)
 
-  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
-    .contains('Border')
-    .then(($field) => {
-      if (settings.borderWidth) {
-        cy.wrap($field)
-          .next()
-          .type(settings.borderWidth)
-      }
-    })
-
-  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
-    .contains('Radius')
-    .then(($field) => {
-      if (settings.borderRadius) {
-        cy.wrap($field)
-          .next()
-          .type(settings.borderRadius)
-      }
-    })
-
-  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
-    .contains('Margin')
-    .then(($field) => {
-      if (settings.margin) {
-        cy.wrap($field)
-          .next()
-          .type(settings.margin)
-      }
-    })
-
-  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
-    .contains('Background color')
-    .then(($field) => {
-      if (settings.backgroundColor && settings.backgroundColor.hex) {
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-        cy.get('.vcv-ui-color-picker-custom-color input[value="000000"]')
-          .clear()
-          .type(settings.backgroundColor.hex)
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-      }
-    })
+  cy.setDoColor('Background color', {
+    color: settings.backgroundColor,
+    initialColor: '000000'
+  })
 
   cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Border style')
@@ -170,23 +153,10 @@ Cypress.Commands.add('setDO', (settings) => {
       }
     })
 
-  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
-    .contains('Border color')
-    .then(($field) => {
-      if (settings.borderColor && settings.borderColor.hex) {
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-        cy.get('.vcv-ui-color-picker-custom-color input[value="000000"]')
-          .clear()
-          .type(settings.borderColor.hex)
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-      }
-    })
+  cy.setDoColor('Border color', {
+    color: settings.borderColor,
+    initialColor: '000000'
+  })
 
   cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Animate')
@@ -199,7 +169,12 @@ Cypress.Commands.add('setDO', (settings) => {
     })
 })
 
-// Set Design Options Advanced
+/** Set Design Options Advanced
+ * Fills out fields under Design Option section of Edit Form.
+ * Used for container elements like Section, Row, Column.
+ *
+ * @param settings [object]
+ */
 Cypress.Commands.add('setDOA', (settings) => {
   cy.get('.vcv-ui-form-switch-trigger-label')
     .contains('Use gradient overlay')
@@ -218,41 +193,15 @@ Cypress.Commands.add('setDOA', (settings) => {
       }
     })
 
-  cy.get('.vcv-ui-form-group-heading')
-    .contains('Start color')
-    .then(($field) => {
-      if (settings.gradientStartColor.hex) {
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-        cy.get('.vcv-ui-color-picker-custom-color input[value="E28787"]')
-          .clear()
-          .type(settings.gradientStartColor.hex)
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-      }
-    })
+  cy.setDoColor('Start color', {
+    color: settings.gradientStartColor,
+    initialColor: 'E28787'
+  })
 
-  cy.get('.vcv-ui-form-group-heading')
-    .contains('End color')
-    .then(($field) => {
-      if (settings.gradientEndColor.hex) {
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-        cy.get('.vcv-ui-color-picker-custom-color input[value="5D37D8"]')
-          .clear()
-          .type(settings.gradientEndColor.hex)
-        cy.wrap($field)
-          .next('div')
-          .find('.vcv-ui-color-picker-dropdown')
-          .click()
-      }
-    })
+  cy.setDoColor('End color', {
+    color: settings.gradientStartColor,
+    initialColor: '5D37D8'
+  })
 
   cy.get('.vcv-ui-form-group-heading')
     .contains('Gradient angle')
@@ -267,13 +216,23 @@ Cypress.Commands.add('setDOA', (settings) => {
     })
 })
 
-// Set custom class name and custom ID
+/** Set custom class name and custom ID
+ * Sets value for Element ID and Extra class name input fields in the Edit Form.
+ *
+ * @param id [string]
+ * @param className [string]
+ */
 Cypress.Commands.add('setClassAndId', (id, className) => {
   cy.setInput('Element ID', id)
   cy.setInput('Extra class name', className)
 })
 
-// Set input attribute value
+/** Set input attribute value
+ * Sets value for input attribute field in the Edit Form.
+ *
+ * @param title [string]
+ * @param value [string]
+ */
 Cypress.Commands.add('setInput', (title, value) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -285,7 +244,30 @@ Cypress.Commands.add('setInput', (title, value) => {
     })
 })
 
-// Set toggle attribute value (click on a toggle)
+/** Set Design Options input field value
+ * Sets value for input field inside Design Options section in the Edit Form.
+ *
+ * @param title [string]
+ * @param value [string]
+ */
+Cypress.Commands.add('setDoInput', (title, value) => {
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      if (value) {
+        cy.wrap($field)
+          .next()
+          .type(value)
+      }
+    })
+})
+
+/** Set toggle attribute value
+ * Clicks on a toggle control in the Edit Form.
+ *
+ *
+ * @param title [string]
+ */
 Cypress.Commands.add('setSwitch', (title) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -297,7 +279,12 @@ Cypress.Commands.add('setSwitch', (title) => {
     })
 })
 
-// Set dropdown attribute value (choose a value from select)
+/** Set dropdown attribute value
+ * Chooses a value from a select attribute field in the Edit Form.
+ *
+ * @param title [string]
+ * @param value [string]
+ */
 Cypress.Commands.add('setSelect', (title, value) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -308,7 +295,12 @@ Cypress.Commands.add('setSelect', (title, value) => {
     })
 })
 
-// Set button group attribute value (click on a button)
+/** Set button group attribute value
+ * Clicks on a button within a button group attribute field in the Edit Form.
+ *
+ * @param title [string]
+ * @param value [string]
+ */
 Cypress.Commands.add('setButtonGroup', (title, value) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -320,7 +312,13 @@ Cypress.Commands.add('setButtonGroup', (title, value) => {
     })
 })
 
-// Set color picker attribute value
+/** Set color picker attribute value
+ * Clicks on the color picker attribute field in the Edit Form,
+ * clears existing HEX value input,
+ * sets new HEX value.
+ *
+ * @param settings [object]
+ */
 Cypress.Commands.add('setColor', (settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(settings.title)
@@ -339,7 +337,42 @@ Cypress.Commands.add('setColor', (settings) => {
     })
 })
 
-// Set link selector attribute value
+/** Set Design Options color picker attribute value
+ * Clicks on the color picker attribute field in Design Options section of the Edit Form,
+ * clears existing HEX value input,
+ * sets new HEX value.
+ *
+ * @param title [string]
+ * @param settings [object]
+ */
+Cypress.Commands.add('setDoColor', (title, settings) => {
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
+    .contains(title)
+    .then(($field) => {
+      if (settings.color && settings.color.hex) {
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+        cy.get(`.vcv-ui-color-picker-custom-color input[value="${settings.initialColor}"]`)
+          .clear()
+          .type(settings.color.hex)
+        cy.wrap($field)
+          .next('div')
+          .find('.vcv-ui-color-picker-dropdown')
+          .click()
+      }
+    })
+})
+
+/** Set link selector attribute value
+ * Clicks on the link selector attribute field in the Edit Form,
+ * sets value for url input in the popup,
+ * click on save button.
+ *
+ * @param title [string]
+ * @param settings [object]
+ */
 Cypress.Commands.add('setURL', (title, settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -363,7 +396,15 @@ Cypress.Commands.add('setURL', (title, settings) => {
   cy.get('.vcv-ui-modal .vcv-ui-modal-action').click()
 })
 
-// Set icon picker attribute value
+/** Set icon picker attribute value
+ * Clicks on the icon picker attribute field in the Edit Form,
+ * selects value in the icon family dropdown,
+ * sets value for the icon name input,
+ * clicks on the icon.
+ *
+ * @param title [string]
+ * @param settings [object]
+ */
 Cypress.Commands.add('setIcon', (title, settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(title)
@@ -384,7 +425,13 @@ Cypress.Commands.add('setIcon', (title, settings) => {
     .click()
 })
 
-// Set htmleditor (TinyMce editor) attribute value
+/** Set htmleditor (TinyMce editor) attribute value
+ * Sets value for the content area of the TinyMCE editor,
+ * selects element type in the TinyMCE editor,
+ * clicks on alignment button the TinyMCE editor.
+ *
+ * @param settings [object]
+ */
 Cypress.Commands.add('setTinyMce', (settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(settings.title)
@@ -426,7 +473,11 @@ Cypress.Commands.add('setTinyMce', (settings) => {
     })
 })
 
-// Set rawCode (Code Mirror editor) attribute value
+/** Set rawCode (Code Mirror editor) attribute value
+ * Sets value for the code attribute field in the Edit Form.
+ *
+ * @param settings [object]
+ */
 Cypress.Commands.add('setCodeMirror', (settings) => {
   cy.get('.vcv-ui-form-group-heading')
     .contains(settings.title)
@@ -444,7 +495,10 @@ Cypress.Commands.add('setCodeMirror', (settings) => {
     })
 })
 
-// Click on the Replace button within a section
+/** Click on the Replace button within a section
+ *
+ * @param settings [object]
+ */
 Cypress.Commands.add('replaceElement', (settings) => {
   cy.get('.vcv-ui-edit-form-section-header')
     .contains(settings.sectionName)
@@ -457,8 +511,12 @@ Cypress.Commands.add('replaceElement', (settings) => {
     .click()
 })
 
-// Creates a new post in WordPress admin dashboard,
-// returns post id
+/** Creates a new post in WordPress admin dashboard,
+ * returns post id
+ *
+ * @param settings [object]
+ * @returns postId [string]
+ */
 Cypress.Commands.add('createWpPost', (settings) => {
   let postId
 
