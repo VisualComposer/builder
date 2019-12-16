@@ -58,7 +58,7 @@ export default class GutenbergEditorComponent extends Attribute {
     // Set current content
     // Editor settings
     const postIdInput = this.iframe.contentWindow.document.getElementById('post_ID')
-    const id = postIdInput ? postIdInput.value : '' 
+    const id = postIdInput ? postIdInput.value : ''
     const newPost = {
       id: id,
       guid: { raw: '/?', rendered: '/?' },
