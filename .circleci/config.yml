@@ -23,11 +23,11 @@ jobs:
     steps:
       - checkout
       - run:
-        name: CodeStyle check
-        command: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
+          name: CodeStyle check
+          command: php ci/phpcs.phar --standard=ci/ruleset.xml plugin-wordpress.php bootstrap visualcomposer/Framework visualcomposer/Helpers visualcomposer/Modules visualcomposer/Application.php visualcomposer/Requirements.php
       - run:
-        name: PHPGrep check
-        command: ci/phpgrep-lint.sh visualcomposer/ ci/patterns.txt
+          name: PHPGrep check
+          command: ci/phpgrep-lint.sh visualcomposer/ ci/patterns.txt
   php-tests:
     docker:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
