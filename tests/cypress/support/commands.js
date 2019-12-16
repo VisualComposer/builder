@@ -426,6 +426,24 @@ Cypress.Commands.add('setTinyMce', (settings) => {
     })
 })
 
+// Set rawCode (Code Mirror editor) attribute value
+Cypress.Commands.add('setCodeMirror', (settings) => {
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(settings.title)
+    .then(($field) => {
+      cy.wrap($field)
+        .siblings('.CodeMirror-wrap')
+        .then(($cm) => {
+          const cm = $cm.get(0).CodeMirror
+          cm.setValue('')
+          cm.clearHistory()
+          cy.wrap($cm)
+            .find('.CodeMirror-code')
+            .type(settings.code, {parseSpecialCharSequences: false})
+        })
+    })
+})
+
 // Click on the Replace button within a section
 Cypress.Commands.add('replaceElement', (settings) => {
   cy.get('.vcv-ui-edit-form-section-header')
