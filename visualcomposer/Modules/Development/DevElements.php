@@ -22,10 +22,10 @@ class DevElements extends Container implements Module
     {
         // Test code
         $x = 1;
-        if($x) {
-
-        } elseif($x || !$x) {
-
+        if ($x) {
+            echo '1';
+        } elseif ($x || !$x) {
+            echo '1';
         }
         if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
             $this->wpAddAction(
