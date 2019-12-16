@@ -20,13 +20,6 @@ class DevElements extends Container implements Module
 
     public function __construct()
     {
-        // Test code
-        $x = 1;
-        if ($x) {
-            echo '1';
-        } elseif ($x || !$x) {
-            echo '1';
-        }
         if (vcvenv('VCV_ENV_DEV_ELEMENTS')) {
             $this->wpAddAction(
                 'init',
