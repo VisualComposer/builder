@@ -378,7 +378,7 @@ class Container implements ContainerContract
         if (is_null($constructor)) {
             array_pop($this->buildStack);
 
-            return new $concrete;
+            return new $concrete();
         }
 
         $parameters = $this->getMethodDependencies($constructor, $parameters);
