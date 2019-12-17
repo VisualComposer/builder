@@ -60,7 +60,7 @@ class Dispatcher implements DispatcherContract
      */
     public function __construct(ContainerContract $container = null)
     {
-        $this->container = $container ?: new Container;
+        $this->container = $container ?: new Container();
     }
 
     /**
