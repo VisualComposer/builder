@@ -135,7 +135,8 @@ class Categories implements Helper
                     'tabsWithSlide',
                     'classicTabs',
                     'pageableContainer',
-                    'contentSlider'
+                    'contentSlider',
+                    'toggleContainer'
                     ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
@@ -146,7 +147,8 @@ class Categories implements Helper
                     'tab',
                     'classicTab',
                     'pageableTab',
-                    'contentSlide'
+                    'contentSlide',
+                    'toggleContainerTab'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
