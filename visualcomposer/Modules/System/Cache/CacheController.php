@@ -67,11 +67,10 @@ class CacheController extends Controller implements Module
             }
 
             // Site ground
-            if (class_exists('SG_CachePress_Supercacher')
-                && method_exists(
-                    'SG_CachePress_Supercacher ',
-                    'purge_cache'
-                )) {
+            if (
+                class_exists('SG_CachePress_Supercacher')
+                && method_exists('SG_CachePress_Supercacher ', 'purge_cache')
+            ) {
                 \SG_CachePress_Supercacher::purge_cache(true);
             }
 
@@ -82,11 +81,10 @@ class CacheController extends Controller implements Module
             }
 
             // WP Fastest Cache
-            if (isset($GLOBALS['wp_fastest_cache'])
-                && method_exists(
-                    $GLOBALS['wp_fastest_cache'],
-                    'deleteCache'
-                )) {
+            if (
+                isset($GLOBALS['wp_fastest_cache'])
+                && method_exists($GLOBALS['wp_fastest_cache'], 'deleteCache')
+            ) {
                 $GLOBALS['wp_fastest_cache']->deleteCache(true);
             }
         } catch (\Exception $e) {

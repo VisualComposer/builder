@@ -34,10 +34,12 @@ class Assets22Migration extends MigrationsController implements Module
             if (!$fileSystem) {
                 return false;
             }
-            if (!$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
+            if (
+                !$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
                 && $fileSystem->is_dir(
                     WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
-                )) {
+                )
+            ) {
                 usleep(500000);
                 if (!$optionsHelper->getTransient('vcv:migration:assets22:lock')) {
                     /** @see \VisualComposer\Modules\Migrations\Assets22Migration::moveFiles */

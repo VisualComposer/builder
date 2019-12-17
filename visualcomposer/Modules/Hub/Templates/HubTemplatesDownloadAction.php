@@ -14,9 +14,9 @@ use VisualComposer\Modules\Hub\Traits\Action;
 
 class HubTemplatesDownloadAction extends Container implements Module
 {
+    use Action;
+
     protected $helperName = 'HubActionsHubTemplatesBundle';
 
     protected $actionName = 'template/*';
-
-    use Action;
 }

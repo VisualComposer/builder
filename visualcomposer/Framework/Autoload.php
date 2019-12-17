@@ -21,12 +21,12 @@ class Autoload extends Container
     /**
      * Used in bitwise comparison.
      */
-    const CLASS_START = 1;
+    protected $classStartEnum = 1;
 
     /**
      * Used in bitwise comparison.
      */
-    const CLASS_START_STRING = 2;
+    protected $classStartStringEnum = 2;
 
     /**
      * Autoload constructor.
@@ -249,7 +249,7 @@ class Autoload extends Container
                         $data['start']['implements'] = 1;
                         break;
                     case T_CLASS:
-                        $data['start']['class'] = self::CLASS_START;
+                        $data['start']['class'] = $this->classStartEnum;
                         break;
                     default:
                         $data = $this->checkKey($key, $token[1], $data);
@@ -279,8 +279,9 @@ class Autoload extends Container
     {
         switch ($key) {
             case T_WHITESPACE:
-                if ($data['start']['class'] & self::CLASS_START
-                    && $data['start']['class'] & self::CLASS_START_STRING
+                if (
+                    $data['start']['class'] & $this->classStartEnum
+                    && $data['start']['class'] & $this->classStartStringEnum
                 ) {
                     $data['start']['class'] = 0;
                 }
@@ -289,7 +290,7 @@ class Autoload extends Container
                 if ($data['start']['namespace']) {
                     $data['namespace'] .= $value;
                 } elseif ($data['start']['class']) {
-                    $data['start']['class'] = self::CLASS_START + self::CLASS_START_STRING;
+                    $data['start']['class'] = $this->classStartEnum + $this->classStartStringEnum;
                     $data['class'] .= $value;
                 } elseif ($data['start']['implements']) {
                     $data['implements'][] = $value;

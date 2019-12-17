@@ -21,11 +21,12 @@ class Gutenberg implements Helper
         $screen = get_current_screen();
 
         $available = false;
-        if ((function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
+        if (
+            (function_exists('the_gutenberg_project') || function_exists('use_block_editor_for_post'))
             && $isEnabled
+            && !$requestHelper->exists('classic-editor')
             && (method_exists($screen, 'is_block_editor')
                 && !$screen->is_block_editor())
-            && !$requestHelper->exists('classic-editor')
         ) {
             $available = true;
         }

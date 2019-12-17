@@ -30,10 +30,12 @@ class EnqueueController extends Container implements Module
     {
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAllAssets', 50);
         $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
-        if ((defined('DOING_AJAX') && DOING_AJAX) || !is_admin() || $requestHelper->isAjax()
-            || $requestHelper->exists(
-                VCV_ADMIN_AJAX_REQUEST
-            )) {
+        if (
+            (defined('DOING_AJAX') && DOING_AJAX)
+            || !is_admin()
+            || $requestHelper->isAjax()
+            || $requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)
+        ) {
             $this->wpAddAction('init', 'setCustomWpScripts');
         }
     }
@@ -88,9 +90,10 @@ class EnqueueController extends Container implements Module
             return;
         }
         $sourceId = get_the_ID();
-        if ($frontendHelper->isPreview()
-            && (!empty($this->lastEnqueueIdAssetsAll)
-                || (in_array($sourceId, $this->lastEnqueueIdAssetsAll)))) {
+        if (
+            $frontendHelper->isPreview()
+            && (!empty($this->lastEnqueueIdAssetsAll) || (in_array($sourceId, $this->lastEnqueueIdAssetsAll)))
+        ) {
             $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
             // @codingStandardsIgnoreStart

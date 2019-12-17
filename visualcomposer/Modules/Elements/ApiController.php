@@ -22,11 +22,11 @@ use VisualComposer\Helpers\Hub\Elements;
  */
 class ApiController extends Container implements Module
 {
+    use ApiRegisterTrait;
+
     protected $apiHook = 'elements';
 
     protected $publicMethods = ['add'];
-
-    use ApiRegisterTrait;
 
     /**
      * @param $manifestPath

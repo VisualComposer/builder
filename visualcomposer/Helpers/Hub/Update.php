@@ -179,7 +179,8 @@ class Update implements Helper
                 'value' => __('Create new page', 'visualcomposer'),
                 'type' => 'constant',
             ];
-        } elseif ($currentUserAccessHelper->wpAll('edit_posts')->get()
+        } elseif (
+            $currentUserAccessHelper->wpAll('edit_posts')->get()
             && $editorPostTypeHelper->isEditorEnabled('post')
         ) {
             $variables[] = [

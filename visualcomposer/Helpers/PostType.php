@@ -142,10 +142,11 @@ class PostType implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $post = $this->get($id);
 
-        if ($currentUserAccessHelper->wpAll(
         // @codingStandardsIgnoreLine
-            [get_post_type_object($post->post_type)->cap->delete_posts, $post->ID]
-        )->get()
+        $postTypeObject = get_post_type_object($post->post_type);
+        if (
+            $postTypeObject
+            && $currentUserAccessHelper->wpAll([$postTypeObject->cap->delete_posts, $post->ID])->get()
         ) {
             if ($postType) {
                 // @codingStandardsIgnoreLine

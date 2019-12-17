@@ -24,10 +24,11 @@ abstract class Container
      * Call the given callback and inject its dependencies.
      *
      * @param  $method
-     * @param  array $parameters
+     * @param array $parameters
      *
      * @return mixed
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function call($method, array $parameters = [])
     {
@@ -58,7 +59,11 @@ abstract class Container
             if ($func instanceof \Closure) {
                 return call_user_func_array($func, $dependencies);
             } else {
-                return $reflector instanceof ReflectionFunction ? $reflector->invokeArgs($dependencies) : $reflector->invokeArgs(vcapp($reflector->class), $dependencies);
+                if ($reflector instanceof ReflectionFunction) {
+                    return $reflector->invokeArgs($dependencies);
+                } else {
+                    return $reflector->invokeArgs(vcapp($reflector->class), $dependencies);
+                }
             }
         }
     }

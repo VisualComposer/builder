@@ -8,12 +8,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use \WP_Scripts;
+use WP_Scripts;
 
 class VcwbWpScripts extends WP_Scripts
 {
     /**
      * @codingStandardsIgnoreStart
+     *
      * @param bool|array $handles
      * @param bool $group
      *

@@ -77,11 +77,10 @@ class Locale extends Container implements Module
         if ($this->printed) {
             return;
         }
-        if (($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend())
-            || vcfilter(
-                'vcv:editors:internationalization:printLocalizations',
-                false
-            )) {
+        if (
+            ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend())
+            || vcfilter('vcv:editors:internationalization:printLocalizations', false)
+        ) {
             $this->printed = true;
             evcview(
                 'partials/constant-script',

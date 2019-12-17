@@ -14,9 +14,9 @@ use VisualComposer\Modules\Hub\Traits\Action;
 
 class AddonsDownloadAction extends Container implements Module
 {
+    use Action;
+
     protected $helperName = 'HubActionsAddonsBundle';
 
     protected $actionName = 'addon/*';
-
-    use Action;
 }

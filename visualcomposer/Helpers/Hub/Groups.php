@@ -70,7 +70,7 @@ class Groups implements Helper
                     'Separators',
                     'Grids',
                     'Feature section',
-                    'Feature Description'
+                    'Feature Description',
                 ],
             ],
             'WooCommerce' => [
@@ -95,8 +95,7 @@ class Groups implements Helper
     {
         $dataHelper = vchelper('Data');
         if (!empty($prev)) {
-            if (isset($new['categories']) && is_array($new['categories']) && isset($prev['categories'])
-            ) {
+            if (isset($new['categories']) && is_array($new['categories']) && isset($prev['categories'])) {
                 $merged['categories'] = array_values(
                     $dataHelper->arrayDeepUnique(array_merge($prev['categories'], $new['categories']))
                 );

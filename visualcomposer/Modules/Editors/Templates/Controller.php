@@ -55,11 +55,10 @@ class Controller extends Container implements Module
         PostType $postTypeHelper,
         Frontend $frontendHelper
     ) {
-        if ($frontendHelper->isPageEditable()
-            && in_array(
-                $postTypeHelper->get()->post_type,
-                ['vcv_templates']
-            )) {
+        if (
+            $frontendHelper->isPageEditable()
+            && in_array($postTypeHelper->get()->post_type, ['vcv_templates'])
+        ) {
             $template = 'blank-stretched-template.php';
 
             return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;

@@ -50,7 +50,8 @@ class NoticeController extends Container implements Module
         $notices = $noticeHelper->all();
         if (!empty($notices)) {
             foreach ($notices as $notice) {
-                if (!$currentUserHelper->wpAll('manage_options')->get()
+                if (
+                    !$currentUserHelper->wpAll('manage_options')->get()
                     || get_user_meta(
                         get_current_user_id(),
                         'vcv:' . $notice['name'] . ':notice:' . $notice['time']

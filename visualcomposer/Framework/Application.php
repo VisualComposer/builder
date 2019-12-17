@@ -29,19 +29,12 @@ class Application extends ContainerContract
      */
     protected $ranServiceBinders = [];
 
-    /**
-     * The loaded service providers.
-     *
-     * @var array
-     */
-    protected $loadedProviders = [];
-
     protected $basePath;
 
     /**
      * Create a new Lumen application instance.
      *
-     * @param  string|null $basePath
+     * @param string|null $basePath
      */
     public function __construct($basePath = null)
     {
@@ -71,15 +64,16 @@ class Application extends ContainerContract
     /**
      * Resolve the given type from the container.
      *
-     * @param  string $abstract
-     * @param  array $parameters
+     * @param string $abstract
+     * @param array $parameters
      *
      * @return mixed
      */
     public function make($abstract, $parameters = [])
     {
         $abstract = $this->getAlias($abstract);
-        if (array_key_exists($abstract, $this->availableBindings)
+        if (
+            array_key_exists($abstract, $this->availableBindings)
             && !array_key_exists($this->availableBindings[ $abstract ], $this->ranServiceBinders)
         ) {
             $this->{$method = $this->availableBindings[ $abstract ]}();

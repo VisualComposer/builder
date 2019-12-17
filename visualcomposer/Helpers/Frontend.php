@@ -68,7 +68,8 @@ class Frontend implements Helper
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        if ('post-new.php' === $pagenow && $currentUserAccessHelper->wpAll('edit_posts')->get()
+        if (
+            ('post-new.php' === $pagenow && $currentUserAccessHelper->wpAll('edit_posts')->get())
             || ($requestHelper->exists('vcv-source-id')
                 && $currentUserAccessHelper->wpAll(
                     ['edit_posts', $requestHelper->input('vcv-source-id')]
@@ -93,7 +94,8 @@ class Frontend implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
-            if ($requestHelper->exists('vcv-editable')
+            if (
+                $requestHelper->exists('vcv-editable')
                 && $requestHelper->exists('vcv-nonce')
                 && $nonceHelper->verifyPageEditable($requestHelper->input('vcv-nonce'))
             ) {
