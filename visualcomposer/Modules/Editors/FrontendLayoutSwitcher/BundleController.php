@@ -52,7 +52,12 @@ class BundleController extends Container implements Module
             } else {
                 $editor = $currentEditor;
             }
-            echo '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="' . esc_attr(vcfilter('vcv:editors:frontendLayoutSwitcher:currentEditor', $editor)) . '">';
+            echo sprintf(
+                '<input type="hidden" name="vcv-be-editor" id="vcv-be-editor" value="%s">',
+                esc_attr(
+                    vcfilter('vcv:editors:frontendLayoutSwitcher:currentEditor', $editor)
+                )
+            );
         }
     }
 
@@ -62,9 +67,12 @@ class BundleController extends Container implements Module
         EditorPostType $editorPostTypeHelper
     ) {
         $screen = get_current_screen();
-        // @codingStandardsIgnoreLine
-        if ($screen->post_type === get_post_type() && $editorPostTypeHelper->isEditorEnabled(get_post_type())
-            && !$frontendHelper->isFrontend()) {
+        if (
+            // @codingStandardsIgnoreLine
+            $screen->post_type === get_post_type()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && !$frontendHelper->isFrontend()
+        ) {
             // Add CSS
             wp_enqueue_style(
                 'vcv:editors:backendswitcher:style',
@@ -82,9 +90,12 @@ class BundleController extends Container implements Module
         Request $requestHelper
     ) {
         $screen = get_current_screen();
-        // @codingStandardsIgnoreLine
-        if ($screen->post_type === get_post_type() && $editorPostTypeHelper->isEditorEnabled(get_post_type())
-            && !$frontendHelper->isFrontend()) {
+        if (
+            // @codingStandardsIgnoreLine
+            $screen->post_type === get_post_type()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && !$frontendHelper->isFrontend()
+        ) {
             wp_enqueue_script(
                 'vcv:editors:backendswitcher:script',
                 $urlHelper->to('public/dist/wpbackendswitch.bundle.js'),
@@ -97,9 +108,12 @@ class BundleController extends Container implements Module
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
             // Disable TinyMCE to avoid markup break, empty tags removal and etc VC-516
             $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
-            if ($savedEditor !== 'classic' && !$requestHelper->exists('classic-editor')
+            if (
+                $savedEditor !== 'classic'
+                && !$requestHelper->exists('classic-editor')
                 && !(method_exists($screen, 'is_block_editor')
-                    && $screen->is_block_editor())) {
+                    && $screen->is_block_editor())
+            ) {
                 // Not Block editor, apply only in classic-mode
                 add_filter(
                     'user_can_richedit',

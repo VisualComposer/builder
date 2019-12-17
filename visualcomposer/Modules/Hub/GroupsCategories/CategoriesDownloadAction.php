@@ -14,9 +14,9 @@ use VisualComposer\Modules\Hub\Traits\Action;
 
 class CategoriesDownloadAction extends Container implements Module
 {
+    use Action;
+
     protected $helperName = 'HubActionsCategoriesBundle';
 
     protected $actionName = 'categories';
-
-    use Action;
 }

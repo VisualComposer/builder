@@ -66,22 +66,24 @@ class SlugController extends Container implements Module
         $postTitle = $requestHelper->input('vcv-page-title');
         $slug = $postName ? $postName : $postTitle;
         if (is_object($post)) {
-            // @codingStandardsIgnoreLine
-            if (!$post->post_name
+            if (
                 // @codingStandardsIgnoreLine
-                || ($postName !== $post->post_name
-                    && get_option(
-                        'permalink_structure'
-                    ))) {
-                // @codingStandardsIgnoreStart
-                $postName = $post->post_name = wp_unique_post_slug(
+                !$post->post_name
+                // @codingStandardsIgnoreLine
+                || ($postName !== $post->post_name && get_option('permalink_structure'))
+            ) {
+                $postName = wp_unique_post_slug(
                     sanitize_title($slug),
                     $sourceId,
                     $this->getPostStatus($post),
+                    // @codingStandardsIgnoreLine
                     $post->post_type,
+                    // @codingStandardsIgnoreLine
                     $post->post_parent
                 );
-                // @codingStandardsIgnoreEnd
+                // Update post name
+                // @codingStandardsIgnoreLine
+                $post->post_name = $postName;
                 $response['permalinkHtml'] = get_sample_permalink_html($sourceId, $postTitle, $postName);
 
                 $nonce = wp_create_nonce('post_preview_' . $sourceId);

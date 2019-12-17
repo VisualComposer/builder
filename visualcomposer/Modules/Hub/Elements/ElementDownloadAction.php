@@ -14,9 +14,9 @@ use VisualComposer\Modules\Hub\Traits\Action;
 
 class ElementDownloadAction extends Container implements Module
 {
+    use Action;
+
     protected $helperName = 'HubActionsElementsBundle';
 
     protected $actionName = 'element/*';
-
-    use Action;
 }

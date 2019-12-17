@@ -12,9 +12,9 @@ if (!isset($addScript)) {
 
 if ($addScript) : ?>
     <script id="vcv-variable-<?php echo esc_attr(vchelper('Str')->slugify($key)); ?>">
-        <?php endif; ?>
+<?php endif; ?>
         // Read-Only data
-        if(typeof window['<?php echo esc_js($key); ?>'] === 'undefined') {
+        if (typeof window[ '<?php echo esc_js($key); ?>' ] === 'undefined') {
           Object.defineProperty(window, '<?php echo esc_js($key); ?>', {
             value: function () {
               return <?php
@@ -24,6 +24,6 @@ if ($addScript) : ?>
             writable: false
           });
         }
-        <?php if ($addScript) : ?>
+<?php if ($addScript) : ?>
     </script>
 <?php endif;

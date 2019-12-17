@@ -80,10 +80,9 @@ class Controller extends Container implements Module
         if ($requestHelper->exists('vcv-editable')) {
             return '';
         }
-        if ($currentUserAccess->part('frontend_editor', true)->can()->get()
-            && $editorPostTypeHelper->isEditorEnabled(
-                get_post_type()
-            )
+        if (
+            $currentUserAccess->part('frontend_editor', true)->can()->get()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
         ) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $link .= sprintf(
@@ -118,7 +117,9 @@ class Controller extends Container implements Module
             // @codingStandardsIgnoreEnd
         }
 
-        if (is_singular() && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+        if (
+            is_singular()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
             && $userCapabilitiesHelper->canEdit(get_the_ID())
         ) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
@@ -174,14 +175,18 @@ class Controller extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        if (intval(get_option('page_for_posts')) !== get_the_ID()
-            && $editorPostTypeHelper->isEditorEnabled(
-                get_post_type()
-            )
+        if (
+            intval(get_option('page_for_posts')) !== get_the_ID()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
             && $userCapabilitiesHelper->canEdit(get_the_ID())
-            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => get_the_ID()])) {
+            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => get_the_ID()])
+        ) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
-            $actions['edit_vc5'] = sprintf('<a href="%s">%s</a>', $url, __('Edit with Visual Composer', 'visualcomposer'));
+            $actions['edit_vc5'] = sprintf(
+                '<a href="%s">%s</a>',
+                $url,
+                __('Edit with Visual Composer', 'visualcomposer')
+            );
         }
 
         return $actions;

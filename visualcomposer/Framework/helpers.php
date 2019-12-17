@@ -11,8 +11,8 @@ if (!defined('ABSPATH')) {
 /**
  * Get the available container instance.
  *
- * @param  string $make
- * @param  array $parameters
+ * @param string $make
+ * @param array $parameters
  *
  * @return mixed
  * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
@@ -34,8 +34,8 @@ function vcapi()
 /**
  * Get the available container instance.
  *
- * @param  string $name
- * @param  array $parameters
+ * @param string $name
+ * @param array $parameters
  *
  * @return mixed
  */
@@ -47,8 +47,8 @@ function vchelper($name, $parameters = [])
 /**
  * Fire an event and call the listeners.
  *
- * @param  string $event
- * @param  mixed $payload
+ * @param string $event
+ * @param mixed $payload
  *
  * @return array|null
  */
@@ -61,9 +61,9 @@ function vcevent($event, $payload = [])
 /**
  * Fire an event and call the listeners.
  *
- * @param  string $filter
- * @param  string $body
- * @param  mixed $payload
+ * @param string $filter
+ * @param string $body
+ * @param mixed $payload
  * @param bool $haltable
  *
  * @return array|null
@@ -124,8 +124,8 @@ if (!function_exists('vcvenv')) {
     /**
      * Gets the value of an environment variable. Supports boolean, empty and null.
      *
-     * @param  string $key
-     * @param  mixed $default
+     * @param string $key
+     * @param mixed $default
      *
      * @return mixed
      */
@@ -158,11 +158,11 @@ function vcvadmininit()
 }
 
 /**
- * @internal
- *
  * @param $code
  *
  * @return string
+ * @internal
+ *
  */
 function vcLogWpHttpCodes($code)
 {
@@ -200,12 +200,12 @@ function vcLogWpHttpCodes($code)
 }
 
 /**
- * @internal
- *
  * @param $code
  * @param $errorMessage
  *
  * @return bool
+ * @internal
+ *
  */
 function vcLogWpErrorByCode($code, $errorMessage)
 {
@@ -281,11 +281,11 @@ function vcIsBadResponse($response)
 }
 
 /**
- * @internal
- *
  * @param $response
  *
  * @return bool
+ * @internal
+ *
  */
 function _vcCheckIsResponseBad($response)
 {

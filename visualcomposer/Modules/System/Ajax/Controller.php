@@ -51,8 +51,12 @@ class Controller extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         global $post;
-        if (empty($post) && $requestHelper->exists('vcv-source-id') && $requestHelper->input('vcv-source-id')
-            && $requestHelper->input('vcv-source-id') !== 'template') {
+        if (
+            empty($post)
+            && $requestHelper->exists('vcv-source-id')
+            && $requestHelper->input('vcv-source-id')
+            && $requestHelper->input('vcv-source-id') !== 'template'
+        ) {
             return '';
         }
 

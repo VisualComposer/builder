@@ -56,15 +56,14 @@ class MenuController extends Container implements Module
             $this->bufferStarted = false;
             // @codingStandardsIgnoreLine
             $postType = !empty($matches[1]) ? $matches[1] : $post_type;
-            if ($editorPostTypeHelper->isEditorEnabled($postType)
-                && !in_array(
-                    $postType,
-                    [
-                        'vcv_headers',
-                        'vcv_footers',
-                        'vcv_sidebars',
-                    ]
-                )
+            $postTypesList = [
+                'vcv_headers',
+                'vcv_footers',
+                'vcv_sidebars',
+            ];
+            if (
+                $editorPostTypeHelper->isEditorEnabled($postType)
+                && !in_array($postType, $postTypesList)
             ) {
                 $content = preg_replace_callback(
                     '/\<[a] href="(.[^\"]+)" class="page-title-action"\>(.[^\<\/]+)\<\/a\>/',

@@ -53,7 +53,8 @@ class UnsplashDownloadController extends Container implements Module
         License $licenseHelper,
         CurrentUser $currentUserHelper
     ) {
-        if ($licenseHelper->isPremiumActivated()
+        if (
+            $licenseHelper->isPremiumActivated()
             && $requestHelper->exists('vcv-imageId')
             && $currentUserHelper->wpAll($this->capability)->get()
         ) {
@@ -112,11 +113,22 @@ class UnsplashDownloadController extends Container implements Module
                     }
 
                     /** @var \WP_Error $results */
-                    $this->message = $this->setMessage(
-                        esc_html(
-                            is_object($results) ? $results->get_error_message() : __('Wrong image extension.', 'visualcomposer')
-                        ) . ' #10080'
-                    );
+                    if (is_object($results)) {
+                        $this->message = $this->setMessage(
+                            esc_html(
+                                $results->get_error_message()
+                            ) . ' #10080'
+                        );
+                    } else {
+                        $this->message = $this->setMessage(
+                            esc_html(
+                                __(
+                                    'Wrong image extension.',
+                                    'visualcomposer'
+                                )
+                            ) . ' #10080'
+                        );
+                    }
 
                     return ['status' => false, 'message' => $this->message];
                 }

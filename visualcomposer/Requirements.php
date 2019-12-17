@@ -49,10 +49,12 @@ class VcvCoreRequirements
                 'The cURL extension must be loaded' .
                 '</li>';
         }
-        if (!function_exists('base64_decode')
+        if (
+            !function_exists('base64_decode')
             || !function_exists('base64_encode')
             || !function_exists('json_decode')
-            || !function_exists('json_encode')) {
+            || !function_exists('json_encode')
+        ) {
             $die = true;
             $message .= '<li>' .
                 'The base64/json functions must be loaded' .

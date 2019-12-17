@@ -14,11 +14,11 @@ use VisualComposer\Modules\Hub\Traits\Action;
 
 class PredefinedTemplateDownloadAction extends Container implements Module
 {
+    use Action;
+
     protected $helperName = 'HubActionsHubTemplatesBundle';
 
     protected $actionName = 'predefinedTemplate/*';
-
-    use Action;
 
     public function __construct()
     {

@@ -14,9 +14,9 @@ use VisualComposer\Modules\Hub\Traits\Action;
 
 class AssetDownloadAction extends Container implements Module
 {
+    use Action;
+
     protected $helperName = 'HubActionsSharedLibrariesBundle';
 
     protected $actionName = 'asset/*';
-
-    use Action;
 }

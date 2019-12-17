@@ -193,7 +193,8 @@ class Bundle implements Helper
         $requiredActions = [];
         if (isset($json['actions'])) {
             foreach ($json['actions'] as $key => $value) {
-                if (isset($value['action'])
+                if (
+                    isset($value['action'])
                     && !in_array(
                         $value['action'],
                         ['hubTeaser', 'hubTemplates', 'hubAddons']
@@ -312,7 +313,8 @@ class Bundle implements Helper
     ) {
         $optionsHelper = vchelper('Options');
         $downloadHelper = vchelper('HubDownload');
-        if (isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')
+        if (
+            isset($value['last_post_update']) && version_compare($value['last_post_update'], $previousVersion, '>')
         ) {
             $posts = vcfilter('vcv:hub:findUpdatePosts:' . $action, [], ['action' => $action]);
             if (!empty($posts) && is_array($posts) && is_array($needUpdatePost)) {

@@ -43,11 +43,8 @@ class PostUpdateAction extends Container implements Module
         while ($vcvPosts->have_posts()) {
             $vcvPosts->the_post();
             $postId = get_the_ID();
-            if ($currentUserAccessHelper->wpAll(
-            // @codingStandardsIgnoreLine
-                [get_post_type_object($vcvPosts->post->post_type)->cap->edit_posts, $postId]
-            )->get()
-            ) {
+            $postTypeObject = get_post_type_object($vcvPosts->post->post_type);
+            if ($currentUserAccessHelper->wpAll([$postTypeObject->cap->edit_posts, $postId])->get()) {
                 $posts[] = $postId;
             }
         }
