@@ -7,6 +7,10 @@ export default class AddElementPanel extends React.Component {
     options: PropTypes.object
   }
 
+  componentDidMount () {
+    console.log("Add panel loaded: ", Date.now() - window.timer1);
+  }
+
   render () {
     let childrenOutput = this.props.children
     if (!childrenOutput) {

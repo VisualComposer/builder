@@ -1,13 +1,14 @@
 import { defaultsDeep } from 'lodash'
-import { getStorage } from 'vc-cake'
-import { getAttributeType } from './tools'
+import { addStorage, getStorage } from 'vc-cake'
+import { getAttributeType } from '../../services/cook/lib/tools'
 
 const fieldOptionsStorage = getStorage('fieldOptions')
 
 let items = {}
-export default {
-  add (settings, componentCallback, cssSettings, modifierOnCreate) {
-    let allElementsSettings = getStorage('hubElements').state('elements').get() || (window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
+
+addStorage('elementSettings', (storage) => {
+  storage.on('add', (settings, componentCallback, cssSettings, modifierOnCreate) => {
+    const allElementsSettings = getStorage('hubElements').state('elements').get() || (window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
     let settingsCloneJsonString = JSON.stringify(settings)
 
     if (allElementsSettings[ settings.tag.value ]) {
@@ -31,8 +32,7 @@ export default {
 
     for (let k in dataSettings) {
       if (dataSettings.hasOwnProperty(k)) {
-        const attrSettings = getAttributeType(k, dataSettings)
-        dataSettings[ k ].attrSettings = attrSettings
+        dataSettings[ k ].attrSettings = getAttributeType(k, dataSettings)
       }
     }
 
@@ -42,29 +42,35 @@ export default {
       cssSettings: cssSettings,
       modifierOnCreate: modifierOnCreate
     }
-  },
-  remove (tag) {
+  })
+
+  storage.on('remove', (tag) => {
     delete items[ tag ]
-  },
-  get (tag) {
-    console.log('element settings service method - "get"')
+  })
+
+  storage.registerAction('get', (tag) => {
+    console.log('element settings storage action - "get"')
     return items[ tag ] ? defaultsDeep({}, items[ tag ]) : null
-  },
-  findTagByName (name) {
+  });
+
+  storage.registerAction('findTagByName', (name) => {
     return Object.keys(items).find((key) => {
       return items[ key ].settings && items[ key ].settings.name && items[ key ].settings.name.value === name
     })
-  },
-  getAttributeType (tag, key) {
-    let settings = items[ tag ].settings[ key ]
+  })
+
+  storage.registerAction('getAttributeType', (tag, key) => {
+    const settings = items[ tag ].settings[ key ]
     return settings || undefined
-  },
-  all () {
+  })
+
+  storage.registerAction('all', () => {
     return items
-  },
-  list () {
+  })
+
+  storage.registerAction('list', () => {
     return Object.keys(items).map((k) => {
       return items[ k ]
     })
-  }
-}
+  })
+})

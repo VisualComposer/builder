@@ -74,6 +74,18 @@ export default class Categories extends React.Component {
     }, 100)
   }
 
+  hasItemInArray (arr, value) {
+    if (Array.isArray(value)) {
+      let result = false
+      value.find((v) => {
+        result = this.hasItemInArray(arr, v)
+        return result
+      })
+      return result
+    }
+    return arr.indexOf(value) > -1
+  }
+
   getAllElements () {
     const { parent } = this.props
     let relatedTo = [ 'General', 'RootElements' ]
@@ -88,8 +100,7 @@ export default class Categories extends React.Component {
     if (isAllElements) {
       const { allElements } = this.state
       Categories.allElements = allElements.filter((elementData) => {
-        let cookElement = cook.get(elementData)
-        return cookElement ? cookElement.relatedTo(relatedTo) : false
+        return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
     }
 
@@ -207,16 +218,14 @@ export default class Categories extends React.Component {
   }
 
   getElementControl (elementData) {
-    const element = cook.get(elementData)
-    let tag = element.get('tag')
+    const tag = elementData.tag
 
     return <ElementControl
       key={'vcv-element-control-' + tag}
       element={elementData}
       hubElement={Categories.hubElements[ tag ]}
       tag={tag}
-      // workspace={workspaceStorage.state('settings').get() || false}
-      name={element.get('name')}
+      name={elementData.name}
       addElement={this.addElement}
       setFocusedElement={this.setFocusedElement}
       applyFirstElement={this.applyFirstElement}
