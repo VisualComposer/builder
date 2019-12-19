@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const settingsStorage = vcCake.getStorage('settings')
-const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -365,7 +364,6 @@ export default class ElementControl extends React.Component {
     const dragState = workspaceStorage.state('drag').get()
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let cookElement = cook.get(element)
     let listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
       'vcv-ui-item-list-item--inactive': dragState && dragState.active
@@ -380,8 +378,8 @@ export default class ElementControl extends React.Component {
       'vcv-ui-state--visible': previewVisible
     })
 
-    let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
-    let publicPathPreview = cookElement.get('metaPreviewUrl')
+    let publicPathThumbnail = element.metaThumbnailUrl
+    let publicPathPreview = element.metaPreviewUrl
 
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
@@ -393,7 +391,7 @@ export default class ElementControl extends React.Component {
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
-              {cookElement.get('metaDescription')}
+              {element.metaDescription}
             </div>
           </figcaption>
         </figure>

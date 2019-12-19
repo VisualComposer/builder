@@ -16,8 +16,12 @@ const blockRegexp = getBlockRegexp()
 
 const hubElementsStorage = getStorage('hubElements')
 const settingsStorage = getStorage('settings')
+const elementSettingsStorage = getStorage('elementSettings')
 let containerRelations = {}
 let innerRenderCount = 0
+
+let useStorage = env('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE') || false
+console.log(`use storage:`, useStorage)
 
 const API = {
   get (data) {
@@ -31,6 +35,9 @@ const API = {
     return new Element(data, settings, cssSettings, API)
   },
   getSettings (tag) {
+    if (useStorage) {
+      return elementSettingsStorage.action('get', tag)
+    }
     return elementSettings.get(tag)
   },
   getById (id) {
@@ -38,9 +45,16 @@ const API = {
     return data !== null ? this.get(data) : null
   },
   add (settings, componentCallback, cssSettings, modifierOnCreate) {
-    elementSettings.add(settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
+    if (useStorage) {
+      elementSettingsStorage.trigger('add', settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
+    } else {
+      elementSettings.add(settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
+    }
   },
   getTagByName (name) {
+    if (useStorage) {
+      return elementSettingsStorage.action('findTagByName', name)
+    }
     return elementSettings.findTagByName(name)
   },
   attributes: {
@@ -360,11 +374,29 @@ const API = {
   },
   list: {
     settings (sortSelector = [ 'name' ]) {
-      let list = elementSettings.list()
+      let list = []
+      if (useStorage) {
+        list = elementSettingsStorage.action('list')
+      } else {
+        list = elementSettings.list()
+      }
 
       return lodash.sortBy(list.map((item) => {
         let elementValues = buildSettingsObject(item.settings)
         return API.get(elementValues).toJS()
+      }), sortSelector)
+    },
+    elements (sortSelector = [ 'name' ]) {
+      let list = []
+      if (useStorage) {
+        list = elementSettingsStorage.action('list')
+      } else {
+        list = elementSettings.list()
+      }
+
+      return lodash.sortBy(list.map((item) => {
+        let elementValues = buildSettingsObject(item.settings)
+        return API.get(elementValues)
       }), sortSelector)
     }
   },
@@ -560,11 +592,9 @@ const API = {
   }
 }
 
-const getChildren = (groups) => {
+const getChildren = (groups, allElements) => {
   let result = []
-  const allElements = API.list.settings()
-  allElements.forEach((settings) => {
-    let element = API.get(settings)
+  allElements.forEach((element) => {
     if (element && element.relatedTo(groups)) {
       result.push({
         tag: element.get('tag'),
@@ -576,9 +606,8 @@ const getChildren = (groups) => {
 }
 
 const setRelations = () => {
-  const allElements = API.list.settings()
-  allElements.forEach((settings) => {
-    const element = API.get(settings)
+  const allElements = API.list.elements()
+  allElements.forEach((element) => {
     const containerFor = element.containerFor()
     const tag = element.get('tag')
     if (containerFor.length && containerFor.indexOf('General') < 0) {

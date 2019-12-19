@@ -12,6 +12,8 @@ const settingsStorage = getStorage('settings')
 const utils = getService('utils')
 
 add('wordpressWorkspace', (api) => {
+  console.log('editor started')
+  window.timer = Date.now()
   api.reply('start', () => {
     wordpressDataStorage.trigger('start')
   })
@@ -97,6 +99,8 @@ add('wordpressWorkspace', (api) => {
       ReactDOM.unmountComponentAtNode(iframeContent)
     }
     const addStartBlank = () => {
+      console.log('editor loaded', Date.now() - window.timer)
+
       ReactDOM.render(
         <StartBlankPanel unmountStartBlank={removeStartBlank} />,
         iframeContent
