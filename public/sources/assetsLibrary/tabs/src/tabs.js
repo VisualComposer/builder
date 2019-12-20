@@ -204,10 +204,16 @@
       const targetAccordion = this.getRelatedAccordion()
       const targetAccordionTitle = targetAccordion.find('span')
       const tabsVisible = this.getTargetTab().is(':visible')
-      const width = tabsVisible ? targetTitle.width() : targetAccordionTitle.width()
       const margin = parseInt(targetTitle.css('marginLeft')) || 0
       const left = tabsVisible && target ? target.position().left + margin : this.getTabPosition(target)
       const slider = this.getContainer().find(settings.sliderSelector).first()
+      let width
+
+      if (settings.sliderWidth && settings.sliderWidth === 'outer') {
+        width = tabsVisible ? targetTitle.outerWidth() : targetAccordionTitle.outerWidth()
+      } else {
+        width = tabsVisible ? targetTitle.width() : targetAccordionTitle.width()
+      }
       slider.css('width', width)
       slider.css('left', left)
     }
