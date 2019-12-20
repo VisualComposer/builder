@@ -49,7 +49,6 @@ addStorage('elementSettings', (storage) => {
   })
 
   storage.registerAction('get', (tag) => {
-    console.log('element settings storage action - "get"')
     return items[ tag ] ? defaultsDeep({}, items[ tag ]) : null
   })
 
