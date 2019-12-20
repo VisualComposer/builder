@@ -51,7 +51,7 @@ addStorage('elementSettings', (storage) => {
   storage.registerAction('get', (tag) => {
     console.log('element settings storage action - "get"')
     return items[ tag ] ? defaultsDeep({}, items[ tag ]) : null
-  });
+  })
 
   storage.registerAction('findTagByName', (name) => {
     return Object.keys(items).find((key) => {
