@@ -18,7 +18,6 @@ let cookApi = null
 
 let useStorage = vcCake.env('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE') || false
 
-
 export default class Element {
   constructor (data, dataSettings = null, cssSettings = null, API) {
     this.init(data, dataSettings, cssSettings, API)
