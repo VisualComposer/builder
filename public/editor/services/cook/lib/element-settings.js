@@ -47,7 +47,6 @@ export default {
     delete items[ tag ]
   },
   get (tag) {
-    console.log('element settings service method - "get"')
     return items[ tag ] ? defaultsDeep({}, items[ tag ]) : null
   },
   findTagByName (name) {

@@ -29,7 +29,6 @@ export default class PlusControl extends NavbarContent {
   }
 
   toggleAddElement (e) {
-    window.timer1 = Date.now()
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'add',
