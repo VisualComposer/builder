@@ -21,7 +21,6 @@ let containerRelations = {}
 let innerRenderCount = 0
 
 let useStorage = env('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE') || false
-console.log(`use storage:`, useStorage)
 
 const API = {
   get (data) {
