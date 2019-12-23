@@ -131,3 +131,7 @@ if (!VcvEnv::has('VCV_JS_FT_DYNAMIC_FIELDS')) {
 if (!VcvEnv::has('VCV_ACCOUNT_URL')) {
     VcvEnv::set('VCV_ACCOUNT_URL', 'https://account.visualcomposer.io');
 }
+
+if (!VcvEnv::has('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE')) {
+    VcvEnv::set('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE', true);
+}
