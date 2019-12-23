@@ -8,52 +8,18 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
-      // Testing TinyMce editor: iframe content and controls
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Content')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .find('#vcv-wpeditor-output_ifr').then(($iframe) => {
-              const document = $iframe.contents()
-              const body = document.find('body')
+      cy.setTinyMce({
+        title: 'Content',
+        text: settings.text,
+        elementType: {
+          name: settings.elementType.name
+        },
+        alignment: {
+          name: settings.alignment.name
+        }
+      })
 
-              cy.wrap(body).focus().clear().type(settings.text)
-          })
-
-          cy.wrap($field)
-            .next()
-            .find(`.mce-btn[aria-label*="${settings.alignment.name}"] button`)
-            .click()
-
-          cy.wrap($field)
-            .next()
-            .find('.mce-btn .mce-txt')
-            .contains('Heading')
-            .closest('button')
-            .click()
-
-          cy.get('.mce-menu-item .mce-text')
-            .contains(settings.elementType.name)
-            .parent()
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
+      cy.setClassAndId(settings.customId, settings.customClass)
 
       cy.setDO(settings.designOptions)
 
