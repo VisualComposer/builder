@@ -2,7 +2,6 @@ import lodash from 'lodash'
 import { addService, env, getService, getStorage } from 'vc-cake'
 
 import { buildSettingsObject } from './lib/tools'
-import elementSettings from './lib/element-settings'
 import attributeManager from './lib/attribute-manager'
 import Element from './lib/element'
 import React from 'react'
