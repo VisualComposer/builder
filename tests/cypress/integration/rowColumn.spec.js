@@ -244,7 +244,7 @@ describe(ELEMENT_NAME, function () {
       cy.get('.vce-row-content')
         .should('have.css', 'align-content', settings.columnPosition)
         .children()
-        // .should('have.length', 3) // TODO: needs to be fixed VC-948
+        // .should('have.length', 3)
         .should('have.css', 'display', 'flex')
 
       cy.get('.vce-col')
