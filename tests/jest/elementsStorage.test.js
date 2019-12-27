@@ -11,6 +11,7 @@ import '../../public/editor/services/modernAssetsStorage/service.js'
 import '../../public/editor/services/api/service.js'
 import '../../public/config/wp-attributes'
 import '../../public/editor/stores/elements/elementsStorage'
+import '../../public/editor/stores/elements/elementSettings'
 
 // Elements
 import '../../elements/row/row/index'
