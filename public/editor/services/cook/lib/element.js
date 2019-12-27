@@ -16,8 +16,6 @@ const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 let cookApi = null
 
-let useStorage = vcCake.env('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE') || false
-
 export default class Element {
   constructor (data, dataSettings = null, cssSettings = null, API) {
     this.init(data, dataSettings, cssSettings, API)
@@ -47,13 +45,7 @@ export default class Element {
     let metaSettings = element.settings
 
     let settings = {}
-    let elSettings = null
-
-    if (useStorage) {
-      elSettings = elementSettingsStorage.action('get', tag) || null
-    } else {
-      elSettings = elementSettings && elementSettings.get ? elementSettings.get(tag) : null
-    }
+    let elSettings = elementSettingsStorage.action('get', tag) || null
 
     if (dataSettings) {
       for (let k in dataSettings) {
@@ -243,12 +235,7 @@ export default class Element {
 
   getContentComponent () {
     if (!this[ elComponent ].has()) {
-      let elSettings = {}
-      if (useStorage) {
-        elSettings = elementSettingsStorage.action('get', this[ elData ].tag)
-      } else {
-        elSettings = elementSettings.get(this[ elData ].tag)
-      }
+      let elSettings = elementSettingsStorage.action('get', this[ elData ].tag)
 
       if (vcCake.env('VCV_DEBUG') === true && (!elSettings || !elSettings.component)) {
         console.error('Component settings doesnt exists! Failed to get component', this[ elData ].tag, this[ elData ], elSettings, this[ elComponent ])
@@ -264,11 +251,7 @@ export default class Element {
 
   render (content, editor, inner = true) {
     if (!this[ elComponent ].has()) {
-      if (useStorage) {
-        elementSettingsStorage.action('get', this[ elData ].tag).component(this[ elComponent ])
-      } else {
-        elementSettings.get(this[ elData ].tag).component(this[ elComponent ])
-      }
+      elementSettingsStorage.action('get', this[ elData ].tag).component(this[ elComponent ])
     }
     let ElementToRender = this[ elComponent ].get()
     let props = {}
