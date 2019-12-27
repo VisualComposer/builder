@@ -3,7 +3,6 @@ import React from 'react'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 
-import elementSettings from './element-settings'
 import elementComponent from './element-component'
 import DynamicElement from 'public/components/dynamicFields/dynamicElement'
 import { getAttributeType } from './tools'
