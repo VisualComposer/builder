@@ -20,8 +20,6 @@ const elementSettingsStorage = getStorage('elementSettings')
 let containerRelations = {}
 let innerRenderCount = 0
 
-let useStorage = env('VCV_JS_FT_USE_ELEMENT_SETTINGS_STORAGE') || false
-
 const API = {
   get (data) {
     if (!data || !data.tag) {
@@ -34,27 +32,17 @@ const API = {
     return new Element(data, settings, cssSettings, API)
   },
   getSettings (tag) {
-    if (useStorage) {
-      return elementSettingsStorage.action('get', tag)
-    }
-    return elementSettings.get(tag)
+    return elementSettingsStorage.action('get', tag)
   },
   getById (id) {
     let data = DocumentData.get(id)
     return data !== null ? this.get(data) : null
   },
   add (settings, componentCallback, cssSettings, modifierOnCreate) {
-    if (useStorage) {
-      elementSettingsStorage.trigger('add', settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
-    } else {
-      elementSettings.add(settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
-    }
+    elementSettingsStorage.trigger('add', settings, componentCallback, cssSettings, typeof modifierOnCreate === 'function' ? modifierOnCreate : undefined)
   },
   getTagByName (name) {
-    if (useStorage) {
-      return elementSettingsStorage.action('findTagByName', name)
-    }
-    return elementSettings.findTagByName(name)
+    return elementSettingsStorage.action('findTagByName', name)
   },
   attributes: {
     add (name, component, settings, representers = {}) {
@@ -373,12 +361,7 @@ const API = {
   },
   list: {
     settings (sortSelector = [ 'name' ]) {
-      let list = []
-      if (useStorage) {
-        list = elementSettingsStorage.action('list')
-      } else {
-        list = elementSettings.list()
-      }
+      let list = elementSettingsStorage.action('list')
 
       return lodash.sortBy(list.map((item) => {
         let elementValues = buildSettingsObject(item.settings)
@@ -386,12 +369,7 @@ const API = {
       }), sortSelector)
     },
     elements (sortSelector = [ 'name' ]) {
-      let list = []
-      if (useStorage) {
-        list = elementSettingsStorage.action('list')
-      } else {
-        list = elementSettings.list()
-      }
+      let list = elementSettingsStorage.action('list')
 
       return lodash.sortBy(list.map((item) => {
         let elementValues = buildSettingsObject(item.settings)
