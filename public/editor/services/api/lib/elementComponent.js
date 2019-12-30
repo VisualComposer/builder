@@ -227,8 +227,12 @@ export default class ElementComponent extends React.Component {
       propObj[ 'data-vce-do-apply' ] = prop
 
       let animationData = this.getAnimationData()
-      if (animationData) {
-        propObj[ 'data-vce-animate' ] = animationData
+      if (animationData && animationData.animation) {
+        propObj[ 'data-vce-animate' ] = animationData.animation
+
+        if (animationData.animationDelay) {
+          propObj[ 'data-vce-animate-delay' ] = animationData.animationDelay
+        }
       }
       return propObj
     }
@@ -242,8 +246,12 @@ export default class ElementComponent extends React.Component {
       }
 
       let animationData = this.getAnimationData()
-      if (animationData) {
-        propObj[ 'data-vce-animate' ] = animationData
+      if (animationData && animationData.animation) {
+        propObj[ 'data-vce-animate' ] = animationData.animation
+
+        if (animationData.animationDelay) {
+          propObj[ 'data-vce-animate-delay' ] = animationData.animationDelay
+        }
       }
 
       return propObj
@@ -256,12 +264,16 @@ export default class ElementComponent extends React.Component {
   }
 
   getAnimationData () {
-    let animationData = ''
+    let animationData = {
+      animation: '',
+      animationDelay: ''
+    }
     // TODO: Get attributes BY TYPE
     let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
 
     if (designOptions && designOptions.device) {
       let animations = []
+      let animationDelays = []
       Object.keys(designOptions.device).forEach((device) => {
         let prefix = (device === 'all') ? '' : device
         if (designOptions.device[ device ].animation) {
@@ -269,10 +281,18 @@ export default class ElementComponent extends React.Component {
             prefix = `-${prefix}`
           }
           animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
+
+          if (designOptions.device[ device ].animationDelay) {
+            animationDelays.push(`vce-o-animate-delay--${designOptions.device[ device ].animationDelay}${prefix}`)
+          }
         }
       })
       if (animations.length) {
-        animationData = animations.join(' ')
+        animationData.animation = animations.join(' ')
+
+        if (animationDelays.length) {
+          animationData.animationDelay = animationDelays.join(' ')
+        }
       }
     }
     return animationData
