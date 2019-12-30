@@ -242,9 +242,10 @@ describe(ELEMENT_NAME, function () {
         })
 
       cy.get('.vce-row-content')
+        .first() // get first one, as Cypress may duplicate this row
         .should('have.css', 'align-content', settings.columnPosition)
         .children()
-        // .should('have.length', 3)
+        .should('have.length', 3)
         .should('have.css', 'display', 'flex')
 
       cy.get('.vce-col')
