@@ -527,7 +527,7 @@
 
       // if container is bigger, make it tabs
       if (tabContainerWidth > totalTabsWidth) {
-        if ($element.attr('data-vcv-tabs-state') !== 'tabs') {
+        if ($element.attr('data-vcv-tabs-state') !== 'tabs' && settings.isSlider) {
           setSliderPosition($element, options && options.tabSlider, getActiveTab(element))
         }
         $element.attr('data-vcv-tabs-state', 'tabs')
