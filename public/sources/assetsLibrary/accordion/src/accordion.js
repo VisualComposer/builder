@@ -746,7 +746,7 @@
 
       const hash = window.location.hash
       const $targetElement = hash && $(hash)
-      const $accordion = $targetElement.length && $targetElement.find(settings.getAccordionHashSelector())
+      const $accordion = $targetElement.length && $targetElement.find(settings.getAccordionHashSelector(hash))
 
       if ($accordion.length) {
         setTimeout(function () {
@@ -756,8 +756,8 @@
         }, delay)
         $accordion.trigger('click')
         $accordion.closest(settings.tabsSelector).attr('data-vcv-initialized', true).attr('data-vcv-hash-navigated', true)
+        setActiveTab('add')
       }
-      setActiveTab('add')
     }
 
     this.setActiveTab = function (action, elementId) {
