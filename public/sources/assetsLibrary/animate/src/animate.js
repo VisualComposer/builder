@@ -44,22 +44,21 @@ window.vcv.on('ready', function (action, id, options) {
       previousElementWaypoints.destroy()
       element.removeAttribute('data-vcv-o-animated')
     }
-    const animationDelay = 0
-    // TODO get animation delay for devices
     let waypointObj = new window.Waypoint({
       element: element,
       handler: function (a, b, c, d, e) {
+        element.setAttribute('data-vcv-o-animated', 'true')
+        waypointObj.destroy()
+        const duration = parseFloat(window.getComputedStyle(element)[ 'animationDuration' ]) * 1000
+        const delay = parseFloat(window.getComputedStyle(element)[ 'animationDelay' ]) * 1000
         window.setTimeout(() => {
-          element.setAttribute('data-vcv-o-animated', 'true')
-          waypointObj.destroy()
-          const duration = parseFloat(window.getComputedStyle(element)[ 'animationDuration' ]) * 1000
-          window.setTimeout(() => {
+          if (element && element.parentElement) {
             element.parentElement.style.overflowX = 'hidden'
             window.setTimeout(() => {
               element.parentElement.style.overflowX = ''
             }, 50)
-          }, duration + 200)
-        }, animationDelay)
+          }
+        }, duration + delay + 200)
       },
       offset: '85%'
     })
