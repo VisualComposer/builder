@@ -166,6 +166,17 @@ export default class DesignOptions extends Attribute {
           value: false
         }
       }
+    },
+    animationDelayMixin: {
+      src: require('raw-loader!./cssMixins/animationDelay.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        },
+        animationDelay: {
+          value: false
+        }
+      }
     }
   }
 
@@ -389,6 +400,8 @@ export default class DesignOptions extends Attribute {
       DesignOptions.getBoxModelMixin(newValue, device, newMixins)
       // backgroundMixin
       DesignOptions.getBackgroundMixin(newValue, device, newMixins)
+      // animationDelayMixin
+      DesignOptions.getAnimationDelayMixin(newValue, device, newMixins)
     }
   }
 
@@ -511,6 +524,32 @@ export default class DesignOptions extends Attribute {
       }
       newMixins[ mixinNameImage ].variables.device = {
         value: device
+      }
+    }
+  }
+
+  static getAnimationDelayMixin (newValue, device, newMixins) {
+    if (newValue[ device ].hasOwnProperty('animationDelay')) {
+      const value = newValue[ device ].animationDelay
+      if (!lodash.isEmpty(value)) {
+        // update mixin
+        let mixinName = `animationDelayMixin:${device}`
+        newMixins[ mixinName ] = {}
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.animationDelayMixin)
+
+        newMixins[ mixinName ].variables.animationDelay = {
+          value: value
+        }
+
+        const selector = `vce-o-animate-delay--${value}`
+        newMixins[ mixinName ].variables.selector = {
+          value: device === 'all' ? selector : selector + `-${device}`
+        }
+
+        // devices
+        newMixins[ mixinName ].variables.device = {
+          value: device
+        }
       }
     }
   }
