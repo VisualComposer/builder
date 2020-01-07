@@ -309,6 +309,16 @@
       const $this = $(this)
       e.preventDefault()
       Plugin.call($this, 'tabClick')
+
+      if (settings.isDropdown) {
+        const element = $this.closest(settings.tabsSelector)[0]
+        setDropdownValue(element)
+      }
+    }
+
+    this.dropdownChangeHandler = function (e) {
+      const targetTab  = $('.vce-toggle-container-tab-title[data-vce-target="[data-model-id=' + e.target.value + ']"]')
+      targetTab.click()
     }
 
     this.changeHandler = function (e) {
@@ -398,7 +408,7 @@
           }
         })
 
-        if ($(element).find('> ' + settings.resizeSelector).length) {
+        if ($element.find('> ' + settings.resizeSelector).length) {
           resizeContainer = $(element).find('> ' + settings.resizeSelector)[ 0 ]
         }
 
@@ -408,15 +418,43 @@
         if (settings.isSlider) {
           resizeOptions.tabSlider = $(tabsSlider)
         }
+        if (settings.dropdownSelector) {
+          setDropdownValue($element)
+        }
 
         addResizeListener(resizeContainer, checkOnResize, resizeOptions)
       })
     }
 
+    function getActiveTab (element) {
+      let activeTab = null
+      const $element = $(element)
+      const $tabs = $element.find(settings.tabDataSelector)
+
+      $tabs && $tabs.each(function (i, tab) {
+        const $tab = $(tab)
+        if ($tab.attr('data-vcv-active')) {
+          activeTab = $tab
+        }
+      })
+      return activeTab
+    }
+
+    function setDropdownValue (element) {
+      const activeTab = getActiveTab(element)
+      if (activeTab) {
+        const activeTabId = activeTab.attr('data-vce-target-model-id')
+        if (activeTabId) {
+          const dropdown = $(element).find(settings.dropdownSelector)
+          dropdown.val(activeTabId)
+        }
+      }
+    }
+
     function setSliderPosition ($tabs, tabsSlider, activeTab) {
       if (activeTab && activeTab.length) {
         if (activeTab.is(':visible')) {
-          const width = parseInt(activeTab.find('[class*="title"]').width())
+          const width = parseInt(activeTab.find('[class*="title"]').outerWidth())
           const margin = parseInt(activeTab.find('[class*="title"]').css('marginLeft'))
           const left = activeTab.position().left
 
@@ -450,8 +488,8 @@
       obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
       obj.__resizeElement__ = element
       obj.onload = function () {
-        obj.contentDocument.defaultView.addEventListener('resize', fn.bind(_this, element))
-        fn(element)
+        obj.contentDocument.defaultView.addEventListener('resize', fn.bind(_this, element, options))
+        fn(element, options)
 
         if (settings.isSlider) {
           const $element = $(element)
@@ -471,9 +509,11 @@
       }
     }
 
-    function checkOnResize (element) {
+    function checkOnResize (element, options) {
       const $element = $(element)
-      const tabContainer = $element.find(settings.tabContainerSelector).first()
+      const $tabsList = $element.find(settings.tabContainerSelector)
+      const tabListPadding = parseInt($tabsList.css('padding'))
+      const tabContainer = $tabsList.first()
       const $tabs = $(tabContainer).find('> ' + settings.tabDataSelector)
       let totalTabsWidth = 0
       const tabContainerWidth = $element.outerWidth()
@@ -481,12 +521,22 @@
       $tabs.each(function (i, tab) {
         totalTabsWidth += $(tab).outerWidth()
       })
+      if (settings.isDropdown) {
+        totalTabsWidth = totalTabsWidth + tabListPadding * 2
+      }
 
       // if container is bigger, make it tabs
       if (tabContainerWidth > totalTabsWidth) {
+        if ($element.attr('data-vcv-tabs-state') !== 'tabs' && settings.isSlider) {
+          setSliderPosition($element, options && options.tabSlider, getActiveTab(element))
+        }
         $element.attr('data-vcv-tabs-state', 'tabs')
-      } else { // make it accordion
-        $element.attr('data-vcv-tabs-state', 'accordion')
+      } else { // make it accordion or dropdown
+        const state = settings.isDropdown ? 'dropdown' : 'accordion'
+        $element.attr('data-vcv-tabs-state', state)
+        if (state === 'dropdown') {
+          setDropdownValue(element)
+        }
       }
     }
   }
@@ -496,6 +546,9 @@
     this.setActiveTab()
     $(document).on(this.settings.clickEventSelector, this.settings.dataAttr, this.clickHandler)
     $(document).on(this.settings.showEventSelector, this.changeHandler)
+    if (this.settings.dropdownSelector) {
+      $(document).on(this.settings.changeEventSelector, this.settings.dropdownSelector, this.dropdownChangeHandler)
+    }
   }
 
 }(window.jQuery))

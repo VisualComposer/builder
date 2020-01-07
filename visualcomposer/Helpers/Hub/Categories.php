@@ -136,8 +136,9 @@ class Categories implements Helper
                     'classicTabs',
                     'pageableContainer',
                     'contentSlider',
-                    'toggleContainer'
-                    ],
+                    'toggleContainer',
+                    'faqGroup'
+                ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
             ],
@@ -205,6 +206,7 @@ class Categories implements Helper
                     'sidebarMenu',
                     'verticalSandwichMenu',
                     'sandwichSideMenu',
+                    'linkDropdown'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Header-Footer.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Header-Footer.svg'),

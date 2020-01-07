@@ -12,6 +12,7 @@ import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import { getStorage, getService, env } from 'vc-cake'
+import Number from '../number/Component'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
@@ -162,6 +163,17 @@ export default class DesignOptions extends Attribute {
           value: false
         },
         backgroundSize: {
+          value: false
+        }
+      }
+    },
+    animationDelayMixin: {
+      src: require('raw-loader!./cssMixins/animationDelay.pcss'),
+      variables: {
+        device: {
+          value: `all`
+        },
+        animationDelay: {
           value: false
         }
       }
@@ -331,6 +343,10 @@ export default class DesignOptions extends Attribute {
           // animation is not set
           if (newValue[ device ].animation === '') {
             delete newValue[ device ].animation
+            delete newValue[ device ].animationDelay
+          }
+          if (newValue[ device ].animationDelay === '') {
+            delete newValue[ device ].animationDelay
           }
 
           // border is empty
@@ -384,6 +400,8 @@ export default class DesignOptions extends Attribute {
       DesignOptions.getBoxModelMixin(newValue, device, newMixins)
       // backgroundMixin
       DesignOptions.getBackgroundMixin(newValue, device, newMixins)
+      // animationDelayMixin
+      DesignOptions.getAnimationDelayMixin(newValue, device, newMixins)
     }
   }
 
@@ -506,6 +524,32 @@ export default class DesignOptions extends Attribute {
       }
       newMixins[ mixinNameImage ].variables.device = {
         value: device
+      }
+    }
+  }
+
+  static getAnimationDelayMixin (newValue, device, newMixins) {
+    if (newValue[ device ].hasOwnProperty('animationDelay')) {
+      const value = newValue[ device ].animationDelay
+      if (!lodash.isEmpty(value)) {
+        // update mixin
+        let mixinName = `animationDelayMixin:${device}`
+        newMixins[ mixinName ] = {}
+        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.animationDelayMixin)
+
+        newMixins[ mixinName ].variables.animationDelay = {
+          value: value
+        }
+
+        const selector = `vce-o-animate-delay--${value}`
+        newMixins[ mixinName ].variables.selector = {
+          value: device === 'all' ? selector : selector + `-${device}`
+        }
+
+        // devices
+        newMixins[ mixinName ].variables.device = {
+          value: device
+        }
       }
     }
   }
@@ -1205,17 +1249,44 @@ export default class DesignOptions extends Attribute {
     if (this.state.devices[ this.state.currentDevice ].display) {
       return null
     }
-    let value = this.state.devices[ this.state.currentDevice ].animation || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Animate
-      </span>
-      <Animate
-        api={this.props.api}
-        fieldKey='animation'
-        updater={this.animationChangeHandler}
-        value={value} />
-    </div>
+    const value = this.state.devices[ this.state.currentDevice ].animation || ''
+
+    let animationDelayHtml = null
+    if (value) {
+      const delayValue = this.state.devices[ this.state.currentDevice ].animationDelay || ''
+      const defaultDelayValue = 0
+      animationDelayHtml = (
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            Animation delay (in seconds)
+          </span>
+          <Number
+            api={this.props.api}
+            fieldKey='animationDelay'
+            updater={this.animationChangeHandler}
+            placeholder={defaultDelayValue}
+            options={{
+              min: 0
+            }}
+            value={delayValue}
+          />
+        </div>
+      )
+    }
+
+    return <>
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Animate
+        </span>
+        <Animate
+          api={this.props.api}
+          fieldKey='animation'
+          updater={this.animationChangeHandler}
+          value={value} />
+      </div>
+      {animationDelayHtml}
+    </>
   }
 
   /**

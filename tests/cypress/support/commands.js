@@ -41,8 +41,8 @@ Cypress.Commands.add('login', () => {
   cy.server()
   cy.visit('/wp-login.php')
   cy.wait(200)
-  cy.get('#user_login').type(Cypress.env('wpUserName'))
-  cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
+  cy.get('#user_login').clear().type(Cypress.env('wpUserName'))
+  cy.get('#user_pass').clear().type(`${Cypress.env('wpPassword')}{enter}`)
   // // Plugin activation
   if (Cypress.env('serverType') !== 'local' && Cypress.env('serverType') !== 'ci') {
     cy.visit('/wp-admin/plugins.php')
@@ -549,4 +549,69 @@ Cypress.Commands.add('createWpPost', (settings) => {
     .click()
 
   return postId
+})
+
+/** Creates a new menu in WordPress admin dashboard,
+ *  Menu is created using menu items array,
+ *  if there's no array or it is blank, the default one is used.
+ *
+ * @param settings [object]
+ */
+Cypress.Commands.add('createWpMenu', (settings) => {
+  const menuItems = settings && settings.menuItems ? settings.menuItems : [
+    {
+      url: Cypress.env('baseUrl'),
+      title: 'Home'
+    },
+    {
+      url: '#',
+      title: 'About'
+    },
+    {
+      url: '#',
+      title: 'Products'
+    },
+    {
+      url: '#',
+      title: 'Contacts'
+    }
+  ]
+  const addMenuItem = (url, title) => {
+    cy.get('#custom-menu-item-url')
+      .clear()
+      .type(url)
+
+    cy.get('#custom-menu-item-name')
+      .clear()
+      .type(title)
+
+    cy.get('#submit-customlinkdiv')
+      .click()
+
+    cy.wait('@adminAjax')
+  }
+
+  cy.visit('/wp-admin/nav-menus.php?action=edit&menu=0')
+
+  cy.get('#menu-name')
+    .clear()
+    .type(settings.menuName)
+
+  cy.get('#save_menu_header')
+    .click()
+
+  cy.route('POST', `${Cypress.env('baseUrl')}/wp-admin/admin-ajax.php`).as('adminAjax')
+
+  cy.get('#locations-primary')
+    .click()
+
+  cy.contains('.accordion-section-title', 'Custom Links')
+    .click()
+
+  menuItems.forEach((item) => {
+    addMenuItem(item.url, item.title)
+  })
+
+  cy.get('#save_menu_header')
+    .click()
 })

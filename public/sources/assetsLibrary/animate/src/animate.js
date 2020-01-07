@@ -50,12 +50,15 @@ window.vcv.on('ready', function (action, id, options) {
         element.setAttribute('data-vcv-o-animated', 'true')
         waypointObj.destroy()
         const duration = parseFloat(window.getComputedStyle(element)[ 'animationDuration' ]) * 1000
+        const delay = parseFloat(window.getComputedStyle(element)[ 'animationDelay' ]) * 1000
         window.setTimeout(() => {
-          element.parentElement.style.overflowX = 'hidden'
-          window.setTimeout(() => {
-            element.parentElement.style.overflowX = ''
-          }, 50)
-        }, duration + 200)
+          if (element && element.parentElement) {
+            element.parentElement.style.overflowX = 'hidden'
+            window.setTimeout(() => {
+              element.parentElement.style.overflowX = ''
+            }, 50)
+          }
+        }, duration + delay + 200)
       },
       offset: '85%'
     })
