@@ -42,8 +42,8 @@ Cypress.Commands.add('login', () => {
   if (Cypress.env('serverType') !== 'ci') {
     cy.visit('/wp-login.php')
     cy.wait(200)
-    cy.get('#user_login').type(Cypress.env('wpUserName'))
-    cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
+    cy.get('#user_login').clear().type(Cypress.env('wpUserName'))
+    cy.get('#user_pass').clear().type(`${Cypress.env('wpPassword')}{enter}`)
     // // Plugin activation
     if (Cypress.env('serverType') !== 'local') {
       cy.visit('/wp-admin/plugins.php')
