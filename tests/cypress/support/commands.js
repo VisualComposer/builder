@@ -39,22 +39,20 @@ addMatchImageSnapshotCommand()
  */
 Cypress.Commands.add('login', () => {
   cy.server()
-  if (Cypress.env('serverType') !== 'ci') {
-    cy.visit('/wp-login.php')
-    cy.wait(200)
-    cy.get('#user_login').type(Cypress.env('wpUserName'))
-    cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
-    // // Plugin activation
-    if (Cypress.env('serverType') !== 'local') {
-      cy.visit('/wp-admin/plugins.php')
-      cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"]`).then(($block) => {
-        if (!$block.hasClass('active')) {
-          // cy.get(`[data-slug="${Cypress.env('slug')}"] .deactivate a`).click()
-          // cy.get(`#vcv-visual-composer-website-builder a.vcv-deactivation-submit-button`).click()
-          cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"] .activate a`).click()
-        }
-      })
-    }
+  cy.visit('/wp-login.php')
+  cy.wait(200)
+  cy.get('#user_login').type(Cypress.env('wpUserName'))
+  cy.get('#user_pass').type(`${Cypress.env('wpPassword')}{enter}`)
+  // // Plugin activation
+  if (Cypress.env('serverType') !== 'local' && Cypress.env('serverType') !== 'ci') {
+    cy.visit('/wp-admin/plugins.php')
+    cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"]`).then(($block) => {
+      if (!$block.hasClass('active')) {
+        // cy.get(`[data-slug="${Cypress.env('slug')}"] .deactivate a`).click()
+        // cy.get(`#vcv-visual-composer-website-builder a.vcv-deactivation-submit-button`).click()
+        cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"] .activate a`).click()
+      }
+    })
   }
 
   if (Cypress.env('checkSnapshots')) {
