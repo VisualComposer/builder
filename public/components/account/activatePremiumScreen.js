@@ -97,20 +97,6 @@ export default class ActivatePremiumScreen extends React.Component {
   render () {
     const { hasError, errorText, loading } = this.state
     const { activationType } = this.props
-    let stagingButton = null
-
-    if (activationType !== 'free' && window.VCV_STAGING_AVAILABLE && window.VCV_STAGING_AVAILABLE()) {
-      let buttonClasses = 'vcv-activation-button vcv-activation-button--dark'
-      if (loading === 'staging') {
-        buttonClasses += ' vcv-activation-button--loading'
-      }
-      const activateStagingText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activateStaging : 'Activate Staging'
-      stagingButton = <div className='vcv-activation-button-container'>
-        <button className={buttonClasses} onClick={this.handleActivateClick.bind(this, 'staging')}>
-          {activateStagingText}
-        </button>
-      </div>
-    }
 
     let inputClasses = 'vcv-basic-input'
     if (hasError) {
@@ -227,7 +213,6 @@ export default class ActivatePremiumScreen extends React.Component {
                 {activationType === 'premium' ? activatePremiumText : activateFreeText}
               </button>
             </div>
-            {stagingButton}
           </div>
         </div>
       </div>
