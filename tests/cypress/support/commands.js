@@ -602,9 +602,6 @@ Cypress.Commands.add('createWpMenu', (settings) => {
 
   cy.route('POST', `${Cypress.env('baseUrl')}/wp-admin/admin-ajax.php`).as('adminAjax')
 
-  cy.get('#locations-primary')
-    .click()
-
   cy.contains('.accordion-section-title', 'Custom Links')
     .click()
 
