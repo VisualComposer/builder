@@ -377,10 +377,6 @@ class Localizations extends Container implements Helper
                 'Activate Premium',
                 'visualcomposer'
             ),
-            'activateStaging' => __(
-                'Activate Staging',
-                'visualcomposer'
-            ),
             'searchPhotosOnUnsplash' => __(
                 'Search free high-resolution photos on Unsplash',
                 'visualcomposer'
