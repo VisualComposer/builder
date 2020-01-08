@@ -9,6 +9,7 @@
   },
   "editFormTab1": {
     "type": "group",
+    "sectionType": "general",
     "access": "protected",
     "value": [
       "text",
