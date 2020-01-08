@@ -387,7 +387,15 @@ addStorage('elements', (storage) => {
       if (children && childTag) {
         children.forEach(child => {
           let childId = child.id
-          let editFormTabSettings = child.editFormTab1 || []
+          const childElement = cook.get(child)
+          let editFormTabSettings = []
+          if (childElement) {
+            const generalSection = childElement.getBySectionType('general')
+            const generalSettings = childElement.settings(generalSection)
+            if (generalSettings && generalSettings.settings && generalSettings.settings.value) {
+              editFormTabSettings =  generalSettings.settings.value
+            }
+          }
           let replaceElementMergeData = {
             tag: childTag,
             parent: cookElement.get('id')

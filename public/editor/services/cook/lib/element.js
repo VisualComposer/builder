@@ -222,6 +222,26 @@ export default class Element {
     })
   }
 
+  getBySectionType (sectionType) {
+    if (sectionType) {
+      const settings = Object.keys(this[ elData ].settings).filter((key) => {
+        let settings = this[ elData ].settings[ key ]
+        return settings.sectionType === sectionType
+      })
+
+      if (!settings[0] && sectionType === 'general') {
+        settings[0] = 'editFormTab1' // Fallback if sectionType is not provided
+        if (vcCake.env('VCV_DEBUG')) {
+          console.warn(`sectionType is not provided for general section in ${this[elData].tag} element!`)
+        }
+      }
+
+      return settings[0]
+    }
+
+    return null
+  }
+
   getPublicKeys () {
     return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden', 'metaElementAssets' ].concat(this.filter((key, value, settings) => {
       return settings.access === 'public'

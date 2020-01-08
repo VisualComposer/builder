@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import Field from './field'
 import EditFormReplaceElement from './editFormReplaceElement'
+import vcCake from 'vc-cake'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -132,8 +133,17 @@ export default class EditFormSection extends React.Component {
       tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
     }
     let replaceElement = null
+    let isGeneralSection = tab.data && tab.data.settings && tab.data.settings.sectionType && tab.data.settings.sectionType === 'general'
 
-    if (tab.fieldKey === 'editFormTab1') {
+    // Fallback if sectionType is not provided
+    if (!isGeneralSection && tab.fieldKey === 'editFormTab1') {
+      isGeneralSection = true
+      if (vcCake.env('VCV_DEBUG')) {
+        console.warn(`sectionType is not provided for general section in ${this.props.elementAccessPoint.tag} element!`)
+      }
+    }
+
+    if (isGeneralSection) {
       let disableReplaceable = false
       if (this.props.options.nestedAttr) {
         disableReplaceable = tab.data.options.disableReplaceable

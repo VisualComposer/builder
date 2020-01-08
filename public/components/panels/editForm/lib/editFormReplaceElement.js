@@ -17,7 +17,8 @@ export default class EditFormReplaceElement extends React.Component {
   handleReplaceElement (tag) {
     const cookElement = this.props.elementAccessPoint.cook()
     const id = this.previousElementId = cookElement.get('id')
-    let editFormTabSettings = cookElement.settings('editFormTab1')
+    const generalSection = cookElement.getBySectionType('general')
+    let editFormTabSettings = cookElement.settings(generalSection)
     let currentElementAttributes = [
       ...(editFormTabSettings && editFormTabSettings.settings && editFormTabSettings.settings.value),
       'parent'
