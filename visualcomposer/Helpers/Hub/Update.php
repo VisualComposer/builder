@@ -159,11 +159,6 @@ class Update implements Helper
             'type' => 'constant',
         ];
         $variables[] = [
-            'key' => 'VCV_STAGING_AVAILABLE',
-            'value' => $this->isUrlDev(VCV_PLUGIN_URL),
-            'type' => 'constant',
-        ];
-        $variables[] = [
             'key' => 'VCV_UPDATE_URL',
             'value' => admin_url('admin.php?page=vcv-update'),
             'type' => 'constant',

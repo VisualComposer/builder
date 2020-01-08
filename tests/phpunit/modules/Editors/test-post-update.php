@@ -206,9 +206,6 @@ class TestPostUpdate extends WP_UnitTestCase
         preg_match_all('/Object\.defineProperty\(window, \'VCV_PLUGIN_VERSION\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_PLUGIN_VERSION');
 
-        preg_match_all('/Object\.defineProperty\(window, \'VCV_STAGING_AVAILABLE\', {/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'VCV_STAGING_AVAILABLE');
-
         preg_match_all('/Object\.defineProperty\(window, \'VCV_UPDATE_URL\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_UPDATE_URL');
 
@@ -267,7 +264,6 @@ class TestPostUpdate extends WP_UnitTestCase
         //           Object.defineProperty(window, 'VCV_UPDATE_VENDOR_URL', {
         //           Object.defineProperty(window, 'VCV_UPDATE_GLOBAL_VARIABLES_URL', {
         //           Object.defineProperty(window, 'VCV_PLUGIN_VERSION', {
-        //           Object.defineProperty(window, 'VCV_STAGING_AVAILABLE', {
         //           Object.defineProperty(window, 'VCV_UPDATE_URL', {
         //           Object.defineProperty(window, 'VCV_CREATE_NEW_URL', {
         //           Object.defineProperty(window, 'VCV_CREATE_NEW_TEXT', {
