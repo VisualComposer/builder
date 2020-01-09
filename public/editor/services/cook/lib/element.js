@@ -225,8 +225,8 @@ export default class Element {
   getBySectionType (sectionType) {
     if (sectionType) {
       const settings = Object.keys(this[ elData ].settings).filter((key) => {
-        let settings = this[ elData ].settings[ key ]
-        return settings.sectionType === sectionType
+        let paramSettings = this[ elData ].settings[ key ]
+        return paramSettings.sectionType === sectionType
       })
 
       if (!settings[0] && sectionType === 'general') {
