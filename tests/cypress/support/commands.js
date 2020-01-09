@@ -174,14 +174,14 @@ Cypress.Commands.add('setDO', (settings) => {
  * @param settings [object]
  */
 Cypress.Commands.add('setDOA', (settings) => {
-  cy.get('.vcv-ui-form-switch-trigger-label')
+  cy.get('.advanced-design-options .vcv-ui-form-switch-trigger-label')
     .contains('Use gradient overlay')
     .then(($field) => {
       cy.wrap($field)
         .click()
     })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Gradient type')
     .then(($field) => {
       if (settings.gradientType) {
@@ -201,7 +201,7 @@ Cypress.Commands.add('setDOA', (settings) => {
     initialColor: '5D37D8'
   })
 
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.advanced-design-options .vcv-ui-form-group-heading')
     .contains('Gradient angle')
     .then(($field) => {
       if (settings.gradientAngle) {
@@ -232,8 +232,9 @@ Cypress.Commands.add('setClassAndId', (id, className) => {
  * @param value [string]
  */
 Cypress.Commands.add('setInput', (title, value) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next()
@@ -267,8 +268,9 @@ Cypress.Commands.add('setDoInput', (title, value) => {
  * @param title [string]
  */
 Cypress.Commands.add('setSwitch', (title) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next('.vcv-ui-form-switch-container')
@@ -284,8 +286,9 @@ Cypress.Commands.add('setSwitch', (title) => {
  * @param value [string]
  */
 Cypress.Commands.add('setSelect', (title, value) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next()
@@ -300,8 +303,9 @@ Cypress.Commands.add('setSelect', (title, value) => {
  * @param value [string]
  */
 Cypress.Commands.add('setButtonGroup', (title, value) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next()
@@ -318,8 +322,9 @@ Cypress.Commands.add('setButtonGroup', (title, value) => {
  * @param settings [object]
  */
 Cypress.Commands.add('setColor', (settings) => {
+  const titleRegex = new RegExp(`^${settings.title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(settings.title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next('div')
@@ -372,8 +377,9 @@ Cypress.Commands.add('setDoColor', (title, settings) => {
  * @param settings [object]
  */
 Cypress.Commands.add('setURL', (title, settings) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next('div')
@@ -404,8 +410,9 @@ Cypress.Commands.add('setURL', (title, settings) => {
  * @param settings [object]
  */
 Cypress.Commands.add('setIcon', (title, settings) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next('div')
@@ -431,8 +438,9 @@ Cypress.Commands.add('setIcon', (title, settings) => {
  * @param settings [object]
  */
 Cypress.Commands.add('setTinyMce', (settings) => {
+  const titleRegex = new RegExp(`^${settings.title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(settings.title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .next()
@@ -477,8 +485,9 @@ Cypress.Commands.add('setTinyMce', (settings) => {
  * @param settings [object]
  */
 Cypress.Commands.add('setCodeMirror', (settings) => {
+  const titleRegex = new RegExp(`^${settings.title}$`, 'gi')
   cy.get('.vcv-ui-form-group-heading')
-    .contains(settings.title)
+    .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
         .siblings('.CodeMirror-wrap')
