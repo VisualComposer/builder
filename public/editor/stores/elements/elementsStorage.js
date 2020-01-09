@@ -393,7 +393,7 @@ addStorage('elements', (storage) => {
             const generalSection = childElement.getBySectionType('general')
             const generalSettings = childElement.settings(generalSection)
             if (generalSettings && generalSettings.settings && generalSettings.settings.value) {
-              editFormTabSettings =  generalSettings.settings.value
+              editFormTabSettings = generalSettings.settings.value
             }
           }
           let replaceElementMergeData = {
