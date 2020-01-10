@@ -30,74 +30,8 @@ addStorage('elements', (storage) => {
         let innerElement = cook.get(value)
         let innerElementValue = recursiveElementsRebuild(innerElement)
         cookElement.set(attrKey, innerElementValue)
-      } else if (attributeSettings.settings.type === 'rowLayout') {
-        // Update OLD rowLayout to devices-object
-        let value = cookElement.get(attrKey)
-        if (!value || Array.isArray(value)) {
-          value = { all: value }
-          cookElement.set(attrKey, value)
-        }
       }
     })
-    // TODO: Create BC migrator for attributes/elements
-    if (cookGetAll.tag === 'column') {
-      // Update OLD column sizes to devices-object
-      let sizeValue = cookElement.get('size')
-      if (typeof sizeValue !== 'object') {
-        sizeValue = { all: sizeValue, defaultSize: sizeValue }
-        cookElement.set('size', sizeValue)
-      }
-      let lastInRowValue = cookElement.get('lastInRow')
-      if (typeof lastInRowValue !== 'object') {
-        lastInRowValue = { all: lastInRowValue }
-        cookElement.set('lastInRow', lastInRowValue)
-      }
-      let firstInRowValue = cookElement.get('firstInRow')
-      if (typeof firstInRowValue !== 'object') {
-        firstInRowValue = { all: firstInRowValue }
-        cookElement.set('firstInRow', firstInRowValue)
-      }
-    }
-
-    // Move parallax settings to new attribute
-    if (cookGetAll.tag === 'row' || cookGetAll.tag === 'column' || cookGetAll.tag === 'section') {
-      const designOptions = cookElement.get('designOptionsAdvanced')
-      if (designOptions && designOptions.device) {
-        let newParallaxData = {}
-        let newDesignOptionsData = {}
-        Object.keys(designOptions.device).forEach((deviceKey) => {
-          const deviceData = designOptions.device[ deviceKey ]
-          let newDeviceData = Object.assign({}, deviceData)
-
-          if (deviceData.parallax) {
-            let parallaxData = {
-              parallaxEnable: true,
-              parallax: deviceData.parallax
-            }
-            if (deviceData.hasOwnProperty('parallaxReverse')) {
-              parallaxData.parallaxReverse = deviceData.parallaxReverse
-            }
-            if (deviceData.hasOwnProperty('parallaxSpeed')) {
-              parallaxData.parallaxSpeed = deviceData.parallaxSpeed
-            }
-            newParallaxData[ deviceKey ] = parallaxData
-
-            delete newDeviceData.parallax
-            delete newDeviceData.parallaxReverse
-            delete newDeviceData.parallaxSpeed
-          }
-
-          newDesignOptionsData[ deviceKey ] = newDeviceData
-        })
-
-        if (!lodash.isEmpty(newParallaxData)) {
-          cookElement.set('parallax', { device: newParallaxData })
-          let newDesignOptions = Object.assign({}, designOptions)
-          newDesignOptions.device = newDesignOptionsData
-          cookElement.set('designOptionsAdvanced', newDesignOptions)
-        }
-      }
-    }
 
     return cookElement.toJS()
   }
