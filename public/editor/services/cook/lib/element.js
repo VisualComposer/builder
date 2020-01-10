@@ -63,8 +63,8 @@ export default class Element {
       cssSettings = elSettings ? elSettings.cssSettings : {}
     }
 
-    if (settings && settings.modifierOnCreate) {
-      attr = settings.modifierOnCreate(lodash.defaultsDeep({}, attr))
+    if (elSettings && elSettings.modifierOnCreate) {
+      attr = elSettings.modifierOnCreate(lodash.defaultsDeep({}, attr))
     }
 
     Object.defineProperty(this, elData, {

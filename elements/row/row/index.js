@@ -1,6 +1,7 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import { getService } from 'vc-cake'
 import RowElement from './component'
+import lodash from 'lodash'
 
 const vcvAddElement = getService('cook').add
 
@@ -19,5 +20,50 @@ vcvAddElement(
         mixin: require('raw-loader!./cssMixins/columnGap.pcss')
       }
     }
+  },
+  (attr) => {
+    const { rowLayout, designOptionsAdvanced } = attr
+
+    if (!rowLayout || Array.isArray(rowLayout)) {
+      attr.rowLayout = { all: rowLayout }
+    }
+
+    if (designOptionsAdvanced && designOptionsAdvanced.device) {
+      let newParallaxData = {}
+      let newDesignOptionsData = {}
+      Object.keys(designOptionsAdvanced.device).forEach((deviceKey) => {
+        const deviceData = designOptionsAdvanced.device[ deviceKey ]
+        let newDeviceData = Object.assign({}, deviceData)
+
+        if (deviceData.parallax) {
+          let parallaxData = {
+            parallaxEnable: true,
+            parallax: deviceData.parallax
+          }
+          if (deviceData.hasOwnProperty('parallaxReverse')) {
+            parallaxData.parallaxReverse = deviceData.parallaxReverse
+          }
+          if (deviceData.hasOwnProperty('parallaxSpeed')) {
+            parallaxData.parallaxSpeed = deviceData.parallaxSpeed
+          }
+          newParallaxData[ deviceKey ] = parallaxData
+
+          delete newDeviceData.parallax
+          delete newDeviceData.parallaxReverse
+          delete newDeviceData.parallaxSpeed
+
+          newDesignOptionsData[ deviceKey ] = newDeviceData
+        }
+      })
+
+      if (!lodash.isEmpty(newParallaxData)) {
+        attr.parallax = { device: newParallaxData }
+        let newDesignOptions = Object.assign({}, designOptionsAdvanced)
+        newDesignOptions.device = newDesignOptionsData
+        attr.designOptionsAdvanced = newDesignOptions
+      }
+    }
+
+    return attr
   }
 )
