@@ -1,10 +1,8 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
 import { rebuildRawLayout, addRowColumnBackground } from './lib/tools'
-import lodash from 'lodash'
 
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
-  // const timeMachineStorage = getStorage('timeMachine')
   const cook = getService('cook')
   const historyStorage = getStorage('history')
   const utils = getService('utils')
