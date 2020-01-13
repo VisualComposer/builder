@@ -243,6 +243,29 @@ Cypress.Commands.add('setInput', (title, value) => {
     })
 })
 
+/** Set datepicker attribute value
+ * Sets value for datepicker attribute field via input element in the Edit Form.
+ *
+ * @param title [string]
+ * @param value [string]
+ */
+Cypress.Commands.add('setDate', (title, value) => {
+  const titleRegex = new RegExp(`^${title}$`, 'gi')
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(titleRegex)
+    .then(($field) => {
+      cy.wrap($field)
+        .next()
+        .find('.vcv-ui-form-input')
+        .clear()
+        .type(value)
+    })
+  // Click on a title to close datepicker which may cover next attribute field
+  cy.get('.vcv-ui-form-group-heading')
+    .contains(titleRegex)
+    .click()
+})
+
 /** Set Design Options input field value
  * Sets value for input field inside Design Options section in the Edit Form.
  *
