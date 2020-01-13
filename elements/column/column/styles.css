@@ -21,6 +21,7 @@
 .vce-col-content {
   position: relative;
   overflow-wrap: break-word;
+  transition: box-shadow .2s;
 }
 
 .vce-col-inner {
