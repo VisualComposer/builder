@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
 Requires PHP: 5.4
 Requires at least: 4.6
-Tested up to: 5.3.0
-Stable tag: 23.0
+Tested up to: 5.3.2
+Stable tag: 24.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -172,6 +172,42 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 24.0 =
+*Release Date - 2020-01-14*
+
+#### Free:
+- New: Delay option added to CSS Animations in Design Options
+- Fix: Google Fonts search in TinyMCE size is correct
+- Fix: Blank page bottom space size reduced
+- Fix: Post and page permalinks work properly
+- Fix: Editor type change works properly
+- Fix: Inline controls have proper styling
+- Fix: Global CSS is not removed
+- Fix: Content saving works properly
+
+#### Premium:
+- New: New Account my.visualcomposer.com launched for license and subscription management
+- New: New Premium activation mechanism launched with easier activation process
+- New: Archive Page Editor to create custom archive page templates
+- Update: Unsplash API updated
+- Element: Faq Group element added
+- Element: Link Dropdown element added
+- Element: Star Testimonials element added
+- Element: Shadow Pricing Table element added
+- Element: Toggle Container element added
+- Element: Content Slider element added
+- Fix: Basic menu element has no extra space when collapsed
+- Fix: Menu element size is calculated correctly
+- Fix: Basic menu displayed properly in Safari
+- Fix: Gutenberg editor compatibility improved
+- Fix: Tabs and accordions displayed properly on a public side
+- Fix: Tabs with custom ids have proper links
+- Fix: Multiple dropdown attribute works properly
+- Fix: Template import works properly even if elements are missing
+- Fix: Imported header can be added to the site
+- Fix: Image slider works properly within accordions
+- Fix: PublicJS files are not loaded twice
 
 = 23.0 =
 *Release Date - 2019-11-25*
