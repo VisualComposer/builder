@@ -283,7 +283,7 @@ class UnsplashDownloadController extends Container implements Module
     {
         $licenseHelper = vchelper('License');
         $response = wp_remote_get(
-            rtrim(vcvenv('VCV_API_URL'), '\\/') . '/api/unsplash/download/' . $imageId . '?license='
+            rtrim(vcvenv('VCV_API_URL'), '\\/') . '/api/unsplash/download/' . $imageId . '?licenseKey='
             . $licenseHelper->getKey() . '&url=' . get_site_url(),
             [
                 'timeout' => 30,
