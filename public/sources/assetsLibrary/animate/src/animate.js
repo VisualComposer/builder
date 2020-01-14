@@ -60,7 +60,7 @@ window.vcv.on('ready', function (action, id, options) {
           }
         }, duration + delay + 200)
       },
-      offset: '85%'
+      offset: '90%'
     })
     element.vcvWaypoints = waypointObj
   }
