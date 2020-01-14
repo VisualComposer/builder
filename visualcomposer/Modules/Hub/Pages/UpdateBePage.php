@@ -49,6 +49,8 @@ class UpdateBePage extends Container implements Module
                         $this->call('addPage');
 
                         return;
+                    } else {
+                        $optionsHelper->set('bundleUpdateRequired', false);
                     }
                 }
 
