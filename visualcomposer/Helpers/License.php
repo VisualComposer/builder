@@ -93,6 +93,15 @@ class License extends Container implements Helper
         $token = vchelper('Token')->getToken(true);
         if ($token !== 'free-token') {
             // License is upgraded: fire check for update
+            $optionsHelper = vchelper('Options');
+            $optionsHelper->deleteTransient('lastBundleUpdate');
+            $noticeHelper = vchelper('Notice');
+            $noticeHelper->addNotice(
+                'license-refresh',
+                __('License data have been refreshed successfully.', 'visualcomposer'),
+                'success',
+                true
+            );
             vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
             wp_redirect(admin_url('admin.php?page=' . $redirectTo));
             exit;
