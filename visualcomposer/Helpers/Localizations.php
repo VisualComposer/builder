@@ -538,7 +538,7 @@ class Localizations extends Container implements Helper
                     '%sEdit%s this 404-page template.%s',
                     'visualcomposer'
                 ),
-                '<div class={class}"><a href="{link}" target="_blank">',
+                '<div class="{class}"><a href="{link}" target="_blank">',
                 '</a>',
                 '</div>'
             ),
@@ -547,7 +547,7 @@ class Localizations extends Container implements Helper
                     '%sEdit%s this archive page template.%s',
                     'visualcomposer'
                 ),
-                '<div class={class}"><a href="{link}" target="_blank">',
+                '<div class="{class}"><a href="{link}" target="_blank">',
                 '</a>',
                 '</div>'
             ),
