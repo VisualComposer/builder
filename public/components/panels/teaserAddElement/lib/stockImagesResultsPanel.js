@@ -145,9 +145,9 @@ export default class StockImagesResultsPanel extends React.Component {
 
     let url = ''
     if (action === 'search') {
-      url = `${unsplashUrl}/${searchValue}?license=${unsplashLicenseKey}&page=${page}&url=${vcvSiteUrl}`
+      url = `${unsplashUrl}/${searchValue}?licenseKey=${unsplashLicenseKey}&page=${page}&url=${vcvSiteUrl}`
     } else {
-      url = `${unsplashUrl}?license=${unsplashLicenseKey}&url=${vcvSiteUrl}`
+      url = `${unsplashUrl}?licenseKey=${unsplashLicenseKey}&url=${vcvSiteUrl}`
     }
 
     window.fetch(url, { method: 'get', signal: this.abortController.signal })

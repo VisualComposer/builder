@@ -33,7 +33,7 @@ class LicenseController extends Container implements Module
         /** @see \VisualComposer\Modules\License\LicenseController::activate */
         $this->addFilter('vcv:ajax:license:activate:adminNonce', 'activate');
 
-        /** @see \VisualComposer\Helpers\License::refresh */
+        /** @see \VisualComposer\Modules\License\LicenseController::refresh */
         $this->addFilter('vcv:ajax:license:refresh:adminNonce', 'refresh');
 
         /** @see \VisualComposer\Modules\License\LicenseController::unsetOptions */
