@@ -201,7 +201,6 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Menu element size is calculated correctly
 - Fix: Basic menu displayed properly in Safari
 - Fix: Gutenberg editor compatibility improved
-- Fix: Tabs and accordions displayed properly on a public side
 - Fix: Tabs with custom ids have proper links
 - Fix: Multiple dropdown attribute works properly
 - Fix: Template import works properly even if elements are missing
