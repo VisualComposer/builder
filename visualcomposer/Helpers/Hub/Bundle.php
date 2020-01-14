@@ -158,9 +158,12 @@ class Bundle implements Helper
             $messages[] = __('Failed to read remote bundle json', 'visualcomposer') . ' #10006';
             if (is_array($response) && isset($response['body'])) {
                 // @codingStandardsIgnoreLine
-                $resultDetails = json_decode($result['body'], 1);
+                $resultDetails = json_decode($response['body'], 1);
                 if (is_array($resultDetails) && isset($resultDetails['message'])) {
                     $messages[] = $resultDetails['message'] . ' #10026';
+                }
+                if (is_array($resultDetails) && isset($resultDetails['error'])) {
+                    $messages[] = $resultDetails['error'] . ' #10026_1';
                 }
             }
 
