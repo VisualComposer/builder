@@ -6,6 +6,9 @@ import { ControlHelpers } from './controlHelpers'
 const hubCategoriesService = getService('hubCategories')
 const layoutStorage = getStorage('layout')
 
+let clickState = 'mouseUp'
+let mouseDownTimeout = false
+
 export function Control (props) {
   const [ activeDropdown, setActiveDropdown ] = useState(false)
   const [ hoverClasses, setHoverClasses ] = useState([])
@@ -30,6 +33,17 @@ export function Control (props) {
   }
   controlsClasses = controlsClasses.join(' ')
 
+  const startDrag = (e) => {
+    layoutStorage.state('interactWithControls').set({
+      type: 'mouseLeave',
+      vcElementId: props.id
+    })
+    const layoutContent = document.querySelector('.vcv-layout-content')
+    setData('draggingElement', { id: props.id, point: { x: e.clientX - layoutContent.offsetLeft, y: e.clientY - layoutContent.offsetTop } })
+    window.clearTimeout(mouseDownTimeout)
+    mouseDownTimeout = false
+  }
+
   const handleMouseEnter = () => {
     setActiveDropdown(!activeDropdown)
     layoutStorage.state('interactWithControls').set({
@@ -53,13 +67,25 @@ export function Control (props) {
     setHoverClasses([...classes, activeClass])
   }
 
+  const handleMouseUp = (e) => {
+    e && e.preventDefault()
+    clickState = 'mouseUp'
+    window.clearTimeout(mouseDownTimeout)
+    mouseDownTimeout = false
+  }
+
   const handleMouseDown = (e) => {
     e && e.preventDefault()
-    layoutStorage.state('interactWithControls').set({
-      type: 'mouseLeave',
-      vcElementId: props.id
-    })
-    setData('draggingElement', { id: props.id, point: { x: e.clientX, y: e.clientY } })
+    clickState = 'mouseDown'
+    // will remove the synthetic event from the pool and allow references to the event to be retained by user code.
+    // because of setTimeout
+    // https://reactjs.org/docs/events.html#event-pooling
+    e.persist()
+    mouseDownTimeout = setTimeout(() => {
+      if (clickState === 'mouseDown') {
+        startDrag(e)
+      }
+    }, 200)
   }
 
   const controlDropdown = activeDropdown ? <ControlDropdown id={props.id} handleHover={handleHover} /> : null
@@ -74,6 +100,7 @@ export function Control (props) {
         title={title}
         data-vcv-element-id={props.id}
         onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
       >
         <span className='vcv-ui-outline-control-content'>
           <img className='vcv-ui-outline-control-icon' src={icon} alt={title} />
