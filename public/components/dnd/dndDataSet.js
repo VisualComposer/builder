@@ -133,7 +133,6 @@ export default class DndDataSet {
           helperType: null,
           manualScroll: false,
           drop: false,
-          allowMultiNodes: false,
           enableTrashBin: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false,
           customScroll: false,
           scrollContainer: null,
@@ -175,20 +174,13 @@ export default class DndDataSet {
 
   addItem (id) {
     if (!documentManager.get(id)) { return }
-    if (this.options.allowMultiNodes) {
-      let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
-      domNodes = Array.prototype.slice.call(domNodes)
-      domNodes.forEach((domNode) => {
-        if (domNode && domNode.ELEMENT_NODE) {
-          this.buildNodeElement(domNode, id)
-        }
-      })
-    } else {
-      let domNode = this.container.querySelector('[data-vcv-element="' + id + '"]')
+    let domNodes = this.container.querySelectorAll('[data-vcv-element="' + id + '"]')
+    domNodes = Array.prototype.slice.call(domNodes)
+    domNodes.forEach((domNode) => {
       if (domNode && domNode.ELEMENT_NODE) {
         this.buildNodeElement(domNode, id)
       }
-    }
+    })
   }
 
   dOMElementCreate (domNode, id) {
@@ -385,10 +377,10 @@ export default class DndDataSet {
         afterLastContainerElement,
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
         allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
-        domElement && this.draggingElement.isChild(domElement) &&
-        allowApend &&
-        !domElement.node.dataset.vceTab &&
-        ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
+          domElement && this.draggingElement.isChild(domElement) &&
+          allowApend &&
+          !domElement.node.dataset.vceTab &&
+          ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
       })
 
       if (position) {
@@ -486,7 +478,7 @@ export default class DndDataSet {
     let relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
-      relatedTo: relatedTo ? relatedTo.value.concat([ 'RootElements' ]) : null,
+      relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),
