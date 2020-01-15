@@ -125,7 +125,7 @@ export default class DndDataSet {
           container: document.body,
           wrapper: null,
           boundariesGap: 10,
-          rootContainerFor: [ 'RootElements' ],
+          rootContainerFor: ['RootElements'],
           rootID: 'vcv-content-root',
           handler: null,
           ignoreHandling: null,
