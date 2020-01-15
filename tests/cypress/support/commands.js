@@ -25,9 +25,6 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 /* global Cypress, cy */
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
-
-addMatchImageSnapshotCommand()
 
 /** Login to WordPress dashboard
  *  Visits /wp-login.php page,
@@ -51,15 +48,6 @@ Cypress.Commands.add('login', () => {
         // cy.get(`[data-slug="${Cypress.env('slug')}"] .deactivate a`).click()
         // cy.get(`#vcv-visual-composer-website-builder a.vcv-deactivation-submit-button`).click()
         cy.get(`[data-plugin="${Cypress.env('dataPlugin')}"] .activate a`).click()
-      }
-    })
-  }
-
-  if (Cypress.env('checkSnapshots')) {
-    cy.visit('/wp-admin/themes.php')
-    cy.get('[data-slug="twentynineteen"]').then(($block) => {
-      if (!$block.hasClass('active')) {
-        cy.get('[data-slug="twentynineteen"] a.activate').click()
       }
     })
   }
