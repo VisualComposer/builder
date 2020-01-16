@@ -64,7 +64,7 @@ class DisableController extends Container implements Module
      *
      * @throws \ReflectionException
      */
-    protected function disableGutenberg(Options $optionsHelper, Request $requestHelper)
+    protected function disableGutenberg(Options $optionsHelper, Request $requestHelper, Gutenberg $gutenbergHelper)
     {
         $sourceId = get_the_ID();
         if (!$sourceId) {
@@ -88,7 +88,10 @@ class DisableController extends Container implements Module
                 && !$requestHelper->exists(
                     'classic-editor'
                 ))
-            || ($isEnabled && !$requestHelper->exists('classic-editor') && !$this->isVisualComposerPage($sourceId))
+            || (
+                $isEnabled && !$requestHelper->exists('classic-editor')
+                && !$gutenbergHelper->isVisualComposerPage($sourceId)
+            )
         ) {
             return;
         }
@@ -98,46 +101,6 @@ class DisableController extends Container implements Module
         } elseif (function_exists('the_gutenberg_project')) {
             $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
         }
-    }
-
-    /**
-     * Check if page build by Visual Composer
-     *
-     * @param $sourceId
-     *
-     * @return bool
-     * @throws \ReflectionException
-     */
-    protected function isVisualComposerPage($sourceId)
-    {
-        if (!$sourceId) {
-            // New page cannot be VC
-            return false;
-        }
-        $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-        /** @see \VisualComposer\Modules\Vendors\Gutenberg\DisableController::overrideDisableGutenberg */
-        if (!empty($postContent) && !$this->call('overrideDisableGutenberg', ['sourceId' => $sourceId])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * To override the disabled gutenberg setting
-     *
-     * @param $sourceId
-     *
-     * @return bool
-     */
-    protected function overrideDisableGutenberg($sourceId)
-    {
-        if (!$sourceId) {
-            $sourceId = get_the_ID();
-        }
-        $isOverrideDisableGutenberg = get_post_meta($sourceId, VCV_PREFIX . 'be-editor', true);
-
-        return $isOverrideDisableGutenberg === 'gutenberg';
     }
 
     /**

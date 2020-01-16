@@ -86,15 +86,14 @@ class BundleController extends Container implements Module
     protected function addBundleScript(
         Url $urlHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper,
-        Request $requestHelper
+        EditorPostType $editorPostTypeHelper
     ) {
         $screen = get_current_screen();
         if (
             // @codingStandardsIgnoreLine
             $screen->post_type === get_post_type()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
             && !$frontendHelper->isFrontend()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
         ) {
             wp_enqueue_script(
                 'vcv:editors:backendswitcher:script',
@@ -106,28 +105,6 @@ class BundleController extends Container implements Module
             // Add JS
             $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
-            // Disable TinyMCE to avoid markup break, empty tags removal and etc VC-516
-            $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
-            if (
-                $savedEditor !== 'classic'
-                && !$requestHelper->exists('classic-editor')
-                && !(method_exists($screen, 'is_block_editor')
-                    && $screen->is_block_editor())
-            ) {
-                // Not Block editor, apply only in classic-mode
-                add_filter(
-                    'user_can_richedit',
-                    function ($result) {
-                        if (did_action('media_buttons')) {
-                            // Prevent another tinymce disabling (ACF fields)
-                            return $result;
-                        }
-
-                        return false;
-                    },
-                    50
-                );
-            }
         }
     }
 }

@@ -175,13 +175,14 @@ class Controller extends Container implements Module
         EditorPostType $editorPostTypeHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
+        $sourceId = get_the_ID();
         if (
-            intval(get_option('page_for_posts')) !== get_the_ID()
+            intval(get_option('page_for_posts')) !== $sourceId
             && $editorPostTypeHelper->isEditorEnabled(get_post_type())
-            && $userCapabilitiesHelper->canEdit(get_the_ID())
-            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => get_the_ID()])
+            && $userCapabilitiesHelper->canEdit($sourceId)
+            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId])
         ) {
-            $url = $frontendHelper->getFrontendUrl(get_the_ID());
+            $url = $frontendHelper->getFrontendUrl($sourceId);
             $actions['edit_vc5'] = sprintf(
                 '<a href="%s">%s</a>',
                 $url,
