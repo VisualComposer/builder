@@ -8,9 +8,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
-class Gutenberg implements Helper
+class Gutenberg extends Container implements Helper
 {
     public function isGutenbergAvailable()
     {
@@ -32,5 +33,46 @@ class Gutenberg implements Helper
         }
 
         return $available;
+    }
+
+    /**
+     * Check if page build by Visual Composer
+     *
+     * @param $sourceId
+     *
+     * @return bool
+     * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     */
+    public function isVisualComposerPage($sourceId)
+    {
+        if (!$sourceId) {
+            // New page cannot be VC
+            return false;
+        }
+        $postContent = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
+        /** @see \VisualComposer\Helpers\Gutenberg::overrideDisableGutenberg */
+        if (!empty($postContent) && !$this->call('overrideDisableGutenberg', ['sourceId' => $sourceId])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * To override the disabled gutenberg setting
+     *
+     * @param $sourceId
+     *
+     * @return bool
+     */
+    protected function overrideDisableGutenberg($sourceId)
+    {
+        if (!$sourceId) {
+            $sourceId = get_the_ID();
+        }
+        $isOverrideDisableGutenberg = get_post_meta($sourceId, VCV_PREFIX . 'be-editor', true);
+
+        return $isOverrideDisableGutenberg === 'gutenberg';
     }
 }

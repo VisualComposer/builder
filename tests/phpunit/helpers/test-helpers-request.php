@@ -88,7 +88,7 @@ class HelpersRequestTest extends WP_UnitTestCase
 
         $this->assertEquals($helper, $teInstance, 'it should be same as $helper');
 
-        $this->assertTrue(method_exists($teInstance, 'input'), 'isNetworkPlugin method should exists');
+        $this->assertTrue(method_exists($teInstance, 'input'), 'input method should exists');
 
         $this->assertEquals(
             $this->data,
