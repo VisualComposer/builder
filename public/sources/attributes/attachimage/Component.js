@@ -162,10 +162,10 @@ export default class AttachImage extends Attribute {
     if (!lodash.isObject(value)) {
       value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
       if (value && this.state && this.state.value && this.state.value.urls && this.state.value.urls[ 0 ]) {
-        if (this.state.value.urls[ 0 ].filter) {
+        if (this.state.value.urls[ 0 ].filter && value.urls[ 0 ]) {
           value.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
         }
-        if (this.state.value.urls[ 0 ].link) {
+        if (this.state.value.urls[ 0 ].link && value.urls[ 0 ]) {
           value.urls[ 0 ].link = this.state.value.urls[ 0 ].link
         }
       }
