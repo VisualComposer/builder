@@ -333,6 +333,12 @@ export default class HtmlEditorComponent extends React.Component {
     }
   }
 
+  encodeHTML (str) {
+    return str.replace(/[\u00A0-\u9999<>&](?!#)/gim, function (i) {
+      return '&#' + i.charCodeAt(0) + ';'
+    })
+  }
+
   getSkinToggle () {
     const toggleFieldKey = this.props && this.props.options && this.props.options.skinToggle
     if (!toggleFieldKey) {
@@ -400,7 +406,7 @@ export default class HtmlEditorComponent extends React.Component {
       } else {
         let template = document.getElementById('vcv-wpeditor-template').innerHTML
           .replace(/__VCVID__/g, id)
-          .replace(/%%content%%/g, this.state.value)
+          .replace(/%%content%%/g, this.encodeHTML(this.state.value))
 
         return (
           <React.Fragment>

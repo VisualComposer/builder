@@ -103,7 +103,7 @@ class HelpersUrlTest extends WP_UnitTestCase
 
         $this->assertEquals($helper, $teInstance, 'it should be same as $urlHelper');
 
-        $this->assertTrue(method_exists($teInstance, 'to'), 'isNetworkPlugin method should exists');
+        $this->assertTrue(method_exists($teInstance, 'to'), '`to` method should exists');
 
         $this->assertEquals(VCV_PLUGIN_URL, $teInstance->to(''), 'to should return plugin url should exist');
     }
