@@ -103,7 +103,7 @@ export default class BoxShadow extends Attribute {
   }
 
   static getMixins (newValue, device, newMixins) {
-    if (newValue[device].hasOwnProperty('boxShadow')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'boxShadow')) {
       const value = newValue[device].boxShadow
       const mixinName = `boxShadowMixin:${device}`
       newMixins[mixinName] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.boxShadow)
@@ -114,7 +114,7 @@ export default class BoxShadow extends Attribute {
         value: value
       }
     }
-    if (newValue[device].hasOwnProperty('hoverBoxShadow')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'hoverBoxShadow')) {
       const value = newValue[device].hoverBoxShadow
       const mixinName = `hoverBoxShadowMixin:${device}`
       newMixins[mixinName] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.hoverBoxShadow)

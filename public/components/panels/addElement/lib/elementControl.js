@@ -62,9 +62,9 @@ export default class ElementControl extends React.Component {
   }
 
   handleDragStateChange (data) {
-    if (data && data.hasOwnProperty('active') && !data.active && this.state.isDragging) {
+    if (data && Object.prototype.hasOwnProperty.call(data, 'active') && !data.active && this.state.isDragging) {
       this.endDragGlobal()
-    } else if (data && data.hasOwnProperty('terminate') && data.terminate && this.state.isDragging) {
+    } else if (data && Object.prototype.hasOwnProperty.call(data, 'terminate') && data.terminate && this.state.isDragging) {
       this.endDrag()
     }
   }

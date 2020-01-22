@@ -99,41 +99,41 @@ addStorage('wordpressData', (storage) => {
       } else {
         elementsStorage.trigger('reset', {})
       }
-      if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('custom')) {
+      if (responseData.cssSettings && Object.prototype.hasOwnProperty.call(responseData.cssSettings, 'custom')) {
         settingsStorage.state('customCss').set(responseData.cssSettings.custom || '')
       }
-      if (responseData.cssSettings && responseData.cssSettings.hasOwnProperty('global')) {
+      if (responseData.cssSettings && Object.prototype.hasOwnProperty.call(responseData.cssSettings, 'global')) {
         settingsStorage.state('globalCss').set(responseData.cssSettings.global || '')
       }
       // JS Settings local/global @since v11 splitted into two parts
-      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('localJsHead')) {
+      if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'localJsHead')) {
         settingsStorage.state('localJsHead').set(responseData.jsSettings.localJsHead || '')
       }
-      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('localJsFooter')) {
+      if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'localJsFooter')) {
         settingsStorage.state('localJsFooter').set(responseData.jsSettings.localJsFooter || '')
       }
-      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('globalJsHead')) {
+      if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsHead')) {
         settingsStorage.state('globalJsHead').set(responseData.jsSettings.globalJsHead || '')
       }
-      if (responseData.jsSettings && responseData.jsSettings.hasOwnProperty('globalJsFooter')) {
+      if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsFooter')) {
         settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
       }
       if (responseData.templates) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
       }
-      if (pageTitleData.hasOwnProperty('current')) {
+      if (Object.prototype.hasOwnProperty.call(pageTitleData, 'current')) {
         settingsStorage.state('pageTitle').set(pageTitleData.current)
       }
-      if (pageTitleData.hasOwnProperty('disabled')) {
+      if (Object.prototype.hasOwnProperty.call(pageTitleData, 'disabled')) {
         settingsStorage.state('pageTitleDisabled').set(pageTitleData.disabled)
       }
       if (pageTemplateData && pageTemplateData.current) {
         settingsStorage.state('pageTemplate').set(pageTemplateData.current)
       }
-      if (responseData.hasOwnProperty('itemPreviewDisabled')) {
+      if (Object.prototype.hasOwnProperty.call(responseData, 'itemPreviewDisabled')) {
         settingsStorage.state('itemPreviewDisabled').set(!!responseData.itemPreviewDisabled)
       }
-      if (responseData.hasOwnProperty('permalinkHtml')) {
+      if (Object.prototype.hasOwnProperty.call(responseData, 'permalinkHtml')) {
         settingsStorage.state('permalinkHtml').set(responseData.permalinkHtml)
 
         const permalinkData = responseData.permalinkHtml ? Permalink.getPermalinkData(responseData.permalinkHtml) : null
@@ -142,12 +142,12 @@ addStorage('wordpressData', (storage) => {
         }
       }
       let postData = {}
-      if (responseData.hasOwnProperty('postData')) {
+      if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
         postData = responseData.postData
       }
-      if (responseData.hasOwnProperty('postFields')) {
+      if (Object.prototype.hasOwnProperty.call(responseData, 'postFields')) {
         const postFields = responseData.postFields
-        if (postFields.hasOwnProperty('dynamicFieldCustomPostData')) {
+        if (Object.prototype.hasOwnProperty.call(postFields, 'dynamicFieldCustomPostData')) {
           const customPostData = postFields.dynamicFieldCustomPostData
           Object.keys(customPostData).forEach((key) => {
             const item = customPostData[key]
@@ -178,13 +178,13 @@ addStorage('wordpressData', (storage) => {
     } else if (status === 'success') {
       const responseData = getResponse(request)
       if (responseData.postData) {
-        if (responseData.postData.hasOwnProperty('permalink')) {
+        if (Object.prototype.hasOwnProperty.call(responseData.postData, 'permalink')) {
           settingsStorage.state('permalink').set(responseData.postData.permalink)
         }
-        if (responseData.postData.hasOwnProperty('previewUrl')) {
+        if (Object.prototype.hasOwnProperty.call(responseData.postData, 'previewUrl')) {
           settingsStorage.state('previewUrl').set(responseData.postData.previewUrl)
         }
-        if (responseData.hasOwnProperty('permalinkHtml')) {
+        if (Object.prototype.hasOwnProperty.call(responseData, 'permalinkHtml')) {
           settingsStorage.state('permalinkHtml').set(responseData.permalinkHtml)
         }
       }

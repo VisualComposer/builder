@@ -23,7 +23,7 @@ addStorage('elementSettings', (storage) => {
       const currentElementValues = elementInitialValues[dataSettings.tag.value]
       if (dataSettings.tag.value && currentElementValues) {
         Object.keys(currentElementValues).forEach((attrKey) => {
-          if (dataSettings[attrKey] && dataSettings[attrKey].hasOwnProperty('value')) {
+          if (dataSettings[attrKey] && Object.prototype.hasOwnProperty.call(dataSettings[attrKey], 'value')) {
             dataSettings[attrKey].value = currentElementValues[attrKey]
           }
         })
@@ -31,7 +31,7 @@ addStorage('elementSettings', (storage) => {
     }
 
     for (const k in dataSettings) {
-      if (dataSettings.hasOwnProperty(k)) {
+      if (Object.prototype.hasOwnProperty.call(dataSettings, k)) {
         dataSettings[k].attrSettings = getAttributeType(k, dataSettings)
       }
     }

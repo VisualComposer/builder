@@ -5,7 +5,7 @@ const ButtonControl = function (tinymce) {
     const list = []
     let offset = 30
     getFontFamilies().forEach((item, i) => {
-      const family = item.hasOwnProperty('value') ? item.value : item.family
+      const family = Object.prototype.hasOwnProperty.call(item, 'value') ? item.value : item.family
       let familyStyle = ''
       if (family.length) {
         familyStyle = `background-position: 10px ${offset - 25}px;`

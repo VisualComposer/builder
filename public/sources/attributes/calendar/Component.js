@@ -53,7 +53,7 @@ export default class CalendarAttribute extends Attribute {
         }
       }
     }
-    if (this.props.options.hasOwnProperty('time') && this.props.options.time) {
+    if (Object.prototype.hasOwnProperty.call(this.props.options, 'time') && this.props.options.time) {
       props.calendarClassName = 'vcv-ui-form-datepicker vcv-ui-form-datepicker-time'
       props.showTimeSelect = true
       props.timeIntervals = this.props.options.timeIntervals || 10

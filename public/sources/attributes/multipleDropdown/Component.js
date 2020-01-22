@@ -24,7 +24,7 @@ export default class MultipleDropdown extends Attribute {
     const { values, label } = groupObject
     const labelValue = label.replace(/\s+/g, '')
     for (const key in values) {
-      if (values.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(values, key)) {
         optionElements.push(this.createOptions(key, values, fieldKey))
       }
     }
@@ -60,8 +60,8 @@ export default class MultipleDropdown extends Attribute {
     const { fieldKey } = props
 
     for (const key in values) {
-      if (values.hasOwnProperty(key)) {
-        if (values[key].hasOwnProperty('group')) {
+      if (Object.prototype.hasOwnProperty.call(values, key)) {
+        if (Object.prototype.hasOwnProperty.call(values[key], 'group')) {
           optionElements.push(this.createGroup(key, values[key].group, fieldKey))
         } else {
           optionElements.push(this.createOptions(key, values, fieldKey))

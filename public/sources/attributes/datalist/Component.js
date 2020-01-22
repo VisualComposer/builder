@@ -48,7 +48,7 @@ export default class Datalist extends Attribute {
     const { fieldKey } = props
 
     for (const key in values) {
-      if (values.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(values, key)) {
         optionElements.push(this.createOptions(key, values, fieldKey))
       }
     }

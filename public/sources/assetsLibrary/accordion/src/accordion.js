@@ -478,7 +478,7 @@
             $target.attr(that.animatingAttribute, true)
             $target.attr(that.activeAttribute, true)
             $target.removeAttr(that.positionToActive)
-            if ((typeof opt === 'object' && opt.hasOwnProperty('changeHash') && opt.changeHash) || (typeof opt === 'undefined')) {
+            if ((typeof opt === 'object' && Object.prototype.hasOwnProperty.call(opt, 'changeHash') && opt.changeHash) || (typeof opt === 'undefined')) {
               that.changeLocationHash()
             }
             next()

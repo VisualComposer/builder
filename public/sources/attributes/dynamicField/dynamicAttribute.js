@@ -162,7 +162,7 @@ export default class DynamicAttribute extends React.Component {
     }
 
     if (sourceId && (window.vcvSourceID !== sourceId)) {
-      if (currentIdFields.hasOwnProperty(sourceId)) {
+      if (Object.prototype.hasOwnProperty.call(currentIdFields, sourceId)) {
         currentIdFields = currentIdFields[sourceId]
       } else {
         // Post doesn't exist or has been deleted

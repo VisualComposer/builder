@@ -179,7 +179,7 @@ export default class Divider extends Attribute {
           }
 
           if (newState.devices[device].dividerTopBackgroundType === 'image') {
-            if (newValue[device].hasOwnProperty('dividerTopBackgroundImage')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerTopBackgroundImage')) {
               const dividerImages = newValue[device].dividerTopBackgroundImage
               const isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
@@ -201,7 +201,7 @@ export default class Divider extends Attribute {
           if (newState.devices[device].dividerTopBackgroundType === 'videoEmbed') {
             delete newValue[device].dividerTopBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerTopVideoEmbed')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerTopVideoEmbed')) {
               const dividerVideos = newValue[device].dividerTopVideoEmbed
               const isArray = dividerVideos.constructor === Array
 
@@ -222,7 +222,7 @@ export default class Divider extends Attribute {
           if (newState.devices[device].dividerTopBackgroundType === 'videoYoutube') {
             delete newValue[device].dividerTopBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerTopVideoYoutube')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerTopVideoYoutube')) {
               const dividerYoutubeUrl = newValue[device].dividerTopVideoYoutube
               if (!dividerYoutubeUrl) {
                 delete newValue[device].dividerTopBackgroundPosition
@@ -241,7 +241,7 @@ export default class Divider extends Attribute {
           if (newState.devices[device].dividerTopBackgroundType === 'videoVimeo') {
             delete newValue[device].dividerTopBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerTopVideoVimeo')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerTopVideoVimeo')) {
               const dividerVimeoUrl = newValue[device].dividerTopVideoVimeo
               if (!dividerVimeoUrl) {
                 delete newValue[device].dividerTopBackgroundPosition
@@ -275,7 +275,7 @@ export default class Divider extends Attribute {
           }
 
           if (newState.devices[device].dividerBottomBackgroundType === 'image') {
-            if (newValue[device].hasOwnProperty('dividerBottomBackgroundImage')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerBottomBackgroundImage')) {
               const dividerImages = newValue[device].dividerBottomBackgroundImage
               const isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
@@ -297,7 +297,7 @@ export default class Divider extends Attribute {
           if (newState.devices[device].dividerBottomBackgroundType === 'videoEmbed') {
             delete newValue[device].dividerBottomBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerBottomVideoEmbed')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerBottomVideoEmbed')) {
               const dividerVideos = newValue[device].dividerBottomVideoEmbed
               const isArray = dividerVideos.constructor === Array
 
@@ -318,7 +318,7 @@ export default class Divider extends Attribute {
           if (newState.devices[device].dividerBottomBackgroundType === 'videoYoutube') {
             delete newValue[device].dividerBottomBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerBottomVideoYoutube')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerBottomVideoYoutube')) {
               const dividerYoutubeUrl = newValue[device].dividerBottomVideoYoutube
               if (!dividerYoutubeUrl) {
                 delete newValue[device].dividerBottomBackgroundPosition
@@ -337,7 +337,7 @@ export default class Divider extends Attribute {
           if (newState.devices[device].dividerBottomBackgroundType === 'videoVimeo') {
             delete newValue[device].dividerBottomBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerBottomVideoVimeo')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerBottomVideoVimeo')) {
               const dividerVimeoUrl = newValue[device].dividerBottomVideoVimeo
               if (!dividerVimeoUrl) {
                 delete newValue[device].dividerBottomBackgroundPosition
@@ -877,7 +877,7 @@ export default class Divider extends Attribute {
     const deviceData = this.state.devices[this.state.currentDevice]
     const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[dividerType] || backgroundType !== 'image' || !deviceData.hasOwnProperty(dividerImageName)) {
+    if (!deviceData[dividerType] || backgroundType !== 'image' || !Object.prototype.hasOwnProperty.call(deviceData, dividerImageName)) {
       return null
     }
 
@@ -959,7 +959,7 @@ export default class Divider extends Attribute {
     }
 
     if (backgroundType === 'image') {
-      if (!deviceData.hasOwnProperty(dividerImageName)) {
+      if (!Object.prototype.hasOwnProperty.call(deviceData, dividerImageName)) {
         return null
       }
       const images = deviceData[dividerImageName]
@@ -971,7 +971,7 @@ export default class Divider extends Attribute {
     }
 
     if (backgroundType === 'videoEmbed') {
-      if (!deviceData.hasOwnProperty(dividerVideoEmbedName)) {
+      if (!Object.prototype.hasOwnProperty.call(deviceData, dividerVideoEmbedName)) {
         return null
       }
       const videos = deviceData[dividerVideoEmbedName]

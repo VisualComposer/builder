@@ -367,7 +367,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         // values
         newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
         // remove all values if display is provided
-        if (newValue[device].hasOwnProperty('display')) {
+        if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
           Object.keys(newValue[device]).forEach((style) => {
             if (style !== 'display') {
               delete newValue[device][style]
@@ -388,7 +388,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             delete newValue[device].backgroundZoom
             delete newValue[device].backgroundZoomSpeed
             delete newValue[device].backgroundZoomReverse
-          } else if (!newValue[device].hasOwnProperty('images')) {
+          } else if (!Object.prototype.hasOwnProperty.call(newValue[device], 'images')) {
             // images are empty
             delete newValue[device].images
             delete newValue[device].backgroundType
@@ -429,7 +429,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             // not image type background selected
             delete newValue[device].videoEmbed
           } else {
-            if (newValue[device].hasOwnProperty('videoEmbed')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'videoEmbed')) {
               const videos = newValue[device].videoEmbed
               const isArray = videos.constructor === Array
               if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
@@ -528,7 +528,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           }
 
           if (newState.devices[device].dividerBackgroundType === 'image') {
-            if (newValue[device].hasOwnProperty('dividerBackgroundImage')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerBackgroundImage')) {
               const dividerImages = newValue[device].dividerBackgroundImage
               const isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
@@ -546,7 +546,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           if (newState.devices[device].dividerBackgroundType === 'videoEmbed') {
             delete newValue[device].dividerBackgroundStyle
 
-            if (newValue[device].hasOwnProperty('dividerVideoEmbed')) {
+            if (Object.prototype.hasOwnProperty.call(newValue[device], 'dividerVideoEmbed')) {
               const dividerVideos = newValue[device].dividerVideoEmbed
               const isArray = dividerVideos.constructor === Array
 
@@ -574,7 +574,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   static getAnimationDelayMixin (newValue, device, newMixins) {
-    if (newValue[device].hasOwnProperty('animationDelay')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'animationDelay')) {
       const value = newValue[device].animationDelay
       if (!lodash.isEmpty(value)) {
         // update mixin
@@ -601,7 +601,7 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   static getMixins (newValue, device, newMixins) {
     // mixins
-    if (newValue[device].hasOwnProperty('display')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
       newMixins[`visibilityMixin:${device}`] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
       newMixins[`visibilityMixin:${device}`].variables = {
         device: {
@@ -610,7 +610,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       }
     } else {
       // boxModelMixin
-      if (newValue[device].hasOwnProperty('boxModel')) {
+      if (Object.prototype.hasOwnProperty.call(newValue[device], 'boxModel')) {
         const value = newValue[device].boxModel
         if (!lodash.isEmpty(value)) {
           // update mixin
@@ -1155,7 +1155,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param prevValue
    */
   attachImageChangeHandler (fieldKey, value, prevValue) {
-    if (value && value.hasOwnProperty(value.draggingIndex)) {
+    if (value && Object.prototype.hasOwnProperty.call(value, value.draggingIndex)) {
       delete value.draggingIndex
     }
     const newState = lodash.defaultsDeep({}, this.state)
@@ -1185,7 +1185,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow'
     ]
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -1257,7 +1257,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       'imagesSlideshow'
     ]
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -1337,7 +1337,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomRender () {
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -1373,7 +1373,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomSpeedRender () {
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images
@@ -1407,7 +1407,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getBackgroundZoomReverseRender () {
     const deviceData = this.state.devices[this.state.currentDevice]
-    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
+    if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
       return null
     }
     const images = deviceData.images

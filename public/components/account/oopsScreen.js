@@ -40,7 +40,7 @@ export default class OopsScreen extends React.Component {
     const { errorName, errorMessage } = this.props
     let errorText = errorMessage
 
-    if (!errorText && errorName && Errors.hasOwnProperty(errorName)) {
+    if (!errorText && errorName && Object.prototype.hasOwnProperty.call(Errors, errorName)) {
       errorText = Errors[errorName].message
     }
 
@@ -49,7 +49,7 @@ export default class OopsScreen extends React.Component {
 
   getActionButtons () {
     const { errorName, errorAction, errorReportAction } = this.props
-    if (Errors.hasOwnProperty(errorName) && Errors[errorName].buttonText) {
+    if (Object.prototype.hasOwnProperty.call(Errors, errorName) && Errors[errorName].buttonText) {
       return (
         <button
           className='vcv-screen-button'

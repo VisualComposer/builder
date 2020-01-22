@@ -82,8 +82,8 @@
       },
       extend: function (o1, o2, preventOverwrite) {
         for (var prop in o2) {
-          if (o2.hasOwnProperty(prop)) {
-            if (preventOverwrite && o1.hasOwnProperty(prop)) {
+          if (Object.prototype.hasOwnProperty.call(o2, prop)) {
+            if (preventOverwrite && Object.prototype.hasOwnProperty.call(o1, prop)) {
               continue;
             }
             o1[ prop ] = o2[ prop ];
@@ -723,7 +723,7 @@
       _stopAllAnimations = function () {
         for (var prop in _animations) {
 
-          if (_animations.hasOwnProperty(prop)) {
+          if (Object.prototype.hasOwnProperty.call(_animations, prop)) {
             _stopAnimation(prop);
           }
 
@@ -3473,7 +3473,7 @@
 
         var pid = (_currentItemIndex + 1);
         var item = _getItemAt(_currentItemIndex);
-        if (item.hasOwnProperty('pid')) {
+        if (Object.prototype.hasOwnProperty.call(item, 'pid')) {
           // carry forward any custom pid assigned to the item
           pid = item.pid;
         }

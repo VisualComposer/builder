@@ -604,7 +604,7 @@ import './slickCustom.less';
       targetBreakpoint = null;
 
       for (breakpoint in _.breakpoints) {
-        if (_.breakpoints.hasOwnProperty(breakpoint)) {
+        if (Object.prototype.hasOwnProperty.call(_.breakpoints, breakpoint)) {
           if (_.originalSettings.mobileFirst === false) {
             if (respondToWidth < _.breakpoints[ breakpoint ]) {
               targetBreakpoint = _.breakpoints[ breakpoint ];
@@ -1889,7 +1889,7 @@ import './slickCustom.less';
 
         l = _.breakpoints.length - 1;
 
-        if (responsiveSettings.hasOwnProperty(breakpoint)) {
+        if (Object.prototype.hasOwnProperty.call(responsiveSettings, breakpoint)) {
           currentBreakpoint = responsiveSettings[ breakpoint ].breakpoint;
 
           // loop through the breakpoints and cut out any existing

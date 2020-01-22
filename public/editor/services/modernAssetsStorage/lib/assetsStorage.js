@@ -45,7 +45,7 @@ export default class {
         }
       }
     }
-    if (!tags.hasOwnProperty(tag)) {
+    if (!Object.prototype.hasOwnProperty.call(tags, tag)) {
       tags[tag] = true
     }
 
@@ -101,7 +101,7 @@ export default class {
           })
         }
       } else {
-        if (settings[key].hasOwnProperty('options') && settings[key].options.hasOwnProperty('cssMixin')) {
+        if (Object.prototype.hasOwnProperty.call(settings[key], 'options') && Object.prototype.hasOwnProperty.call(settings[key].options, 'cssMixin')) {
           const mixin = settings[key].options.cssMixin
           const cssSettings = element.get('cssSettings')
           if (!foundMixins[mixin.mixin] && cssSettings.mixins[mixin.mixin]) {
@@ -168,7 +168,7 @@ export default class {
               }
             }
           } else {
-            if (!foundMixins.hasOwnProperty(mixin.mixin)) {
+            if (!Object.prototype.hasOwnProperty.call(foundMixins, mixin.mixin)) {
               console.warn(`${mixin.mixin} not found in element! Please check your mixin!`)
               return {}
             }
@@ -258,7 +258,7 @@ export default class {
     const tag = cookElement.get('tag')
     const id = cookElement.get('id')
     for (const key in settings) {
-      if (settings.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(settings, key)) {
         // get css mixin from attribute
         const value = cookElement.get(key)
         if (value) {
@@ -468,7 +468,7 @@ export default class {
       const mixins = Object.keys(cssMixins[tag])
 
       mixins.forEach((mixin) => {
-        if (elementData.hasOwnProperty(mixin) && cssSettings.mixins && !cssSettings.mixins[mixin]) {
+        if (Object.prototype.hasOwnProperty.call(elementData, mixin) && cssSettings.mixins && !cssSettings.mixins[mixin]) {
           for (const itemMixinsIndex in cssMixins[tag][mixin]) {
             for (const mixinElementTag in cssMixins[tag][mixin][itemMixinsIndex]) {
               let mixinStyles = []

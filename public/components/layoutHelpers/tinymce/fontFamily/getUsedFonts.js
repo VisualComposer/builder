@@ -41,7 +41,7 @@ const getUsedFonts = function (element) {
       const fontWeight = computedStyles.fontWeight
       const fontVariant = getFontVariant(fontStyle, fontWeight, familyPositionInFonts)
 
-      if (allFonts.hasOwnProperty(fontFamily)) {
+      if (Object.prototype.hasOwnProperty.call(allFonts, fontFamily)) {
         if (allFonts[fontFamily].variants.indexOf('all') < 0 && allFonts[fontFamily].variants.indexOf(fontVariant) < 0) {
           allFonts[fontFamily].variants.push(fontVariant)
         }

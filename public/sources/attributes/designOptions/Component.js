@@ -311,7 +311,7 @@ export default class DesignOptions extends Attribute {
         // values
         newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
         // remove all values if display is provided
-        if (newValue[device].hasOwnProperty('display')) {
+        if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
           Object.keys(newValue[device]).forEach((style) => {
             if (style !== 'display') {
               delete newValue[device][style]
@@ -321,7 +321,7 @@ export default class DesignOptions extends Attribute {
           // image is empty
           const imageValue = newValue[device].image && newValue[device].image.urls && newValue[device].image.urls[0] ? newValue[device].image.urls[0].full : false
           const isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
-          if (!isDynamic && (!newValue[device].hasOwnProperty('image') || ((!newValue[device].image.urls || newValue[device].image.urls.length === 0) && newValue[device].image.length === 0))) {
+          if (!isDynamic && (!Object.prototype.hasOwnProperty.call(newValue[device], 'image') || ((!newValue[device].image.urls || newValue[device].image.urls.length === 0) && newValue[device].image.length === 0))) {
             delete newValue[device].image
             delete newValue[device].backgroundStyle
           }
@@ -389,7 +389,7 @@ export default class DesignOptions extends Attribute {
 
   static getMixins (newValue, device, newMixins) {
     // mixins
-    if (newValue[device].hasOwnProperty('display')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
       newMixins[`visibilityMixin:${device}`] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.visibilityMixin)
       newMixins[`visibilityMixin:${device}`].variables = {
         device: {
@@ -407,7 +407,7 @@ export default class DesignOptions extends Attribute {
   }
 
   static getBoxModelMixin (newValue, device, newMixins) {
-    if (newValue[device].hasOwnProperty('boxModel')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'boxModel')) {
       const value = newValue[device].boxModel
       if (!lodash.isEmpty(value)) {
         // update mixin
@@ -530,7 +530,7 @@ export default class DesignOptions extends Attribute {
   }
 
   static getAnimationDelayMixin (newValue, device, newMixins) {
-    if (newValue[device].hasOwnProperty('animationDelay')) {
+    if (Object.prototype.hasOwnProperty.call(newValue[device], 'animationDelay')) {
       const value = newValue[device].animationDelay
       if (!lodash.isEmpty(value)) {
         // update mixin
@@ -945,7 +945,7 @@ export default class DesignOptions extends Attribute {
    * @param prevValue
    */
   attachImageChangeHandler (fieldKey, value, prevValue) {
-    if (value && value.hasOwnProperty(value.draggingIndex)) {
+    if (value && Object.prototype.hasOwnProperty.call(value, value.draggingIndex)) {
       delete value.draggingIndex
     }
     const newState = lodash.defaultsDeep({}, this.state)

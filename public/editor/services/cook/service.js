@@ -377,7 +377,7 @@ const API = {
     }
   },
   getContainerChildren (tag) {
-    if (containerRelations.hasOwnProperty(tag)) {
+    if (Object.prototype.hasOwnProperty.call(containerRelations, tag)) {
       return containerRelations[tag]
     } else {
       return []

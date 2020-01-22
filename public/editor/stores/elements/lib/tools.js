@@ -10,7 +10,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   let layouts = data.layout
   const defaultColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {} }
   const createdColumns = []
-  const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
+  const disableStacking = data && Object.prototype.hasOwnProperty.call(data, 'disableStacking') ? data.disableStacking : false
   let lastColumnObject = null
 
   if (!layouts) {
@@ -19,7 +19,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
     const rowChildren = documentManager.children(id)
     let customDevices = false
     rowChildren.forEach((element) => {
-      if (element.size.hasOwnProperty('xs')) {
+      if (Object.prototype.hasOwnProperty.call(element.size, 'xs')) {
         customDevices = true
       }
     })
@@ -27,33 +27,33 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
     // Get layout for 'all'
     rowChildren.forEach((element) => {
       if (!customDevices && element.size.all) {
-        if (!layouts.hasOwnProperty('all')) {
+        if (!Object.prototype.hasOwnProperty.call(layouts, 'all')) {
           layouts.all = []
         }
         layouts.all.push(element.size.all)
       }
 
       if (element.size.defaultSize) {
-        if (!layouts.hasOwnProperty('defaultSize')) {
+        if (!Object.prototype.hasOwnProperty.call(layouts, 'defaultSize')) {
           layouts.defaultSize = []
         }
         layouts.defaultSize.push(element.size.defaultSize)
       }
     })
 
-    if (!layouts.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+    if (!Object.prototype.hasOwnProperty.call(layouts, 'all')) { // Get layout for devices, if 'all' is not defined
       devices.forEach((device) => {
         if (device !== 'defaultSize' && device !== 'all') {
           rowChildren.forEach((element) => {
             if (element.size[device]) {
-              if (!layouts.hasOwnProperty(device)) {
+              if (!Object.prototype.hasOwnProperty.call(layouts, device)) {
                 layouts[device] = []
               }
               layouts[device].push(element.size[device])
             }
 
-            if (customDevices && element.size.hasOwnProperty('all')) {
-              if (!layouts.hasOwnProperty(device)) {
+            if (customDevices && Object.prototype.hasOwnProperty.call(element.size, 'all')) {
+              if (!Object.prototype.hasOwnProperty.call(layouts, device)) {
                 layouts[device] = []
               }
               if (device === 'xs' || device === 'sm') {
@@ -67,7 +67,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       })
     }
   } else {
-    if (layouts.hasOwnProperty('all') && !layouts.hasOwnProperty('defaultSize')) {
+    if (Object.prototype.hasOwnProperty.call(layouts, 'all') && !Object.prototype.hasOwnProperty.call(layouts, 'defaultSize')) {
       layouts.defaultSize = layouts.all
     }
   }
@@ -123,7 +123,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   })
 
   newColumns.forEach((col) => {
-    if (!layouts.hasOwnProperty('all')) {
+    if (!Object.prototype.hasOwnProperty.call(layouts, 'all')) {
       delete col.size.all
     } else {
       delete col.size.xs
@@ -173,7 +173,7 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
       let hasDeviceSettings = false
 
       for (const prop in designOptions.device) {
-        if (designOptions.device.hasOwnProperty(prop)) {
+        if (Object.prototype.hasOwnProperty.call(designOptions.device, prop)) {
           hasDeviceSettings = true
         }
       }
@@ -182,7 +182,7 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
         return
       }
 
-      if (designOptions.device.hasOwnProperty('all')) {
+      if (Object.prototype.hasOwnProperty.call(designOptions.device, 'all')) {
         const allSettings = designOptions.device.all
         if (allSettings.backgroundColor || typeof allSettings.images === 'string' || (allSettings.images && allSettings.images.urls && allSettings.images.urls.length)) {
           elementBackground.all = true
@@ -190,7 +190,7 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
         }
       } else {
         for (const device in designOptions.device) {
-          if (designOptions.device.hasOwnProperty(device)) {
+          if (Object.prototype.hasOwnProperty.call(designOptions.device, device)) {
             const deviceSettings = designOptions.device[device]
             if (deviceSettings.backgroundColor || typeof deviceSettings.images === 'string' || (deviceSettings.images && deviceSettings.images.urls && deviceSettings.images.urls.length)) {
               elementBackground[device] = true
@@ -216,7 +216,7 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
 
   const reducedColBackgrounds = columnBackgrounds.reduce(function (result, currentObject) {
     for (const key in currentObject) {
-      if (currentObject.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
         result[key] = currentObject[key]
       }
     }

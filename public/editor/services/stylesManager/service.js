@@ -144,7 +144,7 @@ class StylesManager {
       }
 
       let use = []
-      if (style.hasOwnProperty('variables')) {
+      if (Object.prototype.hasOwnProperty.call(style, 'variables')) {
         use.push(postcssAdvancedVars({
           variables: style.variables
         }))
@@ -156,7 +156,7 @@ class StylesManager {
       cssHashes[hash] = {}
 
       let viewports = this.getViewports()
-      if (style.hasOwnProperty('viewports')) {
+      if (Object.prototype.hasOwnProperty.call(style, 'viewports')) {
         viewports = style.viewports
       }
       use.push(postcssMedia({

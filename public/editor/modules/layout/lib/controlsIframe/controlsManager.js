@@ -154,7 +154,7 @@ export default class ControlsManager {
         element = elPath[0] // first element in path always hovered element
       }
       // replace linked element with real element
-      if (element && element.dataset.hasOwnProperty('vcvLinkedElement')) {
+      if (element && Object.prototype.hasOwnProperty.call(element.dataset, 'vcvLinkedElement')) {
         element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
         elPath[0] = element
       }

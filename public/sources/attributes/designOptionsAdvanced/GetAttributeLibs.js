@@ -73,9 +73,9 @@ export default (value) => {
 
   if (value && value.device && Object.keys(value.device).length) {
     for (const device in value.device) {
-      if (value.device.hasOwnProperty(device)) {
+      if (Object.prototype.hasOwnProperty.call(value.device, device)) {
         for (const fieldKey in value.device[device]) {
-          if (value.device[device].hasOwnProperty(fieldKey)) {
+          if (Object.prototype.hasOwnProperty.call(value.device[device], fieldKey)) {
             const matchField = libNames.find((lib) => {
               const matchKey = lib.fieldKey === fieldKey
               let currentValue = value.device[device][fieldKey]

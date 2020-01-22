@@ -71,7 +71,7 @@ export default class CustomStyles extends React.Component {
     const { styleData } = this.props
     const { isActiveIndex } = this.state
     for (const i in styleData) {
-      if (styleData.hasOwnProperty(i)) {
+      if (Object.prototype.hasOwnProperty.call(styleData, i)) {
         const { ...buttonProps } = this.getButtonProps(styleData[i], isActiveIndex)
         allButtons.push(
           <StyleControl {...buttonProps} />
@@ -90,7 +90,7 @@ export default class CustomStyles extends React.Component {
     const allEditors = []
     const { styleData } = this.props
     for (const i in styleData) {
-      if (styleData.hasOwnProperty(i)) {
+      if (Object.prototype.hasOwnProperty.call(styleData, i)) {
         allEditors.push(
           <StyleEditor
             key={'styleEditor' + styleData[i].index}

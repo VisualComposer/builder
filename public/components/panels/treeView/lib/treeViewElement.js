@@ -69,7 +69,7 @@ export default class TreeViewElement extends React.Component {
     if (!newProps && this.props.updateElementsData) {
       this.props.updateElementsData(data || this.props.element, 'singleElement')
     }
-    if (data && data.hasOwnProperty('customHeaderTitle')) {
+    if (data && Object.prototype.hasOwnProperty.call(data, 'customHeaderTitle')) {
       const element = cook.get(data || this.props.element)
       const content = data.customHeaderTitle || element.getName()
       if (this.state.content !== content) {
@@ -258,13 +258,13 @@ export default class TreeViewElement extends React.Component {
   }
 
   handleMouseEnter (e) {
-    if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+    if (e.currentTarget.parentNode.dataset && Object.prototype.hasOwnProperty.call(e.currentTarget.parentNode.dataset, 'vcvElement')) {
       workspaceStorage.state('userInteractWith').set(this.state.element.id)
     }
   }
 
   handleMouseLeave (e) {
-    if (e.currentTarget.parentNode.dataset && e.currentTarget.parentNode.dataset.hasOwnProperty('vcvElement')) {
+    if (e.currentTarget.parentNode.dataset && Object.prototype.hasOwnProperty.call(e.currentTarget.parentNode.dataset, 'vcvElement')) {
       workspaceStorage.state('userInteractWith').set(false)
     }
   }

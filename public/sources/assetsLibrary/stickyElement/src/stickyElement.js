@@ -537,7 +537,7 @@
     }
 
     for (let property in properties) {
-      if (properties.hasOwnProperty(property)) {
+      if (Object.prototype.hasOwnProperty.call(properties, property)) {
         element.style[property] = properties[property];
       }
     }
