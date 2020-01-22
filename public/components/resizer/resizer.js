@@ -111,12 +111,10 @@ class Resizer extends React.Component {
   }
 
   resizeLeft (offsetX, clientX, e) {
-    let oldW, w, doResize
-
-    oldW = parseInt(this.$targetLeft.css('width'))
-    w = oldW + (offsetX) + 'px'
+    const oldW = parseInt(this.$targetLeft.css('width'))
+    const w = oldW + (offsetX) + 'px'
     this.$targetLeft.css('width', w)
-    doResize = (window.getComputedStyle(this.$targetLeft[0]).width === w)
+    const doResize = (window.getComputedStyle(this.$targetLeft[0]).width === w)
     if (doResize) {
       this.startClientX = clientX
       e.direction = 'left'
@@ -129,12 +127,10 @@ class Resizer extends React.Component {
   }
 
   resizeRight (offsetX, clientX, e) {
-    let oldW, w, doResize
-
-    oldW = parseInt(this.$targetRight.css('width'))
-    w = oldW - (offsetX) + 'px'
+    const oldW = parseInt(this.$targetRight.css('width'))
+    const w = oldW - (offsetX) + 'px'
     this.$targetRight.css('width', w)
-    doResize = (window.getComputedStyle(this.$targetRight[0]).width === w)
+    const doResize = (window.getComputedStyle(this.$targetRight[0]).width === w)
     if (doResize) {
       this.startClientX = clientX
       e.direction = 'right'
@@ -147,12 +143,10 @@ class Resizer extends React.Component {
   }
 
   resizeBottom (offsetY, clientY, e) {
-    let oldH, h, doResize
-
-    oldH = parseInt(this.$targetBottom.css('height'))
-    h = oldH - (offsetY) + 'px'
+    const oldH = parseInt(this.$targetBottom.css('height'))
+    const h = oldH - (offsetY) + 'px'
     this.$targetBottom.css('height', h)
-    doResize = (window.getComputedStyle(this.$targetBottom[0]).height === h)
+    const doResize = (window.getComputedStyle(this.$targetBottom[0]).height === h)
     if (doResize) {
       this.startClientY = clientY
       e.direction = 'bottom'
@@ -165,12 +159,10 @@ class Resizer extends React.Component {
   }
 
   resizeTop (offsetY, clientY, e) {
-    let oldH, h, doResize
-
-    oldH = parseInt(this.$targetTop.css('height'))
-    h = oldH + offsetY + 'px'
+    const oldH = parseInt(this.$targetTop.css('height'))
+    const h = oldH + offsetY + 'px'
     this.$targetTop.css('height', h)
-    doResize = (window.getComputedStyle(this.$targetTop[0]).height === h)
+    const doResize = (window.getComputedStyle(this.$targetTop[0]).height === h)
     if (doResize) {
       this.startClientY = clientY
       e.direction = 'top'
