@@ -43,7 +43,7 @@ class EnvController extends Container implements Module
         $variables[] = [
             'type' => 'constant',
             'key' => 'VCV_SITE_URL',
-            'value' => get_site_url(),
+            'value' => VCV_PLUGIN_URL,
         ];
 
         return $variables;
