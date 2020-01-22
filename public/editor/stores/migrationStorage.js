@@ -16,7 +16,7 @@ addStorage('migration', (storage) => {
         const elements = storage.state('elements').get()
         const elementsArray = []
         for (const key in elements) {
-          if (elements.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(elements, key)) {
             elementsArray.push(elements[key])
           }
         }

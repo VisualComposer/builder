@@ -485,7 +485,7 @@ export default class ElementComponent extends React.Component {
     }
 
     // Merge parallax and design options background for devices
-    if (designOptionsAdvanced.device.hasOwnProperty('all') && parallax && parallax.device && !parallax.device.hasOwnProperty('all')) {
+    if (Object.prototype.hasOwnProperty.call(designOptionsAdvanced.device, 'all') && parallax && parallax.device && !Object.prototype.hasOwnProperty.call(parallax.device, 'all')) {
       devices.forEach((deviceKey) => {
         backgroundData.push(getBackgroundDeviceData(deviceKey, device.all, parallax.device[deviceKey]))
       })
@@ -494,7 +494,7 @@ export default class ElementComponent extends React.Component {
         const parallaxData = parallax && parallax.device
         let parallaxDeviceData = null
         if (parallaxData) {
-          parallaxDeviceData = parallax.device.hasOwnProperty(deviceKey) ? parallax.device[deviceKey] : parallax.device.all
+          parallaxDeviceData = Object.prototype.hasOwnProperty.call(parallax.device, deviceKey) ? parallax.device[deviceKey] : parallax.device.all
         }
 
         backgroundData.push(getBackgroundDeviceData(deviceKey, device[deviceKey], parallaxDeviceData))
@@ -527,7 +527,7 @@ export default class ElementComponent extends React.Component {
       if (device !== 'all') {
         customDevices.push(device)
       }
-      if (designOptionsDevices[device].hasOwnProperty('parallax')) {
+      if (Object.prototype.hasOwnProperty.call(designOptionsDevices[device], 'parallax')) {
         parallaxDevices.push(device)
       }
     })
@@ -622,7 +622,7 @@ export default class ElementComponent extends React.Component {
         })
         imageUrl = urls
       } else {
-        imageUrl = image && image.full && image.id ? image.full : (image && image.hasOwnProperty('full') ? this.getPublicImage(image.full) : this.getPublicImage(image))
+        imageUrl = image && image.full && image.id ? image.full : (image && Object.prototype.hasOwnProperty.call(image, 'full') ? this.getPublicImage(image.full) : this.getPublicImage(image))
       }
     }
 

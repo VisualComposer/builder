@@ -156,7 +156,7 @@ export default class StockImagesResultsPanel extends React.Component {
       .then(
         (result) => {
           if (result) {
-            if (result.hasOwnProperty('allowDownload')) {
+            if (Object.prototype.hasOwnProperty.call(result, 'allowDownload')) {
               this.allowDownload = result.allowDownload
             } else {
               this.allowDownload = true

@@ -37,7 +37,7 @@ addStorage('elements', (storage) => {
     let newData = Object.assign({}, data || {})
     const allKeys = Object.keys(data)
     allKeys.forEach((key) => {
-      if (!newData.hasOwnProperty(key)) {
+      if (!Object.prototype.hasOwnProperty.call(newData, key)) {
         return
       }
       const cookElement = cook.get(newData[key])
@@ -47,7 +47,7 @@ addStorage('elements', (storage) => {
       } else {
         const parent = cookElement.get('parent')
         if (parent) {
-          if (!data.hasOwnProperty(parent)) {
+          if (!Object.prototype.hasOwnProperty.call(data, parent)) {
             delete newData[key]
             env('VCV_DEBUG') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
             newData = sanitizeData(newData)
@@ -108,7 +108,7 @@ addStorage('elements', (storage) => {
 
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (data.tag === 'row') {
-        if (data.layout && data.layout.layoutData && (data.layout.layoutData.hasOwnProperty('all') || data.layout.layoutData.hasOwnProperty('xs'))) {
+        if (data.layout && data.layout.layoutData && (Object.prototype.hasOwnProperty.call(data.layout.layoutData, 'all') || Object.prototype.hasOwnProperty.call(data.layout.layoutData, 'xs'))) {
           rebuildRawLayout(data.id, { layout: data.layout.layoutData }, documentManager)
           data.layout.layoutData = undefined
         } else {
@@ -135,7 +135,7 @@ addStorage('elements', (storage) => {
       cacheStorage.trigger('clear', 'controls')
     }
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
-      if (element.tag === 'row' && element.layout && element.layout.layoutData && (element.layout.layoutData.hasOwnProperty('all') || element.layout.layoutData.hasOwnProperty('xs'))) {
+      if (element.tag === 'row' && element.layout && element.layout.layoutData && (Object.prototype.hasOwnProperty.call(element.layout.layoutData, 'all') || Object.prototype.hasOwnProperty.call(element.layout.layoutData, 'xs'))) {
         rebuildRawLayout(id, { layout: element.layout.layoutData, disableStacking: element.layout.disableStacking }, documentManager)
         element.layout.layoutData = undefined
       }

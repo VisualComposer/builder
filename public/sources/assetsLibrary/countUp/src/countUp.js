@@ -33,7 +33,7 @@ by @inorganik
     // extend default options with passed options object
     if (options && typeof options === 'object') {
       for (var key in self.options) {
-        if (options.hasOwnProperty(key) && options[ key ] !== null) {
+        if (Object.prototype.hasOwnProperty.call(options, key) && options[ key ] !== null) {
           self.options[ key ] = options[ key ];
         }
       }

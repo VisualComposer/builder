@@ -722,7 +722,7 @@ https://github.com/imakewebthings/waypoints/blob/master/licenses.txt
     function merge(target, obj) {
       if (typeof target === 'object' && typeof obj === 'object') {
         for (var key in obj) {
-          if (obj.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
             target[key] = obj[key]
           }
         }

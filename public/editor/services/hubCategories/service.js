@@ -45,7 +45,7 @@ const API = {
       if (cookElement) {
         const elementObject = cookElement.toJS(true, false)
         const elementHubElement = hubElements[elementObject.tag]
-        elementObject.thirdParty = elementHubElement && elementHubElement.hasOwnProperty('thirdParty') && elementHubElement.thirdParty === true
+        elementObject.thirdParty = elementHubElement && Object.prototype.hasOwnProperty.call(elementHubElement, 'thirdParty') && elementHubElement.thirdParty === true
         cookElements.push(elementObject)
       }
     })

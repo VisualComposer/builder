@@ -5,7 +5,7 @@ import publicAPI from './components/api/publicAPI'
 
 // require('expose-loader?$!jquery')
 
-if (!window.hasOwnProperty('vcv')) {
+if (!Object.prototype.hasOwnProperty.call(window, 'vcv')) {
   Object.defineProperty(window, 'vcv', {
     value: publicAPI,
     writable: false,

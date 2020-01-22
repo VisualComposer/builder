@@ -26,7 +26,7 @@ export default class Scrollbar extends React.Component {
     const { ...props } = this.props
     const scrollbarClasses = classNames({
       'vcv-ui-scroll': true,
-      'vcv-ui-tree-layout-filled': this.props.hasOwnProperty('content') && this.props.content
+      'vcv-ui-tree-layout-filled': Object.prototype.hasOwnProperty.call(this.props, 'content') && this.props.content
     })
 
     return (

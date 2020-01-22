@@ -147,7 +147,7 @@ export default class ControlsManager {
       element = elPath[0] // first element in path always hovered element
     }
     // replace linked element with real element
-    if (element && element.dataset.hasOwnProperty('vcvLinkedElement')) {
+    if (element && Object.prototype.hasOwnProperty.call(element.dataset, 'vcvLinkedElement')) {
       element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
       elPath[0] = element
     }
@@ -194,8 +194,8 @@ export default class ControlsManager {
 
   scrollPage (y) {
     if (this.iframeScrollable && !this.state.scrolling) {
-      let posY = this.iframeScrollable.hasOwnProperty('scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
-      const posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
+      let posY = Object.prototype.hasOwnProperty.call(this.iframeScrollable, 'scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
+      const posX = Object.prototype.hasOwnProperty.call(this.iframeScrollable, 'scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
       if (this.isIOS && this.iframeScrollable.firstElementChild) {
         posY = -this.iframeScrollable.firstElementChild.getBoundingClientRect().top
       }
@@ -229,7 +229,7 @@ export default class ControlsManager {
 
   touchStart (e) {
     const data = this.findElement(e)
-    this.windowHeight = this.iframeScrollable.hasOwnProperty('innerHeight') ? this.iframeScrollable.innerHeight : this.iframeScrollable.clientHeight
+    this.windowHeight = Object.prototype.hasOwnProperty.call(this.iframeScrollable, 'innerHeight') ? this.iframeScrollable.innerHeight : this.iframeScrollable.clientHeight
     if (!this.state.dragging && e.touches && e.touches.length === 1 && data.element) {
       if (this.iframeDocument.selection) {
         this.iframeDocument.selection.empty()

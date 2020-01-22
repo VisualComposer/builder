@@ -365,7 +365,7 @@ class ColumnResizer extends React.Component {
     let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
     rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
 
-    const device = layoutData.hasOwnProperty('all') ? 'all' : this.resizerData.currentDevice
+    const device = Object.prototype.hasOwnProperty.call(layoutData, 'all') ? 'all' : this.resizerData.currentDevice
 
     layoutData[device][this.resizerData.leftColumnIndex] = `${leftSize}%`
     layoutData[device][this.resizerData.rightColumnIndex] = `${rightSize}%`
@@ -396,18 +396,18 @@ class ColumnResizer extends React.Component {
     // Get layout for 'all'
     rowChildren.forEach((element) => {
       if (element.size.all) {
-        if (!deviceLayoutData.hasOwnProperty('all')) {
+        if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, 'all')) {
           deviceLayoutData.all = []
         }
         deviceLayoutData.all.push(element.size.all)
       }
     })
 
-    if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+    if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, 'all')) { // Get layout for devices, if 'all' is not defined
       Layout.devices.forEach((device) => {
         rowChildren.forEach((element) => {
           if (element.size[device]) {
-            if (!deviceLayoutData.hasOwnProperty(device)) {
+            if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, device)) {
               deviceLayoutData[device] = []
             }
             deviceLayoutData[device].push(element.size[device])

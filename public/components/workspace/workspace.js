@@ -47,7 +47,7 @@ export default class Workspace extends React.Component {
 
   handleMouseUp () {
     const dragState = workspaceStorage.state('drag').get()
-    if (dragState && dragState.hasOwnProperty('active') && dragState.active) {
+    if (dragState && Object.prototype.hasOwnProperty.call(dragState, 'active') && dragState.active) {
       workspaceStorage.state('drag').set({ active: false })
     }
   }

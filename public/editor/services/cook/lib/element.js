@@ -48,9 +48,9 @@ export default class Element {
 
     if (dataSettings) {
       for (const k in dataSettings) {
-        if (dataSettings.hasOwnProperty(k)) {
+        if (Object.prototype.hasOwnProperty.call(dataSettings, k)) {
           const attrSettings = getAttributeType(k, dataSettings)
-          if (attrSettings.hasOwnProperty('settings')) {
+          if (Object.prototype.hasOwnProperty.call(attrSettings, 'settings')) {
             settings[k] = attrSettings.settings
             settings[k].attrSettings = attrSettings
           }

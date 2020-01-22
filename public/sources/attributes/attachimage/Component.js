@@ -386,7 +386,7 @@ export default class AttachImage extends Attribute {
     }
 
     let dynamicValue = value
-    if (value && value.hasOwnProperty('urls')) {
+    if (value && Object.prototype.hasOwnProperty.call(value, 'urls')) {
       dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
     const isDynamicValue = !!(dynamicValue && typeof dynamicValue === 'string' && dynamicValue.match(blockRegexp))
@@ -484,7 +484,7 @@ export default class AttachImage extends Attribute {
 
     let dynamicValue = value
 
-    if (value && value.hasOwnProperty('urls')) {
+    if (value && Object.prototype.hasOwnProperty.call(value, 'urls')) {
       dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
 

@@ -96,13 +96,13 @@ export default class RowElement extends vcvAPI.elementComponent {
 
   static getDefaultLayout (id, layoutData) {
     let defaultLayout = []
-    if (layoutData && layoutData.hasOwnProperty('all')) {
+    if (layoutData && Object.prototype.hasOwnProperty.call(layoutData, 'all')) {
       defaultLayout = layoutData.all.slice()
     } else {
       const rowChildren = documentManager.children(id)
 
       rowChildren.forEach((element) => {
-        if (element.size.hasOwnProperty('defaultSize')) {
+        if (Object.prototype.hasOwnProperty.call(element.size, 'defaultSize')) {
           defaultLayout.push(element.size.defaultSize)
         }
       })
@@ -203,7 +203,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     })
 
     newColumns.forEach((col) => {
-      if (!layoutData.hasOwnProperty('all')) {
+      if (!Object.prototype.hasOwnProperty.call(layoutData, 'all')) {
         delete col.size.all
       } else {
         delete col.size.xs
@@ -239,7 +239,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     const rowChildren = documentManager.children(id)
     let customDevices = false
     rowChildren.forEach((element) => {
-      if (element.size.hasOwnProperty('xs')) {
+      if (Object.prototype.hasOwnProperty.call(element.size, 'xs')) {
         customDevices = true
       }
     })
@@ -247,33 +247,33 @@ export default class RowElement extends vcvAPI.elementComponent {
     // Get layout for 'all'
     rowChildren.forEach((element) => {
       if (!customDevices && element.size.all) {
-        if (!layouts.hasOwnProperty('all')) {
+        if (!Object.prototype.hasOwnProperty.call(layouts, 'all')) {
           layouts.all = []
         }
         layouts.all.push(element.size.all)
       }
 
       if (element.size.defaultSize) {
-        if (!layouts.hasOwnProperty('defaultSize')) {
+        if (!Object.prototype.hasOwnProperty.call(layouts, 'defaultSize')) {
           layouts.defaultSize = []
         }
         layouts.defaultSize.push(element.size.defaultSize)
       }
     })
 
-    if (!layouts.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+    if (!Object.prototype.hasOwnProperty.call(layouts, 'all')) { // Get layout for devices, if 'all' is not defined
       devices.forEach((device) => {
         if (device !== 'defaultSize' && device !== 'all') {
           rowChildren.forEach((element) => {
             if (element.size[device]) {
-              if (!layouts.hasOwnProperty(device)) {
+              if (!Object.prototype.hasOwnProperty.call(layouts, device)) {
                 layouts[device] = []
               }
               layouts[device].push(element.size[device])
             }
 
-            if (customDevices && element.size.hasOwnProperty('all')) {
-              if (!layouts.hasOwnProperty(device)) {
+            if (customDevices && Object.prototype.hasOwnProperty.call(element.size, 'all')) {
+              if (!Object.prototype.hasOwnProperty.call(layouts, device)) {
                 layouts[device] = []
               }
               if (device === 'xs' || device === 'sm') {

@@ -111,7 +111,7 @@ export default class Layout extends Attribute {
   static buildMixins (data) {
     const layoutData = Layout.getLayoutData(data.id)
 
-    if (!layoutData.hasOwnProperty('all') && !layoutData.hasOwnProperty('xs')) {
+    if (!Object.prototype.hasOwnProperty.call(layoutData, 'all') && !Object.prototype.hasOwnProperty.call(layoutData, 'xs')) {
       return null
     }
 
@@ -119,8 +119,8 @@ export default class Layout extends Attribute {
 
     const columnGap = data.columnGap ? parseInt(data.columnGap) : 0
     const selector = `vce-row--col-gap-${columnGap}#el-${data.id}`
-    const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
-    const responsivenessSettings = data && data.layout && data.layout.hasOwnProperty('responsivenessSettings') ? data.layout.responsivenessSettings : false
+    const disableStacking = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'disableStacking') ? data.layout.disableStacking : false
+    const responsivenessSettings = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'responsivenessSettings') ? data.layout.responsivenessSettings : false
 
     Layout.devices.forEach((device) => {
       const currentLayout = layoutData.all || layoutData[device]
@@ -198,32 +198,32 @@ export default class Layout extends Attribute {
         return
       }
       if (element.size && element.size.all) {
-        if (!deviceLayoutData.hasOwnProperty('all')) {
+        if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, 'all')) {
           deviceLayoutData.all = []
         }
         deviceLayoutData.all.push(element.size.all)
       }
 
       if (getDefault && element.size && element.size.defaultSize) {
-        if (!deviceLayoutData.hasOwnProperty('defaultSize')) {
+        if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, 'defaultSize')) {
           deviceLayoutData.defaultSize = []
         }
         deviceLayoutData.defaultSize.push(element.size.defaultSize)
       }
     })
 
-    if (!deviceLayoutData.hasOwnProperty('all')) { // Get layout for devices, if 'all' is not defined
+    if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, 'all')) { // Get layout for devices, if 'all' is not defined
       Layout.devices.forEach((device) => {
         rowChildren.forEach((element) => {
           if (!element) {
             return
           }
-          if (!deviceLayoutData.hasOwnProperty(device)) {
+          if (!Object.prototype.hasOwnProperty.call(deviceLayoutData, device)) {
             deviceLayoutData[device] = []
           }
           if (element.size && typeof element.size === 'string') {
             deviceLayoutData[device].push(element.size)
-          } else if (element.size && element.size.hasOwnProperty && element.size.hasOwnProperty(device)) {
+          } else if (element.size && element.size.hasOwnProperty && Object.prototype.hasOwnProperty.call(element.size, device)) {
             deviceLayoutData[device].push(element.size[device])
           } else {
             deviceLayoutData[device].push('auto')
@@ -270,7 +270,7 @@ export default class Layout extends Attribute {
     newState.layoutData.all = defaultLayout
     newState.defaultLayoutData = defaultLayout
     for (const device in newState.layoutData) {
-      if (newState.layoutData.hasOwnProperty(device)) {
+      if (Object.prototype.hasOwnProperty.call(newState.layoutData, device)) {
         const deviceLayout = newState.layoutData[device]
         if (device !== 'all') {
           deviceLayout.length = 0
@@ -320,7 +320,7 @@ export default class Layout extends Attribute {
     }
     const sanitizedValue = {}
     for (const device in layoutData) {
-      if (layoutData.hasOwnProperty(device)) {
+      if (Object.prototype.hasOwnProperty.call(layoutData, device)) {
         const convertToEmpty = device !== 'defaultSize' && device !== 'all'
         sanitizedValue[device] = this.sanitizeLayout(layoutData[device], convertToEmpty)
       }
@@ -377,7 +377,7 @@ export default class Layout extends Attribute {
     if (data && data.disableStacking) {
       return null
     }
-    const reverseState = data && data.hasOwnProperty('reverseColumn') ? data.reverseColumn : false
+    const reverseState = data && Object.prototype.hasOwnProperty.call(data, 'reverseColumn') ? data.reverseColumn : false
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-layout-reverse-column-toggle'>
@@ -407,7 +407,7 @@ export default class Layout extends Attribute {
     if (data && data.responsivenessSettings) {
       return null
     }
-    const disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
+    const disableStackingState = data && Object.prototype.hasOwnProperty.call(data, 'disableStacking') ? data.disableStacking : false
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-layout-disable-stacking-toggle'>
@@ -425,7 +425,7 @@ export default class Layout extends Attribute {
 
   getResponsiveToggle () {
     const data = this.state.value
-    const responsivenessSettingsState = data && data.hasOwnProperty('responsivenessSettings') ? data.responsivenessSettings : false
+    const responsivenessSettingsState = data && Object.prototype.hasOwnProperty.call(data, 'responsivenessSettings') ? data.responsivenessSettings : false
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-custom-responsiveness-toggle'>

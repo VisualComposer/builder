@@ -39,7 +39,7 @@
   function extendDefaults (source, properties) {
     var property;
     for (property in properties) {
-      if (properties.hasOwnProperty(property)) {
+      if (Object.prototype.hasOwnProperty.call(properties, property)) {
         source[ property ] = properties[ property ];
       }
     }

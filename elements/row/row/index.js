@@ -40,10 +40,10 @@ vcvAddElement(
             parallaxEnable: true,
             parallax: deviceData.parallax
           }
-          if (deviceData.hasOwnProperty('parallaxReverse')) {
+          if (Object.prototype.hasOwnProperty.call(deviceData, 'parallaxReverse')) {
             parallaxData.parallaxReverse = deviceData.parallaxReverse
           }
-          if (deviceData.hasOwnProperty('parallaxSpeed')) {
+          if (Object.prototype.hasOwnProperty.call(deviceData, 'parallaxSpeed')) {
             parallaxData.parallaxSpeed = deviceData.parallaxSpeed
           }
           newParallaxData[deviceKey] = parallaxData

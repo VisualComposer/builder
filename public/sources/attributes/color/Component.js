@@ -144,7 +144,7 @@ class Color extends Attribute {
   render () {
     const { presetColors, options } = this.props
     const usedStack = Color.defaultProps.usedStack
-    const disableAlpha = this.props.options.hasOwnProperty('disableAlpha') ? this.props.options.disableAlpha : false
+    const disableAlpha = Object.prototype.hasOwnProperty.call(this.props.options, 'disableAlpha') ? this.props.options.disableAlpha : false
     const { value, displayColorPicker } = this.state
     const color = tinycolor(value)
     const colorStyle = {
@@ -166,7 +166,7 @@ class Color extends Attribute {
       'vcv-ui-color-picker-dropdown': true,
       'vcv-ui-form-state--focus': this.state.displayColorPicker
     })
-    if (options.hasOwnProperty('showTransparent') && !options.showTransparent && presetColors.indexOf('transparent') > -1) {
+    if (Object.prototype.hasOwnProperty.call(options, 'showTransparent') && !options.showTransparent && presetColors.indexOf('transparent') > -1) {
       presetColors.splice(presetColors.indexOf('transparent'), 1)
     }
 

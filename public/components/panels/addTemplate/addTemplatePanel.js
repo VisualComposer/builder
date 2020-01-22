@@ -259,7 +259,7 @@ export default class AddTemplatePanel extends React.Component {
     const { inputValue } = this.state
     return this.state.categories[0].templates.filter((template) => {
       const name = template.name.toLowerCase()
-      return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
+      return Object.prototype.hasOwnProperty.call(template, 'name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
     }).map((template) => {
       return this.getTemplateControl(template)
     })
