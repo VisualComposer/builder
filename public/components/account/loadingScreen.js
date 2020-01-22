@@ -49,7 +49,7 @@ export default class LoadingScreen extends React.Component {
     }
   }
 
-  skipPostUpdate () {
+  static handleClickSkipPostUpdate () {
     window.vcvRebuildPostSkipPost && window.vcvSourceID && window.vcvRebuildPostSkipPost(window.vcvSourceID)
   }
 
@@ -69,7 +69,7 @@ export default class LoadingScreen extends React.Component {
             </p>
             {showSkipPostButton && (
               <div className='vcv-activation-button-container'>
-                <button onClick={this.skipPostUpdate} className='vcv-activation-button'>Skip this post</button>
+                <button onClick={LoadingScreen.handleClickSkipPostUpdate} className='vcv-activation-button'>Skip this post</button>
               </div>
             )}
           </div>

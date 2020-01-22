@@ -105,9 +105,7 @@ export default class ActivatePremiumScreen extends React.Component {
 
     let errorBox = null
     if (errorText) {
-      errorBox = <div className='vcv-activation-box-error-box'>
-        {errorText}
-      </div>
+      errorBox = <div className='vcv-activation-box-error-box'>{errorText}</div>
     }
 
     let premiumButtonClasses = 'vcv-activation-button'
@@ -150,13 +148,13 @@ export default class ActivatePremiumScreen extends React.Component {
     let activationButton
     if (activationType === 'premium') {
       activationButton = (
-        <a href={window.VCV_GO_PREMIUM_URL()} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
+        <a href={window.VCV_GO_PREMIUM_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
           {iWantToGoPremiumText}
         </a>
       )
     } else {
       activationButton = (
-        <a href={window.VCV_GO_FREE_URL()} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
+        <a href={window.VCV_GO_FREE_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
           {getYourFreeLicenseText}
         </a>
       )
@@ -166,14 +164,14 @@ export default class ActivatePremiumScreen extends React.Component {
     if (activationType === 'premium') {
       findNewLicenseAtText = (
         <>{findSubscriptionLicenseAtText}
-          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
     } else {
       findNewLicenseAtText = (
         <>
           {findFreeLicenseAt}
-          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
     }
