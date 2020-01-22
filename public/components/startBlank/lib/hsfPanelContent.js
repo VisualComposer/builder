@@ -7,7 +7,7 @@ const settingsStorage = vcCake.getStorage('settings')
 export default class HfsPanelContent extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
-    addClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -30,7 +30,7 @@ export default class HfsPanelContent extends React.Component {
 
   handleSubmit (e) {
     e && e.preventDefault()
-    this.props.addClick(this.state.inputValue.trim())
+    this.props.onClick(this.state.inputValue.trim())
   }
 
   handleTitleChange (e) {
@@ -52,20 +52,22 @@ export default class HfsPanelContent extends React.Component {
     const btnText = localizations ? localizations.startBuildingHFSButton : 'Start Building'
     const placeholder = localizations ? localizations.startPageHFSInputPlaceholder : '{name} Name'
 
-    return <div className='vcv-hfs-start-blank-container'>
-      <form className='vcv-hfs-start-blank-form' onSubmit={this.handleSubmit}>
-        <input
-          className='vcv-start-blank-title-input'
-          type='text'
-          placeholder={placeholder.replace('{name}', this.props.type)}
-          onChange={this.handleTitleChange}
-          value={inputValue || ''}
-          autoFocus
-        />
-        <button className='vcv-hfs-start-blank-start-button' type='submit'>
-          {btnText}
-        </button>
-      </form>
-    </div>
+    return (
+      <div className='vcv-hfs-start-blank-container'>
+        <form className='vcv-hfs-start-blank-form' onSubmit={this.handleSubmit}>
+          <input
+            className='vcv-start-blank-title-input'
+            type='text'
+            placeholder={placeholder.replace('{name}', this.props.type)}
+            onChange={this.handleTitleChange}
+            value={inputValue || ''}
+            autoFocus
+          />
+          <button className='vcv-hfs-start-blank-start-button' type='submit'>
+            {btnText}
+          </button>
+        </form>
+      </div>
+    )
   }
 }

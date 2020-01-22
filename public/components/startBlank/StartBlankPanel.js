@@ -55,7 +55,7 @@ export default class startBlank extends React.Component {
       startBlankContent = (
         <HfsPanelContent
           type={type}
-          addClick={this.handleStartClick}
+          onClick={this.handleStartClick}
         />
       )
     } else {
