@@ -4,10 +4,10 @@ export default class FrontendClassicSwitcher extends React.Component {
   constructor (props) {
     super(props)
     const gutenberg = window.VCV_GUTENBERG && window.VCV_GUTENBERG()
-    this.enableClassicEditor = this.enableClassicEditor.bind(this)
-    this.openFrontendEditor = this.openFrontendEditor.bind(this)
+    this.handleClickEnableClassicEditor = this.handleClickEnableClassicEditor.bind(this)
+    this.handleClickOpenFrontendEditor = this.handleClickOpenFrontendEditor.bind(this)
     if (gutenberg) {
-      this.enableGutenbergEditor = this.enableGutenbergEditor.bind(this)
+      this.handleClickEnableGutenbergEditor = this.handleClickEnableGutenbergEditor.bind(this)
     }
 
     const beEditorInput = document.getElementById('vcv-be-editor')
@@ -28,7 +28,7 @@ export default class FrontendClassicSwitcher extends React.Component {
     this.wpb = (typeof window.vc !== 'undefined')
   }
 
-  enableClassicEditor (e) {
+  handleClickEnableClassicEditor (e) {
     e.preventDefault()
     const editor = 'classic'
     const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -39,7 +39,7 @@ export default class FrontendClassicSwitcher extends React.Component {
     }
   }
 
-  enableGutenbergEditor (e) {
+  handleClickEnableGutenbergEditor (e) {
     e.preventDefault()
     const editor = 'gutenberg'
     const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -52,7 +52,7 @@ export default class FrontendClassicSwitcher extends React.Component {
     }
   }
 
-  openFrontendEditor (e) {
+  handleClickOpenFrontendEditor (e) {
     e.preventDefault()
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const confirmMessage = localizations && localizations.openFrontendEditorFromClassic ? localizations.openFrontendEditorFromClassic : 'Visual Composer will overwrite your content created in WordPress Classic editor with the latest version of content created in Visual Composer Website Builder. Do you want to continue?'
@@ -89,26 +89,27 @@ export default class FrontendClassicSwitcher extends React.Component {
 
     let gutenbergButton = null
     if (!this.props.isGutenbergEditor && gutenberg && editor !== 'gutenberg') {
-      gutenbergButton = <div className='vcv-wpbackend-switcher--type-gutenberg as'>
-        <button className='vcv-wpbackend-switcher-option' onClick={this.enableGutenbergEditor}>{buttonGutenbergtext}</button>
-      </div>
+      gutenbergButton = (
+        <div className='vcv-wpbackend-switcher--type-gutenberg as'>
+          <button className='vcv-wpbackend-switcher-option' onClick={this.handleClickEnableGutenbergEditor}>{buttonGutenbergtext}</button>
+        </div>
+      )
     }
 
-    const output = <div className='vcv-wpbackend-switcher-wrapper'>
-      <div className='vcv-wpbackend-switcher'>
-        <button className='vcv-wpbackend-switcher-option vcv-wpbackend-switcher-option--vceditor' data-href={window.vcvFrontendEditorLink} onClick={this.openFrontendEditor} />
-      </div>
-      {editor !== 'classic' && this.wpb === false && !gutenberg && !this.props.isGutenbergEditor ? (() => {
-        return <div className='vcv-wpbackend-switcher--type-classic'>
-          <button
-            className='vcv-wpbackend-switcher-option'
-            onClick={this.enableClassicEditor}
-          >{buttonClassictext}
-          </button>
+    return (
+      <div className='vcv-wpbackend-switcher-wrapper'>
+        <div className='vcv-wpbackend-switcher'>
+          <button className='vcv-wpbackend-switcher-option vcv-wpbackend-switcher-option--vceditor' data-href={window.vcvFrontendEditorLink} onClick={this.handleClickOpenFrontendEditor} />
         </div>
-      })() : ''}
-      {gutenbergButton}
-    </div>
-    return output
+        {editor !== 'classic' && this.wpb === false && !gutenberg && !this.props.isGutenbergEditor ? (() => {
+          return (
+            <div className='vcv-wpbackend-switcher--type-classic'>
+              <button className='vcv-wpbackend-switcher-option' onClick={this.handleClickEnableClassicEditor}>{buttonClassictext}</button>
+            </div>
+          )
+        })() : ''}
+        {gutenbergButton}
+      </div>
+    )
   }
 }
