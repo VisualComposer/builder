@@ -8,6 +8,7 @@ const settingsStorage = getStorage('settings')
 
 export default class Permalink extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
+
   constructor (props) {
     super(props)
 
@@ -24,8 +25,8 @@ export default class Permalink extends React.Component {
       urlFull: (data && data.urlFull) || null
     }
 
-    this.preventNewLine = this.preventNewLine.bind(this)
-    this.updateContent = this.updateContent.bind(this)
+    this.handleKeyDownPreventNewLine = this.handleKeyDownPreventNewLine.bind(this)
+    this.handleBlurUpdateContent = this.handleBlurUpdateContent.bind(this)
     this.updatePermalinkHtml = this.updatePermalinkHtml.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
@@ -44,13 +45,13 @@ export default class Permalink extends React.Component {
     })
   }
 
-  preventNewLine (event) {
+  handleKeyDownPreventNewLine (event) {
     if (event.key === 'Enter') {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
       this.contentEditableElement.blur()
-      this.updateContent(event)
+      this.handleBlurUpdateContent(event)
     }
   }
 
@@ -105,7 +106,7 @@ export default class Permalink extends React.Component {
     }
   }
 
-  updateContent (event) {
+  handleBlurUpdateContent (event) {
     this.focused = false
     const value = event.currentTarget.innerText
     if (value) {
@@ -144,8 +145,8 @@ export default class Permalink extends React.Component {
           </span>
           <span
             className='vcv-permalink-editable'
-            onBlur={this.updateContent}
-            onKeyDown={this.preventNewLine}
+            onBlur={this.handleBlurUpdateContent}
+            onKeyDown={this.handleKeyDownPreventNewLine}
             onClick={this.handleClick}
             suppressContentEditableWarning
             contentEditable={this.state.editable}
@@ -166,11 +167,11 @@ export default class Permalink extends React.Component {
       )
     }
 
-    return <div className={permalinkClass}>
-      <span className='vcv-permalink-text'>{Permalink.localizations ? Permalink.localizations.permalink : 'Permalink'}:&nbsp;</span>
-      <span className='vcv-permalink-link'>
-        {content}
-      </span>
-    </div>
+    return (
+      <div className={permalinkClass}>
+        <span className='vcv-permalink-text'>{Permalink.localizations ? Permalink.localizations.permalink : 'Permalink'}:&nbsp;</span>
+        <span className='vcv-permalink-link'>{content}</span>
+      </div>
+    )
   }
 }
