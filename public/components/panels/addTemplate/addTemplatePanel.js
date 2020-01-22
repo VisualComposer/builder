@@ -40,7 +40,7 @@ export default class AddTemplatePanel extends React.Component {
     }
 
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
-    this.changeTemplateName = this.changeTemplateName.bind(this)
+    this.handleChangeTemplateName = this.handleChangeTemplateName.bind(this)
     this.changeSearchInput = this.changeSearchInput.bind(this)
     this.changeSearchState = this.changeSearchState.bind(this)
     this.displayError = this.displayError.bind(this)
@@ -143,7 +143,7 @@ export default class AddTemplatePanel extends React.Component {
 
   // Change state
 
-  changeTemplateName (e) {
+  handleChangeTemplateName (e) {
     this.setState({
       templateName: e.currentTarget.value,
       error: false
@@ -225,30 +225,30 @@ export default class AddTemplatePanel extends React.Component {
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
     }
 
-    return <div className='vcv-ui-editor-no-items-container'>
-      <div className='vcv-ui-editor-no-items-content'>
-        <img
-          className='vcv-ui-editor-no-items-image'
-          src={source}
-          alt={nothingFoundText}
-        />
-      </div>
-      <div>
+    return (
+      <div className='vcv-ui-editor-no-items-container'>
         <div className='vcv-ui-editor-no-items-content'>
-          {this.getMoreButton()}
+          <img
+            className='vcv-ui-editor-no-items-image'
+            src={source}
+            alt={nothingFoundText}
+          />
         </div>
-        <div className='vcv-ui-editor-no-items-content'>
-          <p className='vcv-start-blank-helper'>{helperText}</p>
+        <div>
+          <div className='vcv-ui-editor-no-items-content'>
+            {this.getMoreButton()}
+          </div>
+          <div className='vcv-ui-editor-no-items-content'>
+            <p className='vcv-start-blank-helper'>{helperText}</p>
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
 
   getMoreButton () {
     const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
-    return <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
-      {buttonText}
-    </button>
+    return <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>
   }
 
   getTemplateControl (template) {
@@ -279,11 +279,17 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getTemplateListContainer (itemsOutput) {
-    return itemsOutput.length ? <div className='vcv-ui-item-list-container'>
-      <ul className='vcv-ui-item-list'>
-        {itemsOutput}
-      </ul>
-    </div> : this.getNoResultsElement()
+    if (itemsOutput.length) {
+      return (
+        <div className='vcv-ui-item-list-container'>
+          <ul className='vcv-ui-item-list'>
+            {itemsOutput}
+          </ul>
+        </div>
+      )
+    } else {
+      return this.getNoResultsElement()
+    }
   }
 
   // Event handlers
@@ -442,16 +448,24 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })
 
-    const moreButton = itemsOutput.length
-      ? <div className='vcv-ui-editor-get-more'>
-        {this.getMoreButton()}
-        <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
-      </div>
-      : null
+    let moreButton = null
+    if (itemsOutput.length) {
+      moreButton = (
+        <div className='vcv-ui-editor-get-more'>
+          {this.getMoreButton()}
+          <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+        </div>
+      )
+    }
+
+    let transparentOverlay = null
+    if (env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading) {
+      transparentOverlay = <TransparentOverlayComponent disableNavBar parent='.vcv-layout' />
+    }
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
-        {env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading ? <TransparentOverlayComponent disableNavBar parent='.vcv-layout' /> : null}
+        {transparentOverlay}
         {this.state.showLoading ? <LoadingOverlayComponent /> : null}
         <div className='vcv-ui-tree-content'>
           {this.getSearch()}
@@ -473,7 +487,7 @@ export default class AddTemplatePanel extends React.Component {
                         className='vcv-ui-form-input'
                         type='text'
                         value={this.state.templateName}
-                        onChange={this.changeTemplateName}
+                        onChange={this.handleChangeTemplateName}
                         disabled={!!this.state.showSpinner}
                       />
                       <button
