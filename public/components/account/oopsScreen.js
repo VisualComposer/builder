@@ -59,18 +59,20 @@ export default class OopsScreen extends React.Component {
         </button>
       )
     } else {
-      return <>
-        {errorAction && (
-          <button onClick={errorAction} className='vcv-screen-button'>
-            Try Again
-          </button>
-        )}
-        {errorReportAction && (
-          <button onClick={errorReportAction} className='vcv-screen-button vcv-screen-button--dark'>
-            Send error report
-          </button>
-        )}
-             </>
+      return (
+        <>
+          {errorAction && (
+            <button onClick={errorAction} className='vcv-screen-button'>
+              Try Again
+            </button>
+          )}
+          {errorReportAction && (
+            <button onClick={errorReportAction} className='vcv-screen-button vcv-screen-button--dark'>
+              Send error report
+            </button>
+          )}
+        </>
+      )
     }
   }
 
