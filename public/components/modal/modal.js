@@ -14,10 +14,10 @@ export default class Modal extends React.Component {
 
   constructor (props) {
     super(props)
-    this.hideOnOuterClick = this.hideOnOuterClick.bind(this)
+    this.handleHideOnOuterClick = this.handleHideOnOuterClick.bind(this)
   }
 
-  hideOnOuterClick (event) {
+  handleHideOnOuterClick (event) {
     if (this.props.closeOnOuterClick === false) {
       return
     }
@@ -32,7 +32,7 @@ export default class Modal extends React.Component {
     }
 
     return (
-      <div className='vcv-ui-modal-overlay' onClick={this.hideOnOuterClick} data-modal='true'>
+      <div className='vcv-ui-modal-overlay' onClick={this.handleHideOnOuterClick} data-modal='true'>
         <div className='vcv-ui-modal-container'>
           {this.props.children}
         </div>
