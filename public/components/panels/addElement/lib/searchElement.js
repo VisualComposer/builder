@@ -56,6 +56,7 @@ export default class SearchElement extends React.Component {
       content: this.getContentTitle(nextProps.index)
     })
   }
+
   /* eslint-enable */
 
   handleKeyPress (e) {
@@ -114,11 +115,14 @@ export default class SearchElement extends React.Component {
   getSelectOptions (categories, groupIndex) {
     const options = []
     categories.forEach((item) => {
-      options.push(<option
-        key={`search-select-item-${item.id}-${item.index}`}
-        value={`${groupIndex}-${item.index}`}
-      >{item.title}
-      </option>)
+      options.push(
+        <option
+          key={`search-select-item-${item.id}-${item.index}`}
+          value={`${groupIndex}-${item.index}`}
+        >
+          {item.title}
+        </option>
+      )
     })
     return options
   }
@@ -127,15 +131,20 @@ export default class SearchElement extends React.Component {
     const optGroup = []
     this.props.allCategories.forEach((item, index) => {
       if (item.categories) {
-        optGroup.push(<optgroup key={`search-select-group-item-${item.id}-${item.index}`} label={item.title}>
-          {this.getSelectOptions(item.categories, index)}
-        </optgroup>)
+        optGroup.push(
+          <optgroup key={`search-select-group-item-${item.id}-${item.index}`} label={item.title}>
+            {this.getSelectOptions(item.categories, index)}
+          </optgroup>
+        )
       } else {
-        optGroup.push(<option
-          key={`search-select-item-${item.id}-${item.index}`}
-          value={item.index}
-        >{item.title}
-        </option>)
+        optGroup.push(
+          <option
+            key={`search-select-item-${item.id}-${item.index}`}
+            value={item.index}
+          >
+            {item.title}
+          </option>
+        )
       }
     })
 
@@ -143,13 +152,15 @@ export default class SearchElement extends React.Component {
   }
 
   getCategorySelect () {
-    return <select
-      className='vcv-ui-form-dropdown'
-      onChange={this.handleCategorySelect}
-      value={this.state.activeIndex}
-    >
-      {this.getSelectGroups()}
-    </select>
+    return (
+      <select
+        className='vcv-ui-form-dropdown'
+        onChange={this.handleCategorySelect}
+        value={this.state.activeIndex}
+      >
+        {this.getSelectGroups()}
+      </select>
+    )
   }
 
   handleCategoryClick () {
@@ -198,32 +209,34 @@ export default class SearchElement extends React.Component {
     })
     const autoFocus = !this.mobileDetect.mobile()
 
-    return <div className='vcv-ui-editor-search-container'>
-      {!this.props.disableSelect && (
-        <div
-          className={dropdownContainerClasses}
-          data-content={this.state.content}
-          onClick={this.handleCategoryClick}
-        >
-          {this.getCategorySelect()}
+    return (
+      <div className='vcv-ui-editor-search-container'>
+        {!this.props.disableSelect && (
+          <div
+            className={dropdownContainerClasses}
+            data-content={this.state.content}
+            onClick={this.handleCategoryClick}
+          >
+            {this.getCategorySelect()}
+          </div>
+        )}
+        <div className={inputContainerClasses}>
+          <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
+            <i className='vcv-ui-icon vcv-ui-icon-search' />
+          </label>
+          <input
+            className='vcv-ui-form-input vcv-ui-editor-search-field'
+            id='add-element-search'
+            onChange={this.handleSearch}
+            onFocus={this.handleInputFocus}
+            type='text'
+            value={this.state.inputValue}
+            placeholder={this.getPlaceholder()}
+            autoFocus={autoFocus}
+            onKeyPress={this.handleKeyPress}
+          />
         </div>
-      )}
-      <div className={inputContainerClasses}>
-        <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
-          <i className='vcv-ui-icon vcv-ui-icon-search' />
-        </label>
-        <input
-          className='vcv-ui-form-input vcv-ui-editor-search-field'
-          id='add-element-search'
-          onChange={this.handleSearch}
-          onFocus={this.handleInputFocus}
-          type='text'
-          value={this.state.inputValue}
-          placeholder={this.getPlaceholder()}
-          autoFocus={autoFocus}
-          onKeyPress={this.handleKeyPress}
-        />
       </div>
-    </div>
+    )
   }
 }

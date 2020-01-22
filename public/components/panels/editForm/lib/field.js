@@ -134,31 +134,33 @@ export default class Field extends React.Component {
       defaultValue = fieldType === 'element' ? settings.value[fieldKey] : settings.value
     }
 
-    const fieldComponent = <AttributeComponent
-      key={`attribute-${fieldKey}-${element.id}`}
-      options={options}
-      value={value}
-      defaultValue={defaultValue}
-      fieldKey={fieldKey}
-      fieldType={fieldType}
-      updater={this.updateElement}
-      elementAccessPoint={elementAccessPoint}
-      setInnerFieldStatus={this.setInnerFieldStatus}
-      editFormOptions={this.props.options}
-      handleDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
-        const newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
-        return newValue
-      }}
-      handleDynamicFieldClose={(fieldKey, elementAccessPoint) => {
-        return defaultValue
-      }}
-      handleDynamicFieldOpen={({ fieldType, prevAttrDynamicKey }) => {
-        const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType)
-        const newValue = getDynamicValue(defaultDynamicFieldKey)
-        return newValue
-      }}
-      ref='attributeComponent'
-                           />
+    const fieldComponent = (
+      <AttributeComponent
+        key={`attribute-${fieldKey}-${element.id}`}
+        options={options}
+        value={value}
+        defaultValue={defaultValue}
+        fieldKey={fieldKey}
+        fieldType={fieldType}
+        updater={this.updateElement}
+        elementAccessPoint={elementAccessPoint}
+        setInnerFieldStatus={this.setInnerFieldStatus}
+        editFormOptions={this.props.options}
+        handleDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
+          const newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
+          return newValue
+        }}
+        handleDynamicFieldClose={(fieldKey, elementAccessPoint) => {
+          return defaultValue
+        }}
+        handleDynamicFieldOpen={({ fieldType, prevAttrDynamicKey }) => {
+          const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType)
+          const newValue = getDynamicValue(defaultDynamicFieldKey)
+          return newValue
+        }}
+        ref='attributeComponent'
+      />
+    )
 
     return (
       <div ref='fieldAttributeWrapper' className={classes}>

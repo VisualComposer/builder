@@ -15,8 +15,8 @@ export default class TitleSettings extends React.Component {
       disabled: pageTitleDisabled,
       showToggle: this.getShowToggle()
     }
-    this.updateTitle = this.updateTitle.bind(this)
-    this.updateTitleToggle = this.updateTitleToggle.bind(this)
+    this.handleChangeTitle = this.handleChangeTitle.bind(this)
+    this.handleChangeUpdateTitleToggle = this.handleChangeUpdateTitleToggle.bind(this)
     this.onIframeChange = this.onIframeChange.bind(this)
     this.getShowToggle = this.getShowToggle.bind(this)
     this.getThemeType = this.getThemeType.bind(this)
@@ -63,7 +63,7 @@ export default class TitleSettings extends React.Component {
     }
   }
 
-  updateTitle (event) {
+  handleChangeTitle (event) {
     const { disabled } = this.state
     let newDisabled = false
     const newValue = event.target.value
@@ -92,7 +92,7 @@ export default class TitleSettings extends React.Component {
     }
   }
 
-  updateTitleToggle (event) {
+  handleChangeUpdateTitleToggle (event) {
     const checked = event.target.checked
     this.setState({
       disabled: checked
@@ -113,7 +113,7 @@ export default class TitleSettings extends React.Component {
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <div className='vcv-ui-form-switch-container'>
             <label className='vcv-ui-form-switch'>
-              <input type='checkbox' onChange={this.updateTitleToggle} id='vcv-page-title-disable' checked={checked} />
+              <input type='checkbox' onChange={this.handleChangeUpdateTitleToggle} id='vcv-page-title-disable' checked={checked} />
               <span className='vcv-ui-form-switch-indicator' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
@@ -133,7 +133,7 @@ export default class TitleSettings extends React.Component {
       <>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
-          <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} onBlur={this.handleBlur} />
+          <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.handleChangeTitle} onBlur={this.handleBlur} />
         </div>
         {disableTitleToggleControl}
       </>

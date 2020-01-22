@@ -198,38 +198,42 @@ export default class Categories extends React.Component {
     const helperText = localizations ? localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
-    return <div className='vcv-ui-editor-no-items-container'>
-      <div className='vcv-ui-editor-no-items-content'>
-        <img
-          className='vcv-ui-editor-no-items-image'
-          src={source}
-          alt={nothingFoundText}
-        />
-      </div>
-      <div>
+    return (
+      <div className='vcv-ui-editor-no-items-container'>
         <div className='vcv-ui-editor-no-items-content'>
-          {this.getMoreButton()}
+          <img
+            className='vcv-ui-editor-no-items-image'
+            src={source}
+            alt={nothingFoundText}
+          />
         </div>
-        <div className='vcv-ui-editor-no-items-content'>
-          <p className='vcv-start-blank-helper'>{helperText}</p>
+        <div>
+          <div className='vcv-ui-editor-no-items-content'>
+            {this.getMoreButton()}
+          </div>
+          <div className='vcv-ui-editor-no-items-content'>
+            <p className='vcv-start-blank-helper'>{helperText}</p>
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
 
   getElementControl (elementData) {
     const tag = elementData.tag
 
-    return <ElementControl
-      key={'vcv-element-control-' + tag}
-      element={elementData}
-      hubElement={Categories.hubElements[tag]}
-      tag={tag}
-      name={elementData.name}
-      addElement={this.addElement}
-      setFocusedElement={this.setFocusedElement}
-      applyFirstElement={this.applyFirstElement}
-    />
+    return (
+      <ElementControl
+        key={'vcv-element-control-' + tag}
+        element={elementData}
+        hubElement={Categories.hubElements[tag]}
+        tag={tag}
+        name={elementData.name}
+        addElement={this.addElement}
+        setFocusedElement={this.setFocusedElement}
+        applyFirstElement={this.applyFirstElement}
+      />
+    )
   }
 
   changeSearchState (state) {
@@ -292,11 +296,17 @@ export default class Categories extends React.Component {
   }
 
   getElementListContainer (itemsOutput) {
-    return itemsOutput.length ? <div className='vcv-ui-item-list-container'>
-      <ul className='vcv-ui-item-list'>
-        {itemsOutput}
-      </ul>
-    </div> : this.getNoResultsElement()
+    if (itemsOutput.length) {
+      return (
+        <div className='vcv-ui-item-list-container'>
+          <ul className='vcv-ui-item-list'>
+            {itemsOutput}
+          </ul>
+        </div>
+      )
+    } else {
+      return this.getNoResultsElement()
+    }
   }
 
   isSearching () {
@@ -337,9 +347,11 @@ export default class Categories extends React.Component {
   getMoreButton () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const buttonText = localizations ? localizations.getMoreElements : 'Get More Elements'
-    return <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
-      {buttonText}
-    </button>
+    return (
+      <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+        {buttonText}
+      </button>
+    )
   }
 
   setFocusedElement (tag) {
@@ -354,29 +366,34 @@ export default class Categories extends React.Component {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
-    const moreButton = itemsOutput.length
-      ? <div className='vcv-ui-editor-get-more'>
-        {this.getMoreButton()}
-        <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
-      </div>
-      : null
+    let moreButton = null
+    if (itemsOutput.length) {
+      moreButton = (
+        <div className='vcv-ui-editor-get-more'>
+          {this.getMoreButton()}
+          <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+        </div>
+      )
+    }
 
-    return <div className='vcv-ui-tree-content'>
-      {this.getSearchElement()}
-      <div className='vcv-ui-tree-content-section'>
-        <Scrollbar>
-          <div className={innerSectionClasses}>
-            <div className='vcv-ui-editor-plates-container'>
-              <div className='vcv-ui-editor-plates'>
-                <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                  {this.getElementListContainer(itemsOutput)}
+    return (
+      <div className='vcv-ui-tree-content'>
+        {this.getSearchElement()}
+        <div className='vcv-ui-tree-content-section'>
+          <Scrollbar>
+            <div className={innerSectionClasses}>
+              <div className='vcv-ui-editor-plates-container'>
+                <div className='vcv-ui-editor-plates'>
+                  <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+                    {this.getElementListContainer(itemsOutput)}
+                  </div>
                 </div>
               </div>
+              {moreButton}
             </div>
-            {moreButton}
-          </div>
-        </Scrollbar>
+          </Scrollbar>
+        </div>
       </div>
-    </div>
+    )
   }
 }

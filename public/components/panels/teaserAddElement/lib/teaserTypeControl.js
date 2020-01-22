@@ -90,15 +90,23 @@ export default class TeaserTypeControl extends React.Component {
         index = `${control.index}-${control.subIndex}`
       }
 
-      return <div key={`hub-control-${type}-${i}`} className='vcv-ui-form-button-group-item'>
-        <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
-          {title}
-        </button>
-        {bundleTypes && bundleTypes.length
-          ? <div className='vcv-ui-form-button-group-dropdown'>
+      let dropdownItems = null
+      if (bundleTypes && bundleTypes.length) {
+        dropdownItems = (
+          <div className='vcv-ui-form-button-group-dropdown'>
             {this.getDropdownItems(bundleTypes, type, index, isActive)}
-          </div> : null}
-      </div>
+          </div>
+        )
+      }
+
+      return (
+        <div key={`hub-control-${type}-${i}`} className='vcv-ui-form-button-group-item'>
+          <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
+            {title}
+          </button>
+          {dropdownItems}
+        </div>
+      )
     })
   }
 
@@ -119,14 +127,16 @@ export default class TeaserTypeControl extends React.Component {
         buttonText = 'Premium'
       }
 
-      return <button
-        key={`hub-control-dropdown-item-${bundleType}`}
-        type='button'
-        onClick={() => this.handleClick(type, categoryIndex, bundleType)}
-        className={dropdownItemClasses}
-      >
-        {buttonText}
-      </button>
+      return (
+        <button
+          key={`hub-control-dropdown-item-${bundleType}`}
+          type='button'
+          onClick={() => this.handleClick(type, categoryIndex, bundleType)}
+          className={dropdownItemClasses}
+        >
+          {buttonText}
+        </button>
+      )
     })
   }
 
@@ -135,10 +145,12 @@ export default class TeaserTypeControl extends React.Component {
       'vcv-ui-hub-control-container': true,
       'vcv-is-hidden': this.state.isControlsHidden
     })
-    return <div className={controlContainerClasses}>
-      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large' ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
-        {this.getControls()}
+    return (
+      <div className={controlContainerClasses}>
+        <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large' ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
+          {this.getControls()}
+        </div>
       </div>
-    </div>
+    )
   }
 }

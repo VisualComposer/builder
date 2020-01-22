@@ -37,7 +37,7 @@ export default class StockImages extends React.Component {
     }
   }
 
-  goPremium (e) {
+  static handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
     const target = e.currentTarget
     window.location.replace(target.dataset.href)
@@ -115,7 +115,7 @@ export default class StockImages extends React.Component {
         <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: unsplashLogo }} />
           <p className='vcv-stock-images-subtitle'>{getPhotosWithPremiumText}</p>
-          <span className='vcv-stock-images-button' data-href={window.vcvUpgradeUrlUnsplash} onClick={this.goPremium}>
+          <span className='vcv-stock-images-button' data-href={window.vcvUpgradeUrlUnsplash} onClick={StockImages.handleClickGoPremium}>
             {activatePremium}
           </span>
         </>

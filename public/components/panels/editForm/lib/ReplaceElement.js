@@ -9,7 +9,7 @@ const hubCategoriesService = vcCake.getService('hubCategories')
 
 export default class ElementAttribute extends React.Component {
   static propTypes = {
-    updater: PropTypes.func.isRequired,
+    onReplace: PropTypes.func.isRequired,
     tag: PropTypes.string.isRequired,
     element: PropTypes.object.isRequired,
     options: PropTypes.any
@@ -21,14 +21,14 @@ export default class ElementAttribute extends React.Component {
       showReplacements: false
     }
     this.handleReplace = this.handleReplace.bind(this)
-    this.toggleReplace = this.toggleReplace.bind(this)
+    this.handleClickToggleReplace = this.handleClickToggleReplace.bind(this)
   }
 
   handleReplace (newElementTag, cookElement) {
-    this.props.updater(newElementTag, cookElement)
+    this.props.onReplace(newElementTag, cookElement)
   }
 
-  toggleReplace () {
+  handleClickToggleReplace () {
     this.setState({ showReplacements: !this.state.showReplacements })
   }
 
@@ -88,7 +88,7 @@ export default class ElementAttribute extends React.Component {
       const replacementItemsOutput = this.getReplacements(categorySettings)
       replacements = (
         <div className='vcv-ui-replace-element-container'>
-          <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.toggleReplace}>
+          <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.handleClickToggleReplace}>
             <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
           </span>
           <ul className='vcv-ui-replace-element-list'>
@@ -104,7 +104,7 @@ export default class ElementAttribute extends React.Component {
           </p>
           <button
             type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
-            onClick={this.toggleReplace}
+            onClick={this.handleClickToggleReplace}
           >
             Replace {elementLabel}
           </button>

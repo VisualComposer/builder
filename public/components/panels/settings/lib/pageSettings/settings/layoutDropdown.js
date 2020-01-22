@@ -24,7 +24,7 @@ export default class LayoutDropdown extends React.Component {
 
     settingsStorage.state(`${layoutName}Template`).set(currentLayout)
 
-    this.updateLayout = this.updateLayout.bind(this)
+    this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
   }
 
@@ -39,7 +39,7 @@ export default class LayoutDropdown extends React.Component {
     return null
   }
 
-  updateLayout (event) {
+  handleChangeUpdateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
     const value = event.target.value
     this.setState({
@@ -112,7 +112,7 @@ export default class LayoutDropdown extends React.Component {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{this.props.layoutName}</span>
-        <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.updateLayout}>
+        <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.handleChangeUpdateLayout}>
           <option value='default'>
             {selectHFSText}
           </option>

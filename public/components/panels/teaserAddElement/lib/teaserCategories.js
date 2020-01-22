@@ -116,15 +116,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     let tag = elementData.tag ? elementData.tag : elementData.name
     tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
 
-    return <TeaserElementControl
-      key={'vcv-element-control-' + tag}
-      element={elementData}
-      tag={tag}
-      type={elementData.type ? elementData.type : 'element'}
-      update={elementData.update ? elementData.update : false}
-      name={elementData.name}
-      addElement={this.addElement}
-    />
+    return (
+      <TeaserElementControl
+        key={'vcv-element-control-' + tag}
+        element={elementData}
+        tag={tag}
+        type={elementData.type ? elementData.type : 'element'}
+        update={elementData.update ? elementData.update : false}
+        name={elementData.name}
+        addElement={this.addElement}
+      />
+    )
   }
 
   /**
@@ -137,15 +139,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
 
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
-    return <div className='vcv-ui-editor-no-items-container'>
-      <div className='vcv-ui-editor-no-items-content'>
-        <img
-          className='vcv-ui-editor-no-items-image'
-          src={source}
-          alt={nothingFoundText}
-        />
+    return (
+      <div className='vcv-ui-editor-no-items-container'>
+        <div className='vcv-ui-editor-no-items-content'>
+          <img
+            className='vcv-ui-editor-no-items-image'
+            src={source}
+            alt={nothingFoundText}
+          />
+        </div>
       </div>
-    </div>
+    )
   }
 
   getElementsByCategory () {
@@ -250,7 +254,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     return <TeaserTypeControl {...this.getTypeControlProps()} />
   }
 
-  goPremium (e) {
+  static handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
     const target = e.currentTarget
     window.location.replace(target.dataset.href)
@@ -263,15 +267,17 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     const unlockHubText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.unlockHub : 'Unlock Visual Composer Hub'
     const buttonText = window.vcvIsFreeActivated ? goPremiumText : unlockHubText
 
-    return <div className='vcv-hub-banner'>
-      <div className='vcv-hub-banner-content'>
-        <p className='vcv-hub-banner-title'>{titleText}</p>
-        <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-        <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl} onClick={this.goPremium}>
-          {buttonText}
-        </span>
+    return (
+      <div className='vcv-hub-banner'>
+        <div className='vcv-hub-banner-content'>
+          <p className='vcv-hub-banner-title'>{titleText}</p>
+          <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
+          <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl} onClick={TeaserAddElementCategories.handleClickGoPremium}>
+            {buttonText}
+          </span>
+        </div>
       </div>
-    </div>
+    )
   }
 
   handleScroll (e) {

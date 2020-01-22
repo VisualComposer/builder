@@ -16,7 +16,7 @@ export default class EditFormSection extends React.Component {
       isActive: true,
       dependenciesClasses: []
     }
-    this.toggleSection = this.toggleSection.bind(this)
+    this.handleClickToggleSection = this.handleClickToggleSection.bind(this)
   }
 
   componentDidMount () {
@@ -65,7 +65,7 @@ export default class EditFormSection extends React.Component {
   /**
    * Toggle section
    */
-  toggleSection () {
+  handleClickToggleSection () {
     this.setState({ isActive: !this.state.isActive })
   }
 
@@ -150,7 +150,7 @@ export default class EditFormSection extends React.Component {
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
         <div
-          className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}
+          className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
           ref={header => { this.sectionHeader = header }}
         >
           {tabTitle}
