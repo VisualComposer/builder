@@ -15,8 +15,8 @@ export default class WordPressAdminControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.saveDraft = this.saveDraft.bind(this)
-    this.savePreview = this.savePreview.bind(this)
+    this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
+    this.handleClickSavePreview = this.handleClickSavePreview.bind(this)
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
     this.updateButtons = this.updateButtons.bind(this)
     this.handleViewPageClick = this.handleViewPageClick.bind(this)
@@ -46,13 +46,13 @@ export default class WordPressAdminControl extends NavbarContent {
     )
   }
 
-  saveDraft (e) {
+  handleClickSaveDraft (e) {
     e && e.preventDefault && e.preventDefault()
     wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
     // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
-  savePreview (e) {
+  handleClickSavePreview (e) {
     e && e.preventDefault && e.preventDefault()
     setData('wp-preview', 'dopreview')
 
@@ -214,7 +214,7 @@ export default class WordPressAdminControl extends NavbarContent {
         <span
           className='vcv-ui-navbar-control'
           title={saveDraft}
-          onClick={this.saveDraft}
+          onClick={this.handleClickSaveDraft}
           data-href={PostData.permalink()}
         >
           <span className='vcv-ui-navbar-control-content'>{saveDraft}</span>
@@ -240,7 +240,7 @@ export default class WordPressAdminControl extends NavbarContent {
       <span
         className='vcv-ui-navbar-control'
         title={previewText}
-        onClick={this.savePreview}
+        onClick={this.handleClickSavePreview}
         ref={(previewBtn) => { this.previewBtn = previewBtn }}
       >
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>

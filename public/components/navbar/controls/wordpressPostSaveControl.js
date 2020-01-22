@@ -20,14 +20,14 @@ export default class WordPressPostSaveControl extends NavbarContent {
       status: ''
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
-    this.clickSaveData = this.clickSaveData.bind(this)
+    this.handleClickSaveData = this.handleClickSaveData.bind(this)
     this.handleIframeChange = this.handleIframeChange.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
     const status = data.status
     if (status === 'saving' && source !== 'postSaveControl') {
-      this.clickSaveData({ options: data.options }, {}, {}, true)
+      this.handleClickSaveData({ options: data.options }, {}, {}, true)
       return
     }
     if (status === 'success') {
@@ -80,7 +80,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       this.setState({ loading: false })
       if (this.state.status === 'saving') {
         this.setState({ status: '' })
-        this.clickSaveData()
+        this.handleClickSaveData()
       }
     }
   }
@@ -92,7 +92,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
   }
 
-  clickSaveData (e, _, __, noStorageRequest = false) {
+  handleClickSaveData (e, _, __, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
 
     if (this.state.status === 'saving') {
@@ -146,7 +146,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         <span
           className={saveButtonClasses}
           title={saveText}
-          onClick={this.clickSaveData}
+          onClick={this.handleClickSaveData}
         >
           <span className='vcv-ui-navbar-control-content'>
             <i className={saveIconClasses} />

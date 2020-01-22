@@ -13,7 +13,7 @@ export default class TreeViewControl extends NavbarContent {
       isActive: workspaceContentState.get() === 'treeView',
       data: []
     }
-    this.toggleTreeView = this.toggleTreeView.bind(this)
+    this.handleClickTreeView = this.handleClickTreeView.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
 
@@ -29,7 +29,7 @@ export default class TreeViewControl extends NavbarContent {
     workspaceContentState.ignoreChange(this.setActiveState)
   }
 
-  toggleTreeView (e) {
+  handleClickTreeView (e) {
     e && e.preventDefault()
     workspaceSettings.set({ action: 'treeView' })
     workspaceContentState.set(!this.state.isActive ? 'treeView' : false)
@@ -45,7 +45,7 @@ export default class TreeViewControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.toggleTreeView}>
+      <span className={controlClass} title={name} onClick={this.handleClickTreeView}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers' />
           <span>{name}</span>

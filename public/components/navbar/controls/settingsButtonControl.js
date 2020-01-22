@@ -14,7 +14,7 @@ export default class SettingsButtonControl extends NavbarContent {
       isActive: workspaceContentState.get() === 'settings',
       showWarning: false // !!assetsStorage.getCustomCss()
     }
-    this.toggleSettings = this.toggleSettings.bind(this)
+    this.handleClickSettings = this.handleClickSettings.bind(this)
     this.checkSettings = this.checkSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
@@ -23,8 +23,8 @@ export default class SettingsButtonControl extends NavbarContent {
   UNSAFE_componentWillReceiveProps () {
     this.checkSettings()
   }
-  /* eslint-enable */
 
+  /* eslint-enable */
   setActiveState (state) {
     this.setState({ isActive: state === 'settings' })
   }
@@ -47,7 +47,7 @@ export default class SettingsButtonControl extends NavbarContent {
     this.setState({ showWarning: customCss.length || globalCss.length })
   }
 
-  toggleSettings (e) {
+  handleClickSettings (e) {
     e && e.preventDefault()
     workspaceContentState.set(!this.state.isActive ? 'settings' : false)
     workspaceSettings.set({ action: 'settings' })
@@ -70,7 +70,7 @@ export default class SettingsButtonControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.toggleSettings}>
+      <span className={controlClass} title={name} onClick={this.handleClickSettings}>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>
