@@ -25,7 +25,7 @@ export default class TemplateLayout extends React.Component {
     this.updateTemplate = this.updateTemplate.bind(this)
     this.updateState = this.updateState.bind(this)
     this.handleTemplateChange = this.handleTemplateChange.bind(this)
-    this.updateStretchedContentState = this.updateStretchedContentState.bind(this)
+    this.handleChangeUpdateStretchedContentState = this.handleChangeUpdateStretchedContentState.bind(this)
   }
 
   componentDidMount () {
@@ -264,7 +264,7 @@ export default class TemplateLayout extends React.Component {
     )
   }
 
-  updateStretchedContentState (event) {
+  handleChangeUpdateStretchedContentState (event) {
     const newValue = event.target.checked
     const currentTemplate = lodash.defaultsDeep({}, this.state.current)
     currentTemplate.stretchedContent = newValue
@@ -282,7 +282,7 @@ export default class TemplateLayout extends React.Component {
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <div className='vcv-ui-form-switch-container'>
           <label className='vcv-ui-form-switch'>
-            <input type='checkbox' onChange={this.updateStretchedContentState} id='vcv-stretch-layout-enable' checked={checked} />
+            <input type='checkbox' onChange={this.handleChangeUpdateStretchedContentState} id='vcv-stretch-layout-enable' checked={checked} />
             <span className='vcv-ui-form-switch-indicator' />
             <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
             <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />

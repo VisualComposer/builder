@@ -34,10 +34,11 @@ export default class SearchTemplate extends React.Component {
     if (nextProps.index !== this.state.activeIndex) {
       this.setState({
         activeIndex: nextProps.index,
-        content: this.props.allCategories[ nextProps.index ].title
+        content: this.props.allCategories[nextProps.index].title
       })
     }
   }
+
   /* eslint-enable */
 
   // Get HTML elements
@@ -49,13 +50,15 @@ export default class SearchTemplate extends React.Component {
         options.push(<option key={item.id} value={item.index}>{item.title}</option>)
       }
     })
-    return <select
-      className='vcv-ui-form-dropdown'
-      onChange={this.handleCategorySelect}
-      value={this.state.activeIndex}
-    >
-      {options}
-    </select>
+    return (
+      <select
+        className='vcv-ui-form-dropdown'
+        onChange={this.handleCategorySelect}
+        value={this.state.activeIndex}
+      >
+        {options}
+      </select>
+    )
   }
 
   // Event handlers
@@ -90,27 +93,29 @@ export default class SearchTemplate extends React.Component {
     })
 
     const autofocus = !this.mobileDetect.mobile()
-    return <div className='vcv-ui-editor-search-container'>
-      <div
-        className={dropdownContainerClasses}
-        data-content={this.state.content}
-      >
-        {this.getCategorySelect()}
+    return (
+      <div className='vcv-ui-editor-search-container'>
+        <div
+          className={dropdownContainerClasses}
+          data-content={this.state.content}
+        >
+          {this.getCategorySelect()}
+        </div>
+        <div className={inputContainerClasses}>
+          <label className='vcv-ui-editor-search-icon-container' htmlFor='add-template-search'>
+            <i className='vcv-ui-icon vcv-ui-icon-search' />
+          </label>
+          <input
+            className='vcv-ui-form-input vcv-ui-editor-search-field'
+            id='add-template-search'
+            onChange={this.handleSearch}
+            type='text'
+            value={this.props.inputValue}
+            placeholder={searchPlaceholder}
+            autoFocus={autofocus}
+          />
+        </div>
       </div>
-      <div className={inputContainerClasses}>
-        <label className='vcv-ui-editor-search-icon-container' htmlFor='add-template-search'>
-          <i className='vcv-ui-icon vcv-ui-icon-search' />
-        </label>
-        <input
-          className='vcv-ui-form-input vcv-ui-editor-search-field'
-          id='add-template-search'
-          onChange={this.handleSearch}
-          type='text'
-          value={this.props.inputValue}
-          placeholder={searchPlaceholder}
-          autoFocus={autofocus}
-        />
-      </div>
-    </div>
+    )
   }
 }

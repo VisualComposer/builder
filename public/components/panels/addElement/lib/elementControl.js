@@ -40,8 +40,8 @@ export default class ElementControl extends React.Component {
       mouseX: null,
       mouseY: null
     }
-    this.showPreview = this.showPreview.bind(this)
-    this.hidePreview = this.hidePreview.bind(this)
+    this.handleMouseEnterShowPreview = this.handleMouseEnterShowPreview.bind(this)
+    this.handleMouseLeaveHidePreview = this.handleMouseLeaveHidePreview.bind(this)
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.initDrag = this.initDrag.bind(this)
@@ -69,7 +69,7 @@ export default class ElementControl extends React.Component {
     }
   }
 
-  showPreview () {
+  handleMouseEnterShowPreview () {
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
       return
@@ -83,7 +83,7 @@ export default class ElementControl extends React.Component {
     }
   }
 
-  hidePreview () {
+  handleMouseLeaveHidePreview () {
     this.setState({
       previewVisible: false
     })
@@ -288,7 +288,7 @@ export default class ElementControl extends React.Component {
       const newElement = document.createElement('div')
       newElement.setAttribute('data-vcv-element', element.id)
       const dragState = workspaceStorage.state('drag')
-      this.hidePreview()
+      this.handleMouseLeaveHidePreview()
       if (!dragState.get() || !dragState.get().active) {
         dragState.set({ active: true, addPanel: true })
       }
@@ -402,8 +402,8 @@ export default class ElementControl extends React.Component {
       <li className={listItemClasses}>
         <span
           className='vcv-ui-item-element'
-          onMouseEnter={!disablePreview ? this.showPreview : null}
-          onMouseLeave={!disablePreview ? this.hidePreview : null}
+          onMouseEnter={!disablePreview ? this.handleMouseEnterShowPreview : null}
+          onMouseLeave={!disablePreview ? this.handleMouseLeaveHidePreview : null}
           onMouseDown={this.handleMouseDown}
           onMouseUp={this.handleMouseUp}
           onFocus={this.handleFocus}

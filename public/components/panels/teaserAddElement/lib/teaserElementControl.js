@@ -315,8 +315,8 @@ export default class TeaserElementControl extends ElementControl {
       <li className={listItemClasses}>
         <span
           className={itemElementClasses}
-          onMouseEnter={this.showPreview}
-          onMouseLeave={this.hidePreview}
+          onMouseEnter={this.handleMouseEnterShowPreview}
+          onMouseLeave={this.handleMouseLeaveHidePreview}
           title={name}
         >
           <span className='vcv-ui-item-element-content'>

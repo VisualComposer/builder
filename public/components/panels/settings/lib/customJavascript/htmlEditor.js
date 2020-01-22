@@ -38,8 +38,10 @@ export default class HtmlEditor extends React.Component {
       'vcv-ui-state--active': true
     })
 
-    return <div className={controlClass}>
-      <textarea className='vcv-ui-script-ace-container' ref={editor => (this.editorWrapper = editor)} />
-    </div>
+    return (
+      <div className={controlClass}>
+        <textarea className='vcv-ui-script-ace-container' ref={editor => (this.editorWrapper = editor)} />
+      </div>
+    )
   }
 }

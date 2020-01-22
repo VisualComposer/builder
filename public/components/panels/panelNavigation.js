@@ -71,15 +71,23 @@ export default class PanelNavigation extends React.Component {
         index = `${control.index}-${control.subIndex}`
       }
 
-      return <div key={`panel-control-${type}-${i}`} className='vcv-ui-form-button-group-item'>
-        <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
-          {title}
-        </button>
-        {subControls && subControls.length
-          ? <div className='vcv-ui-form-button-group-dropdown'>
+      let subControlsContent = null
+      if (subControls && subControls.length) {
+        subControlsContent = (
+          <div className='vcv-ui-form-button-group-dropdown'>
             {this.getDropdownItems(subControls, type, index, isActive)}
-          </div> : null}
-      </div>
+          </div>
+        )
+      }
+
+      return (
+        <div key={`panel-control-${type}-${i}`} className='vcv-ui-form-button-group-item'>
+          <button type='button' onClick={() => this.handleClick(type, index)} className={controlClasses}>
+            {title}
+          </button>
+          {subControlsContent}
+        </div>
+      )
     })
   }
 
@@ -92,14 +100,16 @@ export default class PanelNavigation extends React.Component {
         'vcv-ui-form-button-group-dropdown-item--active': isActive && subControlType === this.props.activeSubControl
       })
 
-      return <button
-        key={`panel-control-dropdown-item-${subControlType}`}
-        type='button'
-        onClick={() => this.handleClick(type, categoryIndex, subControlType)}
-        className={dropdownItemClasses}
-      >
-        {subControlTitle}
-      </button>
+      return (
+        <button
+          key={`panel-control-dropdown-item-${subControlType}`}
+          type='button'
+          onClick={() => this.handleClick(type, categoryIndex, subControlType)}
+          className={dropdownItemClasses}
+        >
+          {subControlTitle}
+        </button>
+      )
     })
   }
 
@@ -162,17 +172,26 @@ export default class PanelNavigation extends React.Component {
     const newIndex = subIndex !== undefined ? `${index}-${subIndex}` : index
     const value = activeSubControl ? `${type}_${newIndex}_${activeSubControl}` : `${type}_${newIndex}`
 
-    return <div className='vcv-ui-panel-navigation-container'>
-      <div className={controlContainerClasses}>
-        <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large' ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
-          {this.getControls()}
+    let isControlsHiddenContent
+    if (this.state.isControlsHidden) {
+      isControlsHiddenContent = (
+        <div className='vcv-ui-panel-dropdown-container'>
+          <select className='vcv-ui-form-dropdown' value={value} onChange={this.handleDropdownChange}>
+            {this.getSelectOptions()}
+          </select>
         </div>
+      )
+    }
+
+    return (
+      <div className='vcv-ui-panel-navigation-container'>
+        <div className={controlContainerClasses}>
+          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large' ref={buttonsGroup => { this.buttonsGroup = buttonsGroup }}>
+            {this.getControls()}
+          </div>
+        </div>
+        {isControlsHiddenContent}
       </div>
-      {this.state.isControlsHidden ? <div className='vcv-ui-panel-dropdown-container'>
-        <select className='vcv-ui-form-dropdown' value={value} onChange={this.handleDropdownChange}>
-          {this.getSelectOptions()}
-        </select>
-      </div> : null}
-    </div>
+    )
   }
 }

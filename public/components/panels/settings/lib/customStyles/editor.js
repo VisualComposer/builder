@@ -45,9 +45,11 @@ export default class StyleEditor extends React.Component {
       'vcv-ui-style-editor': true,
       'vcv-ui-state--active': (this.props.index === this.props.activeIndex)
     })
-    return <div className={controlClass}>
-      <textarea className='vcv-ui-style-ace-container' ref={editor => (this.editorWrapper = editor)} />
-      <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>
-    </div>
+    return (
+      <div className={controlClass}>
+        <textarea className='vcv-ui-style-ace-container' ref={editor => (this.editorWrapper = editor)} />
+        <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>
+      </div>
+    )
   }
 }

@@ -64,7 +64,7 @@ export default class EditFormReplaceElement extends React.Component {
         <ReplaceElement
           options={options}
           tag={tag}
-          updater={this.handleReplaceElement}
+          onReplace={this.handleReplaceElement}
           element={cookElement}
         />
       </div>

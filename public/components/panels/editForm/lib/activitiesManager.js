@@ -21,6 +21,7 @@ export default class ActivitiesManager extends React.Component {
 
   constructor (props) {
     super(props)
+    this.handleAttributeChange = this.handleAttributeChange.bind(this)
     this.listeners = this.initListeners(this.props.elementAccessPoint.cook(), props)
   }
 
@@ -79,7 +80,7 @@ export default class ActivitiesManager extends React.Component {
     this.callMountStack(fieldKey)
   }
 
-  onAttributeChange (key) {
+  handleAttributeChange (key) {
     this.callFieldActivities(null, key)
   }
 
@@ -204,7 +205,7 @@ export default class ActivitiesManager extends React.Component {
         elementAccessPoint={elementAccessPoint}
         setFieldMount={this.setFieldMount}
         setFieldUnmount={this.setFieldUnmount}
-        onAttributeChange={this.onAttributeChange}
+        onAttributeChange={this.handleAttributeChange}
         callFieldActivities={this.callFieldActivities}
         ref={ref => { this.formWrapper = ref }}
         options={options}

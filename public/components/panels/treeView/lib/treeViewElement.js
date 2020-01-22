@@ -54,11 +54,11 @@ export default class TreeViewElement extends React.Component {
     this.handleOutline = this.handleOutline.bind(this)
     this.checkPaste = this.checkPaste.bind(this)
     this.dataUpdate = this.dataUpdate.bind(this)
-    this.enableEditable = this.enableEditable.bind(this)
-    this.validateContent = this.validateContent.bind(this)
-    this.preventNewLine = this.preventNewLine.bind(this)
-    this.clickHide = this.clickHide.bind(this)
-    this.toggleControls = this.toggleControls.bind(this)
+    this.handleClickEnableEditable = this.handleClickEnableEditable.bind(this)
+    this.handleBlurValidateContent = this.handleBlurValidateContent.bind(this)
+    this.handleKeyDownPreventNewLine = this.handleKeyDownPreventNewLine.bind(this)
+    this.handleClickHide = this.handleClickHide.bind(this)
+    this.handleClickToggleControls = this.handleClickToggleControls.bind(this)
     this.checkTarget = this.checkTarget.bind(this)
     this.handleSandwichMouseEnter = this.handleSandwichMouseEnter.bind(this)
     this.handleSandwichMouseLeave = this.handleSandwichMouseLeave.bind(this)
@@ -90,6 +90,7 @@ export default class TreeViewElement extends React.Component {
     newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
     this.setState({ element: nextProps.element || this.props.element })
   }
+
   /* eslint-enable */
 
   componentDidMount () {
@@ -123,7 +124,7 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  clickChildExpand = () => {
+  handleClickChildExpand = () => {
     this.setState({
       childExpand: !this.state.childExpand,
       hasBeenOpened: true
@@ -134,12 +135,12 @@ export default class TreeViewElement extends React.Component {
     workspaceStorage.trigger('add', this.state.element.id, tag)
   }
 
-  clickClone = (e) => {
+  handleClickClone = (e) => {
     e && e.preventDefault()
     workspaceStorage.trigger('clone', this.state.element.id)
   }
 
-  clickCopy = (e) => {
+  handleClickCopy = (e) => {
     e && e.preventDefault()
     workspaceStorage.trigger('copy', this.state.element.id)
   }
@@ -154,7 +155,7 @@ export default class TreeViewElement extends React.Component {
     workspaceStorage.trigger('pasteAfter', this.state.element.id)
   }
 
-  clickEdit = (tab = '') => {
+  handleClickEdit = (tab = '') => {
     const settings = workspaceStorage.state('settings').get()
     if (settings && settings.action === 'edit') {
       workspaceStorage.state('settings').set(false)
@@ -170,12 +171,12 @@ export default class TreeViewElement extends React.Component {
     workspaceStorage.trigger('edit', this.state.element.id, tab, options)
   }
 
-  clickDelete = (e) => {
+  handleClickDelete = (e) => {
     e && e.preventDefault()
     workspaceStorage.trigger('remove', this.state.element.id)
   }
 
-  clickHide () {
+  handleClickHide () {
     workspaceStorage.trigger('hide', this.state.element.id)
   }
 
@@ -187,15 +188,17 @@ export default class TreeViewElement extends React.Component {
     const { showOutlineCallback, onMountCallback, onUnmountCallback } = this.props
     const level = this.props.level + 1
     const elementsList = children.map((element) => {
-      return <TreeViewElement
-        showOutlineCallback={showOutlineCallback}
-        onMountCallback={onMountCallback}
-        onUnmountCallback={onUnmountCallback}
-        element={element}
-        key={element.id}
-        level={level}
-        scrollValue={this.props.scrollValue}
-      />
+      return (
+        <TreeViewElement
+          showOutlineCallback={showOutlineCallback}
+          onMountCallback={onMountCallback}
+          onUnmountCallback={onUnmountCallback}
+          element={element}
+          key={element.id}
+          level={level}
+          scrollValue={this.props.scrollValue}
+        />
+      )
     }, this)
     return elementsList.length ? <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul> : ''
   }
@@ -269,7 +272,7 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  enableEditable () {
+  handleClickEnableEditable () {
     this.setState({
       editable: true
     }, () => {
@@ -292,28 +295,28 @@ export default class TreeViewElement extends React.Component {
     })
   }
 
-  validateContent () {
+  handleBlurValidateContent () {
     const value = this.span ? this.span.innerText.trim() : ''
     this.updateContent(value)
   }
 
-  preventNewLine (event) {
+  handleKeyDownPreventNewLine (event) {
     if (event.key === 'Enter') {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
       this.span && this.span.blur()
-      this.validateContent()
+      this.handleBlurValidateContent()
     }
   }
 
   checkTarget (e) {
     if (e && e.target && this.controlsContent && !(this.controlsContent.contains(e.target) || this.controlsTrigger.contains(e.target))) {
-      this.toggleControls()
+      this.handleClickToggleControls()
     }
   }
 
-  toggleControls () {
+  handleClickToggleControls () {
     const fn = this.state.showControls ? 'removeEventListener' : 'addEventListener'
     window[fn] && window[fn]('touchstart', this.checkTarget)
     this.setState({
@@ -452,7 +455,7 @@ export default class TreeViewElement extends React.Component {
           <span
             className='vcv-ui-tree-layout-control-action'
             title={rowLayoutText}
-            onClick={this.clickEdit.bind(this, 'layout')}
+            onClick={this.handleClickEdit.bind(this, 'layout')}
           >
             <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
           </span>
@@ -465,7 +468,7 @@ export default class TreeViewElement extends React.Component {
       expandTrigger = (
         <i
           className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'
-          onClick={this.clickChildExpand}
+          onClick={this.handleClickChildExpand}
         />
       )
     }
@@ -478,7 +481,7 @@ export default class TreeViewElement extends React.Component {
         'vcv-ui-icon-eye-off': hidden
       })
       visibilityControl = (
-        <span className='vcv-ui-tree-layout-control-action' title={visibilityText} onClick={this.clickHide}>
+        <span className='vcv-ui-tree-layout-control-action' title={visibilityText} onClick={this.handleClickHide}>
           <i className={iconClasses} />
         </span>
       )
@@ -490,7 +493,7 @@ export default class TreeViewElement extends React.Component {
       <span
         className='vcv-ui-tree-layout-control-action'
         title={copyText}
-        onClick={this.clickCopy.bind(this)}
+        onClick={this.handleClickCopy.bind(this)}
       >
         <i className='vcv-ui-icon vcv-ui-icon-copy-icon' />
       </span>
@@ -525,49 +528,55 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    const childControls = <span className='vcv-ui-tree-layout-control-actions'>
-      {addChildControl}
-      {editRowLayoutControl}
-      <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit.bind(this, '')}>
-        <i className='vcv-ui-icon vcv-ui-icon-edit' />
+    const childControls = (
+      <span className='vcv-ui-tree-layout-control-actions'>
+        {addChildControl}
+        {editRowLayoutControl}
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
+          <i className='vcv-ui-icon vcv-ui-icon-edit' />
+        </span>
+        <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
+          <i className='vcv-ui-icon vcv-ui-icon-copy' />
+        </span>
+        {visibilityControl}
+        {copyControl}
+        {pasteControl}
+        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
+          <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        </span>
       </span>
-      <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
-        <i className='vcv-ui-icon vcv-ui-icon-copy' />
-      </span>
-      {visibilityControl}
-      {copyControl}
-      {pasteControl}
-      <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
-        <i className='vcv-ui-icon vcv-ui-icon-trash' />
-      </span>
-    </span>
+    )
 
-    const baseControls = <div className='vcv-ui-tree-layout-control-actions'>
-      <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit.bind(this, '')}>
-        <i className='vcv-ui-icon vcv-ui-icon-edit' />
-      </span>
-      <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.clickDelete}>
-        <i className='vcv-ui-icon vcv-ui-icon-trash' />
-      </span>
-      <span
-        className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
-        onMouseEnter={this.handleSandwichMouseEnter}
-        onMouseLeave={this.handleSandwichMouseLeave}
-      >
-        <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
-      </span>
-    </div>
+    const baseControls = (
+      <div className='vcv-ui-tree-layout-control-actions'>
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
+          <i className='vcv-ui-icon vcv-ui-icon-edit' />
+        </span>
+        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
+          <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        </span>
+        <span
+          className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
+          onMouseEnter={this.handleSandwichMouseEnter}
+          onMouseLeave={this.handleSandwichMouseLeave}
+        >
+          <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
+        </span>
+      </div>
+    )
 
-    const sandwichControls = <>
-      {addChildControl}
-      {editRowLayoutControl}
-      <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
-        <i className='vcv-ui-icon vcv-ui-icon-copy' />
-      </span>
-      {visibilityControl}
-      {copyControl}
-      {pasteControl}
-                             </>
+    const sandwichControls = (
+      <>
+        {addChildControl}
+        {editRowLayoutControl}
+        <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
+          <i className='vcv-ui-icon vcv-ui-icon-copy' />
+        </span>
+        {visibilityControl}
+        {copyControl}
+        {pasteControl}
+      </>
+    )
 
     const dropdownClasses = classNames({
       'vcv-ui-tree-layout-control-dropdown-content': true,
@@ -612,14 +621,17 @@ export default class TreeViewElement extends React.Component {
     const controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
 
     if (this.isMobile) {
-      const controlsContent = this.state.showControls ? (
-        <div
-          ref={controlsContent => { this.controlsContent = controlsContent }}
-          className='vcv-ui-tree-layout-controls-content'
-        >
-          {childControls}
-        </div>
-      ) : null
+      let controlsContent = null
+      if (this.state.showControls) {
+        controlsContent = (
+          <div
+            ref={controlsContent => { this.controlsContent = controlsContent }}
+            className='vcv-ui-tree-layout-controls-content'
+          >
+            {childControls}
+          </div>
+        )
+      }
 
       return (
         <li
@@ -632,10 +644,8 @@ export default class TreeViewElement extends React.Component {
           <div className={controlClasses}>
             <div className='vcv-ui-tree-layout-control-content'>
               <div className={dragHelperClasses} style={controlStyle}>
-                <i className='vcv-ui-tree-layout-control-icon'><img
-                  src={publicPath} className='vcv-ui-icon'
-                  alt=''
-                />
+                <i className='vcv-ui-tree-layout-control-icon'>
+                  <img src={publicPath} className='vcv-ui-icon' alt='' />
                 </i>
                 <span className='vcv-ui-tree-layout-control-label'>
                   <span>{content}</span>
@@ -643,7 +653,7 @@ export default class TreeViewElement extends React.Component {
               </div>
               <div
                 className='vcv-ui-tree-layout-controls-trigger'
-                onClick={this.toggleControls}
+                onClick={this.handleClickToggleControls}
                 ref={controlsTrigger => { this.controlsTrigger = controlsTrigger }}
               >
                 <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
@@ -682,9 +692,9 @@ export default class TreeViewElement extends React.Component {
                 ref={span => { this.span = span }}
                 contentEditable={editable}
                 suppressContentEditableWarning
-                onClick={this.enableEditable}
-                onKeyDown={this.preventNewLine}
-                onBlur={this.validateContent}
+                onClick={this.handleClickEnableEditable}
+                onKeyDown={this.handleKeyDownPreventNewLine}
+                onBlur={this.handleBlurValidateContent}
               >
                 {content}
               </span>

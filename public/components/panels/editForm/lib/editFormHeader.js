@@ -20,12 +20,12 @@ export default class EditFormHeader extends React.Component {
       editable: false
     }
 
-    this.enableEditable = this.enableEditable.bind(this)
-    this.validateContent = this.validateContent.bind(this)
+    this.handleClickEnableEditable = this.handleClickEnableEditable.bind(this)
+    this.handleBlurValidateContent = this.handleBlurValidateContent.bind(this)
     this.editTitle = this.editTitle.bind(this)
-    this.preventNewLine = this.preventNewLine.bind(this)
+    this.handleKeyDownPreventNewLine = this.handleKeyDownPreventNewLine.bind(this)
     this.updateElementOnChange = this.updateElementOnChange.bind(this)
-    this.goBack = this.goBack.bind(this)
+    this.handleClickGoBack = this.handleClickGoBack.bind(this)
   }
 
   componentDidMount () {
@@ -61,7 +61,7 @@ export default class EditFormHeader extends React.Component {
     })
   }
 
-  enableEditable () {
+  handleClickEnableEditable () {
     this.setState({
       editable: true
     }, () => {
@@ -70,7 +70,7 @@ export default class EditFormHeader extends React.Component {
   }
 
   editTitle () {
-    this.enableEditable()
+    this.handleClickEnableEditable()
     const range = document.createRange()
     const selection = window.getSelection()
     range.selectNodeContents(this.span)
@@ -89,22 +89,22 @@ export default class EditFormHeader extends React.Component {
     })
   }
 
-  validateContent () {
+  handleBlurValidateContent () {
     const value = this.span.innerText.trim()
     this.updateContent(value)
   }
 
-  preventNewLine (event) {
+  handleKeyDownPreventNewLine (event) {
     if (event.key === 'Enter') {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
       this.span.blur()
-      this.validateContent()
+      this.handleBlurValidateContent()
     }
   }
 
-  goBack () {
+  handleClickGoBack () {
     let { parentElementAccessPoint: accessPoint, options } = this.props.options
     // If multiple nesting used we can goBack only to ROOT
     while (accessPoint.inner) {
@@ -127,37 +127,43 @@ export default class EditFormHeader extends React.Component {
     })
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
-    const backButton = isNested ? (
-      <span className='vcv-ui-edit-form-back-button' onClick={this.goBack} title={backToParentTitle}>
-        <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
-      </span>) : null
+    let backButton = null
+    if (isNested) {
+      backButton = (
+        <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
+          <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
+        </span>
+      )
+    }
 
     if (isNested && options.activeParamGroupTitle) {
       content = options.activeParamGroupTitle
     }
 
     const sectionImageSrc = hubCategories.getElementIcon(elementAccessPoint.tag)
-    const sectionImage = sectionImageSrc ? (
-      <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />) : null
+    let sectionImage = null
+    if (sectionImageSrc) {
+      sectionImage = <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />
+    }
 
-    const headerTitle = isNested && options.activeParamGroup
-      ? (<span
-        className={headerTitleClasses}
-        ref={span => { this.span = span }}
-      >
-        {content}
-      </span>)
-      : (<span
-        className={headerTitleClasses}
-        ref={span => { this.span = span }}
-        contentEditable={editable}
-        suppressContentEditableWarning
-        onClick={this.enableEditable}
-        onKeyDown={this.preventNewLine}
-        onBlur={this.validateContent}
-      >
-        {content}
-      </span>)
+    let headerTitle
+    if (isNested && options.activeParamGroup) {
+      headerTitle = <span className={headerTitleClasses} ref={span => { this.span = span }}>{content}</span>
+    } else {
+      headerTitle = (
+        <span
+          className={headerTitleClasses}
+          ref={span => { this.span = span }}
+          contentEditable={editable}
+          suppressContentEditableWarning
+          onClick={this.handleClickEnableEditable}
+          onKeyDown={this.handleKeyDownPreventNewLine}
+          onBlur={this.handleBlurValidateContent}
+        >
+          {content}
+        </span>
+      )
+    }
 
     return (
       <div className='vcv-ui-edit-form-header'>
