@@ -160,21 +160,23 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('all')
 
-    return <div className={classes} {...editor} {...customProps} data-vcv-element-disabled>
-      <div className='vce vce-yt-video-player-wrapper' id={'el-' + id} style={{ width: videoWidth }} {...doAll}>
-        <div className='vce-yt-video-player-inner'>
-          <div className='vcvhelper' data-vcvs-html={html}>
-            <iframe
-              className='vce-yt-video-player-iframe'
-              src={source}
-              width='640'
-              height='390'
-              frameBorder='0'
-              allowFullScreen
-            />
+    return (
+      <div className={classes} {...editor} {...customProps} data-vcv-element-disabled>
+        <div className='vce vce-yt-video-player-wrapper' id={'el-' + id} style={{ width: videoWidth }} {...doAll}>
+          <div className='vce-yt-video-player-inner'>
+            <div className='vcvhelper' data-vcvs-html={html}>
+              <iframe
+                className='vce-yt-video-player-iframe'
+                src={source}
+                width='640'
+                height='390'
+                frameBorder='0'
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   }
 }

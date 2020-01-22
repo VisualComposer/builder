@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class OutlineButtonElement extends vcvAPI.elementComponent {
@@ -80,14 +81,16 @@ export default class OutlineButtonElement extends vcvAPI.elementComponent {
     const doMargin = this.applyDO('margin')
     const doRest = this.applyDO('padding border background animation')
 
-    return <div className={containerClasses.join(' ')} {...editor}>
-      <span className={wrapperClasses.join(' ')} id={'el-' + id} {...doMargin}>
-        <CustomTag className={classes.join(' ')} {...customProps} {...doRest}>
-          <span className='vce-button--style-outline-text'>
-            {buttonHtml}
-          </span>
-        </CustomTag>
-      </span>
-    </div>
+    return (
+      <div className={containerClasses.join(' ')} {...editor}>
+        <span className={wrapperClasses.join(' ')} id={'el-' + id} {...doMargin}>
+          <CustomTag className={classes.join(' ')} {...customProps} {...doRest}>
+            <span className='vce-button--style-outline-text'>
+              {buttonHtml}
+            </span>
+          </CustomTag>
+        </span>
+      </div>
+    )
   }
 }

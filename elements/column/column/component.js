@@ -147,14 +147,16 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     const doPadding = this.applyDO('padding')
     const doRest = this.applyDO('border margin background animation')
 
-    return (<div className={className} {...customColProps} id={'el-' + id} {...editor} ref={this.columnRef}>
-      <div className='vce-col-inner' {...doRest} {...innerProps} {...boxShadowAttributes}>
-        {this.getBackgroundTypeContent()}
-        {this.getContainerDivider()}
-        <div className='vce-col-content' {...contentProps} {...doPadding}>
-          {this.props.children}
+    return (
+      <div className={className} {...customColProps} id={'el-' + id} {...editor} ref={this.columnRef}>
+        <div className='vce-col-inner' {...doRest} {...innerProps} {...boxShadowAttributes}>
+          {this.getBackgroundTypeContent()}
+          {this.getContainerDivider()}
+          <div className='vce-col-content' {...contentProps} {...doPadding}>
+            {this.props.children}
+          </div>
         </div>
       </div>
-    </div>)
+    )
   }
 }

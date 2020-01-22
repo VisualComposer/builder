@@ -472,14 +472,16 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('all')
 
-    return <div className={containerClasses} {...containerProps}>
-      <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll} ref={this.rowRef}>
-        {this.getBackgroundTypeContent()}
-        {this.getContainerDivider()}
-        <div className='vce-row-content' {...customProps}>
-          {content}
+    return (
+      <div className={containerClasses} {...containerProps}>
+        <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll} ref={this.rowRef}>
+          {this.getBackgroundTypeContent()}
+          {this.getContainerDivider()}
+          <div className='vce-row-content' {...customProps}>
+            {content}
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class BasicSeparator extends vcvAPI.elementComponent {
@@ -54,16 +55,16 @@ export default class BasicSeparator extends vcvAPI.elementComponent {
     const doRest = this.applyDO('border padding background animation')
 
     if (style === 'shadow') {
-      separator = <div className={classes} {...customProps} {...doRest}>
-        <div className='vce-separator-shadow vce-separator-shadow-left' />
-        <div className='vce-separator-shadow vce-separator-shadow-right' />
-      </div>
+      separator = (
+        <div className={classes} {...customProps} {...doRest}>
+          <div className='vce-separator-shadow vce-separator-shadow-left' />
+          <div className='vce-separator-shadow vce-separator-shadow-right' />
+        </div>
+      )
     } else {
       separator = <div className={classes} {...customProps} {...doRest} />
     }
 
-    return <div className={containerClasses} {...editor} id={'el-' + id} {...doMargin}>
-      {separator}
-    </div>
+    return <div className={containerClasses} {...editor} id={'el-' + id} {...doMargin}>{separator}</div>
   }
 }
