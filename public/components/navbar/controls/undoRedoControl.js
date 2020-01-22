@@ -29,20 +29,24 @@ export default class UndoRedoControl extends NavbarContent {
     historyStorage.state('canRedo').ignoreChange(this.checkRedoState)
     historyStorage.state('canUndo').ignoreChange(this.checkUndoState)
   }
+
   checkUndoState (value) {
     this.setState({
       undoDisabled: !value
     })
   }
+
   checkRedoState (value) {
     this.setState({
       redoDisabled: !value
     })
   }
+
   checkControls () {
     this.checkRedoState(historyStorage.state('canRedo').get())
     this.checkUndoState(historyStorage.state('canUndo').get())
   }
+
   handleUndo (e) {
     e && e.preventDefault()
     historyStorage.state('canUndo').get() && historyStorage.trigger('undo')

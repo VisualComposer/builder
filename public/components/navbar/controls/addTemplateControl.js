@@ -43,7 +43,7 @@ export default class AddTemplateControl extends NavbarContent {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const name = localizations ? localizations.addTemplate : 'Add Template'
 
-    let controlClass = classNames({
+    const controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--active': this.state.isActive
     })

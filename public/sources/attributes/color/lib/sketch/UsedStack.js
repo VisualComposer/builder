@@ -19,7 +19,7 @@ export class UsedStack extends React.Component {
 
   render () {
     const styles = reactCSS({
-      'default': {
+      default: {
         swatchWrap: {
           width: '16px',
           height: '16px',

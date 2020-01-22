@@ -22,7 +22,7 @@ export default class BlankPage extends React.Component {
       addControl: {
         title: 'Add Element',
         classSuffix: 'add',
-        description: `Access list of all your content elements available in 'Add Element' window. For additional content, visit Visual Composer Hub to download more elements.`
+        description: 'Access list of all your content elements available in \'Add Element\' window. For additional content, visit Visual Composer Hub to download more elements.'
       },
       templateControl: {
         title: 'Template',
@@ -74,11 +74,11 @@ export default class BlankPage extends React.Component {
   }
 
   getControlProps (index, tag) {
-    let element = cook.get({ tag: tag })
+    const element = cook.get({ tag: tag })
     if (!element) {
       return null
     }
-    let icon = hubCategoriesService.getElementIcon(tag)
+    const icon = hubCategoriesService.getElementIcon(tag)
 
     return {
       key: 'vcvBlankPage' + tag + index,
@@ -96,22 +96,23 @@ export default class BlankPage extends React.Component {
   }
 
   getElementControls () {
-    let { elementControls } = this.props.controlsData
-    let allControls = elementControls.map((tag, i) => {
-      let controlProps = this.getControlProps(i, tag)
+    const { elementControls } = this.props.controlsData
+    const allControls = elementControls.map((tag, i) => {
+      const controlProps = this.getControlProps(i, tag)
       return controlProps ? <ContentElementControl {...controlProps} /> : null
     })
-    allControls.push(<CustomContentElementControl key='vcvBlankPageAddElement'
+    allControls.push(<CustomContentElementControl
+      key='vcvBlankPageAddElement'
       setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
       handleClick={this.handleAddElementControl}
       {...this.props.controlsData.addControl}
-
     />)
     return allControls
   }
 
   getTemplateControl () {
-    return <CustomContentElementControl key='vcvBlankPageAddTemplate'
+    return <CustomContentElementControl
+      key='vcvBlankPageAddTemplate'
       setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
       handleClick={this.handleTemplateControl}
       {...this.props.controlsData.templateControl}
@@ -119,10 +120,10 @@ export default class BlankPage extends React.Component {
   }
 
   render () {
-    let elementControls = this.getElementControls()
-    let templateControl = this.getTemplateControl()
+    const elementControls = this.getElementControls()
+    const templateControl = this.getTemplateControl()
 
-    let descriptionClass = classNames({
+    const descriptionClass = classNames({
       'vcv-blank-page-description-container': true,
       'vcv-blank-page-description-active': this.state.isActiveDescription
     })

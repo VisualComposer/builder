@@ -14,7 +14,7 @@ export default class LayoutEditor extends React.Component {
 
   constructor (props) {
     super(props)
-    let data = elementsStorage.state('document').get() || []
+    const data = elementsStorage.state('document').get() || []
     this.state = {
       data
     }
@@ -43,11 +43,13 @@ export default class LayoutEditor extends React.Component {
 
   render () {
     return (
-      <div className='vcv-editor-here' ref={(editor) => {
-        if (editor && editor.ownerDocument) {
-          this.document = editor.ownerDocument
-        }
-      }}>
+      <div
+        className='vcv-editor-here' ref={(editor) => {
+          if (editor && editor.ownerDocument) {
+            this.document = editor.ownerDocument
+          }
+        }}
+      >
         {this.getContent()}
       </div>
     )

@@ -27,7 +27,7 @@ export default class DynamicAttribute extends React.Component {
     }
 
     if (isDynamic) {
-      let newState = this.getStateFromValue(this.props.value)
+      const newState = this.getStateFromValue(this.props.value)
       state = { ...state, ...newState }
       if (state.blockInfo && state.blockInfo.blockAtts && state.blockInfo.blockAtts.sourceId) {
         window.setTimeout(() => {
@@ -71,7 +71,7 @@ export default class DynamicAttribute extends React.Component {
     }
 
     if (oldValue !== newValue) {
-      let newState = this.getStateFromValue(newValue)
+      const newState = this.getStateFromValue(newValue)
       if (newState.blockInfo && newState.blockInfo.blockAtts && newState.blockInfo.blockAtts.sourceId) {
         window.setTimeout(() => {
           settingsStorage.trigger('loadDynamicPost', newState.blockInfo.blockAtts.sourceId, this.onLoadPostFields, (error) => {
@@ -85,7 +85,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   getStateFromValue (value) {
-    let state = {
+    const state = {
       dynamicFieldOpened: false
     }
     if (typeof value === 'string' && value.match(blockRegexp)) {
@@ -99,7 +99,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   handleDynamicFieldChange (dynamicFieldKey, sourceId, showAutocomplete) {
-    let newValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, showAutocomplete)
+    const newValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, showAutocomplete)
     let fieldValue = newValue
     let dynamicValue = newValue
 
@@ -129,7 +129,7 @@ export default class DynamicAttribute extends React.Component {
 
   handleDynamicFieldClose (e) {
     e && e.preventDefault()
-    let prevDynamicValue = this.state.blockInfo.value
+    const prevDynamicValue = this.state.blockInfo.value
     if (this.state.prevValue) {
       this.props.setFieldValue(this.state.prevValue)
     } else if (this.props.defaultValue !== undefined) {
@@ -158,28 +158,28 @@ export default class DynamicAttribute extends React.Component {
     let currentIdFields = settingsStorage.state('postFields').get()
 
     if (postField && postField.match(/::/)) {
-      return postField.split('::')[ 1 ] // Return other value from input
+      return postField.split('::')[1] // Return other value from input
     }
 
     if (sourceId && (window.vcvSourceID !== sourceId)) {
       if (currentIdFields.hasOwnProperty(sourceId)) {
-        currentIdFields = currentIdFields[ sourceId ]
+        currentIdFields = currentIdFields[sourceId]
       } else {
         // Post doesn't exist or has been deleted
         return null
       }
     }
 
-    const currentTypeFields = currentIdFields[ this.props.fieldType ]
+    const currentTypeFields = currentIdFields[this.props.fieldType]
     let fieldLabel = null
 
     if (currentTypeFields) {
-      for (let key in currentTypeFields) {
-        const item = currentTypeFields[ key ]
+      for (const key in currentTypeFields) {
+        const item = currentTypeFields[key]
         let breakLoop = false
 
         if (item && item.group && item.group.values && item.group.values.length) {
-          for (let fieldItem of item.group.values) {
+          for (const fieldItem of item.group.values) {
             if (fieldItem.value === postField) {
               fieldLabel = fieldItem.label
               breakLoop = true
@@ -200,7 +200,7 @@ export default class DynamicAttribute extends React.Component {
   renderDynamicInputs () {
     const { blockInfo } = this.state
     const { dynamicFieldType } = this.props
-    let noValueSetText = DynamicAttribute.localizations.noValueSet || 'No value set'
+    const noValueSetText = DynamicAttribute.localizations.noValueSet || 'No value set'
     let placeholderTag = <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive' onClick={this.open}>{noValueSetText}</span>
     let labelText = noValueSetText
 
@@ -279,18 +279,18 @@ export default class DynamicAttribute extends React.Component {
       content = this.renderDynamicInputs()
     } else {
       content = (
-        <React.Fragment>
+        <>
           {children}
           {this.renderOpenButton()}
-        </React.Fragment>
+        </>
       )
     }
 
     return (
-      <React.Fragment>
+      <>
         {content}
         {isWindowOpen ? this.getDynamicPopup() : null}
-      </React.Fragment>
+      </>
     )
   }
 }

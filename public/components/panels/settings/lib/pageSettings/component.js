@@ -24,9 +24,9 @@ export default class PageSettings extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         {content}
-      </React.Fragment>
+      </>
     )
   }
 }

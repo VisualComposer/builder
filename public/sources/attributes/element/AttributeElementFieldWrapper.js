@@ -39,10 +39,10 @@ export default class AttributeElementFieldWrapper extends ActivitiesManager {
   }
 
   render () {
-    let content = []
+    const content = []
 
     this.props.allTabs.forEach((tab) => {
-      let plateClass = classNames({}, `vcv-ui-editor-plate-${tab.id}`)
+      const plateClass = classNames({}, `vcv-ui-editor-plate-${tab.id}`)
       content.push(
         <div key={`element-plate-visible-${this.props.elementAccessPoint.id}-${tab.id}`} className={plateClass}>
           {tab.params.map(this.field)}

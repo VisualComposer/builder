@@ -35,7 +35,7 @@ export default class DynamicPopup extends React.Component {
 
     this.dropdownRef = React.createRef()
 
-    let state = {
+    const state = {
       postFields: null,
       currentPostField: null,
       showAutocomplete: false,
@@ -89,7 +89,7 @@ export default class DynamicPopup extends React.Component {
     if (value && value.trim().match(/^\d+$/)) {
       // Value is number, so we can try to set it
       const sourceId = parseInt(value, 10)
-      let state = {}
+      const state = {}
       state.sourceId = sourceId
       state.dataLoaded = false
       state.postFields = {}
@@ -133,7 +133,7 @@ export default class DynamicPopup extends React.Component {
   }
 
   renderAutocompleteToggle () {
-    return <React.Fragment>
+    return <>
       <Toggle
         value={this.state.showAutocomplete}
         elementAccessPoint={this.props.elementAccessPoint}
@@ -143,12 +143,12 @@ export default class DynamicPopup extends React.Component {
         updater={this.handleAutocompleteToggle}
       />
       <p className='vcv-ui-form-helper'>{DynamicPopup.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}</p>
-    </React.Fragment>
+           </>
   }
 
   renderDynamicFieldsDropdown (fieldsList) {
-    let dropdownLabel = DynamicPopup.localizations.dynamicSelectCustomField || 'Select custom field'
-    let newFieldsList = Object.values(fieldsList)
+    const dropdownLabel = DynamicPopup.localizations.dynamicSelectCustomField || 'Select custom field'
+    const newFieldsList = Object.values(fieldsList)
     newFieldsList.unshift({ label: dropdownLabel, value: '', disabled: true })
     return (
       <Dropdown
@@ -178,7 +178,7 @@ export default class DynamicPopup extends React.Component {
   renderDynamicFieldsExtra () {
     let extraDynamicComponent = null
     if (this.state.currentPostField && this.state.currentPostField.match(/::/)) {
-      const [ dynamicFieldKey, extraKey ] = this.state.currentPostField.split('::')
+      const [dynamicFieldKey, extraKey] = this.state.currentPostField.split('::')
       const updateExtraKey = (e) => {
         e && e.preventDefault()
         const extraDynamicFieldKey = e.currentTarget && e.currentTarget.value
@@ -212,18 +212,18 @@ export default class DynamicPopup extends React.Component {
   }
 
   render () {
-    let popupTitle = DynamicPopup.localizations.dynamicContent || 'Dynamic Content'
-    let saveText = DynamicPopup.localizations.save || 'Save'
-    let closeText = DynamicPopup.localizations.close || 'Close'
-    let autoCompleteComponent = this.state.showAutocomplete ? this.renderAutoCompleteInput() : null
+    const popupTitle = DynamicPopup.localizations.dynamicContent || 'Dynamic Content'
+    const saveText = DynamicPopup.localizations.save || 'Save'
+    const closeText = DynamicPopup.localizations.close || 'Close'
+    const autoCompleteComponent = this.state.showAutocomplete ? this.renderAutoCompleteInput() : null
     let loader = null
     let fieldComponent = null
     let extraDynamicComponent = null
     if (!this.state.dataLoaded) {
       loader = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
     } else {
-      let postFields = this.state.postFields
-      let fieldsList = postFields[ this.props.fieldType ] || {}
+      const postFields = this.state.postFields
+      const fieldsList = postFields[this.props.fieldType] || {}
       fieldComponent = this.renderDynamicFieldsDropdown(fieldsList)
       extraDynamicComponent = this.renderDynamicFieldsExtra()
     }

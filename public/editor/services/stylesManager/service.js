@@ -14,11 +14,11 @@ import functions from 'postcss-functions'
 import autoprefixer from 'autoprefixer'
 import objectHash from 'node-object-hash'
 
-let cssHashes = {}
-let mainPlugins = []
+const cssHashes = {}
+const mainPlugins = []
 mainPlugins.push(postcssEach)
 mainPlugins.push(colorBlend())
-let plugin = postcss.plugin('postcss-math', () => {
+const plugin = postcss.plugin('postcss-math', () => {
   return (css) => {
     // Transform CSS AST here
     css.walk((node) => {
@@ -34,13 +34,13 @@ let plugin = postcss.plugin('postcss-math', () => {
         return
       }
 
-      let match = 'resolve('
-      if (!node[ nodeProp ] || node[ nodeProp ].indexOf(match) === -1) {
+      const match = 'resolve('
+      if (!node[nodeProp] || node[nodeProp].indexOf(match) === -1) {
         return
       }
-      let temp = node[ nodeProp ].replace(/([^)]+)$/, '')
-      let newValue = window.eval('var resolve=function(s) { return window.eval(s)+\'\'; }; ' + temp) + ''
-      node[ nodeProp ] = node[ nodeProp ].replace(temp, newValue)
+      const temp = node[nodeProp].replace(/([^)]+)$/, '')
+      const newValue = window.eval('var resolve=function(s) { return window.eval(s)+\'\'; }; ' + temp) + ''
+      node[nodeProp] = node[nodeProp].replace(temp, newValue)
     })
   }
 })
@@ -81,66 +81,66 @@ class StylesManager {
   }
 
   getViewports () {
-    let devices = [
+    const devices = [
       {
-        prefixes: [ `all` ],
+        prefixes: ['all'],
         min: null,
         max: null
       },
       {
-        prefixes: [ `xs`, `mobile-portrait` ],
+        prefixes: ['xs', 'mobile-portrait'],
         min: null,
         max: '543px' // mobile-landscape.min - 1
       },
       {
-        prefixes: [ `sm`, `mobile-landscape` ],
+        prefixes: ['sm', 'mobile-landscape'],
         min: '544px',
         max: '767px' // tablet-portrait.min - 1
       },
       {
-        prefixes: [ `md`, `tablet-portrait` ],
+        prefixes: ['md', 'tablet-portrait'],
         min: '768px',
         max: '991px' // tablet-landscape.min - 1
       },
       {
-        prefixes: [ `lg`, `tablet-landscape` ],
+        prefixes: ['lg', 'tablet-landscape'],
         min: '992px',
         max: '1199px' // desktop.min - 1
       },
       {
-        prefixes: [ `xl`, `desktop` ],
+        prefixes: ['xl', 'desktop'],
         min: '1200px',
         max: null
       }
     ]
 
-    let viewports = {}
+    const viewports = {}
     devices.forEach((device) => {
       device.prefixes.forEach((prefix) => {
-        let queries = [ 'all' ]
+        const queries = ['all']
         // mobile-first queries
         if (device.min) {
           queries.push(`(min-width: ${device.min})`)
         }
-        viewports[ `--${prefix}` ] = queries.join(' and ')
+        viewports[`--${prefix}`] = queries.join(' and ')
         // viewport specific queries
         if (device.max) {
           queries.push(`(max-width: ${device.max})`)
         }
-        viewports[ `--${prefix}-only` ] = queries.join(' and ')
+        viewports[`--${prefix}-only`] = queries.join(' and ')
       })
     })
     return viewports
   }
 
   compile (join = true) {
-    let iterations = []
+    const iterations = []
     this.get().forEach((style) => {
-      let hasher = objectHash({ sort: true, coerce: true }).hash
-      let hash = hasher(style)
+      const hasher = objectHash({ sort: true, coerce: true }).hash
+      const hash = hasher(style)
 
-      if (typeof cssHashes[ hash ] !== 'undefined' && typeof cssHashes[ hash ].result !== 'undefined') {
-        return iterations.push(cssHashes[ hash ].result)
+      if (typeof cssHashes[hash] !== 'undefined' && typeof cssHashes[hash].result !== 'undefined') {
+        return iterations.push(cssHashes[hash].result)
       }
 
       let use = []
@@ -153,7 +153,7 @@ class StylesManager {
         use.push(postcssAdvancedVars())
         use.push(postcssCustomProps())
       }
-      cssHashes[ hash ] = {}
+      cssHashes[hash] = {}
 
       let viewports = this.getViewports()
       if (style.hasOwnProperty('viewports')) {
@@ -171,8 +171,8 @@ class StylesManager {
       }
       use = use.concat(mainPlugins)
       return iterations.push(postcss(use).process(style.src, { from: undefined }).then((result) => {
-        let resultCss = result && result.css ? result.css : ''
-        cssHashes[ hash ].result = resultCss
+        const resultCss = result && result.css ? result.css : ''
+        cssHashes[hash].result = resultCss
         return resultCss
       }).catch((result) => {
         window.console && window.console.warn && window.console.warn('Failed to compile css', style, result)

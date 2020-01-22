@@ -13,7 +13,7 @@ export default class DOMElement {
       /**
        * @memberOf! DOMElement
        */
-      'node': {
+      node: {
         configurable: false,
         enumerable: false,
         value: DOMNode,
@@ -22,7 +22,7 @@ export default class DOMElement {
       /**
        * @memberOf! DOMElement
        */
-      '$node': {
+      $node: {
         configurable: false,
         enumerable: false,
         value: window.jQuery(DOMNode),
@@ -31,7 +31,7 @@ export default class DOMElement {
       /**
        * @memberOf! DOMElement
        */
-      'id': {
+      id: {
         configurable: false,
         enumerable: false,
         value: id,
@@ -40,7 +40,7 @@ export default class DOMElement {
       /**
        * @memberOf! DOMElement
        */
-      'options': {
+      options: {
         configurable: false,
         enumerable: false,
         value: options,
@@ -49,7 +49,7 @@ export default class DOMElement {
       /**
        * @memberOf! DOMElement
        */
-      'isEmptyAsContainer': {
+      isEmptyAsContainer: {
         enumerable: false,
         get: function () {
           return this.$node.find('[data-vcv-dnd-element]').length === 0
@@ -126,19 +126,19 @@ export default class DOMElement {
   }
 
   isNearBoundaries (point, gap) {
-    let rect = this.node.getBoundingClientRect()
+    const rect = this.node.getBoundingClientRect()
     return point.y - rect.top < gap || rect.bottom - point.y < gap ||
       point.x - rect.left < gap || rect.right - point.x < gap
   }
 
   on (event, callback, capture) {
-    let handler = this.dragHandler
+    const handler = this.dragHandler
     handler && handler.addEventListener(event, callback, !!capture)
     return this
   }
 
   off (event, callback, capture) {
-    let handler = this.dragHandler
+    const handler = this.dragHandler
     handler && handler.removeEventListener(event, callback, !!capture)
     return this
   }

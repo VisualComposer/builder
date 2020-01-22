@@ -15,7 +15,7 @@ export default class TreeViewElement extends React.Component {
   static propTypes = {
     showOutlineCallback: PropTypes.func,
     element: PropTypes.object.isRequired,
-    data: PropTypes.oneOfType([ PropTypes.object, PropTypes.array ]),
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     level: PropTypes.number,
     onMountCallback: PropTypes.func,
     onUnmountCallback: PropTypes.func,
@@ -70,8 +70,8 @@ export default class TreeViewElement extends React.Component {
       this.props.updateElementsData(data || this.props.element, 'singleElement')
     }
     if (data && data.hasOwnProperty('customHeaderTitle')) {
-      let element = cook.get(data || this.props.element)
-      let content = data.customHeaderTitle || element.getName()
+      const element = cook.get(data || this.props.element)
+      const content = data.customHeaderTitle || element.getName()
       if (this.state.content !== content) {
         this.setState({
           content
@@ -115,7 +115,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   handleOutline (outlineElementId) {
-    let showOutline = outlineElementId === this.props.element.id
+    const showOutline = outlineElementId === this.props.element.id
     if (this.state.showOutline !== showOutline) {
       this.setState({
         showOutline: showOutline
@@ -155,7 +155,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   clickEdit = (tab = '') => {
-    let settings = workspaceStorage.state('settings').get()
+    const settings = workspaceStorage.state('settings').get()
     if (settings && settings.action === 'edit') {
       workspaceStorage.state('settings').set(false)
     }
@@ -186,7 +186,7 @@ export default class TreeViewElement extends React.Component {
     }
     const { showOutlineCallback, onMountCallback, onUnmountCallback } = this.props
     const level = this.props.level + 1
-    let elementsList = children.map((element) => {
+    const elementsList = children.map((element) => {
       return <TreeViewElement
         showOutlineCallback={showOutlineCallback}
         onMountCallback={onMountCallback}
@@ -194,7 +194,8 @@ export default class TreeViewElement extends React.Component {
         element={element}
         key={element.id}
         level={level}
-        scrollValue={this.props.scrollValue} />
+        scrollValue={this.props.scrollValue}
+      />
     }, this)
     return elementsList.length ? <ul className='vcv-ui-tree-layout-node'>{elementsList}</ul> : ''
   }
@@ -277,9 +278,9 @@ export default class TreeViewElement extends React.Component {
   }
 
   updateContent (value) {
-    let cookElement = cook.get(this.props.element)
+    const cookElement = cook.get(this.props.element)
     cookElement.set('customHeaderTitle', value)
-    let elementData = cookElement.toJS()
+    const elementData = cookElement.toJS()
     elementsStorage.trigger('update', elementData.id, elementData, 'editForm')
     this.setState({
       content: value || cookElement.getName(),
@@ -292,7 +293,7 @@ export default class TreeViewElement extends React.Component {
   }
 
   validateContent () {
-    let value = this.span ? this.span.innerText.trim() : ''
+    const value = this.span ? this.span.innerText.trim() : ''
     this.updateContent(value)
   }
 
@@ -313,15 +314,15 @@ export default class TreeViewElement extends React.Component {
   }
 
   toggleControls () {
-    let fn = this.state.showControls ? 'removeEventListener' : 'addEventListener'
-    window[ fn ] && window[ fn ]('touchstart', this.checkTarget)
+    const fn = this.state.showControls ? 'removeEventListener' : 'addEventListener'
+    window[fn] && window[fn]('touchstart', this.checkTarget)
     this.setState({
       showControls: !this.state.showControls
     })
   }
 
   getPasteOptions (copyData, pasteEl) {
-    let pasteOptions = {
+    const pasteOptions = {
       disabled: !copyData,
       pasteAfter: false
     }
@@ -408,22 +409,22 @@ export default class TreeViewElement extends React.Component {
 
     let { editable, content, copyData } = this.state
 
-    let element = cook.get(this.props.element)
+    const element = cook.get(this.props.element)
     if (!element) {
       return null
     }
-    let treeChildClasses = classNames({
+    const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
       'vcv-ui-tree-layout-node-hidden': hidden
     })
 
-    let treeChildProps = {}
-    treeChildProps[ 'data-vcv-dnd-element-expand-status' ] = this.state.childExpand ? 'opened' : 'closed'
+    const treeChildProps = {}
+    treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
 
-    let innerChildren = documentManger.children(this.state.element.id)
-    let childHtml = this.getContent(innerChildren)
+    const innerChildren = documentManger.children(this.state.element.id)
+    const childHtml = this.getContent(innerChildren)
     this.state.hasChild = !!innerChildren.length
 
     let addChildControl = false
@@ -432,10 +433,10 @@ export default class TreeViewElement extends React.Component {
     if (elementContainerFor.length) {
       let title = addElementText
       let addElementTag = ''
-      let children = cook.getContainerChildren(element.get('tag'))
+      const children = cook.getContainerChildren(element.get('tag'))
       if (children.length === 1) {
-        addElementTag = children[ 0 ].tag
-        title = `${addText} ${children[ 0 ].name}`
+        addElementTag = children[0].tag
+        title = `${addText} ${children[0].name}`
       }
       addChildControl = (
         <span
@@ -462,14 +463,16 @@ export default class TreeViewElement extends React.Component {
     let expandTrigger = ''
     if (this.state.hasChild) {
       expandTrigger = (
-        <i className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'
-          onClick={this.clickChildExpand} />
+        <i
+          className='vcv-ui-tree-layout-node-expand-trigger vcv-ui-icon vcv-ui-icon-expand'
+          onClick={this.clickChildExpand}
+        />
       )
     }
 
     let visibilityControl = ''
     if (this.props.element.tag !== 'column') {
-      let iconClasses = classNames({
+      const iconClasses = classNames({
         'vcv-ui-icon': true,
         'vcv-ui-icon-eye-on': !hidden,
         'vcv-ui-icon-eye-off': hidden
@@ -483,7 +486,7 @@ export default class TreeViewElement extends React.Component {
 
     let pasteControl = false
 
-    let copyControl = (
+    const copyControl = (
       <span
         className='vcv-ui-tree-layout-control-action'
         title={copyText}
@@ -499,9 +502,9 @@ export default class TreeViewElement extends React.Component {
     const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
     if (isPasteAvailable) {
-      let pasteOptions = this.getPasteOptions(copyData, this.state.element)
+      const pasteOptions = this.getPasteOptions(copyData, this.state.element)
 
-      let attrs = {}
+      const attrs = {}
 
       if (pasteOptions.disabled) {
         attrs.disabled = true
@@ -522,7 +525,7 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    let childControls = <span className='vcv-ui-tree-layout-control-actions'>
+    const childControls = <span className='vcv-ui-tree-layout-control-actions'>
       {addChildControl}
       {editRowLayoutControl}
       <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit.bind(this, '')}>
@@ -539,7 +542,7 @@ export default class TreeViewElement extends React.Component {
       </span>
     </span>
 
-    let baseControls = <div className='vcv-ui-tree-layout-control-actions'>
+    const baseControls = <div className='vcv-ui-tree-layout-control-actions'>
       <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.clickEdit.bind(this, '')}>
         <i className='vcv-ui-icon vcv-ui-icon-edit' />
       </span>
@@ -555,7 +558,7 @@ export default class TreeViewElement extends React.Component {
       </span>
     </div>
 
-    let sandwichControls = <React.Fragment>
+    const sandwichControls = <>
       {addChildControl}
       {editRowLayoutControl}
       <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.clickClone}>
@@ -564,13 +567,13 @@ export default class TreeViewElement extends React.Component {
       {visibilityControl}
       {copyControl}
       {pasteControl}
-    </React.Fragment>
+                             </>
 
-    let dropdownClasses = classNames({
+    const dropdownClasses = classNames({
       'vcv-ui-tree-layout-control-dropdown-content': true,
       'vcv-ui-state--active': this.state.showDropdown
     })
-    let dropdown = (
+    const dropdown = (
       <div
         className={dropdownClasses}
         onMouseEnter={this.handleSandwichMouseEnter}
@@ -580,16 +583,16 @@ export default class TreeViewElement extends React.Component {
       </div>
     )
 
-    let controlClasses = classNames({
+    const controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
       'vcv-ui-state--active': this.state.isActive,
       'vcv-ui-state--outline': this.state.showOutline,
       'vcv-ui-tree-layout-control-mobile': this.isMobile
     })
 
-    let publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
-    let space = 0.8
-    let defaultSpace = utils.isRTL() ? 2 : 1
+    const publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
+    const space = 0.8
+    const defaultSpace = utils.isRTL() ? 2 : 1
 
     if (!content) {
       content = element.getName()
@@ -606,12 +609,14 @@ export default class TreeViewElement extends React.Component {
     }
 
     const controlPadding = (space * this.props.level + defaultSpace) + 'rem'
-    let controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
+    const controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
 
     if (this.isMobile) {
-      let controlsContent = this.state.showControls ? (
-        <div ref={controlsContent => { this.controlsContent = controlsContent }}
-          className='vcv-ui-tree-layout-controls-content'>
+      const controlsContent = this.state.showControls ? (
+        <div
+          ref={controlsContent => { this.controlsContent = controlsContent }}
+          className='vcv-ui-tree-layout-controls-content'
+        >
           {childControls}
         </div>
       ) : null
@@ -627,8 +632,11 @@ export default class TreeViewElement extends React.Component {
           <div className={controlClasses}>
             <div className='vcv-ui-tree-layout-control-content'>
               <div className={dragHelperClasses} style={controlStyle}>
-                <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon'
-                  alt='' /></i>
+                <i className='vcv-ui-tree-layout-control-icon'><img
+                  src={publicPath} className='vcv-ui-icon'
+                  alt=''
+                />
+                </i>
                 <span className='vcv-ui-tree-layout-control-label'>
                   <span>{content}</span>
                 </span>
@@ -670,12 +678,14 @@ export default class TreeViewElement extends React.Component {
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>
             <span className={controlLabelClasses}>
-              <span ref={span => { this.span = span }}
+              <span
+                ref={span => { this.span = span }}
                 contentEditable={editable}
                 suppressContentEditableWarning
                 onClick={this.enableEditable}
                 onKeyDown={this.preventNewLine}
-                onBlur={this.validateContent}>
+                onBlur={this.validateContent}
+              >
                 {content}
               </span>
             </span>

@@ -13,19 +13,23 @@ export default class ContentElementControl extends React.Component {
     handleClick: PropTypes.func,
     data: PropTypes.object.isRequired
   }
+
   constructor (props) {
     super(props)
     this.displayDescription = this.displayDescription.bind(this)
     this.hideDescription = this.hideDescription.bind(this)
   }
+
   displayDescription () {
     this.props.setActive(this.props.description)
   }
+
   hideDescription () {
     this.props.unsetActive()
   }
+
   render () {
-    let controlClass = classNames([
+    const controlClass = classNames([
       'vcv-ui-element-control',
       `vcv-ui-element-control--${this.props.tag}`
     ])

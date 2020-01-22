@@ -21,19 +21,19 @@ addStorage('hubTemplates', (storage) => {
   storage.on('downloadTemplate', (template) => {
     const { bundle, name } = template
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    let data = {
+    const data = {
       'vcv-action': 'hub:download:template:adminNonce',
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let tag = bundle.replace('template/', '').replace('predefinedTemplate/', '')
-    let successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
+    const tag = bundle.replace('template/', '').replace('predefinedTemplate/', '')
+    const successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
     const hubTemplates = window.VCV_HUB_GET_TEMPLATES_TEASER()
-    let findTemplate = hubTemplates.find(template => template.bundle === bundle)
+    const findTemplate = hubTemplates.find(template => template.bundle === bundle)
     if (!findTemplate) {
       return
     }
-    let downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+    const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (downloadingItems.includes(tag)) {
       return
     }
@@ -42,10 +42,10 @@ addStorage('hubTemplates', (storage) => {
     workspaceStorage.state('downloadingItems').set(downloadingItems)
 
     let tries = 0
-    let tryDownload = () => {
-      let successCallback = (response) => {
+    const tryDownload = () => {
+      const successCallback = (response) => {
         try {
-          let jsonResponse = getResponse(response)
+          const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             notificationsStorage.trigger('add', {
               position: 'bottom',
@@ -64,7 +64,7 @@ addStorage('hubTemplates', (storage) => {
               })
             }
             if (jsonResponse.templates) {
-              let template = jsonResponse.templates[ 0 ]
+              const template = jsonResponse.templates[0]
               template.id = template.id.toString()
               storage.trigger('add', template.type, template)
             }
@@ -108,7 +108,7 @@ addStorage('hubTemplates', (storage) => {
           }
         }
       }
-      let errorCallback = (response) => {
+      const errorCallback = (response) => {
         workspaceStorage.trigger('removeFromDownloading', tag)
         tries++
         console.warn('failed to download template general server error', response)
@@ -130,24 +130,24 @@ addStorage('hubTemplates', (storage) => {
   })
 
   storage.on('add', (type, templateData) => {
-    let all = storage.state('templates').get() || {}
-    if (!all[ type ]) {
-      all[ type ] = {
-        'name': type,
-        'type': type,
-        'templates': []
+    const all = storage.state('templates').get() || {}
+    if (!all[type]) {
+      all[type] = {
+        name: type,
+        type: type,
+        templates: []
       }
     }
-    all[ type ].templates.unshift(templateData)
+    all[type].templates.unshift(templateData)
     storage.state('templates').set(all)
   })
   storage.on('remove', (type, id) => {
-    let all = storage.state('templates').get() || {}
-    if (all[ type ]) {
-      let removeIndex = all[ type ].templates.findIndex((template) => {
+    const all = storage.state('templates').get() || {}
+    if (all[type]) {
+      const removeIndex = all[type].templates.findIndex((template) => {
         return template.id === id
       })
-      all[ type ].templates.splice(removeIndex, 1)
+      all[type].templates.splice(removeIndex, 1)
       storage.state('templates').set(all)
     }
   })

@@ -7,14 +7,14 @@ const getCategory = (tag, categories) => {
 }
 
 const setCategoryState = (categoryData, storageState) => {
-  const categoryName = Object.keys(categoryData)[ 0 ]
+  const categoryName = Object.keys(categoryData)[0]
   const stateCategories = storageState.get()
   const isCategoryExists = Object.keys(stateCategories).find(category => category === categoryName)
   let newState
   if (isCategoryExists) {
-    const mergedElements = lodash.union(stateCategories[ categoryName ].elements, categoryData[ categoryName ].elements)
+    const mergedElements = lodash.union(stateCategories[categoryName].elements, categoryData[categoryName].elements)
     newState = stateCategories
-    newState[ categoryName ].elements = mergedElements
+    newState[categoryName].elements = mergedElements
   } else {
     newState = Object.assign(categoryData, stateCategories)
   }
@@ -34,13 +34,13 @@ addStorage('hubElements', (storage) => {
   })
 
   storage.on('add', (elementData, categoryData, addBundle) => {
-    let elements = storage.state('elements').get() || {}
-    elements[ elementData.tag ] = elementData
+    const elements = storage.state('elements').get() || {}
+    elements[elementData.tag] = elementData
     hubElementsService.add(elementData)
     storage.state('elements').set(elements)
     setCategoryState(categoryData, storage.state('categories'))
     if (addBundle) {
-      Promise.all([ window.jQuery.getScript(elementData.bundlePath) ])
+      Promise.all([window.jQuery.getScript(elementData.bundlePath)])
     }
   })
 
@@ -51,17 +51,17 @@ addStorage('hubElements', (storage) => {
     if (element.bundle) {
       bundle = element.bundle
     }
-    let data = {
+    const data = {
       'vcv-action': 'hub:download:element:adminNonce',
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
+    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
     if (hubElementsService.get(tag) !== null) {
       return
     }
 
-    let downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+    const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (downloadingItems.includes(tag)) {
       return
     }
@@ -70,9 +70,9 @@ addStorage('hubElements', (storage) => {
 
     let tries = 0
     const tryDownload = () => {
-      let successCallback = (response) => {
+      const successCallback = (response) => {
         try {
-          let jsonResponse = getResponse(response)
+          const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             notificationsStorage.trigger('add', {
               position: 'bottom',
@@ -92,7 +92,7 @@ addStorage('hubElements', (storage) => {
             }
             if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
               Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
-                let assetData = jsonResponse.sharedAssets[ assetName ]
+                const assetData = jsonResponse.sharedAssets[assetName]
                 if (assetData.jsBundle) {
                   assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
                 }
@@ -101,7 +101,7 @@ addStorage('hubElements', (storage) => {
                 }
                 if (assetData.cssSubsetBundles) {
                   Object.keys(assetData.cssSubsetBundles).forEach((key) => {
-                    assetData.cssSubsetBundles[ key ] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[ key ]
+                    assetData.cssSubsetBundles[key] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[key]
                   })
                 }
                 sharedAssetsStorage.trigger('add', assetData)
@@ -147,7 +147,7 @@ addStorage('hubElements', (storage) => {
           }
         }
       }
-      let errorCallback = (response) => {
+      const errorCallback = (response) => {
         workspaceStorage.trigger('removeFromDownloading', tag)
         tries++
         console.warn('failed to download element general server error', response)
@@ -182,12 +182,12 @@ addStorage('hubElements', (storage) => {
         .replace(/-+$/, '')
     }
 
-    let add = (bundle) => {
+    const add = (bundle) => {
       const id = `${slugify(bundle)}-css`
       const styleElement = document.querySelector(`#vcv\\:assets\\:source\\:style\\:${id}`)
 
       if (!styleElement) {
-        let link = document.createElement('link')
+        const link = document.createElement('link')
         link.rel = 'stylesheet'
         link.href = bundle
         link.type = 'text/css'
@@ -201,7 +201,7 @@ addStorage('hubElements', (storage) => {
     }
     if (asset.cssSubsetBundles) {
       Object.keys(asset.cssSubsetBundles).forEach((key) => {
-        add(asset.cssSubsetBundles[ key ])
+        add(asset.cssSubsetBundles[key])
       })
     }
   })

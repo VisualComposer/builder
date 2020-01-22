@@ -32,11 +32,11 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    const isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
     }
-    let obj = element.__resizeTrigger__ = document.createElement('iframe')
+    const obj = element.__resizeTrigger__ = document.createElement('iframe')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function () {
@@ -62,9 +62,9 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   handleResize () {
-    let wrapperWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width
+    const wrapperWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width
     const { isControlsHidden, totalControlWidth } = this.state
-    let controlsWidth = totalControlWidth || this.getControlsTotalWidth()
+    const controlsWidth = totalControlWidth || this.getControlsTotalWidth()
     if (wrapperWidth >= controlsWidth && isControlsHidden) {
       this.setState({ isControlsHidden: false })
     } else if (wrapperWidth < controlsWidth && !isControlsHidden) {
@@ -77,11 +77,11 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   getControls () {
-    let controls = Object.values(this.props.categories)
+    const controls = Object.values(this.props.categories)
     return controls.map((control, i) => {
       const { type, title, bundleTypes } = control
       const isActive = type === this.props.filterType
-      let controlClasses = classNames({
+      const controlClasses = classNames({
         'vcv-ui-form-button': true,
         'vcv-ui-form-button--active': isActive
       })
@@ -105,11 +105,11 @@ export default class TeaserTypeControl extends React.Component {
   getDropdownItems (bundleTypes, type, categoryIndex, isActive) {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     return bundleTypes.map((bundleType) => {
-      let dropdownItemClasses = classNames({
+      const dropdownItemClasses = classNames({
         'vcv-ui-form-button-group-dropdown-item': true,
         'vcv-ui-form-button-group-dropdown-item--active': isActive && bundleType === this.props.bundleType
       })
-      let buttonText = localizations[ bundleType ]
+      let buttonText = localizations[bundleType]
 
       if (!buttonText && bundleType === 'free') {
         buttonText = 'Free'
@@ -131,7 +131,7 @@ export default class TeaserTypeControl extends React.Component {
   }
 
   render () {
-    let controlContainerClasses = classNames({
+    const controlContainerClasses = classNames({
       'vcv-ui-hub-control-container': true,
       'vcv-is-hidden': this.state.isControlsHidden
     })

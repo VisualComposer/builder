@@ -15,6 +15,7 @@ export default class StockImagesResultsPanel extends React.Component {
     scrollTop: PropTypes.number,
     isSearchUsed: PropTypes.bool
   }
+
   static localizations = window.VCV_I18N && window.VCV_I18N()
   maxColumnCount = 5
   abortController = new window.AbortController()
@@ -76,7 +77,7 @@ export default class StockImagesResultsPanel extends React.Component {
   }
 
   prepareImages (imageData) {
-    let columnData = this.getColumnData(imageData.results)
+    const columnData = this.getColumnData(imageData.results)
 
     this.setState({
       columnData: columnData,
@@ -105,12 +106,12 @@ export default class StockImagesResultsPanel extends React.Component {
     }
     if (images && images.length) {
       Object.keys(newData).forEach((colCount) => {
-        const currentData = newData[ colCount ]
+        const currentData = newData[colCount]
         images.forEach((image) => {
           const imageProportions = image.height / image.width
           const smallestIndex = this.getSmallestFromArray(currentData)
-          currentData[ smallestIndex ].value += imageProportions
-          currentData[ smallestIndex ].images.push(image)
+          currentData[smallestIndex].value += imageProportions
+          currentData[smallestIndex].images.push(image)
         })
       })
     }
@@ -118,11 +119,11 @@ export default class StockImagesResultsPanel extends React.Component {
   }
 
   createDefaultColumnData () {
-    let columnData = {}
+    const columnData = {}
     for (let colCount = 1; colCount <= this.maxColumnCount; colCount++) {
-      columnData[ colCount ] = []
+      columnData[colCount] = []
       for (let i = 0; i < colCount; i++) {
-        columnData[ colCount ].push({ value: 0, images: [] })
+        columnData[colCount].push({ value: 0, images: [] })
       }
     }
     return columnData
@@ -195,10 +196,10 @@ export default class StockImagesResultsPanel extends React.Component {
       return 0
     }
     let smallestIndex = 0
-    let smallest = arr[ 0 ].value
+    let smallest = arr[0].value
     arr.forEach((item, index) => {
       if (item.value < smallest) {
-        smallest = arr[ index ].value
+        smallest = arr[index].value
         smallestIndex = index
       }
     })
@@ -262,8 +263,8 @@ export default class StockImagesResultsPanel extends React.Component {
     const wrapper = target && target.closest('.vcv-stock-image-inner')
     const imageId = wrapper && wrapper.id
     if (imageId && size) {
-      let downloadingItems = this.state.downloadingItems
-      downloadingItems[ imageId ] = true
+      const downloadingItems = this.state.downloadingItems
+      downloadingItems[imageId] = true
       this.setState({
         downloadingItems: downloadingItems
       })
@@ -274,7 +275,7 @@ export default class StockImagesResultsPanel extends React.Component {
         'vcv-imageSize': size
       }).then((data) => {
         try {
-          let jsonData = JSON.parse(data)
+          const jsonData = JSON.parse(data)
           if (jsonData.status) {
             notificationsStorage.trigger('add', {
               position: 'bottom',
@@ -320,8 +321,8 @@ export default class StockImagesResultsPanel extends React.Component {
         if (this.state.activeItem === imageId) {
           this.setState({ activeItem: null })
         }
-        let downloadingItems1 = this.state.downloadingItems
-        delete downloadingItems1[ imageId ]
+        const downloadingItems1 = this.state.downloadingItems
+        delete downloadingItems1[imageId]
         this.setState({
           downloadingItems: downloadingItems1
         })
@@ -351,9 +352,9 @@ export default class StockImagesResultsPanel extends React.Component {
 
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
-    let allowDownload = this.allowDownload && this.unsplashLicenseKey !== 'free'
+    const allowDownload = this.allowDownload && this.unsplashLicenseKey !== 'free'
     const unlockText = StockImagesResultsPanel.localizations ? StockImagesResultsPanel.localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Stock Images'
-    return columnData[ columnCount ].map((col, colIndex) => {
+    return columnData[columnCount].map((col, colIndex) => {
       return (
         <div className='vcv-stock-images-col' key={`vcv-stock-image-column-${columnCount}-${colIndex}`}>
           {col.images.map((image, imageIndex) => {
@@ -368,7 +369,7 @@ export default class StockImagesResultsPanel extends React.Component {
             const innerItemClasses = classNames({
               'vcv-stock-image-inner': true,
               'vcv-stock-image-inner--active': image.id === activeItem,
-              'vcv-stock-image--downloading': downloadingItems[ image.id ]
+              'vcv-stock-image--downloading': downloadingItems[image.id]
             })
             const imageProportions = image.height / image.width
             return <div
@@ -387,8 +388,7 @@ export default class StockImagesResultsPanel extends React.Component {
                   </div>)
                   : (<div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText}>
                     <span className='vcv-ui-icon vcv-ui-icon-lock' />
-                  </div>)
-                }
+                  </div>)}
 
                 <a href={user && user.url} target='_blank' className='vcv-stock-image-author'>
                   <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
@@ -428,8 +428,7 @@ export default class StockImagesResultsPanel extends React.Component {
                       <span className='vcv-ui-icon vcv-ui-wp-spinner-light' />
                     </div>
                   </>
-                  : null
-                }
+                  : null}
               </div>
             </div>
           })}
@@ -441,7 +440,7 @@ export default class StockImagesResultsPanel extends React.Component {
   getNoResultsElement () {
     const nothingFoundText = StockImagesResultsPanel.localizations ? StockImagesResultsPanel.localizations.nothingFound : 'Nothing found'
 
-    let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
+    const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
@@ -484,11 +483,11 @@ export default class StockImagesResultsPanel extends React.Component {
     } else {
       results = this.getNoResultsElement()
     }
-    let freeText = StockImagesResultsPanel.localizations.free && StockImagesResultsPanel.localizations.free.toLowerCase()
-    let pictureText = StockImagesResultsPanel.localizations.images
-    let downloadText = StockImagesResultsPanel.localizations.downloadImageFromUnsplash
+    const freeText = StockImagesResultsPanel.localizations.free && StockImagesResultsPanel.localizations.free.toLowerCase()
+    const pictureText = StockImagesResultsPanel.localizations.images
+    const downloadText = StockImagesResultsPanel.localizations.downloadImageFromUnsplash
     return (
-      <React.Fragment>
+      <>
         {searchValue && (
           <div className='vcv-stock-images-results-data'>
             <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'images'}</span>
@@ -497,7 +496,7 @@ export default class StockImagesResultsPanel extends React.Component {
         )}
         {results}
         {requestInProgress && (<div className='vcv-loading-wrapper'>{loadingHtml}</div>)}
-      </React.Fragment>
+      </>
     )
   }
 }

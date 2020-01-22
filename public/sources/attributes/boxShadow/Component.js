@@ -84,7 +84,7 @@ export default class BoxShadow extends Attribute {
       src: require('raw-loader!./cssMixins/boxShadow.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         }
       }
     },
@@ -92,7 +92,7 @@ export default class BoxShadow extends Attribute {
       src: require('raw-loader!./cssMixins/hoverBoxShadow.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         }
       }
     }
@@ -103,25 +103,25 @@ export default class BoxShadow extends Attribute {
   }
 
   static getMixins (newValue, device, newMixins) {
-    if (newValue[ device ].hasOwnProperty('boxShadow')) {
-      const value = newValue[ device ].boxShadow
+    if (newValue[device].hasOwnProperty('boxShadow')) {
+      const value = newValue[device].boxShadow
       const mixinName = `boxShadowMixin:${device}`
-      newMixins[ mixinName ] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.boxShadow)
-      newMixins[ mixinName ].variables.device = {
+      newMixins[mixinName] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.boxShadow)
+      newMixins[mixinName].variables.device = {
         value: device
       }
-      newMixins[ mixinName ].variables.boxShadow = {
+      newMixins[mixinName].variables.boxShadow = {
         value: value
       }
     }
-    if (newValue[ device ].hasOwnProperty('hoverBoxShadow')) {
-      const value = newValue[ device ].hoverBoxShadow
+    if (newValue[device].hasOwnProperty('hoverBoxShadow')) {
+      const value = newValue[device].hoverBoxShadow
       const mixinName = `hoverBoxShadowMixin:${device}`
-      newMixins[ mixinName ] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.hoverBoxShadow)
-      newMixins[ mixinName ].variables.device = {
+      newMixins[mixinName] = lodash.defaultsDeep({}, BoxShadow.attributeMixins.hoverBoxShadow)
+      newMixins[mixinName].variables.device = {
         value: device
       }
-      newMixins[ mixinName ].variables.hoverBoxShadow = {
+      newMixins[mixinName].variables.hoverBoxShadow = {
         value: value
       }
     }
@@ -174,29 +174,29 @@ export default class BoxShadow extends Attribute {
   }
 
   updateValue (newState, fieldKey) {
-    let newValue = {}
-    let newMixins = {}
+    const newValue = {}
+    const newMixins = {}
 
     // prepare data for state
     newState = this.updateState(newState)
     // save only needed data
-    let checkDevices = []
+    const checkDevices = []
     if (newState.currentDevice === 'all') {
       checkDevices.push('all')
     }
 
     checkDevices.forEach((device) => {
-      if (!lodash.isEmpty(newState.devices[ device ])) {
-        newState.devices[ device ] = this.getBoxShadowValue(newState.devices[ device ])
+      if (!lodash.isEmpty(newState.devices[device])) {
+        newState.devices[device] = this.getBoxShadowValue(newState.devices[device])
 
-        newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
+        newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
 
         // Prepare newMixins object
         BoxShadow.getMixins(newValue, device, newMixins)
 
         // remove device from list if it's empty
-        if (!Object.keys(newValue[ device ]).length) {
-          delete newValue[ device ]
+        if (!Object.keys(newValue[device]).length) {
+          delete newValue[device]
         }
       }
     })
@@ -219,17 +219,17 @@ export default class BoxShadow extends Attribute {
   }
 
   valueChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
   }
 
   parseValue (value) {
     // set default values
-    let newState = lodash.defaultsDeep({}, BoxShadow.defaultState)
-    let newMixins = {}
+    const newState = lodash.defaultsDeep({}, BoxShadow.defaultState)
+    const newMixins = {}
     // get devices data
-    let devices = []
+    const devices = []
     // set current device
     if (!lodash.isEmpty(value.device)) {
       newState.currentDevice = Object.keys(value.device).shift()
@@ -237,11 +237,11 @@ export default class BoxShadow extends Attribute {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = lodash.defaultsDeep({}, BoxShadow.deviceDefaults)
-      if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
+      newState.devices[device] = lodash.defaultsDeep({}, BoxShadow.deviceDefaults)
+      if (value.device && value.device[device]) {
+        newState.devices[device] = lodash.defaultsDeep({}, value.device[device], newState.devices[device])
       }
-      newState.devices[ device ] = this.getBoxShadowValue(newState.devices[ device ])
+      newState.devices[device] = this.getBoxShadowValue(newState.devices[device])
       BoxShadow.getMixins(newState.devices, device, newMixins)
     })
     newState.attributeMixins = newMixins
@@ -250,7 +250,7 @@ export default class BoxShadow extends Attribute {
   }
 
   setFieldValue (value, mixins, innerFieldKey) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
@@ -259,8 +259,8 @@ export default class BoxShadow extends Attribute {
 
   getBoxShadowToggle (hover) {
     const fieldKey = hover ? 'hoverBoxShadowEnable' : 'boxShadowEnable'
-    const deviceData = this.state.devices[ this.state.currentDevice ]
-    const value = deviceData[ fieldKey ] || false
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const value = deviceData[fieldKey] || false
     const labelText = hover ? 'Enable hover box shadow' : 'Enable box shadow'
 
     return (
@@ -277,10 +277,10 @@ export default class BoxShadow extends Attribute {
   }
 
   getBoxShadowFields (hover) {
-    const deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
     const enableToggleKey = hover ? 'hoverBoxShadowEnable' : 'boxShadowEnable'
 
-    if (!deviceData[ enableToggleKey ]) {
+    if (!deviceData[enableToggleKey]) {
       return null
     }
 
@@ -292,14 +292,14 @@ export default class BoxShadow extends Attribute {
           fieldKey={effect.fieldKey}
           updater={this.valueChangeHandler}
           options={{ min: effect.min, max: effect.max, measurement: effect.measurement }}
-          value={deviceData[ effect.fieldKey ]}
+          value={deviceData[effect.fieldKey]}
         />
       } else {
         field = <Color
           api={this.props.api}
           fieldKey={effect.fieldKey}
           updater={this.valueChangeHandler}
-          value={deviceData[ effect.fieldKey ] || effect.value}
+          value={deviceData[effect.fieldKey] || effect.value}
           defaultValue={effect.value}
         />
       }
@@ -310,9 +310,9 @@ export default class BoxShadow extends Attribute {
       </div>
     })
 
-    return <React.Fragment>
+    return <>
       {getFields}
-    </React.Fragment>
+           </>
   }
 
   render () {

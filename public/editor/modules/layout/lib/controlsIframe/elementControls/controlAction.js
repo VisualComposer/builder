@@ -14,7 +14,7 @@ export function ControlAction (props) {
   const handleClick = () => {
     const event = options.data.vcControlEvent
     const tag = options.data.vcControlEventOptions || false
-    let eventOptions = {
+    const eventOptions = {
       insertAfter: options.data.vcControlEventOptionInsertAfter || false
     }
     if (options.disabled) {
@@ -55,7 +55,8 @@ export function ControlAction (props) {
   }
 
   return (
-    <span className={controlClasses}
+    <span
+      className={controlClasses}
       onClick={handleClick}
       onMouseDown={handleMouseDown}
     >

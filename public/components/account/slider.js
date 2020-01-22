@@ -14,6 +14,7 @@ export default class SliderComponent extends React.Component {
       )
     })
   }
+
   render () {
     const settings = {
       dots: true,

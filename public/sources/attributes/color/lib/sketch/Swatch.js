@@ -3,7 +3,7 @@ import reactCSS from 'reactcss'
 
 export const Swatch = (props) => {
   const convertStyles = (color) => {
-    let styles = {
+    const styles = {
       height: '100%',
       width: '100%',
       cursor: 'pointer',
@@ -18,10 +18,10 @@ export const Swatch = (props) => {
   }
 
   const styles = reactCSS({
-    'default': {
+    default: {
       swatch: convertStyles(props.color)
     },
-    'custom': {
+    custom: {
       swatch: props.style
     }
   }, 'custom')

@@ -15,6 +15,7 @@ export default class Sticky extends Attribute {
     stickyOffsetTop: '0',
     stickyZIndex: null
   }
+
   static defaultState = {
     currentDevice: 'all',
     devices: {}
@@ -41,9 +42,9 @@ export default class Sticky extends Attribute {
 
   parseValue (value) {
     // set default values
-    let newState = lodash.defaultsDeep({}, Sticky.defaultState)
+    const newState = lodash.defaultsDeep({}, Sticky.defaultState)
     // get devices data
-    let devices = []
+    const devices = []
     // set current device
     if (!lodash.isEmpty(value.device)) {
       newState.currentDevice = Object.keys(value.device).shift()
@@ -51,9 +52,9 @@ export default class Sticky extends Attribute {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = lodash.defaultsDeep({}, Sticky.deviceDefaults)
-      if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
+      newState.devices[device] = lodash.defaultsDeep({}, Sticky.deviceDefaults)
+      if (value.device && value.device[device]) {
+        newState.devices[device] = lodash.defaultsDeep({}, value.device[device], newState.devices[device])
       }
     })
 
@@ -61,27 +62,27 @@ export default class Sticky extends Attribute {
   }
 
   updateValue (newState, fieldKey) {
-    let newValue = {}
+    const newValue = {}
 
     // prepare data for state
     newState = this.updateState(newState)
     // save only needed data
-    let checkDevices = []
+    const checkDevices = []
     if (newState.currentDevice === 'all') {
       checkDevices.push('all')
     }
 
     checkDevices.forEach((device) => {
-      if (!lodash.isEmpty(newState.devices[ device ])) {
-        if (!newState.devices[ device ].stickyEnable) {
-          newState.devices[ device ].stickyEnable = Sticky.deviceDefaults.stickyEnable
+      if (!lodash.isEmpty(newState.devices[device])) {
+        if (!newState.devices[device].stickyEnable) {
+          newState.devices[device].stickyEnable = Sticky.deviceDefaults.stickyEnable
         }
 
-        newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
+        newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
 
         // remove device from list if it's empty
-        if (!Object.keys(newValue[ device ]).length) {
-          delete newValue[ device ]
+        if (!Object.keys(newValue[device]).length) {
+          delete newValue[device]
         }
       }
     })
@@ -91,23 +92,23 @@ export default class Sticky extends Attribute {
   }
 
   setFieldValue (value, innerFieldKey) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value
     }, innerFieldKey)
   }
 
   valueChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
   }
 
   getStickyToggle () {
-    let fieldKey = 'stickyEnable'
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let value = deviceData[ fieldKey ] || false
-    let labelText = 'Enable stickiness'
+    const fieldKey = 'stickyEnable'
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const value = deviceData[fieldKey] || false
+    const labelText = 'Enable stickiness'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -123,13 +124,13 @@ export default class Sticky extends Attribute {
   }
 
   getStickyOffset () {
-    let fieldKey = 'stickyOffsetTop'
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (!deviceData[ 'stickyEnable' ]) {
+    const fieldKey = 'stickyOffsetTop'
+    const deviceData = this.state.devices[this.state.currentDevice]
+    if (!deviceData.stickyEnable) {
       return null
     }
-    let value = deviceData[ fieldKey ] || false
-    let labelText = 'Margin top'
+    const value = deviceData[fieldKey] || false
+    const labelText = 'Margin top'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -148,13 +149,13 @@ export default class Sticky extends Attribute {
   }
 
   getStickyZIndex () {
-    let fieldKey = 'stickyZIndex'
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (!deviceData[ 'stickyEnable' ]) {
+    const fieldKey = 'stickyZIndex'
+    const deviceData = this.state.devices[this.state.currentDevice]
+    if (!deviceData.stickyEnable) {
       return null
     }
-    let value = deviceData[ fieldKey ] || false
-    let labelText = 'Z-index'
+    const value = deviceData[fieldKey] || false
+    const labelText = 'Z-index'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -173,13 +174,13 @@ export default class Sticky extends Attribute {
   }
 
   getStickyContainerToggle () {
-    let fieldKey = 'stickyContainer'
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (!deviceData[ 'stickyEnable' ]) {
+    const fieldKey = 'stickyContainer'
+    const deviceData = this.state.devices[this.state.currentDevice]
+    if (!deviceData.stickyEnable) {
       return null
     }
-    let value = deviceData[ fieldKey ] || false
-    let labelText = 'Relate to parent'
+    const value = deviceData[fieldKey] || false
+    const labelText = 'Relate to parent'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -196,13 +197,13 @@ export default class Sticky extends Attribute {
   }
 
   getStickyVisibilityToggle () {
-    let fieldKey = 'stickyVisibility'
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    if (!deviceData[ 'stickyEnable' ]) {
+    const fieldKey = 'stickyVisibility'
+    const deviceData = this.state.devices[this.state.currentDevice]
+    if (!deviceData.stickyEnable) {
       return null
     }
-    let value = deviceData[ fieldKey ] || false
-    let labelText = 'Show on sticky'
+    const value = deviceData[fieldKey] || false
+    const labelText = 'Show on sticky'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <Toggle

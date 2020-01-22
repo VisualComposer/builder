@@ -43,7 +43,7 @@ export default class PlusControl extends NavbarContent {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const name = localizations ? localizations.addElement : 'Add Element'
 
-    let controlClass = classNames({
+    const controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--active': this.state.isActive
     })

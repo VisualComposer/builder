@@ -13,12 +13,12 @@ class Iconpicker extends Attribute {
   constructor (props) {
     super(props)
     const setList = attributesStorage.state('iconpicker:iconSet').get()
-    let iconSetList = setList[ props.options.iconType ] || setList.icons
+    const iconSetList = setList[props.options.iconType] || setList.icons
     let iconSet = props.value.iconSet
-    if (!iconSetList[ iconSet ]) {
-      let keys = Object.keys(iconSetList)
+    if (!iconSetList[iconSet]) {
+      const keys = Object.keys(iconSetList)
       // In case if not set available
-      iconSet = keys[ 0 ]
+      iconSet = keys[0]
     }
     this.state = {
       search: '',
@@ -38,17 +38,17 @@ class Iconpicker extends Attribute {
   }
 
   filteredIcons () {
-    let { category, search, value, iconSetList } = this.state
+    const { category, search, value, iconSetList } = this.state
     let { iconSet } = value
     let icons = []
-    let iconsIds = []
+    const iconsIds = []
 
-    if (!iconSetList[ iconSet ]) {
-      let keys = Object.keys(iconSetList)
+    if (!iconSetList[iconSet]) {
+      const keys = Object.keys(iconSetList)
       // In case if not set available
-      iconSet = keys[ 0 ]
+      iconSet = keys[0]
     }
-    let addIcons = (categoryIcons, isDisabled) => {
+    const addIcons = (categoryIcons, isDisabled) => {
       categoryIcons.forEach((icon) => {
         if (iconsIds.indexOf(icon.id) > -1) {
           return
@@ -61,13 +61,13 @@ class Iconpicker extends Attribute {
       })
     }
     if (category) {
-      addIcons(iconSetList[ iconSet ].iconData[ category ], iconSetList[ iconSet ].iconData[ category ].disabled)
+      addIcons(iconSetList[iconSet].iconData[category], iconSetList[iconSet].iconData[category].disabled)
     } else {
-      if (Array.isArray(iconSetList[ iconSet ].iconData)) {
-        addIcons(iconSetList[ iconSet ].iconData, iconSetList[ iconSet ].disabled)
+      if (Array.isArray(iconSetList[iconSet].iconData)) {
+        addIcons(iconSetList[iconSet].iconData, iconSetList[iconSet].disabled)
       } else {
-        Object.keys(iconSetList[ iconSet ].iconData).forEach((cat) => {
-          addIcons(iconSetList[ iconSet ].iconData[ cat ], iconSetList[ iconSet ].disabled)
+        Object.keys(iconSetList[iconSet].iconData).forEach((cat) => {
+          addIcons(iconSetList[iconSet].iconData[cat], iconSetList[iconSet].disabled)
         })
       }
     }
@@ -81,10 +81,10 @@ class Iconpicker extends Attribute {
   }
 
   iconsContent () {
-    let value = this.state.value.icon
-    let iconsContent = []
+    const value = this.state.value.icon
+    const iconsContent = []
     this.filteredIcons().forEach((icon) => {
-      let iconClasses = classNames({
+      const iconClasses = classNames({
         'vcv-ui-form-iconpicker-option': true,
         'vcv-ui-form-state--active': icon.id === value,
         'vcv-ui-form-iconpicker--disabled': icon.disabled
@@ -105,16 +105,16 @@ class Iconpicker extends Attribute {
   }
 
   categoriesContent () {
-    let categories = []
-    let { iconSetList } = this.state
+    const categories = []
+    const { iconSetList } = this.state
     let { iconSet } = this.state.value
-    if (!iconSetList[ iconSet ]) {
-      let keys = Object.keys(iconSetList)
+    if (!iconSetList[iconSet]) {
+      const keys = Object.keys(iconSetList)
       // In case if not set available
-      iconSet = keys[ 0 ]
+      iconSet = keys[0]
     }
-    if (iconSet && typeof iconSetList[ iconSet ] !== 'undefined' && typeof iconSetList[ iconSet ].iconData !== 'undefined' && !Array.isArray(iconSetList[ iconSet ].iconData)) {
-      Object.keys(iconSetList[ iconSet ].iconData).forEach((category) => {
+    if (iconSet && typeof iconSetList[iconSet] !== 'undefined' && typeof iconSetList[iconSet].iconData !== 'undefined' && !Array.isArray(iconSetList[iconSet].iconData)) {
+      Object.keys(iconSetList[iconSet].iconData).forEach((category) => {
         categories.push(<option key={'innerCategory' + category} value={category}>{category}</option>)
       })
     }
@@ -122,22 +122,22 @@ class Iconpicker extends Attribute {
   }
 
   popupContent () {
-    let { search, category, value, showSearch, iconSetList } = this.state
-    let { iconSet } = value
+    const { search, category, value, showSearch, iconSetList } = this.state
+    const { iconSet } = value
     let content
-    let categories = this.categoriesContent()
-    let iconsContent = this.iconsContent()
+    const categories = this.categoriesContent()
+    const iconsContent = this.iconsContent()
     if (!iconsContent.length) {
       iconsContent.push(<div className='vcv-ui-form-iconpicker-error' key='no-icon-found'>No icons found</div>)
     }
 
-    let popupClasses = classNames({
+    const popupClasses = classNames({
       'vcv-ui-form-iconpicker-content': true,
       'vcv-ui-form-state--active': this.state.popupOpen
     })
 
     let categoriesContent = ''
-    let iconSetLength = Object.keys(iconSetList).length
+    const iconSetLength = Object.keys(iconSetList).length
 
     if (categories.length && iconSetLength > 1) {
       categoriesContent = (
@@ -150,10 +150,10 @@ class Iconpicker extends Attribute {
 
     let iconsSetContent = ''
     if (iconSetLength > 1) {
-      let innerSetContent = []
+      const innerSetContent = []
       Object.keys(iconSetList).forEach((i) => {
-        let name = i.charAt(0).toUpperCase() + i.slice(1)
-        let optionText = iconSetList[ i ].disabled ? name + ` (Premium)` : name
+        const name = i.charAt(0).toUpperCase() + i.slice(1)
+        const optionText = iconSetList[i].disabled ? name + ' (Premium)' : name
         innerSetContent.push(<option key={'inner' + i} value={i}>{optionText}</option>)
       })
       iconsSetContent = (
@@ -168,8 +168,10 @@ class Iconpicker extends Attribute {
     if (showSearch) {
       renderSearch = (
         <div className='vcv-ui-input-search'>
-          <input type='search' value={search} onChange={this.search} placeholder='Search Icon'
-            className='vcv-ui-form-input' />
+          <input
+            type='search' value={search} onChange={this.search} placeholder='Search Icon'
+            className='vcv-ui-form-input'
+          />
           <label className='vcv-ui-form-input-search-addon'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
@@ -242,8 +244,8 @@ class Iconpicker extends Attribute {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
 
         return true
@@ -255,7 +257,7 @@ class Iconpicker extends Attribute {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -266,10 +268,10 @@ class Iconpicker extends Attribute {
 
   closeIfNotInside = (e) => {
     e && e.preventDefault()
-    let $el = e.target
+    const $el = e.target
 
-    let $dropDown = '.vcv-ui-form-iconpicker-content'
-    let $openingButton = '.vcv-ui-iconpicker-picker-dropdown'
+    const $dropDown = '.vcv-ui-form-iconpicker-content'
+    const $openingButton = '.vcv-ui-iconpicker-picker-dropdown'
     let container = null
 
     if ($el.closest === undefined) {
@@ -285,14 +287,14 @@ class Iconpicker extends Attribute {
   }
 
   render () {
-    let { popupOpen } = this.state
-    let value = this.state.value.icon
+    const { popupOpen } = this.state
+    const value = this.state.value.icon
 
-    let selectedIconClasses = classNames({
+    const selectedIconClasses = classNames({
       'vcv-ui-param-iconpicker-icon-empty': !value
     }, value)
 
-    let selectorClasses = classNames({
+    const selectorClasses = classNames({
       'vcv-ui-form-dropdown': true,
       'vcv-ui-form-dropdown-style--inline': true,
       'vcv-ui-iconpicker-picker-dropdown': true,
@@ -304,7 +306,7 @@ class Iconpicker extends Attribute {
       popupContent = this.popupContent()
     }
 
-    let wrapperClasses = classNames({
+    const wrapperClasses = classNames({
       'vcv-ui-form-iconpicker': true
     })
     return (

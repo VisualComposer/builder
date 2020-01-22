@@ -24,8 +24,8 @@ export default class NotificationsContainer extends React.Component {
   }
 
   update (data) {
-    let topNotifications = []
-    let bottomNotifications = []
+    const topNotifications = []
+    const bottomNotifications = []
 
     if (data && data.length) {
       data.forEach((item) => {

@@ -27,11 +27,11 @@ export default class CustomContentElementControl extends React.Component {
   }
 
   render () {
-    let controlClass = classNames([
+    const controlClass = classNames([
       'vcv-ui-element-control',
       `vcv-ui-element-control--${this.props.classSuffix}`
     ])
-    let iconClass = classNames([
+    const iconClass = classNames([
       'vcv-ui-icon',
       `vcv-ui-icon-${this.props.classSuffix}`
     ])

@@ -11,7 +11,7 @@ export default class LayoutResponsiveness extends React.Component {
     const { devices, layoutData, defaultLayoutData } = this.props
     const hoverTitle = LayoutResponsiveness.localizations ? LayoutResponsiveness.localizations.clickToEditColumnValue : 'Click to edit column value'
     return devices.map((deviceData, i) => {
-      const deviceLayout = layoutData[ deviceData.deviceKey ]
+      const deviceLayout = layoutData[deviceData.deviceKey]
       return <div key={`${deviceData.deviceKey}-device-layout-${i}`} className='vcv-ui-form-responsiveness-settings-device-layout'>
         {deviceLayout.map((layout, index) => {
           // if layout is empty and is the last item in array
@@ -25,7 +25,8 @@ export default class LayoutResponsiveness extends React.Component {
             return null
           }
           const responsiveness = true
-          return <TokenizationList key={`${deviceData.deviceKey}-device-layout-item-${index}`}
+          return <TokenizationList
+            key={`${deviceData.deviceKey}-device-layout-item-${index}`}
             layouts={this.props.layouts}
             value={layout}
             onChange={this.props.onChange}

@@ -12,6 +12,7 @@ export default class SearchTemplate extends React.Component {
     index: PropTypes.any.isRequired,
     changeActiveCategory: PropTypes.func.isRequired
   }
+
   mobileDetect = null
 
   constructor (props) {
@@ -42,7 +43,7 @@ export default class SearchTemplate extends React.Component {
   // Get HTML elements
 
   getCategorySelect () {
-    let options = []
+    const options = []
     this.props.allCategories.forEach((item) => {
       if (item.visible) {
         options.push(<option key={item.id} value={item.index}>{item.title}</option>)
@@ -81,14 +82,14 @@ export default class SearchTemplate extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const searchPlaceholder = localizations ? localizations.searchTemplates : 'Search templates by name and description'
 
-    let inputContainerClasses = classNames({
+    const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true
     })
-    let dropdownContainerClasses = classNames({
+    const dropdownContainerClasses = classNames({
       'vcv-ui-editor-search-dropdown-container': true
     })
 
-    let autofocus = !this.mobileDetect.mobile()
+    const autofocus = !this.mobileDetect.mobile()
     return <div className='vcv-ui-editor-search-container'>
       <div
         className={dropdownContainerClasses}

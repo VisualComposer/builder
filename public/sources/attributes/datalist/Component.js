@@ -20,8 +20,8 @@ export default class Datalist extends Attribute {
   /* eslint-enable */
 
   createOptions (key, values, fieldKey) {
-    let value = values[ key ].value
-    let label = values[ key ].label
+    const value = values[key].value
+    const label = values[key].label
     return <option key={fieldKey + ':' + key + ':' + value} value={value}>{label}</option>
   }
 
@@ -30,12 +30,12 @@ export default class Datalist extends Attribute {
       props = this.props
     }
     let { values } = props.options || {}
-    let { global } = props.options || {}
+    const { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      if (typeof window[ global ] === 'function') {
-        values = window[ global ]()
+      if (typeof window[global] === 'function') {
+        values = window[global]()
       } else {
-        values = window[ global ] || []
+        values = window[global] || []
       }
     }
 
@@ -43,11 +43,11 @@ export default class Datalist extends Attribute {
   }
 
   generateSelectChildren (props) {
-    let optionElements = []
-    let values = this.getSelectOptions(props)
-    let { fieldKey } = props
+    const optionElements = []
+    const values = this.getSelectOptions(props)
+    const { fieldKey } = props
 
-    for (let key in values) {
+    for (const key in values) {
       if (values.hasOwnProperty(key)) {
         optionElements.push(this.createOptions(key, values, fieldKey))
       }
@@ -57,14 +57,14 @@ export default class Datalist extends Attribute {
   }
 
   render () {
-    let { value } = this.state
+    const { value } = this.state
     return (
-      <React.Fragment>
+      <>
         <input className='vcv-ui-form-datalist' list={`vcv-data-list-${this.props.fieldKey}`} type='text' value={value} onChange={this.handleChange} />
         <datalist id={`vcv-data-list-${this.props.fieldKey}`}>
           {this.selectChildren}
         </datalist>
-      </React.Fragment>
+      </>
     )
   }
 }

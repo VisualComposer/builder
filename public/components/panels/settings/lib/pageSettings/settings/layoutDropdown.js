@@ -51,10 +51,10 @@ export default class LayoutDropdown extends React.Component {
         settingsStorage.state(`${layoutName}Template`).set(value)
       }
       const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
-      let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
-      let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
-      let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
-      let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+      const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+      const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+      const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       this.reloadIframe(
         lastSavedPageTemplate,
@@ -69,7 +69,7 @@ export default class LayoutDropdown extends React.Component {
   getTemplateOptions () {
     const { data } = this.props
     return Object.keys(data.all).map((key, index) => (
-      <option key={index} value={key}>{data.all[ key ]}</option>
+      <option key={index} value={key}>{data.all[key]}</option>
     ))
   }
 
@@ -88,7 +88,7 @@ export default class LayoutDropdown extends React.Component {
     window.vcvLastLoadedSidebarTemplate = lastSavedSidebarTemplate
     window.vcvLastLoadedFooterTemplate = lastSavedFooterTemplate
     const layoutName = this.props.layoutName.toLowerCase()
-    window[ `vcvLastLoaded${layoutName}Template` ] = lastSavedTemplate
+    window[`vcvLastLoaded${layoutName}Template`] = lastSavedTemplate
 
     workspaceIFrame.set({
       type: 'reload',
@@ -96,7 +96,7 @@ export default class LayoutDropdown extends React.Component {
       header: lastSavedHeaderTemplate,
       sidebar: lastSavedSidebarTemplate,
       footer: lastSavedFooterTemplate,
-      [ layoutName ]: lastSavedTemplate
+      [layoutName]: lastSavedTemplate
     })
     settingsStorage.state('skipBlank').set(true)
   }
@@ -107,7 +107,7 @@ export default class LayoutDropdown extends React.Component {
     const selectHFSText = localizations ? localizations.selectHFS : 'Default'
     const noneText = localizations ? localizations.none : 'None'
     const globalUrl = `vcvCreate${this.props.layoutName}`
-    const createNewUrl = window[ globalUrl ] ? window[ globalUrl ] : ''
+    const createNewUrl = window[globalUrl] ? window[globalUrl] : ''
 
     return (
       <div className='vcv-ui-form-group'>

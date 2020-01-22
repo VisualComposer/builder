@@ -52,7 +52,7 @@ export default class EditFormSection extends React.Component {
     const { isActive } = this.state
     if ((prevState && !prevState.isActive && isActive) || this.props.tab.index === this.props.activeTabIndex) {
       // will scroll to top
-      let scrollbar = this.props.getSectionContentScrollbar()
+      const scrollbar = this.props.getSectionContentScrollbar()
       if (scrollbar) {
         const headerRect = this.sectionHeader.getBoundingClientRect()
         const headerOffset = this.sectionHeader.offsetTop + headerRect.height
@@ -101,15 +101,15 @@ export default class EditFormSection extends React.Component {
   checkContainerDependency (param) {
     const options = param.data && param.data.settings && param.data.settings.options
     const containerDependency = options && options.containerDependency
-    let opts = {}
+    const opts = {}
 
     if (containerDependency) {
       const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
       Object.keys(containerDependency).forEach((key) => {
-        const action = containerDependency[ key ]
+        const action = containerDependency[key]
         if (editorType === key) {
-          opts[ action ] = true
+          opts[action] = true
         }
       })
     }
@@ -118,9 +118,9 @@ export default class EditFormSection extends React.Component {
   }
 
   render () {
-    let { tab } = this.props
-    let { isActive, dependenciesClasses } = this.state
-    let sectionClasses = classNames({
+    const { tab } = this.props
+    const { isActive, dependenciesClasses } = this.state
+    const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
@@ -149,8 +149,10 @@ export default class EditFormSection extends React.Component {
     }
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
-        <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}
-          ref={header => { this.sectionHeader = header }}>
+        <div
+          className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}
+          ref={header => { this.sectionHeader = header }}
+        >
           {tabTitle}
         </div>
         <form className='vcv-ui-edit-form-section-content'>

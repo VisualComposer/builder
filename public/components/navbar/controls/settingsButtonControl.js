@@ -57,12 +57,12 @@ export default class SettingsButtonControl extends NavbarContent {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const name = localizations ? localizations.settings : 'Settings'
 
-    let controlClass = classNames({
+    const controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isActive
     })
-    let iconClass = classNames({
+    const iconClass = classNames({
       'vcv-ui-navbar-control-icon': true,
       'vcv-ui-icon': true,
       'vcv-ui-icon-cog': true,

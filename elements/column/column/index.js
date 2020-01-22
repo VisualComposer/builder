@@ -32,14 +32,14 @@ vcvAddElement(
 
     // Move parallax settings to new attribute
     if (designOptionsAdvanced && designOptionsAdvanced.device) {
-      let newParallaxData = {}
-      let newDesignOptionsData = {}
+      const newParallaxData = {}
+      const newDesignOptionsData = {}
       Object.keys(designOptionsAdvanced.device).forEach((deviceKey) => {
-        const deviceData = designOptionsAdvanced.device[ deviceKey ]
-        let newDeviceData = Object.assign({}, deviceData)
+        const deviceData = designOptionsAdvanced.device[deviceKey]
+        const newDeviceData = Object.assign({}, deviceData)
 
         if (deviceData.parallax) {
-          let parallaxData = {
+          const parallaxData = {
             parallaxEnable: true,
             parallax: deviceData.parallax
           }
@@ -49,19 +49,19 @@ vcvAddElement(
           if (deviceData.hasOwnProperty('parallaxSpeed')) {
             parallaxData.parallaxSpeed = deviceData.parallaxSpeed
           }
-          newParallaxData[ deviceKey ] = parallaxData
+          newParallaxData[deviceKey] = parallaxData
 
           delete newDeviceData.parallax
           delete newDeviceData.parallaxReverse
           delete newDeviceData.parallaxSpeed
 
-          newDesignOptionsData[ deviceKey ] = newDeviceData
+          newDesignOptionsData[deviceKey] = newDeviceData
         }
       })
 
       if (!lodash.isEmpty(newParallaxData)) {
         attr.parallax = { device: newParallaxData }
-        let newDesignOptions = Object.assign({}, designOptionsAdvanced)
+        const newDesignOptions = Object.assign({}, designOptionsAdvanced)
         newDesignOptions.device = newDesignOptionsData
         attr.designOptionsAdvanced = newDesignOptions
       }

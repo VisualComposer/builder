@@ -78,7 +78,7 @@ function getAdditionalControl (elementId, action, titleText, key) {
 
   let iconClass = `vcv-ui-icon-${action}`
   if (action === 'remove') {
-    iconClass = `vcv-ui-icon-trash`
+    iconClass = 'vcv-ui-icon-trash'
   }
 
   const iconAction = {
@@ -101,7 +101,7 @@ function getAdditionalControl (elementId, action, titleText, key) {
 }
 
 function getControls (elementIds, visibleControls) {
-  let controls = []
+  const controls = []
   const iterableControls = visibleControls || elementIds
   const localizations = window.VCV_I18N && window.VCV_I18N()
   iterableControls.forEach((id, i) => {
@@ -138,9 +138,9 @@ export function Controls (props) {
   const controlsContainer = useRef()
   const controls = useRef()
   const { vcElementsPath } = props.data
-  const [ containerPos, setContainerPos ] = useState(updateContainerPosition(props.data, controlsContainer))
-  const [ controlsPos, setControlsPos ] = useState(updateControlsPosition(props.data, controlsContainer))
-  const [ visibleControls, setVisibleControls ] = useState(false)
+  const [containerPos, setContainerPos] = useState(updateContainerPosition(props.data, controlsContainer))
+  const [controlsPos, setControlsPos] = useState(updateControlsPosition(props.data, controlsContainer))
+  const [visibleControls, setVisibleControls] = useState(false)
 
   useEffect(() => {
     if (!containerPos) {

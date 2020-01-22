@@ -6,8 +6,8 @@ const ButtonsRegister = function (editor, window) {
       let value = item === 'Default' ? 'inherit' : item
       const values = item.split('=')
       if (values.length > 1) {
-        text = values[ 0 ]
-        value = values[ 1 ]
+        text = values[0]
+        value = values[1]
       }
       return {
         text: text,

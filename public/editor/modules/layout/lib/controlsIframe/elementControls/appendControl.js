@@ -35,7 +35,7 @@ function updateAppendContainerPosition (data, appendControlContainer) {
 
 export function AppendControl (props) {
   const controlContainer = useRef()
-  const [ containerPos, setContainerPos ] = useState(updateAppendContainerPosition(props.data, controlContainer))
+  const [containerPos, setContainerPos] = useState(updateAppendContainerPosition(props.data, controlContainer))
 
   useEffect(() => {
     if (!containerPos) {
@@ -46,13 +46,13 @@ export function AppendControl (props) {
   const localizations = window.VCV_I18N && window.VCV_I18N()
   const addElementText = localizations ? localizations.addElement : 'Add Element'
   const elementIds = props.data.vcElementsPath
-  const insertAfterElement = elementIds && elementIds.length ? elementIds[ 0 ] : false
-  const container = elementIds && elementIds.length > 2 ? elementIds[ 1 ] : false
+  const insertAfterElement = elementIds && elementIds.length ? elementIds[0] : false
+  const container = elementIds && elementIds.length > 2 ? elementIds[1] : false
   if (!container || !insertAfterElement) {
     return null
   }
   const containerElement = cook.get(documentManager.get(container))
-  if (!containerElement || !containerElement.relatedTo([ exceptionalElements ])) {
+  if (!containerElement || !containerElement.relatedTo([exceptionalElements])) {
     return null
   }
 

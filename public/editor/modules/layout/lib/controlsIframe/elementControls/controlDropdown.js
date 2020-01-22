@@ -40,7 +40,7 @@ function getDropdownOptions (vcElement, colorIndex) {
 }
 
 function getPasteOptions (copyData, pasteEl) {
-  let pasteOptions = {
+  const pasteOptions = {
     disabled: !copyData,
     pasteAfter: false
   }
@@ -106,10 +106,10 @@ function getControlDropdown (elementId, options) {
   const hideOffText = localizations ? localizations.hideOff : 'Hide: Off'
   const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
   const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
-  let designOptionEvent = options.designOptions
+  const designOptionEvent = options.designOptions
 
   // prepare actions
-  let actions = []
+  const actions = []
 
   // add move action
   actions.push({
@@ -125,9 +125,9 @@ function getControlDropdown (elementId, options) {
     // tabs don't have advanced design options
     let label = addElementText
     let addElementTag = ''
-    let children = cook.getContainerChildren(options.tag)
+    const children = cook.getContainerChildren(options.tag)
     if (children.length === 1) {
-      let element = cook.get(children[ 0 ])
+      const element = cook.get(children[0])
       label = `${addText} ${element.get('name')}`
       addElementTag = element.get('tag')
     }
@@ -136,7 +136,7 @@ function getControlDropdown (elementId, options) {
       addElementTag = options.tag
     }
     if (options.tag === 'iconGroup') {
-      let element = cook.get({ tag: 'icon' })
+      const element = cook.get({ tag: 'icon' })
       label = `${addText} ${element.get('name')}`
       addElementTag = element.get('tag')
     }
@@ -209,8 +209,8 @@ function getControlDropdown (elementId, options) {
   const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
   if (isPasteAvailable) {
-    let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
-    let pasteOptions = getPasteOptions(copyData, options)
+    const copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
+    const pasteOptions = getPasteOptions(copyData, options)
 
     actions.push({
       label: pasteOptions.pasteAfter ? pasteAfterText : pasteText,
@@ -250,7 +250,7 @@ function getControlDropdown (elementId, options) {
 
 export function ControlDropdown (props) {
   const dropdown = useRef()
-  const [ dropdownPos, setDropdownPos ] = useState(false)
+  const [dropdownPos, setDropdownPos] = useState(false)
 
   const vcElement = ControlHelpers.getVcElement(props.id)
   const colorIndex = ControlHelpers.getElementColorIndex(vcElement)

@@ -7,12 +7,13 @@ export default class TextareaComponent extends Attribute {
   }
 
   render () {
-    let { value } = this.state
+    const { value } = this.state
     return (
       <textarea
         className='vcv-ui-form-input'
         onChange={this.handleChange}
-        value={value} />
+        value={value}
+      />
     )
   }
 }

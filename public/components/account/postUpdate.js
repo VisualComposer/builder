@@ -67,7 +67,7 @@ export default class {
     if (typeof window.VCV_HUB_GET_ELEMENTS === 'function') {
       const elements = window.VCV_HUB_GET_ELEMENTS()
       Object.keys(elements).forEach((key) => {
-        const element = elements[ key ]
+        const element = elements[key]
         elementBundles.push($.getScript(element.bundlePath).fail((jqxhr, settings, exception) => {
           console.warn(jqxhr, settings, exception)
         }))
@@ -84,7 +84,7 @@ export default class {
   }
 
   setGlobalVariable (key, data) {
-    if (typeof window[ key ] === 'undefined') {
+    if (typeof window[key] === 'undefined') {
       Object.defineProperty(window, key, {
         value: function () {
           return data
@@ -96,7 +96,7 @@ export default class {
 
   buildGlobalVariables (globals) {
     Object.keys(globals).forEach((key) => {
-      this.setGlobalVariable(key, globals[ key ])
+      this.setGlobalVariable(key, globals[key])
     })
   }
 
@@ -111,7 +111,7 @@ export default class {
          * @param {{postUpdateAjaxRequestError}} localization
          */
         const localization = window.VCV_I18N && window.VCV_I18N()
-        let text = (localization.postUpdateAjaxRequestError || `Failed to load: {file} #10077`)
+        const text = (localization.postUpdateAjaxRequestError || 'Failed to load: {file} #10077')
           .replace(/{file}/, e.url)
         logError(text, {
           code: 'postsUpdate-update-1',

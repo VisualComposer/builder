@@ -5,7 +5,7 @@ export default {
       console.warn('getEditor default value is undefined', element, mode)
     }
     if (typeof window.wp !== 'undefined' && typeof window.wp.codeEditor !== 'undefined') {
-      let instance = window.wp.codeEditor.initialize(element, { codemirror: window.jQuery.extend({}, window.wp.codeEditor.defaultSettings.codemirror, { mode: mode }) })
+      const instance = window.wp.codeEditor.initialize(element, { codemirror: window.jQuery.extend({}, window.wp.codeEditor.defaultSettings.codemirror, { mode: mode }) })
       instance.codemirror.setValue(value || '')
       editor = instance.codemirror
     } else {
@@ -16,7 +16,7 @@ export default {
     return editor
   },
   DefaultTextAreaEditor (element) {
-    let $el = window.jQuery(element)
+    const $el = window.jQuery(element)
     return {
       setSize: () => {},
       refresh: () => {},

@@ -28,7 +28,7 @@ module.exports = {
     jsonpFunction: 'vcvWebpackJsonp4x'
   },
   node: {
-    'fs': 'empty'
+    fs: 'empty'
   },
   optimization: {
     minimize: false,
@@ -81,7 +81,7 @@ module.exports = {
     new ExtractTextPlugin('[name].bundle.css'),
     new VirtualModulePlugin({
       moduleName: 'node_modules/jquery/dist/jquery.js',
-      contents: `module.exports = window.jQuery`
+      contents: 'module.exports = window.jQuery'
     }),
     new VcWebpackCustomAliasPlugin(false, true),
     new webpack.NamedModulesPlugin()
@@ -120,24 +120,24 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [ 'css-loader', {
+          use: ['css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer')() ]
+              plugins: () => [require('autoprefixer')()]
             }
-          }, 'less-loader' ]
+          }, 'less-loader']
         })
       },
       {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: [ 'css-loader', {
+          use: ['css-loader', {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [ require('autoprefixer')() ]
+              plugins: () => [require('autoprefixer')()]
             }
-          }, 'less-loader' ]
+          }, 'less-loader']
         })
       },
       // use ! to chain loaders./
@@ -149,6 +149,6 @@ module.exports = {
     ]
   },
   resolve: {
-    alias: { 'public': path.resolve(__dirname, 'public') }
+    alias: { public: path.resolve(__dirname, 'public') }
   }
 }

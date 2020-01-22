@@ -16,7 +16,7 @@ export default {
   },
   trigger (event) {
     const args = Array.prototype.slice.call(arguments, 1)
-    apiEventEmitter.emit.apply(apiEventEmitter, [ `vcv:api:${event}` ].concat(args))
+    apiEventEmitter.emit.apply(apiEventEmitter, [`vcv:api:${event}`].concat(args))
   },
   ready (callback) {
     this.once('ready', callback)

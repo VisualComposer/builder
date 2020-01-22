@@ -54,9 +54,9 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     const { size, customClass, metaCustomId, designOptionsAdvanced, lastInRow, firstInRow, hidden, disableStacking, sticky, boxShadow } = atts
 
     // import template js
-    let customColProps = {}
+    const customColProps = {}
     let innerProps = {}
-    let classes = [ 'vce-col' ]
+    const classes = ['vce-col']
 
     classes.push(this.getBackgroundClass(designOptionsAdvanced))
 
@@ -65,34 +65,34 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
 
     if (disableStacking) {
-      classes.push('vce-col--xs-' + (size[ 'all' ] ? size[ 'all' ].replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+      classes.push('vce-col--xs-' + (size.all ? size.all.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
 
-      if (lastInRow[ 'all' ]) {
+      if (lastInRow.all) {
         classes.push('vce-col--all-last')
       }
 
-      if (firstInRow[ 'all' ]) {
+      if (firstInRow.all) {
         classes.push('vce-col--all-first')
       }
     } else {
-      if (size[ 'all' ]) {
-        if (size[ 'all' ] === 'hide') {
+      if (size.all) {
+        if (size.all === 'hide') {
           classes.push('vce-col--all-hide')
         } else {
-          classes.push('vce-col--md-' + (size[ 'all' ] ? size[ 'all' ].replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+          classes.push('vce-col--md-' + (size.all ? size.all.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
           classes.push('vce-col--xs-1 vce-col--xs-last vce-col--xs-first vce-col--sm-last vce-col--sm-first')
 
-          if (lastInRow[ 'all' ]) {
+          if (lastInRow.all) {
             classes.push('vce-col--md-last vce-col--lg-last vce-col--xl-last')
           }
 
-          if (firstInRow[ 'all' ]) {
+          if (firstInRow.all) {
             classes.push('vce-col--md-first vce-col--lg-first vce-col--xl-first')
           }
         }
       } else { // Custom device column size
         Object.keys(size).forEach((device) => {
-          let deviceSize = size[ device ]
+          let deviceSize = size[device]
 
           if (deviceSize === '') {
             deviceSize = 'auto'
@@ -105,11 +105,11 @@ export default class ColumnElement extends vcvAPI.elementComponent {
               classes.push(`vce-col--${device}-visible`)
             }
 
-            if (lastInRow[ device ]) {
+            if (lastInRow[device]) {
               classes.push(`vce-col--${device}-last`)
             }
 
-            if (firstInRow[ device ]) {
+            if (firstInRow[device]) {
               classes.push(`vce-col--${device}-first`)
             }
           }
@@ -121,7 +121,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       classes.push(customClass)
     }
 
-    let className = classNames(classes)
+    const className = classNames(classes)
     if (metaCustomId) {
       innerProps.id = metaCustomId
     }
@@ -136,13 +136,13 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       boxShadowAttributes = this.getBoxShadowAttributes(boxShadow, id)
     }
 
-    customColProps[ 'data-vce-delete-attr' ] = 'style'
-    innerProps[ 'data-vce-delete-attr' ] = 'style'
+    customColProps['data-vce-delete-attr'] = 'style'
+    innerProps['data-vce-delete-attr'] = 'style'
 
     innerProps = { ...innerProps, ...stickyAttributes }
 
-    let contentProps = {}
-    contentProps[ 'data-vce-element-content' ] = true
+    const contentProps = {}
+    contentProps['data-vce-element-content'] = true
 
     const doPadding = this.applyDO('padding')
     const doRest = this.applyDO('border margin background animation')

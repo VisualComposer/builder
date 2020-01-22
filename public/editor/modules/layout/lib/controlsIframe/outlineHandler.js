@@ -65,7 +65,7 @@ export default class Outline {
   updatePosition (element, frame) {
     let { top, left, width, height } = element.getBoundingClientRect()
     if (this.iframe.tagName.toLowerCase() !== 'iframe') {
-      let iframePos = this.iframe.getBoundingClientRect()
+      const iframePos = this.iframe.getBoundingClientRect()
       top -= iframePos.top
       left -= iframePos.left
     }

@@ -9,7 +9,7 @@ export const hoverTooltip = () => {
 
     container.addClass('vcv-help-tooltip--active')
 
-    if (!elementInViewport(tooltip[ 0 ])) {
+    if (!elementInViewport(tooltip[0])) {
       tooltip.addClass('vcv-help-tooltip-position--top')
     }
   })

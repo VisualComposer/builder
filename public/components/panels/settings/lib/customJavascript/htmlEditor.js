@@ -33,7 +33,7 @@ export default class HtmlEditor extends React.Component {
   }
 
   render () {
-    let controlClass = classNames({
+    const controlClass = classNames({
       'vcv-ui-script-editor': true,
       'vcv-ui-state--active': true
     })

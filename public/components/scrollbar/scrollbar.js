@@ -30,7 +30,8 @@ export default class Scrollbar extends React.Component {
     })
 
     return (
-      <Scrollbars ref={(scrollbars) => { this.scrollbars = scrollbars }} {...props} className={scrollbarClasses}
+      <Scrollbars
+        ref={(scrollbars) => { this.scrollbars = scrollbars }} {...props} className={scrollbarClasses}
         renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
         renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
         renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}

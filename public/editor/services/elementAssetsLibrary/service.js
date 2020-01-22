@@ -6,7 +6,7 @@ const innerApi = {
     const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
     const assetsStorage = vcCake.getStorage('assets')
     const assetsStorageState = assetsStorage.state('jsLibs').get()
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -14,13 +14,13 @@ const innerApi = {
     if (!assetsStorageState) {
       return files
     }
-    let elementFromStorage = assetsStorageState.elements.find((element) => {
+    const elementFromStorage = assetsStorageState.elements.find((element) => {
       return element.id === cookElement.get('id')
     })
-    let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
+    const elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
     if (elementAssetLibraries && elementAssetLibraries.length) {
       elementAssetLibraries.forEach((lib) => {
-        let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+        const libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
         if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
           files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
         }
@@ -37,19 +37,19 @@ const innerApi = {
     const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
     const assetsStorage = vcCake.getStorage('assetsUpdate')
     const assetsStorageState = assetsStorage.state('jsLibs').get()
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
 
     if (assetsStorageState && assetsStorageState.elements) {
-      let elementFromStorage = assetsStorageState.elements.find((element) => {
+      const elementFromStorage = assetsStorageState.elements.find((element) => {
         return element.id === cookElement.get('id')
       })
-      let elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
+      const elementAssetLibraries = elementFromStorage && elementFromStorage.assetLibraries
       if (elementAssetLibraries && elementAssetLibraries.length) {
         elementAssetLibraries.forEach((lib) => {
-          let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+          const libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
           if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
             files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
           }
@@ -63,7 +63,7 @@ const innerApi = {
     return files
   },
   getElementPublicAssetsFiles (cookElement) {
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -71,7 +71,7 @@ const innerApi = {
     const RulesManager = vcCake.getService('rulesManager')
     const elementPath = cookElement.get('metaElementPath')
 
-    let libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
+    const libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
     libraries && libraries.forEach((lib) => {
       let jsFiles = []
       if (lib.libPaths && lib.libPaths.length) {
@@ -94,7 +94,7 @@ const innerApi = {
     return files
   },
   getElementBackendEditorAssetsFiles (cookElement, options) {
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -103,7 +103,7 @@ const innerApi = {
       const RulesManager = vcCake.getService('rulesManager')
       const elementPath = cookElement.get('metaElementPath')
 
-      let libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
+      const libraries = cookElement.get('metaPublicJs') && cookElement.get('metaPublicJs').libraries
       libraries && libraries.forEach((lib) => {
         let jsFiles = []
         if (lib.libPaths && lib.libPaths.length) {
@@ -136,7 +136,7 @@ const innerApi = {
     return files
   },
   getInnerAssetsFilesByElement (cookElement, getAssetsFilesByElement, options) {
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -145,25 +145,25 @@ const innerApi = {
     cookElement.filter((key, value, settings) => {
       if (settings.type === 'element') {
         // Element Public JS
-        let cookElement = cook.get(value)
+        const cookElement = cook.get(value)
         if (!cookElement) {
           return
         }
-        let elementPublicAssetsFiles = getAssetsFilesByElement(cookElement, getAssetsFilesByElement, options)
+        const elementPublicAssetsFiles = getAssetsFilesByElement(cookElement, getAssetsFilesByElement, options)
         files.cssBundles = files.cssBundles.concat(elementPublicAssetsFiles.cssBundles)
         files.jsBundles = files.jsBundles.concat(elementPublicAssetsFiles.jsBundles)
       }
     })
-    files.cssBundles = [ ...new Set(files.cssBundles) ]
-    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    files.cssBundles = [...new Set(files.cssBundles)]
+    files.jsBundles = [...new Set(files.jsBundles)]
 
     return files
   },
   getElementSharedAssetsLibraryFiles (cookElement) {
     const RulesManager = vcCake.getService('rulesManager')
     const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-    let elementLibs = cookElement.get('sharedAssetsLibrary') && cookElement.get('sharedAssetsLibrary').libraries
-    let files = {
+    const elementLibs = cookElement.get('sharedAssetsLibrary') && cookElement.get('sharedAssetsLibrary').libraries
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -184,7 +184,7 @@ const innerApi = {
     })
     // get element shared libs files from sharedAssetsLibrary service
     sharedLibs.forEach((lib) => {
-      let libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
+      const libraryFiles = sharedAssetsLibraryService.getAssetsLibraryFiles(lib)
       if (libraryFiles && libraryFiles.cssBundles && libraryFiles.cssBundles.length) {
         files.cssBundles = files.cssBundles.concat(libraryFiles.cssBundles)
       }
@@ -197,9 +197,9 @@ const innerApi = {
     const googleFonts = elementAssets && elementAssets.googleFonts
     if (googleFonts) {
       Object.keys(googleFonts).forEach((field) => {
-        const fieldFonts = googleFonts[ field ]
+        const fieldFonts = googleFonts[field]
         Object.keys(fieldFonts).forEach((font) => {
-          const fontData = fieldFonts[ font ]
+          const fontData = fieldFonts[font]
           let fontHref = `${font}`
           if (fontData.variants) {
             fontHref += `:${fontData.variants.join(',')}`
@@ -219,24 +219,24 @@ const innerApi = {
 /**
  * Get googles fonts data by element
  */
-let getGoogleFontsByElement = (cookElement) => {
+const getGoogleFontsByElement = (cookElement) => {
   if (!cookElement) {
     return []
   }
   const cook = vcCake.getService('cook')
   let fonts = new Set()
-  let settings = cookElement.get('settings')
-  let values = cookElement.toJS()
-  for (let key in settings) {
+  const settings = cookElement.get('settings')
+  const values = cookElement.toJS()
+  for (const key in settings) {
     // If found element then get actual data form element
-    if (settings[ key ].type === 'element') {
-      let newElement = cook.get(values[ key ])
-      fonts = new Set([ ...fonts ].concat(getGoogleFontsByElement(newElement)))
+    if (settings[key].type === 'element') {
+      const newElement = cook.get(values[key])
+      fonts = new Set([...fonts].concat(getGoogleFontsByElement(newElement)))
     } else {
-      if (settings[ key ].type === 'googleFonts') {
-        let font = cookElement.get(key)
+      if (settings[key].type === 'googleFonts') {
+        const font = cookElement.get(key)
         if (font) {
-          let fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? '' : font.fontStyle.style) : null
+          const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? '' : font.fontStyle.style) : null
           let fontHref = ''
 
           if (font.fontStyle) {
@@ -250,12 +250,12 @@ let getGoogleFontsByElement = (cookElement) => {
     }
   }
 
-  return [ ...fonts ]
+  return [...fonts]
 }
 
 const publicApi = {
   getAssetsFilesByTags (tags) {
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -266,28 +266,28 @@ const publicApi = {
       if (!cookElement) {
         return
       }
-      let elementAssets = publicApi.getAssetsFilesByElement(cookElement)
+      const elementAssets = publicApi.getAssetsFilesByElement(cookElement)
       files.cssBundles = files.cssBundles.concat(elementAssets.cssBundles)
       files.jsBundles = files.jsBundles.concat(elementAssets.jsBundles)
     })
 
     // Remove duplicates
-    files.cssBundles = [ ...new Set(files.cssBundles) ]
-    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    files.cssBundles = [...new Set(files.cssBundles)]
+    files.jsBundles = [...new Set(files.jsBundles)]
 
     return files
   },
   getAssetsFilesByElement (cookElement) {
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
     if (!cookElement) {
       return files
     }
-    let elementAssetsLibraryFiles = innerApi.getElementAssetsLibraryFiles(cookElement)
-    let elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
-    let elementSharedAssetsLibraryFiles = innerApi.getElementSharedAssetsLibraryFiles(cookElement)
+    const elementAssetsLibraryFiles = innerApi.getElementAssetsLibraryFiles(cookElement)
+    const elementPublicAssetsFiles = innerApi.getElementPublicAssetsFiles(cookElement)
+    const elementSharedAssetsLibraryFiles = innerApi.getElementSharedAssetsLibraryFiles(cookElement)
 
     // Element Shared Assets Libs
     files.cssBundles = files.cssBundles.concat(elementSharedAssetsLibraryFiles.cssBundles)
@@ -306,27 +306,27 @@ const publicApi = {
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
 
     // Inner elements / Sub elements
-    let { getAssetsFilesByElement } = publicApi
-    let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getAssetsFilesByElement)
+    const { getAssetsFilesByElement } = publicApi
+    const innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getAssetsFilesByElement)
     files.cssBundles = files.cssBundles.concat(innerElementAssets.cssBundles)
     files.jsBundles = files.jsBundles.concat(innerElementAssets.jsBundles)
 
     // Remove duplicates
-    files.cssBundles = [ ...new Set(files.cssBundles) ]
-    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    files.cssBundles = [...new Set(files.cssBundles)]
+    files.jsBundles = [...new Set(files.jsBundles)]
 
     return files
   },
   getBackendEditorAssetsFilesByElement (cookElement, options) {
-    let files = {
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
     if (!cookElement) {
       return files
     }
-    let elementAssetsLibraryFiles = innerApi.getElementBackendAssetsLibraryFiles(cookElement)
-    let elementPublicAssetsFiles = innerApi.getElementBackendEditorAssetsFiles(cookElement, options)
+    const elementAssetsLibraryFiles = innerApi.getElementBackendAssetsLibraryFiles(cookElement)
+    const elementPublicAssetsFiles = innerApi.getElementBackendEditorAssetsFiles(cookElement, options)
 
     // SharedAssets
     files.cssBundles = files.cssBundles.concat(elementAssetsLibraryFiles.cssBundles)
@@ -341,14 +341,14 @@ const publicApi = {
     files.cssBundles = files.cssBundles.concat(getGoogleFontsByElement(cookElement))
 
     // Inner elements / Sub elements
-    let { getBackendEditorAssetsFilesByElement } = publicApi
-    let innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getBackendEditorAssetsFilesByElement, options)
+    const { getBackendEditorAssetsFilesByElement } = publicApi
+    const innerElementAssets = innerApi.getInnerAssetsFilesByElement(cookElement, getBackendEditorAssetsFilesByElement, options)
     files.cssBundles = files.cssBundles.concat(innerElementAssets.cssBundles)
     files.jsBundles = files.jsBundles.concat(innerElementAssets.jsBundles)
 
     // Remove duplicates
-    files.cssBundles = [ ...new Set(files.cssBundles) ]
-    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    files.cssBundles = [...new Set(files.cssBundles)]
+    files.jsBundles = [...new Set(files.jsBundles)]
 
     return files
   }

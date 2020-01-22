@@ -20,7 +20,7 @@ export default class LoadingOverlayComponent extends React.Component {
     const modalRoot = document.querySelector(this.props.parent || '.vcv-layout-iframe-container')
     modalRoot.appendChild(this.el)
     if (this.props.disableNavBar) {
-      let layoutHeader = document.getElementById('vcv-layout-header')
+      const layoutHeader = document.getElementById('vcv-layout-header')
       layoutHeader.style.pointerEvents = 'none'
     }
     if (this.props.hideLayoutBar) {
@@ -32,7 +32,7 @@ export default class LoadingOverlayComponent extends React.Component {
     const modalRoot = document.querySelector(this.props.parent || '.vcv-layout-iframe-container')
     modalRoot.removeChild(this.el)
     if (this.props.disableNavBar) {
-      let layoutHeader = document.getElementById('vcv-layout-header')
+      const layoutHeader = document.getElementById('vcv-layout-header')
       layoutHeader.style.pointerEvents = ''
     }
     if (this.props.hideLayoutBar) {
@@ -41,7 +41,7 @@ export default class LoadingOverlayComponent extends React.Component {
   }
 
   render () {
-    let overlayClasses = {
+    const overlayClasses = {
       'vcv-loading-overlay': true,
       ...this.props.extraClassNames || {}
     }

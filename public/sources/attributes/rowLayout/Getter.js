@@ -1,4 +1,4 @@
 export default (data, key) => {
-  let value = Object.assign(data[ key ])
+  const value = Object.assign(data[key])
   return value
 }

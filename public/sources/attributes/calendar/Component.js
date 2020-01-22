@@ -43,7 +43,7 @@ export default class CalendarAttribute extends Attribute {
       popperPlacement: 'bottom-start',
       popperModifiers: {
         flip: {
-          behavior: [ 'bottom' ]
+          behavior: ['bottom']
         },
         preventOverflow: {
           enabled: false

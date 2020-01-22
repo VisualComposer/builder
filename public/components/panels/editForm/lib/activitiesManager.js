@@ -13,6 +13,7 @@ export default class ActivitiesManager extends React.Component {
     activeTabId: PropTypes.string,
     options: PropTypes.object
   }
+
   mount = {}
   stack = {}
   mountStack = {}
@@ -34,7 +35,7 @@ export default class ActivitiesManager extends React.Component {
   /* eslint-enable */
 
   initListeners (cookElement, props = false) {
-    let listeners = []
+    const listeners = []
     let fields = Object.keys(cookElement.getAll(false))
     if (props.options && props.options.nestedAttr) {
       fields = Object.keys(cookElement.settings(props.options.fieldKey).settings.options.settings)
@@ -42,15 +43,15 @@ export default class ActivitiesManager extends React.Component {
     fields.forEach(key => {
       let onChangeRules = this.getOnChange(cookElement.settings(key)).rules
       if (props.options && props.options.nestedAttr) {
-        let attrSettings = cookElement.settings(props.options.fieldKey).settings.options.settings
+        const attrSettings = cookElement.settings(props.options.fieldKey).settings.options.settings
         onChangeRules = this.getOnChange(cookElement.settings(key, attrSettings)).rules
       }
       if (onChangeRules) {
         Object.keys(onChangeRules).forEach(keyOnChange => {
-          if (!listeners[ keyOnChange ]) {
-            listeners[ keyOnChange ] = []
+          if (!listeners[keyOnChange]) {
+            listeners[keyOnChange] = []
           }
-          listeners[ keyOnChange ].push({ key })
+          listeners[keyOnChange].push({ key })
           this.addInitialStack(key, keyOnChange)
         })
       }
@@ -68,12 +69,12 @@ export default class ActivitiesManager extends React.Component {
   }
 
   setFieldMount = (fieldKey, data, type = 'field') => {
-    if (!this.mount[ fieldKey ]) {
-      this.mount[ fieldKey ] = {}
+    if (!this.mount[fieldKey]) {
+      this.mount[fieldKey] = {}
     }
     data.key = fieldKey
     data.type = type
-    this.mount[ fieldKey ][ type ] = data
+    this.mount[fieldKey][type] = data
     this.callInitialStack(fieldKey)
     this.callMountStack(fieldKey)
   }
@@ -83,69 +84,69 @@ export default class ActivitiesManager extends React.Component {
   }
 
   setFieldUnmount = (fieldKey, type) => {
-    if (type && this.mount[ fieldKey ]) {
-      delete this.mount[ fieldKey ][ type ]
-      if (this.stack[ fieldKey ] && this.stack[ fieldKey ][ type ]) {
-        delete this.stack[ fieldKey ][ type ]
+    if (type && this.mount[fieldKey]) {
+      delete this.mount[fieldKey][type]
+      if (this.stack[fieldKey] && this.stack[fieldKey][type]) {
+        delete this.stack[fieldKey][type]
       }
-    } else if (this.mount[ fieldKey ]) {
-      delete this.mount[ fieldKey ].field
+    } else if (this.mount[fieldKey]) {
+      delete this.mount[fieldKey].field
 
       // Clear stack on unmount
-      if (this.stack[ fieldKey ] && this.stack[ fieldKey ].field) {
-        delete this.stack[ fieldKey ].field
+      if (this.stack[fieldKey] && this.stack[fieldKey].field) {
+        delete this.stack[fieldKey].field
       }
     }
   }
 
   callFieldActivities = (targetKey, field) => {
-    if (this.listeners[ field ]) {
-      lodash.each(this.listeners[ field ], (listener) => {
-        if (this.mount[ listener.key ] && (!targetKey || listener.key === targetKey)) {
+    if (this.listeners[field]) {
+      lodash.each(this.listeners[field], (listener) => {
+        if (this.mount[listener.key] && (!targetKey || listener.key === targetKey)) {
           this.addStack(listener, field)
         }
       })
     }
-    if (this.stack[ field ]) {
-      this.stack[ field ] = this.stack[ field ].filter(this.callStack.bind(this, field))
+    if (this.stack[field]) {
+      this.stack[field] = this.stack[field].filter(this.callStack.bind(this, field))
     }
   }
 
   callMountStack = (targetKey) => {
-    if (this.mountStack[ targetKey ]) {
-      this.mountStack[ targetKey ] = this.mountStack[ targetKey ].filter(this.callFieldActivities.bind(this, targetKey))
+    if (this.mountStack[targetKey]) {
+      this.mountStack[targetKey] = this.mountStack[targetKey].filter(this.callFieldActivities.bind(this, targetKey))
     }
   }
 
   callInitialStack = (targetKey) => {
-    if (this.initialStack[ targetKey ]) {
-      this.initialStack[ targetKey ].map(this.callFieldActivities.bind(this, targetKey))
+    if (this.initialStack[targetKey]) {
+      this.initialStack[targetKey].map(this.callFieldActivities.bind(this, targetKey))
     }
   }
 
   addStack (listener, fieldKey) {
-    if (!this.stack[ fieldKey ]) {
-      this.stack[ fieldKey ] = []
+    if (!this.stack[fieldKey]) {
+      this.stack[fieldKey] = []
     }
-    this.stack[ fieldKey ].push(listener)
+    this.stack[fieldKey].push(listener)
   }
 
   addMountStack (listener, targetKey) {
-    if (!this.mountStack[ listener.key ]) {
-      this.mountStack[ listener.key ] = []
+    if (!this.mountStack[listener.key]) {
+      this.mountStack[listener.key] = []
     }
-    this.mountStack[ listener.key ].push(targetKey)
+    this.mountStack[listener.key].push(targetKey)
   }
 
   addInitialStack (key, target) {
-    if (!this.initialStack[ key ]) {
-      this.initialStack[ key ] = []
+    if (!this.initialStack[key]) {
+      this.initialStack[key] = []
     }
-    this.initialStack[ key ].push(target)
+    this.initialStack[key].push(target)
   }
 
   callStack = (targetKey, listener) => {
-    if (!this.mount[ listener.key ]) {
+    if (!this.mount[listener.key]) {
       this.addMountStack(listener, targetKey)
       return true
     }
@@ -153,20 +154,20 @@ export default class ActivitiesManager extends React.Component {
     const { elementAccessPoint } = this.props
     const cookElement = elementAccessPoint.cook()
     const element = cookElement.toJS()
-    let keys = Object.keys(this.mount[ listener.key ]) // field, tab, dropdown
+    const keys = Object.keys(this.mount[listener.key]) // field, tab, dropdown
 
-    let actionsCallback = (ruleState, listener) => {
+    const actionsCallback = (ruleState, listener) => {
       let actions = this.getOnChange(cookElement.settings(listener.key)).actions
       if (this.props.options && this.props.options.nestedAttr) {
-        let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
-        let elSettings = cookElement.settings(listener.key, attrSettings)
+        const attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
+        const elSettings = cookElement.settings(listener.key, attrSettings)
         actions = this.getOnChange(elSettings).actions
       }
       if (actions) {
         keys.forEach((type) => {
           actions.forEach((action) => {
-            const mountedWrapper = this.mount[ listener.key ][ type ]
-            mountedWrapper.value = element[ listener.key ]
+            const mountedWrapper = this.mount[listener.key][type]
+            mountedWrapper.value = element[listener.key]
             ActionsManager.do(action, ruleState, mountedWrapper, cookElement)
           })
         })
@@ -175,14 +176,14 @@ export default class ActivitiesManager extends React.Component {
 
     let fieldSettings = cookElement.settings(listener.key)
     if (this.props.options && this.props.options.nestedAttr) {
-      let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
+      const attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
       fieldSettings = cookElement.settings(listener.key, attrSettings)
     }
     const rules = this.getOnChange(fieldSettings).rules
     const isNested = this.props.options && this.props.options.nestedAttr
     let values = element
     if (isNested) {
-      values = element[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ]
+      values = element[this.props.options.fieldKey].value[this.props.options.activeParamGroupIndex]
     }
 
     if (rules) {

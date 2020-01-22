@@ -18,15 +18,15 @@ addStorage('elements', (storage) => {
     if (!cookElement) {
       return cookElement
     }
-    let cookGetAll = cookElement.getAll()
+    const cookGetAll = cookElement.getAll()
 
-    let elementAttributes = Object.keys(cookGetAll)
+    const elementAttributes = Object.keys(cookGetAll)
     elementAttributes.forEach((attrKey) => {
-      let attributeSettings = cookElement.settings(attrKey)
+      const attributeSettings = cookElement.settings(attrKey)
       if (attributeSettings.settings.type === 'element') {
-        let value = cookElement.get(attrKey)
-        let innerElement = cook.get(value)
-        let innerElementValue = recursiveElementsRebuild(innerElement)
+        const value = cookElement.get(attrKey)
+        const innerElement = cook.get(value)
+        const innerElementValue = recursiveElementsRebuild(innerElement)
         cookElement.set(attrKey, innerElementValue)
       }
     })
@@ -40,22 +40,22 @@ addStorage('elements', (storage) => {
       if (!newData.hasOwnProperty(key)) {
         return
       }
-      let cookElement = cook.get(newData[ key ])
+      const cookElement = cook.get(newData[key])
       if (!cookElement) {
-        delete newData[ key ]
+        delete newData[key]
         env('VCV_DEBUG') === true && console.warn(`Element with key ${key} removed, failed to get CookElement`)
       } else {
-        let parent = cookElement.get('parent')
+        const parent = cookElement.get('parent')
         if (parent) {
           if (!data.hasOwnProperty(parent)) {
-            delete newData[ key ]
+            delete newData[key]
             env('VCV_DEBUG') === true && console.warn(`Element with key ${key} removed, failed to get parent element`)
             newData = sanitizeData(newData)
           } else {
-            newData[ key ] = recursiveElementsRebuild(cookElement)
+            newData[key] = recursiveElementsRebuild(cookElement)
           }
         } else {
-          newData[ key ] = recursiveElementsRebuild(cookElement)
+          newData[key] = recursiveElementsRebuild(cookElement)
         }
       }
     })
@@ -63,8 +63,8 @@ addStorage('elements', (storage) => {
   }
 
   storage.on('add', (elementData, wrap = true, options = {}) => {
-    let createdElements = []
-    let cookElement = cook.get(elementData)
+    const createdElements = []
+    const cookElement = cook.get(elementData)
     if (!cookElement) {
       return
     }
@@ -81,7 +81,7 @@ addStorage('elements', (storage) => {
       }
     }
 
-    let data = documentManager.create(elementData, {
+    const data = documentManager.create(elementData, {
       insertAfter: options && options.insertAfter ? options.insertAfter : false
     })
     createdElements.push(data.id)
@@ -100,7 +100,7 @@ addStorage('elements', (storage) => {
 
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (data.tag === 'column') {
-        let rowElement = documentManager.get(data.parent)
+        const rowElement = documentManager.get(data.parent)
         rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
         storage.trigger('update', rowElement.id, rowElement, '', options)
       }
@@ -149,7 +149,7 @@ addStorage('elements', (storage) => {
       if (element.tag === 'column') {
         addRowColumnBackground(id, element, documentManager)
       }
-      let parent = documentManager.get(element.parent)
+      const parent = documentManager.get(element.parent)
       storage.trigger('update', parent.id, parent)
     }
     if (!options.silent) {
@@ -157,13 +157,13 @@ addStorage('elements', (storage) => {
     }
   })
   storage.on('remove', (id) => {
-    let element = documentManager.get(id)
+    const element = documentManager.get(id)
     if (!element) {
       return
     }
     let parent = element && element.parent ? documentManager.get(element.parent) : false
     documentManager.delete(id)
-    let initChildren = parent && cook.get(parent).get('initChildren')
+    const initChildren = parent && cook.get(parent).get('initChildren')
     // remove parent if it must have children by default (initChildren)
     if (parent && initChildren && initChildren.length && !documentManager.children(parent.id).length) {
       storage.trigger('remove', parent.id)
@@ -174,7 +174,7 @@ addStorage('elements', (storage) => {
       }
       parent = parent.parent ? documentManager.get(parent.parent) : false
     } else if (element.tag === 'column') {
-      let rowElement = documentManager.get(parent.id)
+      const rowElement = documentManager.get(parent.id)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
         rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
       }
@@ -190,10 +190,10 @@ addStorage('elements', (storage) => {
     updateTimeMachine()
   })
   storage.on('clone', (id) => {
-    let dolly = documentManager.clone(id)
+    const dolly = documentManager.clone(id)
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (dolly.tag === 'column') {
-        let rowElement = documentManager.get(dolly.parent)
+        const rowElement = documentManager.get(dolly.parent)
         rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
         storage.trigger('update', rowElement.id, rowElement)
       }
@@ -206,7 +206,7 @@ addStorage('elements', (storage) => {
     updateTimeMachine()
   })
   storage.on('move', (id, data) => {
-    let element = documentManager.get(id)
+    const element = documentManager.get(id)
     const oldParent = element.parent
     if (data.action === 'after') {
       documentManager.moveAfter(id, data.related)
@@ -217,14 +217,14 @@ addStorage('elements', (storage) => {
     }
     if (element.tag === 'column') {
       // rebuild previous column
-      let rowElement = documentManager.get(element.parent)
+      const rowElement = documentManager.get(element.parent)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
         rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking }, documentManager)
       }
       addRowColumnBackground(element.id, element, documentManager)
       // rebuild next column
-      let newElement = documentManager.get(id)
-      let newRowElement = documentManager.get(newElement.parent)
+      const newElement = documentManager.get(id)
+      const newRowElement = documentManager.get(newElement.parent)
       addRowColumnBackground(newElement.id, newElement, documentManager)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
         rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout && newRowElement.layout.disableStacking }, documentManager)
@@ -243,33 +243,33 @@ addStorage('elements', (storage) => {
   })
   const mergeChildrenLayout = (data, parent) => {
     const children = Object.keys(data).filter((key) => {
-      const element = data[ key ]
+      const element = data[key]
       return parent ? element.parent === parent : element.parent === '' || element.parent === parent
     })
     children.sort((a, b) => {
-      if (typeof data[ a ].order === 'undefined') {
-        data[ a ].order = 0
+      if (typeof data[a].order === 'undefined') {
+        data[a].order = 0
       }
-      if (typeof data[ b ].order === 'undefined') {
-        data[ b ].order = 0
+      if (typeof data[b].order === 'undefined') {
+        data[b].order = 0
       }
-      return data[ a ].order - data[ b ].order
+      return data[a].order - data[b].order
     })
     children.forEach((key) => {
-      const element = data[ key ]
+      const element = data[key]
       const newId = utils.createKey()
       const oldId = '' + element.id
-      if (substituteIds[ oldId ]) {
-        element.id = substituteIds[ oldId ]
+      if (substituteIds[oldId]) {
+        element.id = substituteIds[oldId]
       } else {
-        substituteIds[ oldId ] = newId
+        substituteIds[oldId] = newId
         element.id = newId
       }
-      if (element.parent && substituteIds[ element.parent ]) {
-        element.parent = substituteIds[ element.parent ]
-      } else if (element.parent && !substituteIds[ element.parent ]) {
-        substituteIds[ element.parent ] = utils.createKey()
-        element.parent = substituteIds[ element.parent ]
+      if (element.parent && substituteIds[element.parent]) {
+        element.parent = substituteIds[element.parent]
+      } else if (element.parent && !substituteIds[element.parent]) {
+        substituteIds[element.parent] = utils.createKey()
+        element.parent = substituteIds[element.parent]
       }
       delete element.order
       storage.trigger('add', element, false, { silent: true, action: 'merge' })
@@ -287,7 +287,7 @@ addStorage('elements', (storage) => {
     async: true
   })
   storage.on('reset', (data) => {
-    let sanitizedData = sanitizeData(data)
+    const sanitizedData = sanitizeData(data)
     documentManager.reset(sanitizedData)
     historyStorage.trigger('init', sanitizedData)
     storage.state('document').set(documentManager.children(false), sanitizedData)
@@ -297,35 +297,35 @@ addStorage('elements', (storage) => {
     storage.state('document').set(documentManager.children(false), data)
   })
   storage.on('replace', (id, elementData, options = {}) => {
-    let element = documentManager.get(id)
+    const element = documentManager.get(id)
     if (!element) {
       return
     }
-    let createdElements = []
-    let cookElement = cook.get(elementData)
+    const createdElements = []
+    const cookElement = cook.get(elementData)
     if (!cookElement) {
       return
     }
 
     elementData = recursiveElementsRebuild(cookElement)
-    let data = documentManager.create(elementData, {
+    const data = documentManager.create(elementData, {
       insertAfter: false
     })
     createdElements.push(data.id)
 
-    let children = documentManager.children(id)
+    const children = documentManager.children(id)
     if (cookElement.containerFor()) {
-      let childTag = cookElement.settings('containerFor').settings && cookElement.settings('containerFor').settings.options && cookElement.settings('containerFor').settings.options.elementDependencies && cookElement.settings('containerFor').settings.options.elementDependencies.tag
+      const childTag = cookElement.settings('containerFor').settings && cookElement.settings('containerFor').settings.options && cookElement.settings('containerFor').settings.options.elementDependencies && cookElement.settings('containerFor').settings.options.elementDependencies.tag
       if (children && childTag) {
         children.forEach(child => {
-          let childId = child.id
-          let editFormTabSettings = child.editFormTab1 || []
-          let replaceElementMergeData = {
+          const childId = child.id
+          const editFormTabSettings = child.editFormTab1 || []
+          const replaceElementMergeData = {
             tag: childTag,
             parent: cookElement.get('id')
           }
           editFormTabSettings.forEach(key => {
-            replaceElementMergeData[ key ] = child[ key ]
+            replaceElementMergeData[key] = child[key]
           })
           storage.trigger('replace', childId, replaceElementMergeData)
         })

@@ -9,6 +9,7 @@ export default class CustomStyles extends React.Component {
   static propTypes = {
     styleData: PropTypes.array
   }
+
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static defaultProps = {
     styleData: [
@@ -28,9 +29,10 @@ export default class CustomStyles extends React.Component {
       }
     ]
   }
+
   constructor (props) {
     super(props)
-    let customStyles = {
+    const customStyles = {
       local: settingsStorage.state('customCss').get(),
       global: settingsStorage.state('globalCss').get()
     }
@@ -42,10 +44,12 @@ export default class CustomStyles extends React.Component {
     }
     this.updateSettings = this.updateSettings.bind(this)
   }
+
   componentWillUnmount () {
     setData('ui:settings:customStyles:global', null)
     setData('ui:settings:customStyles:local', null)
   }
+
   changeActiveButton = (buttonIndex) => {
     this.setState({
       isActiveIndex: buttonIndex
@@ -63,12 +67,12 @@ export default class CustomStyles extends React.Component {
   }
 
   getButtons () {
-    let allButtons = []
-    let { styleData } = this.props
-    let { isActiveIndex } = this.state
-    for (let i in styleData) {
+    const allButtons = []
+    const { styleData } = this.props
+    const { isActiveIndex } = this.state
+    for (const i in styleData) {
       if (styleData.hasOwnProperty(i)) {
-        let { ...buttonProps } = this.getButtonProps(styleData[i], isActiveIndex)
+        const { ...buttonProps } = this.getButtonProps(styleData[i], isActiveIndex)
         allButtons.push(
           <StyleControl {...buttonProps} />
         )
@@ -76,14 +80,16 @@ export default class CustomStyles extends React.Component {
     }
     return allButtons
   }
+
   updateSettings (key, value) {
     setData('ui:settings:customStyles:' + key, value)
     this.setState({ [key]: value })
   }
+
   getEditor () {
-    let allEditors = []
-    let { styleData } = this.props
-    for (let i in styleData) {
+    const allEditors = []
+    const { styleData } = this.props
+    for (const i in styleData) {
       if (styleData.hasOwnProperty(i)) {
         allEditors.push(
           <StyleEditor
@@ -103,8 +109,8 @@ export default class CustomStyles extends React.Component {
   }
 
   render () {
-    let button = this.getButtons()
-    let editor = this.getEditor()
+    const button = this.getButtons()
+    const editor = this.getEditor()
     return (
       <div className='vcv-ui-custom-styles'>
         <div className='vcv-ui-style-control-container'>

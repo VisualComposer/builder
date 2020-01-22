@@ -20,7 +20,7 @@ export default class TokenizationList extends React.Component {
 
   loadSuggestionsAfterStoppedTyping = debounce(
     (value) => {
-      this.loadSuggestions(value[ value.length - 1 ])
+      this.loadSuggestions(value[value.length - 1])
     },
     400);
 
@@ -28,7 +28,7 @@ export default class TokenizationList extends React.Component {
     super(props)
     let value = this.props.value
     if (!Array.isArray(value)) {
-      value = value ? [ value ] : []
+      value = value ? [value] : []
     }
     this.state = {
       value: value,
@@ -54,7 +54,7 @@ export default class TokenizationList extends React.Component {
   }
 
   handleKeyDown (e) {
-    let key = e.which || e.keyCode
+    const key = e.which || e.keyCode
     let updateBoxPosition = true
     if (key === 40) {
       e.preventDefault()
@@ -77,8 +77,8 @@ export default class TokenizationList extends React.Component {
 
   updateBoxPosition (el) {
     this.keydownTimeout = setTimeout(() => {
-      let caret = window.jQuery(el).caret('offset')
-      let offset = el.getBoundingClientRect()
+      const caret = window.jQuery(el).caret('offset')
+      const offset = el.getBoundingClientRect()
       this.setState({
         cursorPosition: {
           top: offset.top + offset.height,
@@ -89,9 +89,9 @@ export default class TokenizationList extends React.Component {
   }
 
   setActiveSuggestion (incr) {
-    let suggestions = this.state.suggestedItems
-    let index = this.state.activeSuggestion + incr
-    if (suggestions[ index ] !== undefined) {
+    const suggestions = this.state.suggestedItems
+    const index = this.state.activeSuggestion + incr
+    if (suggestions[index] !== undefined) {
       let value = this.state.inputValue.split(',')
       if (!this.checkValue(this.state.inputValue)) {
         value.pop()
@@ -99,7 +99,7 @@ export default class TokenizationList extends React.Component {
           value = value + ', '
         }
       }
-      this.setState({ activeSuggestion: index, suggestedValue: value + suggestions[ index ].value + ',' })
+      this.setState({ activeSuggestion: index, suggestedValue: value + suggestions[index].value + ',' })
     }
   }
 
@@ -138,8 +138,8 @@ export default class TokenizationList extends React.Component {
     let value = this.state.inputValue.replace(/,+$/, '')
     value = value ? value.split(',') : []
     if (this.props.single) {
-      value = [ value[ value.length - 1 ] ]
-      this.props.onChange(value[ value.length - 1 ])
+      value = [value[value.length - 1]]
+      this.props.onChange(value[value.length - 1])
     } else {
       this.props.onChange(value)
     }
@@ -158,8 +158,8 @@ export default class TokenizationList extends React.Component {
   }
 
   checkValue (value) {
-    let val = value.split(',')
-    if (!val[ val.length - 1 ].replace(/\s/g, '').length) {
+    const val = value.split(',')
+    if (!val[val.length - 1].replace(/\s/g, '').length) {
       return true
     }
     return false
@@ -173,7 +173,7 @@ export default class TokenizationList extends React.Component {
 
     this.setState({ value: inputValue, inputValue: inputValue.join(','), suggestedValue: null, activeSuggestion: -1, validating: this.props.validation })
     if (this.props.single) {
-      this.props.onChange(inputValue[ inputValue.length - 1 ])
+      this.props.onChange(inputValue[inputValue.length - 1])
     } else {
       this.props.onChange(inputValue)
     }
@@ -240,7 +240,7 @@ export default class TokenizationList extends React.Component {
   }
 
   loadSuggestions (search) {
-    let ajax = vcCake.getService('utils').ajax
+    const ajax = vcCake.getService('utils').ajax
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
@@ -256,7 +256,7 @@ export default class TokenizationList extends React.Component {
       'vcv-source-id': window.vcvSourceID,
       'vcv-return-value': this.props.returnValue
     }, (request) => {
-      let response = getResponse(request.response)
+      const response = getResponse(request.response)
       if (response.status && response.results && response.results.length) {
         this.setState({ suggestedItems: response.results, callSuggestionAjax: false, loading: false })
       }
@@ -264,12 +264,12 @@ export default class TokenizationList extends React.Component {
   }
 
   removeToken (index) {
-    let valueCopy = this.state.value.slice()
+    const valueCopy = this.state.value.slice()
     valueCopy.splice(index, 1)
     this.setState({ value: valueCopy, suggestedItems: [], loading: false })
     if (this.props.single) {
       if (valueCopy.length > 0) {
-        this.props.onChange(valueCopy[ valueCopy.length - 1 ].trim())
+        this.props.onChange(valueCopy[valueCopy.length - 1].trim())
       } else {
         this.props.onChange('')
       }
@@ -279,8 +279,8 @@ export default class TokenizationList extends React.Component {
   }
 
   getTokensList () {
-    let tokens = this.state.value
-    let reactTokens = []
+    const tokens = this.state.value
+    const reactTokens = []
 
     tokens.forEach((token, index) => {
       if (this.props.single && index > 0) {
@@ -291,8 +291,8 @@ export default class TokenizationList extends React.Component {
       if (token && token.length) {
         let title = token
         let valid = false
-        if (this.state.loadTokenLabels[ token ]) {
-          title = this.state.loadTokenLabels[ token ]
+        if (this.state.loadTokenLabels[token]) {
+          title = this.state.loadTokenLabels[token]
           valid = true
         }
 
@@ -320,14 +320,14 @@ export default class TokenizationList extends React.Component {
     if (this.state.editing) {
       return null
     }
-    let tokens = this.getTokensList()
+    const tokens = this.getTokensList()
     return <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>
       {tokens}
     </div>
   }
 
   loadTokenLabels (value) {
-    let ajax = vcCake.getService('utils').ajax
+    const ajax = vcCake.getService('utils').ajax
     if (this.serverRequestLabels) {
       this.serverRequestLabels.abort()
     }
@@ -341,7 +341,7 @@ export default class TokenizationList extends React.Component {
       'vcv-element': this.props.elementAccessPoint.cook().toJS()
     }, (request) => {
       if (request.response) {
-        let labels = getResponse(request.response)
+        const labels = getResponse(request.response)
         if (labels) {
           this.setState({ loadTokenLabels: JSON.parse(request.response), validating: false })
         }
@@ -353,24 +353,25 @@ export default class TokenizationList extends React.Component {
     if (this.state.editing === false) {
       return null
     }
-    let items = this.state.suggestedItems
+    const items = this.state.suggestedItems
     if (!items || !items.length) {
       return null
     }
-    let cssClasses = classNames({
+    const cssClasses = classNames({
       'vcv-ui-suggest-box': true,
       'vcv-ui-form-input': true,
       'vcv-ui-autocomplete': true
     })
-    let reactItems = []
+    const reactItems = []
     if (!this.checkValue(this.state.inputValue) && !this.state.addedSuggested) {
       this.state.suggestedItems.forEach((item, index) => {
-        let isActive = index === this.state.activeSuggestion
-        let cssClasses = classNames({
+        const isActive = index === this.state.activeSuggestion
+        const cssClasses = classNames({
           'vcv-ui-suggest-box-item': true,
           'vcv-selected': isActive
         })
-        reactItems.push(<span key={'vcvSuggestBoxItem' + item.value}
+        reactItems.push(<span
+          key={'vcvSuggestBoxItem' + item.value}
           className={cssClasses}
           onMouseDown={this.handleSuggestionMouseDown}
           data-vcv-suggest={item.label}
@@ -380,7 +381,7 @@ export default class TokenizationList extends React.Component {
         </span>)
       })
 
-      return <div className={cssClasses} style={this.state.cursorPosition} ref={'suggestBox'}>
+      return <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>
         {reactItems}
       </div>
     }
@@ -395,12 +396,12 @@ export default class TokenizationList extends React.Component {
   }
 
   render () {
-    let cssClasses = classNames({
+    const cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
       'vcv-ui-tag-list-input-editing-disabled': !this.state.editing
     })
-    let containerClasses = classNames({
+    const containerClasses = classNames({
       'vcv-ui-tag-list-container': true
     }, this.props.extraClass)
 
@@ -409,7 +410,7 @@ export default class TokenizationList extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
     }
 
-    return <React.Fragment>
+    return <>
       <div className={containerClasses}>
         <Textarea
           minRows={1}
@@ -427,6 +428,6 @@ export default class TokenizationList extends React.Component {
         {this.getLoading()}
       </div>
       {description}
-    </React.Fragment>
+           </>
   }
 }

@@ -34,19 +34,19 @@ add('wordpressWorkspace', (api) => {
   if (env('VCV_JS_THEME_LAYOUTS')) {
     settingsStorage.state('headerTemplate').onChange((value) => {
       // Add Header template ID to extra save args
-      let args = settingsStorage.state('saveExtraArgs').get() || {}
+      const args = settingsStorage.state('saveExtraArgs').get() || {}
       settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-header-id': value }))
     })
 
     settingsStorage.state('sidebarTemplate').onChange((value) => {
       // Add Sidebar template ID to extra save args
-      let args = settingsStorage.state('saveExtraArgs').get() || {}
+      const args = settingsStorage.state('saveExtraArgs').get() || {}
       settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-sidebar-id': value }))
     })
 
     settingsStorage.state('footerTemplate').onChange((value) => {
       // Add Footer template ID to extra save args
-      let args = settingsStorage.state('saveExtraArgs').get() || {}
+      const args = settingsStorage.state('saveExtraArgs').get() || {}
       settingsStorage.state('saveExtraArgs').set(Object.assign({}, args, { 'vcv-footer-id': value }))
     })
   }
@@ -71,7 +71,7 @@ add('wordpressWorkspace', (api) => {
     isDragging = false
   }
 
-  let layoutHeader = document.getElementById('vcv-layout-header')
+  const layoutHeader = document.getElementById('vcv-layout-header')
   if (layoutHeader) {
     onDataChange('vcv:layoutCustomMode', (data) => {
       if (data && data.mode === 'dnd' && !isDragging) {
@@ -90,7 +90,7 @@ add('wordpressWorkspace', (api) => {
   }
 
   // Start blank overlay
-  let iframeContent = document.getElementById('vcv-layout-iframe-content')
+  const iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
     const removeStartBlank = () => {
@@ -113,7 +113,7 @@ add('wordpressWorkspace', (api) => {
       documentElements = elements
       if (data.length === 0) {
         let showBlank = true
-        let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
+        const currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
         if (currentTemplate && currentTemplate.type !== 'vc' && currentTemplate.value !== 'blank') {
           showBlank = false
         }
@@ -126,7 +126,7 @@ add('wordpressWorkspace', (api) => {
           removeOverlay()
         }
       } else if (data.length && isBlank) {
-        let visibleElements = utils.getVisibleElements(documentElements)
+        const visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
@@ -138,11 +138,11 @@ add('wordpressWorkspace', (api) => {
 
     assetsStorage.state('jobs').onChange((data) => {
       if (documentElements) {
-        let visibleJobs = data.elements.filter(element => !element.hidden)
-        let visibleElements = utils.getVisibleElements(documentElements)
-        let documentIds = Object.keys(visibleElements)
+        const visibleJobs = data.elements.filter(element => !element.hidden)
+        const visibleElements = utils.getVisibleElements(documentElements)
+        const documentIds = Object.keys(visibleElements)
         if (documentIds.length === visibleJobs.length) {
-          let jobsInprogress = data.elements.find(element => element.jobs)
+          const jobsInprogress = data.elements.find(element => element.jobs)
           if (jobsInprogress) {
             return
           }

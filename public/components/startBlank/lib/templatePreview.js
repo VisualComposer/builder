@@ -19,7 +19,7 @@ export default class TemplatePreview extends React.Component {
         description: localizations ? localizations.themeDefaultDescription : 'Your WordPress theme defined layout for specific page, post, or custom post type.',
         img: 'theme-defined-preview.png'
       },
-      'vc__blank': {
+      vc__blank: {
         description: localizations ? localizations.vcBlankDescription : 'Full width blank page without header, footer, or sidebar.',
         img: 'blank-preview.png'
       },
@@ -59,8 +59,8 @@ export default class TemplatePreview extends React.Component {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
         return true
       }
@@ -70,7 +70,7 @@ export default class TemplatePreview extends React.Component {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -79,7 +79,7 @@ export default class TemplatePreview extends React.Component {
   }
 
   updatePreviewPosition () {
-    let element = ReactDOM.findDOMNode(this)
+    const element = ReactDOM.findDOMNode(this)
 
     let container
     if (element.closest === undefined) {
@@ -87,14 +87,14 @@ export default class TemplatePreview extends React.Component {
     } else {
       container = element.closest('.vcv-ui-item-list')
     }
-    let firstElement = container.querySelector('.vcv-ui-item-list-item')
-    let trigger = element.querySelector('.vcv-start-blank-content')
-    let preview = element.querySelector('.vcv-ui-item-preview-container')
+    const firstElement = container.querySelector('.vcv-ui-item-list-item')
+    const trigger = element.querySelector('.vcv-start-blank-content')
+    const preview = element.querySelector('.vcv-ui-item-preview-container')
 
-    let triggerSizes = trigger.getBoundingClientRect()
-    let firsElementSize = firstElement.getBoundingClientRect()
-    let previewSizes = preview.getBoundingClientRect()
-    let windowSize = {
+    const triggerSizes = trigger.getBoundingClientRect()
+    const firsElementSize = firstElement.getBoundingClientRect()
+    const previewSizes = preview.getBoundingClientRect()
+    const windowSize = {
       height: window.innerHeight,
       width: window.innerWidth
     }
@@ -167,26 +167,26 @@ export default class TemplatePreview extends React.Component {
     const { name, templateName, active, disabled, icon } = this.props
     const { previewVisible, previewStyle } = this.state
 
-    if (typeof this.templateInfo[ templateName ] === 'undefined') {
+    if (typeof this.templateInfo[templateName] === 'undefined') {
       return null
     }
-    let description = this.templateInfo[ templateName ].description
+    let description = this.templateInfo[templateName].description
     if (disabled) {
       description += ` ${availableInPremiumText}`
     }
 
-    let preview = this.templateInfo[ templateName ].img
+    const preview = this.templateInfo[templateName].img
 
-    let elementContentClasses = classNames({
+    const elementContentClasses = classNames({
       'vcv-start-blank-content': true
     })
 
-    let previewClasses = classNames({
+    const previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
 
-    let figure = (
+    const figure = (
       <figure className={previewClasses} style={previewStyle}>
         <img
           className='vcv-ui-item-preview-image'
@@ -201,22 +201,23 @@ export default class TemplatePreview extends React.Component {
       </figure>
     )
 
-    let Icon = icon
-    let iconProps = {
+    const Icon = icon
+    const iconProps = {
       classes: 'vcv-ui-start-layout-list-item-icon'
     }
 
-    let itemClasses = classNames({
+    const itemClasses = classNames({
       'vcv-ui-item-list-item vcv-ui-start-layout-list-item': true,
       'vcv-ui-start-layout-list-item-active': active,
       'vcv-ui-start-layout-list-item-disabled': disabled
     })
 
-    let iconHtml = icon ? (<Icon {...iconProps} />) : null
+    const iconHtml = icon ? (<Icon {...iconProps} />) : null
 
     return (
       <li className={itemClasses}>
-        <span className='vcv-ui-item-element'
+        <span
+          className='vcv-ui-item-element'
           title={`${addText} ${name}`}
           onClick={this.handleClick}
           onMouseEnter={this.showPreview}

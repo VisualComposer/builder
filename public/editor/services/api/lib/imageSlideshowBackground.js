@@ -11,7 +11,7 @@ export default class ImageSlideshowBackground extends React.Component {
   }
 
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props.atts
+    const { metaAssetsPath } = this.props.atts
     return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
@@ -23,34 +23,34 @@ export default class ImageSlideshowBackground extends React.Component {
       timeout = sliderEffect === 'carousel' ? 10 : 5
     }
     if (images) {
-      let imagesJSX = []
+      const imagesJSX = []
       if (images.urls && images.urls.length) {
         images.urls.forEach((imgData, index) => {
-          let styles = {
+          const styles = {
             backgroundImage: `url(${imgData.full})`
           }
           let customKey = imgData.id
           if (!imgData.id) {
             customKey = `${imgData.full}-${index}`
           }
-          let imgKey = `${reactKey}-${customKey}`
+          const imgKey = `${reactKey}-${customKey}`
           imagesJSX.push((
             <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
           ))
         })
       } else if (images.length) {
         images.forEach((imgData, index) => {
-          let styles = {
+          const styles = {
             backgroundImage: `url(${this.getPublicImage(imgData)})`
           }
-          let imgKey = `${reactKey}-${imgData}-${index}`
+          const imgKey = `${reactKey}-${imgData}-${index}`
           imagesJSX.push((
             <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
           ))
         })
       }
-      let containerClasses = [
-        `vce-asset-background-slider-container`,
+      const containerClasses = [
+        'vce-asset-background-slider-container',
         `vce-visible-${deviceKey}-only`
       ]
       if (backgroundStyle) {
@@ -59,11 +59,11 @@ export default class ImageSlideshowBackground extends React.Component {
       if (backgroundPosition) {
         containerClasses.push(`vce-asset-background-slider--position-${backgroundPosition}`)
       }
-      let slideshowClasses = [
-        `vce-asset-background-slider`
+      const slideshowClasses = [
+        'vce-asset-background-slider'
       ]
 
-      let sliderProps = {
+      const sliderProps = {
         'data-vce-assets-slider': timeout,
         'data-vce-assets-slider-effect': sliderEffect,
         'data-vce-assets-slider-direction': sliderDirection,
@@ -71,7 +71,7 @@ export default class ImageSlideshowBackground extends React.Component {
         'data-vce-assets-slider-slide': '.vce-asset-background-slider-item'
       }
 
-      let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
+      const vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
         <div className={classNames(slideshowClasses)} {...sliderProps}>
           <div className='vce-asset-background-slider-items'>
             {imagesJSX}

@@ -24,6 +24,7 @@ export default class GoogleFonts extends Attribute {
     800: 'Extra Bold',
     900: 'Black'
   }
+
   static defaultFontOptions = {
     fontText: 'The sky was cloudless and of a deep dark blue.',
     fontFamily: 'Abril Fatface',
@@ -56,9 +57,9 @@ export default class GoogleFonts extends Attribute {
   /* eslint-enable */
 
   handleFontFamilyChange (fieldKey, value) {
-    let fontStyleOptions = this.createStyleArray(value)
-    let regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === '400regular' })
-    let defaultFontStyle = regularStyle ? regularStyle.value : fontStyleOptions[ 0 ].value
+    const fontStyleOptions = this.createStyleArray(value)
+    const regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === '400regular' })
+    let defaultFontStyle = regularStyle ? regularStyle.value : fontStyleOptions[0].value
     defaultFontStyle = this.getFontVariant(defaultFontStyle)
     this.loadFonts(value, defaultFontStyle)
   }
@@ -68,11 +69,11 @@ export default class GoogleFonts extends Attribute {
   }
 
   createOptionsArray (key) {
-    let newArray = []
+    const newArray = []
     googleFonts.forEach((item) => {
-      let arrayItem = {
-        label: item[ key ],
-        value: item[ key ]
+      const arrayItem = {
+        label: item[key],
+        value: item[key]
       }
       newArray.push(arrayItem)
     })
@@ -80,12 +81,12 @@ export default class GoogleFonts extends Attribute {
   }
 
   createStyleArray (fontFamily) {
-    let newArray = []
-    let family = googleFonts.find(item => item.family === fontFamily)
-    let variants = family.variants
+    const newArray = []
+    const family = googleFonts.find(item => item.family === fontFamily)
+    const variants = family.variants
 
     variants.forEach((item) => {
-      let fontStyle = this.getFontVariant(item)
+      const fontStyle = this.getFontVariant(item)
 
       newArray.push({
         label: this.parseFontVariant(item),
@@ -97,22 +98,22 @@ export default class GoogleFonts extends Attribute {
   }
 
   getFontVariant (variant) {
-    let number = variant.match(/\d+/g)
-    let word = variant.match(/[a-z]+$/i)
-    let fontWeight = number ? number[ 0 ] : '400'
-    let fontStyle = word && word[ 0 ] === 'italic' ? 'italic' : 'regular'
+    const number = variant.match(/\d+/g)
+    const word = variant.match(/[a-z]+$/i)
+    const fontWeight = number ? number[0] : '400'
+    const fontStyle = word && word[0] === 'italic' ? 'italic' : 'regular'
     return { weight: fontWeight, style: fontStyle }
   }
 
   parseFontVariant (variant) {
-    let fontVariant = this.getFontVariant(variant)
-    let fontWeightDefinition = GoogleFonts.fontWeight[ fontVariant.weight ]
-    let fontStyle = fontVariant.style === 'italic' ? ' Italic' : ' Regular'
+    const fontVariant = this.getFontVariant(variant)
+    const fontWeightDefinition = GoogleFonts.fontWeight[fontVariant.weight]
+    const fontStyle = fontVariant.style === 'italic' ? ' Italic' : ' Regular'
     return `${fontWeightDefinition} (${fontVariant.weight})` + fontStyle
   }
 
   createFieldValue (family, style, text, status) {
-    let value = {
+    const value = {
       fontFamily: family,
       fontStyle: style,
       status: status
@@ -126,7 +127,7 @@ export default class GoogleFonts extends Attribute {
   }
 
   updateFieldValue (value) {
-    let mergedValue = lodash.defaultsDeep({}, value, this.state.value)
+    const mergedValue = lodash.defaultsDeep({}, value, this.state.value)
     this.setFieldValue(mergedValue)
   }
 
@@ -136,14 +137,14 @@ export default class GoogleFonts extends Attribute {
   }
 
   loadFonts (family, style, text) {
-    let iframe = window.document.getElementById('vcv-editor-iframe')
-    let iframeSettings = {}
+    const iframe = window.document.getElementById('vcv-editor-iframe')
+    const iframeSettings = {}
     iframe && iframe.contentWindow && (iframeSettings.context = iframe.contentWindow)
-    let fontStyle = style.style === 'regular' ? '' : style.style
+    const fontStyle = style.style === 'regular' ? '' : style.style
     const subsets = this.getFontSubsets(family)
     webFontLoader.load({
       google: {
-        families: [ `${family}:${style.weight + fontStyle}:${subsets}` ]
+        families: [`${family}:${style.weight + fontStyle}:${subsets}`]
       },
       ...iframeSettings,
       fontinactive: this.createFieldValue.bind(this, family, style, text, 'inactive'),
@@ -153,12 +154,12 @@ export default class GoogleFonts extends Attribute {
   }
 
   render () {
-    let fontStyleArray = this.createStyleArray(this.state.value.fontFamily)
+    const fontStyleArray = this.createStyleArray(this.state.value.fontFamily)
 
-    let fontStyleOptions = {
+    const fontStyleOptions = {
       values: fontStyleArray
     }
-    let fontFamilyOptions = {
+    const fontFamilyOptions = {
       values: this.createOptionsArray('family')
     }
 

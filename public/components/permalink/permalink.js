@@ -11,8 +11,8 @@ export default class Permalink extends React.Component {
   constructor (props) {
     super(props)
 
-    let permalinkHtml = settingsStorage.state('permalinkHtml').get()
-    let data = permalinkHtml ? Permalink.getPermalinkData(permalinkHtml) : null
+    const permalinkHtml = settingsStorage.state('permalinkHtml').get()
+    const data = permalinkHtml ? Permalink.getPermalinkData(permalinkHtml) : null
 
     this.state = {
       baseUrlFirst: (data && data.baseUrlFirst) || null,
@@ -90,11 +90,11 @@ export default class Permalink extends React.Component {
       const childNodes = url && url.childNodes
       return {
         editable: true,
-        baseUrlFirst: childNodes && childNodes[ 0 ] && childNodes[ 0 ].textContent,
-        baseUrlLast: childNodes && childNodes[ 2 ] && childNodes[ 2 ].textContent,
-        permalink: childNodes && childNodes[ 1 ] && childNodes[ 1 ].innerHTML,
+        baseUrlFirst: childNodes && childNodes[0] && childNodes[0].textContent,
+        baseUrlLast: childNodes && childNodes[2] && childNodes[2].textContent,
+        permalink: childNodes && childNodes[1] && childNodes[1].innerHTML,
         permalinkFull: full && full.innerHTML,
-        value: childNodes && childNodes[ 1 ] && childNodes[ 1 ].innerHTML
+        value: childNodes && childNodes[1] && childNodes[1].innerHTML
       }
     } else {
       const url = documentFragment.querySelector('#sample-permalink')
@@ -130,7 +130,7 @@ export default class Permalink extends React.Component {
   }
 
   render () {
-    let permalinkClass = classNames({
+    const permalinkClass = classNames({
       'vcv-permalink-container': true,
       'vcv-permalink-container--editable': this.state.editable
     })
@@ -138,7 +138,7 @@ export default class Permalink extends React.Component {
     let content = ''
     if (this.state.editable) {
       content = (
-        <React.Fragment>
+        <>
           <span className='vcv-permalink-base-url'>
             {this.state.baseUrlFirst}
           </span>
@@ -156,7 +156,7 @@ export default class Permalink extends React.Component {
           <span className='vcv-permalink-base-url'>
             {this.state.baseUrlLast}
           </span>
-        </React.Fragment>
+        </>
       )
     } else {
       content = (

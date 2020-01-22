@@ -49,7 +49,7 @@ export default class NotificationItem extends React.Component {
     let textHtml = ''
     let iconHtml = ''
     let closeButton = ''
-    let customProps = {}
+    const customProps = {}
 
     if (data.html) {
       textHtml = <div className='vcv-layout-notifications-text' dangerouslySetInnerHTML={{ __html: data.text }} />
@@ -69,11 +69,11 @@ export default class NotificationItem extends React.Component {
       customProps.onClick = this.hideNotification
     }
 
-    const type = data.type && [ 'default', 'success', 'warning', 'error' ].indexOf(data.type) >= 0 ? data.type : 'default'
+    const type = data.type && ['default', 'success', 'warning', 'error'].indexOf(data.type) >= 0 ? data.type : 'default'
 
     const classes = classNames({
-      [ `vcv-layout-notifications-position--${position}` ]: true,
-      [ `vcv-layout-notifications-type--${type}` ]: true,
+      [`vcv-layout-notifications-position--${position}`]: true,
+      [`vcv-layout-notifications-type--${type}`]: true,
       'vcv-layout-notifications-style--transparent': data.transparent,
       'vcv-layout-notifications-shape--rounded': data.rounded,
       'vcv-layout-notifications-type--disabled': this.state.hidden

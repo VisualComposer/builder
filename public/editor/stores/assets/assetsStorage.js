@@ -35,28 +35,28 @@ addStorage('assets', (storage) => {
     builder.buildStylesContainers()
   })
   storage.on('addElement', (id) => {
-    let ids = Array.isArray(id) ? id : [ id ]
+    const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)
-      data.elements[ id ] = element
+      data.elements[id] = element
       storage.trigger('addSharedLibrary', element)
       builder && builder.add(element)
     })
   })
   storage.on('updateElement', (id, options) => {
-    let ids = Array.isArray(id) ? id : [ id ]
+    const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)
-      data.elements[ id ] = element
+      data.elements[id] = element
       storage.trigger('editSharedLibrary', element)
       builder && builder.update(element, options)
     })
   })
   storage.on('removeElement', (id) => {
-    let ids = Array.isArray(id) ? id : [ id ]
+    const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
-      let tag = data.elements[ id ] ? data.elements[ id ].tag : null
-      delete data.elements[ id ]
+      const tag = data.elements[id] ? data.elements[id].tag : null
+      delete data.elements[id]
       builder && builder.destroy(id, tag)
       storage.trigger('removeSharedLibrary', id)
     })
@@ -73,11 +73,11 @@ addStorage('assets', (storage) => {
     })
   })
   storage.on('addSharedLibrary', (element) => {
-    let id = element.id
+    const id = element.id
     assetsLibraryManager.add(id, element)
   })
   storage.on('editSharedLibrary', (element) => {
-    let id = element.id
+    const id = element.id
     assetsLibraryManager.edit(id, element)
   })
   storage.on('removeSharedLibrary', (id) => {
@@ -92,8 +92,8 @@ addStorage('assets', (storage) => {
   settingsStorage.state('customCss').onChange(updateSettingsCss)
 
   const updateMixinsState = (cookElement) => {
-    let cssMixins = storage.state('cssMixins').get() || {}
-    cssMixins[ cookElement.get('id') ] = globalAssetsStorage.getCssMixinsByElement(cookElement.toJS())
+    const cssMixins = storage.state('cssMixins').get() || {}
+    cssMixins[cookElement.get('id')] = globalAssetsStorage.getCssMixinsByElement(cookElement.toJS())
     storage.state('cssMixins').set(cssMixins)
   }
 
@@ -106,8 +106,8 @@ addStorage('assets', (storage) => {
     updateMixinsState(cookElement)
   }
   const removeMixins = (id) => {
-    let cssMixins = storage.state('cssMixins').get() || {}
-    delete cssMixins[ id ]
+    const cssMixins = storage.state('cssMixins').get() || {}
+    delete cssMixins[id]
 
     storage.state('cssMixins').set(cssMixins)
   }

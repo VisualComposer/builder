@@ -92,8 +92,8 @@ export default class ElementControl extends React.Component {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
         return true
       }
@@ -103,7 +103,7 @@ export default class ElementControl extends React.Component {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -112,7 +112,7 @@ export default class ElementControl extends React.Component {
   }
 
   updatePreviewPosition () {
-    let element = ReactDOM.findDOMNode(this)
+    const element = ReactDOM.findDOMNode(this)
 
     let container
     if (element.closest === undefined) {
@@ -120,14 +120,14 @@ export default class ElementControl extends React.Component {
     } else {
       container = element.closest('.vcv-ui-item-list')
     }
-    let firstElement = container.querySelector('.vcv-ui-item-list-item')
-    let trigger = element.querySelector('.vcv-ui-item-element-content')
-    let preview = element.querySelector('.vcv-ui-item-preview-container')
+    const firstElement = container.querySelector('.vcv-ui-item-list-item')
+    const trigger = element.querySelector('.vcv-ui-item-element-content')
+    const preview = element.querySelector('.vcv-ui-item-preview-container')
 
-    let triggerSizes = trigger.getBoundingClientRect()
-    let firsElementSize = firstElement.getBoundingClientRect()
-    let previewSizes = preview.getBoundingClientRect()
-    let windowSize = {
+    const triggerSizes = trigger.getBoundingClientRect()
+    const firsElementSize = firstElement.getBoundingClientRect()
+    const previewSizes = preview.getBoundingClientRect()
+    const windowSize = {
       height: window.innerHeight,
       width: window.innerWidth
     }
@@ -180,11 +180,11 @@ export default class ElementControl extends React.Component {
   }
 
   ellipsize (selector) {
-    let element = ReactDOM.findDOMNode(this).querySelector(selector)
+    const element = ReactDOM.findDOMNode(this).querySelector(selector)
     if (!element) {
       return
     }
-    let wordArray = element.innerHTML.split(' ')
+    const wordArray = element.innerHTML.split(' ')
 
     // Check if difference is within a 3px threshold
     // 3px is a safe value to cover the differences between the browsers
@@ -359,27 +359,27 @@ export default class ElementControl extends React.Component {
   }
 
   render () {
-    let { name, element } = this.props
-    let { previewVisible, previewStyle } = this.state
+    const { name, element } = this.props
+    const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
-    let listItemClasses = classNames({
+    const listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
       'vcv-ui-item-list-item--inactive': dragState && dragState.active
     })
-    let nameClasses = classNames({
+    const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
-    let previewClasses = classNames({
+    const previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
 
-    let publicPathThumbnail = element.metaThumbnailUrl
-    let publicPathPreview = element.metaPreviewUrl
+    const publicPathThumbnail = element.metaThumbnailUrl
+    const publicPathPreview = element.metaPreviewUrl
 
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
@@ -400,7 +400,8 @@ export default class ElementControl extends React.Component {
 
     return (
       <li className={listItemClasses}>
-        <span className='vcv-ui-item-element'
+        <span
+          className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? this.showPreview : null}
           onMouseLeave={!disablePreview ? this.hidePreview : null}
           onMouseDown={this.handleMouseDown}
@@ -411,8 +412,10 @@ export default class ElementControl extends React.Component {
           tabIndex={0}
         >
           <span className='vcv-ui-item-element-content'>
-            <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
-              alt={name} />
+            <img
+              className='vcv-ui-item-element-image' src={publicPathThumbnail}
+              alt={name}
+            />
             <span className='vcv-ui-item-overlay'>
               <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
             </span>

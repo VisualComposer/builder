@@ -10,8 +10,8 @@ let clickState = 'mouseUp'
 let mouseDownTimeout = false
 
 export function Control (props) {
-  const [ activeDropdown, setActiveDropdown ] = useState(false)
-  const [ hoverClasses, setHoverClasses ] = useState([])
+  const [activeDropdown, setActiveDropdown] = useState(false)
+  const [hoverClasses, setHoverClasses] = useState([])
 
   const vcElement = ControlHelpers.getVcElement(props.id)
   if (!vcElement) {
@@ -91,7 +91,8 @@ export function Control (props) {
   const controlDropdown = activeDropdown ? <ControlDropdown id={props.id} handleHover={handleHover} /> : null
 
   return (
-    <div className={controlsClasses}
+    <div
+      className={controlsClasses}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

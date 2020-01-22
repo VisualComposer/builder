@@ -84,7 +84,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ 'auto' ] },
+          layout: { all: ['auto'] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? oneColumnIcon : oneColumnIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addOneColumn : 'Add one column'
         }
@@ -92,7 +92,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ 'auto', 'auto' ] },
+          layout: { all: ['auto', 'auto'] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? twoColumnsIcon : twoColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
         }
@@ -100,7 +100,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ 'auto', 'auto', 'auto' ] },
+          layout: { all: ['auto', 'auto', 'auto'] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? threeColumnsIcon : threeColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
         }
@@ -108,7 +108,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ 'auto', 'auto', 'auto', 'auto' ] },
+          layout: { all: ['auto', 'auto', 'auto', 'auto'] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fourColumnsIcon : fourColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
         }
@@ -116,7 +116,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ 'auto', 'auto', 'auto', 'auto', 'auto' ] },
+          layout: { all: ['auto', 'auto', 'auto', 'auto', 'auto'] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fiveColumnsIcon : fiveColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
         }
@@ -124,7 +124,7 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'row',
         options: {
-          layout: { all: [ '66.66%', '33.34%' ] },
+          layout: { all: ['66.66%', '33.34%'] },
           icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? customIcon : customIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addCustomRowLayout : 'Add custom row layout',
           type: 'custom'
@@ -178,7 +178,7 @@ export default class BlankRowPlaceholder extends React.Component {
     elementsStorage.trigger('add', element)
     this.addedId = element.id
 
-    let iframe = document.getElementById('vcv-editor-iframe')
+    const iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
     this.iframeWindow.vcv.on('ready', this.openEditForm)
   }
@@ -285,7 +285,7 @@ export default class BlankRowPlaceholder extends React.Component {
 
   render () {
     const elementControls = this.getElementControls()
-    let containerWidth = {}
+    const containerWidth = {}
     if (this.state.containerWidth) {
       containerWidth.width = `${this.state.containerWidth}px`
     }

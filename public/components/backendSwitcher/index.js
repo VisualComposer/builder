@@ -18,8 +18,8 @@ export default () => {
     titleDiv.parentNode.insertBefore(switcherContainer, titleDiv.nextSibling)
     render = true
   } else if (gutenbergEditor) {
-    let isWpml = window.VCV_WPML ? window.VCV_WPML() : false
-    let timeout = (isWpml) ? 2500 : 1
+    const isWpml = window.VCV_WPML ? window.VCV_WPML() : false
+    const timeout = (isWpml) ? 2500 : 1
     setTimeout(() => {
       const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
       if (gutenbergEditorHeader) {
@@ -28,7 +28,7 @@ export default () => {
       }
     }, timeout)
   } else {
-    let postBodyContent = document.getElementById('post-body-content')
+    const postBodyContent = document.getElementById('post-body-content')
     if (postBodyContent) {
       if (postBodyContent.firstChild) {
         postBodyContent.insertBefore(switcherContainer, postBodyContent.firstChild)

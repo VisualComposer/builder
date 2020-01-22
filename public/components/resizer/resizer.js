@@ -6,6 +6,7 @@ class Resizer extends React.Component {
   static propTypes = {
     params: PropTypes.object.isRequired
   }
+
   state = {
     resizerOptions: lodash.defaults(this.props.params, {
       resizeTop: false,
@@ -25,7 +26,7 @@ class Resizer extends React.Component {
   }
 
   componentDidMount () {
-    window.jQuery(this.refs[ 'resizer' ])
+    window.jQuery(this.refs.resizer)
       .on('mousedown.vcv-resizer', this.bindDrag)
       .on('touchstart.vcv-resizer', this.bindDrag)
       .on('dragstart.vcv-resizer', (e) => {
@@ -33,7 +34,7 @@ class Resizer extends React.Component {
         return false
       })
 
-    let $target = this.state.resizerOptions.resizerTarget ? window.jQuery(this.state.resizerOptions.resizerTarget) : false
+    const $target = this.state.resizerOptions.resizerTarget ? window.jQuery(this.state.resizerOptions.resizerTarget) : false
     this.$targetTop = this.state.resizerOptions.resizerTargetTop ? window.jQuery(this.state.resizerOptions.resizerTargetTop) : $target
     this.$targetBottom = this.state.resizerOptions.resizerTargetBottom ? window.jQuery(this.state.resizerOptions.resizerTargetBottom) : $target
     this.$targetLeft = this.state.resizerOptions.resizerTargetLeft ? window.jQuery(this.state.resizerOptions.resizerTargetLeft) : $target
@@ -42,7 +43,7 @@ class Resizer extends React.Component {
 
   componentWillUnmount () {
     this.stopResize()
-    window.jQuery(this.refs[ 'resizer' ]).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
+    window.jQuery(this.refs.resizer).off('mousedown.vcv-resizer').off('touchstart.vcv-resizer')
     this.state.resizerOptions.$overlay.remove()
   }
 
@@ -68,20 +69,20 @@ class Resizer extends React.Component {
   }
 
   getClientX (e) {
-    return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[ 0 ].clientX : e.clientX
+    return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[0].clientX : e.clientX
   }
 
   getClientY (e) {
-    return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[ 0 ].clientY : e.clientY
+    return e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[0].clientY : e.clientY
   }
 
   doResize = (e) => {
     if (e.which === 1 || (e.originalEvent && e.originalEvent.touches)) {
-      let $window = window.jQuery(window)
-      let clientX = this.getClientX(e)
-      let clientY = this.getClientY(e)
-      let offsetX = this.startClientX - clientX
-      let offsetY = this.startClientY - clientY
+      const $window = window.jQuery(window)
+      const clientX = this.getClientX(e)
+      const clientY = this.getClientY(e)
+      const offsetX = this.startClientX - clientX
+      const offsetY = this.startClientY - clientY
 
       if (clientX < 0 || clientX > $window.width() || clientY < 0 || clientY > $window.height()) {
         return
@@ -115,7 +116,7 @@ class Resizer extends React.Component {
     oldW = parseInt(this.$targetLeft.css('width'))
     w = oldW + (offsetX) + 'px'
     this.$targetLeft.css('width', w)
-    doResize = (window.getComputedStyle(this.$targetLeft[ 0 ]).width === w)
+    doResize = (window.getComputedStyle(this.$targetLeft[0]).width === w)
     if (doResize) {
       this.startClientX = clientX
       e.direction = 'left'
@@ -133,7 +134,7 @@ class Resizer extends React.Component {
     oldW = parseInt(this.$targetRight.css('width'))
     w = oldW - (offsetX) + 'px'
     this.$targetRight.css('width', w)
-    doResize = (window.getComputedStyle(this.$targetRight[ 0 ]).width === w)
+    doResize = (window.getComputedStyle(this.$targetRight[0]).width === w)
     if (doResize) {
       this.startClientX = clientX
       e.direction = 'right'
@@ -151,7 +152,7 @@ class Resizer extends React.Component {
     oldH = parseInt(this.$targetBottom.css('height'))
     h = oldH - (offsetY) + 'px'
     this.$targetBottom.css('height', h)
-    doResize = (window.getComputedStyle(this.$targetBottom[ 0 ]).height === h)
+    doResize = (window.getComputedStyle(this.$targetBottom[0]).height === h)
     if (doResize) {
       this.startClientY = clientY
       e.direction = 'bottom'
@@ -169,7 +170,7 @@ class Resizer extends React.Component {
     oldH = parseInt(this.$targetTop.css('height'))
     h = oldH + offsetY + 'px'
     this.$targetTop.css('height', h)
-    doResize = (window.getComputedStyle(this.$targetTop[ 0 ]).height === h)
+    doResize = (window.getComputedStyle(this.$targetTop[0]).height === h)
     if (doResize) {
       this.startClientY = clientY
       e.direction = 'top'

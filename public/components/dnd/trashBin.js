@@ -35,9 +35,9 @@ export default class TrashBin {
       this.elContainer.classList.add('vcv-dnd-trash-bin-show')
     }, 0)
     this.elContainer.addEventListener('mouseenter', this.onMouseEnter)
-    let iframe = document.getElementById('vcv-editor-iframe') || null
-    let iframeParent = iframe && iframe.parentNode ? iframe.parentNode : null
-    let rect = iframeParent && iframeParent.getBoundingClientRect()
+    const iframe = document.getElementById('vcv-editor-iframe') || null
+    const iframeParent = iframe && iframe.parentNode ? iframe.parentNode : null
+    const rect = iframeParent && iframeParent.getBoundingClientRect()
     this.offsetX = rect && rect.left ? rect.left : 0
     this.offsetY = rect && rect.top ? rect.top : 0
   }

@@ -6,14 +6,14 @@ const editLinkTextArchive = localizations && localizations.editArchiveTemplate ?
 
 const editItemList = [
   {
-    'itemID': 'vcv-custom-page-templates-404-page',
-    'itemClass': 'vcv-custom-page-templates-404-page-edit-link',
-    'itemText': editLinkText404
+    itemID: 'vcv-custom-page-templates-404-page',
+    itemClass: 'vcv-custom-page-templates-404-page-edit-link',
+    itemText: editLinkText404
   },
   {
-    'itemID': 'vcv-custom-page-templates-archive-template',
-    'itemClass': 'vcv-custom-page-templates-archive-template-edit-link',
-    'itemText': editLinkTextArchive
+    itemID: 'vcv-custom-page-templates-archive-template',
+    itemClass: 'vcv-custom-page-templates-archive-template-edit-link',
+    itemText: editLinkTextArchive
   }
 ]
 

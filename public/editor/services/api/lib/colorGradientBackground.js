@@ -12,8 +12,8 @@ export default class ColorGradientBackground extends React.Component {
   render () {
     const { deviceKey, applyBackground } = this.props
 
-    let containerClasses = [
-      `vce-asset-color-gradient-container`,
+    const containerClasses = [
+      'vce-asset-color-gradient-container',
       `vce-visible-${deviceKey}-only`
     ]
 

@@ -7,7 +7,7 @@ const ButtonsRegister = function (editor, window) {
   const getCurrentFontFamily = function (editor) {
     let fontFamily
     editor.dom.getParents(editor.selection.getStart(), function (elm) {
-      var value = elm.style[ 'font-family' ]
+      var value = elm.style['font-family']
       if (value) {
         fontFamily = fontFamily ? fontFamily.replace(/"/g, '') : value.replace(/"/g, '')
       }
@@ -19,7 +19,7 @@ const ButtonsRegister = function (editor, window) {
     return function (e) {
       const ctrl = e.control
       // Wrap by jQuery to fix on('change') issue!!!
-      let $ctrl = $(ctrl.$el)
+      const $ctrl = $(ctrl.$el)
 
       function clearMenus ($el) {
         $el.is('.vcv-ui-tinymce-fonts-selectbox') ? $el.removeClass('mce-active') : $el.closest('.vcv-ui-tinymce-fonts-selectbox').removeClass('mce-active')
@@ -53,7 +53,7 @@ const ButtonsRegister = function (editor, window) {
         if (!this.value) {
           editor.execCommand('mceRemoveTextFont', getCurrentFontFamily(editor))
         } else {
-          let parsedValue = JSON.parse(this.value)
+          const parsedValue = JSON.parse(this.value)
           ctrl.state.set('value', parsedValue)
 
           editor.execCommand('mceApplyTextFont', parsedValue.value || parsedValue.family)

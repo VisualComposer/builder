@@ -71,7 +71,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   updatePanel () {
-    let currentSettings = workspaceSettings.get()
+    const currentSettings = workspaceSettings.get()
     if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
       this.setPanelSize()
       window.addEventListener('resize', this.setPanelSize)

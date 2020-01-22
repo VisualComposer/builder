@@ -18,7 +18,7 @@ class Plugin {
        * @property {String}
        * @name Builder#dir
        */
-      'dir': {
+      dir: {
         value: dir,
         writable: true
       },
@@ -26,7 +26,7 @@ class Plugin {
        * @property {String}
        * @name Builder#bundlePath
        */
-      'bundlePath': {
+      bundlePath: {
         value: bundlePath,
         writable: false
       },
@@ -34,7 +34,7 @@ class Plugin {
        * @property {String}
        * @name Builder#repoPath
        */
-      'repoPath': {
+      repoPath: {
         value: repoPath,
         writable: false
       },
@@ -42,7 +42,7 @@ class Plugin {
        * @property {String}
        * @name Builder#version
        */
-      'version': {
+      version: {
         value: version,
         writable: false
       },
@@ -50,7 +50,7 @@ class Plugin {
        * @property {Array}
        * @name Builder#ignoreLibraries
        */
-      'ignoreLibraries': {
+      ignoreLibraries: {
         value: ['faqToggle', 'menuToggle', 'slickSlider'],
         writable: false
       }
@@ -95,7 +95,7 @@ class Plugin {
   async cleanupElements () {
     console.log('\nClean up elements files...')
     const files = fs.readdirSync(path.join(this.repoPath, 'elements'))
-    let cleanupPromises = []
+    const cleanupPromises = []
     files.forEach((folderFile) => {
       const elementPath = path.join(this.bundlePath, 'elements', folderFile)
       if (fs.lstatSync(elementPath).isDirectory() && fs.lstatSync(path.join(elementPath, 'manifest.json')).isFile()) {

@@ -3,13 +3,13 @@ import lodash from 'lodash'
 const elementsStorage = vcCake.getStorage('elements')
 
 export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
-  let elements = []
-  let columns = documentManager.children(id)
-  let newColumns = []
-  const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
+  const elements = []
+  const columns = documentManager.children(id)
+  const newColumns = []
+  const devices = ['all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl']
   let layouts = data.layout
-  let defaultColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {} }
-  let createdColumns = []
+  const defaultColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {} }
+  const createdColumns = []
   const disableStacking = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
   let lastColumnObject = null
 
@@ -26,18 +26,18 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
 
     // Get layout for 'all'
     rowChildren.forEach((element) => {
-      if (!customDevices && element.size['all']) {
+      if (!customDevices && element.size.all) {
         if (!layouts.hasOwnProperty('all')) {
           layouts.all = []
         }
-        layouts['all'].push(element.size['all'])
+        layouts.all.push(element.size.all)
       }
 
-      if (element.size['defaultSize']) {
+      if (element.size.defaultSize) {
         if (!layouts.hasOwnProperty('defaultSize')) {
           layouts.defaultSize = []
         }
-        layouts['defaultSize'].push(element.size['defaultSize'])
+        layouts.defaultSize.push(element.size.defaultSize)
       }
     })
 
@@ -59,7 +59,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
               if (device === 'xs' || device === 'sm') {
                 layouts[device].push('100%')
               } else {
-                layouts[device].push(element.size['all'])
+                layouts[device].push(element.size.all)
               }
             }
           })
@@ -68,12 +68,12 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
     }
   } else {
     if (layouts.hasOwnProperty('all') && !layouts.hasOwnProperty('defaultSize')) {
-      layouts['defaultSize'] = layouts['all']
+      layouts.defaultSize = layouts.all
     }
   }
 
   Object.keys(layouts).forEach((device) => {
-    let layout = layouts[device]
+    const layout = layouts[device]
     const lastColumns = getRowData(layout).lastColumnIndex
     let createdColCount = 0
     layout.forEach((size, i) => {
@@ -100,7 +100,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
         }
       } else {
         if (!createdColumns[createdColCount]) {
-          let createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
+          const createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
           createdColumnData.size[device] = size
           if (device !== 'defaultSize') {
             createdColumnData.lastInRow[device] = lastInRow
@@ -109,7 +109,7 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
           createdColumnData.disableStacking = disableStacking
           createdColumns.push(createdColumnData)
         } else {
-          let createdColumnData = createdColumns[createdColCount]
+          const createdColumnData = createdColumns[createdColCount]
           createdColumnData.size[device] = size
           if (device !== 'defaultSize') {
             createdColumnData.lastInRow[device] = lastInRow
@@ -124,35 +124,35 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
 
   newColumns.forEach((col) => {
     if (!layouts.hasOwnProperty('all')) {
-      delete col.size['all']
+      delete col.size.all
     } else {
-      delete col.size['xs']
-      delete col.size['sm']
-      delete col.size['md']
-      delete col.size['lg']
-      delete col.size['xl']
+      delete col.size.xs
+      delete col.size.sm
+      delete col.size.md
+      delete col.size.lg
+      delete col.size.xl
     }
     documentManager.update(col.id, col)
-    elements.push([ col, 'update' ])
+    elements.push([col, 'update'])
   })
 
   createdColumns.forEach((newCol) => {
-    let createdCol = documentManager.create(newCol)
-    elements.push([ createdCol, 'add' ])
+    const createdCol = documentManager.create(newCol)
+    elements.push([createdCol, 'add'])
   })
 
-  let defaultLayout = layouts[ 'all' ] || layouts[ 'xs' ]
+  const defaultLayout = layouts.all || layouts.xs
 
   if (defaultLayout && (columns.length > defaultLayout.length)) {
-    let removingColumns = columns.slice(defaultLayout.length)
+    const removingColumns = columns.slice(defaultLayout.length)
     removingColumns.forEach((column) => {
-      let childElements = documentManager.children(column.id)
+      const childElements = documentManager.children(column.id)
       childElements.forEach((el) => {
         el.parent = lastColumnObject.id
         documentManager.update(el.id, el)
       })
       documentManager.delete(column.id)
-      elements.push([ column, 'remove' ])
+      elements.push([column, 'remove'])
     })
   }
   elementsStorage.state('rebuildRow').set(true)
@@ -163,16 +163,16 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
   const colSettings = element
   const rowChildren = documentManager.children(rowSettings.id)
 
-  let columnBackgrounds = []
+  const columnBackgrounds = []
 
   const pushBackground = (element) => {
     const designOptions = element.designOptionsAdvanced
     let backgroundUsed = false
-    let elementBackground = {}
+    const elementBackground = {}
     if (designOptions && designOptions.device) {
       let hasDeviceSettings = false
 
-      for (let prop in designOptions.device) {
+      for (const prop in designOptions.device) {
         if (designOptions.device.hasOwnProperty(prop)) {
           hasDeviceSettings = true
         }
@@ -189,11 +189,11 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
           backgroundUsed = true
         }
       } else {
-        for (let device in designOptions.device) {
+        for (const device in designOptions.device) {
           if (designOptions.device.hasOwnProperty(device)) {
-            const deviceSettings = designOptions.device[ device ]
+            const deviceSettings = designOptions.device[device]
             if (deviceSettings.backgroundColor || typeof deviceSettings.images === 'string' || (deviceSettings.images && deviceSettings.images.urls && deviceSettings.images.urls.length)) {
-              elementBackground[ device ] = true
+              elementBackground[device] = true
               backgroundUsed = true
             }
           }
@@ -215,9 +215,9 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
   })
 
   const reducedColBackgrounds = columnBackgrounds.reduce(function (result, currentObject) {
-    for (let key in currentObject) {
+    for (const key in currentObject) {
       if (currentObject.hasOwnProperty(key)) {
-        result[ key ] = currentObject[ key ]
+        result[key] = currentObject[key]
       }
     }
     return result
@@ -228,21 +228,21 @@ export const addRowColumnBackground = (id, element, documentManager, options) =>
 }
 
 export const isElementOneRelation = (parent, documentManager, cook) => {
-  let element = documentManager.get(parent)
-  let children = cook.getContainerChildren(element.tag)
+  const element = documentManager.get(parent)
+  const children = cook.getContainerChildren(element.tag)
   if (children.length === 1) {
-    return children[ 0 ].tag
+    return children[0].tag
   }
   return false
 }
 
 export const getRowData = (layout) => {
-  let lastColumnIndex = []
+  const lastColumnIndex = []
   let rowValue = 0
   let autoCount = 0
-  let columnValues = []
+  const columnValues = []
   let isColumnsEqual = true
-  let layoutCopy = layout.slice()
+  const layoutCopy = layout.slice()
 
   // Remove last hide values
   while (layoutCopy.lastIndexOf('hide') === layoutCopy.length - 1 && layoutCopy.length) {
@@ -262,22 +262,22 @@ export const getRowData = (layout) => {
       if (col.indexOf('%') > -1) {
         colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
       } else {
-        let column = col.split('/')
-        let numerator = column[ 0 ]
-        let denominator = column[ 1 ]
+        const column = col.split('/')
+        const numerator = column[0]
+        const denominator = column[1]
         colValue = numerator / denominator
       }
       columnValues.push(colValue)
     }
 
-    let newRowValue = Math.floor((rowValue + colValue) * 1000) / 1000
+    const newRowValue = Math.floor((rowValue + colValue) * 1000) / 1000
 
     if (newRowValue > 1 || (newRowValue === 1 && col === 'hide')) {
       isColumnsEqual = false
       lastColumnIndex.push(index - 1)
       rowValue = 0
     }
-    if (layoutCopy[ index + 1 ] === undefined) {
+    if (layoutCopy[index + 1] === undefined) {
       lastColumnIndex.push(index)
     }
     rowValue += colValue
@@ -285,12 +285,12 @@ export const getRowData = (layout) => {
 
   let rowFullValue = 0
 
-  let newRowValue = rowValue - (autoCount * 0.01)
-  let autoValue = (1 - newRowValue) / autoCount
+  const newRowValue = rowValue - (autoCount * 0.01)
+  const autoValue = (1 - newRowValue) / autoCount
 
   columnValues.forEach((size, index) => {
     if (size === 'auto') {
-      columnValues[ index ] = autoValue
+      columnValues[index] = autoValue
       rowFullValue += autoValue
     } else {
       rowFullValue += size
@@ -298,7 +298,7 @@ export const getRowData = (layout) => {
   })
 
   columnValues.forEach((size) => {
-    if (columnValues[ 0 ] !== size && size !== 1) {
+    if (columnValues[0] !== size && size !== 1) {
       isColumnsEqual = false
     }
   })

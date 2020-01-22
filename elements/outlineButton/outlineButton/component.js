@@ -4,28 +4,28 @@ const vcvAPI = vcCake.getService('api')
 
 export default class OutlineButtonElement extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, alignment, customClass, buttonType, metaCustomId, size, toggleStretchButton } = atts
+    const { id, atts, editor } = this.props
+    const { buttonUrl, buttonText, shape, alignment, customClass, buttonType, metaCustomId, size, toggleStretchButton } = atts
 
-    let wrapperClasses = ['vce-button--style-outline-wrapper', 'vce']
-    let containerClasses = [ 'vce-button--style-outline-container' ]
+    const wrapperClasses = ['vce-button--style-outline-wrapper', 'vce']
+    const containerClasses = ['vce-button--style-outline-container']
 
-    let classes = []
+    const classes = []
 
-    let buttonHtml = buttonText
+    const buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
-    let buttonCustomClass = buttonType ? `vce-button--style-${buttonType}` : 'vce-button--style-outline'
+    const buttonCustomClass = buttonType ? `vce-button--style-${buttonType}` : 'vce-button--style-outline'
     classes.push(buttonCustomClass)
 
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
-      let { url, title, targetBlank, relNofollow } = buttonUrl
+      const { url, title, targetBlank, relNofollow } = buttonUrl
       customProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
+        href: url,
+        title: title,
+        target: targetBlank ? '_blank' : undefined,
+        rel: relNofollow ? 'nofollow' : undefined
       }
     }
 
@@ -46,7 +46,7 @@ export default class OutlineButtonElement extends vcvAPI.elementComponent {
     }
 
     if (toggleStretchButton) {
-      wrapperClasses.push(`vce-button--style-outline-wrapper--stretched`)
+      wrapperClasses.push('vce-button--style-outline-wrapper--stretched')
     }
 
     let mixinData = this.getMixinData('color')
@@ -77,8 +77,8 @@ export default class OutlineButtonElement extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('padding border background animation')
+    const doMargin = this.applyDO('margin')
+    const doRest = this.applyDO('padding border background animation')
 
     return <div className={containerClasses.join(' ')} {...editor}>
       <span className={wrapperClasses.join(' ')} id={'el-' + id} {...doMargin}>

@@ -1,11 +1,11 @@
 export default (value) => {
-  let libs = []
+  const libs = []
   let addStickyLib = false
 
   if (value && value.device && Object.keys(value.device).length) {
-    let deviceKeys = Object.keys(value.device)
+    const deviceKeys = Object.keys(value.device)
     deviceKeys.forEach((deviceKey) => {
-      let device = value.device[ deviceKey ]
+      const device = value.device[deviceKey]
       if (device.stickyEnable) {
         addStickyLib = true
       }

@@ -76,18 +76,18 @@ export default class PanelsContainer extends React.Component {
 
   render () {
     const { content, treeViewId } = this.props
-    let layoutClasses = classNames({
+    const layoutClasses = classNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!content,
       'vcv-layout-bar-content-mobile': this.isMobile
     })
-    let layoutStyle = {}
+    const layoutStyle = {}
 
     if (this.isMobile) {
       layoutStyle.height = this.state.height
     }
 
-    let treeViewLayout = <TreeViewLayout treeViewId={treeViewId} visible={content === 'treeView'} />
+    const treeViewLayout = <TreeViewLayout treeViewId={treeViewId} visible={content === 'treeView'} />
 
     return (
       <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>

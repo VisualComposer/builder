@@ -153,7 +153,7 @@ export default class AddTemplatePanel extends React.Component {
   changeActiveCategory (index) {
     this.setState({
       activeCategoryIndex: index,
-      categoryTitle: this.state.categories[ index ].title
+      categoryTitle: this.state.categories[index].title
     })
   }
 
@@ -219,7 +219,7 @@ export default class AddTemplatePanel extends React.Component {
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
 
     let source
-    if (!this.state.categories[ 0 ].templates.length && !this.state.isSearching) {
+    if (!this.state.categories[0].templates.length && !this.state.isSearching) {
       source = sharedAssetsLibraryService.getSourcePath('images/add-item.png')
     } else {
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
@@ -256,9 +256,9 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getSearchResults () {
-    let { inputValue } = this.state
-    return this.state.categories[ 0 ].templates.filter((template) => {
-      let name = template.name.toLowerCase()
+    const { inputValue } = this.state
+    return this.state.categories[0].templates.filter((template) => {
+      const name = template.name.toLowerCase()
       return template.hasOwnProperty('name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
     }).map((template) => {
       return this.getTemplateControl(template)
@@ -266,13 +266,13 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getTemplatesByCategory () {
-    let { activeCategoryIndex } = this.state
+    const { activeCategoryIndex } = this.state
 
-    if (this.state.categories[ activeCategoryIndex ].id === 'downloadMoreTemplates') {
+    if (this.state.categories[activeCategoryIndex].id === 'downloadMoreTemplates') {
       this.handleGoToHub()
       return []
     }
-    let templates = this.state.categories[ activeCategoryIndex ].templates
+    const templates = this.state.categories[activeCategoryIndex].templates
     return templates.map((template) => {
       return this.getTemplateControl(template)
     })
@@ -303,7 +303,7 @@ export default class AddTemplatePanel extends React.Component {
         this.displayError(templateContentEmptyText)
       } else {
         this.setState({ showSpinner: templateName })
-        let templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
+        const templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
         if (!templateAddResult) {
           this.displayError(templateSaveFailedText)
         }
@@ -316,7 +316,7 @@ export default class AddTemplatePanel extends React.Component {
   onSaveSuccess () {
     this.setState({
       templateName: '',
-      categoryTitle: this.state.categories[ 1 ].title,
+      categoryTitle: this.state.categories[1].title,
       isSearching: false,
       inputValue: '',
       showSpinner: false
@@ -352,9 +352,9 @@ export default class AddTemplatePanel extends React.Component {
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
-        let visibleJobs = data.elements.filter(element => !element.hidden)
+        const visibleJobs = data.elements.filter(element => !element.hidden)
         if (existingJobsCount + addedElementsCount === visibleJobs.length) {
-          let jobsInProgress = data.elements.find(element => element.jobs)
+          const jobsInProgress = data.elements.find(element => element.jobs)
           if (jobsInProgress) {
             return
           }
@@ -365,20 +365,20 @@ export default class AddTemplatePanel extends React.Component {
       }
       assetsStorage.state('jobs').onChange(handleJobsChange)
     }
-    let id = data
+    const id = data
     this.setState({ showLoading: id })
 
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
       myTemplatesService.load(id, (response) => {
-        let customPostData = response && response.allData && response.allData.postFields && response.allData.postFields.dynamicFieldCustomPostData
+        const customPostData = response && response.allData && response.allData.postFields && response.allData.postFields.dynamicFieldCustomPostData
         if (customPostData) {
-          let postData = settingsStorage.state('postData').get()
-          let postFields = settingsStorage.state('postFields').get()
+          const postData = settingsStorage.state('postData').get()
+          const postFields = settingsStorage.state('postFields').get()
 
           Object.keys(customPostData).forEach((key) => {
-            let item = customPostData[ key ]
-            postData[ key ] = item.postData
-            postFields[ key ] = item.postFields
+            const item = customPostData[key]
+            postData[key] = item.postData
+            postFields[key] = item.postFields
           })
 
           settingsStorage.state('postData').set(postData)
@@ -403,7 +403,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onRemoveSuccess () {
-    const index = !this.state.categories[ this.state.activeCategoryIndex ].templates.length ? 0 : this.state.activeCategoryIndex
+    const index = !this.state.categories[this.state.activeCategoryIndex].templates.length ? 0 : this.state.activeCategoryIndex
     this.setState({
       activeCategoryIndex: index,
       showSpinner: false,
@@ -424,7 +424,7 @@ export default class AddTemplatePanel extends React.Component {
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
 
-    let itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
+    const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {
       itemsOutput.unshift(this.getTemplateControl({
         name: this.state.templateName,
@@ -433,11 +433,11 @@ export default class AddTemplatePanel extends React.Component {
       }))
     }
 
-    let innerSectionClasses = classNames({
+    const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': itemsOutput && !itemsOutput.length
     })
-    let errorMessageClasses = classNames({
+    const errorMessageClasses = classNames({
       'vcv-ui-tree-content-error-message': true,
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })

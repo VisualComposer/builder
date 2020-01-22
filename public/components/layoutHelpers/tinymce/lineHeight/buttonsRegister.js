@@ -1,10 +1,10 @@
 const ButtonsRegister = function (editor, window) {
   const createLineHeightListBoxChangeHandler = function (editor, items) {
     return function () {
-      let self = this
+      const self = this
       editor.on('nodeChange', (e) => {
-        let formatName = 'lineheight'
-        let formatter = editor.formatter
+        const formatName = 'lineheight'
+        const formatter = editor.formatter
         let value = null
         e.parents.forEach((node) => {
           items.forEach((item) => {
@@ -25,16 +25,16 @@ const ButtonsRegister = function (editor, window) {
     }
   }
 
-  let items = []
-  let defaultLineHeightFormats = 'Default 0.5 0.75 1 1.25 1.5 1.75 2 2.25 2.5 3'
+  const items = []
+  const defaultLineHeightFormats = 'Default 0.5 0.75 1 1.25 1.5 1.75 2 2.25 2.5 3'
   defaultLineHeightFormats.split(' ').forEach(function (item) {
     let text = item
     let value = item === 'Default' ? 'inherit' : item
     // Allow text=value for line-height formats
-    let values = item.split('=')
+    const values = item.split('=')
     if (values.length > 1) {
-      text = values[ 0 ]
-      value = values[ 1 ]
+      text = values[0]
+      value = values[1]
     }
     items.push({ text: text, value: value })
   })

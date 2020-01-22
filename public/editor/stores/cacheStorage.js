@@ -4,7 +4,7 @@ addStorage('cache', (storage) => {
   storage.state('controls').set({})
 
   storage.on('set', (type, id, value) => {
-    let cache = storage.state(type).get()
+    const cache = storage.state(type).get()
     cache[id] = value
     storage.state(type).set(cache)
   })

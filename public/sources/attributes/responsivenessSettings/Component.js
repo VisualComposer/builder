@@ -12,7 +12,7 @@ export default class ResponsivenessSettings extends Attribute {
   getDevicesSettings () {
     const { devices } = this.props
     return devices.map((deviceData) => {
-      let key = `responsiveness-settings-${deviceData.deviceKey}`
+      const key = `responsiveness-settings-${deviceData.deviceKey}`
       return (
         <div key={key} className='vcv-ui-form-responsiveness-settings-devices-item' title={deviceData.title}>
           <i className={`vcv-ui-icon vcv-ui-icon-${deviceData.className}`} />

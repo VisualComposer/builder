@@ -5,7 +5,7 @@ const createKey = Utils.createKey
 
 addStorage('notifications', (storage) => {
   storage.on('add', (data) => {
-    let limit = 10
+    const limit = 10
     if (!data) {
       return
     }
@@ -20,7 +20,7 @@ addStorage('notifications', (storage) => {
         return
       }
     }
-    let notifications = storage.state('notifications').get() || []
+    const notifications = storage.state('notifications').get() || []
     if (!data.id) {
       data.id = createKey()
     } else if (notifications.find(item => item.id === data.id)) { // Already added notification
@@ -36,11 +36,11 @@ addStorage('notifications', (storage) => {
   })
 
   storage.on('remove', (id) => {
-    let notifications = storage.state('notifications').get()
+    const notifications = storage.state('notifications').get()
 
-    let removedItemIndex = notifications.findIndex(item => item.id === id)
+    const removedItemIndex = notifications.findIndex(item => item.id === id)
     if (removedItemIndex >= 0) {
-      const cookie = notifications[ removedItemIndex ].cookie
+      const cookie = notifications[removedItemIndex].cookie
       if (cookie) {
         if (cookie.constructor === Object) {
           Utils.setCookie(cookie.name, true, cookie.expireInDays)

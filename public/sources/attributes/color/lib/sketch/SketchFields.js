@@ -45,7 +45,7 @@ export class SketchFields extends React.Component {
 
   render () {
     const styles = reactCSS({
-      'default': {
+      default: {
         fields: {
           display: 'flex',
           paddingTop: '4px'
@@ -78,7 +78,7 @@ export class SketchFields extends React.Component {
           textTransform: 'capitalize'
         }
       },
-      'disableAlpha': {
+      disableAlpha: {
         alpha: {
           display: 'none'
         }

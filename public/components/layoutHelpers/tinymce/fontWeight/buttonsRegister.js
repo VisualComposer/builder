@@ -14,15 +14,15 @@ var ButtonsRegister = function (editor, window) {
   const getFontVariant = function (variant) {
     const number = variant.match(/\d+/g)
     const word = variant.match(/[a-z]+$/i)
-    const fontWeight = number ? number[ 0 ] : '400'
-    const fontStyle = word && word[ 0 ] === 'italic' ? 'italic' : 'regular'
+    const fontWeight = number ? number[0] : '400'
+    const fontStyle = word && word[0] === 'italic' ? 'italic' : 'regular'
 
     return { weight: fontWeight, style: fontStyle }
   }
 
   const parseFontVariant = function (variant) {
     const fontVariant = getFontVariant(variant)
-    const fontWeightDefinition = fontWeightDefinitions[ fontVariant.weight ]
+    const fontWeightDefinition = fontWeightDefinitions[fontVariant.weight]
     const fontStyle = fontVariant.style === 'italic' ? ' Italic' : ' Regular'
 
     return `${fontWeightDefinition} (${fontVariant.weight})` + fontStyle
@@ -39,7 +39,7 @@ var ButtonsRegister = function (editor, window) {
 
     if (activeFont && !activeFont.defaultFont) { // Google fonts
       activeFont.variants.forEach((item) => {
-        let fontStyle = getFontVariant(item)
+        const fontStyle = getFontVariant(item)
 
         options.push({
           text: parseFontVariant(item),
@@ -55,7 +55,7 @@ var ButtonsRegister = function (editor, window) {
             weight: '400',
             style: 'regular'
           }),
-          textStyle: `font-weight:normal`
+          textStyle: 'font-weight:normal'
         },
         {
           text: 'Bold (700) Regular',
@@ -63,7 +63,7 @@ var ButtonsRegister = function (editor, window) {
             weight: '700',
             style: 'regular'
           }),
-          textStyle: `font-weight:bold`
+          textStyle: 'font-weight:bold'
         }
       ]
     }
@@ -107,9 +107,9 @@ var ButtonsRegister = function (editor, window) {
 
     const findMatchingValue = (fontWeight, items) => {
       const fontStyle = fontWeight.style === 'normal' ? 'regular' : fontWeight.style
-      let match = {}
+      const match = {}
       items.forEach((item) => {
-        let itemValue = JSON.parse(item.value)
+        const itemValue = JSON.parse(item.value)
         if (itemValue && (itemValue.style === fontStyle) && (itemValue.weight === fontWeight.weight)) {
           match.value = item.value
           match.text = item.text
@@ -120,18 +120,18 @@ var ButtonsRegister = function (editor, window) {
     }
 
     return function () {
-      let self = this
+      const self = this
       self.state.set('value', null)
       editor.on('init nodeChange', function (e) {
-        let items = getFontWeightValues(null, editor)
-        let fontWeight = getFontWeight()
-        let match = findMatchingValue(fontWeight, items)
+        const items = getFontWeightValues(null, editor)
+        const fontWeight = getFontWeight()
+        const match = findMatchingValue(fontWeight, items)
         setFontWeightValues(null, editor, items, match.value, match.text)
       })
     }
   }
 
-  let items = getFontWeightValues(null, editor)
+  const items = getFontWeightValues(null, editor)
   editor.addButton('fontWeight', {
     type: 'listbox',
     text: 'Font Weight',

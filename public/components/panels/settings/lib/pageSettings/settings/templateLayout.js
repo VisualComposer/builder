@@ -12,16 +12,16 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 export default class TemplateLayout extends React.Component {
   constructor (props) {
     super(props)
-    let templateStorageData = settingsStorage.state('pageTemplate').get()
-    let templateData = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT ? window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() : {
+    const templateStorageData = settingsStorage.state('pageTemplate').get()
+    const templateData = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT ? window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() : {
       type: 'vc', value: 'blank'
     }
-    let currentTemplate = templateStorageData || templateData
+    const currentTemplate = templateStorageData || templateData
     this.state = {
       current: currentTemplate
     }
     settingsStorage.state('pageTemplate').set(currentTemplate)
-    this.allowedTypes = [ 'vc', 'vc-theme', 'theme' ]
+    this.allowedTypes = ['vc', 'vc-theme', 'theme']
     this.updateTemplate = this.updateTemplate.bind(this)
     this.updateState = this.updateState.bind(this)
     this.handleTemplateChange = this.handleTemplateChange.bind(this)
@@ -45,10 +45,10 @@ export default class TemplateLayout extends React.Component {
   }
 
   handleTemplateChange (selectedTemplate) {
-    let layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
-    let data = {
-      type: layoutData[ 0 ],
-      value: layoutData[ 1 ],
+    const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
+    const data = {
+      type: layoutData[0],
+      value: layoutData[1],
       stretchedContent: this.state.current.stretchedContent
     }
 
@@ -62,17 +62,17 @@ export default class TemplateLayout extends React.Component {
     if (!env('VCV_JS_THEME_EDITOR')) {
       settingsStorage.state('pageTemplate').set(data)
 
-      let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
-      let lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+      const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
+      const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
 
-      let lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current)
-      let lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+      const lastLoadedHeaderTemplate = window.vcvLastLoadedHeaderTemplate || (window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current)
+      const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
 
-      let lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current)
-      let lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+      const lastLoadedSidebarTemplate = window.vcvLastLoadedSidebarTemplate || (window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current)
+      const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
 
-      let lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current)
-      let lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+      const lastLoadedFooterTemplate = window.vcvLastLoadedFooterTemplate || (window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current)
+      const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
 
       if (
         (lastLoadedPageTemplate && (lastLoadedPageTemplate.value !== lastSavedPageTemplate.value || lastLoadedPageTemplate.type !== lastSavedPageTemplate.type || (lastLoadedPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent))) ||
@@ -107,28 +107,30 @@ export default class TemplateLayout extends React.Component {
   }
 
   getTemplateLayoutIcons () {
-    let icons = []
+    const icons = []
     if (vcLayouts && vcLayouts.length) {
       vcLayouts.forEach((templateList, index) => {
         if (this.allowedTypes.indexOf(templateList.type) < 0) {
           return
         }
         templateList.values.forEach((template, tIndex) => {
-          let templateName = `${templateList.type}__${template.value}`
+          const templateName = `${templateList.type}__${template.value}`
           let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-          let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].icon.default
+          const Icon = LayoutIcons[templateName] && LayoutIcons[templateName].icon.default
           if (Icon) {
-            let iconProps = {
+            const iconProps = {
               classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
             }
             if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
               classes += ' vcv-ui-start-layout-list-item-active'
             }
             icons.push(
-              <span className={classes}
+              <span
+                className={classes}
                 title={template.label}
                 key={`settings-layout-${index}-${tIndex}`}
-                onClick={() => { this.handleTemplateChange(templateName) }}>
+                onClick={() => { this.handleTemplateChange(templateName) }}
+              >
                 <Icon {...iconProps} />
               </span>
             )
@@ -138,18 +140,20 @@ export default class TemplateLayout extends React.Component {
     }
 
     let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].icon.default
-    let iconProps = {
+    const Icon = LayoutIcons['theme-default'] && LayoutIcons['theme-default'].icon.default
+    const iconProps = {
       classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
     }
     if (this.state.current.type === 'theme') {
       classes += ' vcv-ui-start-layout-list-item-active'
     }
     icons.push(
-      <span className={classes}
+      <span
+        className={classes}
         title='Theme default'
-        key={`settings-layout-theme-default`}
-        onClick={() => { this.handleTemplateChange('theme__default') }}>
+        key='settings-layout-theme-default'
+        onClick={() => { this.handleTemplateChange('theme__default') }}
+      >
         <Icon {...iconProps} />
       </span>
     )
@@ -175,17 +179,19 @@ export default class TemplateLayout extends React.Component {
   }
 
   getTemplateOptions () {
-    let optGroups = []
+    const optGroups = []
     if (vcLayouts && vcLayouts.length) {
       vcLayouts.forEach((templateList, index) => {
         if (this.allowedTypes.indexOf(templateList.type) < 0) {
           return
         }
-        let group = []
+        const group = []
         templateList.values.forEach((template, tIndex) => {
           group.push(
-            <option value={`${templateList.type}__${template.value}`}
-              key={`template-opt-group-vc-${index}-opt-${tIndex}`}>
+            <option
+              value={`${templateList.type}__${template.value}`}
+              key={`template-opt-group-vc-${index}-opt-${tIndex}`}
+            >
               {template.label}
             </option>
           )
@@ -201,14 +207,14 @@ export default class TemplateLayout extends React.Component {
     optGroups.push(<option key='default' value='theme__default'>Theme Default</option>)
 
     return (
-      <React.Fragment>
+      <>
         {optGroups}
-      </React.Fragment>
+      </>
     )
   }
 
   getThemeTemplateOptions () {
-    let options = []
+    const options = []
     if (themeTemplates) {
       themeTemplates.forEach((templateList, index) => {
         if (this.allowedTypes.indexOf(templateList.type) < 0) {
@@ -216,8 +222,10 @@ export default class TemplateLayout extends React.Component {
         }
         templateList.values.forEach((template, tIndex) => {
           options.push(
-            <option value={`${templateList.type}__${template.value}`}
-              key={`template-opt-group-theme-${templateList.type}-${index}-opt-${tIndex}`}>
+            <option
+              value={`${templateList.type}__${template.value}`}
+              key={`template-opt-group-theme-${templateList.type}-${index}-opt-${tIndex}`}
+            >
               {template.label}
             </option>
           )
@@ -226,9 +234,9 @@ export default class TemplateLayout extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         {options}
-      </React.Fragment>
+      </>
     )
   }
 
@@ -241,13 +249,15 @@ export default class TemplateLayout extends React.Component {
     if (!themeTemplates) {
       return ''
     }
-    let templateTxt = localizations ? localizations.template : 'Template'
+    const templateTxt = localizations ? localizations.template : 'Template'
 
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>{templateTxt}</span>
-        <select className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`}
-          onChange={this.handleTemplateChange}>
+        <select
+          className='vcv-ui-form-dropdown' value={`${this.state.current.type}__${this.state.current.value}`}
+          onChange={this.handleTemplateChange}
+        >
           {this.getThemeTemplateOptions()}
         </select>
       </div>
@@ -256,7 +266,7 @@ export default class TemplateLayout extends React.Component {
 
   updateStretchedContentState (event) {
     const newValue = event.target.checked
-    let currentTemplate = lodash.defaultsDeep({}, this.state.current)
+    const currentTemplate = lodash.defaultsDeep({}, this.state.current)
     currentTemplate.stretchedContent = newValue
     this.updateTemplate(currentTemplate)
   }
@@ -267,7 +277,7 @@ export default class TemplateLayout extends React.Component {
       return null
     }
 
-    let checked = current.stretchedContent
+    const checked = current.stretchedContent
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <div className='vcv-ui-form-switch-container'>
@@ -277,8 +287,11 @@ export default class TemplateLayout extends React.Component {
             <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
             <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
           </label>
-          <label htmlFor='vcv-stretch-layout-enable'
-            className='vcv-ui-form-switch-trigger-label'>Stretch content</label>
+          <label
+            htmlFor='vcv-stretch-layout-enable'
+            className='vcv-ui-form-switch-trigger-label'
+          >Stretch content
+          </label>
         </div>
       </div>
     )
@@ -286,13 +299,13 @@ export default class TemplateLayout extends React.Component {
 
   render () {
     return (
-      <React.Fragment>
+      <>
         <div className='vcv-ui-form-group vcv-ui-template-group-wrapper'>
           {this.getTemplateLayoutIcons()}
         </div>
         {this.getThemeTemplateDropdown()}
         {this.getStretchedToggle()}
-      </React.Fragment>
+      </>
     )
   }
 }

@@ -21,7 +21,7 @@ export default class Devices extends Attribute {
    * @returns {JSX}
    */
   getDevicesSettings () {
-    let options = {
+    const options = {
       values: [
         {
           label: 'All',
@@ -39,7 +39,8 @@ export default class Devices extends Attribute {
         fieldKey='settings'
         options={options}
         updater={this.devicesSettingsHandler}
-        value={this.state.value === 'all' ? 'all' : 'custom'} />
+        value={this.state.value === 'all' ? 'all' : 'custom'}
+      />
     </div>
   }
 
@@ -57,7 +58,7 @@ export default class Devices extends Attribute {
    * @returns {boolean}
    */
   isCustomDevices () {
-    return this.state.value !== `all`
+    return this.state.value !== 'all'
   }
 
   /**
@@ -65,7 +66,7 @@ export default class Devices extends Attribute {
    * @returns {*}
    */
   getCustomDevices () {
-    let { fieldKey } = this.props
+    const { fieldKey } = this.props
     let returnData = null
     if (this.isCustomDevices()) {
       let customDevices = [
@@ -99,22 +100,24 @@ export default class Devices extends Attribute {
         customDevices = this.props.options.customDevices
       }
 
-      let devices = []
+      const devices = []
       customDevices.forEach((device) => {
-        let classes = classNames({
+        const classes = classNames({
           'vcv-ui-form-button': true,
           'vcv-ui-form-button--active': this.state.value === device.value
         })
-        let icon = classNames([
+        const icon = classNames([
           'vcv-ui-form-button-icon',
           'vcv-ui-icon',
           device.icon
         ])
         devices.push(
-          <button type='button' className={classes} title={device.label}
+          <button
+            type='button' className={classes} title={device.label}
             key={`${fieldKey}:${device.value}`}
             onClick={this.customDevicesHandler}
-            value={device.value}>
+            value={device.value}
+          >
             <i className={icon} />
           </button>
         )
@@ -136,7 +139,7 @@ export default class Devices extends Attribute {
    * @param event
    */
   customDevicesHandler (event) {
-    let value = event && event.currentTarget.value
+    const value = event && event.currentTarget.value
     this.setFieldValue(value)
   }
 

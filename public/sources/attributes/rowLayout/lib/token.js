@@ -53,7 +53,7 @@ export default class Token extends React.Component {
       roundedTitle = title.indexOf('.') >= 0 ? title.slice(0, (title.indexOf('.'))).replace('%', '') + '%' : title
     }
 
-    let tagClasses = classNames({
+    const tagClasses = classNames({
       'vcv-ui-tag-list-item': true,
       'vcv-ui-tag-list-item--active': typeof activeToken === 'number' && (activeToken === index),
       'vcv-ui-tag-list-item-error': !valid // add validation

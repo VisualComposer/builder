@@ -111,8 +111,8 @@ export default class ContentEditableComponent extends React.Component {
         const usedGoogleFonts = getUsedFonts(this.ref)
         if (usedGoogleFonts) {
           const sharedAssetsData = element.get('metaElementAssets')
-          let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
-          sharedGoogleFonts[ fieldPathKey ] = usedGoogleFonts
+          const sharedGoogleFonts = sharedAssetsData.googleFonts || {}
+          sharedGoogleFonts[fieldPathKey] = usedGoogleFonts
           sharedAssetsData.googleFonts = sharedGoogleFonts
           element.set('metaElementAssets', sharedAssetsData)
         }
@@ -142,7 +142,7 @@ export default class ContentEditableComponent extends React.Component {
   getParamsGroupContent (element, content) {
     const attrValue = element.get(this.props.fieldKey)
     const newValue = lodash.defaultsDeep({}, attrValue)
-    newValue.value[ this.props.paramIndex ][ this.props.paramField ] = content
+    newValue.value[this.props.paramIndex][this.props.paramField] = content
     return newValue
   }
 
@@ -153,7 +153,7 @@ export default class ContentEditableComponent extends React.Component {
       elementOverlay.id = 'vcv-ui-content-overlay'
       elementOverlay.classList.add('vcv-ui-content-overlay-container')
       // todo: remove styles from js
-      let styles = {
+      const styles = {
         position: 'fixed',
         top: 0,
         left: 0,
@@ -162,8 +162,8 @@ export default class ContentEditableComponent extends React.Component {
         pointerEvents: 'none',
         zIndex: 1900
       }
-      for (let prop in styles) {
-        elementOverlay.style[ prop ] = styles[ prop ]
+      for (const prop in styles) {
+        elementOverlay.style[prop] = styles[prop]
       }
       this.iframeDocument.body.appendChild(elementOverlay)
     }
@@ -175,11 +175,11 @@ export default class ContentEditableComponent extends React.Component {
       overlay.setAttribute('fill', 'rgba(0, 0, 0, .6)')
       overlay.setAttribute('fill-rule', 'evenodd')
       // todo: remove styles from js
-      let styles = {
+      const styles = {
         pointerEvents: 'all'
       }
-      for (let prop in styles) {
-        overlay.style[ prop ] = styles[ prop ]
+      for (const prop in styles) {
+        overlay.style[prop] = styles[prop]
       }
       elementOverlay.appendChild(overlay)
     }
@@ -190,18 +190,18 @@ export default class ContentEditableComponent extends React.Component {
       overlayShadow.id = 'vcv-ui-content-overlay-shadow'
       overlayShadow.classList.add('vcv-ui-content-overlay-shadow')
       // todo: remove styles from js
-      let styles = {
+      const styles = {
         pointerEvents: 'none',
         boxShadow: 'rgba(0, 0, 0, 0.3) 1px 0 10px 0',
         position: 'fixed'
       }
-      for (let prop in styles) {
-        overlayShadow.style[ prop ] = styles[ prop ]
+      for (const prop in styles) {
+        overlayShadow.style[prop] = styles[prop]
       }
       this.iframeDocument.body.appendChild(overlayShadow)
     }
 
-    let data = {
+    const data = {
       domElement: this.ref,
       overlayContainer: elementOverlay,
       overlay: overlay,
@@ -212,14 +212,14 @@ export default class ContentEditableComponent extends React.Component {
 
   removeOverlay () {
     this.stopAutoUpdateOverlayPosition()
-    let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
+    const elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
     const clearAfterTransition = () => {
-      let elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
+      const elementOverlay = this.iframeDocument.querySelector('#vcv-ui-content-overlay')
       if (elementOverlay) {
         elementOverlay.removeEventListener('transitionend', clearAfterTransition.bind(this))
         elementOverlay.parentNode.removeChild(elementOverlay)
       }
-      let elementOverlayShadow = this.iframeDocument.querySelector('#vcv-ui-content-overlay-shadow')
+      const elementOverlayShadow = this.iframeDocument.querySelector('#vcv-ui-content-overlay-shadow')
       if (elementOverlayShadow) {
         elementOverlayShadow.parentNode.removeChild(elementOverlayShadow)
       }
@@ -232,39 +232,39 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateOverlayPosition (data) {
-    let paddingSize = {
+    const paddingSize = {
       horizontal: 15,
       vertical: 5
     }
-    let domElement = data.domElement
-    let overlayContainer = data.overlayContainer
-    let overlay = data.overlay
-    let overlayShadow = data.overlayShadow
+    const domElement = data.domElement
+    const overlayContainer = data.overlayContainer
+    const overlay = data.overlay
+    const overlayShadow = data.overlayShadow
 
     // set main svg width and height
     overlayContainer.style.width = `${this.iframeWindow.innerWidth}px`
     overlayContainer.style.height = `${this.iframeWindow.innerHeight}px`
 
     // draw overlay for svg
-    let containerSize = `M 0 0 H ${this.iframeWindow.innerWidth} V ${this.iframeWindow.innerHeight} H 0 V 0`
-    let elementPos = domElement.getBoundingClientRect()
-    let elPos = {
+    const containerSize = `M 0 0 H ${this.iframeWindow.innerWidth} V ${this.iframeWindow.innerHeight} H 0 V 0`
+    const elementPos = domElement.getBoundingClientRect()
+    const elPos = {
       x: Math.ceil(elementPos.left - paddingSize.horizontal),
       y: Math.ceil(elementPos.top - paddingSize.vertical),
       width: Math.floor(elementPos.width + paddingSize.horizontal * 2),
       height: Math.floor(elementPos.height + paddingSize.vertical * 2)
     }
-    let elementSize = `M ${elPos.x} ${elPos.y} h ${elPos.width} v ${elPos.height} h -${elPos.width} z`
+    const elementSize = `M ${elPos.x} ${elPos.y} h ${elPos.width} v ${elPos.height} h -${elPos.width} z`
     overlay.setAttribute('d', `${containerSize} ${elementSize}`)
 
-    let shadowSize = {
+    const shadowSize = {
       left: elPos.x,
       top: elPos.y,
       width: elPos.width,
       height: elPos.height
     }
-    for (let prop in shadowSize) {
-      overlayShadow.style[ prop ] = shadowSize[ prop ] + 'px'
+    for (const prop in shadowSize) {
+      overlayShadow.style[prop] = shadowSize[prop] + 'px'
     }
   }
 
@@ -296,7 +296,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   editorSetup (options) {
-    let editorSettings = {
+    const editorSettings = {
       target: this.ref,
       menubar: false,
       inline: true,
@@ -367,24 +367,24 @@ export default class ContentEditableComponent extends React.Component {
         'vcv-nonce': window.vcvNonce,
         'vcv-source-id': window.vcvSourceID
       }).then((data) => {
-        let iframe = vcCake.env('iframe')
-        let _this = this
+        const iframe = vcCake.env('iframe')
+        const _this = this
 
         try {
           ((function (window, document) {
-            let jsonData = JSON.parse(data)
-            let { headerContent, shortcodeContent, footerContent } = jsonData
+            const jsonData = JSON.parse(data)
+            const { headerContent, shortcodeContent, footerContent } = jsonData
             _this.ref && (_this.ref.innerHTML = '')
 
-            let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+            const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
             headerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'header', ref: _this.ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-            let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+            const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
             shortcodeDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.contents(), addToDocument: true })
 
-            let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+            const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
             footerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: _this.ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))
@@ -460,7 +460,7 @@ export default class ContentEditableComponent extends React.Component {
     let inlineMode = this.props.options && this.props.options.inlineMode
     if (this.props.paramField && this.props.paramIndex >= 0) {
       const { paramField } = this.props
-      inlineMode = this.props.options.settings[ paramField ].options && this.props.options.settings[ paramField ].options.inlineMode
+      inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
     }
     return inlineMode
   }
@@ -473,7 +473,7 @@ export default class ContentEditableComponent extends React.Component {
       const sel = win.getSelection()
       if (sel.rangeCount) {
         const range = sel.getRangeAt(0)
-        let preCaretRange = range.cloneRange()
+        const preCaretRange = range.cloneRange()
         preCaretRange.selectNodeContents(element)
         preCaretRange.setEnd(range.endContainer, range.endOffset)
         const preCaretRangeString = preCaretRange.toString()
@@ -493,13 +493,13 @@ export default class ContentEditableComponent extends React.Component {
     if (doc.createRange && win.getSelection) {
       const range = doc.createRange()
       range.selectNodeContents(element)
-      let textNodes = this.getTextNodesIn(element)
+      const textNodes = this.getTextNodesIn(element)
       let foundStart = false
       let charCount = 0
       let endCharCount = null
 
       for (let i = 0; i < textNodes.length; i++) {
-        let textNode = textNodes[ i ]
+        const textNode = textNodes[i]
         endCharCount = charCount + textNode.length
         if (!foundStart && start >= charCount && (start < endCharCount || (start === endCharCount && i <= textNodes.length))) {
           range.setStart(textNode, start - charCount)
@@ -512,27 +512,27 @@ export default class ContentEditableComponent extends React.Component {
         charCount = endCharCount
       }
 
-      let sel = win.getSelection()
+      const sel = win.getSelection()
       sel.removeAllRanges()
       sel.addRange(range)
     }
   }
 
   getTextNodesIn (node) {
-    let textNodes = []
+    const textNodes = []
     if (node.nodeType === 3) {
       textNodes.push(node)
     } else {
       const children = node.childNodes
       for (let i = 0, len = children.length; i < len; ++i) {
-        textNodes.push.apply(textNodes, this.getTextNodesIn(children[ i ]))
+        textNodes.push.apply(textNodes, this.getTextNodesIn(children[i]))
       }
     }
     return textNodes
   }
 
   render () {
-    let CustomTag = this.props.fieldType === 'htmleditor' ? 'div' : 'span'
+    const CustomTag = this.props.fieldType === 'htmleditor' ? 'div' : 'span'
     const props = {
       className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
       contentEditable: this.state.contentEditable,

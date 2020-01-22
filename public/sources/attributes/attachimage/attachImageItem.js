@@ -36,9 +36,9 @@ export default class AttachImageItem extends React.Component {
   }
 
   checkImageSize (url, callback) {
-    let img = new window.Image()
+    const img = new window.Image()
     img.onload = () => {
-      let size = {
+      const size = {
         width: img.width,
         height: img.height
       }
@@ -79,7 +79,8 @@ export default class AttachImageItem extends React.Component {
             </figure>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
               {oneMoreControl}
-              <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
+              <a
+                className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
                 onClick={this.handleRemove.bind(this, indexValue)}
                 title={removeImage}
               >

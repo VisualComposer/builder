@@ -19,7 +19,7 @@ const SortableItem = SortableElement((props) => {
 
 export default class AttachImageList extends React.Component {
   static propTypes = {
-    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
     fieldKey: PropTypes.string.isRequired
   }
 
@@ -33,7 +33,7 @@ export default class AttachImageList extends React.Component {
   }
 
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props
+    const { metaAssetsPath } = this.props
     if (!filename) {
       return ''
     }
@@ -45,8 +45,8 @@ export default class AttachImageList extends React.Component {
     const addImage = localizations ? localizations.addImage : 'Add Image'
     const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or Replace Image'
     const moveImage = localizations ? localizations.moveImage : 'Move Image'
-    let { fieldKey, value } = this.props
-    let images = []
+    const { fieldKey, value } = this.props
+    const images = []
 
     let oneMoreControl = ''
     if (this.props.options.multiple) {
@@ -55,8 +55,10 @@ export default class AttachImageList extends React.Component {
       )
     } else {
       oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
-          title={editReplaceImage}>
+        <a
+          className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
+          title={editReplaceImage}
+        >
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </a>
       )
@@ -64,19 +66,19 @@ export default class AttachImageList extends React.Component {
 
     value && value.urls && value.urls.forEach((url, index) => {
       let imgUrl = ''
-      if (value.ids[ index ]) {
+      if (value.ids[index]) {
         imgUrl = url && url.thumbnail ? url.thumbnail : url.full
       } else {
         imgUrl = this.getPublicImage(url.full)
       }
 
-      let childProps = {
+      const childProps = {
         url: url,
         imgUrl: imgUrl,
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.handleRemove,
         getUrlHtml: this.props.getUrlHtml,
-        imgId: value.ids[ index ],
+        imgId: value.ids[index],
         metaAssetsPath: this.props.metaElementPath,
         indexValue: index,
         index: index
@@ -104,7 +106,7 @@ export default class AttachImageList extends React.Component {
 
     let dynamicControl = null
     if (this.props.dynamicApi) {
-      controlClasses += ` vcv-ui-form-attach-image-item-has-dynamic`
+      controlClasses += ' vcv-ui-form-attach-image-item-has-dynamic'
       dynamicControl = this.props.dynamicApi.renderOpenButton()
     }
 

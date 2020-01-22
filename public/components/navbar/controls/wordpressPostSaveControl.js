@@ -25,7 +25,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   updateControlOnStatusChange (data, source = '') {
-    let status = data.status
+    const status = data.status
     if (status === 'saving' && source !== 'postSaveControl') {
       this.clickSaveData({ options: data.options }, {}, {}, true)
       return
@@ -106,10 +106,10 @@ export default class WordPressPostSaveControl extends NavbarContent {
       return
     }
     window.setTimeout(() => {
-      let url = window.location.href
-      let captureType = /vcv-editor-type=([^&]+)/.exec(url)
-      if ((vcCake.env('VCV_JS_THEME_EDITOR') || vcCake.env('VCV_JS_ARCHIVE_TEMPLATE')) && captureType && captureType[ 1 ]) {
-        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[ 1 ]}`)
+      const url = window.location.href
+      const captureType = /vcv-editor-type=([^&]+)/.exec(url)
+      if ((vcCake.env('VCV_JS_THEME_EDITOR') || vcCake.env('VCV_JS_ARCHIVE_TEMPLATE')) && captureType && captureType[1]) {
+        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[1]}`)
       } else {
         window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
       }
@@ -122,12 +122,12 @@ export default class WordPressPostSaveControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    let saveButtonClasses = classNames({
+    const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--success': this.state.status === 'success',
       'vcv-ui-state--error': this.state.status === 'error'
     })
-    let saveIconClasses = classNames({
+    const saveIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,
       'vcv-ui-wp-spinner-light': this.state.status === 'saving',
       'vcv-ui-icon': this.state.status !== 'saving',

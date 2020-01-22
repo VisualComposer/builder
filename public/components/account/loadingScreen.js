@@ -32,14 +32,14 @@ export default class LoadingScreen extends React.Component {
 
     // Show default actions if they are not finished
     if (!assetsActionsDone) {
-      const activeActionData = assetsActions[ activeAssetsAction ]
+      const activeActionData = assetsActions[activeAssetsAction]
       const loadingText = LoadingScreen.texts.downloadingAssetsText.replace('{i}', activeAssetsAction + 1).replace('{cnt}', assetsActions.length).replace('{name}', activeActionData.name)
       return <p className='vcv-activation-loading-text'>{loadingText}</p>
     }
 
     // Show default actions if they are not finished
     if (!postUpdateDone) {
-      const activePostUpdateData = postUpdateActions[ activePostUpdate ]
+      const activePostUpdateData = postUpdateActions[activePostUpdate]
       const loadingText = LoadingScreen.texts.postUpdateText.replace('{i}', activePostUpdate + 1).replace('{cnt}', postUpdateActions.length).replace('{name}', activePostUpdateData.name || 'No name')
       return <p className='vcv-activation-loading-text'>{loadingText}</p>
     }

@@ -8,9 +8,9 @@ addStorage('workspace', (storage) => {
   const documentManager = getService('document')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
-    let children = cook.getContainerChildren(parent.tag)
+    const children = cook.getContainerChildren(parent.tag)
     if (children.length === 1) {
-      return children[ 0 ].tag
+      return children[0].tag
     }
     return false
   }
@@ -20,9 +20,9 @@ addStorage('workspace', (storage) => {
       element = documentManager.get(id)
     }
     if (element) {
-      let oneTag = isElementOneRelation(element)
+      const oneTag = isElementOneRelation(element)
       if (oneTag) {
-        let data = cook.get({ tag: oneTag, parent: id })
+        const data = cook.get({ tag: oneTag, parent: id })
         elementsStorage.trigger('add', data.toJS(), true, options)
         return
       }
@@ -70,8 +70,8 @@ addStorage('workspace', (storage) => {
     debounce: 250
   })
   storage.on('copy', (id, tag, options) => {
-    let element = documentManager.copy(id)
-    let copyData = {
+    const element = documentManager.copy(id)
+    const copyData = {
       element,
       options
     }
@@ -83,64 +83,64 @@ addStorage('workspace', (storage) => {
   })
   const markLastChild = (data) => {
     if (data.children.length) {
-      let lastChildIndex = data.children.length - 1
-      data.children[ lastChildIndex ] = markLastChild(data.children[ lastChildIndex ])
+      const lastChildIndex = data.children.length - 1
+      data.children[lastChildIndex] = markLastChild(data.children[lastChildIndex])
     } else {
       data.lastItem = true
     }
     return data
   }
   const pasteElementAndChildren = (data, parentId, options = {}) => {
-    let elementId = createKey()
+    const elementId = createKey()
     options = {
       ...options,
       silent: !data.lastItem,
       skipInitialExtraElements: true
     }
-    let element = cook.get({
+    const element = cook.get({
       ...data.element,
       id: elementId,
       parent: parentId
     })
-    let elementData = element.toJS()
+    const elementData = element.toJS()
     elementsStorage.trigger('add', elementData, true, options)
     data.children.forEach(child => {
       pasteElementAndChildren(child, elementId)
     })
   }
   const pasteAfter = (data, parentId, options = {}) => {
-    let elementId = createKey()
-    let parentEl = cook.getById(parentId).toJS()
+    const elementId = createKey()
+    const parentEl = cook.getById(parentId).toJS()
     options = {
       ...options,
       insertAfter: parentId,
       silent: !data.lastItem,
       skipInitialExtraElements: true
     }
-    let element = cook.get({
+    const element = cook.get({
       ...data.element,
       id: elementId,
       parent: parentEl.parent
     })
-    let elementData = element.toJS()
+    const elementData = element.toJS()
     elementsStorage.trigger('add', elementData, true, options)
     data.children.forEach(child => {
       pasteElementAndChildren(child, elementId)
     })
   }
   const pasteEnd = (data, parentId, options = {}) => {
-    let elementId = createKey()
+    const elementId = createKey()
     options = {
       ...options,
       silent: !data.lastItem,
       skipInitialExtraElements: true
     }
-    let element = cook.get({
+    const element = cook.get({
       ...data.element,
       id: elementId,
       parent: false
     })
-    let elementData = element.toJS()
+    const elementData = element.toJS()
     elementsStorage.trigger('add', elementData, true, options)
     data.children.forEach(child => {
       pasteElementAndChildren(child, elementId)
@@ -193,14 +193,14 @@ addStorage('workspace', (storage) => {
   })
   storage.on('drop', (id, settings) => {
     const relatedElement = settings.related ? cook.get(documentManager.get(settings.related)) : false
-    let elementSettings = { tag: settings.element.tag }
+    const elementSettings = { tag: settings.element.tag }
     if (relatedElement) {
       elementSettings.parent = relatedElement.get('parent')
     }
     const data = cook.get(elementSettings)
     elementsStorage.trigger('add', data.toJS())
     let movingID = data.get('id')
-    if (settings.action !== 'append' && relatedElement && relatedElement.relatedTo([ 'RootElements' ]) && !data.relatedTo([ 'RootElements' ])) {
+    if (settings.action !== 'append' && relatedElement && relatedElement.relatedTo(['RootElements']) && !data.relatedTo(['RootElements'])) {
       movingID = documentManager.getTopParent(movingID)
     }
     elementsStorage.trigger('move', movingID, settings)
@@ -226,7 +226,7 @@ addStorage('workspace', (storage) => {
       return
     }
 
-    let newElement = element
+    const newElement = element
     newElement.hidden = !element.hidden
     elementsStorage.trigger('update', id, newElement, '', { hidden: element.hidden, action: 'hide' })
   })

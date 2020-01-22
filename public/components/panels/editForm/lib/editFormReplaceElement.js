@@ -17,16 +17,16 @@ export default class EditFormReplaceElement extends React.Component {
   handleReplaceElement (tag) {
     const cookElement = this.props.elementAccessPoint.cook()
     const id = this.previousElementId = cookElement.get('id')
-    let editFormTabSettings = cookElement.settings('editFormTab1')
-    let currentElementAttributes = [
+    const editFormTabSettings = cookElement.settings('editFormTab1')
+    const currentElementAttributes = [
       ...(editFormTabSettings && editFormTabSettings.settings && editFormTabSettings.settings.value),
       'parent'
     ]
-    let replaceElementMergeData = {
+    const replaceElementMergeData = {
       tag
     }
     currentElementAttributes.forEach(key => {
-      replaceElementMergeData[ key ] = cookElement.get(key)
+      replaceElementMergeData[key] = cookElement.get(key)
     })
     elementsStorage.state('elementReplace').onChange(this.openEditFormOnReplace)
     elementsStorage.trigger('replace', id, replaceElementMergeData)
@@ -36,7 +36,7 @@ export default class EditFormReplaceElement extends React.Component {
     if (id === this.previousElementId) {
       elementsStorage.state('elementReplace').ignoreChange(this.openEditFormOnReplace)
       workspaceContentState.set(false)
-      let settings = workspaceStorage.state('settings').get()
+      const settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit') {
         workspaceStorage.state('settings').set(false)
       }
@@ -45,16 +45,16 @@ export default class EditFormReplaceElement extends React.Component {
   }
 
   render () {
-    let { elementAccessPoint } = this.props
-    let cookElement = elementAccessPoint.cook()
-    let tag = cookElement.get('tag')
-    let category = hubCategoriesService.getElementCategoryName(tag) || ''
-    let options = {
+    const { elementAccessPoint } = this.props
+    const cookElement = elementAccessPoint.cook()
+    const tag = cookElement.get('tag')
+    const category = hubCategoriesService.getElementCategoryName(tag) || ''
+    const options = {
       category: category || '*',
       elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'
     }
 
-    let categorySettings = hubCategoriesService.get(category)
+    const categorySettings = hubCategoriesService.get(category)
     if (!categorySettings || !categorySettings.elements || categorySettings.elements.length <= 1 || cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')) {
       return null
     }

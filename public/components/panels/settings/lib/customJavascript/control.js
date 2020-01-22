@@ -21,9 +21,9 @@ export default class ScriptControl extends React.Component {
   }
 
   render () {
-    let { title, active } = this.props
+    const { title, active } = this.props
 
-    let controlClass = classNames({
+    const controlClass = classNames({
       'vcv-ui-form-button': true,
       'vcv-ui-form-button--active': active
     })

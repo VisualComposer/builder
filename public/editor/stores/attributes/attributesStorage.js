@@ -11,7 +11,7 @@ addStorage('attributes', (storage) => {
    * Default icons for iconpicker
    */
   storage.on('start', () => {
-    let iconSet = storage.state('iconpicker:iconSet').get()
+    const iconSet = storage.state('iconpicker:iconSet').get()
     // v5.10.2 https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself
     iconSet.icons.fontawesome = { iconData: fontawesome }
     iconSet.socials.socials = { iconData: socials }
@@ -24,15 +24,15 @@ addStorage('attributes', (storage) => {
    * Add functionality for icons
    */
   storage.on('iconpicker:add', (type, name, icons) => {
-    let iconSet = storage.state('iconpicker:iconSet').get()
-    if (!iconSet[ type ]) {
-      iconSet[ type ] = {}
+    const iconSet = storage.state('iconpicker:iconSet').get()
+    if (!iconSet[type]) {
+      iconSet[type] = {}
     }
-    if (!iconSet[ type ][ name ]) {
-      iconSet[ type ][ name ] = {}
+    if (!iconSet[type][name]) {
+      iconSet[type][name] = {}
     }
     // Always override
-    iconSet[ type ][ name ] = { iconData: icons }
+    iconSet[type][name] = { iconData: icons }
 
     storage.state('iconpicker:iconSet').set(iconSet)
   })

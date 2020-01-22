@@ -68,7 +68,7 @@ module.exports = Object.assign({}, config, {
     new ExtractTextPlugin('[name].bundle.css'),
     new VirtualModulePlugin({
       moduleName: 'node_modules/jquery/dist/jquery.js',
-      contents: `module.exports = window.jQuery`
+      contents: 'module.exports = window.jQuery'
     }),
     new VcWebpackCustomAliasPlugin(false, false),
     new webpack.NamedModulesPlugin(),

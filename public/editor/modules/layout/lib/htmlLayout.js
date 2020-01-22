@@ -74,7 +74,8 @@ export default class HtmlLayout extends React.Component {
     }
 
     return (
-      <div className='vcv-layouts-html'
+      <div
+        className='vcv-layouts-html'
         data-vcv-module='content-layout'
         ref={layout => (this.layout = layout)}
       >

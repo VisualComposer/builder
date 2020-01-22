@@ -13,11 +13,11 @@ addStorage('migration', (storage) => {
           elementsStorage.trigger('add', textElement.toJS())
         }
       } else {
-        let elements = storage.state('elements').get()
-        let elementsArray = []
-        for (let key in elements) {
+        const elements = storage.state('elements').get()
+        const elementsArray = []
+        for (const key in elements) {
           if (elements.hasOwnProperty(key)) {
-            elementsArray.push(elements[ key ])
+            elementsArray.push(elements[key])
           }
         }
         elementsArray.sort((first, second) => first.element.order - second.element.order)
@@ -30,17 +30,17 @@ addStorage('migration', (storage) => {
   })
 
   storage.on('add', (element, wrap = true, options = {}) => {
-    let elements = storage.state('elements').get() || {}
-    elements[ element.id ] = { element: element, wrap: wrap, options: options }
+    const elements = storage.state('elements').get() || {}
+    elements[element.id] = { element: element, wrap: wrap, options: options }
     storage.state('elements').set(elements)
   })
 
   storage.on('update', (id, element) => {
-    let elements = storage.state('elements').get() || {}
-    if (!elements[ id ]) {
+    const elements = storage.state('elements').get() || {}
+    if (!elements[id]) {
       console.warn('Update called for wrong element', element)
     }
-    elements[ id ].element = element
+    elements[id].element = element
     storage.state('elements').set(elements)
   })
 })

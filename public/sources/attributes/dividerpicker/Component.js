@@ -2,7 +2,7 @@ import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
 
-let setList = {
+const setList = {
   dividers: require('./lib/dividerShapes-2.0')
 }
 
@@ -29,9 +29,9 @@ export default class Dividerpicker extends Attribute {
   }
 
   filteredIcons () {
-    let { search, iconSetList } = this.state
+    const { search, iconSetList } = this.state
     let icons = []
-    let iconsIds = []
+    const iconsIds = []
 
     iconSetList.forEach((icon) => {
       if (iconsIds.indexOf(icon.id) > -1) {
@@ -51,10 +51,10 @@ export default class Dividerpicker extends Attribute {
   }
 
   iconsContent () {
-    let value = this.state.value.icon
-    let iconsContent = []
+    const value = this.state.value.icon
+    const iconsContent = []
     this.filteredIcons().forEach((icon) => {
-      let iconClasses = classNames({
+      const iconClasses = classNames({
         'vcv-ui-form-iconpicker-option': true,
         'vcv-ui-form-state--active': icon.id === value
       })
@@ -74,14 +74,14 @@ export default class Dividerpicker extends Attribute {
   }
 
   popupContent () {
-    let { search, showSearch } = this.state
+    const { search, showSearch } = this.state
     let content
-    let iconsContent = this.iconsContent()
+    const iconsContent = this.iconsContent()
     if (!iconsContent.length) {
       iconsContent.push(<div className='vcv-ui-form-iconpicker-error' key='no-icon-found'>No icons found</div>)
     }
 
-    let popupClasses = classNames({
+    const popupClasses = classNames({
       'vcv-ui-form-iconpicker-content': true,
       'vcv-ui-form-state--active': this.state.popupOpen
     })
@@ -91,8 +91,10 @@ export default class Dividerpicker extends Attribute {
     if (showSearch) {
       renderSearch = (
         <div className='vcv-ui-input-search'>
-          <input type='search' value={search} onChange={this.search} placeholder='Search Icon'
-            className='vcv-ui-form-input' />
+          <input
+            type='search' value={search} onChange={this.search} placeholder='Search Icon'
+            className='vcv-ui-form-input'
+          />
           <label className='vcv-ui-form-input-search-addon'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
@@ -144,8 +146,8 @@ export default class Dividerpicker extends Attribute {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
 
         return true
@@ -157,7 +159,7 @@ export default class Dividerpicker extends Attribute {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -168,10 +170,10 @@ export default class Dividerpicker extends Attribute {
 
   closeIfNotInside = (e) => {
     e && e.preventDefault()
-    let $el = e.target
+    const $el = e.target
 
-    let $dropDown = '.vcv-ui-form-iconpicker-content'
-    let $openingButton = '.vcv-ui-iconpicker-picker-dropdown'
+    const $dropDown = '.vcv-ui-form-iconpicker-content'
+    const $openingButton = '.vcv-ui-iconpicker-picker-dropdown'
     let container = null
 
     if ($el.closest === undefined) {
@@ -187,14 +189,14 @@ export default class Dividerpicker extends Attribute {
   }
 
   render () {
-    let { popupOpen } = this.state
-    let value = this.state.value.icon
+    const { popupOpen } = this.state
+    const value = this.state.value.icon
 
-    let selectedIconClasses = classNames({
+    const selectedIconClasses = classNames({
       'vcv-ui-param-iconpicker-icon-empty': !value
     }, value)
 
-    let selectorClasses = classNames({
+    const selectorClasses = classNames({
       'vcv-ui-form-dropdown': true,
       'vcv-ui-form-dropdown-style--inline': true,
       'vcv-ui-iconpicker-picker-dropdown': true,
@@ -206,7 +208,7 @@ export default class Dividerpicker extends Attribute {
       popupContent = this.popupContent()
     }
 
-    let wrapperClasses = classNames({
+    const wrapperClasses = classNames({
       'vcv-ui-form-iconpicker': true
     })
 

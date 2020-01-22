@@ -24,7 +24,7 @@ const SortableList = SortableContainer((props) => {
 
 export default class AttachImage extends Attribute {
   static propTypes = {
-    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
     fieldKey: PropTypes.string.isRequired,
     fieldType: PropTypes.string,
     updater: PropTypes.func.isRequired,
@@ -160,19 +160,19 @@ export default class AttachImage extends Attribute {
   updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
-      value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
-      if (value && this.state && this.state.value && this.state.value.urls && this.state.value.urls[ 0 ]) {
-        if (this.state.value.urls[ 0 ].filter && value.urls[ 0 ]) {
-          value.urls[ 0 ].filter = this.state.value.urls[ 0 ].filter
+      value = value ? { ids: [null], urls: [{ full: value }] } : { ids: [], urls: [] }
+      if (value && this.state && this.state.value && this.state.value.urls && this.state.value.urls[0]) {
+        if (this.state.value.urls[0].filter && value.urls[0]) {
+          value.urls[0].filter = this.state.value.urls[0].filter
         }
-        if (this.state.value.urls[ 0 ].link && value.urls[ 0 ]) {
-          value.urls[ 0 ].link = this.state.value.urls[ 0 ].link
+        if (this.state.value.urls[0].link && value.urls[0]) {
+          value.urls[0].link = this.state.value.urls[0].link
         }
       }
     } else if (lodash.isArray(value)) {
       if (value.length > 0) {
-        let ids = []
-        let urls = []
+        const ids = []
+        const urls = []
         value.forEach((url) => {
           ids.push(url.id)
           if (url.full) {
@@ -188,13 +188,13 @@ export default class AttachImage extends Attribute {
     } else {
       if (!value.ids && !value.urls && value.id) {
         value = {
-          ids: [ value.id ],
-          urls: [ value ]
+          ids: [value.id],
+          urls: [value]
         }
       }
     }
 
-    let filter = (value.urls && value.urls[ 0 ] && value.urls[ 0 ].filter && value.urls[ 0 ].filter !== 'normal') || false
+    const filter = (value.urls && value.urls[0] && value.urls[0].filter && value.urls[0].filter !== 'normal') || false
     return {
       value: value,
       filter
@@ -209,11 +209,11 @@ export default class AttachImage extends Attribute {
   }
 
   handleRemove (key) {
-    let ids = this.state.value.ids
-    let urls = this.state.value.urls
+    const ids = this.state.value.ids
+    const urls = this.state.value.urls
     ids.splice(key, 1)
     urls.splice(key, 1)
-    let fieldValue = {
+    const fieldValue = {
       ids: ids,
       urls: urls
     }
@@ -222,34 +222,34 @@ export default class AttachImage extends Attribute {
 
   setFieldValue (value) {
     if (typeof value === 'string') {
-      let newState = this.updateState({ value: value })
+      const newState = this.updateState({ value: value })
       value = newState.value
     }
     super.setFieldValue(value)
   }
 
   onMediaSelect () {
-    let selection = this.mediaUploader.state().get('selection')
+    const selection = this.mediaUploader.state().get('selection')
     this.setFieldValue(this.parseSelection(selection))
   }
 
   parseSelection (selection) {
-    let defaultLinkValue = {
+    const defaultLinkValue = {
       relNofollow: false,
       targetBlank: true,
       title: '',
       url: ''
     }
-    let ids = []
-    let urls = []
+    const ids = []
+    const urls = []
     selection.forEach((attachment, index) => {
-      let attachmentData = this.mediaAttachmentParse(attachment)
-      let url = Object.assign({}, attachmentData.url)
+      const attachmentData = this.mediaAttachmentParse(attachment)
+      const url = Object.assign({}, attachmentData.url)
       ids.push(attachmentData.id)
 
       url.link = defaultLinkValue
-      if (this.state.value.urls && typeof this.state.value.urls[ index ] !== 'undefined' && typeof this.state.value.urls[ index ].link !== 'undefined') {
-        url.link = this.state.value.urls[ index ].link
+      if (this.state.value.urls && typeof this.state.value.urls[index] !== 'undefined' && typeof this.state.value.urls[index].link !== 'undefined') {
+        url.link = this.state.value.urls[index].link
       }
       urls.push(url)
     })
@@ -262,15 +262,15 @@ export default class AttachImage extends Attribute {
 
   updateExtraAttributesStates (attribute, state) {
     const { extraAttributes } = this.state
-    extraAttributes[ attribute ] = state
+    extraAttributes[attribute] = state
     this.setState({ extraAttributes: extraAttributes })
   }
 
   mediaAttachmentParse (attachment) {
     attachment = attachment.toJSON()
-    let srcUrl = {}
-    for (let size in attachment.sizes) {
-      srcUrl[ size ] = attachment.sizes[ size ].url
+    const srcUrl = {}
+    for (const size in attachment.sizes) {
+      srcUrl[size] = attachment.sizes[size].url
     }
     srcUrl.id = attachment.id
     srcUrl.title = attachment.title
@@ -284,13 +284,13 @@ export default class AttachImage extends Attribute {
   }
 
   handleUrlChange (key, fieldKey, urlValue) {
-    let stateValue = this.state.value
-    stateValue.urls[ key ].link = urlValue
+    const stateValue = this.state.value
+    stateValue.urls[key].link = urlValue
     this.updateFieldValue(stateValue)
   }
 
   handleFilterChange (filterName) {
-    let stateValue = this.state.value
+    const stateValue = this.state.value
     stateValue.urls = stateValue.urls.map(image => {
       image.filter = filterName
       return image
@@ -309,7 +309,7 @@ export default class AttachImage extends Attribute {
   }
 
   updateFieldValue (value) {
-    let mergedValue = lodash.merge(this.state.value, value)
+    const mergedValue = lodash.merge(this.state.value, value)
     this.setFieldValue(mergedValue)
   }
 
@@ -317,14 +317,14 @@ export default class AttachImage extends Attribute {
     if (this.mediaUploader.state() && this.mediaUploader.state().get('library')) {
       this.mediaUploader.state().get('library')._requery(true)
     }
-    let selection = this.mediaUploader.state().get('selection')
-    let ids = this.state.value.ids
+    const selection = this.mediaUploader.state().get('selection')
+    const ids = this.state.value.ids
     ids && ids.forEach(function (id) {
       if (id) {
-        let attachment = window.wp.media.attachment(id)
+        const attachment = window.wp.media.attachment(id)
         attachment.fetch()
         if (attachment) {
-          selection.add([ attachment ])
+          selection.add([attachment])
         }
       }
     })
@@ -339,7 +339,7 @@ export default class AttachImage extends Attribute {
     let urlHtml = ''
     const show = this.state.extraAttributes.url
     if (show) {
-      const urlValue = this.state.value.urls[ key ].link || ''
+      const urlValue = this.state.value.urls[key].link || ''
       const imageLink = true
       const defaultValue = { url: '', title: '', targetBlank: false, relNofollow: false }
       urlHtml = (
@@ -352,7 +352,7 @@ export default class AttachImage extends Attribute {
           elementAccessPoint={this.props.elementAccessPoint}
           handleDynamicFieldChange={this.props.handleDynamicFieldChange}
           defaultValue={defaultValue}
-          dynamicFieldType={'imageUrl'}
+          dynamicFieldType='imageUrl'
           imageLink={imageLink}
         />
       )
@@ -361,8 +361,8 @@ export default class AttachImage extends Attribute {
   }
 
   onSortEnd ({ oldIndex, newIndex }) {
-    let prevState = Object.assign({}, this.state.value)
-    let sortedValue = {}
+    const prevState = Object.assign({}, this.state.value)
+    const sortedValue = {}
     sortedValue.urls = arrayMove(prevState.urls, oldIndex, newIndex)
     sortedValue.ids = arrayMove(prevState.ids, oldIndex, newIndex)
     this.setFieldValue(sortedValue)
@@ -370,24 +370,24 @@ export default class AttachImage extends Attribute {
 
   customDynamicRender (dynamicApi) {
     const { dynamicFieldOpened, isWindowOpen } = dynamicApi.state
-    let { value } = this.state
+    const { value } = this.state
     let content = ''
     if (dynamicFieldOpened) {
       let urlClasses = 'vcv-ui-form-attach-image-url-dynamic'
-      if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ] && value.urls[ 0 ].link && value.urls[ 0 ].link.url) {
+      if (value && value.urls && value.urls[0] && value.urls[0] && value.urls[0].link && value.urls[0].link.url) {
         urlClasses += ' vcv-ui-form-attach-image-item-has-link-value'
       }
-      content = <React.Fragment>
+      content = <>
         {dynamicApi.renderDynamicInputs()}
         <div className={urlClasses}>
           {this.getUrlHtml(0)}
         </div>
-      </React.Fragment>
+                </>
     }
 
     let dynamicValue = value
     if (value && value.hasOwnProperty('urls')) {
-      dynamicValue = value.urls[ 0 ] && value.urls[ 0 ].full ? value.urls[ 0 ].full : ''
+      dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
     const isDynamicValue = !!(dynamicValue && typeof dynamicValue === 'string' && dynamicValue.match(blockRegexp))
 
@@ -402,10 +402,10 @@ export default class AttachImage extends Attribute {
     }
 
     return (
-      <React.Fragment>
+      <>
         {content}
         {isWindowOpen ? dynamicApi.getDynamicPopup() : null}
-      </React.Fragment>
+      </>
     )
   }
 
@@ -414,25 +414,25 @@ export default class AttachImage extends Attribute {
   }
 
   handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
-    let dynamicValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
+    const dynamicValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
     let newValue = dynamicValue
-    let { value } = this.state
+    const { value } = this.state
 
-    if (value && value.urls && value.urls[ 0 ] && value.urls[ 0 ].full) {
+    if (value && value.urls && value.urls[0] && value.urls[0].full) {
       newValue = value
-      newValue.urls[ 0 ].full = dynamicValue
+      newValue.urls[0].full = dynamicValue
     }
 
     return { fieldValue: newValue, dynamicValue: dynamicValue }
   }
 
   getAttachImageComponent (dynamicApi) {
-    let useDragHandle = true
-    let cookElement = this.props.elementAccessPoint.cook()
-    let metaAssetsPath = cookElement.get('metaAssetsPath')
+    const useDragHandle = true
+    const cookElement = this.props.elementAccessPoint.cook()
+    const metaAssetsPath = cookElement.get('metaAssetsPath')
     const dragClass = 'vcv-ui-form-attach-image-item--dragging'
 
-    let fieldComponent = <SortableList
+    const fieldComponent = <SortableList
       {...this.props}
       metaAssetsPath={metaAssetsPath}
       helperClass={dragClass}
@@ -444,21 +444,23 @@ export default class AttachImage extends Attribute {
       handleRemove={this.handleRemove}
       getUrlHtml={this.getUrlHtml}
       dynamicApi={dynamicApi}
-    />
+                           />
 
     return fieldComponent
   }
 
   render () {
     const { options } = this.props
-    let { value, filter = false } = this.state
+    const { value, filter = false } = this.state
 
-    let cookElement = this.props.elementAccessPoint.cook()
-    let metaAssetsPath = cookElement.get('metaAssetsPath')
+    const cookElement = this.props.elementAccessPoint.cook()
+    const metaAssetsPath = cookElement.get('metaAssetsPath')
     let filterControl = (
       <div className='vcv-ui-form-attach-image-filter-toggle'>
-        <Toggle value={filter} fieldKey={`enableFilter_${this.props.fieldKey}`} updater={this.toggleFilter}
-          options={{ labelText: 'Enable Instagram-like filters' }} />
+        <Toggle
+          value={filter} fieldKey={`enableFilter_${this.props.fieldKey}`} updater={this.toggleFilter}
+          options={{ labelText: 'Enable Instagram-like filters' }}
+        />
       </div>
     )
     let filterList = filter ? (
@@ -475,7 +477,7 @@ export default class AttachImage extends Attribute {
     }
 
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
-    let fieldClassNames = classNames({
+    const fieldClassNames = classNames({
       'vcv-ui-form-attach-image': true,
       'vcv-ui-form-field-dynamic': isDynamic
     })
@@ -483,11 +485,11 @@ export default class AttachImage extends Attribute {
     let dynamicValue = value
 
     if (value && value.hasOwnProperty('urls')) {
-      dynamicValue = value.urls[ 0 ] && value.urls[ 0 ].full ? value.urls[ 0 ].full : ''
+      dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
 
     return (
-      <React.Fragment>
+      <>
         <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={dynamicValue} attachImageClassNames={fieldClassNames} getAttachImageComponent={this.getAttachImageComponent.bind(this)} render={this.customDynamicRender.bind(this)} handleDynamicFieldChange={this.handleDynamicFieldChange} onOpen={this.props.handleDynamicFieldOpen} onClose={this.props.handleDynamicFieldClose}>
           <div className={fieldClassNames}>
             {this.getAttachImageComponent(false)}
@@ -495,7 +497,7 @@ export default class AttachImage extends Attribute {
         </DynamicAttribute>
         {filterControl}
         {filterList}
-      </React.Fragment>
+      </>
     )
   }
 }

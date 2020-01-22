@@ -42,8 +42,8 @@ export default class TreeViewDndManager {
   }
 
   buildItems (isAttribute = false) {
-    let scrollContainerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout-container .vcv-ui-scroll-content' : '.vcv-ui-tree-layout-container .vcv-ui-scroll-content'
-    let containerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout' : '.vcv-ui-tree-layout'
+    const scrollContainerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout-container .vcv-ui-scroll-content' : '.vcv-ui-tree-layout-container .vcv-ui-scroll-content'
+    const containerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout' : '.vcv-ui-tree-layout'
     if (!this.items) {
       this.scrollContainer = document.querySelector(scrollContainerSelector)
       this.items = new DnD(document.querySelector(containerSelector), {
@@ -72,7 +72,7 @@ export default class TreeViewDndManager {
     if (!this.sidebarContent || !this.scrollContainer) {
       return
     }
-    let scrollContainer = this.scrollContainer.getBoundingClientRect()
+    const scrollContainer = this.scrollContainer.getBoundingClientRect()
     let step = 0
     if (point.y - scrollContainer.top <= 50) {
       step = -4
@@ -91,8 +91,8 @@ export default class TreeViewDndManager {
       this.scrollTimeout = null
     }
     if (this.scroll) {
-      let posY = this.scrollContainer && (this.scrollContainer.scrollY || this.scrollContainer.scrollTop)
-      let posX = this.scrollContainer && (this.scrollContainer.scrollX || this.scrollContainer.scrollLeft)
+      const posY = this.scrollContainer && (this.scrollContainer.scrollY || this.scrollContainer.scrollTop)
+      const posX = this.scrollContainer && (this.scrollContainer.scrollX || this.scrollContainer.scrollLeft)
       if (posY === undefined || posX === undefined) {
         return
       }
@@ -105,7 +105,7 @@ export default class TreeViewDndManager {
 
   getOffsetTop () {
     if (this.iframe) {
-      let rect = this.iframe.getBoundingClientRect()
+      const rect = this.iframe.getBoundingClientRect()
       return rect.top
     }
     return 0

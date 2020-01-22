@@ -14,16 +14,16 @@ import LayoutResponsiveness from './lib/layoutResponsiveness'
 export default class Layout extends Attribute {
   static defaultProps = {
     layouts: [
-      [ 'auto' ],
-      [ 'auto', 'auto' ],
-      [ 'auto', 'auto', 'auto' ],
-      [ 'auto', 'auto', 'auto', 'auto' ],
-      [ 'auto', 'auto', 'auto', 'auto', 'auto' ],
-      [ 'auto', 'auto', 'auto', 'auto', 'auto', 'auto' ],
-      [ '66.66%', '33.34%' ],
-      [ '25%', '75%' ],
-      [ '25%', '50%', '25%' ],
-      [ '16.66%', '66.66%', '16.66%' ]
+      ['auto'],
+      ['auto', 'auto'],
+      ['auto', 'auto', 'auto'],
+      ['auto', 'auto', 'auto', 'auto'],
+      ['auto', 'auto', 'auto', 'auto', 'auto'],
+      ['auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+      ['66.66%', '33.34%'],
+      ['25%', '75%'],
+      ['25%', '50%', '25%'],
+      ['16.66%', '66.66%', '16.66%']
     ],
     suggestions: [
       '100%',
@@ -39,6 +39,7 @@ export default class Layout extends Attribute {
     ],
     fieldType: 'rowLayout'
   }
+
   static attributeMixins = {
     columnStyleMixin: {
       src: require('raw-loader!./cssMixins/columnStyles.pcss'),
@@ -76,7 +77,8 @@ export default class Layout extends Attribute {
       }
     }
   }
-  static devices = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
+
+  static devices = ['xs', 'sm', 'md', 'lg', 'xl']
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static deviceData = [
     {
@@ -107,22 +109,22 @@ export default class Layout extends Attribute {
   ]
 
   static buildMixins (data) {
-    let layoutData = Layout.getLayoutData(data.id)
+    const layoutData = Layout.getLayoutData(data.id)
 
     if (!layoutData.hasOwnProperty('all') && !layoutData.hasOwnProperty('xs')) {
       return null
     }
 
-    let newMixin = {}
+    const newMixin = {}
 
-    let columnGap = data.columnGap ? parseInt(data.columnGap) : 0
-    let selector = `vce-row--col-gap-${columnGap}#el-${data.id}`
+    const columnGap = data.columnGap ? parseInt(data.columnGap) : 0
+    const selector = `vce-row--col-gap-${columnGap}#el-${data.id}`
     const disableStacking = data && data.layout && data.layout.hasOwnProperty('disableStacking') ? data.layout.disableStacking : false
     const responsivenessSettings = data && data.layout && data.layout.hasOwnProperty('responsivenessSettings') ? data.layout.responsivenessSettings : false
 
     Layout.devices.forEach((device) => {
-      let currentLayout = layoutData[ 'all' ] || layoutData[ device ]
-      let reducedLayout = []
+      const currentLayout = layoutData.all || layoutData[device]
+      const reducedLayout = []
       currentLayout.forEach((col) => {
         if (reducedLayout.indexOf(col) < 0) {
           reducedLayout.push(col)
@@ -136,14 +138,14 @@ export default class Layout extends Attribute {
         let mixinName = ''
         let fraction = ''
         if (col.indexOf('%') >= 0) {
-          let numerator = parseFloat(col.replace('%', '').replace(',', '.'))
-          fraction = [ numerator, 100 ]
+          const numerator = parseFloat(col.replace('%', '').replace(',', '.'))
+          fraction = [numerator, 100]
         } else {
           fraction = col.split('/')
         }
 
         if (col !== 'auto') {
-          mixinName = `${'columnStyleMixin'}:col${fraction[ 0 ]}/${fraction[ 1 ]}:gap${columnGap}:${device}`
+          mixinName = `${'columnStyleMixin'}:col${fraction[0]}/${fraction[1]}:gap${columnGap}:${device}`
         } else {
           mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
         }
@@ -156,31 +158,31 @@ export default class Layout extends Attribute {
         // put index in the beginning of key to sort columns
         mixinName = `${Layout.devices.indexOf(device)}:${mixinName}`
 
-        newMixin[ mixinName ] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
-        newMixin[ mixinName ].variables.selector.value = selector
-        newMixin[ mixinName ].variables.device.value = device
+        newMixin[mixinName] = lodash.defaultsDeep({}, Layout.attributeMixins.columnStyleMixin)
+        newMixin[mixinName].variables.selector.value = selector
+        newMixin[mixinName].variables.device.value = device
 
         if (device === 'xs') {
           if (!disableStacking && !responsivenessSettings) {
-            newMixin[ mixinName ].variables.fullColumn.value = true
+            newMixin[mixinName].variables.fullColumn.value = true
           }
         }
-        const percentages = (fraction[ 0 ] / fraction[ 1 ] * 100).toFixed(2)
+        const percentages = (fraction[0] / fraction[1] * 100).toFixed(2)
         const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
 
         if (col !== 'auto') {
           if (col.indexOf('%') >= 0) {
-            newMixin[ mixinName ].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
+            newMixin[mixinName].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
           } else {
-            newMixin[ mixinName ].variables.numerator.value = fraction[ 0 ]
-            newMixin[ mixinName ].variables.denominator.value = fraction[ 1 ]
+            newMixin[mixinName].variables.numerator.value = fraction[0]
+            newMixin[mixinName].variables.denominator.value = fraction[1]
           }
-          newMixin[ mixinName ].variables.percentage.value = percentages
+          newMixin[mixinName].variables.percentage.value = percentages
         } else {
-          newMixin[ mixinName ].variables.autoColumn.value = true
+          newMixin[mixinName].variables.autoColumn.value = true
         }
-        newMixin[ mixinName ].variables.columnGap.value = columnGap.toString()
-        newMixin[ mixinName ].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
+        newMixin[mixinName].variables.columnGap.value = columnGap.toString()
+        newMixin[mixinName].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
       })
     })
     return newMixin
@@ -195,18 +197,18 @@ export default class Layout extends Attribute {
       if (!element) {
         return
       }
-      if (element.size && element.size[ 'all' ]) {
+      if (element.size && element.size.all) {
         if (!deviceLayoutData.hasOwnProperty('all')) {
           deviceLayoutData.all = []
         }
-        deviceLayoutData[ 'all' ].push(element.size[ 'all' ])
+        deviceLayoutData.all.push(element.size.all)
       }
 
-      if (getDefault && element.size && element.size[ 'defaultSize' ]) {
+      if (getDefault && element.size && element.size.defaultSize) {
         if (!deviceLayoutData.hasOwnProperty('defaultSize')) {
           deviceLayoutData.defaultSize = []
         }
-        deviceLayoutData[ 'defaultSize' ].push(element.size[ 'defaultSize' ])
+        deviceLayoutData.defaultSize.push(element.size.defaultSize)
       }
     })
 
@@ -217,14 +219,14 @@ export default class Layout extends Attribute {
             return
           }
           if (!deviceLayoutData.hasOwnProperty(device)) {
-            deviceLayoutData[ device ] = []
+            deviceLayoutData[device] = []
           }
           if (element.size && typeof element.size === 'string') {
-            deviceLayoutData[ device ].push(element.size)
+            deviceLayoutData[device].push(element.size)
           } else if (element.size && element.size.hasOwnProperty && element.size.hasOwnProperty(device)) {
-            deviceLayoutData[ device ].push(element.size[ device ])
+            deviceLayoutData[device].push(element.size[device])
           } else {
-            deviceLayoutData[ device ].push('auto')
+            deviceLayoutData[device].push('auto')
           }
         })
       })
@@ -243,7 +245,7 @@ export default class Layout extends Attribute {
   updateState (props) {
     let deviceLayoutData = {}
 
-    if (props.value && props.value.layoutData && (props.value.layoutData[ 'all' ] || props.value.layoutData[ 'xs' ])) {
+    if (props.value && props.value.layoutData && (props.value.layoutData.all || props.value.layoutData.xs)) {
       deviceLayoutData = props.value.layoutData
     } else {
       deviceLayoutData = Layout.getLayoutData(props.elementAccessPoint.id, true)
@@ -265,15 +267,15 @@ export default class Layout extends Attribute {
   }
 
   updateDevicesLayout (defaultLayout, newState) {
-    newState.layoutData[ 'all' ] = defaultLayout
+    newState.layoutData.all = defaultLayout
     newState.defaultLayoutData = defaultLayout
-    for (let device in newState.layoutData) {
+    for (const device in newState.layoutData) {
       if (newState.layoutData.hasOwnProperty(device)) {
-        let deviceLayout = newState.layoutData[ device ]
+        const deviceLayout = newState.layoutData[device]
         if (device !== 'all') {
           deviceLayout.length = 0
           defaultLayout.forEach((col, i) => {
-            if (!deviceLayout[ i ] && col) {
+            if (!deviceLayout[i] && col) {
               deviceLayout.push((device === 'xs' || device === 'sm') ? '100%' : col)
             }
           })
@@ -286,7 +288,7 @@ export default class Layout extends Attribute {
   setActiveLayout (layout, options) {
     let newState = lodash.defaultsDeep({}, this.state.value)
     if (options && options.device) {
-      newState.layoutData[ options.device ][ options.index ] = layout
+      newState.layoutData[options.device][options.index] = layout
     } else {
       newState = this.updateDevicesLayout(layout, newState)
     }
@@ -294,33 +296,33 @@ export default class Layout extends Attribute {
   }
 
   setFieldValue (value) {
-    let { updater, fieldKey } = this.props
-    let { layoutData, ...rest } = value
+    const { updater, fieldKey } = this.props
+    const { layoutData, ...rest } = value
     if (value.responsivenessSettings) {
-      const mobileDeviceLayout = layoutData[ 'all' ] ? layoutData[ 'all' ].map(() => { return '100%' }) : []
-      if (!layoutData[ 'xs' ]) {
-        layoutData[ 'xs' ] = mobileDeviceLayout
+      const mobileDeviceLayout = layoutData.all ? layoutData.all.map(() => { return '100%' }) : []
+      if (!layoutData.xs) {
+        layoutData.xs = mobileDeviceLayout
       }
-      if (!layoutData[ 'sm' ]) {
-        layoutData[ 'sm' ] = mobileDeviceLayout
+      if (!layoutData.sm) {
+        layoutData.sm = mobileDeviceLayout
       }
-      layoutData[ 'md' ] = layoutData[ 'md' ] || layoutData[ 'all' ]
-      layoutData[ 'lg' ] = layoutData[ 'lg' ] || layoutData[ 'all' ]
-      layoutData[ 'xl' ] = layoutData[ 'xl' ] || layoutData[ 'all' ]
-      delete layoutData[ 'all' ]
+      layoutData.md = layoutData.md || layoutData.all
+      layoutData.lg = layoutData.lg || layoutData.all
+      layoutData.xl = layoutData.xl || layoutData.all
+      delete layoutData.all
     } else {
-      layoutData[ 'all' ] = value.defaultLayoutData
-      delete layoutData[ 'xs' ]
-      delete layoutData[ 'sm' ]
-      delete layoutData[ 'md' ]
-      delete layoutData[ 'lg' ]
-      delete layoutData[ 'xl' ]
+      layoutData.all = value.defaultLayoutData
+      delete layoutData.xs
+      delete layoutData.sm
+      delete layoutData.md
+      delete layoutData.lg
+      delete layoutData.xl
     }
     const sanitizedValue = {}
-    for (let device in layoutData) {
+    for (const device in layoutData) {
       if (layoutData.hasOwnProperty(device)) {
         const convertToEmpty = device !== 'defaultSize' && device !== 'all'
-        sanitizedValue[ device ] = this.sanitizeLayout(layoutData[ device ], convertToEmpty)
+        sanitizedValue[device] = this.sanitizeLayout(layoutData[device], convertToEmpty)
       }
     }
     updater(fieldKey, {
@@ -333,10 +335,10 @@ export default class Layout extends Attribute {
   }
 
   sanitizeLayout (value, convertToEmpty) {
-    let newValue = []
+    const newValue = []
 
     value.map((col) => {
-      let isValid = this.validateSize(col)
+      const isValid = this.validateSize(col)
       if (isValid) {
         newValue.push(col)
       } else if (convertToEmpty) {
@@ -351,37 +353,37 @@ export default class Layout extends Attribute {
     if (text === 'auto' || text === 'hide') {
       return true
     }
-    let fractionRegex = /^(\d+)\/(\d+)$/
+    const fractionRegex = /^(\d+)\/(\d+)$/
 
     if (fractionRegex.test(text)) {
       // test if fraction is less than 1
-      let results = fractionRegex.exec(text)
-      let numerator = parseInt(results[ 1 ])
-      let denominator = parseInt(results[ 2 ])
+      const results = fractionRegex.exec(text)
+      const numerator = parseInt(results[1])
+      const denominator = parseInt(results[2])
       return numerator <= denominator
     }
 
-    let percentageRegex = /^(\d+)([,.]\d+)?%/
+    const percentageRegex = /^(\d+)([,.]\d+)?%/
     if (percentageRegex.test(text)) {
       // test if percentage is more than 1 and less than 100
-      let percentage = parseFloat(text.replace('%', '').replace(',', '.'))
+      const percentage = parseFloat(text.replace('%', '').replace(',', '.'))
       return percentage >= 1 && percentage <= 100
     }
     return false
   }
 
   getReverseToggle () {
-    let data = this.state.value
+    const data = this.state.value
     if (data && data.disableStacking) {
       return null
     }
-    let reverseState = data && data.hasOwnProperty('reverseColumn') ? data.reverseColumn : false
+    const reverseState = data && data.hasOwnProperty('reverseColumn') ? data.reverseColumn : false
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-layout-reverse-column-toggle'>
           <Toggle
             api={this.props.api}
-            fieldKey={'reverseColumn'}
+            fieldKey='reverseColumn'
             updater={this.valueChangeHandler}
             options={{ labelText: 'Reverse column stacking' }}
             value={reverseState}
@@ -392,26 +394,26 @@ export default class Layout extends Attribute {
   }
 
   valueChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state.value)
-    newState[ fieldKey ] = value
-    if (fieldKey === 'responsivenessSettings' && value && newState[ 'disableStacking' ]) {
-      newState[ 'disableStacking' ] = false
+    const newState = lodash.defaultsDeep({}, this.state.value)
+    newState[fieldKey] = value
+    if (fieldKey === 'responsivenessSettings' && value && newState.disableStacking) {
+      newState.disableStacking = false
     }
     this.setFieldValue(newState)
   }
 
   getStackingToggle () {
-    let data = this.state.value
+    const data = this.state.value
     if (data && data.responsivenessSettings) {
       return null
     }
-    let disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
+    const disableStackingState = data && data.hasOwnProperty('disableStacking') ? data.disableStacking : false
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-layout-disable-stacking-toggle'>
           <Toggle
             api={this.props.api}
-            fieldKey={'disableStacking'}
+            fieldKey='disableStacking'
             updater={this.valueChangeHandler}
             options={{ labelText: 'Disable column stacking' }}
             value={disableStackingState}
@@ -422,14 +424,14 @@ export default class Layout extends Attribute {
   }
 
   getResponsiveToggle () {
-    let data = this.state.value
-    let responsivenessSettingsState = data && data.hasOwnProperty('responsivenessSettings') ? data.responsivenessSettings : false
+    const data = this.state.value
+    const responsivenessSettingsState = data && data.hasOwnProperty('responsivenessSettings') ? data.responsivenessSettings : false
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-custom-responsiveness-toggle'>
           <Toggle
             api={this.props.api}
-            fieldKey={'responsivenessSettings'}
+            fieldKey='responsivenessSettings'
             updater={this.valueChangeHandler}
             options={{ labelText: 'Custom responsiveness settings' }}
             value={responsivenessSettingsState}
@@ -441,13 +443,13 @@ export default class Layout extends Attribute {
 
   handleColumnHover (options) {
     const newState = {}
-    newState[ options.type ] = options.over ? options.index : false
+    newState[options.type] = options.over ? options.index : false
     this.setState(newState)
   }
 
   render () {
-    let { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
-    let responsiveness = responsivenessSettings
+    const { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
+    const responsiveness = responsivenessSettings
       ? <LayoutResponsiveness
         layouts={this.props.layouts}
         layoutData={layoutData}
@@ -457,7 +459,8 @@ export default class Layout extends Attribute {
         defaultLayoutData={defaultLayoutData}
         activeColumn={this.state.activeColumn}
         handleColumnHover={this.handleColumnHover}
-        {...this.props} />
+        {...this.props}
+      />
       : null
     return (
       <div className='vcv-ui-form-layout'>
@@ -465,8 +468,10 @@ export default class Layout extends Attribute {
 or enter custom values. Extend row layout by customizing
 responsiveness options and stacking order.
         </span>
-        <DefaultLayouts layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
-          onChange={this.setActiveLayout} />
+        <DefaultLayouts
+          layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
+          onChange={this.setActiveLayout}
+        />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
           <div className='vcv-ui-row vcv-ui-row-gap--md'>

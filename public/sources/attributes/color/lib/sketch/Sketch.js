@@ -20,7 +20,7 @@ export class Sketch extends React.Component {
   render () {
     const rgb = this.props.rgb
     const styles = reactCSS({
-      'default': {
+      default: {
         saturation: {
           width: '100%',
           paddingBottom: '75%',
@@ -72,7 +72,7 @@ export class Sketch extends React.Component {
           shadow: 'inset 0 0 0 1px rgba(0,0,0,.15), inset 0 0 4px rgba(0,0,0,.25)'
         }
       },
-      'disableAlpha': {
+      disableAlpha: {
         color: {
           height: '10px'
         },
@@ -124,8 +124,8 @@ export class Sketch extends React.Component {
 }
 
 Sketch.defaultProps = {
-  presetColors: [ '#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505', '#BD10E0',
-    '#9013FE', '#4A90E2', '#50E3C2', '#B8E986', '#000000', '#4A4A4A', '#9B9B9B', '#FFFFFF' ]
+  presetColors: ['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505', '#BD10E0',
+    '#9013FE', '#4A90E2', '#50E3C2', '#B8E986', '#000000', '#4A4A4A', '#9B9B9B', '#FFFFFF']
 }
 
 export default ColorWrap(Sketch)

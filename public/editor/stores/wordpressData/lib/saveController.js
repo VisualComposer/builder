@@ -28,69 +28,69 @@ export default class SaveController {
   save (id, data, status, options) {
     let globalStylesCompiled = ''
     let pageStylesCompiled = ''
-    let promises = []
+    const promises = []
     const assetsStorageInstance = modernAssetsStorage.create()
-    let globalStylesManager = stylesManager.create()
-    let globalCss = settingsStorage.state('globalCss').get() || ''
-    globalStylesManager.add([ {
+    const globalStylesManager = stylesManager.create()
+    const globalCss = settingsStorage.state('globalCss').get() || ''
+    globalStylesManager.add([{
       src: globalCss
-    } ])
+    }])
     promises.push(globalStylesManager.compile().then((result) => {
       globalStylesCompiled = result
     }))
     const localStylesManager = stylesManager.create()
-    let customCss = settingsStorage.state('customCss').get() || ''
-    localStylesManager.add([ {
+    const customCss = settingsStorage.state('customCss').get() || ''
+    localStylesManager.add([{
       src: customCss
-    } ])
+    }])
     // localStylesManager.add(globalAssetsStorageInstance.getPageCssDataNG())
     promises.push(localStylesManager.compile().then((result) => {
       pageStylesCompiled = result
     }))
-    let assetsFiles = {
+    const assetsFiles = {
       jsBundles: [],
       cssBundles: []
     }
     const elementsCss = {}
     Object.keys(data.elements).forEach((key) => {
-      const cookElement = cook.get(data.elements[ key ])
+      const cookElement = cook.get(data.elements[key])
       const tag = cookElement.get('tag')
-      elementsCss[ key ] = {
+      elementsCss[key] = {
         tag: tag
       }
-      let elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
+      const elementAssetsFiles = elementAssetsLibrary.getAssetsFilesByElement(cookElement)
       assetsFiles.cssBundles = assetsFiles.cssBundles.concat(elementAssetsFiles.cssBundles)
       assetsFiles.jsBundles = assetsFiles.jsBundles.concat(elementAssetsFiles.jsBundles)
       const elementBaseStyleManager = stylesManager.create()
       const elementAttributesStyleManager = stylesManager.create()
       const elementMixinsStyleManager = stylesManager.create()
-      const { tags: baseCss, attributeMixins, cssMixins } = assetsStorageInstance.getCssDataByElement(data.elements[ key ], {
+      const { tags: baseCss, attributeMixins, cssMixins } = assetsStorageInstance.getCssDataByElement(data.elements[key], {
         tags: true,
         attributeMixins: true,
         cssMixins: true,
         skipOnSave: true
       })
       promises.push(elementBaseStyleManager.add(baseCss).compile().then((result) => {
-        elementsCss[ key ].baseCss = result
+        elementsCss[key].baseCss = result
       }))
       promises.push(elementAttributesStyleManager.add(attributeMixins).compile().then((result) => {
-        elementsCss[ key ].attributesCss = result
+        elementsCss[key].attributesCss = result
       }))
       promises.push(elementMixinsStyleManager.add(cssMixins).compile().then((result) => {
-        elementsCss[ key ].mixinsCss = result
+        elementsCss[key].mixinsCss = result
       }))
     })
 
     promises.push(renderProcessor.appAllDone())
     promises.push(dataProcessor.appAllDone())
 
-    assetsFiles.cssBundles = [ ...new Set(assetsFiles.cssBundles) ]
-    assetsFiles.jsBundles = [ ...new Set(assetsFiles.jsBundles) ]
+    assetsFiles.cssBundles = [...new Set(assetsFiles.cssBundles)]
+    assetsFiles.jsBundles = [...new Set(assetsFiles.jsBundles)]
     return Promise.all(promises).then(() => {
       const iframe = document.getElementById('vcv-editor-iframe')
       const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
-      let content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
-      let requestData = {
+      const content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
+      const requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id,
         'vcv-ready': '1', // Used for backend editor when post being saved
@@ -110,7 +110,7 @@ export default class SaveController {
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
       }
-      let pageTemplateData = settingsStorage.state('pageTemplate').get()
+      const pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {
         if (pageTemplateData.stretchedContent) {
           // Due to browsers converts Boolean TRUE to string "true"
@@ -118,18 +118,18 @@ export default class SaveController {
         } else {
           pageTemplateData.stretchedContent = 0
         }
-        requestData[ 'vcv-page-template' ] = pageTemplateData
+        requestData['vcv-page-template'] = pageTemplateData
       }
-      let title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
-      requestData[ 'vcv-page-title' ] = title
-      requestData[ 'vcv-page-title-disabled' ] = settingsStorage.state('pageTitleDisabled').get() || ''
-      requestData[ 'vcv-post-name' ] = settingsStorage.state('postName').get() || ''
+      const title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
+      requestData['vcv-page-title'] = title
+      requestData['vcv-page-title-disabled'] = settingsStorage.state('pageTitleDisabled').get() || ''
+      requestData['vcv-post-name'] = settingsStorage.state('postName').get() || ''
 
-      let extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
-      requestData[ 'vcv-extra' ] = extraRequestData
+      const extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
+      requestData['vcv-extra'] = extraRequestData
 
-      let itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
-      requestData[ 'vcv-item-preview-disabled' ] = itemPreviewDisabled
+      const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
+      requestData['vcv-item-preview-disabled'] = itemPreviewDisabled
       this.ajax(
         requestData,
         options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),
@@ -140,7 +140,7 @@ export default class SaveController {
 
   saveSuccess (status, responseText) {
     try {
-      let data = getResponse(responseText || '{}')
+      const data = getResponse(responseText || '{}')
       if (!data || !data.status) {
         console.warn('save failed, no status')
         this.saveFailed(status, responseText)
@@ -165,7 +165,7 @@ export default class SaveController {
 
   saveFailed (status, request) {
     try {
-      let data = getResponse(request)
+      const data = getResponse(request)
       if (data && data.postData) {
         window.vcvPostData = data.postData
       }

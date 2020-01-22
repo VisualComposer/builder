@@ -42,19 +42,19 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup(categories.all, [ elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ])
+      const allGroup = this.getAllGroup(categories.all, [elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup])
 
-      this.allCategories = [ allGroup, elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup ]
+      this.allCategories = [allGroup, elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
     }
     return this.allCategories
   }
 
   getAllGroup (category, otherGroups) {
     const { title, index } = category
-    let elements = []
+    const elements = []
 
     otherGroups.forEach((group) => {
-      const groupAllElements = group.categories && group.categories[ 0 ] ? group.categories[ 0 ].elements : group.elements
+      const groupAllElements = group.categories && group.categories[0] ? group.categories[0].elements : group.elements
       if (groupAllElements) {
         elements.push(...groupAllElements)
       }
@@ -72,14 +72,14 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     const { title, index } = category
     const elementCategories = window.VCV_HUB_GET_TEASER()
     elementCategories.forEach((item, index) => {
-      let elements = lodash.sortBy(item.elements, [ 'name' ])
+      let elements = lodash.sortBy(item.elements, ['name'])
       elements = elements.map((element) => {
-        let tag = element.tag
+        const tag = element.tag
         element.tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
 
         return element
       })
-      elementCategories[ index ].elements = elements
+      elementCategories[index].elements = elements
     })
     return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
   }
@@ -135,7 +135,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   getNoResultsElement () {
     const nothingFoundText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.nothingFound : 'Nothing found'
 
-    let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
+    const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
@@ -149,18 +149,18 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getElementsByCategory () {
-    let { activeCategoryIndex } = this.state
-    let allCategories = this.getAllCategories()
+    const { activeCategoryIndex } = this.state
+    const allCategories = this.getAllCategories()
     let elements = []
 
     if (activeCategoryIndex.indexOf && activeCategoryIndex.indexOf('-') > -1) {
       const index = activeCategoryIndex.split('-')
-      const group = allCategories[ index[ 0 ] ]
-      const category = group && group.categories && group.categories[ index[ 1 ] ]
+      const group = allCategories[index[0]]
+      const category = group && group.categories && group.categories[index[1]]
 
       elements = category ? category.elements : []
     } else {
-      elements = allCategories && allCategories[ activeCategoryIndex ] && allCategories[ activeCategoryIndex ].elements
+      elements = allCategories && allCategories[activeCategoryIndex] && allCategories[activeCategoryIndex].elements
     }
 
     return elements ? elements.map((tag) => { return this.getElementControl(tag) }) : []
@@ -177,9 +177,9 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       activeFilter: this.state.filterId,
       disableSelect: true,
       selectEvent: (active) => {
-        let activeId = active && active.constructor === String && active.split('-')[ 0 ]
-        let result = this.state
-        let foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
+        const activeId = active && active.constructor === String && active.split('-')[0]
+        const result = this.state
+        const foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
         result.filterType = foundCategory.type
         this.setState(result)
       }
@@ -187,7 +187,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getSearchElement () {
-    let searchProps = this.getSearchProps()
+    const searchProps = this.getSearchProps()
     return <SearchElement {...searchProps} />
   }
 
@@ -208,7 +208,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       if (filterType === 'all') {
         isClean = true
       } else {
-        if (categories[ filterType ].templateType) {
+        if (categories[filterType].templateType) {
           isClean = item.props.type === 'template' && item.props.element.templateType === filterType
         } else {
           isClean = item.props.type === filterType
@@ -286,8 +286,8 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   render () {
-    let itemsOutput = this.filterResult()
-    let innerSectionClasses = classNames({
+    const itemsOutput = this.filterResult()
+    const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })

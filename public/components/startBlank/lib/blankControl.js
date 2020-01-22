@@ -57,8 +57,8 @@ export default class TemplateControl extends React.Component {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
         return true
       }
@@ -68,7 +68,7 @@ export default class TemplateControl extends React.Component {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -77,7 +77,7 @@ export default class TemplateControl extends React.Component {
   }
 
   updatePreviewPosition () {
-    let element = ReactDOM.findDOMNode(this)
+    const element = ReactDOM.findDOMNode(this)
 
     let container
     if (element.closest === undefined) {
@@ -85,14 +85,14 @@ export default class TemplateControl extends React.Component {
     } else {
       container = element.closest('.vcv-ui-item-list')
     }
-    let firstElement = container.querySelector('.vcv-ui-item-list-item')
-    let trigger = element.querySelector('.vcv-ui-item-element-content')
-    let preview = element.querySelector('.vcv-ui-item-preview-container')
+    const firstElement = container.querySelector('.vcv-ui-item-list-item')
+    const trigger = element.querySelector('.vcv-ui-item-element-content')
+    const preview = element.querySelector('.vcv-ui-item-preview-container')
 
-    let triggerSizes = trigger.getBoundingClientRect()
-    let firsElementSize = firstElement.getBoundingClientRect()
-    let previewSizes = preview.getBoundingClientRect()
-    let windowSize = {
+    const triggerSizes = trigger.getBoundingClientRect()
+    const firsElementSize = firstElement.getBoundingClientRect()
+    const previewSizes = preview.getBoundingClientRect()
+    const windowSize = {
       height: window.innerHeight,
       width: window.innerWidth
     }
@@ -150,8 +150,8 @@ export default class TemplateControl extends React.Component {
   }
 
   ellipsize (selector) {
-    let element = ReactDOM.findDOMNode(this).querySelector(selector)
-    let wordArray = element.innerHTML.split(' ')
+    const element = ReactDOM.findDOMNode(this).querySelector(selector)
+    const wordArray = element.innerHTML.split(' ')
     while (element.scrollHeight > element.offsetHeight && wordArray.length > 0) {
       wordArray.pop()
       element.innerHTML = wordArray.join(' ') + '...'
@@ -163,18 +163,18 @@ export default class TemplateControl extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
 
-    let { name, thumbnail, preview, description } = this.props
-    let { previewVisible, previewStyle } = this.state
+    const { name, thumbnail, preview, description } = this.props
+    const { previewVisible, previewStyle } = this.state
 
-    let applyClasses = classNames({
+    const applyClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true
     })
 
-    let overlayClasses = classNames({
+    const overlayClasses = classNames({
       'vcv-ui-item-overlay': true
     })
 
-    let elementContentClasses = classNames({
+    const elementContentClasses = classNames({
       'vcv-ui-item-element-content': true,
       'vcv-ui-item-blank-page': this.props.blank
     })
@@ -220,7 +220,8 @@ export default class TemplateControl extends React.Component {
 
     return (
       <li className='vcv-ui-item-list-item'>
-        <span className='vcv-ui-item-element'
+        <span
+          className='vcv-ui-item-element'
           title={`${addText} ${name}`}
           onClick={this.handleAddClick.bind(this)}
           onMouseEnter={this.showPreview}

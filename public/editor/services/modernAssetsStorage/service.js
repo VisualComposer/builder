@@ -58,7 +58,7 @@ class PublicApi {
   }
 }
 
-let singleton = new PublicApi()
+const singleton = new PublicApi()
 const service = {
   create () {
     return singleton

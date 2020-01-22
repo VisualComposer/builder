@@ -28,8 +28,8 @@ addStorage('settings', (storage) => {
 
   const dataProcessor = getService('dataProcessor')
   storage.on('loadDynamicPost', (sourceId, successCallback, failureCallback, isCustomID) => {
-    let postData = storage.state('postData').get()
-    let postFields = storage.state('postFields').get()
+    const postData = storage.state('postData').get()
+    const postFields = storage.state('postFields').get()
     if (!isCustomID) {
       // Current Post
       if (typeof successCallback === 'function') {
@@ -37,10 +37,10 @@ addStorage('settings', (storage) => {
       }
     } else {
       // Custom Post
-      if (typeof postData[ sourceId ] !== 'undefined') {
+      if (typeof postData[sourceId] !== 'undefined') {
         // Already loaded
         if (typeof successCallback === 'function') {
-          successCallback(sourceId, postData[ sourceId ], postFields[ sourceId ])
+          successCallback(sourceId, postData[sourceId], postFields[sourceId])
         }
       } else {
         dataProcessor.appAllDone().then(() => {
@@ -49,9 +49,9 @@ addStorage('settings', (storage) => {
             'vcv-source-id': sourceId,
             'vcv-custom-post': isCustomID ? '1' : '0'
           }).then((requestData) => {
-            let response = getResponse(requestData)
-            postData[ sourceId ] = response.postData || {}
-            postFields[ sourceId ] = response.postFields || {}
+            const response = getResponse(requestData)
+            postData[sourceId] = response.postData || {}
+            postFields[sourceId] = response.postFields || {}
             storage.state('postData').set(postData)
             storage.state('postFields').set(postFields)
             if (typeof successCallback === 'function') {

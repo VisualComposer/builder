@@ -1,5 +1,5 @@
-let layoutIcons = {
-  'vc__blank': {
+const layoutIcons = {
+  vc__blank: {
     icon: require('./vc__blank'),
     label: 'Blank Template'
   },

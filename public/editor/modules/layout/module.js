@@ -19,16 +19,16 @@ const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 
 vcCake.add('contentLayout', (api) => {
-  let iframeContent = document.getElementById('vcv-layout-iframe-content')
-  let dnd = new DndManager(api)
-  let controls = new ControlsManager(api)
+  const iframeContent = document.getElementById('vcv-layout-iframe-content')
+  const dnd = new DndManager(api)
+  const controls = new ControlsManager(api)
   const localizations = window.VCV_I18N && window.VCV_I18N()
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
   }
 
   // Start notifications
-  let layoutOverlay = document.querySelector('.vcv-layout-overlay')
+  const layoutOverlay = document.querySelector('.vcv-layout-overlay')
   if (layoutOverlay) {
     ReactDOM.render(
       <Notifications />,
@@ -39,9 +39,9 @@ vcCake.add('contentLayout', (api) => {
   const renderLayout = (reload = false) => {
     workspaceIFrame.ignoreChange(reloadLayout)
     workspaceIFrame.set(false)
-    let iframe = document.getElementById('vcv-editor-iframe')
-    let iframeWindow = iframe ? iframe.contentWindow : null
-    let domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
+    const iframe = document.getElementById('vcv-editor-iframe')
+    const iframeWindow = iframe ? iframe.contentWindow : null
+    const domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
     if (domContainer) {
       ReactDOM.render(
         <Editor api={api} />,
@@ -59,7 +59,7 @@ vcCake.add('contentLayout', (api) => {
         showCloseButton: true,
         rounded: false,
         type: 'warning',
-        text: localizations.newPluginVersionIsAvailable || `There is a new version of Visual Composer Website Builder available`,
+        text: localizations.newPluginVersionIsAvailable || 'There is a new version of Visual Composer Website Builder available',
         html: true,
         cookie: {
           name: 'vcv-update-notice',
@@ -70,7 +70,7 @@ vcCake.add('contentLayout', (api) => {
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        let mobileControls = new MobileControlsManager(api)
+        const mobileControls = new MobileControlsManager(api)
         mobileControls.init()
 
         notificationsStorage.trigger('add', {
@@ -87,7 +87,7 @@ vcCake.add('contentLayout', (api) => {
       reload ? controls.updateIframeVariables() : controls.init()
       if (vcCake.env('VCV_JS_THEME_LAYOUTS')) {
         iframeWindow.document.querySelectorAll('[data-vcv-layout-zone]').forEach((zone) => {
-          let zoneButton = zone.querySelector('[data-vcv-action="settings"]')
+          const zoneButton = zone.querySelector('[data-vcv-action="settings"]')
           zoneButton && zoneButton.addEventListener('click', () => {
             workspaceStorage.state('content').set('settings')
             workspaceSettings.set({ action: 'settings' })
@@ -103,8 +103,8 @@ vcCake.add('contentLayout', (api) => {
         wrapper = postUpdateIframe && postUpdateIframe.contentWindow.document.body
       }
 
-      wrapper.innerHTML = `<div id='vcv-oops-screen-container'></div>`
-      let oopsContainer = document.getElementById('vcv-oops-screen-container')
+      wrapper.innerHTML = '<div id=\'vcv-oops-screen-container\'></div>'
+      const oopsContainer = document.getElementById('vcv-oops-screen-container')
       if (oopsContainer) {
         ReactDOM.render(
           <div className='vcv-screen-section'>
@@ -145,8 +145,8 @@ vcCake.add('contentLayout', (api) => {
   const reloadLayout = ({ type, template, header, sidebar, footer }) => {
     if (type === 'reload') {
       createLoadingScreen()
-      let iframe = window.document.getElementById('vcv-editor-iframe')
-      let domContainer = iframe.contentDocument.getElementById('vcv-editor')
+      const iframe = window.document.getElementById('vcv-editor-iframe')
+      const domContainer = iframe.contentDocument.getElementById('vcv-editor')
       if (domContainer) {
         ReactDOM.unmountComponentAtNode(domContainer)
       }
@@ -168,8 +168,8 @@ vcCake.add('contentLayout', (api) => {
           assetsStorage.trigger('updateAllElements', visibleElements)
         }, 1)
       }
-      let url = iframe.src.split('?')
-      let params = url[ 1 ].split('&')
+      const url = iframe.src.split('?')
+      let params = url[1].split('&')
       params = params.reduce((arr, item) => {
         let write = true
         if (item.indexOf('vcv-template') >= 0) {
@@ -199,9 +199,9 @@ vcCake.add('contentLayout', (api) => {
         let hasHeader = false
         let hasSidebar = false
         let hasFooter = false
-        let currentLayoutType = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
+        const currentLayoutType = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
         if (currentLayoutType && currentLayoutType.values) {
-          let currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
+          const currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
           if (currentTemplate) {
             hasHeader = currentTemplate.header
             hasSidebar = currentTemplate.sidebar
@@ -224,7 +224,7 @@ vcCake.add('contentLayout', (api) => {
           }
         }
       }
-      url[ 1 ] = params.join('&')
+      url[1] = params.join('&')
       iframe.src = url.join('?')
     } else if (type === 'loaded') {
       renderLayout(true)
@@ -236,13 +236,13 @@ vcCake.add('contentLayout', (api) => {
   renderLayout()
 
   assetsStorage.state('jobs').onChange((data) => {
-    let documentElements = vcCake.getService('document').all()
+    const documentElements = vcCake.getService('document').all()
     if (documentElements) {
-      let visibleJobs = data.elements.filter(element => !element.hidden)
-      let visibleElements = Utils.getVisibleElements(documentElements)
-      let documentIds = Object.keys(visibleElements)
+      const visibleJobs = data.elements.filter(element => !element.hidden)
+      const visibleElements = Utils.getVisibleElements(documentElements)
+      const documentIds = Object.keys(visibleElements)
       if (documentIds.length === visibleJobs.length) {
-        let jobsInprogress = data.elements.find(element => element.jobs)
+        const jobsInprogress = data.elements.find(element => element.jobs)
         if (jobsInprogress) {
           return
         }

@@ -7,13 +7,14 @@ export default class ObjectComponent extends Attribute {
   }
 
   render () {
-    let { value } = this.state
+    const { value } = this.state
     return (
       <input
         className='vcv-ui-form-input'
         type='text'
         onChange={this.handleChange}
-        value={value} />
+        value={value}
+      />
     )
   }
 }

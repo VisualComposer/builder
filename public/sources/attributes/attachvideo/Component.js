@@ -56,11 +56,11 @@ class AttachVideo extends Attribute {
   updateState (props) {
     let value = props.value
     if (!lodash.isObject(value)) {
-      value = value ? { ids: [ null ], urls: [ { full: value } ] } : { ids: [], urls: [] }
+      value = value ? { ids: [null], urls: [{ full: value }] } : { ids: [], urls: [] }
     } else if (lodash.isArray(value)) {
       if (value.length > 0) {
-        let ids = []
-        let urls = []
+        const ids = []
+        const urls = []
         value.forEach((url) => {
           ids.push(url.id)
           if (url.full) {
@@ -76,8 +76,8 @@ class AttachVideo extends Attribute {
     } else {
       if (!value.ids && !value.urls && value.id) {
         value = {
-          ids: [ value.id ],
-          urls: [ value ]
+          ids: [value.id],
+          urls: [value]
         }
       }
     }
@@ -95,8 +95,8 @@ class AttachVideo extends Attribute {
   }
 
   handleRemove (key) {
-    let ids = this.state.value.ids
-    let urls = this.state.value.urls
+    const ids = this.state.value.ids
+    const urls = this.state.value.urls
     ids.splice(key, 1)
     urls.splice(key, 1)
     let fieldValue = { ids: [], urls: [] }
@@ -113,16 +113,16 @@ class AttachVideo extends Attribute {
   }
 
   onMediaSelect () {
-    let selection = this.mediaUploader.state().get('selection')
+    const selection = this.mediaUploader.state().get('selection')
     this.setFieldValue(this.parseSelection(selection))
   }
 
   parseSelection (selection) {
-    let ids = []
-    let urls = []
-    let icons = []
+    const ids = []
+    const urls = []
+    const icons = []
     selection.models.forEach((attachment, index) => {
-      let attachmentData = this.mediaAttachmentParse(attachment)
+      const attachmentData = this.mediaAttachmentParse(attachment)
       // let url = Object.assign({}, attachmentData.url)
       ids.push(attachmentData.id)
       urls.push(attachmentData.url)
@@ -138,7 +138,7 @@ class AttachVideo extends Attribute {
 
   mediaAttachmentParse (attachment) {
     attachment = attachment.toJSON()
-    let srcUrl = {}
+    const srcUrl = {}
     srcUrl.id = attachment.id
     srcUrl.title = attachment.title
     srcUrl.alt = attachment.alt
@@ -152,25 +152,25 @@ class AttachVideo extends Attribute {
   }
 
   handleUrlChange (key, fieldKey, urlValue) {
-    let stateValue = this.state.value
-    stateValue.urls[ key ].link = urlValue
+    const stateValue = this.state.value
+    stateValue.urls[key].link = urlValue
     this.updateFieldValue(stateValue)
   }
 
   updateFieldValue (value) {
-    let mergedValue = lodash.merge(this.state.value, value)
+    const mergedValue = lodash.merge(this.state.value, value)
     this.setFieldValue(mergedValue)
   }
 
   onMediaOpen () {
-    let selection = this.mediaUploader.state().get('selection')
-    let ids = this.state.value.ids
+    const selection = this.mediaUploader.state().get('selection')
+    const ids = this.state.value.ids
     ids && ids.forEach(function (id) {
       if (id) {
-        let attachment = window.wp.media.attachment(id)
+        const attachment = window.wp.media.attachment(id)
         attachment.fetch()
         if (attachment) {
-          selection.add([ attachment ])
+          selection.add([attachment])
         }
       }
     })
@@ -181,7 +181,7 @@ class AttachVideo extends Attribute {
     if (this.props.options.url) {
       urlHtml = (
         <Url
-          value={this.state.value.urls[ key ].link}
+          value={this.state.value.urls[key].link}
           updater={this.handleUrlChange.bind(this, key)}
           api={this.props.api}
           fieldKey={`${this.props.fieldKey}.linkUrl`}
@@ -192,8 +192,8 @@ class AttachVideo extends Attribute {
   }
 
   onSortEnd ({ oldIndex, newIndex }) {
-    let prevState = Object.assign({}, this.state.value)
-    let sortedValue = {}
+    const prevState = Object.assign({}, this.state.value)
+    const sortedValue = {}
     sortedValue.urls = arrayMove(prevState.urls, oldIndex, newIndex)
     sortedValue.ids = arrayMove(prevState.ids, oldIndex, newIndex)
     sortedValue.icons = arrayMove(prevState.icons, oldIndex, newIndex)
@@ -201,21 +201,23 @@ class AttachVideo extends Attribute {
   }
 
   render () {
-    let useDragHandle = true
-    let dragClass = 'vcv-ui-form-attach-image-item--dragging'
+    const useDragHandle = true
+    const dragClass = 'vcv-ui-form-attach-image-item--dragging'
 
     return (
       <div className='vcv-ui-form-attach-image'>
-        <SortableList {...this.props} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
+        <SortableList
+          {...this.props} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
           axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
-          getUrlHtml={this.getUrlHtml} mediaLibrary={this.mediaUploader} />
+          getUrlHtml={this.getUrlHtml} mediaLibrary={this.mediaUploader}
+        />
       </div>
     )
   }
 }
 
 AttachVideo.propTypes = {
-  value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
   fieldKey: PropTypes.string.isRequired
 }
 

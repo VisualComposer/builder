@@ -13,12 +13,12 @@ export default class Radio extends Attribute {
   getValues () {
     const { props } = this
     let { values } = props.options || {}
-    let { global } = props.options || {}
+    const { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      if (typeof window[ global ] === 'function') {
-        values = window[ global ]()
+      if (typeof window[global] === 'function') {
+        values = window[global]()
       } else {
-        values = window[ global ] || []
+        values = window[global] || []
       }
     }
 
@@ -26,18 +26,18 @@ export default class Radio extends Attribute {
   }
 
   render () {
-    let { fieldKey } = this.props
-    let optionElements = []
-    let values = this.getValues()
-    let currentValue = this.state.value
-    for (let key in values) {
-      let value = values[ key ].value
-      let checked = currentValue === value ? 'checked' : ''
+    const { fieldKey } = this.props
+    const optionElements = []
+    const values = this.getValues()
+    const currentValue = this.state.value
+    for (const key in values) {
+      const value = values[key].value
+      const checked = currentValue === value ? 'checked' : ''
       optionElements.push(
         <label key={`${fieldKey}:${key}:${value}`} className='vcv-ui-form-radio'>
           <input type='radio' name={`${fieldKey}`} onChange={this.handleChange} checked={checked} value={value} />
           <span className='vcv-ui-form-radio-indicator' />
-          {values[ key ].label}
+          {values[key].label}
         </label>
       )
     }
