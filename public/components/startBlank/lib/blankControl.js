@@ -28,15 +28,15 @@ export default class TemplateControl extends React.Component {
       previewStyle: {}
     }
     this.handleAddClick = this.handleAddClick.bind(this)
-    this.showPreview = this.showPreview.bind(this)
-    this.hidePreview = this.hidePreview.bind(this)
+    this.handleMouserEnterShowPreview = this.handleMouserEnterShowPreview.bind(this)
+    this.handleMouserLeaveHidePreview = this.handleMouserLeaveHidePreview.bind(this)
   }
 
   componentDidMount () {
     this.ellipsize('.vcv-ui-item-element-name')
   }
 
-  showPreview () {
+  handleMouserEnterShowPreview () {
     if (!this.props.blank) {
       if (this.updatePreviewPosition()) {
         this.setState({
@@ -46,7 +46,7 @@ export default class TemplateControl extends React.Component {
     }
   }
 
-  hidePreview () {
+  handleMouserLeaveHidePreview () {
     if (!this.props.blank) {
       this.setState({
         previewVisible: false
@@ -224,8 +224,8 @@ export default class TemplateControl extends React.Component {
           className='vcv-ui-item-element'
           title={`${addText} ${name}`}
           onClick={this.handleAddClick.bind(this)}
-          onMouseEnter={this.showPreview}
-          onMouseLeave={this.hidePreview}
+          onMouseEnter={this.handleMouserEnterShowPreview}
+          onMouseLeave={this.handleMouserLeaveHidePreview}
         >
           <span className={elementContentClasses}>
             {thumbnailImage}

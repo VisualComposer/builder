@@ -144,7 +144,7 @@ export default class PagePanelContent extends React.Component {
             layouts.push(
               <TemplatePreview
                 key={`layout-${key}-${index}`}
-                click={this.handleLayoutClick}
+                onClick={this.handleLayoutClick}
                 templatesList={templatesList}
                 templateValue={template.value}
                 templateName={templateName}
@@ -190,7 +190,7 @@ export default class PagePanelContent extends React.Component {
     layouts.push(
       <TemplatePreview
         key='layout-theme-default'
-        click={this.handleLayoutClick}
+        onClick={this.handleLayoutClick}
         icon={Icon}
         blank
         name='Theme default'
@@ -275,28 +275,30 @@ export default class PagePanelContent extends React.Component {
     let startBlankControlsClasses = 'vcv-start-blank-controls'
     startBlankControlsClasses += ' vcv-start-blank-controls-layout'
 
-    return <div className={startBlankControlsClasses}>
-      <div
-        className='vcv-start-blank-item-list-container'
-        ref={(container) => { this.rowContainer = container }}
-      >
-        <div className='vcv-start-blank-title-input-container'>
-          <input className='vcv-start-blank-title-input' type='text' placeholder={placeholderText} value={this.state.title} onChange={this.handleTitleChange} />
-        </div>
-        {this.getPermalink()}
-        <ul
-          className='vcv-ui-item-list vcv-start-blank-item-list'
-          style={containerWidth}
-          ref={(container) => { this.elementsContainer = container }}
+    return (
+      <div className={startBlankControlsClasses}>
+        <div
+          className='vcv-start-blank-item-list-container'
+          ref={(container) => { this.rowContainer = container }}
         >
-          {this.getLayoutControls()}
-        </ul>
+          <div className='vcv-start-blank-title-input-container'>
+            <input className='vcv-start-blank-title-input' type='text' placeholder={placeholderText} value={this.state.title} onChange={this.handleTitleChange} />
+          </div>
+          {this.getPermalink()}
+          <ul
+            className='vcv-ui-item-list vcv-start-blank-item-list'
+            style={containerWidth}
+            ref={(container) => { this.elementsContainer = container }}
+          >
+            {this.getLayoutControls()}
+          </ul>
+        </div>
+        <div className='vcv-start-blank-description'>{descriptionText}</div>
+        <div className='vcv-start-blank-button-container'>
+          <button className='vcv-start-blank-button' onClick={this.handleAddElementClick}>{addElementText}</button>
+          <button className='vcv-start-blank-button' onClick={this.handleAddTemplateClick}>{addTemplatText}</button>
+        </div>
       </div>
-      <div className='vcv-start-blank-description'>{descriptionText}</div>
-      <div className='vcv-start-blank-button-container'>
-        <button className='vcv-start-blank-button' onClick={this.handleAddElementClick}>{addElementText}</button>
-        <button className='vcv-start-blank-button' onClick={this.handleAddTemplateClick}>{addTemplatText}</button>
-      </div>
-    </div>
+    )
   }
 }

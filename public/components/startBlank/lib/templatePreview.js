@@ -38,11 +38,11 @@ export default class TemplatePreview extends React.Component {
     }
 
     this.handleClick = this.handleClick.bind(this)
-    this.showPreview = this.showPreview.bind(this)
-    this.hidePreview = this.hidePreview.bind(this)
+    this.handleMouserEnterShowPreview = this.handleMouserEnterShowPreview.bind(this)
+    this.handleMouserLeaveHidePreview = this.handleMouserLeaveHidePreview.bind(this)
   }
 
-  showPreview () {
+  handleMouserEnterShowPreview () {
     if (this.updatePreviewPosition()) {
       this.setState({
         previewVisible: true
@@ -50,7 +50,7 @@ export default class TemplatePreview extends React.Component {
     }
   }
 
-  hidePreview () {
+  handleMouserLeaveHidePreview () {
     this.setState({
       previewVisible: false
     })
@@ -148,14 +148,14 @@ export default class TemplatePreview extends React.Component {
 
   handleClick (e) {
     e && e.preventDefault()
-    const { click, blank, templatesList, templateValue } = this.props
-    if (!click) {
+    const { onClick, blank, templatesList, templateValue } = this.props
+    if (!onClick) {
       return
     }
     if (blank) {
-      click('theme', 'default')
+      onClick('theme', 'default')
     } else {
-      click(templatesList.type, templateValue)
+      onClick(templatesList.type, templateValue)
     }
   }
 
@@ -220,8 +220,8 @@ export default class TemplatePreview extends React.Component {
           className='vcv-ui-item-element'
           title={`${addText} ${name}`}
           onClick={this.handleClick}
-          onMouseEnter={this.showPreview}
-          onMouseLeave={this.hidePreview}
+          onMouseEnter={this.handleMouserEnterShowPreview}
+          onMouseLeave={this.handleMouserLeaveHidePreview}
         >
           <span className={elementContentClasses}>
             {iconHtml}
