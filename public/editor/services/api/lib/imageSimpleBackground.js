@@ -10,7 +10,7 @@ export default class ImageSimpleBackground extends React.Component {
   }
 
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props.atts
+    const { metaAssetsPath } = this.props.atts
     return filename && filename.match && filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
@@ -19,34 +19,34 @@ export default class ImageSimpleBackground extends React.Component {
     const { backgroundStyle, backgroundPosition } = deviceData
 
     if (images) {
-      let imagesJSX = []
+      const imagesJSX = []
       if (images.urls && images.urls.length) {
         images.urls.forEach((imgData, index) => {
-          let styles = {
+          const styles = {
             backgroundImage: `url(${imgData.full})`
           }
           let customKey = imgData.id
           if (!imgData.id) {
             customKey = `${imgData.full}-${index}`
           }
-          let imgKey = `${reactKey}-${customKey}`
+          const imgKey = `${reactKey}-${customKey}`
           imagesJSX.push((
             <div className='vce-asset-background-simple-item' style={styles} key={imgKey} />
           ))
         })
       } else if (images.length) {
         images.forEach((imgData, index) => {
-          let styles = {
+          const styles = {
             backgroundImage: `url(${this.getPublicImage(imgData)})`
           }
-          let imgKey = `${reactKey}-${imgData}-${index}`
+          const imgKey = `${reactKey}-${imgData}-${index}`
           imagesJSX.push((
             <div className='vce-asset-background-simple-item' style={styles} key={imgKey} />
           ))
         })
       }
-      let containerClasses = [
-        `vce-asset-background-simple-container`,
+      const containerClasses = [
+        'vce-asset-background-simple-container',
         `vce-visible-${deviceKey}-only`
       ]
       if (backgroundStyle) {
@@ -55,8 +55,8 @@ export default class ImageSimpleBackground extends React.Component {
       if (backgroundPosition) {
         containerClasses.push(`vce-asset-background-simple--position-${backgroundPosition}`)
       }
-      let slideshowClasses = classNames([
-        `vce-asset-background-simple`
+      const slideshowClasses = classNames([
+        'vce-asset-background-simple'
       ])
 
       return <div className={classNames(containerClasses)}>

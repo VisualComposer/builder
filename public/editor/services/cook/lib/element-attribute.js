@@ -23,8 +23,8 @@ export default class {
   }
 
   getValue (settings, data, key, ignoreGetter = false) {
-    if ((settings.access === 'protected') || (typeof data[ key ] === 'undefined' && typeof settings.value !== 'undefined')) {
-      data[ key ] = settings.value
+    if ((settings.access === 'protected') || (typeof data[key] === 'undefined' && typeof settings.value !== 'undefined')) {
+      data[key] = settings.value
     }
     return this.getter && ignoreGetter !== true ? this.getter(data, key, settings) : this.getRawValue(data, key)
   }
@@ -43,12 +43,12 @@ export default class {
   }
 
   setRawValue (data, key, value) {
-    data[ key ] = value
+    data[key] = value
     return data
   }
 
   getRawValue (data, key) {
-    return data[ key ]
+    return data[key]
   }
 
   getField () {
@@ -56,6 +56,6 @@ export default class {
   }
 
   getRepresenter (type = 'Backend') {
-    return this.representers[ type ] ? this.representers[ type ] : false
+    return this.representers[type] ? this.representers[type] : false
   }
 }

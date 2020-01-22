@@ -19,7 +19,7 @@ const SortableItem = SortableElement((props) => {
 
 export default class AttachVideoList extends React.Component {
   static propTypes = {
-    value: PropTypes.oneOfType([ PropTypes.string, PropTypes.object, PropTypes.array ]).isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
     fieldKey: PropTypes.string.isRequired
   }
 
@@ -44,7 +44,7 @@ export default class AttachVideoList extends React.Component {
   /* eslint-enable */
 
   handleAttachmentData (index, data) {
-    let icons = this.state.value.icons || []
+    const icons = this.state.value.icons || []
     icons[index] = data && data.icon
     this.setState({
       value: {
@@ -63,8 +63,8 @@ export default class AttachVideoList extends React.Component {
     const addImage = localizations ? localizations.addImage : 'Add Image'
     const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or Replace Image'
     const moveImage = localizations ? localizations.moveImage : 'Move Image'
-    let { fieldKey, value } = this.state
-    let images = []
+    const { fieldKey, value } = this.state
+    const images = []
 
     let oneMoreControl = ''
     if (this.props.options.multiple) {
@@ -73,34 +73,36 @@ export default class AttachVideoList extends React.Component {
       )
     } else {
       oneMoreControl = (
-        <a className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
-          title={editReplaceImage}>
+        <a
+          className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
+          title={editReplaceImage}
+        >
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </a>
       )
     }
 
     value && value.urls && value.urls.forEach((url, index) => {
-      let id = value.ids[ index ]
-      if ((!value.icons || (value.icons && !value.icons[ index ])) && !this[ `attachment-${id}` ]) {
-        let attachment = id && window.wp.media.attachment(id)
-        let request = this[ `attachment-${id}` ] = attachment.sync('read')
+      const id = value.ids[index]
+      if ((!value.icons || (value.icons && !value.icons[index])) && !this[`attachment-${id}`]) {
+        const attachment = id && window.wp.media.attachment(id)
+        const request = this[`attachment-${id}`] = attachment.sync('read')
         request.then((data) => {
           this.handleAttachmentData(index, data)
         })
       }
-      let childProps = {
+      const childProps = {
         key: index,
         fieldKey: fieldKey,
         url: url,
-        icon: value.icons && value.icons[ index ],
+        icon: value.icons && value.icons[index],
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.handleRemove,
         getUrlHtml: this.props.getUrlHtml
       }
 
       if (this.props.options.multiple) {
-        value.ids[ index ] && images.push(
+        value.ids[index] && images.push(
           <SortableItem
             key={`sortable-attach-image-item-${fieldKey}-${index}`}
             childProps={childProps}
@@ -108,7 +110,7 @@ export default class AttachVideoList extends React.Component {
           />
         )
       } else {
-        value.ids[ index ] && images.push(
+        value.ids[index] && images.push(
           <AttachVideoItem
             key={index}
             childProps={childProps}
@@ -125,7 +127,7 @@ export default class AttachVideoList extends React.Component {
       </li>
     )
 
-    if (!this.props.options.multiple && value.urls && value.urls.length && value.ids[ 0 ]) {
+    if (!this.props.options.multiple && value.urls && value.urls.length && value.ids[0]) {
       addControl = ''
     }
 

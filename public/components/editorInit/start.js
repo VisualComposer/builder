@@ -15,18 +15,18 @@ const $ = window.jQuery
 
 export const start = (callback) => {
   callback()
-  let $iframeContainer = $('.vcv-layout-iframe-container')
-  let $iframe = $iframeContainer.find('#vcv-editor-iframe')
+  const $iframeContainer = $('.vcv-layout-iframe-container')
+  const $iframe = $iframeContainer.find('#vcv-editor-iframe')
   let isIframeLoaded = false
 
-  let iframeLoadEvent = () => {
+  const iframeLoadEvent = () => {
     if (!isIframeLoaded) {
       isIframeLoaded = true
     } else {
       return
     }
-    let iframe = $iframe.get(0).contentWindow
-    let iframeDocument = iframe.document
+    const iframe = $iframe.get(0).contentWindow
+    const iframeDocument = iframe.document
     // Disable iframe clicks
     $(iframeDocument.body).on('click', 'a[href]:not([data-vcv-link])', (e) => {
       e && e.preventDefault()
@@ -41,14 +41,14 @@ export const start = (callback) => {
     $(iframeDocument.body).on('click', '[type="submit"]', (e) => {
       e && e.preventDefault() && e.stopPropagation()
     })
-    let iframeStyles = iframeDocument.createElement('style')
+    const iframeStyles = iframeDocument.createElement('style')
     iframeStyles.setAttribute('type', 'text/css')
     iframeStyles.innerText = `html {
       margin-top: 0px !important;
     }`
     iframeDocument.head.appendChild(iframeStyles)
     if (mobileDetect.mobile() && mobileDetect.os() === 'iOS') {
-      let style = iframeDocument.createElement('style')
+      const style = iframeDocument.createElement('style')
       style.setAttribute('type', 'text/css')
       style.innerText = `
       html, body {
@@ -67,7 +67,7 @@ export const start = (callback) => {
     if (vcCake.env('VCV_JS_THEME_EDITOR')) {
       const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
       if (editorType === 'sidebar') {
-        let style = iframeDocument.createElement('style')
+        const style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
         style.innerText = `html {
         background: #292929;
@@ -80,7 +80,7 @@ export const start = (callback) => {
         iframeDocument.head.appendChild(style)
       }
       if ((editorType === 'header' || editorType === 'footer')) {
-        let style = iframeDocument.createElement('style')
+        const style = iframeDocument.createElement('style')
         style.setAttribute('type', 'text/css')
         style.innerText = 'html {'
         style.innerText += 'display: flex;'
@@ -113,12 +113,12 @@ export const start = (callback) => {
           // Fixes performance drownback due to cssBuilder trigger vcv.ready destroy
           return
         }
-        let lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
+        const lastLoadedPageTemplate = window.vcvLastLoadedPageTemplate || (window.VCV_PAGE_TEMPLATES && window.VCV_PAGE_TEMPLATES() && window.VCV_PAGE_TEMPLATES().current)
         if (!vcCake.env('VCV_JS_THEME_EDITOR') && vcCake.env('VCV_JS_THEME_LAYOUTS')) {
-          let lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
-          let lastSavedHeaderTemplate = window.vcvLastLoadedHeaderTemplate = settingsStorage.state('headerTemplate').get()
-          let lastSavedSidebarTemplate = window.vcvLastLoadedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
-          let lastSavedFooterTemplate = window.vcvLastLoadedFooterTemplate = settingsStorage.state('footerTemplate').get()
+          const lastSavedPageTemplate = window.vcvLastLoadedPageTemplate = settingsStorage.state('pageTemplate').get()
+          const lastSavedHeaderTemplate = window.vcvLastLoadedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+          const lastSavedSidebarTemplate = window.vcvLastLoadedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+          const lastSavedFooterTemplate = window.vcvLastLoadedFooterTemplate = settingsStorage.state('footerTemplate').get()
           vcCake.getStorage('workspace').state('iframe').set({
             type: 'reload',
             template: lastSavedPageTemplate,
@@ -127,7 +127,7 @@ export const start = (callback) => {
             footer: lastSavedFooterTemplate
           })
         } else {
-          let lastSavedPageTemplate = vcCake.getStorage('settings').state('pageTemplate').get() || lastLoadedPageTemplate
+          const lastSavedPageTemplate = vcCake.getStorage('settings').state('pageTemplate').get() || lastLoadedPageTemplate
           window.vcvLastLoadedPageTemplate = lastSavedPageTemplate
           vcCake.getStorage('workspace').state('iframe').set({
             type: 'reload',
@@ -146,7 +146,7 @@ export const start = (callback) => {
         if ($layoutContainer) {
           $layoutContainer.height(window.innerHeight)
           window.addEventListener('resize', () => {
-            let height = window.innerHeight
+            const height = window.innerHeight
             $layoutContainer.height(height)
           })
         }
@@ -156,11 +156,11 @@ export const start = (callback) => {
 
   $iframe.on('load', iframeLoadEvent)
 
-  let checkForLoad = () => {
+  const checkForLoad = () => {
     if (!isIframeLoaded) {
       // Get a handle to the iframe element
-      let iframe = $iframe.get(0)
-      let iframeDoc = iframe.contentDocument && iframe.contentWindow.document
+      const iframe = $iframe.get(0)
+      const iframeDoc = iframe.contentDocument && iframe.contentWindow.document
       // Check if loading is complete
       const isContentLoaded = iframeDoc ? iframeDoc.body &&
         iframeDoc.body.querySelector('#vcv-editor') : false

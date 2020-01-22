@@ -6,8 +6,8 @@ addStorage('sharedAssets', (storage) => {
   })
 
   storage.on('add', (assetsData) => {
-    let sharedAssets = storage.state('sharedAssets').get() || {}
-    sharedAssets[ assetsData.name ] = assetsData
+    const sharedAssets = storage.state('sharedAssets').get() || {}
+    sharedAssets[assetsData.name] = assetsData
     storage.state('sharedAssets').set(sharedAssets)
   })
 })

@@ -30,9 +30,9 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   onParamChange (index, elementAccessPoint, paramFieldKey, newValue) {
-    let { updater, fieldKey, fieldType } = this.props
-    let { value } = this.state
-    value.value[ index ][ paramFieldKey ] = newValue
+    const { updater, fieldKey, fieldType } = this.props
+    const { value } = this.state
+    value.value[index][paramFieldKey] = newValue
     elementAccessPoint.set(fieldKey, value)
     updater(fieldKey, value, null, fieldType)
   }
@@ -44,7 +44,7 @@ export default class ParamsGroupAttribute extends Attribute {
         editable: {}
       }
     } else {
-      let value = {}
+      const value = {}
       value.value = props.value
       return {
         value: value,
@@ -54,19 +54,19 @@ export default class ParamsGroupAttribute extends Attribute {
   }
 
   setFieldValue (value) {
-    let { updater, fieldKey, fieldType } = this.props
+    const { updater, fieldKey, fieldType } = this.props
     updater(fieldKey, value, null, fieldType)
     this.setState({ value: value })
   }
 
   clickEdit (index) {
-    const groupData = this.state.value.value[ index ]
+    const groupData = this.state.value.value[index]
     const attrOptions = this.props.options.settings.title.options
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && attrOptions && attrOptions.dynamicField && groupData.title.match(blockRegexp)
     let groupTitle = groupData.title
     if (isDynamic) {
       const blockInfo = groupData.title.split(blockRegexp)
-      groupTitle = JSON.parse(blockInfo[ 4 ].trim()).currentValue
+      groupTitle = JSON.parse(blockInfo[4].trim()).currentValue
     }
     const options = {
       nestedAttr: true,
@@ -85,33 +85,33 @@ export default class ParamsGroupAttribute extends Attribute {
     const { value } = this.state.value
     const { options } = this.props
     const { settings } = options
-    let newValue = {}
+    const newValue = {}
     Object.keys(settings).forEach((settingKey) => {
-      if (settings[ settingKey ].access === 'public') {
-        newValue[ settingKey ] = settings[ settingKey ].value
+      if (settings[settingKey].access === 'public') {
+        newValue[settingKey] = settings[settingKey].value
       }
     })
     newValue.title = options.title || 'Group title'
     value.push(lodash.defaultsDeep({}, newValue))
-    let newState = {
+    const newState = {
       value: value
     }
     this.setFieldValue(newState)
   }
 
   clickClone (index) {
-    let { value } = this.state.value
-    value.push(lodash.defaultsDeep({}, value[ index ]))
-    let newState = {
+    const { value } = this.state.value
+    value.push(lodash.defaultsDeep({}, value[index]))
+    const newState = {
       value: value
     }
     this.setFieldValue(newState)
   }
 
   clickDelete (index) {
-    let { value } = this.state.value
+    const { value } = this.state.value
     value.splice(index, 1)
-    let newState = {
+    const newState = {
       value: value
     }
     this.setFieldValue(newState)
@@ -119,13 +119,13 @@ export default class ParamsGroupAttribute extends Attribute {
 
   getSortableItems () {
     const SortableItem = SortableElement(({ value, groupIndex }) => {
-      let controlLabelClasses = 'vcv-ui-tree-layout-control-label'
+      const controlLabelClasses = 'vcv-ui-tree-layout-control-label'
       const attrOptions = this.props.options.settings.title.options
       const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && attrOptions && attrOptions.dynamicField && value.title.match(blockRegexp)
       let title = value.title
       if (isDynamic) {
         const blockInfo = value.title.split(blockRegexp)
-        title = JSON.parse(blockInfo[ 4 ].trim()).currentValue
+        title = JSON.parse(blockInfo[4].trim()).currentValue
       }
 
       return (
@@ -135,7 +135,7 @@ export default class ParamsGroupAttribute extends Attribute {
             <span className={controlLabelClasses}>
               <span
                 className='vcv-ui-forms-params-group-content-editable'
-                ref={span => { this[ `title${groupIndex}` ] = span }}
+                ref={span => { this[`title${groupIndex}`] = span }}
                 contentEditable
                 suppressContentEditableWarning
                 onKeyDown={this.preventNewLine}
@@ -154,10 +154,12 @@ export default class ParamsGroupAttribute extends Attribute {
 
     return this.state.value.value.map((group, index) => {
       return (
-        <SortableItem key={`sortable-item-paramgroup-${index}`}
+        <SortableItem
+          key={`sortable-item-paramgroup-${index}`}
           index={index}
           value={group}
-          groupIndex={index} />
+          groupIndex={index}
+        />
       )
     })
   }
@@ -178,7 +180,7 @@ export default class ParamsGroupAttribute extends Attribute {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
-      this[ `title${groupIndex}` ].blur()
+      this[`title${groupIndex}`].blur()
       this.validateContent(event)
     }
   }
@@ -187,7 +189,7 @@ export default class ParamsGroupAttribute extends Attribute {
     const { elementAccessPoint } = this.props
     if (!value) {
       value = this.props.options.title
-      this[ `title${groupIndex}` ].innerText = value
+      this[`title${groupIndex}`].innerText = value
     }
 
     this.onParamChange(groupIndex, elementAccessPoint, 'title', value)
@@ -207,25 +209,27 @@ export default class ParamsGroupAttribute extends Attribute {
     })
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
-      let newState = this.state.value
+      const newState = this.state.value
       newState.value = arrayMove(this.state.value.value, oldIndex, newIndex)
       this.setFieldValue(newState)
     }
 
-    let useDragHandle = true
+    const useDragHandle = true
 
     return (
-      <SortableList lockAxis={'y'}
+      <SortableList
+        lockAxis='y'
         useDragHandle={useDragHandle}
-        helperClass={'vcv-ui-form-params-group-item--dragging'}
+        helperClass='vcv-ui-form-params-group-item--dragging'
         onSortEnd={onSortEnd}
-        items={this.state.value.value} />
+        items={this.state.value.value}
+      />
     )
   }
 
   getSortableHandle () {
     const SortableHandler = SortableHandle(() => {
-      let dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
+      const dragHelperClasses = 'vcv-ui-tree-layout-control-drag-handler vcv-ui-drag-handler'
       return (
         <div className={dragHelperClasses}>
           <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
@@ -264,9 +268,9 @@ export default class ParamsGroupAttribute extends Attribute {
             <i className='vcv-ui-icon vcv-ui-icon-edit' />
           </span>
           {!maximum &&
-          <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
-            <i className='vcv-ui-icon vcv-ui-icon-copy' />
-          </span>}
+            <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
+              <i className='vcv-ui-icon vcv-ui-icon-copy' />
+            </span>}
           {!minimum && <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-trash' />
           </span>}

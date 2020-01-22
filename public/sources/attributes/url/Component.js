@@ -13,7 +13,7 @@ import DynamicAttribute from '../dynamicField/dynamicAttribute'
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
-let pagePosts = {
+const pagePosts = {
   data: [],
   set (posts) {
     this.data = posts
@@ -64,7 +64,7 @@ export default class Url extends Attribute {
   }
 
   ajaxPost (data, successCallback, failureCallback) {
-    let request = new window.XMLHttpRequest()
+    const request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = function () {
@@ -86,7 +86,7 @@ export default class Url extends Attribute {
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
-      let posts = getResponse(request.response)
+      const posts = getResponse(request.response)
       if (posts) {
         pagePosts.set(posts)
         this.setState({ updateState: !this.state.updateState })
@@ -96,7 +96,7 @@ export default class Url extends Attribute {
 
   open (e) {
     e && e.preventDefault()
-    let unsavedValue = {}
+    const unsavedValue = {}
     Object.assign(unsavedValue, this.state.value)
 
     this.setState({
@@ -123,21 +123,21 @@ export default class Url extends Attribute {
 
   save = (e) => {
     e.preventDefault()
-    let valueToSave = Object.assign({}, this.state.unsavedValue)
+    const valueToSave = Object.assign({}, this.state.unsavedValue)
 
     this.setFieldValue(valueToSave)
     this.hide()
   }
 
   handleInputChange = (fieldKey, value) => {
-    let unsavedValue = this.state.unsavedValue
+    const unsavedValue = this.state.unsavedValue
 
     // Checkboxes return either ['1'] or []. Cast to boolean.
-    if ([ 'targetBlank', 'relNofollow' ].indexOf(fieldKey) !== -1) {
+    if (['targetBlank', 'relNofollow'].indexOf(fieldKey) !== -1) {
       value = value.length > 0
     }
 
-    unsavedValue[ fieldKey ] = value
+    unsavedValue[fieldKey] = value
 
     this.setState({ unsavedValue: unsavedValue })
   }
@@ -150,7 +150,7 @@ export default class Url extends Attribute {
 
   renderExistingPosts = () => {
     const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'Nothing found'
-    let items = []
+    const items = []
 
     if (!pagePosts.get().length) {
       return (
@@ -160,13 +160,15 @@ export default class Url extends Attribute {
       )
     }
     pagePosts.get().forEach((post) => {
-      let rowClassName = classNames({
+      const rowClassName = classNames({
         'vcv-ui-form-table-link-row': true,
         'vcv-ui-state--active': this.state.unsavedValue.url === post.url
       })
       items.push(
-        <tr key={'vcv-selectable-post-url-' + post.id} className={rowClassName}
-          onClick={(e) => this.handlePostSelection(e, post.url)}>
+        <tr
+          key={'vcv-selectable-post-url-' + post.id} className={rowClassName}
+          onClick={(e) => this.handlePostSelection(e, post.url)}
+        >
           <td>
             <a href={post.url} onClick={(e) => { e && e.preventDefault() }}>{post.title}</a>
           </td>
@@ -201,9 +203,11 @@ export default class Url extends Attribute {
           {linkToExistingContent}
         </p>
         <div className='vcv-ui-input-search'>
-          <input type='search' className='vcv-ui-form-input'
+          <input
+            type='search' className='vcv-ui-form-input'
             onChange={this.onSearchChange}
-            placeholder={searchExistingContent} />
+            placeholder={searchExistingContent}
+          />
           <label className='vcv-ui-form-input-search-addon'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
@@ -220,7 +224,7 @@ export default class Url extends Attribute {
   }
 
   performSearch = (e) => {
-    let keyword = e.target.value
+    const keyword = e.target.value
     this.loadPosts(keyword)
   }
 
@@ -237,7 +241,8 @@ export default class Url extends Attribute {
           fieldKey='title'
           value={this.state.unsavedValue.title || ''}
           api={this.props.api}
-          updater={this.handleInputChange} />
+          updater={this.handleInputChange}
+        />
         <p className='vcv-ui-form-helper'>
           {titleAttributeText}
         </p>
@@ -254,17 +259,19 @@ export default class Url extends Attribute {
         <Checkbox
           fieldKey='targetBlank'
           fieldType='checkbox'
-          options={{ values: [ { label: openLinkInTab, value: '1' } ] }}
-          value={this.state.unsavedValue.targetBlank ? [ '1' ] : []}
+          options={{ values: [{ label: openLinkInTab, value: '1' }] }}
+          value={this.state.unsavedValue.targetBlank ? ['1'] : []}
           api={this.props.api}
-          updater={this.handleInputChange} />
+          updater={this.handleInputChange}
+        />
         <Checkbox
           fieldKey='relNofollow'
           fieldType='checkbox'
-          options={{ values: [ { label: addNofollow, value: '1' } ] }}
+          options={{ values: [{ label: addNofollow, value: '1' }] }}
           api={this.props.api}
-          value={this.state.unsavedValue.relNofollow ? [ '1' ] : []}
-          updater={this.handleInputChange} />
+          value={this.state.unsavedValue.relNofollow ? ['1'] : []}
+          updater={this.handleInputChange}
+        />
       </div>
     )
   }
@@ -328,7 +335,7 @@ export default class Url extends Attribute {
   }
 
   handleDynamicChange (value) {
-    let valueToSave = Object.assign({}, this.state.unsavedValue)
+    const valueToSave = Object.assign({}, this.state.unsavedValue)
     if (value && typeof value === 'string' && value.match(blockRegexp)) {
       valueToSave.url = value
     } else {
@@ -347,7 +354,7 @@ export default class Url extends Attribute {
   }
 
   handleDynamicOpen () {
-    let unsavedValue = {}
+    const unsavedValue = {}
     Object.assign(unsavedValue, this.state.value)
 
     this.setState({
@@ -363,26 +370,26 @@ export default class Url extends Attribute {
       content = dynamicApi.renderDynamicInputs()
     } else {
       content = (
-        <React.Fragment>
+        <>
           <div className='vcv-ui-form-link-button-group'>
             {dynamicApi.props.linkButton}
             {dynamicApi.renderOpenButton()}
           </div>
           {dynamicApi.props.linkDataComponent}
-        </React.Fragment>
+        </>
       )
     }
 
     return (
-      <React.Fragment>
+      <>
         {content}
         {isWindowOpen ? dynamicApi.getDynamicPopup() : null}
-      </React.Fragment>
+      </>
     )
   }
 
   render () {
-    let { title, url } = this.state.value
+    const { title, url } = this.state.value
     const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select URL'
     const addLink = this.localizations ? this.localizations.addLink : 'Add Link'
     const linkDataHtml = (
@@ -390,13 +397,15 @@ export default class Url extends Attribute {
         <span
           className='vcv-ui-form-link-title'
           data-vc-link-title='Title: '
-          title={title}>
+          title={title}
+        >
           {title}
         </span>
         <span
           className='vcv-ui-form-link-title'
           data-vc-link-title='Url: '
-          title={url}>
+          title={url}
+        >
           {url}
         </span>
         {this.drawModal()}

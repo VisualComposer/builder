@@ -56,28 +56,28 @@ export default class HtmlEditorComponent extends React.Component {
       if (editor) {
         editor.getBody().style.backgroundColor = newState.darkTextSkin ? '#2f2f2f' : ''
         if (newState.value.match(blockRegexp)) {
-          let blockInfo = parseDynamicBlock(newState.value)
-          let blockValue = newState.value.match(blockRegexp)
+          const blockInfo = parseDynamicBlock(newState.value)
+          const blockValue = newState.value.match(blockRegexp)
 
           if (blockInfo) {
-            let before = blockInfo.beforeBlock || ''
-            let after = blockInfo.afterBlock || ''
+            const before = blockInfo.beforeBlock || ''
+            const after = blockInfo.afterBlock || ''
             // We have to encode the html comment
-            let valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
+            const valueForEditor = before + window.encodeURIComponent(blockValue[0]) + window.encodeURIComponent(blockValue[1]) + after
             editor.setContent(valueForEditor)
           }
         }
         if (this.props.value !== newProps.value && !this.editorValue) {
           if (newProps.value.match(blockRegexp)) {
-            let blockInfo = parseDynamicBlock(newProps.value)
-            let blockValue = newProps.value.match(blockRegexp)
+            const blockInfo = parseDynamicBlock(newProps.value)
+            const blockValue = newProps.value.match(blockRegexp)
 
             if (blockInfo) {
-              let before = blockInfo.beforeBlock || ''
-              let after = blockInfo.afterBlock || ''
+              const before = blockInfo.beforeBlock || ''
+              const after = blockInfo.afterBlock || ''
 
               // We have to encode the html comment
-              let valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
+              const valueForEditor = before + window.encodeURIComponent(blockValue[0]) + window.encodeURIComponent(blockValue[1]) + after
               editor.setContent(valueForEditor)
             }
           } else {
@@ -103,13 +103,13 @@ export default class HtmlEditorComponent extends React.Component {
     }
     const element = props.elementAccessPoint.cook()
     const sharedAssetsData = element.get('metaElementAssets')
-    let iframeSettings = {}
+    const iframeSettings = {}
     if (this.editor.getWin()) {
       iframeSettings.context = this.editor.getWin()
     }
     const fieldPathKey = props.options.nestedAttrPath ? props.options.nestedAttrPath : props.fieldKey
-    if (sharedAssetsData && sharedAssetsData.googleFonts && sharedAssetsData.googleFonts[ fieldPathKey ]) {
-      const families = Object.keys(sharedAssetsData.googleFonts[ fieldPathKey ])
+    if (sharedAssetsData && sharedAssetsData.googleFonts && sharedAssetsData.googleFonts[fieldPathKey]) {
+      const families = Object.keys(sharedAssetsData.googleFonts[fieldPathKey])
       if (families && families.length > 0) {
         webFontLoader.load({
           google: {
@@ -128,8 +128,8 @@ export default class HtmlEditorComponent extends React.Component {
       const element = elementAccessPoint.cook()
       const sharedAssetsData = element.get('metaElementAssets')
       const fieldPathKey = options.nestedAttrPath ? options.nestedAttrPath : fieldKey
-      let sharedGoogleFonts = sharedAssetsData.googleFonts || {}
-      sharedGoogleFonts[ fieldPathKey ] = usedGoogleFonts
+      const sharedGoogleFonts = sharedAssetsData.googleFonts || {}
+      sharedGoogleFonts[fieldPathKey] = usedGoogleFonts
       sharedAssetsData.googleFonts = sharedGoogleFonts
       elementAccessPoint.set('metaElementAssets', sharedAssetsData)
     }
@@ -145,7 +145,7 @@ export default class HtmlEditorComponent extends React.Component {
     if (this.props.dynamicFieldOpened) {
       // the value html comment is encoded in this moment
       value = decodeURIComponent(value)
-      let blockInfo = parseDynamicBlock(value)
+      const blockInfo = parseDynamicBlock(value)
       if (blockInfo) {
         this.setState({
           blockInfo: blockInfo
@@ -153,7 +153,7 @@ export default class HtmlEditorComponent extends React.Component {
       }
     }
 
-    let { updater, fieldKey, fieldType, setValueState } = this.props
+    const { updater, fieldKey, fieldType, setValueState } = this.props
     this.editorValue = true
     setValueState(value)
     window.setTimeout(() => {
@@ -172,7 +172,7 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   renderFallbackEditor () {
-    let { value } = this.props
+    const { value } = this.props
 
     return (
       <div className='vcv-ui-form-input vcv-ui-form-tinymce'>
@@ -184,20 +184,21 @@ export default class HtmlEditorComponent extends React.Component {
           style={{
             width: '100%',
             minHeight: '300px'
-          }} />
+          }}
+        />
       </div>
     )
   }
 
   initWpEditorJs (firstLoad) {
     const { fieldKey } = this.props
-    let id = `vcv-wpeditor-${fieldKey}`
+    const id = `vcv-wpeditor-${fieldKey}`
     if (!document.querySelector('#' + id)) {
       return
     }
     if (window.tinyMCEPreInit) {
       if (this.props.dynamicFieldOpened) {
-        window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVIDDYNAMIC__' ], {
+        window.tinyMCEPreInit.mceInit[id] = Object.assign({}, window.tinyMCEPreInit.mceInit.__VCVIDDYNAMIC__, {
           id: id,
           menubar: false,
           statusbar: false,
@@ -235,7 +236,7 @@ export default class HtmlEditorComponent extends React.Component {
           },
           init_instance_callback: (editor) => {
             if (!firstLoad) {
-              let editorWrapper = document.querySelector('.vcv-ui-form-wp-tinymce')
+              const editorWrapper = document.querySelector('.vcv-ui-form-wp-tinymce')
               const isInViewport = (elem) => {
                 const bounding = elem.getBoundingClientRect()
                 return (
@@ -261,7 +262,7 @@ export default class HtmlEditorComponent extends React.Component {
             this.props.setEditorLoaded(true)
           }
         })
-        window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVIDDYNAMIC__' ], {
+        window.tinyMCEPreInit.qtInit[id] = Object.assign({}, window.tinyMCEPreInit.qtInit.__VCVIDDYNAMIC__, {
           id: id
         })
         window.setTimeout(() => {
@@ -271,7 +272,7 @@ export default class HtmlEditorComponent extends React.Component {
         }, 10)
       } else {
         // Html tinymce mode
-        window.tinyMCEPreInit.mceInit[ id ] = Object.assign({}, window.tinyMCEPreInit.mceInit[ '__VCVID__' ], {
+        window.tinyMCEPreInit.mceInit[id] = Object.assign({}, window.tinyMCEPreInit.mceInit.__VCVID__, {
           id: id,
           selector: '#' + id,
           setup: (editor) => {
@@ -284,18 +285,18 @@ export default class HtmlEditorComponent extends React.Component {
           }
         })
         // classic text mode
-        window.tinyMCEPreInit.qtInit[ id ] = Object.assign({}, window.tinyMCEPreInit.qtInit[ '__VCVID__' ], {
+        window.tinyMCEPreInit.qtInit[id] = Object.assign({}, window.tinyMCEPreInit.qtInit.__VCVID__, {
           id: id
         })
 
         window.setTimeout(() => {
           if (document.querySelector('#' + id)) {
-            window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[ id ])
+            window.quicktags && window.quicktags(window.tinyMCEPreInit.qtInit[id])
             window.switchEditors && window.switchEditors.go(id, 'tmce')
             if (window.QTags) {
-              delete window.QTags.instances[ 0 ]
-              if (window.QTags.instances[ id ]) {
-                window.QTags.instances[ id ].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
+              delete window.QTags.instances[0]
+              if (window.QTags.instances[id]) {
+                window.QTags.instances[id].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
               }
             }
           }
@@ -323,10 +324,10 @@ export default class HtmlEditorComponent extends React.Component {
       const { fieldKey } = this.props
       const id = `vcv-wpeditor-${fieldKey}`
       window.tinyMCE && window.tinyMCE.get(id) && window.tinyMCE.get(id).remove()
-      window.tinyMCE && window.tinyMCE.editors && window.tinyMCE.editors[ id ] && window.tinyMCE.editors[ id ].destroy()
-      if (window.QTags && window.QTags.instances[ id ]) {
-        window.QTags.instances[ id ].canvas.removeEventListener('keyup', this.handleChangeQtagsEditor)
-        delete window.QTags.instances[ id ]
+      window.tinyMCE && window.tinyMCE.editors && window.tinyMCE.editors[id] && window.tinyMCE.editors[id].destroy()
+      if (window.QTags && window.QTags.instances[id]) {
+        window.QTags.instances[id].canvas.removeEventListener('keyup', this.handleChangeQtagsEditor)
+        delete window.QTags.instances[id]
       }
       this.editor = false
       this.props.setEditorLoaded(false)
@@ -355,22 +356,22 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   getDarkTextSkinState () {
-    let { elementAccessPoint, options, editFormOptions } = this.props
+    const { elementAccessPoint, options, editFormOptions } = this.props
     const toggleFieldKey = options && options.skinToggle
 
     if (editFormOptions && editFormOptions.nestedAttr && editFormOptions.activeParamGroup) {
-      return !!(toggleFieldKey && editFormOptions.activeParamGroup[ toggleFieldKey ])
+      return !!(toggleFieldKey && editFormOptions.activeParamGroup[toggleFieldKey])
     }
     const cookElement = elementAccessPoint.cook()
     const element = cookElement.toJS()
-    return !!(toggleFieldKey && element && element[ toggleFieldKey ])
+    return !!(toggleFieldKey && element && element[toggleFieldKey])
   }
 
   getFieldComponent (template) {
-    return <React.Fragment>
+    return <>
       <div className='vcv-ui-form-wp-tinymce-inner' dangerouslySetInnerHTML={{ __html: template }} />
       {this.getSkinToggle()}
-    </React.Fragment>
+           </>
   }
 
   render () {
@@ -382,36 +383,36 @@ export default class HtmlEditorComponent extends React.Component {
       if (dynamicFieldOpened) {
         let valueForEditor = this.state.value
         if (this.state.value.match(blockRegexp)) {
-          let blockInfo = parseDynamicBlock(this.state.value)
-          let blockValue = this.state.value.match(blockRegexp)
+          const blockInfo = parseDynamicBlock(this.state.value)
+          const blockValue = this.state.value.match(blockRegexp)
 
           if (blockInfo) {
-            let before = blockInfo.beforeBlock || ''
-            let after = blockInfo.afterBlock || ''
+            const before = blockInfo.beforeBlock || ''
+            const after = blockInfo.afterBlock || ''
 
             // We have to encode the html comment
-            valueForEditor = before + window.encodeURIComponent(blockValue[ 0 ]) + window.encodeURIComponent(blockValue[ 1 ]) + after
+            valueForEditor = before + window.encodeURIComponent(blockValue[0]) + window.encodeURIComponent(blockValue[1]) + after
           }
         }
 
-        let template = document.getElementById('vcv-wpeditor-dynamic-template').innerHTML
+        const template = document.getElementById('vcv-wpeditor-dynamic-template').innerHTML
           .replace(/__VCVIDDYNAMIC__/g, id)
           .replace(/%%content%%/g, valueForEditor)
 
         return (
-          <React.Fragment>
+          <>
             {this.getFieldComponent(template)}
-          </React.Fragment>
+          </>
         )
       } else {
-        let template = document.getElementById('vcv-wpeditor-template').innerHTML
+        const template = document.getElementById('vcv-wpeditor-template').innerHTML
           .replace(/__VCVID__/g, id)
           .replace(/%%content%%/g, this.encodeHTML(this.state.value))
 
         return (
-          <React.Fragment>
+          <>
             {this.getFieldComponent(template)}
-          </React.Fragment>
+          </>
         )
       }
     }

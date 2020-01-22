@@ -7,10 +7,10 @@ class InputIcon extends Attribute {
   }
 
   render () {
-    let { value } = this.state
-    let { placeholder, options } = this.props
-    let { min, max } = options
-    let iconClasses = 'vcv-ui-form-dropdown vcv-ui-form-icon ' + options.iconClasses
+    const { value } = this.state
+    const { placeholder, options } = this.props
+    const { min, max } = options
+    const iconClasses = 'vcv-ui-form-dropdown vcv-ui-form-icon ' + options.iconClasses
 
     return (
       <div className='vcv-ui-form-input-icon'>

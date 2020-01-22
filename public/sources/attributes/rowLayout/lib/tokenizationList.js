@@ -106,8 +106,8 @@ export default class TokenizationList extends React.Component {
 
   updateCursorPosition (el) {
     this.keydownTimeout = setTimeout(() => {
-      let caret = window.jQuery(el).caret('offset')
-      let offset = el.getBoundingClientRect()
+      const caret = window.jQuery(el).caret('offset')
+      const offset = el.getBoundingClientRect()
       this.setState({
         cursorPosition: {
           top: offset.top + offset.height,
@@ -118,7 +118,7 @@ export default class TokenizationList extends React.Component {
   }
 
   handleKeyDown (e) {
-    let key = e.which || e.keyCode
+    const key = e.which || e.keyCode
     let updateCursorPosition = true
     if (key === 40) {
       e.preventDefault()
@@ -155,9 +155,9 @@ export default class TokenizationList extends React.Component {
   }
 
   handleSuggestionMouseDown (e) {
-    let value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
+    const value = this.state.value + e.currentTarget.getAttribute('data-vcv-suggest')
     this.setState({ value: value, suggestedValue: null, activeSuggestion: -1 })
-    let layoutSplit = this.props.device ? value : this.getLayout(value)
+    const layoutSplit = this.props.device ? value : this.getLayout(value)
     const options = this.props.device ? {
       device: this.props.device,
       index: this.props.index
@@ -203,10 +203,10 @@ export default class TokenizationList extends React.Component {
   }
 
   setActiveSuggestion (incr) {
-    let suggestions = this.getSuggestions()
-    let index = this.state.activeSuggestion + incr
-    if (suggestions[ index ] !== undefined) {
-      this.setState({ activeSuggestion: index, suggestedValue: this.state.value + suggestions[ index ] })
+    const suggestions = this.getSuggestions()
+    const index = this.state.activeSuggestion + incr
+    if (suggestions[index] !== undefined) {
+      this.setState({ activeSuggestion: index, suggestedValue: this.state.value + suggestions[index] })
     }
   }
 
@@ -215,12 +215,12 @@ export default class TokenizationList extends React.Component {
     if (layout.match(/^[\s++]/)) {
       layout = layout.replace(/^[\s++]+/, '')
     }
-    let columns = layout.split(/[\s+;]+/)
+    const columns = layout.split(/[\s+;]+/)
     return _.flatten(columns.map((column, index) => {
       if (index < columns.length - 1) {
-        let size = column.match(/^\d+$/) ? parseInt(column) : 0
+        const size = column.match(/^\d+$/) ? parseInt(column) : 0
         if (size > 0 && size <= 10) {
-          let size = parseInt(column)
+          const size = parseInt(column)
           column = []
           for (let i = 1; i <= size; i++) {
             column.push(`1/${size}`)
@@ -232,13 +232,13 @@ export default class TokenizationList extends React.Component {
   }
 
   removeToken (index) {
-    let tokens = this.getLayout(this.state.value)
-    let removedToken = tokens.splice(index, 1)
+    const tokens = this.getLayout(this.state.value)
+    const removedToken = tokens.splice(index, 1)
     removedToken && this.updateValue(tokens.join(' + '))
   }
 
   getTokensList () {
-    let tokens = _.compact(this.getLayout(this.state.value))
+    const tokens = _.compact(this.getLayout(this.state.value))
     return tokens.map((token, index) => {
       return <Token
         key={'vcvToken' + index}
@@ -257,14 +257,15 @@ export default class TokenizationList extends React.Component {
   }
 
   getSuggestionItems () {
-    let suggestions = this.getSuggestions()
+    const suggestions = this.getSuggestions()
     return suggestions.map((item, index) => {
-      let isActive = index === this.state.activeSuggestion
-      let cssClasses = classNames({
+      const isActive = index === this.state.activeSuggestion
+      const cssClasses = classNames({
         'vcv-ui-suggest-box-item': true,
         'vcv-selected': isActive
       })
-      return <span key={'vcvSuggestBoxItem' + index}
+      return <span
+        key={'vcvSuggestBoxItem' + index}
         className={cssClasses}
         onMouseDown={this.handleSuggestionMouseDown}
         data-vcv-suggest={item}
@@ -278,7 +279,7 @@ export default class TokenizationList extends React.Component {
     if (this.state.editing) {
       return null
     }
-    let tokens = this.getTokensList()
+    const tokens = this.getTokensList()
     return <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>
       {tokens}
     </div>
@@ -288,16 +289,16 @@ export default class TokenizationList extends React.Component {
     if (this.state.editing === false) {
       return null
     }
-    let items = this.getSuggestionItems()
+    const items = this.getSuggestionItems()
     if (!items.length) {
       return null
     }
-    let cssClasses = classNames({
+    const cssClasses = classNames({
       'vcv-ui-suggest-box': true,
       'vcv-ui-form-input': true
     })
 
-    return <div className={cssClasses} style={this.state.cursorPosition} ref={'suggestBox'}>
+    return <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>
       {items}
     </div>
   }
@@ -308,12 +309,12 @@ export default class TokenizationList extends React.Component {
     if (title) {
       tokenProps.title = title
     }
-    let cssClasses = classNames({
+    const cssClasses = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-tag-list-input': true,
       'vcv-ui-tag-list-input-editing-disabled': !this.state.editing && !responsiveness
     })
-    let listContainerClasses = classNames({
+    const listContainerClasses = classNames({
       'vcv-ui-tag-list-container': true,
       'vcv-ui-tag-list-container--active': typeof activeColumn === 'number' && (activeColumn === index)
     })

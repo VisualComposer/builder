@@ -14,7 +14,7 @@ const initializePlugin = function (tinymce, window) {
   globalPluginManager.add('vcvhtmleditor', function (editor) {
     // Register UI
     const ButtonControlInstance = ButtonControl(tinymce)
-    tinymce.ui[ 'VcvFontsSelect' ] = ButtonControlInstance
+    tinymce.ui.VcvFontsSelect = ButtonControlInstance
     tinymce.util.Tools.resolve('tinymce.ui.Factory').add('VcvFontsSelect', ButtonControlInstance)
 
     // Format commands

@@ -16,7 +16,7 @@ const blockRegexp = getBlockRegexp()
 const hubElementsStorage = getStorage('hubElements')
 const settingsStorage = getStorage('settings')
 const elementSettingsStorage = getStorage('elementSettings')
-let containerRelations = {}
+const containerRelations = {}
 let innerRenderCount = 0
 
 const API = {
@@ -34,7 +34,7 @@ const API = {
     return elementSettingsStorage.action('get', tag)
   },
   getById (id) {
-    let data = DocumentData.get(id)
+    const data = DocumentData.get(id)
     return data !== null ? this.get(data) : null
   },
   add (settings, componentCallback, cssSettings, modifierOnCreate) {
@@ -50,10 +50,10 @@ const API = {
         representers)
     },
     remove (name) {
-      delete attributeManager.items[ name ]
+      delete attributeManager.items[name]
     },
     get (name) {
-      let attributeElement = attributeManager.get(name)
+      const attributeElement = attributeManager.get(name)
       if (attributeElement) {
         return attributeElement
       }
@@ -65,29 +65,29 @@ const API = {
       const { blockAtts, beforeBlock, afterBlock } = props
       let postData = settingsStorage.state('postData').get()
 
-      let key = blockAtts.value.replace('::', ':')
+      const key = blockAtts.value.replace('::', ':')
       let result = null
       let sourceId = blockAtts.sourceId || window.vcvSourceID
       sourceId = parseInt(sourceId)
 
       if (window.vcvSourceID !== sourceId) {
-        postData = postData[ sourceId ]
+        postData = postData[sourceId]
       }
-      if (blockAtts && blockAtts.value && postData && typeof postData[ key ] !== 'undefined') {
-        if (postData && postData[ key ].length) {
+      if (blockAtts && blockAtts.value && postData && typeof postData[key] !== 'undefined') {
+        if (postData && postData[key].length) {
           // Value should be NEVER empty
-          result = postData[ key ]
+          result = postData[key]
         }
       }
 
       // In case if type===string and HTML Then:
-      if (!raw && attribute && [ 'string', 'htmleditor', 'inputSelect' ].indexOf(attribute.fieldType) !== -1) {
+      if (!raw && attribute && ['string', 'htmleditor', 'inputSelect'].indexOf(attribute.fieldType) !== -1) {
         const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
         if (isHtmlAllowed) {
           if (!result) {
             result = `No Value (${blockAtts.value})`
           }
-          let dynamicProps = {
+          const dynamicProps = {
             value: blockAtts.value,
             currentValue: result
           }
@@ -109,8 +109,8 @@ const API = {
     },
     cleanComments: (el, id) => {
       const clean = (el, type) => {
-        while (el[ type ]) {
-          const node = el[ type ]
+        while (el[type]) {
+          const node = el[type]
           if (node.nodeType === document.COMMENT_NODE) {
             const textContent = node.textContent
             if (textContent.indexOf('/dynamicElementComment') !== -1) {
@@ -131,22 +131,22 @@ const API = {
       clean(el, 'nextSibling')
     },
     getCommentsStack: function (id, cookElement, inner, attributesLevel = 0) {
-      let atts = cookElement.getAll ? cookElement.getAll(false) : cookElement.atts
+      const atts = cookElement.getAll ? cookElement.getAll(false) : cookElement.atts
       let commentStack = []
 
       Object.keys(atts).forEach((fieldKey) => {
         let isDynamic = false
         const attrSettings = cookElement.settings ? cookElement.settings(fieldKey) : cookElement.attrSettings.settings.options.settings
         let typeName
-        if (attrSettings[ fieldKey ] && attrSettings[ fieldKey ].type) {
-          typeName = attrSettings[ fieldKey ].type
+        if (attrSettings[fieldKey] && attrSettings[fieldKey].type) {
+          typeName = attrSettings[fieldKey].type
         } else if (attrSettings.type && attrSettings.type.name) {
           typeName = attrSettings.type.name
         } else {
           return
         }
-        const options = attrSettings[ fieldKey ] && attrSettings[ fieldKey ].options ? attrSettings[ fieldKey ].options : attrSettings.settings && attrSettings.settings.options ? attrSettings.settings.options : {}
-        let value = atts[ fieldKey ]
+        const options = attrSettings[fieldKey] && attrSettings[fieldKey].options ? attrSettings[fieldKey].options : attrSettings.settings && attrSettings.settings.options ? attrSettings.settings.options : {}
+        let value = atts[fieldKey]
 
         if (typeName === 'paramsGroup') {
           const attrValue = cookElement.get(fieldKey).value
@@ -157,7 +157,7 @@ const API = {
             paramsGroupProps.attrSettings = attrSettings
             paramsGroupProps.atts = value
             paramsGroupProps.paramGroupItemId = `${i}-${id}`
-            let commentsStackResult = API.dynamicFields.getCommentsStack(id, paramsGroupProps, inner, attributesLevel)
+            const commentsStackResult = API.dynamicFields.getCommentsStack(id, paramsGroupProps, inner, attributesLevel)
             attributesLevel = commentsStackResult.attributesLevel
             commentStack = commentStack.concat(commentsStackResult.commentStack)
           })
@@ -176,10 +176,10 @@ const API = {
             isDynamic = value.input && value.input.match(blockRegexp)
           } else if (typeName === 'string') {
             isDynamic = value.match(blockRegexp)
-          } else if ([ 'attachimage' ].indexOf(typeName) !== -1) {
-            let linkValue = value.link ? value.link : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].link : '')
+          } else if (['attachimage'].indexOf(typeName) !== -1) {
+            const linkValue = value.link ? value.link : (value.urls && value.urls[0] ? value.urls[0].link : '')
             if (linkValue && linkValue.url) {
-              let isLinkDynamic = linkValue.url.match(blockRegexp)
+              const isLinkDynamic = linkValue.url.match(blockRegexp)
               if (isLinkDynamic) {
                 const urlAttribute = {}
                 urlAttribute.element = cookElement
@@ -200,15 +200,15 @@ const API = {
                   url: linkValue
                 }
 
-                let commentsStackResult = API.dynamicFields.getCommentsStack(id, urlAttribute, inner, attributesLevel)
+                const commentsStackResult = API.dynamicFields.getCommentsStack(id, urlAttribute, inner, attributesLevel)
                 attributesLevel = commentsStackResult.attributesLevel
                 commentStack = commentStack.concat(commentsStackResult.commentStack)
               }
             }
 
-            value = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+            value = value.full ? value.full : (value.urls && value.urls[0] ? value.urls[0].full : '')
             isDynamic = value.match(blockRegexp)
-          } else if ([ 'url' ].indexOf(typeName) !== -1) {
+          } else if (['url'].indexOf(typeName) !== -1) {
             value = value && value.url ? value.url : ''
             isDynamic = value.match(blockRegexp)
           }
@@ -217,7 +217,7 @@ const API = {
           if (typeName === 'inputSelect') {
             value = value.input
           }
-          let blockInfo = parseDynamicBlock(value)
+          const blockInfo = parseDynamicBlock(value)
           blockInfo.blockAtts.elementId = id
           if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
@@ -233,14 +233,14 @@ const API = {
         }
 
         // Check isDynamic for designOptions/designOptionsAdvanced
-        if (attrSettings.type && attrSettings.type.name && [ 'designOptions', 'designOptionsAdvanced' ].indexOf(attrSettings.type.name) !== -1) {
-          let designOptions = value
+        if (attrSettings.type && attrSettings.type.name && ['designOptions', 'designOptionsAdvanced'].indexOf(attrSettings.type.name) !== -1) {
+          const designOptions = value
           if (designOptions && designOptions.device) {
             Object.keys(designOptions.device).forEach((device) => {
-              let imgValueObj = attrSettings.type.name === 'designOptionsAdvanced' ? designOptions.device[ device ].images : designOptions.device[ device ].image
-              let imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[ 0 ] ? imgValueObj.urls[ 0 ].full : ''
+              const imgValueObj = attrSettings.type.name === 'designOptionsAdvanced' ? designOptions.device[device].images : designOptions.device[device].image
+              const imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[0] ? imgValueObj.urls[0].full : ''
               if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
-                let blockInfo = parseDynamicBlock(imgValue)
+                const blockInfo = parseDynamicBlock(imgValue)
                 blockInfo.blockAtts.device = device
                 blockInfo.blockAtts.elementId = id
                 if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
@@ -271,14 +271,14 @@ const API = {
       // Clean all comments before/after element dom ref
       API.dynamicFields.cleanComments(el, id)
 
-      let commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
+      const commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
 
       if (commentsStackResult.commentStack.length) {
         if (inner) {
           innerRenderCount++
         }
-        let nestingLevel = API.getParentCount(id)
-        let innerNestingLevel = inner ? innerRenderCount : 0
+        const nestingLevel = API.getParentCount(id)
+        const innerNestingLevel = inner ? innerRenderCount : 0
         el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
         el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
         commentsStackResult.commentStack.forEach((commentData) => {
@@ -289,19 +289,19 @@ const API = {
       }
     },
     getDynamicFieldsList: (fieldType) => {
-      let postFields = settingsStorage.state('postFields').get() || []
+      const postFields = settingsStorage.state('postFields').get() || []
 
-      return postFields[ fieldType ] || []
+      return postFields[fieldType] || []
     },
     getDynamicValue: (dynamicFieldKey, sourceId = null, attribute = null, options = {}) => {
       if (!sourceId) {
         sourceId = window.vcvSourceID
       }
-      let { dynamicTemplateProps, forceSaveSourceId } = options
+      const { dynamicTemplateProps, forceSaveSourceId } = options
       let newValue = null
 
       if (dynamicTemplateProps) {
-        let dynamicProps = Object.assign({}, dynamicTemplateProps)
+        const dynamicProps = Object.assign({}, dynamicTemplateProps)
         dynamicProps.value = dynamicFieldKey
         if (!forceSaveSourceId && (window.vcvSourceID === sourceId)) {
           delete dynamicProps.sourceId
@@ -320,7 +320,7 @@ const API = {
           attribute,
           true
         )
-        let dynamicProps = {
+        const dynamicProps = {
           value: dynamicFieldKey,
           currentValue: currentValue
         }
@@ -336,8 +336,8 @@ const API = {
       const dynamicFieldListValues = Object.values(dynamicFieldsList)
       let dynamicFieldKey = ''
 
-      if (dynamicFieldListValues[ 0 ] && dynamicFieldListValues[ 0 ].group && dynamicFieldListValues[ 0 ].group.values && dynamicFieldListValues[ 0 ].group.values[ 0 ]) {
-        dynamicFieldKey = dynamicFieldListValues[ 0 ].group.values[ 0 ].value
+      if (dynamicFieldListValues[0] && dynamicFieldListValues[0].group && dynamicFieldListValues[0].group.values && dynamicFieldListValues[0].group.values[0]) {
+        dynamicFieldKey = dynamicFieldListValues[0].group.values[0].value
       }
 
       return dynamicFieldKey
@@ -347,9 +347,9 @@ const API = {
         return options.defaultValue
       }
       const { fieldKey, elementAccessPoint } = options
-      let cookElement = elementAccessPoint.cook()
+      const cookElement = elementAccessPoint.cook()
 
-      let { settings } = cookElement.settings(fieldKey)
+      const { settings } = cookElement.settings(fieldKey)
       let defaultValue = settings.defaultValue
       if (typeof defaultValue === 'undefined' && settings.value) {
         defaultValue = settings.value
@@ -359,35 +359,35 @@ const API = {
     }
   },
   list: {
-    settings (sortSelector = [ 'name' ]) {
-      let list = elementSettingsStorage.action('list')
+    settings (sortSelector = ['name']) {
+      const list = elementSettingsStorage.action('list')
 
       return lodash.sortBy(list.map((item) => {
-        let elementValues = buildSettingsObject(item.settings)
+        const elementValues = buildSettingsObject(item.settings)
         return API.get(elementValues).toJS()
       }), sortSelector)
     },
-    elements (sortSelector = [ 'name' ]) {
-      let list = elementSettingsStorage.action('list')
+    elements (sortSelector = ['name']) {
+      const list = elementSettingsStorage.action('list')
 
       return lodash.sortBy(list.map((item) => {
-        let elementValues = buildSettingsObject(item.settings)
+        const elementValues = buildSettingsObject(item.settings)
         return API.get(elementValues)
       }), sortSelector)
     }
   },
   getContainerChildren (tag) {
     if (containerRelations.hasOwnProperty(tag)) {
-      return containerRelations[ tag ]
+      return containerRelations[tag]
     } else {
       return []
     }
   },
   getParentCount: (id, count = 0) => {
-    let element = DocumentData.get(id)
-    let parent = !element || !element.parent ? false : element.parent
+    const element = DocumentData.get(id)
+    const parent = !element || !element.parent ? false : element.parent
     if (parent) {
-      let parentElement = DocumentData.get(parent)
+      const parentElement = DocumentData.get(parent)
       count++
       return API.getParentCount(parentElement.id, count)
     }
@@ -397,7 +397,7 @@ const API = {
   visualizeAttributes: (element, api = false, props = false, isNested = false) => {
     const atts = props ? props.atts : element.getAll(false)
     const id = props ? props.id : atts.id
-    let layoutAtts = {}
+    const layoutAtts = {}
     let allowInline = true
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
@@ -407,28 +407,28 @@ const API = {
       const attrSettings = props && props.attrSettings ? props.attrSettings.settings.options.settings : element.settings(fieldKey)
       let typeName
       if (props) {
-        if (attrSettings[ fieldKey ] && attrSettings[ fieldKey ].type) {
-          typeName = attrSettings[ fieldKey ].type
+        if (attrSettings[fieldKey] && attrSettings[fieldKey].type) {
+          typeName = attrSettings[fieldKey].type
         } else {
           return
         }
       } else if (attrSettings.type && attrSettings.type.name) {
         typeName = attrSettings.type && attrSettings.type.name ? attrSettings.type.name : ''
       }
-      const options = props ? attrSettings[ fieldKey ].options : attrSettings.settings.options ? attrSettings.settings.options : {}
+      const options = props ? attrSettings[fieldKey].options : attrSettings.settings.options ? attrSettings.settings.options : {}
 
       let value = null
-      if (typeof atts[ fieldKey ] === 'object' && atts[ fieldKey ] !== null && !(atts[ fieldKey ] instanceof Array)) {
-        value = JSON.parse(JSON.stringify(atts[ fieldKey ]))
+      if (typeof atts[fieldKey] === 'object' && atts[fieldKey] !== null && !(atts[fieldKey] instanceof Array)) {
+        value = JSON.parse(JSON.stringify(atts[fieldKey]))
       } else {
-        value = atts[ fieldKey ]
+        value = atts[fieldKey]
       }
 
       let dynamicValue = value
 
       let isDynamic = false
       if (env('VCV_JS_FT_DYNAMIC_FIELDS') && options && typeof options.dynamicField !== 'undefined') {
-        if ([ 'string', 'htmleditor', 'inputSelect' ].indexOf(typeName) !== -1) {
+        if (['string', 'htmleditor', 'inputSelect'].indexOf(typeName) !== -1) {
           let matchValue
           if (typeName === 'inputSelect') {
             matchValue = value.input && value.input.match(blockRegexp)
@@ -438,14 +438,14 @@ const API = {
           if (matchValue) {
             isDynamic = true
           }
-        } else if ([ 'attachimage' ].indexOf(typeName) !== -1) {
-          let tempValue = value.full ? value.full : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].full : '')
+        } else if (['attachimage'].indexOf(typeName) !== -1) {
+          const tempValue = value.full ? value.full : (value.urls && value.urls[0] ? value.urls[0].full : '')
           isDynamic = tempValue.match(blockRegexp)
           if (isDynamic) {
             dynamicValue = tempValue
           }
 
-          const linkValue = value.link ? value.link : (value.urls && value.urls[ 0 ] ? value.urls[ 0 ].link : '')
+          const linkValue = value.link ? value.link : (value.urls && value.urls[0] ? value.urls[0].link : '')
           const isLinkDynamic = linkValue && linkValue.url && linkValue.url.match(blockRegexp)
           if (isLinkDynamic) {
             const urlElement = {
@@ -466,16 +466,16 @@ const API = {
               }
             }
 
-            let newLinkValue = API.visualizeAttributes(urlElement, false, linkProps)
+            const newLinkValue = API.visualizeAttributes(urlElement, false, linkProps)
 
             if (value.link) {
               value.link = newLinkValue.url
-            } else if (value.urls && value.urls[ 0 ] && value.urls[ 0 ].link) {
-              value.urls[ 0 ].link = newLinkValue.url
+            } else if (value.urls && value.urls[0] && value.urls[0].link) {
+              value.urls[0].link = newLinkValue.url
             }
           }
-        } else if ([ 'url' ].indexOf(typeName) !== -1) {
-          let tempValue = value && value.url ? value.url : ''
+        } else if (['url'].indexOf(typeName) !== -1) {
+          const tempValue = value && value.url ? value.url : ''
           isDynamic = tempValue.match(blockRegexp)
           if (isDynamic) {
             dynamicValue = tempValue
@@ -490,15 +490,15 @@ const API = {
         } else {
           blockInfo = dynamicValue.split(blockRegexp)
         }
-        let dynamicFieldsData = API.dynamicFields.getDynamicFieldsData(
+        const dynamicFieldsData = API.dynamicFields.getDynamicFieldsData(
           {
             fieldKey: fieldKey,
             value: dynamicValue,
-            blockName: blockInfo[ 3 ],
-            blockAtts: JSON.parse(blockInfo[ 4 ].trim()),
-            blockContent: blockInfo[ 7 ],
-            beforeBlock: blockInfo[ 0 ] || '',
-            afterBlock: blockInfo[ 14 ] || ''
+            blockName: blockInfo[3],
+            blockAtts: JSON.parse(blockInfo[4].trim()),
+            blockContent: blockInfo[7],
+            beforeBlock: blockInfo[0] || '',
+            afterBlock: blockInfo[14] || ''
           },
           {
             fieldKey: fieldKey,
@@ -507,39 +507,41 @@ const API = {
           }
         )
 
-        if ([ 'attachimage' ].indexOf(typeName) !== -1) {
+        if (['attachimage'].indexOf(typeName) !== -1) {
           if (value && value.full) {
             value.full = dynamicFieldsData
-            layoutAtts[ fieldKey ] = value
-          } else if (value.urls && value.urls[ 0 ]) {
-            let newValue = { ids: [], urls: [ { full: dynamicFieldsData } ] }
-            if (value.urls[ 0 ] && value.urls[ 0 ].filter) {
-              newValue.urls[ 0 ].filter = value.urls[ 0 ].filter
+            layoutAtts[fieldKey] = value
+          } else if (value.urls && value.urls[0]) {
+            const newValue = { ids: [], urls: [{ full: dynamicFieldsData }] }
+            if (value.urls[0] && value.urls[0].filter) {
+              newValue.urls[0].filter = value.urls[0].filter
             }
-            if (value.urls[ 0 ] && value.urls[ 0 ].link) {
-              newValue.urls[ 0 ].link = value.urls[ 0 ].link
+            if (value.urls[0] && value.urls[0].link) {
+              newValue.urls[0].link = value.urls[0].link
             }
-            layoutAtts[ fieldKey ] = newValue
+            layoutAtts[fieldKey] = newValue
           } else {
-            layoutAtts[ fieldKey ] = dynamicFieldsData
+            layoutAtts[fieldKey] = dynamicFieldsData
           }
         } else if (typeName === 'inputSelect') {
           value.input = dynamicFieldsData
           value.select = null
-          layoutAtts[ fieldKey ] = value
+          layoutAtts[fieldKey] = value
         } else if (typeName === 'url') {
           value.url = dynamicFieldsData
-          layoutAtts[ fieldKey ] = value
+          layoutAtts[fieldKey] = value
         } else {
-          layoutAtts[ fieldKey ] = dynamicFieldsData
+          layoutAtts[fieldKey] = dynamicFieldsData
         }
       } else if (!isNested && options && options.inline) {
-        layoutAtts[ fieldKey ] =
-          <ContentEditableComponent id={id} fieldKey={fieldKey} fieldType={typeName} api={api} cook={API}
+        layoutAtts[fieldKey] =
+          <ContentEditableComponent
+            id={id} fieldKey={fieldKey} fieldType={typeName} api={api} cook={API}
             options={{
               ...options,
               allowInline
-            }}>
+            }}
+          >
             {value || ''}
           </ContentEditableComponent>
       } else if (typeName === 'paramsGroup') {
@@ -549,19 +551,19 @@ const API = {
         paramsGroupProps.attrSettings = attrSettings
         paramsGroupProps.allowInline = allowInline
         paramsGroupProps.id = id
-        let fieldValue = {}
+        const fieldValue = {}
         fieldValue.value = []
         const attrValue = element.get(fieldKey).value
         attrValue.forEach((value, i) => {
           paramsGroupProps.atts = value
-          fieldValue.value[ i ] = API.visualizeAttributes(element, api, paramsGroupProps, isNested)
+          fieldValue.value[i] = API.visualizeAttributes(element, api, paramsGroupProps, isNested)
         })
-        layoutAtts[ fieldKey ] = fieldValue
+        layoutAtts[fieldKey] = fieldValue
       } else if ((typeName === 'htmleditor' && (!options || !options.inline)) || (isNested && options && options.inline)) {
-        layoutAtts[ fieldKey ] =
+        layoutAtts[fieldKey] =
           <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
       } else {
-        layoutAtts[ fieldKey ] = value
+        layoutAtts[fieldKey] = value
       }
     })
     return layoutAtts
@@ -569,7 +571,7 @@ const API = {
 }
 
 const getChildren = (groups, allElements) => {
-  let result = []
+  const result = []
   allElements.forEach((element) => {
     if (element && element.relatedTo(groups)) {
       result.push({
@@ -587,7 +589,7 @@ const setRelations = () => {
     const containerFor = element.containerFor()
     const tag = element.get('tag')
     if (containerFor.length && containerFor.indexOf('General') < 0) {
-      containerRelations[ tag ] = getChildren(containerFor, allElements)
+      containerRelations[tag] = getChildren(containerFor, allElements)
     }
   })
 }

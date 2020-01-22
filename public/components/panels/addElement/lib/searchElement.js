@@ -13,6 +13,7 @@ export default class SearchElement extends React.Component {
     applyFirstElement: PropTypes.func,
     disableSelect: PropTypes.bool
   }
+
   inputTimeout = 0
   dropdownTimeout = 0
   mobileDetect = null
@@ -65,7 +66,7 @@ export default class SearchElement extends React.Component {
   }
 
   handleSearch (e) {
-    let inputVal = e.currentTarget.value.toLowerCase()
+    const inputVal = e.currentTarget.value.toLowerCase()
     this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent('0')
     this.setState({
       inputValue: e.currentTarget.value,
@@ -80,12 +81,12 @@ export default class SearchElement extends React.Component {
   getContentTitle (index) {
     if (index.indexOf && index.indexOf('-') > -1) {
       index = index.split('-')
-      const group = this.props.allCategories[ index[ 0 ] ]
-      const category = group && group.categories && group.categories[ index[ 1 ] ]
+      const group = this.props.allCategories[index[0]]
+      const category = group && group.categories && group.categories[index[1]]
 
       return category ? category.title : ''
     }
-    return this.props.allCategories[ index ] ? this.props.allCategories[ index ].title : ''
+    return this.props.allCategories[index] ? this.props.allCategories[index].title : ''
   }
 
   handleCategoryChange (value) {
@@ -111,24 +112,30 @@ export default class SearchElement extends React.Component {
   }
 
   getSelectOptions (categories, groupIndex) {
-    let options = []
+    const options = []
     categories.forEach((item) => {
-      options.push(<option key={`search-select-item-${item.id}-${item.index}`}
-        value={`${groupIndex}-${item.index}`}>{item.title}</option>)
+      options.push(<option
+        key={`search-select-item-${item.id}-${item.index}`}
+        value={`${groupIndex}-${item.index}`}
+      >{item.title}
+      </option>)
     })
     return options
   }
 
   getSelectGroups () {
-    let optGroup = []
+    const optGroup = []
     this.props.allCategories.forEach((item, index) => {
       if (item.categories) {
         optGroup.push(<optgroup key={`search-select-group-item-${item.id}-${item.index}`} label={item.title}>
           {this.getSelectOptions(item.categories, index)}
         </optgroup>)
       } else {
-        optGroup.push(<option key={`search-select-item-${item.id}-${item.index}`}
-          value={item.index}>{item.title}</option>)
+        optGroup.push(<option
+          key={`search-select-item-${item.id}-${item.index}`}
+          value={item.index}
+        >{item.title}
+        </option>)
       }
     })
 
@@ -181,15 +188,15 @@ export default class SearchElement extends React.Component {
   }
 
   render () {
-    let dropdownContainerClasses = classNames({
+    const dropdownContainerClasses = classNames({
       'vcv-ui-editor-search-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdown
     })
-    let inputContainerClasses = classNames({
+    const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
-    let autoFocus = !this.mobileDetect.mobile()
+    const autoFocus = !this.mobileDetect.mobile()
 
     return <div className='vcv-ui-editor-search-container'>
       {!this.props.disableSelect && (

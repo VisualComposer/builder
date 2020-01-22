@@ -7,6 +7,7 @@ export default class ThankYouScreen extends React.Component {
   static texts = {
     thankYouText: ThankYouScreen.localizations ? ThankYouScreen.localizations.thankYouText : 'Thank You!'
   }
+
   constructor (props) {
     super(props)
     this.activationContent = React.createRef()

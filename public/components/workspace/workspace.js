@@ -67,7 +67,7 @@ export default class Workspace extends React.Component {
 
   render () {
     const { hasContent, stickyBar } = this.props
-    let layoutClasses = ClassNames({
+    const layoutClasses = ClassNames({
       'vcv-layout-bar': true,
       'vcv-ui-content--hidden': !hasContent,
       'vcv-ui-content-all--visible': hasContent,
@@ -75,11 +75,13 @@ export default class Workspace extends React.Component {
     })
 
     return (
-      <div className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp} ref={(workspace) => {
-        if (workspace && workspace.ownerDocument) {
-          this.document = workspace.ownerDocument
-        }
-      }}>
+      <div
+        className={layoutClasses} style={stickyBar} onMouseUp={this.handleMouseUp} ref={(workspace) => {
+          if (workspace && workspace.ownerDocument) {
+            this.document = workspace.ownerDocument
+          }
+        }}
+      >
         <div className='vcv-layout-bar-overlay' />
         {this.props.children}
         <Resizer params={{
@@ -87,13 +89,15 @@ export default class Workspace extends React.Component {
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-top',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
         <Resizer params={{
           resizeBottom: true,
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-bottom',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
         <Resizer params={{
           resizeLeft: true,
           resizeTop: true,
@@ -101,13 +105,15 @@ export default class Workspace extends React.Component {
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-top',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
         <Resizer params={{
           resizeLeft: true,
           resizerTargetLeft: '.vcv-layout-bar',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
         <Resizer params={{
           resizeLeft: true,
           resizeBottom: true,
@@ -115,7 +121,8 @@ export default class Workspace extends React.Component {
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-left-bottom',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
 
         <Resizer params={{
           resizeRight: true,
@@ -124,13 +131,15 @@ export default class Workspace extends React.Component {
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-ne vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-top',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
         <Resizer params={{
           resizeRight: true,
           resizerTargetRight: '.vcv-layout-bar',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
         <Resizer params={{
           resizeRight: true,
           resizeBottom: true,
@@ -138,7 +147,8 @@ export default class Workspace extends React.Component {
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-nw vcv-ui-resizer-layout-placement-detached vcv-ui-resizer-layout-bar-right-bottom',
           callback: this.resizeCallback
-        }} />
+        }}
+        />
       </div>
     )
   }

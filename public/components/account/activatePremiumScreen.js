@@ -53,7 +53,7 @@ export default class ActivatePremiumScreen extends React.Component {
         'vcv-license-key': this.state.licenseValue,
         'vcv-activation-type': type || 'premium'
       }).then((responseData) => {
-        let response = getResponse(responseData)
+        const response = getResponse(responseData)
         if (response && response.status) {
           const updateUrl = window.VCV_UPDATE_URL && window.VCV_UPDATE_URL()
           if (updateUrl) {
@@ -140,10 +140,10 @@ export default class ActivatePremiumScreen extends React.Component {
 
     if (activationType === 'premium') {
       headingText = (
-        <React.Fragment>
+        <>
           {getPremiumFeaturesText1}<br />
           {getPremiumFeaturesText2}
-        </React.Fragment>
+        </>
       )
     }
 
@@ -165,16 +165,16 @@ export default class ActivatePremiumScreen extends React.Component {
     let findNewLicenseAtText
     if (activationType === 'premium') {
       findNewLicenseAtText = (
-        <React.Fragment>{findSubscriptionLicenseAtText}
+        <>{findSubscriptionLicenseAtText}
           <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
-        </React.Fragment>
+        </>
       )
     } else {
       findNewLicenseAtText = (
-        <React.Fragment>
+        <>
           {findFreeLicenseAt}
           <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
-        </React.Fragment>
+        </>
       )
     }
 

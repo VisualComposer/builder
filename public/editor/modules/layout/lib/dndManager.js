@@ -55,7 +55,7 @@ export default class DndManager {
       if (this.iframe) {
         this.documentDOM = this.iframe.contentWindow.document
       }
-      let container = this.documentDOM.querySelector('[data-vcv-module="content-layout"]')
+      const container = this.documentDOM.querySelector('[data-vcv-module="content-layout"]')
       if (container) {
         const DndConstructor = DndDataSet
         this.items = new DndConstructor(container, {
@@ -103,7 +103,7 @@ export default class DndManager {
 
   getOffsetTop () {
     if (this.iframe) {
-      let rect = this.iframe.getBoundingClientRect()
+      const rect = this.iframe.getBoundingClientRect()
       return rect.top
     }
     return 0
@@ -205,7 +205,7 @@ export default class DndManager {
         workspaceStorage.trigger('move', id, { action: 'append', related: wrapper.id })
       } else { // Move dragging element at the end without creating wrapper
         const rootElements = documentManager.children(false)
-        const lastRootElement = rootElements[ rootElements.length - 1 ]
+        const lastRootElement = rootElements[rootElements.length - 1]
         workspaceStorage.trigger('move', id, { action: 'after', related: lastRootElement.id })
       }
     }

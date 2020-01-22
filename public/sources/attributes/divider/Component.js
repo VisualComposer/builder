@@ -17,6 +17,7 @@ export default class Divider extends Attribute {
   static defaultProps = {
     fieldType: 'divider'
   }
+
   /**
    * Attribute Mixins
    */
@@ -25,7 +26,7 @@ export default class Divider extends Attribute {
       src: require('raw-loader!./cssMixins/dividerTop.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         }
       }
     },
@@ -33,7 +34,7 @@ export default class Divider extends Attribute {
       src: require('raw-loader!./cssMixins/dividerBottom.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         }
       }
     }
@@ -68,6 +69,7 @@ export default class Divider extends Attribute {
     dividerBottomWidth: '100',
     dividerBottomHeight: '20'
   }
+
   static defaultState = {
     currentDevice: 'all',
     devices: {},
@@ -105,9 +107,9 @@ export default class Divider extends Attribute {
    */
   parseValue (value) {
     // set default values
-    let newState = lodash.defaultsDeep({}, Divider.defaultState)
+    const newState = lodash.defaultsDeep({}, Divider.defaultState)
     // get devices data
-    let devices = this.getCustomDevicesKeys()
+    const devices = this.getCustomDevicesKeys()
     // set current device
     if (!lodash.isEmpty(value.device)) {
       newState.currentDevice = Object.keys(value.device).shift()
@@ -115,9 +117,9 @@ export default class Divider extends Attribute {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = lodash.defaultsDeep({}, Divider.deviceDefaults)
-      if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
+      newState.devices[device] = lodash.defaultsDeep({}, Divider.deviceDefaults)
+      if (value.device && value.device[device]) {
+        newState.devices[device] = lodash.defaultsDeep({}, value.device[device], newState.devices[device])
       }
     })
 
@@ -129,8 +131,8 @@ export default class Divider extends Attribute {
    * @param newState
    */
   updateValue (newState, fieldKey) {
-    let newValue = {}
-    let newMixins = {}
+    const newValue = {}
+    const newMixins = {}
 
     // prepare data for state
     newState = this.updateState(newState)
@@ -142,235 +144,235 @@ export default class Divider extends Attribute {
       checkDevices = checkDevices.concat(this.getCustomDevicesKeys())
     }
     checkDevices.forEach((device) => {
-      if (!lodash.isEmpty(newState.devices[ device ])) {
+      if (!lodash.isEmpty(newState.devices[device])) {
         // set default values
-        if (!newState.devices[ device ].dividerTopBackgroundStyle) {
-          newState.devices[ device ].dividerTopBackgroundStyle = Divider.deviceDefaults.dividerTopBackgroundStyle
+        if (!newState.devices[device].dividerTopBackgroundStyle) {
+          newState.devices[device].dividerTopBackgroundStyle = Divider.deviceDefaults.dividerTopBackgroundStyle
         }
-        if (!newState.devices[ device ].dividerBottomBackgroundStyle) {
-          newState.devices[ device ].dividerBottomBackgroundStyle = Divider.deviceDefaults.dividerBottomBackgroundStyle
+        if (!newState.devices[device].dividerBottomBackgroundStyle) {
+          newState.devices[device].dividerBottomBackgroundStyle = Divider.deviceDefaults.dividerBottomBackgroundStyle
         }
-        if (!newState.devices[ device ].dividerTopBackgroundPosition) {
-          newState.devices[ device ].dividerTopBackgroundPosition = Divider.deviceDefaults.dividerTopBackgroundPosition
+        if (!newState.devices[device].dividerTopBackgroundPosition) {
+          newState.devices[device].dividerTopBackgroundPosition = Divider.deviceDefaults.dividerTopBackgroundPosition
         }
-        if (!newState.devices[ device ].dividerBottomBackgroundPosition) {
-          newState.devices[ device ].dividerBottomBackgroundPosition = Divider.deviceDefaults.dividerBottomBackgroundPosition
+        if (!newState.devices[device].dividerBottomBackgroundPosition) {
+          newState.devices[device].dividerBottomBackgroundPosition = Divider.deviceDefaults.dividerBottomBackgroundPosition
         }
 
         // values
-        newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
+        newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
 
-        if (!newValue[ device ].dividerTop) {
-          Object.keys(newValue[ device ]).forEach((style) => {
+        if (!newValue[device].dividerTop) {
+          Object.keys(newValue[device]).forEach((style) => {
             if (style !== 'dividerTop' && style.includes('dividerTop')) {
-              delete newValue[ device ][ style ]
+              delete newValue[device][style]
             }
           })
         } else {
-          if (newState.devices[ device ].dividerTopBackgroundType !== 'image' && newState.devices[ device ].dividerTopBackgroundType !== 'videoEmbed' && newState.devices[ device ].dividerTopBackgroundType !== 'videoYoutube' && newState.devices[ device ].dividerTopBackgroundType !== 'videoVimeo') {
-            delete newValue[ device ].dividerTopBackgroundImage
-            delete newValue[ device ].dividerTopBackgroundStyle
-            delete newValue[ device ].dividerTopBackgroundPosition
-            delete newValue[ device ].dividerTopVideoEmbed
-            delete newValue[ device ].dividerTopVideoYoutube
-            delete newValue[ device ].dividerTopVideoVimeo
+          if (newState.devices[device].dividerTopBackgroundType !== 'image' && newState.devices[device].dividerTopBackgroundType !== 'videoEmbed' && newState.devices[device].dividerTopBackgroundType !== 'videoYoutube' && newState.devices[device].dividerTopBackgroundType !== 'videoVimeo') {
+            delete newValue[device].dividerTopBackgroundImage
+            delete newValue[device].dividerTopBackgroundStyle
+            delete newValue[device].dividerTopBackgroundPosition
+            delete newValue[device].dividerTopVideoEmbed
+            delete newValue[device].dividerTopVideoYoutube
+            delete newValue[device].dividerTopVideoVimeo
           }
 
-          if (newState.devices[ device ].dividerTopBackgroundType === 'image') {
-            if (newValue[ device ].hasOwnProperty('dividerTopBackgroundImage')) {
-              let dividerImages = newValue[ device ].dividerTopBackgroundImage
-              let isArray = dividerImages.constructor === Array
+          if (newState.devices[device].dividerTopBackgroundType === 'image') {
+            if (newValue[device].hasOwnProperty('dividerTopBackgroundImage')) {
+              const dividerImages = newValue[device].dividerTopBackgroundImage
+              const isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
-                delete newValue[ device ].dividerTopBackgroundStyle
-                delete newValue[ device ].dividerTopBackgroundPosition
-                delete newValue[ device ].dividerTopVideoEmbed
-                delete newValue[ device ].dividerTopVideoYoutube
-                delete newValue[ device ].dividerTopVideoVimeo
+                delete newValue[device].dividerTopBackgroundStyle
+                delete newValue[device].dividerTopBackgroundPosition
+                delete newValue[device].dividerTopVideoEmbed
+                delete newValue[device].dividerTopVideoYoutube
+                delete newValue[device].dividerTopVideoVimeo
               }
             } else {
-              delete newValue[ device ].dividerTopBackgroundStyle
-              delete newValue[ device ].dividerTopBackgroundPosition
-              delete newValue[ device ].dividerTopVideoEmbed
-              delete newValue[ device ].dividerTopVideoYoutube
-              delete newValue[ device ].dividerTopVideoVimeo
+              delete newValue[device].dividerTopBackgroundStyle
+              delete newValue[device].dividerTopBackgroundPosition
+              delete newValue[device].dividerTopVideoEmbed
+              delete newValue[device].dividerTopVideoYoutube
+              delete newValue[device].dividerTopVideoVimeo
             }
           }
 
-          if (newState.devices[ device ].dividerTopBackgroundType === 'videoEmbed') {
-            delete newValue[ device ].dividerTopBackgroundStyle
+          if (newState.devices[device].dividerTopBackgroundType === 'videoEmbed') {
+            delete newValue[device].dividerTopBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerTopVideoEmbed')) {
-              let dividerVideos = newValue[ device ].dividerTopVideoEmbed
-              let isArray = dividerVideos.constructor === Array
+            if (newValue[device].hasOwnProperty('dividerTopVideoEmbed')) {
+              const dividerVideos = newValue[device].dividerTopVideoEmbed
+              const isArray = dividerVideos.constructor === Array
 
               if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
-                delete newValue[ device ].dividerTopBackgroundPosition
-                delete newValue[ device ].dividerTopBackgroundImage
-                delete newValue[ device ].dividerTopVideoYoutube
-                delete newValue[ device ].dividerTopVideoVimeo
+                delete newValue[device].dividerTopBackgroundPosition
+                delete newValue[device].dividerTopBackgroundImage
+                delete newValue[device].dividerTopVideoYoutube
+                delete newValue[device].dividerTopVideoVimeo
               }
             } else {
-              delete newValue[ device ].dividerTopBackgroundPosition
-              delete newValue[ device ].dividerTopBackgroundImage
-              delete newValue[ device ].dividerTopVideoYoutube
-              delete newValue[ device ].dividerTopVideoVimeo
+              delete newValue[device].dividerTopBackgroundPosition
+              delete newValue[device].dividerTopBackgroundImage
+              delete newValue[device].dividerTopVideoYoutube
+              delete newValue[device].dividerTopVideoVimeo
             }
           }
 
-          if (newState.devices[ device ].dividerTopBackgroundType === 'videoYoutube') {
-            delete newValue[ device ].dividerTopBackgroundStyle
+          if (newState.devices[device].dividerTopBackgroundType === 'videoYoutube') {
+            delete newValue[device].dividerTopBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerTopVideoYoutube')) {
-              let dividerYoutubeUrl = newValue[ device ].dividerTopVideoYoutube
+            if (newValue[device].hasOwnProperty('dividerTopVideoYoutube')) {
+              const dividerYoutubeUrl = newValue[device].dividerTopVideoYoutube
               if (!dividerYoutubeUrl) {
-                delete newValue[ device ].dividerTopBackgroundPosition
-                delete newValue[ device ].dividerTopBackgroundImage
-                delete newValue[ device ].dividerTopVideoEmbed
-                delete newValue[ device ].dividerTopVideoVimeo
+                delete newValue[device].dividerTopBackgroundPosition
+                delete newValue[device].dividerTopBackgroundImage
+                delete newValue[device].dividerTopVideoEmbed
+                delete newValue[device].dividerTopVideoVimeo
               }
             } else {
-              delete newValue[ device ].dividerTopBackgroundPosition
-              delete newValue[ device ].dividerTopBackgroundImage
-              delete newValue[ device ].dividerTopVideoEmbed
-              delete newValue[ device ].dividerTopVideoVimeo
+              delete newValue[device].dividerTopBackgroundPosition
+              delete newValue[device].dividerTopBackgroundImage
+              delete newValue[device].dividerTopVideoEmbed
+              delete newValue[device].dividerTopVideoVimeo
             }
           }
 
-          if (newState.devices[ device ].dividerTopBackgroundType === 'videoVimeo') {
-            delete newValue[ device ].dividerTopBackgroundStyle
+          if (newState.devices[device].dividerTopBackgroundType === 'videoVimeo') {
+            delete newValue[device].dividerTopBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerTopVideoVimeo')) {
-              let dividerVimeoUrl = newValue[ device ].dividerTopVideoVimeo
+            if (newValue[device].hasOwnProperty('dividerTopVideoVimeo')) {
+              const dividerVimeoUrl = newValue[device].dividerTopVideoVimeo
               if (!dividerVimeoUrl) {
-                delete newValue[ device ].dividerTopBackgroundPosition
-                delete newValue[ device ].dividerTopBackgroundImage
-                delete newValue[ device ].dividerTopVideoEmbed
-                delete newValue[ device ].dividerTopVideoYoutube
+                delete newValue[device].dividerTopBackgroundPosition
+                delete newValue[device].dividerTopBackgroundImage
+                delete newValue[device].dividerTopVideoEmbed
+                delete newValue[device].dividerTopVideoYoutube
               }
             } else {
-              delete newValue[ device ].dividerTopBackgroundPosition
-              delete newValue[ device ].dividerTopBackgroundImage
-              delete newValue[ device ].dividerTopVideoEmbed
-              delete newValue[ device ].dividerTopVideoYoutube
+              delete newValue[device].dividerTopBackgroundPosition
+              delete newValue[device].dividerTopBackgroundImage
+              delete newValue[device].dividerTopVideoEmbed
+              delete newValue[device].dividerTopVideoYoutube
             }
           }
         }
 
-        if (!newValue[ device ].dividerBottom) {
-          Object.keys(newValue[ device ]).forEach((style) => {
+        if (!newValue[device].dividerBottom) {
+          Object.keys(newValue[device]).forEach((style) => {
             if (style !== 'dividerBottom' && style.includes('dividerBottom')) {
-              delete newValue[ device ][ style ]
+              delete newValue[device][style]
             }
           })
         } else {
-          if (newState.devices[ device ].dividerBottomBackgroundType !== 'image' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoEmbed' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoYoutube' && newState.devices[ device ].dividerBottomBackgroundType !== 'videoVimeo') {
-            delete newValue[ device ].dividerBottomBackgroundImage
-            delete newValue[ device ].dividerBottomBackgroundStyle
-            delete newValue[ device ].dividerBottomBackgroundPosition
-            delete newValue[ device ].dividerBottomVideoEmbed
-            delete newValue[ device ].dividerBottomVideoYoutube
-            delete newValue[ device ].dividerBottomVideoVimeo
+          if (newState.devices[device].dividerBottomBackgroundType !== 'image' && newState.devices[device].dividerBottomBackgroundType !== 'videoEmbed' && newState.devices[device].dividerBottomBackgroundType !== 'videoYoutube' && newState.devices[device].dividerBottomBackgroundType !== 'videoVimeo') {
+            delete newValue[device].dividerBottomBackgroundImage
+            delete newValue[device].dividerBottomBackgroundStyle
+            delete newValue[device].dividerBottomBackgroundPosition
+            delete newValue[device].dividerBottomVideoEmbed
+            delete newValue[device].dividerBottomVideoYoutube
+            delete newValue[device].dividerBottomVideoVimeo
           }
 
-          if (newState.devices[ device ].dividerBottomBackgroundType === 'image') {
-            if (newValue[ device ].hasOwnProperty('dividerBottomBackgroundImage')) {
-              let dividerImages = newValue[ device ].dividerBottomBackgroundImage
-              let isArray = dividerImages.constructor === Array
+          if (newState.devices[device].dividerBottomBackgroundType === 'image') {
+            if (newValue[device].hasOwnProperty('dividerBottomBackgroundImage')) {
+              const dividerImages = newValue[device].dividerBottomBackgroundImage
+              const isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
-                delete newValue[ device ].dividerBottomBackgroundStyle
-                delete newValue[ device ].dividerBottomBackgroundPosition
-                delete newValue[ device ].dividerBottomVideoEmbed
-                delete newValue[ device ].dividerBottomVideoYoutube
-                delete newValue[ device ].dividerBottomVideoVimeo
+                delete newValue[device].dividerBottomBackgroundStyle
+                delete newValue[device].dividerBottomBackgroundPosition
+                delete newValue[device].dividerBottomVideoEmbed
+                delete newValue[device].dividerBottomVideoYoutube
+                delete newValue[device].dividerBottomVideoVimeo
               }
             } else {
-              delete newValue[ device ].dividerBottomBackgroundStyle
-              delete newValue[ device ].dividerBottomBackgroundPosition
-              delete newValue[ device ].dividerBottomVideoEmbed
-              delete newValue[ device ].dividerBottomVideoYoutube
-              delete newValue[ device ].dividerBottomVideoVimeo
+              delete newValue[device].dividerBottomBackgroundStyle
+              delete newValue[device].dividerBottomBackgroundPosition
+              delete newValue[device].dividerBottomVideoEmbed
+              delete newValue[device].dividerBottomVideoYoutube
+              delete newValue[device].dividerBottomVideoVimeo
             }
           }
 
-          if (newState.devices[ device ].dividerBottomBackgroundType === 'videoEmbed') {
-            delete newValue[ device ].dividerBottomBackgroundStyle
+          if (newState.devices[device].dividerBottomBackgroundType === 'videoEmbed') {
+            delete newValue[device].dividerBottomBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerBottomVideoEmbed')) {
-              let dividerVideos = newValue[ device ].dividerBottomVideoEmbed
-              let isArray = dividerVideos.constructor === Array
+            if (newValue[device].hasOwnProperty('dividerBottomVideoEmbed')) {
+              const dividerVideos = newValue[device].dividerBottomVideoEmbed
+              const isArray = dividerVideos.constructor === Array
 
               if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
-                delete newValue[ device ].dividerBottomBackgroundPosition
-                delete newValue[ device ].dividerBottomBackgroundImage
-                delete newValue[ device ].dividerBottomVideoYoutube
-                delete newValue[ device ].dividerBottomVideoVimeo
+                delete newValue[device].dividerBottomBackgroundPosition
+                delete newValue[device].dividerBottomBackgroundImage
+                delete newValue[device].dividerBottomVideoYoutube
+                delete newValue[device].dividerBottomVideoVimeo
               }
             } else {
-              delete newValue[ device ].dividerBottomBackgroundPosition
-              delete newValue[ device ].dividerBottomBackgroundImage
-              delete newValue[ device ].dividerBottomVideoYoutube
-              delete newValue[ device ].dividerBottomVideoVimeo
+              delete newValue[device].dividerBottomBackgroundPosition
+              delete newValue[device].dividerBottomBackgroundImage
+              delete newValue[device].dividerBottomVideoYoutube
+              delete newValue[device].dividerBottomVideoVimeo
             }
           }
 
-          if (newState.devices[ device ].dividerBottomBackgroundType === 'videoYoutube') {
-            delete newValue[ device ].dividerBottomBackgroundStyle
+          if (newState.devices[device].dividerBottomBackgroundType === 'videoYoutube') {
+            delete newValue[device].dividerBottomBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerBottomVideoYoutube')) {
-              let dividerYoutubeUrl = newValue[ device ].dividerBottomVideoYoutube
+            if (newValue[device].hasOwnProperty('dividerBottomVideoYoutube')) {
+              const dividerYoutubeUrl = newValue[device].dividerBottomVideoYoutube
               if (!dividerYoutubeUrl) {
-                delete newValue[ device ].dividerBottomBackgroundPosition
-                delete newValue[ device ].dividerBottomBackgroundImage
-                delete newValue[ device ].dividerBottomVideoEmbed
-                delete newValue[ device ].dividerBottomVideoVimeo
+                delete newValue[device].dividerBottomBackgroundPosition
+                delete newValue[device].dividerBottomBackgroundImage
+                delete newValue[device].dividerBottomVideoEmbed
+                delete newValue[device].dividerBottomVideoVimeo
               }
             } else {
-              delete newValue[ device ].dividerBottomBackgroundPosition
-              delete newValue[ device ].dividerBottomBackgroundImage
-              delete newValue[ device ].dividerBottomVideoEmbed
-              delete newValue[ device ].dividerBottomVideoVimeo
+              delete newValue[device].dividerBottomBackgroundPosition
+              delete newValue[device].dividerBottomBackgroundImage
+              delete newValue[device].dividerBottomVideoEmbed
+              delete newValue[device].dividerBottomVideoVimeo
             }
           }
 
-          if (newState.devices[ device ].dividerBottomBackgroundType === 'videoVimeo') {
-            delete newValue[ device ].dividerBottomBackgroundStyle
+          if (newState.devices[device].dividerBottomBackgroundType === 'videoVimeo') {
+            delete newValue[device].dividerBottomBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerBottomVideoVimeo')) {
-              let dividerVimeoUrl = newValue[ device ].dividerBottomVideoVimeo
+            if (newValue[device].hasOwnProperty('dividerBottomVideoVimeo')) {
+              const dividerVimeoUrl = newValue[device].dividerBottomVideoVimeo
               if (!dividerVimeoUrl) {
-                delete newValue[ device ].dividerBottomBackgroundPosition
-                delete newValue[ device ].dividerBottomBackgroundImage
-                delete newValue[ device ].dividerBottomVideoEmbed
-                delete newValue[ device ].dividerBottomVideoYoutube
+                delete newValue[device].dividerBottomBackgroundPosition
+                delete newValue[device].dividerBottomBackgroundImage
+                delete newValue[device].dividerBottomVideoEmbed
+                delete newValue[device].dividerBottomVideoYoutube
               }
             } else {
-              delete newValue[ device ].dividerBottomBackgroundPosition
-              delete newValue[ device ].dividerBottomBackgroundImage
-              delete newValue[ device ].dividerBottomVideoEmbed
-              delete newValue[ device ].dividerBottomVideoYoutube
+              delete newValue[device].dividerBottomBackgroundPosition
+              delete newValue[device].dividerBottomBackgroundImage
+              delete newValue[device].dividerBottomVideoEmbed
+              delete newValue[device].dividerBottomVideoYoutube
             }
           }
         }
 
         // remove device from list if it's empty
-        if (!Object.keys(newValue[ device ]).length) {
-          delete newValue[ device ]
+        if (!Object.keys(newValue[device]).length) {
+          delete newValue[device]
         }
       }
     })
 
-    let allDevices = checkDevices.concat(this.getCustomDevicesKeys())
+    const allDevices = checkDevices.concat(this.getCustomDevicesKeys())
     allDevices.push('all')
     allDevices.forEach((device) => {
       let mixinName = `dividerTopMixin:${device}`
-      newMixins[ mixinName ] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerTopMixin)
-      newMixins[ mixinName ].variables.device = {
+      newMixins[mixinName] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerTopMixin)
+      newMixins[mixinName].variables.device = {
         value: device
       }
 
       mixinName = `dividerBottomMixin:${device}`
-      newMixins[ mixinName ] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerBottomMixin)
-      newMixins[ mixinName ].variables.device = {
+      newMixins[mixinName] = lodash.defaultsDeep({}, Divider.attributeMixins.dividerBottomMixin)
+      newMixins[mixinName].variables.device = {
         value: device
       }
     })
@@ -385,7 +387,7 @@ export default class Divider extends Attribute {
    * @param mixins
    */
   setFieldValue (value, mixins, innerFieldKey) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
@@ -452,7 +454,8 @@ export default class Divider extends Attribute {
           customDevices: this.getCustomDevices()
         }}
         updater={this.devicesChangeHandler}
-        value={this.state.currentDevice} />
+        value={this.state.currentDevice}
+      />
     </div>
   }
 
@@ -461,16 +464,16 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   devicesChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
+    const newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property
-      newState.devices.all = lodash.defaultsDeep({}, newState.devices[ this.getCustomDevicesKeys().shift() ])
+      newState.devices.all = lodash.defaultsDeep({}, newState.devices[this.getCustomDevicesKeys().shift()])
       delete newState.devices.all.display
     } else if (this.state.currentDevice === 'all') {
       // clone data to custom devices from all
       this.getCustomDevicesKeys().forEach((device) => {
-        newState.devices[ device ] = lodash.defaultsDeep({}, newState.devices.all)
+        newState.devices[device] = lodash.defaultsDeep({}, newState.devices.all)
       })
     }
 
@@ -483,8 +486,8 @@ export default class Divider extends Attribute {
    * @param value
    */
   valueChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
   }
 
@@ -493,12 +496,12 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDividerRender (type) {
-    let dividerType = `divider${type}`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const dividerType = `divider${type}`
+    const deviceData = this.state.devices[this.state.currentDevice]
 
-    let value = deviceData[ dividerType ] || false
-    let fieldKey = dividerType
-    let labelText = `Enable ${type.toLowerCase()} shape divider`
+    const value = deviceData[dividerType] || false
+    const fieldKey = dividerType
+    const labelText = `Enable ${type.toLowerCase()} shape divider`
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -520,13 +523,13 @@ export default class Divider extends Attribute {
   getDividerShapeRender (type) {
     const dividerType = `divider${type}`
     const dividerShapeName = `${dividerType}Shape`
-    const deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
 
-    if (!deviceData[ dividerType ]) {
+    if (!deviceData[dividerType]) {
       return null
     }
 
-    const value = deviceData[ dividerShapeName ] || Divider.deviceDefaults[ dividerShapeName ]
+    const value = deviceData[dividerShapeName] || Divider.deviceDefaults[dividerShapeName]
 
     return (
       <div className='vcv-ui-form-group'>
@@ -548,16 +551,16 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDividerFlipRender (type) {
-    let dividerType = `divider${type}`
-    let dividerFlipName = `${dividerType}FlipHorizontal`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const dividerType = `divider${type}`
+    const dividerFlipName = `${dividerType}FlipHorizontal`
+    const deviceData = this.state.devices[this.state.currentDevice]
 
-    if (!deviceData[ dividerType ]) {
+    if (!deviceData[dividerType]) {
       return null
     }
 
-    let value = deviceData[ dividerFlipName ] || Divider.deviceDefaults[ dividerFlipName ]
-    let options = {
+    const value = deviceData[dividerFlipName] || Divider.deviceDefaults[dividerFlipName]
+    const options = {
       values: [
         {
           label: 'Left',
@@ -582,7 +585,8 @@ export default class Divider extends Attribute {
           fieldKey={dividerFlipName}
           options={options}
           updater={this.valueChangeHandler}
-          value={value} />
+          value={value}
+        />
       </div>
     )
   }
@@ -592,15 +596,15 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDividerHeightRender (type) {
-    let dividerType = `divider${type}`
-    let dividerHeightName = `${dividerType}Height`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const dividerType = `divider${type}`
+    const dividerHeightName = `${dividerType}Height`
+    const deviceData = this.state.devices[this.state.currentDevice]
 
-    if (!deviceData[ dividerType ]) {
+    if (!deviceData[dividerType]) {
       return null
     }
 
-    let value = deviceData[ dividerHeightName ]
+    const value = deviceData[dividerHeightName]
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <span className='vcv-ui-form-group-heading'>
@@ -622,15 +626,15 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDividerWidthRender (type) {
-    let dividerType = `divider${type}`
-    let dividerWidthName = `${dividerType}Width`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const dividerType = `divider${type}`
+    const dividerWidthName = `${dividerType}Width`
+    const deviceData = this.state.devices[this.state.currentDevice]
 
-    if (!deviceData[ dividerType ]) {
+    if (!deviceData[dividerType]) {
       return null
     }
 
-    let value = deviceData[ dividerWidthName ]
+    const value = deviceData[dividerWidthName]
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -653,15 +657,15 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundTypeRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const dividerType = `divider${type}`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const deviceData = this.state.devices[this.state.currentDevice]
 
-    if (!deviceData[ dividerType ]) {
+    if (!deviceData[dividerType]) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Color',
@@ -690,7 +694,7 @@ export default class Divider extends Attribute {
       ]
     }
 
-    let value = deviceData[ dividerBgTypeName ] || Divider.deviceDefaults[ dividerBgTypeName ]
+    const value = deviceData[dividerBgTypeName] || Divider.deviceDefaults[dividerBgTypeName]
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -701,7 +705,8 @@ export default class Divider extends Attribute {
         fieldKey={dividerBgTypeName}
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -710,17 +715,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundColorRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgColorName = `${dividerType}BackgroundColor`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerBgColorName = `${dividerType}BackgroundColor`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'color') {
+    if (!deviceData[dividerType] || backgroundType !== 'color') {
       return null
     }
 
-    let value = deviceData[ dividerBgColorName ] || Divider.deviceDefaults[ dividerBgColorName ]
+    const value = deviceData[dividerBgColorName] || Divider.deviceDefaults[dividerBgColorName]
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -731,7 +736,8 @@ export default class Divider extends Attribute {
         fieldKey={dividerBgColorName}
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={Divider.deviceDefaults[ dividerBgColorName ]} />
+        defaultValue={Divider.deviceDefaults[dividerBgColorName]}
+      />
     </div>
   }
 
@@ -740,17 +746,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundGradientStartColorRender (type) {
-    let dividerType = `divider${type}`
-    let dividerGradientStartName = `${dividerType}BackgroundGradientStartColor`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerGradientStartName = `${dividerType}BackgroundGradientStartColor`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'gradient') {
+    if (!deviceData[dividerType] || backgroundType !== 'gradient') {
       return null
     }
 
-    let value = deviceData[ dividerGradientStartName ] || Divider.deviceDefaults[ dividerGradientStartName ]
+    const value = deviceData[dividerGradientStartName] || Divider.deviceDefaults[dividerGradientStartName]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider start color
@@ -760,7 +766,8 @@ export default class Divider extends Attribute {
         fieldKey={dividerGradientStartName}
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={Divider.deviceDefaults[ dividerGradientStartName ]} />
+        defaultValue={Divider.deviceDefaults[dividerGradientStartName]}
+      />
     </div>
   }
 
@@ -769,17 +776,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundGradientEndColorRender (type) {
-    let dividerType = `divider${type}`
-    let dividerGradientEndName = `${dividerType}BackgroundGradientEndColor`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerGradientEndName = `${dividerType}BackgroundGradientEndColor`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'gradient') {
+    if (!deviceData[dividerType] || backgroundType !== 'gradient') {
       return null
     }
 
-    let value = deviceData[ dividerGradientEndName ] || Divider.deviceDefaults[ dividerGradientEndName ]
+    const value = deviceData[dividerGradientEndName] || Divider.deviceDefaults[dividerGradientEndName]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider end color
@@ -789,7 +796,8 @@ export default class Divider extends Attribute {
         fieldKey={dividerGradientEndName}
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={Divider.deviceDefaults[ dividerGradientEndName ]} />
+        defaultValue={Divider.deviceDefaults[dividerGradientEndName]}
+      />
     </div>
   }
 
@@ -798,17 +806,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundGradientAngleRender (type) {
-    let dividerType = `divider${type}`
-    let dividerAngleName = `${dividerType}BackgroundGradientAngle`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerAngleName = `${dividerType}BackgroundGradientAngle`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'gradient') {
+    if (!deviceData[dividerType] || backgroundType !== 'gradient') {
       return null
     }
 
-    let value = deviceData[ dividerAngleName ]
+    const value = deviceData[dividerAngleName]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider gradient angle
@@ -828,17 +836,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerAttachImageRender (type) {
-    let dividerType = `divider${type}`
-    let dividerImageName = `${dividerType}BackgroundImage`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerImageName = `${dividerType}BackgroundImage`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'image') {
+    if (!deviceData[dividerType] || backgroundType !== 'image') {
       return null
     }
 
-    let value = deviceData[ dividerImageName ] || ''
+    const value = deviceData[dividerImageName] || ''
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -862,25 +870,25 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundStyleRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgStyleName = `${dividerType}BackgroundStyle`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let dividerImageName = `${dividerType}BackgroundImage`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerBgStyleName = `${dividerType}BackgroundStyle`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const dividerImageName = `${dividerType}BackgroundImage`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'image' || !deviceData.hasOwnProperty(dividerImageName)) {
+    if (!deviceData[dividerType] || backgroundType !== 'image' || !deviceData.hasOwnProperty(dividerImageName)) {
       return null
     }
 
-    let images = deviceData[ dividerImageName ]
-    let isArray = images.constructor === Array
+    const images = deviceData[dividerImageName]
+    const isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Cover',
@@ -916,7 +924,7 @@ export default class Divider extends Attribute {
         }
       ]
     }
-    let value = deviceData[ dividerBgStyleName ] || Divider.deviceDefaults[ dividerBgStyleName ]
+    const value = deviceData[dividerBgStyleName] || Divider.deviceDefaults[dividerBgStyleName]
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Divider background style
@@ -926,7 +934,8 @@ export default class Divider extends Attribute {
         fieldKey={dividerBgStyleName}
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -935,17 +944,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerBackgroundPositionRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgPositionName = `${dividerType}BackgroundPosition`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let dividerImageName = `${dividerType}BackgroundImage`
-    let dividerVideoEmbedName = `${dividerType}VideoEmbed`
-    let dividerVideoYoutubeName = `${dividerType}VideoYoutube`
-    let dividerVideoVimeoName = `${dividerType}VideoVimeo`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerBgPositionName = `${dividerType}BackgroundPosition`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const dividerImageName = `${dividerType}BackgroundImage`
+    const dividerVideoEmbedName = `${dividerType}VideoEmbed`
+    const dividerVideoYoutubeName = `${dividerType}VideoYoutube`
+    const dividerVideoVimeoName = `${dividerType}VideoVimeo`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if ((backgroundType !== 'image' && backgroundType !== 'videoEmbed' && backgroundType !== 'videoYoutube' && backgroundType !== 'videoVimeo') || !deviceData[ dividerType ]) {
+    if ((backgroundType !== 'image' && backgroundType !== 'videoEmbed' && backgroundType !== 'videoYoutube' && backgroundType !== 'videoVimeo') || !deviceData[dividerType]) {
       return null
     }
 
@@ -953,8 +962,8 @@ export default class Divider extends Attribute {
       if (!deviceData.hasOwnProperty(dividerImageName)) {
         return null
       }
-      let images = deviceData[ dividerImageName ]
-      let isArray = images.constructor === Array
+      const images = deviceData[dividerImageName]
+      const isArray = images.constructor === Array
 
       if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
         return null
@@ -965,23 +974,23 @@ export default class Divider extends Attribute {
       if (!deviceData.hasOwnProperty(dividerVideoEmbedName)) {
         return null
       }
-      let videos = deviceData[ dividerVideoEmbedName ]
-      let isArray = videos.constructor === Array
+      const videos = deviceData[dividerVideoEmbedName]
+      const isArray = videos.constructor === Array
 
       if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
         return null
       }
     }
 
-    if (backgroundType === 'videoYoutube' && !deviceData[ dividerVideoYoutubeName ]) {
+    if (backgroundType === 'videoYoutube' && !deviceData[dividerVideoYoutubeName]) {
       return null
     }
 
-    if (backgroundType === 'videoVimeo' && !deviceData[ dividerVideoVimeoName ]) {
+    if (backgroundType === 'videoVimeo' && !deviceData[dividerVideoVimeoName]) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Left Top',
@@ -1030,7 +1039,7 @@ export default class Divider extends Attribute {
         }
       ]
     }
-    let value = deviceData[ dividerBgPositionName ] || Divider.deviceDefaults[ dividerBgPositionName ]
+    const value = deviceData[dividerBgPositionName] || Divider.deviceDefaults[dividerBgPositionName]
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -1041,7 +1050,8 @@ export default class Divider extends Attribute {
         fieldKey={dividerBgPositionName}
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1050,17 +1060,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerEmbedVideoRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let dividerVideoEmbedName = `${dividerType}VideoEmbed`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const dividerVideoEmbedName = `${dividerType}VideoEmbed`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'videoEmbed') {
+    if (!deviceData[dividerType] || backgroundType !== 'videoEmbed') {
       return null
     }
 
-    let value = deviceData[ dividerVideoEmbedName ] || {}
+    const value = deviceData[dividerVideoEmbedName] || {}
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -1073,7 +1083,8 @@ export default class Divider extends Attribute {
           multiple: false
         }}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
       <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
     </div>
   }
@@ -1083,17 +1094,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerYoutubeVideoRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let dividerVideoYoutubeName = `${dividerType}VideoYoutube`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const dividerVideoYoutubeName = `${dividerType}VideoYoutube`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'videoYoutube') {
+    if (!deviceData[dividerType] || backgroundType !== 'videoYoutube') {
       return null
     }
 
-    let value = deviceData[ dividerVideoYoutubeName ] || ''
+    const value = deviceData[dividerVideoYoutubeName] || ''
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
@@ -1113,17 +1124,17 @@ export default class Divider extends Attribute {
    * @returns {*}
    */
   getDividerVimeoVideoRender (type) {
-    let dividerType = `divider${type}`
-    let dividerBgTypeName = `${dividerType}BackgroundType`
-    let dividerVideoVimeoName = `${dividerType}VideoVimeo`
-    let deviceData = this.state.devices[ this.state.currentDevice ]
-    let backgroundType = deviceData[ dividerBgTypeName ]
+    const dividerType = `divider${type}`
+    const dividerBgTypeName = `${dividerType}BackgroundType`
+    const dividerVideoVimeoName = `${dividerType}VideoVimeo`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const backgroundType = deviceData[dividerBgTypeName]
 
-    if (!deviceData[ dividerType ] || backgroundType !== 'videoVimeo') {
+    if (!deviceData[dividerType] || backgroundType !== 'videoVimeo') {
       return null
     }
 
-    let value = deviceData[ dividerVideoVimeoName ] || ''
+    const value = deviceData[dividerVideoVimeoName] || ''
 
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>

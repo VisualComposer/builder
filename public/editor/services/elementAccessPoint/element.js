@@ -16,7 +16,7 @@ export default class Element {
     Object.defineProperty(this, privateCookElementKey, {
       writable: false,
       value: () => {
-        return this.services.cook.get(this[ privateDataElementKey ])
+        return this.services.cook.get(this[privateDataElementKey])
       }
     })
 
@@ -28,11 +28,11 @@ export default class Element {
   set (key, value) {
     const cookElement = this.cook()
     cookElement.set(key, value)
-    this[ privateDataElementKey ][ key ] = value
+    this[privateDataElementKey][key] = value
     if (!this.inner) {
       this.storages.elements.trigger('update', this.id, {
         ...this.cook().toJS(),
-        [ key ]: value
+        [key]: value
       }, 'editForm', {
         changedAttribute: key,
         changedAttributeType: cookElement.settings(key).type
@@ -41,7 +41,7 @@ export default class Element {
   }
 
   cook () {
-    return this[ privateCookElementKey ]()
+    return this[privateCookElementKey]()
   }
 
   onChange (callback) {

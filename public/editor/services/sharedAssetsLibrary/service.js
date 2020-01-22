@@ -5,8 +5,8 @@ const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
 const API = {
   getAssetsLibraryFiles: (library) => {
     const sharedAssets = sharedAssetsStorage.state('sharedAssets').get()
-    let data = typeof library === 'string' ? sharedAssets[ library ] : sharedAssets[ library.name ]
-    let files = {
+    const data = typeof library === 'string' ? sharedAssets[library] : sharedAssets[library.name]
+    const files = {
       cssBundles: [],
       jsBundles: []
     }
@@ -14,7 +14,7 @@ const API = {
     if (data) {
       if (library.dependencies && library.dependencies.length) {
         library.dependencies.forEach((dependency) => {
-          let dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
+          const dependencyLibraryFiles = API.getAssetsLibraryFiles(dependency)
           if (dependencyLibraryFiles.cssBundles && dependencyLibraryFiles.cssBundles.length) {
             files.cssBundles = files.cssBundles.concat(dependencyLibraryFiles.cssBundles)
           }
@@ -40,8 +40,8 @@ const API = {
       }
     }
     // Remove duplicates
-    files.cssBundles = [ ...new Set(files.cssBundles) ]
-    files.jsBundles = [ ...new Set(files.jsBundles) ]
+    files.cssBundles = [...new Set(files.cssBundles)]
+    files.jsBundles = [...new Set(files.jsBundles)]
     return files
   },
   /**

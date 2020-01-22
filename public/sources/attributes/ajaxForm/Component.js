@@ -68,23 +68,23 @@ export default class AjaxForm extends Attribute {
   handleFormChange () {
     this.pseudoForm = document.createElement('form')
     this.fields.forEach((field) => {
-      let clone = field.cloneNode(true)
+      const clone = field.cloneNode(true)
       clone.value = field.value
       this.pseudoForm.appendChild(clone)
     })
-    let value = serialize(this.pseudoForm, { hash: true })
+    const value = serialize(this.pseudoForm, { hash: true })
     this.setFieldValue(value)
     this.pseudoForm = null
   }
 
   requestToServer () {
-    let ajax = getService('utils').ajax
+    const ajax = getService('utils').ajax
 
     if (this.serverRequest) {
       this.serverRequest.abort()
     }
-    let action = this.props.options.action
-    let value = this.state.value
+    const action = this.props.options.action
+    const value = this.state.value
 
     this.setState({
       formContent: '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>',
@@ -93,14 +93,14 @@ export default class AjaxForm extends Attribute {
     })
 
     this.serverRequest = ajax({
-      'vcv-action': `attribute:ajaxForm:render:adminNonce`,
+      'vcv-action': 'attribute:ajaxForm:render:adminNonce',
       'vcv-form-action': action,
       'vcv-form-element': this.props.elementAccessPoint.cook().toJS(),
       'vcv-form-value': value,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, (result) => {
-      let response = getResponse(result.response)
+      const response = getResponse(result.response)
       if (response && response.status) {
         this.setState({
           formContent: response.html || 'There are no options for this widget.',

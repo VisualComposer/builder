@@ -15,26 +15,26 @@ export default class StringAttribute extends Attribute {
   }
 
   render () {
-    let { value } = this.state
+    const { value } = this.state
     let { placeholder, options } = this.props
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
     }
     const inputType = options && options.inputType ? options.inputType : 'text'
 
-    let fieldClassNames = classNames({
+    const fieldClassNames = classNames({
       'vcv-ui-form-input': true,
       'vcv-ui-form-field-dynamic': env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField,
       'vcv-ui-form-input--error': options && options.inputType && this.input.current && !this.input.current.checkValidity()
     })
-    let fieldComponent = <input
+    const fieldComponent = <input
       className={fieldClassNames}
       type={inputType}
       onChange={this.handleChange}
       placeholder={placeholder}
       value={value}
       ref={this.input}
-    />
+                           />
 
     return (
       <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={value}>

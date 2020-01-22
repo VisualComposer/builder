@@ -15,22 +15,22 @@ const generateRandomString = (length) => {
 }
 
 const generateFakeData = () => {
-  let data = {}
+  const data = {}
   for (let i = 0; i < 10; i++) {
-    let randomKey1 = generateRandomString(Math.floor(Math.random() * 91 + 10))
-    data[ randomKey1 ] = {}
+    const randomKey1 = generateRandomString(Math.floor(Math.random() * 91 + 10))
+    data[randomKey1] = {}
     for (let k = 0; k < 10; k++) {
-      let randomKey2 = generateRandomString(Math.floor(Math.random() * 91 + 10))
-      data[ randomKey1 ][ randomKey2 ] = {}
+      const randomKey2 = generateRandomString(Math.floor(Math.random() * 91 + 10))
+      data[randomKey1][randomKey2] = {}
       for (let l = 0; l < 10; l++) {
-        let randomKey3 = generateRandomString(Math.floor(Math.random() * 91 + 10))
-        data[ randomKey1 ][ randomKey2 ][ randomKey3 ] = generateRandomString(Math.floor(Math.random() * 91 + 10))
+        const randomKey3 = generateRandomString(Math.floor(Math.random() * 91 + 10))
+        data[randomKey1][randomKey2][randomKey3] = generateRandomString(Math.floor(Math.random() * 91 + 10))
       }
     }
   }
-  data[ 'toTest' ] = {
-    'toTest2': {
-      'toTest3': 1
+  data.toTest = {
+    toTest2: {
+      toTest3: 1
     }
   }
   return data
@@ -73,7 +73,7 @@ export const checkStatus = () => {
   }).fail((jqxhr, textStatus, error) => {
     setStatus('fail')
     try {
-      let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
+      const responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
       if (responseJson && responseJson.message) {
         console.warn(responseJson.message)
       }

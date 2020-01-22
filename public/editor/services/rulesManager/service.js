@@ -13,7 +13,7 @@ const Rules = {
     return !!checkValue
   },
   minlength: (value, options) => {
-    let length = options.length
+    const length = options.length
     let checkValue = value
     if (options.key) {
       checkValue = get(value, options.key)
@@ -21,7 +21,7 @@ const Rules = {
     return checkValue.length >= parseInt(length)
   },
   maxlength: (value, options) => {
-    let length = options.length
+    const length = options.length
     let checkValue = value
     if (options.key) {
       checkValue = get(value, options.key)
@@ -29,8 +29,8 @@ const Rules = {
     return checkValue.length <= parseInt(length)
   },
   range: (value, options) => {
-    let min = parseInt(options.min)
-    let max = parseInt(options.max)
+    const min = parseInt(options.min)
+    const max = parseInt(options.max)
     let checkValue = value
     if (options.key) {
       checkValue = get(value, options.key)
@@ -38,32 +38,32 @@ const Rules = {
     return min <= checkValue.length && checkValue.length <= max
   },
   minvalue: (value, options) => {
-    let min = parseFloat(options.min)
+    const min = parseFloat(options.min)
     let checkValue = value
     if (options.key) {
       checkValue = get(value, options.key)
     }
-    let fl = parseFloat(checkValue)
+    const fl = parseFloat(checkValue)
     return !isNaN(fl) && fl >= min
   },
   maxvalue: (value, options) => {
-    let max = parseFloat(options.max)
+    const max = parseFloat(options.max)
     let checkValue = value
     if (options.key) {
       checkValue = get(value, options.key)
     }
-    let fl = parseFloat(checkValue)
+    const fl = parseFloat(checkValue)
 
     return !isNaN(fl) && fl <= max
   },
   between: (value, options) => {
-    let min = parseFloat(options.min)
-    let max = parseFloat(options.max)
+    const min = parseFloat(options.min)
+    const max = parseFloat(options.max)
     let checkValue = value
     if (options.key) {
       checkValue = get(value, options.key)
     }
-    let fl = parseFloat(checkValue)
+    const fl = parseFloat(checkValue)
 
     return !isNaN(fl) && min <= fl && fl <= max
   },
@@ -103,9 +103,9 @@ function createPromise (ruleData, value, fieldKey) {
     if (!ruleData.rule) {
       ruleData.rule = 'true'
     }
-    let ruleName = ruleData.rule.replace('!', '')
-    let reversed = ruleData.rule[ 0 ] === '!'
-    let result = Rules[ ruleName ](value, ruleData.options || {}, fieldKey)
+    const ruleName = ruleData.rule.replace('!', '')
+    const reversed = ruleData.rule[0] === '!'
+    let result = Rules[ruleName](value, ruleData.options || {}, fieldKey)
     if (reversed) {
       result = !result
     }
@@ -122,9 +122,9 @@ function createSync (ruleData, value) {
     if (!ruleData.rule) {
       ruleData.rule = 'true'
     }
-    let ruleName = ruleData.rule.replace('!', '')
-    let reversed = ruleData.rule[ 0 ] === '!'
-    let result = Rules[ ruleName ](value, ruleData.options || {})
+    const ruleName = ruleData.rule.replace('!', '')
+    const reversed = ruleData.rule[0] === '!'
+    let result = Rules[ruleName](value, ruleData.options || {})
     if (reversed) {
       result = !result
     }
@@ -135,10 +135,10 @@ function createSync (ruleData, value) {
 
 const RulesManagerAPI = {
   check: (values, rules, resultCallback) => {
-    let keys = Object.keys(rules || {})
-    let checks = []
+    const keys = Object.keys(rules || {})
+    const checks = []
     keys.forEach((key) => {
-      let rulePromise = createPromise(rules[ key ], values[ key ], key)
+      const rulePromise = createPromise(rules[key], values[key], key)
       checks.push(rulePromise)
     })
     Promise.all(checks)
@@ -154,15 +154,15 @@ const RulesManagerAPI = {
       )
   },
   checkSync: (values, rules, resultCallback) => {
-    let keys = Object.keys(rules)
-    let checks = []
+    const keys = Object.keys(rules)
+    const checks = []
     keys.forEach((key) => {
-      let ruleFn = createSync(rules[ key ], values[ key ])
+      const ruleFn = createSync(rules[key], values[key])
       checks.push(ruleFn)
     })
     let res = false
     for (let i = 0; i < checks.length; i++) {
-      res = checks[ i ]()
+      res = checks[i]()
       if (!res) {
         break
       }

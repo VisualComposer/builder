@@ -148,7 +148,7 @@ class BoxModel extends Attribute {
    */
   updateValue (newState) {
     // update value
-    let newValue = {}
+    const newValue = {}
     let checkFields = []
 
     // prepare data for state
@@ -160,12 +160,12 @@ class BoxModel extends Attribute {
       checkFields = Object.keys(this.getSimplifiedFields(newState))
     }
 
-    newValue[ 'combined' ] = newState.combined
+    newValue.combined = newState.combined
 
     // save only needed data
     checkFields.forEach((field) => {
-      if (newState[ field ] !== '') {
-        newValue[ field ] = newState[ field ]
+      if (newState[field] !== '') {
+        newValue[field] = newState[field]
       }
     })
 
@@ -178,7 +178,7 @@ class BoxModel extends Attribute {
    * @param value
    */
   setFieldValue (value) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, value)
   }
 
@@ -188,7 +188,7 @@ class BoxModel extends Attribute {
    * @param value
    */
   simplifyControlsHandler (fieldKey, value) {
-    let newValue = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
+    const newValue = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
     this.updateValue(newValue)
   }
 
@@ -197,32 +197,32 @@ class BoxModel extends Attribute {
    * @param e
    */
   changeBoxInputHandler (e) {
-    let field = e.currentTarget
-    let newState = lodash.defaultsDeep({}, { [ field.name ]: field.value }, this.state)
+    const field = e.currentTarget
+    const newState = lodash.defaultsDeep({}, { [field.name]: field.value }, this.state)
     this.updateValue(newState)
   }
 
   validateBoxInput (e) {
-    let field = e.currentTarget
+    const field = e.currentTarget
     // update value
-    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
-    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
+    const re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
 
     if (field.value === '') {
       return
     }
 
-    let match = field.value.match(re)
+    const match = field.value.match(re)
     if (match) {
-      if (!match[ 2 ]) {
-        let newState = lodash.defaultsDeep({}, { [ field.name ]: `${field.value}px` }, this.state)
+      if (!match[2]) {
+        const newState = lodash.defaultsDeep({}, { [field.name]: `${field.value}px` }, this.state)
         this.updateValue(newState)
       }
       return
     }
 
     // if validation fail leave field empty
-    let newState = lodash.defaultsDeep({}, { [ field.name ]: '' }, this.state)
+    const newState = lodash.defaultsDeep({}, { [field.name]: '' }, this.state)
     this.updateValue(newState)
   }
 
@@ -234,23 +234,24 @@ class BoxModel extends Attribute {
    * @returns {JSX}
    */
   renderInput (name, position, isDisabled = false) {
-    let classes = classNames([
+    const classes = classNames([
       'vcv-ui-form-input',
       'vcv-ui-design-options-onion-control-position--' + position
     ])
 
-    let defaultStyle = this.props.placeholder && this.props.placeholder[ name ]
-    let placeholder = defaultStyle || '-'
+    const defaultStyle = this.props.placeholder && this.props.placeholder[name]
+    const placeholder = defaultStyle || '-'
     return (
       <input
         type='text'
         placeholder={placeholder}
         className={classes}
         name={name}
-        value={this.state[ name ] || ''}
+        value={this.state[name] || ''}
         onChange={this.changeBoxInputHandler}
         onBlur={this.validateBoxInput}
-        disabled={isDisabled} />
+        disabled={isDisabled}
+      />
     )
   }
 
@@ -306,9 +307,9 @@ class BoxModel extends Attribute {
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <Toggle
             value={this.state.combined}
-            fieldKey={`combined`}
+            fieldKey='combined'
             updater={this.simplifyControlsHandler}
-            options={{ labelText: `Simple controls` }}
+            options={{ labelText: 'Simple controls' }}
             api={this.props.api}
           />
         </div>

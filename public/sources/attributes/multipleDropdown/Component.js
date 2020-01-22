@@ -20,10 +20,10 @@ export default class MultipleDropdown extends Attribute {
   /* eslint-enable */
 
   createGroup (key, groupObject, fieldKey) {
-    let optionElements = []
-    let { values, label } = groupObject
-    let labelValue = label.replace(/\s+/g, '')
-    for (let key in values) {
+    const optionElements = []
+    const { values, label } = groupObject
+    const labelValue = label.replace(/\s+/g, '')
+    for (const key in values) {
       if (values.hasOwnProperty(key)) {
         optionElements.push(this.createOptions(key, values, fieldKey))
       }
@@ -32,8 +32,8 @@ export default class MultipleDropdown extends Attribute {
   }
 
   createOptions (key, values, fieldKey) {
-    let value = values[ key ].value
-    let label = values[ key ].label
+    const value = values[key].value
+    const label = values[key].label
     return <option key={fieldKey + ':' + key + ':' + value} value={value}>{label}</option>
   }
 
@@ -42,12 +42,12 @@ export default class MultipleDropdown extends Attribute {
       props = this.props
     }
     let { values } = props.options || {}
-    let { global } = props.options || {}
+    const { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      if (typeof window[ global ] === 'function') {
-        values = window[ global ]()
+      if (typeof window[global] === 'function') {
+        values = window[global]()
       } else {
-        values = window[ global ] || []
+        values = window[global] || []
       }
     }
 
@@ -55,14 +55,14 @@ export default class MultipleDropdown extends Attribute {
   }
 
   generateSelectChildren (props) {
-    let optionElements = []
-    let values = this.getSelectOptions(props)
-    let { fieldKey } = props
+    const optionElements = []
+    const values = this.getSelectOptions(props)
+    const { fieldKey } = props
 
-    for (let key in values) {
+    for (const key in values) {
       if (values.hasOwnProperty(key)) {
-        if (values[ key ].hasOwnProperty('group')) {
-          optionElements.push(this.createGroup(key, values[ key ].group, fieldKey))
+        if (values[key].hasOwnProperty('group')) {
+          optionElements.push(this.createGroup(key, values[key].group, fieldKey))
         } else {
           optionElements.push(this.createOptions(key, values, fieldKey))
         }
@@ -73,11 +73,11 @@ export default class MultipleDropdown extends Attribute {
   }
 
   handleChange (event) {
-    let options = event.target.options
-    let value = []
+    const options = event.target.options
+    const value = []
     for (let i = 0, l = options.length; i < l; i++) {
-      if (options[ i ].selected) {
-        value.push(options[ i ].value)
+      if (options[i].selected) {
+        value.push(options[i].value)
       }
     }
 
@@ -85,13 +85,14 @@ export default class MultipleDropdown extends Attribute {
   }
 
   render () {
-    let { value } = this.state
+    const { value } = this.state
     return (
       <select
         multiple
         value={value}
         onChange={this.handleChange}
-        className='vcv-ui-form-input vcv-ui-form-dropdown-multiple'>
+        className='vcv-ui-form-input vcv-ui-form-dropdown-multiple'
+      >
         {this.selectChildren}
       </select>
     )

@@ -19,9 +19,10 @@ export default class ActivationSectionProvider extends React.Component {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
     doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don\'t close this window while sending error is in the progress.'
   }
+
   doUpdatePostAction = async (postUpdater) => {
     const { postUpdateActions, activePostUpdate } = this.state
-    const postData = postUpdateActions[ activePostUpdate ]
+    const postData = postUpdateActions[activePostUpdate]
     const posts = postUpdateActions
 
     let ready = false
@@ -119,7 +120,7 @@ export default class ActivationSectionProvider extends React.Component {
 
   doAction () {
     const cnt = this.state.assetsActions.length
-    const action = this.state.assetsActions[ this.state.activeAssetsAction ]
+    const action = this.state.assetsActions[this.state.activeAssetsAction]
     this.setState({ error: null })
 
     $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
@@ -168,16 +169,16 @@ export default class ActivationSectionProvider extends React.Component {
       })
 
       try {
-        let responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
+        const responseJson = JSON.parse(jqxhr.responseText ? jqxhr.responseText : '""')
         this.setError({
           message: responseJson && responseJson.message ? responseJson.message : '',
           errorAction: this.doAction,
           errorReportAction: this.sendErrorReport
         })
       } catch (e) {
-        let Str = jqxhr.responseText
+        const Str = jqxhr.responseText
         try {
-          let json = getResponse(Str)
+          const json = getResponse(Str)
           if (json && json.status) {
             if (this.state.activeAssetsAction === cnt - 1) {
               this.setState({ assetsActionsDone: true })

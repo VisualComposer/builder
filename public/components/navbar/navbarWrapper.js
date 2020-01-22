@@ -32,9 +32,9 @@ export default class NavbarWrapper extends React.Component {
   }
 
   handleNavbarDragging = (e) => {
-    let { windowSize, navPosY, navPosX, navbarPosition } = e.eventData
-    let navSize = 60
-    let navSizeSide = 60 * 2
+    const { windowSize, navPosY, navPosX, navbarPosition } = e.eventData
+    const navSize = 60
+    const navSizeSide = 60 * 2
     if (navbarPosition === 'detached') {
       // if nav is on top
       if (navPosY < navSize) {
@@ -75,10 +75,10 @@ export default class NavbarWrapper extends React.Component {
   }
 
   render () {
-    let { guidelinePosition, isDragging, showGuideline } = this.state
+    const { guidelinePosition, isDragging, showGuideline } = this.state
     let draggingContent = ''
     if (isDragging) {
-      let guidelineClasses = [ 'vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition ]
+      let guidelineClasses = ['vcv-ui-navbar-guideline', 'vcv-ui-navbar-guideline-' + guidelinePosition]
       if (showGuideline) {
         guidelineClasses.push('vcv-ui-navbar-guideline-is-visible')
       }

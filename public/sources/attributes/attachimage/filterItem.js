@@ -8,14 +8,14 @@ const blockRegexp = getBlockRegexp()
 
 class FilterItem extends React.Component {
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props
+    const { metaAssetsPath } = this.props
     if (!filename) {
       return ''
     }
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS')
     if (isDynamic && filename.match(blockRegexp)) {
-      let blockInfo = filename.split(blockRegexp)
-      let blockAtts = JSON.parse(blockInfo[ 4 ])
+      const blockInfo = filename.split(blockRegexp)
+      const blockAtts = JSON.parse(blockInfo[4])
       filename = getDynamicFieldsData({
         blockAtts: blockAtts
       })
@@ -27,16 +27,16 @@ class FilterItem extends React.Component {
 
   render () {
     const { active, filter, handleFilterChange, image } = this.props
-    let itemContentClasses = classNames({
+    const itemContentClasses = classNames({
       'vcv-ui-form-attach-image-filter-content': true,
       'vcv-ui-form-attach-image-filter-content--active': active
     })
-    let imageClasses = classNames([
+    const imageClasses = classNames([
       'vcv-ui-item-element-image',
       'vcv-ui-form-attach-image-filter-image',
       `vce-image-filter--${filter.value}`
     ])
-    let imageUrl = this.getPublicImage(image.full)
+    const imageUrl = this.getPublicImage(image.full)
     return (
       <li className='vcv-ui-form-attach-image-filter-list-item' onClick={() => { handleFilterChange(filter.value) }}>
         <span className='vcv-ui-form-attach-image-filter'>

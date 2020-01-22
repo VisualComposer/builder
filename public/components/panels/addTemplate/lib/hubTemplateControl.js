@@ -30,32 +30,32 @@ export default class HubTemplateControl extends React.Component {
   render () {
     const { name, spinner, thumbnail, preview, description, addTemplateText, removeTemplateText, handleApplyTemplate, showPreview, hidePreview, previewVisible, previewStyle } = this.props
 
-    let nameClasses = classNames({
+    const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
-    let spinnerClasses = classNames({
+    const spinnerClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
       'vcv-ui-state--hidden': !spinner
     })
 
-    let applyClasses = classNames({
+    const applyClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
       'vcv-ui-state--hidden': spinner
     })
 
-    let removeClasses = classNames({
+    const removeClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
       'vcv-ui-state--hidden': spinner
     })
 
-    let overlayClasses = classNames({
+    const overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
       'vcv-ui-item-overlay--visible': spinner
     })
 
-    let previewClasses = classNames({
+    const previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
@@ -81,7 +81,8 @@ export default class HubTemplateControl extends React.Component {
 
     return (
       <li className='vcv-ui-item-list-item'>
-        <span className='vcv-ui-item-element'
+        <span
+          className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? showPreview : null}
           onMouseLeave={!disablePreview ? hidePreview : null}
           title={name}

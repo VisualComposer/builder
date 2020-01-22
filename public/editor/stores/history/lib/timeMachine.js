@@ -61,6 +61,7 @@ export default class TimeMachine {
       }
     })
   }
+
   add (data) {
     if (this.locked) {
       return true
@@ -79,6 +80,7 @@ export default class TimeMachine {
     this.stackPosition = this.stack.length
     this.stackHash = JSON.stringify(this.get())
   }
+
   can (what) {
     let result = false
     if (what === 'undo') {
@@ -89,24 +91,29 @@ export default class TimeMachine {
 
     return result
   }
+
   canUndo () {
     return this.can('undo')
   }
+
   canRedo () {
     return this.can('redo')
   }
+
   undo () {
     if (this.can('undo')) {
       this.stackPosition -= 1
       this.stackHash = JSON.stringify(this.get())
     }
   }
+
   redo () {
     if (this.can('redo')) {
       this.stackPosition += 1
       this.stackHash = JSON.stringify(this.get())
     }
   }
+
   set (index) {
     if (this.stackPosition < index) {
       this.stack = this.stack.slice(index - this.stackPosition)
@@ -115,18 +122,21 @@ export default class TimeMachine {
     }
     return false
   }
+
   get () {
     if (this.stackPosition < 1) {
       return this.zeroState
     } else {
-      return this.stack[ this.stackPosition - 1 ]
+      return this.stack[this.stackPosition - 1]
     }
   }
+
   clear () {
     this.stack.length = 0
     this.zeroState = {}
     this.stackPosition = 0
   }
+
   setZeroState (data) {
     this.zeroState = data
     this.stackHash = JSON.stringify(this.get())

@@ -7,14 +7,14 @@ let id = 1
 const Service = {
   http (url) {
     // A small example of object
-    let core = {
+    const core = {
       // Method that performs the ajax request
       ajax: function (method, url, args, contentType) {
         // Creating a promise
 
-        let promise = new Promise(function (resolve, reject) {
+        const promise = new Promise(function (resolve, reject) {
           // Instantiates the XMLHttpRequest
-          let request = new window.XMLHttpRequest()
+          const request = new window.XMLHttpRequest()
           request.open(method, url)
           contentType && request.setRequestHeader('Content-type', contentType)
           try {
@@ -35,7 +35,7 @@ const Service = {
             reject(this.statusText)
           }
         })
-        let key = id
+        const key = id
         promise.key = key
         id++
         processes.push(promise)
@@ -69,15 +69,15 @@ const Service = {
     }
   },
   appServerRequest (args) {
-    let url = window.vcvAjaxUrl
+    const url = window.vcvAjaxUrl
     args = Object.assign({
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      let binaryString = deflate(JSON.stringify(args), { to: 'string' })
-      let encodedString = base64.encode(binaryString)
+      const binaryString = deflate(JSON.stringify(args), { to: 'string' })
+      const encodedString = base64.encode(binaryString)
       args = {
         'vcv-zip': encodedString
       }
@@ -86,15 +86,15 @@ const Service = {
     return this.http(url).post(args)
   },
   appAdminServerRequest (args) {
-    let url = window.vcvAdminAjaxUrl
+    const url = window.vcvAdminAjaxUrl
     args = Object.assign({
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      let binaryString = deflate(JSON.stringify(args), { to: 'string' })
-      let encodedString = base64.encode(binaryString)
+      const binaryString = deflate(JSON.stringify(args), { to: 'string' })
+      const encodedString = base64.encode(binaryString)
       args = {
         'vcv-zip': encodedString
       }
@@ -104,7 +104,7 @@ const Service = {
   },
   loadScript (url, documentBody) {
     return this.http(url).ajax('get', undefined, 'application/javascript').then((data) => {
-      let scriptNode = document.createElement('script')
+      const scriptNode = document.createElement('script')
       scriptNode.innerHTML = data
       if (documentBody) {
         documentBody.appendChild(scriptNode)

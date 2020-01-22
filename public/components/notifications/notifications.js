@@ -20,7 +20,7 @@ export default class Notifications extends React.Component {
   }
 
   getVisibleContainer (selector) {
-    let portals = [].slice.call(document.querySelectorAll(selector))
+    const portals = [].slice.call(document.querySelectorAll(selector))
     if (portals.length) {
       const visibleItems = portals.filter((item) => {
         return item.offsetParent !== null

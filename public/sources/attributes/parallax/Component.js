@@ -39,8 +39,8 @@ export default class Parallax extends Attribute {
   }
 
   updateValue (newState, fieldKey) {
-    let newValue = {}
-    let newMixins = {}
+    const newValue = {}
+    const newMixins = {}
 
     // prepare data for state
     newState = this.updateState(newState)
@@ -53,25 +53,25 @@ export default class Parallax extends Attribute {
     }
 
     checkDevices.forEach((device) => {
-      if (!lodash.isEmpty(newState.devices[ device ])) {
-        if (!newState.devices[ device ].parallaxEnable) {
-          newState.devices[ device ].parallaxEnable = Parallax.deviceDefaults.parallaxEnable
+      if (!lodash.isEmpty(newState.devices[device])) {
+        if (!newState.devices[device].parallaxEnable) {
+          newState.devices[device].parallaxEnable = Parallax.deviceDefaults.parallaxEnable
         }
-        if (!newState.devices[ device ].parallax) {
-          newState.devices[ device ].parallax = Parallax.deviceDefaults.parallax
+        if (!newState.devices[device].parallax) {
+          newState.devices[device].parallax = Parallax.deviceDefaults.parallax
         }
-        if (!newState.devices[ device ].parallaxSpeed) {
-          newState.devices[ device ].parallaxSpeed = Parallax.deviceDefaults.parallaxSpeed
+        if (!newState.devices[device].parallaxSpeed) {
+          newState.devices[device].parallaxSpeed = Parallax.deviceDefaults.parallaxSpeed
         }
-        if (!newState.devices[ device ].parallaxReverse) {
-          newState.devices[ device ].parallaxReverse = Parallax.deviceDefaults.parallaxReverse
+        if (!newState.devices[device].parallaxReverse) {
+          newState.devices[device].parallaxReverse = Parallax.deviceDefaults.parallaxReverse
         }
 
-        newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
+        newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
 
         // remove device from list if it's empty
-        if (!Object.keys(newValue[ device ]).length) {
-          delete newValue[ device ]
+        if (!Object.keys(newValue[device]).length) {
+          delete newValue[device]
         }
       }
     })
@@ -93,7 +93,7 @@ export default class Parallax extends Attribute {
   }
 
   setFieldValue (value, mixins, innerFieldKey) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
@@ -102,9 +102,9 @@ export default class Parallax extends Attribute {
 
   getParallaxToggle () {
     const fieldKey = 'parallaxEnable'
-    const deviceData = this.state.devices[ this.state.currentDevice ]
-    const value = deviceData[ fieldKey ] || false
-    const labelText = `Enable parallax effect`
+    const deviceData = this.state.devices[this.state.currentDevice]
+    const value = deviceData[fieldKey] || false
+    const labelText = 'Enable parallax effect'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -131,12 +131,13 @@ export default class Parallax extends Attribute {
           customDevices: this.getCustomDevices()
         }}
         updater={this.devicesChangeHandler}
-        value={this.state.currentDevice} />
+        value={this.state.currentDevice}
+      />
     </div>
   }
 
   getParallaxEffectDropdown () {
-    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable) {
+    if (!this.state.devices[this.state.currentDevice].parallaxEnable) {
       return null
     }
 
@@ -163,7 +164,7 @@ export default class Parallax extends Attribute {
     storage.trigger('fieldOptions', fieldKey, options)
     options = storage.state('currentAttribute:settings').get()
     storage.state('currentAttribute:settings').delete()
-    const value = this.state.devices[ this.state.currentDevice ].parallax || 'simple'
+    const value = this.state.devices[this.state.currentDevice].parallax || 'simple'
     const currentOption = options.values.find(option => option.value === value)
     const description = currentOption && currentOption.description ? <p className='vcv-ui-form-helper'>{currentOption.description}</p> : null
 
@@ -176,23 +177,24 @@ export default class Parallax extends Attribute {
         fieldKey={fieldKey}
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
       {description}
     </div>
   }
 
   parallaxSpeedChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = parseInt(value)
     this.updateValue(newState, fieldKey)
   }
 
   getParallaxSpeedInput () {
-    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable || !defaultValues.includes(this.state.devices[ this.state.currentDevice ].parallax)) {
+    if (!this.state.devices[this.state.currentDevice].parallaxEnable || !defaultValues.includes(this.state.devices[this.state.currentDevice].parallax)) {
       return null
     }
 
-    const value = this.state.devices[ this.state.currentDevice ].parallaxSpeed || ''
+    const value = this.state.devices[this.state.currentDevice].parallaxSpeed || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Parallax effect speed
@@ -211,11 +213,11 @@ export default class Parallax extends Attribute {
   }
 
   getParallaxReverseToggle () {
-    if (!this.state.devices[ this.state.currentDevice ].parallaxEnable || !defaultValues.includes(this.state.devices[ this.state.currentDevice ].parallax)) {
+    if (!this.state.devices[this.state.currentDevice].parallaxEnable || !defaultValues.includes(this.state.devices[this.state.currentDevice].parallax)) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].parallaxReverse || false
+    const value = this.state.devices[this.state.currentDevice].parallaxReverse || false
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Reverse parallax effect

@@ -5,7 +5,7 @@ import lodash from 'lodash'
 const hubElementsStorage = vcCake.getStorage('hubElements')
 
 // TODO: Fix if element is in many categories
-let categoryByTag = (tag) => {
+const categoryByTag = (tag) => {
   const categories = hubElementsStorage.state('categories').get()
   const key = Object.keys(categories).find((cat) => {
     const category = categories[cat]
@@ -23,11 +23,11 @@ const API = {
   },
   getSortedElements: lodash.memoize((category) => {
     const hubElements = hubElementsStorage.state('elements').get()
-    let cook = vcCake.getService('cook')
-    let allCategories = API.all()
+    const cook = vcCake.getService('cook')
+    const allCategories = API.all()
     let elements = []
-    let setElements = (cat) => {
-      let category = API.get(cat)
+    const setElements = (cat) => {
+      const category = API.get(cat)
       elements = elements.concat(category && category.elements ? category.elements : [])
     }
     if (category) {
@@ -39,9 +39,9 @@ const API = {
     elements = [...new Set(elements)]
 
     // Get sorted cook elements
-    let cookElements = []
+    const cookElements = []
     elements.forEach((element) => {
-      let cookElement = cook.get({ tag: element })
+      const cookElement = cook.get({ tag: element })
       if (cookElement) {
         const elementObject = cookElement.toJS(true, false)
         const elementHubElement = hubElements[elementObject.tag]
@@ -52,8 +52,8 @@ const API = {
     return cookElements.sort(sortingTool)
   }),
   getElementIcon: (tag, dark = false) => {
-    let category = categoryByTag(tag)
-    let allCategories = API.all()
+    const category = categoryByTag(tag)
+    const allCategories = API.all()
     if (dark) {
       return category && category.iconDark ? category.iconDark : allCategories.Misc.iconDark
     }

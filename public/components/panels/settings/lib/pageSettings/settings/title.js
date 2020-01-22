@@ -8,8 +8,8 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 export default class TitleSettings extends React.Component {
   constructor (props) {
     super(props)
-    let pageTitle = settingsStorage.state('pageTitle').get()
-    let pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
+    const pageTitle = settingsStorage.state('pageTitle').get()
+    const pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     this.state = {
       current: pageTitle,
       disabled: pageTitleDisabled,
@@ -48,7 +48,7 @@ export default class TitleSettings extends React.Component {
   }
 
   updateShowToggle (themeType) {
-    let toggleCheckResult = this.checkShowToggle(themeType)
+    const toggleCheckResult = this.checkShowToggle(themeType)
     if (toggleCheckResult !== this.state.showToggle) {
       this.setState({
         showToggle: toggleCheckResult
@@ -57,14 +57,14 @@ export default class TitleSettings extends React.Component {
   }
 
   onIframeChange (data = {}) {
-    let { type = 'loaded' } = data
+    const { type = 'loaded' } = data
     if (type === 'reload') {
       data && data.template && data.template.type && this.updateShowToggle(data.template.type)
     }
   }
 
   updateTitle (event) {
-    let { disabled } = this.state
+    const { disabled } = this.state
     let newDisabled = false
     const newValue = event.target.value
     if (newValue) {
@@ -75,11 +75,11 @@ export default class TitleSettings extends React.Component {
       newDisabled = true
     }
 
-    let newVar = {
+    const newVar = {
       current: newValue
     }
     if (disabled !== newDisabled) {
-      newVar[ 'disabled' ] = newDisabled
+      newVar.disabled = newDisabled
       settingsStorage.state('pageTitleDisabled').set(newDisabled)
     }
     this.setState(newVar)
@@ -105,7 +105,7 @@ export default class TitleSettings extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const settingName = localizations ? localizations.title : 'Title'
     const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable page title'
-    let checked = (this.state.disabled) ? 'checked' : ''
+    const checked = (this.state.disabled) ? 'checked' : ''
 
     let toggleHTML = null
     if (this.state.showToggle) {
@@ -118,8 +118,11 @@ export default class TitleSettings extends React.Component {
               <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
             </label>
-            <label htmlFor='vcv-page-title-disable'
-              className='vcv-ui-form-switch-trigger-label'>{pageTitleDisableDescription}</label>
+            <label
+              htmlFor='vcv-page-title-disable'
+              className='vcv-ui-form-switch-trigger-label'
+            >{pageTitleDisableDescription}
+            </label>
           </div>
         </div>
       )
@@ -127,13 +130,13 @@ export default class TitleSettings extends React.Component {
     const disableTitleToggleControl = !env('VCV_JS_THEME_EDITOR') ? toggleHTML : ''
 
     return (
-      <React.Fragment>
+      <>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
           <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.updateTitle} onBlur={this.handleBlur} />
         </div>
         {disableTitleToggleControl}
-      </React.Fragment>
+      </>
     )
   }
 }

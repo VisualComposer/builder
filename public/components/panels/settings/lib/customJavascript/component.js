@@ -27,13 +27,13 @@ export default class CustomJavascript extends React.Component {
   }
 
   getButtons () {
-    let allButtons = []
+    const allButtons = []
 
     allButtons.push(
       <ScriptControl
-        key={`vcv-settings-custom-js-local`}
-        title={'Local JavaScript'}
-        index={'localJs'}
+        key='vcv-settings-custom-js-local'
+        title='Local JavaScript'
+        index='localJs'
         active={this.state.activeIndex === 'localJs'}
         changeActive={this.changeActiveButton}
       />
@@ -41,9 +41,9 @@ export default class CustomJavascript extends React.Component {
 
     allButtons.push(
       <ScriptControl
-        key={`vcv-settings-custom-js-global`}
-        title={'Global JavaScript'}
-        index={'globalJs'}
+        key='vcv-settings-custom-js-global'
+        title='Global JavaScript'
+        index='globalJs'
         active={this.state.activeIndex === 'globalJs'}
         changeActive={this.changeActiveButton}
       />
@@ -54,18 +54,18 @@ export default class CustomJavascript extends React.Component {
 
   updateSettings (key, value) {
     settingsStorage.state(key).set(value)
-    this.setState({ [ key ]: value })
+    this.setState({ [key]: value })
   }
 
   getEditor (type) {
-    let allEditors = []
+    const allEditors = []
 
-    let name = `${this.state.activeIndex}${type}`
+    const name = `${this.state.activeIndex}${type}`
     allEditors.push(
       <HtmlEditor
         key={`vcv-settings-scriptEditor${type}-${name}`}
         name={name}
-        value={this.state[ name ]}
+        value={this.state[name]}
         updater={this.updateSettings}
       />
     )

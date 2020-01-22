@@ -22,11 +22,11 @@ const initializeJqueryPlugin = function (window) {
 
   const closeIfNotInside = function (e) {
     e && e.preventDefault()
-    let $el = $(e.target)
+    const $el = $(e.target)
 
-    let $dropDown = '.vcv-ui-tinymce-fonts-selectbox-options'
-    let mainWrapper = '.vcv-ui-tinymce-fonts-selectbox'
-    let container = $el.closest($dropDown) || $el.closest(mainWrapper)
+    const $dropDown = '.vcv-ui-tinymce-fonts-selectbox-options'
+    const mainWrapper = '.vcv-ui-tinymce-fonts-selectbox'
+    const container = $el.closest($dropDown) || $el.closest(mainWrapper)
 
     if (container && container.length) {
       return
@@ -49,9 +49,9 @@ const initializeJqueryPlugin = function (window) {
 
     if (!isActive) {
       $parent.toggleClass('mce-active')
-      let inputValue = $parent.find('.vcv-ui-tinymce-fonts-selectbox-font-family').val()
+      const inputValue = $parent.find('.vcv-ui-tinymce-fonts-selectbox-font-family').val()
       if (inputValue) {
-        let parsed = JSON.parse(inputValue)
+        const parsed = JSON.parse(inputValue)
         $parent.find('[role=option] > li > [data-option*="' + (parsed.value || parsed.family) + '"]').focus()
       }
 

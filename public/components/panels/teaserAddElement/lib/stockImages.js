@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import StockImagesResultsPanel from './stockImagesResultsPanel'
 import PropTypes from 'prop-types'
 
-const unsplashImages = [ 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-1.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-2.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-3.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-4.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-5.jpg' ]
+const unsplashImages = ['https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-1.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-2.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-3.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-4.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-5.jpg']
 
 export default class StockImages extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -12,6 +12,7 @@ export default class StockImages extends React.Component {
     scrolledToBottom: PropTypes.bool,
     scrollTop: PropTypes.number
   }
+
   inputTimeout = 0
   randomImage = this.getRandomImage()
 
@@ -50,7 +51,7 @@ export default class StockImages extends React.Component {
   }
 
   handleSearch () {
-    let newState = {
+    const newState = {
       searchValue: this.state.inputValue
     }
     if (this.state.inputValue) {
@@ -74,7 +75,7 @@ export default class StockImages extends React.Component {
 
   getSearch () {
     const searchPhotosOnUnsplash = StockImages.localizations ? StockImages.localizations.searchPhotosOnUnsplash : 'Search free high-resolution photos on Unsplash'
-    let inputContainerClasses = classNames({
+    const inputContainerClasses = classNames({
       'vcv-ui-search-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
@@ -100,7 +101,7 @@ export default class StockImages extends React.Component {
   }
 
   getRandomImage () {
-    return unsplashImages[ Math.floor(Math.random() * unsplashImages.length) ]
+    return unsplashImages[Math.floor(Math.random() * unsplashImages.length)]
   }
 
   render () {
@@ -111,37 +112,37 @@ export default class StockImages extends React.Component {
     let content = ''
     if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {
       content = (
-        <React.Fragment>
+        <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: unsplashLogo }} />
           <p className='vcv-stock-images-subtitle'>{getPhotosWithPremiumText}</p>
           <span className='vcv-stock-images-button' data-href={window.vcvUpgradeUrlUnsplash} onClick={this.goPremium}>
             {activatePremium}
           </span>
-        </React.Fragment>
+        </>
       )
     } else {
       content = (
-        <React.Fragment>
+        <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: unsplashLogo }} />
           <p className='vcv-stock-images-subtitle'>{getPhotosText}</p>
           {this.getSearch()}
-        </React.Fragment>
+        </>
       )
     }
 
-    let style = {}
+    const style = {}
     if (!this.state.isSearchUsed) {
       style.backgroundImage = `url(${this.randomImage})`
     }
 
-    let stockImageContainerClasses = classNames({
+    const stockImageContainerClasses = classNames({
       'vcv-ui-editor-plates-container': true,
       'vcv-ui-editor-plate--stock-images': true,
       'vcv-ui-editor-plate--stock-images--search-is-used': this.state.isSearchUsed
     })
 
     return (
-      <React.Fragment>
+      <>
         <div className={stockImageContainerClasses}>
           <div className='vcv-stock-images-container' style={style}>
             <div className='vcv-stock-images-inner'>
@@ -155,7 +156,7 @@ export default class StockImages extends React.Component {
           scrollTop={this.props.scrollTop}
           isSearchUsed={this.state.isSearchUsed}
         />
-      </React.Fragment>
+      </>
     )
   }
 }

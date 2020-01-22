@@ -1,8 +1,8 @@
 export default (value) => {
-  let libs = []
+  const libs = []
 
   if (value && value.icon && value.iconSet) {
-    let libData = {
+    const libData = {
       name: 'iconpicker',
       subset: value.iconSet,
       dependencies: []

@@ -33,7 +33,7 @@ addStorage('wordpressData', (storage) => {
         locked: false,
         status: true
       }
-      let status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
+      const status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
       status && status.set({ status: 'saving' }, source)
       settingsStorage.state('status').set({ status: 'ready' })
       const documentData = documentManager.all()
@@ -43,7 +43,7 @@ addStorage('wordpressData', (storage) => {
       data = Object.assign({}, {
         elements: documentData
       }, data)
-      let id = options && options.id ? options.id : window.vcvSourceID
+      const id = options && options.id ? options.id : window.vcvSourceID
       controller.save(id, data, status, options)
     }
     if (getData('wp-preview') === 'dopreview') {
@@ -58,7 +58,7 @@ addStorage('wordpressData', (storage) => {
         if (lockData.status) {
           next()
         } else {
-          let status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
+          const status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
           status && status.set({ status: 'failed' }, source)
         }
       }
@@ -76,7 +76,7 @@ addStorage('wordpressData', (storage) => {
        * @property {Array} globalElements list of global elements
        * @property {string} data saved data
        */
-      let responseData = getResponse(request)
+      const responseData = getResponse(request)
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
       const initialContent = responseData.post_content
@@ -146,13 +146,13 @@ addStorage('wordpressData', (storage) => {
         postData = responseData.postData
       }
       if (responseData.hasOwnProperty('postFields')) {
-        let postFields = responseData.postFields
+        const postFields = responseData.postFields
         if (postFields.hasOwnProperty('dynamicFieldCustomPostData')) {
-          let customPostData = postFields.dynamicFieldCustomPostData
+          const customPostData = postFields.dynamicFieldCustomPostData
           Object.keys(customPostData).forEach((key) => {
-            let item = customPostData[ key ]
-            postData[ key ] = item.postData
-            postFields[ key ] = item.postFields
+            const item = customPostData[key]
+            postData[key] = item.postData
+            postFields[key] = item.postFields
           })
         }
         settingsStorage.state('postFields').set(postFields)
@@ -176,7 +176,7 @@ addStorage('wordpressData', (storage) => {
       storage.state('status').set({ status: 'loaded' })
       throw new Error('Failed to load loaded')
     } else if (status === 'success') {
-      let responseData = getResponse(request)
+      const responseData = getResponse(request)
       if (responseData.postData) {
         if (responseData.postData.hasOwnProperty('permalink')) {
           settingsStorage.state('permalink').set(responseData.postData.permalink)
@@ -205,9 +205,9 @@ addStorage('wordpressData', (storage) => {
   let titles = []
 
   function onIframeChange (data = {}) {
-    let { type = 'loaded' } = data
+    const { type = 'loaded' } = data
     if (type === 'loaded') {
-      let iframe = document.getElementById('vcv-editor-iframe')
+      const iframe = document.getElementById('vcv-editor-iframe')
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
         if (!titles.length) {

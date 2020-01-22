@@ -27,7 +27,7 @@ export default class Frames {
    * Create frame and add it to frame list
    */
   addFrame () {
-    let frame = document.createElement('svg')
+    const frame = document.createElement('svg')
     frame.classList.add('vcv-ui-element-frame')
     this.framesContainer.appendChild(frame)
     this.frames.push(frame)
@@ -41,12 +41,12 @@ export default class Frames {
   updatePosition (element, frame) {
     let { top, left, width, height } = element.getBoundingClientRect()
     if (this.iframe.tagName.toLowerCase() !== 'iframe') {
-      let iframePos = this.iframe.getBoundingClientRect()
+      const iframePos = this.iframe.getBoundingClientRect()
       top -= iframePos.top
       left -= iframePos.left
     }
-    let scrollTop = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
-    let scrollLeft = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0
+    const scrollTop = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
+    const scrollLeft = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0
     frame.style.top = top - scrollTop + 'px'
     frame.style.left = left - scrollLeft + 'px'
     frame.style.width = width + 'px'
@@ -58,13 +58,13 @@ export default class Frames {
    * @param data
    */
   show (data) {
-    let elements = data.path
+    const elements = data.path
     // add frames if current frames count is not enough
     while (elements.length > this.frames.length) {
       this.addFrame()
     }
     elements.forEach((element, index) => {
-      this.frames[ index ].classList.add('vcv-state--visible')
+      this.frames[index].classList.add('vcv-state--visible')
     })
     this.autoUpdatePosition(elements)
   }
@@ -86,8 +86,8 @@ export default class Frames {
   autoUpdatePosition (elements) {
     this.stopAutoUpdatePosition()
     elements.forEach((element, index) => {
-      this.updatePosition(element, this.frames[ index ])
-      this.state.framesTimeout.push(this.iframeWindow.setInterval(this.updatePosition.bind(this, element, this.frames[ index ]), 16))
+      this.updatePosition(element, this.frames[index])
+      this.state.framesTimeout.push(this.iframeWindow.setInterval(this.updatePosition.bind(this, element, this.frames[index]), 16))
     })
   }
 

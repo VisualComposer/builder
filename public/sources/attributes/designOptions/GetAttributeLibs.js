@@ -1,5 +1,5 @@
 export default (value) => {
-  let libs = []
+  const libs = []
   const libNames = [
     {
       fieldKey: 'animation',
@@ -21,19 +21,19 @@ export default (value) => {
   ]
 
   if (value && value.device && Object.keys(value.device).length) {
-    for (let device in value.device) {
+    for (const device in value.device) {
       if (value.device.hasOwnProperty(device)) {
-        for (let fieldKey in value.device[ device ]) {
-          if (value.device[ device ].hasOwnProperty(fieldKey)) {
-            let matchField = libNames.find((lib) => {
-              let matchKey = lib.fieldKey === fieldKey
+        for (const fieldKey in value.device[device]) {
+          if (value.device[device].hasOwnProperty(fieldKey)) {
+            const matchField = libNames.find((lib) => {
+              const matchKey = lib.fieldKey === fieldKey
               if (matchKey && lib.value) {
-                return matchKey && lib.value(value.device[ device ][ fieldKey ])
+                return matchKey && lib.value(value.device[device][fieldKey])
               }
               return matchKey
             })
             if (matchField) {
-              let libData = {
+              const libData = {
                 name: '',
                 dependencies: []
               }

@@ -7,7 +7,7 @@ const settingsStorage = getStorage('settings')
 export default class LayoutSettings extends React.Component {
   constructor (props) {
     super(props)
-    let templateStorageData = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) || {
+    const templateStorageData = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) || {
       type: 'vc', value: 'blank'
     }
     this.state = {
@@ -32,7 +32,7 @@ export default class LayoutSettings extends React.Component {
     const layoutDropdowns = []
     // TODO: Why not just use this.state from 'pageTemplate' ? [performance]
     const layouts = window.VCV_PAGE_TEMPLATES_LAYOUTS ? window.VCV_PAGE_TEMPLATES_LAYOUTS() : []
-    let typeSearchResult = layouts.find((i) => {
+    const typeSearchResult = layouts.find((i) => {
       return i.type === this.state.currentLayout.type
     })
 

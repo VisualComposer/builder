@@ -33,10 +33,10 @@ export default class Dropdown extends Attribute {
   /* eslint-enable */
 
   createGroup (key, groupObject, fieldKey) {
-    let optionElements = []
-    let { values, label } = groupObject
-    let labelValue = label.replace(/\s+/g, '')
-    for (let key in values) {
+    const optionElements = []
+    const { values, label } = groupObject
+    const labelValue = label.replace(/\s+/g, '')
+    for (const key in values) {
       if (values.hasOwnProperty(key)) {
         optionElements.push(this.createOptions(key, values, fieldKey))
       }
@@ -48,10 +48,10 @@ export default class Dropdown extends Attribute {
   }
 
   createOptions (key, values, fieldKey) {
-    let value = values[ key ].value
-    let label = values[ key ].label
-    let disabled = values[ key ].disabled
-    let selected = values[ key ].selected
+    const value = values[key].value
+    const label = values[key].label
+    const disabled = values[key].disabled
+    const selected = values[key].selected
     return <option key={fieldKey + ':' + key + ':' + value} value={value} disabled={disabled} selected={selected}>{label}</option>
   }
 
@@ -60,12 +60,12 @@ export default class Dropdown extends Attribute {
       props = this.props
     }
     let { values } = props.options || {}
-    let { global } = props.options || {}
+    const { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      if (typeof window[ global ] === 'function') {
-        values = window[ global ]()
+      if (typeof window[global] === 'function') {
+        values = window[global]()
       } else {
-        values = window[ global ] || []
+        values = window[global] || []
       }
     }
 
@@ -73,14 +73,14 @@ export default class Dropdown extends Attribute {
   }
 
   generateSelectChildren (props) {
-    let optionElements = []
-    let values = this.getSelectOptions(props)
-    let { fieldKey } = props
+    const optionElements = []
+    const values = this.getSelectOptions(props)
+    const { fieldKey } = props
 
-    for (let key in values) {
+    for (const key in values) {
       if (values.hasOwnProperty(key)) {
-        if (values[ key ].hasOwnProperty('group')) {
-          let group = this.createGroup(key, values[ key ].group, fieldKey)
+        if (values[key].hasOwnProperty('group')) {
+          const group = this.createGroup(key, values[key].group, fieldKey)
           if (group) {
             optionElements.push(group)
           }
@@ -104,15 +104,16 @@ export default class Dropdown extends Attribute {
     }
 
     return (
-      <React.Fragment>
+      <>
         <select
           value={value}
           onChange={this.handleChange}
-          className={selectClass}>
+          className={selectClass}
+        >
           {this.selectChildren}
         </select>
         {description}
-      </React.Fragment>
+      </>
     )
   }
 }

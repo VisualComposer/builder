@@ -66,7 +66,7 @@ export default class ElementComponent extends React.Component {
   updateShortcodeToHtml (content, ref, cb) {
     if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv') === -1))) {
       ref && (ref.innerHTML = this.spinnerHTML())
-      let that = this
+      const that = this
       this.ajax = dataProcessor.appServerRequest({
         'vcv-action': 'elements:ajaxShortcode:adminNonce',
         'vcv-shortcode-string': content,
@@ -77,19 +77,19 @@ export default class ElementComponent extends React.Component {
           this.ajax = null
           return
         }
-        let iframe = env('iframe')
+        const iframe = env('iframe')
 
         try {
           ((function (window, document) {
-            let jsonData = JSON.parse(data)
-            let { headerContent, shortcodeContent, footerContent } = jsonData
+            const jsonData = JSON.parse(data)
+            const { headerContent, shortcodeContent, footerContent } = jsonData
             ref && (ref.innerHTML = '')
             window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
-            let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+            const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
             headerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-            let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+            const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
             shortcodeDom.context = document
             if (shortcodeDom.children().length) {
               shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
@@ -97,7 +97,7 @@ export default class ElementComponent extends React.Component {
               window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
             }
 
-            let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+            const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
             footerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
               window.setTimeout(() => {
@@ -107,18 +107,18 @@ export default class ElementComponent extends React.Component {
             })
           })(iframe, iframe.document))
         } catch (e) {
-          let jsonData = this.getResponse(data)
+          const jsonData = this.getResponse(data)
           if (jsonData) {
             try {
               ((function (window, document) {
-                let { headerContent, shortcodeContent, footerContent } = jsonData
+                const { headerContent, shortcodeContent, footerContent } = jsonData
                 ref && (ref.innerHTML = '')
                 window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
-                let headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+                const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
                 headerDom.context = document
                 shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-                let shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+                const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
                 shortcodeDom.context = document
                 if (shortcodeDom.children().length) {
                   shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
@@ -126,7 +126,7 @@ export default class ElementComponent extends React.Component {
                   window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
                 }
 
-                let footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+                const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
                 footerDom.context = document
                 shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
                   window.setTimeout(() => {
@@ -168,8 +168,8 @@ export default class ElementComponent extends React.Component {
     }
     helper.setAttribute('data-vcvs-html', `${tagString}`)
     helper.classList.add('vcvhelper')
-    let range = document.createRange()
-    let documentFragment = range.createContextualFragment(html)
+    const range = document.createRange()
+    const documentFragment = range.createContextualFragment(html)
     helper.appendChild(documentFragment)
     elementWrapper.appendChild(helper)
   }
@@ -177,12 +177,12 @@ export default class ElementComponent extends React.Component {
   updateInlineScript (elementWrapper, tagString = '') {
     const helper = document.createElement('div')
     elementWrapper.innerHTML = ''
-    let scriptHtml = `<script type="text/javascript">${tagString}</script>`
+    const scriptHtml = `<script type="text/javascript">${tagString}</script>`
     helper.classList.add('vcvhelper')
     helper.setAttribute('data-vcvs-html', `${scriptHtml}`)
-    let script = document.createElement('script')
+    const script = document.createElement('script')
     script.type = 'text/javascript'
-    let escapedString = escape(tagString)
+    const escapedString = escape(tagString)
     script.text = `try{ 
       eval(unescape('${escapedString}'))
     } catch(e) {console.warn(e);}`
@@ -196,15 +196,15 @@ export default class ElementComponent extends React.Component {
   }
 
   getBackgroundClass (designOptions) {
-    let { device } = designOptions
-    let classes = []
+    const { device } = designOptions
+    const classes = []
     if (device) {
-      let { all } = device
+      const { all } = device
       if (all && (all.backgroundColor !== undefined || typeof all.images === 'string' || (all.images && all.images.urls && all.images.urls.length))) {
         classes.push('vce-element--has-background')
       } else {
-        for (let currentDevice in device) {
-          let deviceData = device[ currentDevice ]
+        for (const currentDevice in device) {
+          const deviceData = device[currentDevice]
           if (deviceData && (deviceData.backgroundColor !== undefined || typeof deviceData.images === 'string' || (deviceData.images && deviceData.images.urls && deviceData.images.urls.length))) {
             classes.push(`vce-element--${currentDevice}--has-background`)
           }
@@ -224,14 +224,14 @@ export default class ElementComponent extends React.Component {
     // checking all
     if (prop === 'all') {
       prop += ` el-${this.props.id}`
-      propObj[ 'data-vce-do-apply' ] = prop
+      propObj['data-vce-do-apply'] = prop
 
-      let animationData = this.getAnimationData()
+      const animationData = this.getAnimationData()
       if (animationData && animationData.animation) {
-        propObj[ 'data-vce-animate' ] = animationData.animation
+        propObj['data-vce-animate'] = animationData.animation
 
         if (animationData.animationDelay) {
-          propObj[ 'data-vce-animate-delay' ] = animationData.animationDelay
+          propObj['data-vce-animate-delay'] = animationData.animationDelay
         }
       }
       return propObj
@@ -242,15 +242,15 @@ export default class ElementComponent extends React.Component {
       if (prop !== 'animation') {
         prop = prop.replace('animation', '')
         prop += ` el-${this.props.id}`
-        propObj[ 'data-vce-do-apply' ] = prop
+        propObj['data-vce-do-apply'] = prop
       }
 
-      let animationData = this.getAnimationData()
+      const animationData = this.getAnimationData()
       if (animationData && animationData.animation) {
-        propObj[ 'data-vce-animate' ] = animationData.animation
+        propObj['data-vce-animate'] = animationData.animation
 
         if (animationData.animationDelay) {
-          propObj[ 'data-vce-animate-delay' ] = animationData.animationDelay
+          propObj['data-vce-animate-delay'] = animationData.animationDelay
         }
       }
 
@@ -258,32 +258,32 @@ export default class ElementComponent extends React.Component {
     }
 
     prop += ` el-${this.props.id}`
-    propObj[ 'data-vce-do-apply' ] = prop
+    propObj['data-vce-do-apply'] = prop
 
     return propObj
   }
 
   getAnimationData () {
-    let animationData = {
+    const animationData = {
       animation: '',
       animationDelay: ''
     }
     // TODO: Get attributes BY TYPE
-    let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
+    const designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
 
     if (designOptions && designOptions.device) {
-      let animations = []
-      let animationDelays = []
+      const animations = []
+      const animationDelays = []
       Object.keys(designOptions.device).forEach((device) => {
         let prefix = (device === 'all') ? '' : device
-        if (designOptions.device[ device ].animation) {
+        if (designOptions.device[device].animation) {
           if (prefix) {
             prefix = `-${prefix}`
           }
-          animations.push(`vce-o-animate--${designOptions.device[ device ].animation}${prefix}`)
+          animations.push(`vce-o-animate--${designOptions.device[device].animation}${prefix}`)
 
-          if (designOptions.device[ device ].animationDelay) {
-            animationDelays.push(`vce-o-animate-delay--${designOptions.device[ device ].animationDelay}${prefix}`)
+          if (designOptions.device[device].animationDelay) {
+            animationDelays.push(`vce-o-animate-delay--${designOptions.device[device].animationDelay}${prefix}`)
           }
         }
       })
@@ -300,16 +300,16 @@ export default class ElementComponent extends React.Component {
 
   getImageData () {
     // TODO: Get attributes BY TYPE
-    let designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
+    const designOptions = this.props.atts && (this.props.atts.designOptions || this.props.atts.designOptionsAdvanced)
 
-    let imageData = {}
+    const imageData = {}
     if (designOptions && designOptions.device) {
       Object.keys(designOptions.device).forEach((device) => {
-        let imgValueObj = typeof this.props.atts.designOptionsAdvanced !== 'undefined' ? designOptions.device[ device ].images : designOptions.device[ device ].image
-        let imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[ 0 ] ? imgValueObj.urls[ 0 ].full : ''
+        const imgValueObj = typeof this.props.atts.designOptionsAdvanced !== 'undefined' ? designOptions.device[device].images : designOptions.device[device].image
+        const imgValue = imgValueObj && imgValueObj.urls && imgValueObj.urls[0] ? imgValueObj.urls[0].full : ''
 
         if (typeof imgValue === 'string' && imgValue.match(blockRegexp)) {
-          imageData[ `data-vce-dynamic-image-${device}` ] = this.props.id
+          imageData[`data-vce-dynamic-image-${device}`] = this.props.id
         }
       })
     }
@@ -321,113 +321,127 @@ export default class ElementComponent extends React.Component {
       return null
     }
     const allMixinData = assetsStorage.state('cssMixins').get() || {}
-    const mixinData = allMixinData[ this.props.id ] || null
+    const mixinData = allMixinData[this.props.id] || null
     if (!mixinData) {
       return null
     }
-    let { tag } = this.props.atts
+    const { tag } = this.props.atts
     let returnData = null
-    if (mixinData[ tag ] && mixinData[ tag ][ mixinName ]) {
-      let mixin = Object.keys(mixinData[ tag ][ mixinName ])
+    if (mixinData[tag] && mixinData[tag][mixinName]) {
+      let mixin = Object.keys(mixinData[tag][mixinName])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {
-        returnData = mixinData[ tag ][ mixinName ][ mixin ]
+        returnData = mixinData[tag][mixinName][mixin]
       }
     } else {
-      returnData = mixinData[ tag ] || mixinData
+      returnData = mixinData[tag] || mixinData
     }
 
     return returnData
   }
 
   getInnerMixinData (fieldKey, mixinName, i) {
-    let tag = this.props.atts.tag
+    const tag = this.props.atts.tag
     const allMixinData = assetsStorage.state('cssMixins').get()
-    const parentMixinData = allMixinData[ this.props.id ] || null
-    if (!parentMixinData || !parentMixinData[ tag ] || !parentMixinData[ tag ][ fieldKey ] || !parentMixinData[ tag ][ fieldKey ][ i ]) {
+    const parentMixinData = allMixinData[this.props.id] || null
+    if (!parentMixinData || !parentMixinData[tag] || !parentMixinData[tag][fieldKey] || !parentMixinData[tag][fieldKey][i]) {
       return null
     }
-    let innerMixinData = parentMixinData[ tag ][ fieldKey ][ i ]
+    const innerMixinData = parentMixinData[tag][fieldKey][i]
     if (!innerMixinData) {
       return null
     }
     let returnData = null
-    if (innerMixinData[ 'innerTag' ] && innerMixinData[ 'innerTag' ][ mixinName ]) {
-      let mixin = Object.keys(innerMixinData[ 'innerTag' ][ mixinName ])
+    if (innerMixinData.innerTag && innerMixinData.innerTag[mixinName]) {
+      let mixin = Object.keys(innerMixinData.innerTag[mixinName])
       mixin = mixin.length ? mixin.pop() : null
       if (mixin) {
-        returnData = innerMixinData[ 'innerTag' ][ mixinName ][ mixin ]
+        returnData = innerMixinData.innerTag[mixinName][mixin]
       }
     } else {
-      returnData = innerMixinData[ 'innerTag' ] || innerMixinData
+      returnData = innerMixinData.innerTag || innerMixinData
     }
 
     return returnData
   }
 
   getBackgroundTypeContent () {
-    let { designOptionsAdvanced, parallax } = this.props.atts
+    const { designOptionsAdvanced, parallax } = this.props.atts
     if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
       return null
     }
-    let { device } = designOptionsAdvanced
-    let backgroundData = []
-    let devices = ['xs', 'sm', 'md', 'lg', 'xl']
+    const { device } = designOptionsAdvanced
+    const backgroundData = []
+    const devices = ['xs', 'sm', 'md', 'lg', 'xl']
     const getBackgroundDeviceData = (deviceKey, deviceData, parallaxData) => {
       const { gradientOverlay } = deviceData
       let reactKey = `${this.props.id}-${deviceKey}-${deviceData.backgroundType}`
       let images = deviceData.images
-      let imageValue = images && images.urls && images.urls[ 0 ] ? images.urls[ 0 ].full : false
-      let isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
+      const imageValue = images && images.urls && images.urls[0] ? images.urls[0].full : false
+      const isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
       if (isDynamic) {
-        let blockInfo = imageValue.split(blockRegexp)
-        let blockAtts = JSON.parse(blockInfo[ 4 ])
-        let imageUrl = getDynamicFieldsData({
+        const blockInfo = imageValue.split(blockRegexp)
+        const blockAtts = JSON.parse(blockInfo[4])
+        const imageUrl = getDynamicFieldsData({
           blockAtts: blockAtts
         })
-        images = [ imageUrl ]
+        images = [imageUrl]
       }
-      let deviceBackgroundElements = []
-      let deviceBackgroundData = []
+      const deviceBackgroundElements = []
+      const deviceBackgroundData = []
 
       switch (deviceData.backgroundType) {
         case 'imagesSimple':
           deviceBackgroundElements.push(
-            <ImageSimpleBackground images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} />)
+            <ImageSimpleBackground
+              images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts}
+            />)
           break
         case 'backgroundZoom':
           deviceBackgroundElements.push(
-            <ImageBackgroundZoom images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} />)
+            <ImageBackgroundZoom
+              images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts}
+            />)
           break
         case 'imagesSlideshow':
           deviceBackgroundElements.push(
-            <ImageSlideshowBackground images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} />)
+            <ImageSlideshowBackground
+              images={images} deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts}
+            />)
           break
         case 'videoYoutube':
           deviceBackgroundElements.push(
-            <YoutubeBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} />)
+            <YoutubeBackground
+              deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts}
+            />)
           break
         case 'videoVimeo':
           deviceBackgroundElements.push(
-            <VimeoBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} />)
+            <VimeoBackground
+              deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts}
+            />)
           break
         case 'videoEmbed':
           deviceBackgroundElements.push(
-            <EmbedVideoBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} />)
+            <EmbedVideoBackground
+              deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+              key={reactKey} atts={this.props.atts}
+            />)
           break
       }
 
       if (gradientOverlay) {
         reactKey = `${this.props.id}-${deviceKey}-${deviceData}-gradientOverlay`
         deviceBackgroundElements.push(
-          <ColorGradientBackground deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
-            key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')} />)
+          <ColorGradientBackground
+            deviceData={deviceData} deviceKey={deviceKey} reactKey={reactKey}
+            key={reactKey} atts={this.props.atts} applyBackground={this.applyDO('gradient')}
+          />)
       }
 
       const extendedOptionsState = elementsSettingsStorage.state('extendedOptions').get()
@@ -449,16 +463,20 @@ export default class ElementComponent extends React.Component {
         (parallaxData.parallax === 'simple' || parallaxData.parallax === 'simple-fade' || parallaxData.parallax === 'mouse-move')
 
       if (isBasicParallax) {
-        reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-parallax`
+        reactKey = `${this.props.id}-${deviceKey}-${device[deviceKey]}-parallax`
         deviceBackgroundData.push(
-          <ParallaxBackground deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
-            key={reactKey} atts={this.props.atts} content={deviceBackgroundElements} />)
+          <ParallaxBackground
+            deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
+            key={reactKey} atts={this.props.atts} content={deviceBackgroundElements}
+          />)
       } else if (isBackgroundAnimation) {
         const BackgroundAnimation = extendedOptionsState.backgroundAnimationComponent
-        reactKey = `${this.props.id}-${deviceKey}-${device[ deviceKey ]}-background-animation`
+        reactKey = `${this.props.id}-${deviceKey}-${device[deviceKey]}-background-animation`
         deviceBackgroundData.push(
-          <BackgroundAnimation deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
-            key={reactKey} atts={this.props.atts} content={deviceBackgroundElements} />)
+          <BackgroundAnimation
+            deviceData={parallaxData} deviceKey={deviceKey} reactKey={reactKey}
+            key={reactKey} atts={this.props.atts} content={deviceBackgroundElements}
+          />)
       } else {
         deviceBackgroundData.push(deviceBackgroundElements)
       }
@@ -469,17 +487,17 @@ export default class ElementComponent extends React.Component {
     // Merge parallax and design options background for devices
     if (designOptionsAdvanced.device.hasOwnProperty('all') && parallax && parallax.device && !parallax.device.hasOwnProperty('all')) {
       devices.forEach((deviceKey) => {
-        backgroundData.push(getBackgroundDeviceData(deviceKey, device[ 'all' ], parallax.device[ deviceKey ]))
+        backgroundData.push(getBackgroundDeviceData(deviceKey, device.all, parallax.device[deviceKey]))
       })
     } else {
       Object.keys(device).forEach((deviceKey) => {
-        let parallaxData = parallax && parallax.device
+        const parallaxData = parallax && parallax.device
         let parallaxDeviceData = null
         if (parallaxData) {
-          parallaxDeviceData = parallax.device.hasOwnProperty(deviceKey) ? parallax.device[ deviceKey ] : parallax.device[ 'all' ]
+          parallaxDeviceData = parallax.device.hasOwnProperty(deviceKey) ? parallax.device[deviceKey] : parallax.device.all
         }
 
-        backgroundData.push(getBackgroundDeviceData(deviceKey, device[ deviceKey ], parallaxDeviceData))
+        backgroundData.push(getBackgroundDeviceData(deviceKey, device[deviceKey], parallaxDeviceData))
       })
     }
 
@@ -492,24 +510,24 @@ export default class ElementComponent extends React.Component {
   }
 
   getContainerDivider () {
-    let { designOptionsAdvanced, dividers } = this.props.atts
+    const { designOptionsAdvanced, dividers } = this.props.atts
 
     if (lodash.isEmpty(dividers) || lodash.isEmpty(dividers.device)) {
       return null
     }
 
-    let { device } = dividers
-    let dividerElements = []
-    let customDevices = []
-    let parallaxDevices = []
+    const { device } = dividers
+    const dividerElements = []
+    const customDevices = []
+    const parallaxDevices = []
     let actualDevices = []
-    let designOptionsDevices = designOptionsAdvanced && designOptionsAdvanced.device
+    const designOptionsDevices = designOptionsAdvanced && designOptionsAdvanced.device
 
     designOptionsDevices && Object.keys(designOptionsDevices).forEach((device) => {
       if (device !== 'all') {
         customDevices.push(device)
       }
-      if (designOptionsDevices[ device ].hasOwnProperty('parallax')) {
+      if (designOptionsDevices[device].hasOwnProperty('parallax')) {
         parallaxDevices.push(device)
       }
     })
@@ -523,24 +541,28 @@ export default class ElementComponent extends React.Component {
     }
 
     actualDevices.forEach((deviceKey, index) => {
-      let dividerDeviceKey = device[ deviceKey ] ? deviceKey : 'all'
-      let dividerDeviceData = device[ dividerDeviceKey ]
-      let { dividerTop, dividerBottom } = dividerDeviceData
-      let parallaxKey = (parallaxDevices.indexOf('all') === -1 && parallaxDevices.indexOf(deviceKey) > -1) ? deviceKey : 'all'
+      const dividerDeviceKey = device[deviceKey] ? deviceKey : 'all'
+      const dividerDeviceData = device[dividerDeviceKey]
+      const { dividerTop, dividerBottom } = dividerDeviceData
+      const parallaxKey = (parallaxDevices.indexOf('all') === -1 && parallaxDevices.indexOf(deviceKey) > -1) ? deviceKey : 'all'
 
       if (dividerTop) {
-        let reactKey = `${this.props.id}-${deviceKey}-top-${index}`
-        let dividerElement = (
-          <Divider deviceData={dividerDeviceData} deviceKey={deviceKey} type={'Top'}
+        const reactKey = `${this.props.id}-${deviceKey}-top-${index}`
+        const dividerElement = (
+          <Divider
+            deviceData={dividerDeviceData} deviceKey={deviceKey} type='Top'
             metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id}
-            applyDivider={this.applyDO('divider')} />
+            applyDivider={this.applyDO('divider')}
+          />
         )
 
         if (parallaxDevices.indexOf(deviceKey) > -1 || parallaxDevices.indexOf('all') > -1) {
           dividerElements.push(
-            <ParallaxBackground deviceData={designOptionsAdvanced.device[ parallaxKey ]} deviceKey={parallaxKey}
+            <ParallaxBackground
+              deviceData={designOptionsAdvanced.device[parallaxKey]} deviceKey={parallaxKey}
               reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} content={dividerElement} divider={dividerTop} />
+              key={reactKey} atts={this.props.atts} content={dividerElement} divider={dividerTop}
+            />
           )
         } else {
           dividerElements.push(dividerElement)
@@ -548,19 +570,23 @@ export default class ElementComponent extends React.Component {
       }
 
       if (dividerBottom) {
-        let reactKey = `${this.props.id}-${deviceKey}-bottom-${index}`
+        const reactKey = `${this.props.id}-${deviceKey}-bottom-${index}`
 
-        let dividerElement = (
-          <Divider deviceData={dividerDeviceData} deviceKey={deviceKey} type={'Bottom'}
+        const dividerElement = (
+          <Divider
+            deviceData={dividerDeviceData} deviceKey={deviceKey} type='Bottom'
             metaAssetsPath={this.props.atts.metaAssetsPath} key={reactKey} id={this.props.id}
-            applyDivider={this.applyDO('divider')} />
+            applyDivider={this.applyDO('divider')}
+          />
         )
 
         if (parallaxDevices.indexOf(deviceKey) > -1 || parallaxDevices.indexOf('all') > -1) {
           dividerElements.push(
-            <ParallaxBackground deviceData={designOptionsAdvanced.device[ parallaxKey ]} deviceKey={parallaxKey}
+            <ParallaxBackground
+              deviceData={designOptionsAdvanced.device[parallaxKey]} deviceKey={parallaxKey}
               reactKey={reactKey}
-              key={reactKey} atts={this.props.atts} content={dividerElement} divider={dividerBottom} />
+              key={reactKey} atts={this.props.atts} content={dividerElement} divider={dividerBottom}
+            />
           )
         } else {
           dividerElements.push(dividerElement)
@@ -584,14 +610,14 @@ export default class ElementComponent extends React.Component {
 
     let imageUrl
     // Move it to attribute
-    if (size && image && image[ size ]) {
-      imageUrl = image[ size ]
+    if (size && image && image[size]) {
+      imageUrl = image[size]
     } else {
       if (image instanceof Array || (image.urls && image.urls instanceof Array)) {
-        let urls = []
+        const urls = []
         const images = image.urls || image
         images.forEach((item) => {
-          let url = item && item.full && item.id ? item.full : (item && item.full ? this.getPublicImage(item.full) : this.getPublicImage(item))
+          const url = item && item.full && item.id ? item.full : (item && item.full ? this.getPublicImage(item.full) : this.getPublicImage(item))
           urls.push(url)
         })
         imageUrl = urls
@@ -604,14 +630,14 @@ export default class ElementComponent extends React.Component {
   }
 
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props.atts
+    const { metaAssetsPath } = this.props.atts
     if (!filename) {
       return ''
     }
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS')
     if (isDynamic && filename.match(blockRegexp)) {
-      let blockInfo = filename.split(blockRegexp)
-      let blockAtts = JSON.parse(blockInfo[ 4 ])
+      const blockInfo = filename.split(blockRegexp)
+      const blockAtts = JSON.parse(blockInfo[4])
       filename = getDynamicFieldsData({
         blockAtts: blockAtts
       })
@@ -628,30 +654,30 @@ export default class ElementComponent extends React.Component {
   }
 
   getStickyAttributes (sticky) {
-    let attributes = {}
+    const attributes = {}
     if (Object.keys(sticky.device).length) {
-      let deviceKeys = Object.keys(sticky.device)
+      const deviceKeys = Object.keys(sticky.device)
       deviceKeys.forEach((deviceKey) => {
         // At the moment allow only for device "all"
         if (deviceKey === 'all') {
-          let device = sticky.device[ deviceKey ]
+          const device = sticky.device[deviceKey]
           if (device.stickyEnable) {
-            attributes[ 'data-vce-sticky-element' ] = true
+            attributes['data-vce-sticky-element'] = true
 
             if (device.stickyOffsetTop && device.stickyOffsetTop !== '0') {
-              attributes[ 'data-margin-top' ] = device.stickyOffsetTop
+              attributes['data-margin-top'] = device.stickyOffsetTop
             }
 
             if (device.stickyZIndex) {
-              attributes[ 'data-vce-sticky-z-index' ] = device.stickyZIndex
+              attributes['data-vce-sticky-z-index'] = device.stickyZIndex
             }
 
             if (device.stickyContainer) {
-              attributes[ 'data-vce-sticky-container' ] = '[data-vce-element-content]'
+              attributes['data-vce-sticky-container'] = '[data-vce-element-content]'
             }
 
             if (device.stickyVisibility) {
-              attributes[ 'data-vce-sticky-visibility' ] = device.stickyVisibility
+              attributes['data-vce-sticky-visibility'] = device.stickyVisibility
             }
           }
         }
@@ -663,16 +689,16 @@ export default class ElementComponent extends React.Component {
   getBoxShadowAttributes (data, id) {
     const attributes = {}
     if (Object.keys(data.device).length) {
-      let deviceKeys = Object.keys(data.device)
+      const deviceKeys = Object.keys(data.device)
       deviceKeys.forEach((deviceKey) => {
         // At the moment allow only for device "all"
         if (deviceKey === 'all') {
-          let device = data.device[ deviceKey ]
+          const device = data.device[deviceKey]
           if (device.boxShadowEnable) {
-            attributes[ 'vce-box-shadow' ] = `el-${id}`
+            attributes['vce-box-shadow'] = `el-${id}`
           }
           if (device.hoverBoxShadowEnable) {
-            attributes[ 'vce-hover-box-shadow' ] = `el-${id}`
+            attributes['vce-hover-box-shadow'] = `el-${id}`
           }
         }
       })

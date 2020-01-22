@@ -16,9 +16,9 @@ export default class Field extends React.Component {
 
   constructor (props) {
     super(props)
-    let value = props.elementAccessPoint.cook().toJS()[ props.fieldKey ]
+    let value = props.elementAccessPoint.cook().toJS()[props.fieldKey]
     if (props.options && props.options.nestedAttr) {
-      value = props.options.activeParamGroup[ props.fieldKey ]
+      value = props.options.activeParamGroup[props.fieldKey]
     }
     this.state = {
       value: value,
@@ -71,38 +71,38 @@ export default class Field extends React.Component {
   }
 
   render () {
-    let { fieldKey, tab, fieldType, elementAccessPoint } = this.props
+    const { fieldKey, tab, fieldType, elementAccessPoint } = this.props
 
-    let cookElement = elementAccessPoint.cook()
-    let element = cookElement.toJS()
+    const cookElement = elementAccessPoint.cook()
+    const element = cookElement.toJS()
     if (!element) {
       console.warn('No element to render edit form fields')
       return
     }
-    let classes = classNames({
+    const classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
-    let groupClasses = classNames({
+    const groupClasses = classNames({
       'vcv-ui-form-group': true,
       'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
     })
     let value = null
     if (fieldKey && element) {
-      value = element[ fieldKey ]
+      value = element[fieldKey]
     }
     let { type, settings } = cookElement.settings(fieldKey)
     if (this.props.options && this.props.options.nestedAttr) {
-      let attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
-      let elSettings = cookElement.settings(fieldKey, attrSettings)
+      const attrSettings = cookElement.settings(this.props.options.fieldKey).settings.options.settings
+      const elSettings = cookElement.settings(fieldKey, attrSettings)
       type = elSettings.type
       settings = elSettings.settings
       if (!settings.options) {
         settings.options = {}
       }
       settings.options.nestedAttrPath = `${this.props.options.fieldKey}:${this.props.options.activeParamGroupIndex}:${fieldKey}`
-      value = element[ this.props.options.fieldKey ].value[ this.props.options.activeParamGroupIndex ][ fieldKey ]
+      value = element[this.props.options.fieldKey].value[this.props.options.activeParamGroupIndex][fieldKey]
     }
-    let AttributeComponent = type.component
+    const AttributeComponent = type.component
     if (!AttributeComponent) {
       env('VCV_DEBUG') && console.warn(`No component for attribute ${fieldKey}`)
       return null
@@ -130,11 +130,11 @@ export default class Field extends React.Component {
       description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: options.descriptionHTML }} />)
     }
     let defaultValue = settings.defaultValue
-    if (typeof defaultValue === `undefined`) {
+    if (typeof defaultValue === 'undefined') {
       defaultValue = fieldType === 'element' ? settings.value[fieldKey] : settings.value
     }
 
-    let fieldComponent = <AttributeComponent
+    const fieldComponent = <AttributeComponent
       key={`attribute-${fieldKey}-${element.id}`}
       options={options}
       value={value}
@@ -146,19 +146,19 @@ export default class Field extends React.Component {
       setInnerFieldStatus={this.setInnerFieldStatus}
       editFormOptions={this.props.options}
       handleDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
-        let newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
+        const newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
         return newValue
       }}
       handleDynamicFieldClose={(fieldKey, elementAccessPoint) => {
         return defaultValue
       }}
       handleDynamicFieldOpen={({ fieldType, prevAttrDynamicKey }) => {
-        let defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType)
-        let newValue = getDynamicValue(defaultDynamicFieldKey)
+        const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType)
+        const newValue = getDynamicValue(defaultDynamicFieldKey)
         return newValue
       }}
       ref='attributeComponent'
-    />
+                           />
 
     return (
       <div ref='fieldAttributeWrapper' className={classes}>

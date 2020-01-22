@@ -1,16 +1,16 @@
 export default (value) => {
-  let libs = []
+  const libs = []
 
   if (value && value.device && Object.keys(value.device).length) {
-    let deviceKeys = Object.keys(value.device)
+    const deviceKeys = Object.keys(value.device)
     deviceKeys.forEach((deviceKey) => {
-      let device = value.device[ deviceKey ]
+      const device = value.device[deviceKey]
       if (device.dividerTop || device.dividerBottom) {
-        let libData = {
+        const libData = {
           name: 'divider',
           dependencies: []
         }
-        let backgroundType = device.dividerTopBackgroundType || device.dividerBottomBackgroundType
+        const backgroundType = device.dividerTopBackgroundType || device.dividerBottomBackgroundType
         switch (backgroundType) {
           case 'videoEmbed':
             libData.dependencies.push('backgroundVideoEmbed')

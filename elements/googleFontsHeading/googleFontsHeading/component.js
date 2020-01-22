@@ -5,8 +5,8 @@ const vcvAPI = vcCake.getService('api')
 
 export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
   validateSize (value) {
-    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
-    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
+    const re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
     if (value === '' || value.match(re)) {
       return value
     } else {
@@ -15,25 +15,25 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
+    const { id, atts, editor } = this.props
     let { text, elementTag, font, fontSize, alignment, lineHeight, letterSpacing, link, colorType, customClass, metaCustomId } = atts
     let classes = 'vce-google-fonts-heading'
-    let wrapperClasses = 'vce-google-fonts-heading-wrapper'
-    let customProps = {}
-    let innerClasses = 'vce-google-fonts-heading-inner'
-    let backgroundClasses = 'vce-google-fonts-heading--background vce'
-    let innerCustomProps = {}
+    const wrapperClasses = 'vce-google-fonts-heading-wrapper'
+    const customProps = {}
+    const innerClasses = 'vce-google-fonts-heading-inner'
+    const backgroundClasses = 'vce-google-fonts-heading--background vce'
+    const innerCustomProps = {}
     innerCustomProps.style = {}
-    let CustomTag = elementTag
+    const CustomTag = elementTag
     let headingHtml = text
 
     if (link && link.url) {
-      let { url, title, targetBlank, relNofollow } = link
-      let linkProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
+      const { url, title, targetBlank, relNofollow } = link
+      const linkProps = {
+        href: url,
+        title: title,
+        target: targetBlank ? '_blank' : undefined,
+        rel: relNofollow ? 'nofollow' : undefined
       }
 
       headingHtml = (
@@ -98,7 +98,7 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
     }
 
     if (font && font.status === 'active') {
-      let fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? null : font.fontStyle.style) : null
+      const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? null : font.fontStyle.style) : null
       innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : null
       innerCustomProps.style.fontStyle = fontStyle
     }
@@ -107,7 +107,7 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('border background animation padding margin')
+    const doAll = this.applyDO('border background animation padding margin')
 
     return <div {...customProps} className={classes} {...editor}>
       <div className={wrapperClasses}>

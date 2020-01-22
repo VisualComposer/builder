@@ -1,7 +1,7 @@
 let errors = []
 
-let logError = (message, details) => {
-  let error = new Error()
+const logError = (message, details) => {
+  const error = new Error()
   errors.push({
     message: message,
     details: details,
@@ -9,16 +9,16 @@ let logError = (message, details) => {
   })
 }
 
-let getErrors = () => {
+const getErrors = () => {
   return errors
 }
 
-let getErrorsMessages = () => {
-  let messages = []
+const getErrorsMessages = () => {
+  const messages = []
 
   errors.forEach((i) => {
-    let message = i.message
-    let code = i.details && i.details.codeNum ? i.details.codeNum : '#000'
+    const message = i.message
+    const code = i.details && i.details.codeNum ? i.details.codeNum : '#000'
     messages.push(
       message + ' code:' + code
     )
@@ -27,7 +27,7 @@ let getErrorsMessages = () => {
   return messages.join(',')
 }
 
-let sendErrors = (e, cb) => {
+const sendErrors = (e, cb) => {
   e && e.preventDefault && e.preventDefault()
   window.jQuery.ajax(
     {
@@ -40,7 +40,7 @@ let sendErrors = (e, cb) => {
     }
   ).always(cb).done((response) => {
     try {
-      let jsonResponse = JSON.parse(response)
+      const jsonResponse = JSON.parse(response)
       if (jsonResponse && jsonResponse.status) {
         // reset list of errors
         errors = []

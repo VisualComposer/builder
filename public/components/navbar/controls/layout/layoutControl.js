@@ -103,38 +103,38 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   setSelectedLayout (index) {
-    this.setViewport(LayoutButtonControl.devices[ index ].viewport.width)
+    this.setViewport(LayoutButtonControl.devices[index].viewport.width)
     this.setState({
       activeDevice: index
     })
   }
 
   setViewport (width) {
-    let iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
+    const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
     iframeContainer.style.width = width ? width + 'px' : ''
   }
 
   render () {
-    let controlIconClasses = classNames(
+    const controlIconClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
-      'vcv-ui-icon-' + LayoutButtonControl.devices[ this.state.activeDevice ].className
+      'vcv-ui-icon-' + LayoutButtonControl.devices[this.state.activeDevice].className
     )
 
-    let activeDevice = (
+    const activeDevice = (
       <span className='vcv-ui-navbar-control-content'>
         <i className={controlIconClasses} />
-        <span>{LayoutButtonControl.devices[ this.state.activeDevice ].type}</span>
+        <span>{LayoutButtonControl.devices[this.state.activeDevice].type}</span>
       </span>
     )
 
-    let navbarControlClasses = classNames({
+    const navbarControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-navbar-dropdown-linear': true,
       'vcv-ui-pull-end': true
     })
 
-    let layoutItems = []
+    const layoutItems = []
     LayoutButtonControl.devices.forEach((item, index) => {
       layoutItems.push(
         <Item key={index} device={item} index={index} onChange={this.setSelectedLayout} />
@@ -147,8 +147,10 @@ export default class LayoutButtonControl extends React.Component {
 
     return (
       <dl className={navbarControlClasses} tabIndex='0'>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
-          title={LayoutButtonControl.devices[ this.state.activeDevice ].type}>
+        <dt
+          className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
+          title={LayoutButtonControl.devices[this.state.activeDevice].type}
+        >
           {activeDevice}
         </dt>
         <dd className='vcv-ui-navbar-dropdown-content'>

@@ -5,25 +5,25 @@ addStorage('shortcodeAssets', (storage) => {
 
   // new shortcode logic
   let loadedFiles = []
-  let collectLoadFiles = () => {
+  const collectLoadFiles = () => {
     loadedFiles = []
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
 
-    let data = {
+    const data = {
       domNodes: assetsWindow.document.querySelectorAll('style, link[href], script'),
       cacheInnerHTML: true
     }
     loadFiles(data)
   }
 
-  let scriptsLoader = {
+  const scriptsLoader = {
     src: [],
     add: (src) => {
       scriptsLoader.src.push(src)
     },
     loadNext: (assetsWindow, finishCb) => {
       if (scriptsLoader.src.length) {
-        let tmpSrc = scriptsLoader.src.splice(0, 1)
+        const tmpSrc = scriptsLoader.src.splice(0, 1)
         assetsWindow.jQuery.getScript(tmpSrc).always(() => {
           scriptsLoader.loadNext(assetsWindow, finishCb)
         })
@@ -32,11 +32,11 @@ addStorage('shortcodeAssets', (storage) => {
       }
     }
   }
-  let loadFiles = (data, finishCb) => {
+  const loadFiles = (data, finishCb) => {
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
 
     if (data.domNodes && data.domNodes.length) {
-      const allowedHeadTags = [ 'META', 'LINK', 'STYLE', 'SCRIPT' ]
+      const allowedHeadTags = ['META', 'LINK', 'STYLE', 'SCRIPT']
       Array.from(data.domNodes).forEach(domNode => {
         let slug = ''
         let position = ''
@@ -62,15 +62,15 @@ addStorage('shortcodeAssets', (storage) => {
         // Remove first part of url, because they can differ by CDN and local files
         if (!cached) {
           loadedFiles.forEach((loadedFile) => {
-            const cutLoadedFile = loadedFile.split('wp-content')[ 1 ]
-            const cutSlug = slug.split('wp-content')[ 1 ]
+            const cutLoadedFile = loadedFile.split('wp-content')[1]
+            const cutSlug = slug.split('wp-content')[1]
             if (cutLoadedFile && cutSlug && (cutLoadedFile === cutSlug)) {
               cached = true
             }
           })
         }
 
-        let ignoreCache = type === 'template' ? false : data.ignoreCache
+        const ignoreCache = type === 'template' ? false : data.ignoreCache
         if (!cached || ignoreCache) {
           !ignoreCache && slug && loadedFiles.push(slug)
           if (data.addToDocument) {
@@ -83,7 +83,7 @@ addStorage('shortcodeAssets', (storage) => {
                 }
               } else {
                 if (position) {
-                  assetsWindow.document[ position ] && assetsWindow.jQuery(assetsWindow.document[ position ]).append(domNode)
+                  assetsWindow.document[position] && assetsWindow.jQuery(assetsWindow.document[position]).append(domNode)
                 } else {
                   data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
                 }

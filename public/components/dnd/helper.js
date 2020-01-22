@@ -35,7 +35,7 @@ export default class Helper {
     helperContainer.classList.add('vcv-ui-drag-helper-wrapper')
     helperContainer.id = 'vcv-ui-drag-helper-wrapper'
 
-    let control = document.createElement('div')
+    const control = document.createElement('div')
     control.classList.add('vcv-drag-helper')
     control.classList.add('vcv-drag-helper-' + this.element.tag)
     if (this.element.containerFor() && this.element.containerFor().length) {
@@ -43,14 +43,14 @@ export default class Helper {
     }
     helperContainer.appendChild(control)
     this.options.container.appendChild(helperContainer)
-    let icon = this.element.options.iconLink
+    const icon = this.element.options.iconLink
 
     if (icon) {
       control.innerHTML = '<img src="' +
         icon + '" class="vcv-ui-dnd-helper-icon" alt="" title=""/>'
     }
 
-    let rect = control.getBoundingClientRect()
+    const rect = control.getBoundingClientRect()
     control.style.marginTop = -rect.height / 2 + 'px'
     control.style.marginLeft = -rect.width / 2 + 'px'
     // prevent helper from showing when dropping from addElement panel
@@ -73,9 +73,9 @@ export default class Helper {
   }
 
   remove () {
-    let control = this.control
+    const control = this.control
     this.control = null
-    let controlParent = control.parentNode
+    const controlParent = control.parentNode
     if (controlParent.classList.contains('vcv-ui-drag-helper-wrapper')) {
       controlParent.parentNode && controlParent.parentNode.removeChild(controlParent)
     } else {

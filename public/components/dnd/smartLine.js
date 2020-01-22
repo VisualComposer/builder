@@ -66,11 +66,11 @@ SmartLine.prototype.getVcvIdFromElement = function (element) {
 }
 SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
   let position = false
-  let $element = window.jQuery(element)
-  let defaultLiteSize = 2
+  const $element = window.jQuery(element)
+  const defaultLiteSize = 2
   let lineWidth = defaultLiteSize
   let lineHeight = defaultLiteSize
-  let linePoint = { x: 0, y: 0 }
+  const linePoint = { x: 0, y: 0 }
   let frame = false
   let isVerticalLine
   settings = _.defaults(settings || {}, {
@@ -79,9 +79,9 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     allowAppend: true,
     allowBeforeAfter: true
   })
-  let rect = element.getBoundingClientRect()
-  let positionY = point.y - (rect.top + rect.height / 2)
-  let positionX = point.x - (rect.left + rect.width / 2)
+  const rect = element.getBoundingClientRect()
+  const positionY = point.y - (rect.top + rect.height / 2)
+  const positionX = point.x - (rect.left + rect.width / 2)
 
   if (settings.allowAppend === true) {
     position = 'append'
@@ -100,10 +100,10 @@ SmartLine.prototype.redraw = function (element, point, settings, parents = []) {
     lineHeight = rect.height
     frame = true
   } else {
-    let prevElement = $element.prevAll('[data-vcv-dnd-element]:not([data-vcv-dnd-helper="true"])').get(0)
-    let nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
-    let prevRect = prevElement ? prevElement.getBoundingClientRect() : null
-    let nextRect = nextElement ? nextElement.getBoundingClientRect() : null
+    const prevElement = $element.prevAll('[data-vcv-dnd-element]:not([data-vcv-dnd-helper="true"])').get(0)
+    const nextElement = $element.nextAll('[data-vcv-dnd-element]').get(0)
+    const prevRect = prevElement ? prevElement.getBoundingClientRect() : null
+    const nextRect = nextElement ? nextElement.getBoundingClientRect() : null
     // show vertical line in layout only
     if (!$element.closest('.vcv-ui-tree-layout').get(0)) {
       isVerticalLine = (prevRect && prevRect.left !== rect.left) || (nextRect && nextRect.left !== rect.left)

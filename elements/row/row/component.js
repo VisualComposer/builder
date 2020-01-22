@@ -11,16 +11,16 @@ const elementsSettingsStorage = getStorage('elementsSettings')
 const fieldOptionsStorage = getStorage('fieldOptions')
 const extendedOptionsState = elementsSettingsStorage.state('extendedOptions')
 
-const devices = [ 'all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl' ]
+const devices = ['all', 'defaultSize', 'xs', 'sm', 'md', 'lg', 'xl']
 
 export default class RowElement extends vcvAPI.elementComponent {
   static getRowData (layout) {
-    let lastColumnIndex = []
+    const lastColumnIndex = []
     let rowValue = 0
     let autoCount = 0
-    let columnValues = []
+    const columnValues = []
     let isColumnsEqual = true
-    let layoutCopy = layout.slice()
+    const layoutCopy = layout.slice()
 
     // Remove last hide values
     while (layoutCopy.lastIndexOf('hide') === layoutCopy.length - 1 && layoutCopy.length) {
@@ -40,22 +40,22 @@ export default class RowElement extends vcvAPI.elementComponent {
         if (col.indexOf('%') > -1) {
           colValue = parseFloat(col.replace('%', '').replace(',', '.')) / 100
         } else {
-          let column = col.split('/')
-          let numerator = column[ 0 ]
-          let denominator = column[ 1 ]
+          const column = col.split('/')
+          const numerator = column[0]
+          const denominator = column[1]
           colValue = numerator / denominator
         }
         columnValues.push(colValue)
       }
 
-      let newRowValue = Math.floor((rowValue + colValue) * 1000) / 1000
+      const newRowValue = Math.floor((rowValue + colValue) * 1000) / 1000
 
       if (newRowValue > 1 || (newRowValue === 1 && col === 'hide')) {
         isColumnsEqual = false
         lastColumnIndex.push(index - 1)
         rowValue = 0
       }
-      if (layoutCopy[ index + 1 ] === undefined) {
+      if (layoutCopy[index + 1] === undefined) {
         lastColumnIndex.push(index)
       }
       rowValue += colValue
@@ -63,12 +63,12 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     let rowFullValue = 0
 
-    let newRowValue = rowValue - (autoCount * 0.01)
-    let autoValue = (1 - newRowValue) / autoCount
+    const newRowValue = rowValue - (autoCount * 0.01)
+    const autoValue = (1 - newRowValue) / autoCount
 
     columnValues.forEach((size, index) => {
       if (size === 'auto') {
-        columnValues[ index ] = autoValue
+        columnValues[index] = autoValue
         rowFullValue += autoValue
       } else {
         rowFullValue += size
@@ -76,7 +76,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     })
 
     columnValues.forEach((size) => {
-      if (columnValues[ 0 ] !== size && size !== 1) {
+      if (columnValues[0] !== size && size !== 1) {
         isColumnsEqual = false
       }
     })
@@ -89,7 +89,7 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   static resetRowLayout (id) {
-    let rowElement = documentManager.get(id)
+    const rowElement = documentManager.get(id)
     rowElement.layout.layoutData = null
     documentManager.update(id, rowElement)
   }
@@ -103,7 +103,7 @@ export default class RowElement extends vcvAPI.elementComponent {
 
       rowChildren.forEach((element) => {
         if (element.size.hasOwnProperty('defaultSize')) {
-          defaultLayout.push(element.size[ 'defaultSize' ])
+          defaultLayout.push(element.size.defaultSize)
         }
       })
     }
@@ -112,37 +112,37 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   static setColumns (id, layoutData, prevLayoutData, disableStacking = false) {
-    let columns = documentManager.children(id)
-    let newColumns = []
-    let createdColumns = []
-    let defaultColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {} }
+    const columns = documentManager.children(id)
+    const newColumns = []
+    const createdColumns = []
+    const defaultColumnData = { tag: 'column', parent: id, designOptionsAdvanced: {}, customClass: '', customHeaderTitle: '', metaCustomId: '', dividers: {}, sticky: {}, lastInRow: {}, firstInRow: {}, size: {} }
     let lastColumnObject = null
 
     Object.keys(layoutData).forEach((device) => {
-      let layout = layoutData[ device ]
-      const prevLayout = prevLayoutData && prevLayoutData[ device ]
+      let layout = layoutData[device]
+      const prevLayout = prevLayoutData && prevLayoutData[device]
 
       if (prevLayout && prevLayout.length) {
         if (layout.length > prevLayout.length) { // Column add
-          let rowData = RowElement.getRowData(prevLayout)
+          const rowData = RowElement.getRowData(prevLayout)
           if ((Math.round(rowData.rowValue * 100) / 100) < 1) {
-            let leftValue = 1 - rowData.rowValue
+            const leftValue = 1 - rowData.rowValue
             layout = prevLayout
             layout.push(`${leftValue * 100}%`)
           } else if (rowData.isColumnsEqual) {
-            let colCount = layout.length
-            let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
+            const colCount = layout.length
+            const colSize = `${Math.floor(100 / colCount * 100) / 100}%`
             layout = []
             for (let i = 0; i < colCount; i++) {
               layout.push(colSize)
             }
           }
         } else if (layout.length < prevLayout.length) { // Column remove
-          let rowData = RowElement.getRowData(prevLayout)
+          const rowData = RowElement.getRowData(prevLayout)
 
           if (((Math.round(rowData.rowValue * 100) / 100) === 1) && rowData.isColumnsEqual) {
-            let colCount = layout.length
-            let colSize = `${Math.floor(100 / colCount * 100) / 100}%`
+            const colCount = layout.length
+            const colSize = `${Math.floor(100 / colCount * 100) / 100}%`
             layout = []
             for (let i = 0; i < colCount; i++) {
               layout.push(colSize)
@@ -158,20 +158,20 @@ export default class RowElement extends vcvAPI.elementComponent {
         const lastInRow = lastColumns.indexOf(i) > -1
         const firstInRow = i === 0 || lastColumns.indexOf(i - 1) > -1
 
-        if (columns[ i ] !== undefined) {
-          lastColumnObject = columns[ i ]
-          lastColumnObject.size[ device ] = size
+        if (columns[i] !== undefined) {
+          lastColumnObject = columns[i]
+          lastColumnObject.size[device] = size
 
           if (device !== 'defaultSize') {
-            lastColumnObject.lastInRow[ device ] = lastInRow
-            lastColumnObject.firstInRow[ device ] = firstInRow
+            lastColumnObject.lastInRow[device] = lastInRow
+            lastColumnObject.firstInRow[device] = firstInRow
           }
           lastColumnObject.disableStacking = disableStacking
 
           let oldCol = false
           newColumns.forEach((newCol, index) => {
             if (lastColumnObject.id === newCol.id) {
-              newColumns[ index ] = lastColumnObject
+              newColumns[index] = lastColumnObject
               oldCol = true
             }
           })
@@ -179,21 +179,21 @@ export default class RowElement extends vcvAPI.elementComponent {
             newColumns.push(lastColumnObject)
           }
         } else {
-          if (!createdColumns[ createdColCount ]) {
-            let createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
-            createdColumnData.size[ device ] = size
+          if (!createdColumns[createdColCount]) {
+            const createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
+            createdColumnData.size[device] = size
             if (device !== 'defaultSize') {
-              createdColumnData.lastInRow[ device ] = lastInRow
-              createdColumnData.firstInRow[ device ] = firstInRow
+              createdColumnData.lastInRow[device] = lastInRow
+              createdColumnData.firstInRow[device] = firstInRow
             }
             createdColumnData.disableStacking = disableStacking
             createdColumns.push(createdColumnData)
           } else {
-            let createdColumnData = createdColumns[ createdColCount ]
-            createdColumnData.size[ device ] = size
+            const createdColumnData = createdColumns[createdColCount]
+            createdColumnData.size[device] = size
             if (device !== 'defaultSize') {
-              createdColumnData.lastInRow[ device ] = lastInRow
-              createdColumnData.firstInRow[ device ] = firstInRow
+              createdColumnData.lastInRow[device] = lastInRow
+              createdColumnData.firstInRow[device] = firstInRow
             }
             createdColumnData.disableStacking = disableStacking
           }
@@ -204,13 +204,13 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     newColumns.forEach((col) => {
       if (!layoutData.hasOwnProperty('all')) {
-        delete col.size['all']
+        delete col.size.all
       } else {
-        delete col.size['xs']
-        delete col.size['sm']
-        delete col.size['md']
-        delete col.size['lg']
-        delete col.size['xl']
+        delete col.size.xs
+        delete col.size.sm
+        delete col.size.md
+        delete col.size.lg
+        delete col.size.xl
       }
       documentManager.update(col.id, col)
     })
@@ -219,11 +219,11 @@ export default class RowElement extends vcvAPI.elementComponent {
       documentManager.create(newCol)
     })
 
-    let defaultLayout = layoutData[ 'all' ] || layoutData[ 'xs' ]
+    const defaultLayout = layoutData.all || layoutData.xs
     if (defaultLayout && (columns.length > defaultLayout.length)) {
-      let removingColumns = columns.slice(defaultLayout.length)
+      const removingColumns = columns.slice(defaultLayout.length)
       removingColumns.forEach((column) => {
-        let childElements = documentManager.children(column.id)
+        const childElements = documentManager.children(column.id)
         childElements.forEach((el) => {
           el.parent = lastColumnObject.id
           documentManager.update(el.id, el)
@@ -234,7 +234,7 @@ export default class RowElement extends vcvAPI.elementComponent {
   }
 
   static getLayout (id) {
-    let layouts = {}
+    const layouts = {}
 
     const rowChildren = documentManager.children(id)
     let customDevices = false
@@ -246,18 +246,18 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     // Get layout for 'all'
     rowChildren.forEach((element) => {
-      if (!customDevices && element.size['all']) {
+      if (!customDevices && element.size.all) {
         if (!layouts.hasOwnProperty('all')) {
           layouts.all = []
         }
-        layouts['all'].push(element.size['all'])
+        layouts.all.push(element.size.all)
       }
 
-      if (element.size['defaultSize']) {
+      if (element.size.defaultSize) {
         if (!layouts.hasOwnProperty('defaultSize')) {
           layouts.defaultSize = []
         }
-        layouts['defaultSize'].push(element.size['defaultSize'])
+        layouts.defaultSize.push(element.size.defaultSize)
       }
     })
 
@@ -279,7 +279,7 @@ export default class RowElement extends vcvAPI.elementComponent {
               if (device === 'xs' || device === 'sm') {
                 layouts[device].push('100%')
               } else {
-                layouts[device].push(element.size['all'])
+                layouts[device].push(element.size.all)
               }
             }
           })
@@ -295,8 +295,8 @@ export default class RowElement extends vcvAPI.elementComponent {
       return null
     }
     const { atts, id } = nextProps
-    let layoutData = atts.layout && atts.layout.layoutData ? atts.layout.layoutData : RowElement.getLayout(id)
-    let layoutDataFromProps = atts.layout && atts.layout.layoutData
+    const layoutData = atts.layout && atts.layout.layoutData ? atts.layout.layoutData : RowElement.getLayout(id)
+    const layoutDataFromProps = atts.layout && atts.layout.layoutData
 
     if (JSON.stringify(layoutData) !== JSON.stringify(prevState.layout)) {
       if (layoutDataFromProps) {
@@ -379,19 +379,19 @@ export default class RowElement extends vcvAPI.elementComponent {
     const content = this.props.children
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-    let containerClasses = classNames({
+    const containerClasses = classNames({
       'vce-row-container': true,
       'vce-wpbackend-element-hidden': hidden && isBackend
     })
 
-    let classes = [ 'vce-row' ]
+    const classes = ['vce-row']
 
     if (columnBackground) {
       if (columnBackground.all) {
-        classes.push(`vce-row--has-col-background`)
+        classes.push('vce-row--has-col-background')
       } else {
-        for (let currentDevice in columnBackground) {
-          if (columnBackground[ currentDevice ]) {
+        for (const currentDevice in columnBackground) {
+          if (columnBackground[currentDevice]) {
             classes.push(`vce-row--${currentDevice}--has-col-background`)
           }
         }
@@ -402,19 +402,19 @@ export default class RowElement extends vcvAPI.elementComponent {
     if (layout && layout.reverseColumn && !layout.disableStacking) {
       classes.push('vce-row-wrap--reverse')
     }
-    let customProps = {
+    const customProps = {
       style: {}
     }
-    let customRowProps = {
+    const customRowProps = {
       style: {}
     }
-    let containerProps = {}
+    const containerProps = {}
     if (typeof customClass === 'string' && customClass) {
       classes.push(customClass)
     }
 
     if (rowWidth === 'stretchedRow' || rowWidth === 'stretchedRowAndColumn') {
-      customRowProps[ 'data-vce-full-width' ] = true
+      customRowProps['data-vce-full-width'] = true
     } else {
       customRowProps.style.width = ''
       customRowProps.style.left = ''
@@ -424,7 +424,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     }
 
     if (rowWidth === 'stretchedRowAndColumn' || editorType === 'sidebar') {
-      customRowProps[ 'data-vce-stretch-content' ] = true
+      customRowProps['data-vce-stretch-content'] = true
     }
 
     let stickyAttributes = {}
@@ -459,7 +459,7 @@ export default class RowElement extends vcvAPI.elementComponent {
       boxShadowAttributes = this.getBoxShadowAttributes(boxShadow, id)
     }
 
-    let className = classNames(classes)
+    const className = classNames(classes)
 
     if (metaCustomId) {
       containerProps.id = metaCustomId

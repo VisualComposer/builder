@@ -16,13 +16,14 @@ export default class Item extends React.Component {
 
   render () {
     const { device, index } = this.props
-    let deviceIconClasses = classNames(
+    const deviceIconClasses = classNames(
       'vcv-ui-navbar-control-icon',
       'vcv-ui-icon',
       'vcv-ui-icon-' + device.className
     )
     return (
-      <span className='vcv-ui-navbar-control'
+      <span
+        className='vcv-ui-navbar-control'
         title={device.type}
         key={index}
         onClick={this.handleClick.bind(this, index)}

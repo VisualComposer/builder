@@ -4,14 +4,14 @@ const vcvAPI = vcCake.getService('api')
 
 export default class BasicSeparator extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { alignment, customClass, metaCustomId, style } = atts
-    let classNames = require('classnames')
-    let customProps = {}
+    const { id, atts, editor } = this.props
+    const { alignment, customClass, metaCustomId, style } = atts
+    const classNames = require('classnames')
+    const customProps = {}
     let separator
 
-    let containerClasses = [ 'vce', 'vce-separator-container' ]
-    let classes = [ 'vce-separator' ]
+    let containerClasses = ['vce', 'vce-separator-container']
+    let classes = ['vce-separator']
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses.push(customClass)
@@ -50,8 +50,8 @@ export default class BasicSeparator extends vcvAPI.elementComponent {
     classes = classNames(classes)
     containerClasses = classNames(containerClasses)
 
-    let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('border padding background animation')
+    const doMargin = this.applyDO('margin')
+    const doRest = this.applyDO('border padding background animation')
 
     if (style === 'shadow') {
       separator = <div className={classes} {...customProps} {...doRest}>

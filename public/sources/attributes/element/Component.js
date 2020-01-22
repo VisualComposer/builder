@@ -35,7 +35,7 @@ export default class ElementAttribute extends Attribute {
   }
 
   updateState (props) {
-    let valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value)
+    const valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value)
     valueElementAccessPoint.parentElementAccessPoint = this.props.elementAccessPoint
 
     return {
@@ -49,28 +49,28 @@ export default class ElementAttribute extends Attribute {
 
   onClickReplacement (newElement) {
     newElement.id = this.state.value.id
-    let valueElementAccessPoint = elementAccessPointService.getInstance(null, newElement)
+    const valueElementAccessPoint = elementAccessPointService.getInstance(null, newElement)
     valueElementAccessPoint.parentElementAccessPoint = this.props.elementAccessPoint
-    let cookElement = valueElementAccessPoint.cook()
-    let allValues = Object.assign({}, this.state.allValues, this.state.value)
+    const cookElement = valueElementAccessPoint.cook()
+    const allValues = Object.assign({}, this.state.allValues, this.state.value)
     if (this.props.options && this.props.options.merge) {
       Object.keys(cookElement.toJS()).forEach((key) => {
-        if (allValues[ key ] !== undefined) {
+        if (allValues[key] !== undefined) {
           // Merge, Type, Key
-          let findKey = this.props.options.merge.attributes.findIndex((item) => {
+          const findKey = this.props.options.merge.attributes.findIndex((item) => {
             // eslint-disable-next-line valid-typeof
-            return item.key === key && item.type === typeof allValues[ key ]
+            return item.key === key && item.type === typeof allValues[key]
           })
           if (findKey > -1) {
             // Merge the value
-            cookElement.set(key, allValues[ key ])
-            valueElementAccessPoint.set(key, allValues[ key ])
+            cookElement.set(key, allValues[key])
+            valueElementAccessPoint.set(key, allValues[key])
           }
         }
       })
     }
 
-    let values = cookElement.toJS()
+    const values = cookElement.toJS()
     this.setState({
       allValues: Object.assign({}, this.state.value, newElement),
       value: values,
@@ -90,9 +90,9 @@ export default class ElementAttribute extends Attribute {
   }
 
   static updateTabs (element) {
-    let tabs = []
+    const tabs = []
     ElementAttribute.editFormTabs(element).map((tab, index) => {
-      let tabsData = {
+      const tabsData = {
         id: tab.key,
         index: index,
         data: tab.data,
@@ -147,29 +147,29 @@ export default class ElementAttribute extends Attribute {
     let { category, tabLabel, replaceView, exclude, disableReplaceable } = this.props.options
     let replacements = ''
     category = category || '*'
-    let elementLabel = (tabLabel && tabLabel.toLowerCase()) || category.toLowerCase() || 'element'
-    let categorySettings = hubCategoriesService.get(category)
+    const elementLabel = (tabLabel && tabLabel.toLowerCase()) || category.toLowerCase() || 'element'
+    const categorySettings = hubCategoriesService.get(category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations.replaceElementText.split('{elementLabel}').join(elementLabel)
     let replacementBlock = ''
 
     if (!disableReplaceable) {
       if (categorySettings && this.state.showReplacements) {
-        let replacementItemsOutput = categorySettings.elements.map((tag) => {
-          let cookElement = Cook.get({ tag: tag })
+        const replacementItemsOutput = categorySettings.elements.map((tag) => {
+          const cookElement = Cook.get({ tag: tag })
           if (!cookElement || !cookElement.get('name') || cookElement.get('name') === '--') {
             return null
           }
-          let nameClasses = classNames({
+          const nameClasses = classNames({
             'vcv-ui-item-badge vcv-ui-badge--success': false,
             'vcv-ui-item-badge vcv-ui-badge--warning': false
           })
-          let itemContentClasses = classNames({
+          const itemContentClasses = classNames({
             'vcv-ui-item-element-content': true,
             'vcv-ui-item-list-item-content--active': this.state.tag === tag
           })
 
-          let publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+          const publicPathThumbnail = cookElement.get('metaThumbnailUrl')
 
           return (
             <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
@@ -178,8 +178,10 @@ export default class ElementAttribute extends Attribute {
                 onClick={this.onClickReplacement.bind(this, { tag: tag })}
               >
                 <span className={itemContentClasses}>
-                  <img className='vcv-ui-item-element-image' src={publicPathThumbnail}
-                    alt={cookElement.get('name')} />
+                  <img
+                    className='vcv-ui-item-element-image' src={publicPathThumbnail}
+                    alt={cookElement.get('name')}
+                  />
                   <span className='vcv-ui-item-overlay'>
                     <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
                   </span>
@@ -213,8 +215,10 @@ export default class ElementAttribute extends Attribute {
               {replaceElementText}
 
             </p>
-            <button type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
-              onClick={this.changeShowReplacements}>
+            <button
+              type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
+              onClick={this.changeShowReplacements}
+            >
               Replace {elementLabel}
             </button>
           </div>
@@ -223,9 +227,9 @@ export default class ElementAttribute extends Attribute {
       if (categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
         // TODO: show another wrapper
         if (replaceView && replaceView === 'dropdown') {
-          let dropdownValues = categorySettings.elements.map(
+          const dropdownValues = categorySettings.elements.map(
             (tag) => {
-              let cookElement = Cook.get({ tag: tag })
+              const cookElement = Cook.get({ tag: tag })
               if (!cookElement) {
                 return {}
               }
@@ -263,8 +267,8 @@ export default class ElementAttribute extends Attribute {
 
     if (editableElement !== currentElement) {
       const { options } = this.props
-      let { isActive } = this.state
-      let sectionClasses = classNames({
+      const { isActive } = this.state
+      const sectionClasses = classNames({
         'vcv-ui-edit-form-section': true,
         'vcv-ui-edit-form-section--opened': isActive,
         'vcv-ui-edit-form-section--closed': !isActive

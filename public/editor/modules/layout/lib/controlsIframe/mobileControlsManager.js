@@ -57,7 +57,7 @@ export default class ControlsManager {
     // this.iframeScrollable = mobileDetect.os() === 'iOS' ? this.iframeWrapper : this.iframeWindow
     this.isPhone = mobileDetect.mobile() && mobileDetect.phone()
 
-    let systemData = {
+    const systemData = {
       iframeContainer: this.iframeContainer,
       iframeOverlay: this.iframeOverlay,
       iframeWrapper: this.iframeWrapper,
@@ -90,7 +90,7 @@ export default class ControlsManager {
    * Initialize
    */
   init (options = {}) {
-    let defaultOptions = {
+    const defaultOptions = {
       iframeUsed: true,
       iframeContainer: document.querySelector('.vcv-layout-iframe-container'),
       iframeOverlay: document.querySelector('#vcv-editor-iframe-overlay'),
@@ -114,7 +114,7 @@ export default class ControlsManager {
     if (e.path) {
       return e.path
     }
-    let path = []
+    const path = []
     let node = e.target
 
     while (node) {
@@ -135,8 +135,8 @@ export default class ControlsManager {
       }
     }
     // get all vcv elements
-    let path = this.getPath(e)
-    let elPath = []
+    const path = this.getPath(e)
+    const elPath = []
     path.forEach((el) => {
       if (el.hasAttribute && (el.hasAttribute('data-vcv-element') || el.hasAttribute('data-vcv-linked-element'))) {
         elPath.push(el)
@@ -144,18 +144,18 @@ export default class ControlsManager {
     })
     let element = null
     if (elPath.length) {
-      element = elPath[ 0 ] // first element in path always hovered element
+      element = elPath[0] // first element in path always hovered element
     }
     // replace linked element with real element
     if (element && element.dataset.hasOwnProperty('vcvLinkedElement')) {
       element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
-      elPath[ 0 ] = element
+      elPath[0] = element
     }
     return { element, elPath }
   }
 
   showFrames (element, elPath) {
-    let data = {
+    const data = {
       element: element,
       vcElementId: element && element.dataset && element.dataset.vcvElement,
       path: elPath,
@@ -166,14 +166,14 @@ export default class ControlsManager {
     const documentService = vcCake.getService('document')
     let elementsToShow = []
     data.vcElementsPath.forEach((id) => {
-      let documentElement = documentService.get(id)
+      const documentElement = documentService.get(id)
       if (documentElement && documentElement.tag === 'column') {
-        let children = documentService.children(documentElement.parent)
+        const children = documentService.children(documentElement.parent)
         children.forEach((child) => {
           elementsToShow.push(child.id)
         })
       } else if (documentElement && documentElement.tag === 'row') {
-        let children = documentService.children(documentElement.id)
+        const children = documentService.children(documentElement.id)
         elementsToShow.push(documentElement.id)
         children.forEach((child) => {
           elementsToShow.push(child.id)
@@ -183,7 +183,7 @@ export default class ControlsManager {
       }
     })
     elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+      const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
       return this.iframeDocument.querySelector(selector)
     })
     elementsToShow = elementsToShow.filter((el) => {
@@ -195,7 +195,7 @@ export default class ControlsManager {
   scrollPage (y) {
     if (this.iframeScrollable && !this.state.scrolling) {
       let posY = this.iframeScrollable.hasOwnProperty('scrollY') ? this.iframeScrollable.scrollY : this.iframeScrollable.scrollTop
-      let posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
+      const posX = this.iframeScrollable.hasOwnProperty('scrollX') ? this.iframeScrollable.scrollX : this.iframeScrollable.scrollLeft
       if (this.isIOS && this.iframeScrollable.firstElementChild) {
         posY = -this.iframeScrollable.firstElementChild.getBoundingClientRect().top
       }
@@ -228,7 +228,7 @@ export default class ControlsManager {
   }
 
   touchStart (e) {
-    let data = this.findElement(e)
+    const data = this.findElement(e)
     this.windowHeight = this.iframeScrollable.hasOwnProperty('innerHeight') ? this.iframeScrollable.innerHeight : this.iframeScrollable.clientHeight
     if (!this.state.dragging && e.touches && e.touches.length === 1 && data.element) {
       if (this.iframeDocument.selection) {
@@ -269,11 +269,11 @@ export default class ControlsManager {
       this.state.element = element
       this.state.hoverElement = element
       this.state.hoverPath = elPath
-      this.state.hoverRoot = elPath[ elPath.length - 1 ]
+      this.state.hoverRoot = elPath[elPath.length - 1]
       this.showFrames(element, elPath)
-      let scrollX = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0
-      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
-      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY, left: scrollX, top: scrollY } })
+      const scrollX = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0
+      const scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
+      vcCake.setData('draggingElement', { id: this.state.element.dataset.vcvElement, point: { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY } })
     }
   }
 
@@ -293,10 +293,10 @@ export default class ControlsManager {
         this.iframeWindow.getSelection().removeAllRanges()
       }
 
-      let { clientX, clientY } = e.touches && e.touches[ 0 ] ? e.touches[ 0 ] : {}
-      let element = this.iframeDocument.elementFromPoint(clientX, clientY)
-      let { elPath } = this.findElement({ target: element })
-      let elRoot = elPath[ elPath.length - 1 ]
+      const { clientX, clientY } = e.touches && e.touches[0] ? e.touches[0] : {}
+      const element = this.iframeDocument.elementFromPoint(clientX, clientY)
+      const { elPath } = this.findElement({ target: element })
+      const elRoot = elPath[elPath.length - 1]
       if (this.state.hoverRoot !== elRoot || this.state.hoverPath.indexOf(element) < 0) {
         this.frames.hide()
         this.state.hoverElement = element
@@ -305,8 +305,8 @@ export default class ControlsManager {
         this.showFrames(element, elPath)
       }
 
-      let scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
-      let screenY = clientY - scrollY
+      const scrollY = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
+      const screenY = clientY - scrollY
       this.state.scroll = false
       let stepY = 0
       if (screenY <= 50) {
@@ -337,7 +337,7 @@ export default class ControlsManager {
   }
 
   editElement (e) {
-    let { element } = this.findElement(e)
+    const { element } = this.findElement(e)
     this.frames.hide()
     if (this.iframeDocument.selection) {
       this.iframeDocument.selection.empty()
@@ -345,7 +345,7 @@ export default class ControlsManager {
       this.iframeWindow.getSelection().removeAllRanges()
     }
     if (element) {
-      let elementData = documentManager.get(element.dataset.vcvElement)
+      const elementData = documentManager.get(element.dataset.vcvElement)
       if (elementData) {
         this.editFormId = element.dataset.vcvElement
         workspaceStorage.trigger('edit', element.dataset.vcvElement, elementData.tag)

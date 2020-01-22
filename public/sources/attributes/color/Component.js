@@ -31,8 +31,8 @@ class Color extends Attribute {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
 
         return true
@@ -44,7 +44,7 @@ class Color extends Attribute {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -54,7 +54,7 @@ class Color extends Attribute {
   }
 
   updateState (props) {
-    let value = props.value
+    const value = props.value
     return {
       value: value ? tinycolor(value).toString('rgb') : ''
     }
@@ -62,10 +62,10 @@ class Color extends Attribute {
 
   closeIfNotInside = (e) => {
     e && e.preventDefault()
-    let $el = e.target
-    let $defaultButton = '.vcv-ui-form-colorpicker--default'
-    let $dropDown = '.vcv-ui-sketch-picker'
-    let $openingButton = '.vcv-ui-color-picker-dropdown'
+    const $el = e.target
+    const $defaultButton = '.vcv-ui-form-colorpicker--default'
+    const $dropDown = '.vcv-ui-sketch-picker'
+    const $openingButton = '.vcv-ui-color-picker-dropdown'
     let container = null
     let defaultButton = null
 
@@ -99,9 +99,9 @@ class Color extends Attribute {
   }
 
   handleChange (sketchValue) {
-    let { format } = this.props.options
-    let { updater, fieldKey } = this.props
-    let color = tinycolor(sketchValue.rgb)
+    const { format } = this.props.options
+    const { updater, fieldKey } = this.props
+    const color = tinycolor(sketchValue.rgb)
     let value = ''
 
     if (color.toString(format || 'rgb') !== this.getEmptyColor()) {
@@ -131,10 +131,10 @@ class Color extends Attribute {
   }
 
   updateUsedStack () {
-    let colorRgb = this.state.value
-    let colorHex = tinycolor(this.state.value).toString('hex')
+    const colorRgb = this.state.value
+    const colorHex = tinycolor(this.state.value).toString('hex')
     if (!this.checkColorInLists(colorRgb) && !this.checkColorInLists(colorHex) && this.state.valueChanged) {
-      let usedStack = Color.defaultProps.usedStack
+      const usedStack = Color.defaultProps.usedStack
       usedStack.pop()
       usedStack.unshift(this.state.value)
       window.localStorage.setItem('vcv-colorpicker-last-used-stack', JSON.stringify(usedStack))
@@ -142,15 +142,15 @@ class Color extends Attribute {
   }
 
   render () {
-    let { presetColors, options } = this.props
-    let usedStack = Color.defaultProps.usedStack
-    let disableAlpha = this.props.options.hasOwnProperty('disableAlpha') ? this.props.options.disableAlpha : false
-    let { value, displayColorPicker } = this.state
-    let color = tinycolor(value)
-    let colorStyle = {
+    const { presetColors, options } = this.props
+    const usedStack = Color.defaultProps.usedStack
+    const disableAlpha = this.props.options.hasOwnProperty('disableAlpha') ? this.props.options.disableAlpha : false
+    const { value, displayColorPicker } = this.state
+    const color = tinycolor(value)
+    const colorStyle = {
       background: _.isEmpty(value) ? null : color.toString('rgb')
     }
-    let swatchClasses = [ 'vcv-ui-form-dropdown-color-swatch' ]
+    let swatchClasses = ['vcv-ui-form-dropdown-color-swatch']
     if (_.isEmpty(value)) {
       colorStyle.background = null
       swatchClasses.push('vcv-ui-form-dropdown-color--no-color')
@@ -161,7 +161,7 @@ class Color extends Attribute {
     }
     swatchClasses = classNames(swatchClasses)
 
-    let selectorClasses = classNames({
+    const selectorClasses = classNames({
       'vcv-ui-form-dropdown': true,
       'vcv-ui-color-picker-dropdown': true,
       'vcv-ui-form-state--focus': this.state.displayColorPicker
@@ -201,8 +201,8 @@ class Color extends Attribute {
 }
 
 Color.defaultProps = {
-  usedStack: (window.localStorage && window.localStorage.getItem('vcv-colorpicker-last-used-stack') && JSON.parse(window.localStorage.getItem('vcv-colorpicker-last-used-stack'))) || [ 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)' ],
-  presetColors: [ Color.getEmptyColor(), '#fff', '#ededed', '#dadada', '#c6c6c6', '#555', '#3e3d3d', '#2f2f2f', '#212121', '#ff827b', '#ff3f3b', '#e11612', '#b82e24', '#f88749', '#f96c31', '#ec5418', '#bc4826', '#ffcd58', '#e7b460', '#cc8b4a', '#a78461', '#fff7a2', '#ffed47', '#ffde00', '#ffc000', '#c8db39', '#a8d228', '#8ac60a', '#579202', '#40c651', '#194', '#0a8136', '#056a39', '#4dd1ab', '#16b095', '#0c9c86', '#088382', '#4dc5cc', '#1da0c5', '#0b6e8f', '#0b556e', '#4d8fcc', '#1d64c5', '#0b4c8f', '#103c6a', '#6567df', '#484bc7', '#4530c2', '#263382', '#9461d3', '#9d41d1', '#841fbe', '#6c258a', '#d85bd3', '#cf33af', '#a12c87', '#811e6c', '#d46094', '#d6456e', '#c11a4a', '#911e37' ],
+  usedStack: (window.localStorage && window.localStorage.getItem('vcv-colorpicker-last-used-stack') && JSON.parse(window.localStorage.getItem('vcv-colorpicker-last-used-stack'))) || ['rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)', 'rgba(186, 218, 85, 0)'],
+  presetColors: [Color.getEmptyColor(), '#fff', '#ededed', '#dadada', '#c6c6c6', '#555', '#3e3d3d', '#2f2f2f', '#212121', '#ff827b', '#ff3f3b', '#e11612', '#b82e24', '#f88749', '#f96c31', '#ec5418', '#bc4826', '#ffcd58', '#e7b460', '#cc8b4a', '#a78461', '#fff7a2', '#ffed47', '#ffde00', '#ffc000', '#c8db39', '#a8d228', '#8ac60a', '#579202', '#40c651', '#194', '#0a8136', '#056a39', '#4dd1ab', '#16b095', '#0c9c86', '#088382', '#4dc5cc', '#1da0c5', '#0b6e8f', '#0b556e', '#4d8fcc', '#1d64c5', '#0b4c8f', '#103c6a', '#6567df', '#484bc7', '#4530c2', '#263382', '#9461d3', '#9d41d1', '#841fbe', '#6c258a', '#d85bd3', '#cf33af', '#a12c87', '#811e6c', '#d46094', '#d6456e', '#c11a4a', '#911e37'],
   options: {
     format: 'rgb'
   },

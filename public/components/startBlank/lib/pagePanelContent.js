@@ -9,7 +9,7 @@ const settingsStorage = vcCake.getStorage('settings')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-let pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+const pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
 
 export default class PagePanelContent extends React.Component {
   rowContainer = null
@@ -19,7 +19,7 @@ export default class PagePanelContent extends React.Component {
   constructor (props) {
     super(props)
 
-    let currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
+    const currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
     if (currentTemplate && currentTemplate.type && currentTemplate.value) {
       settingsStorage.state('pageTemplate').set(currentTemplate)
     }
@@ -80,11 +80,11 @@ export default class PagePanelContent extends React.Component {
    * @param fn
    */
   addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    const isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
     }
-    let obj = element.__resizeTrigger__ = document.createElement('iframe')
+    const obj = element.__resizeTrigger__ = document.createElement('iframe')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function (e) {
@@ -115,7 +115,7 @@ export default class PagePanelContent extends React.Component {
    */
   setControlData () {
     const controls = Array.prototype.slice.call(this.elementsContainer.children)
-    const controlStyle = window.getComputedStyle(controls[ 0 ])
+    const controlStyle = window.getComputedStyle(controls[0])
     const controlWidth = parseInt(controlStyle.width)
     const controlMargin = parseInt(controlStyle.marginLeft) + parseInt(controlStyle.marginRight)
     const controlFullWidth = controlWidth + controlMargin
@@ -126,23 +126,24 @@ export default class PagePanelContent extends React.Component {
   }
 
   getLayoutControls () {
-    let layouts = []
-    let inactiveIcons = Object.assign({}, LayoutIcons)
+    const layouts = []
+    const inactiveIcons = Object.assign({}, LayoutIcons)
 
     if (pageLayouts) {
-      let allowedTypes = [ 'vc', 'vc-theme' ]
+      const allowedTypes = ['vc', 'vc-theme']
       pageLayouts.forEach((templatesList, key) => {
         if (allowedTypes.indexOf(templatesList.type) >= 0) {
           templatesList.values.forEach((template, index) => {
-            let templateName = `${templatesList.type}__${template.value}`
-            let Icon = LayoutIcons[ templateName ] && LayoutIcons[ templateName ].icon.default
-            delete inactiveIcons[ templateName ]
+            const templateName = `${templatesList.type}__${template.value}`
+            const Icon = LayoutIcons[templateName] && LayoutIcons[templateName].icon.default
+            delete inactiveIcons[templateName]
             let active = false
             if (this.state.current.type === templatesList.type && this.state.current.value === template.value) {
               active = true
             }
             layouts.push(
-              <TemplatePreview key={`layout-${key}-${index}`}
+              <TemplatePreview
+                key={`layout-${key}-${index}`}
                 click={this.handleLayoutClick}
                 templatesList={templatesList}
                 templateValue={template.value}
@@ -159,7 +160,7 @@ export default class PagePanelContent extends React.Component {
 
     // get inactive controls
     for (const templateName of Object.keys(inactiveIcons)) {
-      let allowedTypes = [ 'vc', 'vc-theme' ]
+      const allowedTypes = ['vc', 'vc-theme']
       let allowed = false
 
       allowedTypes.forEach((allowedType) => {
@@ -170,28 +171,30 @@ export default class PagePanelContent extends React.Component {
 
       if (allowed) {
         layouts.push(
-          <TemplatePreview key={`layout-inactive-${templateName}`}
+          <TemplatePreview
+            key={`layout-inactive-${templateName}`}
             templateName={templateName}
-            icon={inactiveIcons[ templateName ].icon.default}
-            name={inactiveIcons[ templateName ].label}
+            icon={inactiveIcons[templateName].icon.default}
+            name={inactiveIcons[templateName].label}
             disabled={allowed}
           />
         )
       }
     }
 
-    let Icon = LayoutIcons[ 'theme-default' ] && LayoutIcons[ 'theme-default' ].icon.default
+    const Icon = LayoutIcons['theme-default'] && LayoutIcons['theme-default'].icon.default
     let active = false
     if (this.state.current.type === 'theme') {
       active = true
     }
     layouts.push(
-      <TemplatePreview key={`layout-theme-default`}
+      <TemplatePreview
+        key='layout-theme-default'
         click={this.handleLayoutClick}
         icon={Icon}
         blank
-        name={'Theme default'}
-        templateName={'theme-default'}
+        name='Theme default'
+        templateName='theme-default'
         active={active}
       />
     )
@@ -207,8 +210,8 @@ export default class PagePanelContent extends React.Component {
 
   handleLayoutClick (layoutType, layoutValue) {
     settingsStorage.state('skipBlank').set(true)
-    let activeLayout = settingsStorage.state('pageTemplate').get() || { type: 'vc', value: 'blank' }
-    let newLayout = {
+    const activeLayout = settingsStorage.state('pageTemplate').get() || { type: 'vc', value: 'blank' }
+    const newLayout = {
       type: layoutType,
       value: layoutValue,
       stretchedContent: false
@@ -265,7 +268,7 @@ export default class PagePanelContent extends React.Component {
     const addTemplatText = localizations ? localizations.addTemplate : 'Add Template'
     const descriptionText = localizations ? localizations.blankPageHelperText : 'Start by adding an element to your layout or select one of the pre-defined templates.'
     const placeholderText = localizations ? localizations.blankPageInputPlaceholderText : 'Page title'
-    let containerWidth = {}
+    const containerWidth = {}
     if (this.state && this.state.containerWidth) {
       containerWidth.width = `${this.state.containerWidth}px`
     }

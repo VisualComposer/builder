@@ -25,8 +25,8 @@ class RangeAttribute extends Attribute {
   }
 
   setFieldValue (val) {
-    let { value } = this.props
-    let { measurement } = this.props.options
+    const { value } = this.props
+    const { measurement } = this.props.options
     val = val.replace(measurement, '')
     val = val && val !== '-' ? parseInt(val) : val
     if (Number.isNaN(val)) {
@@ -42,7 +42,7 @@ class RangeAttribute extends Attribute {
 
   update () {
     clearInterval(this.updateInterval)
-    let currentCall = new Date()
+    const currentCall = new Date()
     if (currentCall - this.lastCall >= 300) {
       this.props.updater(this.props.fieldKey, this.state.value)
     } else {
@@ -52,23 +52,23 @@ class RangeAttribute extends Attribute {
   }
 
   handleBlur () {
-    let { value } = this.state
-    let { min } = this.props.options
+    const { value } = this.state
+    const { min } = this.props.options
     if (!value && value !== min) {
       this.setFieldValue(this.props.value)
     }
   }
 
   render () {
-    let { value } = this.state
-    let { min = 0, max = 100, measurement = '%' } = this.props.options
+    const { value } = this.state
+    const { min = 0, max = 100, measurement = '%' } = this.props.options
     let { placeholder } = this.props
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
     }
-    let parsedValue = parseInt(value)
-    let sliderValue = Number.isInteger(parsedValue) && parsedValue > min ? value : min
-    let width = `${(sliderValue - min) / (max - min) * 100}%`
+    const parsedValue = parseInt(value)
+    const sliderValue = Number.isInteger(parsedValue) && parsedValue > min ? value : min
+    const width = `${(sliderValue - min) / (max - min) * 100}%`
     return (
       <div className='vcv-ui-form-range'>
         <div className='vcv-ui-form-range-helper'>
@@ -80,7 +80,8 @@ class RangeAttribute extends Attribute {
             onChange={this.handleChange}
             min={min}
             max={max}
-            value={sliderValue} />
+            value={sliderValue}
+          />
         </div>
         <input
           className='vcv-ui-form-input vcv-ui-form-range-input'
@@ -90,7 +91,8 @@ class RangeAttribute extends Attribute {
           min={min}
           max={max}
           placeholder={placeholder}
-          value={`${value}${measurement}`} />
+          value={`${value}${measurement}`}
+        />
       </div>
     )
   }

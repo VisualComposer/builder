@@ -2,8 +2,8 @@ import vcCake from 'vc-cake'
 
 const ActionsManager = {
   do: (actionData, state, target, element) => {
-    let { action, options } = actionData
-    ActionsManager.actions[ action || 'ping' ].call(ActionsManager, state, target, options, element)
+    const { action, options } = actionData
+    ActionsManager.actions[action || 'ping'].call(ActionsManager, state, target, options, element)
   },
   actions: {
     ping: (state, target, options) => {
@@ -36,7 +36,7 @@ const ActionsManager = {
       target.refWrapperComponent.forceUpdate()
     },
     updateDependenciesClasses: (state, target, options, element) => {
-      let newStateClasses = (target.refWrapperComponent.state.dependenciesClasses || []).filter((item) => {
+      const newStateClasses = (target.refWrapperComponent.state.dependenciesClasses || []).filter((item) => {
         return item !== options.class
       })
       if (state) {
@@ -49,8 +49,8 @@ const ActionsManager = {
       ActionsManager.actions.attributeComponentMethod(state, target, options, element)
     },
     attributeComponentMethod: (state, target, options, element) => {
-      if (target.refAttributeComponent && target.refAttributeComponent[ options.method ]) {
-        target.refAttributeComponent[ options.method ](state, target, options, element)
+      if (target.refAttributeComponent && target.refAttributeComponent[options.method]) {
+        target.refAttributeComponent[options.method](state, target, options, element)
       }
     }
   }

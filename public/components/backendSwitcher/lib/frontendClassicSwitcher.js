@@ -11,12 +11,12 @@ export default class FrontendClassicSwitcher extends React.Component {
     }
 
     const beEditorInput = document.getElementById('vcv-be-editor')
-    let url = window.location.href
+    const url = window.location.href
     if (url.indexOf('classic-editor') !== -1) {
       beEditorInput.value = 'classic'
     }
     let editor = beEditorInput.value
-    if ((beEditorInput && [ 'classic', 'gutenberg' ].indexOf(editor) === -1) || (editor === 'gutenberg' && !gutenberg)) {
+    if ((beEditorInput && ['classic', 'gutenberg'].indexOf(editor) === -1) || (editor === 'gutenberg' && !gutenberg)) {
       editor = 'be'
       this.hideClassicEditor()
     }
@@ -94,14 +94,17 @@ export default class FrontendClassicSwitcher extends React.Component {
       </div>
     }
 
-    let output = <div className='vcv-wpbackend-switcher-wrapper'>
+    const output = <div className='vcv-wpbackend-switcher-wrapper'>
       <div className='vcv-wpbackend-switcher'>
         <button className='vcv-wpbackend-switcher-option vcv-wpbackend-switcher-option--vceditor' data-href={window.vcvFrontendEditorLink} onClick={this.openFrontendEditor} />
       </div>
       {editor !== 'classic' && this.wpb === false && !gutenberg && !this.props.isGutenbergEditor ? (() => {
         return <div className='vcv-wpbackend-switcher--type-classic'>
-          <button className='vcv-wpbackend-switcher-option'
-            onClick={this.enableClassicEditor}>{buttonClassictext}</button>
+          <button
+            className='vcv-wpbackend-switcher-option'
+            onClick={this.enableClassicEditor}
+          >{buttonClassictext}
+          </button>
         </div>
       })() : ''}
       {gutenbergButton}

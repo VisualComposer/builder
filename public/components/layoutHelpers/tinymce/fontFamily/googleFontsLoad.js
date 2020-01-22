@@ -11,7 +11,7 @@ const loadFonts = function (editor, family, loadFontsInTinymce = true) {
 
   webFontLoader.load({
     google: {
-      families: [ `${family}` ]
+      families: [`${family}`]
     },
     ...iframeSettings
   })
@@ -25,7 +25,7 @@ const loadFonts = function (editor, family, loadFontsInTinymce = true) {
 
     webFontLoader.load({
       google: {
-        families: [ `${family}` ]
+        families: [`${family}`]
       },
       ...iframeSettings
     })

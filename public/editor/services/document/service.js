@@ -15,12 +15,12 @@ const dataStore = {
       })
   },
   getLastOrderIndex: function (id) {
-    let lastObj = this.getChildren(id).last()
+    const lastObj = this.getChildren(id).last()
     return lastObj ? lastObj.get('order') + 1 : 0
   },
   moveDownAfter: function (id, step) {
-    let element = dataStore.data.get(id)
-    let keys = dataStore.data.valueSeq().filter((el) => {
+    const element = dataStore.data.get(id)
+    const keys = dataStore.data.valueSeq().filter((el) => {
       return el.get('id') !== element.get('id') &&
         el.get('parent') === element.get('parent') &&
         el.get('order') >= element.get('order')
@@ -38,7 +38,7 @@ const dataStore = {
 const api = {
   create: function (data, options = {}) {
     const id = data.id || createKey()
-    let objectData = {
+    const objectData = {
       id: id,
       parent: data.parent || false
     }
@@ -62,12 +62,12 @@ const api = {
     return deleted
   },
   update: function (id, data) {
-    let obj = dataStore.data.get(id).merge(data)
+    const obj = dataStore.data.get(id).merge(data)
     dataStore.data = dataStore.data.set(id, obj)
     return obj.toJS()
   },
   get: function (id) {
-    let item = dataStore.data.get(id)
+    const item = dataStore.data.get(id)
     return item ? item.toJS() : null
   },
   children: function (id) {
@@ -78,7 +78,7 @@ const api = {
     items.forEach(function (id) {
       let item = dataStore.data.get(id)
       if (item) {
-        let order = items.indexOf(item.get('id'))
+        const order = items.indexOf(item.get('id'))
         item = item.withMutations(function (map) {
           map
             .set('parent', parentId)
@@ -90,7 +90,7 @@ const api = {
   },
   moveBefore: function (id, beforeId) {
     let obj = dataStore.data.get(id)
-    let before = dataStore.data.get(beforeId)
+    const before = dataStore.data.get(beforeId)
     obj = obj.withMutations(function (map) {
       map
         .set('order', before.get('order'))
@@ -101,7 +101,7 @@ const api = {
   },
   moveAfter: function (id, afterId) {
     let obj = dataStore.data.get(id)
-    let after = dataStore.data.get(afterId)
+    const after = dataStore.data.get(afterId)
     obj = obj.withMutations(function (map) {
       map
         .set('order', after.get('order'))
@@ -112,7 +112,7 @@ const api = {
   },
   appendTo: function (id, parentId) {
     let obj = dataStore.data.get(id)
-    let parent = dataStore.data.get(parentId)
+    const parent = dataStore.data.get(parentId)
     obj = obj.withMutations(function (map) {
       map
         .set('order', dataStore.getLastOrderIndex(parentId))
@@ -121,12 +121,12 @@ const api = {
     dataStore.data = dataStore.data.set(obj.get('id'), obj)
   },
   clone: function (id, parent, unChangeOrder) {
-    let obj = dataStore.data.get(id)
+    const obj = dataStore.data.get(id)
     if (!obj) {
       return false
     }
-    let cloneId = createKey()
-    let clone = obj.withMutations(function (map) {
+    const cloneId = createKey()
+    const clone = obj.withMutations(function (map) {
       map.set('id', cloneId)
       if (typeof parent !== 'undefined') {
         map.set('parent', parent)
@@ -134,7 +134,7 @@ const api = {
     })
     dataStore.data = dataStore.data.set(cloneId, clone)
 
-    let cloneToJs = clone.toJS()
+    const cloneToJs = clone.toJS()
     if (cloneToJs.metaCustomId) {
       cloneToJs.metaCustomId = false
       this.update(cloneId, cloneToJs)
@@ -149,13 +149,13 @@ const api = {
     return clone.toJS()
   },
   copy: function (id) {
-    let children = []
-    let obj = dataStore.data.get(id)
+    const children = []
+    const obj = dataStore.data.get(id)
     if (!obj) {
       return false
     }
-    let cloneId = createKey()
-    let clone = obj.withMutations(function (map) {
+    const cloneId = createKey()
+    const clone = obj.withMutations(function (map) {
       map.set('id', cloneId)
       map.set('metaCustomId', '')
       map.set('parent', '')
@@ -186,7 +186,7 @@ const api = {
       .filter(callback).toJS()
   },
   getTopParent: function (id) {
-    let obj = this.get(id)
+    const obj = this.get(id)
     return obj && obj.parent ? this.getTopParent(obj.parent) : id
   }
 }

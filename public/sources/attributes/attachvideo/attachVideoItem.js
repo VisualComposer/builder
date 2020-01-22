@@ -20,7 +20,7 @@ class AttachImageItem extends React.Component {
 
   render () {
     let { childProps, className, ...rest } = this.props
-    let { fieldKey, url, icon, oneMoreControl, key } = childProps
+    const { fieldKey, url, icon, oneMoreControl, key } = childProps
     className = classNames(className, {
       'vcv-ui-form-attach-image-item': true,
       'vcv-ui-form-attach-image-item-has-link-value': this.props.childProps.url.url && this.props.childProps.url.url
@@ -34,8 +34,10 @@ class AttachImageItem extends React.Component {
           </figure>
           <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
             {oneMoreControl}
-            <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
-              onClick={this.handleRemove.bind(this, key)}>
+            <a
+              className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
+              onClick={this.handleRemove.bind(this, key)}
+            >
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </a>
           </div>

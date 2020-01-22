@@ -63,7 +63,7 @@ export default class ControlsManager {
     this.documentBody = options.documentBody
     this.editFormId = null
 
-    let systemData = {
+    const systemData = {
       iframeContainer: this.iframeContainer,
       iframeOverlay: this.iframeOverlay,
       iframeWrapper: this.iframeWrapper,
@@ -142,8 +142,8 @@ export default class ControlsManager {
     if ((e.target !== this.state.prevTarget) || !layoutStorage.state('interactWithContent').get()) {
       this.state.prevTarget = e.target
       // get all vcv elements
-      let path = this.getPath(e)
-      let elPath = []
+      const path = this.getPath(e)
+      const elPath = []
       path.forEach((el) => {
         if (el.hasAttribute && (el.hasAttribute('data-vcv-element') || el.hasAttribute('data-vcv-linked-element'))) {
           elPath.push(el)
@@ -151,12 +151,12 @@ export default class ControlsManager {
       })
       let element = null
       if (elPath.length) {
-        element = elPath[ 0 ] // first element in path always hovered element
+        element = elPath[0] // first element in path always hovered element
       }
       // replace linked element with real element
       if (element && element.dataset.hasOwnProperty('vcvLinkedElement')) {
         element = this.iframeDocument.querySelector(`[data-vcv-element="${element.dataset.vcvLinkedElement}"]`)
-        elPath[ 0 ] = element
+        elPath[0] = element
       }
       if (this.state.prevElement !== element) {
         // unset prev element
@@ -208,7 +208,7 @@ export default class ControlsManager {
     if (e.path) {
       return e.path
     }
-    let path = []
+    const path = []
     let node = e.target
 
     while (node) {
@@ -235,7 +235,7 @@ export default class ControlsManager {
    * Initialize
    */
   init (options = {}) {
-    let defaultOptions = {
+    const defaultOptions = {
       iframeUsed: true,
       ...this.getDOMNodes()
     }
@@ -286,7 +286,7 @@ export default class ControlsManager {
 
     layoutStorage.state('interactWithControls').onChange((data) => {
       if (data && data.type === 'mouseEnter') {
-        let contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+        const contentElement = this.iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
         if (contentElement) {
           this.outline.show(contentElement, data.vcElementId)
         }
@@ -361,11 +361,11 @@ export default class ControlsManager {
         }
 
         if (this.state.showControls) {
-          let element = documentManager.get(data.vcElementId)
-          let cookElement = cook.get(element)
-          let attribute = cookElement.filter(a => cookElement.settings(a).settings && cookElement.settings(a).settings.type === 'htmleditor')
+          const element = documentManager.get(data.vcElementId)
+          const cookElement = cook.get(element)
+          const attribute = cookElement.filter(a => cookElement.settings(a).settings && cookElement.settings(a).settings.type === 'htmleditor')
           if (attribute) {
-            let options = cookElement.settings(attribute).settings && cookElement.settings(attribute).settings.options
+            const options = cookElement.settings(attribute).settings && cookElement.settings(attribute).settings.options
             if (options && options.inline) {
               data.elementInlineEdit = true
             }
@@ -388,7 +388,7 @@ export default class ControlsManager {
   interactWithTree () {
     workspaceStorage.state('userInteractWith').onChange((id = false) => {
       if (id && this.state.showOutline) {
-        let element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
+        const element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
         if (element) {
           this.outline.show(element, id)
         }
@@ -422,14 +422,14 @@ export default class ControlsManager {
     const documentService = vcCake.getService('document')
     let elementsToShow = []
     data.vcElementsPath.forEach((id) => {
-      let documentElement = documentService.get(id)
+      const documentElement = documentService.get(id)
       if (documentElement.tag === 'column') {
-        let children = documentService.children(documentElement.parent)
+        const children = documentService.children(documentElement.parent)
         children.forEach((child) => {
           elementsToShow.push(child.id)
         })
       } else if (documentElement.tag === 'row') {
-        let children = documentService.children(documentElement.id)
+        const children = documentService.children(documentElement.id)
         elementsToShow.push(documentElement.id)
         children.forEach((child) => {
           elementsToShow.push(child.id)
@@ -439,7 +439,7 @@ export default class ControlsManager {
       }
     })
     elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+      const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
       return this.iframeDocument.querySelector(selector)
     })
     elementsToShow = elementsToShow.filter((el) => {
@@ -454,12 +454,12 @@ export default class ControlsManager {
   showChildrenFrames (parentId) {
     const documentService = vcCake.getService('document')
     let elementsToShow = []
-    let children = documentService.children(parentId)
+    const children = documentService.children(parentId)
     children.forEach((child) => {
       elementsToShow.push(child.id)
     })
     elementsToShow = elementsToShow.map((id) => {
-      let selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
+      const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
       return this.iframeDocument.querySelector(selector)
     })
     elementsToShow = elementsToShow.filter((el) => {
@@ -483,7 +483,7 @@ export default class ControlsManager {
    */
   showFramesOnOneElement (id) {
     const selector = `[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`
-    let elementsToShow = []
+    const elementsToShow = []
     elementsToShow.push(this.iframeDocument.querySelector(selector))
     this.frames.show({ path: elementsToShow })
   }
@@ -525,7 +525,7 @@ export default class ControlsManager {
    * Show frames if mouse is out of iframe and edit form for row is opened
    */
   handleFrameContainerLeave () {
-    let data = workspaceStorage.state('settings').get()
+    const data = workspaceStorage.state('settings').get()
     // TODO: Check accessPoint?
     if (data && data.element) {
       if (data.element.tag === 'row') {

@@ -51,8 +51,8 @@ export default class Element extends React.Component {
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
-    let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      let elements = [ <Element element={childElement} key={childElement.id} api={this.props.api} /> ]
+    const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
+      const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         elements.push(
           <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id} api={this.props.api} />
@@ -70,44 +70,46 @@ export default class Element extends React.Component {
   }
 
   visualizeAttributes (element) {
-    let layoutAtts = {}
-    let atts = element.getAll(false)
+    const layoutAtts = {}
+    const atts = element.getAll(false)
     Object.keys(atts).forEach((key) => {
-      let attrSettings = element.settings(key)
+      const attrSettings = element.settings(key)
       if (attrSettings.settings.options && attrSettings.settings.options.inline === true) {
-        layoutAtts[ key ] =
+        layoutAtts[key] =
           <ContentEditableComponent id={atts.id} fieldKey={key} fieldType={attrSettings.type.name} api={this.props.api} options={attrSettings.settings.options}>
-            {atts[ key ] || ''}
+            {atts[key] || ''}
           </ContentEditableComponent>
       } else {
-        layoutAtts[ key ] = atts[ key ]
+        layoutAtts[key] = atts[key]
       }
     })
     return layoutAtts
   }
 
   render () {
-    let el = cook.get(this.state.element)
+    const el = cook.get(this.state.element)
     if (!el) {
       return null
     }
     if (this.state.element && this.state.element.hidden) {
       return null
     }
-    let id = el.get('id')
-    let ContentComponent = el.getContentComponent()
+    const id = el.get('id')
+    const ContentComponent = el.getContentComponent()
     if (!ContentComponent) {
       return null
     }
-    let editor = {
+    const editor = {
       'data-vcv-element': id
     }
     if (el.get('metaDisableInteractionInEditor')) {
-      editor[ 'data-vcv-element-disable-interaction' ] = true
+      editor['data-vcv-element-disable-interaction'] = true
     }
-    return <ContentComponent id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
+    return <ContentComponent
+      id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
       api={this.props.api}
-      editor={editor}>
+      editor={editor}
+    >
       {this.getContent()}
     </ContentComponent>
   }

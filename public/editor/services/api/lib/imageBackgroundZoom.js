@@ -11,7 +11,7 @@ export default class ImageBackgroundZoom extends React.Component {
   }
 
   getPublicImage (filename) {
-    let { metaAssetsPath } = this.props.atts
+    const { metaAssetsPath } = this.props.atts
     return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
   }
 
@@ -19,53 +19,53 @@ export default class ImageBackgroundZoom extends React.Component {
     const { reactKey, deviceKey, deviceData, images } = this.props
     const { backgroundPosition, backgroundZoom, backgroundZoomSpeed, backgroundZoomReverse } = deviceData
     if (images) {
-      let imagesJSX = []
+      const imagesJSX = []
       if (images.urls && images.urls.length) {
         images.urls.forEach((imgData, index) => {
-          let styles = {
+          const styles = {
             backgroundImage: `url(${imgData.full})`
           }
           let customKey = imgData.id
           if (!imgData.id) {
             customKey = `${imgData.full}-${index}`
           }
-          let imgKey = `${reactKey}-${customKey}`
+          const imgKey = `${reactKey}-${customKey}`
           imagesJSX.push((
             <div className='vce-asset-background-zoom-item' style={styles} key={imgKey} />
           ))
         })
       } else if (images.length) {
         images.forEach((imgData, index) => {
-          let styles = {
+          const styles = {
             backgroundImage: `url(${this.getPublicImage(imgData)})`
           }
-          let imgKey = `${reactKey}-${imgData}-${index}`
+          const imgKey = `${reactKey}-${imgData}-${index}`
           imagesJSX.push((
             <div className='vce-asset-background-zoom-item' style={styles} key={imgKey} />
           ))
         })
       }
-      let containerClasses = [
-        `vce-asset-background-zoom-container`,
+      const containerClasses = [
+        'vce-asset-background-zoom-container',
         `vce-visible-${deviceKey}-only`
       ]
       if (backgroundPosition) {
         containerClasses.push(`vce-asset-background-zoom--position-${backgroundPosition}`)
       }
-      let backgroundZoomClasses = classNames([
-        `vce-asset-background-zoom`
+      const backgroundZoomClasses = classNames([
+        'vce-asset-background-zoom'
       ])
-      let zoomScale = 1 + (backgroundZoom / 100)
-      let zoomImageScale = backgroundZoomReverse ? zoomScale : (1 / zoomScale)
-      let backgroundZoomContainerStyles = backgroundZoomReverse ? {} : {
+      const zoomScale = 1 + (backgroundZoom / 100)
+      const zoomImageScale = backgroundZoomReverse ? zoomScale : (1 / zoomScale)
+      const backgroundZoomContainerStyles = backgroundZoomReverse ? {} : {
         transform: `scale(${zoomScale})`
       }
-      let zoomProps = {
+      const zoomProps = {
         'data-vce-assets-zoom': backgroundZoomReverse ? 'in' : 'out',
         'data-vce-assets-zoom-scale': zoomImageScale,
         'data-vce-assets-zoom-duration': backgroundZoomSpeed
       }
-      let vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
+      const vcvHelperHTML = ReactDOMServer.renderToStaticMarkup(
         <div className={classNames(containerClasses)}>
           <div className='vce-asset-background-zoom--scale-helper' style={backgroundZoomContainerStyles}>
             <div className={backgroundZoomClasses} {...zoomProps}>

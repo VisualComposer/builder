@@ -1,5 +1,5 @@
 export default (data, key, settings) => {
-  const value = data[ key ]
+  const value = data[key]
   const fieldValue = settings.value
   const isCSSMixin = settings.options && settings.options.cssMixin
   const isValueObject = value && typeof value === 'object' && value.constructor === Object

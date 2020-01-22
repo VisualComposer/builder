@@ -159,8 +159,8 @@ export default class CssBuilder {
   }
 
   addElementJobsToStorage (data, status) {
-    let { id } = data
-    let storageElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
+    const { id } = data
+    const storageElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
     let element
     if (storageElements.length) {
       element = storageElements.find(element => element.id === id)
@@ -168,8 +168,8 @@ export default class CssBuilder {
     if (element) {
       element.jobs = status
     } else {
-      let cookElement = cook.get(data)
-      let element = {
+      const cookElement = cook.get(data)
+      const element = {
         jobs: status,
         id: id,
         hidden: cookElement.get('hidden')
@@ -195,44 +195,44 @@ export default class CssBuilder {
     const mixinsStylesDom = this.window.document.getElementById('vcv-element-css-styles--mixins')
     elementTags.forEach((tag) => {
       if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
-        let baseStyleElement = this.window.document.createElement('style')
+        const baseStyleElement = this.window.document.createElement('style')
         baseStyleElement.id = `vcv-base-css-styles-${tag}`
         this.window.document.body.insertBefore(baseStyleElement, baseStylesDom)
       }
       if (!this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)) {
-        let editorStyleElement = this.window.document.createElement('style')
+        const editorStyleElement = this.window.document.createElement('style')
         editorStyleElement.id = `vcv-css-editor-styles-${tag}`
         this.window.document.body.insertBefore(editorStyleElement, editorStylesDom)
       }
     })
 
     if (!this.window.document.getElementById(`vcv-css-styles-${id}`)) {
-      let styleElement = this.window.document.createElement('style')
+      const styleElement = this.window.document.createElement('style')
       styleElement.id = `vcv-css-styles-${id}`
       this.window.document.body.insertBefore(styleElement, mixinsStylesDom)
     }
     if (!this.window.document.getElementById(`vcv-do-styles-${id}`)) {
-      let doStyleElement = this.window.document.createElement('style')
+      const doStyleElement = this.window.document.createElement('style')
       doStyleElement.id = `vcv-do-styles-${id}`
       this.window.document.body.insertBefore(doStyleElement, mixinsStylesDom)
     }
 
     // Inner element css-styles and do
-    let elementObject = cook.get(data)
-    let settings = elementObject.get('settings')
-    for (let key in settings) {
+    const elementObject = cook.get(data)
+    const settings = elementObject.get('settings')
+    for (const key in settings) {
       // If found element than get actual tags form element
-      if (settings[ key ].type === 'element') {
+      if (settings[key].type === 'element') {
         // we can get globalAttributesCssMixins for inner element
-        let innerData = elementObject.get(key)
-        let checksum = this.checksum(JSON.stringify(innerData))
+        const innerData = elementObject.get(key)
+        const checksum = this.checksum(JSON.stringify(innerData))
         if (!this.window.document.getElementById(`vcv-css-styles-${id}-${checksum}`)) {
-          let innerCssStyleElement = this.window.document.createElement('style')
+          const innerCssStyleElement = this.window.document.createElement('style')
           innerCssStyleElement.id = `vcv-css-styles-${id}-${checksum}`
           this.window.document.body.insertBefore(innerCssStyleElement, mixinsStylesDom)
         }
         if (!this.window.document.getElementById(`vcv-do-styles-${id}-${checksum}`)) {
-          let innerDoStyleElement = this.window.document.createElement('style')
+          const innerDoStyleElement = this.window.document.createElement('style')
           innerDoStyleElement.id = `vcv-do-styles-${id}-${checksum}`
           this.window.document.body.insertBefore(innerDoStyleElement, mixinsStylesDom)
         }
@@ -245,14 +245,14 @@ export default class CssBuilder {
       this.loadedCssFiles = []
       this.loadedJsFiles = []
     }
-    let cookElement = cook.get(data)
-    let elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByElement(cookElement)
+    const cookElement = cook.get(data)
+    const elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByElement(cookElement)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
-      let slug = this.slugify(file)
+      const slug = this.slugify(file)
       if (this.loadedCssFiles.indexOf(slug) === -1) {
         this.loadedCssFiles.push(slug)
-        let cssLink = doc.createElement('link')
+        const cssLink = doc.createElement('link')
         cssLink.setAttribute('rel', 'stylesheet')
         cssLink.setAttribute('href', file)
         doc.head.appendChild(cssLink)
@@ -261,10 +261,10 @@ export default class CssBuilder {
 
     elementAssetsFiles.jsBundles.forEach(
       (file) => {
-        let slug = this.slugify(file)
+        const slug = this.slugify(file)
         if (this.loadedJsFiles.indexOf(slug) === -1) {
           this.loadedJsFiles.push(slug)
-          let scriptPromise = new Promise(
+          const scriptPromise = new Promise(
             (resolve, reject) => {
               this.window.jQuery.getScript(file).done(
                 () => {
@@ -287,10 +287,10 @@ export default class CssBuilder {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedEditorStylesTagList.indexOf(tag) === -1) {
-        let elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
+        const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
         if (elementEditorCss.length) {
           this.addedEditorStylesTagList.push(tag)
-          let styles = this.stylesManager.create()
+          const styles = this.stylesManager.create()
           styles.add(elementEditorCss)
           this.addJob(styles.compile().then((result) => {
             const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
@@ -310,7 +310,7 @@ export default class CssBuilder {
    */
   checksum (s) {
     let chk = 0x12345678
-    let len = s.length
+    const len = s.length
     for (let i = 0; i < len; i++) {
       chk += (s.charCodeAt(i) * (i + 1))
     }
@@ -319,11 +319,11 @@ export default class CssBuilder {
   }
 
   addElementLocalAttributesCssMixins (data) {
-    let styles = this.stylesManager.create()
-    let localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
+    const styles = this.stylesManager.create()
+    const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
     styles.add(localElementStyles)
 
-    let attributesStylesPromise = styles.compile().then((result) => {
+    const attributesStylesPromise = styles.compile().then((result) => {
       const style = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
       if (style) {
         style.innerHTML = result
@@ -331,18 +331,18 @@ export default class CssBuilder {
     })
     this.addJob(attributesStylesPromise)
 
-    let elementObject = cook.get(data)
-    let settings = elementObject.get('settings')
-    for (let key in settings) {
+    const elementObject = cook.get(data)
+    const settings = elementObject.get('settings')
+    for (const key in settings) {
       // If found element than get actual tags form element
-      if (settings[ key ].type === 'element') {
+      if (settings[key].type === 'element') {
         // we can get localCss for inner element
-        let innerData = elementObject.get(key)
-        let checksum = this.checksum(JSON.stringify(innerData))
-        let innerElementLocalAttributesCssMixins = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(innerData)
-        let innerStyles = this.stylesManager.create()
+        const innerData = elementObject.get(key)
+        const checksum = this.checksum(JSON.stringify(innerData))
+        const innerElementLocalAttributesCssMixins = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(innerData)
+        const innerStyles = this.stylesManager.create()
         innerStyles.add(innerElementLocalAttributesCssMixins)
-        let innerStylesPromise = innerStyles.compile().then((result) => {
+        const innerStylesPromise = innerStyles.compile().then((result) => {
           const style = this.window.document.getElementById(`vcv-css-styles-${data.id}-${checksum}`)
           if (style) {
             style.innerHTML = result
@@ -362,12 +362,12 @@ export default class CssBuilder {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedBaseStylesTagList.indexOf(tag) === -1) {
-        let elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
+        const elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
         if (elementCssBase.length) {
           this.addedBaseStylesTagList.push(tag)
-          let styles = this.stylesManager.create()
+          const styles = this.stylesManager.create()
           styles.add(elementCssBase)
-          let css = styles.compile().then((result) => {
+          const css = styles.compile().then((result) => {
             const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
             if (style) {
               style.innerHTML = result
@@ -380,11 +380,11 @@ export default class CssBuilder {
   }
 
   addElementGlobalAttributesCssMixins (data) {
-    let styles = this.stylesManager.create()
-    let elementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(data)
+    const styles = this.stylesManager.create()
+    const elementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(data)
 
     styles.add(elementGlobalAttributesCssMixins)
-    let stylesPromise = styles.compile().then((result) => {
+    const stylesPromise = styles.compile().then((result) => {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
         style.innerHTML = result
@@ -392,18 +392,18 @@ export default class CssBuilder {
     })
     this.addJob(stylesPromise)
 
-    let elementObject = cook.get(data)
-    let settings = elementObject.get('settings')
-    for (let key in settings) {
+    const elementObject = cook.get(data)
+    const settings = elementObject.get('settings')
+    for (const key in settings) {
       // If found element than get actual tags form element
-      if (settings[ key ].type === 'element') {
+      if (settings[key].type === 'element') {
         // we can get globalAttributesCssMixins for inner element
-        let innerData = elementObject.get(key)
-        let checksum = this.checksum(JSON.stringify(innerData))
-        let innerElementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(innerData)
-        let innerStyles = this.stylesManager.create()
+        const innerData = elementObject.get(key)
+        const checksum = this.checksum(JSON.stringify(innerData))
+        const innerElementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(innerData)
+        const innerStyles = this.stylesManager.create()
         innerStyles.add(innerElementGlobalAttributesCssMixins)
-        let innerStylesPromise = innerStyles.compile().then((result) => {
+        const innerStylesPromise = innerStyles.compile().then((result) => {
           const style = this.window.document.getElementById(`vcv-do-styles-${data.id}-${checksum}`)
           if (style) {
             style.innerHTML = result
@@ -420,7 +420,7 @@ export default class CssBuilder {
   }
 
   buildStylesContainers () {
-    const ids = [ 'vcv-settings-css-styles', 'vcv-element-css-styles--base', 'vcv-element-css-styles--editor', 'vcv-element-css-styles--mixins' ]
+    const ids = ['vcv-settings-css-styles', 'vcv-element-css-styles--base', 'vcv-element-css-styles--editor', 'vcv-element-css-styles--mixins']
     ids.forEach(id => {
       const container = this.window.document.getElementById(id)
       if (container) {
@@ -431,7 +431,7 @@ export default class CssBuilder {
       this.window.document.body.appendChild(styleElement)
     })
 
-    return ids[ 0 ]
+    return ids[0]
   }
 
   updateSettingsStyles (cssStyles) {

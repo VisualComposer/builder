@@ -59,12 +59,12 @@ export default class HtmlEditorWrapper extends Attribute {
     const exceptionField = this.getExceptionField(value, this.props.fieldType)
 
     // Current value needed for .before/.after get, must be not encoded
-    let dynamicValue = this.state.value
-    let blockInfo = parseDynamicBlock(dynamicValue)
+    const dynamicValue = this.state.value
+    const blockInfo = parseDynamicBlock(dynamicValue)
 
     if (blockInfo) {
-      let before = blockInfo.beforeBlock || '<p>'
-      let after = blockInfo.afterBlock || '</p>'
+      const before = blockInfo.beforeBlock || '<p>'
+      const after = blockInfo.afterBlock || '</p>'
       value = before + value + after
     } else {
       value = `<p>${value}</p>`
@@ -90,13 +90,13 @@ export default class HtmlEditorWrapper extends Attribute {
     let isExceptionField = false
     const blockInfo = value && value.split(blockRegexp)
     if (blockInfo.length > 1) {
-      const blockAtts = JSON.parse(blockInfo[ 4 ].trim())
+      const blockAtts = JSON.parse(blockInfo[4].trim())
       const fieldValue = blockAtts.value
       const isVendorValue = fieldValue.includes(':') && fieldValue.split(':')
       const postFields = settingsStorage.state('postFields').get()
-      if (isVendorValue && postFields && postFields[ fieldType ]) {
-        const vendorName = isVendorValue[ 0 ]
-        const vendorGroup = postFields[ fieldType ][ vendorName ]
+      if (isVendorValue && postFields && postFields[fieldType]) {
+        const vendorName = isVendorValue[0]
+        const vendorGroup = postFields[fieldType][vendorName]
         if (vendorGroup && vendorGroup.group && vendorGroup.group.values) {
           const vendorValues = vendorGroup.group.values
           const currentValue = vendorValues.find(item => item.value === fieldValue)

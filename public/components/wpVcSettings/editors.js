@@ -28,7 +28,7 @@ export const initEditors = () => {
     })
   }
 
-  let build = (css) => {
+  const build = (css) => {
     const stylesManagerService = getService('stylesManager')
     const stylesBuilder = stylesManagerService.create()
     stylesBuilder.add({

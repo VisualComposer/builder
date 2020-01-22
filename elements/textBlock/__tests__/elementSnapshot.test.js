@@ -9,7 +9,7 @@ it('renders correctly', () => {
   const text = 'Hello jest <b>from</b> react'
 
   const tree = renderer
-    .create(<TextBlockElement atts={{ output: text }} id={'123456789'} />)
+    .create(<TextBlockElement atts={{ output: text }} id='123456789' />)
     .toJSON()
   expect(tree).toMatchSnapshot()
 })

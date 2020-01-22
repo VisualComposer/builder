@@ -149,7 +149,7 @@ export default class DndDataSet {
   }
 
   option (name, value) {
-    this.options[ name ] = value
+    this.options[name] = value
   }
 
   init () {
@@ -189,7 +189,7 @@ export default class DndDataSet {
         containerFor: this.options.rootContainerFor
       })
     }
-    let element = cook.get(documentManager.get(id))
+    const element = cook.get(documentManager.get(id))
     if (!element) { return null }
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
@@ -249,7 +249,7 @@ export default class DndDataSet {
   }
 
   findElementWithValidParent (domElement) {
-    let parentElement = domElement.parent() ? this.getDomElementParent(domElement.parent()) : null
+    const parentElement = domElement.parent() ? this.getDomElementParent(domElement.parent()) : null
     if (parentElement && this.draggingElement.isChild(parentElement)) {
       return domElement
     } else if (parentElement) {
@@ -285,12 +285,12 @@ export default class DndDataSet {
   }
 
   checkTrashBin ({ x, y, left = 0, top = 0 }) {
-    let iframeParent = this.options && this.options.container && this.options.container.parentNode ? this.options.container.parentNode : null
+    const iframeParent = this.options && this.options.container && this.options.container.parentNode ? this.options.container.parentNode : null
     if (iframeParent) {
       x += iframeParent.offsetLeft
       y += iframeParent.offsetTop
     }
-    let domNode = document.elementFromPoint(x - left, y - top)
+    const domNode = document.elementFromPoint(x - left, y - top)
     if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
       return window.jQuery(domNode).get(0)
     }
@@ -308,9 +308,9 @@ export default class DndDataSet {
   }
 
   checkItems (point) {
-    let trashBin = this.checkTrashBin(point)
-    let blankRow = this.checkBlankRow(point)
-    let hfs = this.checkHFS(point)
+    const trashBin = this.checkTrashBin(point)
+    const blankRow = this.checkBlankRow(point)
+    const hfs = this.checkHFS(point)
 
     if (trashBin) {
       this.trash && this.trash.setActive()
@@ -321,7 +321,7 @@ export default class DndDataSet {
       this.removeHFSActive()
       this.removeMouseOverStartBlank()
     } else if (blankRow) {
-      let position = this.placeholder && this.placeholder.redraw(blankRow, point)
+      const position = this.placeholder && this.placeholder.redraw(blankRow, point)
       if (position) {
         this.setPosition(position)
       }
@@ -372,7 +372,7 @@ export default class DndDataSet {
         }
       }
 
-      let position = this.placeholder.redraw(domElement.node, point, {
+      const position = this.placeholder.redraw(domElement.node, point, {
         attribute: this.options.isAttribute,
         afterLastContainerElement,
         allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
@@ -472,10 +472,10 @@ export default class DndDataSet {
   }
 
   createDraggingElementFromTag (tag, domNode) {
-    let element = cook.get({ tag: tag })
+    const element = cook.get({ tag: tag })
     if (!element) { return }
-    let containerFor = element.get('containerFor')
-    let relatedTo = element.get('relatedTo')
+    const containerFor = element.get('containerFor')
+    const relatedTo = element.get('relatedTo')
     return new DOMElement('dropElement', domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value.concat(['RootElements']) : null,
@@ -487,8 +487,8 @@ export default class DndDataSet {
   }
 
   end () {
-    let dragEndedAt = (new Date()).getTime()
-    let dragStartedAt = this.dragStartedAt
+    const dragEndedAt = (new Date()).getTime()
+    const dragStartedAt = this.dragStartedAt
     this.dragStartedAt = null
     // Remove helper
     this.helper && this.helper.remove()
@@ -551,12 +551,12 @@ export default class DndDataSet {
   }
 
   scrollManually (point) {
-    let body = this.options.isIframe ? this.options.window : this.options.document.body
-    let clientHeight = this.options.document.documentElement.clientHeight
+    const body = this.options.isIframe ? this.options.window : this.options.document.body
+    const clientHeight = this.options.document.documentElement.clientHeight
     let top = null
-    let speed = 30
-    let gap = 10
-    let bodyTop = this.options.isIframe ? body.scrollY : body.scrollTop
+    const speed = 30
+    const gap = 10
+    const bodyTop = this.options.isIframe ? body.scrollY : body.scrollTop
     if (clientHeight - gap <= point.y - point.top) {
       top = bodyTop + speed
     } else if (point.y - point.top <= gap && bodyTop >= speed) {
@@ -617,11 +617,11 @@ export default class DndDataSet {
       this.handleDragEnd()
       return false
     }
-    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
-    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
-    if (e.touches && e.touches[ 0 ] && this.dragStartHandled) {
+    const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
+    const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
+    if (e.touches && e.touches[0] && this.dragStartHandled) {
       e.preventDefault()
-      e.touches[ 0 ].clientX !== undefined && e.touches[ 0 ].clientY !== undefined && this.check({ x: e.touches[ 0 ].clientX - offsetX, y: e.touches[ 0 ].clientY - offsetY, left: scrollX, top: scrollY })
+      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({ x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY })
     } else {
       e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY })
     }
@@ -649,12 +649,12 @@ export default class DndDataSet {
     if (e.which > 1) {
       return
     }
-    let scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
-    let scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
-    let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[ 0 ]) {
+    const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
+    const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
+    const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+    if (e.touches && e.touches[0]) {
       e.preventDefault()
-      this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     } else {
       this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     }
@@ -670,12 +670,12 @@ export default class DndDataSet {
     if (e.which > 1) {
       return
     }
-    let id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[ 0 ]) {
+    const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+    if (e.touches && e.touches[0]) {
       this.startDragTimeout = setTimeout(() => {
         this.startDragTimeout = null
         e.preventDefault()
-        this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY }, null, this.findDOMNode({ x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY }))
+        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY }, null, this.findDOMNode({ x: e.touches[0].clientX, y: e.touches[0].clientY }))
       }, 450)
     }
   }

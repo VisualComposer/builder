@@ -32,7 +32,7 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
     let shortcodeClasses = 'vce-shortcode'
     const wrapperClasses = 'vce-shortcode-wrapper vce'
 
-    let customProps = {}
+    const customProps = {}
     if (typeof customClass === 'string' && customClass) {
       shortcodeClasses = shortcodeClasses.concat(' ' + customClass)
     }

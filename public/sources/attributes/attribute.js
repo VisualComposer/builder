@@ -39,7 +39,7 @@ export default class Attribute extends React.Component {
   }
 
   setFieldValue (value) {
-    let { updater, fieldKey, fieldType } = this.props
+    const { updater, fieldKey, fieldType } = this.props
     this.setState({ value: value })
     window.setTimeout(() => {
       updater(fieldKey, value, null, fieldType)
@@ -83,16 +83,16 @@ export default class Attribute extends React.Component {
   }
 
   devicesChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
+    const newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property
-      newState.devices.all = lodash.defaultsDeep({}, newState.devices[ this.getCustomDevicesKeys().shift() ])
+      newState.devices.all = lodash.defaultsDeep({}, newState.devices[this.getCustomDevicesKeys().shift()])
       delete newState.devices.all.display
     } else if (this.state.currentDevice === 'all') {
       // clone data to custom devices from all
       this.getCustomDevicesKeys().forEach((device) => {
-        newState.devices[ device ] = lodash.defaultsDeep({}, newState.devices.all)
+        newState.devices[device] = lodash.defaultsDeep({}, newState.devices.all)
       })
     }
 
@@ -101,9 +101,9 @@ export default class Attribute extends React.Component {
 
   parseValue (value, defaultState, deviceDefaults) {
     // set default values
-    let newState = lodash.defaultsDeep({}, defaultState)
+    const newState = lodash.defaultsDeep({}, defaultState)
     // get devices data
-    let devices = this.getCustomDevicesKeys()
+    const devices = this.getCustomDevicesKeys()
     // set current device
     if (!lodash.isEmpty(value.device)) {
       newState.currentDevice = Object.keys(value.device).shift()
@@ -111,9 +111,9 @@ export default class Attribute extends React.Component {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = lodash.defaultsDeep({}, deviceDefaults)
-      if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
+      newState.devices[device] = lodash.defaultsDeep({}, deviceDefaults)
+      if (value.device && value.device[device]) {
+        newState.devices[device] = lodash.defaultsDeep({}, value.device[device], newState.devices[device])
       }
     })
 
@@ -128,8 +128,8 @@ export default class Attribute extends React.Component {
       id: this.props.elementAccessPoint.id
     }
     storage.trigger('fieldOptionsChange', options)
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
   }
 

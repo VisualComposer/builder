@@ -8,6 +8,7 @@ export default class TeaserDropdown extends React.Component {
     setFilterType: PropTypes.func.isRequired,
     bundleType: PropTypes.string
   }
+
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
   constructor (props) {
@@ -18,12 +19,12 @@ export default class TeaserDropdown extends React.Component {
   }
 
   createGroup (bundleTypes, type, index, title) {
-    let optionElements = []
+    const optionElements = []
 
     optionElements.push(this.createOptions(type, index, `All ${title}`))
 
     bundleTypes.forEach((bundleType) => {
-      let subName = TeaserDropdown.localizations[ bundleType ]
+      let subName = TeaserDropdown.localizations[bundleType]
 
       if (!subName && bundleType === 'free') {
         subName = 'Free'
@@ -46,7 +47,7 @@ export default class TeaserDropdown extends React.Component {
 
   getSelectOptions () {
     const { categories } = this.props
-    let controls = Object.values(categories)
+    const controls = Object.values(categories)
 
     return controls.map((control) => {
       const { type, title, bundleTypes } = control
@@ -67,12 +68,12 @@ export default class TeaserDropdown extends React.Component {
   handleDropdownChange (event) {
     const value = event.target.value
     const splitValue = value.split('_')
-    this.props.setFilterType(splitValue[ 0 ], splitValue[ 1 ], splitValue[ 2 ])
+    this.props.setFilterType(splitValue[0], splitValue[1], splitValue[2])
   }
 
   render () {
     const { categories, filterType, bundleType } = this.props
-    const activeCategory = categories[ filterType ]
+    const activeCategory = categories[filterType]
     const { subIndex, index, type } = activeCategory
     const newIndex = subIndex !== undefined ? `${index}-${subIndex}` : index
     const value = bundleType ? `${type}_${newIndex}_${bundleType}` : `${type}_${newIndex}`

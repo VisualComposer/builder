@@ -40,8 +40,8 @@ export default class EditFormHeader extends React.Component {
 
   updateElementOnChange () {
     const { elementAccessPoint } = this.props
-    let cookElement = elementAccessPoint.cook()
-    let content = cookElement.getName()
+    const cookElement = elementAccessPoint.cook()
+    const content = cookElement.getName()
     // Check element name field
     if (this.state.content !== content) {
       this.setState({
@@ -71,8 +71,8 @@ export default class EditFormHeader extends React.Component {
 
   editTitle () {
     this.enableEditable()
-    let range = document.createRange()
-    let selection = window.getSelection()
+    const range = document.createRange()
+    const selection = window.getSelection()
     range.selectNodeContents(this.span)
     selection.removeAllRanges()
     selection.addRange(range)
@@ -90,7 +90,7 @@ export default class EditFormHeader extends React.Component {
   }
 
   validateContent () {
-    let value = this.span.innerText.trim()
+    const value = this.span.innerText.trim()
     this.updateContent(value)
   }
 
@@ -120,16 +120,17 @@ export default class EditFormHeader extends React.Component {
   render () {
     const { elementAccessPoint, options } = this.props
     let { content, editable } = this.state
-    let isNested = options && (options.child || options.nestedAttr)
-    let headerTitleClasses = classNames({
+    const isNested = options && (options.child || options.nestedAttr)
+    const headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
-      'active': editable
+      active: editable
     })
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     const backButton = isNested ? (
       <span className='vcv-ui-edit-form-back-button' onClick={this.goBack} title={backToParentTitle}>
-        <i className='vcv-ui-icon vcv-ui-icon-chevron-left' /></span>) : null
+        <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
+      </span>) : null
 
     if (isNested && options.activeParamGroupTitle) {
       content = options.activeParamGroupTitle
@@ -139,13 +140,15 @@ export default class EditFormHeader extends React.Component {
     const sectionImage = sectionImageSrc ? (
       <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />) : null
 
-    let headerTitle = isNested && options.activeParamGroup
-      ? (<span className={headerTitleClasses}
+    const headerTitle = isNested && options.activeParamGroup
+      ? (<span
+        className={headerTitleClasses}
         ref={span => { this.span = span }}
       >
         {content}
       </span>)
-      : (<span className={headerTitleClasses}
+      : (<span
+        className={headerTitleClasses}
         ref={span => { this.span = span }}
         contentEditable={editable}
         suppressContentEditableWarning

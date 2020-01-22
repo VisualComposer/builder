@@ -61,18 +61,18 @@ export default class Content extends React.Component {
   }
 
   handleElementResize () {
-    let element = ReactDOM.findDOMNode(this)
+    const element = ReactDOM.findDOMNode(this)
     this.setState({
       realWidth: element.offsetWidth
     })
   }
 
   addResizeListener (element, fn) {
-    let isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
+    const isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
     if (window.getComputedStyle(element).position === 'static') {
       element.style.position = 'relative'
     }
-    let obj = element.__resizeTrigger__ = document.createElement('object')
+    const obj = element.__resizeTrigger__ = document.createElement('object')
     obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
     obj.__resizeElement__ = element
     obj.onload = function () {
@@ -109,9 +109,9 @@ export default class Content extends React.Component {
       aligned = true
     }
 
-    let currentSettings = workspaceSettings.get()
+    const currentSettings = workspaceSettings.get()
 
-    let contentClasses = classNames({
+    const contentClasses = classNames({
       'vcv-layout-bar-content-all': true,
       'vcv-ui-state--visible': !!children,
       'vcv-media--xs': true,
@@ -122,12 +122,12 @@ export default class Content extends React.Component {
       'vcv-ui-hide-resizers': currentSettings && currentSettings.action && (currentSettings.action === 'addHub')
     })
 
-    let closeBtnClasses = classNames({
+    const closeBtnClasses = classNames({
       'vcv-layout-bar-content-hide': true,
       'vcv-layout-bar-content-aligned': aligned
     })
 
-    let closeButton = content === 'treeView' ? '' : (
+    const closeButton = content === 'treeView' ? '' : (
       <span className={closeBtnClasses} title={closeTitle} onClick={this.closeContent}>
         <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
       </span>
@@ -141,25 +141,29 @@ export default class Content extends React.Component {
           resizeBottom: true,
           resizerTargetBottom: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-top vcv-ui-resizer-content-all-bottom'
-        }} />
+        }}
+        />
 
         <Resizer params={{
           resizeRight: true,
           resizerTargetRight: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-left vcv-ui-resizer-content-all-right'
-        }} />
+        }}
+        />
 
         <Resizer params={{
           resizeLeft: true,
           resizerTargetLeft: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-e vcv-ui-resizer-layout-placement-right vcv-ui-resizer-content-all-left'
-        }} />
+        }}
+        />
 
         <Resizer params={{
           resizeTop: true,
           resizerTargetTop: '.vcv-layout-bar-content',
           resizerClasses: 'vcv-ui-resizer vcv-ui-resizer-n vcv-ui-resizer-layout-placement-bottom vcv-ui-resizer-content-all-top'
-        }} />
+        }}
+        />
       </div>
     )
   }

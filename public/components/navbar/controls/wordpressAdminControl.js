@@ -68,7 +68,7 @@ export default class WordPressAdminControl extends NavbarContent {
     }
     this.previewWindowTarget = previewUrl
 
-    let loadingView = '<style>\n' +
+    const loadingView = '<style>\n' +
       '.vcv-loading-overlay {\n' +
       '  position: absolute;\n' +
       '  top: 0;\n' +
@@ -235,8 +235,8 @@ export default class WordPressAdminControl extends NavbarContent {
       )
     }
 
-    let previewText = PostData.isPublished() ? previewChanges : preview
-    let previewButton = (
+    const previewText = PostData.isPublished() ? previewChanges : preview
+    const previewButton = (
       <span
         className='vcv-ui-navbar-control'
         title={previewText}
@@ -247,7 +247,7 @@ export default class WordPressAdminControl extends NavbarContent {
       </span>
     )
 
-    let backendEditorButton = (
+    const backendEditorButton = (
       <span
         className='vcv-ui-navbar-control'
         onClick={this.handleClick}

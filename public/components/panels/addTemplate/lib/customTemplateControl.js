@@ -27,27 +27,27 @@ export default class CustomTemplateControl extends React.Component {
     const { name, spinner, addTemplateText, removeTemplateText, handleApplyTemplate, handleRemoveTemplate } = this.props
     const letter = name.charAt(0).toUpperCase()
 
-    let nameClasses = classNames({
+    const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
-    let spinnerClasses = classNames({
+    const spinnerClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
       'vcv-ui-state--hidden': !spinner
     })
 
-    let applyClasses = classNames({
+    const applyClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-add': true,
       'vcv-ui-state--hidden': spinner
     })
 
-    let removeClasses = classNames({
+    const removeClasses = classNames({
       'vcv-ui-item-control vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
       'vcv-ui-state--hidden': spinner
     })
 
-    let overlayClasses = classNames({
+    const overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
       'vcv-ui-item-overlay--visible': spinner
     })

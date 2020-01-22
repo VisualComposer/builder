@@ -7,7 +7,7 @@ export default class Checkbox extends Attribute {
   }
 
   handleChange (event) {
-    let value = event.target.value
+    const value = event.target.value
     var values = this.state.value
     if (event.target.checked) {
       values.push(value)
@@ -20,12 +20,12 @@ export default class Checkbox extends Attribute {
   getValues () {
     const { props } = this
     let { values } = props.options || {}
-    let { global } = props.options || {}
+    const { global } = props.options || {}
     if (global && (!values || !values.length)) {
-      if (typeof window[ global ] === 'function') {
-        values = window[ global ]()
+      if (typeof window[global] === 'function') {
+        values = window[global]()
       } else {
-        values = window[ global ] || []
+        values = window[global] || []
       }
     }
 
@@ -33,18 +33,18 @@ export default class Checkbox extends Attribute {
   }
 
   render () {
-    let { fieldKey } = this.props
-    let optionElements = []
-    let values = this.getValues()
-    let currentValues = this.state.value
-    for (let key in values) {
-      let value = values[ key ].value
-      let checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
+    const { fieldKey } = this.props
+    const optionElements = []
+    const values = this.getValues()
+    const currentValues = this.state.value
+    for (const key in values) {
+      const value = values[key].value
+      const checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
       optionElements.push(
         <label key={fieldKey + ':' + key + ':' + value} className='vcv-ui-form-checkbox' htmlFor={fieldKey + '-' + key + '-' + value}>
           <input type='checkbox' onChange={this.handleChange} checked={checked} value={value} id={fieldKey + '-' + key + '-' + value} />
           <span className='vcv-ui-form-checkbox-indicator' />
-          {values[ key ].label}
+          {values[key].label}
         </label>
       )
     }

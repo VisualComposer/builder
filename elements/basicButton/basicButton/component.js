@@ -4,24 +4,24 @@ const vcvAPI = vcCake.getService('api')
 
 export default class ButtonElement extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton } = atts
+    const { id, atts, editor } = this.props
+    const { buttonUrl, buttonText, shape, alignment, customClass, toggleCustomHover, metaCustomId, size, toggleStretchButton } = atts
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
     let classes = 'vce-button--style-basic'
-    let buttonHtml = buttonText
+    const buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
 
     if (buttonUrl && buttonUrl.url) {
       CustomTag = 'a'
-      let { url, title, targetBlank, relNofollow } = buttonUrl
+      const { url, title, targetBlank, relNofollow } = buttonUrl
       customProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
+        href: url,
+        title: title,
+        target: targetBlank ? '_blank' : undefined,
+        rel: relNofollow ? 'nofollow' : undefined
       }
     }
 
@@ -42,7 +42,7 @@ export default class ButtonElement extends vcvAPI.elementComponent {
     }
 
     if (toggleStretchButton) {
-      wrapperClasses += ` vce-button--style-basic-wrapper--stretched`
+      wrapperClasses += ' vce-button--style-basic-wrapper--stretched'
     }
 
     let mixinData = this.getMixinData('basicColor')
@@ -63,8 +63,8 @@ export default class ButtonElement extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('padding border background animation')
+    const doMargin = this.applyDO('margin')
+    const doRest = this.applyDO('padding border background animation')
 
     return <div className={containerClasses} {...editor}>
       <span className={wrapperClasses} id={'el-' + id} {...doMargin}>

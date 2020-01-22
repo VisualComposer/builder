@@ -16,17 +16,21 @@ export default class LayoutEditor extends React.Component {
     }
     this.updateData = this.updateData.bind(this)
   }
+
   updateData (data) {
     this.setState({ data: data }, () => {
       wordpressBackendWorkspace.state('lastAction').set('contentBuilt')
     })
   }
+
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateData)
   }
+
   componentWillUnmount () {
     elementsStorage.state('document').ignoreChange(this.updateData)
   }
+
   getContent () {
     return (<HtmlLayout data={this.state.data} api={this.props.api} />)
   }

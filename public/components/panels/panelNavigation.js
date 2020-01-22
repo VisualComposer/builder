@@ -43,9 +43,9 @@ export default class PanelNavigation extends React.Component {
   }
 
   handleResize () {
-    let wrapperWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width
+    const wrapperWidth = ReactDOM.findDOMNode(this).getBoundingClientRect().width
     const { isControlsHidden, totalControlWidth } = this.state
-    let controlsWidth = totalControlWidth || this.getControlsTotalWidth()
+    const controlsWidth = totalControlWidth || this.getControlsTotalWidth()
     if (wrapperWidth >= controlsWidth && isControlsHidden) {
       this.setState({ isControlsHidden: false })
     } else if (wrapperWidth < controlsWidth && !isControlsHidden) {
@@ -58,11 +58,11 @@ export default class PanelNavigation extends React.Component {
   }
 
   getControls () {
-    let controls = Object.values(this.props.controls)
+    const controls = Object.values(this.props.controls)
     return controls.map((control, i) => {
       const { type, title, subControls } = control
       const isActive = type === this.props.activeSection
-      let controlClasses = classNames({
+      const controlClasses = classNames({
         'vcv-ui-form-button': true,
         'vcv-ui-form-button--active': isActive
       })
@@ -87,7 +87,7 @@ export default class PanelNavigation extends React.Component {
     return subControls.map((activeSubControl) => {
       const subControlType = activeSubControl.type
       const subControlTitle = activeSubControl.title
-      let dropdownItemClasses = classNames({
+      const dropdownItemClasses = classNames({
         'vcv-ui-form-button-group-dropdown-item': true,
         'vcv-ui-form-button-group-dropdown-item--active': isActive && subControlType === this.props.activeSubControl
       })
@@ -104,7 +104,7 @@ export default class PanelNavigation extends React.Component {
   }
 
   createGroup (subControls, type, index, title) {
-    let optionElements = []
+    const optionElements = []
 
     optionElements.push(this.createOptions(type, index, title))
 
@@ -126,7 +126,7 @@ export default class PanelNavigation extends React.Component {
 
   getSelectOptions () {
     const { controls } = this.props
-    let controlValues = Object.values(controls)
+    const controlValues = Object.values(controls)
 
     return controlValues.map((control) => {
       const { type, title, subControls } = control
@@ -147,17 +147,17 @@ export default class PanelNavigation extends React.Component {
   handleDropdownChange (event) {
     const value = event.target.value
     const splitValue = value.split('_')
-    this.props.setActiveSection(splitValue[ 0 ], splitValue[ 1 ], splitValue[ 2 ])
+    this.props.setActiveSection(splitValue[0], splitValue[1], splitValue[2])
   }
 
   render () {
-    let controlContainerClasses = classNames({
+    const controlContainerClasses = classNames({
       'vcv-ui-panel-controls-container': true,
       'vcv-is-hidden': this.state.isControlsHidden
     })
 
     const { controls, activeSection, activeSubControl } = this.props
-    const activeCategory = controls[ activeSection ]
+    const activeCategory = controls[activeSection]
     const { subIndex, index, type } = activeCategory
     const newIndex = subIndex !== undefined ? `${index}-${subIndex}` : index
     const value = activeSubControl ? `${type}_${newIndex}_${activeSubControl}` : `${type}_${newIndex}`

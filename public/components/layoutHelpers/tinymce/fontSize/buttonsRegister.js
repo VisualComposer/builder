@@ -4,10 +4,10 @@ const ButtonsRegister = function (editor, window) {
     return fontSizeFormats.split(' ').map((item) => {
       let text = item
       let value = item
-      let values = item.split('=')
+      const values = item.split('=')
       if (values.length > 1) {
-        text = values[ 0 ]
-        value = values[ 1 ]
+        text = values[0]
+        value = values[1]
       }
       return {
         text: text,
@@ -40,7 +40,7 @@ const ButtonsRegister = function (editor, window) {
     }
 
     return function () {
-      let self = this
+      const self = this
       editor.on('init nodeChange', (e) => {
         let px, pt, precision, match
         px = editor.queryCommandValue('FontSize')
@@ -58,7 +58,7 @@ const ButtonsRegister = function (editor, window) {
     }
   }
 
-  let fontSizeItems = getFontSizeItems()
+  const fontSizeItems = getFontSizeItems()
   editor.addButton('fontSizeSelectAdvanced', {
     type: 'listbox',
     text: 'Font Sizes',

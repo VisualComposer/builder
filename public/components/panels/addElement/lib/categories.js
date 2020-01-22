@@ -88,15 +88,15 @@ export default class Categories extends React.Component {
 
   getAllElements () {
     const { parent } = this.props
-    let relatedTo = [ 'General', 'RootElements' ]
-    let isParentTag = parent && parent.tag && parent.tag !== 'column'
+    let relatedTo = ['General', 'RootElements']
+    const isParentTag = parent && parent.tag && parent.tag !== 'column'
     if (isParentTag) {
       const parentElement = cook.get(parent)
       if (parentElement) {
         relatedTo = parentElement.containerFor()
       }
     }
-    let isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
+    const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
     if (isAllElements) {
       const { allElements } = this.state
       Categories.allElements = allElements.filter((elementData) => {
@@ -108,9 +108,9 @@ export default class Categories extends React.Component {
   }
 
   getAllElementsTags () {
-    let isElementTags = !Categories.allElementsTags.length || Categories.parentElementTag !== this.props.parent.tag
+    const isElementTags = !Categories.allElementsTags.length || Categories.parentElementTag !== this.props.parent.tag
     if (isElementTags) {
-      let allElements = this.getAllElements()
+      const allElements = this.getAllElements()
 
       Categories.allElementsTags = allElements.map((element) => {
         return element.tag
@@ -122,7 +122,7 @@ export default class Categories extends React.Component {
 
   getElementsList (groupCategories, tags) {
     let groupElements = []
-    let setGroupElements = (element) => {
+    const setGroupElements = (element) => {
       if (tags.indexOf(element.tag) > -1) {
         groupElements.push(element)
       }
@@ -132,30 +132,30 @@ export default class Categories extends React.Component {
       groupElements = this.getAllElements()
     } else {
       groupCategories.forEach((category) => {
-        let categoryElements = categoriesService.getSortedElements(category)
+        const categoryElements = categoriesService.getSortedElements(category)
         categoryElements.forEach(setGroupElements)
       })
     }
-    groupElements = [ ...new Set(groupElements) ]
+    groupElements = [...new Set(groupElements)]
 
     return groupElements
   }
 
   getAllCategories () {
-    let isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
+    const isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
     if (isCategories) {
-      let groupsStore = {}
-      let groups = groupsService.all()
-      let tags = this.getAllElementsTags()
+      const groupsStore = {}
+      const groups = groupsService.all()
+      const tags = this.getAllElementsTags()
       Categories.allCategories = groups.filter((group) => {
-        groupsStore[ group.title ] = this.getElementsList(group.categories, tags)
-        return groupsStore[ group.title ].length > 0
+        groupsStore[group.title] = this.getElementsList(group.categories, tags)
+        return groupsStore[group.title].length > 0
       }).map((group, index) => {
         return {
           id: group.title + index, // TODO: Should it be more unique?
           index: index,
           title: group.title,
-          elements: groupsStore[ group.title ],
+          elements: groupsStore[group.title],
           isVisible: true
         }
       })
@@ -196,7 +196,7 @@ export default class Categories extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
     const helperText = localizations ? localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
-    let source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
+    const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return <div className='vcv-ui-editor-no-items-container'>
       <div className='vcv-ui-editor-no-items-content'>
@@ -223,7 +223,7 @@ export default class Categories extends React.Component {
     return <ElementControl
       key={'vcv-element-control-' + tag}
       element={elementData}
-      hubElement={Categories.hubElements[ tag ]}
+      hubElement={Categories.hubElements[tag]}
       tag={tag}
       name={elementData.name}
       addElement={this.addElement}
@@ -250,7 +250,7 @@ export default class Categories extends React.Component {
   }
 
   getSearchElement () {
-    let searchProps = this.getSearchProps()
+    const searchProps = this.getSearchProps()
     return <SearchElement {...searchProps} />
   }
 
@@ -261,12 +261,12 @@ export default class Categories extends React.Component {
   }
 
   getSearchResults (value) {
-    let allCategories = this.getAllCategories()
-    let getIndex = allCategories.findIndex((val) => {
+    const allCategories = this.getAllCategories()
+    const getIndex = allCategories.findIndex((val) => {
       return val.title === 'All' || val.title === 'All Elements'
     })
 
-    return allCategories[ getIndex ].elements.filter((elementData) => {
+    return allCategories[getIndex].elements.filter((elementData) => {
       let elName = ''
       if (elementData.name) {
         elName = elementData.name.toLowerCase()
@@ -286,7 +286,7 @@ export default class Categories extends React.Component {
     const allCategories = this.getAllCategories()
     const i = activeCategoryIndex
 
-    return allCategories && allCategories[ i ] && allCategories[ i ].elements ? allCategories[ i ].elements.map((tag) => {
+    return allCategories && allCategories[i] && allCategories[i].elements ? allCategories[i].elements.map((tag) => {
       return this.getElementControl(tag)
     }) : []
   }
@@ -300,14 +300,14 @@ export default class Categories extends React.Component {
   }
 
   isSearching () {
-    let { isSearching, inputValue } = this.state
+    const { isSearching, inputValue } = this.state
     return isSearching && inputValue.trim()
   }
 
   applyFirstElement () {
     const { searchResults, focusedElement } = this.state
     if ((searchResults && searchResults.length) || focusedElement) {
-      let tag = focusedElement || searchResults[ 0 ].tag
+      const tag = focusedElement || searchResults[0].tag
       this.addElement(tag)
     }
   }
@@ -322,7 +322,7 @@ export default class Categories extends React.Component {
     })
     this.addedId = data.toJS().id
 
-    let iframe = document.getElementById('vcv-editor-iframe')
+    const iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
     this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
   }
@@ -349,8 +349,8 @@ export default class Categories extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
-    let itemsOutput = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
-    let innerSectionClasses = classNames({
+    const itemsOutput = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
+    const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })

@@ -29,9 +29,9 @@ export default class Token extends React.Component {
   }
 
   render () {
-    let { title, label, value, valid, validating } = this.props
+    const { title, label, value, valid, validating } = this.props
 
-    let tagClasses = classNames({
+    const tagClasses = classNames({
       'vcv-ui-tag-list-item': true,
       'vcv-ui-tag-list-item-error': !valid,
       'vcv-ui-tag-list-item-validating': validating

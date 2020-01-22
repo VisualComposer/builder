@@ -49,7 +49,7 @@ export default class TreeViewLayout extends React.Component {
 
   componentDidUpdate (prevProps) {
     if (this.props.visible !== prevProps.visible) {
-      let data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+      const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
       this.setState({
         data: data
       })
@@ -61,7 +61,7 @@ export default class TreeViewLayout extends React.Component {
     if (singleElement && singleElement === 'singleElement') {
       const currentData = this.state.data
       const newDataIndex = currentData.findIndex(element => element.id === data.id)
-      currentData[ newDataIndex ] = data
+      currentData[newDataIndex] = data
       newData = currentData
     } else {
       newData = data
@@ -76,7 +76,7 @@ export default class TreeViewLayout extends React.Component {
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
-    let data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+    const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
     if (this.props.isAttribute) {
       elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
     }
@@ -91,7 +91,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   onContentChangeHandleScroll = (value, treeViewId) => {
-    let timeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       treeViewId && this.handleScrollToElement(treeViewId)
       clearTimeout(timeout)
     }, 1)
@@ -219,7 +219,7 @@ export default class TreeViewLayout extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const text = localizations ? localizations.emptyTreeView : 'There is no content on your page - start by adding element or template.'
 
-    let elements = this.getElements()
+    const elements = this.getElements()
     if (elements.length) {
       return (
         <ul className='vcv-ui-tree-layout'>
@@ -242,7 +242,7 @@ export default class TreeViewLayout extends React.Component {
     const removeAllText = localizations ? localizations.removeAll : 'Remove All'
 
     return (
-      <React.Fragment>
+      <>
         {this.getElementsOutput()}
         <div className='vcv-ui-tree-layout-actions'>
           <span
@@ -266,12 +266,12 @@ export default class TreeViewLayout extends React.Component {
             </span>
           </span>
         </div>
-      </React.Fragment>
+      </>
     )
   }
 
   render () {
-    let treeLayoutClasses = classNames({
+    const treeLayoutClasses = classNames({
       'vcv-ui-tree-layout-container': true,
       'vcv-ui-state--hidden': !this.props.visible
     })

@@ -43,7 +43,7 @@ export default class ContentControls extends React.Component {
     let options = ''
     const children = vcCake.getService('cook').getContainerChildren(element.tag)
     if (children.length === 1) {
-      options = children[ 0 ].tag
+      options = children[0].tag
     }
     workspaceStorage.trigger('add', this.props.id, options)
   }

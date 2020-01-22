@@ -7,8 +7,8 @@ export default class NumberAttribute extends Attribute {
   }
 
   render () {
-    let { value } = this.state
-    let { min, max } = this.props.options
+    const { value } = this.state
+    const { min, max } = this.props.options
     let { placeholder } = this.props
     if (!placeholder && this.props.options && this.props.options.placeholder) {
       placeholder = this.props.options.placeholder
@@ -21,7 +21,8 @@ export default class NumberAttribute extends Attribute {
         min={min}
         max={max}
         placeholder={placeholder}
-        value={value} />
+        value={value}
+      />
     )
   }
 }

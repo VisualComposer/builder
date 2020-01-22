@@ -3,8 +3,10 @@ import React from 'react'
 const VCVLogo = () => {
   return (
     <div className='vcv-logo'>
-      <svg width='80px' height='58px' viewBox='0 0 963 696' version='1.1'
-        xmlns='http://www.w3.org/2000/svg'>
+      <svg
+        width='80px' height='58px' viewBox='0 0 963 696' version='1.1'
+        xmlns='http://www.w3.org/2000/svg'
+      >
         <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
           <polygon fill='#0584B5' points='0.6 139.7 0.6 417.5 241.2 556.4 241.2 278.6' />
           <g>

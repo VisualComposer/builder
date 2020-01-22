@@ -51,11 +51,11 @@ export default class EditFromField extends React.Component {
   }
 
   render () {
-    let { elementAccessPoint, fieldKey } = this.props
-    let cookElement = elementAccessPoint.cook()
-    let element = cookElement.toJS()
-    let { type, settings } = cookElement.settings(fieldKey)
-    let AttributeComponent = type.component
+    const { elementAccessPoint, fieldKey } = this.props
+    const cookElement = elementAccessPoint.cook()
+    const element = cookElement.toJS()
+    const { type, settings } = cookElement.settings(fieldKey)
+    const AttributeComponent = type.component
     if (!AttributeComponent) {
       return null
     }
@@ -66,16 +66,16 @@ export default class EditFromField extends React.Component {
       throw new Error(format('Wrong attribute type %s', fieldKey))
     }
 
-    let classes = classNames({
+    const classes = classNames({
       'vcv-ui-form-dependency': true
     }, this.state.dependenciesClasses)
-    let groupClasses = classNames({
+    const groupClasses = classNames({
       'vcv-ui-form-group': true,
       'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
     })
     let value = null
     if (fieldKey && element) {
-      value = element[ fieldKey ]
+      value = element[fieldKey]
     }
     const { options } = settings
     let label = ''
@@ -87,7 +87,7 @@ export default class EditFromField extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
     let defaultValue = settings.defaultValue
-    if (typeof defaultValue === `undefined`) {
+    if (typeof defaultValue === 'undefined') {
       defaultValue = settings.value
     }
 

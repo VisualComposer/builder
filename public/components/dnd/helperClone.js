@@ -41,8 +41,9 @@ export default class Helper {
     this.setInitStyle(DOMNode)
     DOMNode.parentNode.insertBefore(this.clone, DOMNode)
   }
+
   setInitStyle (domNode) {
-    let rect = domNode.getBoundingClientRect()
+    const rect = domNode.getBoundingClientRect()
     this.clone.style.position = 'fixed'
     this.clone.style.opacity = this.options.opacity
     this.clone.style.pointerEvents = 'none'
@@ -76,18 +77,22 @@ export default class Helper {
     }
     this.clone.setAttribute('data-vcv-dnd-helper', true)
   }
+
   setPosition (point) {
     this.clone.style.top = point.y + 'px'
     this.clone.style.left = point.x + 'px'
   }
+
   hide () {
     this.clone.style.display = 'none'
   }
+
   show () {
     this.clone.style.display = this.clone.displayStyle
   }
+
   remove () {
-    let clone = this.clone
+    const clone = this.clone
     this.clone = null
     clone.parentNode.removeChild(clone)
   }

@@ -17,12 +17,12 @@ addStorage('hubAddons', (storage) => {
   })
 
   storage.on('add', (addonsData, addBundle) => {
-    let addons = storage.state('addons').get() || {}
-    addons[ addonsData.tag ] = addonsData
+    const addons = storage.state('addons').get() || {}
+    addons[addonsData.tag] = addonsData
     hubAddonsService.add(addonsData)
     storage.state('addons').set(Object.assign({}, addons))
     if (addBundle && addonsData && addonsData.bundlePath) {
-      Promise.all([ window.jQuery.getScript(addonsData.bundlePath) ])
+      Promise.all([window.jQuery.getScript(addonsData.bundlePath)])
     }
   })
 
@@ -30,21 +30,21 @@ addStorage('hubAddons', (storage) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
     const { tag, name } = addon
     let bundle = 'addon/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
-    let downloadedAddons = storage.state('addons').get()
+    const downloadedAddons = storage.state('addons').get()
     if (addon.bundle) {
       bundle = addon.bundle
     }
-    let data = {
+    const data = {
       'vcv-action': 'hub:download:addon:adminNonce',
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    let successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
-    if (downloadedAddons[ tag ]) {
+    const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
+    if (downloadedAddons[tag]) {
       return
     }
 
-    let downloadingItems = workspaceStorage.state('downloadingItems').get() || []
+    const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (downloadingItems.includes(tag)) {
       return
     }
@@ -52,9 +52,9 @@ addStorage('hubAddons', (storage) => {
     workspaceStorage.state('downloadingItems').set(downloadingItems)
     let tries = 0
     const tryDownload = () => {
-      let successCallback = (response) => {
+      const successCallback = (response) => {
         try {
-          let jsonResponse = getResponse(response)
+          const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             notificationsStorage.trigger('add', {
               position: 'bottom',
@@ -118,7 +118,7 @@ addStorage('hubAddons', (storage) => {
           }
         }
       }
-      let errorCallback = (response) => {
+      const errorCallback = (response) => {
         workspaceStorage.trigger('removeFromDownloading', tag)
         tries++
         console.warn('failed to download addon general server error', response)

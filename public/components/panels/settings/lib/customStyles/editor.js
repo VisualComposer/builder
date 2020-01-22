@@ -41,7 +41,7 @@ export default class StyleEditor extends React.Component {
   }
 
   render () {
-    let controlClass = classNames({
+    const controlClass = classNames({
       'vcv-ui-style-editor': true,
       'vcv-ui-state--active': (this.props.index === this.props.activeIndex)
     })

@@ -1,7 +1,7 @@
 import { addStorage } from 'vc-cake'
 addStorage('fieldOptions', (storage) => {
   storage.on('setElementInitialValue', (elementTag, attrKey, value) => {
-    let elementValues = storage.state('elementInitialValue').get() || {}
+    const elementValues = storage.state('elementInitialValue').get() || {}
 
     if (elementValues[elementTag]) {
       elementValues[elementTag][attrKey] = value

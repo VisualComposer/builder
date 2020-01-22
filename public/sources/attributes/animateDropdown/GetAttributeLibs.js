@@ -1,5 +1,5 @@
 export default (value) => {
-  let libs = []
+  const libs = []
 
   if (value) {
     const libData = {

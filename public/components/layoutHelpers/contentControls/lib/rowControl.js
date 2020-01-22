@@ -7,10 +7,11 @@ export default class RowControl extends React.Component {
   static propTypes = {
     hideIcon: PropTypes.bool.isRequired
   }
+
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
   render () {
-    let svgClasses = classNames({
+    const svgClasses = classNames({
       'vcv-ui-blank-row-element-control-icon': true,
       'vcv-is-hidden': this.props.hideIcon
     })

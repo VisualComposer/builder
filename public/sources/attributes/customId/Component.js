@@ -7,13 +7,14 @@ class customIdAttribute extends Attribute {
   }
 
   render () {
-    let value = this.state.value === false ? '' : this.state.value
+    const value = this.state.value === false ? '' : this.state.value
     return (
       <input
         className='vcv-ui-form-input'
         type='text'
         onChange={this.handleChange}
-        value={value} />
+        value={value}
+      />
     )
   }
 }

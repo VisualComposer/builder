@@ -5,7 +5,7 @@ const vcvAPI = vcCake.getService('api')
 
 export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
   parseTime (timeString) {
-    let time = {
+    const time = {
       h: 0,
       m: 0,
       s: 0,
@@ -20,34 +20,34 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
     // replace all spaces
     timeString = timeString.replace(/\s+/g, '')
     // get matched vars
-    let re = /([0-9]+[hms])|([0-9]+(?=:|$))/gi
+    const re = /([0-9]+[hms])|([0-9]+(?=:|$))/gi
     let timeData = timeString.match(re)
     if (timeData) {
       const findByLetter = (char, value) => value.slice(-1) === char
 
       // search for hours
-      let hi = timeData.findIndex(findByLetter.bind(null, 'h'))
+      const hi = timeData.findIndex(findByLetter.bind(null, 'h'))
       if (hi !== -1) {
-        time.h = parseInt(timeData[ hi ])
+        time.h = parseInt(timeData[hi])
         timeData.splice(hi, 1)
       }
       // search for minutes
-      let mi = timeData.findIndex(findByLetter.bind(null, 'm'))
+      const mi = timeData.findIndex(findByLetter.bind(null, 'm'))
       if (mi !== -1) {
-        time.m = parseInt(timeData[ mi ])
+        time.m = parseInt(timeData[mi])
         timeData.splice(mi, 1)
       }
       // search for seconds
-      let si = timeData.findIndex(findByLetter.bind(null, 's'))
+      const si = timeData.findIndex(findByLetter.bind(null, 's'))
       if (si !== -1) {
-        time.s = parseInt(timeData[ si ])
+        time.s = parseInt(timeData[si])
         timeData.splice(si, 1)
       }
 
       // get simple vars
       // filter data and remove last matched elements
       timeData = timeData.filter((value) => {
-        let re = /^\d+$/
+        const re = /^\d+$/
         if (re.test(value)) {
           return true
         }
@@ -97,18 +97,18 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, videoPlayer, alignment, size, customSize, advanced, metaCustomId } = atts
     let classes = 'vce-yt-video-player'
     let source, videoWidth, videoId, loop
-    let autoplay = advanced && atts.autoplay ? 1 : 0
-    let color = advanced && atts.color ? atts.color : 'red'
+    const autoplay = advanced && atts.autoplay ? 1 : 0
+    const color = advanced && atts.color ? atts.color : 'red'
     let controls = 1
-    let rel = advanced && atts.rel ? 1 : 0
+    const rel = advanced && atts.rel ? 1 : 0
     let start = advanced && atts.start ? this.parseTime(atts.start) : 0
-    let end = advanced && atts.end ? `&end=${this.parseTime(atts.end)}` : ''
-    let ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
-    let customProps = {}
+    const end = advanced && atts.end ? `&end=${this.parseTime(atts.end)}` : ''
+    const ytrx = /^.*((youtu\.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*)(?:(\?t|&start)=(?:(\d+)h)?(?:(\d+)m)?(\d+)s)?.*/
+    const customProps = {}
 
     if (advanced) {
       controls = atts.controls ? 1 : 0
@@ -125,7 +125,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
         if (/^[0-9.]+$/.test(customSize)) {
           videoWidth = `${parseFloat(customSize)}px`
         } else if (parseFloat(customSize)) {
-          let chars = customSize.slice(parseFloat(customSize).toString().length)
+          const chars = customSize.slice(parseFloat(customSize).toString().length)
           videoWidth = `${parseFloat(customSize)}${this.validUnits(chars)}`
         } else {
           videoWidth = '560px'
@@ -137,12 +137,12 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
     if (videoPlayer && videoPlayer.match(ytrx)) {
       let url = videoPlayer.trim()
       url = url.match(ytrx)
-      videoId = url[ 7 ]
-      loop = advanced && atts.loop ? `&loop=1&playlist=${videoId}` : `&loop=0`
-      if (url[ 8 ]) {
-        start += url[ 9 ] === undefined ? 0 : (Number(url[ 9 ]) * 60 * 60)
-        start += url[ 10 ] === undefined ? 0 : (Number(url[ 10 ]) * 60)
-        start += url[ 11 ] === undefined ? 0 : (Number(url[ 11 ]))
+      videoId = url[7]
+      loop = advanced && atts.loop ? `&loop=1&playlist=${videoId}` : '&loop=0'
+      if (url[8]) {
+        start += url[9] === undefined ? 0 : (Number(url[9]) * 60 * 60)
+        start += url[10] === undefined ? 0 : (Number(url[10]) * 60)
+        start += url[11] === undefined ? 0 : (Number(url[11]))
       }
     }
 
@@ -152,13 +152,13 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let html = `<iframe class='vce-yt-video-player-iframe' src='${source}' width='640' height='390' frameBorder='0' allowFullScreen='true' />`
+    const html = `<iframe class='vce-yt-video-player-iframe' src='${source}' width='640' height='390' frameBorder='0' allowFullScreen='true' />`
 
     if (vcCake.env('editor') === 'backend') {
       source = `https://www.youtube.com/embed/${videoId}?autoplay=false&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
     return <div className={classes} {...editor} {...customProps} data-vcv-element-disabled>
       <div className='vce vce-yt-video-player-wrapper' id={'el-' + id} style={{ width: videoWidth }} {...doAll}>

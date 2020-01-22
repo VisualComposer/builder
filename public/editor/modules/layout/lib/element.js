@@ -51,7 +51,7 @@ export default class Element extends React.Component {
     elementsStorage.on(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
     if (this.elementComponentRef && this.elementComponentRef.current) {
-      let cookElement = cook.get(this.state.element)
+      const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
     }
     defer(() => {
@@ -75,7 +75,7 @@ export default class Element extends React.Component {
   componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
     if (this.elementComponentRef && this.elementComponentRef.current) {
-      let cookElement = cook.get(this.state.element)
+      const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
     }
   }
@@ -91,7 +91,7 @@ export default class Element extends React.Component {
   }
 
   cssJobsUpdate (data) {
-    let elementJob = data.elements.find(element => element.id === this.state.element.id)
+    const elementJob = data.elements.find(element => element.id === this.state.element.id)
     if (!elementJob) {
       console.warn('Failed to find element', data, this.state.element)
       return
@@ -113,17 +113,19 @@ export default class Element extends React.Component {
   getContent (content) {
     let returnData = null
     const currentElement = cook.get(this.state.element) // optimize
-    let elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
-      let elements = [ <Element element={childElement} key={childElement.id} api={this.props.api} /> ]
+    const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
+      const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         elements.push(
-          <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
-            api={this.props.api} />
+          <ColumnResizer
+            key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
+            api={this.props.api}
+          />
         )
       }
       return elements
     })
-    let visibleElementsList = DocumentData.children(currentElement.get('id')).filter(childElement => childElement.hidden !== true)
+    const visibleElementsList = DocumentData.children(currentElement.get('id')).filter(childElement => childElement.hidden !== true)
     if (visibleElementsList.length) {
       returnData = elementsList
     } else {
@@ -137,25 +139,25 @@ export default class Element extends React.Component {
     if (this.state.cssBuildingProcess && !this.state.isRendered) {
       return null
     }
-    let { api, ...other } = this.props
-    let element = this.state.element
-    let cookElement = cook.get(element)
+    const { api, ...other } = this.props
+    const element = this.state.element
+    const cookElement = cook.get(element)
     if (!cookElement) {
       return null
     }
     if (element && element.hidden) {
       return null
     }
-    let id = cookElement.get('id')
-    let ContentComponent = cookElement.getContentComponent()
+    const id = cookElement.get('id')
+    const ContentComponent = cookElement.getContentComponent()
     if (!ContentComponent) {
       return null
     }
-    let editor = {
+    const editor = {
       'data-vcv-element': id
     }
     if (cookElement.get('metaDisableInteractionInEditor')) {
-      editor[ 'data-vcv-element-disable-interaction' ] = true
+      editor['data-vcv-element-disable-interaction'] = true
     }
 
     return (
@@ -167,7 +169,8 @@ export default class Element extends React.Component {
         rawAtts={cookElement.getAll(false)}
         api={api}
         editor={editor}
-        {...other}>
+        {...other}
+      >
         {this.getContent()}
       </ContentComponent>
     )

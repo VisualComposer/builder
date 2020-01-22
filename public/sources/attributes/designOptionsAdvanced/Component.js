@@ -28,6 +28,7 @@ export default class DesignOptionsAdvanced extends Attribute {
   static defaultProps = {
     fieldType: 'designOptionsAdvanced'
   }
+
   /**
    * Attribute Mixins
    */
@@ -134,7 +135,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       src: require('raw-loader!./cssMixins/visibility.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         }
       }
     },
@@ -142,7 +143,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       src: require('raw-loader!./cssMixins/backgroundColor.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         },
         backgroundColor: {
           value: false
@@ -153,13 +154,13 @@ export default class DesignOptionsAdvanced extends Attribute {
       src: require('raw-loader!./cssMixins/gradientColor.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         },
         startColor: {
-          value: `rgba(0, 0, 0, 0)`
+          value: 'rgba(0, 0, 0, 0)'
         },
         endColor: {
-          value: `rgba(0, 0, 0, 0)`
+          value: 'rgba(0, 0, 0, 0)'
         },
         angle: {
           value: 0
@@ -170,13 +171,13 @@ export default class DesignOptionsAdvanced extends Attribute {
       src: require('raw-loader!./cssMixins/radialGradientColor.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         },
         startColor: {
-          value: `rgba(0, 0, 0, 0)`
+          value: 'rgba(0, 0, 0, 0)'
         },
         endColor: {
-          value: `rgba(0, 0, 0, 0)`
+          value: 'rgba(0, 0, 0, 0)'
         }
       }
     },
@@ -184,7 +185,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       src: require('raw-loader!./cssMixins/divider.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         }
       }
     },
@@ -192,7 +193,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       src: require('raw-loader!./cssMixins/animationDelay.pcss'),
       variables: {
         device: {
-          value: `all`
+          value: 'all'
         },
         animationDelay: {
           value: false
@@ -227,6 +228,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     dividerBackgroundGradientEndColor: 'rgb(93, 55, 216)',
     dividerBackgroundGradientAngle: 0
   }
+
   static defaultState = {
     currentDevice: 'all',
     devices: {},
@@ -297,9 +299,9 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   parseValue (value) {
     // set default values
-    let newState = lodash.defaultsDeep({}, DesignOptionsAdvanced.defaultState)
+    const newState = lodash.defaultsDeep({}, DesignOptionsAdvanced.defaultState)
     // get devices data
-    let devices = this.getCustomDevicesKeys()
+    const devices = this.getCustomDevicesKeys()
     // set current device
     if (!lodash.isEmpty(value.device)) {
       newState.currentDevice = Object.keys(value.device).shift()
@@ -307,9 +309,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     // update devices values
     devices.push('all')
     devices.forEach((device) => {
-      newState.devices[ device ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.deviceDefaults)
-      if (value.device && value.device[ device ]) {
-        newState.devices[ device ] = lodash.defaultsDeep({}, value.device[ device ], newState.devices[ device ])
+      newState.devices[device] = lodash.defaultsDeep({}, DesignOptionsAdvanced.deviceDefaults)
+      if (value.device && value.device[device]) {
+        newState.devices[device] = lodash.defaultsDeep({}, value.device[device], newState.devices[device])
       }
     })
 
@@ -325,8 +327,8 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param newState
    */
   updateValue (newState, fieldKey) {
-    let newValue = {}
-    let newMixins = {}
+    const newValue = {}
+    const newMixins = {}
 
     // prepare data for state
     newState = this.updateState(newState)
@@ -338,231 +340,231 @@ export default class DesignOptionsAdvanced extends Attribute {
       checkDevices = checkDevices.concat(this.getCustomDevicesKeys())
     }
     checkDevices.forEach((device) => {
-      if (!lodash.isEmpty(newState.devices[ device ])) {
+      if (!lodash.isEmpty(newState.devices[device])) {
         // set default values
-        if (!newState.devices[ device ].backgroundType) {
-          newState.devices[ device ].backgroundType = DesignOptionsAdvanced.deviceDefaults.backgroundType
+        if (!newState.devices[device].backgroundType) {
+          newState.devices[device].backgroundType = DesignOptionsAdvanced.deviceDefaults.backgroundType
         }
-        if (!newState.devices[ device ].borderStyle) {
-          newState.devices[ device ].borderStyle = DesignOptionsAdvanced.deviceDefaults.borderStyle
+        if (!newState.devices[device].borderStyle) {
+          newState.devices[device].borderStyle = DesignOptionsAdvanced.deviceDefaults.borderStyle
         }
-        if (!newState.devices[ device ].backgroundStyle) {
-          newState.devices[ device ].backgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+        if (!newState.devices[device].backgroundStyle) {
+          newState.devices[device].backgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
         }
-        if (!newState.devices[ device ].backgroundPosition) {
-          newState.devices[ device ].backgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+        if (!newState.devices[device].backgroundPosition) {
+          newState.devices[device].backgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
         }
-        if (typeof newState.devices[ device ].gradientAngle === 'undefined') {
-          newState.devices[ device ].gradientAngle = DesignOptionsAdvanced.deviceDefaults.gradientAngle
+        if (typeof newState.devices[device].gradientAngle === 'undefined') {
+          newState.devices[device].gradientAngle = DesignOptionsAdvanced.deviceDefaults.gradientAngle
         }
-        if (!newState.devices[ device ].dividerBackgroundStyle) {
-          newState.devices[ device ].dividerBackgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+        if (!newState.devices[device].dividerBackgroundStyle) {
+          newState.devices[device].dividerBackgroundStyle = DesignOptionsAdvanced.deviceDefaults.backgroundStyle
         }
-        if (!newState.devices[ device ].dividerBackgroundPosition) {
-          newState.devices[ device ].dividerBackgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+        if (!newState.devices[device].dividerBackgroundPosition) {
+          newState.devices[device].dividerBackgroundPosition = DesignOptionsAdvanced.deviceDefaults.backgroundPosition
         }
 
         // values
-        newValue[ device ] = lodash.defaultsDeep({}, newState.devices[ device ])
+        newValue[device] = lodash.defaultsDeep({}, newState.devices[device])
         // remove all values if display is provided
-        if (newValue[ device ].hasOwnProperty('display')) {
-          Object.keys(newValue[ device ]).forEach((style) => {
+        if (newValue[device].hasOwnProperty('display')) {
+          Object.keys(newValue[device]).forEach((style) => {
             if (style !== 'display') {
-              delete newValue[ device ][ style ]
+              delete newValue[device][style]
             }
           })
         } else {
           // Image type backgrounds
-          let imgTypeBackgrounds = [
+          const imgTypeBackgrounds = [
             'imagesSimple',
             'backgroundZoom',
             'imagesSlideshow'
           ]
-          if (imgTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
+          if (imgTypeBackgrounds.indexOf(newState.devices[device].backgroundType) === -1) {
             // not image type background selected
-            delete newValue[ device ].images
-            delete newValue[ device ].backgroundStyle
-            delete newValue[ device ].backgroundPosition
-            delete newValue[ device ].backgroundZoom
-            delete newValue[ device ].backgroundZoomSpeed
-            delete newValue[ device ].backgroundZoomReverse
-          } else if (!newValue[ device ].hasOwnProperty('images')) {
+            delete newValue[device].images
+            delete newValue[device].backgroundStyle
+            delete newValue[device].backgroundPosition
+            delete newValue[device].backgroundZoom
+            delete newValue[device].backgroundZoomSpeed
+            delete newValue[device].backgroundZoomReverse
+          } else if (!newValue[device].hasOwnProperty('images')) {
             // images are empty
-            delete newValue[ device ].images
-            delete newValue[ device ].backgroundType
-            delete newValue[ device ].backgroundStyle
-            delete newValue[ device ].sliderTimeout
-            delete newValue[ device ].sliderDirection
-            delete newValue[ device ].sliderEffect
-            delete newValue[ device ].backgroundPosition
-            delete newValue[ device ].backgroundZoom
-            delete newValue[ device ].backgroundZoomSpeed
-            delete newValue[ device ].backgroundZoomReverse
+            delete newValue[device].images
+            delete newValue[device].backgroundType
+            delete newValue[device].backgroundStyle
+            delete newValue[device].sliderTimeout
+            delete newValue[device].sliderDirection
+            delete newValue[device].sliderEffect
+            delete newValue[device].backgroundPosition
+            delete newValue[device].backgroundZoom
+            delete newValue[device].backgroundZoomSpeed
+            delete newValue[device].backgroundZoomReverse
           } else {
-            let images = newValue[ device ].images
-            let isArray = images ? images.constructor === Array : false
-            let imageValue = images && images.urls && images.urls[ 0 ] ? images.urls[ 0 ].full : false
-            let isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
+            const images = newValue[device].images
+            const isArray = images ? images.constructor === Array : false
+            const imageValue = images && images.urls && images.urls[0] ? images.urls[0].full : false
+            const isDynamic = imageValue && typeof imageValue === 'string' && imageValue.match(blockRegexp)
 
             if (!isDynamic && ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0)))) {
-              delete newValue[ device ].images
-              delete newValue[ device ].backgroundType
-              delete newValue[ device ].backgroundStyle
-              delete newValue[ device ].sliderTimeout
-              delete newValue[ device ].sliderDirection
-              delete newValue[ device ].sliderEffect
-              delete newValue[ device ].backgroundPosition
-              delete newValue[ device ].backgroundZoom
-              delete newValue[ device ].backgroundZoomSpeed
-              delete newValue[ device ].backgroundZoomReverse
+              delete newValue[device].images
+              delete newValue[device].backgroundType
+              delete newValue[device].backgroundStyle
+              delete newValue[device].sliderTimeout
+              delete newValue[device].sliderDirection
+              delete newValue[device].sliderEffect
+              delete newValue[device].backgroundPosition
+              delete newValue[device].backgroundZoom
+              delete newValue[device].backgroundZoomSpeed
+              delete newValue[device].backgroundZoomReverse
             }
           }
 
           // Embed video bg
-          let embedVideoTypeBackgrounds = [
+          const embedVideoTypeBackgrounds = [
             'videoEmbed'
           ]
 
-          if (embedVideoTypeBackgrounds.indexOf(newState.devices[ device ].backgroundType) === -1) {
+          if (embedVideoTypeBackgrounds.indexOf(newState.devices[device].backgroundType) === -1) {
             // not image type background selected
-            delete newValue[ device ].videoEmbed
+            delete newValue[device].videoEmbed
           } else {
-            if (newValue[ device ].hasOwnProperty('videoEmbed')) {
-              let videos = newValue[ device ].videoEmbed
-              let isArray = videos.constructor === Array
+            if (newValue[device].hasOwnProperty('videoEmbed')) {
+              const videos = newValue[device].videoEmbed
+              const isArray = videos.constructor === Array
               if ((isArray && videos.length === 0) || (!isArray && (!videos.urls || videos.urls.length === 0))) {
-                delete newValue[ device ].videoEmbed
-                delete newValue[ device ].backgroundType
+                delete newValue[device].videoEmbed
+                delete newValue[device].backgroundType
               }
             } else {
-              delete newValue[ device ].videoEmbed
-              delete newValue[ device ].backgroundType
+              delete newValue[device].videoEmbed
+              delete newValue[device].backgroundType
             }
           }
 
           // slider timeout is empty
-          if (newValue[ device ].sliderTimeout === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
-            delete newValue[ device ].sliderTimeout
+          if (newValue[device].sliderTimeout === '' || newValue[device].backgroundType !== 'imagesSlideshow') {
+            delete newValue[device].sliderTimeout
           }
-          if (newValue[ device ].sliderEffect === '' || newValue[ device ].backgroundType !== 'imagesSlideshow') {
-            delete newValue[ device ].sliderEffect
+          if (newValue[device].sliderEffect === '' || newValue[device].backgroundType !== 'imagesSlideshow') {
+            delete newValue[device].sliderEffect
           }
-          if (newValue[ device ].sliderDirection === '' || newValue[ device ].backgroundType !== 'imagesSlideshow' || newValue[ device ].sliderEffect !== 'carousel') {
-            delete newValue[ device ].sliderDirection
+          if (newValue[device].sliderDirection === '' || newValue[device].backgroundType !== 'imagesSlideshow' || newValue[device].sliderEffect !== 'carousel') {
+            delete newValue[device].sliderDirection
           }
 
           // youtube video is empty
-          if (newValue[ device ].backgroundType === 'videoYoutube') {
-            if (!newValue[ device ].videoYoutube) {
-              delete newValue[ device ].videoYoutube
-              delete newValue[ device ].backgroundType
+          if (newValue[device].backgroundType === 'videoYoutube') {
+            if (!newValue[device].videoYoutube) {
+              delete newValue[device].videoYoutube
+              delete newValue[device].backgroundType
             }
           } else {
-            delete newValue[ device ].videoYoutube
+            delete newValue[device].videoYoutube
           }
 
           // vimeo video is empty
-          if (newValue[ device ].backgroundType === 'videoVimeo') {
-            if (!newValue[ device ].videoVimeo) {
-              delete newValue[ device ].videoVimeo
-              delete newValue[ device ].backgroundType
+          if (newValue[device].backgroundType === 'videoVimeo') {
+            if (!newValue[device].videoVimeo) {
+              delete newValue[device].videoVimeo
+              delete newValue[device].backgroundType
             }
           } else {
-            delete newValue[ device ].videoVimeo
+            delete newValue[device].videoVimeo
           }
 
           // gradient stat color is empty
-          if (newValue[ device ].gradientStartColor === '') {
-            delete newValue[ device ].gradientStartColor
+          if (newValue[device].gradientStartColor === '') {
+            delete newValue[device].gradientStartColor
           }
 
           // gradient end color is empty
-          if (newValue[ device ].gradientEndColor === '') {
-            delete newValue[ device ].gradientEndColor
+          if (newValue[device].gradientEndColor === '') {
+            delete newValue[device].gradientEndColor
           }
 
           // gradient angle is not set
-          if (!newValue[ device ].gradientOverlay && !newValue[ device ].gradientType === 'linear') {
-            delete newValue[ device ].gradientAngle
-            delete newValue[ device ].gradientEndColor
-            delete newValue[ device ].gradientStartColor
-            delete newValue[ device ].gradientOverlay
-          } else if (!newValue[ device ].gradientStartColor && !newValue[ device ].gradientEndColor) {
-            delete newValue[ device ].gradientOverlay
-            delete newValue[ device ].gradientAngle
+          if (!newValue[device].gradientOverlay && !newValue[device].gradientType === 'linear') {
+            delete newValue[device].gradientAngle
+            delete newValue[device].gradientEndColor
+            delete newValue[device].gradientStartColor
+            delete newValue[device].gradientOverlay
+          } else if (!newValue[device].gradientStartColor && !newValue[device].gradientEndColor) {
+            delete newValue[device].gradientOverlay
+            delete newValue[device].gradientAngle
           }
 
           // background color is empty
-          if (newValue[ device ].backgroundColor === '') {
-            delete newValue[ device ].backgroundColor
+          if (newValue[device].backgroundColor === '') {
+            delete newValue[device].backgroundColor
           }
 
           // animation is not set
-          if (newValue[ device ].animation === '') {
-            delete newValue[ device ].animation
-            delete newValue[ device ].animationDelay
+          if (newValue[device].animation === '') {
+            delete newValue[device].animation
+            delete newValue[device].animationDelay
           }
-          if (newValue[ device ].animationDelay === '') {
-            delete newValue[ device ].animationDelay
+          if (newValue[device].animationDelay === '') {
+            delete newValue[device].animationDelay
           }
 
           // border is empty
-          if (newValue[ device ].borderColor === '') {
-            delete newValue[ device ].borderColor
+          if (newValue[device].borderColor === '') {
+            delete newValue[device].borderColor
           }
-          if (newValue[ device ].borderStyle === '') {
-            delete newValue[ device ].borderStyle
+          if (newValue[device].borderStyle === '') {
+            delete newValue[device].borderStyle
           }
-          if (!newValue[ device ].boxModel || !(newValue[ device ].boxModel.borderBottomWidth || newValue[ device ].boxModel.borderLeftWidth || newValue[ device ].boxModel.borderRightWidth || newValue[ device ].boxModel.borderTopWidth || newValue[ device ].boxModel.borderWidth)) {
-            delete newValue[ device ].borderStyle
-            delete newValue[ device ].borderColor
-          }
-
-          if (newState.devices[ device ].dividerBackgroundType !== 'image' && newState.devices[ device ].dividerBackgroundType !== 'videoEmbed') {
-            delete newValue[ device ].dividerBackgroundImage
-            delete newValue[ device ].dividerBackgroundStyle
-            delete newValue[ device ].dividerBackgroundPosition
-            delete newValue[ device ].dividerVideoEmbed
+          if (!newValue[device].boxModel || !(newValue[device].boxModel.borderBottomWidth || newValue[device].boxModel.borderLeftWidth || newValue[device].boxModel.borderRightWidth || newValue[device].boxModel.borderTopWidth || newValue[device].boxModel.borderWidth)) {
+            delete newValue[device].borderStyle
+            delete newValue[device].borderColor
           }
 
-          if (newState.devices[ device ].dividerBackgroundType === 'image') {
-            if (newValue[ device ].hasOwnProperty('dividerBackgroundImage')) {
-              let dividerImages = newValue[ device ].dividerBackgroundImage
-              let isArray = dividerImages.constructor === Array
+          if (newState.devices[device].dividerBackgroundType !== 'image' && newState.devices[device].dividerBackgroundType !== 'videoEmbed') {
+            delete newValue[device].dividerBackgroundImage
+            delete newValue[device].dividerBackgroundStyle
+            delete newValue[device].dividerBackgroundPosition
+            delete newValue[device].dividerVideoEmbed
+          }
+
+          if (newState.devices[device].dividerBackgroundType === 'image') {
+            if (newValue[device].hasOwnProperty('dividerBackgroundImage')) {
+              const dividerImages = newValue[device].dividerBackgroundImage
+              const isArray = dividerImages.constructor === Array
               if ((isArray && dividerImages.length === 0) || (!isArray && (!dividerImages.urls || dividerImages.urls.length === 0))) {
-                delete newValue[ device ].dividerBackgroundStyle
-                delete newValue[ device ].dividerBackgroundPosition
-                delete newValue[ device ].dividerVideoEmbed
+                delete newValue[device].dividerBackgroundStyle
+                delete newValue[device].dividerBackgroundPosition
+                delete newValue[device].dividerVideoEmbed
               }
             } else {
-              delete newValue[ device ].dividerBackgroundStyle
-              delete newValue[ device ].dividerBackgroundPosition
-              delete newValue[ device ].dividerVideoEmbed
+              delete newValue[device].dividerBackgroundStyle
+              delete newValue[device].dividerBackgroundPosition
+              delete newValue[device].dividerVideoEmbed
             }
           }
 
-          if (newState.devices[ device ].dividerBackgroundType === 'videoEmbed') {
-            delete newValue[ device ].dividerBackgroundStyle
+          if (newState.devices[device].dividerBackgroundType === 'videoEmbed') {
+            delete newValue[device].dividerBackgroundStyle
 
-            if (newValue[ device ].hasOwnProperty('dividerVideoEmbed')) {
-              let dividerVideos = newValue[ device ].dividerVideoEmbed
-              let isArray = dividerVideos.constructor === Array
+            if (newValue[device].hasOwnProperty('dividerVideoEmbed')) {
+              const dividerVideos = newValue[device].dividerVideoEmbed
+              const isArray = dividerVideos.constructor === Array
 
               if ((isArray && dividerVideos.length === 0) || (!isArray && (!dividerVideos.urls || dividerVideos.urls.length === 0))) {
-                delete newValue[ device ].dividerBackgroundPosition
-                delete newValue[ device ].dividerBackgroundImage
+                delete newValue[device].dividerBackgroundPosition
+                delete newValue[device].dividerBackgroundImage
               }
             } else {
-              delete newValue[ device ].dividerBackgroundPosition
-              delete newValue[ device ].dividerBackgroundImage
+              delete newValue[device].dividerBackgroundPosition
+              delete newValue[device].dividerBackgroundImage
             }
           }
         }
         device = DesignOptionsAdvanced.getMixins(newValue, device, newMixins)
 
         // remove device from list if it's empty
-        if (!Object.keys(newValue[ device ]).length) {
-          delete newValue[ device ]
+        if (!Object.keys(newValue[device]).length) {
+          delete newValue[device]
         }
       }
     })
@@ -572,25 +574,25 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   static getAnimationDelayMixin (newValue, device, newMixins) {
-    if (newValue[ device ].hasOwnProperty('animationDelay')) {
-      const value = newValue[ device ].animationDelay
+    if (newValue[device].hasOwnProperty('animationDelay')) {
+      const value = newValue[device].animationDelay
       if (!lodash.isEmpty(value)) {
         // update mixin
-        let mixinName = `animationDelayMixin:${device}`
-        newMixins[ mixinName ] = {}
-        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.animationDelayMixin)
+        const mixinName = `animationDelayMixin:${device}`
+        newMixins[mixinName] = {}
+        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.animationDelayMixin)
 
-        newMixins[ mixinName ].variables.animationDelay = {
+        newMixins[mixinName].variables.animationDelay = {
           value: value
         }
 
         const selector = `vce-o-animate-delay--${value}`
-        newMixins[ mixinName ].variables.selector = {
+        newMixins[mixinName].variables.selector = {
           value: device === 'all' ? selector : selector + `-${device}`
         }
 
         // devices
-        newMixins[ mixinName ].variables.device = {
+        newMixins[mixinName].variables.device = {
           value: device
         }
       }
@@ -599,94 +601,94 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   static getMixins (newValue, device, newMixins) {
     // mixins
-    if (newValue[ device ].hasOwnProperty('display')) {
-      newMixins[ `visibilityMixin:${device}` ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
-      newMixins[ `visibilityMixin:${device}` ].variables = {
+    if (newValue[device].hasOwnProperty('display')) {
+      newMixins[`visibilityMixin:${device}`] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.visibilityMixin)
+      newMixins[`visibilityMixin:${device}`].variables = {
         device: {
           value: device
         }
       }
     } else {
       // boxModelMixin
-      if (newValue[ device ].hasOwnProperty('boxModel')) {
-        let value = newValue[ device ].boxModel
+      if (newValue[device].hasOwnProperty('boxModel')) {
+        const value = newValue[device].boxModel
         if (!lodash.isEmpty(value)) {
           // update mixin
-          let mixinName = `boxModelMixin:${device}`
-          newMixins[ mixinName ] = {}
-          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
-          let syncData = {
-            borderWidth: [ { key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' } ],
-            borderTopWidth: [ { key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' } ],
-            borderRightWidth: [ { key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' } ],
-            borderBottomWidth: [ { key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' } ],
-            borderLeftWidth: [ { key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' } ]
+          const mixinName = `boxModelMixin:${device}`
+          newMixins[mixinName] = {}
+          newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.boxModelMixin)
+          const syncData = {
+            borderWidth: [{ key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' }],
+            borderTopWidth: [{ key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' }],
+            borderRightWidth: [{ key: 'borderRightStyle', value: 'borderStyle' }, { key: 'borderRightColor', value: 'borderColor' }],
+            borderBottomWidth: [{ key: 'borderBottomStyle', value: 'borderStyle' }, { key: 'borderBottomColor', value: 'borderColor' }],
+            borderLeftWidth: [{ key: 'borderLeftStyle', value: 'borderStyle' }, { key: 'borderLeftColor', value: 'borderColor' }]
           }
-          for (let property in value) {
-            newMixins[ mixinName ].variables[ property ] = {
-              value: this.addPixelToNumber(value[ property ])
+          for (const property in value) {
+            newMixins[mixinName].variables[property] = {
+              value: this.addPixelToNumber(value[property])
             }
-            if (syncData[ property ]) {
-              syncData[ property ].forEach((syncProp) => {
-                let propVal = newValue[ device ][ syncProp.value ] || false
-                newMixins[ mixinName ].variables[ syncProp.key ] = {
+            if (syncData[property]) {
+              syncData[property].forEach((syncProp) => {
+                const propVal = newValue[device][syncProp.value] || false
+                newMixins[mixinName].variables[syncProp.key] = {
                   value: DesignOptionsAdvanced.addPixelToNumber(propVal)
                 }
               })
             }
           }
           // devices
-          newMixins[ mixinName ].variables.device = {
+          newMixins[mixinName].variables.device = {
             value: device
           }
         }
       }
       // backgroundMixin
-      if (newValue[ device ] && newValue[ device ].backgroundColor) {
-        let mixinName = `backgroundColorMixin:${device}`
-        newMixins[ mixinName ] = {}
-        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.backgroundColorMixin)
-        newMixins[ mixinName ].variables.backgroundColor = {
-          value: newValue[ device ].backgroundColor
+      if (newValue[device] && newValue[device].backgroundColor) {
+        const mixinName = `backgroundColorMixin:${device}`
+        newMixins[mixinName] = {}
+        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.backgroundColorMixin)
+        newMixins[mixinName].variables.backgroundColor = {
+          value: newValue[device].backgroundColor
         }
-        newMixins[ mixinName ].variables.device = {
+        newMixins[mixinName].variables.device = {
           value: device
         }
       }
       // gradientMixin
-      if (newValue[ device ] && newValue[ device ].gradientOverlay) {
-        let mixinName = `gradientMixin:${device}`
-        newMixins[ mixinName ] = {}
-        if (newValue[ device ].gradientType === 'radial') {
-          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.radialGradientMixin)
+      if (newValue[device] && newValue[device].gradientOverlay) {
+        const mixinName = `gradientMixin:${device}`
+        newMixins[mixinName] = {}
+        if (newValue[device].gradientType === 'radial') {
+          newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.radialGradientMixin)
         } else {
-          newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
-          newMixins[ mixinName ].variables.angle = {
-            value: newValue[ device ].gradientAngle || 0
+          newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.gradientMixin)
+          newMixins[mixinName].variables.angle = {
+            value: newValue[device].gradientAngle || 0
           }
         }
-        if (newValue[ device ].gradientStartColor) {
-          newMixins[ mixinName ].variables.startColor = {
-            value: newValue[ device ].gradientStartColor
+        if (newValue[device].gradientStartColor) {
+          newMixins[mixinName].variables.startColor = {
+            value: newValue[device].gradientStartColor
           }
         }
-        if (newValue[ device ].gradientEndColor) {
-          newMixins[ mixinName ].variables.endColor = {
-            value: newValue[ device ].gradientEndColor
+        if (newValue[device].gradientEndColor) {
+          newMixins[mixinName].variables.endColor = {
+            value: newValue[device].gradientEndColor
           }
         }
-        newMixins[ mixinName ].variables.device = {
+        newMixins[mixinName].variables.device = {
           value: device
         }
       }
 
       // dividerMixin
-      if (newValue[ device ] && newValue[ device ].divider && (newValue[ device ].dividerBackgroundType === 'image' || newValue[ device ].dividerBackgroundType === 'videoEmbed')) {
-        let mixinName = `dividerMixin:${device}`
-        newMixins[ mixinName ] = {}
-        newMixins[ mixinName ] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
+      if (newValue[device] && newValue[device].divider && (newValue[device].dividerBackgroundType === 'image' || newValue[device].dividerBackgroundType === 'videoEmbed')) {
+        const mixinName = `dividerMixin:${device}`
+        newMixins[mixinName] = {}
+        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptionsAdvanced.attributeMixins.dividerMixin)
 
-        newMixins[ mixinName ].variables.device = {
+        newMixins[mixinName].variables.device = {
           value: device
         }
       }
@@ -703,7 +705,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param mixins
    */
   setFieldValue (value, mixins, innerFieldKey) {
-    let { updater, fieldKey } = this.props
+    const { updater, fieldKey } = this.props
     updater(fieldKey, {
       device: value,
       attributeMixins: mixins
@@ -770,7 +772,8 @@ export default class DesignOptionsAdvanced extends Attribute {
           customDevices: this.getCustomDevices()
         }}
         updater={this.devicesChangeHandler}
-        value={this.state.currentDevice} />
+        value={this.state.currentDevice}
+      />
     </div>
   }
 
@@ -779,16 +782,16 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   devicesChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, { [ fieldKey ]: value }, this.state)
+    const newState = lodash.defaultsDeep({}, { [fieldKey]: value }, this.state)
 
     if (newState.currentDevice === 'all') {
       // clone data from xl in to all except display property
-      newState.devices.all = lodash.defaultsDeep({}, newState.devices[ this.getCustomDevicesKeys().shift() ])
+      newState.devices.all = lodash.defaultsDeep({}, newState.devices[this.getCustomDevicesKeys().shift()])
       delete newState.devices.all.display
     } else if (this.state.currentDevice === 'all') {
       // clone data to custom devices from all
       this.getCustomDevicesKeys().forEach((device) => {
-        newState.devices[ device ] = lodash.defaultsDeep({}, newState.devices.all)
+        newState.devices[device] = lodash.defaultsDeep({}, newState.devices.all)
       })
     }
 
@@ -801,14 +804,14 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
-      let id = this.props.elementAccessPoint.id
-      let element = documentService.get(id)
+      const id = this.props.elementAccessPoint.id
+      const element = documentService.get(id)
 
       // TODO: Check maybe elementAccessPoint.cook().get will be correct here, not the documentManager
       if (element.tag === 'column') {
         return null
       } else {
-        let checked = !element.hidden
+        const checked = !element.hidden
         // TODO: Use correct localization here
 
         return (
@@ -833,10 +836,10 @@ export default class DesignOptionsAdvanced extends Attribute {
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <Toggle
           api={this.props.api}
-          fieldKey={`currentDeviceVisible`}
+          fieldKey='currentDeviceVisible'
           updater={this.deviceVisibilityChangeHandler}
-          options={{ labelText: `Show on device` }}
-          value={!this.state.devices[ this.state.currentDevice ].display}
+          options={{ labelText: 'Show on device' }}
+          value={!this.state.devices[this.state.currentDevice].display}
         />
       </div>
     )
@@ -851,12 +854,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   deviceVisibilityChangeHandler (fieldKey, isVisible) {
-    let newState = lodash.defaultsDeep({}, this.state)
+    const newState = lodash.defaultsDeep({}, this.state)
     if (isVisible) {
-      delete newState.devices[ this.state.currentDevice ].display
+      delete newState.devices[this.state.currentDevice].display
     } else {
       // set display to none
-      newState.devices[ this.state.currentDevice ].display = 'none'
+      newState.devices[this.state.currentDevice].display = 'none'
     }
 
     this.updateValue(newState, fieldKey)
@@ -868,8 +871,8 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param value
    */
   valueChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = value
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
   }
 
@@ -878,10 +881,10 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundTypeRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+    if (this.state.devices[this.state.currentDevice].display) {
       return null
     }
-    let options = {
+    const options = {
       values: [
         {
           label: 'Single image',
@@ -909,7 +912,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].backgroundType || DesignOptionsAdvanced.deviceDefaults.backgroundType
+    const value = this.state.devices[this.state.currentDevice].backgroundType || DesignOptionsAdvanced.deviceDefaults.backgroundType
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background type
@@ -919,7 +922,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='backgroundType'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -929,10 +933,10 @@ export default class DesignOptionsAdvanced extends Attribute {
    */
   renderBoxModel (defaultStyles) {
     if (this.boxModelRef) {
-      if (this.state.devices[ this.state.currentDevice ].display) {
+      if (this.state.devices[this.state.currentDevice].display) {
         return null
       }
-      let value = this.state.devices[ this.state.currentDevice ].boxModel || {}
+      const value = this.state.devices[this.state.currentDevice].boxModel || {}
 
       ReactDOM.render(
         <BoxModel
@@ -940,7 +944,8 @@ export default class DesignOptionsAdvanced extends Attribute {
           fieldKey='boxModel'
           updater={this.boxModelChangeHandler}
           placeholder={defaultStyles}
-          value={value} />,
+          value={value}
+        />,
         this.boxModelRef
       )
     }
@@ -951,17 +956,17 @@ export default class DesignOptionsAdvanced extends Attribute {
    * calls renderBoxModel
    */
   getDefaultStyles () {
-    let mainDefaultStyles = {
+    const mainDefaultStyles = {
       margin: {},
       padding: {},
       border: {}
     }
-    let doAttribute = 'data-vce-do-apply'
-    let frame = document.querySelector('#vcv-editor-iframe')
-    let frameDocument = frame.contentDocument || frame.contentWindow.document
-    let elementIdSelector = `el-${this.props.elementAccessPoint.id}`
-    let element = frameDocument.querySelector(`#${elementIdSelector}`)
-    let styles = [ 'border', 'padding', 'margin' ]
+    const doAttribute = 'data-vce-do-apply'
+    const frame = document.querySelector('#vcv-editor-iframe')
+    const frameDocument = frame.contentDocument || frame.contentWindow.document
+    const elementIdSelector = `el-${this.props.elementAccessPoint.id}`
+    const element = frameDocument.querySelector(`#${elementIdSelector}`)
+    const styles = ['border', 'padding', 'margin']
 
     if (element) {
       let dolly = element.cloneNode(true)
@@ -975,43 +980,43 @@ export default class DesignOptionsAdvanced extends Attribute {
       element.parentNode.appendChild(dolly)
 
       setTimeout(() => {
-        let elementDOAttribute = element.getAttribute(doAttribute)
+        const elementDOAttribute = element.getAttribute(doAttribute)
 
         if (elementDOAttribute) {
-          let allDefaultStyles = this.getElementStyles(dolly)
+          const allDefaultStyles = this.getElementStyles(dolly)
 
           if (elementDOAttribute.indexOf('all') >= 0) {
             mainDefaultStyles.all = allDefaultStyles
           } else {
             styles.forEach((style) => {
               if (elementDOAttribute.indexOf(style) >= 0) {
-                mainDefaultStyles[ style ] = allDefaultStyles
+                mainDefaultStyles[style] = allDefaultStyles
               } else {
-                let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-                mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
+                const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+                mainDefaultStyles[style] = this.getElementStyles(dolly, innerSelector)
               }
             })
           }
         } else {
-          let allStyleElement = (dolly).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
+          const allStyleElement = (dolly).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
 
           if (allStyleElement) {
             mainDefaultStyles.all = this.getElementStyles(allStyleElement)
           } else {
             styles.forEach((style) => {
-              let innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-              mainDefaultStyles[ style ] = this.getElementStyles(dolly, innerSelector)
+              const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+              mainDefaultStyles[style] = this.getElementStyles(dolly, innerSelector)
             })
           }
         }
 
         dolly.remove()
         dolly = null
-        let parsedStyles = this.parseStyles(mainDefaultStyles)
+        const parsedStyles = this.parseStyles(mainDefaultStyles)
         this.renderBoxModel(parsedStyles)
       }, 0)
     } else {
-      let parsedStyles = this.parseStyles(mainDefaultStyles)
+      const parsedStyles = this.parseStyles(mainDefaultStyles)
       this.renderBoxModel(parsedStyles)
     }
   }
@@ -1021,12 +1026,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {}
    */
   parseStyles (mainDefaultStyles) {
-    let parsedStyles = {}
-    for (let style in mainDefaultStyles) {
-      let styleObject = mainDefaultStyles.all || mainDefaultStyles[ style ]
-      for (let computedStyle in styleObject) {
+    const parsedStyles = {}
+    for (const style in mainDefaultStyles) {
+      const styleObject = mainDefaultStyles.all || mainDefaultStyles[style]
+      for (const computedStyle in styleObject) {
         if (computedStyle.indexOf(style) >= 0) {
-          parsedStyles[ computedStyle ] = styleObject[ computedStyle ]
+          parsedStyles[computedStyle] = styleObject[computedStyle]
         }
       }
     }
@@ -1040,11 +1045,11 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {{}}
    */
   getElementStyles (clonedElement, innerSelector) {
-    let styles = {}
+    const styles = {}
     if (clonedElement) {
       let computedStyles = ''
       if (innerSelector) {
-        let domElement = clonedElement.querySelector(innerSelector)
+        const domElement = clonedElement.querySelector(innerSelector)
         if (domElement) {
           computedStyles = window.getComputedStyle(domElement)
         }
@@ -1052,11 +1057,11 @@ export default class DesignOptionsAdvanced extends Attribute {
         computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
       }
 
-      for (let style in BoxModel.defaultState) {
+      for (const style in BoxModel.defaultState) {
         if (computedStyles && computedStyles.getPropertyValue) {
-          let styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[ 0 ].toLowerCase()}`)) // Transform camelCase to hyphen-case
+          const styleValue = computedStyles.getPropertyValue(style.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)) // Transform camelCase to hyphen-case
           if (styleValue && styleValue !== '0px' && styleValue.split(' ').length === 1) {
-            styles[ style ] = styleValue
+            styles[style] = styleValue
           }
         }
       }
@@ -1070,15 +1075,15 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param value
    */
   boxModelChangeHandler (fieldKey, value) {
-    let currentValue = this.state.devices[ this.state.currentDevice ].boxModel || {}
+    const currentValue = this.state.devices[this.state.currentDevice].boxModel || {}
 
     if (!lodash.isEqual(currentValue, value)) {
-      let newState = lodash.defaultsDeep({}, this.state)
+      const newState = lodash.defaultsDeep({}, this.state)
       // update value
       if (lodash.isEmpty(value)) {
-        delete newState.devices[ newState.currentDevice ].boxModel
+        delete newState.devices[newState.currentDevice].boxModel
       } else {
-        newState.devices[ newState.currentDevice ].boxModel = value
+        newState.devices[newState.currentDevice].boxModel = value
       }
       this.updateValue(newState, fieldKey)
     }
@@ -1089,20 +1094,20 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getAttachImageRender () {
-    let allowedBackgroundTypes = [
+    const allowedBackgroundTypes = [
       'imagesSimple',
       'backgroundZoom',
       'imagesSlideshow'
     ]
-    let backgroundTypeToSearch = this.state.devices[ this.state.currentDevice ].backgroundType
+    let backgroundTypeToSearch = this.state.devices[this.state.currentDevice].backgroundType
     if (!backgroundTypeToSearch) {
       backgroundTypeToSearch = this.state.backgroundType
     }
-    if (this.state.devices[ this.state.currentDevice ].display ||
+    if (this.state.devices[this.state.currentDevice].display ||
       allowedBackgroundTypes.indexOf(backgroundTypeToSearch) === -1) {
       return null
     }
-    let value = this.state.devices[ this.state.currentDevice ].images || ''
+    const value = this.state.devices[this.state.currentDevice].images || ''
 
     const fieldKey = 'attachImage'
     let fieldComponent = <AttachImage
@@ -1127,7 +1132,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         defaultValue=''
         updater={this.attachImageChangeHandler}
         value={value}
-        prevValue={this.state.devices[ this.state.currentDevice ].prevValue}
+        prevValue={this.state.devices[this.state.currentDevice].prevValue}
         elementAccessPoint={this.props.elementAccessPoint}
         handleDynamicFieldOpen={this.props.handleDynamicFieldOpen}
         handleDynamicFieldChange={this.props.handleDynamicFieldChange}
@@ -1153,8 +1158,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (value && value.hasOwnProperty(value.draggingIndex)) {
       delete value.draggingIndex
     }
-    let newState = lodash.defaultsDeep({}, this.state)
-    let deviceData = newState.devices[ newState.currentDevice ]
+    const newState = lodash.defaultsDeep({}, this.state)
+    const deviceData = newState.devices[newState.currentDevice]
     // update value
     if (lodash.isEmpty(value)) {
       delete deviceData.images
@@ -1175,22 +1180,22 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundStyleRender () {
-    let allowedBackgroundTypes = [
+    const allowedBackgroundTypes = [
       'imagesSimple',
       'imagesSlideshow'
     ]
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
     if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !deviceData.hasOwnProperty('images')) {
       return null
     }
-    let images = deviceData.images
-    let isArray = images.constructor === Array
+    const images = deviceData.images
+    const isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Cover',
@@ -1226,7 +1231,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = deviceData.backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
+    const value = deviceData.backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background style
@@ -1236,7 +1241,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='backgroundStyle'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1245,23 +1251,23 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundPositionRender () {
-    let allowedBackgroundTypes = [
+    const allowedBackgroundTypes = [
       'imagesSimple',
       'backgroundZoom',
       'imagesSlideshow'
     ]
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
     if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !deviceData.hasOwnProperty('images')) {
       return null
     }
-    let images = deviceData.images
-    let isArray = images.constructor === Array
+    const images = deviceData.images
+    const isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Left Top',
@@ -1310,7 +1316,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = deviceData.backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
+    const value = deviceData.backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background position
@@ -1320,7 +1326,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='backgroundPosition'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1329,23 +1336,23 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomRender () {
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
     if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
-    let images = deviceData.images
-    let isArray = images.constructor === Array
+    const images = deviceData.images
+    const isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
-    let options = {
+    const options = {
       min: 0,
       max: 100,
       measurement: '%'
     }
-    let value = deviceData.backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
+    const value = deviceData.backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background zoom scale
@@ -1355,7 +1362,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='backgroundZoom'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1364,21 +1372,21 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomSpeedRender () {
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
     if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
-    let images = deviceData.images
-    let isArray = images.constructor === Array
+    const images = deviceData.images
+    const isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
-    let options = {
+    const options = {
       min: 1
     }
-    let value = deviceData.backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
+    const value = deviceData.backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background zoom time (in seconds)
@@ -1388,7 +1396,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='backgroundZoomSpeed'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1397,25 +1406,25 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundZoomReverseRender () {
-    let deviceData = this.state.devices[ this.state.currentDevice ]
+    const deviceData = this.state.devices[this.state.currentDevice]
     if (deviceData.display || deviceData.backgroundType !== 'backgroundZoom' || !deviceData.hasOwnProperty('images')) {
       return null
     }
-    let images = deviceData.images
-    let isArray = images.constructor === Array
+    const images = deviceData.images
+    const isArray = images.constructor === Array
 
     if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
-    let value = deviceData.backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
+    const value = deviceData.backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
 
     return <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
       <Toggle
         api={this.props.api}
         fieldKey='backgroundZoomReverse'
         updater={this.valueChangeHandler}
-        options={{ labelText: `Use reverse zoom` }}
+        options={{ labelText: 'Use reverse zoom' }}
         value={value}
       />
     </div>
@@ -1426,11 +1435,11 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBackgroundColorRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+    if (this.state.devices[this.state.currentDevice].display) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].backgroundColor || ''
+    const value = this.state.devices[this.state.currentDevice].backgroundColor || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Background color
@@ -1440,7 +1449,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='backgroundColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue=''
+      />
     </div>
   }
 
@@ -1449,18 +1459,18 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getGradientOverlayRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+    if (this.state.devices[this.state.currentDevice].display) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].gradientOverlay || false
+    const value = this.state.devices[this.state.currentDevice].gradientOverlay || false
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <Toggle
           api={this.props.api}
           fieldKey='gradientOverlay'
           updater={this.valueChangeHandler}
-          options={{ labelText: `Use gradient overlay` }}
+          options={{ labelText: 'Use gradient overlay' }}
           value={value}
         />
       </div>
@@ -1472,11 +1482,11 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getGradientTypeRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+    if (this.state.devices[this.state.currentDevice].display || !this.state.devices[this.state.currentDevice].gradientOverlay) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Linear gradient',
@@ -1488,7 +1498,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientType || ''
+    const value = this.state.devices[this.state.currentDevice].gradientType || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient type
@@ -1498,7 +1508,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='gradientType'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1507,11 +1518,11 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientStartColorRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+    if (this.state.devices[this.state.currentDevice].display || !this.state.devices[this.state.currentDevice].gradientOverlay) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].gradientStartColor || DesignOptionsAdvanced.deviceDefaults.gradientStartColor
+    const value = this.state.devices[this.state.currentDevice].gradientStartColor || DesignOptionsAdvanced.deviceDefaults.gradientStartColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Start color
@@ -1521,7 +1532,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='gradientStartColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientStartColor} />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientStartColor}
+      />
     </div>
   }
 
@@ -1530,11 +1542,11 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientEndColorRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay) {
+    if (this.state.devices[this.state.currentDevice].display || !this.state.devices[this.state.currentDevice].gradientOverlay) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].gradientEndColor || DesignOptionsAdvanced.deviceDefaults.gradientEndColor
+    const value = this.state.devices[this.state.currentDevice].gradientEndColor || DesignOptionsAdvanced.deviceDefaults.gradientEndColor
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         End color
@@ -1544,7 +1556,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='gradientEndColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientEndColor} />
+        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientEndColor}
+      />
     </div>
   }
 
@@ -1553,15 +1566,15 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBorderStyleRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+    if (this.state.devices[this.state.currentDevice].display) {
       return null
     }
-    let device = this.state.devices[ this.state.currentDevice ]
+    const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Solid',
@@ -1581,7 +1594,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].borderStyle || DesignOptionsAdvanced.deviceDefaults.borderStyle
+    const value = this.state.devices[this.state.currentDevice].borderStyle || DesignOptionsAdvanced.deviceDefaults.borderStyle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border style
@@ -1591,7 +1604,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='borderStyle'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1600,15 +1614,15 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getBorderColorRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+    if (this.state.devices[this.state.currentDevice].display) {
       return null
     }
-    let device = this.state.devices[ this.state.currentDevice ]
+    const device = this.state.devices[this.state.currentDevice]
     if (!device.boxModel || !(device.boxModel.borderBottomWidth || device.boxModel.borderLeftWidth || device.boxModel.borderRightWidth || device.boxModel.borderTopWidth || device.boxModel.borderWidth)) {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].borderColor || ''
+    const value = this.state.devices[this.state.currentDevice].borderColor || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Border color
@@ -1618,7 +1632,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='borderColor'
         updater={this.valueChangeHandler}
         value={value}
-        defaultValue='' />
+        defaultValue=''
+      />
     </div>
   }
 
@@ -1627,13 +1642,13 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getSliderTimeoutRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow`) {
+    if (this.state.devices[this.state.currentDevice].display ||
+      this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].sliderTimeout || ''
-    let defaultValue = this.state.devices[ this.state.currentDevice ].sliderEffect === `carousel` ? 10 : 5
+    const value = this.state.devices[this.state.currentDevice].sliderTimeout || ''
+    const defaultValue = this.state.devices[this.state.currentDevice].sliderEffect === 'carousel' ? 10 : 5
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Animation timeout (in seconds)
@@ -1656,13 +1671,13 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getSliderDirectionRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow` ||
-      this.state.devices[ this.state.currentDevice ].sliderEffect !== `carousel`) {
+    if (this.state.devices[this.state.currentDevice].display ||
+      this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow' ||
+      this.state.devices[this.state.currentDevice].sliderEffect !== 'carousel') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].sliderDirection || 'left'
+    const value = this.state.devices[this.state.currentDevice].sliderDirection || 'left'
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Slider direction
@@ -1690,12 +1705,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getSliderEffectRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `imagesSlideshow`) {
+    if (this.state.devices[this.state.currentDevice].display ||
+      this.state.devices[this.state.currentDevice].backgroundType !== 'imagesSlideshow') {
       return null
     }
 
-    let options = {
+    const options = {
       values: [
         {
           label: 'Slide',
@@ -1711,7 +1726,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         }
       ]
     }
-    let value = this.state.devices[ this.state.currentDevice ].sliderEffect || DesignOptionsAdvanced.deviceDefaults.sliderEffect
+    const value = this.state.devices[this.state.currentDevice].sliderEffect || DesignOptionsAdvanced.deviceDefaults.sliderEffect
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Slideshow effect
@@ -1721,7 +1736,8 @@ export default class DesignOptionsAdvanced extends Attribute {
         fieldKey='sliderEffect'
         options={options}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
     </div>
   }
 
@@ -1731,8 +1747,8 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @param value
    */
   sliderTimeoutChangeHandler (fieldKey, value) {
-    let newState = lodash.defaultsDeep({}, this.state)
-    newState.devices[ newState.currentDevice ][ fieldKey ] = parseInt(value)
+    const newState = lodash.defaultsDeep({}, this.state)
+    newState.devices[newState.currentDevice][fieldKey] = parseInt(value)
     this.updateValue(newState, fieldKey)
   }
 
@@ -1741,10 +1757,10 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getGradientAngleRender () {
-    if (this.state.devices[ this.state.currentDevice ].display || !this.state.devices[ this.state.currentDevice ].gradientOverlay || this.state.devices[ this.state.currentDevice ].gradientType === 'radial') {
+    if (this.state.devices[this.state.currentDevice].display || !this.state.devices[this.state.currentDevice].gradientOverlay || this.state.devices[this.state.currentDevice].gradientType === 'radial') {
       return null
     }
-    let value = this.state.devices[ this.state.currentDevice ].gradientAngle
+    const value = this.state.devices[this.state.currentDevice].gradientAngle
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Gradient angle
@@ -1764,14 +1780,14 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getAnimationRender () {
-    if (this.state.devices[ this.state.currentDevice ].display) {
+    if (this.state.devices[this.state.currentDevice].display) {
       return null
     }
-    const value = this.state.devices[ this.state.currentDevice ].animation || ''
+    const value = this.state.devices[this.state.currentDevice].animation || ''
 
     let animationDelayHtml = null
     if (value) {
-      const delayValue = this.state.devices[ this.state.currentDevice ].animationDelay || ''
+      const delayValue = this.state.devices[this.state.currentDevice].animationDelay || ''
       const defaultDelayValue = 0
       animationDelayHtml = (
         <div className='vcv-ui-form-group'>
@@ -1801,7 +1817,8 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='animation'
           updater={this.valueChangeHandler}
-          value={value} />
+          value={value}
+        />
       </div>
       {animationDelayHtml}
     </>
@@ -1812,12 +1829,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getYoutubeVideoRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `videoYoutube`) {
+    if (this.state.devices[this.state.currentDevice].display ||
+      this.state.devices[this.state.currentDevice].backgroundType !== 'videoYoutube') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].videoYoutube || ''
+    const value = this.state.devices[this.state.currentDevice].videoYoutube || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         YouTube video link
@@ -1836,12 +1853,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getVimeoVideoRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `videoVimeo`) {
+    if (this.state.devices[this.state.currentDevice].display ||
+      this.state.devices[this.state.currentDevice].backgroundType !== 'videoVimeo') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].videoVimeo || ''
+    const value = this.state.devices[this.state.currentDevice].videoVimeo || ''
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Vimeo video link
@@ -1860,12 +1877,12 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getEmbedVideoRender () {
-    if (this.state.devices[ this.state.currentDevice ].display ||
-      this.state.devices[ this.state.currentDevice ].backgroundType !== `videoEmbed`) {
+    if (this.state.devices[this.state.currentDevice].display ||
+      this.state.devices[this.state.currentDevice].backgroundType !== 'videoEmbed') {
       return null
     }
 
-    let value = this.state.devices[ this.state.currentDevice ].videoEmbed || {}
+    const value = this.state.devices[this.state.currentDevice].videoEmbed || {}
     return <div className='vcv-ui-form-group'>
       <span className='vcv-ui-form-group-heading'>
         Video
@@ -1877,7 +1894,8 @@ export default class DesignOptionsAdvanced extends Attribute {
           multiple: false
         }}
         updater={this.valueChangeHandler}
-        value={value} />
+        value={value}
+      />
       <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
     </div>
   }

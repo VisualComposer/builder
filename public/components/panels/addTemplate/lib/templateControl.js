@@ -5,7 +5,7 @@ import HubTemplateControl from './hubTemplateControl'
 import CustomTemplateControl from './customTemplateControl'
 import { env } from 'vc-cake'
 
-const hubTemplateTypes = [ 'predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar', 'block' ]
+const hubTemplateTypes = ['predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar', 'block']
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const addTemplate = localizations ? localizations.addTemplate : 'Add Template'
 const removeTemplate = localizations ? localizations.removeTemplate : 'Remove Template'
@@ -56,8 +56,8 @@ export default class TemplateControl extends React.Component {
   getClosest (el, selector) {
     let matchesFn;
     // find vendor prefix
-    [ 'matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector' ].some(function (fn) {
-      if (typeof document.body[ fn ] === 'function') {
+    ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function (fn) {
+      if (typeof document.body[fn] === 'function') {
         matchesFn = fn
         return true
       }
@@ -67,7 +67,7 @@ export default class TemplateControl extends React.Component {
     // traverse parents
     while (el) {
       parent = el.parentElement
-      if (parent && parent[ matchesFn ](selector)) {
+      if (parent && parent[matchesFn](selector)) {
         return parent
       }
       el = parent
@@ -76,7 +76,7 @@ export default class TemplateControl extends React.Component {
   }
 
   updatePreviewPosition () {
-    let element = ReactDOM.findDOMNode(this)
+    const element = ReactDOM.findDOMNode(this)
 
     let container
     if (element.closest === undefined) {
@@ -84,14 +84,14 @@ export default class TemplateControl extends React.Component {
     } else {
       container = element.closest('.vcv-ui-item-list')
     }
-    let firstElement = container.querySelector('.vcv-ui-item-list-item')
-    let trigger = element.querySelector('.vcv-ui-item-element-content')
-    let preview = element.querySelector('.vcv-ui-item-preview-container')
+    const firstElement = container.querySelector('.vcv-ui-item-list-item')
+    const trigger = element.querySelector('.vcv-ui-item-element-content')
+    const preview = element.querySelector('.vcv-ui-item-preview-container')
 
-    let triggerSizes = trigger.getBoundingClientRect()
-    let firsElementSize = firstElement.getBoundingClientRect()
-    let previewSizes = preview.getBoundingClientRect()
-    let windowSize = {
+    const triggerSizes = trigger.getBoundingClientRect()
+    const firsElementSize = firstElement.getBoundingClientRect()
+    const previewSizes = preview.getBoundingClientRect()
+    const windowSize = {
       height: window.innerHeight,
       width: window.innerWidth
     }
@@ -157,8 +157,8 @@ export default class TemplateControl extends React.Component {
   }
 
   ellipsize (selector) {
-    let element = ReactDOM.findDOMNode(this).querySelector(selector)
-    let wordArray = element.innerHTML.split(' ')
+    const element = ReactDOM.findDOMNode(this).querySelector(selector)
+    const wordArray = element.innerHTML.split(' ')
 
     // Check if difference is within a 3px threshold
     // 3px is a safe value to cover the differences between the browsers

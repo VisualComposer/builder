@@ -11,6 +11,7 @@ export default class EditForm extends React.Component {
     activeTabId: PropTypes.string,
     options: PropTypes.object
   }
+
   scrollbar = false
 
   constructor (props) {
@@ -27,7 +28,7 @@ export default class EditForm extends React.Component {
   }
 
   getActiveTabIndex (activeTabKey) {
-    let activeTab = this.allTabs && this.allTabs.findIndex((tab) => {
+    const activeTab = this.allTabs && this.allTabs.findIndex((tab) => {
       return tab.fieldKey === activeTabKey
     })
     return activeTab > -1 ? activeTab : 0
@@ -54,8 +55,8 @@ export default class EditForm extends React.Component {
         key: `edit-form-tab-${props.elementAccessPoint.id}-${index}-${tab.key}`,
         changeTab: this.onChangeActiveTab.bind(this, index),
         ref: (ref) => {
-          if (this.allTabs[ index ]) {
-            this.allTabs[ index ].realRef = ref
+          if (this.allTabs[index]) {
+            this.allTabs[index].realRef = ref
           }
         }
       }
@@ -63,17 +64,17 @@ export default class EditForm extends React.Component {
   }
 
   editFormTabs (props) {
-    let cookElement = props.elementAccessPoint.cook()
+    const cookElement = props.elementAccessPoint.cook()
     const group = cookElement.get('metaEditFormTabs')
     if (props.options.nestedAttr) {
-      let groups = []
-      let attributes = cookElement.settings(props.options.fieldKey)
+      const groups = []
+      const attributes = cookElement.settings(props.options.fieldKey)
       const metaEditFormTabs = attributes.settings.options.settings.metaEditFormTabs.value
       metaEditFormTabs.forEach((tab) => {
-        let iterator = {
+        const iterator = {
           key: tab,
-          value: attributes.settings.options.settings[ tab ].value,
-          data: attributes.settings.options.settings[ tab ]
+          value: attributes.settings.options.settings[tab].value,
+          data: attributes.settings.options.settings[tab]
         }
         groups.push(iterator)
       })
@@ -86,7 +87,7 @@ export default class EditForm extends React.Component {
   }
 
   editFormTabsIterator (props, item) {
-    let cookElement = props.elementAccessPoint.cook()
+    const cookElement = props.elementAccessPoint.cook()
     return {
       key: item,
       value: cookElement.get(item),
@@ -95,28 +96,28 @@ export default class EditForm extends React.Component {
   }
 
   editFormTabParams (props, tab) {
-    let cookElement = props.elementAccessPoint.cook()
+    const cookElement = props.elementAccessPoint.cook()
     if (props.options.nestedAttr) {
-      let paramGroupValues = cookElement.get(props.options.fieldKey).value
-      let currentParamGroupValue = paramGroupValues[ props.options.activeParamGroupIndex ]
+      const paramGroupValues = cookElement.get(props.options.fieldKey).value
+      const currentParamGroupValue = paramGroupValues[props.options.activeParamGroupIndex]
 
       if (tab.data.type === 'group') {
         return tab.value.map((item) => {
           return {
             key: item,
-            value: currentParamGroupValue[ item ],
-            data: cookElement.settings(props.options.fieldKey).settings.options.settings[ item ]
+            value: currentParamGroupValue[item],
+            data: cookElement.settings(props.options.fieldKey).settings.options.settings[item]
           }
         })
       } else {
-        return [ tab ]
+        return [tab]
       }
     }
     if (tab.data.settings.type === 'group' && tab.value) {
       return tab.value.each(item => (this.editFormTabsIterator(props, item)))
     }
     // In case if tab is single param holder
-    return [ tab ]
+    return [tab]
   }
 
   onChangeActiveTab (tabIndex) {
@@ -142,8 +143,8 @@ export default class EditForm extends React.Component {
 
   render () {
     const { activeTabIndex } = this.state
-    let activeTab = this.allTabs[ activeTabIndex ]
-    let plateClass = classNames({
+    const activeTab = this.allTabs[activeTabIndex]
+    const plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true
     }, `vcv-ui-editor-plate-${activeTab.key}`)

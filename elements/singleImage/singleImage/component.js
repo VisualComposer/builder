@@ -57,53 +57,53 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase().split('x')
     } else if (typeof size === 'object') {
       crop = size.crop
-      size = [ size.width, size.height ]
+      size = [size.width, size.height]
     }
 
     naturalWidth = parseInt(naturalWidth)
     naturalHeight = parseInt(naturalHeight)
 
-    const cropHorizontal = parseInt(size[ 0 ]) < naturalWidth
-    const cropVertical = parseInt(size[ 1 ]) < naturalHeight
+    const cropHorizontal = parseInt(size[0]) < naturalWidth
+    const cropVertical = parseInt(size[1]) < naturalHeight
 
     if (crop) {
-      size[ 0 ] = parseInt(size[ 0 ]) < naturalWidth ? parseInt(size[ 0 ]) : naturalWidth
-      size[ 1 ] = parseInt(size[ 1 ]) < naturalHeight ? parseInt(size[ 1 ]) : naturalHeight
+      size[0] = parseInt(size[0]) < naturalWidth ? parseInt(size[0]) : naturalWidth
+      size[1] = parseInt(size[1]) < naturalHeight ? parseInt(size[1]) : naturalHeight
     } else {
-      size[ 0 ] = cropHorizontal ? parseInt(size[ 0 ]) : naturalWidth
-      size[ 1 ] = cropVertical ? parseInt(size[ 1 ]) : naturalHeight
+      size[0] = cropHorizontal ? parseInt(size[0]) : naturalWidth
+      size[1] = cropVertical ? parseInt(size[1]) : naturalHeight
 
       if (cropHorizontal && !cropVertical) {
-        const prop = size[ 0 ] / naturalWidth
-        size[ 1 ] = parseInt(naturalHeight * prop)
+        const prop = size[0] / naturalWidth
+        size[1] = parseInt(naturalHeight * prop)
       }
 
       if (cropVertical && !cropHorizontal) {
-        const prop = size[ 1 ] / naturalHeight
-        size[ 0 ] = parseInt(naturalWidth * prop)
+        const prop = size[1] / naturalHeight
+        size[0] = parseInt(naturalWidth * prop)
       }
 
       if (cropVertical && cropHorizontal) {
         if (naturalHeight < naturalWidth) {
-          const prop = size[ 0 ] / naturalWidth
-          size[ 1 ] = parseInt(naturalHeight * prop)
+          const prop = size[0] / naturalWidth
+          size[1] = parseInt(naturalHeight * prop)
         } else {
-          const prop = size[ 1 ] / naturalHeight
-          size[ 0 ] = parseInt(naturalWidth * prop)
+          const prop = size[1] / naturalHeight
+          size[0] = parseInt(naturalWidth * prop)
         }
       }
     }
 
     if (isRound) {
-      let smallestSize = size[ 0 ] >= size[ 1 ] ? size[ 1 ] : size[ 0 ]
+      const smallestSize = size[0] >= size[1] ? size[1] : size[0]
       size = {
         width: smallestSize,
         height: smallestSize
       }
     } else {
       size = {
-        width: size[ 0 ],
-        height: size[ 1 ]
+        width: size[0],
+        height: size[1]
       }
     }
     return size
@@ -111,8 +111,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   checkRelatedSize (size) {
     let relatedSize = null
-    if (window.vcvImageSizes && window.vcvImageSizes[ size ]) {
-      relatedSize = window.vcvImageSizes[ size ]
+    if (window.vcvImageSizes && window.vcvImageSizes[size]) {
+      relatedSize = window.vcvImageSizes[size]
     }
     return relatedSize
   }
@@ -197,18 +197,18 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   getImageShortcode (options) {
     const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
-    let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props[ 'data-img-src' ]}" alt="${props.alt}" title="${props.title}"`
+    let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props['data-img-src']}" alt="${props.alt}" title="${props.title}"`
 
     if (isDefaultImage) {
       shortcode += ' data-default-image="true"'
     }
 
     if (isDynamicImage) {
-      let blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
+      const blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
       shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
 
       if (naturalSizes) {
-        shortcode += ` data-dynamic-natural-size="true"`
+        shortcode += ' data-dynamic-natural-size="true"'
       }
     }
 
@@ -218,22 +218,22 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
+    const { id, atts, editor } = this.props
+    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
     let containerClasses = 'vce-single-image-container'
-    let wrapperClasses = 'vce vce-single-image-wrapper'
+    const wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner vce-single-image--absolute'
-    let imageClasses = 'vce-single-image'
+    const imageClasses = 'vce-single-image'
     let customProps = {}
-    let containerProps = {}
-    let wrapperProps = {}
+    const containerProps = {}
+    const wrapperProps = {}
     let CustomTag = 'div'
-    let customImageProps = {}
-    let imgSrc = this.getImageUrl(image)
+    const customImageProps = {}
+    const imgSrc = this.getImageUrl(image)
 
-    customImageProps[ 'data-img-src' ] = imgSrc
-    customImageProps[ 'alt' ] = image && image.alt ? image.alt : ''
-    customImageProps[ 'title' ] = image && image.title ? image.title : ''
+    customImageProps['data-img-src'] = imgSrc
+    customImageProps.alt = image && image.alt ? image.alt : ''
+    customImageProps.title = image && image.title ? image.title : ''
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass
@@ -241,23 +241,23 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
     if (clickableOptions === 'url' && image && image.link && image.link.url) {
       CustomTag = 'a'
-      let { url, title, targetBlank, relNofollow } = image.link
+      const { url, title, targetBlank, relNofollow } = image.link
       customProps = {
-        'href': url,
-        'title': title,
-        'target': targetBlank ? '_blank' : undefined,
-        'rel': relNofollow ? 'nofollow' : undefined
+        href: url,
+        title: title,
+        target: targetBlank ? '_blank' : undefined,
+        rel: relNofollow ? 'nofollow' : undefined
       }
     } else if (clickableOptions === 'imageNewTab') {
       CustomTag = 'a'
       customProps = {
-        'href': imgSrc,
-        'target': '_blank'
+        href: imgSrc,
+        target: '_blank'
       }
     } else if (clickableOptions === 'lightbox') {
       CustomTag = 'a'
       customProps = {
-        'href': imgSrc,
+        href: imgSrc,
         'data-lightbox': `lightbox-${id}`
       }
     } else if (clickableOptions === 'zoom') {
@@ -265,15 +265,15 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     } else if (clickableOptions === 'photoswipe') {
       CustomTag = 'a'
       customProps = {
-        'href': imgSrc,
+        href: imgSrc,
         'data-photoswipe-image': id,
         'data-photoswipe-index': 0
       }
-      wrapperProps[ 'data-photoswipe-item' ] = `photoswipe-${id}`
+      wrapperProps['data-photoswipe-item'] = `photoswipe-${id}`
       if (showCaption) {
-        customProps[ 'data-photoswipe-caption' ] = image.caption
+        customProps['data-photoswipe-caption'] = image.caption
       }
-      containerProps[ 'data-photoswipe-gallery' ] = id
+      containerProps['data-photoswipe-gallery'] = id
     }
 
     if (alignment) {
@@ -292,7 +292,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       containerProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
     let caption = null
 
     if (image && image.caption) {
@@ -302,7 +302,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
         </figcaption>
       )
     }
-    const imageForFilter = image && image.urls && image.urls.length ? image.urls[ 0 ] : image
+    const imageForFilter = image && image.urls && image.urls.length ? image.urls[0] : image
 
     if (imageForFilter && imageForFilter.filter && imageForFilter.filter !== 'normal') {
       classes += ` vce-image-filter--${imageForFilter.filter}`
@@ -310,13 +310,13 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
     let imgElement = ''
 
-    let rawImage = this.props.rawAtts.image && this.props.rawAtts.image.full
+    const rawImage = this.props.rawAtts.image && this.props.rawAtts.image.full
 
     const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
 
     let naturalDynamicSizes = false
     if (isDynamic && ((this.state.naturalWidth === 1 && this.state.naturalHeight === 1) || ((!size || size === 'full') && shape !== 'round'))) {
-      customProps[ 'data-vce-delete-attr' ] = 'style'
+      customProps['data-vce-delete-attr'] = 'style'
       naturalDynamicSizes = true
     }
 

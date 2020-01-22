@@ -26,8 +26,8 @@ export default class Element {
     attr.id = id
     cookApi = API
 
-    let elements = hubElementService.all()
-    let element = elements ? elements[ tag ] : null
+    const elements = hubElementService.all()
+    let element = elements ? elements[tag] : null
 
     if (!element) {
       // vcCake.env('VCV_DEBUG') === true && console.warn(`Element ${tag} is not registered in system`, data)
@@ -41,18 +41,18 @@ export default class Element {
       }
     }
 
-    let metaSettings = element.settings
+    const metaSettings = element.settings
 
     let settings = {}
-    let elSettings = elementSettingsStorage.action('get', tag) || null
+    const elSettings = elementSettingsStorage.action('get', tag) || null
 
     if (dataSettings) {
-      for (let k in dataSettings) {
+      for (const k in dataSettings) {
         if (dataSettings.hasOwnProperty(k)) {
           const attrSettings = getAttributeType(k, dataSettings)
           if (attrSettings.hasOwnProperty('settings')) {
-            settings[ k ] = attrSettings.settings
-            settings[ k ].attrSettings = attrSettings
+            settings[k] = attrSettings.settings
+            settings[k].attrSettings = attrSettings
           }
         }
       }
@@ -108,71 +108,71 @@ export default class Element {
   }
 
   get (k, raw = false) {
-    if (Object.keys(this[ elData ]).indexOf(k) > -1) {
-      return this[ elData ][ k ]
+    if (Object.keys(this[elData]).indexOf(k) > -1) {
+      return this[elData][k]
     }
-    let { type, settings } = this[ elData ].getAttributeType(k)
+    const { type, settings } = this[elData].getAttributeType(k)
 
-    return type && settings ? type.getValue(settings, this[ elData ].data, k, raw) : undefined
+    return type && settings ? type.getValue(settings, this[elData].data, k, raw) : undefined
   }
 
   settings (k, settings = false) {
     if (settings !== false) {
       return getAttributeType(k, settings)
     }
-    return this[ elData ].getAttributeType(k)
+    return this[elData].getAttributeType(k)
   }
 
   get data () {
-    return this[ elData ].data
+    return this[elData].data
   }
 
   set (k, v) {
-    if ([ 'customHeaderTitle', 'parent', 'metaElementAssets' ].indexOf(k) > -1) {
-      this[ elData ][ k ] = v
-      return this[ elData ][ k ]
+    if (['customHeaderTitle', 'parent', 'metaElementAssets'].indexOf(k) > -1) {
+      this[elData][k] = v
+      return this[elData][k]
     }
-    let { type, settings } = this[ elData ].getAttributeType(k)
+    const { type, settings } = this[elData].getAttributeType(k)
     if (type && settings) {
-      this[ elData ].data = type.setValue(settings, this[ elData ].data, k, v)
+      this[elData].data = type.setValue(settings, this[elData].data, k, v)
     }
-    return this[ elData ].data[ k ]
+    return this[elData].data[k]
   }
 
   toJS (raw = true, publicOnly = true) {
-    let data = {}
-    for (let k of Object.keys(this[ elData ].settings)) {
-      let value = this.get(k, raw)
+    const data = {}
+    for (const k of Object.keys(this[elData].settings)) {
+      const value = this.get(k, raw)
       if (value !== undefined) {
-        data[ k ] = value
+        data[k] = value
       }
     }
-    data.id = this[ elData ].id
-    data.tag = this[ elData ].tag
-    data.name = this[ elData ].name
-    data.metaThumbnailUrl = this[ elData ].metaThumbnailUrl
-    data.metaPreviewUrl = this[ elData ].metaPreviewUrl
-    data.metaDescription = this[ elData ].metaDescription
-    data.metaAssetsPath = this[ elData ].metaAssetsPath
-    data.metaElementPath = this[ elData ].metaElementPath
-    data.metaBundlePath = this[ elData ].metaBundlePath
-    data.metaElementAssets = this[ elData ].metaElementAssets
-    if (this[ elData ].customHeaderTitle !== undefined) {
-      data.customHeaderTitle = this[ elData ].customHeaderTitle
+    data.id = this[elData].id
+    data.tag = this[elData].tag
+    data.name = this[elData].name
+    data.metaThumbnailUrl = this[elData].metaThumbnailUrl
+    data.metaPreviewUrl = this[elData].metaPreviewUrl
+    data.metaDescription = this[elData].metaDescription
+    data.metaAssetsPath = this[elData].metaAssetsPath
+    data.metaElementPath = this[elData].metaElementPath
+    data.metaBundlePath = this[elData].metaBundlePath
+    data.metaElementAssets = this[elData].metaElementAssets
+    if (this[elData].customHeaderTitle !== undefined) {
+      data.customHeaderTitle = this[elData].customHeaderTitle
     }
-    if (this[ elData ].hidden !== undefined) {
-      data.hidden = this[ elData ].hidden
+    if (this[elData].hidden !== undefined) {
+      data.hidden = this[elData].hidden
     } else {
       data.hidden = false
     }
     // JSON.parse can return '' for false entries
-    if (this[ elData ].parent !== undefined && this[ elData ].parent !== '') {
-      data.parent = this[ elData ].parent
+    if (this[elData].parent !== undefined && this[elData].parent !== '') {
+      data.parent = this[elData].parent
     } else {
       data.parent = false
     }
-    if (this[ elData ].order !== undefined) {
-      data.order = this[ elData ].order
+    if (this[elData].order !== undefined) {
+      data.order = this[elData].order
     } else {
       data.order = 0
     }
@@ -215,15 +215,15 @@ export default class Element {
   }
 
   filter (callback) {
-    return Object.keys(this[ elData ].settings).filter((key) => {
-      let settings = this[ elData ].settings[ key ]
-      let value = this.get(key)
+    return Object.keys(this[elData].settings).filter((key) => {
+      const settings = this[elData].settings[key]
+      const value = this.get(key)
       return callback(key, value, settings)
     })
   }
 
   getPublicKeys () {
-    return [ 'id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden', 'metaElementAssets' ].concat(this.filter((key, value, settings) => {
+    return ['id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden', 'metaElementAssets'].concat(this.filter((key, value, settings) => {
       return settings.access === 'public'
     }))
   }
@@ -233,15 +233,15 @@ export default class Element {
   }
 
   getContentComponent () {
-    if (!this[ elComponent ].has()) {
-      let elSettings = elementSettingsStorage.action('get', this[ elData ].tag)
+    if (!this[elComponent].has()) {
+      const elSettings = elementSettingsStorage.action('get', this[elData].tag)
 
       if (vcCake.env('VCV_DEBUG') === true && (!elSettings || !elSettings.component)) {
-        console.error('Component settings doesnt exists! Failed to get component', this[ elData ].tag, this[ elData ], elSettings, this[ elComponent ])
+        console.error('Component settings doesnt exists! Failed to get component', this[elData].tag, this[elData], elSettings, this[elComponent])
       }
-      elSettings && elSettings.component && elSettings.component(this[ elComponent ])
+      elSettings && elSettings.component && elSettings.component(this[elComponent])
     }
-    return this[ elComponent ].get()
+    return this[elComponent].get()
   }
 
   static create (tag) {
@@ -249,16 +249,16 @@ export default class Element {
   }
 
   render (content, editor, inner = true) {
-    if (!this[ elComponent ].has()) {
-      elementSettingsStorage.action('get', this[ elData ].tag).component(this[ elComponent ])
+    if (!this[elComponent].has()) {
+      elementSettingsStorage.action('get', this[elData].tag).component(this[elComponent])
     }
-    let ElementToRender = this[ elComponent ].get()
-    let props = {}
-    let editorProps = {}
-    let atts = this.getAll()
-    props.key = this[ elData ].id + '-' + Date.now()
-    props.id = this[ elData ].atts && typeof this[ elData ].atts.metaCustomId !== 'undefined' ? this[ elData ].atts.metaCustomId : this[ elData ].id
-    editorProps[ 'data-vc-element' ] = this[ elData ].id
+    const ElementToRender = this[elComponent].get()
+    const props = {}
+    const editorProps = {}
+    const atts = this.getAll()
+    props.key = this[elData].id + '-' + Date.now()
+    props.id = this[elData].atts && typeof this[elData].atts.metaCustomId !== 'undefined' ? this[elData].atts.metaCustomId : this[elData].id
+    editorProps['data-vc-element'] = this[elData].id
     if (typeof editor === 'undefined' || editor) {
       props.editor = editorProps
     }
@@ -270,7 +270,7 @@ export default class Element {
     }
 
     return <DynamicElement
-      key={this[ elData ].id + '-' + Date.now()} // key must be unique to call unmount on each update & replace
+      key={this[elData].id + '-' + Date.now()} // key must be unique to call unmount on each update & replace
       cookApi={cookApi}
       cookElement={this}
       element={this.getAll()}

@@ -18,7 +18,7 @@ export default class ElementControl extends React.Component {
   }
 
   render () {
-    let { options } = this.props.control
+    const { options } = this.props.control
 
     return <span
       className='vcv-ui-blank-row-element-control'

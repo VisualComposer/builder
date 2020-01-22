@@ -8,12 +8,14 @@ export default class UrlDropdownInput extends React.Component {
     updater: PropTypes.func.isRequired,
     fieldKey: PropTypes.string.isRequired
   }
+
   static VALUES = [
     'http://',
     'https://',
     'mailto:',
     'tel:'
   ]
+
   inputTimeout = 0
   dropdownTimeout = 0
 
@@ -43,19 +45,19 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   setFieldValue (inputValue) {
-    let result = this.stateFromValue(inputValue)
+    const result = this.stateFromValue(inputValue)
     this.props.updater(this.props.fieldKey, result.inputValue && result.dropdownValue && result.dropdownValue !== 'custom' ? `${result.dropdownValue}${result.inputValue}` : result.inputValue)
     this.setState(result)
   }
 
   stateFromValue (inputValue) {
     inputValue = inputValue.trim()
-    let dropdownValue = UrlDropdownInput.VALUES[ 0 ] // Default protcol value
+    let dropdownValue = UrlDropdownInput.VALUES[0] // Default protcol value
     if (inputValue) {
       dropdownValue = this.state.dropdownValue ? this.state.dropdownValue : 'custom'
     }
 
-    let { protocol, protocolRegExp } = this.extractProtocol(inputValue)
+    const { protocol, protocolRegExp } = this.extractProtocol(inputValue)
     if (protocol) {
       dropdownValue = protocol
 
@@ -72,11 +74,11 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   extractProtocol (value) {
-    let protocolRegExp = new RegExp(/^https?:\/\/|mailto:|tel:/)
-    let match = value.match(protocolRegExp)
+    const protocolRegExp = new RegExp(/^https?:\/\/|mailto:|tel:/)
+    const match = value.match(protocolRegExp)
     if (match) {
       return {
-        protocol: match[ 0 ],
+        protocol: match[0],
         protocolRegExp: protocolRegExp
       }
     }
@@ -88,8 +90,8 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   handleInputChange (e) {
-    let inputValue = e.currentTarget.value
-    let result = this.stateFromValue(inputValue)
+    const inputValue = e.currentTarget.value
+    const result = this.stateFromValue(inputValue)
     this.props.updater(this.props.fieldKey, result.inputValue && result.dropdownValue && result.dropdownValue !== 'custom' ? `${result.dropdownValue}${result.inputValue}` : result.inputValue)
     this.setState({
       inputValue: inputValue,
@@ -98,8 +100,8 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   handleInputBlur (e) {
-    let inputValue = e.currentTarget.value
-    let result = this.stateFromValue(inputValue)
+    const inputValue = e.currentTarget.value
+    const result = this.stateFromValue(inputValue)
     this.setState({
       inputValue: result.inputValue,
       dropdownValue: result.dropdownValue
@@ -107,7 +109,7 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   handleDropdownSelect (e) {
-    let dropdownValue = e.currentTarget.value
+    const dropdownValue = e.currentTarget.value
     this.props.updater(this.props.fieldKey, this.state.inputValue && dropdownValue && dropdownValue !== 'custom' ? `${dropdownValue}${this.state.inputValue}` : this.state.inputValue)
     this.setState({
       dropdownValue: dropdownValue
@@ -129,7 +131,7 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   getDropdown () {
-    let options = []
+    const options = []
     UrlDropdownInput.VALUES.forEach((item, index) => {
       options.push(<option key={`url-dropdown-item-${index}`} value={item}>{item}</option>)
     })
@@ -149,11 +151,11 @@ export default class UrlDropdownInput extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const urlInputPlaceholder = localizations ? localizations.urlInputPlaceholder : 'Enter destination URL'
-    let dropdownContainerClasses = classNames({
+    const dropdownContainerClasses = classNames({
       'vcv-ui-editor-dropdown-input-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdownFocus
     })
-    let inputContainerClasses = classNames({
+    const inputContainerClasses = classNames({
       'vcv-ui-editor-dropdown-input-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.inputFocus
     })

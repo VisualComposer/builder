@@ -5,7 +5,7 @@ const $mainHFSDropdown = $('#vcv-headerFooterSettings')
 const $toggleCells = $('.vcv-no-title td')
 
 const handleToggle = ($this, $target) => {
-  if ($this[ 0 ].checked) {
+  if ($this[0].checked) {
     $target.show()
   } else {
     $target.hide()

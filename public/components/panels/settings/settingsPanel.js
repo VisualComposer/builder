@@ -13,23 +13,23 @@ const settingsText = localizations ? localizations.layout : 'Layout'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 
 const controls = {
-  'layout': {
-    'index': 0,
-    'type': 'layout',
-    'title': settingsText,
-    'content': <PageSettings />
+  layout: {
+    index: 0,
+    type: 'layout',
+    title: settingsText,
+    content: <PageSettings />
   },
-  'customCss': {
-    'index': 1,
-    'type': 'customCss',
-    'title': customCSSText,
-    'content': <CustomStyles />
+  customCss: {
+    index: 1,
+    type: 'customCss',
+    title: customCSSText,
+    content: <CustomStyles />
   },
-  'customJs': {
-    'index': 2,
-    'type': 'customJs',
-    'title': customJSText,
-    'content': <CustomScripts />
+  customJs: {
+    index: 2,
+    type: 'customJs',
+    title: customJSText,
+    content: <CustomScripts />
   }
 }
 
@@ -64,7 +64,7 @@ export default class SettingsPanel extends React.Component {
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
             <div className='vcv-ui-tree-content-section-inner'>
-              {controls[ this.state.activeSection ].content}
+              {controls[this.state.activeSection].content}
             </div>
           </Scrollbar>
         </div>

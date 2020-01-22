@@ -3,8 +3,8 @@ import fonts from 'public/sources/attributes/googleFonts/lib/google-fonts-set.js
 const googleFonts = fonts.families
 
 const getFontVariant = function (fontStyle, fontWeight, position) {
-  const availableVariants = googleFonts[ position ].variants
-  if (availableVariants && availableVariants.length === 1 && availableVariants[ 0 ] === 'regular') {
+  const availableVariants = googleFonts[position].variants
+  if (availableVariants && availableVariants.length === 1 && availableVariants[0] === 'regular') {
     return 'all'
   }
   let variant = ''
@@ -26,8 +26,8 @@ const getFontVariant = function (fontStyle, fontWeight, position) {
 }
 
 const getUsedFonts = function (element) {
-  let allFonts = {}
-  for (let node of element.querySelectorAll('*')) {
+  const allFonts = {}
+  for (const node of element.querySelectorAll('*')) {
     const computedStyles = window.getComputedStyle(node)
     let fontFamily = computedStyles.fontFamily
 
@@ -42,21 +42,21 @@ const getUsedFonts = function (element) {
       const fontVariant = getFontVariant(fontStyle, fontWeight, familyPositionInFonts)
 
       if (allFonts.hasOwnProperty(fontFamily)) {
-        if (allFonts[ fontFamily ].variants.indexOf('all') < 0 && allFonts[ fontFamily ].variants.indexOf(fontVariant) < 0) {
-          allFonts[ fontFamily ].variants.push(fontVariant)
+        if (allFonts[fontFamily].variants.indexOf('all') < 0 && allFonts[fontFamily].variants.indexOf(fontVariant) < 0) {
+          allFonts[fontFamily].variants.push(fontVariant)
         }
       } else {
-        allFonts[ fontFamily ] = {
-          variants: [ fontVariant ],
-          subsets: googleFonts[ familyPositionInFonts ].subsets
+        allFonts[fontFamily] = {
+          variants: [fontVariant],
+          subsets: googleFonts[familyPositionInFonts].subsets
         }
       }
     }
   }
 
   Object.keys(allFonts).forEach((key) => {
-    if (allFonts[ key ].variants.indexOf('all') > -1) {
-      delete allFonts[ key ].variants
+    if (allFonts[key].variants.indexOf('all') > -1) {
+      delete allFonts[key].variants
     }
   })
 

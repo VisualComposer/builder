@@ -6,6 +6,7 @@ export default class NavbarContent extends React.Component {
     visibility: PropTypes.string,
     name: PropTypes.string
   }
+
   render () {
     return null
   }

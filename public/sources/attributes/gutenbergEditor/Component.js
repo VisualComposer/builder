@@ -82,7 +82,7 @@ export default class GutenbergEditorComponent extends Attribute {
     if (!!editor.autosave && typeof editor.autosave === 'function') {
       editor.autosave = () => {}
     }
-    let originalOpenGeneralSidebar = postEdit.openGeneralSidebar
+    const originalOpenGeneralSidebar = postEdit.openGeneralSidebar
     postEdit.openGeneralSidebar = function (block) {
       if (block !== 'edit-post/document') {
         originalOpenGeneralSidebar(block)
@@ -140,7 +140,7 @@ export default class GutenbergEditorComponent extends Attribute {
   }
 
   render () {
-    let { showEditor, loadingEditor } = this.state
+    const { showEditor, loadingEditor } = this.state
     let loadingOverlay = null
     if (loadingEditor) {
       loadingOverlay = (
@@ -167,12 +167,12 @@ export default class GutenbergEditorComponent extends Attribute {
       }
     }
     return (
-      <React.Fragment>
+      <>
         <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.openEditor}>
           Open Gutenberg
         </button>
         {editor()}
-      </React.Fragment>
+      </>
     )
   }
 }

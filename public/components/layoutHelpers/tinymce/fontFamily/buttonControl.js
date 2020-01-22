@@ -2,7 +2,7 @@ import getFontFamilies from './getFontFamilies'
 
 const ButtonControl = function (tinymce) {
   const getFontFamilyList = function () {
-    let list = []
+    const list = []
     let offset = 30
     getFontFamilies().forEach((item, i) => {
       const family = item.hasOwnProperty('value') ? item.value : item.family

@@ -25,21 +25,21 @@ export default class TeaserElementControl extends ElementControl {
       if (downloadingItems.includes(props.tag)) {
         elementState = 'downloading'
       } else {
-        elementState = typeof elements[ this.props.tag ] !== 'undefined' ? 'success' : 'inactive'
+        elementState = typeof elements[this.props.tag] !== 'undefined' ? 'success' : 'inactive'
       }
     } else if (this.props.type === 'addon') {
       const tag = this.props.element.tag
       const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
-      } else if (hubAddonsStorage.state('addons').get()[ tag ]) {
+      } else if (hubAddonsStorage.state('addons').get()[tag]) {
         elementState = 'success'
       } else {
         elementState = 'inactive'
       }
     } else {
       const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
-      let tag = this.props.element.bundle.replace('template/', '').replace('predefinedTemplate/', '')
+      const tag = this.props.element.bundle.replace('template/', '').replace('predefinedTemplate/', '')
       if (downloadingItems.includes(tag)) {
         elementState = 'downloading'
       } else {
@@ -77,7 +77,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   downloadingItemOnChange (data) {
-    let tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '').replace('predefinedTemplate/', '').replace('addon/', '')
+    const tag = this.props.type === 'element' ? this.props.tag : this.props.element.bundle.replace('template/', '').replace('predefinedTemplate/', '').replace('addon/', '')
     let elementState = 'failed'
     if (!data.includes(tag)) {
       switch (this.props.type) {
@@ -106,7 +106,7 @@ export default class TeaserElementControl extends ElementControl {
 
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
-      let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
+      const errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
       notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
@@ -128,7 +128,7 @@ export default class TeaserElementControl extends ElementControl {
 
     const localizations = window.VCV_I18N && window.VCV_I18N()
     if (this.props.element.update) {
-      let errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
+      const errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
       notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
@@ -151,7 +151,7 @@ export default class TeaserElementControl extends ElementControl {
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     if (this.props.element.update) {
-      let errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
+      const errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
       notificationsStorage.trigger('add', {
         type: 'error',
         text: errorMessage,
@@ -188,11 +188,11 @@ export default class TeaserElementControl extends ElementControl {
   buildVariables (variables) {
     if (variables.length) {
       variables.forEach((item) => {
-        if (typeof window[ item.key ] === 'undefined') {
+        if (typeof window[item.key] === 'undefined') {
           if (item.type === 'constant') {
-            window[ item.key ] = function () { return item.value }
+            window[item.key] = function () { return item.value }
           } else {
-            window[ item.key ] = item.value
+            window[item.key] = item.value
           }
         }
       })
@@ -215,36 +215,36 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   render () {
-    let { name, element, tag, type } = this.props
-    let { previewVisible, previewStyle, elementState } = this.state
+    const { name, element, tag, type } = this.props
+    const { previewVisible, previewStyle, elementState } = this.state
 
-    let itemElementClasses = classNames({
+    const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success'
     })
 
-    let listItemClasses = classNames({
+    const listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
       'vcv-ui-item-list-item--inactive': false
     })
-    let nameClasses = classNames({
+    const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
-    let previewClasses = classNames({
+    const previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
       'vcv-ui-state--visible': previewVisible
     })
 
-    let itemOverlayClasses = classNames({
+    const itemOverlayClasses = classNames({
       'vcv-ui-item-overlay': true,
       'vcv-ui-item-downloading': elementState === 'downloading'
     })
 
-    let publicPathThumbnail = element.metaThumbnailUrl
-    let publicPathPreview = element.metaPreviewUrl
-    let lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
+    const publicPathThumbnail = element.metaThumbnailUrl
+    const publicPathPreview = element.metaPreviewUrl
+    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
 
     let iconClasses = classNames({
       'vcv-ui-item-add': true,
@@ -259,7 +259,7 @@ export default class TeaserElementControl extends ElementControl {
       let actionClass = 'vcv-ui-icon-add'
 
       if (type === 'addon') {
-        const addonData = hubAddonsStorage.state('addons').get()[ tag ]
+        const addonData = hubAddonsStorage.state('addons').get()[tag]
         actionClass = (addonData && (addonData.addable === undefined || addonData.addable)) ? 'vcv-ui-icon-add' : 'vcv-ui-icon-more-dots'
       }
 
@@ -295,7 +295,7 @@ export default class TeaserElementControl extends ElementControl {
         action = this.handleAddonClick
       }
     }
-    let overlayOutput = <span className={iconClasses} onClick={action} />
+    const overlayOutput = <span className={iconClasses} onClick={action} />
     let previewOutput = null
 
     if (previewVisible) {
@@ -313,10 +313,12 @@ export default class TeaserElementControl extends ElementControl {
 
     return (
       <li className={listItemClasses}>
-        <span className={itemElementClasses}
+        <span
+          className={itemElementClasses}
           onMouseEnter={this.showPreview}
           onMouseLeave={this.hidePreview}
-          title={name}>
+          title={name}
+        >
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt={name} />
             <span className={itemOverlayClasses}>
