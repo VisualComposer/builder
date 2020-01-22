@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class ButtonElement extends vcvAPI.elementComponent {
@@ -66,12 +67,14 @@ export default class ButtonElement extends vcvAPI.elementComponent {
     const doMargin = this.applyDO('margin')
     const doRest = this.applyDO('padding border background animation')
 
-    return <div className={containerClasses} {...editor}>
-      <span className={wrapperClasses} id={'el-' + id} {...doMargin}>
-        <CustomTag className={classes} {...customProps} {...doRest}>
-          {buttonHtml}
-        </CustomTag>
-      </span>
-    </div>
+    return (
+      <div className={containerClasses} {...editor}>
+        <span className={wrapperClasses} id={'el-' + id} {...doMargin}>
+          <CustomTag className={classes} {...customProps} {...doRest}>
+            {buttonHtml}
+          </CustomTag>
+        </span>
+      </div>
+    )
   }
 }

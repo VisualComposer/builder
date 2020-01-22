@@ -42,10 +42,12 @@ export default class ShortcodeElement extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('all')
 
-    return <div className={shortcodeClasses} {...editor} {...customProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-        <div className='vcvhelper' ref='vcvhelper' data-vcvs-html={shortcode} />
+    return (
+      <div className={shortcodeClasses} {...editor} {...customProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll}>
+          <div className='vcvhelper' ref='vcvhelper' data-vcvs-html={shortcode} />
+        </div>
       </div>
-    </div>
+    )
   }
 }

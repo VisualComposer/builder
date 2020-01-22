@@ -75,19 +75,21 @@ export default class VimeoPlayerComponent extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('all')
 
-    return <div className={classes} {...customProps} {...editor} data-vcv-element-disabled>
-      <div className='vce vce-vim-video-player-wrapper' id={'el-' + id} style={{ width: videoWidth }} {...doAll}>
-        <div className='vce-vim-video-player-inner'>
-          <div className='vcvhelper' data-vcvs-html={html}>
-            <iframe
-              className='vce-vim-video-player-iframe'
-              src={source}
-              frameBorder='0'
-              allowFullScreen
-            />
+    return (
+      <div className={classes} {...customProps} {...editor} data-vcv-element-disabled>
+        <div className='vce vce-vim-video-player-wrapper' id={'el-' + id} style={{ width: videoWidth }} {...doAll}>
+          <div className='vce-vim-video-player-inner'>
+            <div className='vcvhelper' data-vcvs-html={html}>
+              <iframe
+                className='vce-vim-video-player-iframe'
+                src={source}
+                frameBorder='0'
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   }
 }

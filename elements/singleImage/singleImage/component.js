@@ -342,15 +342,17 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       )
     }
 
-    return <div className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
-        <figure>
-          <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
-            {imgElement}
-          </CustomTag>
-          {caption}
-        </figure>
+    return (
+      <div className={containerClasses} {...editor} {...containerProps}>
+        <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
+          <figure>
+            <CustomTag {...customProps} className={classes} ref='imageContainer' style={{ paddingBottom: `${(this.state.parsedHeight / this.state.parsedWidth) * 100}%`, width: this.state.parsedWidth }}>
+              {imgElement}
+            </CustomTag>
+            {caption}
+          </figure>
+        </div>
       </div>
-    </div>
+    )
   }
 }

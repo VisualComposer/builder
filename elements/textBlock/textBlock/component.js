@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class TextBlockElement extends vcvAPI.elementComponent {
@@ -28,10 +29,12 @@ export default class TextBlockElement extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('all')
 
-    return <div className={textBlockClasses} {...editor} {...customProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-        {output}
+    return (
+      <div className={textBlockClasses} {...editor} {...customProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll}>
+          {output}
+        </div>
       </div>
-    </div>
+    )
   }
 }

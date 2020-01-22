@@ -109,14 +109,16 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('border background animation padding margin')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses}>
-        <div className={backgroundClasses} id={'el-' + id} {...doAll}>
-          <CustomTag className={innerClasses} {...innerCustomProps}>
-            {headingHtml}
-          </CustomTag>
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div className={wrapperClasses}>
+          <div className={backgroundClasses} id={'el-' + id} {...doAll}>
+            <CustomTag className={innerClasses} {...innerCustomProps}>
+              {headingHtml}
+            </CustomTag>
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
 }
