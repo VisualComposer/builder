@@ -1,8 +1,8 @@
 import React from 'react'
-import vcCake from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import NotificationItem from './notificationItem'
 
-const notificationsStorage = vcCake.getStorage('notifications')
+const notificationsStorage = getStorage('notifications')
 const notificationsState = notificationsStorage.state('notifications')
 
 export default class NotificationsContainer extends React.Component {
@@ -58,13 +58,15 @@ export default class NotificationsContainer extends React.Component {
   }
 
   render () {
-    return <div className='vcv-layout-notifications'>
-      <div className='vcv-layout-notifications-top'>
-        {this.renderItems(this.state.topNotifications, 'top')}
+    return (
+      <div className='vcv-layout-notifications'>
+        <div className='vcv-layout-notifications-top'>
+          {this.renderItems(this.state.topNotifications, 'top')}
+        </div>
+        <div className='vcv-layout-notifications-bottom'>
+          {this.renderItems(this.state.bottomNotifications, 'bottom')}
+        </div>
       </div>
-      <div className='vcv-layout-notifications-bottom'>
-        {this.renderItems(this.state.bottomNotifications, 'bottom')}
-      </div>
-    </div>
+    )
   }
 }
