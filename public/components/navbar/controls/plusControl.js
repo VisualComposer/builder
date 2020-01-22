@@ -9,7 +9,7 @@ const workspaceContentState = getStorage('workspace').state('content')
 export default class PlusControl extends NavbarContent {
   constructor (props) {
     super(props)
-    this.toggleAddElement = this.toggleAddElement.bind(this)
+    this.handleClickAddElement = this.handleClickAddElement.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.state = {
       isActive: workspaceContentState.get() === 'addElement'
@@ -28,7 +28,7 @@ export default class PlusControl extends NavbarContent {
     workspaceContentState.ignoreChange(this.setActiveState)
   }
 
-  toggleAddElement (e) {
+  handleClickAddElement (e) {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'add',
@@ -49,7 +49,7 @@ export default class PlusControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.toggleAddElement}>
+      <span className={controlClass} title={name} onClick={this.handleClickAddElement}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>{name}</span>

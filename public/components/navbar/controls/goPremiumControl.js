@@ -2,7 +2,7 @@ import React from 'react'
 import NavbarContent from '../navbarContent'
 
 export default class GoPremiumControl extends NavbarContent {
-  goPremium (e) {
+  static handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
     const target = e.currentTarget
     window.open(target.dataset.href)
@@ -16,7 +16,7 @@ export default class GoPremiumControl extends NavbarContent {
       return (
         <span
           className='vcv-ui-navbar-control vcv-go-premium'
-          onClick={this.goPremium}
+          onClick={GoPremiumControl.handleClickGoPremium}
           title={goPremium}
           data-href={goPremiumUrl}
         >

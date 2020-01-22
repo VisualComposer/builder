@@ -12,7 +12,7 @@ export default class AddTemplateControl extends NavbarContent {
     this.state = {
       isActive: workspaceContentState.get() === 'addTemplate'
     }
-    this.toggleAddTemplate = this.toggleAddTemplate.bind(this)
+    this.handleClickAddTemplate = this.handleClickAddTemplate.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
   }
 
@@ -28,7 +28,7 @@ export default class AddTemplateControl extends NavbarContent {
     this.setState({ isActive: state === 'addTemplate' })
   }
 
-  toggleAddTemplate (e) {
+  handleClickAddTemplate (e) {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'addTemplate',
@@ -49,7 +49,7 @@ export default class AddTemplateControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.toggleAddTemplate}>
+      <span className={controlClass} title={name} onClick={this.handleClickAddTemplate}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-template' />
           <span>{name}</span>

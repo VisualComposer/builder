@@ -7,6 +7,7 @@ import { getRealSize } from './tools'
 import { Scrollbars } from 'react-custom-scrollbars'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
@@ -187,7 +188,7 @@ export default class Navbar extends React.Component {
         manageLock(locked)
         break
       case 'left':
-      case 'right':
+      case 'right': {
         const currentSettings = workspaceSettings.get()
         if (currentSettings && currentSettings.action && currentSettings.action === 'addHub') {
           manageLock(false)
@@ -195,6 +196,7 @@ export default class Navbar extends React.Component {
           manageLock(true)
         }
         break
+      }
     }
     const targetStyle = document.body.querySelector('.vcv-layout-bar').style
     for (const prop in navBarStyle) {
@@ -292,6 +294,7 @@ export default class Navbar extends React.Component {
       this.refreshControls(nextState.visibleControls)
     }
   }
+
   /* eslint-enable */
 
   closeDropdown (e) {
@@ -338,9 +341,9 @@ export default class Navbar extends React.Component {
     return (
       <dl className={sandwichClasses}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle} onClick={this.handleDropdown}>
-          <span className='vcv-ui-navbar-control-content'><i
-            className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu'
-          /><span>{menuTitle}</span>
+          <span className='vcv-ui-navbar-control-content'>
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />
+            <span>{menuTitle}</span>
           </span>
         </dt>
         <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
@@ -579,9 +582,11 @@ export default class Navbar extends React.Component {
     if (!draggable || this.isMobile) {
       return true
     }
-    return <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>
-      <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-    </div>
+    return (
+      <div className='vcv-ui-navbar-drag-handler vcv-ui-drag-handler' onMouseDown={this.handleDragStart}>
+        <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+      </div>
+    )
   }
 
   render () {

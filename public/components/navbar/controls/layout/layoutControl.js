@@ -79,7 +79,7 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     this.setDefautlDevice = this.setDefautlDevice.bind(this)
-    this.setSelectedLayout = this.setSelectedLayout.bind(this)
+    this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
   }
 
   componentDidMount () {
@@ -99,10 +99,10 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   setDefautlDevice () {
-    this.setSelectedLayout(0)
+    this.handleClickSetSelectedLayout(0)
   }
 
-  setSelectedLayout (index) {
+  handleClickSetSelectedLayout (index) {
     this.setViewport(LayoutButtonControl.devices[index].viewport.width)
     this.setState({
       activeDevice: index
@@ -137,7 +137,7 @@ export default class LayoutButtonControl extends React.Component {
     const layoutItems = []
     LayoutButtonControl.devices.forEach((item, index) => {
       layoutItems.push(
-        <Item key={index} device={item} index={index} onChange={this.setSelectedLayout} />
+        <Item key={index} device={item} index={index} onChange={this.handleClickSetSelectedLayout} />
       )
     })
 

@@ -10,7 +10,7 @@ const workspaceContentState = getStorage('workspace').state('content')
 export default class PlusTeaserControl extends NavbarContent {
   constructor (props) {
     super(props)
-    this.toggleAddElement = this.toggleAddElement.bind(this)
+    this.handleClickHub = this.handleClickHub.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.state = {
       isActive: workspaceContentState.get() === 'addHubElement',
@@ -30,7 +30,7 @@ export default class PlusTeaserControl extends NavbarContent {
     workspaceContentState.ignoreChange(this.setActiveState)
   }
 
-  toggleAddElement (e) {
+  handleClickHub (e) {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'addHub',
@@ -62,7 +62,7 @@ export default class PlusTeaserControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.toggleAddElement}>
+      <span className={controlClass} title={name} onClick={this.handleClickHub}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-hub-shop' />
           <span>{name}</span>
