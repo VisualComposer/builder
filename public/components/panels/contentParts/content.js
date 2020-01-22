@@ -29,7 +29,7 @@ export default class Content extends React.Component {
     }
 
     this.handleElementResize = this.handleElementResize.bind(this)
-    this.closeContent = this.closeContent.bind(this)
+    this.handleClickCloseContent = this.handleClickCloseContent.bind(this)
     this.showContent = this.showContent.bind(this)
     this.hideContent = this.hideContent.bind(this)
   }
@@ -93,7 +93,7 @@ export default class Content extends React.Component {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
-  closeContent (e) {
+  handleClickCloseContent (e) {
     e && e.preventDefault()
     workspaceSettings.set(false)
   }
@@ -128,7 +128,7 @@ export default class Content extends React.Component {
     })
 
     const closeButton = content === 'treeView' ? '' : (
-      <span className={closeBtnClasses} title={closeTitle} onClick={this.closeContent}>
+      <span className={closeBtnClasses} title={closeTitle} onClick={this.handleClickCloseContent}>
         <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
       </span>
     )

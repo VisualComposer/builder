@@ -35,8 +35,8 @@ export default class TreeViewLayout extends React.Component {
     this.handleAddElement = this.handleAddElement.bind(this)
     this.handleAddTemplate = this.handleAddTemplate.bind(this)
     this.checkShowOutlineCallback = this.checkShowOutlineCallback.bind(this)
-    this.onElementMount = this.onElementMount.bind(this)
-    this.onElementUnmount = this.onElementUnmount.bind(this)
+    this.handleElementMount = this.handleElementMount.bind(this)
+    this.handleElementUnmount = this.handleElementUnmount.bind(this)
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.getScrollbarContent = this.getScrollbarContent.bind(this)
     this.dnd = new TreeViewDndManager()
@@ -164,27 +164,29 @@ export default class TreeViewLayout extends React.Component {
     let elementsList = []
     if (this.state.data) {
       elementsList = this.state.data.map((element) => {
-        return <TreeViewElement
-          element={element}
-          key={element.id}
-          level={1}
-          showOutlineCallback={this.checkShowOutlineCallback}
-          onMountCallback={this.onElementMount}
-          onUnmountCallback={this.onElementUnmount}
-          scrollValue={this.props.scrollValue}
-          isAttribute={this.props.isAttribute}
-          updateElementsData={this.updateElementsData}
-        />
+        return (
+          <TreeViewElement
+            element={element}
+            key={element.id}
+            level={1}
+            showOutlineCallback={this.checkShowOutlineCallback}
+            onMountCallback={this.handleElementMount}
+            onUnmountCallback={this.handleElementUnmount}
+            scrollValue={this.props.scrollValue}
+            isAttribute={this.props.isAttribute}
+            updateElementsData={this.updateElementsData}
+          />
+        )
       }, this)
     }
     return elementsList
   }
 
-  onElementMount (id) {
+  handleElementMount (id) {
     this.dnd.add(id, this.props.isAttribute)
   }
 
-  onElementUnmount (id) {
+  handleElementUnmount (id) {
     this.dnd.remove(id, this.props.isAttribute)
   }
 
