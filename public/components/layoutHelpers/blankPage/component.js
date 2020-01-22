@@ -4,6 +4,7 @@ import ContentElementControl from './lib/contentElementControl'
 import CustomContentElementControl from './lib/customContentElementControl'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
+
 const cook = vcCake.getService('cook')
 // const categories = vcCake.getService('categories')
 const hubCategoriesService = vcCake.getService('hubCategories')
@@ -35,8 +36,8 @@ export default class BlankPage extends React.Component {
   constructor (props) {
     super(props)
     this.handleElementControl = this.handleElementControl.bind(this)
-    this.handleAddElementControl = this.handleAddElementControl.bind(this)
-    this.handleTemplateControl = this.handleTemplateControl.bind(this)
+    this.handleClickAddElementControl = this.handleClickAddElementControl.bind(this)
+    this.handleClickTemplateControl = this.handleClickTemplateControl.bind(this)
     this.setActiveControl = this.setActiveControl.bind(this)
     this.unsetActiveControl = this.unsetActiveControl.bind(this)
     this.state = {
@@ -63,12 +64,12 @@ export default class BlankPage extends React.Component {
     this.props.api.request('app:edit', data.id, '')
   }
 
-  handleAddElementControl (e) {
+  handleClickAddElementControl (e) {
     e && e.preventDefault()
     this.props.api.request('app:add', '')
   }
 
-  handleTemplateControl (e) {
+  handleClickTemplateControl (e) {
     e && e.preventDefault()
     this.props.api.request('app:templates', true)
   }
@@ -90,7 +91,7 @@ export default class BlankPage extends React.Component {
       setActive: this.setActiveControl,
       unsetActive: this.unsetActiveControl,
       tag: tag,
-      handleClick: this.handleElementControl,
+      onClick: this.handleElementControl,
       data: element.toJS()
     }
   }
@@ -101,22 +102,26 @@ export default class BlankPage extends React.Component {
       const controlProps = this.getControlProps(i, tag)
       return controlProps ? <ContentElementControl {...controlProps} /> : null
     })
-    allControls.push(<CustomContentElementControl
-      key='vcvBlankPageAddElement'
-      setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
-      handleClick={this.handleAddElementControl}
-      {...this.props.controlsData.addControl}
-    />)
+    allControls.push(
+      <CustomContentElementControl
+        key='vcvBlankPageAddElement'
+        setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
+        onClick={this.handleClickAddElementControl}
+        {...this.props.controlsData.addControl}
+      />
+    )
     return allControls
   }
 
   getTemplateControl () {
-    return <CustomContentElementControl
-      key='vcvBlankPageAddTemplate'
-      setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
-      handleClick={this.handleTemplateControl}
-      {...this.props.controlsData.templateControl}
-    />
+    return (
+      <CustomContentElementControl
+        key='vcvBlankPageAddTemplate'
+        setActive={this.setActiveControl} unsetActive={this.unsetActiveControl}
+        onClick={this.handleClickTemplateControl}
+        {...this.props.controlsData.templateControl}
+      />
+    )
   }
 
   render () {

@@ -42,8 +42,8 @@ const ButtonsRegister = function (editor, window) {
     return function () {
       const self = this
       editor.on('init nodeChange', (e) => {
-        let px, pt, precision, match
-        px = editor.queryCommandValue('FontSize')
+        let pt, precision, match
+        const px = editor.queryCommandValue('FontSize')
         if (px) {
           for (precision = 3; !match && precision >= 0; precision--) {
             pt = toPt(px, precision)

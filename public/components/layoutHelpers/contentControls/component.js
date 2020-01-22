@@ -56,17 +56,19 @@ export default class ContentControls extends React.Component {
       classes += ' vcv-row-control-container-mobile-add'
     }
 
-    return <div
-      className={classes}
-      title={addElementText}
-      onClick={this.handleClick}
-      onMouseEnter={this.handleMouseEnter}
-      ref={(container) => { this.container = container }}
-    >
-      <RowControl
-        ref={(icon) => { this.icon = icon }}
-        hideIcon={this.state.hideIcon}
-      />
-    </div>
+    return (
+      <div
+        className={classes}
+        title={addElementText}
+        onClick={this.handleClick}
+        onMouseEnter={this.handleMouseEnter}
+        ref={(container) => { this.container = container }}
+      >
+        <RowControl
+          ref={(icon) => { this.icon = icon }}
+          hideIcon={this.state.hideIcon}
+        />
+      </div>
+    )
   }
 }

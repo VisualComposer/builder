@@ -267,7 +267,6 @@ export default class BlankRowPlaceholder extends React.Component {
    */
   getControlProps (control, index) {
     return {
-      key: 'vcvBlankRow' + control.tag + index,
       control: control,
       handleClick: this.handleClick
     }
@@ -278,8 +277,8 @@ export default class BlankRowPlaceholder extends React.Component {
    * @return []
    */
   getElementControls () {
-    return this.getControls().map((control, i) => {
-      return <ElementControl {...this.getControlProps(control, i)} />
+    return this.getControls().map((control, index) => {
+      return <ElementControl key={'vcvBlankRow' + control.tag + index} {...this.getControlProps(control, index)} />
     })
   }
 
