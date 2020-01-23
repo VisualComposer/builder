@@ -236,7 +236,7 @@ export default class Layout extends Attribute {
 
   constructor (props) {
     super(props)
-    this.setActiveLayout = this.setActiveLayout.bind(this)
+    this.handleActiveLayoutChange = this.handleActiveLayoutChange.bind(this)
     this.validateSize = this.validateSize.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleColumnHover = this.handleColumnHover.bind(this)
@@ -285,7 +285,7 @@ export default class Layout extends Attribute {
     return newState
   }
 
-  setActiveLayout (layout, options) {
+  handleActiveLayoutChange (layout, options) {
     let newState = lodash.defaultsDeep({}, this.state.value)
     if (options && options.device) {
       newState.layoutData[options.device][options.index] = layout
@@ -449,19 +449,23 @@ export default class Layout extends Attribute {
 
   render () {
     const { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
-    const responsiveness = responsivenessSettings
-      ? <LayoutResponsiveness
-        layouts={this.props.layouts}
-        layoutData={layoutData}
-        onChange={this.setActiveLayout}
-        validator={this.validateSize}
-        devices={Layout.deviceData}
-        defaultLayoutData={defaultLayoutData}
-        activeColumn={this.state.activeColumn}
-        handleColumnHover={this.handleColumnHover}
-        {...this.props}
-      />
-      : null
+    let responsivenessContent = null
+    if (responsivenessSettings) {
+      responsivenessContent = (
+        <LayoutResponsiveness
+          layouts={this.props.layouts}
+          layoutData={layoutData}
+          onChange={this.handleActiveLayoutChange}
+          validator={this.validateSize}
+          devices={Layout.deviceData}
+          defaultLayoutData={defaultLayoutData}
+          activeColumn={this.state.activeColumn}
+          onColumnHover={this.handleColumnHover}
+          {...this.props}
+        />
+      )
+    }
+
     return (
       <div className='vcv-ui-form-layout'>
         <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
@@ -470,7 +474,7 @@ responsiveness options and stacking order.
         </span>
         <DefaultLayouts
           layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
-          onChange={this.setActiveLayout}
+          onChange={this.handleActiveLayoutChange}
         />
         <div className='vcv-ui-form-layout-custom-layout'>
           <span className='vcv-ui-form-group-heading'>Custom row layout</span>
@@ -482,10 +486,10 @@ responsiveness options and stacking order.
                     <TokenizationList
                       layouts={this.props.layouts}
                       value={defaultLayoutData.join(' + ')}
-                      onChange={this.setActiveLayout}
+                      onChange={this.handleActiveLayoutChange}
                       validator={this.validateSize}
                       suggestions={this.props.suggestions}
-                      handleColumnHover={this.handleColumnHover}
+                      onColumnHover={this.handleColumnHover}
                       activeToken={this.state.activeToken}
                     />
                     <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using percentages, fractions or ‘auto’ value (ex. 50% + 50%; 1/3 + 1/3 + 1/3; auto + auto).</p>
@@ -501,7 +505,7 @@ responsiveness options and stacking order.
         </div>
         <div className='vcv-ui-form-layout-responsiveness'>
           {this.getResponsiveToggle()}
-          {responsiveness}
+          {responsivenessContent}
         </div>
       </div>
     )

@@ -47,14 +47,20 @@ export default class DefaultLayouts extends React.Component {
         'vcv-ui-form-layout-layouts-col': true,
         'vcv-ui-state--active': activeLayoutIndex === index
       })
-      return <div
-        key={`layouts-${layoutsKeys}`} className={layoutClasses}
-        onClick={this.handleClick} data-index={index} title={columns.join(' + ')}
-      >{spans}
-      </div>
+
+      return (
+        <div
+          key={`layouts-${layoutsKeys}`} className={layoutClasses}
+          onClick={this.handleClick} data-index={index} title={columns.join(' + ')}
+        >
+          {spans}
+        </div>
+      )
     })
-    return <div className='vcv-ui-form-layout-layouts'>
-      {layoutsData}
-    </div>
+    return (
+      <div className='vcv-ui-form-layout-layouts'>
+        {layoutsData}
+      </div>
+    )
   }
 }
