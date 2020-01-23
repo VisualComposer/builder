@@ -241,7 +241,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     props.setInnerFieldStatus && props.setInnerFieldStatus()
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
-    this.elementVisibilityChangeHandler = this.elementVisibilityChangeHandler.bind(this)
+    this.handleElementVisibilityChange = this.handleElementVisibilityChange.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
@@ -761,20 +761,22 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
-      <span className='vcv-ui-form-group-heading'>
-        Device type
-      </span>
-      <Devices
-        api={this.props.api}
-        fieldKey='currentDevice'
-        options={{
-          customDevices: this.getCustomDevices()
-        }}
-        updater={this.devicesChangeHandler}
-        value={this.state.currentDevice}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
+        <span className='vcv-ui-form-group-heading'>
+          Device type
+        </span>
+        <Devices
+          api={this.props.api}
+          fieldKey='currentDevice'
+          options={{
+            customDevices: this.getCustomDevices()
+          }}
+          updater={this.devicesChangeHandler}
+          value={this.state.currentDevice}
+        />
+      </div>
+    )
   }
 
   /**
@@ -818,7 +820,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
             <div className='vcv-ui-form-switch-container'>
               <label className='vcv-ui-form-switch'>
-                <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
+                <input type='checkbox' onChange={this.handleElementVisibilityChange} id='show_element' checked={checked} />
                 <span className='vcv-ui-form-switch-indicator' />
                 <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
                 <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
@@ -845,7 +847,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     )
   }
 
-  elementVisibilityChangeHandler () {
+  handleElementVisibilityChange () {
     workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
   }
 
@@ -913,18 +915,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     const value = this.state.devices[this.state.currentDevice].backgroundType || DesignOptionsAdvanced.deviceDefaults.backgroundType
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background type
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='backgroundType'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background type
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='backgroundType'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1110,42 +1114,48 @@ export default class DesignOptionsAdvanced extends Attribute {
     const value = this.state.devices[this.state.currentDevice].images || ''
 
     const fieldKey = 'attachImage'
-    let fieldComponent = <AttachImage
-      api={this.props.api}
-      fieldKey={fieldKey}
-      options={{
-        multiple: true
-      }}
-      updater={this.attachImageChangeHandler}
-      value={value}
-      elementAccessPoint={this.props.elementAccessPoint}
-    />
-
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      fieldComponent = <AttachImage
+    let fieldComponent = (
+      <AttachImage
         api={this.props.api}
         fieldKey={fieldKey}
         options={{
-          multiple: true,
-          dynamicField: true
+          multiple: true
         }}
-        defaultValue=''
         updater={this.attachImageChangeHandler}
         value={value}
-        prevValue={this.state.devices[this.state.currentDevice].prevValue}
         elementAccessPoint={this.props.elementAccessPoint}
-        onDynamicFieldOpen={this.props.onDynamicFieldOpen}
-        onDynamicFieldChange={this.props.onDynamicFieldChange}
-        onDynamicFieldClose={this.props.onDynamicFieldClose}
       />
+    )
+
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+      fieldComponent = (
+        <AttachImage
+          api={this.props.api}
+          fieldKey={fieldKey}
+          options={{
+            multiple: true,
+            dynamicField: true
+          }}
+          defaultValue=''
+          updater={this.attachImageChangeHandler}
+          value={value}
+          prevValue={this.state.devices[this.state.currentDevice].prevValue}
+          elementAccessPoint={this.props.elementAccessPoint}
+          onDynamicFieldOpen={this.props.onDynamicFieldOpen}
+          onDynamicFieldChange={this.props.onDynamicFieldChange}
+          onDynamicFieldClose={this.props.onDynamicFieldClose}
+        />
+      )
     }
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Images
-      </span>
-      {fieldComponent}
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Images
+        </span>
+        {fieldComponent}
+      </div>
+    )
   }
 
   /**
@@ -1232,18 +1242,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     const value = deviceData.backgroundStyle || DesignOptionsAdvanced.deviceDefaults.backgroundStyle
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background style
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='backgroundStyle'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background style
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='backgroundStyle'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1317,18 +1329,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     const value = deviceData.backgroundPosition || DesignOptionsAdvanced.deviceDefaults.backgroundPosition
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background position
-      </span>
-      <ButtonGroup
-        api={this.props.api}
-        fieldKey='backgroundPosition'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background position
+        </span>
+        <ButtonGroup
+          api={this.props.api}
+          fieldKey='backgroundPosition'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1353,18 +1367,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       measurement: '%'
     }
     const value = deviceData.backgroundZoom || DesignOptionsAdvanced.deviceDefaults.backgroundZoom
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background zoom scale
-      </span>
-      <Range
-        api={this.props.api}
-        fieldKey='backgroundZoom'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background zoom scale
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='backgroundZoom'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1387,18 +1403,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       min: 1
     }
     const value = deviceData.backgroundZoomSpeed || DesignOptionsAdvanced.deviceDefaults.backgroundZoomSpeed
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background zoom time (in seconds)
-      </span>
-      <Number
-        api={this.props.api}
-        fieldKey='backgroundZoomSpeed'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background zoom time (in seconds)
+        </span>
+        <Number
+          api={this.props.api}
+          fieldKey='backgroundZoomSpeed'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1419,15 +1437,17 @@ export default class DesignOptionsAdvanced extends Attribute {
 
     const value = deviceData.backgroundZoomReverse || DesignOptionsAdvanced.deviceDefaults.backgroundZoomReverse
 
-    return <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-      <Toggle
-        api={this.props.api}
-        fieldKey='backgroundZoomReverse'
-        updater={this.valueChangeHandler}
-        options={{ labelText: 'Use reverse zoom' }}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey='backgroundZoomReverse'
+          updater={this.valueChangeHandler}
+          options={{ labelText: 'Use reverse zoom' }}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1440,18 +1460,20 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].backgroundColor || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey='backgroundColor'
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue=''
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey='backgroundColor'
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue=''
+        />
+      </div>
+    )
   }
 
   /**
@@ -1499,18 +1521,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     const value = this.state.devices[this.state.currentDevice].gradientType || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Gradient type
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='gradientType'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Gradient type
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='gradientType'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1523,18 +1547,20 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].gradientStartColor || DesignOptionsAdvanced.deviceDefaults.gradientStartColor
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Start color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey='gradientStartColor'
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientStartColor}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Start color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey='gradientStartColor'
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientStartColor}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1547,18 +1573,20 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].gradientEndColor || DesignOptionsAdvanced.deviceDefaults.gradientEndColor
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        End color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey='gradientEndColor'
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientEndColor}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          End color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey='gradientEndColor'
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue={DesignOptionsAdvanced.deviceDefaults.gradientEndColor}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1595,18 +1623,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     const value = this.state.devices[this.state.currentDevice].borderStyle || DesignOptionsAdvanced.deviceDefaults.borderStyle
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Border style
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='borderStyle'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Border style
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='borderStyle'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1623,18 +1653,20 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].borderColor || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Border color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey='borderColor'
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue=''
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Border color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey='borderColor'
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue=''
+        />
+      </div>
+    )
   }
 
   /**
@@ -1649,21 +1681,23 @@ export default class DesignOptionsAdvanced extends Attribute {
 
     const value = this.state.devices[this.state.currentDevice].sliderTimeout || ''
     const defaultValue = this.state.devices[this.state.currentDevice].sliderEffect === 'carousel' ? 10 : 5
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Animation timeout (in seconds)
-      </span>
-      <Number
-        api={this.props.api}
-        fieldKey='sliderTimeout'
-        updater={this.sliderTimeoutChangeHandler}
-        placeholder={defaultValue}
-        options={{
-          min: 1
-        }}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Animation timeout (in seconds)
+        </span>
+        <Number
+          api={this.props.api}
+          fieldKey='sliderTimeout'
+          updater={this.sliderTimeoutChangeHandler}
+          placeholder={defaultValue}
+          options={{
+            min: 1
+          }}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1678,26 +1712,28 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].sliderDirection || 'left'
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Slider direction
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='sliderDirection'
-        updater={this.valueChangeHandler}
-        placeholder='Left'
-        options={{
-          values: [
-            { label: 'Left', value: 'left' },
-            { label: 'Top', value: 'top' },
-            { label: 'Right', value: 'right' },
-            { label: 'Bottom', value: 'bottom' }
-          ]
-        }}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Slider direction
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='sliderDirection'
+          updater={this.valueChangeHandler}
+          placeholder='Left'
+          options={{
+            values: [
+              { label: 'Left', value: 'left' },
+              { label: 'Top', value: 'top' },
+              { label: 'Right', value: 'right' },
+              { label: 'Bottom', value: 'bottom' }
+            ]
+          }}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1727,18 +1763,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       ]
     }
     const value = this.state.devices[this.state.currentDevice].sliderEffect || DesignOptionsAdvanced.deviceDefaults.sliderEffect
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Slideshow effect
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='sliderEffect'
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Slideshow effect
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='sliderEffect'
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1761,18 +1799,20 @@ export default class DesignOptionsAdvanced extends Attribute {
       return null
     }
     const value = this.state.devices[this.state.currentDevice].gradientAngle
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Gradient angle
-      </span>
-      <Range
-        api={this.props.api}
-        fieldKey='gradientAngle'
-        updater={this.valueChangeHandler}
-        options={{ min: 0, max: 180, measurement: '°' }}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Gradient angle
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey='gradientAngle'
+          updater={this.valueChangeHandler}
+          options={{ min: 0, max: 180, measurement: '°' }}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1808,20 +1848,22 @@ export default class DesignOptionsAdvanced extends Attribute {
       )
     }
 
-    return <>
-      <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          Animate
-        </span>
-        <Animate
-          api={this.props.api}
-          fieldKey='animation'
-          updater={this.valueChangeHandler}
-          value={value}
-        />
-      </div>
-      {animationDelayHtml}
-    </>
+    return (
+      <>
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            Animate
+          </span>
+          <Animate
+            api={this.props.api}
+            fieldKey='animation'
+            updater={this.valueChangeHandler}
+            value={value}
+          />
+        </div>
+        {animationDelayHtml}
+      </>
+    )
   }
 
   /**
@@ -1835,17 +1877,19 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].videoYoutube || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        YouTube video link
-      </span>
-      <String
-        api={this.props.api}
-        fieldKey='videoYoutube'
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          YouTube video link
+        </span>
+        <String
+          api={this.props.api}
+          fieldKey='videoYoutube'
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1859,17 +1903,19 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].videoVimeo || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Vimeo video link
-      </span>
-      <String
-        api={this.props.api}
-        fieldKey='videoVimeo'
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Vimeo video link
+        </span>
+        <String
+          api={this.props.api}
+          fieldKey='videoVimeo'
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1883,21 +1929,23 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].videoEmbed || {}
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Video
-      </span>
-      <AttachVideo
-        api={this.props.api}
-        fieldKey='videoEmbed'
-        options={{
-          multiple: false
-        }}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-      <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Video
+        </span>
+        <AttachVideo
+          api={this.props.api}
+          fieldKey='videoEmbed'
+          options={{
+            multiple: false
+          }}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+        <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
+      </div>
+    )
   }
 
   /**
