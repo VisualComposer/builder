@@ -119,24 +119,26 @@ export default class HtmlEditorWrapper extends Attribute {
       'vcv-ui-form-field-has-exception-field': this.state.exceptionField
     })
 
-    return <div className={cssClasses}>
-      <HtmlEditor
-        {...this.props}
-        value={this.state.value} // Must be not encoded
-        setFieldValue={this.setFieldValue}
-        setValueState={this.setValueState}
-        setEditorLoaded={this.setEditorLoaded}
-        dynamicFieldOpened={this.state.dynamicFieldOpened}
-        editorLoaded={this.state.editorLoaded}
-      />
-      <DynamicAttribute
-        {...this.props}
-        onOpen={this.handleDynamicFieldOpen}
-        onClose={this.handleDynamicFieldClose}
-        handleDynamicFieldChange={this.handleDynamicFieldChange}
-        setFieldValue={this.setFieldValue}
-        value={this.state.value} // Must be not encoded
-      />
-    </div>
+    return (
+      <div className={cssClasses}>
+        <HtmlEditor
+          {...this.props}
+          value={this.state.value} // Must be not encoded
+          setFieldValue={this.setFieldValue}
+          setValueState={this.setValueState}
+          setEditorLoaded={this.setEditorLoaded}
+          dynamicFieldOpened={this.state.dynamicFieldOpened}
+          editorLoaded={this.state.editorLoaded}
+        />
+        <DynamicAttribute
+          {...this.props}
+          onOpen={this.handleDynamicFieldOpen}
+          onClose={this.handleDynamicFieldClose}
+          onDynamicFieldChange={this.handleDynamicFieldChange}
+          setFieldValue={this.setFieldValue}
+          value={this.state.value} // Must be not encoded
+        />
+      </div>
+    )
   }
 }

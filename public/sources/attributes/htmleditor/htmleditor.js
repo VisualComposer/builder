@@ -19,7 +19,7 @@ export default class HtmlEditorComponent extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
-    this.handleSkinChange = this.handleSkinChange.bind(this)
+    this.skinChange = this.skinChange.bind(this)
     this.handleFontChange = this.handleFontChange.bind(this)
     this.initWpEditorJs = this.initWpEditorJs.bind(this)
     this.id = `tinymce-htmleditor-component-${props.fieldKey}`
@@ -166,7 +166,7 @@ export default class HtmlEditorComponent extends React.Component {
     this.props.setFieldValue(field.value)
   }
 
-  handleSkinChange (fieldKey, isDark) {
+  skinChange (fieldKey, isDark) {
     this.setState({ darkTextSkin: isDark })
     this.props.updater(fieldKey, isDark)
   }
@@ -349,7 +349,7 @@ export default class HtmlEditorComponent extends React.Component {
       <ToggleSmall
         api={this.props.api}
         fieldKey={toggleFieldKey}
-        updater={this.handleSkinChange}
+        updater={this.skinChange}
         value={this.state.darkTextSkin}
       />
     )
@@ -368,10 +368,12 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   getFieldComponent (template) {
-    return <>
-      <div className='vcv-ui-form-wp-tinymce-inner' dangerouslySetInnerHTML={{ __html: template }} />
-      {this.getSkinToggle()}
-           </>
+    return (
+      <>
+        <div className='vcv-ui-form-wp-tinymce-inner' dangerouslySetInnerHTML={{ __html: template }} />
+        {this.getSkinToggle()}
+      </>
+    )
   }
 
   render () {
