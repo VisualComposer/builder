@@ -17,7 +17,7 @@ export default class TokenizationList extends React.Component {
     responsiveness: PropTypes.bool,
     device: PropTypes.string,
     index: PropTypes.number,
-    handleColumnHover: PropTypes.func,
+    onColumnHover: PropTypes.func.isRequired,
     activeColumn: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.bool
@@ -62,6 +62,7 @@ export default class TokenizationList extends React.Component {
   UNSAFE_componentWillReceiveProps (nextProps) {
     this.setState({ value: nextProps.value })
   }
+
   /* eslint-enable */
 
   componentWillUnmount () {
@@ -180,7 +181,7 @@ export default class TokenizationList extends React.Component {
         over: mouseOver,
         type: 'activeToken'
       }
-      this.props.handleColumnHover(options)
+      this.props.onColumnHover(options)
     }
   }
 
@@ -239,16 +240,19 @@ export default class TokenizationList extends React.Component {
 
   getTokensList () {
     const tokens = _.compact(this.getLayout(this.state.value))
+
     return tokens.map((token, index) => {
-      return <Token
-        key={'vcvToken' + index}
-        title={token}
-        removeCallback={this.removeToken}
-        valid={this.props.validator(token)}
-        index={index}
-        handleColumnHover={this.props.handleColumnHover}
-        activeToken={this.props.activeToken}
-      />
+      return (
+        <Token
+          key={'vcvToken' + index}
+          title={token}
+          removeCallback={this.removeToken}
+          valid={this.props.validator(token)}
+          index={index}
+          onColumnHover={this.props.onColumnHover}
+          activeToken={this.props.activeToken}
+        />
+      )
     })
   }
 
@@ -264,14 +268,16 @@ export default class TokenizationList extends React.Component {
         'vcv-ui-suggest-box-item': true,
         'vcv-selected': isActive
       })
-      return <span
-        key={'vcvSuggestBoxItem' + index}
-        className={cssClasses}
-        onMouseDown={this.handleSuggestionMouseDown}
-        data-vcv-suggest={item}
-      >
-        {item}
-      </span>
+      return (
+        <span
+          key={'vcvSuggestBoxItem' + index}
+          className={cssClasses}
+          onMouseDown={this.handleSuggestionMouseDown}
+          data-vcv-suggest={item}
+        >
+          {item}
+        </span>
+      )
     })
   }
 
@@ -280,9 +286,11 @@ export default class TokenizationList extends React.Component {
       return null
     }
     const tokens = this.getTokensList()
-    return <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>
-      {tokens}
-    </div>
+    return (
+      <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>
+        {tokens}
+      </div>
+    )
   }
 
   renderSuggestionBox () {
@@ -298,9 +306,11 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-form-input': true
     })
 
-    return <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>
-      {items}
-    </div>
+    return (
+      <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>
+        {items}
+      </div>
+    )
   }
 
   render () {
@@ -319,20 +329,22 @@ export default class TokenizationList extends React.Component {
       'vcv-ui-tag-list-container--active': typeof activeColumn === 'number' && (activeColumn === index)
     })
     const tokensList = !responsiveness ? this.renderTokensList() : null
-    return <div className={listContainerClasses} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} {...tokenProps}>
-      <Textarea
-        minRows={1}
-        className={cssClasses}
-        type='text'
-        onChange={this.handleChange}
-        onKeyDown={this.handleKeyDown}
-        value={this.state.suggestedValue || this.state.value}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        data-vcv-type='vcv-tokenized-input'
-      />
-      {tokensList}
-      {this.renderSuggestionBox()}
-    </div>
+    return (
+      <div className={listContainerClasses} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut} {...tokenProps}>
+        <Textarea
+          minRows={1}
+          className={cssClasses}
+          type='text'
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          value={this.state.suggestedValue || this.state.value}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          data-vcv-type='vcv-tokenized-input'
+        />
+        {tokensList}
+        {this.renderSuggestionBox()}
+      </div>
+    )
   }
 }
