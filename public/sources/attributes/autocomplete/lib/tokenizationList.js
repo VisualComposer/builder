@@ -188,6 +188,7 @@ export default class TokenizationList extends React.Component {
   UNSAFE_componentWillMount () {
     this.loadTokenLabels(this.state.value)
   }
+
   /* eslint-enable */
 
   componentWillUnmount () {
@@ -212,6 +213,7 @@ export default class TokenizationList extends React.Component {
       }
     }
   }
+
   /* eslint-enable */
 
   updateSuggestBoxPosition () {
@@ -300,16 +302,18 @@ export default class TokenizationList extends React.Component {
           valid = true
         }
 
-        reactTokens.push(<Token
-          key={`vcvToken-${token}-${index}`}
-          title={title}
-          valid={this.props.validator(valid)}
-          validating={this.state.validating}
-          removeCallback={this.removeToken}
-          value={token}
-          index={index}
-          label={this.props.single ? title : token}
-        />)
+        reactTokens.push(
+          <Token
+            key={`vcvToken-${token}-${index}`}
+            title={title}
+            valid={this.props.validator(valid)}
+            validating={this.state.validating}
+            removeCallback={this.removeToken}
+            value={token}
+            index={index}
+            label={this.props.single ? title : token}
+          />
+        )
       }
     })
 
@@ -321,9 +325,8 @@ export default class TokenizationList extends React.Component {
       return null
     }
     const tokens = this.getTokensList()
-    return <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>
-      {tokens}
-    </div>
+
+    return <div className='vcv-ui-tag-list vcv-ui-form-input' onClick={this.handleTagListClick}>{tokens}</div>
   }
 
   loadTokenLabels (value) {
@@ -370,28 +373,26 @@ export default class TokenizationList extends React.Component {
           'vcv-ui-suggest-box-item': true,
           'vcv-selected': isActive
         })
-        reactItems.push(<span
-          key={'vcvSuggestBoxItem' + item.value}
-          className={cssClasses}
-          onMouseDown={this.handleSuggestionMouseDown}
-          data-vcv-suggest={item.label}
-          data-vcv-suggest-value={item.value}
-        >
-          {item.label}
-        </span>)
+        reactItems.push(
+          <span
+            key={'vcvSuggestBoxItem' + item.value}
+            className={cssClasses}
+            onMouseDown={this.handleSuggestionMouseDown}
+            data-vcv-suggest={item.label}
+            data-vcv-suggest-value={item.value}
+          >
+            {item.label}
+          </span>
+        )
       })
 
-      return <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>
-        {reactItems}
-      </div>
+      return <div className={cssClasses} style={this.state.cursorPosition} ref='suggestBox'>{reactItems}</div>
     }
   }
 
   getLoading () {
     if (this.state.loading) {
-      return (
-        <span className='vcv-ui-icon vcv-ui-wp-spinner' />
-      )
+      return <span className='vcv-ui-icon vcv-ui-wp-spinner' />
     }
   }
 
@@ -407,27 +408,29 @@ export default class TokenizationList extends React.Component {
 
     let description = ''
     if (this.props.description) {
-      description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
+      description = <p className='vcv-ui-form-helper'>{this.props.description}</p>
     }
 
-    return <>
-      <div className={containerClasses}>
-        <Textarea
-          minRows={1}
-          className={cssClasses}
-          type='text'
-          onChange={this.handleChange}
-          value={this.state.inputValue}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          data-vcv-type='vcv-tokenized-input'
-          onKeyDown={this.handleKeyDown}
-        />
-        {this.renderSuggestionBox()}
-        {this.renderTokensList()}
-        {this.getLoading()}
-      </div>
-      {description}
-           </>
+    return (
+      <>
+        <div className={containerClasses}>
+          <Textarea
+            minRows={1}
+            className={cssClasses}
+            type='text'
+            onChange={this.handleChange}
+            value={this.state.inputValue}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            data-vcv-type='vcv-tokenized-input'
+            onKeyDown={this.handleKeyDown}
+          />
+          {this.renderSuggestionBox()}
+          {this.renderTokensList()}
+          {this.getLoading()}
+        </div>
+        {description}
+      </>
+    )
   }
 }
