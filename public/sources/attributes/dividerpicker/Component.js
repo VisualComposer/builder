@@ -75,7 +75,7 @@ export default class Dividerpicker extends Attribute {
 
   popupContent () {
     const { search, showSearch } = this.state
-    let content
+
     const iconsContent = this.iconsContent()
     if (!iconsContent.length) {
       iconsContent.push(<div className='vcv-ui-form-iconpicker-error' key='no-icon-found'>No icons found</div>)
@@ -92,7 +92,10 @@ export default class Dividerpicker extends Attribute {
       renderSearch = (
         <div className='vcv-ui-input-search'>
           <input
-            type='search' value={search} onChange={this.search} placeholder='Search Icon'
+            type='search'
+            value={search}
+            onChange={this.handleSearchChange}
+            placeholder='Search Icon'
             className='vcv-ui-form-input'
           />
           <label className='vcv-ui-form-input-search-addon'>
@@ -102,7 +105,7 @@ export default class Dividerpicker extends Attribute {
       )
     }
 
-    content = (
+    return (
       <div className={popupClasses}>
         <div className='vcv-ui-form-iconpicker-content-heading'>
           {renderSearch}
@@ -112,11 +115,9 @@ export default class Dividerpicker extends Attribute {
         </div>
       </div>
     )
-
-    return content
   }
 
-  togglePopup = (e) => {
+  handlePopupToggleClick = (e) => {
     e && e.preventDefault && e.preventDefault()
 
     if (this.state.popupOpen) {
@@ -131,7 +132,7 @@ export default class Dividerpicker extends Attribute {
     })
   }
 
-  search = (e) => {
+  handleSearchChange = (e) => {
     this.setState({
       search: e.currentTarget.value
     })
@@ -185,7 +186,7 @@ export default class Dividerpicker extends Attribute {
       return
     }
 
-    this.togglePopup()
+    this.handlePopupToggleClick()
   }
 
   render () {
@@ -215,7 +216,7 @@ export default class Dividerpicker extends Attribute {
     return (
       <div className={wrapperClasses}>
         <div className='vcv-ui-form-iconpicker'>
-          <div className={selectorClasses} onClick={this.togglePopup}>
+          <div className={selectorClasses} onClick={this.handlePopupToggleClick}>
             <i className={selectedIconClasses} />
           </div>
           {popupContent}
