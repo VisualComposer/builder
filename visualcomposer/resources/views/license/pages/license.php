@@ -40,7 +40,7 @@ $expirationDate = vchelper('License')->getExpirationDate();
             <tbody>
             <tr>
                 <td><?php echo esc_html__('License Key', 'visualcomposer') ?>:</td>
-                <td><?php echo vchelper('License')->getKey(); ?> <a href="<?php echo esc_url(
+                <td><?php echo vchelper('License')->getHiddenKey(); ?> <a href="<?php echo esc_url(
                     $deactivateUrl
                 ); ?>" class="vcv-license-btn-deactivate"><?php echo esc_html__(
                     'Deactivate',
