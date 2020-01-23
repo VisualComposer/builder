@@ -287,41 +287,47 @@ export default class BoxShadow extends Attribute {
     const getFields = getBoxShadowEffects(hover).map((effect, i) => {
       let field
       if (effect.attributeType === 'range') {
-        field = <Range
-          api={this.props.api}
-          fieldKey={effect.fieldKey}
-          updater={this.valueChangeHandler}
-          options={{ min: effect.min, max: effect.max, measurement: effect.measurement }}
-          value={deviceData[effect.fieldKey]}
-        />
+        field = (
+          <Range
+            api={this.props.api}
+            fieldKey={effect.fieldKey}
+            updater={this.valueChangeHandler}
+            options={{ min: effect.min, max: effect.max, measurement: effect.measurement }}
+            value={deviceData[effect.fieldKey]}
+          />
+        )
       } else {
-        field = <Color
-          api={this.props.api}
-          fieldKey={effect.fieldKey}
-          updater={this.valueChangeHandler}
-          value={deviceData[effect.fieldKey] || effect.value}
-          defaultValue={effect.value}
-        />
+        field = (
+          <Color
+            api={this.props.api}
+            fieldKey={effect.fieldKey}
+            updater={this.valueChangeHandler}
+            value={deviceData[effect.fieldKey] || effect.value}
+            defaultValue={effect.value}
+          />
+        )
       }
 
-      return <div className='vcv-ui-form-group' key={`box-shadow-fields-${effect.fieldKey}`}>
-        <span className='vcv-ui-form-group-heading'>{effect.description}</span>
-        {field}
-      </div>
+      return (
+        <div className='vcv-ui-form-group' key={`box-shadow-fields-${effect.fieldKey}`}>
+          <span className='vcv-ui-form-group-heading'>{effect.description}</span>
+          {field}
+        </div>
+      )
     })
 
-    return <>
-      {getFields}
-           </>
+    return getFields
   }
 
   render () {
     let hoverBoxShadowFields = null
     if (this.showHoverFields) {
-      hoverBoxShadowFields = <>
-        {this.getBoxShadowToggle(true)}
-        {this.getBoxShadowFields(true)}
-      </>
+      hoverBoxShadowFields = (
+        <>
+          {this.getBoxShadowToggle(true)}
+          {this.getBoxShadowFields(true)}
+        </>
+      )
     }
 
     return (
