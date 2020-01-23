@@ -26,7 +26,7 @@ class AttachVideo extends Attribute {
     this.onMediaOpen = this.onMediaOpen.bind(this)
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
-    this.onSortEnd = this.onSortEnd.bind(this)
+    this.handleSortEnd = this.handleSortEnd.bind(this)
   }
 
   /* eslint-disable */
@@ -51,6 +51,7 @@ class AttachVideo extends Attribute {
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
   }
+
   /* eslint-enable */
 
   updateState (props) {
@@ -191,7 +192,7 @@ class AttachVideo extends Attribute {
     return urlHtml
   }
 
-  onSortEnd ({ oldIndex, newIndex }) {
+  handleSortEnd ({ oldIndex, newIndex }) {
     const prevState = Object.assign({}, this.state.value)
     const sortedValue = {}
     sortedValue.urls = arrayMove(prevState.urls, oldIndex, newIndex)
@@ -210,7 +211,7 @@ class AttachVideo extends Attribute {
           {...this.props}
           helperClass={dragClass}
           useDragHandle={useDragHandle}
-          onSortEnd={this.onSortEnd}
+          onSortEnd={this.handleSortEnd}
           axis='xy'
           value={this.state.value}
           openLibrary={this.openLibrary}
