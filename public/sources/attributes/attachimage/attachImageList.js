@@ -76,7 +76,7 @@ export default class AttachImageList extends React.Component {
         url: url,
         imgUrl: imgUrl,
         oneMoreControl: oneMoreControl,
-        handleRemove: this.props.handleRemove,
+        onRemove: this.props.onRemove,
         getUrlHtml: this.props.getUrlHtml,
         imgId: value.ids[index],
         metaAssetsPath: this.props.metaElementPath,

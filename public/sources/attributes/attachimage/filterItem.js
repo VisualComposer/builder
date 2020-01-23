@@ -26,7 +26,7 @@ class FilterItem extends React.Component {
   }
 
   render () {
-    const { active, filter, handleFilterChange, image } = this.props
+    const { active, filter, image } = this.props
     const itemContentClasses = classNames({
       'vcv-ui-form-attach-image-filter-content': true,
       'vcv-ui-form-attach-image-filter-content--active': active
@@ -38,7 +38,7 @@ class FilterItem extends React.Component {
     ])
     const imageUrl = this.getPublicImage(image.full)
     return (
-      <li className='vcv-ui-form-attach-image-filter-list-item' onClick={() => { handleFilterChange(filter.value) }}>
+      <li className='vcv-ui-form-attach-image-filter-list-item' onClick={() => { this.props.onFilterChange(filter.value) }}>
         <span className='vcv-ui-form-attach-image-filter'>
           <span className={itemContentClasses}>
             <img className={imageClasses} src={imageUrl} />

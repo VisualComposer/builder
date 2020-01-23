@@ -28,7 +28,7 @@ export default class AttachImageItem extends React.Component {
   /* eslint-enable */
 
   handleRemove (key) {
-    this.props.handleRemove(key)
+    this.props.onRemove(key)
   }
 
   getLinkHtml (key) {
