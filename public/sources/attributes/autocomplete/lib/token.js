@@ -37,15 +37,17 @@ export default class Token extends React.Component {
       'vcv-ui-tag-list-item-validating': validating
     })
 
-    return <span
-      className={tagClasses}
-      title={title}
-      data-vcv-tag-list-label={label || value}
-      data-vcv-tag-list-label-hover={label || value}
-    >
-      <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
-        <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
-      </button>
-    </span>
+    return (
+      <span
+        className={tagClasses}
+        title={title}
+        data-vcv-tag-list-label={label || value}
+        data-vcv-tag-list-label-hover={label || value}
+      >
+        <button className='vcv-ui-tag-list-item-remove' type='button' title='Remove' onClick={this.handleClick}>
+          <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
+        </button>
+      </span>
+    )
   }
 }
