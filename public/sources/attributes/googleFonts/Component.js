@@ -38,8 +38,8 @@ export default class GoogleFonts extends Attribute {
   constructor (props) {
     super(props)
     props.setInnerFieldStatus && props.setInnerFieldStatus()
-    this.handleFontFamilyChange = this.handleFontFamilyChange.bind(this)
-    this.handleFontStyleChange = this.handleFontStyleChange.bind(this)
+    this.fontFamilyChange = this.fontFamilyChange.bind(this)
+    this.fontStyleChange = this.fontStyleChange.bind(this)
     this.createFieldValue = this.createFieldValue.bind(this)
     this.updateFieldValue = this.updateFieldValue.bind(this)
   }
@@ -54,9 +54,10 @@ export default class GoogleFonts extends Attribute {
     let mergedValue = lodash.defaultsDeep({}, value, GoogleFonts.defaultFontOptions)
     this.loadFonts(mergedValue.fontFamily, mergedValue.fontStyle, mergedValue.fontText)
   }
+
   /* eslint-enable */
 
-  handleFontFamilyChange (fieldKey, value) {
+  fontFamilyChange (fieldKey, value) {
     const fontStyleOptions = this.createStyleArray(value)
     const regularStyle = lodash.find(fontStyleOptions, (o) => { return o.value === '400regular' })
     let defaultFontStyle = regularStyle ? regularStyle.value : fontStyleOptions[0].value
@@ -64,7 +65,7 @@ export default class GoogleFonts extends Attribute {
     this.loadFonts(value, defaultFontStyle)
   }
 
-  handleFontStyleChange (fieldKey, value) {
+  fontStyleChange (fieldKey, value) {
     this.loadFonts(this.state.value.fontFamily, this.getFontVariant(value))
   }
 
@@ -193,7 +194,7 @@ export default class GoogleFonts extends Attribute {
                 <Dropdown
                   options={fontFamilyOptions}
                   value={this.state.value.fontFamily}
-                  updater={this.handleFontFamilyChange}
+                  updater={this.fontFamilyChange}
                   api={this.props.api}
                   fieldKey={`${this.props.fieldKey}.fontFamily`}
                 />
@@ -211,7 +212,7 @@ export default class GoogleFonts extends Attribute {
                 <Dropdown
                   options={fontStyleOptions}
                   value={this.state.value.fontStyle.weight + this.state.value.fontStyle.style}
-                  updater={this.handleFontStyleChange}
+                  updater={this.fontStyleChange}
                   api={this.props.api}
                   fieldKey={`${this.props.fieldKey}.fontStyle`}
                 />
