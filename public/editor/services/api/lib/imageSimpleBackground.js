@@ -59,11 +59,13 @@ export default class ImageSimpleBackground extends React.Component {
         'vce-asset-background-simple'
       ])
 
-      return <div className={classNames(containerClasses)}>
-        <div className={classNames(slideshowClasses)}>
-          {imagesJSX}
+      return (
+        <div className={classNames(containerClasses)}>
+          <div className={classNames(slideshowClasses)}>
+            {imagesJSX}
+          </div>
         </div>
-      </div>
+      )
     }
 
     return null

@@ -502,9 +502,7 @@ export default class ElementComponent extends React.Component {
     }
 
     if (backgroundData.length) {
-      return <div className='vce-content-background-container'>
-        {backgroundData}
-      </div>
+      return <div className='vce-content-background-container'>{backgroundData}</div>
     }
     return null
   }
@@ -598,9 +596,7 @@ export default class ElementComponent extends React.Component {
       return null
     }
 
-    return <div className='vce-dividers-wrapper'>
-      {dividerElements}
-    </div>
+    return <div className='vce-dividers-wrapper'>{dividerElements}</div>
   }
 
   getImageUrl (image, size) {

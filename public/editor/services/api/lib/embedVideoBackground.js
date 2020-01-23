@@ -21,21 +21,23 @@ export default class VideoEmbedBackground extends React.Component {
       ]
       const playsInline = true
 
-      return <div className={classNames(containerClasses)}>
-        <div className='vce-asset-video-embed-wrapper'>
-          <div
-            className='vce-asset-video-embed-background'
-            data-vce-assets-video-embed={videoData.id}
-            data-vce-assets-video-replacer='.vce-asset-video-embed-player'
-            data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'
-          >
-            <svg className='vce-asset-video-embed-sizer' />
-            <video key={videoKey} className='vce-asset-video-embed-player' playsInline={playsInline}>
-              <source src={videoData.url} type='video/mp4' />
-            </video>
+      return (
+        <div className={classNames(containerClasses)}>
+          <div className='vce-asset-video-embed-wrapper'>
+            <div
+              className='vce-asset-video-embed-background'
+              data-vce-assets-video-embed={videoData.id}
+              data-vce-assets-video-replacer='.vce-asset-video-embed-player'
+              data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'
+            >
+              <svg className='vce-asset-video-embed-sizer' />
+              <video key={videoKey} className='vce-asset-video-embed-player' playsInline={playsInline}>
+                <source src={videoData.url} type='video/mp4' />
+              </video>
+            </div>
           </div>
         </div>
-      </div>
+      )
     }
 
     return null

@@ -29,6 +29,7 @@ export default class Element extends React.Component {
     assetsStorage.trigger('updateElement', this.state.element.id)
     this.setState({ element: nextProps.element })
   }
+
   /* eslint-enable */
 
   componentDidMount () {
@@ -105,12 +106,15 @@ export default class Element extends React.Component {
     if (el.get('metaDisableInteractionInEditor')) {
       editor['data-vcv-element-disable-interaction'] = true
     }
-    return <ContentComponent
-      id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
-      api={this.props.api}
-      editor={editor}
-    >
-      {this.getContent()}
-    </ContentComponent>
+
+    return (
+      <ContentComponent
+        id={id} key={'vcvLayoutContentComponent' + id} atts={this.visualizeAttributes(el)}
+        api={this.props.api}
+        editor={editor}
+      >
+        {this.getContent()}
+      </ContentComponent>
+    )
   }
 }

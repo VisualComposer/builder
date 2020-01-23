@@ -26,19 +26,21 @@ export default class YoutubeBackground extends React.Component {
         `vce-visible-${deviceKey}-only`
       ]
 
-      return <div className={classNames(containerClasses)}>
-        <div className='vce-asset-video-yt-wrapper'>
-          <div
-            className='vce-asset-video-yt-background'
-            data-vce-assets-video-yt={playerSettings.videoId}
-            data-vce-assets-video-replacer='.vce-asset-video-yt-player'
-            data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'
-          >
-            <svg className='vce-asset-video-yt-sizer' width='0' height='0' />
-            <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+      return (
+        <div className={classNames(containerClasses)}>
+          <div className='vce-asset-video-yt-wrapper'>
+            <div
+              className='vce-asset-video-yt-background'
+              data-vce-assets-video-yt={playerSettings.videoId}
+              data-vce-assets-video-replacer='.vce-asset-video-yt-player'
+              data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'
+            >
+              <svg className='vce-asset-video-yt-sizer' width='0' height='0' />
+              <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+            </div>
           </div>
         </div>
-      </div>
+      )
     }
 
     return null
