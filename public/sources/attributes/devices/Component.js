@@ -13,7 +13,7 @@ export default class Devices extends Attribute {
     props.setInnerFieldStatus && props.setInnerFieldStatus()
 
     this.devicesSettingsHandler = this.devicesSettingsHandler.bind(this)
-    this.customDevicesHandler = this.customDevicesHandler.bind(this)
+    this.handleCustomDeviceClick = this.handleCustomDeviceClick.bind(this)
   }
 
   /**
@@ -33,15 +33,17 @@ export default class Devices extends Attribute {
         }
       ]
     }
-    return <div className='vcv-ui-form-group'>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='settings'
-        options={options}
-        updater={this.devicesSettingsHandler}
-        value={this.state.value === 'all' ? 'all' : 'custom'}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='settings'
+          options={options}
+          updater={this.devicesSettingsHandler}
+          value={this.state.value === 'all' ? 'all' : 'custom'}
+        />
+      </div>
+    )
   }
 
   /**
@@ -115,7 +117,7 @@ export default class Devices extends Attribute {
           <button
             type='button' className={classes} title={device.label}
             key={`${fieldKey}:${device.value}`}
-            onClick={this.customDevicesHandler}
+            onClick={this.handleCustomDeviceClick}
             value={device.value}
           >
             <i className={icon} />
@@ -138,7 +140,7 @@ export default class Devices extends Attribute {
    * Handle custom device change
    * @param event
    */
-  customDevicesHandler (event) {
+  handleCustomDeviceClick (event) {
     const value = event && event.currentTarget.value
     this.setFieldValue(value)
   }
