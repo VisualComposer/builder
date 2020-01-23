@@ -28,10 +28,10 @@ export default class ElementAttribute extends Attribute {
 
   constructor (props) {
     super(props)
-    this.onChange = this.onChange.bind(this)
+    this.handleAttributeChange = this.handleAttributeChange.bind(this)
     this.onClickReplacement = this.onClickReplacement.bind(this)
-    this.changeShowReplacements = this.changeShowReplacements.bind(this)
-    this.toggleSection = this.toggleSection.bind(this)
+    this.handleReplacementsToggle = this.handleReplacementsToggle.bind(this)
+    this.handleSectionToggle = this.handleSectionToggle.bind(this)
   }
 
   updateState (props) {
@@ -85,7 +85,7 @@ export default class ElementAttribute extends Attribute {
     this.onClickReplacement({ tag: newElement })
   }
 
-  changeShowReplacements () {
+  handleReplacementsToggle () {
     this.setState({ showReplacements: !this.state.showReplacements })
   }
 
@@ -135,11 +135,11 @@ export default class ElementAttribute extends Attribute {
     }]
   }
 
-  onChange () {
+  handleAttributeChange () {
     this.setFieldValue(this.state.elementAccessPoint.cook().toJS())
   }
 
-  toggleSection () {
+  handleSectionToggle () {
     this.setState({ isActive: !this.state.isActive })
   }
 
@@ -198,7 +198,7 @@ export default class ElementAttribute extends Attribute {
 
         replacements = (
           <div className='vcv-ui-replace-element-container'>
-            <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.changeShowReplacements}>
+            <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.handleReplacementsToggle}>
               <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
             </span>
             <ul className='vcv-ui-replace-element-list'>
@@ -217,7 +217,7 @@ export default class ElementAttribute extends Attribute {
             </p>
             <button
               type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
-              onClick={this.changeShowReplacements}
+              onClick={this.handleReplacementsToggle}
             >
               Replace {elementLabel}
             </button>
@@ -273,34 +273,38 @@ export default class ElementAttribute extends Attribute {
         'vcv-ui-edit-form-section--opened': isActive,
         'vcv-ui-edit-form-section--closed': !isActive
       })
-      return <div className={sectionClasses}>
-        <div className='vcv-ui-edit-form-section-header' onClick={this.toggleSection}>
-          {options.tabLabel}
+      return (
+        <div className={sectionClasses}>
+          <div className='vcv-ui-edit-form-section-header' onClick={this.handleSectionToggle}>
+            {options.tabLabel}
+          </div>
+          <div className='vcv-ui-form-element vcv-ui-edit-form-section-content'>
+            {replacementBlock}
+            <AttributeElementFieldWrapper
+              onChange={this.handleAttributeChange}
+              elementAccessPoint={this.state.elementAccessPoint}
+              allTabs={this.state.allTabs}
+              exclude={exclude}
+            />
+          </div>
         </div>
-        <div className='vcv-ui-form-element vcv-ui-edit-form-section-content'>
+      )
+    } else {
+      return (
+        <div className='vcv-ui-form-element'>
           {replacementBlock}
           <AttributeElementFieldWrapper
-            onChange={this.onChange}
+            {...this.props}
+            onChange={this.handleAttributeChange}
             elementAccessPoint={this.state.elementAccessPoint}
+            onDynamicFieldOpen={this.props.onDynamicFieldOpen}
+            onDynamicFieldChange={this.props.onDynamicFieldChange}
+            onDynamicFieldClose={this.props.onDynamicFieldClose}
             allTabs={this.state.allTabs}
             exclude={exclude}
           />
         </div>
-      </div>
-    } else {
-      return <div className='vcv-ui-form-element'>
-        {replacementBlock}
-        <AttributeElementFieldWrapper
-          {...this.props}
-          onChange={this.onChange}
-          elementAccessPoint={this.state.elementAccessPoint}
-          onDynamicFieldOpen={this.props.onDynamicFieldOpen}
-          onDynamicFieldChange={this.props.onDynamicFieldChange}
-          onDynamicFieldClose={this.props.onDynamicFieldClose}
-          allTabs={this.state.allTabs}
-          exclude={exclude}
-        />
-      </div>
+      )
     }
   }
 }
