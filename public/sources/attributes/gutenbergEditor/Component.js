@@ -11,8 +11,8 @@ export default class GutenbergEditorComponent extends Attribute {
 
   constructor (props) {
     super(props)
-    this.openEditor = this.openEditor.bind(this)
-    this.iframeLoaded = this.iframeLoaded.bind(this)
+    this.handleEditorOpen = this.handleEditorOpen.bind(this)
+    this.handleIframeLoad = this.handleIframeLoad.bind(this)
     this.updateValueFromIframe = this.updateValueFromIframe.bind(this)
     this.closeEditor = this.closeEditor.bind(this)
     this.updateEditor = this.updateEditor.bind(this)
@@ -24,7 +24,7 @@ export default class GutenbergEditorComponent extends Attribute {
     }
   }
 
-  openEditor (e) {
+  handleEditorOpen (e) {
     e.preventDefault()
     this.setState({
       showEditor: true,
@@ -44,7 +44,7 @@ export default class GutenbergEditorComponent extends Attribute {
     this.closeEditor()
   }
 
-  iframeLoaded () {
+  handleIframeLoad () {
     const { value } = this.state
     const window = this.iframe.contentWindow
     const wpData = window.wp ? window.wp.data : false
@@ -109,13 +109,15 @@ export default class GutenbergEditorComponent extends Attribute {
   getControlsHTML () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const gutenbergEditorUpdateButton = localizations.gutenbergEditorUpdateButton ? localizations.gutenbergEditorUpdateButton : 'Update'
-    return `<div class="vcv-gutenberg-controls-container">
-        ${iframeControlStyles()}
-        <button class="vcv-gutenberg-modal-update-button">${gutenbergEditorUpdateButton}</button>
-        <button class="vcv-gutenberg-modal-close-button">
-          <i class="vcv-ui-icon-close-thin"></i>
-        </button>
-    </div>`
+    return `
+      <div class="vcv-gutenberg-controls-container">
+          ${iframeControlStyles()}
+          <button class="vcv-gutenberg-modal-update-button">${gutenbergEditorUpdateButton}</button>
+          <button class="vcv-gutenberg-modal-close-button">
+            <i class="vcv-ui-icon-close-thin"></i>
+          </button>
+      </div>
+    `
   }
 
   renderGutenbergControls (iframe) {
@@ -160,7 +162,7 @@ export default class GutenbergEditorComponent extends Attribute {
           <GutenbergModal>
             {loadingOverlay}
             <div className='vcv-gutenberg-modal-inner'>
-              <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.iframeLoaded} />
+              <iframe id='vcv-gutenberg-attribute-modal-iframe' ref={(iframe) => { this.iframe = iframe }} src={iframeURL} onLoad={this.handleIframeLoad} />
             </div>
           </GutenbergModal>
         )
@@ -168,7 +170,7 @@ export default class GutenbergEditorComponent extends Attribute {
     }
     return (
       <>
-        <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.openEditor}>
+        <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.handleEditorOpen}>
           Open Gutenberg
         </button>
         {editor()}
