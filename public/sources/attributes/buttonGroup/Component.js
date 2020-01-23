@@ -47,15 +47,17 @@ export default class ButtonGroup extends Attribute {
         buttonClasses.push('vcv-ui-form-button--active')
       }
       buttonClasses = classNames(buttonClasses)
-      return <span
-        className={buttonClasses}
-        title={value.label}
-        data-value={value.value}
-        onClick={this.handleClick}
-        key={`vcv-ui-button-group-attribute-${this.props.fieldKey}-${i}`}
-      >
-        {content}
-      </span>
+      return (
+        <span
+          className={buttonClasses}
+          title={value.label}
+          data-value={value.value}
+          onClick={this.handleClick}
+          key={`vcv-ui-button-group-attribute-${this.props.fieldKey}-${i}`}
+        >
+          {content}
+        </span>
+      )
     })
   }
 
@@ -75,8 +77,10 @@ export default class ButtonGroup extends Attribute {
   }
 
   render () {
-    return <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--attribute'>
-      {this.getItems()}
-    </div>
+    return (
+      <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--attribute'>
+        {this.getItems()}
+      </div>
+    )
   }
 }
