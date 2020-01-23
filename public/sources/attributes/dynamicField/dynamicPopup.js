@@ -27,9 +27,9 @@ export default class DynamicPopup extends React.Component {
   constructor (props) {
     super(props)
 
-    this.handleChangeSourceId = this.handleChangeSourceId.bind(this)
-    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
-    this.handleAutocompleteToggle = this.handleAutocompleteToggle.bind(this)
+    this.sourceIdChange = this.sourceIdChange.bind(this)
+    this.dynamicFieldChange = this.dynamicFieldChange.bind(this)
+    this.autocompleteToggleChange = this.autocompleteToggleChange.bind(this)
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
     this.handleCloseClick = this.handleCloseClick.bind(this)
     this.handleSaveClick = this.handleSaveClick.bind(this)
@@ -80,13 +80,13 @@ export default class DynamicPopup extends React.Component {
         // Update attribute value with new sourceId
         const dropdownRealValue = ReactDOM.findDOMNode(this.dropdownRef.current).value
         if (this.state.currentPostField !== dropdownRealValue) {
-          this.handleDynamicFieldChange(undefined, dropdownRealValue)
+          this.dynamicFieldChange(undefined, dropdownRealValue)
         }
       })
     }
   }
 
-  handleChangeSourceId (_, value) {
+  sourceIdChange (_, value) {
     if (value && value.trim().match(/^\d+$/)) {
       // Value is number, so we can try to set it
       const sourceId = parseInt(value, 10)
@@ -108,43 +108,47 @@ export default class DynamicPopup extends React.Component {
     }
   }
 
-  handleDynamicFieldChange (_, dynamicFieldKey) {
+  dynamicFieldChange (_, dynamicFieldKey) {
     this.setState({ currentPostField: dynamicFieldKey })
   }
 
   renderAutoCompleteInput () {
-    return <div className='vcv-ui-form-group'>
-      <div className='vcv-ui-dynamic-field-autocomplete-container'>
-        <Autocomplete
-          value={this.state.sourceId + ''} // force string
-          elementAccessPoint={this.props.elementAccessPoint}
-          fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
-          key={`${this.props.fieldKey}-dynamic-source-autocomplete-${this.state.sourceId + ''}`}
-          options={{
-            single: true,
-            action: 'dynamicPosts',
-            labelAction: '',
-            validation: true
-          }}
-          updater={this.handleChangeSourceId}
-          description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select page, post, or custom post type.'}
-        />
+    return (
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-dynamic-field-autocomplete-container'>
+          <Autocomplete
+            value={this.state.sourceId + ''} // force string
+            elementAccessPoint={this.props.elementAccessPoint}
+            fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
+            key={`${this.props.fieldKey}-dynamic-source-autocomplete-${this.state.sourceId + ''}`}
+            options={{
+              single: true,
+              action: 'dynamicPosts',
+              labelAction: '',
+              validation: true
+            }}
+            updater={this.sourceIdChange}
+            description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select page, post, or custom post type.'}
+          />
+        </div>
       </div>
-    </div>
+    )
   }
 
   renderAutocompleteToggle () {
-    return <>
-      <Toggle
-        value={this.state.showAutocomplete}
-        elementAccessPoint={this.props.elementAccessPoint}
-        fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
-        key={`${this.props.fieldKey}-dynamic-source-autocomplete-toggle-${this.state.sourceId + ''}`}
-        options={{ labelText: DynamicPopup.localizations.dynamicAutocompleteToggleLabel || 'Set custom post source' }}
-        updater={this.handleAutocompleteToggle}
-      />
-      <p className='vcv-ui-form-helper'>{DynamicPopup.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}</p>
-           </>
+    return (
+      <>
+        <Toggle
+          value={this.state.showAutocomplete}
+          elementAccessPoint={this.props.elementAccessPoint}
+          fieldKey={`${this.props.fieldKey}-dynamic-source-autocomplete`}
+          key={`${this.props.fieldKey}-dynamic-source-autocomplete-toggle-${this.state.sourceId + ''}`}
+          options={{ labelText: DynamicPopup.localizations.dynamicAutocompleteToggleLabel || 'Set custom post source' }}
+          updater={this.autocompleteToggleChange}
+        />
+        <p className='vcv-ui-form-helper'>{DynamicPopup.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}</p>
+      </>
+    )
   }
 
   renderDynamicFieldsDropdown (fieldsList) {
@@ -158,21 +162,21 @@ export default class DynamicPopup extends React.Component {
         options={{
           values: newFieldsList
         }}
-        updater={this.handleDynamicFieldChange}
+        updater={this.dynamicFieldChange}
         ref={this.dropdownRef}
       />
     )
   }
 
-  handleAutocompleteToggle (_, value) {
+  autocompleteToggleChange (_, value) {
     if (!value && (this.state.sourceId !== window.vcvSourceID)) {
       // Return back current source ID
-      this.handleChangeSourceId(_, window.vcvSourceID + '') // force string + change id
+      this.sourceIdChange(_, window.vcvSourceID + '') // force string + change id
     }
     this.setState({
       showAutocomplete: value
     }, () => {
-      this.handleChangeSourceId(_, this.state.sourceId + '') // Re-trigger change to explicitly save the ID
+      this.sourceIdChange(_, this.state.sourceId + '') // Re-trigger change to explicitly save the ID
     })
   }
 
@@ -184,7 +188,7 @@ export default class DynamicPopup extends React.Component {
         e && e.preventDefault()
         const extraDynamicFieldKey = e.currentTarget && e.currentTarget.value
         const dynamicFieldKeyFull = `${dynamicFieldKey}::${extraDynamicFieldKey}`
-        this.handleDynamicFieldChange(null, dynamicFieldKeyFull)
+        this.dynamicFieldChange(null, dynamicFieldKeyFull)
       }
       const extraDynamicFieldClassNames = classNames({
         'vcv-ui-form-input': true,
@@ -230,43 +234,44 @@ export default class DynamicPopup extends React.Component {
     }
     const showModal = true
 
-    return <Modal
-      show={showModal}
-      onClose={this.handleCloseClick}
-    >
-
-      <div className='vcv-ui-modal'>
-        <header className='vcv-ui-modal-header'>
-          <span className='vcv-ui-modal-close' onClick={this.handleCloseClick} title={closeText}>
-            <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
-          </span>
-          <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
-        </header>
-        <section className='vcv-ui-modal-content'>
-          <div className='vcv-ui-dynamic-field-inner'>
-            <div className='vcv-ui-form-group'>
-              {fieldComponent}
-              {extraDynamicComponent}
-              {loader}
-            </div>
-            <div className='vcv-ui-form-group'>
-              {this.renderAutocompleteToggle()}
-            </div>
-            {autoCompleteComponent}
-            {this.props.renderExtraOptions && this.props.renderExtraOptions()}
-          </div>
-        </section>
-        <footer className='vcv-ui-modal-footer'>
-          <div className='vcv-ui-modal-actions'>
-            <span className='vcv-ui-modal-action' title={saveText} onClick={this.handleSaveClick}>
-              <span className='vcv-ui-modal-action-content'>
-                <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
-                <span>{saveText}</span>
-              </span>
+    return (
+      <Modal
+        show={showModal}
+        onClose={this.handleCloseClick}
+      >
+        <div className='vcv-ui-modal'>
+          <header className='vcv-ui-modal-header'>
+            <span className='vcv-ui-modal-close' onClick={this.handleCloseClick} title={closeText}>
+              <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
-          </div>
-        </footer>
-      </div>
-    </Modal>
+            <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
+          </header>
+          <section className='vcv-ui-modal-content'>
+            <div className='vcv-ui-dynamic-field-inner'>
+              <div className='vcv-ui-form-group'>
+                {fieldComponent}
+                {extraDynamicComponent}
+                {loader}
+              </div>
+              <div className='vcv-ui-form-group'>
+                {this.renderAutocompleteToggle()}
+              </div>
+              {autoCompleteComponent}
+              {this.props.renderExtraOptions && this.props.renderExtraOptions()}
+            </div>
+          </section>
+          <footer className='vcv-ui-modal-footer'>
+            <div className='vcv-ui-modal-actions'>
+              <span className='vcv-ui-modal-action' title={saveText} onClick={this.handleSaveClick}>
+                <span className='vcv-ui-modal-action-content'>
+                  <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
+                  <span>{saveText}</span>
+                </span>
+              </span>
+            </div>
+          </footer>
+        </div>
+      </Modal>
+    )
   }
 }

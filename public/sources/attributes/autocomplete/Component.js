@@ -23,8 +23,18 @@ export default class AutoComplete extends Attribute {
     fieldType: 'autocomplete'
   }
 
+  constructor (props) {
+    super(props)
+
+    this.handleTokenizationListChange = this.handleTokenizationListChange.bind(this)
+  }
+
   validate (state) {
     return state
+  }
+
+  handleTokenizationListChange (value) {
+    super.setFieldValue(value)
   }
 
   render () {
@@ -33,7 +43,7 @@ export default class AutoComplete extends Attribute {
 
     return (
       <TokenizationList
-        onChange={this.setFieldValue}
+        onChange={this.handleTokenizationListChange}
         value={value}
         fieldKey={fieldKey}
         elementAccessPoint={elementAccessPoint}
