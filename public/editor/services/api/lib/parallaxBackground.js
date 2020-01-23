@@ -40,11 +40,13 @@ export default class ParallaxBackground extends React.Component {
       }
       customProps['data-vce-assets-parallax-reverse'] = parallaxReverse
 
-      return <div className={classNames(containerClasses)} {...customProps}>
-        <div className={classNames(elementClasses)}>
-          {content}
+      return (
+        <div className={classNames(containerClasses)} {...customProps}>
+          <div className={classNames(elementClasses)}>
+            {content}
+          </div>
         </div>
-      </div>
+      )
     }
 
     return null

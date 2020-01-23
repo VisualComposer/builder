@@ -43,10 +43,9 @@ const API = {
     return !!this.getCookie(cName)
   },
   getRealWidth: ($el, $container) => {
-    let $tempEl
+    const $tempEl = $el.cloneNode(true)
     let realWidth = 0
 
-    $tempEl = $el.cloneNode(true)
     $tempEl.style.position = 'fixed'
 
     $container.appendChild($tempEl)
@@ -86,8 +85,7 @@ const API = {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   },
   ajax: (data, successCallback, failureCallback) => {
-    let request
-    request = new window.XMLHttpRequest()
+    const request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAdminAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = (response) => {

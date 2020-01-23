@@ -269,14 +269,16 @@ export default class Element {
       assetsStorage.trigger('updateInnerElementByData', atts)
     }
 
-    return <DynamicElement
-      key={this[elData].id + '-' + Date.now()} // key must be unique to call unmount on each update & replace
-      cookApi={cookApi}
-      cookElement={this}
-      element={this.getAll()}
-      elementToRender={ElementToRender}
-      elementProps={{ ...props }}
-      inner={inner}
-    />
+    return (
+      <DynamicElement
+        key={this[elData].id + '-' + Date.now()} // key must be unique to call unmount on each update & replace
+        cookApi={cookApi}
+        cookElement={this}
+        element={this.getAll()}
+        elementToRender={ElementToRender}
+        elementProps={{ ...props }}
+        inner={inner}
+      />
+    )
   }
 }

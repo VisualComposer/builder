@@ -78,9 +78,11 @@ export default class ImageSlideshowBackground extends React.Component {
           </div>
         </div>)
 
-      return <div className={classNames(containerClasses)}>
-        <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
-      </div>
+      return (
+        <div className={classNames(containerClasses)}>
+          <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+        </div>
+      )
     }
 
     return null
