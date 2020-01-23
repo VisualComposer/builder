@@ -37,8 +37,8 @@ class BoxModel extends Attribute {
     super(props)
 
     this.simplifyControlsHandler = this.simplifyControlsHandler.bind(this)
-    this.changeBoxInputHandler = this.changeBoxInputHandler.bind(this)
-    this.validateBoxInput = this.validateBoxInput.bind(this)
+    this.handleBoxInputChange = this.handleBoxInputChange.bind(this)
+    this.handleBoxInputBlur = this.handleBoxInputBlur.bind(this)
   }
 
   /**
@@ -196,13 +196,13 @@ class BoxModel extends Attribute {
    * Handle box input change
    * @param e
    */
-  changeBoxInputHandler (e) {
+  handleBoxInputChange (e) {
     const field = e.currentTarget
     const newState = lodash.defaultsDeep({}, { [field.name]: field.value }, this.state)
     this.updateValue(newState)
   }
 
-  validateBoxInput (e) {
+  handleBoxInputBlur (e) {
     const field = e.currentTarget
     // update value
     const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
@@ -248,8 +248,8 @@ class BoxModel extends Attribute {
         className={classes}
         name={name}
         value={this.state[name] || ''}
-        onChange={this.changeBoxInputHandler}
-        onBlur={this.validateBoxInput}
+        onChange={this.handleBoxInputChange}
+        onBlur={this.handleBoxInputBlur}
         disabled={isDisabled}
       />
     )
