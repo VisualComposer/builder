@@ -117,7 +117,7 @@ export default class Dividerpicker extends Attribute {
     )
   }
 
-  handlePopupToggleClick = (e) => {
+  handlePopupToggle = (e) => {
     e && e.preventDefault && e.preventDefault()
 
     if (this.state.popupOpen) {
@@ -186,7 +186,7 @@ export default class Dividerpicker extends Attribute {
       return
     }
 
-    this.handlePopupToggleClick()
+    this.handlePopupToggle()
   }
 
   render () {
@@ -216,7 +216,7 @@ export default class Dividerpicker extends Attribute {
     return (
       <div className={wrapperClasses}>
         <div className='vcv-ui-form-iconpicker'>
-          <div className={selectorClasses} onClick={this.handlePopupToggleClick}>
+          <div className={selectorClasses} onClick={this.handlePopupToggle}>
             <i className={selectedIconClasses} />
           </div>
           {popupContent}

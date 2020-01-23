@@ -124,7 +124,7 @@ class Iconpicker extends Attribute {
   popupContent () {
     const { search, category, value, showSearch, iconSetList } = this.state
     const { iconSet } = value
-    let content
+
     const categories = this.categoriesContent()
     const iconsContent = this.iconsContent()
     if (!iconsContent.length) {
@@ -141,7 +141,7 @@ class Iconpicker extends Attribute {
 
     if (categories.length && iconSetLength > 1) {
       categoriesContent = (
-        <select onChange={this.category} value={category} className='vcv-ui-form-dropdown'>
+        <select onChange={this.handleCategoryChange} value={category} className='vcv-ui-form-dropdown'>
           <option key='all' value=''>From all categories</option>
           {categories}
         </select>
@@ -157,7 +157,7 @@ class Iconpicker extends Attribute {
         innerSetContent.push(<option key={'inner' + i} value={i}>{optionText}</option>)
       })
       iconsSetContent = (
-        <select onChange={this.iconSet} value={iconSet} className='vcv-ui-form-dropdown'>
+        <select onChange={this.handleIconSetChange} value={iconSet} className='vcv-ui-form-dropdown'>
           {innerSetContent}
         </select>
       )
@@ -169,7 +169,7 @@ class Iconpicker extends Attribute {
       renderSearch = (
         <div className='vcv-ui-input-search'>
           <input
-            type='search' value={search} onChange={this.search} placeholder='Search Icon'
+            type='search' value={search} onChange={this.handleSearchChange} placeholder='Search Icon'
             className='vcv-ui-form-input'
           />
           <label className='vcv-ui-form-input-search-addon'>
@@ -179,7 +179,7 @@ class Iconpicker extends Attribute {
       )
     }
 
-    content = (
+    return (
       <div className={popupClasses}>
         <div className='vcv-ui-form-iconpicker-content-heading'>
           {iconsSetContent}
@@ -191,11 +191,9 @@ class Iconpicker extends Attribute {
         </div>
       </div>
     )
-
-    return content
   }
 
-  togglePopup = (e) => {
+  handlePopupToggle = (e) => {
     e && e.preventDefault && e.preventDefault()
 
     if (this.state.popupOpen) {
@@ -211,21 +209,21 @@ class Iconpicker extends Attribute {
     })
   }
 
-  search = (e) => {
+  handleSearchChange = (e) => {
     this.setState({
       search: e.currentTarget.value,
       category: ''
     })
   }
 
-  category = (e) => {
+  handleCategoryChange = (e) => {
     this.setState({
       category: e.currentTarget.value,
       search: ''
     })
   }
 
-  iconSet = (e) => {
+  handleIconSetChange = (e) => {
     const newValue = Object.assign({}, this.state.value)
     newValue.iconSet = e.currentTarget.value
     this.setState({
@@ -283,7 +281,7 @@ class Iconpicker extends Attribute {
       return
     }
 
-    this.togglePopup()
+    this.handlePopupToggle()
   }
 
   render () {
@@ -312,7 +310,7 @@ class Iconpicker extends Attribute {
     return (
       <div className={wrapperClasses}>
         <div className='vcv-ui-form-iconpicker'>
-          <div className={selectorClasses} onClick={this.togglePopup}>
+          <div className={selectorClasses} onClick={this.handlePopupToggle}>
             <i className={selectedIconClasses} />
           </div>
           {popupContent}
