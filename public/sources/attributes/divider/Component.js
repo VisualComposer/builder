@@ -443,20 +443,22 @@ export default class Divider extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
-      <span className='vcv-ui-form-group-heading'>
-        Device type
-      </span>
-      <Devices
-        api={this.props.api}
-        fieldKey='currentDevice'
-        options={{
-          customDevices: this.getCustomDevices()
-        }}
-        updater={this.devicesChangeHandler}
-        value={this.state.currentDevice}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
+        <span className='vcv-ui-form-group-heading'>
+          Device type
+        </span>
+        <Devices
+          api={this.props.api}
+          fieldKey='currentDevice'
+          options={{
+            customDevices: this.getCustomDevices()
+          }}
+          updater={this.devicesChangeHandler}
+          value={this.state.currentDevice}
+        />
+      </div>
+    )
   }
 
   /**
@@ -696,18 +698,20 @@ export default class Divider extends Attribute {
 
     const value = deviceData[dividerBgTypeName] || Divider.deviceDefaults[dividerBgTypeName]
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider background type
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey={dividerBgTypeName}
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider background type
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey={dividerBgTypeName}
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -727,18 +731,20 @@ export default class Divider extends Attribute {
 
     const value = deviceData[dividerBgColorName] || Divider.deviceDefaults[dividerBgColorName]
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider background color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey={dividerBgColorName}
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue={Divider.deviceDefaults[dividerBgColorName]}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider background color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey={dividerBgColorName}
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue={Divider.deviceDefaults[dividerBgColorName]}
+        />
+      </div>
+    )
   }
 
   /**
@@ -757,18 +763,20 @@ export default class Divider extends Attribute {
     }
 
     const value = deviceData[dividerGradientStartName] || Divider.deviceDefaults[dividerGradientStartName]
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider start color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey={dividerGradientStartName}
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue={Divider.deviceDefaults[dividerGradientStartName]}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider start color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey={dividerGradientStartName}
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue={Divider.deviceDefaults[dividerGradientStartName]}
+        />
+      </div>
+    )
   }
 
   /**
@@ -787,18 +795,20 @@ export default class Divider extends Attribute {
     }
 
     const value = deviceData[dividerGradientEndName] || Divider.deviceDefaults[dividerGradientEndName]
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider end color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey={dividerGradientEndName}
-        updater={this.valueChangeHandler}
-        value={value}
-        defaultValue={Divider.deviceDefaults[dividerGradientEndName]}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider end color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey={dividerGradientEndName}
+          updater={this.valueChangeHandler}
+          value={value}
+          defaultValue={Divider.deviceDefaults[dividerGradientEndName]}
+        />
+      </div>
+    )
   }
 
   /**
@@ -817,18 +827,20 @@ export default class Divider extends Attribute {
     }
 
     const value = deviceData[dividerAngleName]
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider gradient angle
-      </span>
-      <Range
-        api={this.props.api}
-        fieldKey={dividerAngleName}
-        updater={this.valueChangeHandler}
-        options={{ min: 0, max: 180, measurement: '°' }}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider gradient angle
+        </span>
+        <Range
+          api={this.props.api}
+          fieldKey={dividerAngleName}
+          updater={this.valueChangeHandler}
+          options={{ min: 0, max: 180, measurement: '°' }}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -848,21 +860,23 @@ export default class Divider extends Attribute {
 
     const value = deviceData[dividerImageName] || ''
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider image
-      </span>
-      <AttachImage
-        api={this.props.api}
-        fieldKey={dividerImageName}
-        options={{
-          multiple: false
-        }}
-        updater={this.valueChangeHandler}
-        value={value}
-        elementAccessPoint={this.props.elementAccessPoint}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider image
+        </span>
+        <AttachImage
+          api={this.props.api}
+          fieldKey={dividerImageName}
+          options={{
+            multiple: false
+          }}
+          updater={this.valueChangeHandler}
+          value={value}
+          elementAccessPoint={this.props.elementAccessPoint}
+        />
+      </div>
+    )
   }
 
   /**
@@ -925,18 +939,20 @@ export default class Divider extends Attribute {
       ]
     }
     const value = deviceData[dividerBgStyleName] || Divider.deviceDefaults[dividerBgStyleName]
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider background style
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey={dividerBgStyleName}
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider background style
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey={dividerBgStyleName}
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1041,18 +1057,20 @@ export default class Divider extends Attribute {
     }
     const value = deviceData[dividerBgPositionName] || Divider.deviceDefaults[dividerBgPositionName]
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider background position
-      </span>
-      <ButtonGroup
-        api={this.props.api}
-        fieldKey={dividerBgPositionName}
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider background position
+        </span>
+        <ButtonGroup
+          api={this.props.api}
+          fieldKey={dividerBgPositionName}
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1072,21 +1090,23 @@ export default class Divider extends Attribute {
 
     const value = deviceData[dividerVideoEmbedName] || {}
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Divider background video
-      </span>
-      <AttachVideo
-        api={this.props.api}
-        fieldKey={dividerVideoEmbedName}
-        options={{
-          multiple: false
-        }}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-      <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Divider background video
+        </span>
+        <AttachVideo
+          api={this.props.api}
+          fieldKey={dividerVideoEmbedName}
+          options={{
+            multiple: false
+          }}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+        <p className='vcv-ui-form-helper'>For better browser compatibility please use <b>mp4</b> video format</p>
+      </div>
+    )
   }
 
   /**
@@ -1106,17 +1126,19 @@ export default class Divider extends Attribute {
 
     const value = deviceData[dividerVideoYoutubeName] || ''
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        YouTube video link
-      </span>
-      <String
-        api={this.props.api}
-        fieldKey={dividerVideoYoutubeName}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          YouTube video link
+        </span>
+        <String
+          api={this.props.api}
+          fieldKey={dividerVideoYoutubeName}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1136,17 +1158,19 @@ export default class Divider extends Attribute {
 
     const value = deviceData[dividerVideoVimeoName] || ''
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Vimeo video link
-      </span>
-      <String
-        api={this.props.api}
-        fieldKey={dividerVideoVimeoName}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Vimeo video link
+        </span>
+        <String
+          api={this.props.api}
+          fieldKey={dividerVideoVimeoName}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
