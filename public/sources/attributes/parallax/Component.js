@@ -120,20 +120,22 @@ export default class Parallax extends Attribute {
   }
 
   getDevicesRender () {
-    return <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
-      <span className='vcv-ui-form-group-heading'>
-        Device type
-      </span>
-      <Devices
-        api={this.props.api}
-        fieldKey='currentDevice'
-        options={{
-          customDevices: this.getCustomDevices()
-        }}
-        updater={this.devicesChangeHandler}
-        value={this.state.currentDevice}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
+        <span className='vcv-ui-form-group-heading'>
+          Device type
+        </span>
+        <Devices
+          api={this.props.api}
+          fieldKey='currentDevice'
+          options={{
+            customDevices: this.getCustomDevices()
+          }}
+          updater={this.devicesChangeHandler}
+          value={this.state.currentDevice}
+        />
+      </div>
+    )
   }
 
   getParallaxEffectDropdown () {
@@ -166,21 +168,26 @@ export default class Parallax extends Attribute {
     storage.state('currentAttribute:settings').delete()
     const value = this.state.devices[this.state.currentDevice].parallax || 'simple'
     const currentOption = options.values.find(option => option.value === value)
-    const description = currentOption && currentOption.description ? <p className='vcv-ui-form-helper'>{currentOption.description}</p> : null
+    let descriptionContent = null
+    if (currentOption && currentOption.description) {
+      descriptionContent = <p className='vcv-ui-form-helper'>{currentOption.description}</p>
+    }
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Parallax effect
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey={fieldKey}
-        options={options}
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-      {description}
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Parallax effect
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey={fieldKey}
+          options={options}
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+        {descriptionContent}
+      </div>
+    )
   }
 
   parallaxSpeedChangeHandler (fieldKey, value) {
@@ -195,21 +202,23 @@ export default class Parallax extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].parallaxSpeed || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Parallax effect speed
-      </span>
-      <Number
-        api={this.props.api}
-        fieldKey='parallaxSpeed'
-        updater={this.parallaxSpeedChangeHandler}
-        placeholder='30'
-        options={{
-          min: 1
-        }}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Parallax effect speed
+        </span>
+        <Number
+          api={this.props.api}
+          fieldKey='parallaxSpeed'
+          updater={this.parallaxSpeedChangeHandler}
+          placeholder='30'
+          options={{
+            min: 1
+          }}
+          value={value}
+        />
+      </div>
+    )
   }
 
   getParallaxReverseToggle () {
@@ -218,17 +227,19 @@ export default class Parallax extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].parallaxReverse || false
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Reverse parallax effect
-      </span>
-      <Toggle
-        api={this.props.api}
-        fieldKey='parallaxReverse'
-        updater={this.valueChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Reverse parallax effect
+        </span>
+        <Toggle
+          api={this.props.api}
+          fieldKey='parallaxReverse'
+          updater={this.valueChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   render () {
