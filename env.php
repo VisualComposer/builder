@@ -19,6 +19,10 @@ if (!VcvEnv::has('VCV_HUB_URL')) {
     VcvEnv::set('VCV_HUB_URL', defined('VCV_HUB_URL') ? constant('VCV_HUB_URL') : 'https://my.visualcomposer.com');
 }
 
+if (!VcvEnv::has('VCV_HUB_LICENSES_URL')) {
+    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses');
+}
+
 if (!VcvEnv::has('VCV_TOKEN_URL')) {
     VcvEnv::set(
         'VCV_TOKEN_URL',

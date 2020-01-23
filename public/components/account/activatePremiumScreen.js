@@ -166,7 +166,7 @@ export default class ActivatePremiumScreen extends React.Component {
     if (activationType === 'premium') {
       findNewLicenseAtText = (
         <React.Fragment>{findSubscriptionLicenseAtText}
-          <a href={window.VCV_GO_PREMIUM_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </React.Fragment>
       )
     } else {
