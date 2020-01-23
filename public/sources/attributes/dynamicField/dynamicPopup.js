@@ -16,8 +16,9 @@ export default class DynamicPopup extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
   static propTypes = {
-    save: PropTypes.func.isRequired,
-    hide: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired,
+    onOpen: PropTypes.func.isRequired,
     fieldType: PropTypes.string.isRequired,
     value: PropTypes.string,
     elementAccessPoint: PropTypes.object.isRequired
@@ -30,8 +31,8 @@ export default class DynamicPopup extends React.Component {
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
     this.handleAutocompleteToggle = this.handleAutocompleteToggle.bind(this)
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
-    this.cancel = this.cancel.bind(this)
-    this.save = this.save.bind(this)
+    this.handleCloseClick = this.handleCloseClick.bind(this)
+    this.handleSaveClick = this.handleSaveClick.bind(this)
 
     this.dropdownRef = React.createRef()
 
@@ -196,19 +197,19 @@ export default class DynamicPopup extends React.Component {
     return extraDynamicComponent
   }
 
-  cancel () {
-    this.props.hide()
+  handleCloseClick () {
+    this.props.onHide()
   }
 
-  save () {
+  handleSaveClick () {
     if (!this.props.dynamicFieldOpened && this.state.currentPostField) {
-      this.props.open()
+      this.props.onOpen()
     }
 
     if (this.state.currentPostField) {
-      this.props.save(this.state.currentPostField, this.state.sourceId, this.state.showAutocomplete)
+      this.props.onSave(this.state.currentPostField, this.state.sourceId, this.state.showAutocomplete)
     }
-    this.props.hide()
+    this.props.onHide()
   }
 
   render () {
@@ -231,12 +232,12 @@ export default class DynamicPopup extends React.Component {
 
     return <Modal
       show={showModal}
-      onClose={this.cancel}
+      onClose={this.handleCloseClick}
     >
 
       <div className='vcv-ui-modal'>
         <header className='vcv-ui-modal-header'>
-          <span className='vcv-ui-modal-close' onClick={this.cancel} title={closeText}>
+          <span className='vcv-ui-modal-close' onClick={this.handleCloseClick} title={closeText}>
             <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
           </span>
           <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
@@ -257,7 +258,7 @@ export default class DynamicPopup extends React.Component {
         </section>
         <footer className='vcv-ui-modal-footer'>
           <div className='vcv-ui-modal-actions'>
-            <span className='vcv-ui-modal-action' title={saveText} onClick={this.save}>
+            <span className='vcv-ui-modal-action' title={saveText} onClick={this.handleSaveClick}>
               <span className='vcv-ui-modal-action-content'>
                 <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
                 <span>{saveText}</span>

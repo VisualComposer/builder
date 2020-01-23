@@ -243,7 +243,11 @@ export default class InputSelect extends Attribute {
     </div>
 
     return (
-      <DynamicAttribute {...this.props} setFieldValue={this.handleDynamicChange} value={input}>
+      <DynamicAttribute
+        {...this.props}
+        setFieldValue={this.handleDynamicChange}
+        value={input}
+      >
         {fieldComponent}
       </DynamicAttribute>
     )

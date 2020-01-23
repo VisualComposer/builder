@@ -7,9 +7,9 @@ import PropTypes from 'prop-types'
 export default class AutoComplete extends Attribute {
   static propTypes = {
     updater: PropTypes.func.isRequired,
-    handleDynamicFieldOpen: PropTypes.func,
-    handleDynamicFieldChange: PropTypes.func,
-    handleDynamicFieldClose: PropTypes.func,
+    onDynamicFieldOpen: PropTypes.func,
+    onDynamicFieldChange: PropTypes.func,
+    onDynamicFieldClose: PropTypes.func,
     fieldKey: PropTypes.string.isRequired,
     fieldType: PropTypes.string,
     value: PropTypes.any.isRequired,
