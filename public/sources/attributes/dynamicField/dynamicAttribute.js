@@ -11,12 +11,12 @@ export default class DynamicAttribute extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleDynamicFieldOpen = this.handleDynamicFieldOpen.bind(this)
-    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
-    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.onDynamicFieldOpen = this.onDynamicFieldOpen.bind(this)
+    this.onDynamicFieldClose = this.onDynamicFieldClose.bind(this)
+    this.onDynamicFieldChange = this.onDynamicFieldChange.bind(this)
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
     this.open = this.open.bind(this)
-    this.hide = this.hide.bind(this)
+    this.handleHide = this.handleHide.bind(this)
 
     const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
     let state = {
@@ -98,8 +98,8 @@ export default class DynamicAttribute extends React.Component {
     return state
   }
 
-  handleDynamicFieldChange (dynamicFieldKey, sourceId, showAutocomplete) {
-    const newValue = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, showAutocomplete)
+  onDynamicFieldChange (dynamicFieldKey, sourceId, showAutocomplete) {
+    const newValue = this.props.onDynamicFieldChange(dynamicFieldKey, sourceId, showAutocomplete)
     let fieldValue = newValue
     let dynamicValue = newValue
 
@@ -116,7 +116,7 @@ export default class DynamicAttribute extends React.Component {
     this.props.setFieldValue(fieldValue)
   }
 
-  handleDynamicFieldOpen () {
+  onDynamicFieldOpen () {
     this.setState({
       dynamicFieldOpened: true,
       prevValue: this.props.value
@@ -127,7 +127,7 @@ export default class DynamicAttribute extends React.Component {
     this.props.onOpen && this.props.onOpen(this)
   }
 
-  handleDynamicFieldClose (e) {
+  onDynamicFieldClose (e) {
     e && e.preventDefault()
     const prevDynamicValue = this.state.blockInfo.value
     if (this.state.prevValue) {
@@ -147,7 +147,7 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderCloseButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.handleDynamicFieldClose} title={DynamicAttribute.localizations.dynamicFieldsCloseText || 'Close Dynamic Field'} />
+    return <span className='vcv-ui-icon vcv-ui-icon-close vcv-ui-dynamic-field-control' onClick={this.onDynamicFieldClose} title={DynamicAttribute.localizations.dynamicFieldsCloseText || 'Close Dynamic Field'} />
   }
 
   getDynamicLabel (postField, sourceId) {
@@ -234,9 +234,9 @@ export default class DynamicAttribute extends React.Component {
 
   getDynamicPopup () {
     return <DynamicPopup
-      save={this.handleDynamicFieldChange}
-      hide={this.hide}
-      open={this.handleDynamicFieldOpen}
+      onSave={this.onDynamicFieldChange}
+      onHide={this.handleHide}
+      onOpen={this.onDynamicFieldOpen}
       fieldType={this.props.fieldType}
       fieldKey={this.props.fieldKey}
       dynamicFieldOpened={this.state.dynamicFieldOpened}
@@ -248,14 +248,14 @@ export default class DynamicAttribute extends React.Component {
 
   open (e) {
     e && e.preventDefault()
-    this.props.handleOpenClick && this.props.handleOpenClick()
+    this.props.onOpenClick && this.props.onOpenClick()
 
     this.setState({
       isWindowOpen: true
     })
   }
 
-  hide () {
+  handleHide () {
     this.setState({
       isWindowOpen: false
     })

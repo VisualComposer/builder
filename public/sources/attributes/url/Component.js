@@ -434,7 +434,7 @@ export default class Url extends Attribute {
           setFieldValue={this.handleDynamicChange}
           value={url}
           renderExtraOptions={this.renderExtraDynamicOptions}
-          handleOpenClick={this.handleDynamicOpen}
+          onOpenClick={this.handleDynamicOpen}
           render={this.customDynamicRender.bind(this)}
           linkDataComponent={linkDataHtml}
           linkButton={linkButton}

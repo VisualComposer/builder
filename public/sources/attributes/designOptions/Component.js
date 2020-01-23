@@ -919,23 +919,25 @@ export default class DesignOptions extends Attribute {
         defaultValue=''
         prevValue={this.state.devices[this.state.currentDevice].prevValue}
         elementAccessPoint={this.props.elementAccessPoint}
-        handleDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
+        onDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
           const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
           return getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplateProps: dynamicTemplateProps })
         }}
-        handleDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
+        onDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
           return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps, forceSaveSourceId })
         }}
-        handleDynamicFieldClose={this.props.handleDynamicFieldClose}
+        onDynamicFieldClose={this.props.onDynamicFieldClose}
       />
     }
 
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Images
-      </span>
-      {fieldComponent}
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Images
+        </span>
+        {fieldComponent}
+      </div>
+    )
   }
 
   /**

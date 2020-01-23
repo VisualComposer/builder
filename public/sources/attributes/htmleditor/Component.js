@@ -55,7 +55,7 @@ export default class HtmlEditorWrapper extends Attribute {
 
   handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
     // New html dynamic comment
-    let value = this.props.handleDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
+    let value = this.props.onDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
     const exceptionField = this.getExceptionField(value, this.props.fieldType)
 
     // Current value needed for .before/.after get, must be not encoded
