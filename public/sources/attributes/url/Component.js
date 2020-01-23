@@ -36,8 +36,9 @@ export default class Url extends Attribute {
   constructor (props) {
     super(props)
     this.delayedSearch = lodash.debounce(this.performSearch, 800)
-    this.open = this.open.bind(this)
-    this.handleDynamicChange = this.handleDynamicChange.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.dynamicAttributeChange = this.dynamicAttributeChange.bind(this)
     this.renderExtraDynamicOptions = this.renderExtraDynamicOptions.bind(this)
     this.handleDynamicOpen = this.handleDynamicOpen.bind(this)
   }
@@ -94,7 +95,7 @@ export default class Url extends Attribute {
     })
   }
 
-  open (e) {
+  handleOpen (e) {
     e && e.preventDefault()
     const unsavedValue = {}
     Object.assign(unsavedValue, this.state.value)
@@ -109,7 +110,7 @@ export default class Url extends Attribute {
     }
   }
 
-  hide () {
+  handleClose () {
     this.setState({
       isWindowOpen: false,
       unsavedValue: {}
@@ -117,19 +118,15 @@ export default class Url extends Attribute {
     this.loadPosts()
   }
 
-  cancel = (e) => {
-    this.hide()
-  }
-
-  save = (e) => {
+  handleSaveClick = (e) => {
     e.preventDefault()
     const valueToSave = Object.assign({}, this.state.unsavedValue)
 
     this.setFieldValue(valueToSave)
-    this.hide()
+    this.handleClose()
   }
 
-  handleInputChange = (fieldKey, value) => {
+  inputChange = (fieldKey, value) => {
     const unsavedValue = this.state.unsavedValue
 
     // Checkboxes return either ['1'] or []. Cast to boolean.
@@ -183,9 +180,7 @@ export default class Url extends Attribute {
 
     return (
       <table className='vcv-ui-form-table'>
-        <tbody>
-          {items}
-        </tbody>
+        <tbody>{items}</tbody>
       </table>
     )
   }
@@ -205,7 +200,7 @@ export default class Url extends Attribute {
         <div className='vcv-ui-input-search'>
           <input
             type='search' className='vcv-ui-form-input'
-            onChange={this.onSearchChange}
+            onChange={this.handleSearchChange}
             placeholder={searchExistingContent}
           />
           <label className='vcv-ui-form-input-search-addon'>
@@ -218,7 +213,7 @@ export default class Url extends Attribute {
     )
   }
 
-  onSearchChange = (e) => {
+  handleSearchChange = (e) => {
     e.persist()
     this.delayedSearch(e)
   }
@@ -241,7 +236,7 @@ export default class Url extends Attribute {
           fieldKey='title'
           value={this.state.unsavedValue.title || ''}
           api={this.props.api}
-          updater={this.handleInputChange}
+          updater={this.inputChange}
         />
         <p className='vcv-ui-form-helper'>
           {titleAttributeText}
@@ -262,7 +257,7 @@ export default class Url extends Attribute {
           options={{ values: [{ label: openLinkInTab, value: '1' }] }}
           value={this.state.unsavedValue.targetBlank ? ['1'] : []}
           api={this.props.api}
-          updater={this.handleInputChange}
+          updater={this.inputChange}
         />
         <Checkbox
           fieldKey='relNofollow'
@@ -270,7 +265,7 @@ export default class Url extends Attribute {
           options={{ values: [{ label: addNofollow, value: '1' }] }}
           api={this.props.api}
           value={this.state.unsavedValue.relNofollow ? ['1'] : []}
-          updater={this.handleInputChange}
+          updater={this.inputChange}
         />
       </div>
     )
@@ -284,13 +279,11 @@ export default class Url extends Attribute {
     return (
       <Modal
         show={this.state.isWindowOpen}
-        onClose={this.cancel}
+        onClose={this.handleClose}
       >
-
         <div className='vcv-ui-modal'>
-
           <header className='vcv-ui-modal-header'>
-            <span className='vcv-ui-modal-close' onClick={this.cancel} title={close}>
+            <span className='vcv-ui-modal-close' onClick={this.handleClose} title={close}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
             <h1 className='vcv-ui-modal-header-title'>{insertEditLink}</h1>
@@ -310,7 +303,7 @@ export default class Url extends Attribute {
                 ref={(c) => { this.urlInput = c }}
                 api={this.props.api}
                 value={this.state.unsavedValue.url || ''}
-                updater={this.handleInputChange}
+                updater={this.inputChange}
               />
             </div>
             {this.renderTitleInput()}
@@ -320,7 +313,7 @@ export default class Url extends Attribute {
 
           <footer className='vcv-ui-modal-footer'>
             <div className='vcv-ui-modal-actions'>
-              <span className='vcv-ui-modal-action' title={save} onClick={this.save}>
+              <span className='vcv-ui-modal-action' title={save} onClick={this.handleSaveClick}>
                 <span className='vcv-ui-modal-action-content'>
                   <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
                   <span>{save}</span>
@@ -329,12 +322,11 @@ export default class Url extends Attribute {
             </div>
           </footer>
         </div>
-
       </Modal>
     )
   }
 
-  handleDynamicChange (value) {
+  dynamicAttributeChange (value) {
     const valueToSave = Object.assign({}, this.state.unsavedValue)
     if (value && typeof value === 'string' && value.match(blockRegexp)) {
       valueToSave.url = value
@@ -418,7 +410,7 @@ export default class Url extends Attribute {
     const linkButton = (
       <button
         className='vcv-ui-form-link-button vcv-ui-form-button vcv-ui-form-button--default'
-        onClick={this.open}
+        onClick={this.handleOpen}
         type='button'
         title={addLink}
       >
@@ -431,7 +423,7 @@ export default class Url extends Attribute {
       <div className='vcv-ui-form-link'>
         <DynamicAttribute
           {...this.props}
-          setFieldValue={this.handleDynamicChange}
+          setFieldValue={this.dynamicAttributeChange}
           value={url}
           renderExtraOptions={this.renderExtraDynamicOptions}
           onOpenClick={this.handleDynamicOpen}
