@@ -16,13 +16,13 @@ export default class ParamsGroupAttribute extends Attribute {
 
   constructor (props) {
     super(props)
-    this.clickAdd = this.clickAdd.bind(this)
+    this.handleAddClick = this.handleAddClick.bind(this)
     this.clickClone = this.clickClone.bind(this)
     this.clickDelete = this.clickDelete.bind(this)
     this.clickEdit = this.clickEdit.bind(this)
-    this.enableEditable = this.enableEditable.bind(this)
-    this.validateContent = this.validateContent.bind(this)
-    this.preventNewLine = this.preventNewLine.bind(this)
+    this.handleEditableClick = this.handleEditableClick.bind(this)
+    this.handleEditableBlur = this.handleEditableBlur.bind(this)
+    this.handleEditableKeyDown = this.handleEditableKeyDown.bind(this)
 
     this.getSortableHandle = this.getSortableHandle.bind(this)
     this.getSortableList = this.getSortableList.bind(this)
@@ -81,7 +81,7 @@ export default class ParamsGroupAttribute extends Attribute {
     workspaceStorage.trigger('edit', this.props.elementAccessPoint.id, this.props.elementAccessPoint.tag, options)
   }
 
-  clickAdd () {
+  handleAddClick () {
     const { value } = this.state.value
     const { options } = this.props
     const { settings } = options
@@ -138,9 +138,9 @@ export default class ParamsGroupAttribute extends Attribute {
                 ref={span => { this[`title${groupIndex}`] = span }}
                 contentEditable
                 suppressContentEditableWarning
-                onKeyDown={this.preventNewLine}
-                onClick={this.enableEditable}
-                onBlur={this.validateContent}
+                onKeyDown={this.handleEditableKeyDown}
+                onClick={this.handleEditableClick}
+                onBlur={this.handleEditableBlur}
                 data-index={groupIndex}
               >
                 {title}
@@ -164,24 +164,24 @@ export default class ParamsGroupAttribute extends Attribute {
     })
   }
 
-  enableEditable (e) {
+  handleEditableClick (e) {
     e.currentTarget.closest('.vcv-ui-tree-layout-control-label').classList.add('vcv-ui-tree-layout-control-label-editable')
   }
 
-  validateContent (event) {
+  handleEditableBlur (event) {
     const groupIndex = event.currentTarget.getAttribute('data-index')
     const value = event.currentTarget.innerText.trim()
     this.updateContent(value, groupIndex)
   }
 
-  preventNewLine (event) {
+  handleEditableKeyDown (event) {
     const groupIndex = event.currentTarget.getAttribute('data-index')
     if (event.key === 'Enter') {
       event.preventDefault()
       event.nativeEvent.stopImmediatePropagation()
       event.stopPropagation()
       this[`title${groupIndex}`].blur()
-      this.validateContent(event)
+      this.handleEditableBlur(event)
     }
   }
 
@@ -261,19 +261,32 @@ export default class ParamsGroupAttribute extends Attribute {
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
+
+    let cloneContent = null
+    if (!maximum) {
+      cloneContent = (
+        <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
+          <i className='vcv-ui-icon vcv-ui-icon-copy' />
+        </span>
+      )
+    }
+    let deleteContent = null
+    if (!minimum) {
+      deleteContent = (
+        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
+          <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        </span>
+      )
+    }
+
     return (
       <div className='vcv-ui-tree-layout-control-actions-container'>
         <span className='vcv-ui-tree-layout-control-actions'>
           <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={() => { this.clickEdit(index) }}>
             <i className='vcv-ui-icon vcv-ui-icon-edit' />
           </span>
-          {!maximum &&
-            <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={() => { this.clickClone(index) }}>
-              <i className='vcv-ui-icon vcv-ui-icon-copy' />
-            </span>}
-          {!minimum && <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={() => { this.clickDelete(index) }}>
-            <i className='vcv-ui-icon vcv-ui-icon-trash' />
-          </span>}
+          {cloneContent}
+          {deleteContent}
         </span>
       </div>
     )
@@ -289,6 +302,13 @@ export default class ParamsGroupAttribute extends Attribute {
 
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
+    let addContent = null
+    if (!maximum) {
+      addContent = (
+        <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.handleAddClick} title={addText} />
+      )
+    }
+
     return (
       <DynamicAttribute {...this.props} setFieldValue={this.setFieldValue} value={value}>
         {value.value && value.value.length ? null : (
@@ -296,7 +316,7 @@ export default class ParamsGroupAttribute extends Attribute {
         )}
         <div className='vcv-ui-form-params-group'>
           {this.getSortableList()}
-          {!maximum && <div className='vcv-ui-form-params-group-add-item vcv-ui-icon vcv-ui-icon-add' onClick={this.clickAdd} title={addText} />}
+          {addContent}
         </div>
       </DynamicAttribute>
     )
