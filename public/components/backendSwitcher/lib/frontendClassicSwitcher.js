@@ -90,7 +90,7 @@ export default class FrontendClassicSwitcher extends React.Component {
     let gutenbergButton = null
     if (!this.props.isGutenbergEditor && gutenberg && editor !== 'gutenberg') {
       gutenbergButton = (
-        <div className='vcv-wpbackend-switcher--type-gutenberg as'>
+        <div className='vcv-wpbackend-switcher--type-gutenberg'>
           <button className='vcv-wpbackend-switcher-option' onClick={this.handleClickEnableGutenbergEditor}>{buttonGutenbergtext}</button>
         </div>
       )
