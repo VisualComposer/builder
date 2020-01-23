@@ -199,7 +199,7 @@ export default class DesignOptions extends Attribute {
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
-    this.elementVisibilityChangeHandler = this.elementVisibilityChangeHandler.bind(this)
+    this.handleElementVisibilityChange = this.handleElementVisibilityChange.bind(this)
     this.boxModelChangeHandler = this.boxModelChangeHandler.bind(this)
     this.attachImageChangeHandler = this.attachImageChangeHandler.bind(this)
     this.backgroundStyleChangeHandler = this.backgroundStyleChangeHandler.bind(this)
@@ -615,20 +615,22 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
-    return <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
-      <span className='vcv-ui-form-group-heading'>
-        Device type
-      </span>
-      <Devices
-        api={this.props.api}
-        fieldKey='currentDevice'
-        options={{
-          customDevices: this.getCustomDevices()
-        }}
-        updater={this.devicesChangeHandler}
-        value={this.state.currentDevice}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
+        <span className='vcv-ui-form-group-heading'>
+          Device type
+        </span>
+        <Devices
+          api={this.props.api}
+          fieldKey='currentDevice'
+          options={{
+            customDevices: this.getCustomDevices()
+          }}
+          updater={this.devicesChangeHandler}
+          value={this.state.currentDevice}
+        />
+      </div>
+    )
   }
 
   /**
@@ -668,7 +670,7 @@ export default class DesignOptions extends Attribute {
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <div className='vcv-ui-form-switch-container'>
             <label className='vcv-ui-form-switch'>
-              <input type='checkbox' onChange={this.elementVisibilityChangeHandler} id='show_element' checked={checked} />
+              <input type='checkbox' onChange={this.handleElementVisibilityChange} id='show_element' checked={checked} />
               <span className='vcv-ui-form-switch-indicator' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
               <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
@@ -694,7 +696,7 @@ export default class DesignOptions extends Attribute {
     )
   }
 
-  elementVisibilityChangeHandler () {
+  handleElementVisibilityChange () {
     workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
   }
 
@@ -888,17 +890,19 @@ export default class DesignOptions extends Attribute {
 
     const fieldKey = 'attachImage'
     const value = this.state.devices[this.state.currentDevice].image || ''
-    let fieldComponent = <AttachImage
-      api={this.props.api}
-      fieldKey={fieldKey}
-      key={`${this.state.currentDevice}-${fieldKey}`}
-      options={{
-        multiple: true
-      }}
-      updater={this.attachImageChangeHandler}
-      value={value}
-      elementAccessPoint={this.props.elementAccessPoint}
-    />
+    let fieldComponent = (
+      <AttachImage
+        api={this.props.api}
+        fieldKey={fieldKey}
+        key={`${this.state.currentDevice}-${fieldKey}`}
+        options={{
+          multiple: true
+        }}
+        updater={this.attachImageChangeHandler}
+        value={value}
+        elementAccessPoint={this.props.elementAccessPoint}
+      />
+    )
 
     if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
       const dynamicTemplateProps = {
@@ -906,28 +910,30 @@ export default class DesignOptions extends Attribute {
         type: 'backgroundImage',
         sourceId: '$sourceId'
       }
-      fieldComponent = <AttachImage
-        api={this.props.api}
-        fieldKey={fieldKey}
-        key={`${this.state.currentDevice}-${fieldKey}`}
-        options={{
-          multiple: true,
-          dynamicField: true
-        }}
-        updater={this.attachImageChangeHandler}
-        value={value}
-        defaultValue=''
-        prevValue={this.state.devices[this.state.currentDevice].prevValue}
-        elementAccessPoint={this.props.elementAccessPoint}
-        onDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
-          const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
-          return getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplateProps: dynamicTemplateProps })
-        }}
-        onDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
-          return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps, forceSaveSourceId })
-        }}
-        onDynamicFieldClose={this.props.onDynamicFieldClose}
-      />
+      fieldComponent = (
+        <AttachImage
+          api={this.props.api}
+          fieldKey={fieldKey}
+          key={`${this.state.currentDevice}-${fieldKey}`}
+          options={{
+            multiple: true,
+            dynamicField: true
+          }}
+          updater={this.attachImageChangeHandler}
+          value={value}
+          defaultValue=''
+          prevValue={this.state.devices[this.state.currentDevice].prevValue}
+          elementAccessPoint={this.props.elementAccessPoint}
+          onDynamicFieldOpen={(fieldType, prevAttrDynamicKey) => {
+            const defaultDynamicFieldKey = prevAttrDynamicKey || getDefaultDynamicFieldKey(fieldType.fieldType)
+            return getDynamicValue(defaultDynamicFieldKey, null, null, { dynamicTemplateProps: dynamicTemplateProps })
+          }}
+          onDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
+            return getDynamicValue(dynamicFieldKey, sourceId, null, { dynamicTemplateProps: dynamicTemplateProps, forceSaveSourceId })
+          }}
+          onDynamicFieldClose={this.props.onDynamicFieldClose}
+        />
+      )
     }
 
     return (
@@ -1023,18 +1029,20 @@ export default class DesignOptions extends Attribute {
       ]
     }
     const value = devices[currentDevice].backgroundStyle || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background style
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='backgroundStyle'
-        options={options}
-        updater={this.backgroundStyleChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background style
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='backgroundStyle'
+          options={options}
+          updater={this.backgroundStyleChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1114,18 +1122,20 @@ export default class DesignOptions extends Attribute {
       ]
     }
     const value = devices[currentDevice].backgroundPosition || DesignOptions.defaultState.backgroundPosition
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background position
-      </span>
-      <ButtonGroup
-        api={this.props.api}
-        fieldKey='backgroundPosition'
-        options={options}
-        updater={this.backgroundPositionChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background position
+        </span>
+        <ButtonGroup
+          api={this.props.api}
+          fieldKey='backgroundPosition'
+          options={options}
+          updater={this.backgroundPositionChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   /**
@@ -1148,18 +1158,20 @@ export default class DesignOptions extends Attribute {
       return null
     }
     const value = this.state.devices[this.state.currentDevice].backgroundColor || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Background color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey='backgroundColor'
-        updater={this.colorChangeHandler}
-        value={value}
-        defaultValue=''
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Background color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey='backgroundColor'
+          updater={this.colorChangeHandler}
+          value={value}
+          defaultValue=''
+        />
+      </div>
+    )
   }
 
   getBorderStyleRender () {
@@ -1192,18 +1204,20 @@ export default class DesignOptions extends Attribute {
       ]
     }
     const value = this.state.devices[this.state.currentDevice].borderStyle || DesignOptions.deviceDefaults.borderStyle
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Border style
-      </span>
-      <Dropdown
-        api={this.props.api}
-        fieldKey='borderStyle'
-        options={options}
-        updater={this.borderStyleChangeHandler}
-        value={value}
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Border style
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='borderStyle'
+          options={options}
+          updater={this.borderStyleChangeHandler}
+          value={value}
+        />
+      </div>
+    )
   }
 
   borderStyleChangeHandler (fieldKey, value) {
@@ -1226,18 +1240,20 @@ export default class DesignOptions extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].borderColor || ''
-    return <div className='vcv-ui-form-group'>
-      <span className='vcv-ui-form-group-heading'>
-        Border color
-      </span>
-      <Color
-        api={this.props.api}
-        fieldKey='borderColor'
-        updater={this.colorChangeHandler}
-        value={value}
-        defaultValue=''
-      />
-    </div>
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Border color
+        </span>
+        <Color
+          api={this.props.api}
+          fieldKey='borderColor'
+          updater={this.colorChangeHandler}
+          value={value}
+          defaultValue=''
+        />
+      </div>
+    )
   }
 
   /**
@@ -1284,20 +1300,22 @@ export default class DesignOptions extends Attribute {
       )
     }
 
-    return <>
-      <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          Animate
-        </span>
-        <Animate
-          api={this.props.api}
-          fieldKey='animation'
-          updater={this.animationChangeHandler}
-          value={value}
-        />
-      </div>
-      {animationDelayHtml}
-    </>
+    return (
+      <>
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            Animate
+          </span>
+          <Animate
+            api={this.props.api}
+            fieldKey='animation'
+            updater={this.animationChangeHandler}
+            value={value}
+          />
+        </div>
+        {animationDelayHtml}
+      </>
+    )
   }
 
   /**
