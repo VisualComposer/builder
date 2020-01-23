@@ -9,7 +9,7 @@ import _ from 'lodash'
 
 class Color extends Attribute {
   static getEmptyColor () {
-    return `rgba(186, 218, 85, 0)`
+    return 'rgba(186, 218, 85, 0)'
   }
 
   componentWillUnmount () {
@@ -21,7 +21,7 @@ class Color extends Attribute {
   }
 
   static getTransparentColor () {
-    return `rgba(0, 0, 0, 0)`
+    return 'rgba(0, 0, 0, 0)'
   }
 
   getTransparentColor () {
