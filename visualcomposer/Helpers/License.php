@@ -40,6 +40,20 @@ class License extends Container implements Helper
     }
 
     /**
+     * Get hidden license key.
+     *
+     * @return string
+     */
+    public function getHiddenKey()
+    {
+        $optionsHelper = vchelper('Options');
+        $licenseKey = $optionsHelper->get('license-key');
+        $licenseKey = substr($licenseKey, 0, strpos($licenseKey, '-'));
+
+        return $licenseKey . '-****-****-****-************';
+    }
+
+    /**
      * @param $type
      */
     public function setType($type)
