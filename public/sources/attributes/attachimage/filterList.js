@@ -4,7 +4,7 @@ import filters from './filters'
 
 class FilterList extends React.Component {
   render () {
-    const { handleFilterChange, images, metaAssetsPath } = this.props
+    const { images, metaAssetsPath } = this.props
     const image = images.urls && images.urls[0] ? images.urls[0] : ''
     const filterName = image && image.filter ? image.filter : 'normal'
     return (
@@ -16,7 +16,7 @@ class FilterList extends React.Component {
                 key={index}
                 filter={filter}
                 active={filterName === filter.value}
-                handleFilterChange={handleFilterChange}
+                onFilterChange={this.props.onFilterChange}
                 image={image}
                 metaAssetsPath={metaAssetsPath}
               />

@@ -97,7 +97,7 @@ export default class AttachVideoList extends React.Component {
         url: url,
         icon: value.icons && value.icons[index],
         oneMoreControl: oneMoreControl,
-        handleRemove: this.props.handleRemove,
+        onRemove: this.props.onRemove,
         getUrlHtml: this.props.getUrlHtml
       }
 

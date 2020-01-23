@@ -51,10 +51,10 @@ export default class AttachImage extends Attribute {
     this.onMediaClose = this.onMediaClose.bind(this)
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
-    this.onSortEnd = this.onSortEnd.bind(this)
+    this.handleSortEnd = this.handleSortEnd.bind(this)
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
-    this.onDynamicFieldChange = this.onDynamicFieldChange.bind(this)
+    this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
     this.customDynamicRender = this.customDynamicRender.bind(this)
 
     this.state.extraAttributes = {
@@ -360,7 +360,7 @@ export default class AttachImage extends Attribute {
     return urlHtml
   }
 
-  onSortEnd ({ oldIndex, newIndex }) {
+  handleSortEnd ({ oldIndex, newIndex }) {
     const prevState = Object.assign({}, this.state.value)
     const sortedValue = {}
     sortedValue.urls = arrayMove(prevState.urls, oldIndex, newIndex)
@@ -377,12 +377,14 @@ export default class AttachImage extends Attribute {
       if (value && value.urls && value.urls[0] && value.urls[0] && value.urls[0].link && value.urls[0].link.url) {
         urlClasses += ' vcv-ui-form-attach-image-item-has-link-value'
       }
-      content = <>
-        {dynamicApi.renderDynamicInputs()}
-        <div className={urlClasses}>
-          {this.getUrlHtml(0)}
-        </div>
-      </>
+      content = (
+        <>
+          {dynamicApi.renderDynamicInputs()}
+          <div className={urlClasses}>
+            {this.getUrlHtml(0)}
+          </div>
+        </>
+      )
     }
 
     let dynamicValue = value
@@ -396,9 +398,11 @@ export default class AttachImage extends Attribute {
     }
 
     if (!dynamicFieldOpened) {
-      content = <div className={dynamicApi.props.attachImageClassNames}>
-        {dynamicApi.props.getAttachImageComponent(dynamicApi)}
-      </div>
+      content = (
+        <div className={dynamicApi.props.attachImageClassNames}>
+          {dynamicApi.props.getAttachImageComponent(dynamicApi)}
+        </div>
+      )
     }
 
     return (
@@ -413,7 +417,7 @@ export default class AttachImage extends Attribute {
     return dynamicApi.renderOpenButton()
   }
 
-  onDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
+  handleDynamicFieldChange (dynamicFieldKey, sourceId, forceSaveSourceId = false) {
     const dynamicValue = this.props.onDynamicFieldChange(dynamicFieldKey, sourceId, forceSaveSourceId)
     let newValue = dynamicValue
     const { value } = this.state
@@ -438,11 +442,11 @@ export default class AttachImage extends Attribute {
         metaAssetsPath={metaAssetsPath}
         helperClass={dragClass}
         useDragHandle={useDragHandle}
-        onSortEnd={this.onSortEnd}
+        onSortEnd={this.handleSortEnd}
         axis='xy'
         value={this.state.value}
         openLibrary={this.openLibrary}
-        handleRemove={this.handleRemove}
+        onRemove={this.handleRemove}
         getUrlHtml={this.getUrlHtml}
         dynamicApi={dynamicApi}
       />
@@ -463,13 +467,17 @@ export default class AttachImage extends Attribute {
         />
       </div>
     )
-    let filterList = filter ? (
-      <FilterList
-        handleFilterChange={this.handleFilterChange}
-        images={value}
-        metaAssetsPath={metaAssetsPath}
-      />
-    ) : ''
+
+    let filterList = null
+    if (filter) {
+      filterList = (
+        <FilterList
+          onFilterChange={this.handleFilterChange}
+          images={value}
+          metaAssetsPath={metaAssetsPath}
+        />
+      )
+    }
 
     if (!options.imageFilter || (value && value.urls && value.urls.length < 1)) {
       filterControl = ''
@@ -490,15 +498,17 @@ export default class AttachImage extends Attribute {
 
     return (
       <>
-        <DynamicAttribute {...this.props}
+        <DynamicAttribute
+          {...this.props}
           setFieldValue={this.setFieldValue}
           value={dynamicValue}
           attachImageClassNames={fieldClassNames}
           getAttachImageComponent={this.getAttachImageComponent.bind(this)}
           render={this.customDynamicRender.bind(this)}
-          onDynamicFieldChange={this.onDynamicFieldChange}
+          onDynamicFieldChange={this.handleDynamicFieldChange}
           onOpen={this.props.onDynamicFieldOpen}
-          onClose={this.props.onDynamicFieldClose}>
+          onClose={this.props.onDynamicFieldClose}
+        >
           <div className={fieldClassNames}>
             {this.getAttachImageComponent(false)}
           </div>

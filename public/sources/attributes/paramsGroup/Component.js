@@ -208,7 +208,7 @@ export default class ParamsGroupAttribute extends Attribute {
       )
     })
 
-    const onSortEnd = ({ oldIndex, newIndex }) => {
+    const handleSortEnd = ({ oldIndex, newIndex }) => {
       const newState = this.state.value
       newState.value = arrayMove(this.state.value.value, oldIndex, newIndex)
       this.setFieldValue(newState)
@@ -221,7 +221,7 @@ export default class ParamsGroupAttribute extends Attribute {
         lockAxis='y'
         useDragHandle={useDragHandle}
         helperClass='vcv-ui-form-params-group-item--dragging'
-        onSortEnd={onSortEnd}
+        onSortEnd={handleSortEnd}
         items={this.state.value.value}
       />
     )

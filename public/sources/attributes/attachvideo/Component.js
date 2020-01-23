@@ -207,9 +207,16 @@ class AttachVideo extends Attribute {
     return (
       <div className='vcv-ui-form-attach-image'>
         <SortableList
-          {...this.props} helperClass={dragClass} useDragHandle={useDragHandle} onSortEnd={this.onSortEnd}
-          axis='xy' value={this.state.value} openLibrary={this.openLibrary} handleRemove={this.handleRemove}
-          getUrlHtml={this.getUrlHtml} mediaLibrary={this.mediaUploader}
+          {...this.props}
+          helperClass={dragClass}
+          useDragHandle={useDragHandle}
+          onSortEnd={this.onSortEnd}
+          axis='xy'
+          value={this.state.value}
+          openLibrary={this.openLibrary}
+          onRemove={this.handleRemove}
+          getUrlHtml={this.getUrlHtml}
+          mediaLibrary={this.mediaUploader}
         />
       </div>
     )
