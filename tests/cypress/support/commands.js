@@ -470,14 +470,22 @@ Cypress.Commands.add('setTinyMce', (settings) => {
         cy.wrap($field)
           .next()
           .find('.mce-stack-layout-item.mce-first .mce-btn .mce-txt')
-          .contains(inputValue)
-          .closest('button')
-          .click()
+          .then(($activeHeading) => {
+            cy.wrap($activeHeading)
+            // Check is elementType.name already active
+            if ($activeHeading[0].innerText !== settings.elementType.name) {
+              cy.wrap($activeHeading)
+                .contains(inputValue)
+                .closest('button')
+                .click()
 
-        cy.get('.mce-menu-item .mce-text')
-          .contains(settings.elementType.name)
-          .parent()
-          .click()
+
+              cy.get('.mce-menu-item .mce-text')
+                .contains(settings.elementType.name)
+                .parent()
+                .click()
+            }
+          })
       }
 
       // Click on TinyMCE alignment control
