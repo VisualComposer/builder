@@ -20,13 +20,13 @@ vcvAddElement(
   (attr) => {
     // BC for devices
     const { size, lastInRow, firstInRow, designOptionsAdvanced } = attr
-    if (typeof size !== 'object') {
+    if (size && typeof size !== 'object') {
       attr.size = { all: size, defaultSize: size }
     }
-    if (typeof lastInRow !== 'object') {
+    if (lastInRow && typeof lastInRow !== 'object') {
       attr.lastInRow = { all: lastInRow }
     }
-    if (typeof firstInRow !== 'object') {
+    if (firstInRow && typeof firstInRow !== 'object') {
       attr.firstInRow = { all: firstInRow }
     }
 
