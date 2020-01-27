@@ -1,7 +1,4 @@
-import { getService } from 'vc-cake'
-import { exceptionalElements } from './exceptionalElements'
-const documentManager = getService('document')
-const cook = getService('cook')
+import { ControlHelpers } from './elementControls/controlHelpers'
 
 export default class Outline {
   constructor (props) {
@@ -41,8 +38,8 @@ export default class Outline {
    * @param element
    */
   show (element, id) {
-    const vcElement = this.getVcElement(id)
-    this.colorIndex = this.getElementColorIndex(vcElement)
+    const vcElement = ControlHelpers.getVcElement(id)
+    this.colorIndex = ControlHelpers.getElementColorIndex(vcElement)
     this.outline.classList.add(`vcv-ui-element-outline-type-index-${this.colorIndex}`)
     this.outline.classList.add('vcv-state--visible')
     this.autoUpdatePosition(element)
@@ -95,28 +92,6 @@ export default class Outline {
       this.iframeWindow.clearInterval(this.state.outlineTimeout)
       this.state.outlineTimeout = null
     }
-  }
-
-  /**
-   * Get vc element color index
-   * @param vcElement
-   * @returns {number}
-   */
-  getElementColorIndex (vcElement) {
-    let colorIndex = 2
-    if (vcElement && vcElement.containerFor().length > 0) {
-      const isColoredElement = exceptionalElements.find(element => vcElement.containerFor().indexOf(element) > -1)
-      colorIndex = isColoredElement ? 0 : 1
-    }
-    return colorIndex
-  }
-
-  /**
-   * Get vc element
-   * @param elementId
-   */
-  getVcElement (elementId) {
-    return cook.get(documentManager.get(elementId))
   }
 
   /**

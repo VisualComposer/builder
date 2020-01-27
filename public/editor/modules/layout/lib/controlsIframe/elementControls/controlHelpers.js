@@ -1,5 +1,4 @@
 import { getService } from 'vc-cake'
-import { exceptionalElements } from './../exceptionalElements'
 
 const cook = getService('cook')
 const documentManager = getService('document')
@@ -11,8 +10,8 @@ export const ControlHelpers = {
   getElementColorIndex: function (vcElement) {
     let colorIndex = 2
     if (vcElement && vcElement.containerFor().length > 0) {
-      const isColoredElement = exceptionalElements.find(element => vcElement.containerFor().indexOf(element) > -1)
-      colorIndex = isColoredElement ? 0 : 1
+      const isContainerForGeneral = vcElement.containerFor().indexOf('General') > -1
+      colorIndex = isContainerForGeneral ? 1 : 0
     }
     return colorIndex
   }
