@@ -64,7 +64,7 @@ class Plugin {
     const cmdPromise = new Promise(function (resolve, reject) {
       exec(cmd, (error, x, stderr) => {
         if (error || stderr) {
-          console.warn(error, stderr)
+          console.warn(error || '', stderr)
           // reject()
         }
         resolve()
@@ -134,9 +134,7 @@ class Plugin {
     promises.push(fs.removeSync(join(elementPath, tag, '__tests__')))
     promises.push(fs.removeSync(join(elementPath, '__tests__')))
     promises.push(fs.removeSync(join(elementPath, tag, 'public', 'src')))
-    promises.push(fs.removeSync(join(elementPath, tag, 'tests/assets')))
-    promises.push(fs.removeSync(join(elementPath, tag, 'tests/jest')))
-    promises.push(fs.removeSync(join(elementPath, tag, 'tests/phpunit')))
+    promises.push(fs.removeSync(join(elementPath, tag, 'tests')))
     promises.push(fs.removeSync(join(elementPath, tag, 'yarn.lock')))
     // promises.push(fs.remove(join(this.elementPath, this.tag, 'public', 'js')))
     let files = glob.sync(join(elementPath, '.*.yml'))
@@ -164,6 +162,7 @@ class Plugin {
     const repoPath = this.repoPath
     fs.ensureDirSync(path.join(bundlePath, 'public/dist/fonts'))
     fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
+    fs.ensureDirSync(path.join(bundlePath, 'tests'))
     process.chdir(bundlePath)
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
       'cp -fr ' + repoPath + '/env.php ./ &' +
@@ -183,6 +182,7 @@ class Plugin {
       'cp -fr ' + repoPath + '/public/dist/wpUpdate.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/elements ./ &' +
       'cp -fr ' + repoPath + '/readme.txt ./ &' +
+      'cp -fr ' + repoPath + '/tests/cypress ./tests &' +
       // JUST MOVE ALL fonts
       'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
       // 'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
