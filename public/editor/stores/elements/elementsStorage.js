@@ -319,7 +319,10 @@ addStorage('elements', (storage) => {
       if (children && childTag) {
         children.forEach(child => {
           const childId = child.id
-          const editFormTabSettings = child.editFormTab1 || []
+          const childCookElement = cook.get(child)
+          const editFormTabSettings = childCookElement.filter((key, value, settings) => {
+            return settings.access === 'public'
+          })
           const replaceElementMergeData = {
             tag: childTag,
             parent: cookElement.get('id')

@@ -128,10 +128,11 @@ export default class EditForm extends React.Component {
 
   getAccordionSections () {
     const { activeTabIndex } = this.state
-    return this.allTabs.map(tab => {
+    return this.allTabs.map((tab, index) => {
       return (
         <EditFormSection
           {...this.props}
+          sectionIndex={index}
           activeTabIndex={activeTabIndex}
           getSectionContentScrollbar={() => { return this.scrollbar }}
           key={tab.key}
