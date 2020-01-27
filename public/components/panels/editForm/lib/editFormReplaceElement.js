@@ -17,9 +17,12 @@ export default class EditFormReplaceElement extends React.Component {
   handleReplaceElement (tag) {
     const cookElement = this.props.elementAccessPoint.cook()
     const id = this.previousElementId = cookElement.get('id')
-    const editFormTabSettings = cookElement.settings('editFormTab1')
+    const editFormTabSettings = cookElement.filter((key, value, settings) => {
+      return settings.access === 'public'
+    })
+
     const currentElementAttributes = [
-      ...(editFormTabSettings && editFormTabSettings.settings && editFormTabSettings.settings.value),
+      ...editFormTabSettings,
       'parent'
     ]
     const replaceElementMergeData = {

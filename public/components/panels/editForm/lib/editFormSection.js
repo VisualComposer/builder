@@ -118,7 +118,7 @@ export default class EditFormSection extends React.Component {
   }
 
   render () {
-    const { tab } = this.props
+    const { tab, sectionIndex } = this.props
     const { isActive, dependenciesClasses } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
@@ -133,7 +133,7 @@ export default class EditFormSection extends React.Component {
     }
     let replaceElement = null
 
-    if (tab.fieldKey === 'editFormTab1') {
+    if (sectionIndex === 0) {
       let disableReplaceable = false
       if (this.props.options.nestedAttr) {
         disableReplaceable = tab.data.options.disableReplaceable
