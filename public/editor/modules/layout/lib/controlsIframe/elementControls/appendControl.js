@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { getService, getStorage } from 'vc-cake'
-import { exceptionalElements } from './../exceptionalElements'
 
 const cook = getService('cook')
 const documentManager = getService('document')
@@ -51,8 +50,14 @@ export function AppendControl (props) {
   if (!container || !insertAfterElement) {
     return null
   }
+
   const containerElement = cook.get(documentManager.get(container))
-  if (!containerElement || !containerElement.relatedTo([exceptionalElements])) {
+  if (!containerElement) {
+    return null
+  }
+
+  const isContainerForGeneral = containerElement.containerFor().indexOf('General') > -1
+  if (!isContainerForGeneral) {
     return null
   }
 
