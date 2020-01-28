@@ -128,11 +128,15 @@ $ bash tools/elements/buildProductionScript.sh
 You can build each element separately.
 ```sh
 $ cd elements/{elementDirectory}
-$ ../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --progress --colors
+$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js
 # compile style.css and watch
-$ ../../node_modules/.bin/webpack --config webpack.config.4x.babel.js --progress --colors --watch /public/src/init.less styles.css --autoprefix="last 2 versions"
+$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js
 ```
-You need to build public assets for element if exist.
+Compile less files in elements
+```sh
+$ lessc {source/path} {output/path} --autoprefix="last 2 versions"
+```
+Build public assets for element if exist.
 ```sh
 $ cd elements/{elementDirectory}/{elementDirectory}/public
 # build
@@ -141,7 +145,7 @@ $ ../../../../node_modules/.bin/webpack --config=webpack.config.js -p
 $ ../../../../node_modules/.bin/webpack --config=webpack.config.js -p --watch
 ```
 
-##### Build assets
+#### Build assets
 ```sh
 $ cd public/sources/assetsLibrary/{assetDirectory}
 $ ../../../../node_modules/.bin/webpack --config=webpack.config.babel.js -p
