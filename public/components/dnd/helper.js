@@ -82,12 +82,4 @@ export default class Helper {
       controlParent.removeChild(control)
     }
   }
-
-  setOverTrash () {
-    this.control.classList.add('vcv-drag-helper-over-trash')
-  }
-
-  removeOverTrash () {
-    this.control.classList.remove('vcv-drag-helper-over-trash')
-  }
 }
