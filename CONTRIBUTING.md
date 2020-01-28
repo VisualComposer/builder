@@ -129,8 +129,8 @@ You can build each element separately.
 ```sh
 $ cd elements/{elementDirectory}
 $ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js
-# compile style.css and watch
-$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js
+# watch
+$ ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js --watch
 ```
 Compile less files in elements
 ```sh
