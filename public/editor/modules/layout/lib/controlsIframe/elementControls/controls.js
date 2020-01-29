@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { getStorage } from 'vc-cake'
 import { Control } from './control'
 import { ControlAction } from './controlAction'
-import { ControlHelpers } from './controlHelpers'
 
 const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
@@ -71,46 +70,11 @@ function getVisibleControls (elementIds, controls) {
   return false
 }
 
-function getAdditionalControl (elementId, action, titleText, key) {
-  const vcElement = ControlHelpers.getVcElement(elementId)
-  const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
-  const elName = vcElement.get('customHeaderTitle') || vcElement.get('name')
-
-  let iconClass = `vcv-ui-icon-${action}`
-  if (action === 'remove') {
-    iconClass = 'vcv-ui-icon-trash'
-  }
-
-  const iconAction = {
-    label: false,
-    title: `${titleText} ${elName}`,
-    icon: iconClass,
-    data: {
-      vcControlEvent: action,
-      vcControlIsPermanent: action === 'edit'
-    }
-  }
-
-  const classNames = `vcv-ui-outline-control-simple vcv-ui-outline-control-type-index-${colorIndex}`
-
-  return (
-    <div className={classNames} data-vcv-element-controls={elementId} key={key}>
-      <ControlAction id={elementId} options={iconAction} />
-    </div>
-  )
-}
-
 function getControls (elementIds, visibleControls) {
   const controls = []
   const iterableControls = visibleControls || elementIds
   const localizations = window.VCV_I18N && window.VCV_I18N()
   iterableControls.forEach((id, i) => {
-    if (i === 0) {
-      const removeText = localizations ? localizations.remove : 'Remove'
-      const editText = localizations ? localizations.edit : 'Edit'
-      controls.push(getAdditionalControl(id, 'remove', removeText, `additional-element-remove-${id}-${i}`))
-      controls.push(getAdditionalControl(id, 'edit', editText, `additional-element-edit-${id}-${i}`))
-    }
     if (i === iterableControls.length - 1 && visibleControls) {
       const treeViewText = localizations ? localizations.treeView : 'Tree View'
       const options = {

@@ -127,11 +127,14 @@ export default class Content extends React.Component {
       'vcv-layout-bar-content-aligned': aligned
     })
 
-    const closeButton = content === 'treeView' ? '' : (
-      <span className={closeBtnClasses} title={closeTitle} onClick={this.handleClickCloseContent}>
-        <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-      </span>
-    )
+    let closeButton = null
+    if (content !== 'treeView' && content !== 'editElement') {
+      closeButton = (
+        <span className={closeBtnClasses} title={closeTitle} onClick={this.handleClickCloseContent}>
+          <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
+        </span>
+      )
+    }
 
     return (
       <div className={contentClasses} id='vcv-editor-end'>
