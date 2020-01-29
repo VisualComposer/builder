@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 const hubCategories = getService('hubCategories')
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
+const workspaceSettings = workspaceStorage.state('settings')
+const documentManager = getService('document')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -17,7 +19,8 @@ export default class EditFormHeader extends React.Component {
     super(props)
     this.state = {
       content: props.elementAccessPoint.cook().getName(),
-      editable: false
+      editable: false,
+      hidden: props.elementAccessPoint.cook().get('hidden')
     }
 
     this.handleClickEnableEditable = this.handleClickEnableEditable.bind(this)
@@ -26,16 +29,28 @@ export default class EditFormHeader extends React.Component {
     this.handleKeyDownPreventNewLine = this.handleKeyDownPreventNewLine.bind(this)
     this.updateElementOnChange = this.updateElementOnChange.bind(this)
     this.handleClickGoBack = this.handleClickGoBack.bind(this)
+    this.handleClickHide = this.handleClickHide.bind(this)
+    this.updateHiddenState = this.updateHiddenState.bind(this)
   }
 
   componentDidMount () {
     const { elementAccessPoint } = this.props
     elementAccessPoint.onChange(this.updateElementOnChange)
+    workspaceStorage.on('hide', this.updateHiddenState)
   }
 
   componentWillUnmount () {
     const { elementAccessPoint } = this.props
     elementAccessPoint.ignoreChange(this.updateElementOnChange)
+    workspaceStorage.off('hide', this.updateHiddenState)
+  }
+
+  updateHiddenState (id) {
+    const { elementAccessPoint } = this.props
+    if (id === elementAccessPoint.id) {
+      const newHiddenState = documentManager.get(elementAccessPoint.id).hidden
+      this.setState({ hidden: newHiddenState })
+    }
   }
 
   updateElementOnChange () {
@@ -117,15 +132,25 @@ export default class EditFormHeader extends React.Component {
     workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
   }
 
+  handleClickCloseContent (e) {
+    e && e.preventDefault()
+    workspaceSettings.set(false)
+  }
+
+  handleClickHide () {
+    workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
+  }
+
   render () {
     const { elementAccessPoint, options } = this.props
-    let { content, editable } = this.state
+    let { content, editable, hidden } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
       active: editable
     })
     const localizations = window.VCV_I18N && window.VCV_I18N()
+    const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
     if (isNested) {
@@ -165,11 +190,45 @@ export default class EditFormHeader extends React.Component {
       )
     }
 
+    let hideControl = null
+    if (elementAccessPoint.tag !== 'column') {
+      const iconClasses = classNames({
+        'vcv-ui-icon': true,
+        'vcv-ui-icon-eye-on': !hidden,
+        'vcv-ui-icon-eye-off': hidden
+      })
+      let visibilityText = ''
+      if (hidden) {
+        visibilityText = localizations ? localizations.hideOn : 'Hide: On'
+      } else {
+        visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
+      }
+      hideControl = (
+        <span
+          className='vcv-ui-edit-form-header-control'
+          title={visibilityText}
+          onClick={this.handleClickHide}
+        >
+          <i className={iconClasses} />
+        </span>
+      )
+    }
+
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
         {sectionImage}
         {headerTitle}
+        <span className='vcv-ui-edit-form-header-control-container'>
+          {hideControl}
+          <span
+            className='vcv-ui-edit-form-header-control'
+            title={closeTitle}
+            onClick={this.handleClickCloseContent}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
+          </span>
+        </span>
       </div>
     )
   }
