@@ -41,6 +41,7 @@ export default class ActivatePremiumScreen extends React.Component {
 
   handleActivateClick (e) {
     e.preventDefault()
+    const type = this.props.activationType || 'premium'
     this.setState({
       hasError: false,
       errorText: ''
@@ -52,7 +53,7 @@ export default class ActivatePremiumScreen extends React.Component {
       dataProcessor.appAdminServerRequest({
         'vcv-action': 'license:activate:adminNonce',
         'vcv-license-key': this.state.licenseValue,
-        'vcv-activation-type': this.props.activationType || 'premium'
+        'vcv-activation-type': type
       }).then((responseData) => {
         const response = getResponse(responseData)
         if (response && response.status) {
