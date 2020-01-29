@@ -51,11 +51,14 @@ export default class Categories extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
+    Categories.elementsPresets = hubElementsStorage.state('elementsPresets').get()
     hubElementsStorage.state('elements').onChange(this.reset)
+    hubElementsStorage.state('elementsPresets').onChange(this.reset)
   }
 
   componentWillUnmount () {
     hubElementsStorage.state('elements').ignoreChange(this.reset)
+    hubElementsStorage.state('elementsPresets').ignoreChange(this.reset)
     if (this.updateElementsTimeout) {
       window.clearTimeout(this.updateElementsTimeout)
       this.updateElementsTimeout = 0
@@ -67,6 +70,7 @@ export default class Categories extends React.Component {
     Categories.allElements = []
     Categories.allElementsTags = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
+    Categories.elementsPresets = hubElementsStorage.state('elementsPresets').get()
 
     categoriesService.getSortedElements.cache.clear()
     this.updateElementsTimeout = setTimeout(() => {
@@ -99,9 +103,11 @@ export default class Categories extends React.Component {
     const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
     if (isAllElements) {
       const { allElements } = this.state
+      // console.log('getAllElements this.state.allElements', allElements)
       Categories.allElements = allElements.filter((elementData) => {
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
+      Categories.allElements = Categories.elementsPresets.concat(Categories.allElements)
     }
 
     return Categories.allElements
@@ -147,6 +153,8 @@ export default class Categories extends React.Component {
       const groupsStore = {}
       const groups = groupsService.all()
       const tags = this.getAllElementsTags()
+      // console.log('getAllCategories groups', groups)
+      // TODO Don't add a category for presets
       Categories.allCategories = groups.filter((group) => {
         groupsStore[group.title] = this.getElementsList(group.categories, tags)
         return groupsStore[group.title].length > 0
@@ -220,15 +228,18 @@ export default class Categories extends React.Component {
   }
 
   getElementControl (elementData) {
-    const tag = elementData.tag
+    let { tag, name } = elementData
+    let key = 'vcv-element-control-' + tag
+    // let elementPreset = ''
 
     return (
       <ElementControl
-        key={'vcv-element-control-' + tag}
+        key={key}
+        isElementPreset={Categories.elementsPresets.find(preset => preset.tag === tag)}
         element={elementData}
         hubElement={Categories.hubElements[tag]}
         tag={tag}
-        name={elementData.name}
+        name={name}
         addElement={this.addElement}
         setFocusedElement={this.setFocusedElement}
         applyFirstElement={this.applyFirstElement}
@@ -326,11 +337,22 @@ export default class Categories extends React.Component {
     const workspace = workspaceStorage.state('settings').get() || false
     // TODO: Check elementAccessPoint
     const parentElementId = workspace && workspace.element ? workspace.element.id : false
-    const data = cook.get({ tag: tag, parent: parentElementId })
-    elementsStorage.trigger('add', data.toJS(), true, {
+    let data
+    let addedId
+    let elementPreset = Categories.elementsPresets.find(preset => preset.tag === tag)
+    // console.log('elementPreset', elementPreset)
+    if (elementPreset) {
+      data = elementPreset.presetData
+      addedId = elementPreset.presetData.id
+    } else {
+      data = cook.get({ tag: tag, parent: parentElementId }).toJS()
+      addedId = data.id
+    }
+    // console.log('addElement data', data)
+    elementsStorage.trigger('add', data, true, {
       insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
-    this.addedId = data.toJS().id
+    this.addedId = addedId
 
     const iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
