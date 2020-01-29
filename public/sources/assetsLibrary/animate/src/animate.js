@@ -55,11 +55,13 @@ window.vcv.on('ready', function (action, id, options) {
         window.setTimeout(() => {
           if (element) {
             const currentStyleWidth = element.style.width;
-            const realWidth = element.getBoundingClientRect();
-            element.style.width = (realWidth.width - 1) + 'px';
-            window.setTimeout(() => {
-              element.style.width = currentStyleWidth;
-            }, 50)
+            const elementRect = element.getBoundingClientRect();
+            if (elementRect) {
+              element.style.width = (elementRect.width - 1) + 'px';
+              window.setTimeout(() => {
+                element.style.width = currentStyleWidth;
+              }, 50)
+            }
           }
         }, duration + delay + 200)
       },
