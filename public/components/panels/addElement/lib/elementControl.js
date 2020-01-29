@@ -344,10 +344,7 @@ export default class ElementControl extends React.Component {
     }
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
-    console.log('activeDragging', activeDragging)
     if (!activeDragging) {
-      // console.log('call this.props.addElement tag', this.props.tag)
-      // console.log('call this.props.addElement element', this.props.element)
       this.props.addElement(this.props.tag)
       this.endDrag()
     } else {
@@ -368,6 +365,7 @@ export default class ElementControl extends React.Component {
   }
 
   handleRemovePreset () {
+    // TODO: add logic when changes from all tasks are merged
     console.log('handleRemovePreset')
   }
 
@@ -413,11 +411,13 @@ export default class ElementControl extends React.Component {
     }
     let removeControl = null
     if (isElementPreset) {
-      removeControl = <span
-        className='vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
-        onClick={this.handleRemovePreset}
-        data-action='deleteElementPreset'
-      />
+      removeControl = (
+        <span
+          className='vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
+          onClick={this.handleRemovePreset}
+          data-action='deleteElementPreset'
+        />
+      )
     }
 
     return (

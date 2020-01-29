@@ -49,14 +49,14 @@ const getCategory = (tag, categories) => {
 }
 
 const setCategoryState = (categoryData, storageState) => {
-  const categoryName = Object.keys(categoryData)[ 0 ]
+  const categoryName = Object.keys(categoryData)[0]
   const stateCategories = storageState.get()
   const isCategoryExists = Object.keys(stateCategories).find(category => category === categoryName)
   let newState
   if (isCategoryExists) {
-    const mergedElements = lodash.union(stateCategories[ categoryName ].elements, categoryData[ categoryName ].elements)
+    const mergedElements = lodash.union(stateCategories[categoryName].elements, categoryData[categoryName].elements)
     newState = stateCategories
-    newState[ categoryName ].elements = mergedElements
+    newState[categoryName].elements = mergedElements
   } else {
     newState = Object.assign(categoryData, stateCategories)
   }
@@ -78,7 +78,7 @@ addStorage('hubElements', (storage) => {
 
   storage.on('add', (elementData, categoryData, addBundle) => {
     const elements = storage.state('elements').get() || {}
-    elements[ elementData.tag ] = elementData
+    elements[elementData.tag] = elementData
     hubElementsService.add(elementData)
     storage.state('elements').set(elements)
     setCategoryState(categoryData, storage.state('categories'))
@@ -135,7 +135,7 @@ addStorage('hubElements', (storage) => {
             }
             if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
               Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
-                const assetData = jsonResponse.sharedAssets[ assetName ]
+                const assetData = jsonResponse.sharedAssets[assetName]
                 if (assetData.jsBundle) {
                   assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
                 }
@@ -144,7 +144,7 @@ addStorage('hubElements', (storage) => {
                 }
                 if (assetData.cssSubsetBundles) {
                   Object.keys(assetData.cssSubsetBundles).forEach((key) => {
-                    assetData.cssSubsetBundles[ key ] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[ key ]
+                    assetData.cssSubsetBundles[key] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[key]
                   })
                 }
                 sharedAssetsStorage.trigger('add', assetData)
@@ -244,7 +244,7 @@ addStorage('hubElements', (storage) => {
     }
     if (asset.cssSubsetBundles) {
       Object.keys(asset.cssSubsetBundles).forEach((key) => {
-        add(asset.cssSubsetBundles[ key ])
+        add(asset.cssSubsetBundles[key])
       })
     }
   })

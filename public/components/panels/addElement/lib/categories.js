@@ -103,7 +103,6 @@ export default class Categories extends React.Component {
     const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
     if (isAllElements) {
       const { allElements } = this.state
-      // console.log('getAllElements this.state.allElements', allElements)
       Categories.allElements = allElements.filter((elementData) => {
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
@@ -153,8 +152,6 @@ export default class Categories extends React.Component {
       const groupsStore = {}
       const groups = groupsService.all()
       const tags = this.getAllElementsTags()
-      // console.log('getAllCategories groups', groups)
-      // TODO Don't add a category for presets
       Categories.allCategories = groups.filter((group) => {
         groupsStore[group.title] = this.getElementsList(group.categories, tags)
         return groupsStore[group.title].length > 0
@@ -228,9 +225,8 @@ export default class Categories extends React.Component {
   }
 
   getElementControl (elementData) {
-    let { tag, name } = elementData
-    let key = 'vcv-element-control-' + tag
-    // let elementPreset = ''
+    const { tag, name } = elementData
+    const key = 'vcv-element-control-' + tag
 
     return (
       <ElementControl
@@ -339,8 +335,7 @@ export default class Categories extends React.Component {
     const parentElementId = workspace && workspace.element ? workspace.element.id : false
     let data
     let addedId
-    let elementPreset = Categories.elementsPresets.find(preset => preset.tag === tag)
-    // console.log('elementPreset', elementPreset)
+    const elementPreset = Categories.elementsPresets.find(preset => preset.tag === tag)
     if (elementPreset) {
       data = elementPreset.presetData
       addedId = elementPreset.presetData.id
@@ -348,7 +343,6 @@ export default class Categories extends React.Component {
       data = cook.get({ tag: tag, parent: parentElementId }).toJS()
       addedId = data.id
     }
-    // console.log('addElement data', data)
     elementsStorage.trigger('add', data, true, {
       insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
