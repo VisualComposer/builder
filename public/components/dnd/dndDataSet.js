@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { getService, setData, getData, getStorage } from 'vc-cake'
 import SmartLine from './smartLine'
-import TrashBin from './trashBin'
 import Helper from './helper'
 import HelperClone from './helperClone'
 import Api from './api'
@@ -133,7 +132,6 @@ export default class DndDataSet {
           helperType: null,
           manualScroll: false,
           drop: false,
-          enableTrashBin: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false,
           customScroll: false,
           scrollContainer: null,
           scrollCallback: function () {
@@ -163,13 +161,6 @@ export default class DndDataSet {
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
     root.refresh()
-    if (this.options.enableTrashBin && this.options.isIframe) {
-      this.trash = new TrashBin({
-        ..._.pick(this.options, 'document', 'container'),
-        handleDrag: this.handleDragFunction,
-        handleDragEnd: this.handleDragEndFunction
-      })
-    }
   }
 
   addItem (id) {
@@ -284,19 +275,6 @@ export default class DndDataSet {
     return domNode || null
   }
 
-  checkTrashBin ({ x, y, left = 0, top = 0 }) {
-    const iframeParent = this.options && this.options.container && this.options.container.parentNode ? this.options.container.parentNode : null
-    if (iframeParent) {
-      x += iframeParent.offsetLeft
-      y += iframeParent.offsetTop
-    }
-    const domNode = document.elementFromPoint(x - left, y - top)
-    if (domNode && domNode.id === 'vcv-dnd-trash-bin') {
-      return window.jQuery(domNode).get(0)
-    }
-    return null
-  }
-
   checkBlankRow ({ x, y }) {
     const domNode = this.options.document.elementFromPoint(x, y)
     return domNode && window.jQuery(domNode).closest('#vcv-ui-blank-row').get(0)
@@ -308,37 +286,21 @@ export default class DndDataSet {
   }
 
   checkItems (point) {
-    const trashBin = this.checkTrashBin(point)
     const blankRow = this.checkBlankRow(point)
     const hfs = this.checkHFS(point)
 
-    if (trashBin) {
-      this.trash && this.trash.setActive()
-      this.placeholder && this.placeholder.clearStyle()
-      this.placeholder && this.placeholder.setPoint(point)
-      this.helper && this.helper.setOverTrash && this.helper.setOverTrash()
-      this.currentElement = 'vcv-dnd-trash-bin'
-      this.removeHFSActive()
-      this.removeMouseOverStartBlank()
-    } else if (blankRow) {
+    if (blankRow) {
       const position = this.placeholder && this.placeholder.redraw(blankRow, point)
       if (position) {
         this.setPosition(position)
       }
       this.currentElement = 'vcv-ui-blank-row'
       this.removeHFSActive()
-      this.trash && this.trash.removeActive()
       this.setMouseOverStartBlank()
     } else if (hfs) {
       hfs.classList.add('vcv-drag-helper-over-hfs')
       this.removeMouseOverStartBlank()
     } else {
-      this.trash && this.trash.removeActive()
-
-      if (this.currentElement === 'vcv-dnd-trash-bin') {
-        this.currentElement = null
-      }
-      this.helper && this.helper.removeOverTrash && this.helper.removeOverTrash()
       let domNode = this.findDOMNode(point)
       let domElement = this.getDomElement(domNode)
       if (!domElement) {
@@ -413,13 +375,7 @@ export default class DndDataSet {
     }
   }
 
-  start (id, point, tag, domNode, disableTrashBin = false) {
-    if (!disableTrashBin) {
-      this.trashBinTimeout = setTimeout(() => {
-        this.trashBinTimeout = null
-        this.trash && this.trash.create()
-      }, 300)
-    }
+  start (id, point, tag, domNode) {
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
     }
@@ -494,15 +450,6 @@ export default class DndDataSet {
     this.helper && this.helper.remove()
     // Remove css class for body
     this.options.document.body.classList.remove('vcv-dnd-dragging--start', 'vcv-is-no-selection')
-    // Remove trash bin
-    if (this.trashBinTimeout) {
-      clearTimeout(this.trashBinTimeout)
-      this.trashBinTimeout = null
-    }
-    this.trash && this.trash.remove()
-    if (!this.position && this.currentElement === 'vcv-dnd-trash-bin') {
-      this.position = 'after'
-    }
     this.forgetMouse()
     this.removePlaceholder()
     this.options.document.removeEventListener('scroll', this.scrollEvent)

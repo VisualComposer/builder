@@ -159,8 +159,6 @@ export default class DndManager {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
         DndManager.handleBlankRowDrop(id, action)
-      } else if (related === 'vcv-dnd-trash-bin') {
-        workspaceStorage.trigger('remove', id)
       } else {
         workspaceStorage.trigger('move', id, { action: action, related: related })
       }
@@ -171,8 +169,6 @@ export default class DndManager {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
         DndManager.handleBlankRowDrop(id, action, element.tag)
-      } else if (related === 'vcv-dnd-trash-bin') {
-        workspaceStorage.trigger('remove', id)
       } else {
         workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
       }

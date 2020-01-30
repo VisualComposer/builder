@@ -245,7 +245,6 @@
   border-color: transparent;
   caret-color: @edit-form-header-title-caret-color;
   transition: border-color @transition-duration @transition-timing-function;
-  margin-right: 40px;
   &:hover,
   &:focus {
     border-color: @edit-form-header-title-border-hover-color;
@@ -274,9 +273,36 @@
   }
 }
 
-.rtl .vcv-ui-icon-edit-form-header-title {
-  margin-left: @icon-edit-form-header-title-margin-right;
-  margin-right: 0;
+.vcv-ui-edit-form-header-control-container {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 1.2em;
+
+  .vcv-ui-icon {
+    vertical-align: top;
+    line-height: unset;
+    display: inline-block;
+
+    &:before {
+      transition: opacity .2s;
+    }
+  }
+}
+
+.vcv-ui-edit-form-header-control {
+  padding: 7px;
+  cursor: pointer;
+  color: #fff;
+  margin: 0 4px;
+
+  &:hover,
+  &:focus {
+    .vcv-ui-icon:before {
+      opacity: .5;
+    }
+  }
 }
 
 .vcv-ui-tree-view-content-accordion {

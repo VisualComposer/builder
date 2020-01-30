@@ -94,61 +94,15 @@ function getPasteOptions (copyData, pasteEl) {
 
 function getControlDropdown (elementId, options) {
   const localizations = window.VCV_I18N && window.VCV_I18N()
-  const addText = localizations ? localizations.add : 'Add'
-  const addElementText = localizations ? localizations.addElement : 'Add Element'
-  const moveText = localizations ? localizations.move : 'Move'
   const cloneText = localizations ? localizations.clone : 'Clone'
   const copyText = localizations ? localizations.copy : 'Copy'
   const pasteText = localizations ? localizations.paste : 'Paste'
   const pasteAfterText = localizations ? localizations.pasteAfter : 'Paste After'
   const removeText = localizations ? localizations.remove : 'Remove'
   const editText = localizations ? localizations.edit : 'Edit'
-  const hideOffText = localizations ? localizations.hideOff : 'Hide: Off'
-  const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
-  const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
-  const designOptionEvent = options.designOptions
 
   // prepare actions
   const actions = []
-
-  // add move action
-  actions.push({
-    label: `${moveText} ${options.title}`,
-    icon: 'vcv-ui-icon-move',
-    data: {
-      vcDragHelper: elementId
-    }
-  })
-
-  // add element action
-  if (options.isContainer) {
-    // tabs don't have advanced design options
-    let label = addElementText
-    let addElementTag = ''
-    const children = cook.getContainerChildren(options.tag)
-    if (children.length === 1) {
-      const element = cook.get(children[0])
-      label = `${addText} ${element.get('name')}`
-      addElementTag = element.get('tag')
-    }
-    if (options.tag === 'buttonGroup') {
-      label = `${addText} Button`
-      addElementTag = options.tag
-    }
-    if (options.tag === 'iconGroup') {
-      const element = cook.get({ tag: 'icon' })
-      label = `${addText} ${element.get('name')}`
-      addElementTag = element.get('tag')
-    }
-    actions.push({
-      label: label,
-      icon: 'vcv-ui-icon-add-thin',
-      data: {
-        vcControlEvent: 'add',
-        vcControlEventOptions: addElementTag
-      }
-    })
-  }
 
   // edit general control
   actions.push({
@@ -157,29 +111,6 @@ function getControlDropdown (elementId, options) {
     icon: 'vcv-ui-icon-edit',
     data: {
       vcControlEvent: 'edit'
-    }
-  })
-
-  // add controls for row
-  if (options.tag === 'row') {
-    actions.push({
-      label: rowLayoutText,
-      icon: 'vcv-ui-icon-row-layout',
-      data: {
-        vcControlEvent: 'edit',
-        vcControlEventOptions: 'layout'
-      }
-    })
-  }
-
-  // edit design options control
-  actions.push({
-    label: designOptionsText,
-    title: `${options.title} ${designOptionsText}`,
-    icon: 'vcv-ui-icon-brush-alt',
-    data: {
-      vcControlEvent: 'edit',
-      vcControlEventOptions: designOptionEvent
     }
   })
 
@@ -218,17 +149,6 @@ function getControlDropdown (elementId, options) {
       icon: 'vcv-ui-icon-paste-icon',
       data: {
         vcControlEvent: pasteOptions.pasteAfter ? 'pasteAfter' : 'paste'
-      }
-    })
-  }
-
-  if (options.tag !== 'column') {
-    actions.push({
-      label: hideOffText,
-      title: hideOffText,
-      icon: 'vcv-ui-icon-eye-on',
-      data: {
-        vcControlEvent: 'hide'
       }
     })
   }

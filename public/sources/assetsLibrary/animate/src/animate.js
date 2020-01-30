@@ -51,12 +51,17 @@ window.vcv.on('ready', function (action, id, options) {
         waypointObj.destroy()
         const duration = parseFloat(window.getComputedStyle(element)[ 'animationDuration' ]) * 1000
         const delay = parseFloat(window.getComputedStyle(element)[ 'animationDelay' ]) * 1000
+        // Firefox horizontal scroll fix for left and right animations
         window.setTimeout(() => {
-          if (element && element.parentElement) {
-            element.parentElement.style.overflowX = 'hidden'
-            window.setTimeout(() => {
-              element.parentElement.style.overflowX = ''
-            }, 50)
+          if (element) {
+            const currentStyleWidth = element.style.width;
+            const elementRect = element.getBoundingClientRect();
+            if (elementRect) {
+              element.style.width = (elementRect.width - 1) + 'px';
+              window.setTimeout(() => {
+                element.style.width = currentStyleWidth;
+              }, 50)
+            }
           }
         }, duration + delay + 200)
       },
