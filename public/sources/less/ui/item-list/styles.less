@@ -124,6 +124,27 @@
   top: 0;
 }
 
+.vcv-ui-item-preset-badge {
+  width: @item-element-preset-badge-width;
+  height: @item-element-preset-badge-height;
+  padding: 7px 7px 0 0;
+  background: linear-gradient(
+    to left bottom,
+    @item-element-preset-badge-background 50%,
+    transparent 50% 100%
+  );
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.vcv-ui-item-preset-badge-icon {
+  color: #fff;
+}
+
 .vcv-ui-item-overlay {
   transition: opacity @transition-duration @transition-timing-function;
   background-color: @item-bg-overlay;
@@ -135,6 +156,7 @@
   right: 0;
   left: 0;
   top: 0;
+  z-index: 3;
 }
 
 .vcv-ui-item-downloading {

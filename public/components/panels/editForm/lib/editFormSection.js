@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import Field from './field'
 import EditFormReplaceElement from './editFormReplaceElement'
+import PresetSection from './presetSection'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -26,10 +27,12 @@ export default class EditFormSection extends React.Component {
       }, 0)
     }
 
-    this.props.setFieldMount(this.props.tab.fieldKey, {
-      refWrapperComponent: this,
-      refWrapper: this.section
-    }, 'section')
+    if (this.props.setFieldMount) {
+      this.props.setFieldMount(this.props.tab.fieldKey, {
+        refWrapperComponent: this,
+        refWrapper: this.section
+      }, 'section')
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -39,7 +42,9 @@ export default class EditFormSection extends React.Component {
   }
 
   componentWillUnmount () {
-    this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
+    if (this.props.setFieldUnmount) {
+      this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
+    }
   }
 
   /**
@@ -118,15 +123,16 @@ export default class EditFormSection extends React.Component {
   }
 
   render () {
-    const { tab, sectionIndex } = this.props
+    const { tab, sectionIndex, isPreset } = this.props
     const { isActive, dependenciesClasses } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
       'vcv-ui-edit-form-section--closed': !isActive
     }, dependenciesClasses)
+
     let tabTitle
-    if (this.props.options.nestedAttr) {
+    if (this.props.options && this.props.options.nestedAttr) {
       tabTitle = tab.data.options.label || tab.data.options.tabLabel
     } else {
       tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
@@ -135,7 +141,7 @@ export default class EditFormSection extends React.Component {
 
     if (sectionIndex === 0) {
       let disableReplaceable = false
-      if (this.props.options.nestedAttr) {
+      if (this.props.options && this.props.options.nestedAttr) {
         disableReplaceable = tab.data.options.disableReplaceable
       } else {
         disableReplaceable = tab.data.settings.options.disableReplaceable
@@ -147,6 +153,7 @@ export default class EditFormSection extends React.Component {
         )
       }
     }
+
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
         <div
@@ -156,8 +163,14 @@ export default class EditFormSection extends React.Component {
           {tabTitle}
         </div>
         <form className='vcv-ui-edit-form-section-content'>
-          {replaceElement}
-          {this.getSectionFormFields(tab.params)}
+          {isPreset ? (
+            <PresetSection />
+          ) : (
+            <>
+              {replaceElement}
+              {this.getSectionFormFields(tab.params)}
+            </>
+          )}
         </form>
       </div>
     )

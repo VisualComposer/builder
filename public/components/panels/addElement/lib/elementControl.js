@@ -16,6 +16,7 @@ export default class ElementControl extends React.Component {
     tag: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     element: PropTypes.object.isRequired,
+    hasPreset: PropTypes.bool,
     hubElement: PropTypes.object,
     addElement: PropTypes.func,
     setFocusedElement: PropTypes.func,
@@ -370,7 +371,7 @@ export default class ElementControl extends React.Component {
   }
 
   render () {
-    const { name, element, isElementPreset, hubElement } = this.props
+    const { name, element, hasPreset, isElementPreset, hubElement } = this.props
     const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
     const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -442,6 +443,11 @@ export default class ElementControl extends React.Component {
               <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
               {removeControl}
             </span>
+            {hasPreset && (
+              <span className='vcv-ui-item-preset-badge'>
+                <i class='vcv-ui-item-preset-badge-icon vcv-ui-icon vcv-ui-icon-cog' />
+              </span>
+            )}
           </span>
           <span className='vcv-ui-item-element-name'>
             <span className={nameClasses}>
