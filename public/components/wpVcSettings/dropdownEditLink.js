@@ -3,6 +3,8 @@ const $ = window.jQuery
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const editLinkText404 = localizations && localizations.edit404Template ? localizations.edit404Template : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this 404-page template.</div>'
 const editLinkTextArchive = localizations && localizations.editArchiveTemplate ? localizations.editArchiveTemplate : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this archive page template.</div>'
+const editLinkTextSearch = localizations && localizations.editSearchTemplate ? localizations.editSearchTemplate : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this search page template.</div>'
+const editLinkTextAuthor = localizations && localizations.editAuthorTemplate ? localizations.editAuthorTemplate : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this author page template.</div>'
 
 const editItemList = [
   {
@@ -14,6 +16,16 @@ const editItemList = [
     itemID: 'vcv-custom-page-templates-archive-template',
     itemClass: 'vcv-custom-page-templates-archive-template-edit-link',
     itemText: editLinkTextArchive
+  },
+  {
+    itemID: 'vcv-custom-page-templates-search-template',
+    itemClass: 'vcv-custom-page-templates-search-template-edit-link',
+    itemText: editLinkTextSearch
+  },
+  {
+    itemID: 'vcv-custom-page-templates-author-template',
+    itemClass: 'vcv-custom-page-templates-author-template-edit-link',
+    itemText: editLinkTextAuthor
   }
 ]
 
