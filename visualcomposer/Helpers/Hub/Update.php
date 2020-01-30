@@ -232,6 +232,14 @@ class Update implements Helper
             'type' => 'constant',
         ];
 
+        if (defined('VCV_AUTHOR_API_KEY')) {
+            $variables[] = [
+                'key' => 'VCV_AUTHOR_API_KEY',
+                'value' => VCV_AUTHOR_API_KEY,
+                'type' => 'constant',
+            ];
+        }
+
         return $variables;
     }
 
