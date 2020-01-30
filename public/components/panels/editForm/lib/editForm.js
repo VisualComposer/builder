@@ -18,9 +18,11 @@ export default class EditForm extends React.Component {
     super(props)
     this.allTabs = this.updateTabs(this.props)
     this.state = {
-      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId)
+      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
+      isPresetEnabled: false
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
+    this.togglePreset = this.togglePreset.bind(this)
   }
 
   scrollBarMounted (scrollbar) {
@@ -142,17 +144,47 @@ export default class EditForm extends React.Component {
     })
   }
 
+  getPresetSections () {
+    const tabLabel = 'Element Presets'
+    return (
+      <EditFormSection
+        isPreset
+        sectionIndex={0}
+        activeTabIndex={0}
+        getSectionContentScrollbar={() => { return this.scrollbar }}
+        tab={{
+          fieldKey: 0,
+          data: {
+            settings: {
+              options: {
+                label: tabLabel
+              }
+            }
+          }
+        }}
+        onAttributeChange={() => false}
+      />
+    )
+  }
+
+  togglePreset () {
+    this.setState({
+      isPresetEnabled: !this.state.isPresetEnabled
+    })
+  }
+
   render () {
-    const { activeTabIndex } = this.state
+    const { activeTabIndex, isPresetEnabled } = this.state
     const activeTab = this.allTabs[activeTabIndex]
     const plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true
     }, `vcv-ui-editor-plate-${activeTab.key}`)
+    const content = isPresetEnabled ? this.getPresetSections() : this.getAccordionSections()
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <EditFormHeader elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
+        <EditFormHeader isPresetEnabled={isPresetEnabled} handlePresetToggle={this.togglePreset} elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted}>
@@ -160,7 +192,7 @@ export default class EditForm extends React.Component {
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
                     <div className={plateClass}>
-                      {this.getAccordionSections()}
+                      {content}
                     </div>
                   </div>
                 </div>
