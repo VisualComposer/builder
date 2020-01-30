@@ -11,8 +11,11 @@
 
 Visual Composer Website Builder is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
 
-[![Visual Composer: The Best Website Builder for WordPress Demo
-](https://img.youtube.com/vi/SJMIvMXyPHs/0.jpg)](https://www.youtube.com/watch?v=SJMIvMXyPHs)
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=SJMIvMXyPHs">
+    <img alt="Visual Composer: The Best Website Builder for WordPress Demo" src="https://img.youtube.com/vi/SJMIvMXyPHs/0.jpg" width="100%" />
+  </a>
+</p>
 
 ## Installation
 Read [Installation instruction](./CONTRIBUTING.md#installation-instruction) in our [contributing guide](./CONTRIBUTING.md).
