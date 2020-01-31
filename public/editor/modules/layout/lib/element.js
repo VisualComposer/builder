@@ -10,6 +10,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
+const elementRefStorage = vcCake.getStorage('elementRefStorage')
 
 const {
   updateDynamicComments,
@@ -47,6 +48,7 @@ export default class Element extends React.Component {
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
+    elementRefStorage.trigger('add', this.state.element.id, this.elementComponentRef.current)
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
     elementsStorage.on(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
@@ -61,6 +63,7 @@ export default class Element extends React.Component {
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
+    elementRefStorage.trigger('add', this.state.element.id)
     elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
     elementsStorage.off(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
@@ -74,6 +77,7 @@ export default class Element extends React.Component {
 
   componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
+    elementRefStorage.trigger('add', this.state.element.id, this.elementComponentRef.current)
     if (this.elementComponentRef && this.elementComponentRef.current) {
       const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)

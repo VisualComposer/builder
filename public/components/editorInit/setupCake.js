@@ -20,6 +20,7 @@ export const setupCake = () => {
     require('../../editor/stores/notifications/storage')
     require('../../editor/stores/wordpressData/wordpressDataStorage')
     require('../../editor/stores/elements/elementSettings')
+    require('../../editor/stores/elements/elementRefStorage')
     // require('./editor/stores/elementsLoader/elementsLoaderStorage')
     const hubElementsStorage = vcCake.getStorage('hubElements')
     hubElementsStorage.trigger('start')

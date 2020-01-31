@@ -36,7 +36,7 @@ addStorage('wordpressData', (storage) => {
       const status = options && typeof options.status !== 'undefined' ? options.status : storage.state('status')
       status && status.set({ status: 'saving' }, source)
       settingsStorage.state('status').set({ status: 'ready' })
-      const documentData = documentManager.all()
+      const documentData = options && options.documentData ? options.documentData : documentManager.all()
       storage.trigger('wordpress:beforeSave', {
         pageElements: documentData
       })

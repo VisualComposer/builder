@@ -170,6 +170,25 @@ const api = {
       children
     }
   },
+  getDescendants: function (id) {
+    let descendantData = {}
+    const element = dataStore.data.get(id)
+    if (!element) {
+      return false
+    }
+
+    const setChildrenData = (element, descendantData) => {
+      const children = dataStore.getChildren(element.get('id'))
+      children.forEach((child) => {
+        descendantData[child.get('id')] = child.toJS()
+        setChildrenData(child, descendantData)
+      })
+    }
+    descendantData[id] = element.toJS()
+    setChildrenData(element, descendantData)
+
+    return descendantData
+  },
   all: function () {
     return dataStore.data.toJS()
   },

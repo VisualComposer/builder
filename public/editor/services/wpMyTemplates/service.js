@@ -1,9 +1,11 @@
 import { addService, getService, getStorage, env } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
+import ReactDOM from 'react-dom'
 
 const utils = getService('utils')
 const documentManager = getService('document')
 const getType = {}.toString
+const elementRefStorage = getStorage('elementRefStorage')
 
 const processRequest = (action, key, data, successCallback, errorCallback) => {
   const ajax = getService('utils').ajax
@@ -24,7 +26,7 @@ const processRequest = (action, key, data, successCallback, errorCallback) => {
 }
 
 addService('myTemplates', {
-  add (name, data, html, successCallback, errorCallback) {
+  add (name, data, html, successCallback, errorCallback, isElementLayout = false) {
     if (this.findBy('name', name)) {
       return false
     }
@@ -32,6 +34,7 @@ addService('myTemplates', {
       id: 'template',
       title: name,
       status: false,
+      documentData: isElementLayout ? data : false,
       successCallback: (responseText) => {
         try {
           const response = getResponse(responseText)
@@ -55,6 +58,16 @@ addService('myTemplates', {
     })
 
     return true
+  },
+  addElementTemplate (id, name, successCallback, errorCallback) {
+    const currentLayout = documentManager.getDescendants(id)
+    const elementRefs = elementRefStorage.state('elementRefs').get()
+    const elementNode = ReactDOM.findDOMNode(elementRefs[id])
+    const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
+    if (getType.call(name) === '[object String]' && name.length) {
+      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true)
+    }
+    return false
   },
   addCurrentLayout (name, successCallback, errorCallback) {
     const currentLayout = documentManager.all()
