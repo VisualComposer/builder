@@ -222,11 +222,11 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-icon': true,
       'vcv-ui-icon-cog': true
     })
-    const presetText = 'Element Presets'
+    const presetSettingsText = localizations ? localizations.presetSettingsText : 'Element Presets'
     const settingsControl = (
       <span
         className='vcv-ui-edit-form-header-control'
-        title={presetText}
+        title={presetSettingsText}
         onClick={this.props.handlePresetToggle}
       >
         <i className={presetIconClasses} />
