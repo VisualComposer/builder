@@ -359,10 +359,4 @@ addStorage('elements', (storage) => {
     delete elementRefState[id]
     storage.state('elementRefs').set(elementRefState)
   })
-
-  storage.on('updateRef', (id, ref) => {
-    const elementRefState = storage.state('elementRefs').get() || {}
-    elementRefState[id] = ref
-    storage.state('elementRefs').set(elementRefState)
-  })
 })
