@@ -145,7 +145,9 @@ export default class EditForm extends React.Component {
   }
 
   getPresetSections () {
-    const tabLabel = 'Element Presets'
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const tabLabel = localizations ? localizations.presetSettingsText : 'Element Presets'
+
     return (
       <EditFormSection
         isPreset
