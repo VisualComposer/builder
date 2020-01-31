@@ -76,7 +76,7 @@ export default class Element extends React.Component {
 
   componentDidUpdate () {
     this.props.api.notify('element:didUpdate', this.props.element.id)
-    elementsStorage.trigger('updateRef', this.state.element.id, this.elementComponentRef.current)
+    elementsStorage.trigger('addRef', this.state.element.id, this.elementComponentRef.current)
     if (this.elementComponentRef && this.elementComponentRef.current) {
       const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
