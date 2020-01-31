@@ -2,48 +2,6 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 import lodash from 'lodash'
 import { getResponse } from 'public/tools/response'
 
-const elementPresets = [
-  {
-    tag: 'basicButtonPreset',
-    type: 'elementPreset',
-    name: 'Basic Button Preset',
-    presetData: {
-      id: '3e397aba',
-      tag: 'basicButton',
-      customHeaderTitle: '',
-      metaOrder: 1, // Should be equal to 1 for all presets to place in front of the Add Element panel
-      metaAssetsPath: 'http://localhost:8888/wp-one/wp-content/plugins/builder/elements/basicButton/basicButton/public/',
-      hidden: false,
-      metaElementAssets: {},
-      buttonUrl: {
-        url: '',
-        title: '',
-        targetBlank: false,
-        relNofollow: false
-      },
-      toggleCustomHover: false,
-      hoverColor: '#fff',
-      hoverBackground: '#4d70ac',
-      buttonText: 'Hello World',
-      color: 'rgb(237, 237, 237)',
-      background: 'rgb(191, 85, 85)',
-      shape: 'rounded',
-      designOptions: {},
-      assetsLibrary: [
-        'animate'
-      ],
-      alignment: 'center',
-      size: 'large',
-      toggleStretchButton: true,
-      customClass: '',
-      metaCustomId: '',
-      metaThumbnailUrl: '',
-      metaPreviewUrl: '',
-      metaDescription: 'This is a preset'
-    }
-  }
-]
-
 const getCategory = (tag, categories) => {
   return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
 }
@@ -72,7 +30,7 @@ addStorage('hubElements', (storage) => {
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
-    storage.state('elementsPresets').set(elementPresets)
+    storage.state('elementPresets').set(window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [])
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
 
