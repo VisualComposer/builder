@@ -8,7 +8,8 @@ import PresetSection from './presetSection'
 export default class EditFormSection extends React.Component {
   static propTypes = {
     tab: PropTypes.object.isRequired,
-    onAttributeChange: PropTypes.func.isRequired
+    onAttributeChange: PropTypes.func.isRequired,
+    isContainerElement: PropTypes.bool
   }
 
   constructor (props) {
@@ -123,7 +124,7 @@ export default class EditFormSection extends React.Component {
   }
 
   render () {
-    const { tab, sectionIndex, isPreset } = this.props
+    const { tab, sectionIndex, isPreset, isContainerElement } = this.props
     const { isActive, dependenciesClasses } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
@@ -164,7 +165,7 @@ export default class EditFormSection extends React.Component {
         </div>
         <form className='vcv-ui-edit-form-section-content'>
           {isPreset ? (
-            <PresetSection />
+            <PresetSection isContainerElement={isContainerElement} />
           ) : (
             <>
               {replaceElement}

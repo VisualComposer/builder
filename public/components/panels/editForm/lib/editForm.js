@@ -145,12 +145,14 @@ export default class EditForm extends React.Component {
   }
 
   getPresetSections () {
+    const isContainerElement = this.props.elementAccessPoint.cook().get('containerFor') !== undefined
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const tabLabel = localizations ? localizations.presetSettingsText : 'Element Presets'
 
     return (
       <EditFormSection
         isPreset
+        isContainerElement={isContainerElement}
         sectionIndex={0}
         activeTabIndex={0}
         getSectionContentScrollbar={() => { return this.scrollbar }}
