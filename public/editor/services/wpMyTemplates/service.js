@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 const utils = getService('utils')
 const documentManager = getService('document')
 const getType = {}.toString
-const elementRefStorage = getStorage('elementRefStorage')
+const elementsStorage = getStorage('elements')
 
 const processRequest = (action, key, data, successCallback, errorCallback) => {
   const ajax = getService('utils').ajax
@@ -61,7 +61,7 @@ addService('myTemplates', {
   },
   addElementTemplate (id, name, successCallback, errorCallback) {
     const currentLayout = documentManager.getDescendants(id)
-    const elementRefs = elementRefStorage.state('elementRefs').get()
+    const elementRefs = elementsStorage.state('elementRefs').get()
     const elementNode = ReactDOM.findDOMNode(elementRefs[id])
     const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
     if (getType.call(name) === '[object String]' && name.length) {
