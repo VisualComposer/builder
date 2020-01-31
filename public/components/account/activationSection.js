@@ -20,6 +20,8 @@ export default class ActivationSectionProvider extends React.Component {
     doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don\'t close this window while sending error is in the progress.'
   }
 
+  static authorApiKey = window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY()
+
   doUpdatePostAction = async (postUpdater) => {
     const { postUpdateActions, activePostUpdate } = this.state
     const postData = postUpdateActions[activePostUpdate]
@@ -256,11 +258,21 @@ export default class ActivationSectionProvider extends React.Component {
       return <FinalScreen />
     } else if (activePage === 'vcv-license-options') {
       return <FeatureScreen setActiveScreen={this.setActiveScreen} />
-    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free') {
-      const activationType = activePage === 'vcv-go-premium' ? 'premium' : 'free'
+    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-activate-author') {
+      let activationType = 'free'
+      if (activePage === 'vcv-go-premium') {
+        activationType = 'premium'
+
+        const slug = window.VCV_SLUG && window.VCV_SLUG()
+        if (slug === 'vcv-go-premium' && ActivationSectionProvider.authorApiKey) {
+          activationType = 'author'
+        }
+      } else if (activePage === 'vcv-activate-author') {
+        activationType = 'author'
+      }
       return <ActivatePremiumScreen activationType={activationType} />
     } else if (activePage === 'vcv-getting-started') {
-      return <InitialScreen setActiveScreen={this.setActiveScreen} />
+      return <InitialScreen setActiveScreen={this.setActiveScreen} authorApiKey={ActivationSectionProvider.authorApiKey} />
     }
   }
 
