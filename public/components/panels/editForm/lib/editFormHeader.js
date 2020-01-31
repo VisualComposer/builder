@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService, getStorage } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const hubCategories = getService('hubCategories')
@@ -240,7 +240,7 @@ export default class EditFormHeader extends React.Component {
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
           {hideControl}
-          {settingsControl}
+          {env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') ?  settingsControl : null}
           <span
             className='vcv-ui-edit-form-header-control'
             title={closeTitle}
