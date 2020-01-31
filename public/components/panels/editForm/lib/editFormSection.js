@@ -19,6 +19,7 @@ export default class EditFormSection extends React.Component {
       dependenciesClasses: []
     }
     this.handleClickToggleSection = this.handleClickToggleSection.bind(this)
+    this.onSettingsSave = this.onSettingsSave.bind(this)
   }
 
   componentDidMount () {
@@ -123,6 +124,11 @@ export default class EditFormSection extends React.Component {
     return opts
   }
 
+  onSettingsSave (e) {
+    e.preventDefault()
+    console.log('settings has been changed')
+  }
+
   render () {
     const { tab, sectionIndex, isEditFormSettings, isContainerElement } = this.props
     const { isActive, dependenciesClasses } = this.state
@@ -163,7 +169,7 @@ export default class EditFormSection extends React.Component {
         >
           {tabTitle}
         </div>
-        <form className='vcv-ui-edit-form-section-content'>
+        <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
             <EditFormSettings isContainerElement={isContainerElement} />
           ) : (
