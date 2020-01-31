@@ -122,8 +122,8 @@ export default class EditFormHeader extends React.Component {
   handleClickGoBack () {
     let { parentElementAccessPoint: accessPoint, options } = this.props.options
     // If multiple nesting used we can goBack only to ROOT
-    if (this.props.isPresetEnabled) {
-      this.props.handlePresetToggle()
+    if (this.props.isEditFormSettingsOpened) {
+      this.props.handleEditFormSettingsToggle()
     } else {
       while (accessPoint.inner) {
         if (accessPoint.parentElementAccessPoint) {
@@ -146,7 +146,7 @@ export default class EditFormHeader extends React.Component {
   }
 
   render () {
-    const { elementAccessPoint, options, isPresetEnabled } = this.props
+    const { elementAccessPoint, options, isEditFormSettingsOpened } = this.props
     let { content, editable, hidden } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
@@ -157,7 +157,7 @@ export default class EditFormHeader extends React.Component {
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
-    if (isNested || isPresetEnabled) {
+    if (isNested || isEditFormSettingsOpened) {
       backButton = (
         <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
           <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
@@ -218,18 +218,18 @@ export default class EditFormHeader extends React.Component {
       )
     }
 
-    const presetIconClasses = classNames({
+    const editFormSettingsIconClasses = classNames({
       'vcv-ui-icon': true,
       'vcv-ui-icon-cog': true
     })
-    const presetSettingsText = localizations ? localizations.presetSettingsText : 'Element Presets'
+    const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Presets'
     const settingsControl = (
       <span
         className='vcv-ui-edit-form-header-control'
-        title={presetSettingsText}
-        onClick={this.props.handlePresetToggle}
+        title={editFormSettingsText}
+        onClick={this.props.handleEditFormSettingsToggle}
       >
-        <i className={presetIconClasses} />
+        <i className={editFormSettingsIconClasses} />
       </span>
     )
 

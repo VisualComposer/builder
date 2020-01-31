@@ -19,10 +19,10 @@ export default class EditForm extends React.Component {
     this.allTabs = this.updateTabs(this.props)
     this.state = {
       activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
-      isPresetEnabled: false
+      isEditFormSettingsOpened: false
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
-    this.togglePreset = this.togglePreset.bind(this)
+    this.toggleEditFormSettings = this.toggleEditFormSettings.bind(this)
   }
 
   scrollBarMounted (scrollbar) {
@@ -144,14 +144,14 @@ export default class EditForm extends React.Component {
     })
   }
 
-  getPresetSections () {
+  getEditFormSettingsSections () {
     const isContainerElement = this.props.elementAccessPoint.cook().get('containerFor') !== undefined
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const tabLabel = localizations ? localizations.presetSettingsText : 'Element Presets'
+    const tabLabel = localizations ? localizations.editFormSettingsText : 'Element Presets'
 
     return (
       <EditFormSection
-        isPreset
+        isEditFormSettings
         isContainerElement={isContainerElement}
         sectionIndex={0}
         activeTabIndex={0}
@@ -171,24 +171,24 @@ export default class EditForm extends React.Component {
     )
   }
 
-  togglePreset () {
+  toggleEditFormSettings () {
     this.setState({
-      isPresetEnabled: !this.state.isPresetEnabled
+      isEditFormSettingsOpened: !this.state.isEditFormSettingsOpened
     })
   }
 
   render () {
-    const { activeTabIndex, isPresetEnabled } = this.state
+    const { activeTabIndex, isEditFormSettingsOpened } = this.state
     const activeTab = this.allTabs[activeTabIndex]
     const plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true
     }, `vcv-ui-editor-plate-${activeTab.key}`)
-    const content = isPresetEnabled ? this.getPresetSections() : this.getAccordionSections()
+    const content = isEditFormSettingsOpened ? this.getEditFormSettingsSections() : this.getAccordionSections()
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <EditFormHeader isPresetEnabled={isPresetEnabled} handlePresetToggle={this.togglePreset} elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
+        <EditFormHeader isEditFormSettingsOpened={isEditFormSettingsOpened} handleEditFormSettingsToggle={this.toggleEditFormSettings} elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted}>

@@ -184,7 +184,7 @@ class Localizations extends Container implements Helper
             'savingResults' => __('Saving Results', 'visualcomposer'),
             'hideOff' => __('Hide: Off', 'visualcomposer'),
             'hideOn' => __('Hide: On', 'visualcomposer'),
-            'presetSettingsText' => __('Element Presets', 'visualcomposer'),
+            'editFormSettingsText' => __('Element Presets', 'visualcomposer'),
             'presetsHelperText' => __('Create an element with your chosen parameters. The new element will be added to your Add Element panel.', 'visualcomposer'),
             'saveAsPreset' => __('Save as Preset', 'visualcomposer'),
             'saveAsTemplate' => __('Save as Template', 'visualcomposer'),
