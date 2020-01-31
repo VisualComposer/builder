@@ -348,4 +348,21 @@ addStorage('elements', (storage) => {
       updateTimeMachine()
     }
   })
+  storage.on('addRef', (id, ref) => {
+    const elementRefState = storage.state('elementRefs').get() || {}
+    elementRefState[id] = ref
+    storage.state('elementRefs').set(elementRefState)
+  })
+
+  storage.on('removeRef', (id) => {
+    const elementRefState = storage.state('elementRefs').get() || {}
+    delete elementRefState[id]
+    storage.state('elementRefs').set(elementRefState)
+  })
+
+  storage.on('updateRef', (id, ref) => {
+    const elementRefState = storage.state('elementRefs').get() || {}
+    elementRefState[id] = ref
+    storage.state('elementRefs').set(elementRefState)
+  })
 })
