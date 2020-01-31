@@ -51,14 +51,14 @@ export default class Categories extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    Categories.elementsPresets = hubElementsStorage.state('elementsPresets').get()
+    Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
     hubElementsStorage.state('elements').onChange(this.reset)
-    hubElementsStorage.state('elementsPresets').onChange(this.reset)
+    hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
 
   componentWillUnmount () {
     hubElementsStorage.state('elements').ignoreChange(this.reset)
-    hubElementsStorage.state('elementsPresets').ignoreChange(this.reset)
+    hubElementsStorage.state('elementPresets').ignoreChange(this.reset)
     if (this.updateElementsTimeout) {
       window.clearTimeout(this.updateElementsTimeout)
       this.updateElementsTimeout = 0
@@ -70,7 +70,7 @@ export default class Categories extends React.Component {
     Categories.allElements = []
     Categories.allElementsTags = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    Categories.elementsPresets = hubElementsStorage.state('elementsPresets').get()
+    Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
 
     categoriesService.getSortedElements.cache.clear()
     this.updateElementsTimeout = setTimeout(() => {
@@ -106,7 +106,7 @@ export default class Categories extends React.Component {
       Categories.allElements = allElements.filter((elementData) => {
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
-      Categories.allElements = Categories.elementsPresets.concat(Categories.allElements)
+      Categories.allElements = Categories.elementPresets.concat(Categories.allElements)
     }
 
     return Categories.allElements
@@ -231,7 +231,7 @@ export default class Categories extends React.Component {
     return (
       <ElementControl
         key={key}
-        isElementPreset={Categories.elementsPresets.find(preset => preset.tag === tag)}
+        isElementPreset={Categories.elementPresets.find(preset => preset.tag === tag)}
         element={elementData}
         hubElement={Categories.hubElements[tag]}
         tag={tag}
@@ -335,7 +335,7 @@ export default class Categories extends React.Component {
     const parentElementId = workspace && workspace.element ? workspace.element.id : false
     let data
     let addedId
-    const elementPreset = Categories.elementsPresets.find(preset => preset.tag === tag)
+    const elementPreset = Categories.elementPresets.find(preset => preset.tag === tag)
     if (elementPreset) {
       data = elementPreset.presetData
       addedId = elementPreset.presetData.id
