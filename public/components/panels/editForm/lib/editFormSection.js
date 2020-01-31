@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import Field from './field'
 import EditFormReplaceElement from './editFormReplaceElement'
-import PresetSection from './presetSection'
+import EditFormSettings from './editFormSettings'
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
@@ -124,7 +124,7 @@ export default class EditFormSection extends React.Component {
   }
 
   render () {
-    const { tab, sectionIndex, isPreset, isContainerElement } = this.props
+    const { tab, sectionIndex, isEditFormSettings, isContainerElement } = this.props
     const { isActive, dependenciesClasses } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
@@ -164,8 +164,8 @@ export default class EditFormSection extends React.Component {
           {tabTitle}
         </div>
         <form className='vcv-ui-edit-form-section-content'>
-          {isPreset ? (
-            <PresetSection isContainerElement={isContainerElement} />
+          {isEditFormSettings ? (
+            <EditFormSettings isContainerElement={isContainerElement} />
           ) : (
             <>
               {replaceElement}
