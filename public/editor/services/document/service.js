@@ -171,7 +171,7 @@ const api = {
     }
   },
   getDescendants: function (id) {
-    let descendantData = {}
+    const descendantData = {}
     const element = dataStore.data.get(id)
     if (!element) {
       return false
