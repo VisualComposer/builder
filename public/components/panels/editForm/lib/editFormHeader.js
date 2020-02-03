@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService, getStorage } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const hubCategories = getService('hubCategories')
@@ -122,14 +122,18 @@ export default class EditFormHeader extends React.Component {
   handleClickGoBack () {
     let { parentElementAccessPoint: accessPoint, options } = this.props.options
     // If multiple nesting used we can goBack only to ROOT
-    while (accessPoint.inner) {
-      if (accessPoint.parentElementAccessPoint) {
-        accessPoint = accessPoint.parentElementAccessPoint
-      } else {
-        break
+    if (this.props.isEditFormSettingsOpened) {
+      this.props.handleEditFormSettingsToggle()
+    } else {
+      while (accessPoint.inner) {
+        if (accessPoint.parentElementAccessPoint) {
+          accessPoint = accessPoint.parentElementAccessPoint
+        } else {
+          break
+        }
       }
+      workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
     }
-    workspaceStorage.trigger('edit', accessPoint.id, accessPoint.tag, options)
   }
 
   handleClickCloseContent (e) {
@@ -142,7 +146,7 @@ export default class EditFormHeader extends React.Component {
   }
 
   render () {
-    const { elementAccessPoint, options } = this.props
+    const { elementAccessPoint, options, isEditFormSettingsOpened } = this.props
     let { content, editable, hidden } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
@@ -153,7 +157,7 @@ export default class EditFormHeader extends React.Component {
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
-    if (isNested) {
+    if (isNested || isEditFormSettingsOpened) {
       backButton = (
         <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
           <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
@@ -214,6 +218,21 @@ export default class EditFormHeader extends React.Component {
       )
     }
 
+    const editFormSettingsIconClasses = classNames({
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-cog': true
+    })
+    const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Presets'
+    const settingsControl = (
+      <span
+        className='vcv-ui-edit-form-header-control'
+        title={editFormSettingsText}
+        onClick={this.props.handleEditFormSettingsToggle}
+      >
+        <i className={editFormSettingsIconClasses} />
+      </span>
+    )
+
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
@@ -221,6 +240,7 @@ export default class EditFormHeader extends React.Component {
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
           {hideControl}
+          {env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') ? settingsControl : null}
           <span
             className='vcv-ui-edit-form-header-control'
             title={closeTitle}

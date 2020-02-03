@@ -30,6 +30,7 @@ addStorage('hubElements', (storage) => {
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
+    storage.state('elementPresets').set(window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [])
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
 

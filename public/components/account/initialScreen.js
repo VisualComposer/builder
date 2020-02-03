@@ -10,7 +10,11 @@ export default class InitialScreen extends React.Component {
     createYourWordpressWebsite: InitialScreen.localizations ? InitialScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.',
     anyLayoutFastAndEasy: InitialScreen.localizations ? InitialScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.',
     unlockHub: InitialScreen.localizations ? InitialScreen.localizations.unlockHub : 'Unlock Visual Composer Hub',
-    goPremium: InitialScreen.localizations ? InitialScreen.localizations.goPremium : 'Go Premium'
+    goPremium: InitialScreen.localizations ? InitialScreen.localizations.goPremium : 'Go Premium',
+    directActivation: InitialScreen.localizations ? InitialScreen.localizations.directActivation : 'Direct Activation',
+    themeActivation: InitialScreen.localizations ? InitialScreen.localizations.themeActivation : 'Theme Activation',
+    bundledInThemeText: InitialScreen.localizations ? InitialScreen.localizations.bundledInThemeText : 'It seems your Visual Composer Website Builder was bundled in a theme.',
+    chooseThemeOrDirectActivationText: InitialScreen.localizations ? InitialScreen.localizations.chooseThemeOrDirectActivationText : 'Choose between theme activation or activate Visual Composer with direct license.'
   }
 
   constructor (props) {
@@ -28,7 +32,10 @@ export default class InitialScreen extends React.Component {
     let goPremiumButton = ''
 
     if (window.VCV_MANAGE_OPTIONS()) {
-      const buttonText = window.VCV_IS_FREE_ACTIVATED() ? InitialScreen.texts.goPremium : InitialScreen.texts.unlockHub
+      let buttonText = window.VCV_IS_FREE_ACTIVATED() ? InitialScreen.texts.goPremium : InitialScreen.texts.unlockHub
+      if (this.props.authorApiKey) {
+        buttonText = InitialScreen.texts.directActivation
+      }
       if (window.VCV_IS_FREE_ACTIVATED()) {
         goPremiumButton = (
           <button onClick={this.props.setActiveScreen.bind(this, 'vcv-go-premium')} className='vcv-activation-button vcv-activation-button--dark'>{buttonText}</button>
@@ -40,6 +47,32 @@ export default class InitialScreen extends React.Component {
       }
     }
 
+    let primaryButton = null
+    if (this.props.authorApiKey) {
+      primaryButton = (
+        <button
+          onClick={this.props.setActiveScreen.bind(this, 'vcv-activate-author')}
+          className='vcv-activation-button'
+        >
+          {InitialScreen.texts.themeActivation}
+        </button>
+      )
+    } else {
+      primaryButton = <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
+    }
+
+    let descriptionContent = null
+    if (this.props.authorApiKey) {
+      descriptionContent = (
+        <>
+          <p className='vcv-activation-screen-description'>{InitialScreen.texts.bundledInThemeText}</p>
+          <p className='vcv-activation-screen-description'>{InitialScreen.texts.chooseThemeOrDirectActivationText}</p>
+        </>
+      )
+    } else {
+      descriptionContent = <ShareButtons />
+    }
+
     return (
       <div className='vcv-initial-screen vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -49,10 +82,10 @@ export default class InitialScreen extends React.Component {
         </p>
         <SliderComponent />
         <div className='vcv-activation-button-container'>
-          <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
+          {primaryButton}
           {goPremiumButton}
         </div>
-        <ShareButtons />
+        {descriptionContent}
       </div>
     )
   }
