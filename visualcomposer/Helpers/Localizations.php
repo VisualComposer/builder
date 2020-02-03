@@ -537,40 +537,14 @@ class Localizations extends Container implements Helper
                 'Get your free Visual Composer Hub access at',
                 'visualcomposer'
             ),
-            'edit404Template' => sprintf(
+            'editThemeTemplate' => sprintf(
                 __(
-                    '%sEdit%s this 404-page template.%s',
+                    '%sEdit%s this %s template.%s',
                     'visualcomposer'
                 ),
-                '<div class="{class}"><a href="{link}" target="_blank">',
+                '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">',
                 '</a>',
-                '</div>'
-            ),
-            'editArchiveTemplate' => sprintf(
-                __(
-                    '%sEdit%s this archive page template.%s',
-                    'visualcomposer'
-                ),
-                '<div class="{class}"><a href="{link}" target="_blank">',
-                '</a>',
-                '</div>'
-            ),
-            'editSearchTemplate' => sprintf(
-                __(
-                    '%sEdit%s this search page template.%s',
-                    'visualcomposer'
-                ),
-                '<div class="{class}"><a href="{link}" target="_blank">',
-                '</a>',
-                '</div>'
-            ),
-            'editAuthorTemplate' => sprintf(
-                __(
-                    '%sEdit%s this author page template.%s',
-                    'visualcomposer'
-                ),
-                '<div class="{class}"><a href="{link}" target="_blank">',
-                '</a>',
+                '{editLinkTitle}',
                 '</div>'
             ),
             'getFreeAccessToTheVisualComposerHub' => __(
