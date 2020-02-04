@@ -537,15 +537,16 @@ Cypress.Commands.add('replaceElement', (settings) => {
     .click()
 })
 
-/** Creates a new post in WordPress admin dashboard,
- * returns post id
+/** Creates a new post in WordPress admin dashboard.
+ * Callback may execute additional actions, e.g. setting ACF fields.
+ * Post id need to be passed to callback function in order to retrieve it inside a test file.
+ * All actions are forced { force: true } due to unpredictable WordPress environment.
  *
  * @param settings [object]
+ * @param callback [function]
  * @returns postId [string]
  */
-Cypress.Commands.add('createWpPost', (settings) => {
-  let postId
-
+Cypress.Commands.add('createWpPost', (settings, callback) => {
   cy.visit('/wp-admin/post-new.php')
 
   cy.get('.editor-post-title__input')
@@ -558,25 +559,24 @@ Cypress.Commands.add('createWpPost', (settings) => {
     .type(settings.postContent, { force: true })
 
   cy.get('.edit-post-sidebar__panel-tab[data-label="Document"]')
-    .click()
+    .click({ force: true })
 
   cy.contains('.components-button.components-panel__body-toggle', 'Excerpt')
-    .click()
+    .click({ force: true })
 
   cy.get('.editor-post-excerpt .components-textarea-control__input')
     .type(settings.postContent, { force: true })
 
-  cy.window().then((window) => {
-    postId = window.document.getElementById('post_ID').value
-  })
-
   cy.get('.editor-post-publish-panel__toggle')
-    .click()
+    .click({ force: true })
 
-  cy.get('.editor-post-publish-button')
-    .click()
+  cy.window().then((window) => {
+    let postId = window.document.getElementById('post_ID').value
+    callback(postId)
 
-  return postId
+    cy.get('.editor-post-publish-button')
+      .click({ force: true })
+  })
 })
 
 /** Creates a new menu in WordPress admin dashboard,
