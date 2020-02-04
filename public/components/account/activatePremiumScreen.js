@@ -135,8 +135,8 @@ export default class ActivatePremiumScreen extends React.Component {
     const findFreeLicenseAt = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findFreeLicenseAt : 'Get your free Visual Composer Hub access at'
     const activatePremiumText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activatePremium : 'Activate Premium'
     const activateFreeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activateFree : 'Activate Free'
-    const findEnvatoPurchaseCodeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findEnvatoPurchaseCodeText : 'Find your Envato Purchase Code and use it to activate Visual Composer Premium'
-    const enterEnvatoCode = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.enterEnvatoCode : 'Enter your envato purchase code'
+    const findPurchaseCodeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findPurchaseCodeText : 'Find your Envato Purchase Code and use it to activate Visual Composer Premium'
+    const enterPurchaseCode = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.enterPurchaseCode : 'Enter your envato purchase code'
     const enterYourLicenseKey = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.enterYourLicenseKey : 'Enter your license key'
 
     let headingText = getFreeAccessText
@@ -167,7 +167,7 @@ export default class ActivatePremiumScreen extends React.Component {
 
     let findNewLicenseAtText
     if (activationType === 'author') {
-      findNewLicenseAtText = findEnvatoPurchaseCodeText
+      findNewLicenseAtText = findPurchaseCodeText
     } else if (activationType === 'premium') {
       findNewLicenseAtText = (
         <>
@@ -186,7 +186,7 @@ export default class ActivatePremiumScreen extends React.Component {
 
     let inputPlaceholder = null
     if (activationType === 'author') {
-      inputPlaceholder = enterEnvatoCode
+      inputPlaceholder = enterPurchaseCode
     } else {
       inputPlaceholder = enterYourLicenseKey
     }

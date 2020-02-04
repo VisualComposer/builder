@@ -1,45 +1,17 @@
-const $ = window.jQuery
-
 const localizations = window.VCV_I18N && window.VCV_I18N()
-const editLinkText404 = localizations && localizations.edit404Template ? localizations.edit404Template : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this 404-page template.</div>'
-const editLinkTextArchive = localizations && localizations.editArchiveTemplate ? localizations.editArchiveTemplate : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this archive page template.</div>'
-const editLinkTextSearch = localizations && localizations.editSearchTemplate ? localizations.editSearchTemplate : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this search page template.</div>'
-const editLinkTextAuthor = localizations && localizations.editAuthorTemplate ? localizations.editAuthorTemplate : '<div class="{class}"><a href="{link}" target="_blank">Edit</a> this author page template.</div>'
+const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle} template.</div>'
 
-const editItemList = [
-  {
-    itemID: 'vcv-custom-page-templates-404-page',
-    itemClass: 'vcv-custom-page-templates-404-page-edit-link',
-    itemText: editLinkText404
-  },
-  {
-    itemID: 'vcv-custom-page-templates-archive-template',
-    itemClass: 'vcv-custom-page-templates-archive-template-edit-link',
-    itemText: editLinkTextArchive
-  },
-  {
-    itemID: 'vcv-custom-page-templates-search-template',
-    itemClass: 'vcv-custom-page-templates-search-template-edit-link',
-    itemText: editLinkTextSearch
-  },
-  {
-    itemID: 'vcv-custom-page-templates-author-template',
-    itemClass: 'vcv-custom-page-templates-author-template-edit-link',
-    itemText: editLinkTextAuthor
-  }
-]
+const changeEditLink = (item) => {
+  const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
+  const editLinkTitle = item.closest('.vcv-ui-form-group').getAttribute('data-title')
+  const dropdownContainer = item.closest('.vcv-ui-form-group').closest('td')
+  const editLinkItem = dropdownContainer.querySelector('.vcv-custom-page-templates-edit-link')
 
-const changeEditLink = (itemID, itemClass, itemText) => {
-  const dropdownItem = $('#' + itemID)
-  const selectedPageUrl = dropdownItem.find('option:selected').attr('data-url')
-  const dropdownContainer = dropdownItem.closest('.vcv-ui-form-group').parent('td')
-  const editLinkItem = $('.' + itemClass)
-
-  if (dropdownItem.val()) {
-    if (editLinkItem.length) {
-      editLinkItem.find('a').attr('href', selectedPageUrl)
+  if (item.value) {
+    if (editLinkItem != null) {
+      editLinkItem.querySelector('a').setAttribute('href', selectedPageUrl)
     } else {
-      dropdownContainer.append(itemText.replace('{link}', selectedPageUrl).replace('{class}', itemClass))
+      dropdownContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{link}', selectedPageUrl).replace('{editLinkTitle}', editLinkTitle))
     }
   } else {
     editLinkItem.remove()
@@ -47,17 +19,18 @@ const changeEditLink = (itemID, itemClass, itemText) => {
 }
 
 export const dropdownEditLink = () => {
-  editItemList.forEach(function (item) {
-    const dropdownItem = $('#' + item.itemID)
+  const templateDropdowns = document.querySelectorAll('.vcv-custom-page-template-dropdown select')
+
+  for (var i = 0, len = templateDropdowns.length; i < len; i++) {
+    var item = templateDropdowns[i]
 
     // Initial Page Load
-    if (dropdownItem.find('option:selected').length) {
-      changeEditLink(item.itemID, item.itemClass, item.itemText)
+    if (item.querySelector('option:checked').value !== '') {
+      changeEditLink(item)
     }
 
-    // Change Event
-    dropdownItem.on('change', function () {
-      changeEditLink(item.itemID, item.itemClass, item.itemText)
-    })
-  })
+    item.addEventListener('change', function (item) {
+      changeEditLink(item.target)
+    }, false)
+  }
 }
