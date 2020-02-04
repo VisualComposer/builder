@@ -575,11 +575,11 @@ class Localizations extends Container implements Helper
                 'Choose between theme activation or activate Visual Composer with direct license.',
                 'visualcomposer'
             ),
-            'findEnvatoPurchaseCodeText' => __(
+            'findPurchaseCodeText' => __(
                 'Find your Envato Purchase Code and use it to activate Visual Composer Premium',
                 'visualcomposer'
             ),
-            'enterEnvatoCode' => __(
+            'enterPurchaseCode' => __(
                 'Enter your envato purchase code',
                 'visualcomposer'
             ),
