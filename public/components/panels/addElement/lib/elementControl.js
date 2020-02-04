@@ -48,6 +48,7 @@ export default class ElementControl extends React.Component {
     this.handleDragStateChange = this.handleDragStateChange.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleRemovePreset = this.handleRemovePreset.bind(this)
   }
 
   componentDidMount () {
@@ -336,6 +337,11 @@ export default class ElementControl extends React.Component {
 
   handleMouseUp (e) {
     e && e.preventDefault()
+    if (e.target.dataset && e.target.dataset.action && e.target.dataset.action === 'deleteElementPreset') {
+      this.endDragGlobal()
+      // TODO: Delete preset form storage?
+      return
+    }
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
@@ -358,15 +364,21 @@ export default class ElementControl extends React.Component {
     }
   }
 
+  handleRemovePreset () {
+    // TODO: add logic when changes from all tasks are merged
+    console.log('handleRemovePreset')
+  }
+
   render () {
-    const { name, element } = this.props
+    const { name, element, isElementPreset, hubElement } = this.props
     const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     const listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
-      'vcv-ui-item-list-item--inactive': dragState && dragState.active
+      'vcv-ui-item-list-item--inactive': dragState && dragState.active,
+      'vcv-ui-item-list-item--preset': isElementPreset
     })
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -387,7 +399,7 @@ export default class ElementControl extends React.Component {
       const addOnTitle = localizations ? localizations.addOn : 'Add-on'
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>
-          {this.props.hubElement.thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
+          {hubElement && hubElement.thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
@@ -395,6 +407,16 @@ export default class ElementControl extends React.Component {
             </div>
           </figcaption>
         </figure>
+      )
+    }
+    let removeControl = null
+    if (isElementPreset) {
+      removeControl = (
+        <span
+          className='vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
+          onClick={this.handleRemovePreset}
+          data-action='deleteElementPreset'
+        />
       )
     }
 
@@ -418,6 +440,7 @@ export default class ElementControl extends React.Component {
             />
             <span className='vcv-ui-item-overlay'>
               <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
+              {removeControl}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>

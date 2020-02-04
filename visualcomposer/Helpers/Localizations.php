@@ -184,6 +184,10 @@ class Localizations extends Container implements Helper
             'savingResults' => __('Saving Results', 'visualcomposer'),
             'hideOff' => __('Hide: Off', 'visualcomposer'),
             'hideOn' => __('Hide: On', 'visualcomposer'),
+            'editFormSettingsText' => __('Element Presets', 'visualcomposer'),
+            'presetsHelperText' => __('Create an element with your chosen parameters. The new element will be added to your Add Element panel.', 'visualcomposer'),
+            'saveAsPreset' => __('Save as Preset', 'visualcomposer'),
+            'saveAsTemplate' => __('Save as Template', 'visualcomposer'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'visualcomposer'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'visualcomposer'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'visualcomposer'),
@@ -579,6 +583,34 @@ class Localizations extends Container implements Helper
             ),
             'getYourFreeLicense' => __(
                 'Get Your Free License',
+                'visualcomposer'
+            ),
+            'directActivation' => __(
+                'Direct Activation',
+                'visualcomposer'
+            ),
+            'themeActivation' => __(
+                'Theme Activation',
+                'visualcomposer'
+            ),
+            'bundledInThemeText' => __(
+                'It seems your Visual Composer Website Builder was bundled in a theme.',
+                'visualcomposer'
+            ),
+            'chooseThemeOrDirectActivationText' => __(
+                'Choose between theme activation or activate Visual Composer with direct license.',
+                'visualcomposer'
+            ),
+            'findPurchaseCodeText' => __(
+                'Find your Envato Purchase Code and use it to activate Visual Composer Premium',
+                'visualcomposer'
+            ),
+            'enterPurchaseCode' => __(
+                'Enter your envato purchase code',
+                'visualcomposer'
+            ),
+            'enterYourLicenseKey' => __(
+                'Enter your license key',
                 'visualcomposer'
             ),
         ];

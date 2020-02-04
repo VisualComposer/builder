@@ -18,9 +18,11 @@ export default class EditForm extends React.Component {
     super(props)
     this.allTabs = this.updateTabs(this.props)
     this.state = {
-      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId)
+      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
+      isEditFormSettingsOpened: false
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
+    this.toggleEditFormSettings = this.toggleEditFormSettings.bind(this)
   }
 
   scrollBarMounted (scrollbar) {
@@ -142,17 +144,51 @@ export default class EditForm extends React.Component {
     })
   }
 
+  getEditFormSettingsSections () {
+    const isContainerElement = this.props.elementAccessPoint.cook().get('containerFor') !== undefined
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const tabLabel = localizations ? localizations.editFormSettingsText : 'Element Presets'
+
+    return (
+      <EditFormSection
+        isEditFormSettings
+        isContainerElement={isContainerElement}
+        sectionIndex={0}
+        activeTabIndex={0}
+        getSectionContentScrollbar={() => { return this.scrollbar }}
+        tab={{
+          fieldKey: 0,
+          data: {
+            settings: {
+              options: {
+                label: tabLabel
+              }
+            }
+          }
+        }}
+        onAttributeChange={() => false}
+      />
+    )
+  }
+
+  toggleEditFormSettings () {
+    this.setState({
+      isEditFormSettingsOpened: !this.state.isEditFormSettingsOpened
+    })
+  }
+
   render () {
-    const { activeTabIndex } = this.state
+    const { activeTabIndex, isEditFormSettingsOpened } = this.state
     const activeTab = this.allTabs[activeTabIndex]
     const plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true
     }, `vcv-ui-editor-plate-${activeTab.key}`)
+    const content = isEditFormSettingsOpened ? this.getEditFormSettingsSections() : this.getAccordionSections()
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <EditFormHeader elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
+        <EditFormHeader isEditFormSettingsOpened={isEditFormSettingsOpened} handleEditFormSettingsToggle={this.toggleEditFormSettings} elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted}>
@@ -160,7 +196,7 @@ export default class EditForm extends React.Component {
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
                     <div className={plateClass}>
-                      {this.getAccordionSections()}
+                      {content}
                     </div>
                   </div>
                 </div>

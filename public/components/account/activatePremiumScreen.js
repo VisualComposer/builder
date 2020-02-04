@@ -21,6 +21,7 @@ export default class ActivatePremiumScreen extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
+    this.handleActivateClick = this.handleActivateClick.bind(this)
     this.setError = this.setError.bind(this)
   }
 
@@ -38,8 +39,9 @@ export default class ActivatePremiumScreen extends React.Component {
     })
   }
 
-  handleActivateClick (type, e) {
+  handleActivateClick (e) {
     e.preventDefault()
+    const type = this.props.activationType || 'premium'
     this.setState({
       hasError: false,
       errorText: ''
@@ -51,7 +53,7 @@ export default class ActivatePremiumScreen extends React.Component {
       dataProcessor.appAdminServerRequest({
         'vcv-action': 'license:activate:adminNonce',
         'vcv-license-key': this.state.licenseValue,
-        'vcv-activation-type': type || 'premium'
+        'vcv-activation-type': type
       }).then((responseData) => {
         const response = getResponse(responseData)
         if (response && response.status) {
@@ -133,10 +135,13 @@ export default class ActivatePremiumScreen extends React.Component {
     const findFreeLicenseAt = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findFreeLicenseAt : 'Get your free Visual Composer Hub access at'
     const activatePremiumText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activatePremium : 'Activate Premium'
     const activateFreeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activateFree : 'Activate Free'
+    const findPurchaseCodeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findPurchaseCodeText : 'Find your Envato Purchase Code and use it to activate Visual Composer Premium'
+    const enterPurchaseCode = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.enterPurchaseCode : 'Enter your envato purchase code'
+    const enterYourLicenseKey = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.enterYourLicenseKey : 'Enter your license key'
 
     let headingText = getFreeAccessText
 
-    if (activationType === 'premium') {
+    if (activationType === 'premium' || activationType === 'author') {
       headingText = (
         <>
           {getPremiumFeaturesText1}<br />
@@ -146,7 +151,7 @@ export default class ActivatePremiumScreen extends React.Component {
     }
 
     let activationButton
-    if (activationType === 'premium') {
+    if (activationType === 'premium' || activationType === 'author') {
       activationButton = (
         <a href={window.VCV_GO_PREMIUM_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
           {iWantToGoPremiumText}
@@ -161,9 +166,12 @@ export default class ActivatePremiumScreen extends React.Component {
     }
 
     let findNewLicenseAtText
-    if (activationType === 'premium') {
+    if (activationType === 'author') {
+      findNewLicenseAtText = findPurchaseCodeText
+    } else if (activationType === 'premium') {
       findNewLicenseAtText = (
-        <>{findSubscriptionLicenseAtText}
+        <>
+          {findSubscriptionLicenseAtText}
           <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
@@ -176,6 +184,13 @@ export default class ActivatePremiumScreen extends React.Component {
       )
     }
 
+    let inputPlaceholder = null
+    if (activationType === 'author') {
+      inputPlaceholder = enterPurchaseCode
+    } else {
+      inputPlaceholder = enterYourLicenseKey
+    }
+
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -186,7 +201,7 @@ export default class ActivatePremiumScreen extends React.Component {
         <div className={activationBoxClasses}>
           <div className='vcv-activation-box'>
             <h3 className='vcv-activation-box-heading'>
-              {activationType === 'premium' ? whatYouWillGetText : whatYouWillGetForFreeText}
+              {activationType === 'premium' || activationType === 'author' ? whatYouWillGetText : whatYouWillGetForFreeText}
             </h3>
             <ul className='vcv-basic-list'>
               <li className='vcv-basic-list-item'>{limitedAccessToExtensionsText}</li>
@@ -201,14 +216,14 @@ export default class ActivatePremiumScreen extends React.Component {
           <div className='vcv-activation-box'>
             {errorBox}
             <div className='vcv-basic-input-container--password'>
-              <input placeholder='Enter your license key' className={inputClasses} required='' name='licenseKey' type='text' value={this.state.licenseValue} onChange={this.handleInputChange} maxLength='36' onFocus={this.handleInputFocus} />
+              <input placeholder={inputPlaceholder} className={inputClasses} required='' name='licenseKey' type='text' value={this.state.licenseValue} onChange={this.handleInputChange} maxLength='36' onFocus={this.handleInputFocus} />
             </div>
             <div className='vcv-activation-input-description'>
               {findNewLicenseAtText}
             </div>
             <div className='vcv-activation-button-container'>
-              <button className={premiumButtonClasses} onClick={this.handleActivateClick.bind(this, activationType)}>
-                {activationType === 'premium' ? activatePremiumText : activateFreeText}
+              <button className={premiumButtonClasses} onClick={this.handleActivateClick}>
+                {activationType === 'premium' || activationType === 'author' ? activatePremiumText : activateFreeText}
               </button>
             </div>
           </div>
