@@ -85,7 +85,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: { all: ['auto'] },
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? oneColumnIcon : oneColumnIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? oneColumnIcon : oneColumnIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addOneColumn : 'Add one column'
         }
       },
@@ -93,7 +93,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: { all: ['auto', 'auto'] },
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? twoColumnsIcon : twoColumnsIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? twoColumnsIcon : twoColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTwoColumns : 'Add two columns'
         }
       },
@@ -101,7 +101,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: { all: ['auto', 'auto', 'auto'] },
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? threeColumnsIcon : threeColumnsIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? threeColumnsIcon : threeColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addThreeColumns : 'Add three columns'
         }
       },
@@ -109,7 +109,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: { all: ['auto', 'auto', 'auto', 'auto'] },
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fourColumnsIcon : fourColumnsIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? fourColumnsIcon : fourColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFourColumns : 'Add four columns'
         }
       },
@@ -117,7 +117,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: { all: ['auto', 'auto', 'auto', 'auto', 'auto'] },
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? fiveColumnsIcon : fiveColumnsIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? fiveColumnsIcon : fiveColumnsIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addFiveColumns : 'Add five columns'
         }
       },
@@ -125,7 +125,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'row',
         options: {
           layout: { all: ['66.66%', '33.34%'] },
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? customIcon : customIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? customIcon : customIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addCustomRowLayout : 'Add custom row layout',
           type: 'custom'
         }
@@ -133,21 +133,21 @@ export default class BlankRowPlaceholder extends React.Component {
       {
         tag: 'textBlock',
         options: {
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? textBlockIcon : textBlockIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? textBlockIcon : textBlockIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add Text block'
         }
       },
       {
         tag: 'addElement',
         options: {
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? addElementIcon : addElementIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? addElementIcon : addElementIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addElement : 'Add Element'
         }
       },
       {
         tag: 'paste',
         options: {
-          icon: BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? pasteIcon : pasteIconLight,
+          icon: ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? pasteIcon : pasteIconLight,
           title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.paste : 'Paste'
         }
       }
@@ -289,7 +289,7 @@ export default class BlankRowPlaceholder extends React.Component {
       containerWidth.width = `${this.state.containerWidth}px`
     }
 
-    const dragOverlayIcon = BlankRowPlaceholder.editorType === 'default' || BlankRowPlaceholder.editorType === 'template' ? addElementIcon : addElementIconLight
+    const dragOverlayIcon = ['default', 'template', 'archive'].indexOf(BlankRowPlaceholder.editorType) !== -1 ? addElementIcon : addElementIconLight
 
     return (
       <div
