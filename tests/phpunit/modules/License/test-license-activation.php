@@ -22,13 +22,13 @@ class LicenseActivationTest extends WP_UnitTestCase
                         'license' => 'invalid',
                         'item_id' => false,
                         'item_name' => 'Visual Composer',
-                        'error' => 'invalid',
-                        'checksum' => '',
+                        'error' => 'missing',
+                        'checksum' => 'b5798e0ea0ebe993851f15d085f64e0c',
                     ],
             ],
             $result
         );
-        $this->assertEquals('Visual Composer Website Builder license has been deactivated.', $loggerHelper->all());
+        $this->assertEquals('Couldn\'t find a valid Visual Composer Website Builder license.', $loggerHelper->all());
         $loggerHelper->reset();
 
         // Now need to try to activate some unknown license
@@ -50,7 +50,7 @@ class LicenseActivationTest extends WP_UnitTestCase
                         'item_id' => false,
                         'item_name' => 'Visual Composer',
                         'error' => 'missing',
-                        'checksum' => '',
+                        'checksum' => '2643bf7f5e6ea498135c722d8201ed7f',
                     ],
             ],
             $result
