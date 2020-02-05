@@ -374,7 +374,7 @@ export default class ElementControl extends React.Component {
     const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
     const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
     const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
-    const presetId = this.props.isElementPreset.id
+    const presetId = this.props.element.id
     dataProcessor.appServerRequest({
       'vcv-action': 'addon:presets:delete:adminNonce',
       'vcv-preset-id': presetId,
@@ -382,7 +382,7 @@ export default class ElementControl extends React.Component {
     }).then((data) => {
       try {
         const jsonData = JSON.parse(data)
-        if (jsonData && jsonData.status && jsonData.data) {
+        if (jsonData && jsonData.status) {
           hubElementsStorage.trigger('removePreset', presetId)
           this.displaySuccess(presetRemovedText)
         } else {
