@@ -222,11 +222,12 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-icon': true,
       'vcv-ui-icon-cog': true
     })
-    const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Presets'
+
     let settingsControl = null
     const isGeneral = elementAccessPoint.cook().relatedTo('General')
 
     if (env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') && isGeneral) {
+      const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span
           className='vcv-ui-edit-form-header-control'

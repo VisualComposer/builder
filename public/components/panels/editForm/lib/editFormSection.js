@@ -71,9 +71,6 @@ export default class EditFormSection extends React.Component {
     if (this.props.setFieldUnmount) {
       this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
     }
-    if (this.ajax) {
-      this.ajax.cancelled = true
-    }
     if (this.props.isEditFormSettings) {
       notificationsStorage.trigger('portalChange', null)
     }
@@ -187,14 +184,20 @@ export default class EditFormSection extends React.Component {
   }
 
   saveAsPreset () {
+    const couldNotParseData = EditFormSection.localizations ? EditFormSection.localizations.couldNotParseData : 'Could not parse data from server!'
+    const elementHasBeenSaved = EditFormSection.localizations ? EditFormSection.localizations.elementHasBeenSaved : 'The element has been successfully saved.'
+    const noAccessCheckLicence = EditFormSection.localizations ? EditFormSection.localizations.noAccessCheckLicence : 'No access, please check your license!'
+    const elementNameAlreadyExists = EditFormSection.localizations ? EditFormSection.localizations.elementNameAlreadyExists : 'The element with such name already exists!'
+    const enterPresetNameToSave = EditFormSection.localizations ? EditFormSection.localizations.enterPresetNameToSave : 'Enter preset name to save your element as a preset!'
+
     if (!this.state.name) {
-      this.displayError('Enter preset name to save your page as a preset')
+      this.displayError(enterPresetNameToSave)
       return
     }
     const existingPresets = hubElementsStorage.state('elementPresets').get()
     const filterPreset = existingPresets.filter(item => item.name === this.state.name)
     if (filterPreset.length) {
-      this.displayError('The element with such name already exists')
+      this.displayError(elementNameAlreadyExists)
       return
     }
     const elementData = documentService.get(this.props.elementId)
@@ -213,27 +216,21 @@ export default class EditFormSection extends React.Component {
     // Add tag
     elementPublicData.tag = elementData.tag
 
-    this.ajax = dataProcessor.appServerRequest({
+    dataProcessor.appServerRequest({
       'vcv-action': 'addon:presets:save:adminNonce',
       'vcv-preset-title': this.state.name,
-      'vcv-preset-tag': elementData.tag,
+      'vcv-preset-tag': `${elementData.tag}Preset`,
       'vcv-preset-value': elementPublicData,
       'vcv-nonce': window.vcvNonce
     }).then((data) => {
-      if (this.ajax && this.ajax.cancelled) {
-        this.ajax = null
-        return
-      }
-
       try {
         const jsonData = JSON.parse(data)
         if (jsonData && jsonData.status && jsonData.data) {
-          console.log(jsonData)
           hubElementsStorage.trigger('addPreset', jsonData.data)
-          this.displaySuccess('The element has been successfully saved')
+          this.displaySuccess(elementHasBeenSaved)
         } else {
           let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
-          errorMessage = errorMessage || 'Errorrrr from backend'
+          errorMessage = errorMessage || noAccessCheckLicence
           this.displayError(errorMessage)
 
           if (env('VCV_DEBUG')) {
@@ -241,14 +238,12 @@ export default class EditFormSection extends React.Component {
           }
         }
       } catch (e) {
-        const exceptionErrorMessage = 'Could not parse data from server!'
-        this.displayError(exceptionErrorMessage)
+        this.displayError(couldNotParseData)
 
         if (env('VCV_DEBUG')) {
-          console.warn(exceptionErrorMessage, e)
+          console.warn(couldNotParseData, e)
         }
       }
-      this.ajax = null
     })
   }
 
@@ -256,7 +251,8 @@ export default class EditFormSection extends React.Component {
     this.setState({
       name: ''
     })
-    this.displaySuccess('The template has been successfully saved')
+    const templateSaved = EditFormSection.localizations ? EditFormSection.localizations.templateSaved : 'The template has been successfully saved.'
+    this.displaySuccess(templateSaved)
   }
 
   onSaveFailed () {
