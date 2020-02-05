@@ -11,6 +11,7 @@ class LicenseActivationTest extends WP_UnitTestCase
         $loggerHelper->reset();
 
         $result = vchelper('Filters')->fire('vcv:ajax:license:activate:adminNonce');
+        unset($result['checksum']);
 
         // Expect false result as no license and etc provided
         $this->assertEquals(
@@ -23,7 +24,6 @@ class LicenseActivationTest extends WP_UnitTestCase
                         'item_id' => false,
                         'item_name' => 'Visual Composer',
                         'error' => 'missing',
-                        'checksum' => 'b5798e0ea0ebe993851f15d085f64e0c',
                     ],
             ],
             $result
@@ -40,6 +40,7 @@ class LicenseActivationTest extends WP_UnitTestCase
             ]
         );
         $result = vchelper('Filters')->fire('vcv:ajax:license:activate:adminNonce');
+        unset($result['checksum']);
         $this->assertEquals(
             [
                 'status' => false,
@@ -50,7 +51,6 @@ class LicenseActivationTest extends WP_UnitTestCase
                         'item_id' => false,
                         'item_name' => 'Visual Composer',
                         'error' => 'missing',
-                        'checksum' => '2643bf7f5e6ea498135c722d8201ed7f',
                     ],
             ],
             $result
