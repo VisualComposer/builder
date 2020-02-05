@@ -33,7 +33,7 @@ jobs:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
         environment:
           MYSQL_HOST: 127.0.0.1
-          MYSQL_DB: test
+          MYSQL_DB: mate
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           WP_TESTS_DIR: /opt/wp-tests
