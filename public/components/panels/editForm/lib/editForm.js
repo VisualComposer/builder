@@ -145,17 +145,18 @@ export default class EditForm extends React.Component {
   }
 
   getEditFormSettingsSections () {
-    const isContainerElement = this.props.elementAccessPoint.cook().get('containerFor') !== undefined
+    const isRootElement = this.props.elementAccessPoint.cook().relatedTo('RootElements')
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const tabLabel = localizations ? localizations.editFormSettingsText : 'Element Presets'
 
     return (
       <EditFormSection
         isEditFormSettings
-        isContainerElement={isContainerElement}
+        isRootElement={isRootElement}
         sectionIndex={0}
         activeTabIndex={0}
         getSectionContentScrollbar={() => { return this.scrollbar }}
+        elementId={this.props.elementAccessPoint.id}
         tab={{
           fieldKey: 0,
           data: {
