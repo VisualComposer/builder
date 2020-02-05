@@ -61,7 +61,8 @@
       "public/config/",
       "public/sources/assetsLibrary",
       "tests/",
-      "tools/"
+      "tools/",
+      "devElements/"
     ],
     "rules": {
       "jsx-quotes": [

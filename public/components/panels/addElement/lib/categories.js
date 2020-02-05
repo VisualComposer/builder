@@ -25,6 +25,7 @@ export default class Categories extends React.Component {
   static hubElements = []
   static addedId = null
   static parentElementTag = null
+  static elementPresets = []
 
   updateElementsTimeout = 0
 
@@ -226,7 +227,7 @@ export default class Categories extends React.Component {
 
   getElementControl (elementData) {
     const { tag, name } = elementData
-    const key = 'vcv-element-control-' + tag
+    const key = 'vcv-element-control-' + name.replace(/ /g, '')
 
     return (
       <ElementControl
