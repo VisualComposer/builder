@@ -10,6 +10,9 @@ import PropTypes from 'prop-types'
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const settingsStorage = vcCake.getStorage('settings')
+const notificationsStorage = vcCake.getStorage('notifications')
+const dataProcessor = vcCake.getService('dataProcessor')
+const hubElementsStorage = vcCake.getStorage('hubElements')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -49,6 +52,8 @@ export default class ElementControl extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
     this.handleRemovePreset = this.handleRemovePreset.bind(this)
+    this.displayError = this.displayError.bind(this)
+    this.displaySuccess = this.displaySuccess.bind(this)
   }
 
   componentDidMount () {
@@ -365,8 +370,55 @@ export default class ElementControl extends React.Component {
   }
 
   handleRemovePreset () {
-    // TODO: add logic when changes from all tasks are merged
-    console.log('handleRemovePreset')
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
+    const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
+    const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
+    const presetId = this.props.isElementPreset.id
+    dataProcessor.appServerRequest({
+      'vcv-action': 'addon:presets:delete:adminNonce',
+      'vcv-preset-id': presetId,
+      'vcv-nonce': window.vcvNonce
+    }).then((data) => {
+      try {
+        const jsonData = JSON.parse(data)
+        if (jsonData && jsonData.status && jsonData.data) {
+          hubElementsStorage.trigger('removePreset', presetId)
+          this.displaySuccess(presetRemovedText)
+        } else {
+          let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
+          errorMessage = errorMessage || noAccessCheckLicence
+          this.displayError(errorMessage)
+
+          if (vcCake.env('VCV_DEBUG')) {
+            console.warn(errorMessage, jsonData)
+          }
+        }
+      } catch (e) {
+        this.displayError(couldNotParseData)
+
+        if (vcCake.env('VCV_DEBUG')) {
+          console.warn(couldNotParseData, e)
+        }
+      }
+    })
+  }
+
+  displaySuccess (successText) {
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      text: successText,
+      time: 3000
+    })
+  }
+
+  displayError (errorText) {
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      type: 'error',
+      text: errorText,
+      time: 3000
+    })
   }
 
   render () {
