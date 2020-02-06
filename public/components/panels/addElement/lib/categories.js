@@ -53,10 +53,12 @@ export default class Categories extends React.Component {
     this.reset = this.reset.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
     hubElementsStorage.state('elements').onChange(this.reset)
+    hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
 
   componentWillUnmount () {
     hubElementsStorage.state('elements').ignoreChange(this.reset)
+    hubElementsStorage.state('elementPresets').ignoreChange(this.reset)
     if (this.updateElementsTimeout) {
       window.clearTimeout(this.updateElementsTimeout)
       this.updateElementsTimeout = 0
@@ -67,6 +69,7 @@ export default class Categories extends React.Component {
     Categories.allCategories = []
     Categories.allElements = []
     Categories.allElementsTags = []
+    Categories.elementPresets = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
 
     categoriesService.getSortedElements.cache.clear()
@@ -227,8 +230,15 @@ export default class Categories extends React.Component {
 
   getElementControl (elementData) {
     const { tag, name } = elementData
-    const key = 'vcv-element-control-' + name.replace(/ /g, '')
+    const key = `vcv-element-control-${name.replace(/ /g, '')}-${tag}`
     const isElementPreset = elementData.type && elementData.type === 'elementPreset'
+
+    if (isElementPreset) {
+      const cookElement = cook.get({ tag: elementData.presetData.tag })
+      elementData['metaDescription'] = cookElement.get('metaDescription')
+      elementData['metaThumbnailUrl'] = cookElement.get('metaThumbnailUrl')
+      elementData['metaPreviewUrl'] = cookElement.get('metaPreviewUrl')
+    }
 
     return (
       <ElementControl

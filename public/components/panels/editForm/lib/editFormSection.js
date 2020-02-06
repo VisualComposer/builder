@@ -216,6 +216,8 @@ export default class EditFormSection extends React.Component {
     // Add tag
     elementPublicData.tag = elementData.tag
 
+    this.setState({ showSpinner: this.state.name })
+
     dataProcessor.appServerRequest({
       'vcv-action': 'addon:presets:save:adminNonce',
       'vcv-preset-title': this.state.name,
