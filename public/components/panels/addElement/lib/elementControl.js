@@ -13,6 +13,7 @@ const settingsStorage = vcCake.getStorage('settings')
 const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -235,7 +236,7 @@ export default class ElementControl extends React.Component {
    * @param newElement
    */
   handleDragWithIframe (e, newElement) {
-    const { element, tag } = this.props
+    let { element, tag } = this.props
     const { iframe, isDragging } = this.state
     if (!this.helper) {
       this.createHelper(tag, newElement)
@@ -245,11 +246,22 @@ export default class ElementControl extends React.Component {
       iframe.style = ''
       this.helper.hide()
       if (isDragging) {
+        const elementPresets = hubElementsStorage.state('elementPresets').get()
+        const elementPreset = elementPresets.find(preset => preset.tag === element.tag)
+        if (elementPreset) {
+          const cookElement = cook.get({ tag: elementPreset.presetData.tag }).toJS()
+          element = elementPreset.presetData
+          element.id = cookElement.id
+          element.isPreset = true
+          tag = cookElement.tag
+        }
+        console.log('handleDragWithIframe', {element, tag, newElement})
         vcCake.setData('dropNewElement', {
           id: element.id,
           point: false,
           tag: tag,
-          domNode: newElement
+          domNode: newElement,
+          element: element
         })
       }
     } else {
@@ -291,9 +303,15 @@ export default class ElementControl extends React.Component {
     }
     if (e.pageX !== this.state.mouseX && e.pageY !== this.state.mouseY) {
       const { element } = this.props
+      const elementPresets = hubElementsStorage.state('elementPresets').get()
+      const elementPreset = elementPresets.find(preset => preset.tag === element.tag)
+      let elementId = element.id
+      if (elementPreset) {
+        elementId = cook.get({ tag: elementPreset.presetData.tag }).toJS().id
+      }
       const { iframe, isDragging, backendContentContainer } = this.state
       const newElement = document.createElement('div')
-      newElement.setAttribute('data-vcv-element', element.id)
+      newElement.setAttribute('data-vcv-element', elementId)
       const dragState = workspaceStorage.state('drag')
       this.handleMouseLeaveHidePreview()
       if (!dragState.get() || !dragState.get().active) {

@@ -138,7 +138,8 @@ export default class DndDataSet {
           },
           isAttribute: false,
           disableMobile: false,
-          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false
+          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false,
+          elementData: false
         })
       }
     })
@@ -375,12 +376,13 @@ export default class DndDataSet {
     }
   }
 
-  start (id, point, tag, domNode) {
+  start (id, point, tag, domNode, element) {
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
     }
     if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
+      this.options.elementData = element
     } else {
       this.draggingElement = this.getDomElement(domNode)
       this.options.drop = false
@@ -471,7 +473,8 @@ export default class DndDataSet {
           this.draggingElement.id,
           this.position,
           this.currentElement,
-          this.draggingElement
+          this.draggingElement,
+          this.options.elementData
         )
         if (!this.position) {
           workspaceStorage.state('drag').set({ terminate: true })
