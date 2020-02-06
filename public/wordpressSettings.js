@@ -4,6 +4,7 @@ import { checkStatus } from './components/wpVcSettings/statusCheck'
 import { initEditors } from './components/wpVcSettings/editors'
 import { hfSectionToggle } from './components/wpVcSettings/hfSectionToggle'
 import { dropdownEditLink } from './components/wpVcSettings/dropdownEditLink'
+import { themeTemplatesToggle } from './components/wpVcSettings/themeTemplatesToggle'
 
 (() => {
   // TODO: Refactor this, and call this methods only on required pages
@@ -12,4 +13,5 @@ import { dropdownEditLink } from './components/wpVcSettings/dropdownEditLink'
   initEditors()
   hfSectionToggle()
   dropdownEditLink()
+  themeTemplatesToggle()
 })(window.jQuery)
