@@ -243,7 +243,6 @@
   .vcv-layout-notifications {
     .vcv-layout-notifications-top,
     .vcv-layout-notifications-bottom {
-      background: #6DAB3C;
       left: 0;
     }
   }
@@ -252,8 +251,14 @@
   .vcv-layout-notifications {
     .vcv-layout-notifications-top,
     .vcv-layout-notifications-bottom {
-      background: #6DAB3C;
       right: 0;
+    }
+  }
+}
+.vcv-layout-dock--bottom .vcv-ui-tree-content-section {
+  .vcv-layout-notifications {
+    .vcv-layout-notifications-bottom {
+      bottom: 0;
     }
   }
 }
@@ -264,6 +269,11 @@
       padding: 15px 20px;
       border: 0;
     }
+  }
+}
+.vcv-ui-tree-content-section {
+  .vcv-layout-notifications-type--default {
+    background: #6DAB3C;
   }
 }
 

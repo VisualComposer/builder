@@ -41,7 +41,8 @@ export default class ElementControl extends React.Component {
       iframe: document.getElementById('vcv-editor-iframe'),
       backendContentContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),
       mouseX: null,
-      mouseY: null
+      mouseY: null,
+      showSpinner: false
     }
     this.handleMouseEnterShowPreview = this.handleMouseEnterShowPreview.bind(this)
     this.handleMouseLeaveHidePreview = this.handleMouseLeaveHidePreview.bind(this)
@@ -375,6 +376,9 @@ export default class ElementControl extends React.Component {
     const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
     const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
     const presetId = this.props.element.id
+
+    this.setState({ showSpinner: true })
+
     dataProcessor.appServerRequest({
       'vcv-action': 'addon:presets:delete:adminNonce',
       'vcv-preset-id': presetId,
@@ -405,14 +409,18 @@ export default class ElementControl extends React.Component {
   }
 
   displaySuccess (successText) {
+    this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
       position: 'bottom',
+      transparent: true,
+      rounded: true,
       text: successText,
       time: 3000
     })
   }
 
   displayError (errorText) {
+    this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
       position: 'bottom',
       type: 'error',
@@ -463,14 +471,33 @@ export default class ElementControl extends React.Component {
     }
     let removeControl = null
     if (isElementPreset) {
+      const removeClasses = classNames({
+        'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
+        'vcv-ui-state--hidden': this.state.showSpinner
+      })
       removeControl = (
         <span
-          className='vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
+          className={removeClasses}
           onClick={this.handleRemovePreset}
           data-action='deleteElementPreset'
         />
       )
     }
+
+    const spinnerClasses = classNames({
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
+      'vcv-ui-state--hidden': !this.state.showSpinner
+    })
+
+    const applyClasses = classNames({
+      'vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add': true,
+      'vcv-ui-state--hidden': this.state.showSpinner
+    })
+
+    const overlayClasses = classNames({
+      'vcv-ui-item-overlay': true,
+      'vcv-ui-item-overlay--visible': this.state.showSpinner
+    })
 
     return (
       <li className={listItemClasses}>
@@ -490,9 +517,10 @@ export default class ElementControl extends React.Component {
               className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt={name}
             />
-            <span className='vcv-ui-item-overlay'>
-              <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
+            <span className={overlayClasses}>
+              <span className={applyClasses} />
               {removeControl}
+              {isElementPreset ?  <span className={spinnerClasses} /> : null}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
