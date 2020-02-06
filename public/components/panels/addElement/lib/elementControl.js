@@ -409,7 +409,6 @@ export default class ElementControl extends React.Component {
   }
 
   displaySuccess (successText) {
-    this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
       position: 'bottom',
       transparent: true,
