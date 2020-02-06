@@ -165,12 +165,12 @@ export default class DndManager {
     }
   }
 
-  drop (id, action, related, element) {
+  drop (id, action, related, element, options) {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
-        DndManager.handleBlankRowDrop(id, action, element.tag)
+        DndManager.handleBlankRowDrop(id, action, element.tag, options)
       } else {
-        workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
+        workspaceStorage.trigger('drop', id, { action: action, related: related, element: element, options: options })
       }
     }
   }
@@ -185,9 +185,12 @@ export default class DndManager {
     document.body.classList.remove('vcv-is-no-selection')
   }
 
-  static handleBlankRowDrop (id, action, elementTag) {
+  static handleBlankRowDrop (id, action, elementTag, options) {
     if (elementTag) { // Drop from addElement window
-      const element = cook.get({ tag: elementTag }).toJS()
+      let element = cook.get({ tag: elementTag }).toJS()
+      if (options && options.isPreset) {
+        element = cook.get(options).toJS()
+      }
       elementsStorage.trigger('add', element)
       workspaceStorage.trigger('edit', element.id, '')
     } else if (id) { // Drop existing element
