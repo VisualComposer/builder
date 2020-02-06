@@ -4,22 +4,42 @@ import PropTypes from 'prop-types'
 import Field from './field'
 import EditFormReplaceElement from './editFormReplaceElement'
 import EditFormSettings from './editFormSettings'
+import { env, getService, getStorage } from 'vc-cake'
+
+const dataProcessor = getService('dataProcessor')
+const documentService = getService('document')
+const myTemplatesService = getService('myTemplates')
+const notificationsStorage = getStorage('notifications')
+const hubElementsStorage = getStorage('hubElements')
+const cook = getService('cook')
 
 export default class EditFormSection extends React.Component {
   static propTypes = {
     tab: PropTypes.object.isRequired,
     onAttributeChange: PropTypes.func.isRequired,
-    isContainerElement: PropTypes.bool
+    isRootElement: PropTypes.bool
   }
+
+  static localizations = window.VCV_I18N && window.VCV_I18N()
 
   constructor (props) {
     super(props)
     this.state = {
       isActive: true,
-      dependenciesClasses: []
+      dependenciesClasses: [],
+      name: '',
+      error: false,
+      errorName: '',
+      showSpinner: false
     }
+
     this.handleClickToggleSection = this.handleClickToggleSection.bind(this)
     this.onSettingsSave = this.onSettingsSave.bind(this)
+    this.onNameChange = this.onNameChange.bind(this)
+    this.displayError = this.displayError.bind(this)
+    this.displaySuccess = this.displaySuccess.bind(this)
+    this.onSaveSuccess = this.onSaveSuccess.bind(this)
+    this.onSaveFailed = this.onSaveFailed.bind(this)
   }
 
   componentDidMount () {
@@ -35,6 +55,10 @@ export default class EditFormSection extends React.Component {
         refWrapper: this.section
       }, 'section')
     }
+
+    if (this.props.isEditFormSettings) {
+      notificationsStorage.trigger('portalChange', '.vcv-ui-tree-content-section')
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -46,6 +70,9 @@ export default class EditFormSection extends React.Component {
   componentWillUnmount () {
     if (this.props.setFieldUnmount) {
       this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
+    }
+    if (this.props.isEditFormSettings) {
+      notificationsStorage.trigger('portalChange', null)
     }
   }
 
@@ -126,11 +153,143 @@ export default class EditFormSection extends React.Component {
 
   onSettingsSave (e) {
     e.preventDefault()
-    console.log('settings has been changed')
+
+    if (this.props.isRootElement) {
+      this.saveAsTemplate()
+    } else {
+      this.saveAsPreset()
+    }
+  }
+
+  saveAsTemplate () {
+    const templateAlreadyExistsText = EditFormSection.localizations ? EditFormSection.localizations.templateAlreadyExists : 'Template with this name already exist. Please specify another name.'
+    const templateSaveFailedText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Template save failed'
+    const specifyTemplateNameText = EditFormSection.localizations ? EditFormSection.localizations.specifyTemplateName : 'Enter template name to save your page as a template'
+
+    let { name } = this.state
+    name = name.trim()
+    if (name) {
+      if (myTemplatesService.findBy('name', name)) {
+        this.displayError(templateAlreadyExistsText)
+      } else {
+        this.setState({ showSpinner: name })
+        const templateAddResult = myTemplatesService.addElementTemplate(this.props.elementId, name, this.onSaveSuccess, this.onSaveFailed)
+        if (!templateAddResult) {
+          this.displayError(templateSaveFailedText)
+        }
+      }
+    } else {
+      this.displayError(specifyTemplateNameText)
+    }
+  }
+
+  saveAsPreset () {
+    const couldNotParseData = EditFormSection.localizations ? EditFormSection.localizations.couldNotParseData : 'Could not parse data from server!'
+    const elementHasBeenSaved = EditFormSection.localizations ? EditFormSection.localizations.elementHasBeenSaved : 'The element has been successfully saved.'
+    const noAccessCheckLicence = EditFormSection.localizations ? EditFormSection.localizations.noAccessCheckLicence : 'No access, please check your license!'
+    const elementNameAlreadyExists = EditFormSection.localizations ? EditFormSection.localizations.elementNameAlreadyExists : 'The element with such name already exists!'
+    const enterPresetNameToSave = EditFormSection.localizations ? EditFormSection.localizations.enterPresetNameToSave : 'Enter preset name to save your element as a preset!'
+
+    if (!this.state.name) {
+      this.displayError(enterPresetNameToSave)
+      return
+    }
+    const existingPresets = hubElementsStorage.state('elementPresets').get()
+    const filterPreset = existingPresets.filter(item => item.name === this.state.name)
+    if (filterPreset.length) {
+      this.displayError(elementNameAlreadyExists)
+      return
+    }
+    const elementData = documentService.get(this.props.elementId)
+    const cookElement = cook.get(elementData)
+    // Filter only public attributes
+    const publicAttributes = cookElement.filter((key, value, settings) => {
+      return settings.access === 'public'
+    })
+    const elementPublicData = {}
+    publicAttributes.forEach((key) => {
+      elementPublicData[key] = elementData[key]
+    })
+
+    // Remove custom ID
+    delete elementPublicData.metaCustomId
+    // Add tag
+    elementPublicData.tag = elementData.tag
+
+    this.setState({ showSpinner: this.state.name })
+
+    dataProcessor.appServerRequest({
+      'vcv-action': 'addon:presets:save:adminNonce',
+      'vcv-preset-title': this.state.name,
+      'vcv-preset-tag': `${elementData.tag}Preset`,
+      'vcv-preset-value': elementPublicData,
+      'vcv-nonce': window.vcvNonce
+    }).then((data) => {
+      try {
+        const jsonData = JSON.parse(data)
+        if (jsonData && jsonData.status && jsonData.data) {
+          hubElementsStorage.trigger('addPreset', jsonData.data)
+          this.displaySuccess(elementHasBeenSaved)
+        } else {
+          let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
+          errorMessage = errorMessage || noAccessCheckLicence
+          this.displayError(errorMessage)
+
+          if (env('VCV_DEBUG')) {
+            console.warn(errorMessage, jsonData)
+          }
+        }
+      } catch (e) {
+        this.displayError(couldNotParseData)
+
+        if (env('VCV_DEBUG')) {
+          console.warn(couldNotParseData, e)
+        }
+      }
+    })
+  }
+
+  onSaveSuccess () {
+    this.setState({
+      name: ''
+    })
+    const templateSaved = EditFormSection.localizations ? EditFormSection.localizations.templateSaved : 'The template has been successfully saved.'
+    this.displaySuccess(templateSaved)
+  }
+
+  onSaveFailed () {
+    const errorText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Template save failed'
+    this.displayError(errorText)
+  }
+
+  onNameChange (e) {
+    this.setState({
+      name: e.currentTarget.value,
+      error: false
+    })
+  }
+
+  displaySuccess (successText) {
+    this.setState({ showSpinner: false })
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      text: successText,
+      time: 3000
+    })
+  }
+
+  displayError (errorText) {
+    this.setState({ showSpinner: false })
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      type: 'error',
+      text: errorText,
+      time: 3000
+    })
   }
 
   render () {
-    const { tab, sectionIndex, isEditFormSettings, isContainerElement } = this.props
+    const { tab, sectionIndex, isEditFormSettings, isRootElement } = this.props
     const { isActive, dependenciesClasses } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
@@ -171,7 +330,12 @@ export default class EditFormSection extends React.Component {
         </div>
         <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
-            <EditFormSettings isContainerElement={isContainerElement} />
+            <EditFormSettings
+              isRootElement={isRootElement}
+              handleNameChange={this.onNameChange}
+              nameValue={this.state.name}
+              showSpinner={this.state.showSpinner}
+            />
           ) : (
             <>
               {replaceElement}

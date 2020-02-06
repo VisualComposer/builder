@@ -206,4 +206,14 @@ addStorage('hubElements', (storage) => {
       })
     }
   })
+
+  storage.on('addPreset', (elementPresetData) => {
+    const elementPresetsState = storage.state('elementPresets').get() || []
+    elementPresetsState.unshift(elementPresetData)
+    storage.state('elementPresets').set(elementPresetsState)
+  })
+  storage.on('removePreset', (id) => {
+    const elementPresetsState = storage.state('elementPresets').get() || []
+    storage.state('elementPresets').set(elementPresetsState.filter(item => item.id !== id))
+  })
 })
