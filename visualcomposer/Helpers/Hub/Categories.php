@@ -551,4 +551,3 @@ class Categories implements Helper
         return $categoriesDiffer->get();
     }
 }
-
