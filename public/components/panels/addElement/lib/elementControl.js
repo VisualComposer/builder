@@ -255,7 +255,6 @@ export default class ElementControl extends React.Component {
           element.isPreset = true
           tag = cookElement.tag
         }
-        console.log('handleDragWithIframe', {element, tag, newElement})
         vcCake.setData('dropNewElement', {
           id: element.id,
           point: false,
