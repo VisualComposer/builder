@@ -184,7 +184,7 @@ class Localizations extends Container implements Helper
             'savingResults' => __('Saving Results', 'visualcomposer'),
             'hideOff' => __('Hide: Off', 'visualcomposer'),
             'hideOn' => __('Hide: On', 'visualcomposer'),
-            'editFormSettingsText' => __('Element Presets', 'visualcomposer'),
+            'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
             'presetsHelperText' => __('Create an element with your chosen parameters. The new element will be added to your Add Element panel.', 'visualcomposer'),
             'saveAsPreset' => __('Save as Preset', 'visualcomposer'),
             'saveAsTemplate' => __('Save as Template', 'visualcomposer'),
@@ -405,7 +405,7 @@ class Localizations extends Container implements Helper
                 'Image has been downloaded to your Media Library.',
                 'visualcomposer'
             ),
-            'coundNotParseData' => __(
+            'couldNotParseData' => __(
                 'Could not parse data from server!',
                 'visualcomposer'
             ),
@@ -585,6 +585,30 @@ class Localizations extends Container implements Helper
             ),
             'enterYourLicenseKey' => __(
                 'Enter your license key',
+                'visualcomposer'
+            ),
+            'elementHasBeenSaved' => __(
+                'The element has been successfully saved.',
+                'visualcomposer'
+            ),
+            'elementNameAlreadyExists' => __(
+                'The element with such name already exists!',
+                'visualcomposer'
+            ),
+            'enterPresetNameToSave' => __(
+                'Enter preset name to save your element as a preset!',
+                'visualcomposer'
+            ),
+            'templateSaved' => __(
+                'The template has been successfully saved.',
+                'visualcomposer'
+            ),
+            'templateHelperText' => __(
+                'Create a template with your chosen parameters. The new template will be added to your Add Template panel.',
+                'visualcomposer'
+            ),
+            'presetRemovedText' => __(
+                'Element preset has been removed.',
                 'visualcomposer'
             ),
         ];

@@ -25,6 +25,7 @@ export default class Categories extends React.Component {
   static hubElements = []
   static addedId = null
   static parentElementTag = null
+  static elementPresets = []
 
   updateElementsTimeout = 0
 
@@ -51,7 +52,6 @@ export default class Categories extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
     hubElementsStorage.state('elements').onChange(this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
@@ -69,8 +69,8 @@ export default class Categories extends React.Component {
     Categories.allCategories = []
     Categories.allElements = []
     Categories.allElementsTags = []
+    Categories.elementPresets = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
 
     categoriesService.getSortedElements.cache.clear()
     this.updateElementsTimeout = setTimeout(() => {
@@ -101,14 +101,15 @@ export default class Categories extends React.Component {
       }
     }
     const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
-    if (isAllElements) {
+    const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
+    if (isAllElements || isPresetsUpdated) {
       const { allElements } = this.state
       Categories.allElements = allElements.filter((elementData) => {
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
-      Categories.allElements = Categories.elementPresets.concat(Categories.allElements)
+      const elementPresets = hubElementsStorage.state('elementPresets').get()
+      Categories.allElements = elementPresets.concat(Categories.allElements)
     }
-
     return Categories.allElements
   }
 
@@ -148,7 +149,9 @@ export default class Categories extends React.Component {
 
   getAllCategories () {
     const isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
-    if (isCategories) {
+    const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
+
+    if (isCategories || isPresetsUpdated) {
       const groupsStore = {}
       const groups = groupsService.all()
       const tags = this.getAllElementsTags()
@@ -165,6 +168,7 @@ export default class Categories extends React.Component {
         }
       })
       Categories.parentElementTag = this.props.parent.tag
+      Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
     }
 
     return Categories.allCategories
@@ -226,12 +230,20 @@ export default class Categories extends React.Component {
 
   getElementControl (elementData) {
     const { tag, name } = elementData
-    const key = 'vcv-element-control-' + tag
+    const key = `vcv-element-control-${name.replace(/ /g, '')}-${tag}`
+    const isElementPreset = elementData.type && elementData.type === 'elementPreset'
+
+    if (isElementPreset) {
+      const cookElement = cook.get({ tag: elementData.presetData.tag })
+      elementData.metaDescription = cookElement.get('metaDescription')
+      elementData.metaThumbnailUrl = cookElement.get('metaThumbnailUrl')
+      elementData.metaPreviewUrl = cookElement.get('metaPreviewUrl')
+    }
 
     return (
       <ElementControl
         key={key}
-        isElementPreset={Categories.elementPresets.find(preset => preset.tag === tag)}
+        isElementPreset={isElementPreset}
         element={elementData}
         hubElement={Categories.hubElements[tag]}
         tag={tag}
@@ -337,8 +349,9 @@ export default class Categories extends React.Component {
     let addedId
     const elementPreset = Categories.elementPresets.find(preset => preset.tag === tag)
     if (elementPreset) {
+      addedId = cook.get({ tag: elementPreset.presetData.tag }).toJS().id
       data = elementPreset.presetData
-      addedId = elementPreset.presetData.id
+      data.id = addedId
     } else {
       data = cook.get({ tag: tag, parent: parentElementId }).toJS()
       addedId = data.id

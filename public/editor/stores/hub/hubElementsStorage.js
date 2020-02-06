@@ -30,7 +30,11 @@ addStorage('hubElements', (storage) => {
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
-    storage.state('elementPresets').set(window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [])
+    const presets = window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : []
+    presets.forEach((preset) => {
+      preset.presetData = JSON.parse(preset.presetData)
+    })
+    storage.state('elementPresets').set(presets)
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
 
@@ -205,5 +209,15 @@ addStorage('hubElements', (storage) => {
         add(asset.cssSubsetBundles[key])
       })
     }
+  })
+
+  storage.on('addPreset', (elementPresetData) => {
+    const elementPresetsState = storage.state('elementPresets').get() || []
+    elementPresetsState.unshift(elementPresetData)
+    storage.state('elementPresets').set(elementPresetsState)
+  })
+  storage.on('removePreset', (id) => {
+    const elementPresetsState = storage.state('elementPresets').get() || []
+    storage.state('elementPresets').set(elementPresetsState.filter(item => item.id !== id))
   })
 })

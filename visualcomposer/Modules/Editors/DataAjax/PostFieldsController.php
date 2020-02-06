@@ -40,6 +40,10 @@ class PostFieldsController extends Container implements Module
      */
     protected function getPostFields($response, $payload, Request $requestHelper)
     {
+        if (isset($response['forceAddField'])) {
+            $payload = array_merge($payload, ['forceAddField' => $response['forceAddField']]);
+        }
+
         if (!is_array($response)) {
             $response = ['status' => true];
         }
