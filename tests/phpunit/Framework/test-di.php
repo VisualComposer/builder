@@ -80,10 +80,8 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates
         ) use (&$called) {
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -96,13 +94,11 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $called = false;
         $func = function (
             $param1,
-            \VisualComposer\Helpers\Core $core,
-            $param2,
-            \VisualComposer\Helpers\Views $templates
+            \VisualComposer\Helpers\Views $templates,
+            $param2
         ) use (&$called) {
             $this->assertEquals('params1', $param1);
             $this->assertEquals(4, $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -116,12 +112,10 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $param1,
             $param2,
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates
         ) use (&$called) {
             $this->assertEquals('params1', $param1);
             $this->assertEquals(4, $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -135,12 +129,10 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $param1,
             $param2 = [],
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals([], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -154,12 +146,10 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $param1,
             $param2 = [],
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals([], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -173,12 +163,10 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $param1,
             $param2 = [],
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['second param'], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -192,12 +180,10 @@ class DependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $param1,
             $param2 = [],
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['second param'], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -209,14 +195,12 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates,
             $param1,
             $param2
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(6, $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -228,14 +212,12 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates,
             $param1,
             $param2
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(6, $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -247,14 +229,12 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates,
             $param1,
             $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals([], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -266,14 +246,12 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates,
             $param1,
             $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals([], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -285,14 +263,12 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates,
             $param1,
             $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['second param'], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };
@@ -304,14 +280,12 @@ class DependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
-            \VisualComposer\Helpers\Core $core,
             \VisualComposer\Helpers\Views $templates,
             $param1,
             $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['second param'], $param2);
-            $this->assertTrue(is_object($core));
             $this->assertTrue(is_object($templates));
             $called = true;
         };

@@ -17,18 +17,6 @@ class SiteControllerTest extends \WP_UnitTestCase
         $user->set_role('administrator');
     }
 
-//    public function testAppendScript()
-//    {
-//        /** @var $module \VisualComposer\Modules\Site\Controller */
-//        $module = vcapp('SiteController');
-//        /** @see \VisualComposer\Modules\Site\Controller::appendScript */
-//        $output = vcapp()->call([$module, 'appendScript']);
-//
-//        $pattern = '/<script src=".+node_modules\/less\/dist\/less.js" data-async="true"><\/script>/';
-//
-//        $this->assertEquals(1, preg_match($pattern, $output), 'macthes of output: ' . $output);
-//    }
-
     public function testEditPostLink()
     {
         /** @var \VisualComposer\Helpers\Request $requestHelper */
@@ -42,20 +30,9 @@ class SiteControllerTest extends \WP_UnitTestCase
 
         wp_set_current_user(1);
         $GLOBALS['post'] = $post;
-        $link = apply_filters('edit_post_link', '');
+        $link = apply_filters('edit_post_link', '', $postId, '');
         $pattern = '/' . __('Edit with Visual Composer', 'visualcomposer') . '/';
         $this->assertEquals(1, preg_match($pattern, $link), 'matches of output:' . $link);
         $requestHelper->setData([]);
     }
-
-//    public function testEnqueueScripts()
-//    {
-//        /** @var $module \VisualComposer\Modules\Site\Controller */
-//        $module = vcapp('SiteController');
-//        /** @see \VisualComposer\Modules\Site\Controller::enqueueScripts */
-//        $wp_scripts = wp_scripts();
-//        $this->assertFalse(array_search('jquery', $wp_scripts->queue) !== false);
-//        vcapp()->call([$module, 'enqueueScripts']);
-//        $this->assertTrue(array_search('jquery', $wp_scripts->queue) !== false);
-//    }
 }
