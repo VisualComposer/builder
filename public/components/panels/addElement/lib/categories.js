@@ -235,9 +235,9 @@ export default class Categories extends React.Component {
 
     if (isElementPreset) {
       const cookElement = cook.get({ tag: elementData.presetData.tag })
-      elementData['metaDescription'] = cookElement.get('metaDescription')
-      elementData['metaThumbnailUrl'] = cookElement.get('metaThumbnailUrl')
-      elementData['metaPreviewUrl'] = cookElement.get('metaPreviewUrl')
+      elementData.metaDescription = cookElement.get('metaDescription')
+      elementData.metaThumbnailUrl = cookElement.get('metaThumbnailUrl')
+      elementData.metaPreviewUrl = cookElement.get('metaPreviewUrl')
     }
 
     return (
