@@ -31,7 +31,9 @@ addStorage('hubElements', (storage) => {
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
     const presets = window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : []
-    presets.forEach(preset => preset.presetData = JSON.parse(preset.presetData))
+    presets.forEach((preset) => {
+      preset.presetData = JSON.parse(preset.presetData)
+    })
     storage.state('elementPresets').set(presets)
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
