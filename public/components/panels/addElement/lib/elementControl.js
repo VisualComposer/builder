@@ -520,7 +520,7 @@ export default class ElementControl extends React.Component {
             <span className={overlayClasses}>
               <span className={applyClasses} />
               {removeControl}
-              {isElementPreset ?  <span className={spinnerClasses} /> : null}
+              {isElementPreset ? <span className={spinnerClasses} /> : null}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
