@@ -13,7 +13,6 @@ const settingsStorage = vcCake.getStorage('settings')
 const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
 const hubElementsStorage = vcCake.getStorage('hubElements')
-const cook = vcCake.getService('cook')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -236,7 +235,7 @@ export default class ElementControl extends React.Component {
    * @param newElement
    */
   handleDragWithIframe (e, newElement) {
-    let { element, tag } = this.props
+    const { element, tag } = this.props
     const { iframe, isDragging } = this.state
     if (!this.helper) {
       this.createHelper(tag, newElement)
