@@ -215,6 +215,7 @@ export default class EditFormSection extends React.Component {
     delete elementPublicData.metaCustomId
     // Add tag
     elementPublicData.tag = elementData.tag
+    elementPublicData.customHeaderTitle = cookElement.getName()
 
     this.setState({ showSpinner: this.state.name })
 
