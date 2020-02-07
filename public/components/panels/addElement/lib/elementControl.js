@@ -246,17 +246,8 @@ export default class ElementControl extends React.Component {
       iframe.style = ''
       this.helper.hide()
       if (isDragging) {
-        const elementPresets = hubElementsStorage.state('elementPresets').get()
-        const elementPreset = elementPresets.find(preset => preset.tag === element.tag)
-        if (elementPreset) {
-          const cookElement = cook.get({ tag: elementPreset.presetData.tag }).toJS()
-          element = elementPreset.presetData
-          element.id = cookElement.id
-          element.isPreset = true
-          tag = cookElement.tag
-        }
         vcCake.setData('dropNewElement', {
-          id: element.id,
+          id: 'dropNewElement',
           point: false,
           tag: tag,
           domNode: newElement,
@@ -302,15 +293,9 @@ export default class ElementControl extends React.Component {
     }
     if (e.pageX !== this.state.mouseX && e.pageY !== this.state.mouseY) {
       const { element } = this.props
-      const elementPresets = hubElementsStorage.state('elementPresets').get()
-      const elementPreset = elementPresets.find(preset => preset.tag === element.tag)
-      let elementId = element.id
-      if (elementPreset) {
-        elementId = cook.get({ tag: elementPreset.presetData.tag }).toJS().id
-      }
       const { iframe, isDragging, backendContentContainer } = this.state
       const newElement = document.createElement('div')
-      newElement.setAttribute('data-vcv-element', elementId)
+      newElement.setAttribute('data-vcv-element', element.id)
       const dragState = workspaceStorage.state('drag')
       this.handleMouseLeaveHidePreview()
       if (!dragState.get() || !dragState.get().active) {
@@ -368,7 +353,7 @@ export default class ElementControl extends React.Component {
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
-      this.props.addElement(this.props.tag)
+      this.props.addElement(this.props.element)
       this.endDrag()
     } else {
       this.endDragGlobal()
@@ -377,7 +362,7 @@ export default class ElementControl extends React.Component {
 
   handleFocus (e) {
     e && e.preventDefault()
-    this.props.setFocusedElement(this.props.tag)
+    this.props.setFocusedElement(this.props.element)
   }
 
   handleKeyPress (e) {
