@@ -1,11 +1,13 @@
 export const themeTemplatesToggle = () => {
-  const pageTemplateSwitcher = document.querySelector('.vcv-custom-page-template-switcher input')
-  if (pageTemplateSwitcher) {
-    const pageTemplateDropdowns = document.querySelectorAll('.vcv-custom-page-template-dropdown')
+  const pageTemplateSwitchers = document.querySelectorAll('.vcv-custom-page-template-switcher input')
+
+  for (let i = 0, len = pageTemplateSwitchers.length; i < len; i++) {
+    const switcher = pageTemplateSwitchers[i]
+    const pageTemplateDropdowns = switcher.closest('.vcv-custom-page-templates-section').querySelectorAll('.vcv-custom-page-template-taxonomy')
 
     const handleDropdownVisibility = (event) => {
       pageTemplateDropdowns.forEach((dropdown) => {
-        if ((event && event.target.checked) || (pageTemplateSwitcher.checked && !event)) {
+        if ((event && event.target.checked) || (switcher.checked && !event)) {
           dropdown.classList.remove('vcv-hidden')
         } else {
           dropdown.classList.add('vcv-hidden')
@@ -14,6 +16,6 @@ export const themeTemplatesToggle = () => {
     }
 
     handleDropdownVisibility()
-    pageTemplateSwitcher.addEventListener('change', handleDropdownVisibility)
+    switcher.addEventListener('change', handleDropdownVisibility)
   }
 }
