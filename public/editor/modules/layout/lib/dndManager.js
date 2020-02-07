@@ -165,12 +165,12 @@ export default class DndManager {
     }
   }
 
-  drop (id, action, related, element, options) {
+  drop (id, action, related, draggingElement, elementData) {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
-        DndManager.handleBlankRowDrop(id, action, element.tag, options)
+        DndManager.handleBlankRowDrop(id, action, elementData)
       } else {
-        workspaceStorage.trigger('drop', id, { action: action, related: related, element: element, options: options })
+        workspaceStorage.trigger('drop', id, { action: action, related: related, element: elementData })
       }
     }
   }
@@ -185,16 +185,14 @@ export default class DndManager {
     document.body.classList.remove('vcv-is-no-selection')
   }
 
-  static handleBlankRowDrop (id, action, elementTag, options) {
-    if (elementTag) { // Drop from addElement window
-      let element = cook.get({ tag: elementTag }).toJS()
-      if (options && options.isPreset) {
-        element = cook.get(options).toJS()
-      }
+  static handleBlankRowDrop (id, action, element) {
+    const elementSettings = documentManager.get(id)
+    if (!elementSettings) { // Drop from addElement window
+      element = cook.get(element).toJS()
+      element.parent = false
       elementsStorage.trigger('add', element)
       workspaceStorage.trigger('edit', element.id, '')
-    } else if (id) { // Drop existing element
-      const elementSettings = documentManager.get(id)
+    } else { // Drop existing element
       const parentWrapper = cook.get(elementSettings).get('parentWrapper')
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
 

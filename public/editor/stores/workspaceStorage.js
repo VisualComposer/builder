@@ -193,10 +193,8 @@ addStorage('workspace', (storage) => {
   })
   storage.on('drop', (id, settings) => {
     const relatedElement = settings.related ? cook.get(documentManager.get(settings.related)) : false
-    let elementSettings = { tag: settings.element.tag }
-    if (settings.options && settings.options.isPreset) {
-      elementSettings = settings.options
-    }
+    const elementSettings = settings.element
+
     if (relatedElement) {
       elementSettings.parent = relatedElement.get('parent')
     }
