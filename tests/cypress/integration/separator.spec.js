@@ -8,47 +8,10 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Separator color')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('div')
-            .find('.vcv-ui-color-picker-dropdown')
-            .click()
-          cy.get('.vcv-ui-color-picker-custom-color input[value="BFC0C1"]')
-            .clear()
-            .type(settings.color.hex)
-          cy.wrap($field)
-            .next('div')
-            .find('.vcv-ui-color-picker-dropdown')
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Alignment')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.alignment}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Style')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.style)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Thickness')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.thickness)
-        })
+      cy.setColor(settings.color)
+      cy.setButtonGroup('Alignment', settings.alignment)
+      cy.setSelect('Style', settings.style)
+      cy.setInput('Thickness', settings.thickness)
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Separator width')
@@ -60,30 +23,13 @@ describe(ELEMENT_NAME, function () {
             .type(settings.width)
         })
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
+      cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
       cy.savePage()
       cy.viewPage()
 
-      cy.get('.vce-separator-container')
-        .should('have.class', settings.customClass)
-        .and('have.class', `vce-separator--style-${settings.style}`)
+      cy.get(`.${settings.customClass}.vce-separator--style-${settings.style}`)
         .should('have.css', 'text-align', settings.alignment)
         .and('have.css', 'margin', settings.designOptions.margin)
 
@@ -94,6 +40,7 @@ describe(ELEMENT_NAME, function () {
         .and('have.css', 'border-color', settings.designOptions.borderColor.rgb)
         .and('have.css', 'padding', settings.designOptions.padding)
         .and('have.css', 'background-color', settings.designOptions.backgroundColor.rgb)
+        .and('have.css', 'color', settings.color.valueRGB)
         .and('have.css', 'animation-name', `vce-o-animate--${settings.designOptions.animation}`)
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
