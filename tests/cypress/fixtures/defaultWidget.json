@@ -3,12 +3,20 @@
   "customClass": "default-widget-class",
   "widgetType": "WP_Widget_Text",
   "widgetText": "This is a WordPress text widget",
-  "beforeWidgetHTML": "<b class='vce-before-widget'>Before widget HTML</b>",
-  "beforeWidgetHTMLText": "Before widget HTML",
-  "afterWidgetHTML": "<i class='vce-after-widget'>After widget HTML</i>",
-  "afterWidgetHTMLText": "After widget HTML",
+  "beforeWidgetHTML": {
+    "title": "Before Widget html",
+    "code": "<b class='vce-before-widget'>Before Widget HTML</b>",
+    "selector": ".vce-before-widget",
+    "textString": "Before Widget HTML"
+  },
+  "afterWidgetHTML": {
+    "title": "After Widget html",
+    "code": "<i class='vce-after-widget'>After Widget HTML</i>",
+    "selector": ".vce-after-widget",
+    "textString": "After Widget HTML"
+  },
   "designOptions": {
-    "animation": "tada",
+    "animation": "fadeIn",
     "padding": "9px",
     "margin": "23px",
     "borderWidth": "1px",
