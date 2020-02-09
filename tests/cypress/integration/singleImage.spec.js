@@ -8,64 +8,26 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('OnClick action')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.onClickAction)
-        })
+      cy.setSelect('OnClick action', settings.onClickAction)
+      cy.setURL('Image', settings.imageLink)
+      cy.contains('.vcv-ui-form-switch-trigger-label', 'Enable Instagram-like filters')
+        .click()
+      cy.setButtonGroup('Shape', settings.shape.name)
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Shape')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.shape}"]`)
-            .click()
-        })
+      cy.get('.vcv-ui-form-attach-image-filter-list-item')
+        .find('.vcv-ui-form-attach-image-filter-name')
+        .contains(settings.instagramFilter.name)
+        .click()
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Size')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(`${settings.size.width}x${settings.size.height}`)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Alignment')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.alignment}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
+      cy.setInput('Size', `${settings.size.width}x${settings.size.height}`)
+      cy.setButtonGroup('Alignment', settings.alignment)
+      cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
       cy.savePage()
       cy.viewPage()
 
-      cy.get(`#${settings.customId}`)
-        .should('have.class', settings.customClass)
+      cy.get(`#${settings.customId}.${settings.customClass}`)
         .should('have.css', 'text-align', settings.alignment)
 
       cy.get('.vce-single-image-wrapper')
@@ -85,12 +47,12 @@ describe(ELEMENT_NAME, function () {
         .and('have.css', 'height', `${settings.size.height}px`)
 
       cy.get('.vce-single-image-inner').eq(0)
-        .should('have.class', 'vce-single-image--border-rounded')
-        .should('have.css', 'border-radius', '5px')
-        .click()
-
-      cy.get('.vce-lightbox')
-        .should('have.css', 'display', 'block')
+        .should('have.class', `vce-single-image--border-${settings.shape.name}`)
+        .and('have.class', `vce-image-filter--${settings.instagramFilter.name}`)
+        .should('have.css', 'border-radius', settings.shape.cssValue)
+        .and('have.css', 'filter', settings.instagramFilter.cssValue)
+        .should('have.attr', 'href', `http://${settings.imageLink.url}`)
+        .and('have.attr', 'target', '_blank')
     })
   })
 })
