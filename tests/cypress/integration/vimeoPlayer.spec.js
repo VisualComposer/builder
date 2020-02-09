@@ -8,56 +8,11 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Vimeo video link')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.vimeoLink)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Alignment')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.alignment}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Size')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.size)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Custom width')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customWidth)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
+      cy.setInput('Vimeo video link', settings.vimeoLink)
+      cy.setButtonGroup('Alignment', settings.alignment)
+      cy.setSelect('Size', settings.size)
+      cy.setInput('Custom width', settings.customWidth)
+      cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
       cy.savePage()
