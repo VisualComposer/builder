@@ -51,7 +51,7 @@ describe(ELEMENT_NAME, function () {
         .and('have.attr', 'data-vcv-o-animated', 'true')
 
       cy.wait(200)
-      cy.contains('.textwidget h1').settings.widgetText
+      cy.contains('.textwidget h1', settings.widgetText)
 
       cy.contains(settings.beforeWidgetHTML.selector, settings.beforeWidgetHTML.textString)
       cy.contains(settings.afterWidgetHTML.selector, settings.afterWidgetHTML.textString)
