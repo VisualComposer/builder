@@ -5,19 +5,25 @@
   "elementTag": "h1",
   "gradientOverlayType": "gradient",
   "startColor": {
-    "hex": "D81116",
-    "rgb": "rgb(216, 17, 22)"
+    "title": "Start color",
+    "initialValue": "FF7200",
+    "value": "D81116",
+    "valueRGB": "rgb(216, 17, 22)"
   },
   "endColor": {
-    "hex": "00CAFF",
-    "rgb": "rgb(0, 202, 255)"
+    "title": "End color",
+    "initialValue": "5C00FF",
+    "value": "00CAFF",
+    "valueRGB": "rgb(0, 202, 255)"
   },
   "gradientAngle": "12",
   "fontSize": "34",
   "alignment": "right",
   "lineHeight": "44px",
   "letterSpacing": "1px",
-  "linkSelection": "visualcomposer.com",
+  "linkSelection": {
+    "url": "visualcomposer.com"
+  },
   "customId": "google-fonts-heading-id",
   "customClass": "google-fonts-heading-class",
   "designOptions": {
