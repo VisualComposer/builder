@@ -109,7 +109,7 @@ const API = {
     },
     cleanComments: (el, id) => {
       const clean = (el, type) => {
-        while (el[type]) {
+        while (el && el[type]) {
           const node = el[type]
           if (node.nodeType === document.COMMENT_NODE) {
             const textContent = node.textContent
