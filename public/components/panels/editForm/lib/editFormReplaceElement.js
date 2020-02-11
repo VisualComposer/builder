@@ -18,7 +18,7 @@ export default class EditFormReplaceElement extends React.Component {
     const cookElement = this.props.elementAccessPoint.cook()
     const id = this.previousElementId = cookElement.get('id')
     const editFormTabSettings = cookElement.filter((key, value, settings) => {
-      return settings.access === 'public'
+      return settings.access === 'public' && settings.type !== 'group'
     })
 
     const currentElementAttributes = [
