@@ -109,21 +109,23 @@ const API = {
     },
     cleanComments: (el, id) => {
       const clean = (el, type) => {
-        while (el && el[type]) {
-          const node = el[type]
-          if (node.nodeType === document.COMMENT_NODE) {
-            const textContent = node.textContent
-            if (textContent.indexOf('/dynamicElementComment') !== -1) {
-              if (textContent.indexOf(`/dynamicElementComment:${id}`) !== -1) {
-                // This is comment of element so we can remove it
+        if (el) {
+          while (el[type]) {
+            const node = el[type]
+            if (node.nodeType === document.COMMENT_NODE) {
+              const textContent = node.textContent
+              if (textContent.indexOf('/dynamicElementComment') !== -1) {
+                if (textContent.indexOf(`/dynamicElementComment:${id}`) !== -1) {
+                  // This is comment of element so we can remove it
+                  node.remove()
+                }
+                break
+              } else {
                 node.remove()
               }
-              break
             } else {
-              node.remove()
+              break
             }
-          } else {
-            break
           }
         }
       }
