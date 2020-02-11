@@ -233,7 +233,7 @@ export default class EditFormSection extends React.Component {
           hubElementsStorage.trigger('addPreset', jsonData.data)
           this.displaySuccess(elementHasBeenSaved)
         } else {
-          let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
+          let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
           errorMessage = errorMessage || noAccessCheckLicence
           this.displayError(errorMessage)
 
