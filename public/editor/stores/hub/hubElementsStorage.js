@@ -26,7 +26,7 @@ const parseData = (presets) => {
   presets.forEach((preset) => {
     const newPreset = Object.assign({}, preset)
     try {
-      newPreset.presetData = JSON.parse(newPreset.presetData)
+      newPreset.presetData = JSON.parse(window.decodeURIComponent(newPreset.presetData))
       parsedPresets.push(newPreset)
     } catch (e) {
       console.warn(e)

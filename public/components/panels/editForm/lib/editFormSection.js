@@ -223,13 +223,13 @@ export default class EditFormSection extends React.Component {
       'vcv-action': 'addon:presets:save:adminNonce',
       'vcv-preset-title': this.state.name,
       'vcv-preset-tag': `${elementData.tag}-preset-${this.state.name.replace(/ /g, '')}`,
-      'vcv-preset-value': JSON.stringify(elementPublicData),
+      'vcv-preset-value': window.encodeURIComponent(JSON.stringify(elementPublicData)),
       'vcv-nonce': window.vcvNonce
     }).then((data) => {
       try {
         const jsonData = JSON.parse(data)
         if (jsonData && jsonData.status && jsonData.data) {
-          jsonData.data.presetData = JSON.parse(jsonData.data.presetData)
+          jsonData.data.presetData = JSON.parse(window.decodeURIComponent(jsonData.data.presetData))
           hubElementsStorage.trigger('addPreset', jsonData.data)
           this.displaySuccess(elementHasBeenSaved)
         } else {
