@@ -376,7 +376,7 @@ export default class ElementControl extends React.Component {
     const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
     const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
     const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
-    const presetId = this.props.element.id
+    const presetId = this.props.elementPresetId
 
     this.setState({ showSpinner: true })
 
@@ -391,7 +391,7 @@ export default class ElementControl extends React.Component {
           hubElementsStorage.trigger('removePreset', presetId)
           this.displaySuccess(presetRemovedText)
         } else {
-          let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
+          let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
           errorMessage = errorMessage || noAccessCheckLicence
           this.displayError(errorMessage)
 
@@ -430,7 +430,7 @@ export default class ElementControl extends React.Component {
   }
 
   render () {
-    const { name, element, isElementPreset, hubElement } = this.props
+    const { name, element, elementPresetId, hubElement } = this.props
     const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
     const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -438,7 +438,7 @@ export default class ElementControl extends React.Component {
     const listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
       'vcv-ui-item-list-item--inactive': dragState && dragState.active,
-      'vcv-ui-item-list-item--preset': isElementPreset
+      'vcv-ui-item-list-item--preset': !!elementPresetId
     })
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -470,7 +470,7 @@ export default class ElementControl extends React.Component {
       )
     }
     let removeControl = null
-    if (isElementPreset) {
+    if (elementPresetId) {
       const removeClasses = classNames({
         'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
         'vcv-ui-state--hidden': this.state.showSpinner
@@ -520,7 +520,7 @@ export default class ElementControl extends React.Component {
             <span className={overlayClasses}>
               <span className={applyClasses} />
               {removeControl}
-              {isElementPreset ? <span className={spinnerClasses} /> : null}
+              {elementPresetId ? <span className={spinnerClasses} /> : null}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
