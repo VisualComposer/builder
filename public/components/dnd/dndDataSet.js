@@ -332,6 +332,7 @@ export default class DndDataSet {
           domElement && (afterLastContainerElement = true)
         } else {
           domElement = null
+          return
         }
       }
 
