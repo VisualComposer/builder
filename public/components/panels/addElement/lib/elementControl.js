@@ -373,40 +373,43 @@ export default class ElementControl extends React.Component {
 
   handleRemovePreset () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
-    const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
-    const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
-    const presetId = this.props.elementPresetId
+    const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to remove this template?'
+    if (window.confirm(removeTemplateWarning)) {
+      const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
+      const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
+      const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
+      const presetId = this.props.elementPresetId
 
-    this.setState({ showSpinner: true })
+      this.setState({ showSpinner: true })
 
-    dataProcessor.appServerRequest({
-      'vcv-action': 'addon:presets:delete:adminNonce',
-      'vcv-preset-id': presetId,
-      'vcv-nonce': window.vcvNonce
-    }).then((data) => {
-      try {
-        const jsonData = JSON.parse(data)
-        if (jsonData && jsonData.status) {
-          hubElementsStorage.trigger('removePreset', presetId)
-          this.displaySuccess(presetRemovedText)
-        } else {
-          let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
-          errorMessage = errorMessage || noAccessCheckLicence
-          this.displayError(errorMessage)
+      dataProcessor.appServerRequest({
+        'vcv-action': 'addon:presets:delete:adminNonce',
+        'vcv-preset-id': presetId,
+        'vcv-nonce': window.vcvNonce
+      }).then((data) => {
+        try {
+          const jsonData = JSON.parse(data)
+          if (jsonData && jsonData.status) {
+            hubElementsStorage.trigger('removePreset', presetId)
+            this.displaySuccess(presetRemovedText)
+          } else {
+            let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
+            errorMessage = errorMessage || noAccessCheckLicence
+            this.displayError(errorMessage)
+
+            if (vcCake.env('VCV_DEBUG')) {
+              console.warn(errorMessage, jsonData)
+            }
+          }
+        } catch (e) {
+          this.displayError(couldNotParseData)
 
           if (vcCake.env('VCV_DEBUG')) {
-            console.warn(errorMessage, jsonData)
+            console.warn(couldNotParseData, e)
           }
         }
-      } catch (e) {
-        this.displayError(couldNotParseData)
-
-        if (vcCake.env('VCV_DEBUG')) {
-          console.warn(couldNotParseData, e)
-        }
-      }
-    })
+      })
+    }
   }
 
   displaySuccess (successText) {
