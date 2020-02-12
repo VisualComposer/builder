@@ -1,7 +1,7 @@
 <?php
 $minCoverage = getenv('CI_MIN_COVERAGE');
 if (empty($minCoverage)) {
-    $minCoverage = 0.7;
+    $minCoverage = 0.5;
 }
 define('CI_MIN_COVERAGE', $minCoverage);
 $exit = 0;

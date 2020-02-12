@@ -18,23 +18,23 @@ use VisualComposer\Helpers\Logger;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class SharedDownloadController extends Container implements Module
+class AssetDownloadController extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct(Options $optionsHelper)
+    public function __construct()
     {
         if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
-            /** @see \VisualComposer\Modules\Assets\SharedDownloadController::updateSharedLibraries */
+            /** @see \VisualComposer\Modules\Assets\AssetDownloadController::updateAssetsLibraries */
             $this->addFilter(
                 'vcv:hub:download:bundle vcv:hub:download:bundle:assets vcv:hub:download:bundle:asset/*',
-                'updateSharedLibraries',
+                'updateAssetsLibraries',
                 70
             );
         }
     }
 
-    protected function updateSharedLibraries(
+    protected function updateAssetsLibraries(
         $response,
         $payload,
         Options $optionsHelper,
@@ -95,11 +95,14 @@ class SharedDownloadController extends Container implements Module
     {
         $fileHelper = vchelper('File');
         $hubSharedLibrariesHelper = vchelper('HubSharedLibraries');
-        $hubBundleHelper = vchelper('HubActionsSharedLibrariesBundle');
+        $hubBundleHelper = vchelper('HubActionsActionBundle');
         $assetPath = $hubSharedLibrariesHelper->getLibraryPath($asset['name']);
 
+        $hubBundleHelper->setTempBundleFolder(
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-assets-' . $asset['name']
+        );
         $result = $fileHelper->copyDirectory(
-            $hubBundleHelper->getTempBundleFolder('assetsLibrary/' . $asset['name']),
+            $hubBundleHelper->getTempBundleFolder(),
             $assetPath
         );
 
