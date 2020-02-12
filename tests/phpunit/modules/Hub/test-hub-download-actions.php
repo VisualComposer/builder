@@ -38,15 +38,21 @@ class HubDownloadActions extends WP_UnitTestCase
                 'icon' => [
                     'settings' => [
                         'name' => 'Icon',
-                        'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/public/thumbnail-icon.jpg',
-                        'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/public/preview-icon.jpg',
+                        'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                            . '/elements/icon/icon/public/thumbnail-icon.jpg',
+                        'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                            . '/elements/icon/icon/public/preview-icon.jpg',
                         'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                     ],
                     'key' => 'icon',
-                    'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/public/dist/element.bundle.js',
-                    'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/',
-                    'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/',
-                    'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/public/',
+                    'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/public/dist/element.bundle.js',
+                    'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/',
+                    'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/',
+                    'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/public/',
                 ],
             ],
             $elementsAfter
@@ -87,9 +93,11 @@ class HubDownloadActions extends WP_UnitTestCase
                         'metaDescription' => 'Automatically checks the plugin version and helps to keep the plugin up to date.',
                     ],
                     'phpFiles' => [
-                        '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
+                        '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
                     ],
-                    'addonRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/addons/pluginVersionCheck/pluginVersionCheck/',
+                    'addonRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/addons/pluginVersionCheck/pluginVersionCheck/',
                 ],
             ],
             $addonsAfter
@@ -131,8 +139,8 @@ class HubDownloadActions extends WP_UnitTestCase
                             'name' => 'Wedding Page',
                             'bundle' => 'predefinedTemplate/weddingPage',
                             'id' => (string)$result['templates'][0]['id'],
-                            'thumbnail' => 'https://cdn.hub.visualcomposer.com/vcwb-templates/1556191390.weddingPage-thumbnail.png',
-                            'preview' => 'https://cdn.hub.visualcomposer.com/vcwb-templates/1556191390.weddingPage-preview.png',
+                            'thumbnail' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates/1556191390.weddingpage-thumbnail.png',
+                            'preview' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates/1556191390.weddingpage-preview.png',
                             'type' => 'predefined',
                             'description' => 'An ideal one-page layout for your wedding or other events, including meetups and networking parties.',
                         ],
@@ -229,8 +237,8 @@ class HubDownloadActions extends WP_UnitTestCase
         $this->assertEquals(
             [
                 'title' => 'Icon',
-                'icon' => 'http://localhost/wp-content/plugins/builder/public/categories/icons/Icon.svg',
-                'iconDark' => 'http://localhost/wp-content/plugins/builder/public/categories/iconsDark/Icon.svg',
+                'icon' => VCV_PLUGIN_URL . 'public/categories/icons/Icon.svg',
+                'iconDark' => VCV_PLUGIN_URL . 'public/categories/iconsDark/Icon.svg',
             ],
             $iconCat
         );

@@ -224,16 +224,17 @@ class TemplatesUpdater extends Container implements Module
 
         if ($urlHelper->isUrl($url)) {
             $imageFile = $fileHelper->download($url);
-            $localImagePath = $template['id'] . '/' . strtolower($prefix . '' . basename($url));
+            $localImagePath = strtolower($prefix . '' . basename($url));
             if (!vcIsBadResponse($imageFile)) {
-                $createDirResult = $fileHelper->createDirectory(
-                    $hubTemplatesHelper->getTemplatesPath($template['id'])
+                $templatePath = $hubTemplatesHelper->getTemplatesPath($template['id']);
+                $fileHelper->createDirectory(
+                    $templatePath
                 );
-                if (vcIsBadResponse($createDirResult)) {
+                if (!file_exists($templatePath)) {
                     return false;
                 }
 
-                if (rename($imageFile, $hubTemplatesHelper->getTemplatesPath($localImagePath))) {
+                if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
                     return $assetsHelper->getAssetUrl(
                         'templates/' . $localImagePath
                     );
