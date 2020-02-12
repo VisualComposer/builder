@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Traits;
+namespace VisualComposer\Modules\Hub;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -8,22 +8,32 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
+use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-trait Action
+class DownloadController extends Container implements Module
 {
     use EventsFilters;
 
     public function __construct()
     {
-        $this->addFilter('vcv:hub:process:action:' . $this->actionName, 'processAction');
+        if (vcvenv('VCV_ENV_EXTENSION_DOWNLOAD')) {
+            $this->addFilter('vcv:hub:process:action:element/*', 'processAction');
+            $this->addFilter('vcv:hub:process:action:addon/*', 'processAction');
+            $this->addFilter('vcv:hub:process:action:asset/*', 'processAction');
+
+            // templates
+            $this->addFilter('vcv:hub:process:action:predefinedTemplate/*', 'processAction');
+            $this->addFilter('vcv:hub:process:action:template/*', 'processAction');
+        }
     }
 
     protected function processAction($response, $payload, Filters $filterHelper)
     {
         if (!vcIsBadResponse($response) && $payload['data']) {
-            $hubHelper = vchelper($this->helperName);
+            $hubHelper = vchelper('HubActionsActionBundle');
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
             $hubHelper->setTempBundleFolder(
                 VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['action'])
@@ -55,7 +65,7 @@ trait Action
 
     protected function readBundleJson($archive, $payload)
     {
-        $hubHelper = vchelper($this->helperName);
+        $hubHelper = vchelper('HubActionsActionBundle');
         $loggerHelper = vchelper('Logger');
 
         /** @var \VisualComposer\Helpers\Hub\Bundle $hubHelper */

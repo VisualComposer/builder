@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\File;
-use VisualComposer\Helpers\Hub\Actions\HubTemplatesBundle;
 use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\WpMedia;
@@ -35,7 +34,6 @@ class TemplatesUpdater extends Container implements Module
         $payload,
         File $fileHelper,
         Templates $hubTemplatesHelper,
-        HubTemplatesBundle $hubTemplatesBundleHelper,
         WpMedia $wpMediaHelper
     ) {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
@@ -57,7 +55,11 @@ class TemplatesUpdater extends Container implements Module
         $template = $bundleJson;
         $template['id'] = $payload['actionData']['data']['id'];
         // File is locally available
-        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
+        $hubTemplatesBundleHelper = vchelper('HubBundle');
+        $hubTemplatesBundleHelper->setTempBundleFolder(
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-template-' . $template['id']
+        );
+        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder();
         if (is_dir($tempTemplatePath)) {
             // We have local assets for template, so we need to copy them to real templates folder
             $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));
