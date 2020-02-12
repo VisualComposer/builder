@@ -38,15 +38,15 @@ class HubDownloadActions extends WP_UnitTestCase
                 'icon' => [
                     'settings' => [
                         'name' => 'Icon',
-                        'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/builder-assets/elements/icon/icon/public/thumbnail-icon.jpg',
-                        'metaPreviewUrl' => 'http://localhost/wp-content/uploads/builder-assets/elements/icon/icon/public/preview-icon.jpg',
+                        'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/public/thumbnail-icon.jpg',
+                        'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/public/preview-icon.jpg',
                         'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                     ],
                     'key' => 'icon',
-                    'bundlePath' => 'http://localhost/wp-content/uploads/builder-assets/elements/icon/public/dist/element.bundle.js',
-                    'elementPath' => 'http://localhost/wp-content/uploads/builder-assets/elements/icon/icon/',
-                    'elementRealPath' => '/var/www/html/wp-content/uploads/builder-assets/elements/icon/icon/',
-                    'assetsPath' => 'http://localhost/wp-content/uploads/builder-assets/elements/icon/icon/public/',
+                    'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/public/dist/element.bundle.js',
+                    'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/',
+                    'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/',
+                    'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/elements/icon/icon/public/',
                 ],
             ],
             $elementsAfter
@@ -87,9 +87,9 @@ class HubDownloadActions extends WP_UnitTestCase
                         'metaDescription' => 'Automatically checks the plugin version and helps to keep the plugin up to date.',
                     ],
                     'phpFiles' => [
-                        '/var/www/html/wp-content/uploads/builder-assets/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
+                        '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
                     ],
-                    'addonRealPath' => '/var/www/html/wp-content/uploads/builder-assets/addons/pluginVersionCheck/pluginVersionCheck/',
+                    'addonRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/addons/pluginVersionCheck/pluginVersionCheck/',
                 ],
             ],
             $addonsAfter
@@ -183,7 +183,7 @@ class HubDownloadActions extends WP_UnitTestCase
                                 'jsBundle' => 'sharedLibraries/faqToggle/dist/faqToggle.bundle.js',
                             ],
                     ],
-                'sharedAssetsUrl' => 'http://localhost/wp-content/uploads/builder-assets/',
+                'sharedAssetsUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/',
             ],
             $result
         );
