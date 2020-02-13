@@ -215,6 +215,12 @@ class Update implements Helper
         ];
 
         $variables[] = [
+            'key' => 'VCV_GO_MY_VC_PREMIUM_URL',
+            'value' => vcvenv('VCV_GO_MY_VC_PREMIUM_URL'),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
             'key' => 'VCV_GO_FREE_URL',
             'value' => $utmHelper->get($vcvRef, 'free'),
             'type' => 'constant',
