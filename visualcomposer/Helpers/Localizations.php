@@ -85,6 +85,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'removeTemplateWarning' => __('Do you want to remove this template?', 'visualcomposer'),
+            'removeElementPresetWarning' => __('Do you want to remove this element preset?', 'visualcomposer'),
             'templateRemoveFailed' => __('Failed to remove template', 'visualcomposer'),
             'blankPageHeadingPart1' => __('Name Your Page, Select', 'visualcomposer'),
             'blankPageHeadingPart2' => __('Layout and Start Building', 'visualcomposer'),
