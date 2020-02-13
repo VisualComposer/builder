@@ -272,7 +272,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         <div className='vcv-hub-banner-content'>
           <p className='vcv-hub-banner-title'>{titleText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-          <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl} onClick={TeaserAddElementCategories.handleClickGoPremium}>
+          <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl + '&screen=license-options'} onClick={TeaserAddElementCategories.handleClickGoPremium}>
             {buttonText}
           </span>
         </div>
