@@ -374,6 +374,7 @@ export default class ElementControl extends React.Component {
   handleRemovePreset () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to remove this template?'
+
     if (window.confirm(removeTemplateWarning)) {
       const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
       const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
