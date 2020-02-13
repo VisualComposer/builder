@@ -370,7 +370,16 @@ export default class ControlsManager {
               data.elementInlineEdit = true
             }
           }
-          this.toggleControls(data)
+          const isDraggable = cookElement.get('metaIsDraggable')
+          if (isDraggable === undefined || isDraggable) {
+            // Remove non draggable element ID from an array to prevent from appearing in controls
+            data.vcElementsPath = data.vcElementsPath.filter((id) => {
+              const cookElement = cook.getById(id)
+              const isDraggable = cookElement.get('metaIsDraggable')
+              return isDraggable === undefined || isDraggable
+            })
+            this.toggleControls(data)
+          }
         }
         if (this.state.showFrames) {
           this.showFrames(data)
