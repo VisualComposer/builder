@@ -20,7 +20,7 @@ if (!VcvEnv::has('VCV_HUB_URL')) {
 }
 
 if (!VcvEnv::has('VCV_HUB_LICENSES_URL')) {
-    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses');
+    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium');
 }
 
 if (!VcvEnv::has('VCV_TOKEN_URL')) {

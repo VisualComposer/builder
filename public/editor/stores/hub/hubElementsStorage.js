@@ -21,6 +21,20 @@ const setCategoryState = (categoryData, storageState) => {
   storageState.set(newState)
 }
 
+const parseData = (presets) => {
+  const parsedPresets = []
+  presets.forEach((preset) => {
+    const newPreset = Object.assign({}, preset)
+    try {
+      newPreset.presetData = JSON.parse(window.decodeURIComponent(newPreset.presetData))
+      parsedPresets.push(newPreset)
+    } catch (e) {
+      console.warn(e)
+    }
+  })
+  return parsedPresets
+}
+
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const notificationsStorage = getStorage('notifications')
@@ -31,10 +45,8 @@ addStorage('hubElements', (storage) => {
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
     const presets = window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : []
-    presets.forEach((preset) => {
-      preset.presetData = JSON.parse(preset.presetData)
-    })
-    storage.state('elementPresets').set(presets)
+    const parsedPresets = parseData(presets)
+    storage.state('elementPresets').set(parsedPresets)
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
 

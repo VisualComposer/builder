@@ -111,7 +111,7 @@ export default class Categories extends React.Component {
         const cookElement = cook.get(elementPreset.presetData)
         const element = cookElement.toJS()
         element.name = elementPreset.name
-        element.isPreset = true
+        element.presetId = elementPreset.id
         element.metaDescription = cookElement.get('metaDescription')
         element.metaThumbnailUrl = cookElement.get('metaThumbnailUrl')
         element.metaPreviewUrl = cookElement.get('metaPreviewUrl')
@@ -245,7 +245,7 @@ export default class Categories extends React.Component {
     return (
       <ElementControl
         key={key}
-        isElementPreset={elementData.isPreset}
+        elementPresetId={elementData.presetId}
         element={elementData}
         hubElement={Categories.hubElements[tag]}
         tag={tag}

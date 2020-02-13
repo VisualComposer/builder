@@ -15,6 +15,7 @@ const workspaceSettings = getStorage('workspace').state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
 const utils = getService('utils')
+const notificationsStorage = getStorage('notifications')
 
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -58,6 +59,7 @@ export default class AddTemplatePanel extends React.Component {
 
   componentDidMount () {
     getStorage('hubTemplates').state('templates').onChange(this.handleTemplateStorageStateChange)
+    notificationsStorage.trigger('portalChange', '.vcv-ui-tree-content-section')
   }
 
   componentWillUnmount () {
@@ -66,6 +68,7 @@ export default class AddTemplatePanel extends React.Component {
       this.errorTimeout = 0
     }
     getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
+    notificationsStorage.trigger('portalChange', null)
   }
 
   setCategoryArray (data) {
@@ -165,18 +168,13 @@ export default class AddTemplatePanel extends React.Component {
     this.setState({ inputValue: value })
   }
 
-  displayError (error, state) {
-    state = Object.assign({}, state, {
-      error: true,
-      errorName: error,
-      showSpinner: false
+  displayError (error) {
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      type: 'error',
+      text: error,
+      time: 3000
     })
-    this.setState(state)
-    this.errorTimeout = setTimeout(() => {
-      this.setState({
-        error: false
-      })
-    }, 2300)
   }
 
   // Get Props
@@ -326,6 +324,14 @@ export default class AddTemplatePanel extends React.Component {
       isSearching: false,
       inputValue: '',
       showSpinner: false
+    })
+
+    const successText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaved : 'The template has been successfully saved.'
+
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      text: successText,
+      time: 3000
     })
   }
 
