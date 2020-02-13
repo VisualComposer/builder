@@ -210,10 +210,6 @@ export default class DndDataSet {
     }
   }
 
-  updateItem (id) {
-    this.addItem(id)
-  }
-
   removeItem (id) {
   }
 
