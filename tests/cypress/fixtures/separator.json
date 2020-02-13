@@ -6,8 +6,10 @@
   "thickness": "10",
   "width": "75",
   "color": {
-    "hex": "C715BC",
-    "rgb": "rgb(199 , 21, 188)"
+    "title": "Separator color",
+    "initialValue": "BFC0C1",
+    "value": "C715BC",
+    "valueRGB": "rgb(199, 21, 188)"
   },
   "designOptions": {
     "animation": "fadeIn",
