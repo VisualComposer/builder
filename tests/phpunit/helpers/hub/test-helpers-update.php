@@ -63,7 +63,7 @@ class UpdateHelperTest extends WP_UnitTestCase
         $this->assertTrue(isset($variables[ $key ]));
         $this->assertTrue(isset($variables[ $key ]['value']));
         $this->assertEquals(
-            vcvenv('VCV_HUB_URL')
+            vcvenv('VCV_HUB_PUBLIC_URL')
             . '/free-license?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=get-free-license',
             $variables[ $key ]['value']
         );
@@ -80,7 +80,7 @@ class UpdateHelperTest extends WP_UnitTestCase
         $variableKeys = $dataHelper->arrayColumn($variables, 'key');
         $key = array_search('VCV_GO_FREE_URL', $variableKeys);
         $this->assertEquals(
-            vcvenv('VCV_HUB_URL')
+            vcvenv('VCV_HUB_PUBLIC_URL')
             . '/free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=hub-banner',
             $variables[ $key ]['value']
         );
