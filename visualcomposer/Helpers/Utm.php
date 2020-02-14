@@ -17,7 +17,7 @@ class Utm implements Helper
      */
     public function all()
     {
-        $hubUrl = vcvenv('VCV_HUB_URL');
+        $hubUrl = vcvenv('VCV_HUB_PUBLIC_URL');
         $utm = [
             'goPremiumElementDownload' => 'https://visualcomposer.com/premium?utm_medium=frontend-editor&utm_source=hub&utm_campaign=gopremium&utm_content=locked-item',
             'getting-started' => 'https://visualcomposer.com/premium?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium',

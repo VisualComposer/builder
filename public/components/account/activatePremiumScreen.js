@@ -172,14 +172,14 @@ export default class ActivatePremiumScreen extends React.Component {
       findNewLicenseAtText = (
         <>
           {findSubscriptionLicenseAtText}
-          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_PUBLIC_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
     } else {
       findNewLicenseAtText = (
         <>
           {findFreeLicenseAt}
-          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_PUBLIC_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
     }
