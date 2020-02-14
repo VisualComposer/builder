@@ -196,11 +196,9 @@ export default class DndManager {
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
       const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-      if (editorType === 'popup' && !wrapperTag) { // Add wrapper for Row element and insert dragging element into this wrapper
+      if (editorType === 'popup' && !wrapperTag) { // Append dragging element after last root element without wrapper
         const rootElements = documentManager.children(false)
         const lastRootElement = rootElements[rootElements.length - 1]
-        const wrapper = cook.get({ tag: 'column' }).toJS()
-        elementsStorage.trigger('add', wrapper, true, { skipInitialExtraElements: true })
         workspaceStorage.trigger('move', id, { action: 'append', related: lastRootElement.id })
       } else if (wrapperTag) { // Add wrapper and insert dragging element into this wrapper
         const wrapper = cook.get({ tag: wrapperTag }).toJS()
