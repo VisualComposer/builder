@@ -200,7 +200,7 @@ export default class TeaserElementControl extends ElementControl {
   }
 
   addElement () {
-    this.props.addElement(this.props.tag)
+    this.props.addElement(this.props.element)
   }
 
   handleAddonClick () {
