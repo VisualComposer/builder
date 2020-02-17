@@ -54,11 +54,16 @@ class LicenseController extends Container implements Module
         License $licenseHelper,
         Options $optionsHelper
     ) {
+        $activationType = $requestHelper->input('vcv-activation-type');
         $body = [
             'url' => VCV_PLUGIN_URL,
-            'activation-type' => $requestHelper->input('vcv-activation-type'),
+            'activation-type' => $activationType,
             'license' => $requestHelper->input('vcv-license-key'),
         ];
+
+        if ($activationType === 'author' && defined('VCV_AUTHOR_API_KEY')) {
+            $body['author_api_key'] = VCV_AUTHOR_API_KEY;
+        }
 
         $url = vchelper('Url')->query(vcvenv('VCV_ACTIVATE_LICENSE_URL'), $body);
         $result = wp_remote_get(
@@ -87,9 +92,9 @@ class LicenseController extends Container implements Module
         }
 
         if (!vcIsBadResponse($resultBody)) {
-            $priceId = $resultBody['price_id'];
+            $licenseType = $resultBody['license_type'];
             $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
-            $licenseHelper->setType($priceId === '4' ? 'free' : 'premium');
+            $licenseHelper->setType($licenseType);
             $licenseHelper->setExpirationDate(
                 $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
             );
