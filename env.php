@@ -30,10 +30,10 @@ if (!VcvEnv::has('VCV_TOKEN_URL')) {
     );
 }
 
-if (!VcvEnv::has('VCV_PREMIUM_TOKEN_URL')) {
+if (!VcvEnv::has('VCV_THEME_TOKEN_URL')) {
     VcvEnv::set(
-        'VCV_PREMIUM_TOKEN_URL',
-        defined('VCV_PREMIUM_TOKEN_URL') ? constant('VCV_PREMIUM_TOKEN_URL') : 'https://my.visualcomposer.com//authorization-token'
+        'VCV_THEME_TOKEN_URL',
+        defined('VCV_THEME_TOKEN_URL') ? constant('VCV_THEME_TOKEN_URL') : 'https://my.visualcomposer.com/theme-authorization-token'
     );
 }
 

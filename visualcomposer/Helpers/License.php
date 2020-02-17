@@ -139,6 +139,14 @@ class License extends Container implements Helper
     }
 
     /**
+     * @return bool
+     */
+    public function isThemeActivated()
+    {
+        return $this->getType() === 'theme';
+    }
+
+    /**
      * @param $errorCode
      *
      * @codingStandardsIgnoreStart
