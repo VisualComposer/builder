@@ -135,6 +135,7 @@ export default class StockImagesResultsPanel extends React.Component {
     }
     const vcvApiUrl = window.VCV_API_URL && window.VCV_API_URL()
     const vcvSiteUrl = window.VCV_SITE_URL && window.VCV_SITE_URL()
+    const vcvAuthorApiKey = window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()
     const unsplashUrl = `${vcvApiUrl}/api/unsplash/${action}`
     const unsplashLicenseKey = this.unsplashLicenseKey
 
@@ -149,6 +150,10 @@ export default class StockImagesResultsPanel extends React.Component {
       url = `${unsplashUrl}/${searchValue}?licenseKey=${unsplashLicenseKey}&page=${page}&url=${vcvSiteUrl}`
     } else {
       url = `${unsplashUrl}?licenseKey=${unsplashLicenseKey}&url=${vcvSiteUrl}`
+    }
+
+    if(vcvAuthorApiKey) {
+      url += `&author_api_key=${vcvAuthorApiKey}`;
     }
 
     window.fetch(url, { method: 'get', signal: this.abortController.signal })
