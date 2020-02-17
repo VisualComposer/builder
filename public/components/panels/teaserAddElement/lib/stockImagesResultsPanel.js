@@ -152,8 +152,8 @@ export default class StockImagesResultsPanel extends React.Component {
       url = `${unsplashUrl}?licenseKey=${unsplashLicenseKey}&url=${vcvSiteUrl}`
     }
 
-    if(vcvAuthorApiKey) {
-      url += `&author_api_key=${vcvAuthorApiKey}`;
+    if (vcvAuthorApiKey) {
+      url += `&author_api_key=${vcvAuthorApiKey}`
     }
 
     window.fetch(url, { method: 'get', signal: this.abortController.signal })
