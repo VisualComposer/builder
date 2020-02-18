@@ -119,7 +119,7 @@ class Elements implements Helper
         );
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(
-            $hubBundleHelper->getTempBundleFolder(),
+            $hubBundleHelper->getTempBundleFolder('elements/' . $key),
             $this->getElementPath($key)
         );
         if (!is_wp_error($result)) {

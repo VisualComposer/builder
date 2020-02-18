@@ -29,28 +29,26 @@ class Assets22Migration extends MigrationsController implements Module
     {
         // check if folder doesnt exists in wp-content/uploads/visualcomposer-assets
         // check if folder exists in wp-content/visualcomposer-assets
-        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
-            $fileSystem = $fileHelper->getFileSystem();
-            if (!$fileSystem) {
+        $fileSystem = $fileHelper->getFileSystem();
+        if (!$fileSystem) {
+            return false;
+        }
+        if (
+            !$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
+            && $fileSystem->is_dir(
+                WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
+            )
+        ) {
+            usleep(500000);
+            if (!$optionsHelper->getTransient('vcv:migration:assets22:lock')) {
+                /** @see \VisualComposer\Modules\Migrations\Assets22Migration::moveFiles */
+                return $this->call('moveFiles');
+            } else {
                 return false;
-            }
-            if (
-                !$fileSystem->is_dir(VCV_PLUGIN_ASSETS_DIR_PATH)
-                && $fileSystem->is_dir(
-                    WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME
-                )
-            ) {
-                usleep(500000);
-                if (!$optionsHelper->getTransient('vcv:migration:assets22:lock')) {
-                    /** @see \VisualComposer\Modules\Migrations\Assets22Migration::moveFiles */
-                    return $this->call('moveFiles');
-                } else {
-                    return false;
-                }
             }
         }
 
-        return vcvenv('VCV_TF_ASSETS_IN_UPLOADS');
+        return true;
     }
 
     /**

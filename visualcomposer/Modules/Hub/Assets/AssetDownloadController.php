@@ -102,15 +102,12 @@ class AssetDownloadController extends Container implements Module
             VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-asset-' . $asset['name']
         );
         $result = $fileHelper->copyDirectory(
-            $hubBundleHelper->getTempBundleFolder(),
+            $hubBundleHelper->getTempBundleFolder('assetsLibrary/' . $asset['name']),
             $assetPath
         );
 
-        if (vcvenv('VCV_TF_ASSETS_IN_UPLOADS')) {
-            $assetUrl = 'sharedLibraries/' . $asset['name'];
-        } else {
-            $assetUrl = $hubSharedLibrariesHelper->getLibraryUrl($asset['name']);
-        }
+        $assetUrl = 'sharedLibraries/' . $asset['name'];
+
         if (!vcIsBadResponse($result)) {
             if (isset($asset['jsBundle'])) {
                 $asset['jsBundle'] = str_replace('[publicPath]', $assetUrl, $asset['jsBundle']);
