@@ -185,10 +185,18 @@ export default class DndDataSet {
     if (!element) { return null }
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
+    const parent = element.get('parent')
+    const parentCookElement = cook.getById(parent)
+    let parentId
+    if (parent && (parentCookElement.get('metaIsDraggable') === undefined || parentCookElement.get('metaIsDraggable'))) {
+      parentId = parent || this.options.rootID
+    } else {
+      parentId = this.options.rootID
+    }
     return new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
-      parent: element.get('parent') || this.options.rootID,
+      parent: parentId,
       handler: this.options.handler,
       tag: element.get('tag'),
       iconLink: hubCategories.getElementIcon(element.get('tag'))
