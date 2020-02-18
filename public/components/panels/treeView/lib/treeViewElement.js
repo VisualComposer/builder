@@ -416,14 +416,14 @@ export default class TreeViewElement extends React.Component {
     if (!element) {
       return null
     }
+    const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
-      'vcv-ui-tree-layout-node-hidden': hidden
+      'vcv-ui-tree-layout-node-hidden': hidden,
+      'vcv-ui-tree-layout-node-non-draggable': isDraggable !== undefined && !isDraggable
     })
-
-    const isDraggable = element.get('metaIsDraggable')
     const treeChildProps = {}
     let dragControl = null
 
