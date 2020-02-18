@@ -118,10 +118,13 @@ class LicenseController extends Container implements Module
      * @param $payload
      * @param \VisualComposer\Helpers\License $licenseHelper
      *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
      * @return mixed
      */
-    protected function refresh($response, $payload, License $licenseHelper)
+    protected function refresh($response, $payload, License $licenseHelper, Options $optionsHelper)
     {
+        $optionsHelper->deleteTransient('lastBundleUpdate');
         $licenseHelper->refresh('vcv-license');
 
         if ($licenseHelper->isAnyActivated()) {
