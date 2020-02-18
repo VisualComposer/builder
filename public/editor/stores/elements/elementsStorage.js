@@ -69,6 +69,7 @@ addStorage('elements', (storage) => {
       return
     }
     elementData = recursiveElementsRebuild(cookElement)
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
@@ -78,6 +79,24 @@ addStorage('elements', (storage) => {
         if (wrapperData) {
           storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
+      } else if (editorType === 'popup' && cookElement.get('tag') !== 'popupRoot') {
+        const allElements = documentManager.all()
+        let rootId = null
+
+        if (Object.entries(allElements).length === 0) {
+          const rootElement = cook.get({ tag: 'popupRoot' })
+          rootId = rootElement.toJS().id
+          if (rootElement) {
+            storage.trigger('add', rootElement.toJS(), true, { silent: true })
+          }
+        } else {
+          Object.keys(allElements).forEach((id) => {
+            if (!allElements[id].parent) {
+              rootId = id
+            }
+          })
+        }
+        elementData.parent = rootId
       }
     }
 
