@@ -70,6 +70,7 @@ const API = {
     obj.__resizeElement__ = element
     obj.onload = (e) => {
       obj.contentDocument.defaultView.addEventListener('resize', fn.bind(this, element, options))
+      fn(element, options)
     }
     obj.type = 'text/html'
     if (isIE) {

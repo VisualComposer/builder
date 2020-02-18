@@ -490,7 +490,7 @@ export default class TreeViewElement extends React.Component {
 
     let pasteControl = false
 
-    const copyControl = (
+    let copyControl = (
       <span
         className='vcv-ui-tree-layout-control-action'
         title={copyText}
@@ -500,9 +500,29 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
+    let cloneControl = (
+      <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
+        <i className='vcv-ui-icon vcv-ui-icon-copy' />
+      </span>
+    )
+
+    const cookElement = this.state.element && cook.get(this.state.element)
+    const elementCustomControls = cookElement.get('metaElementControls')
+
+    if (elementCustomControls) {
+      if (elementCustomControls.copy === false) {
+        copyControl = null
+      }
+      if (elementCustomControls.clone === false) {
+        cloneControl = null
+      }
+      if (elementCustomControls.pasteAfter === false) {
+        console.log('paste false')
+      }
+    }
+
     // paste action
-    const pasteElCook = this.state.element && cook.get(this.state.element)
-    const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
+    const pasteElContainerFor = cookElement && cookElement.get('containerFor')
     const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
     if (isPasteAvailable) {
@@ -536,9 +556,7 @@ export default class TreeViewElement extends React.Component {
         <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </span>
-        <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
-          <i className='vcv-ui-icon vcv-ui-icon-copy' />
-        </span>
+        {cloneControl}
         {visibilityControl}
         {copyControl}
         {pasteControl}
@@ -570,9 +588,7 @@ export default class TreeViewElement extends React.Component {
       <>
         {addChildControl}
         {editRowLayoutControl}
-        <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
-          <i className='vcv-ui-icon vcv-ui-icon-copy' />
-        </span>
+        {cloneControl}
         {visibilityControl}
         {copyControl}
         {pasteControl}

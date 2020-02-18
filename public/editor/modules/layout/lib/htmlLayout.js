@@ -59,9 +59,13 @@ export default class HtmlLayout extends React.Component {
     const layoutsContent = []
     let elementsList
     if (this.props.data) {
-      elementsList = this.props.data.map((element) => {
+      elementsList = this.props.data.map((element, index) => {
+        let blankRowPlaceholder = null
+        if (index === 0 && editorType === 'popup') {
+          blankRowPlaceholder = <BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />
+        }
         return (
-          <Element element={element} key={element.id} api={this.props.api} />
+          <Element element={element} key={element.id} api={this.props.api} blankRowPlaceholder={blankRowPlaceholder} />
         )
       })
     }
@@ -69,7 +73,7 @@ export default class HtmlLayout extends React.Component {
     elementsList && layoutsContent.push(elementsList)
     if (editorType === 'footer') {
       layoutsContent.unshift(<BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />)
-    } else {
+    } else if (editorType !== 'popup') {
       layoutsContent.push(<BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />)
     }
 
