@@ -61,10 +61,6 @@ if (!VcvEnv::has('VCV_FIX_CURL_JSON_DOWNLOAD')) {
     VcvEnv::set('VCV_FIX_CURL_JSON_DOWNLOAD', false);
 }
 
-if (!VcvEnv::has('VCV_TF_ASSETS_IN_UPLOADS')) {
-    VcvEnv::set('VCV_TF_ASSETS_IN_UPLOADS', true);
-}
-
 if (!VcvEnv::has('VCV_TF_ASSETS_URLS_FACTORY_RESET')) {
     VcvEnv::set('VCV_TF_ASSETS_URLS_FACTORY_RESET', true);
 }

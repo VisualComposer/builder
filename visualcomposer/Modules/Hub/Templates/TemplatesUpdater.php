@@ -59,7 +59,7 @@ class TemplatesUpdater extends Container implements Module
         $hubTemplatesBundleHelper->setTempBundleFolder(
             VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-template-' . $template['id']
         );
-        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder();
+        $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
         if (is_dir($tempTemplatePath)) {
             // We have local assets for template, so we need to copy them to real templates folder
             $createDirResult = $fileHelper->createDirectory($hubTemplatesHelper->getTemplatesPath($template['id']));

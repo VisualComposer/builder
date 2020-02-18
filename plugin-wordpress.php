@@ -106,13 +106,8 @@ if (file_exists($dir . '/env-dev.php')) {
     require_once $dir . '/env.php';
 }
 
-if (VcvEnv::get('VCV_TF_ASSETS_IN_UPLOADS', true)) {
-    $uploadDir = wp_upload_dir();
-
-    define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
-} else {
-    define('VCV_PLUGIN_ASSETS_DIR_PATH', WP_CONTENT_DIR . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
-}
+$uploadDir = wp_upload_dir();
+define('VCV_PLUGIN_ASSETS_DIR_PATH', $uploadDir['basedir'] . '/' . VCV_PLUGIN_ASSETS_DIRNAME);
 
 require_once $dir . '/visualcomposer/Requirements.php';
 

@@ -49,7 +49,7 @@ class Addons implements Helper
         );
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(
-            $hubBundleHelper->getTempBundleFolder(),
+            $hubBundleHelper->getTempBundleFolder('addons/' . $key),
             $this->getAddonPath($key)
         );
         if (!is_wp_error($result)) {
