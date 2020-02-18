@@ -115,7 +115,7 @@ class Elements implements Helper
     {
         $hubBundleHelper = vchelper('HubBundle');
         $hubBundleHelper->setTempBundleFolder(
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-elements-' . $key
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-element-' . $key
         );
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(

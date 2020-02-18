@@ -45,7 +45,7 @@ class Addons implements Helper
     {
         $hubBundleHelper = vchelper('HubBundle');
         $hubBundleHelper->setTempBundleFolder(
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-addons-' . $key
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-addon-' . $key
         );
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(

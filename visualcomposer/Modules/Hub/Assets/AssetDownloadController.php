@@ -99,7 +99,7 @@ class AssetDownloadController extends Container implements Module
         $assetPath = $hubSharedLibrariesHelper->getLibraryPath($asset['name']);
 
         $hubBundleHelper->setTempBundleFolder(
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-assets-' . $asset['name']
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-asset-' . $asset['name']
         );
         $result = $fileHelper->copyDirectory(
             $hubBundleHelper->getTempBundleFolder(),

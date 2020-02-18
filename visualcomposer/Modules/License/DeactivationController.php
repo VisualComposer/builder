@@ -60,6 +60,8 @@ class DeactivationController extends Container implements Module
      * @param $response
      * @param $payload
      * @param \VisualComposer\Helpers\License $licenseHelper
+     *
+     * @throws \Exception
      */
     protected function deactivate($response, $payload, License $licenseHelper)
     {
@@ -71,6 +73,11 @@ class DeactivationController extends Container implements Module
                 'item_name' => 'Visual Composer',
                 'url' => VCV_PLUGIN_URL,
             ];
+
+            if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
+                $params['author_api_key'] = VCV_AUTHOR_API_KEY;
+            }
+
             // Send the remote request
             $request = wp_remote_post(
                 vcvenv('VCV_HUB_URL'),
