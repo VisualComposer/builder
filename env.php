@@ -16,24 +16,28 @@ if (!VcvEnv::has('VCV_ENV_EXTENSION_DOWNLOAD')) {
 }
 
 if (!VcvEnv::has('VCV_HUB_URL')) {
-    VcvEnv::set('VCV_HUB_URL', defined('VCV_HUB_URL') ? constant('VCV_HUB_URL') : 'https://my.visualcomposer.com');
+    VcvEnv::set('VCV_HUB_URL', defined('VCV_HUB_URL') ? constant('VCV_HUB_URL') : 'https://gateway.my.visualcomposer.com');
+}
+
+if (!VcvEnv::has('VCV_HUB_PUBLIC_URL')) {
+    VcvEnv::set('VCV_HUB_PUBLIC_URL', defined('VCV_HUB_PUBLIC_URL') ? constant('VCV_HUB_PUBLIC_URL') : 'https://my.visualcomposer.com');
 }
 
 if (!VcvEnv::has('VCV_HUB_LICENSES_URL')) {
-    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses');
+    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium');
 }
 
 if (!VcvEnv::has('VCV_TOKEN_URL')) {
     VcvEnv::set(
         'VCV_TOKEN_URL',
-        defined('VCV_TOKEN_URL') ? constant('VCV_TOKEN_URL') : 'https://my.visualcomposer.com/authorization-token'
+        defined('VCV_TOKEN_URL') ? constant('VCV_TOKEN_URL') : 'https://gateway.my.visualcomposer.com/authorization-token'
     );
 }
 
-if (!VcvEnv::has('VCV_PREMIUM_TOKEN_URL')) {
+if (!VcvEnv::has('VCV_THEME_TOKEN_URL')) {
     VcvEnv::set(
-        'VCV_PREMIUM_TOKEN_URL',
-        defined('VCV_PREMIUM_TOKEN_URL') ? constant('VCV_PREMIUM_TOKEN_URL') : 'https://my.visualcomposer.com//authorization-token'
+        'VCV_THEME_TOKEN_URL',
+        defined('VCV_THEME_TOKEN_URL') ? constant('VCV_THEME_TOKEN_URL') : 'https://gateway.my.visualcomposer.com/theme-authorization-token'
     );
 }
 
@@ -44,7 +48,7 @@ if (!VcvEnv::has('VCV_API_URL')) {
 if (!VcvEnv::has('VCV_ACTIVATE_LICENSE_URL')) {
     VcvEnv::set(
         'VCV_ACTIVATE_LICENSE_URL',
-        defined('VCV_ACTIVATE_LICENSE_URL') ? constant('VCV_ACTIVATE_LICENSE_URL') : 'https://my.visualcomposer.com/?edd_action=activate_license&item_name=Visual%20Composer'
+        defined('VCV_ACTIVATE_LICENSE_URL') ? constant('VCV_ACTIVATE_LICENSE_URL') : 'https://gateway.my.visualcomposer.com/?edd_action=activate_license&item_name=Visual%20Composer'
     );
 }
 

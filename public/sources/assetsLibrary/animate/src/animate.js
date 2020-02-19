@@ -49,21 +49,6 @@ window.vcv.on('ready', function (action, id, options) {
       handler: function (a, b, c, d, e) {
         element.setAttribute('data-vcv-o-animated', 'true')
         waypointObj.destroy()
-        const duration = parseFloat(window.getComputedStyle(element)[ 'animationDuration' ]) * 1000
-        const delay = parseFloat(window.getComputedStyle(element)[ 'animationDelay' ]) * 1000
-        // Firefox horizontal scroll fix for left and right animations
-        window.setTimeout(() => {
-          if (element) {
-            const currentStyleWidth = element.style.width;
-            const elementRect = element.getBoundingClientRect();
-            if (elementRect) {
-              element.style.width = (elementRect.width - 1) + 'px';
-              window.setTimeout(() => {
-                element.style.width = currentStyleWidth;
-              }, 50)
-            }
-          }
-        }, duration + delay + 200)
       },
       offset: '90%'
     })

@@ -20,6 +20,7 @@ class ElementDownloadController extends Container implements Module
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Hub\Elements\ElementDownloadController::ajaxDownloadElement */
         $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
     }
 

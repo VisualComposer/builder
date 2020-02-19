@@ -8,15 +8,10 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Title text')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.titleText)
-        })
+      cy.setInput('Title text', settings.titleText)
 
+      // Font Family and Font Style both have a div wrapper around select element,
+      // can't use cy.setSelect command.
       cy.get('.vcv-ui-form-group-heading')
         .contains('Font Family')
         .then(($field) => {
@@ -25,7 +20,6 @@ describe(ELEMENT_NAME, function () {
             .find('.vcv-ui-form-dropdown')
             .select(settings.fontFamily)
         })
-
       cy.get('.vcv-ui-form-group-heading')
         .contains('Font Style')
         .then(($field) => {
@@ -34,54 +28,10 @@ describe(ELEMENT_NAME, function () {
             .find('.vcv-ui-form-dropdown')
             .select(settings.fontStyle)
         })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element tag')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.elementTag)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Gradient overlay type')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.gradientOverlayType)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Start color')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('div')
-            .find('.vcv-ui-color-picker-dropdown')
-            .click()
-          cy.get('.vcv-ui-color-picker-custom-color input[value="FF7200"]')
-            .clear()
-            .type(settings.startColor.hex)
-          cy.wrap($field)
-            .next('div')
-            .find('.vcv-ui-color-picker-dropdown')
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('End color')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('div')
-            .find('.vcv-ui-color-picker-dropdown')
-            .click()
-          cy.get('.vcv-ui-color-picker-custom-color input[value="5C00FF"]')
-            .clear()
-            .type(settings.endColor.hex)
-          cy.wrap($field)
-            .next('div')
-            .find('.vcv-ui-color-picker-dropdown')
-            .click()
-        })
+      cy.setSelect('Element tag', settings.elementTag)
+      cy.setSelect('Gradient overlay type', settings.gradientOverlayType)
+      cy.setColor(settings.startColor)
+      cy.setColor(settings.endColor)
 
       cy.get('.vcv-ui-form-group-heading')
         .contains('Gradient angle')
@@ -93,76 +43,18 @@ describe(ELEMENT_NAME, function () {
             .type(settings.gradientAngle)
         })
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Font size')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.fontSize)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Alignment')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.alignment}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Line height')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.lineHeight)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Letter spacing')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.letterSpacing)
-        })
-
-      cy.get('.vcv-ui-form-link-button').click()
-      cy.get('.vcv-ui-modal .vcv-ui-form-group-heading')
-        .contains('URL')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-editor-dropdown-input-container')
-            .find('input')
-            .type(settings.linkSelection)
-        })
-      cy.get('.vcv-ui-modal .vcv-ui-modal-action').click()
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
+      cy.setInput('Font size', settings.fontSize)
+      cy.setButtonGroup('Alignment', settings.alignment)
+      cy.setInput('Line height', settings.lineHeight)
+      cy.setInput('Letter spacing', settings.letterSpacing)
+      cy.setURL('Link selection', settings.linkSelection)
+      cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
       cy.savePage()
       cy.viewPage()
 
-      cy.get(`#${settings.customId}`)
-        .should('have.class', settings.customClass)
+      cy.get(`#${settings.customId}.${settings.customClass}`)
         .should('have.css', 'text-align', settings.alignment)
 
       cy.get('.vce-google-fonts-heading--background')
@@ -182,11 +74,10 @@ describe(ELEMENT_NAME, function () {
         .and('have.css', 'line-height', settings.lineHeight)
         .and('have.css', 'font-family', settings.fontFamily)
         .and('have.css', 'font-weight', settings.fontStyle.match(/\d+/)[0])
-        .and('have.css', 'background-image', `linear-gradient(${settings.gradientAngle}deg, ${settings.startColor.rgb}, ${settings.endColor.rgb})`)
+        .and('have.css', 'background-image', `linear-gradient(${settings.gradientAngle}deg, ${settings.startColor.valueRGB}, ${settings.endColor.valueRGB})`)
         .find('a')
         .contains(settings.titleText)
-        .should('have.attr', 'href', `http://${settings.linkSelection}`)
-        .and('have.attr', 'target', '_blank')
+        .should('have.attr', 'href', `http://${settings.linkSelection.url}`)
 
       if (Cypress.env('checkSnapshots')) {
         cy.wait(2000)

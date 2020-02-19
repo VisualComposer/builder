@@ -40,7 +40,7 @@ class TokenTest extends WP_UnitTestCase
             $this->assertStringContainsString('testTokenLicense', $url);
 
             return [
-                'body' => '{"status":"true","success":true,"data":{"token":"testTokenLicense","license":"testTokenLicense","price_id":"2","expiration":'
+                'body' => '{"status":"true","success":true,"data":{"token":"testTokenLicense","license":"testTokenLicense","price_id":"2","license_type":"premium","expiration":'
                     . $expirationTime . '}}',
                 'response' => [
                     'code' => 200,

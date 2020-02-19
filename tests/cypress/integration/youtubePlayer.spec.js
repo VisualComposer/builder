@@ -8,56 +8,11 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('YouTube video link')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.youtubeLink)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Alignment')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.alignment}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Size')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.size)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Custom width')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customWidth)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
+      cy.setInput('YouTube video link', settings.youtubeLink)
+      cy.setButtonGroup('Alignment', settings.alignment)
+      cy.setSelect('Size', settings.size)
+      cy.setInput('Custom width', settings.customWidth)
+      cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
       cy.savePage()
@@ -78,6 +33,11 @@ describe(ELEMENT_NAME, function () {
         .and('have.css', 'animation-name', `vce-o-animate--${settings.designOptions.animation}`)
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
+
+      cy.get('.vce-yt-video-player-iframe')
+        .should('have.attr', 'src').then((src) => {
+        expect(src).to.have.string(settings.youtubeVideoId)
+      })
     })
   })
 })
