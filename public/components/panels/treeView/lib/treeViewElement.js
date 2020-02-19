@@ -515,9 +515,6 @@ export default class TreeViewElement extends React.Component {
       if (elementCustomControls.clone === false) {
         cloneControl = null
       }
-      if (elementCustomControls.pasteAfter === false) {
-        console.log('paste false')
-      }
     }
 
     // paste action
@@ -534,7 +531,11 @@ export default class TreeViewElement extends React.Component {
       }
 
       if (!attrs.disabled) {
-        attrs.onClick = pasteOptions.pasteAfter ? this.clickPasteAfter.bind(this) : this.clickPaste.bind(this)
+        if (elementCustomControls && (elementCustomControls.pasteAfter === false && pasteOptions.pasteAfter)) {
+          attrs.disabled = true
+        } else {
+          attrs.onClick = pasteOptions.pasteAfter ? this.clickPasteAfter.bind(this) : this.clickPaste.bind(this)
+        }
       }
 
       pasteControl = (
