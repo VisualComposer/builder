@@ -100,6 +100,8 @@ function getControlDropdown (elementId, options) {
   const pasteAfterText = localizations ? localizations.pasteAfter : 'Paste After'
   const removeText = localizations ? localizations.remove : 'Remove'
   const editText = localizations ? localizations.edit : 'Edit'
+  const cookElement = options && cook.get(options)
+  const elementCustomControls = cookElement.get('metaElementControls')
 
   // prepare actions
   const actions = []
@@ -114,34 +116,43 @@ function getControlDropdown (elementId, options) {
     }
   })
 
-  // clone control
-  actions.push({
-    label: cloneText,
-    title: `${cloneText} ${options.title}`,
-    icon: 'vcv-ui-icon-copy',
-    data: {
-      vcControlEvent: 'clone'
-    }
-  })
+  if (!elementCustomControls || elementCustomControls.clone !== false) {
+    // clone control
+    actions.push({
+      label: cloneText,
+      title: `${cloneText} ${options.title}`,
+      icon: 'vcv-ui-icon-copy',
+      data: {
+        vcControlEvent: 'clone'
+      }
+    })
+  }
 
-  // copy action
-  actions.push({
-    label: copyText,
-    title: `${copyText} ${options.title}`,
-    icon: 'vcv-ui-icon-copy-icon',
-    data: {
-      vcControlEvent: 'copy'
-    }
-  })
+  if (!elementCustomControls || elementCustomControls.copy !== false) {
+    // copy action
+    actions.push({
+      label: copyText,
+      title: `${copyText} ${options.title}`,
+      icon: 'vcv-ui-icon-copy-icon',
+      data: {
+        vcControlEvent: 'copy'
+      }
+    })
+  }
 
   // paste action
-  const pasteElCook = options && cook.get(options)
-  const pasteElContainerFor = pasteElCook && pasteElCook.get('containerFor')
+  const pasteElContainerFor = cookElement && cookElement.get('containerFor')
   const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
   if (isPasteAvailable) {
     const copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
     const pasteOptions = getPasteOptions(copyData, options)
+
+    if (!pasteOptions.disabled) {
+      if (elementCustomControls && (elementCustomControls.pasteAfter === false && pasteOptions.pasteAfter)) {
+        pasteOptions.disabled = true
+      }
+    }
 
     actions.push({
       label: pasteOptions.pasteAfter ? pasteAfterText : pasteText,
