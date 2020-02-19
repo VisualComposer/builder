@@ -25,6 +25,8 @@
 }
 
 .vcv-ui-tree-layout {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -383,6 +385,10 @@
       opacity: 0.5;
     }
   }
+}
+
+.vcv-ui-tree-layout-node-non-draggable {
+  flex-grow: 1;
 }
 
 .vcv-ui-tree-layout-node-child--drag-item {

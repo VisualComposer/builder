@@ -183,6 +183,13 @@ class UnsplashDownloadController extends Container implements Module
                 'value' => $licenseHelper->getKey(),
                 'type' => 'constant',
             ];
+            if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
+                $variables[] = [
+                    'key' => 'VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY',
+                    'value' => VCV_AUTHOR_API_KEY,
+                    'type' => 'constant',
+                ];
+            }
             $variables[] = [
                 'key' => 'VCV_API_URL',
                 'value' => vcvenv('VCV_API_URL'),
@@ -282,9 +289,17 @@ class UnsplashDownloadController extends Container implements Module
     protected function getDownloadUrl($imageId)
     {
         $licenseHelper = vchelper('License');
+        $requestUrl = sprintf(
+            '%s/api/unsplash/download/%s?licenseKey=%s&url=%s%s',
+            rtrim(vcvenv('VCV_API_URL'), '\\/'),
+            $imageId,
+            $licenseHelper->getKey(),
+            VCV_PLUGIN_URL,
+            defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated() ? ('&author_api_key='
+                . VCV_AUTHOR_API_KEY) : ''
+        );
         $response = wp_remote_get(
-            rtrim(vcvenv('VCV_API_URL'), '\\/') . '/api/unsplash/download/' . $imageId . '?licenseKey='
-            . $licenseHelper->getKey() . '&url=' . VCV_PLUGIN_URL,
+            $requestUrl,
             [
                 'timeout' => 30,
             ]

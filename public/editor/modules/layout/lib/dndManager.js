@@ -115,9 +115,9 @@ export default class DndManager {
 
   init () {
     this.api
-      .on('element:mount', this.add.bind(this))
+      .on('element:mount', this.initItems.bind(this))
       .on('element:unmount', this.remove.bind(this))
-      .on('element:didUpdate', this.update.bind(this))
+      .on('element:didUpdate', this.initItems.bind(this))
       .on('editor:mount', this.rebuildItems.bind(this))
   }
 
@@ -125,9 +125,9 @@ export default class DndManager {
     if (type === 'reload') {
       workspaceIFrame.ignoreChange(this.unSubscribe.bind(this))
       this.api
-        .off('element:mount', this.add.bind(this))
+        .off('element:mount', this.initItems.bind(this))
         .off('element:unmount', this.remove.bind(this))
-        .off('element:didUpdate', this.update.bind(this))
+        .off('element:didUpdate', this.initItems.bind(this))
         .off('editor:mount', this.rebuildItems.bind(this))
       vcCake.ignoreDataChange('draggingElement', this.apiDnD.start)
       vcCake.ignoreDataChange('dropNewElement', this.apiDnD.addNew)
@@ -135,9 +135,13 @@ export default class DndManager {
     }
   }
 
-  add (id) {
-    this.buildItems()
-    this.items.addItem(id, this.documentDOM)
+  initItems (id) {
+    const cookElement = cook.getById(id)
+    const isDraggable = cookElement.get('metaIsDraggable')
+    if (isDraggable === undefined || isDraggable) {
+      this.buildItems()
+      this.items.addItem(id, this.documentDOM)
+    }
   }
 
   remove (id) {
@@ -148,11 +152,6 @@ export default class DndManager {
         this.removeItems()
       }
     }, 0)
-  }
-
-  update (id) {
-    this.buildItems()
-    this.items.updateItem(id, this.documentDOM)
   }
 
   move (id, action, related) {
@@ -195,8 +194,13 @@ export default class DndManager {
     } else { // Drop existing element
       const parentWrapper = cook.get(elementSettings).get('parentWrapper')
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-      if (wrapperTag) { // Add wrapper and insert dragging element into this wrapper
+      if (editorType === 'popup' && !wrapperTag) { // Append dragging element after last root element without wrapper
+        const rootElements = documentManager.children(false)
+        const lastRootElement = rootElements[rootElements.length - 1]
+        workspaceStorage.trigger('move', id, { action: 'append', related: lastRootElement.id })
+      } else if (wrapperTag) { // Add wrapper and insert dragging element into this wrapper
         const wrapper = cook.get({ tag: wrapperTag }).toJS()
         elementsStorage.trigger('add', wrapper, true, { skipInitialExtraElements: true })
         workspaceStorage.trigger('move', id, { action: 'append', related: wrapper.id })

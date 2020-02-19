@@ -13,6 +13,7 @@ const layoutStorage = getStorage('layout')
 const workspaceSettings = getStorage('workspace').state('settings')
 
 const documentManager = getService('document')
+const cook = getService('cook')
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
@@ -183,7 +184,18 @@ export default class TreeViewLayout extends React.Component {
   }
 
   handleElementMount (id) {
-    this.dnd.add(id, this.props.isAttribute)
+    const cookElement = cook.getById(id)
+    const isDraggable = cookElement.get('metaIsDraggable')
+    if (isDraggable === undefined || isDraggable) {
+      let containerSelector = ''
+      const topParentId = documentManager.getTopParent(id)
+      const isParentDraggable = cook.getById(topParentId).get('metaIsDraggable')
+      if (isParentDraggable !== undefined && !isParentDraggable) {
+        containerSelector = `[data-vcv-element="${topParentId}"]`
+      }
+
+      this.dnd.add(id, this.props.isAttribute, containerSelector)
+    }
   }
 
   handleElementUnmount (id) {

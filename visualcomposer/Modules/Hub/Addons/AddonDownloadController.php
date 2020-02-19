@@ -8,18 +8,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Modules\Hub\Elements\ElementDownloadController;
 
-class AddonDownloadController extends ElementDownloadController implements Module
+class AddonDownloadController extends Container implements Module
 {
     use EventsFilters;
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Hub\Addons\AddonDownloadController::ajaxDownloadAddon */
         $this->addFilter('vcv:ajax:hub:download:addon:adminNonce', 'ajaxDownloadAddon');
     }
 

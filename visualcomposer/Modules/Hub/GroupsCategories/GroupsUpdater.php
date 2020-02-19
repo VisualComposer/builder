@@ -29,16 +29,16 @@ class GroupsUpdater extends Container implements Module
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
             return ['status' => false];
         }
-        $hubHelper = vchelper('HubGroups');
-        /** @var Differ $groupsDiffer */
-        $hubGroups = $hubHelper->getGroups();
-
-        $groupsDiffer = vchelper('Differ');
-        if (!empty($hubGroups)) {
-            $groupsDiffer->set($hubGroups);
-        }
 
         if (isset($bundleJson['groups']) && is_array($bundleJson['groups'])) {
+            $hubHelper = vchelper('HubGroups');
+            /** @var Differ $groupsDiffer */
+            $hubGroups = $hubHelper->getGroups();
+
+            $groupsDiffer = vchelper('Differ');
+            if (!empty($hubGroups)) {
+                $groupsDiffer->set($hubGroups);
+            }
             $groupsDiffer->onUpdate(
                 [$hubHelper, 'updateGroup']
             )->set(

@@ -139,6 +139,14 @@ class License extends Container implements Helper
     }
 
     /**
+     * @return bool
+     */
+    public function isThemeActivated()
+    {
+        return $this->getType() === 'theme';
+    }
+
+    /**
      * @param $errorCode
      *
      * @codingStandardsIgnoreStart
@@ -178,6 +186,9 @@ class License extends Container implements Helper
                 break;
             case 'no_activations_left':
                 $message = __('Your license key has reached its activation limit.', 'visualcomposer');
+                break;
+            case 'purchase_key_already_exist':
+                $message = __('Purchase Code already in use'); // theme activation
                 break;
             default:
                 $message = __('An error occurred, please try again.', 'visualcomposer');

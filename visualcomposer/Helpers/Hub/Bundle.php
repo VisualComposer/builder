@@ -19,7 +19,7 @@ class Bundle implements Helper
         $this->bundlePath = VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle';
     }
 
-    public function requestBundleDownload()
+    public function requestBundleDownload($url)
     {
         $urlHelper = vchelper('Url');
         $fileHelper = vchelper('File');
@@ -116,12 +116,19 @@ class Bundle implements Helper
 
     public function getTempBundleFolder($path = '')
     {
-        $bundleFolder = $this->bundlePath;
+        $bundleFolder = rtrim($this->bundlePath, '\//');
         if ($path) {
             $bundleFolder .= '/' . ltrim($path, '\//');
         }
 
         return $bundleFolder;
+    }
+
+    public function setTempBundleFolder($bundlePath)
+    {
+        $this->bundlePath = $bundlePath;
+
+        return $this->bundlePath;
     }
 
     public function readBundleJson($bundleJsonPath)

@@ -416,15 +416,16 @@ export default class TreeViewElement extends React.Component {
     if (!element) {
       return null
     }
+    const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
-      'vcv-ui-tree-layout-node-hidden': hidden
+      'vcv-ui-tree-layout-node-hidden': hidden,
+      'vcv-ui-tree-layout-node-non-draggable': isDraggable !== undefined && !isDraggable
     })
-
     const treeChildProps = {}
-    treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
+    let dragControl = null
 
     const innerChildren = documentManger.children(this.state.element.id)
     const childHtml = this.getContent(innerChildren)
@@ -683,6 +684,15 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
+    if (isDraggable === undefined || isDraggable) {
+      treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
+      dragControl = (
+        <div className={dragHelperClasses}>
+          <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
+        </div>
+      )
+    }
+
     return (
       <li
         className={treeChildClasses}
@@ -698,9 +708,7 @@ export default class TreeViewElement extends React.Component {
           onMouseLeave={this.handleMouseLeave}
           onClick={this.handleClick}
         >
-          <div className={dragHelperClasses}>
-            <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
-          </div>
+          {dragControl}
           <div className='vcv-ui-tree-layout-control-content'>
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>

@@ -25,7 +25,8 @@ export function Control (props) {
   let controlsClasses = [
     'vcv-ui-outline-control-dropdown',
     `vcv-ui-outline-control-type-index-${colorIndex}`,
-    hoverClasses.includes(activeClass) ? activeClass : ''
+    hoverClasses.includes(activeClass) ? activeClass : '',
+    !props.isDraggable && props.isDraggable !== undefined ? 'vcv-ui-outline-control-dropdown-non-draggable' : ''
   ]
 
   if (hoverClasses.length) {

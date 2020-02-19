@@ -20,6 +20,7 @@ class ElementDownloadController extends Container implements Module
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Hub\Elements\ElementDownloadController::ajaxDownloadElement */
         $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
     }
 
@@ -53,13 +54,14 @@ class ElementDownloadController extends Container implements Module
                 }
                 if ($response && isset($response['elements'])) {
                     $response['variables'] = [];
-                    foreach ($response['elements'] as $element) {
+                    foreach ($response['elements'] as &$element) {
                         // Try to initialize PHP in element via autoloader
                         vcevent('vcv:hub:elements:autoload', ['element' => $element]);
                         $response['variables'] = vcfilter(
                             'vcv:editor:variables/' . $element['tag'],
                             $response['variables']
                         );
+                        unset($element['elementRealPath']);
                     }
                 }
             } else {

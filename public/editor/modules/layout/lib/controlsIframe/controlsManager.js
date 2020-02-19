@@ -370,6 +370,11 @@ export default class ControlsManager {
               data.elementInlineEdit = true
             }
           }
+          data.vcvDraggableIds = data.vcElementsPath.filter((id) => {
+            const cookElement = cook.getById(id)
+            const isDraggable = cookElement.get('metaIsDraggable')
+            return isDraggable === undefined || isDraggable
+          })
           this.toggleControls(data)
         }
         if (this.state.showFrames) {
