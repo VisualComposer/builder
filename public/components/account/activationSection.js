@@ -258,16 +258,11 @@ export default class ActivationSectionProvider extends React.Component {
       return <FinalScreen />
     } else if (activePage === 'vcv-license-options') {
       return <FeatureScreen setActiveScreen={this.setActiveScreen} />
-    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-activate-author') {
+    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-theme-activation') {
       let activationType = 'free'
       if (activePage === 'vcv-go-premium') {
         activationType = 'premium'
-
-        const slug = window.VCV_SLUG && window.VCV_SLUG()
-        if (slug === 'vcv-go-premium' && ActivationSectionProvider.authorApiKey) {
-          activationType = 'author'
-        }
-      } else if (activePage === 'vcv-activate-author') {
+      } else if (activePage === 'vcv-theme-activation') {
         activationType = 'author'
       }
       return <ActivatePremiumScreen activationType={activationType} />

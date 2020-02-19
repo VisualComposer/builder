@@ -51,7 +51,7 @@ export default class InitialScreen extends React.Component {
     if (this.props.authorApiKey) {
       primaryButton = (
         <button
-          onClick={this.props.setActiveScreen.bind(this, 'vcv-activate-author')}
+          onClick={this.props.setActiveScreen.bind(this, 'vcv-theme-activation')}
           className='vcv-activation-button'
         >
           {InitialScreen.texts.themeActivation}
