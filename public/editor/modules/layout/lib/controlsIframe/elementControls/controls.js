@@ -70,9 +70,10 @@ function getVisibleControls (elementIds, controls) {
   return false
 }
 
-function getControls (elementIds, visibleControls) {
+function getControls (data, visibleControls) {
+  const { vcvDraggableIds, vcElementsPath } = data
   const controls = []
-  const iterableControls = visibleControls || elementIds
+  const iterableControls = visibleControls || vcElementsPath
   const localizations = window.VCV_I18N && window.VCV_I18N()
   iterableControls.forEach((id, i) => {
     if (i === iterableControls.length - 1 && visibleControls) {
@@ -87,9 +88,9 @@ function getControls (elementIds, visibleControls) {
       }
       controls.push(<ControlAction id={id} options={options} key={`element-control-tree-view-${id}`} />)
     } else {
-      controls.push(<Control id={id} key={`element-control-${id}`} />)
+      controls.push(<Control id={id} key={`element-control-${id}`} isDraggable={vcvDraggableIds.includes(id)} />)
     }
-    if (i < elementIds.length - 1) {
+    if (i < vcElementsPath.length - 1) {
       controls.push(
         <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
     }
@@ -153,7 +154,7 @@ export function Controls (props) {
   return (
     <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <nav className='vcv-ui-outline-controls' ref={controls}>
-        {getControls(vcElementsPath, visibleControls)}
+        {getControls(props.data, visibleControls)}
       </nav>
     </div>
   )

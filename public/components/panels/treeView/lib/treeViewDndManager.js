@@ -1,6 +1,7 @@
-import vcCake from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import DnD from '../../../dnd/dndDataSet'
-const workspaceStorage = vcCake.getStorage('workspace')
+
+const workspaceStorage = getStorage('workspace')
 
 export default class TreeViewDndManager {
   constructor () {
@@ -41,9 +42,12 @@ export default class TreeViewDndManager {
     })
   }
 
-  buildItems (isAttribute = false) {
+  buildItems (isAttribute = false, containerSelector = false) {
     const scrollContainerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout-container .vcv-ui-scroll-content' : '.vcv-ui-tree-layout-container .vcv-ui-scroll-content'
-    const containerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout' : '.vcv-ui-tree-layout'
+    if (!containerSelector) {
+      containerSelector = isAttribute ? '.vcv-ui-edit-form-section-content .vcv-ui-tree-layout' : '.vcv-ui-tree-layout'
+    }
+
     if (!this.items) {
       this.scrollContainer = document.querySelector(scrollContainerSelector)
       this.items = new DnD(document.querySelector(containerSelector), {
@@ -120,13 +124,13 @@ export default class TreeViewDndManager {
     workspaceStorage.state('navbarPosition').ignoreChange(this.updateOffsetTop.bind(this))
   }
 
-  add (id, isAttribute) {
-    this.buildItems(isAttribute)
+  add (id, isAttribute, containerSelector) {
+    this.buildItems(isAttribute, containerSelector)
     this.items.addItem(id, this.documentDOM)
   }
 
   remove (id, isAttribute) {
-    this.buildItems(isAttribute)
+    this.buildItems(isAttribute, '')
     this.items.removeItem(id)
     window.setTimeout(() => {
       if (!document.querySelector('.vcv-ui-tree-layout')) {
