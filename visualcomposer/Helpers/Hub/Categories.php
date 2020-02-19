@@ -289,7 +289,7 @@ class Categories implements Helper
                     'soundcloudPlayer',
                     'simpleContactForm',
                     'foodAndDrinksMenu',
-                    'starRanking'
+                    'starRanking',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
