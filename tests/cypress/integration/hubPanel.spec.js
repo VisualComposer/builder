@@ -20,7 +20,7 @@ describe('Hub Panel', function () {
       cy.get('.vcv-hub-banner-content')
         .contains('Get More Elements, Templates, and Extensions')
       cy.contains('.vcv-hub-banner-button', 'Go Premium')
-        .should('have.attr', 'data-href', `${Cypress.env('baseUrl')}/wp-admin/admin.php?page=vcv-getting-started&vcv-ref=hub-banner&screen=license-options`)
+        .should('have.attr', 'data-href', `${Cypress.env('baseUrl')}wp-admin/admin.php?page=vcv-getting-started&vcv-ref=hub-banner&screen=license-options`)
       cy.contains('.vcv-ui-form-button.vcv-ui-form-button--active', 'All')
       checkItemsExistence()
       cy.get('.vcv-layout-bar-content-hide[title="Close"]').click()
