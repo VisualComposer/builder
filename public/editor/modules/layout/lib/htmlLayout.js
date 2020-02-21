@@ -18,6 +18,7 @@ export default class HtmlLayout extends React.Component {
     super(props)
     this.handleDragStateChage = this.handleDragStateChage.bind(this)
     this.handleBodyMouseUp = this.handleBodyMouseUp.bind(this)
+    this.getBlankRowPlaceholder = this.getBlankRowPlaceholder.bind(this)
   }
 
   componentDidMount () {
@@ -54,18 +55,22 @@ export default class HtmlLayout extends React.Component {
     workspaceStorage.state('drag').set({ active: false })
   }
 
+  getBlankRowPlaceholder (iconColor) {
+    return <BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' iconColor={iconColor} />
+  }
+
   render () {
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     const layoutsContent = []
     let elementsList
     if (this.props.data) {
       elementsList = this.props.data.map((element, index) => {
-        let blankRowPlaceholder = null
+        let getBlankRowPlaceholder = null
         if (index === 0 && editorType === 'popup') {
-          blankRowPlaceholder = <BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />
+          getBlankRowPlaceholder = this.getBlankRowPlaceholder
         }
         return (
-          <Element element={element} key={element.id} api={this.props.api} blankRowPlaceholder={blankRowPlaceholder} />
+          <Element element={element} key={element.id} api={this.props.api} getBlankRowPlaceholder={getBlankRowPlaceholder} />
         )
       })
     }
