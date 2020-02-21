@@ -40,7 +40,7 @@ describe('Hub Panel', function () {
 
       // Click on Stock Images tab, click on image
       cy.contains('.vcv-ui-form-button', 'Stock Images').click()
-      cy.wait(1000) // Need to wait for images to load before performing any assertions
+      cy.wait(1500) // Need to wait for images to load before performing any assertions
       cy.contains('.vcv-stock-images-button', 'Activate Premium')
       cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')
         .first()
