@@ -114,7 +114,8 @@ export default class ActivatePremiumScreen extends React.Component {
     }
 
     let premiumButtonClasses = 'vcv-activation-button'
-    if (loading === 'premium' || loading === 'free') {
+    const loadingTypes = ['premium', 'free', 'author']
+    if (loadingTypes.indexOf(loading) > -1) {
       premiumButtonClasses += ' vcv-activation-button--loading'
     }
 
