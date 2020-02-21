@@ -49,8 +49,10 @@ describe('Hub Panel', function () {
       cy.window().then((window) => {
         cy.route('POST', window.vcvAjaxUrl).as('downloadImage')
       })
-      cy.contains('.vcv-stock-image-download-button', 'Medium')
-        .click({ forse: true })
+      cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')
+        .first()
+        .find('.vcv-stock-image-download-button[data-img-size="800"]')
+        .click({ force: true })
       cy.wait('@downloadImage')
       cy.contains('.vcv-layout-notifications-position--bottom.vcv-layout-notifications-type--error', settings.imageDownloadError)
 
