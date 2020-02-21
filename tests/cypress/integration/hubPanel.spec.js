@@ -79,6 +79,7 @@ describe('Hub Panel', function () {
         .click()
       cy.get('.vcv-ui-wp-spinner-light')
       cy.wait('@downloadItem')
+      cy.wait(500)
       cy.get('.vcv-ui-wp-spinner-light')
         .should('not.exist')
       cy.get('.vcv-ui-item-list')
