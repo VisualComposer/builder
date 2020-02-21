@@ -1,3 +1,18 @@
 {
-  "pageTitle": "Visual Composer Settings Panel"
+  "freeElementName": "Raw HTML",
+  "customClass": "hub-panel-element-class",
+  "customId": "hub-panel-element-id",
+  "premiumElementName": "3 Color Button",
+  "freeTemplateName": "Simple Landing Page",
+  "premiumTemplateName": "Fashion Leaflet",
+  "imageDownloadError": "No access, please check your license and make sure your capabilities allow to upload files",
+  "tabs": [
+    "Blocks",
+    "Addons",
+    "Headers",
+    "Footers",
+    "Sidebars"
+  ],
+  "unsplashApiUrl": "https://api.visualcomposer.com/api/unsplash/trending?licenseKey=8f993dc4-5689-4e0e-97a4-13522404e441&url=",
+  "rawHtmlText": "HyperText Markup Language (HTML) is the standard markup language for creating web pages and web applications."
 }
