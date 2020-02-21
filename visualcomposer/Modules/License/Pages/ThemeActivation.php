@@ -42,7 +42,7 @@ class ThemeActivation extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isThemeActivated()) {
+                if (!$licenseHelper->isThemeActivated() && !$licenseHelper->isPremiumActivated()) {
                     $this->call('addPage');
                 }
 

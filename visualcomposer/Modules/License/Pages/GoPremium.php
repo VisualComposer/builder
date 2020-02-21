@@ -55,7 +55,7 @@ class GoPremium extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isPremiumActivated()) {
+                if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->isThemeActivated()) {
                     $this->call('addPage');
                 }
 
