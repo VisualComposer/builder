@@ -67,4 +67,3 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
     elementsStorage.trigger('update', parentId, rowSettings, '', { silent: true })
   }, 0)
 }
-
