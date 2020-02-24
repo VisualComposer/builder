@@ -81,7 +81,6 @@ describe('Hub Panel', function () {
       cy.wait('@downloadItem')
 
       // Open Add Element check downloaded element's existence, add element to the page
-      cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
       cy.addElement(settings.freeElementName)
       cy.setClassAndId(settings.customId, settings.customClass)
 
