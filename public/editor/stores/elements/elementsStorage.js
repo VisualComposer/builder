@@ -1,5 +1,5 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
-import { rebuildRawLayout, addRowColumnBackground } from './lib/tools'
+import { rebuildRawLayout } from './lib/tools'
 
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
@@ -170,9 +170,6 @@ addStorage('elements', (storage) => {
       storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
     }
     if (cookElement.get('parentWrapper')) {
-      if (element.tag === 'column') {
-        addRowColumnBackground(id, element, documentManager)
-      }
       const parent = documentManager.get(element.parent)
       storage.trigger('update', parent.id, parent)
     }
@@ -202,7 +199,6 @@ addStorage('elements', (storage) => {
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
         rebuildRawLayout(rowElement.id, { disableStacking: rowElement.layout.disableStacking }, documentManager)
       }
-      addRowColumnBackground(id, element, documentManager)
       storage.trigger('update', rowElement.id, documentManager.get(parent.id))
     }
     storage.state(`element:${id}`).delete()
@@ -239,17 +235,16 @@ addStorage('elements', (storage) => {
     } else {
       documentManager.moveBefore(id, data.related)
     }
+    storage.trigger(`element:move:${id}`, element)
     if (element.tag === 'column') {
       // rebuild previous column
       const rowElement = documentManager.get(element.parent)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
         rebuildRawLayout(element.parent, { disableStacking: rowElement.layout.disableStacking }, documentManager)
       }
-      addRowColumnBackground(element.id, element, documentManager)
       // rebuild next column
       const newElement = documentManager.get(id)
       const newRowElement = documentManager.get(newElement.parent)
-      addRowColumnBackground(newElement.id, newElement, documentManager)
       if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
         rebuildRawLayout(newElement.parent, { disableStacking: newRowElement.layout && newRowElement.layout.disableStacking }, documentManager)
       }
@@ -378,7 +373,6 @@ addStorage('elements', (storage) => {
     elementRefState[id] = ref
     storage.state('elementRefs').set(elementRefState)
   })
-
   storage.on('removeRef', (id) => {
     const elementRefState = storage.state('elementRefs').get() || {}
     delete elementRefState[id]
