@@ -64,6 +64,7 @@ addService('myTemplates', {
     const elementRefs = elementsStorage.state('elementRefs').get()
     const elementNode = ReactDOM.findDOMNode(elementRefs[id])
     const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
+    currentLayout[id].parent = false
     if (getType.call(name) === '[object String]' && name.length) {
       return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true)
     }
