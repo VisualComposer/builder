@@ -79,6 +79,7 @@ describe('Hub Panel', function () {
         .click()
       cy.get('.vcv-ui-wp-spinner-light')
       cy.wait('@downloadItem')
+      cy.wait(2000) // Hardcode wait to ensure that element is downloaded
 
       // Open Add Element check downloaded element's existence, add element to the page
       cy.addElement(settings.freeElementName)
