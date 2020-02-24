@@ -79,14 +79,10 @@ describe('Hub Panel', function () {
         .click()
       cy.get('.vcv-ui-wp-spinner-light')
       cy.wait('@downloadItem')
-      cy.wait(500)
-      cy.get('.vcv-ui-wp-spinner-light')
-        .should('not.exist')
-      cy.get('.vcv-ui-item-list')
-        .first()
-        .find('.vcv-ui-icon-add')
-        .click()
-      cy.get('.vcv-ui-edit-form-header-title').contains(settings.freeElementName)
+
+      // Open Add Element check downloaded element's existence, add element to the page
+      cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
+      cy.addElement(settings.freeElementName)
       cy.setClassAndId(settings.customId, settings.customClass)
 
       // Click on Templates tab, check elements exist, check premium elements are locked
@@ -110,11 +106,10 @@ describe('Hub Panel', function () {
         .click()
       cy.get('.vcv-ui-wp-spinner-light')
       cy.wait('@downloadItem')
-      cy.get('.vcv-ui-wp-spinner-light')
-        .should('not.exist')
-      cy.get('.vcv-ui-item-list')
-        .first()
-        .find('.vcv-ui-icon-add')
+
+      // Open Add Template check downloaded template's existence, add template to the page
+      cy.get('.vcv-ui-navbar-control[title="Add Template"]').click()
+      cy.contains('.vcv-ui-item-element', settings.freeTemplateName)
         .click()
 
       cy.savePage()
