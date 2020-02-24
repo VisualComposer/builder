@@ -502,6 +502,14 @@ class Localizations extends Container implements Helper
                 'Premium support and updates',
                 'visualcomposer'
             ),
+            'premiumSupport' => __(
+                'Premium support',
+                'visualcomposer'
+            ),
+            'regularUpdates' => __(
+                'Regular updates',
+                'visualcomposer'
+            ),
             'activateFree' => __(
                 'Activate Free',
                 'visualcomposer'
@@ -520,6 +528,14 @@ class Localizations extends Container implements Helper
             ),
             'getPremiumFeaturesText2' => __(
                 'Extensions, and Support',
+                'visualcomposer'
+            ),
+            'getThemeFeatures' => __(
+                'Get Premium Elements and Templates',
+                'visualcomposer'
+            ),
+            'activateThemeLicense' => __(
+                'Activate Theme License',
                 'visualcomposer'
             ),
             'whatYouWillGet' => __(

@@ -37,7 +37,9 @@ export default class startBlank extends React.Component {
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (editorType === 'popup') {
       const cookElement = cook.get({ tag: 'popupRoot' }).toJS()
+      const rowElement = cook.get({ tag: 'row', parent: cookElement.id }).toJS()
       elementsStorage.trigger('add', cookElement)
+      elementsStorage.trigger('add', rowElement)
       this.addedId = cookElement.id
       const iframe = document.getElementById('vcv-editor-iframe')
       this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
