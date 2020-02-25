@@ -67,9 +67,9 @@ export default class OopsScreen extends React.Component {
             </button>
           )}
           {errorReportAction && (
-            <button onClick={errorReportAction} className='vcv-screen-button vcv-screen-button--dark'>
-              Send error report
-            </button>
+            <a href="https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support" className='vcv-screen-button vcv-screen-button--dark'>
+              Report an Issue
+            </a>
           )}
         </>
       )
