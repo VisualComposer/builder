@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 const Cook = vcCake.getService('cook')
 const hubCategoriesService = vcCake.getService('hubCategories')
+const hubElementsStorage = vcCake.getStorage('hubElements')
 
 export default class ElementAttribute extends React.Component {
   static propTypes = {
@@ -32,46 +33,67 @@ export default class ElementAttribute extends React.Component {
     this.setState({ showReplacements: !this.state.showReplacements })
   }
 
-  getReplacements (categorySettings) {
-    return categorySettings.elements.map((tag) => {
-      const cookElement = Cook.get({ tag: tag })
-      if (!cookElement || !cookElement.get('name') || cookElement.get('name') === '--') {
-        return null
-      }
-      const nameClasses = classNames({
-        'vcv-ui-item-badge vcv-ui-badge--success': false,
-        'vcv-ui-item-badge vcv-ui-badge--warning': false
-      })
-      const itemContentClasses = classNames({
-        'vcv-ui-item-element-content': true,
-        'vcv-ui-item-list-item-content--active': this.props.tag === tag
-      })
+  getReplacementItem (elementData, name) {
+    const cookElement = Cook.get(elementData)
 
-      const publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+    if (!cookElement || !cookElement.get('name') || cookElement.get('name') === '--') {
+      return null
+    }
 
-      return (
-        <li key={'vcv-replace-element-' + cookElement.get('tag')} className='vcv-ui-item-list-item'>
-          <span
-            className='vcv-ui-item-element'
-            onClick={this.handleReplace.bind(this, tag, cookElement)}
-          >
-            <span className={itemContentClasses}>
-              <img
-                className='vcv-ui-item-element-image' src={publicPathThumbnail}
-                alt={cookElement.get('name')}
-              />
-              <span className='vcv-ui-item-overlay'>
-                <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
-              </span>
-            </span>
-            <span className='vcv-ui-item-element-name'>
-              <span className={nameClasses}>
-                {cookElement.get('name')}
-              </span>
+    const { tag } = elementData
+    const elementName = name || cookElement.get('name')
+    const publicPathThumbnail = cookElement.get('metaThumbnailUrl')
+
+    const nameClasses = classNames({
+      'vcv-ui-item-badge vcv-ui-badge--success': false,
+      'vcv-ui-item-badge vcv-ui-badge--warning': false
+    })
+    const itemContentClasses = classNames({
+      'vcv-ui-item-element-content': true,
+      'vcv-ui-item-list-item-content--active': !name && this.props.tag === tag
+    })
+    const itemClasses = classNames({
+      'vcv-ui-item-list-item': true,
+      'vcv-ui-item-list-item--preset': !!name
+    })
+
+    return (
+      <li
+        key={`vcv-replace-element-${elementName.replace(/ /g, '')}-${tag}`}
+        className={itemClasses}
+      >
+        <span
+          className='vcv-ui-item-element'
+          onClick={this.handleReplace.bind(this, tag, name ? cookElement : null)}
+        >
+          <span className={itemContentClasses}>
+            <img
+              className='vcv-ui-item-element-image' src={publicPathThumbnail}
+              alt={elementName}
+            />
+            <span className='vcv-ui-item-overlay'>
+              <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
             </span>
           </span>
-        </li>
-      )
+          <span className='vcv-ui-item-element-name'>
+            <span className={nameClasses}>
+              {elementName}
+            </span>
+          </span>
+        </span>
+      </li>
+    )
+  }
+
+  getReplacements (categorySettings) {
+    return categorySettings.elements.map((tag) => {
+      return this.getReplacementItem({ tag: tag })
+    })
+  }
+
+  getPresetReplacements (presets) {
+    return presets.map((preset) => {
+      return this.getReplacementItem(preset.presetData, preset.name)
     })
   }
 
@@ -81,17 +103,20 @@ export default class ElementAttribute extends React.Component {
     const { showReplacements } = this.state
     let replacements = ''
     const categorySettings = hubCategoriesService.get(category)
+    const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace current element with different element from the same category'
 
     if (categorySettings && showReplacements) {
       const replacementItemsOutput = this.getReplacements(categorySettings)
+      const replacementPresetItems = this.getPresetReplacements(presetsByCategory)
       replacements = (
         <div className='vcv-ui-replace-element-container'>
           <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.handleClickToggleReplace}>
             <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
           </span>
           <ul className='vcv-ui-replace-element-list'>
+            {replacementPresetItems}
             {replacementItemsOutput}
           </ul>
         </div>
