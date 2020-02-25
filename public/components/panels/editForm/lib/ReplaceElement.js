@@ -56,7 +56,6 @@ export default class ElementAttribute extends React.Component {
       'vcv-ui-item-list-item': true,
       'vcv-ui-item-list-item--preset': !!name
     })
-
     return (
       <li
         key={`vcv-replace-element-${elementName.replace(/ /g, '')}-${tag}`}
