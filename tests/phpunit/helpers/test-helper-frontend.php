@@ -63,7 +63,7 @@ class HelperFrontendTest extends WP_UnitTestCase
         $newIds = [];
         $newIds[] = $this->createPost('new step2ForTestWpQuery 1', 'post');
         $newIds[] = $this->createPost('new step2ForTestWpQuery 2', 'post');
-        $wp_query = new \WP_Query(['post_type' => 'post', 'post__in' => $newIds]);
+        $wp_query = new \WP_Query(['post_type' => 'post', 'post__in' => $newIds, 'orderby' => 'ID', 'order' => 'ASC']);
         $frontendHelper = vchelper('Frontend');
         $x = 0;
         while ($wp_query->have_posts()) {
@@ -185,6 +185,8 @@ must encode global content
             [
                 'post_type' => 'post',
                 'post__in' => $generalIds,
+                'orderby' => 'ID',
+                'order' => 'ASC',
             ]
         );
         $wp_the_query = $generalQuery;
