@@ -252,7 +252,7 @@ function vcLogWpErrorByCode($code, $errorMessage)
     }
     if (!empty($message)) {
         $message .= PHP_EOL
-            . '<span class="vcv-error-screen-text-default">You may need to contact your hosting provider for assistance. If the problem still occurs, visit <a href="https://support.visualcomposer.io/" target="_blank">support.visualcomposer.io</a> for technical assistance</span>';
+            . '<span class="vcv-error-screen-text-default">You may need to contact your hosting provider for assistance. If the problem still occurs, visit <a href="https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support" target="_blank">my.visualcomposer.com/support</a> for technical assistance</span>';
     }
     $message .= PHP_EOL . sprintf(__('WordPress Error: %s', 'visualcomposer'), $errorMessage);
     vchelper('Logger')->log($message);
