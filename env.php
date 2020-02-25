@@ -135,3 +135,7 @@ if (!VcvEnv::has('VCV_JS_FT_DYNAMIC_FIELDS')) {
 if (!VcvEnv::has('VCV_ACCOUNT_URL')) {
     VcvEnv::set('VCV_ACCOUNT_URL', 'https://account.visualcomposer.io');
 }
+
+if (!VcvEnv::has('VCV_SUPPORT_URL')) {
+    VcvEnv::set('VCV_SUPPORT_URL', defined('VCV_SUPPORT_URL') ? constant('VCV_SUPPORT_URL') : 'https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support');
+}
