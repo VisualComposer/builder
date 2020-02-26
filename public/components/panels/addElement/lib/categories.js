@@ -105,6 +105,10 @@ export default class Categories extends React.Component {
     if (isAllElements || isPresetsUpdated) {
       const { allElements } = this.state
       Categories.allElements = allElements.filter((elementData) => {
+        // Do not show custom root element in add element panel
+        if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
+          return false
+        }
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
