@@ -42,7 +42,7 @@ class ThemeActivation extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isThemeActivated() && !$licenseHelper->isPremiumActivated()) {
+                if (!$licenseHelper->isThemeActivated() && !$licenseHelper->isPremiumActivated() && defined('VCV_AUTHOR_API_KEY')) {
                     $this->call('addPage');
                 }
 
