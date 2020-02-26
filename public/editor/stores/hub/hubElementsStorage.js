@@ -232,4 +232,26 @@ addStorage('hubElements', (storage) => {
     const elementPresetsState = storage.state('elementPresets').get() || []
     storage.state('elementPresets').set(elementPresetsState.filter(item => item.id !== id))
   })
+
+  storage.registerAction('getPresetsByCategory', (categoryKey) => {
+    const category = storage.state('categories').get()[categoryKey]
+    const categoryTags = category && category.elements
+    const categoryPresets = []
+    if (!categoryTags) {
+      return categoryPresets
+    }
+    const presets = storage.state('elementPresets').get()
+    if (!presets) {
+      return categoryPresets
+    }
+
+    presets.forEach((preset) => {
+      const presetTag = preset.presetData.tag
+      if (categoryTags.indexOf(presetTag) > -1) {
+        categoryPresets.push(preset)
+      }
+    })
+
+    return categoryPresets
+  })
 })
