@@ -524,6 +524,10 @@ class Localizations extends Container implements Helper
                 'Unlimited access to the Visual Composer Hub of elements, templates, and extensions',
                 'visualcomposer'
             ),
+            'limitedAccessToExtensions' => __(
+                'Limited access to the Visual Composer Hub of elements, templates, and extensions',
+                'visualcomposer'
+            ),
             'getPremiumFeaturesText1' => __(
                 'Get Premium Elements, Templates,',
                 'visualcomposer'
