@@ -1,10 +1,10 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cozmoslabs
+Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cagdasdag,cozmoslabs
 Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
 Requires PHP: 5.4
 Requires at least: 4.6
 Tested up to: 5.3.2
-Stable tag: 24.0
+Stable tag: 25.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -172,6 +172,29 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 25.0 =
+*Release Date - 2020-03-03*
+
+#### Free:
+- New: Simplified element controls for easy getting started
+- Fix: Columns are added properly on a blank page
+- Fix: Row layout displays proper values in the edit form
+- Fix: Activation on OVH hosting works properly
+- Fix: Animation does not create glitches upon adding
+- Fix: <pre> tags work properly in TinyMCE
+- Fix: Drag and Drop works properly
+- Fix: Yoast integration works properly
+
+#### Premium:
+- New: Element Presets addon added to the Visual Composer Hub with an option to save an element with custom parameters, rows and sections can be saved as a template
+- New: Option to set custom templates for categories, tags, and author pages
+- New: Option to set custom templates for the search results page
+- Element: Portfolio Post Grid added to the Visual Composer Hub
+- Fix: Premium activation has a proper link to the Premium pricing
+- Fix: Premium license key is displayed with a mask for privacy
+- Fix: Dynamic content fields work properly in Global Templates
+- Fix: Theme editor for custom header and footer work properly with WPML installed
 
 = 24.0 =
 *Release Date - 2020-01-14*
