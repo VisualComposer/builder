@@ -22,12 +22,18 @@ vcvAddElement(
     const { size, lastInRow, firstInRow, designOptionsAdvanced } = attr
     if (size && typeof size !== 'object') {
       attr.size = { all: size, defaultSize: size }
+    } else if (size === '') {
+      attr.size = {}
     }
     if (lastInRow && typeof lastInRow !== 'object') {
       attr.lastInRow = { all: lastInRow }
+    } else if (lastInRow === '') {
+      attr.lastInRow = {}
     }
     if (firstInRow && typeof firstInRow !== 'object') {
       attr.firstInRow = { all: firstInRow }
+    } else if (firstInRow === '') {
+      attr.firstInRow = {}
     }
 
     // Move parallax settings to new attribute
