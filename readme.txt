@@ -196,7 +196,6 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Dynamic content fields work properly in Global Templates
 - Fix: Theme editor for custom header and footer work properly with WPML installed
 
-
 = 24.0 =
 *Release Date - 2020-01-14*
 
