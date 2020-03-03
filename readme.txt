@@ -15,7 +15,7 @@ The best drag & drop website builder for WordPress. Professional templates, elem
 
 **Brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Get the best page builder for your website.
 
-Visual Composer Website Builder is an intuitive drag and drop editor that gives you powerful tools and assets to create a professional WordPress site. Rich library of assets - Visual Composer Hub offers 250+ Templates and Elements, Add-ons, Header, Footer builder, and more.
+Visual Composer Website Builder is an intuitive drag and drop editor that gives you powerful tools and assets to create a professional WordPress site. Rich library of assets - [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) offers 250+ Templates, Elements, Add-ons accompany with a **Theme Builder** and extensive Design options.
 
 https://www.youtube.com/watch?v=SJMIvMXyPHs
 
