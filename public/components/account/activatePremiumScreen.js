@@ -130,6 +130,7 @@ export default class ActivatePremiumScreen extends React.Component {
     const getFreeAccessText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getFreeAccessToTheVisualComposerHub : 'Get Free Access to the Visual Composer Hub'
     const whatYouWillGetText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.whatYouWillGet : 'What You Will Get?'
     const whatYouWillGetForFreeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.whatYouWillGetForFree : 'What You Will Get For Free?'
+    const limitedAccessToExtensionsText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.limitedAccessToExtensions : 'Limited access to the Visual Composer Hub of elements, templates, and extensions'
     const unlimitedAccessToExtensionsText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and extensions'
     const themeBuilderWithHFSText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.themeBuilderWithHFS : 'Theme builder with Header, Footer, and Sidebar editor'
     const wooCommerceCompatibilityText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.wooCommerceCompatibility : 'WooCommerce compatibility'
@@ -210,6 +211,8 @@ export default class ActivatePremiumScreen extends React.Component {
       buttonText = activateThemeLicense
     }
 
+    const hubAccessText = activationType === 'free' ? limitedAccessToExtensionsText : unlimitedAccessToExtensionsText
+
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
@@ -223,7 +226,7 @@ export default class ActivatePremiumScreen extends React.Component {
               {activationType === 'premium' || activationType === 'author' ? whatYouWillGetText : whatYouWillGetForFreeText}
             </h3>
             <ul className='vcv-basic-list'>
-              <li className='vcv-basic-list-item'>{unlimitedAccessToExtensionsText}</li>
+              <li className='vcv-basic-list-item'>{hubAccessText}</li>
               <li className={this.getListItemClass(activationType)}>{themeBuilderWithHFSText}</li>
               <li className={this.getListItemClass(activationType)}>{wooCommerceCompatibilityText}</li>
               {activationType === 'author' ? (<li className='vcv-basic-list-item'>{regularUpdatesText}</li>) : null}
