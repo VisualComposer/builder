@@ -158,7 +158,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activationFailed' => __(
-                'An error occurred during the Visual Composer extension download process. 
+                'An error occurred during the Visual Composer extension download process.
 <ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'visualcomposer'
             ),
@@ -216,6 +216,10 @@ class Localizations extends Container implements Helper
             'pageTitleDisableDescription' => __('Disable page title', 'visualcomposer'),
             'successElementDownload' => __(
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
+                'visualcomposer'
+            ),
+            'copyElementWithId' => __(
+                'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.',
                 'visualcomposer'
             ),
             'licenseErrorElementDownload' => __(
