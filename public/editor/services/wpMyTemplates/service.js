@@ -6,6 +6,7 @@ const utils = getService('utils')
 const documentManager = getService('document')
 const getType = {}.toString
 const elementsStorage = getStorage('elements')
+const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
 const processRequest = (action, key, data, successCallback, errorCallback) => {
   const ajax = getService('utils').ajax
@@ -30,8 +31,9 @@ addService('myTemplates', {
     if (this.findBy('name', name)) {
       return false
     }
+    const id = editorType === 'popup' ? 'popup' : 'template'
     getStorage('wordpressData').trigger('save', {}, '', {
-      id: 'template',
+      id: id,
       title: name,
       status: false,
       documentData: isElementLayout ? data : false,
@@ -44,7 +46,8 @@ addService('myTemplates', {
           } else {
             const id = response.postData.id
             const templateData = { id: id.toString(), name: name, data: data, html: html }
-            getStorage('hubTemplates').trigger('add', 'custom', templateData)
+            const type = editorType === 'popup' ? 'popup' : 'custom'
+            getStorage('hubTemplates').trigger('add', type, templateData)
             successCallback && typeof successCallback === 'function' && successCallback()
           }
         } catch (e) {
@@ -110,9 +113,8 @@ addService('myTemplates', {
     } else {
       custom = storageData && storageData.custom ? storageData.custom : false
     }
-    let myTemplates
+    let myTemplates = custom && custom.templates ? custom.templates : []
     if (env('VCV_JS_THEME_EDITOR')) {
-      const customTemplates = custom && custom.templates ? custom.templates : []
       const customHeader = this.customHeader(data)
       const customFooter = this.customFooter(data)
       const customSidebar = this.customSidebar(data)
@@ -120,10 +122,15 @@ addService('myTemplates', {
       const customFooterTemplates = customFooter && customFooter.templates ? customFooter.templates : []
       const customSidebarTemplates = customSidebar && customSidebar.templates ? customSidebar.templates : []
 
-      myTemplates = customTemplates.concat(customHeaderTemplates, customFooterTemplates, customSidebarTemplates)
-    } else {
-      myTemplates = custom && custom.templates ? custom.templates : []
+      myTemplates = myTemplates.concat(customHeaderTemplates, customFooterTemplates, customSidebarTemplates)
     }
+
+    if (editorType === 'popup') {
+      const customPopup = this.getPopupTemplates(data)
+      const customPopupTemplates = customPopup && customPopup.templates ? customPopup.templates : []
+      myTemplates.concat(customPopupTemplates)
+    }
+
     if (filter && filter.constructor === Function) {
       myTemplates = myTemplates.filter(filter)
     }
@@ -183,6 +190,9 @@ addService('myTemplates', {
     const hubBlockTemplates = data
     return hubBlockTemplates && hubBlockTemplates.templates ? hubBlockTemplates.templates : []
   },
+  getPopupTemplates (data) {
+    return data && data.templates ? data.templates : []
+  },
   customHeader (data) {
     const customHeaderTemplates = data && data.customHeader
     return customHeaderTemplates && customHeaderTemplates.templates ? customHeaderTemplates.templates : []
@@ -192,13 +202,16 @@ addService('myTemplates', {
     return customFooterTemplates && customFooterTemplates.templates ? customFooterTemplates.templates : []
   },
   customSidebar (data) {
-    const customSidebaremplates = data && data.customSidebar
-    return customSidebaremplates && customSidebaremplates.templates ? customSidebaremplates.templates : []
+    const customSidebarTemplates = data && data.customSidebar
+    return customSidebarTemplates && customSidebarTemplates.templates ? customSidebarTemplates.templates : []
   },
   getAllTemplates (filter = null, sort = null, data) {
     const allTemplatesGroups = data || getStorage('hubTemplates').state('templates').get()
     let allTemplates = []
     for (const key in allTemplatesGroups) {
+      if (editorType !== 'popup' && key === 'popup') {
+        continue
+      }
       allTemplates = allTemplates.concat(allTemplatesGroups[key].templates)
     }
     if (filter && filter.constructor === Function) {
@@ -224,6 +237,9 @@ addService('myTemplates', {
       data.hubFooter = this.hubFooter(storageData.hubFooter)
       data.hubSidebar = this.hubSidebar(storageData.hubSidebar)
       data.block = this.hubBlock(storageData.block)
+      if (editorType === 'popup') {
+        data.popup = this.getPopupTemplates(storageData.popup)
+      }
     }
     return data
   },
