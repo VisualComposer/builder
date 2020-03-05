@@ -28,15 +28,19 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::allTemplatesAsync */
         $this->addFilter('vcv:dataAjax:getData', 'allTemplatesAsync');
 
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::read */
         $this->addFilter('vcv:ajax:editorTemplates:read:adminNonce', 'read');
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::delete */
         $this->addFilter('vcv:ajax:editorTemplates:delete:adminNonce', 'delete');
 
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::saveTemplateId */
         $this->addFilter('vcv:dataAjax:setData:sourceId', 'saveTemplateId');
 
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::templatesEditorBlankTemplate */
         $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
     }
 
@@ -57,7 +61,7 @@ class Controller extends Container implements Module
     ) {
         if (
             $frontendHelper->isPageEditable()
-            && in_array($postTypeHelper->get()->post_type, ['vcv_templates'])
+            && $postTypeHelper->get()->post_type === 'vcv_templates'
         ) {
             $template = 'blank-stretched-template.php';
 
@@ -83,34 +87,21 @@ class Controller extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\PostType $postTypeHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
+     * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
      *
-     * @return array
+     * @return bool|integer
      */
-    protected function create(
-        PostType $postTypeHelper,
-        CurrentUser $currentUserAccessHelper
-    ) {
+    protected function create(CurrentUser $currentUserAccessHelper, EditorTemplates $editorTemplatesHelper)
+    {
         if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
-            $data = [
-                'post_type' => 'vcv_templates',
-                'post_status' => 'vcv_templates',
-            ];
-
-            $templateId = $postTypeHelper->create($data);
-            update_post_meta($templateId, '_' . VCV_PREFIX . 'id', uniqid());
-
-            update_post_meta($templateId, '_' . VCV_PREFIX . 'type', 'custom');
-
-            vcevent('vcv:editor:template:create', ['templateId' => $templateId]);
-
-            return [
-                'status' => $templateId,
-            ];
+            $templateId = $editorTemplatesHelper->create('custom');
+            if ($templateId) {
+                return $templateId;
+            }
         }
 
-        return ['status' => false];
+        return false;
     }
 
     /**
@@ -147,25 +138,13 @@ class Controller extends Container implements Module
     protected function read(
         Request $requestHelper,
         EditorTemplates $editorTemplatesHelper,
-        CurrentUser $currentUserHelper,
-        PostType $postTypeHelper
+        CurrentUser $currentUserHelper
     ) {
         $id = $requestHelper->input('vcv-template-id');
         if ($currentUserHelper->wpAll(['edit_posts', $id])) {
-            $template = $editorTemplatesHelper->get($id);
-            $postTypeHelper->setupPost($id);
+            $template = $editorTemplatesHelper->read($id);
             if ($template) {
-                return [
-                    'status' => true,
-                    'data' => $template->vcvTemplateElements,
-                    'allData' => vcfilter(
-                        'vcv:ajax:getData:adminNonce',
-                        [],
-                        [
-                            'sourceId' => $id,
-                        ]
-                    ),
-                ];
+                return $template;
             }
         }
 
@@ -177,14 +156,23 @@ class Controller extends Container implements Module
      *
      * @return mixed
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function saveTemplateId($sourceId)
     {
         if ($sourceId === 'template') {
-            $response = $this->call('create');
-            if (!vcIsBadResponse($response)) {
-                return $response['status']; // templateId
+            /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
+            $templateId = $this->call('create');
+            if ($templateId) {
+                // Create template ID
+                if (!get_post_meta($sourceId, '_' . VCV_PREFIX . 'id', true)) {
+                    update_post_meta($sourceId, '_' . VCV_PREFIX . 'id', uniqid('', true));
+                }
+
+                return $templateId;
             }
+
+            return ['status' => false];
         }
 
         return $sourceId;
