@@ -46,6 +46,7 @@ export default class Url extends Attribute {
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
   componentUnmounted = false
+  VCV_POPUP_BUILDER = true
 
   constructor (props) {
     super(props)
@@ -74,6 +75,9 @@ export default class Url extends Attribute {
     }
 
     let content = 'url'
+    if (this.VCV_POPUP_BUILDER === false) {
+      content = 'url'
+    }
     if (this.props.value.type === 'popup') {
       content = 'popup'
     }
@@ -286,9 +290,28 @@ export default class Url extends Attribute {
     const onClickAction = this.localizations ? this.localizations.onClickAction : 'OnClick action'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
-    let selectAPopup = this.localizations ? this.localizations.selectAPopup : 'Select a Popup'
+    const selectAPopup = this.localizations ? this.localizations.selectAPopup : 'Select a Popup'
 
+    let optionDropdown = []
     let modalContent = []
+
+    if (this.VCV_POPUP_BUILDER === true) {
+      optionDropdown = (
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            {onClickAction}
+          </span>
+          <select
+            className='vcv-ui-form-dropdown'
+            onChange={this.handleContentChange}
+            value={this.state.content}
+          >
+            <option value='url'>Url</option>
+            <option value='popup'>Popup</option>
+          </select>
+        </div>
+      )
+    }
 
     if (this.state.content === 'url') {
       modalContent = (
@@ -360,19 +383,7 @@ export default class Url extends Attribute {
           </header>
 
           <section className='vcv-ui-modal-content'>
-            <div className='vcv-ui-form-group'>
-              <span className='vcv-ui-form-group-heading'>
-                {onClickAction}
-              </span>
-              <select
-                className='vcv-ui-form-dropdown'
-                onChange={this.handleContentChange}
-                value={this.state.content}
-              >
-                <option value='url'>Url</option>
-                <option value='popup'>Popup</option>
-              </select>
-            </div>
+            {optionDropdown}
             {modalContent}
           </section>
 
