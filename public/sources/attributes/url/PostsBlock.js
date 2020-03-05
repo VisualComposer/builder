@@ -12,10 +12,6 @@ export default class PostsBlock extends React.Component {
     value: PropTypes.object.isRequired
   }
 
-  constructor (props) {
-    super(props)
-  }
-
   renderExistingPosts () {
     const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'Nothing found'
     const items = []
@@ -70,7 +66,7 @@ export default class PostsBlock extends React.Component {
     }
 
     let searchContentText = linkToExistingContent
-    if ( this.props.type === 'popup') {
+    if (this.props.type === 'popup') {
       searchContentText = selectAPopup
     }
 
