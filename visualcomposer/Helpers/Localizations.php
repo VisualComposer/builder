@@ -488,10 +488,6 @@ class Localizations extends Container implements Helper
                 'Free License',
                 'visualcomposer'
             ),
-            'limitedAccessToExtensions' => __(
-                'Limited access to the Visual Composer Hub of elements, templates, and extensions',
-                'visualcomposer'
-            ),
             'themeBuilderWithHFS' => __(
                 'Theme builder with Header, Footer, and Sidebar editor',
                 'visualcomposer'
@@ -522,6 +518,10 @@ class Localizations extends Container implements Helper
             ),
             'unlimitedAccessToExtensions' => __(
                 'Unlimited access to the Visual Composer Hub of elements, templates, and extensions',
+                'visualcomposer'
+            ),
+            'limitedAccessToExtensions' => __(
+                'Limited access to the Visual Composer Hub of elements, templates, and extensions',
                 'visualcomposer'
             ),
             'getPremiumFeaturesText1' => __(

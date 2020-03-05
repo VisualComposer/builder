@@ -53,6 +53,8 @@ class EditorController extends Container implements Module
                 global $_wp_post_type_features;
                 if (isset($_wp_post_type_features[ $post->post_type ]['editor'])) {
                     unset($_wp_post_type_features[ $post->post_type ]['editor']);
+                    // Output textarea for 3rd party plugins
+                    echo '<textarea name="content" id="content" class="wp-editor-area" style="display: none;">' . esc_textarea($post->post_content) . '</textarea>';
                 }
                 // @codingStandardsIgnoreEnd
             }
