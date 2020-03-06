@@ -73,11 +73,9 @@ export default class Url extends Attribute {
       }
     }
 
-    let content = 'url'
-    if (!env('VCV_POPUP_BUILDER')) {
-      content = 'url'
-    } else if (this.props.value.type === 'popup') {
-      content = 'popup'
+
+    if (env('VCV_POPUP_BUILDER') && this.props.value.type === 'popup') {
+      value.type = 'popup'
     }
 
     pagePosts.clear()
@@ -86,8 +84,7 @@ export default class Url extends Attribute {
       unsavedValue: value,
       isWindowOpen: false,
       updateState: false,
-      shouldRenderExistingPosts: !!window.vcvAjaxUrl,
-      content: content
+      shouldRenderExistingPosts: !!window.vcvAjaxUrl
     }
   }
 
@@ -190,20 +187,16 @@ export default class Url extends Attribute {
 
   handlePostSelection = (e, url, title) => {
     e && e.preventDefault()
-    if (this.state.content === 'url') {
-      this.urlInput.setFieldValue(url)
-    } else if (this.state.content === 'popup') {
+
+    if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
       this.setState({
         unsavedValue: {
-          url: url,
-          title: title,
-          type: 'popup'
-        },
-        value: {
           url: url,
           type: 'popup'
         }
       })
+    } else {
+      this.urlInput.setFieldValue(url)
     }
   }
 
@@ -270,15 +263,15 @@ export default class Url extends Attribute {
   }
 
   handleContentChange (e) {
+    const unsavedValue = {
+      url: '',
+      title: ''
+    }
+    if (e.target.value === 'popup') {
+      unsavedValue.type = 'popup'
+    }
     this.setState({
-      content: e.target.value,
-      unsavedValue: {
-        url: '',
-        title: ''
-      },
-      value: {
-        url: ''
-      }
+      unsavedValue: unsavedValue
     })
   }
 
@@ -290,8 +283,9 @@ export default class Url extends Attribute {
     const close = this.localizations ? this.localizations.close : 'Close'
     const selectAPopup = this.localizations ? this.localizations.selectAPopup : 'Select a Popup'
 
-    let optionDropdown = []
-    let modalContent = []
+    let optionDropdown = null
+    let modalContent = null
+    const dropdownValue = this.state.unsavedValue.type ? 'popup' : 'url'
 
     if (env('VCV_POPUP_BUILDER')) {
       optionDropdown = (
@@ -302,7 +296,7 @@ export default class Url extends Attribute {
           <select
             className='vcv-ui-form-dropdown'
             onChange={this.handleContentChange}
-            value={this.state.content}
+            value={dropdownValue}
           >
             <option value='url'>Url</option>
             <option value='popup'>Popup</option>
@@ -311,7 +305,7 @@ export default class Url extends Attribute {
       )
     }
 
-    if (this.state.content === 'url') {
+    if (!this.state.unsavedValue.type || this.state.unsavedValue.type !== 'popup') {
       modalContent = (
         <div>
           <p className='vcv-ui-form-helper'>
@@ -333,7 +327,7 @@ export default class Url extends Attribute {
           {this.renderTitleInput()}
           {this.renderCheckboxes()}
           <PostsBlock
-            type={this.state.content}
+            type='url'
             posts={pagePosts}
             onSearchChange={this.handleSearchChange}
             onPostSelection={this.handlePostSelection}
@@ -343,6 +337,11 @@ export default class Url extends Attribute {
         </div>
       )
     } else {
+      let title = ''
+      if (pagePopups.data && pagePopups.data.length && this.state.unsavedValue.url) {
+        const activePost = pagePopups.data[pagePopups.data.findIndex(item => item.url === this.state.unsavedValue.url)]
+        title = activePost ? activePost.title : ''
+      }
       modalContent = (
         <div>
           <div className='vcv-ui-form-group'>
@@ -351,12 +350,12 @@ export default class Url extends Attribute {
             </span>
             <input
               className='vcv-ui-form-input'
-              value={this.state.unsavedValue.title || selectAPopup}
+              value={title || selectAPopup}
               onChange={e => this.handlePostSelection(e.target.value)}
             />
           </div>
           <PostsBlock
-            type={this.state.content}
+            type={this.state.unsavedValue.type}
             posts={pagePopups}
             onSearchChange={this.handleSearchChange}
             onPostSelection={this.handlePostSelection}
