@@ -63,7 +63,7 @@ export default class HtmlLayout extends React.Component {
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     const layoutsContent = []
     let elementsList
-    if (this.props.data) {
+    if (this.props.data.length) {
       elementsList = this.props.data.map((element, index) => {
         let getBlankRowPlaceholder = null
         if (index === 0 && editorType === 'popup') {
