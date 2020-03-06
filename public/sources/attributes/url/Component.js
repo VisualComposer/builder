@@ -72,8 +72,7 @@ export default class Url extends Attribute {
         relNofollow: false
       }
     }
-
-
+    
     if (env('VCV_POPUP_BUILDER') && this.props.value.type === 'popup') {
       value.type = 'popup'
     }
