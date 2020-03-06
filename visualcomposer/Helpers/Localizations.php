@@ -222,6 +222,10 @@ class Localizations extends Container implements Helper
                 'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.',
                 'visualcomposer'
             ),
+            'cloneElementWithId' => __(
+                'Your element was cloned without a unique Element ID. You can adjust the Element ID by editing the cloned element.',
+                'visualcomposer'
+            ),
             'licenseErrorElementDownload' => __(
                 'Failed to download element (license expired or request timed out)',
                 'visualcomposer'
