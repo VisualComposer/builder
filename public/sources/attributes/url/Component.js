@@ -76,11 +76,8 @@ export default class Url extends Attribute {
     let content = 'url'
     if (!env('VCV_POPUP_BUILDER')) {
       content = 'url'
-    }
-    if (this.props.value.type === 'popup' && env('VCV_POPUP_BUILDER')) {
+    } else if (this.props.value.type === 'popup') {
       content = 'popup'
-    } else {
-      content = 'url'
     }
 
     pagePosts.clear()
