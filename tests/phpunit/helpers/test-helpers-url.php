@@ -147,10 +147,10 @@ class HelpersUrlTest extends WP_UnitTestCase
 
         $this->assertEquals('http://google.com', $urlHelper->query('http://google.com'));
         $this->assertEquals('http://google.com/', $urlHelper->query('http://google.com/'));
-        $this->assertEquals('http://google.com?s=true', $urlHelper->query('http://google.com', ['s' => 'true']));
-        $this->assertEquals('http://google.com?s=true', $urlHelper->query('http://google.com/', ['s' => 'true']));
+        $this->assertEquals('http://google.com/?s=true', $urlHelper->query('http://google.com', ['s' => 'true']));
+        $this->assertEquals('http://google.com/?s=true', $urlHelper->query('http://google.com/', ['s' => 'true']));
         $this->assertEquals(
-            'http://google.com?s=true&b=hello',
+            'http://google.com/?s=true&b=hello',
             $urlHelper->query('http://google.com', ['s' => 'true', 'b' => 'hello'])
         );
     }
