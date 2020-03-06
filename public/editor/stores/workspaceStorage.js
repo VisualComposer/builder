@@ -67,6 +67,18 @@ addStorage('workspace', (storage) => {
   })
   storage.on('clone', (id) => {
     elementsStorage.trigger('clone', id)
+    const metaCustomId = cook.getById(id).get('metaCustomId')
+    if (metaCustomId) {
+      const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+      const successMessage = localizations.cloneElementWithId || 'Your element was cloned without a unique Element ID. You can adjust the Element ID by editing the cloned element.'
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: successMessage,
+        time: 3000
+      })
+    }
   }, {
     debounce: 250
   })
