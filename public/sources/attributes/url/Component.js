@@ -7,7 +7,7 @@ import Checkbox from '../checkbox/Component'
 import UrlDropdownInput from './UrlDropdownInput'
 import PostsBlock from './PostsBlock'
 import { getResponse } from 'public/tools/response'
-import { getService } from 'vc-cake'
+import { getService, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 
 const { getBlockRegexp } = getService('utils')
@@ -46,7 +46,6 @@ export default class Url extends Attribute {
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
   componentUnmounted = false
-  VCV_POPUP_BUILDER = true
 
   constructor (props) {
     super(props)
@@ -75,11 +74,13 @@ export default class Url extends Attribute {
     }
 
     let content = 'url'
-    if (this.VCV_POPUP_BUILDER === false) {
+    if (!env('VCV_POPUP_BUILDER')) {
       content = 'url'
     }
-    if (this.props.value.type === 'popup') {
+    if (this.props.value.type === 'popup' && env('VCV_POPUP_BUILDER')) {
       content = 'popup'
+    } else {
+      content = 'url'
     }
 
     pagePosts.clear()
@@ -295,7 +296,7 @@ export default class Url extends Attribute {
     let optionDropdown = []
     let modalContent = []
 
-    if (this.VCV_POPUP_BUILDER === true) {
+    if (env('VCV_POPUP_BUILDER')) {
       optionDropdown = (
         <div className='vcv-ui-form-group'>
           <span className='vcv-ui-form-group-heading'>
