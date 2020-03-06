@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 export default class PostsBlock extends React.Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
     posts: PropTypes.object.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onPostSelection: PropTypes.func.isRequired,
@@ -77,7 +77,8 @@ export default class PostsBlock extends React.Component {
         </p>
         <div className='vcv-ui-input-search'>
           <input
-            type='search' className='vcv-ui-form-input'
+            type='search'
+            className='vcv-ui-form-input'
             onChange={this.props.onSearchChange}
             placeholder={searchExistingContent}
           />
