@@ -139,8 +139,10 @@ class HubDownloadActions extends WP_UnitTestCase
                             'name' => 'Wedding Page',
                             'bundle' => 'predefinedTemplate/weddingPage',
                             'id' => (string)$result['templates'][0]['id'],
-                            'thumbnail' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates/1556191390.weddingpage-thumbnail.png',
-                            'preview' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME . '/templates/1556191390.weddingpage-preview.png',
+                            'thumbnail' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                                . '/templates/TP11000008/1556191390.weddingpage-thumbnail.png',
+                            'preview' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                                . '/templates/TP11000008/1556191390.weddingpage-preview.png',
                             'type' => 'predefined',
                             'description' => 'An ideal one-page layout for your wedding or other events, including meetups and networking parties.',
                         ],
@@ -157,6 +159,44 @@ class HubDownloadActions extends WP_UnitTestCase
             ],
 
             $templates
+        );
+        $this->assertEquals(
+            [
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Life-before-image-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Life-before-image-300x212.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Life-before-image.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Love-story-image-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Love-story-image-300x212.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Love-story-image.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-four-1024x351.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-four-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-four-300x103.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-four.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-one-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-one-191x300.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-one.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-three-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-three-191x300.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-three.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-two-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-two-191x300.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Photo-gallery-two.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Two-meet-image-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Two-meet-image-162x300.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Two-meet-image.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Wedding-header-image-1024x640.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Wedding-header-image-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Wedding-header-image-300x188.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Wedding-header-image.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Yes-image-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Yes-image-260x300.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/Yes-image.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/family-image-150x150.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/family-image-300x212.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/family-image.jpg',
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/johnson-image.png',
+            ],
+            glob(VCV_PLUGIN_ASSETS_DIR_PATH . '/templates/TP11000008/assets/elements/*')
         );
     }
 

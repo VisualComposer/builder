@@ -158,7 +158,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activationFailed' => __(
-                'An error occurred during the Visual Composer extension download process. 
+                'An error occurred during the Visual Composer extension download process.
 <ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'visualcomposer'
             ),
@@ -218,6 +218,14 @@ class Localizations extends Container implements Helper
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
                 'visualcomposer'
             ),
+            'copyElementWithId' => __(
+                'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.',
+                'visualcomposer'
+            ),
+            'cloneElementWithId' => __(
+                'Your element was cloned without a unique Element ID. You can adjust the Element ID by editing the cloned element.',
+                'visualcomposer'
+            ),
             'licenseErrorElementDownload' => __(
                 'Failed to download element (license expired or request timed out)',
                 'visualcomposer'
@@ -229,6 +237,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'feOopsButtonTextDefault' => __('Return to WordPress dashboard', 'visualcomposer'),
+            'feOopsTryAgainButtonText' => __('Try Again', 'visualcomposer'),
+            'feOopsReportAnIssueButtonText' => __('Report an Issue', 'visualcomposer'),
             'feOopsMessagePageForPosts' => __(
             // @codingStandardsIgnoreLine
                 'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin',
@@ -486,10 +496,6 @@ class Localizations extends Container implements Helper
                 'Free License',
                 'visualcomposer'
             ),
-            'limitedAccessToExtensions' => __(
-                'Limited access to the Visual Composer Hub of elements, templates, and extensions',
-                'visualcomposer'
-            ),
             'themeBuilderWithHFS' => __(
                 'Theme builder with Header, Footer, and Sidebar editor',
                 'visualcomposer'
@@ -520,6 +526,10 @@ class Localizations extends Container implements Helper
             ),
             'unlimitedAccessToExtensions' => __(
                 'Unlimited access to the Visual Composer Hub of elements, templates, and extensions',
+                'visualcomposer'
+            ),
+            'limitedAccessToExtensions' => __(
+                'Limited access to the Visual Composer Hub of elements, templates, and extensions',
                 'visualcomposer'
             ),
             'getPremiumFeaturesText1' => __(

@@ -57,7 +57,7 @@ class TemplatesUpdater extends Container implements Module
         // File is locally available
         $hubTemplatesBundleHelper = vchelper('HubBundle');
         $hubTemplatesBundleHelper->setTempBundleFolder(
-            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-template-' . $template['id']
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['actionData']['action'])
         );
         $tempTemplatePath = $hubTemplatesBundleHelper->getTempBundleFolder('templates/' . $template['id']);
         if (is_dir($tempTemplatePath)) {
@@ -236,7 +236,7 @@ class TemplatesUpdater extends Container implements Module
 
                 if (rename($imageFile, $templatePath . '/' . $localImagePath)) {
                     return $assetsHelper->getAssetUrl(
-                        'templates/' . $localImagePath
+                        'templates/' . $template['id'] . '/' . $localImagePath
                     );
                 }
             } else {
