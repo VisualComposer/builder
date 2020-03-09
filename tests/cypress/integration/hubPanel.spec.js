@@ -40,7 +40,8 @@ describe('Hub Panel', function () {
 
       // Click on Stock Images tab, click on image
       cy.contains('.vcv-ui-form-button', 'Stock Images').click()
-      // TODO: Fix a bug related to free license and Unsplash API, then fix the test
+      // TODO: Fix a bug related to free license and Unsplash API, then fix the test,
+      //  should not see download icon, Free license should show lock icon.
       // cy.wait(1500) // Need to wait for images to load before performing any assertions
       // cy.contains('.vcv-stock-images-button', 'Activate Premium')
       // cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')
@@ -79,7 +80,9 @@ describe('Hub Panel', function () {
         .click()
       cy.get('.vcv-ui-wp-spinner-light')
       cy.wait('@downloadItem')
-      cy.wait(2000) // Hardcode wait to ensure that element is downloaded
+      cy.savePage()
+      cy.reload()
+      // cy.wait(2000) // Hardcode wait to ensure that element is downloaded
 
       // Open Add Element check downloaded element's existence, add element to the page
       cy.addElement(settings.freeElementName)
