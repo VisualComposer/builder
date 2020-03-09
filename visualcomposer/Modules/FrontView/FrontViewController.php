@@ -28,7 +28,7 @@ class FrontViewController extends Container implements Module
         /** @see \VisualComposer\Modules\FrontView\FrontViewController::encode */
         $this->wpAddFilter('the_content', 'encode', 1);
         /** @see \VisualComposer\Modules\FrontView\FrontViewController::decode */
-        $this->wpAddFilter('the_content', 'decode', 10);
+        $this->wpAddFilter('the_content', 'decode', 99);
         /** @see \VisualComposer\Modules\FrontView\FrontViewController::removeOldCommentTags */
         $this->wpAddFilter('the_content', 'removeOldCommentTags');
         /** @see \VisualComposer\Modules\FrontView\FrontViewController::removeIpadMeta */
