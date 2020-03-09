@@ -38,6 +38,12 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     elementsStorage.on(`element:move:${this.props.id}`, this.handleElementMove)
   }
 
+  componentWillUnmount() {
+    elementsStorage.off('update', this.handleElementUpdate)
+    elementsStorage.off('remove', this.handleElementRemove)
+    elementsStorage.off(`element:move:${this.props.id}`, this.handleElementMove)
+  }
+
   componentDidUpdate () {
     this.handleStorageChange(false)
   }
