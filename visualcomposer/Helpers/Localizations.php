@@ -229,6 +229,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'feOopsButtonTextDefault' => __('Return to WordPress dashboard', 'visualcomposer'),
+            'feOopsTryAgainButtonText' => __('Try Again', 'visualcomposer'),
+            'feOopsReportAnIssueButtonText' => __('Report an Issue', 'visualcomposer'),
             'feOopsMessagePageForPosts' => __(
             // @codingStandardsIgnoreLine
                 'It seems you are trying to edit archive page which displays your post archive instead of content. Before edit, please make sure to convert it to a static page via your WordPress admin',
@@ -502,6 +504,14 @@ class Localizations extends Container implements Helper
                 'Premium support and updates',
                 'visualcomposer'
             ),
+            'premiumSupport' => __(
+                'Premium support',
+                'visualcomposer'
+            ),
+            'regularUpdates' => __(
+                'Regular updates',
+                'visualcomposer'
+            ),
             'activateFree' => __(
                 'Activate Free',
                 'visualcomposer'
@@ -520,6 +530,14 @@ class Localizations extends Container implements Helper
             ),
             'getPremiumFeaturesText2' => __(
                 'Extensions, and Support',
+                'visualcomposer'
+            ),
+            'getThemeFeatures' => __(
+                'Get Premium Elements and Templates',
+                'visualcomposer'
+            ),
+            'activateThemeLicense' => __(
+                'Activate Theme License',
                 'visualcomposer'
             ),
             'whatYouWillGet' => __(
