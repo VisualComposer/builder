@@ -154,6 +154,12 @@ class EnqueueController extends Container implements Module
             if ($optionsHelper->get('globalElementsCss')) {
                 wp_add_inline_style($handle, $optionsHelper->get('globalElementsCss'));
             }
+        } else {
+            if ($optionsHelper->get('globalElementsCss')) {
+                wp_register_style(VCV_PREFIX . 'globalElementsCss', false);
+                wp_enqueue_style(VCV_PREFIX . 'globalElementsCss');
+                wp_add_inline_style(VCV_PREFIX . 'globalElementsCss', $optionsHelper->get('globalElementsCss'));
+            }
         }
     }
 
