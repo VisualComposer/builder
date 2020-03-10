@@ -31,9 +31,9 @@ addService('myTemplates', {
     if (this.findBy('name', name)) {
       return false
     }
-    const id = templateType || 'template'
+    const templateTypeId = templateType || 'template'
     getStorage('wordpressData').trigger('save', {}, '', {
-      id: id,
+      id: templateTypeId,
       title: name,
       status: false,
       documentData: isElementLayout ? data : false,
@@ -46,7 +46,7 @@ addService('myTemplates', {
           } else {
             const id = response.postData.id
             const templateData = { id: id.toString(), name: name, data: data, html: html }
-            const type = id === 'template' ? 'custom' : id
+            const type = templateTypeId === 'template' ? 'custom' : templateTypeId
             getStorage('hubTemplates').trigger('add', type, templateData)
             successCallback && typeof successCallback === 'function' && successCallback()
           }
