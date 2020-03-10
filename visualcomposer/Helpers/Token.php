@@ -104,8 +104,10 @@ class Token extends Container implements Helper
                     if ($previousType !== $licenseType) {
                         $optionsHelper->deleteTransient('lastBundleUpdate');
                         $licenseHelper->setType($licenseType);
+                        $licenseHelper->updateUsageDate(true);
                     }
                     $licenseHelper->setExpirationDate($body['data']['expiration']);
+                    $licenseHelper->updateUsageDate();
                 }
 
                 $this->checkLicenseExpiration($body['data'], $noticeHelper);
