@@ -9,7 +9,8 @@ export default class PostsBlock extends React.Component {
     onSearchChange: PropTypes.func.isRequired,
     onPostSelection: PropTypes.func.isRequired,
     shouldRenderExistingPosts: PropTypes.bool.isRequired,
-    value: PropTypes.object.isRequired
+    value: PropTypes.object.isRequired,
+    isRequestInProcess: PropTypes.bool.isRequired
   }
 
   renderExistingPosts () {
@@ -86,8 +87,7 @@ export default class PostsBlock extends React.Component {
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
         </div>
-
-        {this.renderExistingPosts()}
+        {this.props.isRequestInProcess ? <span className='vcv-ui-wp-spinner' /> : this.renderExistingPosts()}
       </div>
     )
   }
