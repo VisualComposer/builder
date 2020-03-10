@@ -211,7 +211,7 @@ export default class Url extends Attribute {
     if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
       this.setState({
         unsavedValue: {
-          url: '#vcv-popup' + id.replace(/\s/g, ''),
+          url: `#vcv-popup-${id}`,
           type: 'popup'
         }
       })
@@ -363,7 +363,7 @@ export default class Url extends Attribute {
     } else {
       let title = ''
       if (pagePopups.data && pagePopups.data.length && this.state.unsavedValue.url) {
-        const activePost = pagePopups.data[pagePopups.data.findIndex(item => item.url === this.state.unsavedValue.url)]
+        const activePost = pagePopups.data[pagePopups.data.findIndex(item => `#vcv-popup-${item.id}` === this.state.unsavedValue.url)]
         title = activePost ? activePost.title : ''
       }
       modalContent = (
@@ -375,7 +375,6 @@ export default class Url extends Attribute {
             <input
               className='vcv-ui-form-input'
               value={title || selectAPopup}
-              onChange={e => this.handlePostSelection(e.target.value)}
             />
           </div>
           <PostsBlock
