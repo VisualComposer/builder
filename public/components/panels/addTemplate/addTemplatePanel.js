@@ -364,7 +364,8 @@ export default class AddTemplatePanel extends React.Component {
   handleApplyTemplate (data, templateType) {
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
-      if (!window.confirm('Your current popup will be replaced with the popup template.')) {
+      const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'Your current popup will be replaced with the popup template.'
+      if (!window.confirm(replacePopupTemplateText)) {
         return
       }
     }
