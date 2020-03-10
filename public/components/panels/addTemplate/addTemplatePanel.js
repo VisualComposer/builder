@@ -361,7 +361,13 @@ export default class AddTemplatePanel extends React.Component {
     workspaceSettings.set(settings)
   }
 
-  handleApplyTemplate (data) {
+  handleApplyTemplate (data, templateType) {
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
+      if (!window.confirm('Your current popup will be replaced with the popup template.')) {
+        return
+      }
+    }
     const next = (elements) => {
       const existingJobs = assetsStorage.state('jobs').get()
       const existingJobsCount = (existingJobs && existingJobs.elements && existingJobs.elements.length) || 0
