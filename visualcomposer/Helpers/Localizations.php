@@ -662,6 +662,14 @@ class Localizations extends Container implements Helper
                 'Leave Your Feedback',
                 'visualcomposer'
             ),
+            'likeText' => __(
+                'Like',
+                'visualcomposer'
+            ),
+            'dislikeText' => __(
+                'Dislike',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
