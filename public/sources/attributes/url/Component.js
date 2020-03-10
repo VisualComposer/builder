@@ -45,13 +45,13 @@ export default class Url extends Attribute {
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
-  componentUnmounted = false
 
   constructor (props) {
     super(props)
+    this.postRequest = null
     this.postAction = 'attribute:linkSelector:getPosts:adminNonce'
     this.popupAction = 'attribute:linkSelector:getPopups:adminNonce'
-    this.delayedSearch = lodash.debounce(this.performSearch, 800)
+    this.delayedSearch = lodash.debounce(this.performSearch, 300)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.dynamicAttributeChange = this.dynamicAttributeChange.bind(this)
@@ -60,6 +60,12 @@ export default class Url extends Attribute {
     this.handleContentChange = this.handleContentChange.bind(this)
     this.setPagePosts = this.setPagePosts.bind(this)
     this.setPopupPosts = this.setPopupPosts.bind(this)
+  }
+
+  componentWillUnmount () {
+    if (this.postRequest) {
+      this.postRequest.abort()
+    }
   }
 
   updateState (props) {
@@ -83,11 +89,15 @@ export default class Url extends Attribute {
       unsavedValue: value,
       isWindowOpen: false,
       updateState: false,
-      shouldRenderExistingPosts: !!window.vcvAjaxUrl
+      shouldRenderExistingPosts: !!window.vcvAjaxUrl,
+      isRequestInProcess: false
     }
   }
 
   ajaxPost (data, successCallback, failureCallback) {
+    if (this.postRequest) {
+      this.postRequest.abort()
+    }
     const request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
@@ -101,9 +111,13 @@ export default class Url extends Attribute {
       }
     }.bind(this)
     request.send(window.jQuery.param(data))
+    this.postRequest = request
   }
 
   loadPosts (search, action, successCallback) {
+    this.setState({
+      isRequestInProcess: true
+    })
     this.ajaxPost({
       'vcv-action': action,
       'vcv-search': search,
@@ -111,10 +125,18 @@ export default class Url extends Attribute {
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
       const posts = getResponse(request.response)
-
+      this.postRequest = null
       if (posts) {
+        this.setState({
+          isRequestInProcess: false
+        })
         successCallback(posts)
       }
+    }, () => {
+      this.postRequest = null
+      this.setState({
+        isRequestInProcess: false
+      })
     })
   }
 
@@ -128,31 +150,25 @@ export default class Url extends Attribute {
       isWindowOpen: true
     })
 
-    if (this.state.shouldRenderExistingPosts && !pagePosts.get().length) {
-      this.loadPosts('', this.postAction, this.setPagePosts)
+    if (this.state.value.type === 'popup') {
+      if (this.state.shouldRenderExistingPosts && !pagePopups.get().length) {
+        this.loadPosts('', this.popupAction, this.setPopupPosts)
+      }
+    } else {
+      if (this.state.shouldRenderExistingPosts && !pagePosts.get().length) {
+        this.loadPosts('', this.postAction, this.setPagePosts)
+      }
     }
-
-    if (this.state.shouldRenderExistingPosts && !pagePopups.get().length) {
-      this.loadPosts('', this.popupAction, this.setPopupPosts)
-    }
-  }
-
-  componentWillUnmount () {
-    this.componentUnmounted = true
   }
 
   setPagePosts (posts) {
-    if (!this.componentUnmounted) {
-      pagePosts.set(posts)
-      this.setState({ updateState: !this.state.updateState })
-    }
+    pagePosts.set(posts)
+    this.setState({ updateState: !this.state.updateState })
   }
 
   setPopupPosts (posts) {
-    if (!this.componentUnmounted) {
-      pagePopups.set(posts)
-      this.setState({ updateState: !this.state.updateState })
-    }
+    pagePopups.set(posts)
+    this.setState({ updateState: !this.state.updateState })
   }
 
   handleClose () {
@@ -160,15 +176,20 @@ export default class Url extends Attribute {
       isWindowOpen: false,
       unsavedValue: {}
     })
-    this.loadPosts('', this.postAction, this.setPagePosts)
-    this.loadPosts('', this.popupAction, this.setPopupPosts)
+    if (this.state.value.type === 'popup') {
+      this.loadPosts('', this.popupAction, this.setPopupPosts)
+    } else {
+      this.loadPosts('', this.postAction, this.setPagePosts)
+    }
   }
 
   handleSaveClick = (e) => {
     e.preventDefault()
     const valueToSave = Object.assign({}, this.state.unsavedValue)
     this.setFieldValue(valueToSave)
-    this.handleClose()
+    window.setTimeout(() => {
+      this.handleClose()
+    }, 1)
   }
 
   inputChange = (fieldKey, value) => {
@@ -184,13 +205,13 @@ export default class Url extends Attribute {
     this.setState({ unsavedValue: unsavedValue })
   }
 
-  handlePostSelection = (e, url, title) => {
+  handlePostSelection = (e, url, id) => {
     e && e.preventDefault()
 
     if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
       this.setState({
         unsavedValue: {
-          url: url,
+          url: '#vcv-popup' + id.replace(/\s/g, ''),
           type: 'popup'
         }
       })
@@ -201,10 +222,10 @@ export default class Url extends Attribute {
 
   performSearch = (e) => {
     const keyword = e.target.value
-    if (this.state.content === 'url') {
-      this.loadPosts(keyword, this.postAction, this.setPagePosts)
-    } else {
+    if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
       this.loadPosts(keyword, this.popupAction, this.setPopupPosts)
+    } else {
+      this.loadPosts(keyword, this.postAction, this.setPagePosts)
     }
   }
 
@@ -268,6 +289,9 @@ export default class Url extends Attribute {
     }
     if (e.target.value === 'popup') {
       unsavedValue.type = 'popup'
+      this.loadPosts('', this.popupAction, this.setPopupPosts)
+    } else {
+      this.loadPosts('', this.postAction, this.setPagePosts)
     }
     this.setState({
       unsavedValue: unsavedValue
@@ -332,6 +356,7 @@ export default class Url extends Attribute {
             onPostSelection={this.handlePostSelection}
             shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
             value={this.state.unsavedValue}
+            isRequestInProcess={this.state.isRequestInProcess}
           />
         </div>
       )
@@ -360,6 +385,7 @@ export default class Url extends Attribute {
             onPostSelection={this.handlePostSelection}
             shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
             value={this.state.unsavedValue}
+            isRequestInProcess={this.state.isRequestInProcess}
           />
         </div>
       )
