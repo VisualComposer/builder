@@ -638,6 +638,30 @@ class Localizations extends Container implements Helper
                 'Element preset has been removed.',
                 'visualcomposer'
             ),
+            'feedbackVoteText' => __(
+                'Hi there, how do You like Visual Composer?',
+                'visualcomposer'
+            ),
+            'negativeReviewHeadingText' => __(
+                'How can we become better?',
+                'visualcomposer'
+            ),
+            'positiveReviewText' => __(
+                'We are glad to hear that. Please rate us on WordPress.org and help others to discover Visual Composer.',
+                'visualcomposer'
+            ),
+            'negativeReviewText' => __(
+                'Your opinion matters. Help us to improve by taking a quick survey.',
+                'visualcomposer'
+            ),
+            'positiveReviewButtonText' => __(
+                'Write Your Review',
+                'visualcomposer'
+            ),
+            'negativeReviewButtonText' => __(
+                'Leave Your Feedback',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
