@@ -28,7 +28,7 @@ export default class PostsBlock extends React.Component {
     posts.get().forEach((post) => {
       const rowClassName = classNames({
         'vcv-ui-form-table-link-row': true,
-        'vcv-ui-state--active': this.props.value.url === post.url
+        'vcv-ui-state--active': this.props.value.url === post.url || this.props.value.url === `#vcv-popup-${post.id}`
       })
       let title = post.type
       if (title === 'vcv_popup') {
@@ -37,7 +37,7 @@ export default class PostsBlock extends React.Component {
       items.push(
         <tr
           key={'vcv-selectable-post-url-' + post.id} className={rowClassName}
-          onClick={(e) => this.props.onPostSelection(e, post.url, post.title)}
+          onClick={(e) => this.props.onPostSelection(e, post.url, post.id)}
         >
           <td>
             <a href={post.url} onClick={(e) => { e && e.preventDefault() }}>{post.title}</a>
