@@ -99,7 +99,7 @@ addStorage('elements', (storage) => {
         } else {
           const allElements = documentManager.children(false)
           allElements.forEach((row) => {
-            workspaceStorage.trigger('remove', row.id)
+            documentManager.delete(row.id)
           })
         }
       }

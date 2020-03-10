@@ -27,11 +27,11 @@ const processRequest = (action, key, data, successCallback, errorCallback) => {
 }
 
 addService('myTemplates', {
-  add (name, data, html, successCallback, errorCallback, isElementLayout = false) {
+  add (name, data, html, successCallback, errorCallback, isElementLayout = false, templateType) {
     if (this.findBy('name', name)) {
       return false
     }
-    const id = editorType === 'popup' ? 'popup' : 'template'
+    const id = templateType || 'template'
     getStorage('wordpressData').trigger('save', {}, '', {
       id: id,
       title: name,
@@ -46,7 +46,7 @@ addService('myTemplates', {
           } else {
             const id = response.postData.id
             const templateData = { id: id.toString(), name: name, data: data, html: html }
-            const type = editorType === 'popup' ? 'popup' : 'custom'
+            const type = id === 'template' ? 'custom' : id
             getStorage('hubTemplates').trigger('add', type, templateData)
             successCallback && typeof successCallback === 'function' && successCallback()
           }
@@ -69,7 +69,11 @@ addService('myTemplates', {
     const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
     currentLayout[id].parent = false
     if (getType.call(name) === '[object String]' && name.length) {
-      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true)
+      let templateType = 'template'
+      if (editorType === 'popup' && currentLayout[id].tag === 'popupRoot') {
+        templateType = 'popup'
+      }
+      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true, templateType)
     }
     return false
   },
@@ -79,7 +83,8 @@ addService('myTemplates', {
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     const currentLayoutHtml = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     if (getType.call(name) === '[object String]' && name.length) {
-      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback)
+      const templateType = editorType === 'popup' ? 'popup' : 'template'
+      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, false, templateType)
     }
     return false
   },
