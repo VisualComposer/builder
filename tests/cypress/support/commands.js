@@ -558,7 +558,7 @@ Cypress.Commands.add('createWpPost', (settings, callback) => {
     await window.wp.data.dispatch('core/editor').resetBlocks(window.wp.blocks.parse(settings.postContent));
     await window.wp.data.dispatch('core/editor').savePost().then(() => {
         const currentPost = window.wp.data.select('core/editor').getCurrentPost()
-        callback(currentPost.id, currentPost)
+        callback(currentPost.id + '', currentPost)
       }
     )
   })
