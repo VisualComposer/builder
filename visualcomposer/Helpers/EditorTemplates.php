@@ -208,4 +208,44 @@ class EditorTemplates implements Helper
 
         return $options;
     }
+
+    public function create($type = 'custom')
+    {
+        $postTypeHelper = vchelper('PostType');
+        $data = [
+            'post_type' => 'vcv_templates',
+            'post_status' => 'vcv_templates',
+        ];
+
+        $templateId = $postTypeHelper->create($data);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'id', uniqid('', true));
+
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $type);
+
+        vcevent('vcv:editor:template:create', ['templateId' => $templateId]);
+
+        return $templateId;
+    }
+
+    public function read($id)
+    {
+        $template = $this->get($id);
+        $postTypeHelper = vchelper('PostType');
+        $postTypeHelper->setupPost($id);
+        if ($template) {
+            return [
+                'status' => true,
+                'data' => $template->vcvTemplateElements,
+                'allData' => vcfilter(
+                    'vcv:ajax:getData:adminNonce',
+                    [],
+                    [
+                        'sourceId' => $id,
+                    ]
+                ),
+            ];
+        }
+
+        return false;
+    }
 }

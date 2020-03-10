@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Options;
 
 /**
  * Class LicenseMigration
@@ -24,7 +25,7 @@ class LicenseMigration extends MigrationsController implements Module
 
     protected $migrationPriority = 11;
 
-    protected function run(License $licenseHelper)
+    protected function run(License $licenseHelper, Options $optionsHelper)
     {
         $key = $licenseHelper->getKey();
         if (!empty($key)) {
@@ -32,6 +33,7 @@ class LicenseMigration extends MigrationsController implements Module
             if (empty($type)) {
                 // If no type then it is premium license
                 $licenseHelper->setType('premium');
+                $optionsHelper->deleteTransient('lastBundleUpdate');
             }
         }
 

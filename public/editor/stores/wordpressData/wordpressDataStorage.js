@@ -80,8 +80,10 @@ addStorage('wordpressData', (storage) => {
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
       const initialContent = responseData.post_content
+      let empty = false
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
+        empty = true
         migrationStorage.trigger('migrateContent', {
           _migrated: false,
           content: initialContent
@@ -96,8 +98,16 @@ addStorage('wordpressData', (storage) => {
           // TODO: Maybe attempt to repair truncated js (like loose but not all?)
         }
         elementsStorage.trigger('reset', data.elements || {})
+        if (!data.elements) {
+          empty = true
+        }
       } else {
         elementsStorage.trigger('reset', {})
+        empty = true
+      }
+      // fix for post update on empty templates
+      if (empty) {
+        elementsStorage.trigger('elementsRenderDone')
       }
       if (responseData.cssSettings && Object.prototype.hasOwnProperty.call(responseData.cssSettings, 'custom')) {
         settingsStorage.state('customCss').set(responseData.cssSettings.custom || '')

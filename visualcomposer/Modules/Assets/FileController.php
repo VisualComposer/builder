@@ -60,20 +60,17 @@ class FileController extends Container implements Module
      * @param $response
      * @param $payload
      * @param \VisualComposer\Helpers\Assets $assetsHelper
-     *
      * @param \VisualComposer\Helpers\File $fileHelper
-     *
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return bool|string URL to generated bundle.
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function generateSourceCssFile(
         $response,
         $payload,
         Assets $assetsHelper,
-        File $fileHelper,
-        Options $optionsHelper
+        File $fileHelper
     ) {
         $globalElementsBaseCss = [];
         $globalElementsMixinsCss = [];
