@@ -134,7 +134,7 @@ export default class StockImagesResultsPanel extends React.Component {
       return
     }
     const vcvApiUrl = window.VCV_API_URL && window.VCV_API_URL()
-    const vcvSiteUrl = window.VCV_SITE_URL && window.VCV_SITE_URL()
+    const vcvSiteUrl = window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL()
     const vcvAuthorApiKey = window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()
     const unsplashUrl = `${vcvApiUrl}/api/unsplash/${action}`
     const unsplashLicenseKey = this.unsplashLicenseKey
