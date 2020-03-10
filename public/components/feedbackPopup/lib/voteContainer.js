@@ -21,11 +21,13 @@ export default class VoteContainer extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const voteText = localizations ? localizations.feedbackVoteText : 'Hi there, how do You like Visual Composer?'
+    const likeText = localizations ? localizations.likeText : 'Like'
+    const dislikeText = localizations ? localizations.dislikeText : 'Dislike'
 
     return <div className='vcv-feedback-vote'>
       <p className='vcv-feedback-vote-text'>{voteText}</p>
-      <button className='vcv-feedback-vote-control' data-vote='like' onClick={this.props.handleVote}>{thumbIcon}</button>
-      <button className='vcv-feedback-vote-control' data-vote='dislike' onClick={this.props.handleVote}>{thumbIcon}</button>
+      <button className='vcv-feedback-vote-control' data-vote='like' onClick={this.props.handleVote} aria-label={likeText}>{thumbIcon}</button>
+      <button className='vcv-feedback-vote-control' data-vote='dislike' onClick={this.props.handleVote} aria-label={dislikeText}>{thumbIcon}</button>
     </div>
   }
 }
