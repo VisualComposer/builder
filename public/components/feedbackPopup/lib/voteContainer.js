@@ -26,8 +26,8 @@ export default class VoteContainer extends React.Component {
 
     return <div className='vcv-feedback-vote'>
       <p className='vcv-feedback-vote-text'>{voteText}</p>
-      <button className='vcv-feedback-vote-control' data-vote='like' onClick={this.props.handleVote} aria-label={likeText}>{thumbIcon}</button>
-      <button className='vcv-feedback-vote-control' data-vote='dislike' onClick={this.props.handleVote} aria-label={dislikeText}>{thumbIcon}</button>
+      <button className='vcv-feedback-vote-control' data-vote='like' onClick={this.props.handleVote} aria-label={likeText} title={likeText}>{thumbIcon}</button>
+      <button className='vcv-feedback-vote-control' data-vote='dislike' onClick={this.props.handleVote} aria-label={dislikeText} title={dislikeText}>{thumbIcon}</button>
     </div>
   }
 }
