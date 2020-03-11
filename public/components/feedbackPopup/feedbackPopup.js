@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import VoteContainer from './lib/voteContainer'
 import ReviewContainer from './lib/reviewContainer'
@@ -13,7 +14,6 @@ export default class FeedbackPopup extends React.Component {
       isEditorLoaded: false,
       vote: ''
     }
-    this.feedbackRef = React.createRef()
     this.handleVote = this.handleVote.bind(this)
     this.handleDocumentChange = this.handleDocumentChange.bind(this)
     this.handleClose = this.handleClose.bind(this)
@@ -30,7 +30,7 @@ export default class FeedbackPopup extends React.Component {
   componentDidUpdate (prevProps, prevState) {
     if (prevState.isEditorLoaded !== this.state.isEditorLoaded || prevState.vote !== this.state.vote) {
       const visibilityTimeout = setTimeout(() => {
-        this.feedbackRef.current.classList.add('vcv-feedback--visible')
+        this.setState({ feedbackVisible: true })
         window.clearTimeout(visibilityTimeout)
       }, 2000)
     }
@@ -42,11 +42,13 @@ export default class FeedbackPopup extends React.Component {
     }
   }
 
-  handleVote (e) {
-    this.feedbackRef.current.classList.add('vcv-feedback--voted')
-    const vote = e.currentTarget.dataset.vote
+  handleVote (vote) {
+    this.setState({ feedbackVoted: true })
     const visibilityTimeout = setTimeout(() => {
-      this.feedbackRef.current.classList.remove('vcv-feedback--visible', 'vcv-feedback--voted')
+      this.setState({
+        feedbackVisible: false,
+        feedbackVoted: false,
+      })
       this.setState({ vote: vote })
       window.clearTimeout(visibilityTimeout)
     }, 1000)
@@ -58,7 +60,7 @@ export default class FeedbackPopup extends React.Component {
   }
 
   handleClose () {
-    this.feedbackRef.current.classList.remove('vcv-feedback--visible')
+    this.setState({ feedbackVisible: false })
   }
 
   getReviewProps () {
@@ -84,8 +86,14 @@ export default class FeedbackPopup extends React.Component {
       ? <VoteContainer {...this.getVoteProps()} />
       : <ReviewContainer {...this.getReviewProps()} />
 
+    const feedbackClasses = classNames({
+      'vcv-feedback': true,
+      'vcv-feedback--visible': this.state.feedbackVisible,
+      'vcv-feedback--voted': this.state.feedbackVoted
+    })
+
     return (
-      <div className='vcv-feedback' data-feedback-state={feedbackState} ref={this.feedbackRef}>
+      <div className={feedbackClasses} data-feedback-state={feedbackState}>
         {feedbackContent}
       </div>
     )
