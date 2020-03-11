@@ -120,31 +120,19 @@ class Frontend implements Helper
         if (!$sourceId || get_post_status($sourceId) !== 'publish') {
             return false;
         }
-
         ob_start();
-        // @codingStandardsIgnoreStart
-        global $wp_query, $wp_the_query;
-        $backup = clone $wp_query;
-        $backupGlobal = clone $wp_the_query;
-
-        $tempPostQuery = new \WP_Query(
+        query_posts(
             [
                 'p' => $sourceId,
                 'post_status' => get_post_status($sourceId),
                 'post_type' => get_post_type($sourceId),
             ]
         );
-        $wp_query = $tempPostQuery;
-        $wp_the_query = $tempPostQuery;
-        while ($wp_query->have_posts()) {
-            $wp_query->the_post();
+        if (have_posts()) {
+            the_post();
             the_content();
         }
-
-        $wp_query = clone $backup;
-        $wp_the_query = clone $backupGlobal; // fix wp_reset_query
-        // @codingStandardsIgnoreEnd
-        wp_reset_postdata();
+        wp_reset_query();
 
         return ob_get_clean();
     }
