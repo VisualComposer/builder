@@ -206,14 +206,15 @@ export default class Url extends Attribute {
     this.setState({ unsavedValue: unsavedValue })
   }
 
-  handlePostSelection = (e, url, id) => {
+  handlePostSelection = (e, url, id, popupTitle) => {
     e && e.preventDefault()
 
     if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
       this.setState({
         unsavedValue: {
           url: id,
-          type: 'popup'
+          type: 'popup',
+          popupTitle: popupTitle
         }
       })
     } else {
@@ -462,11 +463,28 @@ export default class Url extends Attribute {
   }
 
   render () {
-    const { title, url } = this.state.value
+    const { title, url, popupTitle, type } = this.state.value
     const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select URL'
     const addLink = this.localizations ? this.localizations.addLink : 'Add Link'
-    const linkDataHtml = (
-      <div className='vcv-ui-form-link-data'>
+
+    let linkDataHtml = null
+    if (type || type === 'popup') {
+      const popupPageTitle = popupTitle || (url && url.replace('#vcv-popup-', '')) || ''
+      linkDataHtml = (
+        <div className='vcv-ui-form-link-data'>
+        <span
+          className='vcv-ui-form-link-title'
+          data-vc-link-title='Popup: '
+          title={popupPageTitle}
+        >
+          {popupPageTitle}
+        </span>
+          {this.drawModal()}
+        </div>
+      )
+    } else {
+      linkDataHtml = (
+        <div className='vcv-ui-form-link-data'>
         <span
           className='vcv-ui-form-link-title'
           data-vc-link-title='Title: '
@@ -474,16 +492,17 @@ export default class Url extends Attribute {
         >
           {title}
         </span>
-        <span
-          className='vcv-ui-form-link-title'
-          data-vc-link-title='Url: '
-          title={url}
-        >
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Url: '
+            title={url}
+          >
           {url}
         </span>
-        {this.drawModal()}
-      </div>
-    )
+          {this.drawModal()}
+        </div>
+      )
+    }
     let linkButtonText = <span>{selectUrl}</span>
     if (this.props.imageLink && this.props.options.dynamicField) {
       linkButtonText = null

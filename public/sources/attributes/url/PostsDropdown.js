@@ -10,6 +10,12 @@ export default class PostsDropdown extends React.Component {
     isRequestInProcess: PropTypes.bool.isRequired
   }
 
+  constructor (props) {
+    super(props)
+
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+  }
+
   getSelectedValue () {
     if (this.props.value.url === '') {
       return 'default'
@@ -20,6 +26,22 @@ export default class PostsDropdown extends React.Component {
     } else {
       return 'default'
     }
+  }
+
+  getTitle (posts, id) {
+    let title = ''
+    for (let i = 0; i < posts.length; i++) {
+      if (`#vcv-popup-${posts[i].id}` === id) {
+        title = posts[i].title
+        break
+      }
+    }
+    return title
+  }
+
+  handleSelectChange (e) {
+    const id = e.target.value
+    this.props.onPostSelection(e, null, id, this.getTitle(this.props.posts.data, id))
   }
 
   renderExistingPosts () {
@@ -36,12 +58,13 @@ export default class PostsDropdown extends React.Component {
       )
     }
     posts.get().forEach((post) => {
+      let postTitle = post.title || post.id
       items.push(
         <option
           key={'vcv-selectable-post-url-' + post.id}
           value={`#vcv-popup-${post.id}`}
         >
-          {post.title}
+          {postTitle}
         </option>
       )
     })
@@ -50,7 +73,7 @@ export default class PostsDropdown extends React.Component {
       <select
         className='vcv-ui-form-dropdown'
         value={this.getSelectedValue()}
-        onChange={(e) => this.props.onPostSelection(e, null, e.target.value)}
+        onChange={this.handleSelectChange}
       >
         <option value='default' disabled>{selectPopupTemplate}</option>
         {items}
