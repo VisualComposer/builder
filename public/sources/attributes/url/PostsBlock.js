@@ -29,7 +29,7 @@ export default class PostsBlock extends React.Component {
         'vcv-ui-form-table-link-row': true,
         'vcv-ui-state--active': this.props.value.url === post.url
       })
-      let title = post.type
+      const title = post.type
       items.push(
         <tr
           key={'vcv-selectable-post-url-' + post.id} className={rowClassName}

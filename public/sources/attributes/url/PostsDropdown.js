@@ -10,7 +10,7 @@ export default class PostsDropdown extends React.Component {
     isRequestInProcess: PropTypes.bool.isRequired
   }
 
-  getSelectedValue() {
+  getSelectedValue () {
     if (this.props.value.url === '') {
       return 'default'
     }
