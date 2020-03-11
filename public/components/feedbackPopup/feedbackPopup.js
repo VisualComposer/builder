@@ -94,7 +94,9 @@ export default class FeedbackPopup extends React.Component {
 
     return (
       <div className={feedbackClasses} data-feedback-state={feedbackState}>
-        {feedbackContent}
+        <div className='vcv-feedback-container'>
+          {feedbackContent}
+        </div>
       </div>
     )
   }

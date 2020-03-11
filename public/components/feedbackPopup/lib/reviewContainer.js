@@ -28,7 +28,14 @@ export default class ReviewContainer extends React.Component {
 
     return (
       <div className='vcv-feedback-review'>
-        <h2 className='vcv-feedback-review-heading'>{headingText}</h2>
+        <header className='vcv-feedback-review-header'>
+          <h2 className='vcv-feedback-review-heading'>{headingText}</h2>
+          <button
+            className='vcv-feedback-review-close vcv-ui-icon vcv-ui-icon-close-thin'
+            aria-label={closeButtonText}
+            onClick={this.props.handleClose}
+          />
+        </header>
         <p className='vcv-feedback-review-text'>{reviewText}</p>
         <a
           className='vcv-feedback-review-btn'
@@ -39,11 +46,6 @@ export default class ReviewContainer extends React.Component {
         >
           {buttonText}
         </a>
-        <button
-          className='vcv-feedback-review-close vcv-ui-icon vcv-ui-icon-close-thin'
-          aria-label={closeButtonText}
-          onClick={this.props.handleClose}
-        />
       </div>
     )
   }
