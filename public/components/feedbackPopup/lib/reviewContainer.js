@@ -22,25 +22,29 @@ export default class ReviewContainer extends React.Component {
     const reviewText = isPositiveReview ? positiveReviewText : negativeReviewText
     const buttonText = isPositiveReview ? positiveReviewButtonText : negativeReviewButtonText
 
-    let feedbackLink = isPositiveReview ?
-      'https://wordpress.org/support/plugin/visualcomposer/reviews/#new-post' :
-      'my.visualcomposer/feedback/visualcomposer?utm_medium=frontend-editor&utm_source=editor&utm_campaign=feedback'
+    const feedbackLink = isPositiveReview
+      ? 'https://wordpress.org/support/plugin/visualcomposer/reviews/#new-post'
+      : 'my.visualcomposer/feedback/visualcomposer?utm_medium=frontend-editor&utm_source=editor&utm_campaign=feedback'
 
-    return <div className='vcv-feedback-review'>
-      <h2 className='vcv-feedback-review-heading'>{headingText}</h2>
-      <p className='vcv-feedback-review-text'>{reviewText}</p>
-      <a
-        className='vcv-feedback-review-btn'
-        href={feedbackLink} target='_blank'
-        onClick={this.props.handleClose}
-      >
-        {buttonText}
-      </a>
-      <button
-        className='vcv-feedback-review-close vcv-ui-icon vcv-ui-icon-close-thin'
-        aria-label={closeButtonText}
-        onClick={this.props.handleClose}
-      />
-    </div>
+    return (
+      <div className='vcv-feedback-review'>
+        <h2 className='vcv-feedback-review-heading'>{headingText}</h2>
+        <p className='vcv-feedback-review-text'>{reviewText}</p>
+        <a
+          className='vcv-feedback-review-btn'
+          href={feedbackLink}
+          target='_blank'
+          rel='noopener noreferrer'
+          onClick={this.props.handleClose}
+        >
+          {buttonText}
+        </a>
+        <button
+          className='vcv-feedback-review-close vcv-ui-icon vcv-ui-icon-close-thin'
+          aria-label={closeButtonText}
+          onClick={this.props.handleClose}
+        />
+      </div>
+    )
   }
 }
