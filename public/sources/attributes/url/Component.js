@@ -360,11 +360,6 @@ export default class Url extends Attribute {
         </div>
       )
     } else {
-      let title = ''
-      if (pagePopups.data && pagePopups.data.length && this.state.unsavedValue.url) {
-        const activePost = pagePopups.data[pagePopups.data.findIndex(item => `#vcv-popup-${item.id}` === this.state.unsavedValue.url)]
-        title = activePost ? activePost.title : ''
-      }
       modalContent = (
         <div>
           <div className='vcv-ui-form-group'>
