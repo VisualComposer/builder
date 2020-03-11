@@ -6,6 +6,7 @@ import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
 import UrlDropdownInput from './UrlDropdownInput'
 import PostsBlock from './PostsBlock'
+import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
 import { getService, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
@@ -211,7 +212,7 @@ export default class Url extends Attribute {
     if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
       this.setState({
         unsavedValue: {
-          url: `#vcv-popup-${id}`,
+          url: id,
           type: 'popup'
         }
       })
@@ -304,7 +305,6 @@ export default class Url extends Attribute {
     const onClickAction = this.localizations ? this.localizations.onClickAction : 'OnClick action'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
-    const selectAPopup = this.localizations ? this.localizations.selectAPopup : 'Select a Popup'
 
     let optionDropdown = null
     let modalContent = null
@@ -350,7 +350,6 @@ export default class Url extends Attribute {
           {this.renderTitleInput()}
           {this.renderCheckboxes()}
           <PostsBlock
-            type='url'
             posts={pagePosts}
             onSearchChange={this.handleSearchChange}
             onPostSelection={this.handlePostSelection}
@@ -370,23 +369,16 @@ export default class Url extends Attribute {
         <div>
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
-              POPUP
+              Popup
             </span>
-            <input
-              className='vcv-ui-form-input'
-              value={title || selectAPopup}
-              readOnly
+            <PostsDropdown
+              posts={pagePopups}
+              onPostSelection={this.handlePostSelection}
+              shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
+              value={this.state.unsavedValue}
+              isRequestInProcess={this.state.isRequestInProcess}
             />
           </div>
-          <PostsBlock
-            type={this.state.unsavedValue.type}
-            posts={pagePopups}
-            onSearchChange={this.handleSearchChange}
-            onPostSelection={this.handlePostSelection}
-            shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
-            value={this.state.unsavedValue}
-            isRequestInProcess={this.state.isRequestInProcess}
-          />
         </div>
       )
     }
