@@ -472,33 +472,32 @@ export default class Url extends Attribute {
       const popupPageTitle = popupTitle || (url && url.replace('#vcv-popup-', '')) || ''
       linkDataHtml = (
         <div className='vcv-ui-form-link-data'>
-        <span
-          className='vcv-ui-form-link-title'
-          data-vc-link-title='Popup: '
-          title={popupPageTitle}
-        >
-          {popupPageTitle}
-        </span>
-          {this.drawModal()}
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Popup: '
+            title={popupPageTitle}
+          >
+            {popupPageTitle}
+          </span>{this.drawModal()}
         </div>
       )
     } else {
       linkDataHtml = (
         <div className='vcv-ui-form-link-data'>
-        <span
-          className='vcv-ui-form-link-title'
-          data-vc-link-title='Title: '
-          title={title}
-        >
-          {title}
-        </span>
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Title: '
+            title={title}
+          >
+            {title}
+          </span>
           <span
             className='vcv-ui-form-link-title'
             data-vc-link-title='Url: '
             title={url}
           >
-          {url}
-        </span>
+            {url}
+          </span>
           {this.drawModal()}
         </div>
       )
