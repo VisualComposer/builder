@@ -375,6 +375,7 @@ export default class Url extends Attribute {
             <input
               className='vcv-ui-form-input'
               value={title || selectAPopup}
+              readOnly
             />
           </div>
           <PostsBlock
