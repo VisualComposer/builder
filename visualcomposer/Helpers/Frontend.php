@@ -121,18 +121,29 @@ class Frontend implements Helper
             return false;
         }
         ob_start();
-        query_posts(
+        // @codingStandardsIgnoreStart
+        global $wp_query, $wp_the_query;
+        $backup = $wp_query;
+        $backupGlobal = $wp_the_query;
+
+        $tempPostQuery = new \WP_Query(
             [
                 'p' => $sourceId,
                 'post_status' => get_post_status($sourceId),
                 'post_type' => get_post_type($sourceId),
             ]
         );
-        if (have_posts()) {
-            the_post();
+        $wp_query = $tempPostQuery;
+        $wp_the_query = $tempPostQuery;
+        while ($wp_query->have_posts()) {
+            $wp_query->the_post();
             the_content();
         }
-        wp_reset_query();
+
+        $wp_query = $backup;
+        $wp_the_query = $backupGlobal; // fix wp_reset_query
+        // @codingStandardsIgnoreEnd
+        wp_reset_postdata();
 
         return ob_get_clean();
     }
