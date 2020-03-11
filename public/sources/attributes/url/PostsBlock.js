@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 export default class PostsBlock extends React.Component {
   static propTypes = {
-    type: PropTypes.string,
     posts: PropTypes.object.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     onPostSelection: PropTypes.func.isRequired,
@@ -28,12 +27,9 @@ export default class PostsBlock extends React.Component {
     posts.get().forEach((post) => {
       const rowClassName = classNames({
         'vcv-ui-form-table-link-row': true,
-        'vcv-ui-state--active': this.props.value.url === post.url || this.props.value.url === `#vcv-popup-${post.id}`
+        'vcv-ui-state--active': this.props.value.url === post.url
       })
       let title = post.type
-      if (title === 'vcv_popup') {
-        title = 'popup'
-      }
       items.push(
         <tr
           key={'vcv-selectable-post-url-' + post.id} className={rowClassName}
@@ -59,22 +55,16 @@ export default class PostsBlock extends React.Component {
   }
 
   render () {
-    const selectAPopup = this.localizations ? this.localizations.selectAPopup : 'Select a Popup'
     const linkToExistingContent = this.localizations ? this.localizations.linkToExistingContent : 'Or link to existing content'
     const searchExistingContent = this.localizations ? this.localizations.searchExistingContent : 'Search existing content'
     if (!this.props.shouldRenderExistingPosts) {
-      return
-    }
-
-    let searchContentText = linkToExistingContent
-    if (this.props.type === 'popup') {
-      searchContentText = selectAPopup
+      return null
     }
 
     return (
       <div className='vcv-ui-form-group'>
         <p className='vcv-ui-form-helper'>
-          {searchContentText}
+          {linkToExistingContent}
         </p>
         <div className='vcv-ui-input-search'>
           <input
