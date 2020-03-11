@@ -1,9 +1,10 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import VoteContainer from './lib/voteContainer'
 import ReviewContainer from './lib/reviewContainer'
 
 const elementsStorage = getStorage('elements')
+const dataProcessor = getService('dataProcessor')
 
 export default class FeedbackPopup extends React.Component {
   constructor (props) {
@@ -27,7 +28,7 @@ export default class FeedbackPopup extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (prevState.isEditorLoaded !== this.state.isEditorLoaded) {
+    if (prevState.isEditorLoaded !== this.state.isEditorLoaded || prevState.vote !== this.state.vote) {
       let visibilityTimeout = setTimeout(() => {
         this.feedbackRef.current.classList.add('vcv-feedback--visible')
         window.clearTimeout(visibilityTimeout)
@@ -42,7 +43,18 @@ export default class FeedbackPopup extends React.Component {
   }
 
   handleVote (e) {
-    this.setState({ vote:  e.currentTarget.dataset.vote })
+    this.feedbackRef.current.classList.add('vcv-feedback--voted')
+    const vote = e.currentTarget.dataset.vote
+    let visibilityTimeout = setTimeout(() => {
+      this.feedbackRef.current.classList.remove('vcv-feedback--visible', 'vcv-feedback--voted')
+      this.setState({ vote:  vote })
+      window.clearTimeout(visibilityTimeout)
+    }, 1000)
+    const feedback = vote === 'like' ? 1 : -1
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'license:feedback:submit:adminNonce',
+      'vcv-feedback': feedback
+    })
   }
 
   handleClose () {
