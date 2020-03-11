@@ -223,11 +223,7 @@ export default class Url extends Attribute {
 
   performSearch = (e) => {
     const keyword = e.target.value
-    if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
-      this.loadPosts(keyword, this.popupAction, this.setPopupPosts)
-    } else {
-      this.loadPosts(keyword, this.postAction, this.setPagePosts)
-    }
+    this.loadPosts(keyword, this.postAction, this.setPagePosts)
   }
 
   handleSearchChange = (e) => {
