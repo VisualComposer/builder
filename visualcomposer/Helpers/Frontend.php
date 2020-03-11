@@ -135,7 +135,7 @@ class Frontend implements Helper
         );
         $wp_query = $tempPostQuery;
         $wp_the_query = $tempPostQuery;
-        while ($wp_query->have_posts()) {
+        if ($wp_query->have_posts()) {
             $wp_query->the_post();
             the_content();
         }
