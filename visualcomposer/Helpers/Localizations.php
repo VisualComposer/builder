@@ -640,6 +640,10 @@ class Localizations extends Container implements Helper
                 'Element preset has been removed.',
                 'visualcomposer'
             ),
+            'replacePopupTemplateText' => __(
+                'Your current popup will be replaced with the popup template.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
