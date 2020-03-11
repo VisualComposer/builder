@@ -48,8 +48,8 @@ export default class FeedbackPopup extends React.Component {
       this.setState({
         feedbackVisible: false,
         feedbackVoted: false,
+        vote: vote
       })
-      this.setState({ vote: vote })
       window.clearTimeout(visibilityTimeout)
     }, 1000)
     const feedback = vote === 'like' ? 1 : -1
