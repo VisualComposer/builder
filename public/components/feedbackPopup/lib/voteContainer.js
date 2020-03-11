@@ -17,13 +17,13 @@ export default class VoteContainer extends React.Component {
         <p className='vcv-feedback-vote-text'>{voteText}</p>
         <button
           className='vcv-feedback-vote-control vcv-ui-icon vcv-ui-icon-thumbs-up'
-          onClick={() => {this.props.handleVote('like')}}
+          onClick={() => { this.props.handleVote('like') }}
           aria-label={likeText}
           title={likeText}
         />
         <button
           className='vcv-feedback-vote-control vcv-ui-icon vcv-ui-icon-thumbs-down'
-          onClick={() => {this.props.handleVote('dislike')}}
+          onClick={() => { this.props.handleVote('dislike') }}
           aria-label={dislikeText}
           title={dislikeText}
         />
