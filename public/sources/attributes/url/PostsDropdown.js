@@ -58,7 +58,7 @@ export default class PostsDropdown extends React.Component {
       )
     }
     posts.get().forEach((post) => {
-      let postTitle = post.title || post.id
+      const postTitle = post.title || post.id
       items.push(
         <option
           key={'vcv-selectable-post-url-' + post.id}
