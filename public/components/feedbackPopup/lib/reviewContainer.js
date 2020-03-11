@@ -24,7 +24,7 @@ export default class ReviewContainer extends React.Component {
 
     let feedbackLink = isPositiveReview ?
       'https://wordpress.org/support/plugin/visualcomposer/reviews/#new-post' :
-      'https://my.visualcomposer.com/vcwb-feedback?utm_medium=frontend-editor&utm_source=editor&utm_campaign=feedback'
+      'my.visualcomposer/feedback/visualcomposer?utm_medium=frontend-editor&utm_source=editor&utm_campaign=feedback'
 
     return <div className='vcv-feedback-review'>
       <h2 className='vcv-feedback-review-heading'>{headingText}</h2>
