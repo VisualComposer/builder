@@ -29,8 +29,7 @@ vcCake.add('contentLayout', (api) => {
   }
 
   // Start notifications and feedback popup
-  // const isFeedbackGiven = window.VCV_SHOW_FEEDBACK_FORM
-  const isFeedbackGiven = false
+  const isFeedbackGiven = window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM()
   const layoutOverlay = document.querySelector('.vcv-layout-overlay')
   const feedbackPopupComponent = !isFeedbackGiven ? <FeedbackPopup /> : null
   if (layoutOverlay) {
