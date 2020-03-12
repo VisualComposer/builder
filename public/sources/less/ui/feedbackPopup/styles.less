@@ -7,6 +7,7 @@
   color: @vcv-color-white;
   opacity: 0;
   width: 100%;
+  pointer-events: none;
   transform: translate(0, 100%);
   transition: opacity .5s @vcv-transition-timing-function,
               transform .5s @vcv-transition-timing-function;
@@ -15,6 +16,7 @@
 .vcv-feedback-container {
   margin: @vcv-feedback-margin;
   max-width: 440px;
+  pointer-events: all;
 }
 
 .vcv-feedback.vcv-feedback--visible {
