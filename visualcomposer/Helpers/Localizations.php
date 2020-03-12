@@ -173,6 +173,8 @@ class Localizations extends Container implements Helper
             'urlInputPlaceholder' => __('Enter destination URL', 'visualcomposer'),
             'linkToExistingContent' => __('Or link to existing content', 'visualcomposer'),
             'searchExistingContent' => __('Search existing content', 'visualcomposer'),
+            'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
+            'onClickAction' => __('OnClick action', 'visualcomposer'),
             'noExistingContentFound' => __('Nothing found', 'visualcomposer'),
             'openLinkInTab' => __('Open link in a new tab', 'visualcomposer'),
             'addNofollow' => __('Add nofollow option to link', 'visualcomposer'),
@@ -186,7 +188,10 @@ class Localizations extends Container implements Helper
             'hideOff' => __('Hide: Off', 'visualcomposer'),
             'hideOn' => __('Hide: On', 'visualcomposer'),
             'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
-            'presetsHelperText' => __('Create an element with your chosen parameters. The new element will be added to your Add Element panel.', 'visualcomposer'),
+            'presetsHelperText' => __(
+                'Create an element with your chosen parameters. The new element will be added to your Add Element panel.',
+                'visualcomposer'
+            ),
             'saveAsPreset' => __('Save as Preset', 'visualcomposer'),
             'saveAsTemplate' => __('Save as Template', 'visualcomposer'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'visualcomposer'),
@@ -636,6 +641,38 @@ class Localizations extends Container implements Helper
             ),
             'presetRemovedText' => __(
                 'Element preset has been removed.',
+                'visualcomposer'
+            ),
+            'feedbackVoteText' => __(
+                'Hi there, how do You like Visual Composer?',
+                'visualcomposer'
+            ),
+            'negativeReviewHeadingText' => __(
+                'How can we become better?',
+                'visualcomposer'
+            ),
+            'positiveReviewText' => __(
+                'We are glad to hear that. Please rate us on WordPress.org and help others to discover Visual Composer.',
+                'visualcomposer'
+            ),
+            'negativeReviewText' => __(
+                'Your opinion matters. Help us to improve by taking a quick survey.',
+                'visualcomposer'
+            ),
+            'positiveReviewButtonText' => __(
+                'Write Your Review',
+                'visualcomposer'
+            ),
+            'negativeReviewButtonText' => __(
+                'Leave Your Feedback',
+                'visualcomposer'
+            ),
+            'likeText' => __(
+                'Like',
+                'visualcomposer'
+            ),
+            'dislikeText' => __(
+                'Dislike',
                 'visualcomposer'
             ),
             'replacePopupTemplateText' => __(
