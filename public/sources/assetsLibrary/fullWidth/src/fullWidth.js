@@ -10,7 +10,7 @@
   const customContainerSelector = '.vce-full-width-custom-container'
 
   function getFullWidthElements() {
-    fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"],[data-vce-full-width-section="true"]'))
+    fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]:not([data-vcv-do-helper-clone]),[data-vce-full-width-section="true"]:not([data-vcv-do-helper-clone])'))
     if (fullWidthElements.length) {
       handleResize()
     }
