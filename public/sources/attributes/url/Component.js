@@ -4,16 +4,30 @@ import Modal from 'public/components/modal/modal'
 import Attribute from '../attribute'
 import String from '../string/Component'
 import Checkbox from '../checkbox/Component'
-import classNames from 'classnames'
 import UrlDropdownInput from './UrlDropdownInput'
+import PostsBlock from './PostsBlock'
+import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
-import { getService } from 'vc-cake'
+import { getService, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
 const pagePosts = {
+  data: [],
+  set (posts) {
+    this.data = posts
+  },
+  get () {
+    return this.data
+  },
+  clear () {
+    this.data = []
+  }
+}
+
+const pagePopups = {
   data: [],
   set (posts) {
     this.data = posts
@@ -35,12 +49,24 @@ export default class Url extends Attribute {
 
   constructor (props) {
     super(props)
-    this.delayedSearch = lodash.debounce(this.performSearch, 800)
+    this.postRequest = null
+    this.postAction = 'attribute:linkSelector:getPosts:adminNonce'
+    this.popupAction = 'attribute:linkSelector:getPopups:adminNonce'
+    this.delayedSearch = lodash.debounce(this.performSearch, 300)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.dynamicAttributeChange = this.dynamicAttributeChange.bind(this)
     this.renderExtraDynamicOptions = this.renderExtraDynamicOptions.bind(this)
     this.handleDynamicOpen = this.handleDynamicOpen.bind(this)
+    this.handleContentChange = this.handleContentChange.bind(this)
+    this.setPagePosts = this.setPagePosts.bind(this)
+    this.setPopupPosts = this.setPopupPosts.bind(this)
+  }
+
+  componentWillUnmount () {
+    if (this.postRequest) {
+      this.postRequest.abort()
+    }
   }
 
   updateState (props) {
@@ -54,17 +80,25 @@ export default class Url extends Attribute {
       }
     }
 
+    if (env('VCV_POPUP_BUILDER') && this.props.value.type === 'popup') {
+      value.type = 'popup'
+    }
+
     pagePosts.clear()
     return {
       value: value,
       unsavedValue: value,
       isWindowOpen: false,
       updateState: false,
-      shouldRenderExistingPosts: !!window.vcvAjaxUrl
+      shouldRenderExistingPosts: !!window.vcvAjaxUrl,
+      isRequestInProcess: false
     }
   }
 
   ajaxPost (data, successCallback, failureCallback) {
+    if (this.postRequest) {
+      this.postRequest.abort()
+    }
     const request = new window.XMLHttpRequest()
     request.open('POST', window.vcvAjaxUrl, true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
@@ -78,20 +112,32 @@ export default class Url extends Attribute {
       }
     }.bind(this)
     request.send(window.jQuery.param(data))
+    this.postRequest = request
   }
 
-  loadPosts (search) {
+  loadPosts (search, action, successCallback) {
+    this.setState({
+      isRequestInProcess: true
+    })
     this.ajaxPost({
-      'vcv-action': 'attribute:linkSelector:getPosts:adminNonce',
+      'vcv-action': action,
       'vcv-search': search,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }, (request) => {
       const posts = getResponse(request.response)
+      this.postRequest = null
       if (posts) {
-        pagePosts.set(posts)
-        this.setState({ updateState: !this.state.updateState })
+        this.setState({
+          isRequestInProcess: false
+        })
+        successCallback(posts)
       }
+    }, () => {
+      this.postRequest = null
+      this.setState({
+        isRequestInProcess: false
+      })
     })
   }
 
@@ -105,9 +151,25 @@ export default class Url extends Attribute {
       isWindowOpen: true
     })
 
-    if (this.state.shouldRenderExistingPosts && !pagePosts.get().length) {
-      this.loadPosts()
+    if (this.state.value.type === 'popup') {
+      if (this.state.shouldRenderExistingPosts && !pagePopups.get().length) {
+        this.loadPosts('', this.popupAction, this.setPopupPosts)
+      }
+    } else {
+      if (this.state.shouldRenderExistingPosts && !pagePosts.get().length) {
+        this.loadPosts('', this.postAction, this.setPagePosts)
+      }
     }
+  }
+
+  setPagePosts (posts) {
+    pagePosts.set(posts)
+    this.setState({ updateState: !this.state.updateState })
+  }
+
+  setPopupPosts (posts) {
+    pagePopups.set(posts)
+    this.setState({ updateState: !this.state.updateState })
   }
 
   handleClose () {
@@ -115,15 +177,20 @@ export default class Url extends Attribute {
       isWindowOpen: false,
       unsavedValue: {}
     })
-    this.loadPosts()
+    if (this.state.value.type === 'popup') {
+      this.loadPosts('', this.popupAction, this.setPopupPosts)
+    } else {
+      this.loadPosts('', this.postAction, this.setPagePosts)
+    }
   }
 
   handleSaveClick = (e) => {
     e.preventDefault()
     const valueToSave = Object.assign({}, this.state.unsavedValue)
-
     this.setFieldValue(valueToSave)
-    this.handleClose()
+    window.setTimeout(() => {
+      this.handleClose()
+    }, 1)
   }
 
   inputChange = (fieldKey, value) => {
@@ -139,88 +206,29 @@ export default class Url extends Attribute {
     this.setState({ unsavedValue: unsavedValue })
   }
 
-  handlePostSelection = (e, url) => {
+  handlePostSelection = (e, url, id) => {
     e && e.preventDefault()
 
-    this.urlInput.setFieldValue(url)
-  }
-
-  renderExistingPosts = () => {
-    const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'Nothing found'
-    const items = []
-
-    if (!pagePosts.get().length) {
-      return (
-        <div className='vcv-ui-form-message'>
-          {noExistingContentFound}
-        </div>
-      )
-    }
-    pagePosts.get().forEach((post) => {
-      const rowClassName = classNames({
-        'vcv-ui-form-table-link-row': true,
-        'vcv-ui-state--active': this.state.unsavedValue.url === post.url
+    if (this.state.unsavedValue.type && this.state.unsavedValue.type === 'popup') {
+      this.setState({
+        unsavedValue: {
+          url: id,
+          type: 'popup'
+        }
       })
-      items.push(
-        <tr
-          key={'vcv-selectable-post-url-' + post.id} className={rowClassName}
-          onClick={(e) => this.handlePostSelection(e, post.url)}
-        >
-          <td>
-            <a href={post.url} onClick={(e) => { e && e.preventDefault() }}>{post.title}</a>
-          </td>
-          <td>
-            <div className='vcv-ui-form-table-link-type' title={post.type.toUpperCase()}>
-              {post.type.toUpperCase()}
-            </div>
-          </td>
-        </tr>
-      )
-    })
-
-    return (
-      <table className='vcv-ui-form-table'>
-        <tbody>{items}</tbody>
-      </table>
-    )
+    } else {
+      this.urlInput.setFieldValue(url)
+    }
   }
 
-  renderExistingPostsBlock () {
-    const linkToExistingContent = this.localizations ? this.localizations.linkToExistingContent : 'Or link to existing content'
-    const searchExistingContent = this.localizations ? this.localizations.searchExistingContent : 'Search existing content'
-    if (!this.state.shouldRenderExistingPosts) {
-      return
-    }
-
-    return (
-      <div className='vcv-ui-form-group'>
-        <p className='vcv-ui-form-helper'>
-          {linkToExistingContent}
-        </p>
-        <div className='vcv-ui-input-search'>
-          <input
-            type='search' className='vcv-ui-form-input'
-            onChange={this.handleSearchChange}
-            placeholder={searchExistingContent}
-          />
-          <label className='vcv-ui-form-input-search-addon'>
-            <i className='vcv-ui-icon vcv-ui-icon-search' />
-          </label>
-        </div>
-
-        {this.renderExistingPosts()}
-      </div>
-    )
+  performSearch = (e) => {
+    const keyword = e.target.value
+    this.loadPosts(keyword, this.postAction, this.setPagePosts)
   }
 
   handleSearchChange = (e) => {
     e.persist()
     this.delayedSearch(e)
-  }
-
-  performSearch = (e) => {
-    const keyword = e.target.value
-    this.loadPosts(keyword)
   }
 
   renderTitleInput () {
@@ -271,11 +279,101 @@ export default class Url extends Attribute {
     )
   }
 
+  handleContentChange (e) {
+    const unsavedValue = {
+      url: '',
+      title: ''
+    }
+    if (e.target.value === 'popup') {
+      unsavedValue.type = 'popup'
+      this.loadPosts('', this.popupAction, this.setPopupPosts)
+    } else {
+      this.loadPosts('', this.postAction, this.setPagePosts)
+    }
+    this.setState({
+      unsavedValue: unsavedValue
+    })
+  }
+
   drawModal () {
     const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or Edit Link'
     const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter destination URL'
+    const onClickAction = this.localizations ? this.localizations.onClickAction : 'OnClick action'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
+
+    let optionDropdown = null
+    let modalContent = null
+    const dropdownValue = this.state.unsavedValue.type ? 'popup' : 'url'
+
+    if (env('VCV_POPUP_BUILDER')) {
+      optionDropdown = (
+        <div className='vcv-ui-form-group'>
+          <span className='vcv-ui-form-group-heading'>
+            {onClickAction}
+          </span>
+          <select
+            className='vcv-ui-form-dropdown'
+            onChange={this.handleContentChange}
+            value={dropdownValue}
+          >
+            <option value='url'>Url</option>
+            <option value='popup'>Popup</option>
+          </select>
+        </div>
+      )
+    }
+
+    if (!this.state.unsavedValue.type || this.state.unsavedValue.type !== 'popup') {
+      modalContent = (
+        <div>
+          <p className='vcv-ui-form-helper'>
+            {enterDestinationUrl}
+          </p>
+
+          <div className='vcv-ui-form-group'>
+            <span className='vcv-ui-form-group-heading'>
+              URL
+            </span>
+            <UrlDropdownInput
+              fieldKey='url'
+              ref={(c) => { this.urlInput = c }}
+              api={this.props.api}
+              value={this.state.unsavedValue.url || ''}
+              updater={this.inputChange}
+            />
+          </div>
+          {this.renderTitleInput()}
+          {this.renderCheckboxes()}
+          <PostsBlock
+            posts={pagePosts}
+            onSearchChange={this.handleSearchChange}
+            onPostSelection={this.handlePostSelection}
+            shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
+            value={this.state.unsavedValue}
+            isRequestInProcess={this.state.isRequestInProcess}
+          />
+        </div>
+      )
+    } else {
+      modalContent = (
+        <div>
+          <div className='vcv-ui-form-group'>
+            <span className='vcv-ui-form-group-heading'>
+              Popup
+            </span>
+            <PostsDropdown
+              posts={pagePopups}
+              onPostSelection={this.handlePostSelection}
+              shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
+              value={this.state.unsavedValue}
+              isRequestInProcess={this.state.isRequestInProcess}
+            />
+          </div>
+        </div>
+      )
+    }
+
     return (
       <Modal
         show={this.state.isWindowOpen}
@@ -290,25 +388,8 @@ export default class Url extends Attribute {
           </header>
 
           <section className='vcv-ui-modal-content'>
-            <p className='vcv-ui-form-helper'>
-              {enterDestinationUrl}
-            </p>
-
-            <div className='vcv-ui-form-group'>
-              <span className='vcv-ui-form-group-heading'>
-               URL
-              </span>
-              <UrlDropdownInput
-                fieldKey='url'
-                ref={(c) => { this.urlInput = c }}
-                api={this.props.api}
-                value={this.state.unsavedValue.url || ''}
-                updater={this.inputChange}
-              />
-            </div>
-            {this.renderTitleInput()}
-            {this.renderCheckboxes()}
-            {this.renderExistingPostsBlock()}
+            {optionDropdown}
+            {modalContent}
           </section>
 
           <footer className='vcv-ui-modal-footer'>

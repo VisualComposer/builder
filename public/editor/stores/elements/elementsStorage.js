@@ -296,7 +296,7 @@ addStorage('elements', (storage) => {
         element.parent = substituteIds[element.parent]
       }
       delete element.order
-      storage.trigger('add', element, wrap, { silent: true, action: 'merge' })
+      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: true })
       mergeChildrenLayout(data, oldId, false)
     })
   }

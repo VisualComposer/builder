@@ -173,6 +173,8 @@ class Localizations extends Container implements Helper
             'urlInputPlaceholder' => __('Enter destination URL', 'visualcomposer'),
             'linkToExistingContent' => __('Or link to existing content', 'visualcomposer'),
             'searchExistingContent' => __('Search existing content', 'visualcomposer'),
+            'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
+            'onClickAction' => __('OnClick action', 'visualcomposer'),
             'noExistingContentFound' => __('Nothing found', 'visualcomposer'),
             'openLinkInTab' => __('Open link in a new tab', 'visualcomposer'),
             'addNofollow' => __('Add nofollow option to link', 'visualcomposer'),
