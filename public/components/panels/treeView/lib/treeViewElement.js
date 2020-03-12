@@ -48,6 +48,8 @@ export default class TreeViewElement extends React.Component {
       copyData: window.localStorage && (window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get())
     }
 
+    this.editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+
     this.handleClick = this.handleClick.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
@@ -422,7 +424,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
       'vcv-ui-tree-layout-node-hidden': hidden,
-      'vcv-ui-tree-layout-node-non-draggable': isDraggable !== undefined && !isDraggable
+      'vcv-ui-tree-layout-node-non-draggable': this.editorType === 'popup' && isDraggable !== undefined && !isDraggable
     })
     const treeChildProps = {}
     let dragControl = null

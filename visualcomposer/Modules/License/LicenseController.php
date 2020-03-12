@@ -98,6 +98,7 @@ class LicenseController extends Container implements Module
             $licenseHelper->setExpirationDate(
                 $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
             );
+            $licenseHelper->updateUsageDate(true);
             $optionsHelper->deleteTransient('lastBundleUpdate');
 
             return ['status' => true];
