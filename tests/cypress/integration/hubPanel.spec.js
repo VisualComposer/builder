@@ -32,31 +32,13 @@ describe('Hub Panel', function () {
         checkItemsExistence()
       })
 
-      // Cypress only currently supports intercepting XMLHttpRequests.
-      // Requests using the Fetch API and other types of network requests like page loads and <script> tags will not be intercepted or visible in the Command Log.
-      // https://github.com/cypress-io/cypress/issues/95
-      // const unspalshUrl = settings.unsplashApiUrl + Cypress.env('baseUrl') + '/wp-content/plugins/builder/'
-      // cy.route('GET', unspalshUrl).as('stockImagesLoad')
-
       // Click on Stock Images tab, click on image
       cy.contains('.vcv-ui-form-button', 'Stock Images').click()
-      // TODO: Fix a bug related to free license and Unsplash API, then fix the test,
-      //  should not see download icon, Free license should show lock icon.
-      // cy.wait(1500) // Need to wait for images to load before performing any assertions
-      // cy.contains('.vcv-stock-images-button', 'Activate Premium')
-      // cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')
-      //   .first()
-      //   .find('.vcv-stock-image-hover-download')
-      //   .click()
-      // cy.window().then((window) => {
-      //   cy.route('POST', window.vcvAjaxUrl).as('downloadImage')
-      // })
-      // cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')
-      //   .first()
-      //   .find('.vcv-stock-image-download-button[data-img-size="800"]')
-      //   .click({ force: true })
-      // cy.wait('@downloadImage')
-      // cy.contains('.vcv-layout-notifications-position--bottom.vcv-layout-notifications-type--error', settings.imageDownloadError)
+      cy.wait(1500) // Need to wait for images to load before performing any assertions
+      cy.contains('.vcv-stock-images-button', 'Activate Premium')
+      cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')
+        .first()
+        .find('.vcv-stock-image-hover-download .vcv-ui-icon-lock')
 
       // Click on Elements tab, check elements exist, check premium elements are locked
       cy.contains('.vcv-ui-form-button', 'Elements').click()
