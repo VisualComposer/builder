@@ -24,8 +24,8 @@
     if (!fullWidthElements.length) {
       return
     }
-    // resize should happen only on initial scale (1)
-    if (typeof scale === 'number' && scale !== 1) {
+    // resize should happen only after scaling is ended or on initial scale (1)
+    if (isScaling || (typeof scale === 'number' && scale !== 1)) {
       return
     }
     fullWidthElements.forEach(function (element) {
