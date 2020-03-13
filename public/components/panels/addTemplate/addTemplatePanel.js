@@ -84,42 +84,42 @@ export default class AddTemplatePanel extends React.Component {
         title: 'My Templates',
         index: 1,
         id: 'myTemplates',
-        visible: data.all.length,
+        visible: data.all ? data.all.length : false,
         templates: data.all
       },
       {
         title: 'Content Templates',
         index: 2,
         id: 'hubAndPredefined',
-        visible: data.hubAndPredefined.length,
+        visible: data.hubAndPredefined ? data.hubAndPredefined.length : false,
         templates: data.hubAndPredefined
       },
       {
         title: 'Block Templates',
         index: 3,
         id: 'block',
-        visible: data.block.length,
+        visible: data.block ? data.block.length : false,
         templates: data.block
       },
       {
         title: 'Header Templates',
         index: 4,
         id: 'hubHeader',
-        visible: data.hubHeader.length,
+        visible: data.hubHeader ? data.hubHeader.length : false,
         templates: data.hubHeader
       },
       {
         title: 'Footer Templates',
         index: 5,
         id: 'hubFooter',
-        visible: data.hubFooter.length,
+        visible: data.hubFooter ? data.hubFooter.length : false,
         templates: data.hubFooter
       },
       {
         title: 'Sidebar Templates',
         index: 6,
         id: 'hubSidebar',
-        visible: data.hubSidebar.length,
+        visible: data.hubSidebar ? data.hubSidebar.length : false,
         templates: data.hubSidebar
       },
       {
@@ -128,6 +128,13 @@ export default class AddTemplatePanel extends React.Component {
         id: 'downloadMoreTemplates',
         visible: false,
         templates: null
+      },
+      {
+        title: 'Popup Templates',
+        index: 8,
+        id: 'popup',
+        visible: data.popup ? data.popup.length : false,
+        templates: data.popup
       }
     ]
   }
@@ -354,7 +361,14 @@ export default class AddTemplatePanel extends React.Component {
     workspaceSettings.set(settings)
   }
 
-  handleApplyTemplate (data) {
+  handleApplyTemplate (data, templateType) {
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
+      const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'Your current popup will be replaced with the popup template.'
+      if (!window.confirm(replacePopupTemplateText)) {
+        return
+      }
+    }
     const next = (elements) => {
       const existingJobs = assetsStorage.state('jobs').get()
       const existingJobsCount = (existingJobs && existingJobs.elements && existingJobs.elements.length) || 0

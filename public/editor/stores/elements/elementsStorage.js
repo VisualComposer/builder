@@ -61,6 +61,20 @@ addStorage('elements', (storage) => {
     })
     return newData
   }
+  const setPopupRootElement = () => {
+    const rootElements = documentManager.children(false)
+    let rootId = null
+    if (rootElements.length === 0) {
+      const rootElement = cook.get({ tag: 'popupRoot' })
+      rootId = rootElement.toJS().id
+      if (rootElement) {
+        storage.trigger('add', rootElement.toJS(), true, { silent: true })
+      }
+    } else {
+      rootId = rootElements[0].id
+    }
+    return rootId
+  }
 
   storage.on('add', (elementData, wrap = true, options = {}) => {
     const createdElements = []
@@ -79,24 +93,15 @@ addStorage('elements', (storage) => {
         if (wrapperData) {
           storage.trigger('add', wrapperData.toJS(), true, { skipInitialExtraElements: true, silent: true })
         }
-      } else if (editorType === 'popup' && cookElement.get('tag') !== 'popupRoot') {
-        const allElements = documentManager.all()
-        let rootId = null
-
-        if (Object.entries(allElements).length === 0) {
-          const rootElement = cook.get({ tag: 'popupRoot' })
-          rootId = rootElement.toJS().id
-          if (rootElement) {
-            storage.trigger('add', rootElement.toJS(), true, { silent: true })
-          }
+      } else if (editorType === 'popup') {
+        if (cookElement.get('tag') !== 'popupRoot') {
+          elementData.parent = setPopupRootElement()
         } else {
-          Object.keys(allElements).forEach((id) => {
-            if (!allElements[id].parent) {
-              rootId = id
-            }
+          const allElements = documentManager.children(false)
+          allElements.forEach((row) => {
+            documentManager.delete(row.id)
           })
         }
-        elementData.parent = rootId
       }
     }
 
@@ -260,7 +265,7 @@ addStorage('elements', (storage) => {
     }
     updateTimeMachine()
   })
-  const mergeChildrenLayout = (data, parent) => {
+  const mergeChildrenLayout = (data, parent, wrap = false) => {
     const children = Object.keys(data).filter((key) => {
       const element = data[key]
       return parent ? element.parent === parent : element.parent === '' || element.parent === parent
@@ -291,13 +296,14 @@ addStorage('elements', (storage) => {
         element.parent = substituteIds[element.parent]
       }
       delete element.order
-      storage.trigger('add', element, false, { silent: true, action: 'merge' })
-      mergeChildrenLayout(data, oldId)
+      storage.trigger('add', element, wrap, { silent: true, action: 'merge', skipInitialExtraElements: true })
+      mergeChildrenLayout(data, oldId, false)
     })
   }
   storage.on('merge', (content) => {
     const layoutData = JSON.parse(JSON.stringify(content))
-    mergeChildrenLayout(layoutData, false)
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    mergeChildrenLayout(layoutData, false, editorType === 'popup')
     storage.state('document').set(documentManager.children(false), 'merge')
     substituteIds = {}
     updateTimeMachine()

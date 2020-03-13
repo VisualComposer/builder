@@ -117,7 +117,7 @@ class Url implements Helper
         }
 
         if ($trim) {
-            $url = rtrim($url, '/\\');
+            $url = rtrim($url, '/\\') . '/';
         }
 
         $result = $url . $q . http_build_query($query, '', '&');

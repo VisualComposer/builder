@@ -24,17 +24,32 @@ describe('Global CSS', function () {
       cy.get('.vcv-ui-style-editor.vcv-ui-state--active .CodeMirror-code')
         .type(settings.globalCSSString, {parseSpecialCharSequences: false})
 
+      cy.get('.vcv-ui-form-button[title="Local CSS"]')
+        .click()
+
+      cy.get('.vcv-ui-style-editor.vcv-ui-state--active .CodeMirror-code')
+        .type(settings.localCSSString, {parseSpecialCharSequences: false})
+
+      cy.savePage()
+      cy.viewPage()
+
+      cy.get('.vce-text-block-wrapper p')
+        .should('have.css', 'color', settings.localColor)
+
+      // Check local and global css order
+      cy.createPage()
+      cy.addElement('Text Block')
       cy.window().then((win) => {
-        cy.route('POST', win.vcvAdminAjaxUrl).as('firstPagePermalink')
+        cy.route('POST', win.vcvAdminAjaxUrl).as('secondPagePermalink')
       })
       cy.get('.vcv-ui-navbar-control[title="Publish"]').click()
-      cy.wait('@firstPagePermalink')
-
+      cy.wait('@secondPagePermalink')
       cy.viewPage()
 
       cy.get('.vce-text-block-wrapper p')
         .should('have.css', 'color', settings.color)
 
+      // Check deleting global css
       cy.createPage()
 
       cy.addElement('Text Block')
@@ -57,7 +72,7 @@ describe('Global CSS', function () {
       cy.savePage()
       cy.viewPage()
 
-      cy.get('@firstPagePermalink').should((response) => {
+      cy.get('@secondPagePermalink').should((response) => {
         cy.visit(response.response.body.postData.permalink)
       })
 
