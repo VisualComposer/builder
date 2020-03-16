@@ -9,7 +9,7 @@ import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import MobileDetect from 'mobile-detect'
 import OopsScreen from 'public/components/account/oopsScreen'
 import Notifications from 'public/components/notifications/notifications'
-import FeedbackPopup from '../../../components/feedbackPopup/feedbackPopup'
+import FeedbackPopup from 'public/components/feedbackPopup/feedbackPopup'
 
 const notificationsStorage = vcCake.getStorage('notifications')
 const Utils = vcCake.getService('utils')
@@ -29,9 +29,9 @@ vcCake.add('contentLayout', (api) => {
   }
 
   // Start notifications and feedback popup
-  const isFeedbackGiven = window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM()
+  const showFeedbackForm = window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM()
   const layoutOverlay = document.querySelector('.vcv-layout-overlay')
-  const feedbackPopupComponent = !isFeedbackGiven ? <FeedbackPopup /> : null
+  const feedbackPopupComponent = showFeedbackForm ? <FeedbackPopup /> : null
   if (layoutOverlay) {
     ReactDOM.render(
       <>
