@@ -38,6 +38,7 @@
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--bounce"] {
   animation-name: vce-o-animate--bounce;
   transform-origin: center bottom;
+  animation-fill-mode: backwards;
 }
 
 @keyframes vce-o-animate--flash {
