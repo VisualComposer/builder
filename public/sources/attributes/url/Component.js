@@ -8,11 +8,12 @@ import UrlDropdownInput from './UrlDropdownInput'
 import PostsBlock from './PostsBlock'
 import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
-import { getService, env } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
+const popupStorage = getStorage('popup')
 
 const pagePosts = {
   data: [],
@@ -61,6 +62,7 @@ export default class Url extends Attribute {
     this.handleContentChange = this.handleContentChange.bind(this)
     this.setPagePosts = this.setPagePosts.bind(this)
     this.setPopupPosts = this.setPopupPosts.bind(this)
+    this.handlePopupHtmlLoad = this.handlePopupHtmlLoad.bind(this)
   }
 
   componentWillUnmount () {
@@ -175,8 +177,10 @@ export default class Url extends Attribute {
   handleClose () {
     this.setState({
       isWindowOpen: false,
-      unsavedValue: {}
+      unsavedValue: {},
+      isSaveInProgress: false
     })
+    popupStorage.state('popupAddInProgress').ignoreChange(this.handlePopupHtmlLoad)
     if (this.state.value.type === 'popup') {
       this.loadPosts('', this.popupAction, this.setPopupPosts)
     } else {
@@ -188,9 +192,29 @@ export default class Url extends Attribute {
     e.preventDefault()
     const valueToSave = Object.assign({}, this.state.unsavedValue)
     this.setFieldValue(valueToSave)
-    window.setTimeout(() => {
-      this.handleClose()
-    }, 1)
+
+    if (valueToSave.type === 'popup' && valueToSave.url) {
+      this.setState({
+        isSaveInProgress: true
+      })
+      popupStorage.state('popupAddInProgress').onChange(this.handlePopupHtmlLoad)
+    } else {
+      window.setTimeout(() => {
+        this.handleClose()
+      }, 1)
+    }
+  }
+
+  handlePopupHtmlLoad (addInProgress) {
+    if (!addInProgress) {
+      this.setState({
+        isSaveInProgress: false
+      })
+      popupStorage.state('popupAddInProgress').ignoreChange(this.handlePopupHtmlLoad)
+      window.setTimeout(() => {
+        this.handleClose()
+      }, 1)
+    }
   }
 
   inputChange = (fieldKey, value) => {
@@ -375,6 +399,25 @@ export default class Url extends Attribute {
       )
     }
 
+    let saveButtonContent = (
+      <span className='vcv-ui-modal-action' title={save} onClick={this.handleSaveClick}>
+        <span className='vcv-ui-modal-action-content'>
+          <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
+          <span>save</span>
+        </span>
+      </span>
+    )
+
+    if (this.state.isSaveInProgress) {
+      saveButtonContent = (
+        <span className='vcv-ui-modal-action'>
+          <span className='vcv-ui-modal-action-content'>
+            <span className='vcv-ui-wp-spinner' />
+          </span>
+        </span>
+      )
+    }
+
     return (
       <Modal
         show={this.state.isWindowOpen}
@@ -395,12 +438,7 @@ export default class Url extends Attribute {
 
           <footer className='vcv-ui-modal-footer'>
             <div className='vcv-ui-modal-actions'>
-              <span className='vcv-ui-modal-action' title={save} onClick={this.handleSaveClick}>
-                <span className='vcv-ui-modal-action-content'>
-                  <i className='vcv-ui-modal-action-icon vcv-ui-icon vcv-ui-icon-save' />
-                  <span>{save}</span>
-                </span>
-              </span>
+              {saveButtonContent}
             </div>
           </footer>
         </div>

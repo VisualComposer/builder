@@ -168,6 +168,12 @@
       "name": "accordionAutoplay",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/accordionAutoplay.bundle.js"
+    },
+    {
+      "name": "popup",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/src/popup.js",
+      "cssBundle": "[publicPath]/src/popup.css"
     }
   ]
 }
