@@ -52,6 +52,10 @@ export default class SaveController {
       cssBundles: []
     }
     const elementsCss = {}
+    const extraArgs = {}
+    if (vcCake.env('VCV_POPUP_BUILDER')) {
+      extraArgs['vcv-popup-data'] = []
+    }
     Object.keys(data.elements).forEach((key) => {
       const cookElement = cook.get(data.elements[key])
       const tag = cookElement.get('tag')
@@ -79,6 +83,24 @@ export default class SaveController {
       promises.push(elementMixinsStyleManager.add(cssMixins).compile().then((result) => {
         elementsCss[key].mixinsCss = result
       }))
+
+      if (vcCake.env('VCV_POPUP_BUILDER')) {
+        const urlAttrKeys = cookElement.filter((key, value, settings) => {
+          return settings.type === 'url'
+        })
+
+        urlAttrKeys.forEach((urlKey) => {
+          const urlValue = cookElement.get(urlKey)
+
+          if (urlValue && urlValue.url && urlValue.type === 'popup') {
+            const popupUrl = urlValue.url.split('#vcv-popup-')
+            const popupId = popupUrl && popupUrl[1]
+            if (popupId && extraArgs['vcv-popup-data'].indexOf(popupId) < 0) {
+              extraArgs['vcv-popup-data'].push(popupId)
+            }
+          }
+        })
+      }
     })
 
     promises.push(renderProcessor.appAllDone())
@@ -126,7 +148,7 @@ export default class SaveController {
       requestData['vcv-post-name'] = settingsStorage.state('postName').get() || ''
 
       const extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
-      requestData['vcv-extra'] = extraRequestData
+      requestData['vcv-extra'] = Object.assign(extraArgs, extraRequestData)
 
       const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
       requestData['vcv-item-preview-disabled'] = itemPreviewDisabled
