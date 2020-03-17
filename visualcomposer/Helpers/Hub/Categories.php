@@ -225,7 +225,7 @@ class Categories implements Helper
             ],
             'Section' => [
                 'title' => 'Section',
-                'elements' => ['section'],
+                'elements' => ['section', 'popupRoot'],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
             ],
@@ -289,7 +289,7 @@ class Categories implements Helper
                     'soundcloudPlayer',
                     'simpleContactForm',
                     'foodAndDrinksMenu',
-                    'starRanking'
+                    'starRanking',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
@@ -399,6 +399,7 @@ class Categories implements Helper
                     'backgroundImagePostGrid',
                     'postGridWithBox',
                     'postSliderBlock',
+                    'portfolioPostGrid'
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Post-Grid.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Post-Grid.svg'),
@@ -426,6 +427,7 @@ class Categories implements Helper
                     'sidePostGridItem',
                     'newsPostGridItem',
                     'backgroundImagePostGridItem',
+                    'portfolioPostGridItem',
                     'postGridWithBoxItem',
                     'postSliderBlockItem',
                 ],

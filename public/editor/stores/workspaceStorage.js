@@ -6,6 +6,7 @@ const cacheStorage = getStorage('cache')
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
   const documentManager = getService('document')
+  const notificationsStorage = getStorage('notifications')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
     const children = cook.getContainerChildren(parent.tag)
@@ -66,11 +67,26 @@ addStorage('workspace', (storage) => {
   })
   storage.on('clone', (id) => {
     elementsStorage.trigger('clone', id)
+    const metaCustomId = cook.getById(id).get('metaCustomId')
+    if (metaCustomId) {
+      const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+      const successMessage = localizations.cloneElementWithId || 'Your element was cloned without a unique Element ID. You can adjust the Element ID by editing the cloned element.'
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: successMessage,
+        time: 3000
+      })
+    }
   }, {
     debounce: 250
   })
   storage.on('copy', (id, tag, options) => {
+    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const successMessage = localizations.copyElementWithId || 'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.'
     const element = documentManager.copy(id)
+    const metaCustomId = cook.getById(id).get('metaCustomId')
     const copyData = {
       element,
       options
@@ -80,6 +96,15 @@ addStorage('workspace', (storage) => {
       window.localStorage.setItem('vcv-copy-data', JSON.stringify(copyData))
     }
     cacheStorage.trigger('clear', 'controls')
+    if (metaCustomId) {
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: successMessage,
+        time: 3000
+      })
+    }
   })
   const markLastChild = (data) => {
     if (data.children.length) {
@@ -193,7 +218,8 @@ addStorage('workspace', (storage) => {
   })
   storage.on('drop', (id, settings) => {
     const relatedElement = settings.related ? cook.get(documentManager.get(settings.related)) : false
-    const elementSettings = { tag: settings.element.tag }
+    const elementSettings = settings.element
+
     if (relatedElement) {
       elementSettings.parent = relatedElement.get('parent')
     }

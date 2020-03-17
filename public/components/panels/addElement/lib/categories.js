@@ -25,6 +25,7 @@ export default class Categories extends React.Component {
   static hubElements = []
   static addedId = null
   static parentElementTag = null
+  static elementPresets = []
 
   updateElementsTimeout = 0
 
@@ -51,7 +52,6 @@ export default class Categories extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
     hubElementsStorage.state('elements').onChange(this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
@@ -69,8 +69,8 @@ export default class Categories extends React.Component {
     Categories.allCategories = []
     Categories.allElements = []
     Categories.allElementsTags = []
+    Categories.elementPresets = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
 
     categoriesService.getSortedElements.cache.clear()
     this.updateElementsTimeout = setTimeout(() => {
@@ -101,14 +101,29 @@ export default class Categories extends React.Component {
       }
     }
     const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
-    if (isAllElements) {
+    const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
+    if (isAllElements || isPresetsUpdated) {
       const { allElements } = this.state
       Categories.allElements = allElements.filter((elementData) => {
+        // Do not show custom root element in add element panel
+        if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
+          return false
+        }
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
-      Categories.allElements = Categories.elementPresets.concat(Categories.allElements)
+      const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
+        const cookElement = cook.get(elementPreset.presetData)
+        const element = cookElement.toJS()
+        element.name = elementPreset.name
+        element.presetId = elementPreset.id
+        element.metaDescription = cookElement.get('metaDescription')
+        element.metaThumbnailUrl = cookElement.get('metaThumbnailUrl')
+        element.metaPreviewUrl = cookElement.get('metaPreviewUrl')
+        delete element.id
+        return element
+      })
+      Categories.allElements = elementPresets.concat(Categories.allElements)
     }
-
     return Categories.allElements
   }
 
@@ -148,7 +163,9 @@ export default class Categories extends React.Component {
 
   getAllCategories () {
     const isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
-    if (isCategories) {
+    const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
+
+    if (isCategories || isPresetsUpdated) {
       const groupsStore = {}
       const groups = groupsService.all()
       const tags = this.getAllElementsTags()
@@ -165,6 +182,7 @@ export default class Categories extends React.Component {
         }
       })
       Categories.parentElementTag = this.props.parent.tag
+      Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
     }
 
     return Categories.allCategories
@@ -226,12 +244,12 @@ export default class Categories extends React.Component {
 
   getElementControl (elementData) {
     const { tag, name } = elementData
-    const key = 'vcv-element-control-' + tag
+    const key = `vcv-element-control-${name.replace(/ /g, '')}-${tag}`
 
     return (
       <ElementControl
         key={key}
-        isElementPreset={Categories.elementPresets.find(preset => preset.tag === tag)}
+        elementPresetId={elementData.presetId}
         element={elementData}
         hubElement={Categories.hubElements[tag]}
         tag={tag}
@@ -297,8 +315,8 @@ export default class Categories extends React.Component {
     const allCategories = this.getAllCategories()
     const i = activeCategoryIndex
 
-    return allCategories && allCategories[i] && allCategories[i].elements ? allCategories[i].elements.map((tag) => {
-      return this.getElementControl(tag)
+    return allCategories && allCategories[i] && allCategories[i].elements ? allCategories[i].elements.map((element) => {
+      return this.getElementControl(element)
     }) : []
   }
 
@@ -324,29 +342,20 @@ export default class Categories extends React.Component {
   applyFirstElement () {
     const { searchResults, focusedElement } = this.state
     if ((searchResults && searchResults.length) || focusedElement) {
-      const tag = focusedElement || searchResults[0].tag
-      this.addElement(tag)
+      const element = focusedElement || searchResults[0]
+      this.addElement(element)
     }
   }
 
-  addElement (tag) {
+  addElement (element) {
     const workspace = workspaceStorage.state('settings').get() || false
-    // TODO: Check elementAccessPoint
-    const parentElementId = workspace && workspace.element ? workspace.element.id : false
-    let data
-    let addedId
-    const elementPreset = Categories.elementPresets.find(preset => preset.tag === tag)
-    if (elementPreset) {
-      data = elementPreset.presetData
-      addedId = elementPreset.presetData.id
-    } else {
-      data = cook.get({ tag: tag, parent: parentElementId }).toJS()
-      addedId = data.id
-    }
-    elementsStorage.trigger('add', data, true, {
+    element.parent = workspace && workspace.element ? workspace.element.id : false
+    element = cook.get(element).toJS()
+
+    elementsStorage.trigger('add', element, true, {
       insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
-    this.addedId = addedId
+    this.addedId = element.id
 
     const iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
@@ -370,8 +379,8 @@ export default class Categories extends React.Component {
     )
   }
 
-  setFocusedElement (tag) {
-    this.setState({ focusedElement: tag })
+  setFocusedElement (element) {
+    this.setState({ focusedElement: element })
   }
 
   render () {

@@ -2,14 +2,28 @@
   "customId": "outline-button-id",
   "customClass": "outline-button-class",
   "alignment": "right",
-  "buttonLink": "visualcomposer.com",
-  "buttonText": "Hello Outline Button",
-  "hoverEffect": "outline-animated-slidein",
-  "titleColor": {
-    "hex": "FFC000",
-    "rgb": "rgb(255, 192, 0)"
+  "shape": {
+    "name": "round",
+    "cssValue": "84px"
   },
-  "designOptions": {
-    "animation": "wobble"
+  "size": {
+    "name": "large",
+    "cssValue": "20px 56px"
+  },
+  "buttonLink": {
+    "url": "visualcomposer.com"
+  },
+  "buttonText": "Hello Outline Button",
+  "titleColor": {
+    "title": "Title color",
+    "initialValue": "E3E3E3",
+    "value": "FFC000",
+    "valueRgb": "rgb(255, 192, 0)"
+  },
+  "borderColor": {
+    "title": "Border color",
+    "initialValue": "E3E3E3",
+    "value": "9461D3",
+    "valueRgb": "rgb(148, 97, 211)"
   }
 }

@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
 ?>
-<?php if ($slug === 'vcv-headers-footers') { ?>
+<?php if ($slug === 'vcv-headers-footers' || $slug === 'vcv-custom-page-templates') { ?>
     <style>
         .vcv-settings-tab-content,
         .vcv-headers-footers_headers-footers-all-site,

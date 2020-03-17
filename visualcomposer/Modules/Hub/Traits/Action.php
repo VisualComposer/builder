@@ -25,8 +25,11 @@ trait Action
         if (!vcIsBadResponse($response) && $payload['data']) {
             $hubHelper = vchelper($this->helperName);
             /** @var $hubHelper \VisualComposer\Helpers\Hub\Bundle */
+            $hubHelper->setTempBundleFolder(
+                VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-' . str_replace('/', '-', $payload['action'])
+            );
             $hubHelper->removeTempBundleFolder();
-            $archive = $hubHelper->requestBundleDownload($payload['data'], $payload['action']);
+            $archive = $hubHelper->requestBundleDownload($payload['data']['url']);
             if (!vcIsBadResponse($archive)) {
                 $archive = $this->readBundleJson($archive, $payload);
                 $response['status'] = $archive !== false;
@@ -69,11 +72,11 @@ trait Action
                         __(
                             'A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.
 
-If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.
+If the problem still occurs, visit %smy.visualcomposer.com/support%s for technical assistance.
 ',
                             'visualcomposer'
                         ),
-                        '<a href="https://support.visualcomposer.io/" target="_blank">',
+                        '<a href="https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support" target="_blank">',
                         '</a>'
                     )
                 );

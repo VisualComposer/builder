@@ -81,6 +81,27 @@ class License extends Container implements Helper
         $optionsHelper->set('license-expiration', $expiration);
     }
 
+    public function updateUsageDate($refresh = false)
+    {
+        $optionsHelper = vchelper('Options');
+        $usage = $optionsHelper->get('license-usage');
+        if (empty($usage) || $refresh) {
+            $optionsHelper->set('license-usage', time());
+        }
+    }
+
+    public function isActivelyUsed()
+    {
+        $optionsHelper = vchelper('Options');
+        $usage = $optionsHelper->get('license-usage');
+        if (!empty($usage) && (intval($usage) + MONTH_IN_SECONDS) < time()) {
+            // More than 1 month used current license-type
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @return mixed
      */
@@ -139,6 +160,14 @@ class License extends Container implements Helper
     }
 
     /**
+     * @return bool
+     */
+    public function isThemeActivated()
+    {
+        return $this->getType() === 'theme';
+    }
+
+    /**
      * @param $errorCode
      *
      * @codingStandardsIgnoreStart
@@ -178,6 +207,9 @@ class License extends Container implements Helper
                 break;
             case 'no_activations_left':
                 $message = __('Your license key has reached its activation limit.', 'visualcomposer');
+                break;
+            case 'purchase_key_already_exist':
+                $message = __('Purchase Code already in use'); // theme activation
                 break;
             default:
                 $message = __('An error occurred, please try again.', 'visualcomposer');

@@ -222,16 +222,23 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-icon': true,
       'vcv-ui-icon-cog': true
     })
-    const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Presets'
-    const settingsControl = (
-      <span
-        className='vcv-ui-edit-form-header-control'
-        title={editFormSettingsText}
-        onClick={this.props.handleEditFormSettingsToggle}
-      >
-        <i className={editFormSettingsIconClasses} />
-      </span>
-    )
+
+    let settingsControl = null
+    const cookElement = elementAccessPoint.cook()
+    const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
+
+    if (env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') && isGeneral) {
+      const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
+      settingsControl = (
+        <span
+          className='vcv-ui-edit-form-header-control'
+          title={editFormSettingsText}
+          onClick={this.props.handleEditFormSettingsToggle}
+        >
+          <i className={editFormSettingsIconClasses} />
+        </span>
+      )
+    }
 
     return (
       <div className='vcv-ui-edit-form-header'>
@@ -239,8 +246,8 @@ export default class EditFormHeader extends React.Component {
         {sectionImage}
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
-          {hideControl}
-          {env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') ? settingsControl : null}
+          {isNested ? null : hideControl}
+          {isNested ? null : settingsControl}
           <span
             className='vcv-ui-edit-form-header-control'
             title={closeTitle}

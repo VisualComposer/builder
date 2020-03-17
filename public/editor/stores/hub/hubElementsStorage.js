@@ -21,6 +21,20 @@ const setCategoryState = (categoryData, storageState) => {
   storageState.set(newState)
 }
 
+const parseData = (presets) => {
+  const parsedPresets = []
+  presets.forEach((preset) => {
+    const newPreset = Object.assign({}, preset)
+    try {
+      newPreset.presetData = JSON.parse(window.decodeURIComponent(newPreset.presetData))
+      parsedPresets.push(newPreset)
+    } catch (e) {
+      console.warn(e)
+    }
+  })
+  return parsedPresets
+}
+
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const notificationsStorage = getStorage('notifications')
@@ -30,7 +44,9 @@ addStorage('hubElements', (storage) => {
 
   storage.on('start', () => {
     storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
-    storage.state('elementPresets').set(window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [])
+    const presets = window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : []
+    const parsedPresets = parseData(presets)
+    storage.state('elementPresets').set(parsedPresets)
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
   })
 
@@ -205,5 +221,37 @@ addStorage('hubElements', (storage) => {
         add(asset.cssSubsetBundles[key])
       })
     }
+  })
+
+  storage.on('addPreset', (elementPresetData) => {
+    const elementPresetsState = storage.state('elementPresets').get() || []
+    elementPresetsState.unshift(elementPresetData)
+    storage.state('elementPresets').set(elementPresetsState)
+  })
+  storage.on('removePreset', (id) => {
+    const elementPresetsState = storage.state('elementPresets').get() || []
+    storage.state('elementPresets').set(elementPresetsState.filter(item => item.id !== id))
+  })
+
+  storage.registerAction('getPresetsByCategory', (categoryKey) => {
+    const category = storage.state('categories').get()[categoryKey]
+    const categoryTags = category && category.elements
+    const categoryPresets = []
+    if (!categoryTags) {
+      return categoryPresets
+    }
+    const presets = storage.state('elementPresets').get()
+    if (!presets) {
+      return categoryPresets
+    }
+
+    presets.forEach((preset) => {
+      const presetTag = preset.presetData.tag
+      if (categoryTags.indexOf(presetTag) > -1) {
+        categoryPresets.push(preset)
+      }
+    })
+
+    return categoryPresets
   })
 })

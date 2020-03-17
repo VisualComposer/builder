@@ -70,6 +70,7 @@ const API = {
     obj.__resizeElement__ = element
     obj.onload = (e) => {
       obj.contentDocument.defaultView.addEventListener('resize', fn.bind(this, element, options))
+      fn(element, options)
     }
     obj.type = 'text/html'
     if (isIE) {
@@ -260,10 +261,10 @@ const API = {
   getShortcodesRegexp () {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   },
-  getBlockRegexp (onlyVcv = true) {
+  getBlockRegexp (onlyVcvDynamic = true) {
     // NOTE!! This should be used only for dynamic fields!
-    if (onlyVcv) {
-      return new RegExp(/<!--\s+(\/)?wp:(vcv-(?:[a-z][a-z0-9_-]*\/)?)([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g)
+    if (onlyVcvDynamic) {
+      return new RegExp(/<!--\s+(\/)?wp:(vcv-gutenberg-blocks\/)(dynamic-field-block)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g)
     }
 
     return new RegExp(/<!--\s+(\/)?wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g)

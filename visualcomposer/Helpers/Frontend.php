@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Helper;
 
 /**
- * Class Options.
+ * Class Frontend.
  */
 class Frontend implements Helper
 {
@@ -27,7 +27,7 @@ class Frontend implements Helper
         }
 
         $link = get_edit_post_link($post, 'url');
-        $question = (preg_match('/\?/', $link) ? '&' : '?');
+        $question = (false !== strpos($link, '?') ? '&' : '?');
         $query = [
             'vcv-action' => 'frontend',
             'vcv-source-id' => $post->ID,
@@ -46,7 +46,7 @@ class Frontend implements Helper
     public function getEditableUrl($sourceId)
     {
         $link = set_url_scheme(get_permalink($sourceId), 'admin');
-        $question = (preg_match('/\?/', $link) ? '&' : '?');
+        $question = (false !== strpos($link, '?') ? '&' : '?');
         $query = [
             'vcv-editable' => '1',
             'vcv-source-id' => $sourceId,
@@ -120,14 +120,31 @@ class Frontend implements Helper
         if (!$sourceId || get_post_status($sourceId) !== 'publish') {
             return false;
         }
-
-        global $post;
+        ob_start();
         // @codingStandardsIgnoreStart
-        $post = get_post($sourceId);
-        setup_postdata($post);
-        the_content();
-        vcevent('vcv:assets:enqueueAssets', ['sourceIds' => [$sourceId]]);
-        wp_reset_postdata();
+        global $wp_query, $wp_the_query;
+        $backup = $wp_query;
+        $backupGlobal = $wp_the_query;
+
+        $tempPostQuery = new \WP_Query(
+            [
+                'p' => $sourceId,
+                'post_status' => get_post_status($sourceId),
+                'post_type' => get_post_type($sourceId),
+            ]
+        );
+        $wp_query = $tempPostQuery;
+        $wp_the_query = $tempPostQuery;
+        if ($wp_query->have_posts()) {
+            $wp_query->the_post();
+            the_content();
+        }
+
+        $wp_query = $backup;
+        $wp_the_query = $backupGlobal; // fix wp_reset_query
         // @codingStandardsIgnoreEnd
+        wp_reset_postdata();
+
+        return ob_get_clean();
     }
 }

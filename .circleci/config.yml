@@ -33,12 +33,15 @@ jobs:
       - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
         environment:
           MYSQL_HOST: 127.0.0.1
-          MYSQL_DB: test
+          MYSQL_DB: mate
           MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           WP_TESTS_DIR: /opt/wp-tests
           WP_TESTS_DOMAIN: localhost
           WP_TESTS_ABSPATH: /var/www/html/
+          WP_TESTS_DB_NAME: test
+          WP_TESTS_DB_USER: wpuser
+          WP_TESTS_DB_HOST: 127.0.0.1
       - image: mariadb:10.3.13-bionic
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
         environment:
@@ -58,12 +61,12 @@ jobs:
       - run:
           name: Install Wordpress
           command: |
-            wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=$MYSQL_DB --dbuser=wpuser --allow-root
+            wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=test --dbuser=wpuser --allow-root
             wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --skip-email --allow-root --debug
             sudo chmod 777 /var/www/html/wp-content/uploads
       - run: php ci/composer.phar install
       - run: php tools/php-composer/cli.php
-      - run: php ci/phpunit-8.0.0.phar --configuration=ci/phpunit-all-coverage.xml
+      - run: php -d 'zend_extension=xdebug.so' ci/phpunit-8.0.0.phar --configuration=ci/phpunit-all-coverage.xml
       - run: php ci/coverage-test.php
   end-2-end-tests:
     docker:
@@ -127,6 +130,12 @@ jobs:
       - run:
           name: Activate plugin
           command: wp plugin activate --all --path=/var/www/html
+      - run:
+          name: Add free license to db
+          command: |
+            mysql -h 127.0.0.1 --user="root" --execute="INSERT INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', '0b147957-48d2-4c15-b50e-f9f755bd8749', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="INSERT INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="INSERT INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
       - run: yarn run cypress run --project ./tests/
       - store_artifacts:
           path: ./tests/cypress/snapshots

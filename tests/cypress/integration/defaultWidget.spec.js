@@ -8,20 +8,23 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
+      // 1. Set attributes and DO
+      cy.setSwitch('Enable custom widget HTML')
+      cy.get('.vcv-ui-form-group-heading')
+        .contains('Before Title html')
+      cy.get('.vcv-ui-form-group-heading')
+        .contains('After Title html')
+      cy.setCodeMirror(settings.beforeWidgetHTML)
+      cy.setCodeMirror(settings.afterWidgetHTML)
+      cy.setClassAndId(settings.customId, settings.customClass)
+      cy.setDO(settings.designOptions)
+
+      // 2. Set widget and widget content
       cy.window().then((window) => {
         cy.route('POST', window.vcvAjaxUrl).as('getWidget')
       })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Widget')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.widgetType)
-        })
-
+      cy.setSelect('Widget', settings.widgetType)
       cy.wait('@getWidget')
-
       cy.get('#widget-form-1-text')
         .then(($field) => {
           cy.wrap($field)
@@ -29,60 +32,10 @@ describe(ELEMENT_NAME, function () {
             .type(settings.widgetText)
         })
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Enable custom widget HTML')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-switch-container')
-            .find('.vcv-ui-form-switch')
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Before Title html')
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('After Title html')
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Before Widget html')
-        .next()
-        .next()
-        .find('.CodeMirror-code')
-        .clear()
-        .type(settings.beforeWidgetHTML, {parseSpecialCharSequences: false})
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('After Widget html')
-        .next()
-        .next()
-        .find('.CodeMirror-code')
-        .clear()
-        .type(settings.afterWidgetHTML, {parseSpecialCharSequences: false})
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
-      cy.setDO(settings.designOptions)
-
       cy.savePage()
       cy.viewPage()
 
-      cy.get('.vce-widgets-container')
-        .should('have.class', settings.customClass)
+      cy.get(`.${settings.customClass}`)
         .should('have.attr', 'id', settings.customId)
 
       cy.get('.vce-widgets-wrapper')
@@ -96,15 +49,11 @@ describe(ELEMENT_NAME, function () {
         .should('have.attr', 'data-vce-animate', `vce-o-animate--${settings.designOptions.animation}`)
         .and('have.attr', 'data-vcv-o-animated', 'true')
 
-      cy.get('.vce-before-widget')
-        .contains(settings.beforeWidgetHTMLText)
-
-      cy.get('.vce-after-widget')
-        .contains(settings.afterWidgetHTMLText)
-
       cy.wait(200)
-      cy.get('.textwidget p')
-        .contains(settings.widgetText)
+      cy.contains('.textwidget p', settings.widgetText)
+
+      cy.contains(settings.beforeWidgetHTML.selector, settings.beforeWidgetHTML.textString)
+      cy.contains(settings.afterWidgetHTML.selector, settings.afterWidgetHTML.textString)
     })
   })
 })

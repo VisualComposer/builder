@@ -8,20 +8,24 @@ describe(ELEMENT_NAME, function () {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
+      // 1. Set attributes and DO
+      cy.setSwitch('Enable custom widget HTML')
+      cy.get('.vcv-ui-form-group-heading')
+        .contains('Before Title html')
+      cy.get('.vcv-ui-form-group-heading')
+        .contains('After Title html')
+      cy.setCodeMirror(settings.beforeWidgetHTML)
+      cy.setCodeMirror(settings.afterWidgetHTML)
+
+      cy.setClassAndId(settings.customId, settings.customClass)
+      cy.setDO(settings.designOptions)
+
+      // 2. Set widget and widget content
       cy.window().then((window) => {
         cy.route('POST', window.vcvAjaxUrl).as('getWidget')
       })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Widget')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .select(settings.widgetType)
-        })
-
+      cy.setSelect('Widget', settings.widgetType)
       cy.wait('@getWidget')
-
       cy.get('#widget-form-1-content')
         .then(($field) => {
           cy.wrap($field)
@@ -29,51 +33,11 @@ describe(ELEMENT_NAME, function () {
             .type(settings.widgetHTML)
         })
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Enable custom widget HTML')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-switch-container')
-            .find('.vcv-ui-form-switch')
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Before Title html')
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('After Title html')
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Before Widget html')
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('After Widget html')
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.customClass)
-        })
-
-      cy.setDO(settings.designOptions)
-
       cy.savePage()
       cy.viewPage()
 
-      cy.get('.vce-widgets-container')
+      cy.get(`#${settings.customId}`)
         .should('have.class', settings.customClass)
-        .should('have.attr', 'id', settings.customId)
 
       cy.get('.vce-widgets-wrapper')
         .should('have.css', 'border-radius', settings.designOptions.borderRadius)
@@ -87,8 +51,10 @@ describe(ELEMENT_NAME, function () {
         .and('have.attr', 'data-vcv-o-animated', 'true')
 
       cy.wait(200)
-      cy.get('.textwidget h1')
-        .contains(settings.widgetText)
+      cy.contains('.textwidget h1', settings.widgetText)
+
+      cy.contains(settings.beforeWidgetHTML.selector, settings.beforeWidgetHTML.textString)
+      cy.contains(settings.afterWidgetHTML.selector, settings.afterWidgetHTML.textString)
     })
   })
 })

@@ -39,8 +39,11 @@ class Token extends Container implements Helper
                 'vcv-version' => VCV_VERSION,
             ];
             $body['license-key'] = $licenseHelper->getKey();
-
-            $url = $licenseHelper->isPremiumActivated() ? vcvenv('VCV_PREMIUM_TOKEN_URL') : vcvenv('VCV_TOKEN_URL');
+            $url = vcvenv('VCV_TOKEN_URL');
+            if (defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated()) {
+                $body['author_api_key'] = VCV_AUTHOR_API_KEY;
+                $url = vcvenv('VCV_THEME_TOKEN_URL');
+            }
             $url = vchelper('Url')->query($url, $body);
 
             $result = wp_remote_get(
@@ -73,7 +76,7 @@ class Token extends Container implements Helper
             $body = json_decode($result['body'], true);
         }
 
-        if ($body && isset($body['error'], $body['error']['type'], $body['error']['code'])) {
+        if ($body && isset($body['error']['type'], $body['error']['code'])) {
             $code = $body['error']['code'];
             $licenseHelper->setKey('');
             $licenseHelper->setType('');
@@ -95,14 +98,16 @@ class Token extends Container implements Helper
         if (!empty($body) && !vcIsBadResponse($result)) {
             if (is_array($body) && isset($body['data'], $body['success']) && $body['success']) {
                 $token = $body['data']['token'];
-                if (isset($body['data']['price_id'])) {
+                if (isset($body['data']['license_type'])) {
                     $previousType = $licenseHelper->getType();
-                    $priceId = $body['data']['price_id'];
-                    if ($priceId !== '4' && $previousType !== 'premium') {
+                    $licenseType = $body['data']['license_type'];
+                    if ($previousType !== $licenseType) {
                         $optionsHelper->deleteTransient('lastBundleUpdate');
-                        $licenseHelper->setType('premium');
+                        $licenseHelper->setType($licenseType);
+                        $licenseHelper->updateUsageDate(true);
                     }
                     $licenseHelper->setExpirationDate($body['data']['expiration']);
+                    $licenseHelper->updateUsageDate();
                 }
 
                 $this->checkLicenseExpiration($body['data'], $noticeHelper);

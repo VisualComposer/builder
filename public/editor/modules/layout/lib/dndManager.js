@@ -115,9 +115,9 @@ export default class DndManager {
 
   init () {
     this.api
-      .on('element:mount', this.add.bind(this))
+      .on('element:mount', this.initItems.bind(this))
       .on('element:unmount', this.remove.bind(this))
-      .on('element:didUpdate', this.update.bind(this))
+      .on('element:didUpdate', this.initItems.bind(this))
       .on('editor:mount', this.rebuildItems.bind(this))
   }
 
@@ -125,9 +125,9 @@ export default class DndManager {
     if (type === 'reload') {
       workspaceIFrame.ignoreChange(this.unSubscribe.bind(this))
       this.api
-        .off('element:mount', this.add.bind(this))
+        .off('element:mount', this.initItems.bind(this))
         .off('element:unmount', this.remove.bind(this))
-        .off('element:didUpdate', this.update.bind(this))
+        .off('element:didUpdate', this.initItems.bind(this))
         .off('editor:mount', this.rebuildItems.bind(this))
       vcCake.ignoreDataChange('draggingElement', this.apiDnD.start)
       vcCake.ignoreDataChange('dropNewElement', this.apiDnD.addNew)
@@ -135,9 +135,13 @@ export default class DndManager {
     }
   }
 
-  add (id) {
-    this.buildItems()
-    this.items.addItem(id, this.documentDOM)
+  initItems (id) {
+    const cookElement = cook.getById(id)
+    const isDraggable = cookElement.get('metaIsDraggable')
+    if (isDraggable === undefined || isDraggable) {
+      this.buildItems()
+      this.items.addItem(id, this.documentDOM)
+    }
   }
 
   remove (id) {
@@ -150,11 +154,6 @@ export default class DndManager {
     }, 0)
   }
 
-  update (id) {
-    this.buildItems()
-    this.items.updateItem(id, this.documentDOM)
-  }
-
   move (id, action, related) {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
@@ -165,12 +164,12 @@ export default class DndManager {
     }
   }
 
-  drop (id, action, related, element) {
+  drop (id, action, related, draggingElement, elementData) {
     if (id && related) {
       if (related === 'vcv-ui-blank-row') {
-        DndManager.handleBlankRowDrop(id, action, element.tag)
+        DndManager.handleBlankRowDrop(id, action, elementData)
       } else {
-        workspaceStorage.trigger('drop', id, { action: action, related: related, element: element })
+        workspaceStorage.trigger('drop', id, { action: action, related: related, element: elementData })
       }
     }
   }
@@ -185,17 +184,23 @@ export default class DndManager {
     document.body.classList.remove('vcv-is-no-selection')
   }
 
-  static handleBlankRowDrop (id, action, elementTag) {
-    if (elementTag) { // Drop from addElement window
-      const element = cook.get({ tag: elementTag }).toJS()
+  static handleBlankRowDrop (id, action, element) {
+    const elementSettings = documentManager.get(id)
+    if (!elementSettings) { // Drop from addElement window
+      element = cook.get(element).toJS()
+      element.parent = false
       elementsStorage.trigger('add', element)
       workspaceStorage.trigger('edit', element.id, '')
-    } else if (id) { // Drop existing element
-      const elementSettings = documentManager.get(id)
+    } else { // Drop existing element
       const parentWrapper = cook.get(elementSettings).get('parentWrapper')
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
-      if (wrapperTag) { // Add wrapper and insert dragging element into this wrapper
+      if (editorType === 'popup' && !wrapperTag) { // Append dragging element after last root element without wrapper
+        const rootElements = documentManager.children(false)
+        const lastRootElement = rootElements[rootElements.length - 1]
+        workspaceStorage.trigger('move', id, { action: 'append', related: lastRootElement.id })
+      } else if (wrapperTag) { // Add wrapper and insert dragging element into this wrapper
         const wrapper = cook.get({ tag: wrapperTag }).toJS()
         elementsStorage.trigger('add', wrapper, true, { skipInitialExtraElements: true })
         workspaceStorage.trigger('move', id, { action: 'append', related: wrapper.id })

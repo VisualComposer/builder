@@ -43,7 +43,10 @@ class Addons implements Helper
 
     public function updateAddon($key, $prev, $new, $merged)
     {
-        $hubBundleHelper = vchelper('HubActionsAddonsBundle');
+        $hubBundleHelper = vchelper('HubBundle');
+        $hubBundleHelper->setTempBundleFolder(
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-addon-' . $key
+        );
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(
             $hubBundleHelper->getTempBundleFolder('addons/' . $key),

@@ -113,7 +113,10 @@ class Elements implements Helper
 
     public function updateElement($key, $prev, $new, $merged)
     {
-        $hubBundleHelper = vchelper('HubActionsElementsBundle');
+        $hubBundleHelper = vchelper('HubBundle');
+        $hubBundleHelper->setTempBundleFolder(
+            VCV_PLUGIN_ASSETS_DIR_PATH . '/temp-bundle-element-' . $key
+        );
         $fileHelper = vchelper('File');
         $result = $fileHelper->copyDirectory(
             $hubBundleHelper->getTempBundleFolder('elements/' . $key),

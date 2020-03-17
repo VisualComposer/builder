@@ -92,7 +92,10 @@ export default class ActivatePremiumScreen extends React.Component {
     this.setState({ hasError: false })
   }
 
-  getListItemClass (activationType) {
+  getListItemClass (activationType, item) {
+    if (item === 'support' && activationType === 'author') {
+      return 'vcv-basic-list-item vcv-basic-list-item--not-included'
+    }
     return activationType === 'free' ? 'vcv-basic-list-item vcv-basic-list-item--not-included' : 'vcv-basic-list-item'
   }
 
@@ -111,7 +114,8 @@ export default class ActivatePremiumScreen extends React.Component {
     }
 
     let premiumButtonClasses = 'vcv-activation-button'
-    if (loading === 'premium' || loading === 'free') {
+    const loadingTypes = ['premium', 'free', 'author']
+    if (loadingTypes.indexOf(loading) > -1) {
       premiumButtonClasses += ' vcv-activation-button--loading'
     }
 
@@ -122,18 +126,23 @@ export default class ActivatePremiumScreen extends React.Component {
 
     const getPremiumFeaturesText1 = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getPremiumFeaturesText1 : 'Get Premium Elements, Templates,'
     const getPremiumFeaturesText2 = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getPremiumFeaturesText2 : 'Extensions, and Support'
+    const getThemeFeatures = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getThemeFeatures : 'Get Premium Elements and Templates'
     const getFreeAccessText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getFreeAccessToTheVisualComposerHub : 'Get Free Access to the Visual Composer Hub'
     const whatYouWillGetText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.whatYouWillGet : 'What You Will Get?'
     const whatYouWillGetForFreeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.whatYouWillGetForFree : 'What You Will Get For Free?'
     const limitedAccessToExtensionsText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.limitedAccessToExtensions : 'Limited access to the Visual Composer Hub of elements, templates, and extensions'
+    const unlimitedAccessToExtensionsText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and extensions'
     const themeBuilderWithHFSText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.themeBuilderWithHFS : 'Theme builder with Header, Footer, and Sidebar editor'
     const wooCommerceCompatibilityText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.wooCommerceCompatibility : 'WooCommerce compatibility'
     const premiumSupportAndUpdatesText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.premiumSupportAndUpdates : 'Premium support and updates'
+    const premiumSupportText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.premiumSupport : 'Premium support'
+    const regularUpdatesText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.regularUpdates : 'Regular updates'
     const iWantToGoPremiumText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.iWantToGoPremium : 'I want to go premium'
-    const getYourFreeLicenseText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getYourFreeLicense : 'Get Your Free License'
+    const getYourFreeLicenseText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.getYourFreeLicense : 'Get Your Free Subscription'
     const findSubscriptionLicenseAtText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findSubscriptionLicenseAt : 'You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at'
     const findFreeLicenseAt = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findFreeLicenseAt : 'Get your free Visual Composer Hub access at'
     const activatePremiumText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activatePremium : 'Activate Premium'
+    const activateThemeLicense = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activateThemeLicense : 'Activate Theme License'
     const activateFreeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.activateFree : 'Activate Free'
     const findPurchaseCodeText = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.findPurchaseCodeText : 'Find your Envato Purchase Code and use it to activate Visual Composer Premium'
     const enterPurchaseCode = ActivatePremiumScreen.localizations ? ActivatePremiumScreen.localizations.enterPurchaseCode : 'Enter your envato purchase code'
@@ -141,22 +150,26 @@ export default class ActivatePremiumScreen extends React.Component {
 
     let headingText = getFreeAccessText
 
-    if (activationType === 'premium' || activationType === 'author') {
+    if (activationType === 'premium') {
       headingText = (
         <>
           {getPremiumFeaturesText1}<br />
           {getPremiumFeaturesText2}
         </>
       )
+    } else if (activationType === 'author') {
+      headingText = getThemeFeatures
     }
 
-    let activationButton
-    if (activationType === 'premium' || activationType === 'author') {
+    let activationButton = null
+    if (activationType === 'premium') {
       activationButton = (
         <a href={window.VCV_GO_PREMIUM_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
           {iWantToGoPremiumText}
         </a>
       )
+    } else if (activationType === 'author') {
+      activationButton = null
     } else {
       activationButton = (
         <a href={window.VCV_GO_FREE_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
@@ -172,14 +185,14 @@ export default class ActivatePremiumScreen extends React.Component {
       findNewLicenseAtText = (
         <>
           {findSubscriptionLicenseAtText}
-          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_HUB_LICENSES_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_PUBLIC_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
     } else {
       findNewLicenseAtText = (
         <>
           {findFreeLicenseAt}
-          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
+          <a href={window.VCV_GO_FREE_URL()} className='vcv-activation-link' target='_blank' rel='noopener noreferrer'>{env('VCV_HUB_PUBLIC_URL').replace(/^https:\/\//i, ' ').replace(/\/$/, '')}</a>
         </>
       )
     }
@@ -190,6 +203,15 @@ export default class ActivatePremiumScreen extends React.Component {
     } else {
       inputPlaceholder = enterYourLicenseKey
     }
+
+    let buttonText = activateFreeText
+    if (activationType === 'premium') {
+      buttonText = activatePremiumText
+    } else if (activationType === 'author') {
+      buttonText = activateThemeLicense
+    }
+
+    const hubAccessText = activationType === 'free' ? limitedAccessToExtensionsText : unlimitedAccessToExtensionsText
 
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
@@ -204,10 +226,11 @@ export default class ActivatePremiumScreen extends React.Component {
               {activationType === 'premium' || activationType === 'author' ? whatYouWillGetText : whatYouWillGetForFreeText}
             </h3>
             <ul className='vcv-basic-list'>
-              <li className='vcv-basic-list-item'>{limitedAccessToExtensionsText}</li>
+              <li className='vcv-basic-list-item'>{hubAccessText}</li>
               <li className={this.getListItemClass(activationType)}>{themeBuilderWithHFSText}</li>
               <li className={this.getListItemClass(activationType)}>{wooCommerceCompatibilityText}</li>
-              <li className={this.getListItemClass(activationType)}>{premiumSupportAndUpdatesText}</li>
+              {activationType === 'author' ? (<li className='vcv-basic-list-item'>{regularUpdatesText}</li>) : null}
+              <li className={this.getListItemClass(activationType, 'support')}>{activationType === 'author' ? premiumSupportText : premiumSupportAndUpdatesText}</li>
             </ul>
             <div className='vcv-activation-button-container'>
               {activationButton}
@@ -223,7 +246,7 @@ export default class ActivatePremiumScreen extends React.Component {
             </div>
             <div className='vcv-activation-button-container'>
               <button className={premiumButtonClasses} onClick={this.handleActivateClick}>
-                {activationType === 'premium' || activationType === 'author' ? activatePremiumText : activateFreeText}
+                {buttonText}
               </button>
             </div>
           </div>

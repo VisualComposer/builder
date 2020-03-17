@@ -537,46 +537,31 @@ Cypress.Commands.add('replaceElement', (settings) => {
     .click()
 })
 
-/** Creates a new post in WordPress admin dashboard,
- * returns post id
+/** Creates a new post in WordPress admin dashboard.
+ * Callback may execute additional actions, e.g. setting ACF fields.
+ * Post id need to be passed to callback function in order to retrieve it inside a test file.
+ * All actions are forced { force: true } due to unpredictable WordPress environment.
  *
  * @param settings [object]
+ * @param callback [function]
  * @returns postId [string]
  */
-Cypress.Commands.add('createWpPost', (settings) => {
-  let postId
-
+Cypress.Commands.add('createWpPost', (settings, callback) => {
   cy.visit('/wp-admin/post-new.php')
 
-  cy.get('.editor-post-title__input')
-    .type(settings.postTitle, { force: true })
-
-  cy.get('.editor-default-block-appender__content')
-    .click({ force: true })
-
-  cy.get('.block-editor-rich-text__editable')
-    .type(settings.postContent, { force: true })
-
-  cy.get('.edit-post-sidebar__panel-tab[data-label="Document"]')
-    .click()
-
-  cy.contains('.components-button.components-panel__body-toggle', 'Excerpt')
-    .click()
-
-  cy.get('.editor-post-excerpt .components-textarea-control__input')
-    .type(settings.postContent, { force: true })
-
-  cy.window().then((window) => {
-    postId = window.document.getElementById('post_ID').value
+  cy.window().then(async (window) => {
+    await window.wp.data.dispatch("core/editor").editPost({ title: settings.postTitle })
+    await window.wp.data.dispatch("core/editor").editPost({ content: settings.postContent })
+    if (settings.postExcerpt) {
+      await window.wp.data.dispatch("core/editor").editPost({ excerpt: settings.postExcerpt })
+    }
+    await window.wp.data.dispatch('core/editor').resetBlocks(window.wp.blocks.parse(settings.postContent));
+    await window.wp.data.dispatch('core/editor').savePost().then(() => {
+        const currentPost = window.wp.data.select('core/editor').getCurrentPost()
+        callback(currentPost.id + '', currentPost)
+      }
+    )
   })
-
-  cy.get('.editor-post-publish-panel__toggle')
-    .click()
-
-  cy.get('.editor-post-publish-button')
-    .click()
-
-  return postId
 })
 
 /** Creates a new menu in WordPress admin dashboard,
@@ -628,7 +613,7 @@ Cypress.Commands.add('createWpMenu', (settings) => {
   cy.get('#save_menu_header')
     .click()
 
-  cy.route('POST', `${Cypress.env('baseUrl')}/wp-admin/admin-ajax.php`).as('adminAjax')
+  cy.route('POST', `${Cypress.env('baseUrl')}wp-admin/admin-ajax.php`).as('adminAjax')
 
   cy.contains('.accordion-section-title', 'Custom Links')
     .click()

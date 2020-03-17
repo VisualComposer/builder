@@ -51,10 +51,17 @@ class PostType implements Helper
             if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()
             ) {
                 if ($metaValue) {
-                    if (!isset($results[ $metaValue ])) {
-                        $results[ $metaValue ] = [];
+                    if (!is_string($metaValue)) {
+                        $results[ $post->ID ] = [
+                            'post' => $post,
+                            'value' => $metaValue,
+                        ];
+                    } else {
+                        if (!isset($results[ $metaValue ])) {
+                            $results[ $metaValue ] = [];
+                        }
+                        $results[ $metaValue ][] = $post;
                     }
-                    $results[ $metaValue ][] = $post;
                 } elseif (!$skipEmpty) {
                     if (!isset($results[''])) {
                         $results[''] = [];
@@ -183,6 +190,7 @@ class PostType implements Helper
                 $wp_query->posts = [];
             }
             $wp_query->posts[0] = $post;
+            $wp_query->post = $post;
             $wp_query->queried_object_id = $post->ID;
             $wp_query->is_singular = true;
             $post_type = $post->post_type;

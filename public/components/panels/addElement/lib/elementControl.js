@@ -10,6 +10,9 @@ import PropTypes from 'prop-types'
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const settingsStorage = vcCake.getStorage('settings')
+const notificationsStorage = vcCake.getStorage('notifications')
+const dataProcessor = vcCake.getService('dataProcessor')
+const hubElementsStorage = vcCake.getStorage('hubElements')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -38,7 +41,8 @@ export default class ElementControl extends React.Component {
       iframe: document.getElementById('vcv-editor-iframe'),
       backendContentContainer: document.querySelector('.vcv-wpbackend-layout-content-container'),
       mouseX: null,
-      mouseY: null
+      mouseY: null,
+      showSpinner: false
     }
     this.handleMouseEnterShowPreview = this.handleMouseEnterShowPreview.bind(this)
     this.handleMouseLeaveHidePreview = this.handleMouseLeaveHidePreview.bind(this)
@@ -49,6 +53,8 @@ export default class ElementControl extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
     this.handleRemovePreset = this.handleRemovePreset.bind(this)
+    this.displayError = this.displayError.bind(this)
+    this.displaySuccess = this.displaySuccess.bind(this)
   }
 
   componentDidMount () {
@@ -240,10 +246,11 @@ export default class ElementControl extends React.Component {
       this.helper.hide()
       if (isDragging) {
         vcCake.setData('dropNewElement', {
-          id: element.id,
+          id: 'dropNewElement',
           point: false,
           tag: tag,
-          domNode: newElement
+          domNode: newElement,
+          element: element
         })
       }
     } else {
@@ -345,7 +352,7 @@ export default class ElementControl extends React.Component {
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
-      this.props.addElement(this.props.tag)
+      this.props.addElement(this.props.element)
       this.endDrag()
     } else {
       this.endDragGlobal()
@@ -354,7 +361,7 @@ export default class ElementControl extends React.Component {
 
   handleFocus (e) {
     e && e.preventDefault()
-    this.props.setFocusedElement(this.props.tag)
+    this.props.setFocusedElement(this.props.element)
   }
 
   handleKeyPress (e) {
@@ -365,12 +372,69 @@ export default class ElementControl extends React.Component {
   }
 
   handleRemovePreset () {
-    // TODO: add logic when changes from all tasks are merged
-    console.log('handleRemovePreset')
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to remove this template?'
+
+    if (window.confirm(removeTemplateWarning)) {
+      const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
+      const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
+      const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
+      const presetId = this.props.elementPresetId
+
+      this.setState({ showSpinner: true })
+
+      dataProcessor.appServerRequest({
+        'vcv-action': 'addon:presets:delete:adminNonce',
+        'vcv-preset-id': presetId,
+        'vcv-nonce': window.vcvNonce
+      }).then((data) => {
+        try {
+          const jsonData = JSON.parse(data)
+          if (jsonData && jsonData.status) {
+            hubElementsStorage.trigger('removePreset', presetId)
+            this.displaySuccess(presetRemovedText)
+          } else {
+            let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
+            errorMessage = errorMessage || noAccessCheckLicence
+            this.displayError(errorMessage)
+
+            if (vcCake.env('VCV_DEBUG')) {
+              console.warn(errorMessage, jsonData)
+            }
+          }
+        } catch (e) {
+          this.displayError(couldNotParseData)
+
+          if (vcCake.env('VCV_DEBUG')) {
+            console.warn(couldNotParseData, e)
+          }
+        }
+      })
+    }
+  }
+
+  displaySuccess (successText) {
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      transparent: true,
+      rounded: true,
+      text: successText,
+      time: 3000
+    })
+  }
+
+  displayError (errorText) {
+    this.setState({ showSpinner: false })
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      type: 'error',
+      text: errorText,
+      time: 3000
+    })
   }
 
   render () {
-    const { name, element, isElementPreset, hubElement } = this.props
+    const { name, element, elementPresetId, hubElement } = this.props
     const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
     const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -378,7 +442,7 @@ export default class ElementControl extends React.Component {
     const listItemClasses = classNames({
       'vcv-ui-item-list-item': true,
       'vcv-ui-item-list-item--inactive': dragState && dragState.active,
-      'vcv-ui-item-list-item--preset': isElementPreset
+      'vcv-ui-item-list-item--preset': !!elementPresetId
     })
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -410,15 +474,34 @@ export default class ElementControl extends React.Component {
       )
     }
     let removeControl = null
-    if (isElementPreset) {
+    if (elementPresetId) {
+      const removeClasses = classNames({
+        'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
+        'vcv-ui-state--hidden': this.state.showSpinner
+      })
       removeControl = (
         <span
-          className='vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger'
+          className={removeClasses}
           onClick={this.handleRemovePreset}
           data-action='deleteElementPreset'
         />
       )
     }
+
+    const spinnerClasses = classNames({
+      'vcv-ui-item-control vcv-ui-icon vcv-ui-wp-spinner-light': true,
+      'vcv-ui-state--hidden': !this.state.showSpinner
+    })
+
+    const applyClasses = classNames({
+      'vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add': true,
+      'vcv-ui-state--hidden': this.state.showSpinner
+    })
+
+    const overlayClasses = classNames({
+      'vcv-ui-item-overlay': true,
+      'vcv-ui-item-overlay--visible': this.state.showSpinner
+    })
 
     return (
       <li className={listItemClasses}>
@@ -438,9 +521,10 @@ export default class ElementControl extends React.Component {
               className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt={name}
             />
-            <span className='vcv-ui-item-overlay'>
-              <span className='vcv-ui-item-add vcv-ui-icon vcv-ui-icon-add' />
+            <span className={overlayClasses}>
+              <span className={applyClasses} />
               {removeControl}
+              {elementPresetId ? <span className={spinnerClasses} /> : null}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>

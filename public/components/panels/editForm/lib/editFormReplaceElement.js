@@ -14,13 +14,13 @@ export default class EditFormReplaceElement extends React.Component {
     this.openEditFormOnReplace = this.openEditFormOnReplace.bind(this)
   }
 
-  handleReplaceElement (tag) {
-    const cookElement = this.props.elementAccessPoint.cook()
-    const id = this.previousElementId = cookElement.get('id')
+  handleReplaceElement (tag, presetCookElement) {
+    const currentCookElement = this.props.elementAccessPoint.cook()
+    const cookElement = presetCookElement || currentCookElement
+    const id = this.previousElementId = currentCookElement.get('id')
     const editFormTabSettings = cookElement.filter((key, value, settings) => {
-      return settings.access === 'public'
+      return settings.access === 'public' && settings.type !== 'group' && settings.type !== 'element'
     })
-
     const currentElementAttributes = [
       ...editFormTabSettings,
       'parent'
@@ -31,6 +31,9 @@ export default class EditFormReplaceElement extends React.Component {
     currentElementAttributes.forEach(key => {
       replaceElementMergeData[key] = cookElement.get(key)
     })
+    if (presetCookElement) {
+      replaceElementMergeData.parent = currentCookElement.get('parent')
+    }
     elementsStorage.state('elementReplace').onChange(this.openEditFormOnReplace)
     elementsStorage.trigger('replace', id, replaceElementMergeData)
   }

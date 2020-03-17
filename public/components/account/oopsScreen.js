@@ -59,17 +59,19 @@ export default class OopsScreen extends React.Component {
         </button>
       )
     } else {
+      const tryAgainButtonText = localizations ? localizations.feOopsTryAgainButtonText : 'Try Again'
+      const reportAnIssueButtonText = localizations ? localizations.feOopsReportAnIssueButtonText : 'Report an Issue'
       return (
         <>
           {errorAction && (
             <button onClick={errorAction} className='vcv-screen-button'>
-              Try Again
+              {tryAgainButtonText}
             </button>
           )}
           {errorReportAction && (
-            <button onClick={errorReportAction} className='vcv-screen-button vcv-screen-button--dark'>
-              Send error report
-            </button>
+            <a href={window.VCV_SUPPORT_URL()} className='vcv-screen-button vcv-screen-button--dark'>
+              {reportAnIssueButtonText}
+            </a>
           )}
         </>
       )

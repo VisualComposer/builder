@@ -138,7 +138,8 @@ export default class DndDataSet {
           },
           isAttribute: false,
           disableMobile: false,
-          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false
+          isIframe: (options && options.container && options.container.id === 'vcv-editor-iframe-overlay') || false,
+          elementData: false
         })
       }
     })
@@ -184,10 +185,18 @@ export default class DndDataSet {
     if (!element) { return null }
     const containerFor = element.get('containerFor')
     const relatedTo = element.get('relatedTo')
+    const parent = element.get('parent')
+    const parentCookElement = cook.getById(parent)
+    let parentId
+    if (parent && (parentCookElement.get('metaIsDraggable') === undefined || parentCookElement.get('metaIsDraggable'))) {
+      parentId = parent || this.options.rootID
+    } else {
+      parentId = this.options.rootID
+    }
     return new DOMElement(id, domNode, {
       containerFor: containerFor ? containerFor.value : null,
       relatedTo: relatedTo ? relatedTo.value : null,
-      parent: element.get('parent') || this.options.rootID,
+      parent: parentId,
       handler: this.options.handler,
       tag: element.get('tag'),
       iconLink: hubCategories.getElementIcon(element.get('tag'))
@@ -207,10 +216,6 @@ export default class DndDataSet {
         .on('touchmove', this.handleMobileCancelDragFunction)
         .on('touchend', this.handleMobileCancelDragFunction)
     }
-  }
-
-  updateItem (id) {
-    this.addItem(id)
   }
 
   removeItem (id) {
@@ -331,6 +336,7 @@ export default class DndDataSet {
           domElement && (afterLastContainerElement = true)
         } else {
           domElement = null
+          return
         }
       }
 
@@ -375,12 +381,13 @@ export default class DndDataSet {
     }
   }
 
-  start (id, point, tag, domNode) {
+  start (id, point, tag, domNode, element) {
     if (!this.dragStartHandled) {
       this.dragStartHandled = true
     }
     if (id && tag) {
       this.draggingElement = this.createDraggingElementFromTag(tag, domNode)
+      this.options.elementData = element
     } else {
       this.draggingElement = this.getDomElement(domNode)
       this.options.drop = false
@@ -471,7 +478,8 @@ export default class DndDataSet {
           this.draggingElement.id,
           this.position,
           this.currentElement,
-          this.draggingElement
+          this.draggingElement,
+          this.options.elementData
         )
         if (!this.position) {
           workspaceStorage.state('drag').set({ terminate: true })

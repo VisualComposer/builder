@@ -7,6 +7,8 @@ import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
+const elementsStorage = vcCake.getStorage('elements')
+const cook = vcCake.getService('cook')
 
 export default class startBlank extends React.Component {
   static propTypes = {
@@ -17,6 +19,7 @@ export default class startBlank extends React.Component {
     super(props)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleStartClick = this.handleStartClick.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
   }
 
   componentDidMount () {
@@ -31,14 +34,33 @@ export default class startBlank extends React.Component {
   }
 
   handleStartClick () {
-    const settings = {
-      action: 'add',
-      element: {},
-      tag: '',
-      options: {}
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    if (editorType === 'popup') {
+      const cookElement = cook.get({ tag: 'popupRoot' }).toJS()
+      const rowElement = cook.get({ tag: 'row', parent: cookElement.id }).toJS()
+      elementsStorage.trigger('add', cookElement)
+      elementsStorage.trigger('add', rowElement)
+      this.addedId = cookElement.id
+      const iframe = document.getElementById('vcv-editor-iframe')
+      this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+      this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
+    } else {
+      const settings = {
+        action: 'add',
+        element: {},
+        tag: '',
+        options: {}
+      }
+      workspaceSettings.set(settings)
     }
-    workspaceSettings.set(settings)
     this.props.unmountStartBlank()
+  }
+
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '')
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
   }
 
   render () {
