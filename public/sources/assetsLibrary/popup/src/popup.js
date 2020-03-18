@@ -1,9 +1,11 @@
+import './popup.less';
+
 (function (window) {
   let popupTriggerElements = []
 
   const handleClosePopup = (e) => {
     const closeButton = e.currentTarget
-    const popupContainer = closeButton.closest('vcv-popup-container')
+    const popupContainer = closeButton.closest('.vcv-popup-container')
     popupContainer.classList.remove('vcv-popup-container--visible')
     closeButton.removeEventListener('click', handleClosePopup)
   }
@@ -11,10 +13,14 @@
   const handleOpenPopup = (e) => {
     const id = e.currentTarget.href.split('#')[1]
     const popupContainer = document.getElementById(id)
-    const closeButton = popupContainer.querySelector('.vce-popup-root-close-button')
+    if (popupContainer) {
+      const closeButton = popupContainer.querySelector('.vce-popup-root-close-button')
 
-    popupContainer.classList.add('vcv-popup-container--visible')
-    closeButton.addEventListener('click', handleClosePopup)
+      popupContainer.classList.add('vcv-popup-container--visible')
+      closeButton.addEventListener('click', handleClosePopup)
+    } else {
+      console.warn(`Popup with ID vcv-popup-${id} not found`)
+    }
   }
 
   window.vcv.on('ready', function (action, id) {
