@@ -20,7 +20,7 @@ addStorage('popup', (storage) => {
       'vcv-action': 'popupBuilder:getData:adminNonce',
       'vcv-source-id': id
     }).then((requestData) => {
-      if (requestData) {
+      if (requestData && typeof requestData === 'string') {
         const popupContainer = document.createElement('div')
         popupContainer.id = domId
         popupContainer.className = 'vcv-popup-container'
