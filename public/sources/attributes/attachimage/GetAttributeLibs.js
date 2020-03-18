@@ -34,6 +34,5 @@ export default (value) => {
     }
     libs.push(libData)
   }
-
   return libs
 }
