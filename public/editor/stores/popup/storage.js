@@ -20,19 +20,17 @@ addStorage('popup', (storage) => {
       'vcv-action': 'popupBuilder:getData:adminNonce',
       'vcv-source-id': id
     }).then((requestData) => {
-      console.log(requestData)
-
-      const popupContainer = document.createElement('div')
-      popupContainer.id = domId
-      popupContainer.className = 'vcv-popup-container'
-      popupContainer.innerHTML = requestData
-
-      documentBody.appendChild(popupContainer)
-
+      if (requestData) {
+        const popupContainer = document.createElement('div')
+        popupContainer.id = domId
+        popupContainer.className = 'vcv-popup-container'
+        popupContainer.innerHTML = requestData
+        documentBody.appendChild(popupContainer)
+      }
       storage.state('popupAddInProgress').set(false)
     }, (error) => {
       storage.state('popupAddInProgress').set(false)
-      console.warn('Failed to load dynamic post data', error)
+      console.warn('Failed to get popup HTML', error)
     })
   }
 

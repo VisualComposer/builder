@@ -172,8 +172,8 @@
     {
       "name": "popup",
       "dependencies": [],
-      "jsBundle": "[publicPath]/src/popup.js",
-      "cssBundle": "[publicPath]/src/popup.css"
+      "jsBundle": "[publicPath]/dist/popup.bundle.js",
+      "cssBundle": "[publicPath]/dist/popup.bundle.css"
     }
   ]
 }
