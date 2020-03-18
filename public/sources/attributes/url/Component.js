@@ -90,7 +90,7 @@ export default class Url extends Attribute {
     return {
       value: value,
       unsavedValue: value,
-      isWindowOpen: false,
+      isWindowOpen: (this.state && this.state.isWindowOpen) || false,
       updateState: false,
       shouldRenderExistingPosts: !!window.vcvAjaxUrl,
       isRequestInProcess: false
