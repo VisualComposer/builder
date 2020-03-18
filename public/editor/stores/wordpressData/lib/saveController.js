@@ -31,6 +31,7 @@ export default class SaveController {
     const promises = []
     const assetsStorageInstance = modernAssetsStorage.create()
     const globalStylesManager = stylesManager.create()
+    const popupSettings = settingsStorage.state('popupSettings').get()
     const globalCss = settingsStorage.state('globalCss').get() || ''
     globalStylesManager.add([{
       src: globalCss
@@ -131,6 +132,10 @@ export default class SaveController {
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
+      }
+      console.log(popupSettings)
+      if (vcCake.env('VCV_POPUP_BUILDER') && popupSettings && Object.keys(popupSettings).length > 0) {
+        requestData['vcv-settings-popup'] = popupSettings
       }
       const pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {
