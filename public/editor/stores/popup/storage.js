@@ -34,6 +34,17 @@ addStorage('popup', (storage) => {
     })
   }
 
+  const getPopupId = (attrValue) => {
+    if (attrValue && attrValue.url && attrValue.type === 'popup') {
+      const popupId = attrValue.url.split('#vcv-popup-')
+      if (popupId && popupId[1]) {
+        return popupId[1]
+      }
+      return null
+    }
+    return null
+  }
+
   const parseUrlAttributes = (cookElement) => {
     const urlAttrKeys = cookElement.filter((key, value, settings) => {
       return settings.type === 'url'
@@ -41,11 +52,29 @@ addStorage('popup', (storage) => {
 
     urlAttrKeys.forEach((urlKey) => {
       const urlValue = cookElement.get(urlKey)
+      const popupId = getPopupId(urlValue)
+      if (popupId) {
+        addPopupHtml(popupId)
+      }
+    })
 
-      if (urlValue && urlValue.url && urlValue.type === 'popup') {
-        const popupId = urlValue.url.split('#vcv-popup-')
-        if (popupId && popupId[1]) {
-          addPopupHtml(popupId[1])
+    const attachImageAttrKeys = cookElement.filter((key, value, settings) => {
+      return settings.type === 'attachimage'
+    })
+
+    attachImageAttrKeys.forEach((attachImageKey) => {
+      const imageValue = cookElement.get(attachImageKey)
+      if (Array.isArray(imageValue)) {
+        imageValue.forEach((imgValue) => {
+          const popupId = getPopupId(imgValue.link)
+          if (popupId) {
+            addPopupHtml(popupId)
+          }
+        })
+      } else if (typeof imageValue === 'object') {
+        const popupId = getPopupId(imageValue.link)
+        if (popupId) {
+          addPopupHtml(popupId)
         }
       }
     })
