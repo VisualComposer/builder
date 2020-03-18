@@ -17,7 +17,7 @@ addStorage('popup', (storage) => {
     }
 
     dataProcessor.appAdminServerRequest({
-      'vcv-action': 'getPopupData:adminNonce',
+      'vcv-action': 'popupBuilder:getData:adminNonce',
       'vcv-source-id': id
     }).then((requestData) => {
       console.log(requestData)
@@ -52,16 +52,6 @@ addStorage('popup', (storage) => {
       }
     })
   }
-
-  storage.on('start', () => {
-    storage.state('popups').onChange((popups) => {
-      if (popups && popups.length) {
-        popups.forEach((id) => {
-          addPopupHtml(id)
-        })
-      }
-    })
-  })
 
   elementsStorage.on('add', (elementData) => {
     const cookElement = cook.get(elementData)

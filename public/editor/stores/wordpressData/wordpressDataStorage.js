@@ -132,7 +132,7 @@ addStorage('wordpressData', (storage) => {
       if (responseData.templates) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
       }
-      if (responseData.popups && responseData.popups.length) {
+      if (responseData.popups) {
         popupStorage.state('popups').set(responseData.popups)
       }
       if (Object.prototype.hasOwnProperty.call(pageTitleData, 'current')) {

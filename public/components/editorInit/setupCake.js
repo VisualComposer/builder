@@ -34,8 +34,6 @@ export const setupCake = () => {
     settingsStorage.trigger('start')
     const attributesStorage = vcCake.getStorage('attributes')
     attributesStorage.trigger('start')
-    const popupStorage = vcCake.getStorage('popup')
-    popupStorage.trigger('start')
     require('../../config/wp-modules')
   })
 }
