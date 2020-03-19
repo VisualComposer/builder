@@ -24,6 +24,9 @@ addStorage('popup', (storage) => {
         const popupContainer = document.createElement('div')
         popupContainer.id = domId
         popupContainer.className = 'vcv-popup-container'
+        popupContainer.setAttribute('hidden', true)
+        popupContainer.setAttribute('aria-hidden', true)
+        popupContainer.setAttribute('role', 'dialog')
         popupContainer.innerHTML = requestData
         documentBody.appendChild(popupContainer)
       }
