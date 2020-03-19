@@ -86,7 +86,10 @@ export default class SaveController {
       }))
 
       if (vcCake.env('VCV_POPUP_BUILDER')) {
-        extraArgs['vcv-popup-data'] = getPopupDataFromElement(cookElement)
+        const popupIds = getPopupDataFromElement(cookElement)
+        if (popupIds.length) {
+          extraArgs['vcv-popup-data'] = extraArgs['vcv-popup-data'].concat(popupIds)
+        }
       }
     })
 
