@@ -12,6 +12,7 @@ addStorage('wordpressData', (storage) => {
   const migrationStorage = getStorage('migration')
   const documentManager = getService('document')
   const wordpressDataStorage = getStorage('wordpressData')
+  const popupStorage = getStorage('popup')
 
   storage.on('start', () => {
     // Here we call data load
@@ -130,6 +131,9 @@ addStorage('wordpressData', (storage) => {
       }
       if (responseData.templates) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
+      }
+      if (responseData.popups) {
+        popupStorage.state('popups').set(responseData.popups)
       }
       if (Object.prototype.hasOwnProperty.call(pageTitleData, 'current')) {
         settingsStorage.state('pageTitle').set(pageTitleData.current)
