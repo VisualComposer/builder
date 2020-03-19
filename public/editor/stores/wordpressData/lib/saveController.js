@@ -56,7 +56,7 @@ export default class SaveController {
     const extraArgs = {}
     if (vcCake.env('VCV_POPUP_BUILDER')) {
       if (popupSettings && Object.keys(popupSettings).length > 0) {
-        extraArgs = { ...popupSettings }
+        extraArgs = popupSettings
       }
       extraArgs['vcv-popup-data'] = []
     }
