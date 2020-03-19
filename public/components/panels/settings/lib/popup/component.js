@@ -8,7 +8,7 @@ const popupStorage = getStorage('popup')
 export default class Popup extends React.Component {
   constructor (props) {
     super(props)
-    const popupSettings = settingsStorage.state('popupSettings').get() || {}
+    const popupSettings = settingsStorage.state('settingsPopup').get() || {}
     this.state = {
       isRequestInProcess: false,
       popupOnPageLoad: popupSettings.popupOnPageLoad || { delay: 0 },
@@ -22,6 +22,8 @@ export default class Popup extends React.Component {
       this.loadPosts()
       this.state.isRequestInProcess = true
     }
+
+    console.log(popupSettings)
   }
 
   componentWillUnmount () {
@@ -81,14 +83,14 @@ export default class Popup extends React.Component {
       [type]: newState
     })
 
-    let popupData = settingsStorage.state('popupSettings').get() || {}
+    let popupData = settingsStorage.state('settingsPopup').get() || {}
 
     if (!popupData[type]) {
       popupData[type] = {}
     }
 
     popupData[type][key] = value
-      settingsStorage.state('popupSettings').set(popupData)
+    settingsStorage.state('settingsPopup').set(popupData)
   }
 
   handleSelectChange (type, e) {
@@ -99,7 +101,7 @@ export default class Popup extends React.Component {
       [type]: newState
     })
 
-    let popupData = settingsStorage.state('popupSettings').get() || {}
+    let popupData = settingsStorage.state('settingsPopup').get() || {}
 
     if (!popupData[type]) {
       popupData[type] = {}
@@ -111,7 +113,15 @@ export default class Popup extends React.Component {
     } else {
       delete popupData[type]
     }
-    settingsStorage.state('popupSettings').set(popupData)
+    settingsStorage.state('settingsPopup').set(popupData)
+
+
+    // const doc = window.document.querySelector('.vcv-layout-iframe').contentWindow.document
+    // const jsLink = doc.createElement('script')
+    // jsLink.setAttribute('type', 'text/javascript')
+    // jsLink.setAttribute('src', '../wp-content/plugins/builder/devAddons/popupBuilder/popupBuilder/public/src/popup.js')
+    // doc.head.appendChild(jsLink)
+    // console.log(doc)
   }
 
   renderExistingPosts (type) {

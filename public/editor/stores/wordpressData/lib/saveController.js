@@ -31,7 +31,7 @@ export default class SaveController {
     const promises = []
     const assetsStorageInstance = modernAssetsStorage.create()
     const globalStylesManager = stylesManager.create()
-    const popupSettings = settingsStorage.state('popupSettings').get()
+    const popupSettings = settingsStorage.state('settingsPopup').get()
     const globalCss = settingsStorage.state('globalCss').get() || ''
     globalStylesManager.add([{
       src: globalCss
