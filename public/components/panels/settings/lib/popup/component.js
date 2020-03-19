@@ -80,7 +80,7 @@ export default class Popup extends React.Component {
       [type]: newState
     })
 
-    let popupData = settingsStorage.state('settingsPopup').get() || {}
+    const popupData = settingsStorage.state('settingsPopup').get() || {}
 
     if (!popupData[type]) {
       popupData[type] = {}
@@ -98,7 +98,7 @@ export default class Popup extends React.Component {
       [type]: newState
     })
 
-    let popupData = settingsStorage.state('settingsPopup').get() || {}
+    const popupData = settingsStorage.state('settingsPopup').get() || {}
 
     if (!popupData[type]) {
       popupData[type] = {}
