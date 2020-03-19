@@ -135,8 +135,8 @@ addStorage('wordpressData', (storage) => {
       if (responseData.popups) {
         popupStorage.state('popups').set(responseData.popups)
       }
-      if (responseData.popupSettings) {
-        settingsStorage.state('popupSettings').set(responseData.popupSettings)
+      if (responseData.settingsPopup) {
+        settingsStorage.state('settingsPopup').set(responseData.settingsPopup)
       }
       if (Object.prototype.hasOwnProperty.call(pageTitleData, 'current')) {
         settingsStorage.state('pageTitle').set(pageTitleData.current)

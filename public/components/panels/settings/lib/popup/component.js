@@ -3,17 +3,16 @@ import { getStorage } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 
 const settingsStorage = getStorage('settings')
-const popupStorage = getStorage('popup')
 
 export default class Popup extends React.Component {
   constructor (props) {
     super(props)
-    const popupSettings = settingsStorage.state('settingsPopup').get() || {}
+    const settingsPopup = settingsStorage.state('settingsPopup').get() || {}
     this.state = {
       isRequestInProcess: false,
-      popupOnPageLoad: popupSettings.popupOnPageLoad || { delay: 0 },
-      popupOnExitIntent: popupSettings.popupOnExitIntent || {},
-      popupOnElementId: popupSettings.popupOnElementId || { delay: 0, elementIdSelector: '' }
+      popupOnPageLoad: settingsPopup.popupOnPageLoad || { delay: 0 },
+      popupOnExitIntent: settingsPopup.popupOnExitIntent || {},
+      popupOnElementId: settingsPopup.popupOnElementId || { delay: 0, elementIdSelector: '' }
     }
 
     this.popupPosts = settingsStorage.state('popupPosts').get() || []
@@ -22,8 +21,6 @@ export default class Popup extends React.Component {
       this.loadPosts()
       this.state.isRequestInProcess = true
     }
-
-    console.log(popupSettings)
   }
 
   componentWillUnmount () {
@@ -109,19 +106,10 @@ export default class Popup extends React.Component {
 
     if (id) {
       popupData[type].id = id
-      popupStorage.trigger('addPopupHtml', id)
     } else {
       delete popupData[type]
     }
     settingsStorage.state('settingsPopup').set(popupData)
-
-
-    // const doc = window.document.querySelector('.vcv-layout-iframe').contentWindow.document
-    // const jsLink = doc.createElement('script')
-    // jsLink.setAttribute('type', 'text/javascript')
-    // jsLink.setAttribute('src', '../wp-content/plugins/builder/devAddons/popupBuilder/popupBuilder/public/src/popup.js')
-    // doc.head.appendChild(jsLink)
-    // console.log(doc)
   }
 
   renderExistingPosts (type) {

@@ -9,6 +9,7 @@ const utils = vcCake.getService('utils')
 const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
 const renderProcessor = vcCake.getService('renderProcessor')
+const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -107,6 +108,24 @@ export default class SaveController {
         })
       }
     })
+
+    if (popupSettings) {
+      if (popupSettings.popupOnPageLoad) {
+        const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnPageLoad')
+        assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
+        assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
+      }
+      if (popupSettings.popupOnExitIntent) {
+        const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnExitIntent')
+        assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
+        assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
+      }
+      if (popupSettings.popupOnElementId) {
+        const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnElementId')
+        assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
+        assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
+      }
+    }
 
     promises.push(renderProcessor.appAllDone())
     promises.push(dataProcessor.appAllDone())
