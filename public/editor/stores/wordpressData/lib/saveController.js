@@ -53,7 +53,7 @@ export default class SaveController {
       cssBundles: []
     }
     const elementsCss = {}
-    const extraArgs = {}
+    let extraArgs = {}
     if (vcCake.env('VCV_POPUP_BUILDER')) {
       if (popupSettings && Object.keys(popupSettings).length > 0) {
         extraArgs = popupSettings
