@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import { getResponse } from 'public/tools/response'
+import { getPopupDataFromElement } from 'public/tools/popup'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
@@ -85,21 +86,7 @@ export default class SaveController {
       }))
 
       if (vcCake.env('VCV_POPUP_BUILDER')) {
-        const urlAttrKeys = cookElement.filter((key, value, settings) => {
-          return settings.type === 'url'
-        })
-
-        urlAttrKeys.forEach((urlKey) => {
-          const urlValue = cookElement.get(urlKey)
-
-          if (urlValue && urlValue.url && urlValue.type === 'popup') {
-            const popupUrl = urlValue.url.split('#vcv-popup-')
-            const popupId = popupUrl && popupUrl[1]
-            if (popupId && extraArgs['vcv-popup-data'].indexOf(popupId) < 0) {
-              extraArgs['vcv-popup-data'].push(popupId)
-            }
-          }
-        })
+        extraArgs['vcv-popup-data'] = getPopupDataFromElement(cookElement)
       }
     })
 
