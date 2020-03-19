@@ -35,8 +35,8 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $postThumbnailUrlDb = get_the_post_thumbnail_url($post->ID, 'full');
-        // @codingStandardsIgnoreLine
         $imageAttributes = [];
+        // @codingStandardsIgnoreLine
         if (isset($post) && $post->post_status !== 'trash' && !empty($postThumbnailUrlDb)) {
             $imageId = get_post_thumbnail_id($sourceId);
             $attachment = get_post($imageId);
