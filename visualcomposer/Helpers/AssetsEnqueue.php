@@ -13,6 +13,18 @@ use VisualComposer\Framework\Container;
 
 class AssetsEnqueue extends Container implements Helper
 {
+    protected $sourcesList = [];
+
+    public function addToEnqueueList($sourceId)
+    {
+        $this->sourcesList[] = $sourceId;
+    }
+
+    public function getEnqueueList()
+    {
+        return array_unique($this->sourcesList);
+    }
+
     public function enqueueAssets($sourceId)
     {
         $assetsSharedHelper = vchelper('AssetsShared');

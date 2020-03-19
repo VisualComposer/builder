@@ -96,6 +96,9 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
         $this->assertTrue(is_numeric($postId));
         vchelper('PostType')->setupPost($postId);
 
+        vchelper('AssetsEnqueue')->addToEnqueueList($headerPostId);
+        vchelper('AssetsEnqueue')->addToEnqueueList($postId);
+
         // @codingStandardsIgnoreStart
         global $wp_scripts, $wp_styles;
         $backupScripts = $wp_scripts;
@@ -142,6 +145,10 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
             $enqueuedStyle['vcv:assets:source:styles:assetslibraryimagefilterdistimagefilterbundlecss'],
             1
         );
+
+        $enqueueArray =  vchelper('AssetsEnqueue')->getEnqueueList();
+        $this->assertContains($headerPostId, $enqueueArray);
+        $this->assertContains($postId, $enqueueArray);
 
         // @codingStandardsIgnoreStart
         $wp_scripts = $backupScripts;
