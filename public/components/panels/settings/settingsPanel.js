@@ -34,7 +34,8 @@ const controls = {
   }
 }
 
-if (env('VCV_POPUP_BUILDER')) {
+const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+if (editorType === 'default' && env('VCV_POPUP_BUILDER') || editorType === 'archive' && env('VCV_POPUP_BUILDER')) {
   controls.popup = {
     index: 3,
     type: 'popup',
