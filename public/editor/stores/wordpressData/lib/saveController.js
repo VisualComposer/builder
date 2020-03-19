@@ -55,8 +55,12 @@ export default class SaveController {
     const elementsCss = {}
     const extraArgs = {}
     if (vcCake.env('VCV_POPUP_BUILDER')) {
+      if (popupSettings && Object.keys(popupSettings).length > 0) {
+        extraArgs = { ...popupSettings }
+      }
       extraArgs['vcv-popup-data'] = []
     }
+
     Object.keys(data.elements).forEach((key) => {
       const cookElement = cook.get(data.elements[key])
       const tag = cookElement.get('tag')
@@ -132,10 +136,6 @@ export default class SaveController {
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
-      }
-      console.log(popupSettings)
-      if (vcCake.env('VCV_POPUP_BUILDER') && popupSettings && Object.keys(popupSettings).length > 0) {
-        requestData['vcv-settings-popup'] = popupSettings
       }
       const pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {
