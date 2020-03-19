@@ -197,8 +197,10 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
 
   getImageShortcode (options) {
     const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
-    let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props['data-img-src']}" alt="${props.alt}" title="${props.title}"`
+    let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props['data-img-src']}"`
 
+    let alt = props.alt
+    let title = props.title
     if (isDefaultImage) {
       shortcode += ' data-default-image="true"'
     }
@@ -206,13 +208,18 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     if (isDynamicImage) {
       const blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
       shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
+      const url = new URL(blockInfo.blockAtts.currentValue)
+      const urlParams = new URLSearchParams(url.search)
+
+      alt = urlParams.get('alt')
+      title = urlParams.get('title')
 
       if (naturalSizes) {
         shortcode += ' data-dynamic-natural-size="true"'
       }
     }
 
-    shortcode += ']'
+    shortcode += ` alt="${alt}" title="${title}" ]`
 
     return shortcode
   }
@@ -231,9 +238,22 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     const customImageProps = {}
     const imgSrc = this.getImageUrl(image)
 
+    const rawImage = this.props.rawAtts.image && this.props.rawAtts.image.full
+    const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
+
     customImageProps['data-img-src'] = imgSrc
     customImageProps.alt = image && image.alt ? image.alt : ''
     customImageProps.title = image && image.title ? image.title : ''
+
+    let captionText = image.caption
+
+    if (isDynamic) {
+      const url = new URL(image.full)
+      const urlParams = new URLSearchParams(url.search)
+      customImageProps.alt = urlParams.get('alt') ? urlParams.get('alt') : ''
+      customImageProps.title = urlParams.get('title') ? urlParams.get('title') : ''
+      captionText = urlParams.get('caption') ? urlParams.get('caption') : ''
+    }
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass
@@ -293,15 +313,12 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     const doAll = this.applyDO('all')
-    let caption = null
-
-    if (image && image.caption) {
-      caption = (
-        <figcaption>
-          {image.caption}
-        </figcaption>
-      )
-    }
+    const isCaptionTextHidden = !!captionText
+    const caption = (
+      <figcaption hidden={isCaptionTextHidden}>
+        {captionText}
+      </figcaption>
+    )
     const imageForFilter = image && image.urls && image.urls.length ? image.urls[0] : image
 
     if (imageForFilter && imageForFilter.filter && imageForFilter.filter !== 'normal') {
@@ -309,11 +326,6 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     let imgElement = ''
-
-    const rawImage = this.props.rawAtts.image && this.props.rawAtts.image.full
-
-    const isDynamic = Array.isArray(typeof rawImage === 'string' && rawImage.match(blockRegexp))
-
     let naturalDynamicSizes = false
     if (isDynamic && ((this.state.naturalWidth === 1 && this.state.naturalHeight === 1) || ((!size || size === 'full') && shape !== 'round'))) {
       customProps['data-vce-delete-attr'] = 'style'
