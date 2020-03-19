@@ -18,8 +18,8 @@ class PostData implements Helper
         $urlHelper = vchelper('Url');
         $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
         $postThumbnailUrlDb = get_the_post_thumbnail_url($post->ID, 'full');
-        // @codingStandardsIgnoreLine
         $imageAttributes = [];
+        // @codingStandardsIgnoreLine
         if (isset($post) && $post->post_status !== 'trash' && !empty($postThumbnailUrlDb)) {
             $postThumbnailUrl = $postThumbnailUrlDb;
             $imageAttributes = $this->getImageAttributes($sourceId);
