@@ -147,8 +147,8 @@ class HelpersAssetsEnqueueTest extends WP_UnitTestCase
         );
 
         $enqueueArray =  vchelper('AssetsEnqueue')->getEnqueueList();
-        $this->assertArrayHasKey($enqueueArray, $headerPostId);
-        $this->assertArrayHasKey($enqueueArray, $postId);
+        $this->assertContains($headerPostId, $enqueueArray);
+        $this->assertContains($postId, $enqueueArray);
 
         // @codingStandardsIgnoreStart
         $wp_scripts = $backupScripts;
