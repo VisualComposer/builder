@@ -199,8 +199,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
     let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props['data-img-src']}"`
 
-    let alt =props.alt
-    let title =props.title
+    let alt = props.alt
+    let title = props.title
     if (isDefaultImage) {
       shortcode += ' data-default-image="true"'
     }
@@ -313,7 +313,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     const doAll = this.applyDO('all')
-    const isCaptionTextHidden = !Boolean(captionText)
+    const isCaptionTextHidden = !!captionText
     const caption = (
       <figcaption hidden={isCaptionTextHidden}>
         {captionText}
