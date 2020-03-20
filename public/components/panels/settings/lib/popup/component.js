@@ -151,6 +151,7 @@ export default class Popup extends React.Component {
           value={this.state[type].delay}
           onChange={this.handleInputChange.bind(this, type, 'delay')}
           type='number'
+          min='0'
         />
       </div>
     )
