@@ -43,7 +43,7 @@ addStorage('popup', (storage) => {
     const cookElement = cook.get(elementData)
     const ids = getPopupDataFromElement(cookElement)
     ids.forEach((id) => {
-      addPopupHtml(id)
+      storage.trigger('addPopupHtml', id)
     })
   })
 
@@ -51,7 +51,7 @@ addStorage('popup', (storage) => {
     const cookElement = cook.getById(id)
     const ids = getPopupDataFromElement(cookElement)
     ids.forEach((id) => {
-      addPopupHtml(id)
+      storage.trigger('addPopupHtml', id)
     })
   })
 })
