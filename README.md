@@ -1,10 +1,11 @@
 <p align="center">
   <a href="https://visualcomposer.com">
-    <img alt="Visual Composer logo" src="http://s3.visualcomposer.com/vc-logo-outline.svg" width="130" />
+    <img alt="Visual Composer" src="http://s3.visualcomposer.com/assets/vc-logo.svg" width="240" />
   </a>
 </p>
 
-<h1 align="center">Visual Composer Website Builder</h1>
+<h1 align="center">Create Your Website Today.<br/>
+Any Layout. Fast and Easy.</h1>
 
 <p align="center">
   <a href="https://circleci.com/gh/VisualComposer/builder/tree/master">
@@ -14,6 +15,8 @@
     <img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" />
   </a>
 </p>
+
+## About Visual Composer
 
 Visual Composer Website Builder is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
 
