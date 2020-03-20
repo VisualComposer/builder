@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://visualcomposer.com">
-    <img alt="Visual Composer logo" src="http://s3.visualcomposer.com/vc-logo-outline.svg" width="130" />
+    <img alt="Visual Composer" src="http://s3.visualcomposer.com/assets/vc-logo-blue-text.png" width="270" />
   </a>
 </p>
 
@@ -19,7 +19,7 @@ Visual Composer Website Builder is a drag and drop editor for WordPress. With an
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=SJMIvMXyPHs">
-    <img alt="Visual Composer Demo Video" src="http://s3.visualcomposer.com/vc-demo-video-thumbnail.jpg" width="60%"/>
+    <img alt="Visual Composer Demo Video" src="http://s3.visualcomposer.com/assets/vc-demo-video-thumbnail.jpg" width="60%"/>
   </a>
 </p>
 
