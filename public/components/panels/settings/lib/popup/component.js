@@ -159,6 +159,12 @@ export default class Popup extends React.Component {
   render () {
     let popupSelect = null
     let elementIdSelectorHtml = null
+    const popupOpenOnPageLoad = this.localizations ? this.localizations.popupOpenOnPageLoad : 'The popup will open once the page is loaded.'
+    const popupOpenOnExitIntent = this.localizations ? this.localizations.popupOpenOnExitIntent : 'The popup will load if users try to exit the page.'
+    const popupOpenOnElementId = this.localizations ? this.localizations.popupOpenOnElementId : 'The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.'
+    const onPageLoad = this.localizations ? this.localizations.onPageLoad : 'On page load'
+    const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'On exit intent'
+    const onElementId = this.localizations ? this.localizations.onElementId : 'On Element ID'
 
     if (this.state.popupOnElementId.id) {
       elementIdSelectorHtml = (
@@ -186,25 +192,28 @@ export default class Popup extends React.Component {
         <div>
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
-              On page load
+              {onPageLoad}
             </span>
             {this.renderExistingPosts('popupOnPageLoad')}
+            <p className='vcv-ui-form-helper'>{popupOpenOnPageLoad}</p>
           </div>
 
           {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id ? this.getDelayHtml('popupOnPageLoad') : null}
 
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
-              On exit intent
+              {onExitIntent}
             </span>
             {this.renderExistingPosts('popupOnExitIntent')}
+            <p className='vcv-ui-form-helper'>{popupOpenOnExitIntent}</p>
           </div>
 
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
-              On Element ID
+              {onElementId}
             </span>
             {this.renderExistingPosts('popupOnElementId')}
+            <p className='vcv-ui-form-helper'>{popupOpenOnElementId}</p>
           </div>
 
           {elementIdSelectorHtml}
