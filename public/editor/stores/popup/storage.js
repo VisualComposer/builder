@@ -1,4 +1,5 @@
 import { addStorage, getStorage, getService } from 'vc-cake'
+import { getPopupDataFromElement } from 'public/tools/popup'
 
 addStorage('popup', (storage) => {
   const elementsStorage = getStorage('elements')
@@ -67,9 +68,13 @@ addStorage('popup', (storage) => {
       'vcv-source-id': id
     }).then((requestData) => {
       if (requestData && typeof requestData === 'string') {
-        const popupContainer = document.createElement('div')
+        const popupContainer = contentWindow.document.createElement('div')
         popupContainer.id = domId
         popupContainer.className = 'vcv-popup-container'
+        popupContainer.setAttribute('hidden', true)
+        popupContainer.setAttribute('aria-hidden', true)
+        popupContainer.setAttribute('role', 'dialog')
+
         popupContainer.innerHTML = requestData
         documentBody.appendChild(popupContainer)
       }
@@ -82,11 +87,17 @@ addStorage('popup', (storage) => {
 
   elementsStorage.on('add', (elementData) => {
     const cookElement = cook.get(elementData)
-    parseUrlAttributes(cookElement)
+    const ids = getPopupDataFromElement(cookElement)
+    ids.forEach((id) => {
+      addPopupHtml(id)
+    })
   })
 
   elementsStorage.on('update', (id) => {
     const cookElement = cook.getById(id)
-    parseUrlAttributes(cookElement)
+    const ids = getPopupDataFromElement(cookElement)
+    ids.forEach((id) => {
+      addPopupHtml(id)
+    })
   })
 })

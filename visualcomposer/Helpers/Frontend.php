@@ -138,6 +138,7 @@ class Frontend implements Helper
         if ($wp_query->have_posts()) {
             $wp_query->the_post();
             the_content();
+            vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
         }
 
         $wp_query = $backup;
