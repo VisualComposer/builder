@@ -22,7 +22,7 @@ Visual Composer Website Builder is a drag and drop editor for WordPress. With an
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=SJMIvMXyPHs">
-    <img alt="Visual Composer Demo Video" src="https://s3.visualcomposer.com/assets/vc-demo-video-thumbnail.jpg" width="60%"/>
+    <img alt="Visual Composer Demo Video" src="http://s3.visualcomposer.com/assets/vc-demo-video-thumbnail.jpg" width="60%"/>
   </a>
 </p>
 
