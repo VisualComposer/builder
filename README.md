@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://visualcomposer.com">
-    <img alt="Visual Composer" src="http://s3.visualcomposer.com/assets/vc-logo.svg" width="240" />
+    <img alt="Visual Composer" src="http://s3.visualcomposer.com/assets/vc-logo.svg" width="540" />
   </a>
 </p>
 
