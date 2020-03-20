@@ -1,8 +1,9 @@
 import React from 'react'
-
+import { env } from 'vc-cake'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
+import Popup from './lib/popup/component'
 
 import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
@@ -30,6 +31,18 @@ const controls = {
     type: 'customJs',
     title: customJSText,
     content: <CustomScripts />
+  }
+}
+
+const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+if (env('VCV_POPUP_BUILDER')) {
+  if (editorType === 'default' || editorType === 'archive') {
+    controls.popup = {
+      index: 3,
+      type: 'popup',
+      title: 'Popup',
+      content: <Popup />
+    }
   }
 }
 
