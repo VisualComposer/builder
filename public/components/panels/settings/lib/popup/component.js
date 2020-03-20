@@ -140,7 +140,7 @@ export default class Popup extends React.Component {
     )
   }
 
-  getDelayHtml = (type) => {
+  getDelayHtml (type) {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
