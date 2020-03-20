@@ -4,8 +4,6 @@
   </a>
 </p>
 
-<h1 align="center">Visual Composer Website Builder</h1>
-
 <p align="center">
   <a href="https://circleci.com/gh/VisualComposer/builder/tree/master">
     <img alt="CirclCI" src="https://circleci.com/gh/VisualComposer/builder/tree/master.svg?style=svg" />
@@ -15,7 +13,7 @@
   </a>
 </p>
 
-Visual Composer Website Builder is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
+<strong>Visual Composer Website Builder</strong> is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=SJMIvMXyPHs">
