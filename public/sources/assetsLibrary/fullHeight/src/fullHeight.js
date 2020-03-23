@@ -6,7 +6,7 @@
   var fullHeightRows = undefined
 
   function getRows() {
-    fullHeightRows = Array.prototype.slice.call(document.querySelectorAll('.vce-row-full-height'))
+    fullHeightRows = Array.prototype.slice.call(document.querySelectorAll('.vce-row-full-height:not([data-vcv-do-helper-clone])'))
     if (fullHeightRows.length) {
       handleResize()
     }

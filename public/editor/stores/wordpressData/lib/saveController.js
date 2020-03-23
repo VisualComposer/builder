@@ -1,5 +1,6 @@
 import vcCake from 'vc-cake'
 import { getResponse } from 'public/tools/response'
+import { getPopupDataFromElement } from 'public/tools/popup'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
@@ -9,6 +10,7 @@ const utils = vcCake.getService('utils')
 const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
 const renderProcessor = vcCake.getService('renderProcessor')
+const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -31,6 +33,7 @@ export default class SaveController {
     const promises = []
     const assetsStorageInstance = modernAssetsStorage.create()
     const globalStylesManager = stylesManager.create()
+    const popupSettings = settingsStorage.state('settingsPopup').get()
     const globalCss = settingsStorage.state('globalCss').get() || ''
     globalStylesManager.add([{
       src: globalCss
@@ -52,6 +55,13 @@ export default class SaveController {
       cssBundles: []
     }
     const elementsCss = {}
+    const extraArgs = {}
+    if (vcCake.env('VCV_POPUP_BUILDER')) {
+      if (popupSettings && Object.keys(popupSettings).length > 0) {
+        extraArgs['vcv-settings-popup'] = popupSettings
+      }
+      extraArgs['vcv-popup-data'] = []
+    }
     Object.keys(data.elements).forEach((key) => {
       const cookElement = cook.get(data.elements[key])
       const tag = cookElement.get('tag')
@@ -79,7 +89,32 @@ export default class SaveController {
       promises.push(elementMixinsStyleManager.add(cssMixins).compile().then((result) => {
         elementsCss[key].mixinsCss = result
       }))
+
+      if (vcCake.env('VCV_POPUP_BUILDER')) {
+        const popupIds = getPopupDataFromElement(cookElement)
+        if (popupIds.length) {
+          extraArgs['vcv-popup-data'] = extraArgs['vcv-popup-data'].concat(popupIds)
+        }
+      }
     })
+
+    if (popupSettings) {
+      if (popupSettings.popupOnPageLoad) {
+        const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnPageLoad')
+        assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
+        assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
+      }
+      if (popupSettings.popupOnExitIntent) {
+        const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnExitIntent')
+        assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
+        assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
+      }
+      if (popupSettings.popupOnElementId) {
+        const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnElementId')
+        assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
+        assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
+      }
+    }
 
     promises.push(renderProcessor.appAllDone())
     promises.push(dataProcessor.appAllDone())
@@ -126,7 +161,7 @@ export default class SaveController {
       requestData['vcv-post-name'] = settingsStorage.state('postName').get() || ''
 
       const extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
-      requestData['vcv-extra'] = extraRequestData
+      requestData['vcv-extra'] = Object.assign(extraArgs, extraRequestData)
 
       const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
       requestData['vcv-item-preview-disabled'] = itemPreviewDisabled
