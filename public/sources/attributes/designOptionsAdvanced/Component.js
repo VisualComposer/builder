@@ -981,6 +981,7 @@ export default class DesignOptionsAdvanced extends Attribute {
       dolly.style.position = 'fixed'
       dolly.style.bottom = '0'
       dolly.style.right = '0'
+      dolly.setAttribute('data-vcv-do-helper-clone', true)
       element.parentNode.appendChild(dolly)
 
       setTimeout(() => {

@@ -18,17 +18,38 @@ class PostData implements Helper
         $urlHelper = vchelper('Url');
         $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
         $postThumbnailUrlDb = get_the_post_thumbnail_url($post->ID, 'full');
+        $imageAttributes = [];
         // @codingStandardsIgnoreLine
         if (isset($post) && $post->post_status !== 'trash' && !empty($postThumbnailUrlDb)) {
             $postThumbnailUrl = $postThumbnailUrlDb;
+            $imageAttributes = $this->getImageAttributes($sourceId);
         }
 
-        return $urlHelper->query(
-            $postThumbnailUrl,
-            [
-                'vcv-dynamic-field' => 'featured_image',
-            ]
-        );
+        $dynamicFields['vcv-dynamic-field'] = 'featured_image';
+        $dynamicFields = array_merge($dynamicFields, $imageAttributes);
+
+        return $urlHelper->query($postThumbnailUrl, $dynamicFields);
+    }
+
+    public function getImageAttributes($sourceId = '')
+    {
+        $post = get_post($sourceId);
+        $postThumbnailUrlDb = get_the_post_thumbnail_url($post->ID, 'full');
+        $imageAttributes = [];
+        // @codingStandardsIgnoreLine
+        if (isset($post) && $post->post_status !== 'trash' && !empty($postThumbnailUrlDb)) {
+            $imageId = get_post_thumbnail_id($sourceId);
+            $attachment = get_post($imageId);
+            //@codingStandardsIgnoreStart
+            $imageAttributes = [
+                'alt' => get_post_meta($attachment->ID, '_wp_attachment_image_alt', true),
+                'caption' => $attachment->post_excerpt,
+                'title' => $attachment->post_title,
+            ];
+            //@codingStandardsIgnoreEnd
+        }
+
+        return $imageAttributes;
     }
 
     public function getPostAuthorImage($sourceId = '')

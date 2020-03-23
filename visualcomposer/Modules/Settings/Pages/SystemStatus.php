@@ -43,10 +43,6 @@ class SystemStatus extends Container implements Module
 
     public function __construct(Status $statusHelper, Options $optionsHelper)
     {
-        if (!vcvenv('VCV_ENV_FT_SYSTEM_CHECK_LIST')) {
-            return;
-        }
-
         $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 10);
 
         $this->wpAddAction(

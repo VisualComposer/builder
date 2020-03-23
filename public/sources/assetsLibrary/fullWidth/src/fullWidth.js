@@ -3,14 +3,18 @@
     return
   }
 
+  let throttled = false
+  let isScaling = false // is scaling happening (zoom-in/zoom-out)
+  let scale = 1 // initial scale value
   let fullWidthElements = undefined
+  const throttleDelay = 50
   const headerZone = '[data-vcv-layout-zone="header"]'
   const footerZone = '[data-vcv-layout-zone="footer"]'
   const headerFooterEditor = '.vcv-editor-theme-hf'
   const customContainerSelector = '.vce-full-width-custom-container'
 
   function getFullWidthElements() {
-    fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"],[data-vce-full-width-section="true"]'))
+    fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]:not([data-vcv-do-helper-clone]),[data-vce-full-width-section="true"]:not([data-vcv-do-helper-clone])'))
     if (fullWidthElements.length) {
       handleResize()
     }
@@ -18,6 +22,10 @@
 
   function handleResize() {
     if (!fullWidthElements.length) {
+      return
+    }
+    // resize should happen only after scaling is ended or on initial scale (1)
+    if (isScaling || (typeof scale === 'number' && scale !== 1)) {
       return
     }
     fullWidthElements.forEach(function (element) {
@@ -68,7 +76,32 @@
   }
 
   getFullWidthElements()
-  window.addEventListener('resize', handleResize)
+  // Detect scaling (zoom-in/zoom-out)
+  window.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      isScaling = true
+    }
+  }, false)
+
+  // Set screen scale value on scale end
+  window.addEventListener('touchend', function(e) {
+    if (isScaling) {
+      isScaling = false
+      scale = window.visualViewport && window.visualViewport.scale
+    }
+  }, false)
+
+  // Resize with throttle for performance
+  window.addEventListener('resize', function() {
+    if (!throttled) {
+      handleResize()
+      throttled = true
+      setTimeout(function () {
+        throttled = false
+      }, throttleDelay)
+    }
+  })
+
   window.vceResetFullWidthElements = getFullWidthElements
 
   window.vcv.on('ready', function () {

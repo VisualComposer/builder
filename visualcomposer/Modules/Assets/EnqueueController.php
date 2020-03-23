@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+use VcvEnv;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
@@ -28,8 +29,7 @@ class EnqueueController extends Container implements Module
 
     public function __construct(Request $requestHelper)
     {
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAllAssets', 50);
-        $this->addEvent('vcv:assets:enqueueAssets', 'enqueueAssetsVendorListener');
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', 50);
         if (
             (defined('DOING_AJAX') && DOING_AJAX)
             || !is_admin()
@@ -37,6 +37,51 @@ class EnqueueController extends Container implements Module
             || $requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)
         ) {
             $this->wpAddAction('init', 'setCustomWpScripts');
+        }
+
+        $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 21);
+        $this->wpAddAction('wp_footer', 'enqueueVcvAssets', 1000);
+    }
+
+    protected function enqueueAssetsFromList(AssetsEnqueue $assetsEnqueueHelper)
+    {
+        if (vcvenv('ENQUEUE_INNER_ASSETS')) {
+            return;
+        }
+        foreach ($assetsEnqueueHelper->getEnqueueList() as $sourceId) {
+            // @codingStandardsIgnoreStart
+            global $wp_query, $wp_the_query;
+            $backup = $wp_query;
+            $backupGlobal = $wp_the_query;
+
+            $tempPostQuery = new \WP_Query(
+                [
+                    'p' => $sourceId,
+                    'post_status' => get_post_status($sourceId),
+                    'post_type' => get_post_type($sourceId),
+                ]
+            );
+            $wp_query = $tempPostQuery;
+            $wp_the_query = $tempPostQuery;
+            if ($wp_query->have_posts()) {
+                $wp_query->the_post();
+                do_action('wp_enqueue_scripts');
+                do_action('wp_print_scripts'); // Load localize scripts
+                VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
+                do_action('wp_footer'); // will enqueue all assets which is in queue and VCV assets front.bundle.js
+            }
+
+            $wp_query = $backup;
+            $wp_the_query = $backupGlobal; // fix wp_reset_query
+        }
+        wp_reset_postdata();
+        VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
+    }
+
+    protected function enqueueVcvAssets()
+    {
+        if (vcvenv('ENQUEUE_INNER_ASSETS')) {
+            return;
         }
     }
 
@@ -54,15 +99,11 @@ class EnqueueController extends Container implements Module
         // @codingStandardsIgnoreEnd
     }
 
-    protected function enqueueAllAssets()
-    {
-        $this->call('enqueueAssets');
-    }
-
     /**
      * @param array $sourceIds // IDs to enqueue resources
      *
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function enqueueAssetsVendorListener($sourceIds)
     {
@@ -71,7 +112,7 @@ class EnqueueController extends Container implements Module
         }
         $sourceIds = array_unique($sourceIds);
         foreach ($sourceIds as $sourceId) {
-            if (in_array($sourceId, $this->lastEnqueueIdAssetsAll)) {
+            if (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
                 continue;
             }
             $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
@@ -83,6 +124,7 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
      *
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function enqueueAssets(Frontend $frontendHelper)
     {
@@ -92,15 +134,17 @@ class EnqueueController extends Container implements Module
         $sourceId = get_the_ID();
         if (
             $frontendHelper->isPreview()
-            && (!empty($this->lastEnqueueIdAssetsAll) || (in_array($sourceId, $this->lastEnqueueIdAssetsAll)))
+            && (
+                !empty($this->lastEnqueueIdAssetsAll) || (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true))
+            )
         ) {
-            $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
+            // To avoid enqueue assets inside preview page
+            $this->addEnqueuedId($sourceId);
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
-            // @codingStandardsIgnoreStart
+            // @codingStandardsIgnoreLine
             global $wp_query;
-            $wpQuery = $wp_query;
-            // @codingStandardsIgnoreEnd
-            foreach ($wpQuery->posts as $post) {
+            // @codingStandardsIgnoreLine
+            foreach ($wp_query->posts as $post) {
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
                 $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
             }
@@ -132,13 +176,19 @@ class EnqueueController extends Container implements Module
             vcevent('vcv:assets:file:generate', ['response' => [], 'payload' => ['sourceId' => $sourceId]]);
         }
 
-        $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
+        if ($optionsHelper->get('globalElementsCss')) {
+            wp_register_style(VCV_PREFIX . 'globalElementsCss', false);
+            wp_enqueue_style(VCV_PREFIX . 'globalElementsCss');
+            wp_add_inline_style(VCV_PREFIX . 'globalElementsCss', $optionsHelper->get('globalElementsCss'));
+        }
+
+        $this->addEnqueuedId($sourceId);
         $bundleUrl = get_post_meta($sourceId, 'vcvSourceCssFileUrl', true);
         if ($bundleUrl) {
             $version = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
 
-            if (!preg_match('/^http/', $bundleUrl)) {
-                if (!preg_match('/assets-bundles/', $bundleUrl)) {
+            if (strpos($bundleUrl, 'http') !== 0) {
+                if (strpos($bundleUrl, 'assets-bundles') === false) {
                     $bundleUrl = '/assets-bundles/' . $bundleUrl;
                 }
             }
@@ -150,10 +200,6 @@ class EnqueueController extends Container implements Module
                 [],
                 VCV_VERSION . '.' . $version
             );
-
-            if ($optionsHelper->get('globalElementsCss')) {
-                wp_add_inline_style($handle, $optionsHelper->get('globalElementsCss'));
-            }
         }
     }
 
@@ -161,7 +207,6 @@ class EnqueueController extends Container implements Module
      * @param \VisualComposer\Helpers\AssetsEnqueue $assetsEnqueueHelper
      * @param $sourceId
      *
-     * @throws \ReflectionException
      */
     protected function enqueueAssetsBySourceId(
         AssetsEnqueue $assetsEnqueueHelper,
@@ -170,7 +215,7 @@ class EnqueueController extends Container implements Module
         if (!$sourceId) {
             $sourceId = get_the_ID();
         }
-        $this->call('addEnqueuedId', ['sourceId' => $sourceId]);
+        $this->addEnqueuedId($sourceId);
 
         $assetsEnqueueHelper->enqueueAssets($sourceId);
     }
@@ -180,8 +225,8 @@ class EnqueueController extends Container implements Module
      */
     protected function addEnqueuedId($sourceId)
     {
-        if (!in_array($sourceId, $this->lastEnqueueIdAssetsAll)) {
-            array_push($this->lastEnqueueIdAssetsAll, $sourceId);
+        if (!in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
+            $this->lastEnqueueIdAssetsAll[] = $sourceId;
         }
     }
 }

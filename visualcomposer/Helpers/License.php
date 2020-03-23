@@ -81,6 +81,27 @@ class License extends Container implements Helper
         $optionsHelper->set('license-expiration', $expiration);
     }
 
+    public function updateUsageDate($refresh = false)
+    {
+        $optionsHelper = vchelper('Options');
+        $usage = $optionsHelper->get('license-usage');
+        if (empty($usage) || $refresh) {
+            $optionsHelper->set('license-usage', time());
+        }
+    }
+
+    public function isActivelyUsed()
+    {
+        $optionsHelper = vchelper('Options');
+        $usage = $optionsHelper->get('license-usage');
+        if (!empty($usage) && (intval($usage) + MONTH_IN_SECONDS) < time()) {
+            // More than 1 month used current license-type
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @return mixed
      */
