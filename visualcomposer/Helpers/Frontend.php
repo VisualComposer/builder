@@ -137,6 +137,7 @@ class Frontend implements Helper
         $wp_the_query = $tempPostQuery;
         if ($wp_query->have_posts()) {
             $wp_query->the_post();
+            $wp_query->in_the_loop = false; // fix for "directories" plugin. in_the_loop() should be false, as it is additional rendering.
             the_content();
             vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
         }
