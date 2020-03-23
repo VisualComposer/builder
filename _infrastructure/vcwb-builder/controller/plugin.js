@@ -214,7 +214,7 @@ class Plugin {
 
   async installBuildProject () {
     process.chdir(this.repoPath)
-    if(this.isDev) {
+    if (this.isDev) {
       await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
     } else {
       await this.execute('mv ./visualcomposer/Modules/Development ./ && php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
