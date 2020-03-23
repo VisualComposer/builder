@@ -1,18 +1,24 @@
 import React from 'react'
 import { getService, getStorage } from 'vc-cake'
 import classNames from 'classnames'
+import { addRowColumnBackground } from './tools'
 
 const vcvAPI = getService('api')
 const elementsSettingsStorage = getStorage('elementsSettings')
 const fieldOptionsStorage = getStorage('fieldOptions')
 const extendedOptionsState = elementsSettingsStorage.state('extendedOptions')
+const documentManager = getService('document')
+const elementsStorage = getStorage('elements')
 
 export default class ColumnElement extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
-
+    this.parentId = props.atts.parent
     this.columnRef = React.createRef()
     this.handleStorageChange = this.handleStorageChange.bind(this)
+    this.handleElementUpdate = this.handleElementUpdate.bind(this)
+    this.handleElementRemove = this.handleElementRemove.bind(this)
+    this.handleElementMove = this.handleElementMove.bind(this)
   }
 
   componentDidMount () {
@@ -26,10 +32,42 @@ export default class ColumnElement extends vcvAPI.elementComponent {
       }
       fieldOptionsStorage.trigger('fieldOptionsChange', options)
     }
+
+    elementsStorage.on('update', this.handleElementUpdate)
+    elementsStorage.on('remove', this.handleElementRemove)
+    elementsStorage.on(`element:move:${this.props.id}`, this.handleElementMove)
+  }
+
+  componentWillUnmount () {
+    elementsStorage.off('update', this.handleElementUpdate)
+    elementsStorage.off('remove', this.handleElementRemove)
+    elementsStorage.off(`element:move:${this.props.id}`, this.handleElementMove)
   }
 
   componentDidUpdate () {
     this.handleStorageChange(false)
+  }
+
+  handleElementUpdate (id, element) {
+    if (id === this.props.id) {
+      addRowColumnBackground(id, element, element.parent, documentManager, elementsStorage)
+    }
+  }
+
+  handleElementRemove (id) {
+    if (id === this.props.id) {
+      const element = documentManager.get(this.props.id)
+      addRowColumnBackground(id, element, this.props.atts.parent, documentManager, elementsStorage)
+    }
+  }
+
+  handleElementMove (element) {
+    // Update old row
+    addRowColumnBackground(element.id, element, element.parent, documentManager, elementsStorage)
+
+    // Update new row
+    const newElement = documentManager.get(this.props.id)
+    addRowColumnBackground(newElement.id, newElement, newElement.parent, documentManager, elementsStorage)
   }
 
   handleStorageChange (data) {
