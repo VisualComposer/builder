@@ -34,12 +34,14 @@ class PageTemplatesController extends Container implements Module
 
     protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)
     {
+        $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
+
         //always return default template for search and archive page
-        if (is_search() || is_archive()) {
+        if ((is_search() || is_archive()) && !vcvenv('VCV_IS_ARCHIVE_TEMPLATE')) {
             return $output;
         }
 
-        $post = $postTypeHelper->get();
+        $post = $postTypeHelper->get($postId);
         if ($post) {
             if ($frontendHelper->isPreview()) {
                 $preview = wp_get_post_autosave($post->ID);
