@@ -57,7 +57,7 @@ export default class Popup extends React.Component {
     }, (request) => {
       const posts = getResponse(request.response)
       this.postRequest = null
-      if (posts && !!posts.status) {
+      if (posts && posts.status !== false) {
         this.popupPosts = posts
         settingsStorage.state('popupPosts').set(posts)
         this.setState({
