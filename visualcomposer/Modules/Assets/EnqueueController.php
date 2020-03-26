@@ -8,7 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use ReflectionFunction;
 use VcvEnv;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -93,7 +92,7 @@ class EnqueueController extends Container implements Module
         foreach ($actions as $priority => $callbacks) {
             // Run over callbacks
             foreach ($callbacks as $callback) {
-                $closureInfo = new ReflectionFunction($callback['function']);
+                $closureInfo = $this->getCallReflector($callback['function']);
                 $fileName = $closureInfo->getFileName();
 
                 if (strpos($fileName, ABSPATH . WPINC) !== false || strpos($fileName, ABSPATH . 'wp-admin') !== false) {
