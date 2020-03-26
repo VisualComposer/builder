@@ -140,6 +140,15 @@ class GoPremium extends Container implements Module
      */
     protected function pluginRowMeta($pluginLinks, $pluginFile)
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:wpVcSettings:script',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
+            ['vcv:assets:vendor:script'],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:wpVcSettings:script');
+
         if (VCV_PLUGIN_BASE_NAME === $pluginFile) {
             $rowMeta = [
                 'helpCenter' => sprintf(
