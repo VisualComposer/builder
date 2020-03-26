@@ -99,17 +99,17 @@ export default class SaveController {
     })
 
     if (popupSettings) {
-      if (popupSettings.popupOnPageLoad) {
+      if (popupSettings.popupOnPageLoad && popupSettings.popupOnPageLoad !== 'none') {
         const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnPageLoad')
         assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
         assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
       }
-      if (popupSettings.popupOnExitIntent) {
+      if (popupSettings.popupOnExitIntent && popupSettings.popupOnExitIntent !== 'none') {
         const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnExitIntent')
         assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
         assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)
       }
-      if (popupSettings.popupOnElementId) {
+      if (popupSettings.popupOnElementId && popupSettings.popupOnElementId !== 'none') {
         const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnElementId')
         assetsFiles.cssBundles = assetsFiles.cssBundles.concat(popupAssets.cssBundles)
         assetsFiles.jsBundles = assetsFiles.jsBundles.concat(popupAssets.jsBundles)

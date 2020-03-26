@@ -134,7 +134,8 @@ export default class Popup extends React.Component {
         value={this.state[type].id}
         onChange={this.handleSelectChange.bind(this, type)}
       >
-        <option value=''>{none}</option>
+        <option value=''>Global</option>
+        <option value='none'>{none}</option>
         {items}
       </select>
     )
@@ -198,9 +199,7 @@ export default class Popup extends React.Component {
             {this.renderExistingPosts('popupOnPageLoad')}
             <p className='vcv-ui-form-helper'>{popupOpenOnPageLoad}</p>
           </div>
-
-          {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id ? this.getDelayHtml('popupOnPageLoad') : null}
-
+          {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id && this.state.popupOnPageLoad.id !== 'none' ? this.getDelayHtml('popupOnPageLoad') : null}
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {onExitIntent}
@@ -218,8 +217,7 @@ export default class Popup extends React.Component {
           </div>
 
           {elementIdSelectorHtml}
-          {this.state.popupOnElementId && this.state.popupOnElementId.id ? this.getDelayHtml('popupOnElementId') : null}
-
+          {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnPageLoad.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
         </div>
       )
     }
