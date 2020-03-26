@@ -4,7 +4,7 @@ const exec = require('child_process').exec
 const glob = require('glob')
 
 class Plugin {
-  constructor (dir, version) {
+  constructor (dir, version, isDev = false) {
     dir = path.resolve(path.join(dir || process.cwd()))
     if (!fs.lstatSync(dir).isDirectory()) {
       console.log('Can\'t create bundle. Wrong working directory.')
@@ -12,7 +12,6 @@ class Plugin {
 
     const bundlePath = path.join(dir, 'visualcomposer')
     const repoPath = path.join(__dirname, '..', '..', '..')
-
     Object.defineProperties(this, {
       /**
        * @property {String}
@@ -44,6 +43,14 @@ class Plugin {
        */
       version: {
         value: version,
+        writable: false
+      },
+      /**
+       * @property {String}
+       * @name Builder#version
+       */
+      isDev: {
+        value: isDev,
         writable: false
       },
       /**
@@ -82,7 +89,7 @@ class Plugin {
       settings.assetsLibrary.forEach((lib) => {
         fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name, 'src'))
         fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name, 'webpack.config.babel.js'))
-        if (this.ignoreLibraries.indexOf(lib.name) === -1) {
+        if (this.isDev || this.ignoreLibraries.indexOf(lib.name) === -1) {
           bundleJSON.assetsLibrary.push(lib)
         } else {
           fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name))
@@ -207,7 +214,11 @@ class Plugin {
 
   async installBuildProject () {
     process.chdir(this.repoPath)
-    await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+    if (this.isDev) {
+      await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+    } else {
+      await this.execute('mv ./visualcomposer/Modules/Development ./ && php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+    }
     await this.execute('php tools/php-composer/cli.php', 'PHP CLI...')
     await this.execute('yarn build-production', 'Yarn build production...')
     await this.execute('bash ./tools/elements/buildProductionScript.sh', 'Build default elements...')
