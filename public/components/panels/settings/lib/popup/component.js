@@ -168,7 +168,7 @@ export default class Popup extends React.Component {
     const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'On exit intent'
     const onElementId = this.localizations ? this.localizations.onElementId : 'On Element ID'
 
-    if (this.state.popupOnElementId.id) {
+    if (this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none') {
       elementIdSelectorHtml = (
         <>
           <div className='vcv-ui-form-group'>
@@ -217,7 +217,7 @@ export default class Popup extends React.Component {
           </div>
 
           {elementIdSelectorHtml}
-          {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnPageLoad.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
+          {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
         </div>
       )
     }
