@@ -45,7 +45,6 @@ class VariablesController extends Container implements Module
             'value' => set_url_scheme(admin_url('admin-ajax.php', 'relative')),
             'type' => 'variable',
         ];
-
         $variables[] = [
             'key' => 'vcvAjaxUrl',
             'value' => $urlHelper->ajax(),
@@ -76,11 +75,15 @@ class VariablesController extends Container implements Module
             'value' => VCV_PLUGIN_URL . 'public/sources/',
             'type' => 'variable',
         ];
-
         $variables[] = [
             'key' => 'vcvGutenbergEditorUrl',
             'value' => set_url_scheme(admin_url('post-new.php?post_type=vcv_gutenberg_attr')),
             'type' => 'variable',
+        ];
+        $variables[] = [
+            'type' => 'variable',
+            'key' => 'vcvManageOptions',
+            'value' => vchelper('AccessCurrentUser')->wpAll('manage_options')->get(),
         ];
 
         return $variables;

@@ -326,6 +326,7 @@ class SystemStatus extends Container implements Module
             'title' => __('System status', 'visualcomposer'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
+            'capability' => 'manage_options',
         ];
         $this->addSubmenuPage($page);
     }
