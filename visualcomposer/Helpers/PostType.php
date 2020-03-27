@@ -90,6 +90,7 @@ class PostType implements Helper
             }
         }
 
+        
         $post = get_post($id);
         // @codingStandardsIgnoreLine
         if (!$post || ($postType && $post->post_type !== $postType)) {
