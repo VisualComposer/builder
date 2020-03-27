@@ -38,16 +38,17 @@ export default class CustomJavascript extends React.Component {
         changeActive={this.changeActiveButton}
       />
     )
-
-    allButtons.push(
-      <ScriptControl
-        key='vcv-settings-custom-js-global'
-        title='Global JavaScript'
-        index='globalJs'
-        active={this.state.activeIndex === 'globalJs'}
-        changeActive={this.changeActiveButton}
-      />
-    )
+    if (window.vcvManageOptions) {
+      allButtons.push(
+        <ScriptControl
+          key='vcv-settings-custom-js-global'
+          title='Global JavaScript'
+          index='globalJs'
+          active={this.state.activeIndex === 'globalJs'}
+          changeActive={this.changeActiveButton}
+        />
+      )
+    }
 
     return allButtons
   }

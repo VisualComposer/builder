@@ -19,19 +19,22 @@ export default class CustomStyles extends React.Component {
         index: 1,
         name: 'local',
         settingsStorageState: 'customCss'
-      },
-      {
-        buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
-        editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
-        index: 2,
-        name: 'global',
-        settingsStorageState: 'globalCss'
       }
     ]
   }
 
   constructor (props) {
     super(props)
+    if (window.vcvManageOptions) {
+      CustomStyles.defaultProps.styleData.push(
+        {
+          buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
+          editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
+          index: 2,
+          name: 'global',
+          settingsStorageState: 'globalCss'
+        })
+    }
     const customStyles = {
       local: settingsStorage.state('customCss').get(),
       global: settingsStorage.state('globalCss').get()
