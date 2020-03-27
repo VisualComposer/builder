@@ -56,10 +56,12 @@
   align-items: center;
   font-size: 13px;
   color: #6d7882;
+  width: fit-content;
 }
 
-.vcv-deactivate-popup-form-label .vcv-deactivate-popup-form-input {
+.vcv-deactivate-popup-form-input-wrapper .vcv-deactivate-popup-form-input {
   margin: 0 10px 0 0;
+  float: left;
 }
 
 .vcv-deactivate-popup-form-secondary-input {
@@ -75,8 +77,12 @@
   display: none;
 }
 
+.vcv-deactivate-popup-form-input-wrapper input:checked ~ .vcv-deactivate-popup-form-secondary-input {
+  display: block;
+}
+
 .vcv-deactivate-popup-buttons-wrapper {
-  padding: 0 30px 30px;
+  padding: 30px 0 0;
   display: flex;
   justify-content: space-between;
 }
