@@ -115,7 +115,10 @@ export default class Popup extends React.Component {
   renderExistingPosts (type) {
     const none = this.localizations ? this.localizations.none : 'None'
     const items = []
-
+    let globalOption = null
+    if (type !== 'popupOnElementId') {
+      globalOption = <option value=''>Global</option>
+    }
     this.popupPosts.forEach((post) => {
       const postTitle = post.title || post.id
       items.push(
@@ -134,7 +137,7 @@ export default class Popup extends React.Component {
         value={this.state[type].id}
         onChange={this.handleSelectChange.bind(this, type)}
       >
-        <option value=''>Global</option>
+        {globalOption}
         <option value='none'>{none}</option>
         {items}
       </select>
