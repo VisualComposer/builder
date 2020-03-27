@@ -3,6 +3,7 @@ import './init.less'
 export const deactivationFeedbackPopup = () => {
   const visualComposerSection = document.querySelector('[data-slug="visualcomposer"]')
   const visualComposerDeactivateButton = visualComposerSection.querySelector('.deactivate a')
+  const $ = window.jQuery
 
   const deactivationReasons = {
     'no-longer-need': {
@@ -83,19 +84,16 @@ export const deactivationFeedbackPopup = () => {
       e.preventDefault()
       const reason = visualComposerSection.querySelectorAll('input:checked')[0].value
       const extraFeedback = visualComposerSection.querySelector('input:checked').parentElement.querySelector('.vcv-deactivate-popup-form-secondary-input')
-      let extraFeedbackValue = null
+      let extraFeedbackValue = ''
       if (extraFeedback) {
         extraFeedbackValue = extraFeedback.value
       }
 
-      console.log(reason)
-      console.log(extraFeedbackValue)
-
-      // dataProcessor.appAdminServerRequest({
-      //   'vcv-action': 'license:deactivation:submit:adminNonce',
-      //   'vcv-reason': reason,
-      //   'vcv-extra-feedback': extraFeedback
-      // })
+      $.ajax(window.vcvAdminAjaxUrl, {
+        'vcv-action': 'license:deactivation:submit:adminNonce',
+        'vcv-reason': reason,
+        'vcv-extra-feedback': extraFeedbackValue
+      })
     }
   }
 
