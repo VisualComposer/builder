@@ -93,6 +93,8 @@ export const deactivationFeedbackPopup = () => {
         'vcv-action': 'license:deactivation:submit:adminNonce',
         'vcv-reason': reason,
         'vcv-extra-feedback': extraFeedbackValue
+      }).done(() => {
+        popupHTML.style.display = 'none'
       })
     }
   }
