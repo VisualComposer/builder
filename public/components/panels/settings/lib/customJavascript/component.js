@@ -38,6 +38,7 @@ export default class CustomJavascript extends React.Component {
         changeActive={this.changeActiveButton}
       />
     )
+
     if (window.vcvManageOptions) {
       allButtons.push(
         <ScriptControl
