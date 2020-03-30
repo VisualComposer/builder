@@ -3,28 +3,40 @@ import './init.less'
 export const deactivationFeedbackPopup = () => {
   const visualComposerSection = document.querySelector('[data-slug="visualcomposer"]')
   const visualComposerDeactivateButton = visualComposerSection.querySelector('.deactivate a')
+  const localizations = window.VCV_I18N && window.VCV_I18N()
+  const quickFeedback = localizations ? localizations.quickFeedback : 'Quick Feedback'
+  const pleaseShareWhy = localizations ? localizations.pleaseShareWhy : 'If you have a moment, please share why you are deactivating Visual Composer:'
+  const noLongerNeed = localizations ? localizations.noLongerNeed : 'I no longer need the plugin'
+  const foundABetterPlugin = localizations ? localizations.foundABetterPlugin : 'I found a better plugin'
+  const pleaseShareWhichPlugin = localizations ? localizations.pleaseShareWhichPlugin : 'Please share which plugin'
+  const couldntGetThePluginToWork = localizations ? localizations.couldntGetThePluginToWork : 'I couldn\'t get the plugin to work'
+  const itsATemporaryDeactivation = localizations ? localizations.itsATemporaryDeactivation : 'It\'s a temporary deactivation'
+  const other = localizations ? localizations.other : 'Other'
+  const pleaseShareTheReason = localizations ? localizations.pleaseShareTheReason : 'Please share the reason'
+  const submitAndDeactivate = localizations ? localizations.submitAndDeactivate : 'Submit &amp; Deactivate'
+  const skipAndDeactivate = localizations ? localizations.skipAndDeactivate : 'Skip &amp; Deactivate'
   const $ = window.jQuery
 
   const deactivationReasons = {
     'no-longer-need': {
-      title: 'I no longer need the plugin',
+      title: `${noLongerNeed}`,
       placeholder: ''
     },
     'found-a-better-plugin': {
-      title: 'I found a better plugin',
-      placeholder: 'Please share which plugin'
+      title: `${foundABetterPlugin}`,
+      placeholder: `${pleaseShareWhichPlugin}`
     },
     'couldnt-get-the-plugin-to-work': {
-      title: 'I couldn\'t get the plugin to work',
+      title: `${couldntGetThePluginToWork}`,
       placeholder: ''
     },
     'temporary-deactivation': {
-      title: 'It\'s a temporary deactivation',
+      title: `${itsATemporaryDeactivation}`,
       placeholder: ''
     },
     'other-reason': {
-      title: 'Other',
-      placeholder: 'Please share the reason'
+      title: `${other}`,
+      placeholder: `${pleaseShareTheReason}`
     }
   }
 
@@ -44,18 +56,21 @@ export const deactivationFeedbackPopup = () => {
 
     return `<div class="vcv-deactivate-popup-wrapper">
         <div class="vcv-deactivate-popup-title-wrapper">
-            <img src="../../../visualcomposer/resources/images/logo/20x14.png" alt="">
-            <span class="vcv-deactivate-popup-title">Quick Feedback</span>
+            <div class="vcv-deactivate-popup-title-wrapper-inner">
+                <img src="../../../visualcomposer/resources/images/logo/20x14.png" alt="">
+                <span class="vcv-deactivate-popup-title">${quickFeedback}</span>
+            </div>
+            <i class="vcv-deactivate-popup-close-button vcv-ui-icon vcv-ui-icon-close-thin"></i>
         </div>
         <div class="vcv-deactivate-popup-form-wrapper">
             <form>
-                <div class="vcv-deactivate-popup-form-title">If you have a moment, please share why you are deactivating Visual Composer:</div>
+                <div class="vcv-deactivate-popup-form-title">${pleaseShareWhy}</div>
                 <div class="vcv-deactivate-popup-form-reasons-wrapper">
                     ${deactivationReasonsHTML}
                 </div>
-                <div class="vcv-deactivate-popup-buttons-wrapper">
-                    <button class="vcv-deactivate-popup-buttons-submit">Submit &amp; Deactivate</button>
-                    <button class="vcv-deactivate-popup-buttons-skip">Skip &amp; Deactivate</button>
+                <div class="vcv-deactivate-popup-button-wrapper">
+                    <button class="vcv-deactivate-popup-button-submit">${submitAndDeactivate}</button>
+                    <button class="vcv-deactivate-popup-button-skip">${skipAndDeactivate}</button>
                 </div>
             </form>
         </div>
@@ -77,7 +92,12 @@ export const deactivationFeedbackPopup = () => {
       }
     })
 
-    const submitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-buttons-submit')
+    const closeButton = visualComposerSection.querySelector('.vcv-deactivate-popup-close-button')
+    closeButton.addEventListener('click', () => {
+      popupHTML.style.display = 'none'
+    })
+
+    const submitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-button-submit')
     submitButton.addEventListener('click', handleSubmit)
 
     function handleSubmit (e) {
