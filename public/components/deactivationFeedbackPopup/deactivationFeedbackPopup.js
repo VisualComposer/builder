@@ -102,7 +102,7 @@ export const deactivationFeedbackPopup = () => {
     submitButton.addEventListener('click', handleSubmit)
 
     function pluginDeactivation () {
-      const deactivationLink = document.querySelector('#vcv-visual-composer-website-builder a.vcv-deactivation-submit-button').href
+      const deactivationLink = visualComposerDeactivateButton.href
       popupHTML.style.display = 'none'
       window.location.href = deactivationLink
     }
