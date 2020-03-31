@@ -71,17 +71,6 @@ class GoPremium extends Container implements Module
             },
             70
         );
-
-        if (!$licenseHelper->isPremiumActivated()) {
-            /** @see \VisualComposer\Modules\License\Pages\GoPremium::pluginsPageLink */
-            $this->wpAddFilter(
-                'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
-                'pluginsPageLink'
-            );
-        }
-
-        // Add links in plugins page
-        $this->wpAddFilter('plugin_row_meta', 'pluginRowMeta', 10, 2);
     }
 
     /**
