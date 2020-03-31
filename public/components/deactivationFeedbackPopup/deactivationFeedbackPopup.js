@@ -93,12 +93,19 @@ export const deactivationFeedbackPopup = () => {
     })
 
     const closeButton = visualComposerSection.querySelector('.vcv-deactivate-popup-close-button')
-    closeButton.addEventListener('click', () => {
+    closeButton.addEventListener('click', (e) => {
+      e.preventDefault()
       popupHTML.style.display = 'none'
     })
 
     const submitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-button-submit')
     submitButton.addEventListener('click', handleSubmit)
+
+    function pluginDeactivation () {
+      const deactivationLink = document.querySelector('#vcv-visual-composer-website-builder a.vcv-deactivation-submit-button').href
+      popupHTML.style.display = 'none'
+      window.location.href = deactivationLink
+    }
 
     function handleSubmit (e) {
       e.preventDefault()
@@ -109,14 +116,23 @@ export const deactivationFeedbackPopup = () => {
         extraFeedbackValue = extraFeedback.value
       }
 
-      $.ajax(window.vcvAdminAjaxUrl, {
-        'vcv-action': 'license:deactivation:submit:adminNonce',
-        'vcv-reason': reason,
-        'vcv-extra-feedback': extraFeedbackValue
-      }).done(() => {
-        popupHTML.style.display = 'none'
-      })
+      $.ajax(window.vcvAdminAjaxUrl,
+        {
+          dataType: 'json',
+          data: {
+            'vcv-action': 'license:deactivation:submit:adminNonce',
+            'vcv-reason': `${reason}`,
+            'vcv-extra-feedback': extraFeedbackValue,
+            'vcv-nonce': window.vcvNonce
+          }
+        }).done(() => { pluginDeactivation() })
     }
+
+    const skipAndSubmitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-button-skip')
+    skipAndSubmitButton.addEventListener('click', (e) => {
+      e.preventDefault()
+      pluginDeactivation()
+    })
   }
 
   visualComposerDeactivateButton.addEventListener('click', handleDeactivateClick)
