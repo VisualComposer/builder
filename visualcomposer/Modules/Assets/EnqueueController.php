@@ -95,7 +95,7 @@ class EnqueueController extends Container implements Module
                 $closureInfo = $this->getCallReflector($callback['function']);
                 $fileName = $closureInfo->getFileName();
 
-                if (strpos($fileName, ABSPATH . WPINC) !== false || strpos($fileName, ABSPATH . 'wp-admin') !== false) {
+                if (strpos($fileName, WPINC) !== false || strpos($fileName, 'wp-admin') !== false) {
                     continue; // Skip wordpress callback
                 }
 
