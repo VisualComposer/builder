@@ -31,6 +31,7 @@ class FeedbackController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:ajax:license:feedback:submit:adminNonce', 'submitForm');
+        $this->addFilter('vcv:ajax:license:deactivation:submit:adminNonce', 'deactivationSubmitForm');
         $this->addFilter('vcv:editor:variables', 'addVariables');
     }
 
@@ -54,6 +55,42 @@ class FeedbackController extends Container implements Module
             [
                 'vcv-send-feedback' => 'sendFeedback',
                 'vcv-value' => $goodOrBad,
+            ]
+        );
+
+        wp_remote_get(
+            $url,
+            [
+                'timeout' => 30,
+            ]
+        );
+
+        return ['status' => true];
+    }
+
+    /**
+     * Send reason of deactivation feedback
+     *
+     * @param $response
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
+    protected function deactivationSubmitForm($response, Request $requestHelper, Url $urlHelper, License $licenseHelper)
+    {
+        $reasonId = $requestHelper->input('vcv-reason');
+        $feedback = $requestHelper->input('vcv-extra-feedback');
+        $licenseType = $licenseHelper->getType();
+
+        $url = $urlHelper->query(
+            vcvenv('VCV_HUB_URL'),
+            [
+                'vcv-send-deactivation-feedback' => 'sendFeedback',
+                'vcv-deactivation-reason' => $reasonId,
+                'vcv-deactivation-feedback' => $feedback,
+                'vcv-license-type' => $licenseType,
             ]
         );
 
