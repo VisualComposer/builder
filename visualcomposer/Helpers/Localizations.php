@@ -687,6 +687,51 @@ class Localizations extends Container implements Helper
                 'Your current popup will be replaced with the popup template.',
                 'visualcomposer'
             ),
+            // Plugin deactivation popup section
+            'quickFeedback' => __(
+                'Quick Feedback',
+                'visualcomposer'
+            ),
+            'pleaseShareWhy' => __(
+                'If you have a moment, please share why you are deactivating Visual Composer:',
+                'visualcomposer'
+            ),
+            'noLongerNeed' => __(
+                'I no longer need the plugin',
+                'visualcomposer'
+            ),
+            'foundABetterPlugin' => __(
+                'I found a better plugin',
+                'visualcomposer'
+            ),
+            'pleaseShareWhichPlugin' => __(
+                'Please share which plugin',
+                'visualcomposer'
+            ),
+            'couldntGetThePluginToWork' => __(
+                'I couldn\'t get the plugin to work',
+                'visualcomposer'
+            ),
+            'itsATemporaryDeactivation' => __(
+                'It\'s a temporary deactivation',
+                'visualcomposer'
+            ),
+            'other' => __(
+                'Other',
+                'visualcomposer'
+            ),
+            'pleaseShareTheReason' => __(
+                'Please share the reason',
+                'visualcomposer'
+            ),
+            'submitAndDeactivate' => __(
+                'Submit &amp; Deactivate',
+                'visualcomposer'
+            ),
+            'skipAndDeactivate' => __(
+                'Skip &amp; Deactivate',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
