@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
 Requires PHP: 5.4
 Requires at least: 4.6
-Tested up to: 5.3.2
-Stable tag: 25.0
+Tested up to: 5.4
+Stable tag: 26.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -173,6 +173,34 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 26.0 =
+*Release Date - 2020-04-01*
+
+#### Free:
+- Update: Copying element with Element ID display warning that Element ID is not copied
+- Update: Visual Composer Settings menu structure is updated for better navigation (in WordPress Admin Dashboard)
+- Update: Global CSS applies to pages not created with Visual Composer
+- Fix: Non-working shortcodes do not impact the work of the Frontend editor
+- Fix: Unsplash lock icon displayed properly on local
+- Fix: Rows has correct positioning on iPhone devices
+
+#### Premium:
+- New: Popup Builder that allows creating popup templates
+- New: Popup sitewide settings to trigger popups on all site (on load, cookie, exit-intent)
+- New: Popup page settings to trigger popups on a specific page (on load, exit-intent, element scroll)
+- New: Link Selector enhanced with popup triggering controls
+- New: Custom feedback popup for Premium users
+- New: New dynamic content values added to support Archive Page Editor
+- Update: Layer Slider element renamed to Kreatura Slider
+- Fix: Active menu class works properly
+- Fix: Layout assets loaded properly on Archive pages
+- Fix: Search element works properly after SiteURL change
+- Fix: Enqueue scripts loaded properly in custom headers and footers
+- Fix: Dynamic content images contain alt attribute
+- Fix: Post Grid With Box element works properly on Twenty Twenty theme
+- Fix: Simple Contact Form element does not display warnings
+- Fix: Animation with fullscreen video works properly
+
 = 25.0 =
 *Release Date - 2020-03-03*
 
@@ -182,7 +210,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Row layout displays proper values in the edit form
 - Fix: Activation on OVH hosting works properly
 - Fix: Animation does not create glitches upon adding
-- Fix: <pre> tags work properly in TinyMCE
+- Fix: <code><pre></code> tags work properly in TinyMCE
 - Fix: Drag and Drop works properly
 - Fix: Yoast integration works properly
 
