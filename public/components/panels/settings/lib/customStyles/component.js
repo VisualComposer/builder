@@ -6,7 +6,6 @@ const settingsStorage = getStorage('settings')
 
 export default class CustomStyles extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
-
   styleData = [
     {
       buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
