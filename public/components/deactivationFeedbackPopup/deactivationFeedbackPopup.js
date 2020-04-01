@@ -109,7 +109,7 @@ export const deactivationFeedbackPopup = () => {
 
     function handleSubmit (e) {
       e.preventDefault()
-      const reason = visualComposerSection.querySelectorAll('input:checked')[0].value
+      const reason = visualComposerSection.querySelector('input:checked').value
       const extraFeedback = visualComposerSection.querySelector('input:checked').parentElement.querySelector('.vcv-deactivate-popup-form-secondary-input')
       let extraFeedbackValue = ''
       if (extraFeedback) {
@@ -125,7 +125,7 @@ export const deactivationFeedbackPopup = () => {
             'vcv-extra-feedback': extraFeedbackValue,
             'vcv-nonce': window.vcvNonce
           }
-        }).done(() => { pluginDeactivation() })
+        }).done(pluginDeactivation)
     }
 
     const skipAndSubmitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-button-skip')
