@@ -15,6 +15,9 @@ export const deactivationFeedbackPopup = () => {
   const pleaseShareTheReason = localizations ? localizations.pleaseShareTheReason : 'Please share the reason'
   const submitAndDeactivate = localizations ? localizations.submitAndDeactivate : 'Submit &amp; Deactivate'
   const skipAndDeactivate = localizations ? localizations.skipAndDeactivate : 'Skip &amp; Deactivate'
+  let closeButton = null
+  let submitButton = null
+  let skipAndSubmitButton = null
   const $ = window.jQuery
 
   const deactivationReasons = {
@@ -62,22 +65,21 @@ export const deactivationFeedbackPopup = () => {
     return `<div class="vcv-deactivate-popup-wrapper">
         <div class="vcv-deactivate-popup-title-wrapper">
             <div class="vcv-deactivate-popup-title-wrapper-inner">
-                <img src="../../../visualcomposer/resources/images/logo/20x14.png" alt="">
+                <img src="../wp-content/plugins/visualcomposer/public/components/deactivationFeedbackPopup/src/20x14.png" alt="">
                 <span class="vcv-deactivate-popup-title">${quickFeedback}</span>
             </div>
-            <i class="vcv-deactivate-popup-close-button vcv-ui-icon vcv-ui-icon-close-thin"></i>
+            <button class="vcv-deactivate-popup-close-button vcv-ui-icon vcv-ui-icon-close-thin"></button>
         </div>
         <div class="vcv-deactivate-popup-form-wrapper">
-            <form>
-                <div class="vcv-deactivate-popup-form-title">${pleaseShareWhy}</div>
-                <div class="vcv-deactivate-popup-form-reasons-wrapper">
-                    ${deactivationReasonsHTML}
-                </div>
-                <div class="vcv-deactivate-popup-button-wrapper">
-                    <button class="vcv-deactivate-popup-button-submit">${submitAndDeactivate}</button>
-                    <button class="vcv-deactivate-popup-button-skip">${skipAndDeactivate}</button>
-                </div>
-            </form>
+            <div class="vcv-deactivate-popup-form-title">${pleaseShareWhy}</div>
+            <div class="vcv-deactivate-popup-form-reasons-wrapper">
+                ${deactivationReasonsHTML}
+            </div>
+            <div class="vcv-deactivate-popup-button-wrapper">
+                <button class="vcv-deactivate-popup-button-submit">${submitAndDeactivate}</button>
+                <span class="vcv-deactivate-popup-button-submit-loading"></span>
+                <button class="vcv-deactivate-popup-button-skip">${skipAndDeactivate}</button>
+            </div>
         </div>
     </div>`
   }
@@ -91,45 +93,51 @@ export const deactivationFeedbackPopup = () => {
     visualComposerSection.appendChild(popupElement)
     popupElement.style.display = 'flex'
 
-    const handlePopupClose = () => {
-      closePopup()
-    }
-
-    const handlePopupClick = (e) => {
-      if (e.target === popupElement) {
-        closePopup()
-      }
-    }
-
-    const closePopup = () => {
-      popupElement.style.display = 'none'
-      closeButton.removeEventListener('click', handlePopupClose)
-      popupElement.removeEventListener('click', handlePopupClick)
-      submitButton.removeEventListener('click', handleSubmit)
-      skipAndSubmitButton.removeEventListener('click', pluginDeactivation)
-    }
-
     popupElement.addEventListener('click', handlePopupClick)
 
-    const closeButton = popupElement.querySelector('.vcv-deactivate-popup-close-button')
-    closeButton.addEventListener('click', handlePopupClose)
+    closeButton = popupElement.querySelector('.vcv-deactivate-popup-close-button')
+    closeButton.addEventListener('click', handleCloseButtonClick)
 
-    const submitButton = popupElement.querySelector('.vcv-deactivate-popup-button-submit')
+    submitButton = popupElement.querySelector('.vcv-deactivate-popup-button-submit')
     submitButton.addEventListener('click', handleSubmit)
 
-    const skipAndSubmitButton = popupElement.querySelector('.vcv-deactivate-popup-button-skip')
-    skipAndSubmitButton.addEventListener('click', pluginDeactivation)
+    skipAndSubmitButton = popupElement.querySelector('.vcv-deactivate-popup-button-skip')
+    skipAndSubmitButton.addEventListener('click', handlePluginDeactivation)
   }
 
-  const pluginDeactivation = () => {
-    const deactivationLink = visualComposerDeactivateButton.href
-    window.location.href = deactivationLink
+  const handlePopupClick = (e) => {
+    if (e.target === popupElement) {
+      closePopup()
+    }
+  }
+
+  const handleCloseButtonClick = (e) => {
+    e.preventDefault()
+    closePopup()
+  }
+
+  const closePopup = () => {
+    popupElement.style.display = 'none'
+    closeButton.removeEventListener('click', handleCloseButtonClick)
+    popupElement.removeEventListener('click', handlePopupClick)
+    submitButton.removeEventListener('click', handleSubmit)
+    skipAndSubmitButton.removeEventListener('click', handlePluginDeactivation)
+  }
+
+  const handlePluginDeactivation = () => {
+    window.location.href = visualComposerDeactivateButton.href
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const reason = popupElement.querySelector('input:checked').value
-    const extraFeedback = popupElement.querySelector('input:checked').parentElement.querySelector('.vcv-deactivate-popup-form-secondary-input')
+    const checkedInput = popupElement.querySelector('input:checked')
+    if (!checkedInput) {
+      return
+    }
+    popupElement.querySelector('.vcv-deactivate-popup-button-submit-loading').style.display = 'flex'
+    popupElement.querySelector('.vcv-deactivate-popup-button-submit').style.display = 'none'
+    const reason = checkedInput.value
+    const extraFeedback = checkedInput.parentElement.querySelector('.vcv-deactivate-popup-form-secondary-input')
     let extraFeedbackValue = ''
     if (extraFeedback) {
       extraFeedbackValue = extraFeedback.value
@@ -144,7 +152,7 @@ export const deactivationFeedbackPopup = () => {
           'vcv-extra-feedback': extraFeedbackValue,
           'vcv-nonce': window.vcvNonce
         }
-      }).done(pluginDeactivation)
+      }).done(handlePluginDeactivation).fail(handlePluginDeactivation)
   }
 
   if (visualComposerDeactivateButton) {

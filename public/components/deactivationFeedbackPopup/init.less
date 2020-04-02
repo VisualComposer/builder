@@ -35,6 +35,8 @@
   cursor: pointer;
   color: #a4afb7;
   transition: color .2s;
+  border: 0;
+  padding: 0;
 }
 
 .vcv-deactivate-popup-close-button:hover {
@@ -123,4 +125,36 @@
 
 #vcv-visual-composer-website-builder {
   display: none;
+}
+
+.vcv-deactivate-popup-button-submit-loading {
+  background-color: #46AFEF;
+  border-radius: 3px;
+  width: 180px;
+  height: 38px;
+  position: relative;
+  display: none;
+}
+
+.vcv-deactivate-popup-button-submit-loading::after {
+  content: '';
+  display: block;
+  height: 16px;
+  width: 16px;
+  background: transparent url(./src/spinner-light.svg) 50% 50% no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: calc(50% - 8px);
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  animation: spin 1.08s linear infinite;
+  z-index: 2;
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
