@@ -19,24 +19,29 @@ export const deactivationFeedbackPopup = () => {
 
   const deactivationReasons = {
     'no-longer-need': {
-      title: `${noLongerNeed}`,
+      title: noLongerNeed,
+      defaultTitle: 'I no longer need the plugin',
       placeholder: ''
     },
     'found-a-better-plugin': {
-      title: `${foundABetterPlugin}`,
-      placeholder: `${pleaseShareWhichPlugin}`
+      title: foundABetterPlugin,
+      defaultTitle: 'I found a better plugin',
+      placeholder: pleaseShareWhichPlugin
     },
     'couldnt-get-the-plugin-to-work': {
-      title: `${couldntGetThePluginToWork}`,
+      title: couldntGetThePluginToWork,
+      defaultTitle: 'I couldn\'t get the plugin to work',
       placeholder: ''
     },
     'temporary-deactivation': {
-      title: `${itsATemporaryDeactivation}`,
+      title: itsATemporaryDeactivation,
+      defaultTitle: 'It\'s a temporary deactivation',
       placeholder: ''
     },
     'other-reason': {
-      title: `${other}`,
-      placeholder: `${pleaseShareTheReason}`
+      title: other,
+      defaultTitle: 'Other',
+      placeholder: pleaseShareTheReason
     }
   }
 
@@ -48,7 +53,7 @@ export const deactivationFeedbackPopup = () => {
         placeholder = `<input class="vcv-deactivate-popup-form-secondary-input" name="vcv-deactivation-feedback" placeholder="${deactivationReasons[reason].placeholder}">`
       }
       deactivationReasonsHTML = deactivationReasonsHTML + `<div class="vcv-deactivate-popup-form-input-wrapper ${reason}">
-           <input class="vcv-deactivate-popup-form-input" value="${deactivationReasons[reason].title}" type="radio" name="vcv-deactivation-reason" id="${reason}">
+           <input class="vcv-deactivate-popup-form-input" value="${deactivationReasons[reason].defaultTitle}" type="radio" name="vcv-deactivation-reason" id="${reason}">
            <label class="vcv-deactivate-popup-form-label" for="${reason}">${deactivationReasons[reason].title}</label>
            ${placeholder}
       </div>`
@@ -77,63 +82,72 @@ export const deactivationFeedbackPopup = () => {
     </div>`
   }
 
-  const popupHTML = document.createElement('div')
-  popupHTML.className = 'vcv-deactivate-popup-container'
-  popupHTML.innerHTML = getDeactivationPopupHTML(deactivationReasons)
+  const popupElement = document.createElement('div')
+  popupElement.className = 'vcv-deactivate-popup-container'
+  popupElement.innerHTML = getDeactivationPopupHTML(deactivationReasons)
 
-  function handleDeactivateClick (e) {
+  const handleDeactivateClick = (e) => {
     e.preventDefault()
-    visualComposerSection.appendChild(popupHTML)
-    popupHTML.style.display = 'flex'
+    visualComposerSection.appendChild(popupElement)
+    popupElement.style.display = 'flex'
 
-    popupHTML.addEventListener('click', (e) => {
-      if (e.target === popupHTML) {
-        popupHTML.style.display = 'none'
+    const handlePopupClose = () => {
+      closePopup()
+    }
+
+    const handlePopupClick = (e) => {
+      if (e.target === popupElement) {
+        closePopup()
       }
-    })
+    }
 
-    const closeButton = visualComposerSection.querySelector('.vcv-deactivate-popup-close-button')
-    closeButton.addEventListener('click', (e) => {
-      e.preventDefault()
-      popupHTML.style.display = 'none'
-    })
+    const closePopup = () => {
+      popupElement.style.display = 'none'
+      closeButton.removeEventListener('click', handlePopupClose)
+      popupElement.removeEventListener('click', handlePopupClick)
+      submitButton.removeEventListener('click', handleSubmit)
+      skipAndSubmitButton.removeEventListener('click', pluginDeactivation)
+    }
 
-    const submitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-button-submit')
+    popupElement.addEventListener('click', handlePopupClick)
+
+    const closeButton = popupElement.querySelector('.vcv-deactivate-popup-close-button')
+    closeButton.addEventListener('click', handlePopupClose)
+
+    const submitButton = popupElement.querySelector('.vcv-deactivate-popup-button-submit')
     submitButton.addEventListener('click', handleSubmit)
 
-    function pluginDeactivation () {
-      const deactivationLink = visualComposerDeactivateButton.href
-      popupHTML.style.display = 'none'
-      window.location.href = deactivationLink
-    }
-
-    function handleSubmit (e) {
-      e.preventDefault()
-      const reason = visualComposerSection.querySelector('input:checked').value
-      const extraFeedback = visualComposerSection.querySelector('input:checked').parentElement.querySelector('.vcv-deactivate-popup-form-secondary-input')
-      let extraFeedbackValue = ''
-      if (extraFeedback) {
-        extraFeedbackValue = extraFeedback.value
-      }
-
-      $.ajax(window.vcvAdminAjaxUrl,
-        {
-          dataType: 'json',
-          data: {
-            'vcv-action': 'license:deactivation:submit:adminNonce',
-            'vcv-reason': `${reason}`,
-            'vcv-extra-feedback': extraFeedbackValue,
-            'vcv-nonce': window.vcvNonce
-          }
-        }).done(pluginDeactivation)
-    }
-
-    const skipAndSubmitButton = visualComposerSection.querySelector('.vcv-deactivate-popup-button-skip')
-    skipAndSubmitButton.addEventListener('click', (e) => {
-      e.preventDefault()
-      pluginDeactivation()
-    })
+    const skipAndSubmitButton = popupElement.querySelector('.vcv-deactivate-popup-button-skip')
+    skipAndSubmitButton.addEventListener('click', pluginDeactivation)
   }
 
-  visualComposerDeactivateButton.addEventListener('click', handleDeactivateClick)
+  const pluginDeactivation = () => {
+    const deactivationLink = visualComposerDeactivateButton.href
+    window.location.href = deactivationLink
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const reason = popupElement.querySelector('input:checked').value
+    const extraFeedback = popupElement.querySelector('input:checked').parentElement.querySelector('.vcv-deactivate-popup-form-secondary-input')
+    let extraFeedbackValue = ''
+    if (extraFeedback) {
+      extraFeedbackValue = extraFeedback.value
+    }
+
+    $.ajax(window.vcvAdminAjaxUrl,
+      {
+        dataType: 'json',
+        data: {
+          'vcv-action': 'license:deactivation:submit:adminNonce',
+          'vcv-reason': reason,
+          'vcv-extra-feedback': extraFeedbackValue,
+          'vcv-nonce': window.vcvNonce
+        }
+      }).done(pluginDeactivation)
+  }
+
+  if (visualComposerDeactivateButton) {
+    visualComposerDeactivateButton.addEventListener('click', handleDeactivateClick)
+  }
 }
