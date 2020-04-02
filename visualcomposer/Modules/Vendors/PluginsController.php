@@ -64,6 +64,13 @@ class PluginsController extends Container implements Module
             'addScript' => false,
         ];
 
+        $variables[] = [
+            'key' => 'vcvPluginUrl',
+            'value' => VCV_PLUGIN_URL,
+            'type' => 'variable',
+            'addScript' => false,
+        ];
+
         $scriptOutput = '';
         if (is_array($variables)) {
             foreach ($variables as $variable) {
