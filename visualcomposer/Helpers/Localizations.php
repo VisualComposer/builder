@@ -689,7 +689,7 @@ class Localizations extends Container implements Helper
             ),
             // Plugin deactivation popup section
             'quickFeedback' => __(
-                'Quick Feedback',
+                'QUICK FEEDBACK',
                 'visualcomposer'
             ),
             'pleaseShareWhy' => __(

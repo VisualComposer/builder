@@ -4,7 +4,7 @@ export const deactivationFeedbackPopup = () => {
   const visualComposerSection = document.querySelector('[data-slug="visualcomposer"]')
   const visualComposerDeactivateButton = visualComposerSection.querySelector('.deactivate a')
   const localizations = window.VCV_I18N && window.VCV_I18N()
-  const quickFeedback = localizations ? localizations.quickFeedback : 'Quick Feedback'
+  const quickFeedback = localizations ? localizations.quickFeedback : 'QUICK FEEDBACK'
   const pleaseShareWhy = localizations ? localizations.pleaseShareWhy : 'If you have a moment, please share why you are deactivating Visual Composer:'
   const noLongerNeed = localizations ? localizations.noLongerNeed : 'I no longer need the plugin'
   const foundABetterPlugin = localizations ? localizations.foundABetterPlugin : 'I found a better plugin'
@@ -15,6 +15,7 @@ export const deactivationFeedbackPopup = () => {
   const pleaseShareTheReason = localizations ? localizations.pleaseShareTheReason : 'Please share the reason'
   const submitAndDeactivate = localizations ? localizations.submitAndDeactivate : 'Submit &amp; Deactivate'
   const skipAndDeactivate = localizations ? localizations.skipAndDeactivate : 'Skip &amp; Deactivate'
+  const vcvPluginUrl = window.vcvPluginUrl
   let closeButton = null
   let submitButton = null
   let skipAndSubmitButton = null
@@ -65,7 +66,7 @@ export const deactivationFeedbackPopup = () => {
     return `<div class="vcv-deactivate-popup-wrapper">
         <div class="vcv-deactivate-popup-title-wrapper">
             <div class="vcv-deactivate-popup-title-wrapper-inner">
-                <img src="../wp-content/plugins/visualcomposer/public/components/deactivationFeedbackPopup/src/20x14.png" alt="">
+                <img src="${vcvPluginUrl}public/components/deactivationFeedbackPopup/src/20x14.png" alt="">
                 <span class="vcv-deactivate-popup-title">${quickFeedback}</span>
             </div>
             <button class="vcv-deactivate-popup-close-button vcv-ui-icon vcv-ui-icon-close-thin"></button>
@@ -76,8 +77,7 @@ export const deactivationFeedbackPopup = () => {
                 ${deactivationReasonsHTML}
             </div>
             <div class="vcv-deactivate-popup-button-wrapper">
-                <button class="vcv-deactivate-popup-button-submit">${submitAndDeactivate}</button>
-                <span class="vcv-deactivate-popup-button-submit-loading"></span>
+                <button class="vcv-deactivate-popup-button-submit">${submitAndDeactivate}<span class="vcv-deactivate-popup-button-submit-loading" /></button>
                 <button class="vcv-deactivate-popup-button-skip">${skipAndDeactivate}</button>
             </div>
         </div>
