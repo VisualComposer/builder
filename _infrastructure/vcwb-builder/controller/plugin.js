@@ -4,7 +4,7 @@ const exec = require('child_process').exec
 const glob = require('glob')
 
 class Plugin {
-  constructor (dir, version) {
+  constructor (dir, version, isDev = false) {
     dir = path.resolve(path.join(dir || process.cwd()))
     if (!fs.lstatSync(dir).isDirectory()) {
       console.log('Can\'t create bundle. Wrong working directory.')
@@ -12,7 +12,6 @@ class Plugin {
 
     const bundlePath = path.join(dir, 'visualcomposer')
     const repoPath = path.join(__dirname, '..', '..', '..')
-
     Object.defineProperties(this, {
       /**
        * @property {String}
@@ -44,6 +43,14 @@ class Plugin {
        */
       version: {
         value: version,
+        writable: false
+      },
+      /**
+       * @property {String}
+       * @name Builder#version
+       */
+      isDev: {
+        value: isDev,
         writable: false
       },
       /**
@@ -82,7 +89,7 @@ class Plugin {
       settings.assetsLibrary.forEach((lib) => {
         fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name, 'src'))
         fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name, 'webpack.config.babel.js'))
-        if (this.ignoreLibraries.indexOf(lib.name) === -1) {
+        if (this.isDev || this.ignoreLibraries.indexOf(lib.name) === -1) {
           bundleJSON.assetsLibrary.push(lib)
         } else {
           fs.removeSync(path.join(this.bundlePath, 'public/sources/assetsLibrary', lib.name))
@@ -163,6 +170,7 @@ class Plugin {
     fs.ensureDirSync(path.join(bundlePath, 'public/dist/fonts'))
     fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
     process.chdir(bundlePath)
+    const copyTests = this.isDev ? 'cp -fr ' + repoPath + '/tests/cypress ./tests &' : ''
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
       'cp -fr ' + repoPath + '/env.php ./ &' +
       'cp -fr ' + repoPath + '/visualcomposer ./ &' +
@@ -181,7 +189,7 @@ class Plugin {
       'cp -fr ' + repoPath + '/public/dist/wpUpdate.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/elements ./ &' +
       'cp -fr ' + repoPath + '/readme.txt ./ &' +
-      'cp -fr ' + repoPath + '/tests/cypress ./tests &' +
+      copyTests +
       // JUST MOVE ALL fonts
       'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
       // 'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
@@ -206,10 +214,10 @@ class Plugin {
 
   async installBuildProject () {
     process.chdir(this.repoPath)
-    if (this.version === 'dev' || this.version.match(/alpha/)) {
+    if (this.isDev) {
       await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
     } else {
-      await this.execute('rm -rf ./visualcomposer/Modules/Development && rm -rf ./tests php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+      await this.execute('mv ./visualcomposer/Modules/Development ./ && php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
     }
     await this.execute('php tools/php-composer/cli.php', 'PHP CLI...')
     await this.execute('yarn build-production', 'Yarn build production...')
