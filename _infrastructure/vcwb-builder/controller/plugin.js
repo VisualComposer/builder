@@ -162,7 +162,6 @@ class Plugin {
     const repoPath = this.repoPath
     fs.ensureDirSync(path.join(bundlePath, 'public/dist/fonts'))
     fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
-    fs.ensureDirSync(path.join(bundlePath, 'tests'))
     process.chdir(bundlePath)
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
       'cp -fr ' + repoPath + '/env.php ./ &' +
@@ -207,7 +206,11 @@ class Plugin {
 
   async installBuildProject () {
     process.chdir(this.repoPath)
-    await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+    if (this.version === 'dev' || this.version.match(/alpha/)) {
+      await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+    } else {
+      await this.execute('rm -rf ./visualcomposer/Modules/Development && rm -rf ./tests php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
+    }
     await this.execute('php tools/php-composer/cli.php', 'PHP CLI...')
     await this.execute('yarn build-production', 'Yarn build production...')
     await this.execute('bash ./tools/elements/buildProductionScript.sh', 'Build default elements...')
