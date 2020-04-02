@@ -18,7 +18,7 @@ jobs:
       - name: Build project
         run: |
           yarn install
-          node _infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }} -p ./_infrastructure
+          node _infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }} --isDev -p ./_infrastructure
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1.0.0
