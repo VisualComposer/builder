@@ -82,12 +82,15 @@ class PostType implements Helper
      */
     public function get($id = null, $postType = '')
     {
-        if (is_home()) {
-            $id = get_option('page_for_posts');
-        } elseif (is_front_page()) {
-            $id = get_option('page_on_front');
+        if (!vcvenv('VCV_IS_ARCHIVE_TEMPLATE')) {
+            if (is_home()) {
+                $id = get_option('page_for_posts');
+            } elseif (is_front_page()) {
+                $id = get_option('page_on_front');
+            }
         }
 
+        
         $post = get_post($id);
         // @codingStandardsIgnoreLine
         if (!$post || ($postType && $post->post_type !== $postType)) {

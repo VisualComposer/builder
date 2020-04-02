@@ -112,6 +112,7 @@ class CssJsSettings extends Container implements Module
             'title' => __('CSS, HTML & JavaScript', 'visualcomposer'),
             'layout' => 'settings-standalone-with-tabs',
             'showTab' => false,
+            'capability' => 'manage_options',
         ];
         $this->addSubmenuPage($page);
     }
