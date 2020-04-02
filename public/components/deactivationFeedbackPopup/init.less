@@ -10,18 +10,19 @@
   align-items: center;
 }
 
-.vcv-deactivate-popup-wrapper{
+.vcv-deactivate-popup-wrapper {
   display: flex;
   flex-direction: column;
   background-color: #fff;
   border-radius: 3px;
   overflow: hidden;
   width: 550px;
+  margin: 15px;
 }
 
 .vcv-deactivate-popup-title-wrapper {
   padding: 18px 15px;
-  box-shadow: 0 0 8px rgba(0,0,0,.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, .1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,11 +37,15 @@
   color: #a4afb7;
   transition: color .2s;
   border: 0;
-  padding: 0;
+  padding: 5px;
 }
 
 .vcv-deactivate-popup-close-button:hover {
   color: #495157;
+}
+
+.vcv-deactivate-popup-close-button:focus {
+  outline: none;
 }
 
 .vcv-deactivate-popup-form-wrapper {
@@ -65,7 +70,7 @@
 .vcv-deactivate-popup-form-label {
   display: flex;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   color: #6d7882;
   width: fit-content;
 }
@@ -73,28 +78,49 @@
 .vcv-deactivate-popup-form-input-wrapper .vcv-deactivate-popup-form-input {
   margin: 0 10px 0 0;
   float: left;
+  height: 16px;
+  width: 16px;
 }
 
 .vcv-deactivate-popup-form-secondary-input {
-  margin: 10px 0 0 30px;
+  margin: 10px 0 0 26px;
   padding: 5px;
-  font-size: 13px;
+  line-height: 2;
+  font-size: 12px;
+  font-weight: 400;
+  box-sizing: border-box;
   box-shadow: none;
   background-color: #fff;
-  width: 92%;
-  border-radius: 4px;
-  border: 1px solid #7e8993;
-  color: #32373c;
+  width: 91%;
+  border: 1px solid #d1d1d1;
+  border-radius: 3px;
+  color: #5c5b5b;
   display: none;
+}
+
+.vcv-deactivate-popup-form-secondary-input:hover {
+  border-color: #c4c4c4;
+}
+
+.vcv-deactivate-popup-form-secondary-input:focus {
+  border-color: #c4c4c4;
+  outline: none;
 }
 
 .vcv-deactivate-popup-form-input-wrapper input:checked ~ .vcv-deactivate-popup-form-secondary-input {
   display: block;
 }
 
+.vcv-deactivate-popup-form-input-wrapper input:checked::before {
+  width: 8px;
+  height: 8px;
+  margin: 3px;
+}
+
 .vcv-deactivate-popup-button-wrapper {
   padding: 30px 0 0;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -104,10 +130,20 @@
   color: #fff;
   line-height: 1;
   padding: 12px 20px;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   border: none;
   box-shadow: none;
+  transition: background-color .2s;
+}
+
+.vcv-deactivate-popup-button-submit:hover {
+  outline: none;
+  background-color: #2a6a91;
+}
+
+.vcv-deactivate-popup-button-submit:focus {
+  outline: none;
 }
 
 .vcv-deactivate-popup-button-skip {
@@ -116,10 +152,17 @@
   background: none;
   float: right;
   width: auto;
-  padding: 13px 0;
+  padding: 12px 20px;
   outline: 0;
   border: none;
   cursor: pointer;
+  margin-top: 10px;
+  transition: color .2s;
+}
+
+.vcv-deactivate-popup-button-skip:hover {
+  outline: none;
+  color: #495157;
 }
 
 #vcv-visual-composer-website-builder {
@@ -127,10 +170,8 @@
 }
 
 .vcv-deactivate-popup-button-submit-loading {
-  background-color: #46AFEF;
-  border-radius: 3px;
   position: relative;
-  display: none;
+  cursor: not-allowed;
 }
 
 .vcv-deactivate-popup-button-submit-loading::after {
@@ -146,12 +187,34 @@
   bottom: 0;
   margin: auto;
   animation: vcv-spin 1.08s linear infinite;
-  z-index: 2;
+  z-index: 2000;
+}
+
+.vcv-deactivate-popup-button-submit-loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  border-radius: 3px;
 }
 
 @keyframes vcv-spin {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (min-width: 595px) {
+  .vcv-deactivate-popup-button-wrapper {
+    flex-direction: row;
+  }
+
+  .vcv-deactivate-popup-button-skip {
+    margin: 0;
   }
 }
