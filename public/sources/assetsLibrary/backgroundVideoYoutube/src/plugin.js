@@ -45,6 +45,9 @@
       createPlayer: function createPlayer() {
         var _this = this;
         this.updatePlayerData();
+        if (!this.player) {
+          return
+        }
         this.ytPlayer = new YT.Player(this.player, {
           videoId: this.videoId,
           playerVars: {
@@ -63,8 +66,8 @@
           },
           events: {
             onReady: function onReady(event) {
-              var height = event.target.a.getAttribute('height');
-              var width = event.target.a.getAttribute('width');
+              var height = event.target.f.getAttribute('height');
+              var width = event.target.f.getAttribute('width');
               _this.resizer.setAttribute('height', height);
               _this.resizer.setAttribute('width', width);
               _this.resizer.setAttribute('data-vce-assets-video-state', 'visible');
@@ -77,7 +80,9 @@
         // this.player = element;
       },
       updatePlayer: function updatePlayer() {
-        this.ytPlayer.destroy();
+        if (this.ytPlayer.f) {
+          this.ytPlayer.destroy();
+        }
         this.createPlayer();
       },
       checkOrientation: function checkOrientation() {

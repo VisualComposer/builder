@@ -2,36 +2,32 @@ import React from 'react'
 import StyleControl from './control'
 import StyleEditor from './editor'
 import { setData, getStorage } from 'vc-cake'
-import PropTypes from 'prop-types'
 const settingsStorage = getStorage('settings')
 
 export default class CustomStyles extends React.Component {
-  static propTypes = {
-    styleData: PropTypes.array
-  }
-
   static localizations = window.VCV_I18N && window.VCV_I18N()
-  static defaultProps = {
-    styleData: [
-      {
-        buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
-        editorLabel: CustomStyles.localizations ? CustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only',
-        index: 1,
-        name: 'local',
-        settingsStorageState: 'customCss'
-      },
-      {
-        buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
-        editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
-        index: 2,
-        name: 'global',
-        settingsStorageState: 'globalCss'
-      }
-    ]
-  }
+  styleData = [
+    {
+      buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
+      editorLabel: CustomStyles.localizations ? CustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only',
+      index: 1,
+      name: 'local',
+      settingsStorageState: 'customCss'
+    }
+  ]
 
   constructor (props) {
     super(props)
+    if (window.vcvManageOptions) {
+      this.styleData.push(
+        {
+          buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
+          editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied site wide',
+          index: 2,
+          name: 'global',
+          settingsStorageState: 'globalCss'
+        })
+    }
     const customStyles = {
       local: settingsStorage.state('customCss').get(),
       global: settingsStorage.state('globalCss').get()
@@ -68,7 +64,7 @@ export default class CustomStyles extends React.Component {
 
   getButtons () {
     const allButtons = []
-    const { styleData } = this.props
+    const { styleData } = this
     const { isActiveIndex } = this.state
     for (const i in styleData) {
       if (Object.prototype.hasOwnProperty.call(styleData, i)) {
@@ -88,7 +84,7 @@ export default class CustomStyles extends React.Component {
 
   getEditor () {
     const allEditors = []
-    const { styleData } = this.props
+    const { styleData } = this
     for (const i in styleData) {
       if (Object.prototype.hasOwnProperty.call(styleData, i)) {
         allEditors.push(

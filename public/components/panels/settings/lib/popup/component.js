@@ -115,7 +115,10 @@ export default class Popup extends React.Component {
   renderExistingPosts (type) {
     const none = this.localizations ? this.localizations.none : 'None'
     const items = []
-
+    let globalOption = null
+    if (type !== 'popupOnElementId') {
+      globalOption = <option value=''>Global</option>
+    }
     this.popupPosts.forEach((post) => {
       const postTitle = post.title || post.id
       items.push(
@@ -134,7 +137,8 @@ export default class Popup extends React.Component {
         value={this.state[type].id}
         onChange={this.handleSelectChange.bind(this, type)}
       >
-        <option value=''>{none}</option>
+        {globalOption}
+        <option value='none'>{none}</option>
         {items}
       </select>
     )
@@ -167,7 +171,7 @@ export default class Popup extends React.Component {
     const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'On exit intent'
     const onElementId = this.localizations ? this.localizations.onElementId : 'On Element ID'
 
-    if (this.state.popupOnElementId.id) {
+    if (this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none') {
       elementIdSelectorHtml = (
         <>
           <div className='vcv-ui-form-group'>
@@ -198,9 +202,7 @@ export default class Popup extends React.Component {
             {this.renderExistingPosts('popupOnPageLoad')}
             <p className='vcv-ui-form-helper'>{popupOpenOnPageLoad}</p>
           </div>
-
-          {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id ? this.getDelayHtml('popupOnPageLoad') : null}
-
+          {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id && this.state.popupOnPageLoad.id !== 'none' ? this.getDelayHtml('popupOnPageLoad') : null}
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {onExitIntent}
@@ -218,8 +220,7 @@ export default class Popup extends React.Component {
           </div>
 
           {elementIdSelectorHtml}
-          {this.state.popupOnElementId && this.state.popupOnElementId.id ? this.getDelayHtml('popupOnElementId') : null}
-
+          {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
         </div>
       )
     }

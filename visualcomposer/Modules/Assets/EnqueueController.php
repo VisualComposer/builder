@@ -39,8 +39,8 @@ class EnqueueController extends Container implements Module
             $this->wpAddAction('init', 'setCustomWpScripts');
         }
 
-        $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 21);
-        $this->wpAddAction('wp_footer', 'enqueueVcvAssets', 1000);
+        $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 9);
+        $this->wpAddAction('wp_footer', 'enqueueVcvAssets');
     }
 
     protected function enqueueAssetsFromList(AssetsEnqueue $assetsEnqueueHelper)
@@ -48,6 +48,7 @@ class EnqueueController extends Container implements Module
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
+
         foreach ($assetsEnqueueHelper->getEnqueueList() as $sourceId) {
             // @codingStandardsIgnoreStart
             global $wp_query, $wp_the_query;
@@ -59,6 +60,7 @@ class EnqueueController extends Container implements Module
                     'p' => $sourceId,
                     'post_status' => get_post_status($sourceId),
                     'post_type' => get_post_type($sourceId),
+                    'posts_per_page' => 1,
                 ]
             );
             $wp_query = $tempPostQuery;
@@ -68,9 +70,12 @@ class EnqueueController extends Container implements Module
                 do_action('wp_enqueue_scripts');
                 do_action('wp_print_scripts'); // Load localize scripts
                 VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
-                do_action('wp_footer'); // will enqueue all assets which is in queue and VCV assets front.bundle.js
-            }
+                ob_start();
 
+                // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
+                $this->callNonWordpressActionCallbacks('wp_footer');
+                ob_end_clean();
+            }
             $wp_query = $backup;
             $wp_the_query = $backupGlobal; // fix wp_reset_query
         }
@@ -78,11 +83,31 @@ class EnqueueController extends Container implements Module
         VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
     }
 
+    protected function callNonWordpressActionCallbacks($action)
+    {
+        global $wp_filter;
+        // Run over actions sorted by priorities
+        $actions = $wp_filter[ $action ]->callbacks;
+        ksort($actions);
+        foreach ($actions as $priority => $callbacks) {
+            // Run over callbacks
+            foreach ($callbacks as $callback) {
+                $closureInfo = $this->getCallReflector($callback['function']);
+                $fileName = $closureInfo->getFileName();
+
+                if (strpos($fileName, WPINC) !== false || strpos($fileName, 'wp-admin') !== false) {
+                    continue; // Skip wordpress callback
+                }
+
+                // Call the callback
+                $callback['function']();
+            }
+        }
+    }
+
     protected function enqueueVcvAssets()
     {
-        if (vcvenv('ENQUEUE_INNER_ASSETS')) {
-            return;
-        }
+        $this->enqueueAssetsVendorListener([get_the_ID()]);
     }
 
     protected function setCustomWpScripts()
