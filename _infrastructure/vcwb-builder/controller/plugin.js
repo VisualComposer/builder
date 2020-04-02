@@ -169,7 +169,7 @@ class Plugin {
     const repoPath = this.repoPath
     fs.ensureDirSync(path.join(bundlePath, 'public/dist/fonts'))
     fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
-    fs.ensureDirSync(path.join(bundlePath, 'tests'))
+    this.isDev && fs.ensureDirSync(path.join(bundlePath, 'tests'))
     process.chdir(bundlePath)
     const copyTests = this.isDev ? 'cp -fr ' + repoPath + '/tests/cypress ./tests &' : ''
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
