@@ -21,7 +21,11 @@ export default class TemplateLayout extends React.Component {
       current: currentTemplate
     }
     settingsStorage.state('pageTemplate').set(currentTemplate)
-    this.allowedTypes = ['vc', 'vc-theme', 'theme']
+    if (window.VCV_ENV().VCV_FT_THEME_BUILDER_LAYOUTS) {
+      this.allowedTypes = ['vc', 'vc-theme', 'vc-custom-layout', 'theme']
+    } else {
+      this.allowedTypes = ['vc', 'vc-theme', 'theme']
+    }
     this.updateTemplate = this.updateTemplate.bind(this)
     this.updateState = this.updateState.bind(this)
     this.handleTemplateChange = this.handleTemplateChange.bind(this)
@@ -107,62 +111,106 @@ export default class TemplateLayout extends React.Component {
   }
 
   getTemplateLayoutIcons () {
-    const icons = []
-    if (vcLayouts && vcLayouts.length) {
-      vcLayouts.forEach((templateList, index) => {
-        if (this.allowedTypes.indexOf(templateList.type) < 0) {
-          return
-        }
-        templateList.values.forEach((template, tIndex) => {
-          const templateName = `${templateList.type}__${template.value}`
-          let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-          const Icon = LayoutIcons[templateName] && LayoutIcons[templateName].icon.default
-          if (Icon) {
-            const iconProps = {
-              classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
-            }
-            if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
-              classes += ' vcv-ui-start-layout-list-item-active'
-            }
-            icons.push(
-              <span
-                className={classes}
+    if (window.VCV_ENV().VCV_FT_THEME_BUILDER_LAYOUTS) {
+      const options = []
+      if (vcLayouts && vcLayouts.length) {
+        vcLayouts.forEach((templateList, index) => {
+          if (this.allowedTypes.indexOf(templateList.type) < 0) {
+            return
+          }
+          templateList.values.forEach((template, tIndex) => {
+            const templateName = `${templateList.type}__${template.value}`
+
+            options.push(
+              <option
+                value={templateName}
                 title={template.label}
                 key={`settings-layout-${index}-${tIndex}`}
-                onClick={() => { this.handleTemplateChange(templateName) }}
               >
-                <Icon {...iconProps} />
-              </span>
+                {template.label}
+              </option>
             )
-          }
+          })
         })
-      })
-    }
+      }
 
-    let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-    const Icon = LayoutIcons['theme-default'] && LayoutIcons['theme-default'].icon.default
-    const iconProps = {
-      classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
-    }
-    if (this.state.current.type === 'theme') {
-      classes += ' vcv-ui-start-layout-list-item-active'
-    }
-    icons.push(
-      <span
-        className={classes}
-        title='Theme default'
-        key='settings-layout-theme-default'
-        onClick={() => { this.handleTemplateChange('theme__default') }}
-      >
-        <Icon {...iconProps} />
-      </span>
-    )
+      options.push(
+        <option
+          value='theme__default'
+          title='Theme default'
+          key='settings-layout-theme-default'
+        >
+          Theme default
+        </option>
+      )
 
-    return (
-      <div className='vcv-ui-template-options-wrapper'>
-        {icons}
-      </div>
-    )
+      return (
+        <select
+          className='vcv-ui-form-dropdown'
+          onChange={this.handleTemplateChange}
+          value={`${this.state.current.type}__${this.state.current.value}`}
+        >
+          {options}
+        </select>
+      )
+    } else {
+      const icons = []
+      if (vcLayouts && vcLayouts.length) {
+        vcLayouts.forEach((templateList, index) => {
+          if (this.allowedTypes.indexOf(templateList.type) < 0) {
+            return
+          }
+          templateList.values.forEach((template, tIndex) => {
+            const templateName = `${templateList.type}__${template.value}`
+            let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
+            const Icon = LayoutIcons[templateName] && LayoutIcons[templateName].icon.default
+            if (Icon) {
+              const iconProps = {
+                classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
+              }
+              if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
+                classes += ' vcv-ui-start-layout-list-item-active'
+              }
+              icons.push(
+                <span
+                  className={classes}
+                  title={template.label}
+                  key={`settings-layout-${index}-${tIndex}`}
+                  onClick={() => { this.handleTemplateChange(templateName) }}
+                >
+                  <Icon {...iconProps} />
+                </span>
+              )
+            }
+          })
+        })
+      }
+
+      let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
+      const Icon = LayoutIcons['theme-default'] && LayoutIcons['theme-default'].icon.default
+      const iconProps = {
+        classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
+      }
+      if (this.state.current.type === 'theme') {
+        classes += ' vcv-ui-start-layout-list-item-active'
+      }
+      icons.push(
+        <span
+          className={classes}
+          title='Theme default'
+          key='settings-layout-theme-default'
+          onClick={() => { this.handleTemplateChange('theme__default') }}
+        >
+          <Icon {...iconProps} />
+        </span>
+      )
+
+      return (
+        <div className='vcv-ui-template-options-wrapper'>
+          {icons}
+        </div>
+      )
+    }
   }
 
   getLayoutsDropdown () {
