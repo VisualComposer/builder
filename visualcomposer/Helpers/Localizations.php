@@ -697,7 +697,7 @@ class Localizations extends Container implements Helper
             ),
             'availableInPremiumText' => __(
                 'Available in Premium',
-              'visualcomposer'
+                'visualcomposer'
             ),
             'quickFeedback' => __(
                 'QUICK FEEDBACK',

@@ -66,24 +66,38 @@ class AddonsUpdater extends Container implements Module
                     );
                 }
             }
-            if (isset($addonsData['settings']['metaThumbnailUrl'])) {
-                $addonsData['settings']['metaThumbnailUrl'] = $addonsHelper->getAddonUrl(
-                    $addonsData['settings']['metaThumbnailUrl']
-                );
-            }
-            if (isset($addonsData['settings']['metaPreviewUrl'])) {
-                $addonsData['settings']['metaPreviewUrl'] = $addonsHelper->getAddonUrl(
-                    $addonsData['settings']['metaPreviewUrl']
-                );
-            }
-            if (isset($addonsData['settings']['metaAddonImageUrl'])) {
-                $addonsData['settings']['metaAddonImageUrl'] = $addonsHelper->getAddonUrl(
-                    $addonsData['settings']['metaAddonImageUrl']
-                );
-            }
+            $addonsData = $this->updateAddonImages($addonsHelper, $addonsData);
+
             $response['addons'][] = $addonsData;
         }
 
         return $response;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Hub\Addons $addonsHelper
+     * @param $addonsData
+     *
+     * @return mixed
+     */
+    protected function updateAddonImages(HubAddons $addonsHelper, $addonsData)
+    {
+        if (isset($addonsData['settings']['metaThumbnailUrl'])) {
+            $addonsData['settings']['metaThumbnailUrl'] = $addonsHelper->getAddonUrl(
+                $addonsData['settings']['metaThumbnailUrl']
+            );
+        }
+        if (isset($addonsData['settings']['metaPreviewUrl'])) {
+            $addonsData['settings']['metaPreviewUrl'] = $addonsHelper->getAddonUrl(
+                $addonsData['settings']['metaPreviewUrl']
+            );
+        }
+        if (isset($addonsData['settings']['metaAddonImageUrl'])) {
+            $addonsData['settings']['metaAddonImageUrl'] = $addonsHelper->getAddonUrl(
+                $addonsData['settings']['metaAddonImageUrl']
+            );
+        }
+
+        return $addonsData;
     }
 }
