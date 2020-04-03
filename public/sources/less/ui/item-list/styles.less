@@ -269,3 +269,86 @@
   text-align: center;
   padding: 0 45px;
 }
+
+// Hub addon items
+
+.vcv-hub-addon-item-container {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: box-shadow @transition-duration @transition-timing-function;
+
+  &:hover {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+.vcv-hub-addon-item-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 0 auto;
+  padding: 20px 15px;
+  background: @vcv-color-white;
+
+  .vcv-ui-wp-spinner {
+    width: 40px;
+    height: 40px;
+    margin-top: auto;
+  }
+
+  .vcv-ui-wp-spinner::before {
+    height: 27px;
+    width: 27px;
+    opacity: 0.5;
+  }
+}
+
+.vcv-hub-addon-image {
+  flex: 0 0 160px;
+}
+
+.vcv-hub-addon-name {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 1px;
+}
+
+.vcv-hub-addon-description {
+  margin: 0 0 15px;
+  font-size: 13px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 24px;
+  letter-spacing: 1px;
+}
+
+.vcv-hub-addon-control {
+  margin-top: auto; // to stick last item to the bottom of flex container
+  border: none;
+  border-radius: 3px;
+  background: @vcv-color-dark-sky;
+  color: @vcv-color-white;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  transition: background @transition-duration @transition-timing-function;
+
+  &:hover {
+    background: @vcv-color-juicy-yellow;
+  }
+}
+
+.vcv-hub-addon-control--locked {
+  background: @vcv-color-smoke-grey;
+  pointer-events: none;
+
+  &:hover {
+    background: @vcv-color-smoke-grey;
+  }
+}
+

@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
+import TeaserAddonControl from './teaserAddonControl'
 
 const hubElementsService = getService('hubElements')
 const myTemplatesService = getService('myTemplates')
@@ -294,6 +295,16 @@ export default class TeaserElementControl extends ElementControl {
       } else {
         action = this.handleAddonClick
       }
+      return (
+        <TeaserAddonControl
+          key={'vcv-element-control-' + tag}
+          element={element}
+          elementState={elementState}
+          showLoading={this.state.showLoading}
+          name={name}
+          onClick={action}
+        />
+      )
     }
     const overlayOutput = <span className={iconClasses} onClick={action} />
     let previewOutput = null

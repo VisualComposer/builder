@@ -687,6 +687,18 @@ class Localizations extends Container implements Helper
                 'Your current popup will be replaced with the popup template.',
                 'visualcomposer'
             ),
+            'downloadAddonText' => __(
+                'Download Addon',
+                'visualcomposer'
+            ),
+            'installedText' => __(
+                'Installed',
+                'visualcomposer'
+            ),
+            'availableInPremiumText' => __(
+                'Available in Premium',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
