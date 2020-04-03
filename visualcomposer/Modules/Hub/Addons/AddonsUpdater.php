@@ -22,6 +22,7 @@ class AddonsUpdater extends Container implements Module
     {
         $this->addFilter('vcv:hub:download:bundle vcv:hub:download:bundle:addon/*', 'updateAddons');
     }
+
     protected function updateAddons($response, $payload, HubAddons $addonsHelper)
     {
         if (vcvenv('VCV_ENV_DEV_ADDONS')) {
