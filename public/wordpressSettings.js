@@ -5,6 +5,7 @@ import { initEditors } from './components/wpVcSettings/editors'
 import { hfSectionToggle } from './components/wpVcSettings/hfSectionToggle'
 import { dropdownEditLink } from './components/wpVcSettings/dropdownEditLink'
 import { themeTemplatesToggle } from './components/wpVcSettings/themeTemplatesToggle'
+import { deactivationFeedbackPopup } from './components/deactivationFeedbackPopup/deactivationFeedbackPopup'
 
 (() => {
   // TODO: Refactor this, and call this methods only on required pages
@@ -14,4 +15,5 @@ import { themeTemplatesToggle } from './components/wpVcSettings/themeTemplatesTo
   hfSectionToggle()
   dropdownEditLink()
   themeTemplatesToggle()
+  deactivationFeedbackPopup()
 })(window.jQuery)

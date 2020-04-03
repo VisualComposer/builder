@@ -697,6 +697,50 @@ class Localizations extends Container implements Helper
             ),
             'availableInPremiumText' => __(
                 'Available in Premium',
+              'visualcomposer'
+            ),
+            'quickFeedback' => __(
+                'QUICK FEEDBACK',
+                'visualcomposer'
+            ),
+            'pleaseShareWhy' => __(
+                'If you have a moment, please share why you are deactivating Visual Composer:',
+                'visualcomposer'
+            ),
+            'noLongerNeed' => __(
+                'I no longer need the plugin',
+                'visualcomposer'
+            ),
+            'foundABetterPlugin' => __(
+                'I found a better plugin',
+                'visualcomposer'
+            ),
+            'pleaseShareWhichPlugin' => __(
+                'Please share which plugin',
+                'visualcomposer'
+            ),
+            'couldntGetThePluginToWork' => __(
+                'I couldn\'t get the plugin to work',
+                'visualcomposer'
+            ),
+            'itsATemporaryDeactivation' => __(
+                'It\'s a temporary deactivation',
+                'visualcomposer'
+            ),
+            'other' => __(
+                'Other',
+                'visualcomposer'
+            ),
+            'pleaseShareTheReason' => __(
+                'Please share the reason',
+                'visualcomposer'
+            ),
+            'submitAndDeactivate' => __(
+                'Submit &amp; Deactivate',
+                'visualcomposer'
+            ),
+            'skipAndDeactivate' => __(
+                'Skip &amp; Deactivate',
                 'visualcomposer'
             ),
         ];

@@ -71,17 +71,6 @@ class GoPremium extends Container implements Module
             },
             70
         );
-
-        if (!$licenseHelper->isPremiumActivated()) {
-            /** @see \VisualComposer\Modules\License\Pages\GoPremium::pluginsPageLink */
-            $this->wpAddFilter(
-                'plugin_action_links_' . VCV_PLUGIN_BASE_NAME,
-                'pluginsPageLink'
-            );
-        }
-
-        // Add links in plugins page
-        $this->wpAddFilter('plugin_row_meta', 'pluginRowMeta', 10, 2);
     }
 
     /**
@@ -140,6 +129,15 @@ class GoPremium extends Container implements Module
      */
     protected function pluginRowMeta($pluginLinks, $pluginFile)
     {
+        $urlHelper = vchelper('Url');
+        wp_register_script(
+            'vcv:wpVcSettings:script',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
+            ['vcv:assets:vendor:script'],
+            VCV_VERSION
+        );
+        wp_enqueue_script('vcv:wpVcSettings:script');
+
         if (VCV_PLUGIN_BASE_NAME === $pluginFile) {
             $rowMeta = [
                 'helpCenter' => sprintf(
