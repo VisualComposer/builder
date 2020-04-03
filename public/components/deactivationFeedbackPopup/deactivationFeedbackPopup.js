@@ -65,7 +65,7 @@ export const deactivationFeedbackPopup = () => {
     return `<div class="vcv-deactivate-popup-wrapper">
         <div class="vcv-deactivate-popup-title-wrapper">
             <div class="vcv-deactivate-popup-title-wrapper-inner">
-                <img src="https://cdn.hub.visualcomposer.com/plugin-assets/vcwb-logo-20x14.png" alt="">
+                <img src="https://cdn.hub.visualcomposer.com/plugin-assets/vcwb-logo.svg" alt="Visual Composer">
                 <span class="vcv-deactivate-popup-title">${quickFeedback}</span>
             </div>
             <button class="vcv-deactivate-popup-close-button vcv-ui-icon vcv-ui-icon-close-thin"></button>
