@@ -42,6 +42,7 @@ class TeasersDownloadController extends Container implements Module
                 'metaThumbnailUrl' => $addon['thumbnailUrl'],
                 'metaPreviewUrl' => $addon['previewUrl'],
                 'metaDescription' => $addon['description'],
+                'metaAddonImageUrl' => $addon['addonImageUrl'],
                 'type' => 'addon',
                 'update' => isset($addon['update']) ? $addon['update'] : false,
                 'allowDownload' => isset($addon['allowDownload']) ? $addon['allowDownload'] : false,
