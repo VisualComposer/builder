@@ -1,6 +1,5 @@
 import React from 'react'
 import LoadingScreen from './loadingScreen'
-import FinalScreen from './finalScreen'
 import InitialScreen from './initialScreen'
 import FeatureScreen from './featureScreen'
 import ActivatePremiumScreen from './activatePremiumScreen'
@@ -249,13 +248,13 @@ export default class ActivationSectionProvider extends React.Component {
         if (activePage === 'vcv-update-fe') { // Redirect to frontend editor after update is finished
           this.redirect()
         } else { // Show final screen if backend update
-          return <FinalScreen />
+          return <InitialScreen />
         }
       } else {
         return <LoadingScreen />
       }
     } else if (activePage === 'vcv-about') {
-      return <FinalScreen />
+      return <InitialScreen />
     } else if (activePage === 'vcv-license-options') {
       return <FeatureScreen setActiveScreen={this.setActiveScreen} />
     } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-theme-activation') {
