@@ -732,6 +732,18 @@ class Localizations extends Container implements Helper
                 'Skip &amp; Deactivate',
                 'visualcomposer'
             ),
+            'downloadAddonText' => __(
+                'Download Addon',
+                'visualcomposer'
+            ),
+            'installedText' => __(
+                'Installed',
+                'visualcomposer'
+            ),
+            'availableInPremiumText' => __(
+                'Available in Premium',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
