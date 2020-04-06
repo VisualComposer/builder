@@ -297,6 +297,11 @@ export default class TeaserAddElementCategories extends AddElementCategories {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
+    const editorPlateClasses = classNames({
+      'vcv-ui-editor-plate': true,
+      'vcv-ui-state--active': true,
+      'vcv-ui-editor-plate--addon': this.state.filterType === 'addon'
+    })
 
     let panelContent = ''
     if (this.state.filterType && this.state.filterType === 'stockImages') {
@@ -307,7 +312,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
           {(typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) ? this.getHubBanner() : null}
           <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
             <div className='vcv-ui-editor-plates'>
-              <div className='vcv-ui-editor-plate vcv-ui-state--active'>
+              <div className={editorPlateClasses}>
                 {this.getElementListContainer(itemsOutput)}
               </div>
             </div>
