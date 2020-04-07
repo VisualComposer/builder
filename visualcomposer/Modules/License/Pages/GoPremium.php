@@ -97,7 +97,8 @@ class GoPremium extends Container implements Module
                         ),
                         admin_url('admin.php?page=vcv-getting-started&screen=license-options')
                     ),
-                    'info'
+                    'info',
+                    true
                 );
             }
         } else {
