@@ -927,3 +927,41 @@ input.vcv-basic-input {
     margin-top: 10px;
   }
 }
+
+.vcwb-logo {
+  padding: 20px 0;
+
+  svg {
+    width: 300px;
+    max-width: 100%;
+  }
+}
+
+.vcwb-rss-widget-link,
+.vcwb-rss-widget-link .dashicons {
+  transition: color @vcv-transitionDuration @vcv-transitionTimingFunction;
+}
+
+.vcwb-rss-widget-link--blog,
+.vcwb-rss-widget-link--blog .dashicons {
+  color: #0073aa;
+}
+
+.vcwb-rss-widget-link--go-premium,
+.vcwb-rss-widget-link--go-premium .dashicons {
+  color: #008000;
+}
+
+.vcwb-rss-widget-link--blog:hover {
+  &,
+  &.vcwb-rss-widget-link--blog .dashicons {
+    color: lighten(#0073aa, 10%);
+  }
+}
+
+.vcwb-rss-widget-link--go-premium:hover {
+  &,
+  &.vcwb-rss-widget-link--go-premium .dashicons {
+    color: lighten(#008000, 10%);
+  }
+}
