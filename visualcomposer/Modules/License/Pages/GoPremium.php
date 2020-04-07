@@ -14,6 +14,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Notice;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -40,6 +41,8 @@ class GoPremium extends Container implements Module
      */
     public function __construct(License $licenseHelper)
     {
+        $this->wpAddAction('current_screen', 'pluginActivationWarning');
+
         if (!$licenseHelper->isPremiumActivated()) {
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
             $this->wpAddAction('in_admin_footer', 'addJs');
@@ -71,6 +74,36 @@ class GoPremium extends Container implements Module
             },
             70
         );
+    }
+
+    /**
+     * Check if user activate free or premium.
+     *
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     */
+    protected function pluginActivationWarning(Notice $noticeHelper, License $licenseHelper)
+    {
+        $notices = $noticeHelper->all();
+        $screen = get_current_screen();
+        if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->isFreeActivated() && !strpos($screen->id, $this->slug)) {
+            if (!isset($notices['pluginActivationCheck'])) {
+                $noticeHelper->addNotice(
+                    'pluginActivationCheck',
+                    sprintf(
+                        __(
+                            '<a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
+                            'visualcomposer'
+                        ),
+                        admin_url('admin.php?page=vcv-getting-started&screen=license-options')
+                    ),
+                    'info',
+                    true
+                );
+            }
+        } else {
+            $noticeHelper->removeNotice('pluginActivationCheck');
+        }
     }
 
     /**
