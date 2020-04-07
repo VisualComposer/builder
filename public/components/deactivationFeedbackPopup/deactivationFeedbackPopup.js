@@ -123,7 +123,8 @@ export const deactivationFeedbackPopup = () => {
     skipAndSubmitButton.removeEventListener('click', handlePluginDeactivation)
   }
 
-  const handlePluginDeactivation = () => {
+  const handlePluginDeactivation = (e) => {
+    e && e.preventDefault && e.preventDefault()
     window.location.href = visualComposerDeactivateButton.href
   }
 
