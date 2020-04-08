@@ -51,7 +51,7 @@ class ThemeActivation extends Container implements Module
                         // Check is license is upgraded?
                         $licenseHelper->refresh();
                     } elseif ($licenseHelper->isThemeActivated()) {
-                        wp_redirect(admin_url('admin.php?page=vcv-about'));
+                        wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                         exit;
                     }
                 }
