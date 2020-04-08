@@ -50,11 +50,13 @@ $utmHelper = vchelper('Utm');
             <?php echo esc_html__('Blog', 'visualcomposer'); ?>
             <span aria-hidden="true" class="dashicons dashicons-external"></span>
         </a>
-        |
-        <a href="<?php echo $utmHelper->get('dashboardNewsGoPremium'); ?>" target="_blank" rel="noopener"
-           class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
-            <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
-            <span aria-hidden="true" class="dashicons dashicons-external"></span>
-        </a>
+        <?php if (!vchelper('License')->isPremiumActivated()) : ?>
+            |
+            <a href="<?php echo $utmHelper->get('dashboardNewsGoPremium'); ?>" target="_blank" rel="noopener"
+               class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
+                <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
+                <span aria-hidden="true" class="dashicons dashicons-external"></span>
+            </a>
+        <?php endif; ?>
     </p>
 </div>
