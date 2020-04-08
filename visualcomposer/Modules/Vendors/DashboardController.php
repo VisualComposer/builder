@@ -34,7 +34,7 @@ class DashboardController extends Container implements Module
             esc_html__('Visual Composer News', 'visualcomposer'),
             function () {
                 $rssItems = $this->getRssData();
-                include vcapp()->path('visualcomposer/resources/views/vendors/dashboard.php');
+                evcview('vendors/dashboard', ['rssItems' => $rssItems]);
             }
         );
     }
@@ -47,10 +47,10 @@ class DashboardController extends Container implements Module
     {
         $result = false;
         $rss = fetch_feed('https://visualcomposer.com/blog/feed/');
-        if (!is_wp_error($rss)) :
-            $maxitems = $rss->get_item_quantity($this->itemsCount);
-            $result = $rss->get_items(0, $maxitems);
-        endif;
+        if (!is_wp_error($rss)) {
+            $maxItems = $rss->get_item_quantity($this->itemsCount);
+            $result = $rss->get_items(0, $maxItems);
+        }
 
         return $result;
     }
