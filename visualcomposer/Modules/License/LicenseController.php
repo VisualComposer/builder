@@ -54,14 +54,12 @@ class LicenseController extends Container implements Module
         License $licenseHelper,
         Options $optionsHelper
     ) {
-        $activationType = $requestHelper->input('vcv-activation-type');
         $body = [
             'url' => VCV_PLUGIN_URL,
-            'activation-type' => $activationType,
             'license' => $requestHelper->input('vcv-license-key'),
         ];
 
-        if ($activationType === 'author' && defined('VCV_AUTHOR_API_KEY')) {
+        if (defined('VCV_AUTHOR_API_KEY')) {
             $body['author_api_key'] = VCV_AUTHOR_API_KEY;
         }
 
