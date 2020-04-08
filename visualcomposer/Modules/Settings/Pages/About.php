@@ -40,14 +40,9 @@ class About extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             function (Request $requestHelper, License $licenseHelper) {
-                if (!$licenseHelper->isPremiumActivated()) {
-                    if ($requestHelper->input('page') === $this->getSlug()) {
-                        wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-                        exit;
-                    }
-                } else {
-                    /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
-                    $this->call('addPage');
+                if ($requestHelper->input('page') === $this->getSlug()) {
+                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    exit;
                 }
             },
             11

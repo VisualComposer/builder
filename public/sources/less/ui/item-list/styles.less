@@ -251,7 +251,6 @@
 }
 
 .vcv-ui-item-preview-text {
-  // max-height: @item-preview-line-height * @item-preview-max-lines;
   line-height: @item-preview-line-height;
   overflow: hidden;
 }
@@ -278,13 +277,13 @@
   }
   .vcv-ui-item-list-item {
     margin: 10px;
+    flex: 0 0 320px;
   }
 }
 
 .vcv-hub-addon-item-container {
   display: flex;
   flex-direction: column;
-  width: 320px;
   border-radius: 5px;
   overflow: hidden;
   transition: box-shadow @transition-duration @transition-timing-function;
@@ -358,5 +357,46 @@
 
   &:hover {
     background: @vcv-color-smoke-grey;
+  }
+}
+
+@media screen and (min-width: 580px) {
+  .vcv-ui-editor-plate--addon {
+    .vcv-ui-item-list {
+      justify-content: space-between;
+    }
+    .vcv-ui-item-list-item {
+      flex: 0 0 46%;
+    }
+    .vcv-hub-addon-image {
+      flex: 0 0 20%;
+    }
+  }
+}
+
+@media screen and (min-width: 840px) {
+  .vcv-ui-editor-plate--addon {
+    .vcv-ui-item-list-item {
+      flex: 0 0 30%;
+    }
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .vcv-ui-editor-plate--addon {
+    .vcv-ui-item-list-item {
+      flex: 0 0 23%;
+    }
+  }
+}
+
+@media screen and (min-width: 1450px) {
+  .vcv-ui-editor-plate--addon {
+    .vcv-ui-item-list-item {
+      flex: 0 0 320px;
+    }
+    .vcv-hub-addon-image {
+      flex: 0 0 160px;
+    }
   }
 }
