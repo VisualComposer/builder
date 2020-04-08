@@ -44,7 +44,6 @@ class GettingStarted extends Container implements Module
                 if (!vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()) {
                     return;
                 }
-
                 $this->call('addPage');
             },
             70
