@@ -26,7 +26,7 @@ $utmHelper = vchelper('Utm');
                 $categories = $item->get_categories();
                 $categoryArray = [];
                 foreach ($categories as $category) {
-                    $categoryArray[] = $category->term;
+                    $categoryArray[] = esc_html($category->term);
                 }
                 $categories = implode(', ', $categoryArray);
                 ?>
