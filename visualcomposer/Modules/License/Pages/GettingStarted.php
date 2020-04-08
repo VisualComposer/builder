@@ -45,12 +45,7 @@ class GettingStarted extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isPremiumActivated()) {
-                    $this->call('addPage');
-                } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    wp_redirect(admin_url('admin.php?page=vcv-update'));
-                    exit;
-                }
+                $this->call('addPage');
             },
             70
         );
