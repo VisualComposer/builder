@@ -248,7 +248,7 @@ export default class ActivationSectionProvider extends React.Component {
         if (activePage === 'vcv-update-fe') { // Redirect to frontend editor after update is finished
           this.redirect()
         } else { // Show final screen if backend update
-          return <InitialScreen />
+          this.redirect()
         }
       } else {
         return <LoadingScreen />
