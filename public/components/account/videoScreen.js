@@ -24,9 +24,12 @@ export default class VideoScreen extends React.Component {
       )
     }
     let upgradeButton = null
-    if (this.props.licenseType === 'free') {
+    const upgradeLink = window.VCV_UPGRADE_TO_PREMIUM && window.VCV_UPGRADE_TO_PREMIUM()
+    if (this.props.licenseType === 'free' && upgradeLink) {
       upgradeButton = (
-        <a href='#' className='vcv-activation-button vcv-activation-button--dark'>Upgrade to premium</a>
+        <a href={upgradeLink} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
+          Upgrade to premium
+        </a>
       )
     }
 

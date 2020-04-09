@@ -240,6 +240,18 @@ class Update implements Helper
             'type' => 'constant',
         ];
 
+        $licenseType = $licenseHelper->getType();
+        $variables[] = [
+            'key' => 'VCV_LICENSE_TYPE',
+            'value' => $licenseType ? $licenseType : '',
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'VCV_UPGRADE_TO_PREMIUM',
+            'value' => $utmHelper->get('upgradeToPremium'),
+            'type' => 'constant',
+        ];
+
         $variables[] = [
             'key' => 'VCV_ACTIVATE_FREE_URL',
             'value' => admin_url('admin.php?page=vcv-activate-free&vcv-ref=' . $vcvRef),

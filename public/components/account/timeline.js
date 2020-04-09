@@ -2,7 +2,7 @@ import React from 'react'
 
 export default class Timeline extends React.Component {
   render () {
-    const { licenseType } = this.props
+    const licenseType = window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
     const activePage = window.VCV_SLUG && window.VCV_SLUG()
 
     let goPremiumStepClasses = 'vcv-timeline-item'
