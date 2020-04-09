@@ -22,10 +22,11 @@ export default class ShareButtons extends React.Component {
   }
 
   render () {
+    const dontForgetToTweetText = ShareButtons.localizations ? ShareButtons.localizations.dontForgetToTweetText : 'Don\'t forget to tweet about Visual Composer Website Builder. Thanks!'
     return (
       <div className='vcv-activation-share-buttons'>
         <p className='vcv-activation-share-text'>
-          Don't forget to tweet about Visual Composer Website Builder. Thanks!
+          {dontForgetToTweetText}
         </p>
         <div className='vcv-twitter-share-button' ref={(twitter) => { this.twitterShare = twitter }} />
       </div>

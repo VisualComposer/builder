@@ -5,6 +5,8 @@ import Timeline from './timeline'
 import ShareButtons from './shareButtons'
 
 export default class VideoScreen extends React.Component {
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
   constructor (props) {
     super(props)
     this.activationContent = React.createRef()
@@ -17,6 +19,11 @@ export default class VideoScreen extends React.Component {
   }
 
   render () {
+    const upgradeToPremiumText = VideoScreen.localizations ? VideoScreen.localizations.upgradeToPremium : 'Upgrade To Premium'
+    const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.'
+    const anyLayoutFastAndEasy = VideoScreen.localizations ? VideoScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
+    const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of drag and drop editor straight from the frontend - it’s that easy.'
+
     let createNewButton = null
     if (window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL()) {
       createNewButton = (
@@ -27,15 +34,11 @@ export default class VideoScreen extends React.Component {
     const upgradeLink = window.VCV_UPGRADE_TO_PREMIUM && window.VCV_UPGRADE_TO_PREMIUM()
     if (this.props.licenseType === 'free' && upgradeLink) {
       upgradeButton = (
-        <a href={upgradeLink} target='_blank' className='vcv-activation-button vcv-activation-button--dark'>
-          Upgrade to premium
+        <a href={upgradeLink} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
+          {upgradeToPremiumText}
         </a>
       )
     }
-
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const createYourWordpressWebsite = localizations ? localizations.createYourWordpressWebsite : 'Create Your WordPress Website.'
-    const anyLayoutFastAndEasy = localizations ? localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
 
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
@@ -49,7 +52,7 @@ export default class VideoScreen extends React.Component {
           {anyLayoutFastAndEasy}
         </p>
         <p className='vcv-activation-description'>
-          Build your site with the help of drag and drop editor straight from the frontend - it’s that easy.
+          {buildYourSiteWithDragAndDropText}
         </p>
 
         <div className='vcv-activation-video-container'>
@@ -57,7 +60,7 @@ export default class VideoScreen extends React.Component {
             <iframe
               className='vcv-activation-video-iframe'
               src='https://www.youtube.com/embed/bqvF_W2Xnxc'
-              frameBorder="0"
+              frameBorder='0'
             />
           </div>
         </div>

@@ -10,16 +10,6 @@ const dataProcessor = getService('dataProcessor')
 
 export default class ActivateLicenseScreen extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
-  static texts = {
-    createYourWordpressWebsite: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.',
-    anyLayoutFastAndEasy: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.',
-    unlockHub: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlockHub : 'Unlock Visual Composer Hub',
-    goPremium: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.goPremium : 'Go Premium',
-    directActivation: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.directActivation : 'Direct Activation',
-    themeActivation: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.themeActivation : 'Theme Activation',
-    bundledInThemeText: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.bundledInThemeText : 'It seems your Visual Composer Website Builder was bundled in a theme.',
-    chooseThemeOrDirectActivationText: ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.chooseThemeOrDirectActivationText : 'Choose between theme activation or activate Visual Composer with direct license.'
-  }
 
   constructor (props) {
     super(props)
@@ -172,6 +162,10 @@ export default class ActivateLicenseScreen extends React.Component {
   render () {
     const { hasError, errorText, loading } = this.state
     const enterYourLicenseKey = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.enterYourLicenseKey : 'Enter your license key'
+    const buildYourSiteWithDragAndDropText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of drag and drop editor straight from the frontend - it’s that easy.'
+    const getAccessToTheVisualComposerHubText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.getAccessToTheVisualComposerHub : 'Get Access to the Visual Composer Hub'
+    const activateText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activate : 'Activate'
+    const bundledInAThemeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.bundledInAThemeText : 'It seems that your Visual Composer copy was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.'
 
     let inputClasses = 'vcv-activation-input-field'
     if (hasError) {
@@ -191,13 +185,13 @@ export default class ActivateLicenseScreen extends React.Component {
     if (authorApiKey) {
       themeNotice = (
         <div className='vcv-activation-theme-notice'>
-          <svg className='vcv-activation-theme-notice-logo' enableBackground="new 0 0 128 128" version="1.1" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <svg className='vcv-activation-theme-notice-logo' enableBackground='new 0 0 128 128' version='1.1' viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'>
             <g>
-              <rect fill="none" height="128" width="128" />
-              <path clipRule="evenodd" d="M102.953,0.702 c5.732,2.812,29.055,53.144,9.158,96.98c-15.979,35.2-56.093,35.204-76.427,22.8c-17.368-10.6-43.898-43.996-14.528-84.776 c1.243-1.548,4.225-1.408,3.552,3.268c-0.476,3.32-4.736,27.156,3.395,37.512c3.714,5.18,4.583,1.608,4.583,1.608 S32.053,43.41,58.422,17.078C75.16,1.022,98.374-1.546,102.953,0.702" fill="#FFFFFF" fillRule="evenodd" />
+              <rect fill='none' height='128' width='128' />
+              <path clipRule='evenodd' d='M102.953,0.702 c5.732,2.812,29.055,53.144,9.158,96.98c-15.979,35.2-56.093,35.204-76.427,22.8c-17.368-10.6-43.898-43.996-14.528-84.776 c1.243-1.548,4.225-1.408,3.552,3.268c-0.476,3.32-4.736,27.156,3.395,37.512c3.714,5.18,4.583,1.608,4.583,1.608 S32.053,43.41,58.422,17.078C75.16,1.022,98.374-1.546,102.953,0.702' fill='#FFFFFF' fillRule='evenodd' />
             </g>
           </svg>
-          It seems that your Visual Composer copy was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.
+          {bundledInAThemeText}
         </div>
       )
     }
@@ -209,10 +203,10 @@ export default class ActivateLicenseScreen extends React.Component {
         <Timeline />
 
         <p className='vcv-activation-heading'>
-          Get Access to the Visual Composer Hub
+          {getAccessToTheVisualComposerHubText}
         </p>
         <p className='vcv-activation-description'>
-          Build your site with the help of drag and drop editor straight from the frontend - it’s that easy.
+          {buildYourSiteWithDragAndDropText}
         </p>
 
         {errorBox}
@@ -232,7 +226,7 @@ export default class ActivateLicenseScreen extends React.Component {
             className='vcv-activation-input-button'
             onClick={this.handleActivateClick}
           >
-            Activate
+            {activateText}
           </button>
         </div>
 
