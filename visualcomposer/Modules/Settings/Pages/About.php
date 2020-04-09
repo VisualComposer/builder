@@ -30,7 +30,7 @@ class About extends Container implements Module
     /**
      * @var string
      */
-    protected $slug = 'vcv-about';
+    protected $slug = 'vcv-getting-started';
 
     /**
      * About constructor.
@@ -39,8 +39,8 @@ class About extends Container implements Module
     {
         $this->wpAddAction(
             'admin_menu',
-            function (Request $requestHelper, License $licenseHelper) {
-                if ($requestHelper->input('page') === $this->getSlug()) {
+            function (Request $requestHelper) {
+                if ($requestHelper->input('page') === 'vcv-about') {
                     wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
                 }
