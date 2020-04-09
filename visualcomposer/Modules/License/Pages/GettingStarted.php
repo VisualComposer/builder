@@ -40,7 +40,7 @@ class GettingStarted extends Container implements Module
     {
         $this->wpAddAction(
             'admin_menu',
-            function (License $licenseHelper, Request $requestHelper) {
+            function () {
                 if (!vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()) {
                     return;
                 }
