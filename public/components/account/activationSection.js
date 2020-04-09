@@ -239,20 +239,20 @@ export default class ActivationSectionProvider extends React.Component {
       return <ThankYouScreen />
     }
 
+    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
+    const licenseType = window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
+
     if (shouldDoUpdate) {
       if (this.state.isLoadingFinished) {
         this.redirect()
       } else {
         return <LoadingScreen />
       }
-    } else if (activePage === 'vcv-about') {
-      return <ActivateLicenseScreen />
-    } else if (activePage === 'vcv-license-options') {
-      return <ActivateLicenseScreen />
-    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-theme-activation') {
+    } else if (!hasManageOptions) {
+      return <VideoScreen licenseType={licenseType} />
+    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-theme-activation' || activePage === 'vcv-license-options' || activePage === 'vcv-about') {
       return <ActivateLicenseScreen />
     } else if (activePage === 'vcv-getting-started') {
-      const licenseType = window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
       if (licenseType === 'premium' || licenseType === 'free') {
         return <VideoScreen licenseType={licenseType} />
       }

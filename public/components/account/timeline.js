@@ -10,6 +10,11 @@ export default class Timeline extends React.Component {
     const installText = Timeline.localizations ? Timeline.localizations.install : 'Install'
     const activateText = Timeline.localizations ? Timeline.localizations.activate : 'Activate'
 
+    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
+    if (!hasManageOptions) {
+      return null
+    }
+
     let timelineClasses = 'vcv-timeline vcv-timeline--four-steps'
     let goPremiumStepClasses = 'vcv-timeline-item'
     if (licenseType === 'premium') {
