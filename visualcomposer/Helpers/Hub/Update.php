@@ -109,6 +109,7 @@ class Update implements Helper
     {
         $urlHelper = vchelper('Url');
         $utmHelper = vchelper('Utm');
+        $licenseHelper = vchelper('License');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $editorPostTypeHelper = vchelper('AccessEditorPostType');
         $requestHelper = vchelper('Request');
@@ -229,6 +230,13 @@ class Update implements Helper
         $variables[] = [
             'key' => 'VCV_MANAGE_OPTIONS',
             'value' => vchelper('AccessCurrentUser')->wpAll('manage_options')->get(),
+            'type' => 'constant',
+        ];
+
+        $licenseType = $licenseHelper->getType();
+        $variables[] = [
+            'key' => 'VCV_LICENSE_TYPE',
+            'value' => $licenseType ? $licenseType : '',
             'type' => 'constant',
         ];
 
