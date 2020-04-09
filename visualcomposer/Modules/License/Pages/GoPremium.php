@@ -92,10 +92,11 @@ class GoPremium extends Container implements Module
                     'pluginActivationCheck',
                     sprintf(
                         __(
-                            '<a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
+                            '%sActivate Visual Composer Hub%s with Free or Premium subscription to get more content elements, templates, and add-ons.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=vcv-getting-started&screen=license-options')
+                        sprintf('<a href="%s">', admin_url('admin.php?page=vcv-getting-started&screen=license-options')),
+                        '</a>'
                     ),
                     'info'
                 );
