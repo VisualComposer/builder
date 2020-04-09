@@ -42,6 +42,7 @@ class GoPremium extends Container implements Module
     public function __construct(License $licenseHelper)
     {
         $this->wpAddAction('current_screen', 'pluginActivationWarning');
+
         if (!$licenseHelper->isPremiumActivated()) {
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
             $this->wpAddAction('in_admin_footer', 'addJs');
