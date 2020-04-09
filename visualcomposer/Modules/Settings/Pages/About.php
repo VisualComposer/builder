@@ -39,7 +39,7 @@ class About extends Container implements Module
     {
         $this->wpAddAction(
             'admin_menu',
-            function (Request $requestHelper, License $licenseHelper) {
+            function (Request $requestHelper) {
                 if ($requestHelper->input('page') === $this->getSlug()) {
                     wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
