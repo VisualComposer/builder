@@ -12,9 +12,9 @@ $utmHelper = vchelper('Utm');
 /** @var string $rssItems */
 ?>
 <div class="rss-widget">
-    <div class="vcwb-logo">
+    <a href="<?php echo $utmHelper->get('dashboardNewsLogo'); ?>" target="_blank" rel="noopener" class="vcwb-logo">
         <?php evcview('vendors/images/vc-logo'); ?>
-    </div>
+    </a>
     <ul>
         <?php
         if (isset($rssItems) && !empty($rssItems)) :
