@@ -545,36 +545,8 @@ class Localizations extends Container implements Helper
                 'Limited access to the Visual Composer Hub of elements, templates, and add-ons',
                 'visualcomposer'
             ),
-            'getPremiumFeaturesText1' => __(
-                'Get Premium Elements, Templates,',
-                'visualcomposer'
-            ),
-            'getPremiumFeaturesText2' => __(
-                'Extensions, and Support',
-                'visualcomposer'
-            ),
-            'getThemeFeatures' => __(
-                'Get Premium Elements and Templates',
-                'visualcomposer'
-            ),
-            'activateThemeLicense' => __(
-                'Activate Theme License',
-                'visualcomposer'
-            ),
-            'whatYouWillGet' => __(
-                'What You Will Get?',
-                'visualcomposer'
-            ),
             'iWantToGoPremium' => __(
                 'I want to go premium',
-                'visualcomposer'
-            ),
-            'findSubscriptionLicenseAt' => __(
-                'You can find your Visual Composer Premium subscription license key by accessing our Customer Portal at',
-                'visualcomposer'
-            ),
-            'findFreeLicenseAt' => __(
-                'Get your free Visual Composer Hub access at',
                 'visualcomposer'
             ),
             'editThemeTemplate' => sprintf(
@@ -586,42 +558,6 @@ class Localizations extends Container implements Helper
                 '</a>',
                 '{editLinkTitle}',
                 '</div>'
-            ),
-            'getFreeAccessToTheVisualComposerHub' => __(
-                'Get Free Access to the Visual Composer Hub',
-                'visualcomposer'
-            ),
-            'whatYouWillGetForFree' => __(
-                'What You Will Get For Free?',
-                'visualcomposer'
-            ),
-            'getYourFreeLicense' => __(
-                'Get Your Free Subscription',
-                'visualcomposer'
-            ),
-            'directActivation' => __(
-                'Direct Activation',
-                'visualcomposer'
-            ),
-            'themeActivation' => __(
-                'Theme Activation',
-                'visualcomposer'
-            ),
-            'bundledInThemeText' => __(
-                'It seems your Visual Composer Website Builder was bundled in a theme.',
-                'visualcomposer'
-            ),
-            'chooseThemeOrDirectActivationText' => __(
-                'Choose between theme activation or activate Visual Composer with direct license.',
-                'visualcomposer'
-            ),
-            'findPurchaseCodeText' => __(
-                'Find your Envato Purchase Code and use it to activate Visual Composer Premium',
-                'visualcomposer'
-            ),
-            'enterPurchaseCode' => __(
-                'Enter your envato purchase code',
-                'visualcomposer'
             ),
             'enterYourLicenseKey' => __(
                 'Enter your license key',
