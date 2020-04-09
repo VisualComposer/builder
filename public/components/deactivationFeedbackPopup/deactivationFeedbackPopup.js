@@ -1,6 +1,12 @@
 import './init.less'
 
+const $ = window.jQuery
+const $pluginsPageContainer = $('.wp-list-table.plugins')
+
 export const deactivationFeedbackPopup = () => {
+  if (!$pluginsPageContainer.length) {
+    return
+  }
   const visualComposerSection = document.querySelector('[data-slug="visualcomposer"]')
   const visualComposerDeactivateButton = visualComposerSection.querySelector('.deactivate a')
   const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -18,7 +24,6 @@ export const deactivationFeedbackPopup = () => {
   let closeButton = null
   let submitButton = null
   let skipAndSubmitButton = null
-  const $ = window.jQuery
 
   const deactivationReasons = {
     'no-longer-need': {
