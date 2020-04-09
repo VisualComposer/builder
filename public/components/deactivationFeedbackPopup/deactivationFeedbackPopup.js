@@ -1,10 +1,9 @@
 import './init.less'
 
-const $ = window.jQuery
-const $pluginsPageContainer = $('.wp-list-table.plugins')
+const pluginsPageContainer = document.querySelector('.wp-list-table.plugins')
 
 export const deactivationFeedbackPopup = () => {
-  if (!$pluginsPageContainer.length) {
+  if (!pluginsPageContainer) {
     return
   }
   const visualComposerSection = document.querySelector('[data-slug="visualcomposer"]')
@@ -24,6 +23,7 @@ export const deactivationFeedbackPopup = () => {
   let closeButton = null
   let submitButton = null
   let skipAndSubmitButton = null
+  const $ = window.jQuery
 
   const deactivationReasons = {
     'no-longer-need': {
