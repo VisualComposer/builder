@@ -39,7 +39,7 @@ class TestMainPage extends WP_UnitTestCase
         $this->assertTrue($licenseHelper->isAnyActivated(), 'isAnyActivated');
 
         $this->assertEquals(
-            'vcv-about',
+            'vcv-getting-started',
             vcapp(\VisualComposer\Modules\Settings\Pages\Settings::class)->getMainPageSlug()
         );
 
