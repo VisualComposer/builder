@@ -31,6 +31,7 @@ class Utm implements Helper
             'dashboardNewsGoPremium' => 'https://visualcomposer.com/premium/?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=gopremium',
             'dashboardNewsLogo' => 'https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=logo',
             'dashboardNewsBlogPost' => '?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=blog',
+            'upgradeToPremium' => 'https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation&utm_campaign=upgrade',
 
             // TODO: Change free hub element download urls (in js)
             // 'free-goPremiumElementDownload' => 'https://my.visualcomposer.com/free-license?utm_medium=frontend-editor&utm_source=hub&utm_campaign=get-free-license&utm_content=locked-item',

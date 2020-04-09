@@ -1,6 +1,11 @@
 import './init.less'
 
+const pluginsPageContainer = document.querySelector('.wp-list-table.plugins')
+
 export const deactivationFeedbackPopup = () => {
+  if (!pluginsPageContainer) {
+    return
+  }
   const visualComposerSection = document.querySelector('[data-slug="visualcomposer"]')
   const visualComposerDeactivateButton = visualComposerSection.querySelector('.deactivate a')
   const localizations = window.VCV_I18N && window.VCV_I18N()
