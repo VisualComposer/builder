@@ -31,7 +31,7 @@ $utmHelper = vchelper('Utm');
                 $categories = implode(', ', $categoryArray);
                 ?>
                 <li>
-                    <a href="<?php echo $permalink; ?>" class="rsswidget" rel="noopener" title=" <?php echo $title; ?>"
+                    <a href="<?php echo $permalink . $utmHelper->get('dashboardNewsBlogPost'); ?>" class="rsswidget" rel="noopener" title=" <?php echo $title; ?>"
                        target="_blank">
                         <?php echo $title; ?>
                     </a>
