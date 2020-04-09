@@ -30,6 +30,7 @@ class Utm implements Helper
             'dashboardNewsBlog' => 'https://visualcomposer.com/blog/?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=blog',
             'dashboardNewsGoPremium' => 'https://visualcomposer.com/premium/?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=gopremium',
             'dashboardNewsLogo' => 'https://visualcomposer.com/?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=logo',
+            'dashboardNewsBlogPost' => '?utm_medium=wp-dashboard&utm_source=dashboard-news&utm_campaign=blog',
             'upgradeToPremium' => 'https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation&utm_campaign=upgrade',
 
             // TODO: Change free hub element download urls (in js)
