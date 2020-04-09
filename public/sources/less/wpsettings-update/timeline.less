@@ -13,12 +13,19 @@
   color: @color;
 }
 
+.vcv-timeline--three-steps .vcv-timeline-item {
+  width: 33.33%;
+}
+
+.vcv-timeline--four-steps .vcv-timeline-item {
+  width: 25%;
+}
+
 .vcv-timeline-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  width: 25%;
   padding: 0;
   text-align: center;
   font-family: 'Roboto', sans-serif;
@@ -79,15 +86,21 @@
   }
 }
 
-
 @media screen and (min-width: 768px) {
   .vcv-timeline {
     align-items: center;
   }
 
+  .vcv-timeline--three-steps .vcv-timeline-item {
+    width: auto;
+  }
+
+  .vcv-timeline--four-steps .vcv-timeline-item {
+    width: auto;
+  }
+
   .vcv-timeline-item {
     flex-direction: row;
-    width: auto;
     flex-grow: 1;
 
     &::after {

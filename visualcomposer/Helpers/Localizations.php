@@ -744,6 +744,34 @@ class Localizations extends Container implements Helper
                 'Available in Premium',
                 'visualcomposer'
             ),
+            'dontForgetToTweetText' => __(
+                'Don\'t forget to tweet about Visual Composer Website Builder. Thanks!',
+                'visualcomposer'
+            ),
+            'download' => __(
+                'Download',
+                'visualcomposer'
+            ),
+            'install' => __(
+                'Install',
+                'visualcomposer'
+            ),
+            'activate' => __(
+                'Activate',
+                'visualcomposer'
+            ),
+            'upgradeToPremium' => __(
+                'Upgrade To Premium',
+                'visualcomposer'
+            ),
+            'buildYourSiteWithDragAndDrop' => __(
+                'Build your site with the help of drag and drop editor straight from the frontend - it’s that easy.',
+                'visualcomposer'
+            ),
+            'bundledInAThemeText' => __(
+                'It seems that your Visual Composer copy was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
