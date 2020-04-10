@@ -41,7 +41,7 @@ class GoPremium extends Container implements Module
      */
     public function __construct(License $licenseHelper)
     {
-        $this->wpAddAction('current_screen', 'pluginActivationWarning');
+        $this->wpAddAction('current_screen', 'hubActivationNotice');
 
         if (!$licenseHelper->isPremiumActivated()) {
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
@@ -82,7 +82,7 @@ class GoPremium extends Container implements Module
      * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
      */
-    protected function pluginActivationWarning(Notice $noticeHelper, License $licenseHelper)
+    protected function hubActivationNotice(Notice $noticeHelper, License $licenseHelper)
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
