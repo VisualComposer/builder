@@ -87,9 +87,9 @@ class GoPremium extends Container implements Module
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
         if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug)) {
-            if (!isset($notices['pluginActivationCheck'])) {
+            if (!isset($notices['hubActivationNotice'])) {
                 $noticeHelper->addNotice(
-                    'pluginActivationCheck',
+                    'hubActivationNotice',
                     sprintf(
                         __(
                             '<a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
@@ -101,7 +101,7 @@ class GoPremium extends Container implements Module
                 );
             }
         } else {
-            $noticeHelper->removeNotice('pluginActivationCheck');
+            $noticeHelper->removeNotice('hubActivationNotice');
         }
     }
 
