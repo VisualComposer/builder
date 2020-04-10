@@ -77,7 +77,7 @@ class GoPremium extends Container implements Module
     }
 
     /**
-     * Check if user activate free or premium.
+     * Notice user if there is no activation.
      *
      * @param \VisualComposer\Helpers\Notice $noticeHelper
      * @param \VisualComposer\Helpers\License $licenseHelper
@@ -86,7 +86,7 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->isFreeActivated() && !strpos($screen->id, $this->slug)) {
+        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug)) {
             if (!isset($notices['pluginActivationCheck'])) {
                 $noticeHelper->addNotice(
                     'pluginActivationCheck',
@@ -95,7 +95,7 @@ class GoPremium extends Container implements Module
                             '<a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=vcv-getting-started&screen=license-options')
+                        admin_url('admin.php?page=vcv-getting-started')
                     ),
                     'info'
                 );
