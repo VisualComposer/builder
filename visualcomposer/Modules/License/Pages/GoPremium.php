@@ -86,13 +86,13 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug)) {
+        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug) && !strpos($screen->id, 'vcv-getting-started')) {
             if (!isset($notices['hubActivationNotice'])) {
                 $noticeHelper->addNotice(
                     'hubActivationNotice',
                     sprintf(
                         __(
-                            '<a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
+                            '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
                             'visualcomposer'
                         ),
                         admin_url('admin.php?page=vcv-getting-started')
