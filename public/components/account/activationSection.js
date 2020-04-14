@@ -250,13 +250,14 @@ export default class ActivationSectionProvider extends React.Component {
       }
     } else if (!hasManageOptions) {
       return <VideoScreen licenseType={licenseType} />
-    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-theme-activation' || activePage === 'vcv-license-options' || activePage === 'vcv-about') {
+    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-about') {
       return <ActivateLicenseScreen />
     } else if (activePage === 'vcv-getting-started') {
-      if (licenseType === 'premium' || licenseType === 'free') {
+      if (!licenseType) {
+        return <ActivateLicenseScreen />
+      } else {
         return <VideoScreen licenseType={licenseType} />
       }
-      return <ActivateLicenseScreen />
     }
   }
 
