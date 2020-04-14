@@ -182,7 +182,7 @@ export default class ActivateLicenseScreen extends React.Component {
 
     const authorApiKey = window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY()
     let themeNotice = null
-    if (authorApiKey) {
+    if (this.props.licenseType !== 'theme' && authorApiKey) {
       themeNotice = (
         <div className='vcv-activation-theme-notice'>
           <svg className='vcv-activation-theme-notice-logo' enableBackground='new 0 0 128 128' version='1.1' viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'>
