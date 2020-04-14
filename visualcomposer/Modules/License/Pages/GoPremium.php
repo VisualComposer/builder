@@ -58,7 +58,7 @@ class GoPremium extends Container implements Module
                     return;
                 }
 
-                if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->isThemeActivated()) {
+                if (!$licenseHelper->isPremiumActivated() || $licenseHelper->isThemeActivated()) {
                     $this->call('addPage');
                 }
 
@@ -66,7 +66,7 @@ class GoPremium extends Container implements Module
                     if ($licenseHelper->isFreeActivated()) {
                         // Check is license is upgraded?
                         $licenseHelper->refresh();
-                    } elseif ($licenseHelper->isPremiumActivated()) {
+                    } elseif ($licenseHelper->isPremiumActivated() && !$licenseHelper->isThemeActivated()) {
                         wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                         exit;
                     }
