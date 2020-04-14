@@ -866,7 +866,14 @@ input.vcv-basic-input {
   }
 
   &--loading {
+    .vcv-activation-input {
+      pointer-events: none;
+    }
+
     .vcv-activation-input-button {
+      position: relative;
+      pointer-events: none;
+
       &::before {
         content: '';
         position: absolute;
