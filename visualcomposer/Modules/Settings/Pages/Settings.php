@@ -92,11 +92,7 @@ class Settings extends Container implements Module
         if ($hasAccess) {
             $pageSlug = $this->getSlug();
         } else {
-            if ($licenseHelper->isPremiumActivated()) {
-                $pageSlug = $aboutConroller->getSlug();
-            } else {
-                $pageSlug = $gettingStartedController->getSlug();
-            }
+            $pageSlug = $gettingStartedController->getSlug();
         }
 
         return $pageSlug;

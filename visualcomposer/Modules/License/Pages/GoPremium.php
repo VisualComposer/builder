@@ -14,6 +14,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Notice;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
 
@@ -40,6 +41,8 @@ class GoPremium extends Container implements Module
      */
     public function __construct(License $licenseHelper)
     {
+        $this->wpAddAction('current_screen', 'hubActivationNotice');
+
         if (!$licenseHelper->isPremiumActivated()) {
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
             $this->wpAddAction('in_admin_footer', 'addJs');
@@ -71,6 +74,35 @@ class GoPremium extends Container implements Module
             },
             70
         );
+    }
+
+    /**
+     * Notice user if there is no activation.
+     *
+     * @param \VisualComposer\Helpers\Notice $noticeHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     */
+    protected function hubActivationNotice(Notice $noticeHelper, License $licenseHelper)
+    {
+        $notices = $noticeHelper->all();
+        $screen = get_current_screen();
+        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug) && !strpos($screen->id, 'vcv-getting-started')) {
+            if (!isset($notices['hubActivationNotice'])) {
+                $noticeHelper->addNotice(
+                    'hubActivationNotice',
+                    sprintf(
+                        __(
+                            '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
+                            'visualcomposer'
+                        ),
+                        admin_url('admin.php?page=vcv-getting-started')
+                    ),
+                    'info'
+                );
+            }
+        } else {
+            $noticeHelper->removeNotice('hubActivationNotice');
+        }
     }
 
     /**
