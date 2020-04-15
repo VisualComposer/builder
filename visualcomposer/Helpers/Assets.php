@@ -17,6 +17,7 @@ class Assets extends Container implements Helper
     public function getTemplateIds($sourceId)
     {
         $idList = [$sourceId];
+
         $headerId = get_post_meta(
             $sourceId,
             '_' . VCV_PREFIX . 'HeaderTemplateId',
@@ -27,12 +28,14 @@ class Assets extends Container implements Helper
             '_' . VCV_PREFIX . 'FooterTemplateId',
             true
         );
+
         if (!empty($headerId)) {
             $idList[] = $headerId;
         }
         if (!empty($footerId)) {
             $idList[] = $footerId;
         }
+
         return $idList;
     }
 
