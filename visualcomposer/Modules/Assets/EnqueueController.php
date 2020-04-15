@@ -147,11 +147,12 @@ class EnqueueController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
      * @throws \ReflectionException
      * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
-    protected function enqueueAssets(Frontend $frontendHelper)
+    protected function enqueueAssets(Frontend $frontendHelper, Assets $assetsHelper)
     {
         if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
             return;
@@ -175,8 +176,12 @@ class EnqueueController extends Container implements Module
             }
         }
         vcevent('vcv:assets:enqueueVendorAssets');
-        $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
-        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+
+        $idList = $assetsHelper->getTemplateIds($sourceId);
+        foreach ($idList as $sourceId) {
+            $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
+            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+        }
     }
 
     /**

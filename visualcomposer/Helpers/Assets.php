@@ -14,6 +14,28 @@ use VisualComposer\Framework\Container;
 
 class Assets extends Container implements Helper
 {
+    public function getTemplateIds($sourceId)
+    {
+        $idList = [$sourceId];
+        $headerId = get_post_meta(
+            $sourceId,
+            '_' . VCV_PREFIX . 'HeaderTemplateId',
+            true
+        );
+        $footerId = get_post_meta(
+            $sourceId,
+            '_' . VCV_PREFIX . 'FooterTemplateId',
+            true
+        );
+        if (!empty($headerId)) {
+            $idList[] = $headerId;
+        }
+        if (!empty($footerId)) {
+            $idList[] = $footerId;
+        }
+        return $idList;
+    }
+
     public function getFilePath($filename = '')
     {
         $destinationDir = VCV_PLUGIN_ASSETS_DIR_PATH . '/assets-bundles/';
