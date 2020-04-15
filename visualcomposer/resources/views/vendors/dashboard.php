@@ -12,9 +12,9 @@ $utmHelper = vchelper('Utm');
 /** @var string $rssItems */
 ?>
 <div class="rss-widget">
-    <div class="vcwb-logo">
+    <a href="<?php echo $utmHelper->get('dashboardNewsLogo'); ?>" target="_blank" rel="noopener" class="vcwb-logo">
         <?php evcview('vendors/images/vc-logo'); ?>
-    </div>
+    </a>
     <ul>
         <?php
         if (isset($rssItems) && !empty($rssItems)) :
@@ -31,7 +31,7 @@ $utmHelper = vchelper('Utm');
                 $categories = implode(', ', $categoryArray);
                 ?>
                 <li>
-                    <a href="<?php echo $permalink; ?>" class="rsswidget" rel="noopener" title=" <?php echo $title; ?>"
+                    <a href="<?php echo $permalink . $utmHelper->get('dashboardNewsBlogPost'); ?>" class="rsswidget" rel="noopener" title=" <?php echo $title; ?>"
                        target="_blank">
                         <?php echo $title; ?>
                     </a>

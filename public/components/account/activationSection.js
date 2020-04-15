@@ -1,13 +1,12 @@
 import React from 'react'
 import LoadingScreen from './loadingScreen'
-import InitialScreen from './initialScreen'
-import FeatureScreen from './featureScreen'
-import ActivatePremiumScreen from './activatePremiumScreen'
+import ActivateLicenseScreen from './activateLicenseScreen'
 import PostUpdater from './postUpdate'
 import OopsScreenController from './oopsScreenController'
 import ThankYouScreen from './thankYouScreen'
 import { log as logError, send as sendErrorReport } from './logger'
 import { getResponse } from '../../tools/response'
+import VideoScreen from './videoScreen'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
@@ -18,8 +17,6 @@ export default class ActivationSectionProvider extends React.Component {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
     doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don\'t close this window while sending error is in the progress.'
   }
-
-  static authorApiKey = window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY()
 
   doUpdatePostAction = async (postUpdater) => {
     const { postUpdateActions, activePostUpdate } = this.state
@@ -100,7 +97,6 @@ export default class ActivationSectionProvider extends React.Component {
     this.setError = this.setError.bind(this)
     this.sendErrorReport = this.sendErrorReport.bind(this)
     this.sendErrorCallback = this.sendErrorCallback.bind(this)
-    this.setActiveScreen = this.setActiveScreen.bind(this)
   }
 
   componentDidMount () {
@@ -243,37 +239,26 @@ export default class ActivationSectionProvider extends React.Component {
       return <ThankYouScreen />
     }
 
+    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
+    const licenseType = window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
+
     if (shouldDoUpdate) {
       if (this.state.isLoadingFinished) {
-        if (activePage === 'vcv-update-fe') { // Redirect to frontend editor after update is finished
-          this.redirect()
-        } else { // Show final screen if backend update
-          return <InitialScreen />
-        }
+        this.redirect()
       } else {
         return <LoadingScreen />
       }
-    } else if (activePage === 'vcv-about') {
-      return <InitialScreen />
-    } else if (activePage === 'vcv-license-options') {
-      return <FeatureScreen setActiveScreen={this.setActiveScreen} />
-    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-go-free' || activePage === 'vcv-theme-activation') {
-      let activationType = 'free'
-      if (activePage === 'vcv-go-premium') {
-        activationType = 'premium'
-      } else if (activePage === 'vcv-theme-activation') {
-        activationType = 'author'
-      }
-      return <ActivatePremiumScreen activationType={activationType} />
+    } else if (!hasManageOptions) {
+      return <VideoScreen licenseType={licenseType} />
+    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-about') {
+      return <ActivateLicenseScreen licenseType={licenseType} />
     } else if (activePage === 'vcv-getting-started') {
-      return <InitialScreen setActiveScreen={this.setActiveScreen} authorApiKey={ActivationSectionProvider.authorApiKey} />
+      if (!licenseType) {
+        return <ActivateLicenseScreen licenseType={licenseType} />
+      } else {
+        return <VideoScreen licenseType={licenseType} />
+      }
     }
-  }
-
-  setActiveScreen (screenName) {
-    this.setState({
-      activePage: screenName
-    })
   }
 
   sendErrorCallback () {
