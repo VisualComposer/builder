@@ -29,14 +29,38 @@ class Assets extends Container implements Helper
             true
         );
 
-        if (!empty($headerId)) {
+        if (isset($headerId) && $headerId === 'default') {
+            $headerId = $this->getTemplatePartId('header');
+        }
+        if (isset($footerId) && $footerId === 'default') {
+            $footerId = $this->getTemplatePartId('footer');
+        }
+
+        if ($headerId) {
             $idList[] = $headerId;
         }
-        if (!empty($footerId)) {
+        if ($footerId) {
             $idList[] = $footerId;
         }
 
         return $idList;
+    }
+
+    /**
+     * @param $templatePart
+     *
+     * @return bool|mixed
+     */
+    public function getTemplatePartId($templatePart)
+    {
+        $optionsHelper = vchelper('Options');
+        $templatePartId = $optionsHelper->get('headerFooterSettingsAll' . ucfirst($templatePart));
+        $templatePartId = intval($templatePartId);
+        if ($templatePartId) {
+            return $templatePartId;
+        }
+
+        return false;
     }
 
     public function getFilePath($filename = '')

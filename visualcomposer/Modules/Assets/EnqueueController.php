@@ -178,9 +178,11 @@ class EnqueueController extends Container implements Module
         vcevent('vcv:assets:enqueueVendorAssets');
 
         $idList = $assetsHelper->getTemplateIds($sourceId);
-        foreach ($idList as $sourceId) {
-            $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
-            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+        if (!empty($idList) && is_array($idList)) {
+            foreach ($idList as $sourceId) {
+                $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
+                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+            }
         }
     }
 
