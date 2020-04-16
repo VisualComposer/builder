@@ -36,6 +36,7 @@ class BundleController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::addFooterBundleScript */
         $this->addEvent('vcv:frontend:render:footer', 'addFooterBundleScript');
+        $this->addEvent('vcv:frontend:render:footer vcv:frontend:postUpdate:render:footer', 'addFooterRuntimeScript');
     }
 
     /**
@@ -80,5 +81,13 @@ class BundleController extends Container implements Module
             // Runtime script must be present on the page
             wp_enqueue_script('vcv:assets:runtime:script');
         }
+    }
+
+    /**
+     * Add runtime script
+     */
+    protected function addFooterRuntimeScript()
+    {
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 }

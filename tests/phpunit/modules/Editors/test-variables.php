@@ -7,6 +7,7 @@ class TestVariables extends WP_UnitTestCase
         $variables = vcfilter('vcv:editor:variables', []);
 
         foreach ($variables as $variable) {
+            $this->assertArrayHasKey('type', $variable, '`type` not specified for variable ' . $variable['key']);
             $this->assertContains(
                 $variable['type'],
                 ['variable', 'constant'],
