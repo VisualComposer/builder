@@ -9,7 +9,10 @@ import ButtonControl from './fontFamily/buttonControl'
 
 const initializePlugin = function (tinymce, window) {
   const globalPluginManager = tinymce.util.Tools.resolve('tinymce.PluginManager')
-
+  if (globalPluginManager.vcvhtmleditor) {
+    return
+  }
+  globalPluginManager.vcvhtmleditor = true
   // Register Plugin
   globalPluginManager.add('vcvhtmleditor', function (editor) {
     // Register UI
