@@ -72,7 +72,7 @@ wp_enqueue_media();
     <?php echo $content; ?>
 </div>
 <?php
-vcevent('vcv:frontend:render:footer', ['sourceId' => $sourceId]);
+vcevent('vcv:frontend:postUpdate:render:footer', ['sourceId' => $sourceId]);
 wp_print_footer_scripts();
 do_action('admin_footer', '');
 do_action('admin_print_footer_scripts-{$hookSuffix}');
