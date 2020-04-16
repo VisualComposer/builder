@@ -58,7 +58,7 @@ class UpdateFePage extends Container implements Module
             if (!empty($requiredActions['actions']) || !empty($requiredActions['posts'])) {
                 $content = implode('', vcfilter('vcv:update:extraOutput', []));
                 vcvdie(
-                    vcview('editor/frontend/fe-update-wrapper', ['content' => $content])
+                    vcview('editor/frontend/fe-update-wrapper', ['content' => $content, 'sourceId' => get_the_ID()])
                 );
             } else {
                 $optionsHelper->set('bundleUpdateRequired', false);
