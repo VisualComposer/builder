@@ -33,29 +33,28 @@ class HubDownloadActions extends WP_UnitTestCase
         );
 
         $elementsAfter = vchelper('HubElements')->getElements();
+        $this->assertArrayHasKey('icon', $elementsAfter);
         $this->assertEquals(
             [
-                'icon' => [
-                    'settings' => [
-                        'name' => 'Icon',
-                        'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                            . '/elements/icon/icon/public/thumbnail-icon.jpg',
-                        'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                            . '/elements/icon/icon/public/preview-icon.jpg',
-                        'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
-                    ],
-                    'key' => 'icon',
-                    'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/public/dist/element.bundle.js',
-                    'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/icon/',
-                    'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/icon/',
-                    'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/icon/public/',
+                'settings' => [
+                    'name' => 'Icon',
+                    'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/public/thumbnail-icon.jpg',
+                    'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/public/preview-icon.jpg',
+                    'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                 ],
+                'key' => 'icon',
+                'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/public/dist/element.bundle.js',
+                'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/icon/',
+                'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/icon/',
+                'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/icon/public/',
             ],
-            $elementsAfter
+            $elementsAfter['icon']
         );
         $this->assertFalse(vcIsBadResponse($result));
     }
