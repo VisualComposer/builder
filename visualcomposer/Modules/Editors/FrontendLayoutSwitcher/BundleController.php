@@ -95,16 +95,18 @@ class BundleController extends Container implements Module
             && !$frontendHelper->isFrontend()
             && $editorPostTypeHelper->isEditorEnabled(get_post_type())
         ) {
-            wp_enqueue_script(
+            wp_register_script(
                 'vcv:editors:backendswitcher:script',
                 $urlHelper->to('public/dist/wpbackendswitch.bundle.js'),
                 ['vcv:assets:vendor:script'],
                 VCV_VERSION
             );
+            wp_enqueue_script('vcv:editors:backendswitcher:script');
 
             // Add JS
             $scriptBody = sprintf('window.vcvFrontendEditorLink = "%s";', $frontendHelper->getFrontendUrl());
             wp_add_inline_script('vcv:editors:backendswitcher:script', $scriptBody, 'before');
+            wp_enqueue_script('vcv:assets:runtime:script');
         }
     }
 }

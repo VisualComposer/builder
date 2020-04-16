@@ -13,7 +13,7 @@ module.exports = Object.assign({}, config, {
   mode: 'production',
   optimization: {
     minimize: true,
-    runtimeChunk: false,
+    runtimeChunk: 'single',
     namedChunks: true, // MUST BE true even for production
     namedModules: true, // MUST BE true even for production
     splitChunks: {

@@ -32,7 +32,7 @@ module.exports = {
   },
   optimization: {
     minimize: false,
-    runtimeChunk: false,
+    runtimeChunk: 'single',
     namedChunks: true, // MUST BE true even for production
     namedModules: true, // MUST BE true even for production
     splitChunks: {
