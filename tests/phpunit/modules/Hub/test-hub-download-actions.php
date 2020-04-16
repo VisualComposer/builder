@@ -45,7 +45,6 @@ class HubDownloadActions extends WP_UnitTestCase
                     'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                 ],
                 'key' => 'icon',
-                'phpFiles' => [],
                 'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/elements/icon/public/dist/element.bundle.js',
                 'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
