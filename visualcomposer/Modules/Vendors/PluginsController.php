@@ -49,6 +49,7 @@ class PluginsController extends Container implements Module
             true
         );
         wp_enqueue_script('vcv:wpVcSettings:script');
+        wp_enqueue_script('vcv:assets:runtime:script');
 
         // Enqeueue required variables
         $variables[] = [

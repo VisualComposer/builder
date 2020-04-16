@@ -169,6 +169,7 @@ class GoPremium extends Container implements Module
             VCV_VERSION
         );
         wp_enqueue_script('vcv:wpVcSettings:script');
+        wp_enqueue_script('vcv:assets:runtime:script');
 
         if (VCV_PLUGIN_BASE_NAME === $pluginFile) {
             $rowMeta = [
@@ -215,6 +216,7 @@ class GoPremium extends Container implements Module
         );
         wp_enqueue_script('vcv:wpUpdate:script');
         wp_enqueue_style('vcv:wpVcSettings:style');
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 
     /**

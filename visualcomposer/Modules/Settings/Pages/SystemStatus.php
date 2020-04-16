@@ -314,6 +314,7 @@ class SystemStatus extends Container implements Module
             VCV_VERSION
         );
         wp_enqueue_script('vcv:wpVcSettings:script');
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 
     /**
