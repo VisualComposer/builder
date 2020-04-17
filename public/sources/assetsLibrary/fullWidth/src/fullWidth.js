@@ -7,7 +7,7 @@
   let isScaling = false // is scaling happening (zoom-in/zoom-out)
   let scale = 1 // initial scale value
   let fullWidthElements = undefined
-  const throttleDelay = 50
+  const throttleDelay = 10
   const headerZone = '[data-vcv-layout-zone="header"]'
   const footerZone = '[data-vcv-layout-zone="footer"]'
   const headerFooterEditor = '.vcv-editor-theme-hf'
@@ -21,6 +21,7 @@
   }
 
   function handleResize() {
+    console.log('fullWidth handleResize')
     if (!fullWidthElements.length) {
       return
     }
@@ -92,15 +93,28 @@
   }, false)
 
   // Resize with throttle for performance
-  window.addEventListener('resize', function() {
-    if (!throttled) {
-      handleResize()
-      throttled = true
-      setTimeout(function () {
-        throttled = false
-      }, throttleDelay)
+  const throttle = (func, limit) => {
+    let lastFunc
+    let lastRan
+    return function() {
+      const context = this
+      const args = arguments
+      if (!lastRan) {
+        func.apply(context, args)
+        lastRan = Date.now()
+      } else {
+        clearTimeout(lastFunc)
+        lastFunc = setTimeout(function() {
+          if ((Date.now() - lastRan) >= limit) {
+            func.apply(context, args)
+            lastRan = Date.now()
+          }
+        }, limit - (Date.now() - lastRan))
+      }
     }
-  })
+  }
+  // Resize with throttle for performance
+  window.addEventListener('resize', throttle(handleResize, 50))
 
   window.vceResetFullWidthElements = getFullWidthElements
 
