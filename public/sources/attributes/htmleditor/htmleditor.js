@@ -10,9 +10,6 @@ import { getService } from 'vc-cake'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
-if (window.tinymce) {
-  initializeTinymce(window.tinymce, window)
-}
 
 export default class HtmlEditorComponent extends React.Component {
   constructor (props) {
@@ -27,6 +24,9 @@ export default class HtmlEditorComponent extends React.Component {
     this.state.darkTextSkin = this.getDarkTextSkinState()
     this.state.value = props.value
     initializeJqueryPlugin(window)
+    if (window.tinymce) {
+      initializeTinymce(window.tinymce, window)
+    }
   }
 
   static getDerivedStateFromProps (props, currentState) {

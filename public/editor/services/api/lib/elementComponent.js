@@ -64,7 +64,7 @@ export default class ElementComponent extends React.Component {
   }
 
   updateShortcodeToHtml (content, ref, cb) {
-    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv') === -1))) {
+    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
       ref && (ref.innerHTML = this.spinnerHTML())
       const that = this
       this.ajax = dataProcessor.appServerRequest({

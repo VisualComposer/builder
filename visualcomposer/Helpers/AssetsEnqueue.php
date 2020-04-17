@@ -47,7 +47,7 @@ class AssetsEnqueue extends Container implements Helper
                             $styleName,
                             $assetData['url'],
                             [],
-                            $assetData['version']
+                            $assetData['version'] . '-' . $sourceId
                         );
                     }
                 }
@@ -67,7 +67,7 @@ class AssetsEnqueue extends Container implements Helper
                             $scriptName,
                             $assetData['url'],
                             ['jquery'],
-                            $assetData['version'],
+                            $assetData['version'] . '-' . $sourceId,
                             true
                         );
                     }

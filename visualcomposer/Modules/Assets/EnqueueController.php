@@ -45,6 +45,7 @@ class EnqueueController extends Container implements Module
 
     protected function enqueueAssetsFromList(AssetsEnqueue $assetsEnqueueHelper)
     {
+        // NOTE: This is not an feature toggler, it is local env to avoid recursion
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
@@ -154,10 +155,10 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueAssets(Frontend $frontendHelper, Assets $assetsHelper)
     {
-        if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
-            return;
-        }
         $sourceId = get_the_ID();
+        wp_enqueue_style('vcv:assets:front:style');
+        wp_enqueue_script('vcv:assets:front:script');
+        wp_enqueue_script('vcv:assets:runtime:script');
         if (
             $frontendHelper->isPreview()
             && (
@@ -230,7 +231,7 @@ class EnqueueController extends Container implements Module
                 $handle,
                 $assetsHelper->getAssetUrl($bundleUrl),
                 [],
-                VCV_VERSION . '.' . $version
+                VCV_VERSION . '.' . $version . '-' . $sourceId
             );
         }
     }

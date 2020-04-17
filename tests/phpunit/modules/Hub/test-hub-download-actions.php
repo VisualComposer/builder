@@ -33,29 +33,28 @@ class HubDownloadActions extends WP_UnitTestCase
         );
 
         $elementsAfter = vchelper('HubElements')->getElements();
+        $this->assertArrayHasKey('icon', $elementsAfter);
         $this->assertEquals(
             [
-                'icon' => [
-                    'settings' => [
-                        'name' => 'Icon',
-                        'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                            . '/elements/icon/icon/public/thumbnail-icon.jpg',
-                        'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                            . '/elements/icon/icon/public/preview-icon.jpg',
-                        'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
-                    ],
-                    'key' => 'icon',
-                    'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/public/dist/element.bundle.js',
-                    'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/icon/',
-                    'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/icon/',
-                    'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/elements/icon/icon/public/',
+                'settings' => [
+                    'name' => 'Icon',
+                    'metaThumbnailUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/public/thumbnail-icon.jpg',
+                    'metaPreviewUrl' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                        . '/elements/icon/icon/public/preview-icon.jpg',
+                    'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
                 ],
+                'key' => 'icon',
+                'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/public/dist/element.bundle.js',
+                'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/icon/',
+                'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/icon/',
+                'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/elements/icon/icon/public/',
             ],
-            $elementsAfter
+            $elementsAfter['icon']
         );
         $this->assertFalse(vcIsBadResponse($result));
     }
@@ -83,24 +82,25 @@ class HubDownloadActions extends WP_UnitTestCase
         );
 
         $addonsAfter = vchelper('HubAddons')->getAddons();
+        $this->assertArrayHasKey('pluginVersionCheck', $addonsAfter);
+
         $this->assertEquals(
             [
-                'pluginVersionCheck' => [
-                    'settings' => [
-                        'name' => 'Plugin Version Check',
-                        'metaThumbnailUrl' => '[publicPath]/vcwb-default-addon-thumbnail.png',
-                        'metaPreviewUrl' => '[publicPath]/vcwb-default-addon-preview.png',
-                        'metaDescription' => 'Automatically checks the plugin version and helps to keep the plugin up to date.',
-                    ],
-                    'phpFiles' => [
-                        '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
-                    ],
-                    'addonRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                        . '/addons/pluginVersionCheck/pluginVersionCheck/',
+
+                'settings' => [
+                    'name' => 'Plugin Version Check',
+                    'metaThumbnailUrl' => '[publicPath]/vcwb-default-addon-thumbnail.png',
+                    'metaPreviewUrl' => '[publicPath]/vcwb-default-addon-preview.png',
+                    'metaDescription' => 'Automatically checks the plugin version and helps to keep the plugin up to date.',
                 ],
+                'phpFiles' => [
+                    '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
+                ],
+                'addonRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/addons/pluginVersionCheck/pluginVersionCheck/',
             ],
-            $addonsAfter
+            $addonsAfter['pluginVersionCheck']
         );
         $this->assertFalse(vcIsBadResponse($result));
     }
