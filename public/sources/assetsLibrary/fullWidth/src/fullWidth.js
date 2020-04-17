@@ -3,11 +3,9 @@
     return
   }
 
-  let throttled = false
   let isScaling = false // is scaling happening (zoom-in/zoom-out)
   let scale = 1 // initial scale value
   let fullWidthElements = undefined
-  const throttleDelay = 10
   const headerZone = '[data-vcv-layout-zone="header"]'
   const footerZone = '[data-vcv-layout-zone="footer"]'
   const headerFooterEditor = '.vcv-editor-theme-hf'
@@ -21,7 +19,6 @@
   }
 
   function handleResize() {
-    console.log('fullWidth handleResize')
     if (!fullWidthElements.length) {
       return
     }
