@@ -99,7 +99,9 @@ class CssJsSettings extends Container implements Module
             ['vcv:assets:vendor:script'],
             VCV_VERSION
         );
+
         wp_enqueue_script('vcv:wpVcSettings:script');
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 
     /**

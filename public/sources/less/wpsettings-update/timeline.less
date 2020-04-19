@@ -1,0 +1,126 @@
+@item-size: 32px;
+@color: #a7a7a7;
+@timeline-color: #aace35;
+
+.vcv-timeline {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  max-width: 660px;
+  margin: 40px auto 40px;
+  padding: 0;
+  list-style-type: none;
+  color: @color;
+}
+
+.vcv-timeline--three-steps .vcv-timeline-item {
+  width: 33.33%;
+}
+
+.vcv-timeline--four-steps .vcv-timeline-item {
+  width: 25%;
+}
+
+.vcv-timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: 500;
+
+  &::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    margin: 0 10px;
+    background: @color;
+    top: @item-size / 2;
+    right: calc(-50% + @item-size / 2);
+    left: calc(50% + @item-size / 2);
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.vcv-timeline-item-helper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 @item-size;
+  height: @item-size;
+  width: @item-size;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  border: 2px solid @color;
+  color: @color;
+}
+
+.vcv-step-done  {
+  &::after {
+    background: @timeline-color;
+  }
+
+  .vcv-timeline-item-helper {
+    font-size: 0;
+    border-color: @timeline-color;
+    background: @timeline-color;
+
+    &::before {
+      content: "\2714";
+      font-family: 'VC-Icons' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      font-size: 12px;
+      color: #fff
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .vcv-timeline {
+    align-items: center;
+  }
+
+  .vcv-timeline--three-steps .vcv-timeline-item {
+    width: auto;
+  }
+
+  .vcv-timeline--four-steps .vcv-timeline-item {
+    width: auto;
+  }
+
+  .vcv-timeline-item {
+    flex-direction: row;
+    flex-grow: 1;
+
+    &::after {
+      position: relative;
+      width: 100%;
+      top: auto;
+      right: auto;
+      left: auto;
+    }
+
+    &:last-child {
+      flex-grow: 0;
+    }
+  }
+
+  .vcv-timeline-item-text {
+    white-space: nowrap;
+  }
+
+  .vcv-timeline-item-helper {
+    margin: 0 10px 0 0;
+  }
+}

@@ -313,7 +313,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     const doAll = this.applyDO('all')
-    const isCaptionTextHidden = !!captionText
+    const isCaptionTextHidden = !captionText
     const caption = (
       <figcaption hidden={isCaptionTextHidden}>
         {captionText}

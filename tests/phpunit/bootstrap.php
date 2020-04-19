@@ -15,6 +15,7 @@ tests_add_filter(
     'muplugins_loaded',
     function () {
         require_once dirname(__FILE__) . '/../../plugin-wordpress.php';
+        do_action('vcv:bootstrap:lazyload');
     }
 );
 
@@ -49,9 +50,9 @@ function vc_create_module_mock($mockableClass)
     return $mock;
 }
 
-add_action(
-    'vcv:phpunit:ready',
-    function () {
-        do_action('vcv:bootstrap:lazyload');
-    }
-);
+//add_action(
+//    'vcv:phpunit:ready',
+//    function () {
+//        do_action('vcv:bootstrap:lazyload');
+//    }
+//);

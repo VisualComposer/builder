@@ -28,20 +28,20 @@ class AssetResetController extends Container implements Module
 
     public function __construct()
     {
-        if (vcvenv('VCV_TF_ASSETS_URLS_FACTORY_RESET')) {
-            $this->addEvent(
-                'vcv:system:factory:reset',
-                function (File $fileHelper) {
-                    $this->fileHelper = $fileHelper;
-                    $this->call('updateCssFiles');
-                    $this->call('updatePosts');
-                },
-                100
-            );
-        }
+        $this->addEvent(
+            'vcv:system:factory:reset',
+            function (File $fileHelper) {
+                $this->fileHelper = $fileHelper;
+                /** @see \VisualComposer\Modules\Assets\AssetResetController::updateCssFiles */
+                $this->call('updateCssFiles');
+                /** @see \VisualComposer\Modules\Assets\AssetResetController::updatePosts */
+                $this->call('updatePosts');
+            },
+            100
+        );
     }
 
-    protected function updateCssFiles(Assets $assetsHelper, File $fileHelper)
+    protected function updateCssFiles(Assets $assetsHelper)
     {
         $status = false;
         $destinationDir = $assetsHelper->getFilePath();
@@ -51,12 +51,12 @@ class AssetResetController extends Container implements Module
         $files = $app->glob(rtrim($destinationDir, '/\\') . '/*.css');
         if (is_array($files)) {
             foreach ($files as $file) {
-                $content = $fileHelper->getContents($file);
+                $content = $this->fileHelper->getContents($file);
                 if (!empty($content)) {
                     // extract all links
                     $content = $this->findLinks($content);
                     if ($this->changed) {
-                        $fileHelper->setContents($file, $content);
+                        $this->fileHelper->setContents($file, $content);
                     }
                 }
             }
@@ -104,7 +104,12 @@ class AssetResetController extends Container implements Module
                 $content
             );
 
-            $content = apply_filters('vc_migration_replace_content', $replacedContent ? $replacedContent : $content, $this, $sourceId);
+            $content = apply_filters(
+                'vc_migration_replace_content',
+                $replacedContent ? $replacedContent : $content,
+                $this,
+                $sourceId
+            );
         }
 
         return $content;
@@ -118,7 +123,7 @@ class AssetResetController extends Container implements Module
     protected function parseLink($link, $sourceId)
     {
         if (array_key_exists($link[0], $this->cache)) {
-            return $this->cache[$link[0]];
+            return $this->cache[ $link[0] ];
         }
         $contentDirPattern = str_replace(
             '/',
@@ -130,12 +135,12 @@ class AssetResetController extends Container implements Module
         if ($this->fileHelper->isFile($path)) {
             $this->changed = true;
             $updatedLink = set_url_scheme(WP_CONTENT_URL . '/' . $relative);
-            $this->cache[$link[0]] = $updatedLink;
+            $this->cache[ $link[0] ] = $updatedLink;
 
             return $updatedLink;
         }
         $updatedLink = apply_filters('vc_migration_link', $link[0], $sourceId);
-        $this->cache[$link[0]] = $updatedLink;
+        $this->cache[ $link[0] ] = $updatedLink;
 
         return $updatedLink;
     }
@@ -154,10 +159,13 @@ class AssetResetController extends Container implements Module
                 array_walk_recursive(
                     $decodedPageContent,
                     function (&$value, $key) use ($postId) {
-                        $value = $this->call('findLinks', [
-                            'content' => $value,
-                            'sourceId' => $postId,
-                        ]);
+                        $value = $this->call(
+                            'findLinks',
+                            [
+                                'content' => $value,
+                                'sourceId' => $postId,
+                            ]
+                        );
                     }
                 );
                 if ($this->changed) {
@@ -199,10 +207,13 @@ class AssetResetController extends Container implements Module
             array_walk_recursive(
                 $globalElementsCssData,
                 function (&$value, $key) use ($postId) {
-                    $value = $this->call('findLinks', [
-                        'content' => $value,
-                        'sourceId' => $postId
-                    ]);
+                    $value = $this->call(
+                        'findLinks',
+                        [
+                            'content' => $value,
+                            'sourceId' => $postId,
+                        ]
+                    );
                 }
             );
             if ($this->changed) {

@@ -14,6 +14,85 @@ use VisualComposer\Framework\Container;
 
 class Assets extends Container implements Helper
 {
+    /**
+     * Returns an array that includes current page/post template ids
+     * @param $sourceId
+     *
+     * @return array
+     */
+    public function getTemplateIds($sourceId)
+    {
+        $idList = [$sourceId];
+
+        $headerId = get_post_meta(
+            $sourceId,
+            '_' . VCV_PREFIX . 'HeaderTemplateId',
+            true
+        );
+        $footerId = get_post_meta(
+            $sourceId,
+            '_' . VCV_PREFIX . 'FooterTemplateId',
+            true
+        );
+
+        if (isset($headerId) && $headerId === 'default') {
+            $headerId = $this->getTemplatePartId('header');
+        }
+        if (isset($footerId) && $footerId === 'default') {
+            $footerId = $this->getTemplatePartId('footer');
+        }
+
+        if ($headerId) {
+            $idList[] = $headerId;
+        }
+        if ($footerId) {
+            $idList[] = $footerId;
+        }
+
+        return $idList;
+    }
+
+    /**
+     * @param $templatePart
+     *
+     * @return bool|mixed
+     */
+    public function getTemplatePartId($templatePart)
+    {
+        $optionsHelper = vchelper('Options');
+
+        $headerFooterSettings = $optionsHelper->get('headerFooterSettings');
+        if ($headerFooterSettings === 'allSite') {
+            return intval($this->allContent($templatePart));
+        } elseif ($headerFooterSettings === 'customPostType') {
+            $customTemplatePart = vcfilter(
+                'vcv:themeEditor:layoutController:getTemplatePartId',
+                ['pageFound' => false, 'replaceTemplate' => true, 'sourceId' => false],
+                ['templatePart' => $templatePart]
+            );
+            if ($customTemplatePart && $customTemplatePart['replaceTemplate'] && $customTemplatePart['pageFound']) {
+                return intval($customTemplatePart['sourceId']);
+            }
+        }
+    }
+
+    /**
+     * @param $templatePart
+     *
+     * @return integer|bool
+     */
+    public function allContent($templatePart)
+    {
+        $optionsHelper = vchelper('Options');
+        $templatePartId = $optionsHelper->get('headerFooterSettingsAll' . ucfirst($templatePart));
+
+        if ($templatePart) {
+            return $templatePartId;
+        }
+
+        return false;
+    }
+
     public function getFilePath($filename = '')
     {
         $destinationDir = VCV_PLUGIN_ASSETS_DIR_PATH . '/assets-bundles/';

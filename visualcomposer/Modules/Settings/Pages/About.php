@@ -39,15 +39,10 @@ class About extends Container implements Module
     {
         $this->wpAddAction(
             'admin_menu',
-            function (Request $requestHelper, License $licenseHelper) {
-                if (!$licenseHelper->isPremiumActivated()) {
-                    if ($requestHelper->input('page') === $this->getSlug()) {
-                        wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-                        exit;
-                    }
-                } else {
-                    /** @see \VisualComposer\Modules\Settings\Pages\About::addPage */
-                    $this->call('addPage');
+            function (Request $requestHelper) {
+                if ($requestHelper->input('page') === $this->getSlug()) {
+                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    exit;
                 }
             },
             11
@@ -74,6 +69,7 @@ class About extends Container implements Module
         );
         wp_enqueue_script('vcv:wpUpdate:script');
         wp_enqueue_style('vcv:wpVcSettings:style');
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 
     /**

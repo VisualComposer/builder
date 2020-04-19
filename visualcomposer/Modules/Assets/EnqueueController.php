@@ -45,6 +45,7 @@ class EnqueueController extends Container implements Module
 
     protected function enqueueAssetsFromList(AssetsEnqueue $assetsEnqueueHelper)
     {
+        // NOTE: This is not an feature toggler, it is local env to avoid recursion
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
@@ -147,16 +148,17 @@ class EnqueueController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Assets $assetsHelper
      *
      * @throws \ReflectionException
      * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
-    protected function enqueueAssets(Frontend $frontendHelper)
+    protected function enqueueAssets(Frontend $frontendHelper, Assets $assetsHelper)
     {
-        if ($frontendHelper->isPageEditable() && !vcvenv('VCV_FT_INITIAL_CSS_LOAD')) {
-            return;
-        }
         $sourceId = get_the_ID();
+        wp_enqueue_style('vcv:assets:front:style');
+        wp_enqueue_script('vcv:assets:front:script');
+        wp_enqueue_script('vcv:assets:runtime:script');
         if (
             $frontendHelper->isPreview()
             && (
@@ -175,8 +177,14 @@ class EnqueueController extends Container implements Module
             }
         }
         vcevent('vcv:assets:enqueueVendorAssets');
-        $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
-        $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+
+        $idList = $assetsHelper->getTemplateIds($sourceId);
+        if (!empty($idList) && is_array($idList)) {
+            foreach ($idList as $sourceId) {
+                $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
+                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
+            }
+        }
     }
 
     /**
@@ -223,7 +231,7 @@ class EnqueueController extends Container implements Module
                 $handle,
                 $assetsHelper->getAssetUrl($bundleUrl),
                 [],
-                VCV_VERSION . '.' . $version
+                VCV_VERSION . '.' . $version . '-' . $sourceId
             );
         }
     }

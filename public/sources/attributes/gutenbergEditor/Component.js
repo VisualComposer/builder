@@ -90,7 +90,7 @@ export default class GutenbergEditorComponent extends Attribute {
     }
 
     wpData.subscribe(() => {
-      if (!wpData.select('core/editor').getBlockSelectionStart()) {
+      if (!wpData.select('core/block-editor').getBlockSelectionStart()) {
         postEdit.closeGeneralSidebar()
       }
     })

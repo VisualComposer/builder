@@ -76,7 +76,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleIframeChange (data) {
     if (data && data.type === 'reload') {
       this.setState({ loading: true })
-    } else if (data && data.type === 'layoutLoaded') {
+    } else if (data && (data.type === 'layoutLoaded' || data.type === 'loaded')) {
       this.setState({ loading: false })
       if (this.state.status === 'saving') {
         this.setState({ status: '' })

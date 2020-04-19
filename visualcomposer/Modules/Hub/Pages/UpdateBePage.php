@@ -57,7 +57,7 @@ class UpdateBePage extends Container implements Module
                 // Bundle Update not required, or Actions was empty
                 if ($requestHelper->input('page') === $this->getSlug()) {
                     $optionsHelper->set('bundleUpdateRequired', false);
-                    wp_redirect(admin_url('admin.php?page=vcv-about'));
+                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
                     exit;
                 }
             },
@@ -85,6 +85,7 @@ class UpdateBePage extends Container implements Module
         );
         wp_enqueue_script('vcv:wpUpdate:script');
         wp_enqueue_style('vcv:wpVcSettings:style');
+        wp_enqueue_script('vcv:assets:runtime:script');
     }
 
     /**

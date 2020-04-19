@@ -8,6 +8,7 @@ class FrontendControllerTest extends WP_UnitTestCase
     public function testRenderEditorBase()
     {
         wp_set_current_user(1);
+
         /** @var $module \VisualComposer\Modules\Editors\Frontend\Controller */
         $module = vc_create_module_mock('\VisualComposer\Modules\Editors\Frontend\Controller');
 
@@ -30,8 +31,6 @@ class FrontendControllerTest extends WP_UnitTestCase
             'window\.vcvIsFreeActivated',
             '<iframe class="vcv-layout-iframe"',
             'src=".+vcv-editable=1&vcv-source-id=' . $postId . '&vcv-nonce=.+" id="vcv-editor-iframe"',
-            'script id="vcv-script-fe-bundle"',
-            'wp\.bundle\.js',
             '\<title\>Frontend editor:',
             'Object\.defineProperty\(window, \\\'VCV_GET_SHARED_ASSETS\\\'',
             'Object\.defineProperty\(window, \\\'VCV_UTM\\\'',
@@ -55,5 +54,9 @@ class FrontendControllerTest extends WP_UnitTestCase
             $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
             $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
+        $this->assertContains('vcv:assets:front:script', wp_scripts()->done);
+        $this->assertContains('vcv:assets:runtime:script', wp_scripts()->done);
+        $this->assertContains('vcv:assets:vendor:script', wp_scripts()->done);
+        $this->assertContains('vcv:editors:frontend:script', wp_scripts()->done);
     }
 }

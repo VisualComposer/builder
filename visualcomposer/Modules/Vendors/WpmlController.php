@@ -112,7 +112,11 @@ class WpmlController extends Container implements Module
             }
 
             if ($sitepress->get_current_language() !== 'all' && $postTypeSupported) {
-                return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
+                if (isset($payload['query'], $payload['query']['vcv-action']) && $payload['query']['vcv-action'] === 'frontend') {
+                    return add_query_arg(['lang' => $sitepress->get_current_language()], $url);
+                } else {
+                    return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());
+                }
             }
         }
 
