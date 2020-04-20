@@ -166,7 +166,7 @@ addStorage('elements', (storage) => {
     }
     documentManager.update(id, element)
     storage.trigger(`element:${id}`, element, source, options)
-    if (options && options.action === 'hide' && element.parent) {
+    if (options && options.action && options.action === 'hide' && element.parent) {
       storage.trigger(`element:${element.parent}`, documentManager.get(element.parent), source, options)
     }
     if (cookElement.get('parentWrapper')) {

@@ -156,8 +156,11 @@ export default class Element extends React.Component {
     if (!ContentComponent) {
       return null
     }
-    const editor = {
+    let editor = {
       'data-vcv-element': id
+    }
+    if (cookElement.get('metaIsElementLocked')) {
+      editor = {}
     }
     if (cookElement.get('metaDisableInteractionInEditor')) {
       editor['data-vcv-element-disable-interaction'] = true

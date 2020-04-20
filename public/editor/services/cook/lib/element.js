@@ -21,7 +21,17 @@ export default class Element {
   }
 
   init (data, dataSettings = null, cssSettings = null, API) {
-    let { id = createKey(), parent = false, tag, order, customHeaderTitle, hidden, metaElementAssets, ...attr } = data
+    let {
+      id = createKey(),
+      metaIsElementLocked = false,
+      parent = false,
+      tag,
+      order,
+      customHeaderTitle,
+      hidden,
+      metaElementAssets,
+      ...attr
+    } = data
     attr.tag = tag
     attr.id = id
     cookApi = API
@@ -87,6 +97,7 @@ export default class Element {
         settings: settings || {},
         cssSettings: cssSettings || {},
         metaElementAssets: metaElementAssets || {},
+        metaIsElementLocked: metaIsElementLocked,
         getAttributeType: function (k) {
           return getAttributeType(k, this.settings)
         }
@@ -157,6 +168,7 @@ export default class Element {
     data.metaElementPath = this[elData].metaElementPath
     data.metaBundlePath = this[elData].metaBundlePath
     data.metaElementAssets = this[elData].metaElementAssets
+    data.metaIsElementLocked = this[elData].metaIsElementLocked
     if (this[elData].customHeaderTitle !== undefined) {
       data.customHeaderTitle = this[elData].customHeaderTitle
     }
@@ -223,7 +235,18 @@ export default class Element {
   }
 
   getPublicKeys () {
-    return ['id', 'order', 'parent', 'tag', 'customHeaderTitle', 'metaAssetsPath', 'hidden', 'metaElementAssets'].concat(this.filter((key, value, settings) => {
+    const publicKeys = [
+      'id',
+      'order',
+      'parent',
+      'tag',
+      'customHeaderTitle',
+      'metaAssetsPath',
+      'hidden',
+      'metaElementAssets',
+      'metaIsElementLocked'
+    ]
+    return publicKeys.concat(this.filter((key, value, settings) => {
       return settings.access === 'public'
     }))
   }
