@@ -14,6 +14,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use WP_Query;
 
@@ -24,6 +25,7 @@ use WP_Query;
 class FeedbackController extends Container implements Module
 {
     use EventsFilters;
+    use WpFiltersActions;
 
     /**
      * FeedbackController constructor.
@@ -33,6 +35,9 @@ class FeedbackController extends Container implements Module
         $this->addFilter('vcv:ajax:license:feedback:submit:adminNonce', 'submitForm');
         $this->addFilter('vcv:ajax:license:deactivation:submit:adminNonce', 'deactivationSubmitForm');
         $this->addFilter('vcv:editor:variables', 'addVariables');
+
+        $file = plugin_basename(VCV_PLUGIN_FULL_PATH);
+        $this->wpAddAction('deactivate_' . $file, 'setDeactivationPopupInterval');
     }
 
     /**
@@ -74,7 +79,7 @@ class FeedbackController extends Container implements Module
      * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
      *
      * @return array
      */
@@ -142,5 +147,17 @@ class FeedbackController extends Container implements Module
         ];
 
         return $variables;
+    }
+
+    /**
+     * Set time interval for deactivation feedback popup
+     */
+    protected function setDeactivationPopupInterval()
+    {
+        $optionsHelper = vchelper('Options');
+        $transientKey = 'deactivation:feedback:' . get_current_user_id();
+        if (!$optionsHelper->getTransient($transientKey)) {
+            $optionsHelper->setTransient($transientKey, 1, 30 * DAY_IN_SECONDS);
+        }
     }
 }
