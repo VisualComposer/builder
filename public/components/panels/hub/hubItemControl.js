@@ -94,7 +94,6 @@ export default class HubItemControl extends ElementControl {
         default:
           console.warn('Invalid hub element type received')
       }
-      // let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
       this.setState({ elementState })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
