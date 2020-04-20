@@ -1,9 +1,8 @@
 import vcCake from 'vc-cake'
 
-const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
-
 const API = {
   getAssetsLibraryFiles: (library) => {
+    const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
     const sharedAssets = sharedAssetsStorage.state('sharedAssets').get()
     const data = typeof library === 'string' ? sharedAssets[library] : sharedAssets[library.name]
     const files = {

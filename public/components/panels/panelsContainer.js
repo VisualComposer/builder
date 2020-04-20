@@ -9,6 +9,9 @@ import SettingsPanel from './settings/settingsPanel'
 import EditFormPanel from './editForm/lib/activitiesManager'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
+
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
@@ -58,8 +61,13 @@ export default class PanelsContainer extends React.Component {
     } else if (content === 'addElement') {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
+      const workspaceState = workspaceStorage.state('settings').get()
+      let options = {}
+      if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
+        options = workspaceState.options
+      }
       return (
-        <HubContainer parent={{}} />
+        <HubContainer parent={{}} options={options} />
       )
     } else if (content === 'addTemplate') {
       return <AddTemplatePanel />

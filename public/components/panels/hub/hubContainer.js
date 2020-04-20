@@ -12,7 +12,6 @@ import categories from './categoriesSettings.json'
 import StockImages from '../../stockImages/stockImages'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
-const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class HubContainer extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -20,9 +19,8 @@ export default class HubContainer extends AddElementCategories {
 
   constructor (props) {
     super(props)
-    const workspaceState = workspaceStorage.state('settings').get()
-    if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
-      const { filterType, id, bundleType } = workspaceState.options
+    if (props && props.options && props.options.filterType) {
+      const { filterType, id, bundleType } = props.options
       this.state = {
         filterType: filterType,
         activeCategoryIndex: id,
