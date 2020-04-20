@@ -1,5 +1,5 @@
 import React from 'react'
-import StockImages from 'public/components/panels/teaserAddElement/lib/stockImages'
+import StockImages from 'public/components/stockImages/stockImages'
 
 export default class StockImagesMediaTab extends React.Component {
   constructor (props) {
