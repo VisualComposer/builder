@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import Content from './contentParts/content'
 import AddElementPanel from './addElement/addElementPanel'
-import TeaserAddElementCategories from './teaserAddElement/lib/teaserCategories'
+import HubContainer from './hub/hubContainer'
 import AddTemplatePanel from './addTemplate/addTemplatePanel'
 import TreeViewLayout from './treeView/treeViewLayout'
 import SettingsPanel from './settings/settingsPanel'
@@ -59,7 +59,7 @@ export default class PanelsContainer extends React.Component {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
       return (
-        <TeaserAddElementCategories parent={{}} />
+        <HubContainer parent={{}} />
       )
     } else if (content === 'addTemplate') {
       return <AddTemplatePanel />

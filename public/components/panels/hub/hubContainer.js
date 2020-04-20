@@ -1,20 +1,20 @@
 import React from 'react'
 import classNames from 'classnames'
-import TeaserElementControl from './teaserElementControl'
-import TeaserTypeControl from './teaserTypeControl'
-import TeaserDropdown from './teaserDropdown'
-import AddElementCategories from '../../addElement/lib/categories'
-import Scrollbar from '../../../scrollbar/scrollbar.js'
-import SearchElement from '../../addElement/lib/searchElement'
+import HubItemControl from './hubItemControl'
+import HubMenu from './hubMenu'
+import HubDropdown from './hubDropdown'
+import AddElementCategories from '../addElement/lib/categories'
+import Scrollbar from '../../scrollbar/scrollbar.js'
+import SearchElement from '../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import categories from './categoriesSettings.json'
-import StockImages from './stockImages'
+import StockImages from '../../stockImages/stockImages'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 
-export default class TeaserAddElementCategories extends AddElementCategories {
+export default class HubContainer extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   allCategories = null
 
@@ -117,7 +117,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
     tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
 
     return (
-      <TeaserElementControl
+      <HubItemControl
         key={'vcv-element-control-' + tag}
         element={elementData}
         tag={tag}
@@ -135,7 +135,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
    * @return {JSX}
    */
   getNoResultsElement () {
-    const nothingFoundText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.nothingFound : 'Nothing found'
+    const nothingFoundText = HubContainer.localizations ? HubContainer.localizations.nothingFound : 'Nothing found'
 
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -251,7 +251,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getHubPanelControls () {
-    return <TeaserTypeControl {...this.getTypeControlProps()} />
+    return <HubMenu {...this.getTypeControlProps()} />
   }
 
   static handleClickGoPremium (e) {
@@ -261,10 +261,10 @@ export default class TeaserAddElementCategories extends AddElementCategories {
   }
 
   getHubBanner () {
-    const titleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
-    const subtitleText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
-    const goPremiumText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.goPremium : 'Go Premium'
-    const unlockHubText = TeaserAddElementCategories.localizations ? TeaserAddElementCategories.localizations.unlockHub : 'Unlock Visual Composer Hub'
+    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
+    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
+    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
+    const unlockHubText = HubContainer.localizations ? HubContainer.localizations.unlockHub : 'Unlock Visual Composer Hub'
     const buttonText = window.vcvIsFreeActivated ? goPremiumText : unlockHubText
 
     return (
@@ -272,7 +272,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
         <div className='vcv-hub-banner-content'>
           <p className='vcv-hub-banner-title'>{titleText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-          <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl + '&screen=license-options'} onClick={TeaserAddElementCategories.handleClickGoPremium}>
+          <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl + '&screen=license-options'} onClick={HubContainer.handleClickGoPremium}>
             {buttonText}
           </span>
         </div>
@@ -327,7 +327,7 @@ export default class TeaserAddElementCategories extends AddElementCategories {
           {this.getSearchElement()}
           {this.getHubPanelControls()}
           <div className='vcv-ui-hub-dropdown-container'>
-            <TeaserDropdown {...this.getTypeControlProps()} />
+            <HubDropdown {...this.getTypeControlProps()} />
           </div>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar onScroll={lodash.throttle(this.handleScroll, 100)}>
