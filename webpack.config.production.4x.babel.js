@@ -63,6 +63,29 @@ module.exports = Object.assign({}, config, {
           'renderProcessor',
           'api'
         ]
+      },
+      hub: {
+        services: [
+          'utils',
+          'document',
+          'wordpress-post-data',
+          'hubElements',
+          'dataProcessor',
+          'cook',
+          'sharedAssetsLibrary',
+          'elementAssetsLibrary',
+          'actionsManager',
+          'rulesManager',
+          'modernAssetsStorage',
+          'stylesManager',
+          'wpMyTemplates',
+          'hubCategories',
+          'hubGroups',
+          'elementAccessPoint',
+          'hubAddons',
+          'renderProcessor',
+          'api'
+        ]
       }
     }),
     new ExtractTextPlugin('[name].bundle.css'),

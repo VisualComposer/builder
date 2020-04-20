@@ -25,7 +25,7 @@
     "npm": ">=5.8"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "2.5.0",
+    "vc-webpack-vendors": "2.6.2",
     "standard": "14.3.1",
     "color-blend": "git://github.com/wpbakery/color-blend.git#5dd059a6dbdc6754f53f4eca09800953534d8322",
     "combokeys": "3.0.1",
