@@ -39,7 +39,7 @@ addStorage('hubAddons', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
+    const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library. To finish the installation process you need to reload the page.'
     if (downloadedAddons[tag]) {
       return
     }

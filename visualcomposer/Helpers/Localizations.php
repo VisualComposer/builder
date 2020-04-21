@@ -231,6 +231,10 @@ class Localizations extends Container implements Helper
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
                 'visualcomposer'
             ),
+            'successAddonDownload' => __(
+	            '{name} has been successfully downloaded from the Visual Composer Hub and added to your library. To finish the installation process you need to reload the page.',
+	            'visualcomposer'
+            ),
             'copyElementWithId' => __(
                 'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.',
                 'visualcomposer'
