@@ -708,6 +708,10 @@ class Localizations extends Container implements Helper
                 'It seems that your Visual Composer copy was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.',
                 'visualcomposer'
             ),
+            'lockElementText' => __(
+                'Lock Element',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
