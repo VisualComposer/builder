@@ -59,6 +59,15 @@ class PluginsController extends Container implements Module
         wp_enqueue_script('vcv:wpVcSettings:script');
         wp_enqueue_script('vcv:assets:runtime:script');
 
+        // Enqueue css
+        wp_register_style(
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_style('vcv:wpVcSettings:style');
+
         // Enqeueue required variables
         $variables[] = [
             'key' => 'vcvAdminAjaxUrl',
