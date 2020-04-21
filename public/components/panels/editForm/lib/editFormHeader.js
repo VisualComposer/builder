@@ -20,7 +20,8 @@ export default class EditFormHeader extends React.Component {
     this.state = {
       content: props.elementAccessPoint.cook().getName(),
       editable: false,
-      hidden: props.elementAccessPoint.cook().get('hidden')
+      hidden: props.elementAccessPoint.cook().get('hidden'),
+      isLocked: false
     }
 
     this.handleClickEnableEditable = this.handleClickEnableEditable.bind(this)
@@ -31,18 +32,22 @@ export default class EditFormHeader extends React.Component {
     this.handleClickGoBack = this.handleClickGoBack.bind(this)
     this.handleClickHide = this.handleClickHide.bind(this)
     this.updateHiddenState = this.updateHiddenState.bind(this)
+    this.updateLockState = this.updateLockState.bind(this)
+    this.handleLockElementToggle = this.handleLockElementToggle.bind(this)
   }
 
   componentDidMount () {
     const { elementAccessPoint } = this.props
     elementAccessPoint.onChange(this.updateElementOnChange)
     workspaceStorage.on('hide', this.updateHiddenState)
+    workspaceStorage.on('lock', this.updateLockState)
   }
 
   componentWillUnmount () {
     const { elementAccessPoint } = this.props
     elementAccessPoint.ignoreChange(this.updateElementOnChange)
     workspaceStorage.off('hide', this.updateHiddenState)
+    workspaceStorage.off('lock', this.updateLockState)
   }
 
   updateHiddenState (id) {
@@ -50,6 +55,14 @@ export default class EditFormHeader extends React.Component {
     if (id === elementAccessPoint.id) {
       const newHiddenState = documentManager.get(elementAccessPoint.id).hidden
       this.setState({ hidden: newHiddenState })
+    }
+  }
+
+  updateLockState (id) {
+    const { elementAccessPoint } = this.props
+    if (id === elementAccessPoint.id) {
+      const newLockState = documentManager.get(elementAccessPoint.id).metaIsElementLocked
+      this.setState({ isLocked: newLockState })
     }
   }
 
@@ -145,9 +158,13 @@ export default class EditFormHeader extends React.Component {
     workspaceStorage.trigger('hide', this.props.elementAccessPoint.id)
   }
 
+  handleLockElementToggle () {
+    workspaceStorage.trigger('lock', this.props.elementAccessPoint.id)
+  }
+
   render () {
     const { elementAccessPoint, options, isEditFormSettingsOpened } = this.props
-    let { content, editable, hidden } = this.state
+    let { content, editable, hidden, isLocked } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
       'vcv-ui-edit-form-header-title': true,
@@ -240,12 +257,34 @@ export default class EditFormHeader extends React.Component {
       )
     }
 
+    const lockElementClasses = classNames({
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-lock-fill': isLocked,
+      'vcv-ui-icon-unlock-fill': !isLocked
+    })
+
+    let lockControl = null
+    const vcvIsUserAdmin = window.VCV_ADMIN_ROLE
+    if (vcvIsUserAdmin) {
+      const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
+      lockControl = (
+        <span
+          className='vcv-ui-edit-form-header-control'
+          title={lockElementText}
+          onClick={this.handleLockElementToggle}
+        >
+          <i className={lockElementClasses} />
+        </span>
+      )
+    }
+
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
         {sectionImage}
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
+          {isNested ? null : lockControl}
           {isNested ? null : hideControl}
           {isNested ? null : settingsControl}
           <span
