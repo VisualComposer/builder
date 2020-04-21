@@ -181,7 +181,10 @@ class Localizations extends Container implements Helper
             'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
             'popupOpenOnPageLoad' => __('The popup will open once the page is loaded.', 'visualcomposer'),
             'popupOpenOnExitIntent' => __('The popup will load if users try to exit the page.', 'visualcomposer'),
-            'popupOpenOnElementId' => __('The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.', 'visualcomposer'),
+            'popupOpenOnElementId' => __(
+                'The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.',
+                'visualcomposer'
+            ),
             'onClickAction' => __('OnClick action', 'visualcomposer'),
             'noExistingContentFound' => __('Nothing found', 'visualcomposer'),
             'openLinkInTab' => __('Open link in a new tab', 'visualcomposer'),
@@ -229,6 +232,10 @@ class Localizations extends Container implements Helper
             'pageTitleDisableDescription' => __('Disable page title', 'visualcomposer'),
             'successElementDownload' => __(
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to your library',
+                'visualcomposer'
+            ),
+            'successAddonDownload' => __(
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your library. To finish the installation process you need to reload the page.',
                 'visualcomposer'
             ),
             'copyElementWithId' => __(
