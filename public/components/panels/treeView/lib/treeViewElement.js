@@ -1,15 +1,15 @@
-import vcCake, { getService } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
-const workspaceStorage = vcCake.getStorage('workspace')
-const elementsStorage = vcCake.getStorage('elements')
-const documentManger = vcCake.getService('document')
-const utils = vcCake.getService('utils')
-const cook = vcCake.getService('cook')
-const hubCategoriesService = vcCake.getService('hubCategories')
+const workspaceStorage = getStorage('workspace')
+const elementsStorage = getStorage('elements')
+const documentManger = getService('document')
+const utils = getService('utils')
+const cook = getService('cook')
+const hubCategoriesService = getService('hubCategories')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -418,13 +418,14 @@ export default class TreeViewElement extends React.Component {
     if (!element) {
       return null
     }
+    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions
     const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
       'vcv-ui-tree-layout-node-expand': this.state.childExpand,
       'vcv-ui-tree-layout-node-state-draft': false,
       'vcv-ui-tree-layout-node-hidden': hidden,
-      'vcv-ui-tree-layout-node-non-draggable': this.editorType === 'popup' && isDraggable !== undefined && !isDraggable
+      'vcv-ui-tree-layout-node-non-draggable': (isDraggable !== undefined && !isDraggable) || isElementLocked
     })
     const treeChildProps = {}
     let dragControl = null
@@ -492,7 +493,7 @@ export default class TreeViewElement extends React.Component {
 
     let pasteControl = false
 
-    let copyControl = (
+    let copyControl = isElementLocked ? null : (
       <span
         className='vcv-ui-tree-layout-control-action'
         title={copyText}
@@ -502,7 +503,7 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    let cloneControl = (
+    let cloneControl = isElementLocked ? null : (
       <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </span>
@@ -524,7 +525,7 @@ export default class TreeViewElement extends React.Component {
     const pasteElContainerFor = cookElement && cookElement.get('containerFor')
     const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
-    if (isPasteAvailable) {
+    if (isPasteAvailable && !isElementLocked) {
       const pasteOptions = this.getPasteOptions(copyData, this.state.element)
 
       const attrs = {}
@@ -552,7 +553,7 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    const childControls = (
+    const childControls = isElementLocked ? null : (
       <span className='vcv-ui-tree-layout-control-actions'>
         {addChildControl}
         {editRowLayoutControl}
@@ -569,7 +570,7 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    const baseControls = (
+    const baseControls = isElementLocked ? null : (
       <div className='vcv-ui-tree-layout-control-actions'>
         <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
@@ -688,12 +689,25 @@ export default class TreeViewElement extends React.Component {
 
     if (isDraggable === undefined || isDraggable) {
       treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
-      dragControl = (
+      dragControl = isElementLocked ? null : (
         <div className={dragHelperClasses}>
           <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
         </div>
       )
     }
+
+    const label = isElementLocked ? content : (
+      <span
+        ref={span => { this.span = span }}
+        contentEditable={editable}
+        suppressContentEditableWarning
+        onClick={this.handleClickEnableEditable}
+        onKeyDown={this.handleKeyDownPreventNewLine}
+        onBlur={this.handleBlurValidateContent}
+      >
+        {content}
+      </span>
+    )
 
     return (
       <li
@@ -715,16 +729,7 @@ export default class TreeViewElement extends React.Component {
             {expandTrigger}
             <i className='vcv-ui-tree-layout-control-icon'><img src={publicPath} className='vcv-ui-icon' alt='' /></i>
             <span className={controlLabelClasses}>
-              <span
-                ref={span => { this.span = span }}
-                contentEditable={editable}
-                suppressContentEditableWarning
-                onClick={this.handleClickEnableEditable}
-                onKeyDown={this.handleKeyDownPreventNewLine}
-                onBlur={this.handleBlurValidateContent}
-              >
-                {content}
-              </span>
+              {label}
             </span>
             {baseControls}
           </div>

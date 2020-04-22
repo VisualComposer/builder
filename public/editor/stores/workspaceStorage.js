@@ -256,6 +256,19 @@ addStorage('workspace', (storage) => {
     newElement.hidden = !element.hidden
     elementsStorage.trigger('update', id, newElement, '', { hidden: element.hidden, action: 'hide' })
   })
+  storage.on('lock', (id, options) => {
+    if (!id) {
+      return
+    }
+    const element = documentManager.get(id)
+    if (!element) {
+      return
+    }
+
+    const newElement = element
+    newElement.metaIsElementLocked = !element.metaIsElementLocked
+    elementsStorage.trigger('update', id, newElement, '', { metaIsElementLocked: element.metaIsElementLocked, action: 'lock' })
+  })
   storage.state('navbarBoundingRect').set({
     resizeTop: 0,
     resizeLeft: 0

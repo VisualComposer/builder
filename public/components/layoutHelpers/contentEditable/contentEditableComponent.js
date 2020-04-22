@@ -84,6 +84,9 @@ export default class ContentEditableComponent extends React.Component {
       this.setState({ realContent: nextProps.children })
       this.debouncedUpdateHtmlWithServer(nextProps.children)
     }
+    if (this.props.options.allowInline !== nextProps.options.allowInline) {
+      this.setState({ allowInline: nextProps.options.allowInline })
+    }
   }
 
   /* eslint-enable */
