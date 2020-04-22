@@ -29,6 +29,7 @@ export default class Element extends React.Component {
     this.cssJobsUpdate = this.cssJobsUpdate.bind(this)
     this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
     this.handleElementLock = this.handleElementLock.bind(this)
+    this.getEditorProps = this.getEditorProps.bind(this)
     this.elementComponentRef = React.createRef()
     this.state = {
       element: props.element,
@@ -151,6 +152,24 @@ export default class Element extends React.Component {
     return returnData
   }
 
+  getEditorProps (id, cookElement) {
+    if (!cookElement) {
+      cookElement = cook.getById(id)
+    }
+    let editor = {
+      'data-vcv-element': id
+    }
+    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
+      if (this.state.isElementLocked || cookElement.get('metaIsElementLocked')) {
+        editor = {}
+      }
+    }
+    if (cookElement.get('metaDisableInteractionInEditor')) {
+      editor['data-vcv-element-disable-interaction'] = true
+    }
+    return editor
+  }
+
   render () {
     if (this.state.cssBuildingProcess && !this.state.isRendered) {
       return null
@@ -169,15 +188,7 @@ export default class Element extends React.Component {
     if (!ContentComponent) {
       return null
     }
-    let editor = {
-      'data-vcv-element': id
-    }
-    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && this.state.isElementLocked && !window.vcvManageOptions) {
-      editor = {}
-    }
-    if (cookElement.get('metaDisableInteractionInEditor')) {
-      editor['data-vcv-element-disable-interaction'] = true
-    }
+    const editor = this.getEditorProps(id, cookElement)
 
     return (
       <ContentComponent
@@ -188,6 +199,7 @@ export default class Element extends React.Component {
         rawAtts={cookElement.getAll(false)}
         api={api}
         editor={editor}
+        getEditorProps={this.getEditorProps}
         {...other}
       >
         {this.getContent()}
