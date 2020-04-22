@@ -82,8 +82,8 @@ export default class Url extends Attribute {
       }
     }
 
-    if (env('VCV_POPUP_BUILDER') && this.props.value.type === 'popup') {
-      value.type = 'popup'
+    if (env('VCV_POPUP_BUILDER') && this.props.value.type) {
+      value.type = this.props.value.type
     }
 
     pagePosts.clear()
@@ -312,6 +312,9 @@ export default class Url extends Attribute {
     if (e.target.value === 'popup') {
       unsavedValue.type = 'popup'
       this.loadPosts('', this.popupAction, this.setPopupPosts)
+    } else if (e.target.value === 'close-popup') {
+      unsavedValue.type = 'close-popup'
+      unsavedValue.url = '#close-popup'
     } else {
       this.loadPosts('', this.postAction, this.setPagePosts)
     }
@@ -329,7 +332,7 @@ export default class Url extends Attribute {
 
     let optionDropdown = null
     let modalContent = null
-    const dropdownValue = this.state.unsavedValue.type ? 'popup' : 'url'
+    const dropdownValue = this.state.unsavedValue.type ? this.state.unsavedValue.type : 'url'
 
     if (env('VCV_POPUP_BUILDER')) {
       optionDropdown = (
@@ -343,19 +346,44 @@ export default class Url extends Attribute {
             value={dropdownValue}
           >
             <option value='url'>Url</option>
-            <option value='popup'>Popup</option>
+            <option value='popup'>Open Popup</option>
+            <option value='close-popup'>Close Popup</option>
           </select>
         </div>
       )
     }
 
-    if (!this.state.unsavedValue.type || this.state.unsavedValue.type !== 'popup') {
+    if (this.state.unsavedValue.type === 'close-popup') {
+      modalContent = (
+        <div>
+          <p className='vcv-ui-form-helper'>
+            Closing the popup option will close the current popup
+          </p>
+        </div>
+      )
+    } else if (this.state.unsavedValue.type === 'popup') {
+      modalContent = (
+        <div>
+          <div className='vcv-ui-form-group'>
+            <span className='vcv-ui-form-group-heading'>
+              Popup
+            </span>
+            <PostsDropdown
+              posts={pagePopups}
+              onPostSelection={this.handlePostSelection}
+              shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
+              value={this.state.unsavedValue}
+              isRequestInProcess={this.state.isRequestInProcess}
+            />
+          </div>
+        </div>
+      )
+    } else {
       modalContent = (
         <div>
           <p className='vcv-ui-form-helper'>
             {enterDestinationUrl}
           </p>
-
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               URL
@@ -378,23 +406,6 @@ export default class Url extends Attribute {
             value={this.state.unsavedValue}
             isRequestInProcess={this.state.isRequestInProcess}
           />
-        </div>
-      )
-    } else {
-      modalContent = (
-        <div>
-          <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              Popup
-            </span>
-            <PostsDropdown
-              posts={pagePopups}
-              onPostSelection={this.handlePostSelection}
-              shouldRenderExistingPosts={this.state.shouldRenderExistingPosts}
-              value={this.state.unsavedValue}
-              isRequestInProcess={this.state.isRequestInProcess}
-            />
-          </div>
         </div>
       )
     }
@@ -506,7 +517,7 @@ export default class Url extends Attribute {
     const addLink = this.localizations ? this.localizations.addLink : 'Add Link'
 
     let linkDataHtml = null
-    if (type || type === 'popup') {
+    if (type && type === 'popup') {
       const popupPageTitle = popupTitle || (url && url.replace('#vcv-popup-', '')) || ''
       linkDataHtml = (
         <div className='vcv-ui-form-link-data'>
@@ -516,7 +527,21 @@ export default class Url extends Attribute {
             title={popupPageTitle}
           >
             {popupPageTitle}
-          </span>{this.drawModal()}
+          </span>
+          {this.drawModal()}
+        </div>
+      )
+    } else if (type && type === 'close-popup') {
+      const popupPageTitle = 'Close Popup'
+      linkDataHtml = (
+        <div className='vcv-ui-form-link-data'>
+          <span
+            className='vcv-ui-form-link-title'
+            title={popupPageTitle}
+          >
+            {popupPageTitle}
+          </span>
+          {this.drawModal()}
         </div>
       )
     } else {
