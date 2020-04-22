@@ -74,7 +74,7 @@ class JsEnqueueController extends Container implements Module
             $globalJs = $optionsHelper->get('settingsGlobalJsHead');
             $this->globalJSHeadAdded = true;
         }
-        if (!in_array($sourceId, $this->localJsHeadEnqueueList)) {
+        if (!in_array($sourceId, $this->localJsHeadEnqueueList) && is_singular()) {
             $this->localJsHeadEnqueueList[] = $sourceId;
             $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsHead', true);
         }
@@ -96,7 +96,7 @@ class JsEnqueueController extends Container implements Module
             $globalJs = $optionsHelper->get('settingsGlobalJsFooter');
             $this->globalJSFooterAdded = true;
         }
-        if (!in_array($sourceId, $this->localJsFooterEnqueueList)) {
+        if (!in_array($sourceId, $this->localJsFooterEnqueueList) && is_singular()) {
             $this->localJsFooterEnqueueList[] = $sourceId;
             $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsFooter', true);
         }
