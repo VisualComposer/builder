@@ -1,4 +1,4 @@
-import { getStorage, getService } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'
@@ -186,7 +186,7 @@ export default class TreeViewLayout extends React.Component {
   handleElementMount (id) {
     const cookElement = cook.getById(id)
     const isDraggable = cookElement.get('metaIsDraggable')
-    const isElementLocked = cookElement.get('metaIsElementLocked') && !window.VCV_ADMIN_ROLE
+    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && cookElement.get('metaIsElementLocked') && !window.vcvManageOptions
     if (isElementLocked) {
       return
     }

@@ -1,15 +1,15 @@
-import vcCake, { getService } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
-const workspaceStorage = vcCake.getStorage('workspace')
-const elementsStorage = vcCake.getStorage('elements')
-const documentManger = vcCake.getService('document')
-const utils = vcCake.getService('utils')
-const cook = vcCake.getService('cook')
-const hubCategoriesService = vcCake.getService('hubCategories')
+const workspaceStorage = getStorage('workspace')
+const elementsStorage = getStorage('elements')
+const documentManger = getService('document')
+const utils = getService('utils')
+const cook = getService('cook')
+const hubCategoriesService = getService('hubCategories')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -418,7 +418,7 @@ export default class TreeViewElement extends React.Component {
     if (!element) {
       return null
     }
-    const isElementLocked = element.get('metaIsElementLocked') && !window.VCV_ADMIN_ROLE
+    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions
     const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,

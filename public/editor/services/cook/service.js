@@ -536,7 +536,7 @@ const API = {
           layoutAtts[fieldKey] = dynamicFieldsData
         }
       } else if (!isNested && options && options.inline) {
-        if (element.get('metaIsElementLocked') && !window.VCV_ADMIN_ROLE) {
+        if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions) {
           allowInline = false
         }
         layoutAtts[fieldKey] =
