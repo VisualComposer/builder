@@ -21,7 +21,7 @@ export default class EditFormHeader extends React.Component {
       content: props.elementAccessPoint.cook().getName(),
       editable: false,
       hidden: props.elementAccessPoint.cook().get('hidden'),
-      isLocked: false
+      isLocked: props.elementAccessPoint.cook().get('metaIsElementLocked')
     }
 
     this.handleClickEnableEditable = this.handleClickEnableEditable.bind(this)
