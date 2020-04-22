@@ -264,8 +264,8 @@ export default class EditFormHeader extends React.Component {
     })
 
     let lockControl = null
-    const vcvIsUserAdmin = window.VCV_ADMIN_ROLE
-    if (vcvIsUserAdmin) {
+    const vcvIsUserAdmin = window.vcvManageOptions
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin) {
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       lockControl = (
         <span

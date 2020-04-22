@@ -172,7 +172,7 @@ export default class Element extends React.Component {
     let editor = {
       'data-vcv-element': id
     }
-    if (this.state.isElementLocked && !window.VCV_ADMIN_ROLE) {
+    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && this.state.isElementLocked && !window.vcvManageOptions) {
       editor = {}
     }
     if (cookElement.get('metaDisableInteractionInEditor')) {
