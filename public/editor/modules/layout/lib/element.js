@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
-const workspaceStorage = vcCake.getStorage('workspace')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 
@@ -28,7 +27,6 @@ export default class Element extends React.Component {
     this.dataUpdate = this.dataUpdate.bind(this)
     this.cssJobsUpdate = this.cssJobsUpdate.bind(this)
     this.elementComponentTransformation = this.elementComponentTransformation.bind(this)
-    this.handleElementLock = this.handleElementLock.bind(this)
     this.getEditorProps = this.getEditorProps.bind(this)
     this.elementComponentRef = React.createRef()
     this.state = {
@@ -54,12 +52,8 @@ export default class Element extends React.Component {
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
     elementsStorage.on(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
-    workspaceStorage.on('lock', this.handleElementLock)
-    const cookElement = cook.get(this.state.element)
-    this.setState({
-      isElementLocked: cookElement.get('metaIsElementLocked')
-    })
     if (this.elementComponentRef && this.elementComponentRef.current) {
+      const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
     }
     defer(() => {
@@ -73,7 +67,6 @@ export default class Element extends React.Component {
     elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
     elementsStorage.off(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
-    workspaceStorage.off('lock', this.handleElementLock)
     // Clean everything before/after
     if (!this.elementComponentRef || !this.elementComponentRef.current) {
       return
@@ -89,12 +82,6 @@ export default class Element extends React.Component {
       const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
     }
-  }
-
-  handleElementLock (id) {
-    this.setState({
-      isElementLocked: this.state.element.id === id
-    })
   }
 
   dataUpdate (data, source, options) {
@@ -158,11 +145,6 @@ export default class Element extends React.Component {
     }
     let editor = {
       'data-vcv-element': id
-    }
-    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
-      if (this.state.isElementLocked || cookElement.get('metaIsElementLocked')) {
-        editor = {}
-      }
     }
     if (cookElement.get('metaDisableInteractionInEditor')) {
       editor['data-vcv-element-disable-interaction'] = true
