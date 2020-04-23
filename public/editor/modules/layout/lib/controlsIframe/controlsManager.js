@@ -375,6 +375,15 @@ export default class ControlsManager {
             const isDraggable = cookElement.get('metaIsDraggable')
             return isDraggable === undefined || isDraggable
           })
+          data.vcvEditableElements = data.vcElementsPath.filter((id) => {
+            if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
+              const cookElement = cook.getById(id)
+              const isLocked = cookElement.get('metaIsElementLocked')
+              return !isLocked
+            } else {
+              return id
+            }
+          })
           this.toggleControls(data)
         }
         if (this.state.showFrames) {
