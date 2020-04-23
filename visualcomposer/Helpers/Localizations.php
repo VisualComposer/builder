@@ -719,6 +719,22 @@ class Localizations extends Container implements Helper
                 'Lock Element',
                 'visualcomposer'
             ),
+            'url' => __(
+                'Url',
+                'visualcomposer'
+            ),
+            'openPopup' => __(
+                'Open Popup',
+                'visualcomposer'
+            ),
+            'closePopup' => __(
+                'Close Popup',
+                'visualcomposer'
+            ),
+            'closingThePopupDescription' => __(
+                'Closing the popup option will close the current popup',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
