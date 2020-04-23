@@ -411,6 +411,7 @@ export default class TreeViewElement extends React.Component {
       visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
     }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
+    const lockedElementText = localizations ? localizations.lockedElementText : 'The element has been locked by your site Administrator'
 
     let { editable, content, copyData } = this.state
 
@@ -570,8 +571,14 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    const baseControls = isElementLocked ? null : (
-      <div className='vcv-ui-tree-layout-control-actions'>
+    const lockIcon = !isElementLocked ? null : (
+      <span className='vcv-ui-tree-layout-control-action' title={lockedElementText}>
+        <i className='vcv-ui-icon vcv-ui-icon-lock-fill' />
+      </span>
+    )
+
+    const baseControlsItems = isElementLocked ? null : (
+      <>
         <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </span>
@@ -585,6 +592,13 @@ export default class TreeViewElement extends React.Component {
         >
           <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
         </span>
+      </>
+    )
+
+    const baseControls = (
+      <div className='vcv-ui-tree-layout-control-actions'>
+        {baseControlsItems}
+        {lockIcon}
       </div>
     )
 
