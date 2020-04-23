@@ -1,4 +1,4 @@
-import { getStorage, getService, env } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import React from 'react'
 import TreeViewElement from './lib/treeViewElement'
 import TreeViewDndManager from './lib/treeViewDndManager'

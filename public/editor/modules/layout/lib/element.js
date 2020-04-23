@@ -143,7 +143,7 @@ export default class Element extends React.Component {
     if (!cookElement) {
       cookElement = cook.getById(id)
     }
-    let editor = {
+    const editor = {
       'data-vcv-element': id
     }
     if (cookElement.get('metaDisableInteractionInEditor')) {
