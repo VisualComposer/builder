@@ -536,6 +536,9 @@ const API = {
           layoutAtts[fieldKey] = dynamicFieldsData
         }
       } else if (!isNested && options && options.inline) {
+        if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions) {
+          allowInline = false
+        }
         layoutAtts[fieldKey] =
           <ContentEditableComponent
             id={id} fieldKey={fieldKey} fieldType={typeName} api={api} cook={API}

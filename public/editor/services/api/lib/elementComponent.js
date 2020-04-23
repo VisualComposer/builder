@@ -365,8 +365,7 @@ export default class ElementComponent extends React.Component {
     return returnData
   }
 
-  getBackgroundTypeContent () {
-    const { designOptionsAdvanced, parallax } = this.props.atts
+  getBackgroundTypeContent (designOptionsAdvanced = this.props.atts.designOptionsAdvanced, parallax = this.props.atts.parallax) {
     if (lodash.isEmpty(designOptionsAdvanced) || lodash.isEmpty(designOptionsAdvanced.device)) {
       return null
     }
@@ -507,9 +506,7 @@ export default class ElementComponent extends React.Component {
     return null
   }
 
-  getContainerDivider () {
-    const { designOptionsAdvanced, dividers } = this.props.atts
-
+  getContainerDivider (designOptionsAdvanced = this.props.atts.designOptionsAdvanced, dividers = this.props.atts.dividers) {
     if (lodash.isEmpty(dividers) || lodash.isEmpty(dividers.device)) {
       return null
     }

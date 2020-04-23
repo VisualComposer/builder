@@ -21,7 +21,7 @@ class PluginsController extends Container implements Module
 
     public function __construct(License $licenseHelper)
     {
-        $this->wpAddAction('pre_current_active_plugins','enqueueJs');
+        $this->wpAddAction('pre_current_active_plugins', 'enqueueJs');
         $this->wpAddFilter('plugin_row_meta', 'pluginRowMeta', 10, 2);
 
         if (!$licenseHelper->isPremiumActivated()) {
@@ -36,7 +36,15 @@ class PluginsController extends Container implements Module
     /**
      * Enqueue assets and variables for deactivation feedback
      */
-    protected function enqueueJs(){
+    protected function enqueueJs()
+    {
+        // Don't show the deactivation popup if the user already saw that
+        $optionsHelper = vchelper('Options');
+        $deactivationFeedback = $optionsHelper->getTransient('deactivation:feedback:' . get_current_user_id());
+        if ($deactivationFeedback) {
+            return;
+        }
+
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
 
@@ -50,6 +58,15 @@ class PluginsController extends Container implements Module
         );
         wp_enqueue_script('vcv:wpVcSettings:script');
         wp_enqueue_script('vcv:assets:runtime:script');
+
+        // Enqueue css
+        wp_register_style(
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_enqueue_style('vcv:wpVcSettings:style');
 
         // Enqeueue required variables
         $variables[] = [
