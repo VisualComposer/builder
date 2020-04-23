@@ -411,6 +411,7 @@ export default class TreeViewElement extends React.Component {
       visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
     }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
+    const lockedElementText = localizations ? localizations.lockedElementText : 'The element has been locked by your site Administrator'
 
     let { editable, content, copyData } = this.state
 
@@ -570,21 +571,36 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    const baseControls = isElementLocked ? null : (
+    const lockIcon = !isElementLocked ? null : (
+      <span className='vcv-ui-tree-layout-control-action' title={lockedElementText}>
+        <i className='vcv-ui-icon vcv-ui-icon-lock-fill' />
+      </span>
+    )
+
+    const baseControlsItems = isElementLocked ? null : (
+      <>
+        <div className='vcv-ui-tree-layout-control-actions'>
+          <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
+            <i className='vcv-ui-icon vcv-ui-icon-edit' />
+          </span>
+          <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
+            <i className='vcv-ui-icon vcv-ui-icon-trash' />
+          </span>
+          <span
+            className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
+            onMouseEnter={this.handleSandwichMouseEnter}
+            onMouseLeave={this.handleSandwichMouseLeave}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
+          </span>
+        </div>
+      </>
+    )
+
+    const baseControls = (
       <div className='vcv-ui-tree-layout-control-actions'>
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
-          <i className='vcv-ui-icon vcv-ui-icon-edit' />
-        </span>
-        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
-          <i className='vcv-ui-icon vcv-ui-icon-trash' />
-        </span>
-        <span
-          className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
-          onMouseEnter={this.handleSandwichMouseEnter}
-          onMouseLeave={this.handleSandwichMouseLeave}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
-        </span>
+        {baseControlsItems}
+        {lockIcon}
       </div>
     )
 
@@ -689,8 +705,8 @@ export default class TreeViewElement extends React.Component {
 
     if (isDraggable === undefined || isDraggable) {
       treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
-      dragControl = isElementLocked ? null : (
-        <div className={dragHelperClasses}>
+      dragControl = (
+        <div className={dragHelperClasses} hidden={isElementLocked}>
           <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
         </div>
       )

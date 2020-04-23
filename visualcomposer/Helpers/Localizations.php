@@ -735,6 +735,10 @@ class Localizations extends Container implements Helper
                 'Closing the popup option will close the current popup',
                 'visualcomposer'
             ),
+            'lockedElementText' => __(
+                'The element has been locked by your site Administrator',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
