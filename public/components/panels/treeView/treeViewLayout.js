@@ -186,10 +186,6 @@ export default class TreeViewLayout extends React.Component {
   handleElementMount (id) {
     const cookElement = cook.getById(id)
     const isDraggable = cookElement.get('metaIsDraggable')
-    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && cookElement.get('metaIsElementLocked') && !window.vcvManageOptions
-    if (isElementLocked) {
-      return
-    }
     if (isDraggable === undefined || isDraggable) {
       let containerSelector = ''
       const topParentId = documentManager.getTopParent(id)

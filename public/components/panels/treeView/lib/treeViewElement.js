@@ -703,8 +703,8 @@ export default class TreeViewElement extends React.Component {
 
     if (isDraggable === undefined || isDraggable) {
       treeChildProps['data-vcv-dnd-element-expand-status'] = this.state.childExpand ? 'opened' : 'closed'
-      dragControl = isElementLocked ? null : (
-        <div className={dragHelperClasses}>
+      dragControl = (
+        <div className={dragHelperClasses} hidden={isElementLocked}>
           <i className='vcv-ui-drag-handler-icon vcv-ui-icon vcv-ui-icon-drag-dots' />
         </div>
       )
