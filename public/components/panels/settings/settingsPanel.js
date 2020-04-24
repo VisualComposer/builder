@@ -4,6 +4,7 @@ import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
 import Popup from './lib/popup/component'
+import ElementsLock from './lib/elementsLock/component'
 
 import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
@@ -43,6 +44,15 @@ if (env('VCV_POPUP_BUILDER')) {
       title: 'Popup',
       content: <Popup />
     }
+  }
+}
+
+if (env('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+  controls.elementsLock = {
+    index: 4,
+    type: 'elementsLock',
+    title: 'Elements Lock',
+    content: <ElementsLock />
   }
 }
 

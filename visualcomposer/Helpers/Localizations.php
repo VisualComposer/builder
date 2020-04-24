@@ -739,6 +739,22 @@ class Localizations extends Container implements Helper
                 'The element has been locked by your site Administrator',
                 'visualcomposer'
             ),
+            'lockAllText' => __(
+                'Lock All Elements',
+                'visualcomposer'
+            ),
+            'unlockAllText' => __(
+                'Unlock All Elements',
+                'visualcomposer'
+            ),
+            'lockAllDescriptionText' => __(
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements.',
+                'visualcomposer'
+            ),
+            'lockSpecificDescriptionText' => __(
+                'You can lock/unlock specific elements under element edit window.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
