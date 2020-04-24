@@ -572,7 +572,7 @@ export default class TreeViewElement extends React.Component {
     )
 
     const lockIcon = !isElementLocked ? null : (
-      <span className='vcv-ui-tree-layout-control-action' title={lockedElementText}>
+      <span className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-control--lock' title={lockedElementText}>
         <i className='vcv-ui-icon vcv-ui-icon-lock-fill' />
       </span>
     )

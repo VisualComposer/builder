@@ -64,8 +64,15 @@ export default class Element extends React.Component {
     if (elementsList.length) {
       returnData = elementsList
     } else {
-      returnData = currentElement.containerFor().length > 0
-        ? <ContentControls api={this.props.api} id={currentElement.get('id')} /> : content
+      if (currentElement.containerFor().length > 0) {
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions && currentElement.get('metaIsElementLocked')) {
+          returnData = null
+        } else {
+          returnData = <ContentControls api={this.props.api} id={currentElement.get('id')} />
+        }
+      } else {
+        returnData = content
+      }
     }
     return returnData
   }

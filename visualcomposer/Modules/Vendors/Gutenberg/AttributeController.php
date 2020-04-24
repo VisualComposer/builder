@@ -201,6 +201,11 @@ class AttributeController extends Container implements Module
                 display: none;
             }
 
+            .post-type-vcv_gutenberg_attr .edit-post-layout.block-editor-editor-skeleton {
+                left: 0;
+                top: 0;
+            }
+
             /*.edit-post-sidebar .components-panel > :not(.edit-post-settings-sidebar__panel-block) {*/
             /*    display: none;*/
             /*}*/
