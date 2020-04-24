@@ -47,7 +47,7 @@ if (env('VCV_POPUP_BUILDER')) {
   }
 }
 
-if (env('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && window.vcvManageOptions) {
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
