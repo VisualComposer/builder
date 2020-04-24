@@ -269,6 +269,22 @@ addStorage('workspace', (storage) => {
     newElement.metaIsElementLocked = !element.metaIsElementLocked
     elementsStorage.trigger('update', id, newElement, '', { metaIsElementLocked: element.metaIsElementLocked, action: 'lock' })
   })
+  const updateDocumentLockState = (locked) => {
+    const allElements = documentManager.all()
+    Object.keys(allElements).forEach((id) => {
+      allElements[id].metaIsElementLocked = locked
+    })
+    // more performance efficient way to update all elements
+    documentManager.reset(allElements)
+    elementsStorage.state('document').set(documentManager.children(false))
+    elementsStorage.trigger('updateTimeMachine') // save undo/redo
+  }
+  storage.on('lockAll', () => {
+    updateDocumentLockState(true)
+  })
+  storage.on('unlockAll', () => {
+    updateDocumentLockState(false)
+  })
   storage.state('navbarBoundingRect').set({
     resizeTop: 0,
     resizeLeft: 0
