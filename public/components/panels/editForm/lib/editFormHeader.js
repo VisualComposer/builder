@@ -159,7 +159,14 @@ export default class EditFormHeader extends React.Component {
   }
 
   handleLockElementToggle () {
-    workspaceStorage.trigger('lock', this.props.elementAccessPoint.id)
+    const { elementAccessPoint } = this.props
+    const options = {}
+    const cookElement = elementAccessPoint.cook()
+    if (cookElement.containerFor().length > 0) {
+      options.lockInnerElements = true
+      options.action = !documentManager.get(elementAccessPoint.id).metaIsElementLocked ? 'lock' : 'unlock'
+    }
+    workspaceStorage.trigger('lock', elementAccessPoint.id, options)
   }
 
   render () {
@@ -265,7 +272,7 @@ export default class EditFormHeader extends React.Component {
 
     let lockControl = null
     const vcvIsUserAdmin = window.vcvManageOptions
-    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin) {
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin && isGeneral) {
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       lockControl = (
         <span
