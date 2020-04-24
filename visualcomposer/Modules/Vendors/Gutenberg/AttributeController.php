@@ -201,6 +201,11 @@ class AttributeController extends Container implements Module
                 display: none;
             }
 
+            .block-editor-editor-skeleton {
+                left: 0 !important;
+                top: 0 !important;
+            }
+
             /*.edit-post-sidebar .components-panel > :not(.edit-post-settings-sidebar__panel-block) {*/
             /*    display: none;*/
             /*}*/

@@ -4,6 +4,7 @@ export const iframeControlStyles = () => {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-left: auto;
     }
     .vcv-gutenberg-modal-update-button {
       height: 100%;
@@ -24,7 +25,7 @@ export const iframeControlStyles = () => {
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      margin: 0 0 0 10px;
+      margin: 0 10px;
       background: transparent;
       border: 0;
       box-shadow: none;
