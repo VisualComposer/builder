@@ -126,19 +126,23 @@ class FileController extends Container implements Module
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      *
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
-    protected function checkGenerateSourceCss(PostType $postTypeHelper)
+    protected function checkGenerateSourceCss(PostType $postTypeHelper, Options $optionsHelper)
     {
         $sourcePost = $postTypeHelper->get();
         if ($sourcePost && $sourcePost->ID) {
-            if (
-                !get_post_meta($sourcePost->ID, VCV_PREFIX . 'globalElementsCssDataMigration', true)
-                && get_post_meta(
-                    $sourcePost->ID,
-                    VCV_PREFIX . 'pageContent',
-                    true
-                )
-            ) {
+            $postSourceCssResetInitiated = get_post_meta(
+                $sourcePost->ID,
+                '_' . VCV_PREFIX . 'postSourceCssResetInitiated',
+                true
+            );
+            $settingsResetInitiated = $optionsHelper->get('settingsResetInitiated');
+            $isResetInitiated = $settingsResetInitiated
+                && $settingsResetInitiated >= $postSourceCssResetInitiated
+                //@codingStandardsIgnoreLine
+                && $settingsResetInitiated >= strtotime($sourcePost->post_date);
+            if ($isResetInitiated) {
                 /** @see \VisualComposer\Modules\Assets\FileController::generateSourceCssFile */
                 $this->call(
                     'generateSourceCssFile',
@@ -149,7 +153,7 @@ class FileController extends Container implements Module
                         ],
                     ]
                 );
-                update_post_meta($sourcePost->ID, VCV_PREFIX . 'globalElementsCssDataMigration', true);
+                update_post_meta($sourcePost->ID, '_' . VCV_PREFIX . 'postSourceCssResetInitiated', time());
             }
         }
     }
