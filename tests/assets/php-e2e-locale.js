@@ -1,0 +1,1 @@
+console.log(window.vcvLocaleBug) // used in php-e2e
