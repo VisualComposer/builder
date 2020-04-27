@@ -120,12 +120,14 @@ export default class Element extends React.Component {
     const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
-        elements.push(
-          <ColumnResizer
-            key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
-            api={this.props.api}
-          />
-        )
+        if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || window.vcvManageOptions || !this.state.element.metaIsElementLocked) {
+          elements.push(
+            <ColumnResizer
+              key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
+              api={this.props.api}
+            />
+          )
+        }
       }
       return elements
     })
