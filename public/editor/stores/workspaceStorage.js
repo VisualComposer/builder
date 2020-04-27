@@ -284,6 +284,17 @@ addStorage('workspace', (storage) => {
     documentManager.reset(allElements)
     elementsStorage.state('document').set(documentManager.children(false))
     elementsStorage.trigger('updateTimeMachine') // save undo/redo
+
+    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
+    const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      transparent: true,
+      rounded: true,
+      text: locked ? lockAllMessage : unlockAllMessage,
+      time: 3000
+    })
   }
   storage.on('lockAll', () => {
     updateDocumentLockState(true)

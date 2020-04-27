@@ -755,6 +755,14 @@ class Localizations extends Container implements Helper
                 'You can lock/unlock specific elements under element edit window.',
                 'visualcomposer'
             ),
+            'lockAllNotificationText' => __(
+                'All elements on the page have been locked. Only the Administrator role can edit the content.',
+                'visualcomposer'
+            ),
+            'unlockAllNotificationText' => __(
+                'All elements on the page have been unlocked. All users with the edit option can edit the content.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
