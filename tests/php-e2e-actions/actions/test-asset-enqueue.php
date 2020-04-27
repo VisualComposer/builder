@@ -101,7 +101,7 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
             add_filter(
                 'pre_option_rewrite_rules',
                 function () {
-                    return ['wp-contentpluginsvisualcomposertestsphp-e2e-actionsinit\.php' => ''];
+                    return ['wp-contentplugins' . VCV_PLUGIN_DIRNAME . 'testsphp-e2e-actionsinit\.php' => ''];
                 }
             );
 
