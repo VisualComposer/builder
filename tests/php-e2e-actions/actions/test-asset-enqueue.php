@@ -97,7 +97,7 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
 
         public function setupPage()
         {
-            // Skip 404 rewrite rules
+            // Create rewrite rules, to avoid 404 issues and extra redirects
             add_filter(
                 'pre_option_rewrite_rules',
                 function () {
@@ -106,8 +106,6 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
             );
 
             wp(['p' => $this->postId, 'post_type' => 'page']);
-
-            add_filter('redirect_canonical', '__return_false');
 
             // Load the theme template.
             require_once ABSPATH . WPINC . '/template-loader.php';
