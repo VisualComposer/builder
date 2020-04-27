@@ -265,15 +265,15 @@ addStorage('workspace', (storage) => {
       return
     }
 
+    const newElement = element
+    newElement.metaIsElementLocked = options.action ? (options.action === 'lock') : !element.metaIsElementLocked
+    elementsStorage.trigger('update', id, newElement, '', { metaIsElementLocked: element.metaIsElementLocked, action: 'lock' })
+
     if (options.lockInnerElements) {
       documentManager.children(id).forEach((child) => {
         storage.trigger('lock', child.id, { lockInnerElements: true, action: options.action })
       })
     }
-
-    const newElement = element
-    newElement.metaIsElementLocked = options.action ? (options.action === 'lock') : !element.metaIsElementLocked
-    elementsStorage.trigger('update', id, newElement, '', { metaIsElementLocked: element.metaIsElementLocked, action: 'lock' })
   })
   const updateDocumentLockState = (locked) => {
     const allElements = documentManager.all()
