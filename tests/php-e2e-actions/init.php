@@ -4,7 +4,17 @@ $abspath = getenv('WP_TESTS_ABSPATH');
 $pluginDir = dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])));
 $pluginBase = basename($pluginDir);
 $wordpressDir = str_replace('wp-content/plugins/' . $pluginBase, '', $pluginDir);
-
+var_dump(
+    [
+        'globals' => $GLOBALS,
+        'server' => $_SERVER,
+        'pluginDir' => $pluginDir,
+        'pluginBase' => $pluginBase,
+        'wordpressDir' => $wordpressDir,
+        '$abspath' => $abspath,
+        'file_exists' => file_exists(trim($wordpressDir, '\\/') . '/wp-config.php'),
+    ]
+);
 if (empty($abspath)) {
     if (file_exists(trim($wordpressDir, '\\/') . '/wp-config.php')) {
         $abspath = $wordpressDir;
@@ -24,7 +34,7 @@ if (isset($_GET['php-e2e'])) {
         }
     }
 
-    // Ad shortcodes on early init
+    // Add shortcodes on early init
     add_action(
         'init',
         function () {
