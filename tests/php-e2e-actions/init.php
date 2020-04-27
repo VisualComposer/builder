@@ -12,11 +12,11 @@ var_dump(
         'pluginBase' => $pluginBase,
         'wordpressDir' => $wordpressDir,
         '$abspath' => $abspath,
-        'file_exists' => file_exists(trim($wordpressDir, '\\/') . '/wp-config.php'),
+        'file_exists' => file_exists(rtrim($wordpressDir, '\\/') . '/wp-config.php'),
     ]
 );
 if (empty($abspath)) {
-    if (file_exists(trim($wordpressDir, '\\/') . '/wp-config.php')) {
+    if (file_exists(rtrim($wordpressDir, '\\/') . '/wp-config.php')) {
         $abspath = $wordpressDir;
     } else {
         die('Unable to run php-e2e because ENV: WP_TESTS_ABSPATH empty');
