@@ -4,17 +4,7 @@ $abspath = getenv('WP_TESTS_ABSPATH');
 $pluginDir = dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME'])));
 $pluginBase = basename($pluginDir);
 $wordpressDir = str_replace('wp-content/plugins/' . $pluginBase, '', $pluginDir);
-var_dump(
-    [
-        'globals' => $GLOBALS,
-        'server' => $_SERVER,
-        'pluginDir' => $pluginDir,
-        'pluginBase' => $pluginBase,
-        'wordpressDir' => $wordpressDir,
-        '$abspath' => $abspath,
-        'file_exists' => file_exists(rtrim($wordpressDir, '\\/') . '/wp-config.php'),
-    ]
-);
+
 if (empty($abspath)) {
     if (file_exists(rtrim($wordpressDir, '\\/') . '/wp-config.php')) {
         $abspath = $wordpressDir;
