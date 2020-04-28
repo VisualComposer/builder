@@ -158,6 +158,9 @@ export default class Element extends React.Component {
     if (cookElement.get('metaDisableInteractionInEditor')) {
       editor['data-vcv-element-disable-interaction'] = true
     }
+    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions && cookElement.get('metaIsElementLocked')) {
+      editor['data-vcv-element-locked'] = true
+    }
     return editor
   }
 
