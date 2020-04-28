@@ -58,6 +58,10 @@ export default class DndManager {
       const container = this.documentDOM.querySelector('[data-vcv-module="content-layout"]')
       if (container) {
         const DndConstructor = DndDataSet
+        let ignoreHandling = null
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
+          ignoreHandling = '[data-vcv-element-locked]'
+        }
         this.items = new DndConstructor(container, {
           cancelMove: true,
           moveCallback: this.move.bind(this),
@@ -68,7 +72,8 @@ export default class DndManager {
           document: this.documentDOM || document,
           container: document.getElementById('vcv-editor-iframe-overlay') || document.body,
           wrapper: document.querySelector('.vcv-layout-iframe-wrapper'),
-          manualScroll: true
+          manualScroll: true,
+          ignoreHandling: ignoreHandling
         })
         this.items.init()
         this.apiDnD = this.items.api
