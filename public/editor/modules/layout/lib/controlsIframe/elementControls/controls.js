@@ -57,7 +57,11 @@ function getVisibleControls (elementIds, controls) {
     return false
   }
   const controlsRect = controls.getBoundingClientRect()
-  const controlWidth = controls.querySelector('.vcv-ui-outline-control-dropdown').getBoundingClientRect().width
+  const controlsDropdown = controls.querySelector('.vcv-ui-outline-control-dropdown')
+  if (!controlsDropdown) {
+    return false
+  }
+  const controlWidth = controlsDropdown.getBoundingClientRect().width
   const iframeRect = iframe.getBoundingClientRect()
   const isWider = iframeRect.width - controlsRect.width < controlWidth
   if (isWider) {

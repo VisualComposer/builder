@@ -657,6 +657,10 @@ export default class TreeViewElement extends React.Component {
     const controlPadding = (space * this.props.level + defaultSpace) + 'rem'
     const controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
 
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions && cook.getById(this.props.element.id).get('metaIsElementLocked')) {
+      treeChildProps['data-vcv-element-locked'] = true
+    }
+
     if (this.isMobile) {
       let controlsContent = null
       if (this.state.showControls) {
