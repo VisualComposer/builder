@@ -79,8 +79,10 @@ export default class Helper {
   }
 
   setPosition (point) {
-    this.clone.style.top = point.y + 'px'
-    this.clone.style.left = point.x + 'px'
+    if (this.clone) {
+      this.clone.style.top = point.y + 'px'
+      this.clone.style.left = point.x + 'px'
+    }
   }
 
   hide () {
