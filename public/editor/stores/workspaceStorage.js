@@ -283,7 +283,7 @@ addStorage('workspace', (storage) => {
     const unlockContainerMessage = localizations.unlockContainerNotificationText || 'The element and all inner elements have been unlocked and can be edited by all roles with the edit option.'
 
     if (!options.isChild) {
-      if (options.action === 'lock') {
+      if (newElement.metaIsElementLocked) {
         messageText = options.lockInnerElements ? lockContainerMessage : lockElementMessage
       } else {
         messageText = options.lockInnerElements ? unlockContainerMessage : unlockElementMessage
