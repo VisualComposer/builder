@@ -350,10 +350,10 @@ export default class DndDataSet {
 
       if (domElement.$node.attr('data-vcv-element-locked')) {
         allowAppendOption = false
+      }
 
-        if (allowBeforeAfter && parentDOMElement.$node.attr('data-vcv-element-locked')) {
-          allowBeforeAfter = false
-        }
+      if (allowBeforeAfter && parentDOMElement.$node.attr('data-vcv-element-locked')) {
+        allowBeforeAfter = false
       }
 
       const position = this.placeholder.redraw(domElement.node, point, {
