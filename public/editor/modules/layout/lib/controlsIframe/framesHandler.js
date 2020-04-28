@@ -55,6 +55,9 @@ export default class Frames {
     if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
       const id = element.dataset.vcvElement
       const cookElement = cook.getById(id)
+      if (!cookElement) {
+        return
+      }
       const parentElement = cookElement.toJS().parent
       let cookParent = false
       if (parentElement) {
