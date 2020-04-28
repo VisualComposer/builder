@@ -124,7 +124,14 @@ class ColumnResizer extends React.Component {
     const rowWidth = $helper.parentElement.getBoundingClientRect().width + columnGap - parseFloat(window.getComputedStyle($helper.parentElement).paddingLeft) - parseFloat(window.getComputedStyle($helper.parentElement).paddingRight)
     const bothColumnsWidth = ($leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width + columnGap * 2) / rowWidth
     const bothColumnsWidthPx = $leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width
-    const allColumns = [].slice.call($helper.parentElement.querySelectorAll('.vce-col'))
+    const allColIds = vcCake.getService('document').children(rowId)
+    const allColumns = []
+    allColIds.forEach((col) => {
+      const colElement = $helper.parentElement.querySelector(`#el-${col.id}`)
+      if (colElement) {
+        allColumns.push(colElement)
+      }
+    })
     const leftColumnIndex = allColumns.indexOf($leftCol)
     const rightColumnIndex = allColumns.indexOf($rightCol)
 
