@@ -146,11 +146,13 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
   if (defaultLayout && (columns.length > defaultLayout.length)) {
     const removingColumns = columns.slice(defaultLayout.length)
     removingColumns.forEach((column) => {
-      const childElements = documentManager.children(column.id)
-      childElements.forEach((el) => {
-        el.parent = lastColumnObject.id
-        documentManager.update(el.id, el)
-      })
+      if (lastColumnObject) {
+        const childElements = documentManager.children(column.id)
+        childElements.forEach((el) => {
+          el.parent = lastColumnObject.id
+          documentManager.update(el.id, el)
+        })
+      }
       documentManager.delete(column.id)
       elements.push([column, 'remove'])
     })
