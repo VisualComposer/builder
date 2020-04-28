@@ -91,7 +91,6 @@ export default class Frames {
    * @param data
    */
   show (data) {
-    console.log('data', data)
     const elements = data.path
     // add frames if current frames count is not enough
     while (elements.length > this.frames.length) {
