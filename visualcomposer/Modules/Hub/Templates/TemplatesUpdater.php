@@ -269,7 +269,8 @@ class TemplatesUpdater extends Container implements Module
      */
     protected function processWpMedia($imageData, $template, $prefix = '')
     {
-        $newImages = [];
+        $newMedia = [];
+        $newIds = [];
 
         $value = $imageData['value'];
         $images = is_array($value) && isset($value['urls']) ? $value['urls'] : $value;
@@ -281,19 +282,34 @@ class TemplatesUpdater extends Container implements Module
         if (!empty($images) && is_array($images)) {
             foreach ($images as $key => $image) {
                 if (is_string($image)) {
-                    $newUrl = $this->processSimple($image, $template, $prefix . $key . '-');
+                    $newMediaData = $this->processSimple($image, $template, $prefix . $key . '-');
                 } else {
-                    $newUrl = $this->processSimple($image['full'], $template, $prefix . $key . '-');
+                    $newMediaData = $this->processSimple($image['full'], $template, $prefix . $key . '-');
                 }
-                if ($newUrl) {
-                    $newImages[] = $newUrl;
+                if ($newMediaData) {
+                    $attachment = $this->addImageToMediaLibrary($newMediaData);
+
+                    if (is_string($image)) {
+                        $image = $attachment['url'];
+                    } else {
+                        $image['url'] = $attachment['url'];
+                    }
+                    $newMedia[] = $image;
+                    $newIds[] = $attachment['id'];
                 }
             }
         }
 
-        return $newImages;
+        return ['newMedia' => $newMedia, 'newIds' => $newIds];
     }
 
+    /**
+     * @param $templateElements
+     * @param $template
+     * @param $newTemplateId
+     *
+     * @return mixed
+     */
     protected function processDesignOptions($templateElements, $template)
     {
         $arrayIterator = new \RecursiveArrayIterator($templateElements);
@@ -308,24 +324,31 @@ class TemplatesUpdater extends Container implements Module
             if (is_array($value) && in_array($key, $keys, true) && isset($value['urls'])) {
                 $newValue = $this->processWpMedia(['value' => $value], $template);
 
-                // Get the current depth and traverse back up the tree, saving the modifications
-                $currentDepth = $recursiveIterator->getDepth();
-                for ($subDepth = $currentDepth; $subDepth >= 0; $subDepth--) {
-                    // Get the current level iterator
-                    $subIterator = $recursiveIterator->getSubIterator($subDepth);
-                    // If we are on the level we want to change
-                    // use the replacements ($value) other wise set the key to the parent iterators value
-                    if ($subDepth === $currentDepth) {
-                        $val = $newValue;
-                    } else {
-                        $val = $recursiveIterator->getSubIterator(
-                            ($subDepth + 1)
-                        )->getArrayCopy();
+                if ($newValue) {
+                    $newMedia = [];
+                    $newMedia['ids'] = $newValue['newIds'];
+                    $newMedia['urls'] = $newValue['newMedia'];
+                    // Get the current depth and traverse back up the tree, saving the modifications
+                    $currentDepth = $recursiveIterator->getDepth();
+                    for ($subDepth = $currentDepth; $subDepth >= 0; $subDepth--) {
+                        // Get the current level iterator
+                        $subIterator = $recursiveIterator->getSubIterator($subDepth);
+                        // If we are on the level we want to change
+                        // use the replacements ($value) other wise set the key to the parent iterators value
+                        if ($subDepth === $currentDepth) {
+                            $subIterator->offsetSet(
+                                $subIterator->key(),
+                                $newMedia
+                            );
+                        } else {
+                            $subIterator->offsetSet(
+                                $subIterator->key(),
+                                $recursiveIterator->getSubIterator(
+                                    ($subDepth + 1)
+                                )->getArrayCopy()
+                            );
+                        }
                     }
-                    $subIterator->offsetSet(
-                        $subIterator->key(),
-                        $val
-                    );
                 }
             }
         }
@@ -343,7 +366,7 @@ class TemplatesUpdater extends Container implements Module
     protected function processTemplateImages($elementsImages, $template, $templateElements)
     {
         foreach ($elementsImages as $element) {
-            foreach ($element['media'] as $media) {
+            foreach ($element['media'] as $key => $media) {
                 if (isset($media['complex']) && $media['complex']) {
                     $imageData = $this->processWpMedia(
                         $media,
@@ -358,12 +381,66 @@ class TemplatesUpdater extends Container implements Module
                         $element['elementId'] . '-' . $media['key'] . '-'
                     );
                 }
-                if ($imageData) {
-                    $templateElements[ $element['elementId'] ][ $media['key'] ] = $imageData;
+                $newImageData = $imageData['newMedia'];
+                if (!is_wp_error($newImageData) && $newImageData) {
+                    if (isset($templateElements[ $element['elementId'] ][ $media['key'] ]['urls'])) {
+                        $templateElements[ $element['elementId'] ][ $media['key'] ]['urls'] = $imageData['newMedia'];
+                        $templateElements[ $element['elementId'] ][ $media['key'] ]['ids'] = $imageData['newIds'];
+                    } else {
+                        $templateElements[ $element['elementId'] ][ $media['key'] ][ $key ] = $newImageData[0];
+                    }
                 }
             }
         }
 
         return $templateElements;
+    }
+
+    /**
+     * Add image to media library
+     *
+     * @param $imageUrl
+     *
+     * @return array
+     */
+    protected function addImageToMediaLibrary($imageUrl)
+    {
+        $fileHelper = vchelper('File');
+        $wpUploadDir = wp_upload_dir();
+        $localMediaPath = str_replace($wpUploadDir['baseurl'], $wpUploadDir['basedir'], $imageUrl);
+        $fileType = wp_check_filetype(basename($localMediaPath), null);
+        $imageNewUrl = $wpUploadDir['path'] . '/' . basename($localMediaPath);
+        $fileHelper->copyFile($localMediaPath, $imageNewUrl);
+
+        $attachment = [
+            'guid' => $wpUploadDir['url'] . '/' . basename($localMediaPath),
+            'post_mime_type' => $fileType['type'],
+            'post_title' => preg_replace('/\.[^.]+$/', '', basename($localMediaPath)),
+            'post_content' => '',
+            'post_status' => 'inherit',
+        ];
+
+        $attachment = wp_insert_attachment(
+            $attachment,
+            $wpUploadDir['path'] . '/' . basename($localMediaPath),
+            get_the_ID()
+        );
+
+        if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
+            wp_generate_attachment_metadata(
+                $attachment,
+                $imageNewUrl
+            );
+        } else {
+            wp_update_attachment_metadata(
+                $attachment,
+                wp_generate_attachment_metadata(
+                    $attachment,
+                    $imageNewUrl
+                )
+            );
+        }
+
+        return ['id' => $attachment, 'url' => $wpUploadDir['url'] . '/' . basename($localMediaPath)];
     }
 }
