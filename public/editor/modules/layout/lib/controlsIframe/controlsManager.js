@@ -109,7 +109,7 @@ export default class ControlsManager {
   }
 
   toggleControls (data) {
-    if (data) {
+    if (data && data.vcvEditableElements.length) {
       ReactDOM.render(<Controls data={data} />, this.controlsWrapper)
       ReactDOM.render(<AppendControl data={data} />, this.appendControlsWrapper)
     } else {

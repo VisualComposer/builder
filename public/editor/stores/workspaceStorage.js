@@ -256,7 +256,7 @@ addStorage('workspace', (storage) => {
     newElement.hidden = !element.hidden
     elementsStorage.trigger('update', id, newElement, '', { hidden: element.hidden, action: 'hide' })
   })
-  storage.on('lock', (id, options) => {
+  storage.on('lock', (id, options = {}) => {
     if (!id) {
       return
     }
@@ -265,15 +265,37 @@ addStorage('workspace', (storage) => {
       return
     }
 
-    if (options.lockInnerElements) {
-      documentManager.children(id).forEach((child) => {
-        storage.trigger('lock', child.id, { lockInnerElements: true, action: options.action })
-      })
-    }
-
     const newElement = element
     newElement.metaIsElementLocked = options.action ? (options.action === 'lock') : !element.metaIsElementLocked
     elementsStorage.trigger('update', id, newElement, '', { metaIsElementLocked: element.metaIsElementLocked, action: 'lock' })
+
+    if (options.lockInnerElements) {
+      documentManager.children(id).forEach((child) => {
+        storage.trigger('lock', child.id, { lockInnerElements: true, action: options.action, isChild: true })
+      })
+    }
+
+    let messageText
+    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const lockElementMessage = localizations.lockElementNotificationText || 'The element has been locked and can be edited only by the Administrator role.'
+    const unlockElementMessage = localizations.unlockElementNotificationText || 'The element has been unlocked and can be edited by all roles with the edit option.'
+    const lockContainerMessage = localizations.lockContainerNotificationText || 'The element and all inner elements have been locked and can be edited only by the Administrator role.'
+    const unlockContainerMessage = localizations.unlockContainerNotificationText || 'The element and all inner elements have been unlocked and can be edited by all roles with the edit option.'
+
+    if (!options.isChild) {
+      if (newElement.metaIsElementLocked) {
+        messageText = options.lockInnerElements ? lockContainerMessage : lockElementMessage
+      } else {
+        messageText = options.lockInnerElements ? unlockContainerMessage : unlockElementMessage
+      }
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: messageText,
+        time: 3000
+      })
+    }
   })
   const updateDocumentLockState = (locked) => {
     const allElements = documentManager.all()
@@ -284,6 +306,17 @@ addStorage('workspace', (storage) => {
     documentManager.reset(allElements)
     elementsStorage.state('document').set(documentManager.children(false))
     elementsStorage.trigger('updateTimeMachine') // save undo/redo
+
+    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
+    const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      transparent: true,
+      rounded: true,
+      text: locked ? lockAllMessage : unlockAllMessage,
+      time: 3000
+    })
   }
   storage.on('lockAll', () => {
     updateDocumentLockState(true)
