@@ -56,6 +56,11 @@ export function AppendControl (props) {
     return null
   }
 
+  const isParentElementLocked = containerElement.get('metaIsElementLocked')
+  if (isParentElementLocked) {
+    return null
+  }
+
   const isContainerForGeneral = containerElement.containerFor().indexOf('General') > -1
   if (!isContainerForGeneral) {
     return null

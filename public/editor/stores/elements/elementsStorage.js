@@ -378,4 +378,5 @@ addStorage('elements', (storage) => {
     delete elementRefState[id]
     storage.state('elementRefs').set(elementRefState)
   })
+  storage.on('updateTimeMachine', updateTimeMachine)
 })

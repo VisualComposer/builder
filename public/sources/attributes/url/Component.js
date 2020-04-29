@@ -329,6 +329,10 @@ export default class Url extends Attribute {
     const onClickAction = this.localizations ? this.localizations.onClickAction : 'OnClick action'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
+    const urlText = this.localizations ? this.localizations.url : 'Url'
+    const openPopupText = this.localizations ? this.localizations.openPopup : 'Open Popup'
+    const closePopupText = this.localizations ? this.localizations.closePopup : 'Close Popup'
+    const closingThePopupDescription = this.localizations ? this.localizations.closingThePopupDescription : 'Closing the popup option will close the current popup'
 
     let optionDropdown = null
     let modalContent = null
@@ -345,9 +349,9 @@ export default class Url extends Attribute {
             onChange={this.handleContentChange}
             value={dropdownValue}
           >
-            <option value='url'>Url</option>
-            <option value='popup'>Open Popup</option>
-            <option value='close-popup'>Close Popup</option>
+            <option value='url'>{urlText}</option>
+            <option value='popup'>{openPopupText}</option>
+            <option value='close-popup'>{closePopupText}</option>
           </select>
         </div>
       )
@@ -357,7 +361,7 @@ export default class Url extends Attribute {
       modalContent = (
         <div>
           <p className='vcv-ui-form-helper'>
-            Closing the popup option will close the current popup
+            {closingThePopupDescription}
           </p>
         </div>
       )

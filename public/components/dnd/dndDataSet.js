@@ -340,15 +340,27 @@ export default class DndDataSet {
         }
       }
 
+      let allowAppendOption = !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
+        domElement && this.draggingElement.isChild(domElement) &&
+        allowApend &&
+        !domElement.node.dataset.vceTab &&
+        ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
+
+      let allowBeforeAfter = parentDOMElement && this.draggingElement.isChild(parentDOMElement)
+
+      if (domElement.$node.attr('data-vcv-element-locked')) {
+        allowAppendOption = false
+      }
+
+      if (allowBeforeAfter && parentDOMElement.$node.attr('data-vcv-element-locked')) {
+        allowBeforeAfter = false
+      }
+
       const position = this.placeholder.redraw(domElement.node, point, {
         attribute: this.options.isAttribute,
         afterLastContainerElement,
-        allowBeforeAfter: parentDOMElement && this.draggingElement.isChild(parentDOMElement),
-        allowAppend: !afterLastContainerElement && !this.isDraggingElementParent(domElement) &&
-          domElement && this.draggingElement.isChild(domElement) &&
-          allowApend &&
-          !domElement.node.dataset.vceTab &&
-          ((domElement.options.tag === 'tab') ? domElement.node.dataset.vcvActive === 'true' : true)
+        allowBeforeAfter: allowBeforeAfter,
+        allowAppend: allowAppendOption
       })
 
       if (position) {

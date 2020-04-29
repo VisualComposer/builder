@@ -57,7 +57,11 @@ function getVisibleControls (elementIds, controls) {
     return false
   }
   const controlsRect = controls.getBoundingClientRect()
-  const controlWidth = controls.querySelector('.vcv-ui-outline-control-dropdown').getBoundingClientRect().width
+  const controlsDropdown = controls.querySelector('.vcv-ui-outline-control-dropdown')
+  if (!controlsDropdown) {
+    return false
+  }
+  const controlWidth = controlsDropdown.getBoundingClientRect().width
   const iframeRect = iframe.getBoundingClientRect()
   const isWider = iframeRect.width - controlsRect.width < controlWidth
   if (isWider) {
@@ -71,9 +75,9 @@ function getVisibleControls (elementIds, controls) {
 }
 
 function getControls (data, visibleControls) {
-  const { vcvDraggableIds, vcElementsPath } = data
+  const { vcvDraggableIds, vcvEditableElements } = data
   const controls = []
-  const iterableControls = visibleControls || vcElementsPath
+  const iterableControls = visibleControls || vcvEditableElements
   const localizations = window.VCV_I18N && window.VCV_I18N()
   iterableControls.forEach((id, i) => {
     if (i === iterableControls.length - 1 && visibleControls) {
@@ -90,7 +94,7 @@ function getControls (data, visibleControls) {
     } else {
       controls.push(<Control id={id} key={`element-control-${id}`} isDraggable={vcvDraggableIds.includes(id)} />)
     }
-    if (i < vcElementsPath.length - 1) {
+    if (i < vcvEditableElements.length - 1) {
       controls.push(
         <i className='vcv-ui-outline-control-separator vcv-ui-icon vcv-ui-icon-arrow-right' key={`element-delimiter-${id}-${i}`} />)
     }
@@ -102,7 +106,7 @@ function getControls (data, visibleControls) {
 export function Controls (props) {
   const controlsContainer = useRef()
   const controls = useRef()
-  const { vcElementsPath } = props.data
+  const { vcvEditableElements } = props.data
   const [containerPos, setContainerPos] = useState(updateContainerPosition(props.data, controlsContainer))
   const [controlsPos, setControlsPos] = useState(updateControlsPosition(props.data, controlsContainer))
   const [visibleControls, setVisibleControls] = useState(false)
@@ -113,7 +117,7 @@ export function Controls (props) {
     }
     setControlsPos(updateControlsPosition(props.data, controlsContainer))
     if (!visibleControls) {
-      setVisibleControls(getVisibleControls(vcElementsPath, controls))
+      setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
   })
 

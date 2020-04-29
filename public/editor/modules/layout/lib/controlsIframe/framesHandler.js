@@ -1,3 +1,7 @@
+import { getService, env } from 'vc-cake'
+
+const cook = getService('cook')
+
 export default class Frames {
   constructor (props) {
     this.iframeContainer = props.iframeContainer
@@ -44,6 +48,38 @@ export default class Frames {
       const iframePos = this.iframe.getBoundingClientRect()
       top -= iframePos.top
       left -= iframePos.left
+    }
+    let isElementLocked = false
+    let isParentElementLocked = false
+    let isTopParent = false
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
+      const id = element.dataset.vcvElement
+      const cookElement = cook.getById(id)
+      if (!cookElement) {
+        return
+      }
+      const parentElement = cookElement.toJS().parent
+      let cookParent = false
+      if (parentElement) {
+        cookParent = cook.getById(parentElement)
+        if (cookParent.get('metaIsElementLocked')) {
+          isParentElementLocked = true
+        }
+      } else {
+        isTopParent = true
+      }
+      if (cookElement.get('metaIsElementLocked')) {
+        isElementLocked = true
+      }
+    }
+    frame.classList.remove('vcv-ui-element-frame--locked')
+    frame.classList.remove('vcv-ui-element-frame--parent-locked')
+    if (isElementLocked) {
+      if (isParentElementLocked || isTopParent) {
+        frame.classList.add('vcv-ui-element-frame--parent-locked')
+      } else {
+        frame.classList.add('vcv-ui-element-frame--locked')
+      }
     }
     const scrollTop = this.iframeWrapper && this.iframeWrapper.scrollTop ? this.iframeWrapper.scrollTop : 0
     const scrollLeft = this.iframeWrapper && this.iframeWrapper.scrollLeft ? this.iframeWrapper.scrollLeft : 0

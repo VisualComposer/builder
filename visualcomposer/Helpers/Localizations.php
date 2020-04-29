@@ -719,6 +719,66 @@ class Localizations extends Container implements Helper
                 'Lock Element',
                 'visualcomposer'
             ),
+            'url' => __(
+                'Url',
+                'visualcomposer'
+            ),
+            'openPopup' => __(
+                'Open Popup',
+                'visualcomposer'
+            ),
+            'closePopup' => __(
+                'Close Popup',
+                'visualcomposer'
+            ),
+            'closingThePopupDescription' => __(
+                'Closing the popup option will close the current popup',
+                'visualcomposer'
+            ),
+            'lockedElementText' => __(
+                'The element has been locked by your site Administrator',
+                'visualcomposer'
+            ),
+            'lockAllText' => __(
+                'Lock All Elements',
+                'visualcomposer'
+            ),
+            'unlockAllText' => __(
+                'Unlock All Elements',
+                'visualcomposer'
+            ),
+            'lockAllDescriptionText' => __(
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements.',
+                'visualcomposer'
+            ),
+            'lockSpecificDescriptionText' => __(
+                'You can lock/unlock specific elements under element edit window.',
+                'visualcomposer'
+            ),
+            'lockAllNotificationText' => __(
+                'All elements on the page have been locked. Only the Administrator role can edit the content.',
+                'visualcomposer'
+            ),
+            'unlockAllNotificationText' => __(
+                'All elements on the page have been unlocked. All users with the edit option can edit the content.',
+                'visualcomposer'
+            ),
+            'lockElementNotificationText' => __(
+                'The element has been locked and can be edited only by the Administrator role.',
+                'visualcomposer'
+            ),
+            'unlockElementNotificationText' => __(
+                'The element has been unlocked and can be edited by all roles with the edit option.',
+                'visualcomposer'
+            ),
+            'lockContainerNotificationText' => __(
+                'The element and all inner elements have been locked and can be edited only by the Administrator role.',
+                'visualcomposer'
+            ),
+            'unlockContainerNotificationText' => __(
+                'The element and all inner elements have been unlocked and can be edited by all roles with the edit option.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

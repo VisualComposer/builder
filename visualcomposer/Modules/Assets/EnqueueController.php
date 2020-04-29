@@ -49,6 +49,7 @@ class EnqueueController extends Container implements Module
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
+        VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
 
         foreach ($assetsEnqueueHelper->getEnqueueList() as $sourceId) {
             // @codingStandardsIgnoreStart
@@ -70,9 +71,7 @@ class EnqueueController extends Container implements Module
                 $wp_query->the_post();
                 do_action('wp_enqueue_scripts');
                 do_action('wp_print_scripts'); // Load localize scripts
-                VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
                 ob_start();
-
                 // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
                 $this->callNonWordpressActionCallbacks('wp_footer');
                 ob_end_clean();
