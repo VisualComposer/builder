@@ -59,7 +59,7 @@ export default class VideoScreen extends React.Component {
           <div className='vcv-activation-video'>
             <iframe
               className='vcv-activation-video-iframe'
-              src='https://www.youtube.com/embed/ughXiLqxhxc'
+              src='https://www.youtube.com/embed/ughXiLqxhxc?rel=0'
               frameBorder='0'
             />
           </div>
