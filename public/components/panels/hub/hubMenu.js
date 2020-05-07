@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-export default class TeaserTypeControl extends React.Component {
+export default class HubMenu extends React.Component {
   buttonsGroup = null
   static propTypes = {
     categories: PropTypes.object.isRequired,

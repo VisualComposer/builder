@@ -18,6 +18,7 @@ module.exports = {
     wpbase: './public/base',
     wpUpdate: './public/activation',
     wpVcSettings: './public/wordpressSettings',
+    hub: './public/hub',
     vendor: webpackVendors()
   },
   output: {
@@ -55,6 +56,29 @@ module.exports = {
           'layout',
           'wordpressWorkspace'
         ],
+        services: [
+          'utils',
+          'document',
+          'wordpress-post-data',
+          'hubElements',
+          'dataProcessor',
+          'cook',
+          'sharedAssetsLibrary',
+          'elementAssetsLibrary',
+          'actionsManager',
+          'rulesManager',
+          'modernAssetsStorage',
+          'stylesManager',
+          'wpMyTemplates',
+          'hubCategories',
+          'hubGroups',
+          'elementAccessPoint',
+          'hubAddons',
+          'renderProcessor',
+          'api'
+        ]
+      },
+      hub: {
         services: [
           'utils',
           'document',

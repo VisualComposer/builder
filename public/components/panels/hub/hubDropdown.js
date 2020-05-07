@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class TeaserDropdown extends React.Component {
+export default class HubDropdown extends React.Component {
   static propTypes = {
     categories: PropTypes.object.isRequired,
     filterType: PropTypes.string.isRequired,
@@ -24,7 +24,7 @@ export default class TeaserDropdown extends React.Component {
     optionElements.push(this.createOptions(type, index, `All ${title}`))
 
     bundleTypes.forEach((bundleType) => {
-      let subName = TeaserDropdown.localizations[bundleType]
+      let subName = HubDropdown.localizations[bundleType]
 
       if (!subName && bundleType === 'free') {
         subName = 'Free'

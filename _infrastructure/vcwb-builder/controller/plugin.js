@@ -188,6 +188,7 @@ class Plugin {
       'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpVcSettings.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpUpdate.* ./public/dist/ &' +
+      'cp -fr ' + repoPath + '/public/dist/hub.bundle.js ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/runtime.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/elements ./ &' +
       'cp -fr ' + repoPath + '/readme.txt ./ &' +
