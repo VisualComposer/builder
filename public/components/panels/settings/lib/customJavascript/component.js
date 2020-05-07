@@ -62,21 +62,46 @@ export default class CustomJavascript extends React.Component {
   getEditor (type) {
     const allEditors = []
 
+    if (window.VCV_EDITOR_TYPE() === 'template' && type === 'Head' && this.state.activeIndex === 'localJs') {
+      return
+    }
+
     const name = `${this.state.activeIndex}${type}`
+    const tagName = type.toLowerCase()
+
     allEditors.push(
-      <HtmlEditor
+      <div
         key={`vcv-settings-scriptEditor${type}-${name}`}
-        name={name}
-        value={this.state[name]}
-        updater={this.updateSettings}
-      />
+        className='vcv-ui-script-editor-container-type'
+      >
+        <span className='vcv-ui-script-editor-tag'>&lt;{tagName}&gt;</span>
+        <HtmlEditor
+          name={name}
+          value={this.state[name]}
+          updater={this.updateSettings}
+        />
+        <span className='vcv-ui-script-editor-tag'>&lt;/{tagName}&gt;</span>
+      </div>
     )
 
     return allEditors
   }
 
-  render () {
+  getHelperText () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
+
+    if (this.state.activeIndex === 'localJs') {
+      if (window.VCV_EDITOR_TYPE() === 'template') {
+        return localizations.settingsGlobalTemplateCustomJsLocal
+      } else {
+        return localizations.settingsCustomJsLocal
+      }
+    } else {
+      return localizations.settingsCustomJsGlobal
+    }
+  }
+
+  render () {
     return (
       <div className='vcv-ui-custom-scripts vcv-ui-custom-scripts-areas'>
         <div className='vcv-ui-script-control-container'>
@@ -85,19 +110,11 @@ export default class CustomJavascript extends React.Component {
           </div>
         </div>
         <p className='vcv-ui-form-helper'>
-          {this.state.activeIndex === 'localJs' ? localizations.settingsCustomJsLocal : localizations.settingsCustomJsGlobal}
+          {this.getHelperText()}
         </p>
         <div className='vcv-ui-script-editor-container'>
-          <div className='vcv-ui-script-editor-container-type'>
-            <span className='vcv-ui-script-editor-tag'>&lt;head&gt;</span>
-            {this.getEditor('Head')}
-            <span className='vcv-ui-script-editor-tag'>&lt;/head&gt;</span>
-          </div>
-          <div className='vcv-ui-script-editor-container-type'>
-            <span className='vcv-ui-script-editor-tag'>&lt;footer&gt;</span>
-            {this.getEditor('Footer')}
-            <span className='vcv-ui-script-editor-tag'>&lt;/footer&gt;</span>
-          </div>
+          {this.getEditor('Head')}
+          {this.getEditor('Footer')}
         </div>
       </div>
     )
