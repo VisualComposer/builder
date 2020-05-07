@@ -1,0 +1,301 @@
+// Override WordPress defaults to adjust the appearance of the dashboard
+
+#wpcontent {
+  padding: 0;
+}
+
+#wpbody #wpbody-content {
+  padding: 0;
+}
+
+.auto-fold #wpcontent {
+  padding: 0;
+}
+
+// Dashboard styles
+
+.vcv-dashboard-container {
+  position: absolute; // temporary ?
+  top: 46px;
+  bottom: 0;
+  z-index: 99;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: @wp-default-dashboard-background-color;
+}
+
+.vcv-dashboard-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  padding: 30px;
+  background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
+}
+
+.vcv-dashboard-sidebar-navigation-container {
+  display: none;
+  flex-direction: column;
+  flex: 1 0 auto;
+  margin: 30px 0 0;
+
+  &.vcv-is-navigation-visible {
+    display: flex;
+  }
+}
+
+.vcv-dashboard-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.vcv-dashboard-logo-img {
+  max-width: 100%;
+  height: auto;
+}
+
+.vcv-dashboard-sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+}
+
+.vcv-dashboard-sidebar-navigation--main {
+  flex: 1 0 auto;
+}
+
+.vcv-dashboard-sidebar-navigation--bottom {
+  flex: 0 0 auto;
+}
+
+.vcv-dashboard-sidebar-navigation-item {
+  display: flex;
+  align-items: center;
+  color: @text-color-base;
+  text-decoration: none;
+  font: @text-size-root/50px @text-family-base ;
+
+  &:hover,
+  &:focus,
+  &.vcv-dashboard-sidebar-navigation-item--active {
+    color: @text-color-base;
+
+    &::before {
+      background: rgba(255, 255, 255, .3);
+    }
+  }
+}
+
+.vcv-ui-icon-dashboard::before {
+  padding: 10px;
+  margin-right: 11px;
+  font-size: 20px;
+  border-radius: 50%;
+  transition: background @transition-duration @transition-timing-function;
+}
+
+.vcv-dashboard-nav-toggle {
+  position: relative;
+  flex: 0 0 30px;
+  height: 30px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  margin: 0 0 0 10px;
+
+  &[aria-expanded="true"] {
+    .vcv-dashboard-nav-toggle-hamburger {
+      transform: translate3d(0, 0, 0) rotate(45deg);
+    }
+    .vcv-dashboard-nav-toggle-hamburger::before {
+      transform: rotate(-45deg) translate3d(-5.71429px, -6px, 0);
+      opacity: 0;
+    }
+    .vcv-dashboard-nav-toggle-hamburger::after {
+      transform: translate3d(0, -7px, 0) rotate(-90deg);
+    }
+  }
+}
+
+.vcv-dashboard-nav-toggle-hamburger {
+  &,
+  &::before,
+  &::after {
+    width: 25px;
+    height: 2px;
+    background-color: @text-color-base;
+    position: absolute;
+    left: 2px;
+    transition-property: transform, opacity;
+    transition-timing-function: ease;
+    transition-duration: 0.15s;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    left: 0;
+  }
+
+  &::before {
+    top: -7px;
+    transition-property: transform, opacity;
+    transition-timing-function: ease;
+    transition-duration: 0.15s;
+  }
+
+  &::after {
+    top: 7px;
+  }
+}
+
+.vcv-dashboard-main {
+  padding: 50px;
+
+  h1, h2, h3, h4, h5, h6, button {
+    font-family: 'Montserrat', Arial, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .form-table th,
+  .vcv-dashboard-tab {
+    color: #515162;
+  }
+
+  h1 {
+    margin: 0 0 20px;
+    padding: 0;
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .form-table {
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    margin: 10px 0 30px;
+
+    th {
+      width: 150px;
+    }
+  }
+
+  .description {
+    color: #8E8E9E;
+    font-size: 15px;
+    font-style: normal;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+  }
+
+  .vcv-ui-form-switch > input:checked ~ .vcv-ui-form-switch-indicator {
+    background: #3E4BBB;
+  }
+
+  .vcv-ui-form-switch > input:not(:checked) ~ .vcv-ui-form-switch-indicator {
+    background: #a3a3a3;
+  }
+
+  .vcv-dashboard-dropdown-select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .notice {
+    display: none; // temporary, to prevent Notices from appearing in dashboard
+  }
+}
+
+.vcv-dashboard-tab {
+  padding: 15px;
+  border-right: 1px solid #ccc;
+  flex: 1 1 auto;
+  text-decoration: none;
+  font-size: 15px;
+  text-align: center;
+
+  &:last-of-type {
+    border: none;
+  }
+
+  &.vcv-dashboard-tab--active {
+    box-shadow: inset 0 -5px #3E4BBB;
+  }
+}
+
+.vcv-dashboard-tabs {
+  display: none;
+  margin: 0 0 40px;
+  border: 1px solid #ccc;
+  background: @text-color-base;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.vcv-dashboard-button {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 18px 41px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: @text-color-base;
+  letter-spacing: 1px;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: background @transition-duration @transition-timing-function;
+}
+
+.vcv-dashboard-button--save {
+  background: #FFAE27;
+
+  &:hover {
+    background: darken(#FFAE27, 15%);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .vcv-dashboard-container {
+    top: 0;
+  }
+}
+
+@media screen and (min-width: 783px) {
+  .vcv-dashboard-container {
+    flex-direction: row;
+  }
+
+  .vcv-dashboard-sidebar {
+    max-width: 310px;
+    flex: 0 0 30%;
+  }
+
+  .vcv-dashboard-main {
+    flex: 0 1 70%;
+  }
+
+  .vcv-dashboard-sidebar-navigation-container {
+    display: flex;
+  }
+
+  .vcv-dashboard-nav-toggle {
+    display: none;
+  }
+
+  .vcv-dashboard-dropdown {
+    display: none;
+  }
+
+  .vcv-dashboard-tabs {
+    display: inline-flex;
+  }
+}
