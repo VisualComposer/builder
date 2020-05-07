@@ -8,7 +8,7 @@ if (!defined('VCV_E2E')) {
 
 function e2e_create_post($data)
 {
-    $data = array_merge(
+    $data = array_merge_recursive(
         [
             'meta_input' => [
                 '_e2e-generated-test' => 1, // required for cleanDb
@@ -23,7 +23,8 @@ function e2e_create_post($data)
 function e2e_clean_posts()
 {
     $args = [
-        'post_type' => 'any',
+        'post_type' => array_keys(get_post_types()),
+        'post_status' => 'any',
         'meta_query' => [
             [
                 'key' => '_e2e-generated-test',
@@ -31,6 +32,7 @@ function e2e_clean_posts()
                 'compare' => '=',
             ],
         ],
+        'posts_per_page' => '-1',
     ];
     $query = new WP_Query($args);
     if (is_array($query->posts) && !empty($query->posts)) {
@@ -38,4 +40,17 @@ function e2e_clean_posts()
             wp_delete_post($post->ID, true);
         }
     }
+}
+
+function e2e_add_rewrite_rules()
+{
+    add_filter(
+        'pre_option_rewrite_rules',
+        function () {
+            return [
+                'wp-content/plugins/' . VCV_PLUGIN_DIRNAME . '/tests/php-e2e-actions/init.php' => '',
+                'wp-contentplugins' . VCV_PLUGIN_DIRNAME . 'testsphp-e2e-actionsinit\.php' => '',
+            ];
+        }
+    );
 }
