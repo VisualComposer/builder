@@ -62,7 +62,10 @@ export default class CustomJavascript extends React.Component {
   getEditor (type) {
     const allEditors = []
 
-    if (window.VCV_EDITOR_TYPE() === 'template' && type === 'Head' && this.state.activeIndex === 'localJs') {
+    if (window.VCV_EDITOR_TYPE &&
+      window.VCV_EDITOR_TYPE() === 'template' &&
+      type === 'Head' &&
+      this.state.activeIndex === 'localJs') {
       return
     }
 
@@ -91,7 +94,7 @@ export default class CustomJavascript extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
 
     if (this.state.activeIndex === 'localJs') {
-      if (window.VCV_EDITOR_TYPE() === 'template') {
+      if (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() === 'template') {
         return localizations.settingsGlobalTemplateCustomJsLocal
       } else {
         return localizations.settingsCustomJsLocal
