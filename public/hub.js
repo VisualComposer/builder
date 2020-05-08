@@ -46,9 +46,10 @@ export const setupCake = () => {
     // settingsStorage.trigger('start')
     // const attributesStorage = vcCake.getStorage('attributes')
     // attributesStorage.trigger('start')
+    const hideScrollbar = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={true} />,
+        <HubContainer parent={{}} hideScrollbar={hideScrollbar} />,
         document.querySelector('#vcv-hub')
       )
     })
