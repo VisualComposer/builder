@@ -338,9 +338,11 @@ export default class HubContainer extends AddElementCategories {
     if (this.props.hideScrollbar) {
       hubContent = panelContent
     } else {
-      hubContent = <Scrollbar onScroll={lodash.throttle(this.handleScroll, 100)}>
-        {panelContent}
-      </Scrollbar>
+      hubContent = (
+        <Scrollbar onScroll={lodash.throttle(this.handleScroll, 100)}>
+          {panelContent}
+        </Scrollbar>
+      )
     }
 
     return (
