@@ -53,7 +53,7 @@ if (is_array($variables)) {
                     <!--Set path to public/sources/images/brandLogo/vcwb-switch-logo.png-->
                     <!--<img class="vcv-dashboard-logo-img" width="324" height="33" src="../../../../public/sources/images/brandLogo/vcwb-switch-logo.png" alt="Visual Composer">-->
                 </a>
-                <button class="vcv-dashboard-nav-toggle" aria-label="Close Dashboard Navigation" aria-expanded="false">
+                <button class="vcv-dashboard-nav-toggle" aria-label="Navigation toggle" aria-expanded="false">
                     <span class="vcv-dashboard-nav-toggle-hamburger"></span>
                 </button>
             </header>
