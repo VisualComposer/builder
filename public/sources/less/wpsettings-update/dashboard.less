@@ -173,7 +173,7 @@
 .vcv-dashboard-main {
   padding: 50px;
 
-  h1, h2, h3, h4, h5, h6, button {
+  h1, h2, h3, h4, h5, h6, button, input[type="submit"] {
     font-family: 'Montserrat', Arial, sans-serif;
   }
 
@@ -259,30 +259,33 @@
   overflow: hidden;
 }
 
-.vcv-dashboard-button {
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  padding: 18px 41px;
-  font-size: 12px;
-  text-transform: uppercase;
-  color: @text-color-base;
-  letter-spacing: 1px;
-  -webkit-appearance: none;
-  cursor: pointer;
-  transition: background @transition-duration @transition-timing-function;
+.vcv-dashboard-main{
+  .vcv-dashboard-button {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    padding: 18px 41px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: @text-color-base;
+    letter-spacing: 1px;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: background @transition-duration @transition-timing-function;
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
-}
 
-.vcv-dashboard-button--save {
-  background: #FFAE27;
+  .vcv-dashboard-button--save {
+    background: #FFAE27;
 
-  &:hover {
-    background: darken(#FFAE27, 15%);
+    &:hover {
+      color: @text-color-base;
+      background: darken(#FFAE27, 15%);
+    }
   }
 }
 
