@@ -15,11 +15,14 @@ $tabsHelper = vchelper('SettingsTabsRegistry');
 $tabs = vcfilter('vcv:settings:tabs', $tabsHelper->all());
 
 $tabsHtml = '';
+$tabsMobileHtml = '';
 
 foreach ($tabs as $tabKey => $tab) {
-    $activeClass = $tabKey === $activeTab ? ' nav-tab-active' : '';
-    $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="nav-tab' . esc_attr($activeClass) . '">'
+    $activeClass = $tabKey === $activeTab ? ' vcv-dashboard-tab--active' : '';
+    $selectedOption = $tabKey === $activeTab ? ' selected' : '';
+    $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="vcv-dashboard-tab' . esc_attr($activeClass) . '">'
         . esc_html__($tab['name'], 'visualcomposer') . '</a>';
+    $tabsMobileHtml .= '<option value="' . esc_attr($tabKey) . '" ' . $selectedOption . '>' . esc_html__($tab['name'], 'visualcomposer') . '</option>';
 }
 
 $variables = vcfilter(
@@ -45,7 +48,7 @@ if (is_array($variables)) {
 ?>
 <div class="wrap vcv-settings">
     <!-- TODO remove style attribute to see dashboard in WP. Uncomment code in  -->
-    <section class="vcv-dashboard-container" style="display: none">
+    <section class="vcv-dashboard-container">
         <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
                 <a class="vcv-dashboard-logo" href="https://visualcomposer.com/" rel="home">
@@ -73,65 +76,17 @@ if (is_array($variables)) {
             <div>
                 <h1>Settings</h1>
                 <div class="vcv-dashboard-tabs">
-                    <a class="vcv-dashboard-tab" href="#">General</a>
-                    <a class="vcv-dashboard-tab vcv-dashboard-tab--active" href="#">Headers and Footers</a>
-                    <a class="vcv-dashboard-tab" href="#">Maintenance Mode</a>
-                    <a class="vcv-dashboard-tab" href="#">Popup Settings</a>
+                    <?php echo $tabsHtml ?>
                 </div>
                 <div class="vcv-dashboard-dropdown">
                     <select class="vcv-dashboard-dropdown-select" name="" id="">
-                        <option value="general">General</option>
-                        <option value="hfs">Headers and Footers</option>
-                        <option value="maintenance">Maintenance Mode</option>
-                        <option value="popup">Popup Settings</option>
+                        <?php echo $tabsMobileHtml ?>
                     </select>
                 </div>
-                <h2>Gutenberg Editor</h2>
-                <p class="description">Specify post types where you want to use Visual Composer Website Builder. Specify post types where you want to use Visual Composer Website Builder. Specify post types where you want to use Visual Composer Website Builder.</p>
-                <table class="form-table">
-                    <tbody>
-                    <tr>
-                        <th scope="row">Post</th>
-                        <td>
-                            <div class="vcv-ui-form-switch-container">
-                                <label class="vcv-ui-form-switch">
-                                    <input type="checkbox" value="post" name="vcv-post-types[]" checked="checked">
-                                    <span class="vcv-ui-form-switch-indicator"></span>
-                                    <span class="vcv-ui-form-switch-label" data-vc-switch-on="on"></span>
-                                    <span class="vcv-ui-form-switch-label" data-vc-switch-off="off"></span>
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Page</th>
-                        <td>
-                            <div class="vcv-ui-form-switch-container">
-                                <label class="vcv-ui-form-switch">
-                                    <input type="checkbox" value="page" name="vcv-post-types[]" checked="checked">
-                                    <span class="vcv-ui-form-switch-indicator"></span>
-                                    <span class="vcv-ui-form-switch-label" data-vc-switch-on="on"></span>
-                                    <span class="vcv-ui-form-switch-label" data-vc-switch-off="off"></span>
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Product</th>
-                        <td>
-                            <div class="vcv-ui-form-switch-container">
-                                <label class="vcv-ui-form-switch">
-                                    <input type="checkbox" value="product" name="vcv-post-types[]">
-                                    <span class="vcv-ui-form-switch-indicator"></span>
-                                    <span class="vcv-ui-form-switch-label" data-vc-switch-on="on"></span>
-                                    <span class="vcv-ui-form-switch-label" data-vc-switch-off="off"></span>
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <button class="vcv-dashboard-button vcv-dashboard-button--save">Save Changes</button>
+                <?php
+                // @codingStandardsIgnoreLine
+                echo $content;
+                ?>
             </div>
         </main>
     </section>
@@ -148,12 +103,4 @@ if (is_array($variables)) {
 
       dashboardNavigationToggle.addEventListener('click', handleNavigationToggle)
     </script>
-    <h1></h1> <!--DONT REMOVE, WP SHOWS NOTICES AFTER FIRST Hx TAG-->
-    <h2 class="nav-tab-wrapper">
-        <?php echo $tabsHtml ?>
-    </h2>
-    <?php
-    // @codingStandardsIgnoreLine
-    echo $content;
-    ?>
 </div>
