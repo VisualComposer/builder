@@ -48,7 +48,7 @@ export const setupCake = () => {
     // attributesStorage.trigger('start')
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} />,
+        <HubContainer parent={{}} hideScrollbar={true} />,
         document.querySelector('#vcv-hub')
       )
     })
