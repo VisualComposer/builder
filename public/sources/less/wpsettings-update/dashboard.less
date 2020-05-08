@@ -1,21 +1,30 @@
 // Override WordPress defaults to adjust the appearance of the dashboard
 
-#wpcontent {
+.visual-composer-settings #wpcontent {
+  padding: 0;
+  position: relative;
+}
+
+.visual-composer-settings #wpbody {
+  position: static;
+}
+
+.visual-composer-settings #wpbody #wpbody-content {
   padding: 0;
 }
 
-#wpbody #wpbody-content {
+.visual-composer-settings .auto-fold #wpcontent {
   padding: 0;
 }
 
-.auto-fold #wpcontent {
-  padding: 0;
+.visual-composer-settings #wpfooter {
+  z-index: -1;
 }
 
 // Dashboard styles
 
 .vcv-dashboard-container {
-  position: absolute; // temporary ?
+  position: relative;
   top: 46px;
   bottom: 0;
   z-index: 99;
@@ -229,13 +238,13 @@
   }
 
   .notice {
-    display: none; // temporary, to prevent Notices from appearing in dashboard
+    display: none; // prevent Notices from appearing in dashboard
   }
 }
 
 .vcv-dashboard-tab {
   padding: 15px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #E9E9E9;
   flex: 1 1 auto;
   text-decoration: none;
   font-size: 15px;
@@ -253,7 +262,6 @@
 .vcv-dashboard-tabs {
   display: none;
   margin: 0 0 40px;
-  border: 1px solid #ccc;
   background: @text-color-base;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -325,5 +333,6 @@
 
   .vcv-dashboard-tabs {
     display: inline-flex;
+    flex-wrap: wrap;
   }
 }
