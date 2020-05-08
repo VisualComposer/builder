@@ -387,6 +387,10 @@ class Localizations extends Container implements Helper
                 'Access Visual Composer Hub - download additional elements, templates and extensions.',
                 'visualcomposer'
             ),
+            'settingsGlobalTemplateCustomJsLocal' => __(
+                'Add custom JavaScript code to insert it localy on this page in <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.',
+                'visualcomposer'
+            ),
             'settingsCustomJsLocal' => __(
                 'Add custom JavaScript code to insert it localy on this page in <header> or <footer>. Insert Google Analytics, Tag Manager, Kissmetrics or other JavaScript code snippets.',
                 'visualcomposer'
