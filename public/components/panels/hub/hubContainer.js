@@ -31,6 +31,18 @@ export default class HubContainer extends AddElementCategories {
     this.handleScroll = this.handleScroll.bind(this)
   }
 
+  componentDidMount () {
+    if (this.props.hideScrollbar) {
+      window.addEventListener('scroll', this.handleScroll)
+    }
+  }
+
+  componentWillUnmount () {
+    if (this.props.hideScrollbar) {
+      window.removeEventListener('scroll', this.handleScroll)
+    }
+  }
+
   getAllCategories () {
     if (!this.allCategories) {
       const elementGroup = this.getElementGroup(categories.element)
@@ -279,7 +291,10 @@ export default class HubContainer extends AddElementCategories {
   }
 
   handleScroll (e) {
-    const el = e.currentTarget
+    let el = e.currentTarget
+    if (this.props.hideScrollbar) {
+      el = e.currentTarget.document.documentElement
+    }
     const clientRect = el.getBoundingClientRect()
     const windowHeight = window.innerHeight || document.documentElement.clientHeight
     const scrolledToBottom = (el.scrollTop + clientRect.height + (windowHeight / 2)) >= el.scrollHeight
@@ -319,6 +334,15 @@ export default class HubContainer extends AddElementCategories {
       )
     }
 
+    let hubContent = null
+    if (this.props.hideScrollbar) {
+      hubContent = panelContent
+    } else {
+      hubContent = <Scrollbar onScroll={lodash.throttle(this.handleScroll, 100)}>
+        {panelContent}
+      </Scrollbar>
+    }
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
         <div className='vcv-ui-tree-content'>
@@ -328,9 +352,7 @@ export default class HubContainer extends AddElementCategories {
             <HubDropdown {...this.getTypeControlProps()} />
           </div>
           <div className='vcv-ui-tree-content-section'>
-            <Scrollbar onScroll={lodash.throttle(this.handleScroll, 100)}>
-              {panelContent}
-            </Scrollbar>
+            {hubContent}
           </div>
         </div>
       </div>
