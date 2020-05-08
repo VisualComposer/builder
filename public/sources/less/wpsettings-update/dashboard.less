@@ -30,7 +30,7 @@
   flex-direction: column;
   flex: 0 0 auto;
   padding: 30px;
-  background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
+  background-image: linear-gradient(to right, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
 }
 
 .vcv-dashboard-sidebar-navigation-container {
@@ -49,6 +49,13 @@
   justify-content: space-between;
   align-items: center;
   flex: 0 0 auto;
+}
+
+.vcv-dashboard-logo {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 .vcv-dashboard-logo-img {
@@ -85,6 +92,11 @@
       background: rgba(255, 255, 255, .3);
     }
   }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 .vcv-ui-icon-dashboard::before {
@@ -105,6 +117,11 @@
   cursor: pointer;
   overflow: hidden;
   margin: 0 0 0 10px;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
   &[aria-expanded="true"] {
     .vcv-dashboard-nav-toggle-hamburger {
@@ -253,6 +270,11 @@
   -webkit-appearance: none;
   cursor: pointer;
   transition: background @transition-duration @transition-timing-function;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 .vcv-dashboard-button--save {
@@ -277,6 +299,7 @@
   .vcv-dashboard-sidebar {
     max-width: 310px;
     flex: 0 0 30%;
+    background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
   }
 
   .vcv-dashboard-main {
