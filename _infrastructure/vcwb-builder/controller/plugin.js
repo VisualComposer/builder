@@ -172,6 +172,7 @@ class Plugin {
     this.isDev && fs.ensureDirSync(path.join(bundlePath, 'tests'))
     process.chdir(bundlePath)
     const copyTests = this.isDev ? 'cp -fr ' + repoPath + '/tests/cypress ./tests &' : ''
+    const copyTestsPhpE2e = this.isDev ? 'cp -fr ' + repoPath + '/tests/php-e2e-actions ./tests &' : ''
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
       'cp -fr ' + repoPath + '/env.php ./ &' +
       'cp -fr ' + repoPath + '/visualcomposer ./ &' +
@@ -188,10 +189,12 @@ class Plugin {
       'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpVcSettings.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpUpdate.* ./public/dist/ &' +
+      'cp -fr ' + repoPath + '/public/dist/hub.bundle.js ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/runtime.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/elements ./ &' +
       'cp -fr ' + repoPath + '/readme.txt ./ &' +
       copyTests +
+      copyTestsPhpE2e +
       // JUST MOVE ALL fonts
       'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
       // 'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +

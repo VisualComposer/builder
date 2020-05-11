@@ -2,13 +2,16 @@ import React from 'react'
 import classNames from 'classnames'
 import Content from './contentParts/content'
 import AddElementPanel from './addElement/addElementPanel'
-import TeaserAddElementCategories from './teaserAddElement/lib/teaserCategories'
+import HubContainer from './hub/hubContainer'
 import AddTemplatePanel from './addTemplate/addTemplatePanel'
 import TreeViewLayout from './treeView/treeViewLayout'
 import SettingsPanel from './settings/settingsPanel'
 import EditFormPanel from './editForm/lib/activitiesManager'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
+
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
@@ -58,8 +61,13 @@ export default class PanelsContainer extends React.Component {
     } else if (content === 'addElement') {
       return <AddElementPanel options={settings || {}} />
     } else if (content === 'addHubElement') {
+      const workspaceState = workspaceStorage.state('settings').get()
+      let options = {}
+      if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
+        options = workspaceState.options
+      }
       return (
-        <TeaserAddElementCategories parent={{}} />
+        <HubContainer parent={{}} options={options} />
       )
     } else if (content === 'addTemplate') {
       return <AddTemplatePanel />

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-export default class TeaserAddonControl extends React.Component {
+export default class HubAddonControl extends React.Component {
   static propTypes = {
     element: PropTypes.object.isRequired,
     elementState: PropTypes.string.isRequired,

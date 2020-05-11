@@ -79,7 +79,7 @@ class JsEnqueueController extends Container implements Module
             $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsHead', true);
         }
 
-        $this->printJs($globalJs, $localJs);
+        $this->printJs($globalJs, $localJs, $sourceId, 'head');
     }
 
     /**
@@ -101,15 +101,20 @@ class JsEnqueueController extends Container implements Module
             $localJs = get_post_meta($sourceId, 'vcv-settingsLocalJsFooter', true);
         }
 
-        $this->printJs($globalJs, $localJs);
+        $this->printJs($globalJs, $localJs, $sourceId, 'footer');
     }
 
     /**
      * @param $globalJs
      * @param $localJs
+     * @param $sourceId
+     * @param $part
      */
-    protected function printJs($globalJs, $localJs)
+    protected function printJs($globalJs, $localJs, $sourceId, $part)
     {
+        if (vcvenv('VCV_DEBUG')) {
+            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part . ' START -->';
+        }
         $frontendHelper = vchelper('Frontend');
         if (!$frontendHelper->isPageEditable()) {
             if (!empty($globalJs)) {
@@ -118,6 +123,9 @@ class JsEnqueueController extends Container implements Module
             if (!empty($localJs)) {
                 echo $localJs;
             }
+        }
+        if (vcvenv('VCV_DEBUG')) {
+            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part . ' END -->';
         }
     }
 }

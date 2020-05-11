@@ -1,8 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 import { env, getService, getStorage } from 'vc-cake'
-import ElementControl from '../../addElement/lib/elementControl'
-import TeaserAddonControl from './teaserAddonControl'
+import ElementControl from '../addElement/lib/elementControl'
+import HubAddonControl from './hubAddonControl'
 
 const hubElementsService = getService('hubElements')
 const myTemplatesService = getService('myTemplates')
@@ -15,7 +15,7 @@ const hubTemplateStorage = getStorage('hubTemplates')
 const hubAddonsStorage = getStorage('hubAddons')
 const eventsStorage = getStorage('events')
 
-export default class TeaserElementControl extends ElementControl {
+export default class HubItemControl extends ElementControl {
   constructor (props) {
     super(props)
     const elements = hubElementsService.all()
@@ -94,7 +94,6 @@ export default class TeaserElementControl extends ElementControl {
         default:
           console.warn('Invalid hub element type received')
       }
-      // let downloaded = this.props.type === 'element' ? hubElementsService.get(tag) : templatesService.findBy('bundle', this.props.element.bundle)
       this.setState({ elementState })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
     }
@@ -296,7 +295,7 @@ export default class TeaserElementControl extends ElementControl {
         action = this.handleAddonClick
       }
       return (
-        <TeaserAddonControl
+        <HubAddonControl
           key={'vcv-element-control-' + tag}
           element={element}
           elementState={elementState}

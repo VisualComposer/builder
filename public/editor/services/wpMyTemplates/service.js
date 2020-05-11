@@ -3,9 +3,7 @@ import { getResponse } from 'public/tools/response'
 import ReactDOM from 'react-dom'
 
 const utils = getService('utils')
-const documentManager = getService('document')
 const getType = {}.toString
-const elementsStorage = getStorage('elements')
 const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
 const processRequest = (action, key, data, successCallback, errorCallback) => {
@@ -63,7 +61,9 @@ addService('myTemplates', {
     return true
   },
   addElementTemplate (id, name, successCallback, errorCallback) {
+    const documentManager = getService('document')
     const currentLayout = documentManager.getDescendants(id)
+    const elementsStorage = getStorage('elements')
     const elementRefs = elementsStorage.state('elementRefs').get()
     const elementNode = ReactDOM.findDOMNode(elementRefs[id])
     const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
@@ -78,6 +78,7 @@ addService('myTemplates', {
     return false
   },
   addCurrentLayout (name, successCallback, errorCallback) {
+    const documentManager = getService('document')
     const currentLayout = documentManager.all()
     const iframe = document.getElementById('vcv-editor-iframe')
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false

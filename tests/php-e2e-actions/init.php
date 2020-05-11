@@ -23,12 +23,31 @@ if (isset($_GET['php-e2e'])) {
             require_once $file;
         }
     }
+    $devElementsActions = glob(
+        $pluginDir . '/devElements/{,*/,*/*/,*/*/*/}tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
+        GLOB_BRACE
+    );
+    if (is_array($devElementsActions) && !empty($devElementsActions)) {
+        foreach ($devElementsActions as $file) {
+            require_once $file;
+        }
+    }
+    $devAddonsActions = glob(
+        $pluginDir . '/devAddons/{,*/,*/*/,*/*/*/}tests/php-e2e-actions/{,*/,*/*/,*/*/*/}*.php',
+        GLOB_BRACE
+    );
+    if (is_array($devAddonsActions) && !empty($devAddonsActions)) {
+        foreach ($devAddonsActions as $file) {
+            require_once $file;
+        }
+    }
 
     // Add shortcodes on early init
     add_action(
         'init',
         function () {
             require_once 'shortcodes.php';
+            do_action('vcv:e2e:php:actions:init'); // allow 3rd party tests like elements
         },
         0
     );
