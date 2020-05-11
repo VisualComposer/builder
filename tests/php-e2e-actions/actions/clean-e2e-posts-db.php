@@ -31,6 +31,7 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'clean-e2e-pos
         function () {
             e2e_clean_posts();
             die('Done');
-        }
+        },
+        100
     );
 }

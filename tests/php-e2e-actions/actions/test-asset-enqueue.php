@@ -35,7 +35,7 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
 
         public static function createInstance()
         {
-            return new TestAssetEnqueue();
+            return new self();
         }
 
         public function createPost()
@@ -44,7 +44,7 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
             $this->templateId = e2e_create_post(
                 [
                     'post_title' => 'test-asset-enqueue',
-                    'post_content' => 'Hello From Global template',
+                    'post_content' => 'Hello From Inner Post',
                     'post_status' => 'publish',
                     'post_type' => 'page',
                 ]
@@ -55,7 +55,7 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
             // Set up the WordPress query.
             $this->postId = e2e_create_post(
                 [
-                    'post_title' => 'test-asset-enqueue',
+                    'post_title' => 'test-asset-enqueue-inner-post',
                     'post_content' => sprintf(
                         'Hello From Tests :)  Current ID:<span id="e2e-current-id">[e2e_get_current_id]</span>, Template ID:<span id="e2e-template-id">%d</span> [e2e_load_post id="%d"]',
                         $this->templateId,
@@ -98,15 +98,11 @@ if (isset($_GET['php-e2e-action']) && $_GET['php-e2e-action'] === 'test-asset-en
         public function setupPage()
         {
             // Create rewrite rules, to avoid 404 issues and extra redirects
-            add_filter(
-                'pre_option_rewrite_rules',
-                function () {
-                    return ['wp-contentplugins' . VCV_PLUGIN_DIRNAME . 'testsphp-e2e-actionsinit\.php' => ''];
-                }
-            );
+            e2e_add_rewrite_rules();
 
+            // Setup global query
             wp(['p' => $this->postId, 'post_type' => 'page']);
-
+            $GLOBALS['wp']->did_permalink = false;
             // Load the theme template.
             require_once ABSPATH . WPINC . '/template-loader.php';
         }

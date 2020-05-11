@@ -16,13 +16,14 @@ class Assets extends Container implements Helper
 {
     /**
      * Returns an array that includes current page/post template ids
+     *
      * @param $sourceId
      *
      * @return array
      */
     public function getTemplateIds($sourceId)
     {
-        $idList = [$sourceId];
+        $idList = [];
 
         $headerId = get_post_meta(
             $sourceId,
@@ -48,6 +49,7 @@ class Assets extends Container implements Helper
         if ($footerId) {
             $idList[] = $footerId;
         }
+        $idList[] = $sourceId;
 
         return $idList;
     }
