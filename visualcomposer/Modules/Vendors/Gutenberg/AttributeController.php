@@ -205,6 +205,7 @@ class AttributeController extends Container implements Module
                 left: 0;
                 top: 0;
             }
+            
         </style>
         <?php
     }
