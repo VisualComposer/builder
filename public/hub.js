@@ -10,6 +10,7 @@ import 'public/sources/less/bootstrap/init.less'
 import 'public/sources/css/wordpress.less'
 
 import HubContainer from './components/panels/hub/hubContainer'
+import Notifications from './components/notifications/notifications'
 
 export const setupCake = () => {
   vcCake.env('platform', 'wordpress').start(() => {
@@ -29,7 +30,7 @@ export const setupCake = () => {
     // require('./editor/stores/history/historyStorage')
     // require('./editor/stores/settingsStorage')
     // require('./editor/stores/attributes/attributesStorage')
-    // require('./editor/stores/notifications/storage')
+    require('./editor/stores/notifications/storage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
     require('./editor/stores/elements/elementSettings')
     // require('./editor/stores/popup/storage')
@@ -46,10 +47,16 @@ export const setupCake = () => {
     // settingsStorage.trigger('start')
     // const attributesStorage = vcCake.getStorage('attributes')
     // attributesStorage.trigger('start')
+    const hideScrollbar = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} />,
+        <HubContainer parent={{}} hideScrollbar={hideScrollbar} />,
         document.querySelector('#vcv-hub')
+      )
+
+      ReactDOM.render(
+        <Notifications />,
+        document.querySelector('#vcv-wp-admin-notifications')
       )
     })
   })
