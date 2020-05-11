@@ -20,7 +20,7 @@ class FrontVariablesController extends Container implements Module
 {
     use WpFiltersActions;
 
-    protected $isAdded = false;
+    protected $addedVariables = [];
 
     public function __construct()
     {
@@ -29,15 +29,15 @@ class FrontVariablesController extends Container implements Module
 
     protected function addVariables()
     {
-        if ($this->isAdded) {
-            return;
-        }
-        $this->isAdded = true;
         $variables = vcfilter('vcv:frontView:variables', []);
         $scriptOutput = '';
         if (is_array($variables)) {
             foreach ($variables as $variable) {
                 if (is_array($variable) && isset($variable['key'], $variable['value'])) {
+                    if (in_array($variable['key'], $this->addedVariables, true)) {
+                        continue;
+                    }
+                    $this->addedVariables[] = $variable['key'];
                     $type = isset($variable['type']) ? $variable['type'] : 'variable';
                     $variable['addScript'] = false;
                     $scriptOutput .= vcview('partials/variableTypes/' . $type, $variable);
@@ -46,6 +46,8 @@ class FrontVariablesController extends Container implements Module
             unset($variable);
         }
 
-        wp_add_inline_script('vcv:assets:front:script', $scriptOutput, 'before');
+        if (!empty($scriptOutput)) {
+            wp_add_inline_script('vcv:assets:front:script', $scriptOutput, 'before');
+        }
     }
 }
