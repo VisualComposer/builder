@@ -13,12 +13,15 @@ class TokenTest extends WP_UnitTestCase
 
         $tokenHelper = vchelper('Token');
         // By default if nothing activated then token unable to get
-        $this->assertFalse($tokenHelper->getToken());
+        // Since VC-1253 we always fetch free-release even if not activated
+        // Need to show HUB teasers
+        $this->assertEquals('free-token', $tokenHelper->getToken());
 
         $licenseHelper->setKey('test');
         $licenseHelper->setType('free');
         $this->assertEquals('free-token', $tokenHelper->getToken());
 
+        // If no license-key then we cannot get any token. it will be FALSE
         $licenseHelper->setType('premium');
         $this->assertFalse($tokenHelper->getToken());
         $this->assertEquals(
