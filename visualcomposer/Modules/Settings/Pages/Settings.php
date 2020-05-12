@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -47,8 +48,23 @@ class Settings extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            9
+            1
         );
+
+        $this->wpAddFilter('admin_body_class', 'addDashboardClass');
+    }
+
+    /**
+     * Add custom class to body for dashboard pages
+     *
+     * @param $class
+     *
+     * @return string
+     */
+    public function addDashboardClass($class)
+    {
+        $class .= ' visual-composer-settings';
+        return $class;
     }
 
     protected function beforeRender()
@@ -69,14 +85,13 @@ class Settings extends Container implements Module
      */
     protected function addPage()
     {
-        $layout = 'settings-standalone-with-tabs';
-
         $page = [
             'slug' => $this->slug,
             'title' => __('Settings', 'visualcomposer'),
-            'showTab' => false,
-            'layout' => $layout,
+            'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'edit_pages',
+            'iconClass' => 'vcv-ui-icon-dashboard-css',
+            'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page);
     }

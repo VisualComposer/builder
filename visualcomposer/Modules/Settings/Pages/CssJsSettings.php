@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -42,7 +43,8 @@ class CssJsSettings extends Container implements Module
 
         $this->wpAddAction(
             'admin_menu',
-            'addPage'
+            'addPage',
+            3
         );
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
@@ -51,22 +53,20 @@ class CssJsSettings extends Container implements Module
             'in_admin_header',
             'addCss'
         );
-
-        $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 3);
     }
 
     /**
-     * @param $tabs
-     *
-     * @return mixed
+     * @param \VisualComposer\Helpers\Settings\TabsRegistry $tabsRegistry
      */
-    protected function addSettingsTab($tabs)
+    protected function addSettingsTab(TabsRegistry $tabsRegistry)
     {
-        $tabs['vcv-global-css-js'] = [
-            'name' => __('CSS, HTML & JavaScript', 'visualcomposer'),
-        ];
-
-        return $tabs;
+        $tabsRegistry->set(
+            $this->slug,
+            [
+                'name' => __('CSS, HTML & JavaScript', 'visualcomposer'),
+                'iconClass' => 'vcv-ui-icon-dashboard-settings',
+            ]
+        );
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -112,11 +112,12 @@ class CssJsSettings extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => __('CSS, HTML & JavaScript', 'visualcomposer'),
-            'layout' => 'settings-standalone-with-tabs',
-            'showTab' => false,
+            'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
+            'iconClass' => 'vcv-ui-icon-dashboard-settings',
+            'isDashboardPage' => true,
         ];
-        $this->addSubmenuPage($page);
+        $this->addSubmenuPage($page, false);
     }
 
     protected function addCss()

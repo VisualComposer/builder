@@ -39,6 +39,25 @@ trait SubMenu
             if (isset($page['external'])) {
                 $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
             } else {
+                if(isset($page['isDashboardPage']) && $page['isDashboardPage']){
+                    $tabsHelper = vchelper('SettingsTabsRegistry');
+                    $tabsHelper->set(
+                        $page['slug'],
+                        [
+                            'name' => $page['title'],
+                            'capability' => $capability,
+                            'parent' => $parentSlug,
+                            'layout' => $page['layout'],
+                            'isDashboardPage' => isset($page['isDashboardPage']) && $page['isDashboardPage'] ? $page['isDashboardPage'] : false,
+                            'iconClass' => isset($page['iconClass']) && $page['iconClass'] ? $page['iconClass'] : '',
+                            'callback' => function () use ($page) {
+                                /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
+                                echo $this->call('renderPage', ['page' => $page]);
+                            },
+                        ]
+                    );
+                }
+
                 add_submenu_page(
                     isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
                     $page['title'],
@@ -47,11 +66,14 @@ trait SubMenu
                     $page['slug'],
                     function () use ($page) {
                         /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
-                        // @codingStandardsIgnoreLine
+                        if(isset($page['isDashboardPage']) && $page['isDashboardPage']){
+                            $page['layout'] = 'dashboard-main-layout';
+                        }
+
                         echo $this->call('renderPage', ['page' => $page]);
                     }
                 );
-            }
+            };
         }
     }
 

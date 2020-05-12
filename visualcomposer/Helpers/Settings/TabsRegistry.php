@@ -29,4 +29,23 @@ class TabsRegistry extends Container implements Helper
     {
         return self::$tabs;
     }
+
+    public function getHierarchy()
+    {
+        $allTabs = $this->all();
+        $hierarchyArray = [];
+        foreach ($allTabs as $key => $value) {
+            if (isset($value['parent']) && $value['parent'] !== false) {
+                $parentSlug = $value['parent'];
+                if ($key === $parentSlug) {
+                    $hierarchyArray[$key] = $value;
+                }
+                $hierarchyArray[$parentSlug]['children'][$key] = $value;
+            } else {
+                $hierarchyArray[$key] = $value;
+            }
+        }
+
+        return $hierarchyArray;
+    }
 }

@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\License;
@@ -55,7 +56,6 @@ class LicenseStatus extends Container implements Module
                 if ($licenseHelper->isAnyActivated()) {
                     $this->call('addPage');
                     $this->wpAddFilter('submenu_file', 'subMenuHighlight');
-                    $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 11);
                     $this->wpAddAction(
                         'in_admin_header',
                         'addCss'
@@ -77,25 +77,10 @@ class LicenseStatus extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => $this->buttonTitle(),
-            'layout' => 'settings-standalone-with-tabs',
-            'showTab' => false,
+            'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
         ];
         $this->addSubmenuPage($page);
-    }
-
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     */
-    protected function addSettingsTab($tabs)
-    {
-        $tabs[ $this->slug ] = [
-            'name' => __('License', 'visualcomposer'),
-        ];
-
-        return $tabs;
     }
 
     /**
