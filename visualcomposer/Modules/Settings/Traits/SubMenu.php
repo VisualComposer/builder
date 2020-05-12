@@ -39,7 +39,7 @@ trait SubMenu
             if (isset($page['external'])) {
                 $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
             } else {
-                if(isset($page['isDashboardPage']) && $page['isDashboardPage']){
+                if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
                     $tabsHelper = vchelper('SettingsTabsRegistry');
                     $tabsHelper->set(
                         $page['slug'],
@@ -48,7 +48,7 @@ trait SubMenu
                             'capability' => $capability,
                             'parent' => $parentSlug,
                             'layout' => $page['layout'],
-                            'isDashboardPage' => isset($page['isDashboardPage']) && $page['isDashboardPage'] ? $page['isDashboardPage'] : false,
+                            'isDashboardPage' => true,
                             'iconClass' => isset($page['iconClass']) && $page['iconClass'] ? $page['iconClass'] : '',
                             'callback' => function () use ($page) {
                                 /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
@@ -66,7 +66,7 @@ trait SubMenu
                     $page['slug'],
                     function () use ($page) {
                         /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
-                        if(isset($page['isDashboardPage']) && $page['isDashboardPage']){
+                        if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
                             $page['layout'] = 'dashboard-main-layout';
                         }
 

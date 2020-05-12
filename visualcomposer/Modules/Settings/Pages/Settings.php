@@ -50,21 +50,6 @@ class Settings extends Container implements Module
             'addPage',
             1
         );
-
-        $this->wpAddFilter('admin_body_class', 'addDashboardClass');
-    }
-
-    /**
-     * Add custom class to body for dashboard pages
-     *
-     * @param $class
-     *
-     * @return string
-     */
-    public function addDashboardClass($class)
-    {
-        $class .= ' visual-composer-settings';
-        return $class;
     }
 
     protected function beforeRender()
