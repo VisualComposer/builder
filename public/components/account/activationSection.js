@@ -216,6 +216,7 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   redirect () {
+    console.log('redirect')
     if (window.vcvPageBack && window.vcvPageBack.length) {
       window.location.href = window.vcvPageBack
     } else {
@@ -227,6 +228,7 @@ export default class ActivationSectionProvider extends React.Component {
     const { activePage } = this.state
     const { shouldDoUpdate } = ActivationSectionProvider
 
+    console.log('getActiveScreen')
     if (this.state.error) {
       return <OopsScreenController />
     }
@@ -250,7 +252,11 @@ export default class ActivationSectionProvider extends React.Component {
       }
     } else if (!hasManageOptions) {
       return <VideoScreen licenseType={licenseType} />
-    } else if (activePage === 'vcv-go-premium' || activePage === 'vcv-about') {
+    } else if (
+      activePage === 'vcv-go-premium' ||
+      activePage === 'vcv-about' ||
+      activePage === 'vcv-license-options'
+    ) {
       return <ActivateLicenseScreen licenseType={licenseType} />
     } else if (activePage === 'vcv-getting-started') {
       if (!licenseType) {
