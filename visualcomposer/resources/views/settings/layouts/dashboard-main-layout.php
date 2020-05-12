@@ -5,46 +5,46 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Get Active Tab
 $activeTab = '';
-
 if (isset($_GET['page'])) {
     $activeTab = esc_attr($_GET['page']);
 }
 
 $tabsHelper = vchelper('SettingsTabsRegistry');
-$tabs = vcfilter('vcv:settings:tabs', $tabsHelper->all());
+$allTabs = $tabsHelper->getHierarchy();
+$activeTabData = $tabsHelper->get($activeTab);
+$parentTab = $tabsHelper->get($activeTabData['parent']);
+$pageTitle = $parentTab['name'];
 
+// Render Left Dashboard Menu
+$dashboardMenu = '';
+foreach ($allTabs as $menuKey => $menuValue){
+    $activeClass = $menuKey === $parentTab ? ' vcv-dashboard-sidebar-navigation-item--active' : '';
+    $dashboardMenu .= '<a href="?page=' . esc_attr($menuKey)
+        . '" class="vcv-dashboard-sidebar-navigation-item  vcv-ui-icon-dashboard ' . esc_attr($menuValue['iconClass'])
+        . esc_attr($activeClass) . '">'
+        . esc_html__($menuValue['name'], 'visualcomposer') . '</a>';
+}
+
+// Render tabs
 $tabsHtml = '';
 $tabsMobileHtml = '';
-
-foreach ($tabs as $tabKey => $tab) {
-    $activeClass = $tabKey === $activeTab ? ' vcv-dashboard-tab--active' : '';
-    $selectedOption = $tabKey === $activeTab ? ' selected' : '';
-    $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="vcv-dashboard-tab' . esc_attr($activeClass) . '" data-value="' . esc_attr($tabKey) . '">'
-        . esc_html__($tab['name'], 'visualcomposer') . '</a>';
-    $tabsMobileHtml .= '<option value="' . esc_attr($tabKey) . '" ' . $selectedOption . '>' . esc_html__($tab['name'], 'visualcomposer') . '</option>';
-}
-
-$variables = vcfilter(
-    'vcv:wp:dashboard:variables',
-    [
-        [
-            'key' => 'VCV_SLUG',
-            'value' => $slug,
-            'type' => 'constant',
-        ],
-    ],
-    ['slug' => $slug]
-);
-if (is_array($variables)) {
-    foreach ($variables as $variable) {
-        if (is_array($variable) && isset($variable['key'], $variable['value'])) {
-            $type = isset($variable['type']) ? $variable['type'] : 'variable';
-            evcview('partials/variableTypes/' . $type, $variable);
-        }
+$tabContent = '';
+$subTabs = $allTabs[$activeTabData['parent']]['children'];
+if(isset($subTabs)){
+    foreach ($subTabs as $tabKey => $tab) {
+        $activeClass = $tabKey === $activeTab ? ' vcv-dashboard-tab--active' : '';
+        $selectedOption = $tabKey === $activeTab ? ' selected' : '';
+        $tabsHtml .= '<a href="?page=' . esc_attr($tabKey) . '" class="vcv-dashboard-tab' . esc_attr($activeClass) . '">'
+            . esc_html__($tab['name'], 'visualcomposer') . '</a>';
+        $tabsMobileHtml .= '<option value="' . esc_attr($tabKey) . '" ' . $selectedOption . '>' . esc_html__(
+                $tab['name'],
+                'visualcomposer'
+            ) . '</option>';
     }
-    unset($variable);
 }
+
 ?>
 <div class="wrap vcv-settings">
     <section class="vcv-dashboard-container">
@@ -104,18 +104,20 @@ if (is_array($variables)) {
             </header>
             <div class="vcv-dashboard-sidebar-navigation-container">
                 <nav class="vcv-dashboard-sidebar-navigation vcv-dashboard-sidebar-navigation--main">
-                    <a class="vcv-dashboard-sidebar-navigation-item vcv-dashboard-sidebar-navigation-item--active vcv-ui-icon-dashboard vcv-ui-icon-dashboard-hub-shop" href="#">Visual Composer Hub</a>
-                    <a class="vcv-dashboard-sidebar-navigation-item vcv-ui-icon-dashboard vcv-ui-icon-dashboard-settings" href="#">Settings</a>
-                    <a class="vcv-dashboard-sidebar-navigation-item vcv-ui-icon-dashboard vcv-ui-icon-dashboard-css" href="#">CSS, HTML & JavaScript</a>
+                    <?php echo $dashboardMenu; ?>
                 </nav>
                 <nav class="vcv-dashboard-sidebar-navigation vcv-dashboard-sidebar-navigation--bottom">
-                    <a class="vcv-dashboard-sidebar-navigation-item vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" href="#">Go Premium</a>
+                    <a class="vcv-dashboard-sidebar-navigation-item vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star"
+                       href="#">Go Premium</a>
                 </nav>
             </div>
         </aside>
         <main class="vcv-dashboard-main">
+            <!-- This is the placeholder content -->
             <div>
-                <h1>Settings</h1>
+                <?php if ($pageTitle) { ?>
+                    <h1><?php echo $pageTitle ?></h1>
+                <?php } ?>
                 <div class="vcv-dashboards-section-navigation">
                     <div class="vcv-dashboard-tabs">
                         <?php echo $tabsHtml ?>
@@ -126,12 +128,13 @@ if (is_array($variables)) {
                         </select>
                     </div>
                 </div>
-                <div class="vcv-dashboards-section-content">
-                    <?php
-                    // @codingStandardsIgnoreLine
-                    echo $content;
-                    ?>
-                </div>
+                <?php
+                if(isset($subTabs)){
+                    foreach ($subTabs as $tabKey => $tab) {
+                        $tab['callback']();
+                    }
+                }
+                ?>
             </div>
         </main>
     </section>

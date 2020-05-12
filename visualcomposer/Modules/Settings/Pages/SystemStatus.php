@@ -12,6 +12,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Notice;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Status;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -43,11 +44,10 @@ class SystemStatus extends Container implements Module
 
     public function __construct(Status $statusHelper, Options $optionsHelper)
     {
-        $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 10);
-
         $this->wpAddAction(
             'admin_menu',
-            'addPage'
+            'addPage',
+            10
         );
 
         $this->wpAddAction(
@@ -68,20 +68,6 @@ class SystemStatus extends Container implements Module
 
         $this->statusHelper = $statusHelper;
         $this->optionsHelper = $optionsHelper;
-    }
-
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     */
-    protected function addSettingsTab($tabs)
-    {
-        $tabs[$this->slug] = [
-            'name' => __('System Status', 'visualcomposer'),
-        ];
-
-        return $tabs;
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -325,9 +311,9 @@ class SystemStatus extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => __('System status', 'visualcomposer'),
-            'layout' => 'settings-standalone-with-tabs',
-            'showTab' => false,
+            'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
+            'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page);
     }
