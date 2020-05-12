@@ -2,13 +2,17 @@
 
 .vcv-dashboard-container {
   position: relative;
-  top: 46px;
+  top: 0;
   bottom: 0;
   z-index: 99;
   width: 100%;
   display: flex;
   flex-direction: column;
   background: @wp-default-dashboard-background-color;
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
 .vcv-dashboard-sidebar {
@@ -63,7 +67,22 @@
   flex: 0 0 auto;
 }
 
-.vcv-dashboard-sidebar-navigation-item {
+.vcv-dashboard-sidebar-navigation-menu,
+.vcv-dashboard-sidebar-navigation-menu-item {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.vcv-dashboard-sidebar-navigation-menu--submenu {
+  padding: 0 0 0 60px;
+
+  .vcv-dashboard-sidebar-navigation-link {
+    font-size: 13px;
+  }
+}
+
+.vcv-dashboard-sidebar-navigation-link {
   display: flex;
   align-items: center;
   color: @text-color-base;
@@ -73,7 +92,7 @@
 
   &:hover,
   &:focus,
-  &.vcv-dashboard-sidebar-navigation-item--active {
+  &.vcv-dashboard-sidebar-navigation-link--active {
     color: @text-color-base;
 
     &::before {
@@ -275,12 +294,6 @@
   }
 }
 
-@media screen and (min-width: 600px) {
-  .vcv-dashboard-container {
-    top: 0;
-  }
-}
-
 @media screen and (min-width: 783px) {
   .vcv-dashboard-container {
     flex-direction: row;
@@ -288,12 +301,12 @@
 
   .vcv-dashboard-sidebar {
     max-width: 310px;
-    flex: 0 0 30%;
+    flex: 0 0 310px;
     background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
   }
 
   .vcv-dashboard-main {
-    flex: 0 1 70%;
+    flex: 0 1 auto;
   }
 
   .vcv-dashboard-sidebar-navigation-container {
