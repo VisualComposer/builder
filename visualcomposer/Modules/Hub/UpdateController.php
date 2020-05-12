@@ -79,7 +79,7 @@ class UpdateController extends Container implements Module
         License $licenseHelper
     ) {
         // Check for update in case if activated
-        if ($licenseHelper->isAnyActivated() && intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
+        if (intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
             $result = $hubUpdateHelper->checkVersion($payload);
             if (!vcIsBadResponse($result)) {
                 $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
