@@ -205,10 +205,7 @@ class AttributeController extends Container implements Module
                 left: 0;
                 top: 0;
             }
-
-            /*.edit-post-sidebar .components-panel > :not(.edit-post-settings-sidebar__panel-block) {*/
-            /*    display: none;*/
-            /*}*/
+            
         </style>
         <?php
     }
