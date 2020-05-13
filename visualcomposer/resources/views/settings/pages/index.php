@@ -89,5 +89,14 @@ if (!defined('ABSPATH')) {
     <input type="hidden" name="vcv_action" value="vcv_action-<?php echo esc_attr(
         $slug
     ); ?>" id="vcv_settings-<?php echo esc_attr($slug); ?>-action" />
-
+    <?php
+    $extraOutput = vcfilter('vcv:frontend:footer:extraOutput', []);
+    if (is_array($extraOutput)) {
+        foreach ($extraOutput as $output) {
+            // @codingStandardsIgnoreLine
+            echo $output;
+        }
+        unset($output);
+    }
+    ?>
 </form>
