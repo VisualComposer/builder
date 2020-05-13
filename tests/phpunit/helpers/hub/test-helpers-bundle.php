@@ -185,6 +185,7 @@ class BundleHelperTest extends WP_UnitTestCase
                             'name' => 'Plugin Version Check',
                             'metaThumbnailUrl' => '[publicPath]/vcwb-default-addon-thumbnail.png',
                             'metaPreviewUrl' => '[publicPath]/vcwb-default-addon-preview.png',
+                            'metaAddonImageUrl' => '[publicPath]/default-addon-image.png',
                             'metaDescription' => 'Automatically checks the plugin version and helps to keep the plugin up to date.',
                         ],
                         'phpFiles' => [
