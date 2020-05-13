@@ -179,6 +179,12 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 27.1 =
+*Release Date - 2020-05-13*
+
+#### Free:
+- Fix: Page preview works properly
+
 = 27.0 =
 *Release Date - 2020-05-12*
 
