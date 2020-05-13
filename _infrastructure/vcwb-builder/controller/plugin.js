@@ -50,8 +50,8 @@ class Plugin {
          * @name Builder#branch
          */
       branch: {
-          value: branch,
-          writable: false
+        value: branch,
+        writable: false
       },
       /**
        * @property {String}
