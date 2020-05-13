@@ -56,7 +56,7 @@ class Token extends Container implements Helper
             return $this->getTokenResponse($result);
         }
 
-        return false;
+        return 'free-token';
     }
 
     /**
