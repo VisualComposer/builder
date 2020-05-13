@@ -78,7 +78,11 @@
   padding: 0 0 0 60px;
 
   .vcv-dashboard-sidebar-navigation-link {
-    font-size: 13px;
+    font-size: 14px;
+  }
+
+  .vcv-dashboard-sidebar-navigation-link--active {
+    font-weight: bold;
   }
 }
 
@@ -288,6 +292,14 @@
       background: darken(#FFAE27, 15%);
     }
   }
+}
+
+.vcv-dashboards-section-content {
+  display: none;
+}
+
+.vcv-dashboards-section-content--active {
+  display: block;
 }
 
 @media screen and (min-width: 783px) {
