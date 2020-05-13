@@ -38,8 +38,25 @@ class Hub extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            1
+            3
         );
+
+        $this->wpAddAction(
+            'in_admin_header',
+            'addCss'
+        );
+
+        $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+    }
+
+    protected function subMenuHighlight($submenuFile)
+    {
+        $screen = get_current_screen();
+        if (strpos($screen->id, $this->slug)) {
+            $submenuFile = 'vcv-settings';
+        }
+
+        return $submenuFile;
     }
 
     protected function beforeRender()
@@ -80,8 +97,8 @@ class Hub extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => __('Visual Composer Hub', 'visualcomposer'),
-            'layout' => 'dashboard-tab-content-standalone',
-            'capability' => 'edit_posts',
+            'layout' => 'dashboard-hub',
+            'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-hub-shop',
             'isDashboardPage' => true,
             'hideTitle' => true,
@@ -117,5 +134,13 @@ class Hub extends Container implements Module
         }
         $hubContent = ob_get_clean();
         return $response . implode('', vcfilter('vcv:update:extraOutput', [])) . $hubContent . '<div id="vcv-hub"></div>';
+    }
+
+    /**
+     * Hide hub in admin menu
+     */
+    protected function addCss()
+    {
+        evcview('settings/partials/dashboard-hub');
     }
 }

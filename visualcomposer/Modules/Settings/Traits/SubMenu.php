@@ -61,7 +61,7 @@ trait SubMenu
                 }
 
                 add_submenu_page(
-                    isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
+                    isset($page['isDashboardPage']) && $page['isDashboardPage'] ? 'vcv-settings' : $parentSlug,
                     $page['title'],
                     $page['title'],
                     $capability,
