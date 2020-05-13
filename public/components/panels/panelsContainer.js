@@ -87,7 +87,8 @@ export default class PanelsContainer extends React.Component {
     const layoutClasses = classNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!content,
-      'vcv-layout-bar-content-mobile': this.isMobile
+      'vcv-layout-bar-content-mobile': this.isMobile,
+      'vcv-content-full-size': this.props.content === 'addHubElement'
     })
     const layoutStyle = {}
 
