@@ -39,6 +39,7 @@ class Elements extends Container implements Module
         );
         $this->addFilter('vcv:frontend:head:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:footer:extraOutput', 'outputElementsBundle', 15); // more than addons
+        $this->addFilter('vcv:frontend:hub:extraOutput', 'outputElements');
     }
 
     /**

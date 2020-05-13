@@ -44,11 +44,13 @@ trait SubMenu
                     $tabsHelper->set(
                         $page['slug'],
                         [
-                            'name' => $page['title'],
+                            'name' => $page['title'] ,
+                            'subTitle' => isset($page['subTitle']) ? $page['subTitle'] : '',
                             'capability' => $capability,
                             'parent' => $parentSlug,
                             'layout' => $page['layout'],
                             'isDashboardPage' => true,
+                            'hideTitle' => (isset($page['hideTitle']) && $page['hideTitle']),
                             'iconClass' => isset($page['iconClass']) && $page['iconClass'] ? $page['iconClass'] : '',
                             'callback' => function () use ($page) {
                                 /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */

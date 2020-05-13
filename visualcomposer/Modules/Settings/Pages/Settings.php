@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\Page;
@@ -48,7 +47,7 @@ class Settings extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            1
+            2
         );
     }
 
@@ -73,6 +72,7 @@ class Settings extends Container implements Module
         $page = [
             'slug' => $this->slug,
             'title' => __('Settings', 'visualcomposer'),
+            'subTitle' => __('General', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'edit_pages',
             'iconClass' => 'vcv-ui-icon-dashboard-css',

@@ -30,6 +30,7 @@ class Groups extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Hub\Groups::outputGroups */
         $this->addFilter('vcv:frontend:body:extraOutput', 'outputGroups');
+        $this->addFilter('vcv:hub:variables', 'outputGroups');
     }
 
     /**

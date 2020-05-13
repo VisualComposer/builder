@@ -32,6 +32,7 @@ class UnsplashDownloadController extends Container implements Module
             'download'
         );
         $this->addFilter('vcv:editor:variables', 'addVariables');
+        $this->addFilter('vcv:hub:variables', 'addVariables');
     }
 
     /**
