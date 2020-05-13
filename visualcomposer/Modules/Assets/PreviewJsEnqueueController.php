@@ -46,7 +46,7 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
             $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsHead', true);
         }
 
-        $this->printJs($globalJs, $localJs);
+        $this->printJs($globalJs, $localJs, $sourceId, 'head');
     }
 
     /**
@@ -70,6 +70,6 @@ class PreviewJsEnqueueController extends JsEnqueueController implements Module
             $localJs = get_post_meta($sourceId, '_' . VCV_PREFIX . 'preview-settingsLocalJsFooter', true);
         }
 
-        $this->printJs($globalJs, $localJs);
+        $this->printJs($globalJs, $localJs, $sourceId, 'footer');
     }
 }
