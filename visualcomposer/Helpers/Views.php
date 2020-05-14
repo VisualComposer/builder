@@ -137,5 +137,6 @@ class Views extends container implements Helper
             '<input type="hidden" name="vcv-settings-rendered-fields" value="%s" />',
             htmlentities(wp_json_encode(array_values(array_unique($this->renderedFields))))
         );
+        $this->renderedFields = [];
     }
 }
