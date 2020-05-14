@@ -31,6 +31,9 @@ export const dashboard = () => {
       }
     })
     e.target.classList.add('vcv-dashboard-sidebar-navigation-link--active')
+    const currentURL = window.location.href
+    const newUrl = currentURL.replace(window.location.search, `?page=${sectionValue}`)
+    window.history.pushState('', '', newUrl)
 
     if (window.innerWidth <= 872) {
       navigationToggle.click()
