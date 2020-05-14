@@ -13,7 +13,7 @@ export const dashboard = () => {
 
   const handleSubmenuLinkClick = (e) => {
     e.preventDefault()
-    const href = e.target.getAttribute('href').slice(1)
+    const sectionValue = e.target.dataset.value
 
     submenuLinks.forEach(link => {
       if (link.classList.contains('vcv-dashboard-sidebar-navigation-link--active')) {
@@ -24,7 +24,7 @@ export const dashboard = () => {
       if (section.classList.contains('vcv-dashboards-section-content--active')) {
         section.classList.remove('vcv-dashboards-section-content--active')
       }
-      if (section.dataset.section === href) {
+      if (section.dataset.section === sectionValue) {
         section.classList.add('vcv-dashboards-section-content--active')
       }
     })
