@@ -38,7 +38,7 @@ export const dashboard = () => {
   }
 
   const handleFormResponse = (submitButtonContainer, submitButton) => {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+    if (httpRequest.readyState === window.XMLHttpRequest.DONE) {
       if (httpRequest.status === 200) {
         submitButton.removeAttribute('disabled')
         submitButtonContainer.classList.remove('vcv-dashboard-button--loading')
@@ -55,11 +55,11 @@ export const dashboard = () => {
     const submitButton = e.target.querySelector('#submit_btn')
     // this will get all form fields and encode it as a string
     const data = Array.from(
-      new FormData(e.target),
+      new window.FormData(e.target),
       e => e.map(window.encodeURIComponent).join('=')
     ).join('&')
 
-    httpRequest = new XMLHttpRequest()
+    httpRequest = new window.XMLHttpRequest()
     httpRequest.onreadystatechange = handleFormResponse.bind(this, submitButtonContainer, submitButton)
     httpRequest.open('POST', action)
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
