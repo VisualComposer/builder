@@ -90,8 +90,43 @@ if (is_array($variables)) {
     .notice {
         display: none;
     }
+
+    .vcv-dashboard-container {
+        visibility: hidden;
+    }
+
+    .vcv-dashboard-loader {
+        position: fixed;
+        height: 16px;
+        width: 16px;
+        left: 55%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+    }
+
+    @keyframes vcv-ui-wp-spinner-animation {
+        from {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
 </style>
 <div class="wrap vcv-settings">
+    <div class="vcv-dashboard-loader">
+        <svg version="1.1" id="vc_wp-spinner" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px" y="0px" width="16px" height="16px">
+            <defs>
+                <mask id="hole">
+                    <rect width="100%" height="100%" fill="white" />
+                    <circle r="2px" cx="50%" cy="25%" />
+                </mask>
+            </defs>
+            <circle r="8px" cx="50%" cy="50%" mask="url(#hole)" fill="#808080" />
+        </svg>
+    </div>
     <section class="vcv-dashboard-container">
         <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
