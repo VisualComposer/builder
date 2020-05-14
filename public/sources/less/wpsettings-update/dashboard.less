@@ -71,18 +71,6 @@
   list-style-type: none;
 }
 
-.vcv-dashboard-sidebar-navigation-menu--submenu {
-  padding: 0 0 0 60px;
-
-  .vcv-dashboard-sidebar-navigation-link {
-    font-size: 14px;
-  }
-
-  .vcv-dashboard-sidebar-navigation-link--active {
-    font-weight: bold;
-  }
-}
-
 .vcv-dashboard-sidebar-navigation-link {
   display: flex;
   align-items: center;
@@ -104,6 +92,18 @@
   &:focus {
     outline: none;
     box-shadow: none;
+  }
+}
+
+.vcv-dashboard-sidebar-navigation-menu--submenu {
+  padding: 0 0 0 50px;
+
+  .vcv-dashboard-sidebar-navigation-link {
+    font-size: 14px;
+  }
+
+  .vcv-dashboard-sidebar-navigation-link--active {
+    color: rgba(255, 255, 255, 0.6);
   }
 }
 
