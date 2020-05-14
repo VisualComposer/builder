@@ -13,8 +13,10 @@ describe('Editor Type Change', function () {
       cy.wait('@firstPageEdit')
 
       // Check visual composer editor
+      let backendEditorUrlLink = '';
       cy.get('@firstPageEdit').should((response) => {
-        cy.visit(response.response.body.postData.backendEditorUrl)
+        backendEditorUrlLink = response.response.body.postData.backendEditorUrl
+        cy.visit(backendEditorUrlLink)
       })
 
       cy.get('input[name="vcv-be-editor"]')
@@ -22,13 +24,17 @@ describe('Editor Type Change', function () {
 
       // Enable gutenberg editor
       cy.visit('/wp-admin/admin.php?page=vcv-settings')
+      cy.window().then((win) => {
+        let actionURL = win.document.querySelector('.vcv-dashboards-section-content--active form').getAttribute('action')
+        actionURL = win.decodeURIComponent(actionURL);
+        cy.route('POST', actionURL).as('settingSaving')
+      })
       cy.get('input[name="vcv-settings-gutenberg-editor-enabled"]').check({force: true})
-      cy.get('#submit_btn')
-        .click()
+      cy.get('.vcv-dashboards-section-content--active #submit_btn').click()
+      cy.wait('@settingSaving')
 
-      // Set editor type as gutenberg
-      cy.get('@firstPageEdit').should((response) => {
-        cy.visit(response.response.body.postData.backendEditorUrl + '&vcv-set-editor=gutenberg')
+      cy.get('@firstPageEdit').should(() => {
+        cy.visit(backendEditorUrlLink + '&vcv-set-editor=gutenberg')
       })
 
       // Check gutenberg editor
@@ -42,7 +48,7 @@ describe('Editor Type Change', function () {
         .click()
 
       cy.get('@firstPageEdit').should((response) => {
-        cy.visit(response.response.body.postData.backendEditorUrl)
+        cy.visit(backendEditorUrlLink)
       })
 
       cy.reload()
@@ -52,12 +58,12 @@ describe('Editor Type Change', function () {
       // Disable Gutenberg Editor
       cy.visit('/wp-admin/admin.php?page=vcv-settings')
       cy.get('input[name="vcv-settings-gutenberg-editor-enabled"]').uncheck({force: true})
-      cy.get('#submit_btn')
-        .click()
+      cy.get('.vcv-dashboards-section-content--active #submit_btn').click()
+      cy.wait('@settingSaving')
 
       // Check classic editor
-      cy.get('@firstPageEdit').should((response) => {
-        cy.visit(response.response.body.postData.backendEditorUrl + '&classic-editor')
+      cy.get('@firstPageEdit').should(() => {
+        cy.visit(backendEditorUrlLink + '&classic-editor')
       })
 
       cy.get('input[name="vcv-be-editor"]')
@@ -66,8 +72,8 @@ describe('Editor Type Change', function () {
       cy.get('#publish')
         .click()
 
-      cy.get('@firstPageEdit').should((response) => {
-        cy.visit(response.response.body.postData.backendEditorUrl)
+      cy.get('@firstPageEdit').should(() => {
+        cy.visit(backendEditorUrlLink)
       })
 
       cy.get('input[name="vcv-be-editor"]')
