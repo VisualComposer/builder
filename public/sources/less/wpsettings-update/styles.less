@@ -517,7 +517,6 @@
   }
 
   .vcv-no-title td {
-    width: 0;
     padding-left: 0;
   }
 
@@ -1087,11 +1086,34 @@ input.vcv-basic-input {
 
   select.vcv-ui-form-dropdown {
     height: auto;
-    line-height: 1.5;
-    padding: 5px 14px;
     vertical-align: middle;
-
     max-width: 300px;
+    padding: 10px 23px 10px 13px;
+  }
+
+  input[type="number"],
+  input[type="text"] {
+    padding: 10px 13px;
+  }
+
+  select.vcv-ui-form-dropdown,
+  input[type="number"],
+  input[type="text"] {
+    width: 100%;
+    border: 1px #dedede solid;
+    border-radius: 5px;
+    color: #515162;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 23px;
+    transition: border-color 0.3s;
+
+    &:hover,
+    &:focus {
+      border-color: #b2b2b2;
+      box-shadow: none;
+      animation: none;
+    }
   }
 
   .vcv-ui-form-group {

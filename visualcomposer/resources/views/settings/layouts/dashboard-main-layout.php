@@ -51,6 +51,21 @@ if (is_array($variables)) {
 
 ?>
 <style>
+    #wpwrap,
+    #wpcontent,
+    #wpbody,
+    #wpbody-content,
+    .vcv-settings {
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        flex: 1 0 auto;
+    }
+
+    #adminmenumain {
+        height: 0;
+    }
+
     #wpcontent {
         padding: 0;
         position: relative;

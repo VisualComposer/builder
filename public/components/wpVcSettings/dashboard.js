@@ -6,12 +6,13 @@ export const dashboard = () => {
 
   const handleNavigationToggle = () => {
     navigationMenu.classList.toggle('vcv-is-navigation-visible')
-    const ariaExpandedAttr = navigationMenu.getAttribute('aria-expanded')
+    const ariaExpandedAttr = navigationToggle.getAttribute('aria-expanded')
     const newAriaExpandedAttr = ariaExpandedAttr === 'true' ? 'false' : 'true'
     navigationToggle.setAttribute('aria-expanded', newAriaExpandedAttr)
   }
 
   const handleSubmenuLinkClick = (e) => {
+    e.preventDefault()
     const href = e.target.getAttribute('href').slice(1)
 
     submenuLinks.forEach(link => {
@@ -28,6 +29,10 @@ export const dashboard = () => {
       }
     })
     e.target.classList.add('vcv-dashboard-sidebar-navigation-link--active')
+
+    if (window.innerWidth <= 872) {
+      navigationToggle.click()
+    }
   }
 
   submenuLinks.forEach(link => link.addEventListener('click', handleSubmenuLinkClick))
