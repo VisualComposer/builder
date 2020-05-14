@@ -116,8 +116,7 @@ class Hub extends Container implements Module
         ob_start();
         $extraOutput = vcfilter('vcv:frontend:hub:extraOutput', []);
         if (is_array($extraOutput)) {
-                foreach ($extraOutput as $output) {
-                // @codingStandardsIgnoreLine
+            foreach ($extraOutput as $output) {
                 echo $output;
             }
             unset($output);
