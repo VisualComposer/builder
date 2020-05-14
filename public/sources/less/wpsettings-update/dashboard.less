@@ -255,6 +255,7 @@
 
 .vcv-dashboard-main{
   .vcv-dashboard-button {
+    position: relative;
     border: none;
     border-radius: 0;
     background: transparent;
@@ -278,14 +279,34 @@
 
     &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &[disabled] {
       color: @text-color-base;
       background: darken(#FFAE27, 15%);
+    }
+
+    // !important is used to override WP importants ¯\_(ツ)_/¯
+    &[disabled] {
+      color: @text-color-base !important;
+      background: darken(#FFAE27, 15%) !important;
+      text-shadow: none !important;
+      cursor: not-allowed;
+      opacity: .7;
     }
   }
 
   .vcv-ui-form-switch + span {
     line-height: 2.5;
+  }
+}
+
+.vcv-submit-button-container {
+  position: relative;
+  display: inline-block;
+  &.vcv-dashboard-button--loading {
+    &::before {
+      .spinner()
+    }
   }
 }
 
