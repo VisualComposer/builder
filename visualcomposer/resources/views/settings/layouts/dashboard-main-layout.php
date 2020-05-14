@@ -146,6 +146,20 @@ if (is_array($variables)) {
                         <li class="vcv-dashboard-sidebar-navigation-menu-item">
                             <?php
                             echo sprintf(
+                                '<a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information">%s</a>',
+                                esc_url('https://visualcomposer.com/help/?utm_medium=wp-dashboard&utm_source=dashboard-page&utm_campaign=vcwb&utm_content=help-center-link'),
+                                __('Help', 'visualcomposer')
+                            );
+                            ?>
+                            <?php
+                            echo sprintf(
+                                '<a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile">%s</a>',
+                                esc_url('https://my.visualcomposer.com/'),
+                                __('My Visual Composer', 'visualcomposer')
+                            );
+                            ?>
+                            <?php
+                            echo sprintf(
                                 '<a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star">%s</a>',
                                 esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
                                 __('Go Premium', 'visualcomposer')
