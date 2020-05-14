@@ -4,7 +4,7 @@ const exec = require('child_process').exec
 const glob = require('glob')
 
 class Plugin {
-  constructor (dir, version, isDev = false) {
+  constructor (dir, version, branch, isDev = false) {
     dir = path.resolve(path.join(dir || process.cwd()))
     if (!fs.lstatSync(dir).isDirectory()) {
       console.log('Can\'t create bundle. Wrong working directory.')
@@ -43,6 +43,14 @@ class Plugin {
        */
       version: {
         value: version,
+        writable: false
+      },
+      /**
+         * @property {String}
+         * @name Builder#branch
+         */
+      branch: {
+        value: branch,
         writable: false
       },
       /**
@@ -231,6 +239,9 @@ class Plugin {
 
   async build () {
     try {
+      if (this.branch) {
+        await this.execute(`git checkout ${this.branch}`)
+      }
       await this.installBuildProject()
       await this.copyFiles()
       await this.cleanupElements()
