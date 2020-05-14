@@ -75,9 +75,10 @@ class LicenseStatus extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => $this->buttonTitle(),
+            'title' => __('License', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
+            'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page);
     }
