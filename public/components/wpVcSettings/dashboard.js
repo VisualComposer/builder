@@ -44,9 +44,10 @@ export const dashboard = () => {
   }
 
   const handleSubmenuLinkClick = (e) => {
-    if (e.target.getAttribute('href') === 'javascript:void(0)') {
-      e.preventDefault()
+    if (e.target.getAttribute('href') !== 'javascript:void(0)') {
+      return
     }
+    e.preventDefault()
     const sectionValue = e.target.dataset.value
 
     submenuLinks.forEach(link => {
