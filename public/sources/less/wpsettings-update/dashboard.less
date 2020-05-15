@@ -1,7 +1,8 @@
 // Dashboard styles
 
 .vcv-dashboard-container {
-  position: relative;
+  position: absolute;
+  width: 100%;
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
@@ -329,10 +330,6 @@
   }
 
   .vcv-dashboard-sidebar {
-    position: fixed;
-    top: 32px;
-    bottom: 0;
-    z-index: 1;
     max-width: 310px;
     flex: 0 0 310px;
     background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
@@ -344,7 +341,6 @@
 
   .vcv-dashboard-main {
     flex: 0 1 auto;
-    padding-left: 350px
   }
 
   .vcv-dashboard-sidebar-navigation-container {

@@ -1,10 +1,40 @@
 export const dashboard = () => {
-  let httpRequest
+  let httpRequest = false
+  let isTabletMinHeightSet = false
+  let isDesktopMinHeightSet = false
+  let tabletMinHeight = ''
+  let desktopMinHeight = ''
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
   const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
+  const wpSidebar = document.querySelector('#adminmenuwrap')
+  const dashboardStylesContainer = document.querySelector('#vcv-dashboard-styles')
+  const initialDashboardStyles = dashboardStylesContainer.innerHTML
+
+  const setDashboardMinHeight = () => {
+    if ((isDesktopMinHeightSet && isTabletMinHeightSet) || window.innerWidth < 783) {
+      return
+    }
+    let minHeightStyle
+    const wpSidebarHeight = window.getComputedStyle(wpSidebar).height
+    const dashboardStyles = dashboardStylesContainer.innerHTML
+
+    if (!isTabletMinHeightSet && window.innerWidth > 782 && window.innerWidth < 961) {
+      isTabletMinHeightSet = true
+      minHeightStyle = `@media screen and (min-width: 783px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
+      tabletMinHeight = minHeightStyle
+      dashboardStylesContainer.innerHTML = isDesktopMinHeightSet ? initialDashboardStyles + minHeightStyle + desktopMinHeight : dashboardStyles + minHeightStyle
+    }
+    if (!isDesktopMinHeightSet && window.innerWidth > 960) {
+      isDesktopMinHeightSet = true
+      minHeightStyle = `@media screen and (min-width: 961px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
+      desktopMinHeight = minHeightStyle
+      dashboardStylesContainer.innerHTML = dashboardStyles + minHeightStyle
+    }
+
+  }
 
   const handleNavigationToggle = () => {
     navigationMenu.classList.toggle('vcv-is-navigation-visible')
@@ -14,7 +44,9 @@ export const dashboard = () => {
   }
 
   const handleSubmenuLinkClick = (e) => {
-    e.preventDefault()
+    if (e.target.getAttribute('href') === 'javascript:void(0)') {
+      e.preventDefault()
+    }
     const sectionValue = e.target.dataset.value
 
     submenuLinks.forEach(link => {
@@ -35,7 +67,7 @@ export const dashboard = () => {
     const newUrl = currentURL.replace(window.location.search, `?page=${sectionValue}`)
     window.history.pushState('', '', newUrl)
 
-    if (window.innerWidth <= 872) {
+    if (window.innerWidth <= 782) {
       navigationToggle.click()
     }
   }
@@ -72,7 +104,29 @@ export const dashboard = () => {
     submitButton.setAttribute('disabled', true)
   }
 
+  // Implement throttle on window resize
+  const handleWindowResize = (func, duration) => {
+    let shouldWait = false
+    return function (...args) {
+      if (!shouldWait) {
+        func.apply(this, args)
+        shouldWait = true
+        setTimeout(function () {
+          shouldWait = false
+        }, duration)
+      }
+    }
+  }
+
+  setDashboardMinHeight()
+
   submenuLinks.forEach(link => link.addEventListener('click', handleSubmenuLinkClick))
   contentForms.forEach(form => form.addEventListener('submit', handleContentFormSubmit))
   navigationToggle.addEventListener('click', handleNavigationToggle)
+  window.addEventListener(
+    'resize',
+    handleWindowResize(() => {
+      setDashboardMinHeight()
+    }, 500)
+  )
 }
