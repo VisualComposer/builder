@@ -1,7 +1,5 @@
 export const dashboard = () => {
   let httpRequest = false
-  let isTabletMinHeightSet = false
-  let isDesktopMinHeightSet = false
   let tabletMinHeight = ''
   let desktopMinHeight = ''
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
@@ -9,31 +7,31 @@ export const dashboard = () => {
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
-  const wpSidebar = document.querySelector('#adminmenuwrap')
+  const adminMenuBack = document.querySelector('#adminmenuback')
+  const adminMenuWrap = document.querySelector('#adminmenuwrap')
   const dashboardStylesContainer = document.querySelector('#vcv-dashboard-styles')
   const initialDashboardStyles = dashboardStylesContainer.innerHTML
 
   const setDashboardMinHeight = () => {
-    if ((isDesktopMinHeightSet && isTabletMinHeightSet) || window.innerWidth < 783) {
+    if (window.innerWidth < 783) {
       return
     }
     let minHeightStyle
-    const wpSidebarHeight = window.getComputedStyle(wpSidebar).height
-    const dashboardStyles = dashboardStylesContainer.innerHTML
+    const adminMenuWrapHeight = window.getComputedStyle(adminMenuWrap).height
+    const adminMenuBackHeight = window.getComputedStyle(adminMenuBack).height
+    const wpSidebarHeight = window.innerHeight > parseInt(adminMenuWrapHeight) ? adminMenuBackHeight : adminMenuWrapHeight
 
-    if (!isTabletMinHeightSet && window.innerWidth > 782 && window.innerWidth < 961) {
-      isTabletMinHeightSet = true
+    if (window.innerWidth > 782 && window.innerWidth < 961) {
       minHeightStyle = `@media screen and (min-width: 783px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
       tabletMinHeight = minHeightStyle
-      dashboardStylesContainer.innerHTML = isDesktopMinHeightSet ? initialDashboardStyles + minHeightStyle + desktopMinHeight : dashboardStyles + minHeightStyle
-    }
-    if (!isDesktopMinHeightSet && window.innerWidth > 960) {
-      isDesktopMinHeightSet = true
-      minHeightStyle = `@media screen and (min-width: 961px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
-      desktopMinHeight = minHeightStyle
-      dashboardStylesContainer.innerHTML = dashboardStyles + minHeightStyle
+      dashboardStylesContainer.innerHTML = initialDashboardStyles + minHeightStyle + desktopMinHeight
     }
 
+    if (window.innerWidth > 960) {
+      minHeightStyle = `@media screen and (min-width: 961px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
+      desktopMinHeight = minHeightStyle
+      dashboardStylesContainer.innerHTML = initialDashboardStyles + tabletMinHeight + minHeightStyle
+    }
   }
 
   const handleNavigationToggle = () => {
@@ -128,6 +126,6 @@ export const dashboard = () => {
     'resize',
     handleWindowResize(() => {
       setDashboardMinHeight()
-    }, 500)
+    }, 250)
   )
 }
