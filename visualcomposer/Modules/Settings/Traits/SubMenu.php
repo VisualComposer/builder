@@ -44,7 +44,7 @@ trait SubMenu
                     $tabsHelper->set(
                         $page['slug'],
                         [
-                            'name' => $page['title'] ,
+                            'name' => $page['title'],
                             'subTitle' => isset($page['subTitle']) ? $page['subTitle'] : '',
                             'capability' => $capability,
                             'parent' => $parentSlug,
@@ -92,6 +92,16 @@ trait SubMenu
         // pages can define different layout, by setting 'layout' key/value.
         if (isset($page['layout'])) {
             $layout = $page['layout'];
+        }
+
+        if(isset($page['isDashboardPage']) && $page['isDashboardPage']){
+            add_action(
+                'admin_head',
+                function () {
+                    remove_all_actions('admin_notices');
+                },
+                1
+            );
         }
 
         return vcview(
