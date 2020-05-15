@@ -94,7 +94,7 @@ trait SubMenu
             $layout = $page['layout'];
         }
 
-        if(isset($page['isDashboardPage']) && $page['isDashboardPage']){
+        if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
             add_action(
                 'admin_head',
                 function () {
