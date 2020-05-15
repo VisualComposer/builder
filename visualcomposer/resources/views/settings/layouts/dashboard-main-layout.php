@@ -21,11 +21,13 @@ $parentTab = $tabsHelper->get($parentSlug);
 $pageTitle = $parentSlug === false ? $activeTabData['name'] : $parentTab['name'];
 
 // Make hub first item
-$hubArray = [
-    'vcv-hub' => $allTabs['vcv-hub'],
-];
-unset($allTabs['vcv-hub']);
-$allTabs = array_merge($hubArray, $allTabs);
+if (vcvenv('VCV_FT_DASHBOARD_HUB')) {
+    $hubArray = [
+        'vcv-hub' => $allTabs['vcv-hub'],
+    ];
+    unset($allTabs['vcv-hub']);
+    $allTabs = array_merge($hubArray, $allTabs);
+}
 
 // Get Variables
 $variables = vcfilter(

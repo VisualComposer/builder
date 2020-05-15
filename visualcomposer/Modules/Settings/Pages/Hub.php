@@ -35,6 +35,10 @@ class Hub extends Container implements Module
      */
     public function __construct()
     {
+        if (!vcvenv('VCV_FT_DASHBOARD_HUB')) {
+            return;
+        }
+
         $this->wpAddAction(
             'admin_menu',
             'addPage',
@@ -74,6 +78,12 @@ class Hub extends Container implements Module
 
         // Get hub style and scripts
         wp_register_script(
+            'vcv:wpVcSettings:script',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
+            ['vcv:assets:vendor:script'],
+            VCV_VERSION
+        );
+        wp_register_script(
             'vcv:hub:script',
             $urlHelper->to('public/dist/hub.bundle.js'),
             ['vcv:assets:vendor:script', 'vcv:assets:runtime:script'],
@@ -85,6 +95,7 @@ class Hub extends Container implements Module
             [],
             VCV_VERSION
         );
+        wp_enqueue_script('vcv:wpVcSettings:script');
         wp_enqueue_script('vcv:hub:script');
         wp_enqueue_style('vcv:hub:style');
     }
