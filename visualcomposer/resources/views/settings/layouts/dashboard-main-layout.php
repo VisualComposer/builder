@@ -52,7 +52,7 @@ if (is_array($variables)) {
 }
 
 ?>
-<style>
+<style id="vcv-dashboard-styles">
     #wpwrap,
     #wpcontent,
     #wpbody,
@@ -89,7 +89,9 @@ if (is_array($variables)) {
         z-index: -1;
     }
 
-    .notice {
+    .notice,
+    .updated,
+    .update-nag {
         display: none;
     }
 
