@@ -545,7 +545,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activateFree' => __(
-                'Activate Free',
+                'I Want a Free License',
                 'visualcomposer'
             ),
             'premiumLicense' => __(

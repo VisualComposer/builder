@@ -99,7 +99,7 @@ export default class ActivateLicenseScreen extends React.Component {
     const themeBuilderWithHFSText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.themeBuilderWithHFS : 'Theme builder with Header, Footer, and Sidebar editor'
     const wooCommerceCompatibilityText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.wooCommerceCompatibility : 'WooCommerce compatibility'
     const premiumSupportAndUpdatesText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumSupportAndUpdates : 'Premium support and updates'
-    const activateFreeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateFree : 'Activate Free'
+    const activateFreeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateFree : 'I Want a Free License'
     const premiumLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumLicense : 'Premium License'
     const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and add-ons'
 
