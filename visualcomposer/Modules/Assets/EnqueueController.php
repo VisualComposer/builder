@@ -100,7 +100,9 @@ class EnqueueController extends Container implements Module
             $wp_the_query = $tempPostQuery;
             if ($wp_query->have_posts()) {
                 $wp_query->the_post();
-                do_action('wp_enqueue_scripts'); // queue of assets to be outputted later with print_late_styles() and do_action('wp_print_footer_script')
+                do_action(
+                    'wp_enqueue_scripts'
+                ); // queue of assets to be outputted later with print_late_styles() and do_action('wp_print_footer_script')
                 // Output JS only if printJs is true (used to output only CSS)
                 if ($printJs) {
                     do_action('wp_print_scripts'); // Load localize scripts
@@ -148,7 +150,7 @@ class EnqueueController extends Container implements Module
 
     protected function enqueueVcvAssets($sourceIds)
     {
-        if (empty($sourceIds)) {
+        if (!is_array($sourceIds) || empty($sourceIds)) {
             $sourceIds = [get_the_ID()];
         }
         $this->enqueueAssetsVendorListener($sourceIds);
