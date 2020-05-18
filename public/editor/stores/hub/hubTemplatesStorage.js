@@ -52,7 +52,7 @@ addStorage('hubTemplates', (storage) => {
               transparent: true,
               rounded: true,
               text: successMessage.replace('{name}', name),
-              time: 3000
+              time: 5000
             })
             utils.buildVariables(jsonResponse.variables || [])
             // Initialize template depended elements
