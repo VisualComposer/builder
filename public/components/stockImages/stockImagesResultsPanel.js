@@ -182,7 +182,7 @@ export default class StockImagesResultsPanel extends React.Component {
             transparent: true,
             rounded: true,
             text: errorText,
-            time: 3000,
+            time: 5000,
             type: 'error',
             id: 'unsplash-error'
           })
@@ -287,7 +287,7 @@ export default class StockImagesResultsPanel extends React.Component {
               transparent: true,
               rounded: true,
               text: StockImagesResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been downloaded to your Media Library.',
-              time: 3000
+              time: 5000
             })
           } else {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
@@ -297,7 +297,7 @@ export default class StockImagesResultsPanel extends React.Component {
               transparent: true,
               rounded: true,
               text: errorMessage,
-              time: 3000,
+              time: 5000,
               type: 'error',
               id: 'unsplash-error'
             })
@@ -312,7 +312,7 @@ export default class StockImagesResultsPanel extends React.Component {
             transparent: true,
             rounded: true,
             text: exceptionErrorMessage,
-            time: 3000,
+            time: 5000,
             type: 'error',
             id: 'unsplash-error'
           })
