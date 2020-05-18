@@ -10,9 +10,9 @@ export default class Popup extends React.Component {
     const settingsPopup = settingsStorage.state('settingsPopup').get() || {}
     this.state = {
       isRequestInProcess: false,
-      popupOnPageLoad: settingsPopup.popupOnPageLoad || { delay: 0 },
-      popupOnExitIntent: settingsPopup.popupOnExitIntent || {},
-      popupOnElementId: settingsPopup.popupOnElementId || { delay: 0, elementIdSelector: '' }
+      popupOnPageLoad: settingsPopup.popupOnPageLoad || { delay: 0, isShown: 0 },
+      popupOnExitIntent: settingsPopup.popupOnExitIntent || { isShown: 0 },
+      popupOnElementId: settingsPopup.popupOnElementId || { delay: 0, isShown: 0, elementIdSelector: '' }
     }
 
     this.popupPosts = settingsStorage.state('popupPosts').get() || []
@@ -161,6 +161,23 @@ export default class Popup extends React.Component {
     )
   }
 
+  getShowEveryHtml (type) {
+    return (
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          Show every (days)
+        </span>
+        <input
+          className='vcv-ui-form-input'
+          value={this.state[type].isShown}
+          onChange={this.handleInputChange.bind(this, type, 'isShown')}
+          type='number'
+          min='0'
+        />
+      </div>
+    )
+  }
+
   render () {
     let popupSelect = null
     let elementIdSelectorHtml = null
@@ -203,6 +220,7 @@ export default class Popup extends React.Component {
             <p className='vcv-ui-form-helper'>{popupOpenOnPageLoad}</p>
           </div>
           {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id && this.state.popupOnPageLoad.id !== 'none' ? this.getDelayHtml('popupOnPageLoad') : null}
+          {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id && this.state.popupOnPageLoad.id !== 'none' ? this.getShowEveryHtml('popupOnPageLoad') : null}
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {onExitIntent}
@@ -210,7 +228,7 @@ export default class Popup extends React.Component {
             {this.renderExistingPosts('popupOnExitIntent')}
             <p className='vcv-ui-form-helper'>{popupOpenOnExitIntent}</p>
           </div>
-
+          {this.state.popupOnExitIntent && this.state.popupOnExitIntent.id && this.state.popupOnExitIntent.id !== 'none' ? this.getShowEveryHtml('popupOnExitIntent') : null}
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {onElementId}
@@ -221,6 +239,7 @@ export default class Popup extends React.Component {
 
           {elementIdSelectorHtml}
           {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
+          {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getShowEveryHtml('popupOnElementId') : null}
         </div>
       )
     }
