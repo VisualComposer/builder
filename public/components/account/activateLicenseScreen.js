@@ -183,7 +183,7 @@ export default class ActivateLicenseScreen extends React.Component {
 
     const authorApiKey = window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY()
     let forgotYourLicense = (
-      <p className='vcv-activation-input-field-forgot-license'>{forgotYourLicenseText}</p>
+      <p className='vcv-activation-input-field-forgot-license' dangerouslySetInnerHTML={{ __html: forgotYourLicenseText }} />
     )
     let themeNotice = null
     if (this.props.licenseType !== 'theme' && authorApiKey) {
