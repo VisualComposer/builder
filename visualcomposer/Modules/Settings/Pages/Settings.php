@@ -75,7 +75,7 @@ class Settings extends Container implements Module
             'subTitle' => __('General', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'edit_pages',
-            'iconClass' => 'vcv-ui-icon-dashboard-css',
+            'iconClass' => 'vcv-ui-icon-dashboard-settings',
             'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page);
