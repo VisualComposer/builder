@@ -99,7 +99,7 @@ class CssJsSettings extends Container implements Module
             'title' => __('CSS, HTML & JavaScript', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
-            'iconClass' => 'vcv-ui-icon-dashboard-settings',
+            'iconClass' => 'vcv-ui-icon-dashboard-css',
             'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page, false);
