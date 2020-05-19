@@ -162,6 +162,10 @@ class Localizations extends Container implements Helper
 <ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'visualcomposer'
             ),
+            'forgotYourLicenseText' => __(
+                'Forgot your license? Retrieve it in <a href="https://my.visualcomposer.com/" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> under Licenses section',
+                'visualcomposer'
+            ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
             'addImage' => __('Add Image', 'visualcomposer'),
             'removeImage' => __('Remove Image', 'visualcomposer'),
@@ -541,7 +545,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activateFree' => __(
-                'Activate Free',
+                'I Want a Free License',
                 'visualcomposer'
             ),
             'premiumLicense' => __(
