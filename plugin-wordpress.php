@@ -45,7 +45,7 @@ if (defined('VCV_VERSION')) {
 /**
  * Plugin version constant
  */
-define('VCV_VERSION', 'dev');
+define('VCV_VERSION', '27.1');
 /**
  * Plugin url: 'http://web/wp-content/plugins/plugin_dir/'
  */
