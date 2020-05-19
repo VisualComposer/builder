@@ -216,7 +216,7 @@ export default class ActivateLicenseScreen extends React.Component {
 
         {errorBox}
         <div className='vcv-activation-input-field-container'>
-          <div className={inputClasses}>
+          <form className={inputClasses} onSubmit={this.handleActivateClick}>
             <input
               name='licenseKey'
               value={this.state.licenseValue}
@@ -228,13 +228,13 @@ export default class ActivateLicenseScreen extends React.Component {
               placeholder={enterYourLicenseKey}
             />
             <button
-              type='button'
+              type='submit'
               className='vcv-activation-input-button'
               onClick={this.handleActivateClick}
             >
               {activateText}
             </button>
-          </div>
+          </form>
           {forgotYourLicense}
         </div>
 
