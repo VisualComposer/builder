@@ -8,6 +8,7 @@
   flex-direction: column;
   visibility: visible;
   background: @wp-default-dashboard-background-color;
+  -webkit-font-smoothing: antialiased;
 
   * {
     box-sizing: border-box;
@@ -78,7 +79,7 @@
   align-items: center;
   color: @text-color-base;
   text-decoration: none;
-  font: @text-size-root/50px @text-family-base;
+  font: normal 500 @text-size-root/50px @vcv-dashboard-font-family;
   margin-right: auto;
 
   &:hover,
@@ -210,19 +211,19 @@
   }
 
   .form-table {
-    font-family: 'Nunito Sans', Arial, sans-serif;
+    font-family: @vcv-dashboard-font-family;
     margin: 10px 0 30px;
 
     th {
       width: 150px;
+      vertical-align: middle;
+      font-weight: 500;
     }
   }
 
   .description {
     color: #8E8E9E;
-    font-size: 15px;
-    font-style: normal;
-    font-family: 'Nunito Sans', Arial, sans-serif;
+    font: normal 500 15px/24px @vcv-dashboard-font-family;
   }
 
   .vcv-ui-form-switch > input:checked ~ .vcv-ui-form-switch-indicator {
@@ -245,10 +246,11 @@
     border: none;
     border-radius: 0;
     background: transparent;
-    padding: 18px 41px;
+    padding: 18px 58px;
     font-size: 12px;
+    font-weight: 700;
     height: auto;
-    line-height: 2;
+    line-height: 15px;
     text-transform: uppercase;
     color: @text-color-base;
     letter-spacing: 1px;
@@ -310,6 +312,10 @@
   display: none;
 }
 
+#vcv-headerFooterSettings {
+  max-width: 362px;
+}
+
 @media screen and (min-width: 783px) {
   .vcv-dashboard-container {
     flex-direction: row;
@@ -322,7 +328,7 @@
   }
 
   .vcv-dashboard-main {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
   }
 
   .vcv-dashboard-sidebar-navigation-container {

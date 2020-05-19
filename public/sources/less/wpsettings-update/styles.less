@@ -61,7 +61,7 @@
 
 .vcv-activation-section .vcv-activation-description {
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: @vcv-dashboard-font-family;
   line-height: 24px;
   letter-spacing: .87px;
   font-weight: 500;
@@ -293,36 +293,38 @@
 
 .vcv-ui-settings-status-table {
   background-color: #fff;
-  border: 1px solid @vcv-status-table-border-color;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+  border: none;
+  border-radius: 5px;
+  border-collapse: collapse;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
   border-spacing: 0;
   width: 100%;
   font-size: 14px;
   margin-bottom: 20px;
   visibility: visible;
+  text-align: left;
 
   th,
   td {
-    font-size: inherit;
+    font-family: @vcv-dashboard-font-family;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 24px;
+    background: none;
+    border: none;
+    padding: 15px 10px;
   }
 
   th {
-    text-align: left;
-    padding: 9px;
-    border-bottom: 1px solid @vcv-status-table-border-color;
+    color: #515162;
   }
 
   tr {
-    &:nth-child(2n) {
-      td {
-        background: #fcfcfc;
-      }
-    }
+    border-top: 1px solid #fafafa;
   }
 
   td {
-    line-height: 1.5em;
-    padding: 8px 10px;
+    color: #8e8e9e;
 
     &:first-child {
       width: 33%;
@@ -590,7 +592,7 @@
     display: inline-block;
     -webkit-font-smoothing: antialiased;
     flex-basis: 100%;
-    font-family: 'Roboto', sans-serif;
+    font-family: @vcv-dashboard-font-family;
     font-weight: 500;
     font-style: italic;
     color: #999999;
@@ -689,7 +691,7 @@
 .vcv-basic-list-item {
   padding-left: 38px;
   position: relative;
-  font-family: 'Roboto', sans-serif;
+  font-family: @vcv-dashboard-font-family;
   font-weight: 500;
   font-style: italic;
   color: #999999;
@@ -781,7 +783,7 @@ input.vcv-basic-input {
   border: none;
   border-radius: 5px;
   padding: 0 20px;
-  font-family: 'Roboto', sans-serif;
+  font-family: @vcv-dashboard-font-family;
   font-weight: 700;
   font-style: italic;
   font-size: 13px;
@@ -825,7 +827,7 @@ input.vcv-basic-input {
     line-height: 50px;
     border: none;
     border-radius: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: @vcv-dashboard-font-family;
     font-weight: 700;
     font-style: italic;
     font-size: 13px;
@@ -949,7 +951,7 @@ input.vcv-basic-input {
   background: #ABCE34;
   border-radius: 5px;
   padding: 11px 15px 11px 76px;
-  font-family: Roboto, sans-serif;
+  font-family: @vcv-dashboard-font-family;
   font-weight: 500;
   font-style: italic;
   color: #fff;
@@ -972,7 +974,7 @@ input.vcv-basic-input {
 }
 
 .vcv-activation-box-error-box {
-  font-family: Roboto, sans-serif;
+  font-family: @vcv-dashboard-font-family;
   font-size: 13px;
   color: #fff;
   line-height: 24px;
@@ -989,7 +991,7 @@ input.vcv-basic-input {
 }
 
 .vcv-activation-input-description {
-  font-family: Roboto, sans-serif;
+  font-family: @vcv-dashboard-font-family;
   font-size: 13px;
   color: #999;
   line-height: 24px;
@@ -1088,7 +1090,8 @@ input.vcv-basic-input {
     height: auto;
     vertical-align: middle;
     max-width: 300px;
-    padding: 10px 23px 10px 13px;
+    padding: 10px 30px 10px 13px;
+    background: #fff url(@vcv-dashboard-dropdown-sort-down-icon) no-repeat right 16px top 55%;
   }
 
   input[type="number"],
