@@ -109,6 +109,15 @@ if (is_array($variables)) {
         animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
     }
 
+    .vcv-dashboard-sidebar-navigation-link {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        font: normal 500 16px/50px 'Roboto', sans-serif;
+        margin-right: auto;
+    }
+
     @keyframes vcv-ui-wp-spinner-animation {
         from {
             transform: translate(-50%, -50%) rotate(0deg);
