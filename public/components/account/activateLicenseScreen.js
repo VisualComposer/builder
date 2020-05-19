@@ -99,7 +99,7 @@ export default class ActivateLicenseScreen extends React.Component {
     const themeBuilderWithHFSText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.themeBuilderWithHFS : 'Theme builder with Header, Footer, and Sidebar editor'
     const wooCommerceCompatibilityText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.wooCommerceCompatibility : 'WooCommerce compatibility'
     const premiumSupportAndUpdatesText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumSupportAndUpdates : 'Premium support and updates'
-    const activateFreeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateFree : 'Activate Free'
+    const activateFreeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateFree : 'I Want a Free License'
     const premiumLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumLicense : 'Premium License'
     const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and add-ons'
 
@@ -166,6 +166,7 @@ export default class ActivateLicenseScreen extends React.Component {
     const getAccessToTheVisualComposerHubText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.getAccessToTheVisualComposerHub : 'Get Access to the Visual Composer Hub'
     const activateText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activate : 'Activate'
     const bundledInAThemeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.bundledInAThemeText : 'It seems that your Visual Composer copy was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.'
+    const forgotYourLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.forgotYourLicenseText : 'Forgot your license? Retrieve it in My Visual Composer under Licenses section'
 
     let inputClasses = 'vcv-activation-input-field'
     if (hasError) {
@@ -181,6 +182,9 @@ export default class ActivateLicenseScreen extends React.Component {
     }
 
     const authorApiKey = window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY()
+    let forgotYourLicense = (
+      <p className='vcv-activation-input-field-forgot-license' dangerouslySetInnerHTML={{ __html: forgotYourLicenseText }} />
+    )
     let themeNotice = null
     if (this.props.licenseType !== 'theme' && authorApiKey) {
       themeNotice = (
@@ -194,6 +198,7 @@ export default class ActivateLicenseScreen extends React.Component {
           {bundledInAThemeText}
         </div>
       )
+      forgotYourLicense = null
     }
 
     return (
@@ -210,24 +215,27 @@ export default class ActivateLicenseScreen extends React.Component {
         </p>
 
         {errorBox}
-        <div className={inputClasses}>
-          <input
-            name='licenseKey'
-            value={this.state.licenseValue}
-            onChange={this.handleInputChange}
-            maxLength='36'
-            onFocus={this.handleInputFocus}
-            type='text'
-            className='vcv-activation-input'
-            placeholder={enterYourLicenseKey}
-          />
-          <button
-            type='button'
-            className='vcv-activation-input-button'
-            onClick={this.handleActivateClick}
-          >
-            {activateText}
-          </button>
+        <div className='vcv-activation-input-field-container'>
+          <form className={inputClasses} onSubmit={this.handleActivateClick}>
+            <input
+              name='licenseKey'
+              value={this.state.licenseValue}
+              onChange={this.handleInputChange}
+              maxLength='36'
+              onFocus={this.handleInputFocus}
+              type='text'
+              className='vcv-activation-input'
+              placeholder={enterYourLicenseKey}
+            />
+            <button
+              type='submit'
+              className='vcv-activation-input-button'
+              onClick={this.handleActivateClick}
+            >
+              {activateText}
+            </button>
+          </form>
+          {forgotYourLicense}
         </div>
 
         {themeNotice}
