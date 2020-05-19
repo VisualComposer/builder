@@ -39,19 +39,43 @@ trait SubMenu
             if (isset($page['external'])) {
                 $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
             } else {
+                if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
+                    $tabsHelper = vchelper('SettingsTabsRegistry');
+                    $tabsHelper->set(
+                        $page['slug'],
+                        [
+                            'name' => $page['title'],
+                            'subTitle' => isset($page['subTitle']) ? $page['subTitle'] : '',
+                            'capability' => $capability,
+                            'parent' => $parentSlug,
+                            'layout' => $page['layout'],
+                            'isDashboardPage' => true,
+                            'hideTitle' => (isset($page['hideTitle']) && $page['hideTitle']),
+                            'iconClass' => isset($page['iconClass']) && $page['iconClass'] ? $page['iconClass'] : '',
+                            'callback' => function () use ($page) {
+                                /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
+                                echo $this->call('renderPage', ['page' => $page]);
+                            },
+                        ]
+                    );
+                }
+
                 add_submenu_page(
-                    isset($page['hidePage']) && $page['hidePage'] ? null : $parentSlug,
+                    isset($page['isDashboardPage']) && $page['isDashboardPage'] ? 'vcv-settings' : $parentSlug,
                     $page['title'],
                     $page['title'],
                     $capability,
                     $page['slug'],
                     function () use ($page) {
                         /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */
-                        // @codingStandardsIgnoreLine
+                        if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
+                            $page['layout'] = 'dashboard-main-layout';
+                        }
+
                         echo $this->call('renderPage', ['page' => $page]);
                     }
                 );
-            }
+            };
         }
     }
 
@@ -68,6 +92,16 @@ trait SubMenu
         // pages can define different layout, by setting 'layout' key/value.
         if (isset($page['layout'])) {
             $layout = $page['layout'];
+        }
+
+        if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
+            add_action(
+                'admin_head',
+                function () {
+                    remove_all_actions('admin_notices');
+                },
+                1
+            );
         }
 
         return vcview(

@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Modules\Settings\Pages\Settings;
@@ -36,9 +35,6 @@ class MenuController extends Container implements Module
             'network_admin_menu',
             'addMenuPage'
         );
-
-        /** @see \VisualComposer\Modules\Settings\MenuController::addGeneralTab */
-        $this->wpAddAction('admin_menu', 'addGeneralTab', -1);
     }
 
     /**
@@ -60,10 +56,5 @@ class MenuController extends Container implements Module
 
             add_menu_page($title, $title, 'edit_posts', $settingsController->getMainPageSlug(), null, $iconUrl, 76);
         }
-    }
-
-    protected function addGeneralTab(TabsRegistry $tabsRegistry)
-    {
-        $tabsRegistry->set('vcv-settings', ['name' => __('General', 'vcwb')]);
     }
 }

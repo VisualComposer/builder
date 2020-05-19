@@ -316,3 +316,4 @@ if (!defined('ABSPATH')) {
             </tbody>
         </table>
     </div>
+</div>

@@ -29,6 +29,7 @@ class Categories extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:frontend:body:extraOutput', 'outputCategories');
+        $this->addFilter('vcv:frontend:hub:extraOutput', 'outputCategories');
     }
 
     /**

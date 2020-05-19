@@ -55,7 +55,6 @@ class LicenseStatus extends Container implements Module
                 if ($licenseHelper->isAnyActivated()) {
                     $this->call('addPage');
                     $this->wpAddFilter('submenu_file', 'subMenuHighlight');
-                    $this->addFilter('vcv:settings:tabs', 'addSettingsTab', 11);
                     $this->wpAddAction(
                         'in_admin_header',
                         'addCss'
@@ -76,26 +75,12 @@ class LicenseStatus extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => $this->buttonTitle(),
-            'layout' => 'settings-standalone-with-tabs',
-            'showTab' => false,
+            'title' => __('License', 'visualcomposer'),
+            'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
+            'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page);
-    }
-
-    /**
-     * @param $tabs
-     *
-     * @return mixed
-     */
-    protected function addSettingsTab($tabs)
-    {
-        $tabs[ $this->slug ] = [
-            'name' => __('License', 'visualcomposer'),
-        ];
-
-        return $tabs;
     }
 
     /**

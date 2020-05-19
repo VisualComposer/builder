@@ -76,7 +76,7 @@ addStorage('workspace', (storage) => {
         transparent: true,
         rounded: true,
         text: successMessage,
-        time: 3000
+        time: 5000
       })
     }
   }, {
@@ -102,7 +102,7 @@ addStorage('workspace', (storage) => {
         transparent: true,
         rounded: true,
         text: successMessage,
-        time: 3000
+        time: 5000
       })
     }
   })
@@ -293,7 +293,7 @@ addStorage('workspace', (storage) => {
         transparent: true,
         rounded: true,
         text: messageText,
-        time: 3000
+        time: 5000
       })
     }
   })
@@ -315,7 +315,7 @@ addStorage('workspace', (storage) => {
       transparent: true,
       rounded: true,
       text: locked ? lockAllMessage : unlockAllMessage,
-      time: 3000
+      time: 5000
     })
   }
   storage.on('lockAll', () => {

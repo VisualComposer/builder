@@ -47,7 +47,7 @@ class Settings extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            9
+            2
         );
     }
 
@@ -69,14 +69,14 @@ class Settings extends Container implements Module
      */
     protected function addPage()
     {
-        $layout = 'settings-standalone-with-tabs';
-
         $page = [
             'slug' => $this->slug,
             'title' => __('Settings', 'visualcomposer'),
-            'showTab' => false,
-            'layout' => $layout,
+            'subTitle' => __('General', 'visualcomposer'),
+            'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'edit_pages',
+            'iconClass' => 'vcv-ui-icon-dashboard-css',
+            'isDashboardPage' => true,
         ];
         $this->addSubmenuPage($page);
     }

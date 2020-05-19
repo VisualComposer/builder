@@ -20,6 +20,7 @@ class TeasersController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:editor:variables', 'outputTeaserTemplates');
+        $this->addFilter('vcv:hub:variables', 'outputTeaserTemplates');
     }
 
     protected function outputTeaserTemplates($variables, Options $optionsHelper)

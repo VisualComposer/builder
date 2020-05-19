@@ -29,6 +29,7 @@ class Addons extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:editor:variables', 'addAddonsVariables');
+        $this->addFilter('vcv:hub:variables', 'addAddonsVariables');
     }
 
     /**

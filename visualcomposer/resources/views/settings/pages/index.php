@@ -84,10 +84,11 @@ if (!defined('ABSPATH')) {
     ?>
 
     <?php $viewsHelper->renderedFieldsList(); ?>
-    <?php submit_button(__('Save Changes', 'visualcomposer'), 'primary', 'submit_btn', true, $submitButtonAttributes) ?>
+    <div class="vcv-submit-button-container">
+        <?php submit_button(__('Save Changes', 'visualcomposer'), 'vcv-dashboard-button vcv-dashboard-button--save', 'submit_btn', false, $submitButtonAttributes) ?>
+    </div>
 
     <input type="hidden" name="vcv_action" value="vcv_action-<?php echo esc_attr(
         $slug
     ); ?>" id="vcv_settings-<?php echo esc_attr($slug); ?>-action" />
-
 </form>
