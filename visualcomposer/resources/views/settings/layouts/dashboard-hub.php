@@ -28,4 +28,3 @@ if (is_array($extraOutput)) {
     }
     unset($output);
 }
-?>
