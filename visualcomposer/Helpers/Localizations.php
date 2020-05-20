@@ -791,6 +791,10 @@ class Localizations extends Container implements Helper
                 'The element and all inner elements have been unlocked and can be edited by all roles with the edit option.',
                 'visualcomposer'
             ),
+            'unsavedChangesText' => __(
+                'Changes you made may not be saved.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
