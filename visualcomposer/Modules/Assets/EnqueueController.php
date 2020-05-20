@@ -41,7 +41,7 @@ class EnqueueController extends Container implements Module
             $this->wpAddAction('init', 'setCustomWpScripts');
         }
 
-        $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 9);
+        $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 11);
         $this->wpAddAction('wp_footer', 'enqueueVcvAssets');
 
         // Used in 3rd party places, like elements/addons/widgets
@@ -82,47 +82,49 @@ class EnqueueController extends Container implements Module
         VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
         $printJs = isset($payload['printJs']) ? $payload['printJs'] : true;
         $enqueueList = $assetsEnqueueHelper->getEnqueueList();
-        foreach ($enqueueList as $sourceId) {
-            // @codingStandardsIgnoreStart
-            global $wp_query, $wp_the_query;
-            $backup = $wp_query;
-            $backupGlobal = $wp_the_query;
+        if (!empty($enqueueList)) {
+            foreach ($enqueueList as $sourceId) {
+                // @codingStandardsIgnoreStart
+                global $wp_query, $wp_the_query;
+                $backup = $wp_query;
+                $backupGlobal = $wp_the_query;
 
-            $tempPostQuery = new \WP_Query(
-                [
-                    'p' => $sourceId,
-                    'post_status' => get_post_status($sourceId),
-                    'post_type' => get_post_type($sourceId),
-                    'posts_per_page' => 1,
-                ]
-            );
-            $wp_query = $tempPostQuery;
-            $wp_the_query = $tempPostQuery;
-            if ($wp_query->have_posts()) {
-                $wp_query->the_post();
-                do_action(
-                    'wp_enqueue_scripts'
-                ); // queue of assets to be outputted later with print_late_styles() and do_action('wp_print_footer_script')
-                // Output JS only if printJs is true (used to output only CSS)
-                if ($printJs) {
-                    do_action('wp_print_scripts'); // Load localize scripts
-                    do_action('wp_print_footer_scripts');
+                $tempPostQuery = new \WP_Query(
+                    [
+                        'p' => $sourceId,
+                        'post_status' => get_post_status($sourceId),
+                        'post_type' => get_post_type($sourceId),
+                        'posts_per_page' => 1,
+                    ]
+                );
+                $wp_query = $tempPostQuery;
+                $wp_the_query = $tempPostQuery;
+                if ($wp_query->have_posts()) {
+                    $wp_query->the_post();
+                    $this->callNonWordpressActionCallbacks('wp_enqueue_scripts');
+
+                    // queue of assets to be outputted later with print_late_styles() and do_action('wp_print_footer_script')
+                    // Output JS only if printJs is true (used to output only CSS)
+                    if ($printJs) {
+                        $this->callNonWordpressActionCallbacks('wp_print_scripts');
+                        $this->callNonWordpressActionCallbacks('wp_print_footer_scripts');
+                    }
+                    ob_start();
+                    if ($printJs) {
+                        // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
+                        $this->callNonWordpressActionCallbacks('wp_footer');
+                    }
+                    ob_end_clean();
                 }
-                ob_start();
+                $wp_query = $backup;
+                $wp_the_query = $backupGlobal; // fix wp_reset_query
+                // Remove from list only if printJs is true (footer side)
                 if ($printJs) {
-                    // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
-                    $this->callNonWordpressActionCallbacks('wp_footer');
+                    $assetsEnqueueHelper->removeFromList($sourceId);
                 }
-                ob_end_clean();
             }
-            $wp_query = $backup;
-            $wp_the_query = $backupGlobal; // fix wp_reset_query
-            // Remove from list only if printJs is true (footer side)
-            if ($printJs) {
-                $assetsEnqueueHelper->removeFromList($sourceId);
-            }
+            wp_reset_postdata();
         }
-        wp_reset_postdata();
         VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
     }
 
