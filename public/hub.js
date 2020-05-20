@@ -22,7 +22,7 @@ export const setupCake = () => {
     // require('./editor/stores/shortcodesAssets/storage')
     // require('./editor/stores/cacheStorage')
     // require('./editor/stores/migrationStorage')
-    // require('./editor/stores/workspaceStorage')
+    require('./editor/stores/workspaceStorage')
     require('./editor/stores/hub/hubElementsStorage')
     require('./editor/stores/hub/hubTemplatesStorage')
     require('./editor/stores/hub/hubAddonsStorage')
@@ -41,12 +41,20 @@ export const setupCake = () => {
     hubTemplatesStorage.trigger('start')
     const hubAddonsStorage = vcCake.getStorage('hubAddons')
     hubAddonsStorage.trigger('start')
+
+    if (window.VCV_HUB_GET_TEMPLATES) {
+      hubTemplatesStorage.state('templates').set(window.VCV_HUB_GET_TEMPLATES())
+    }
+
     // const sharedAssetsStorage = vcCake.getStorage('sharedAssets')
     // sharedAssetsStorage.trigger('start')
     // const settingsStorage = vcCake.getStorage('settings')
     // settingsStorage.trigger('start')
     // const attributesStorage = vcCake.getStorage('attributes')
     // attributesStorage.trigger('start')
+    const workspaceStorage = vcCake.getStorage('workspace')
+    workspaceStorage.state('isHubInWpDashboard').set(true)
+
     const hideScrollbar = true
     window.setTimeout(() => {
       ReactDOM.render(
