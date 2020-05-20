@@ -318,6 +318,10 @@ class Localizations extends Container implements Helper
                 'Update Visual Composer plugin to the most recent version to download this template.',
                 'visualcomposer'
             ),
+            'addonDownloadRequiresUpdate' => __(
+                'Update Visual Composer plugin to the most recent version to download this addon.',
+                'visualcomposer'
+            ),
             'startBuildingHFSButton' => __('Start Building', 'visualcomposer'),
             'startPageHFSInputPlaceholder' => sprintf(
                 __(
