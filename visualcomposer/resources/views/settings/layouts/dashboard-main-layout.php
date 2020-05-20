@@ -187,34 +187,28 @@ if (is_array($variables)) {
                                 <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
-                    </ul>
-                </nav>
-                <nav class="vcv-dashboard-sidebar-navigation vcv-dashboard-sidebar-navigation--bottom">
-                    <ul class="vcv-dashboard-sidebar-navigation-menu">
-                        <li class="vcv-dashboard-sidebar-navigation-menu-item">
-                            <?php
+                        <?php
+                        echo sprintf(
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener">%s</a></li>',
+                            esc_url('https://visualcomposer.com/help/?utm_medium=wp-dashboard&utm_source=vc-dashboard&utm_campaign=vcwb&utm_content=help-center-link'),
+                            __('Help', 'visualcomposer')
+                        );
+                        echo sprintf(
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener">%s</a></li>',
+                            esc_url('https://my.visualcomposer.com/?utm_medium=wp-dashboard&utm_source=vc-dashboard&utm_campaign=vcwb&utm_content=my-vc-link'),
+                            __('My Visual Composer', 'visualcomposer')
+                        );
+                        ?>
+                        <?php
+                        $licenseHelper = vchelper('License');
+                        if (!$licenseHelper->isPremiumActivated()) {
                             echo sprintf(
-                                '<a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener">%s</a>',
-                                esc_url('https://visualcomposer.com/help/?utm_medium=wp-dashboard&utm_source=vc-dashboard&utm_campaign=vcwb&utm_content=help-center-link'),
-                                __('Help', 'visualcomposer')
+                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star">%s</a></li>',
+                                esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
+                                __('Go Premium', 'visualcomposer')
                             );
-                            echo sprintf(
-                                '<a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener">%s</a>',
-                                esc_url('https://my.visualcomposer.com/?utm_medium=wp-dashboard&utm_source=vc-dashboard&utm_campaign=vcwb&utm_content=my-vc-link'),
-                                __('My Visual Composer', 'visualcomposer')
-                            );
-                            ?>
-                            <?php
-                            $licenseHelper = vchelper('License');
-                            if (!$licenseHelper->isPremiumActivated()) {
-                                echo sprintf(
-                                    '<a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star">%s</a>',
-                                    esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
-                                    __('Go Premium', 'visualcomposer')
-                                );
-                            }
-                            ?>
-                        </li>
+                        }
+                        ?>
                     </ul>
                 </nav>
             </div>
