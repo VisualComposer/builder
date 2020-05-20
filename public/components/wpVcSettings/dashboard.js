@@ -1,5 +1,5 @@
 const localizations = window.VCV_I18N && window.VCV_I18N()
-const areYouSureText = localizations && localizations.areYouSureText ? localizations.areYouSureText : 'Are You Sure?'
+const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes you made may not be saved.'
 
 export const dashboard = () => {
   let httpRequest = false
@@ -111,7 +111,7 @@ export const dashboard = () => {
 
   const handleMenuLinkClick = (e) => {
     if (formTouched) {
-      const userResponse = window.confirm(areYouSureText)
+      const userResponse = window.confirm(unsavedChangesText)
       if (!userResponse) {
         e.preventDefault()
       } else {
@@ -159,4 +159,9 @@ export const dashboard = () => {
       setDashboardMinHeight()
     }, 250)
   )
+  window.onbeforeunload = () => {
+    if (formTouched) {
+      return unsavedChangesText
+    }
+  }
 }
