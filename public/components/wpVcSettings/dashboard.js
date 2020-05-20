@@ -1,10 +1,15 @@
+const localizations = window.VCV_I18N && window.VCV_I18N()
+const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes you made may not be saved.'
+
 export const dashboard = () => {
   let httpRequest = false
   let tabletMinHeight = ''
   let desktopMinHeight = ''
+  let formTouched = false
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
   const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
+  const menuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-link'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
   const adminMenuBack = document.querySelector('#adminmenuback')
@@ -84,6 +89,7 @@ export const dashboard = () => {
 
   const handleContentFormSubmit = (e) => {
     e.preventDefault()
+    formTouched = false
     const action = e.target.getAttribute('action')
     const submitButtonContainer = e.target.querySelector('.vcv-submit-button-container')
     const submitButton = e.target.querySelector('#submit_btn')
@@ -103,6 +109,28 @@ export const dashboard = () => {
     submitButton.setAttribute('disabled', true)
   }
 
+  const handleMenuLinkClick = (e) => {
+    if (formTouched) {
+      const userResponse = window.confirm(unsavedChangesText)
+      if (!userResponse) {
+        e.preventDefault()
+      } else {
+        if (e.target.closest('.vcv-dashboard-sidebar-navigation-menu--submenu')) {
+          handleSubmenuLinkClick(e)
+        }
+        formTouched = false
+      }
+    } else {
+      if (e.target.closest('.vcv-dashboard-sidebar-navigation-menu--submenu')) {
+        handleSubmenuLinkClick(e)
+      }
+    }
+  }
+
+  const handleContentFormChange = (e) => {
+    formTouched = true
+  }
+
   // Implement throttle on window resize
   const handleWindowResize = (func, duration) => {
     let shouldWait = false
@@ -119,8 +147,11 @@ export const dashboard = () => {
 
   setDashboardMinHeight()
 
-  submenuLinks.forEach(link => link.addEventListener('click', handleSubmenuLinkClick))
-  contentForms.forEach(form => form.addEventListener('submit', handleContentFormSubmit))
+  menuLinks.forEach(link => link.addEventListener('click', handleMenuLinkClick))
+  contentForms.forEach(form => {
+    form.addEventListener('submit', handleContentFormSubmit)
+    form.addEventListener('change', handleContentFormChange)
+  })
   navigationToggle.addEventListener('click', handleNavigationToggle)
   window.addEventListener(
     'resize',
@@ -128,4 +159,9 @@ export const dashboard = () => {
       setDashboardMinHeight()
     }, 250)
   )
+  window.onbeforeunload = () => {
+    if (formTouched) {
+      return unsavedChangesText
+    }
+  }
 }
