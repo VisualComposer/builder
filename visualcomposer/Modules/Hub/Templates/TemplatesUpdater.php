@@ -20,6 +20,8 @@ class TemplatesUpdater extends Container implements Module
 {
     use EventsFilters;
 
+    protected $importedImages = [];
+
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
@@ -405,42 +407,49 @@ class TemplatesUpdater extends Container implements Module
      */
     protected function addImageToMediaLibrary($imageUrl)
     {
-        $fileHelper = vchelper('File');
-        $wpUploadDir = wp_upload_dir();
-        $localMediaPath = str_replace($wpUploadDir['baseurl'], $wpUploadDir['basedir'], $imageUrl);
-        $fileType = wp_check_filetype(basename($localMediaPath), null);
-        $imageNewUrl = $wpUploadDir['path'] . '/' . basename($localMediaPath);
-        $fileHelper->copyFile($localMediaPath, $imageNewUrl);
+        if (array_key_exists($imageUrl, $this->importedImages) === false) {
+            $fileHelper = vchelper('File');
+            $wpUploadDir = wp_upload_dir();
+            $localMediaPath = str_replace($wpUploadDir['baseurl'], $wpUploadDir['basedir'], $imageUrl);
+            $fileType = wp_check_filetype(basename($localMediaPath), null);
+            $imageNewUrl = $wpUploadDir['path'] . '/' . basename($localMediaPath);
+            $fileHelper->copyFile($localMediaPath, $imageNewUrl);
 
-        $attachment = [
-            'guid' => $wpUploadDir['url'] . '/' . basename($localMediaPath),
-            'post_mime_type' => $fileType['type'],
-            'post_title' => preg_replace('/\.[^.]+$/', '', basename($localMediaPath)),
-            'post_content' => '',
-            'post_status' => 'inherit',
-        ];
+            $attachment = [
+                'guid' => $wpUploadDir['url'] . '/' . basename($localMediaPath),
+                'post_mime_type' => $fileType['type'],
+                'post_title' => preg_replace('/\.[^.]+$/', '', basename($localMediaPath)),
+                'post_content' => '',
+                'post_status' => 'inherit',
+            ];
 
-        $attachment = wp_insert_attachment(
-            $attachment,
-            $wpUploadDir['path'] . '/' . basename($localMediaPath),
-            get_the_ID()
-        );
-
-        if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
-            wp_generate_attachment_metadata(
+            $attachment = wp_insert_attachment(
                 $attachment,
-                $imageNewUrl
+                $wpUploadDir['path'] . '/' . basename($localMediaPath),
+                get_the_ID()
             );
-        } else {
-            wp_update_attachment_metadata(
-                $attachment,
+
+            if (version_compare(get_bloginfo('version'), '5.3', '>=')) {
                 wp_generate_attachment_metadata(
                     $attachment,
                     $imageNewUrl
-                )
-            );
+                );
+            } else {
+                wp_update_attachment_metadata(
+                    $attachment,
+                    wp_generate_attachment_metadata(
+                        $attachment,
+                        $imageNewUrl
+                    )
+                );
+            }
+
+            $this->importedImages[ $imageUrl ] = [
+                'id' => $attachment,
+                'url' => $wpUploadDir['url'] . '/' . basename($localMediaPath),
+            ];
         }
 
-        return ['id' => $attachment, 'url' => $wpUploadDir['url'] . '/' . basename($localMediaPath)];
+        return $this->importedImages[ $imageUrl ];
     }
 }
