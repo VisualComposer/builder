@@ -111,7 +111,7 @@ export const dashboard = () => {
 
   const handleMenuLinkClick = (e) => {
     if (formTouched) {
-      const userResponse = confirm(areYouSureText)
+      const userResponse = window.confirm(areYouSureText)
       if (!userResponse) {
         e.preventDefault()
       } else {
