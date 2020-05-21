@@ -173,8 +173,8 @@ export default class Popup extends React.Component {
         </span>
         <input
           className='vcv-ui-form-input'
-          value={this.state[type].isShown}
-          onChange={this.handleInputChange.bind(this, type, 'isShown')}
+          value={this.state[type].expires}
+          onChange={this.handleInputChange.bind(this, type, 'expires')}
           type='number'
           min='0'
         />
