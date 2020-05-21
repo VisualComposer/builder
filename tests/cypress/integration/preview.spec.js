@@ -20,7 +20,8 @@ describe('test preview is working fine', function () {
     })
 
     cy.get('.vcv-ui-navbar-dropdown-trigger[title="Menu"]').click()
-    cy.get('.vcv-ui-navbar-control[title="Preview"]').should('be.visible').click()
+    cy.get('.vcv-ui-navbar-control[title="Preview"]').should('be.visible')
+    cy.get('.vcv-ui-navbar-control[title="Preview"]').click()
     cy.wait('@loadContentRequest')
 
     // Check visual composer editor
