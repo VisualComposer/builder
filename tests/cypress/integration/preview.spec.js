@@ -19,16 +19,12 @@ describe('test preview is working fine', function () {
       initialColor: '000000'
     })
 
-
-    cy.window().then((win) => {
-      cy.route('POST', win.vcvAdminAjaxUrl).as('previewRequest')
-    })
     cy.get('.vcv-ui-navbar-dropdown-trigger[title="Menu"]').click()
     cy.get('.vcv-ui-navbar-control[title="Preview"]').should('be.visible').click()
-    cy.wait('@previewRequest')
+    cy.wait('@loadContentRequest')
 
     // Check visual composer editor
-    cy.get('@previewRequest').should((response) => {
+    cy.get('@loadContentRequest').should((response) => {
       const previewPageUrl = response.response.body.postData.previewUrl
       cy.visit(previewPageUrl)
     })
@@ -40,6 +36,5 @@ describe('test preview is working fine', function () {
         expect(textContent).to.equal('Test for Preview')
         cy.get('#preview-id.preview-class .vce-text-block-wrapper').should('have.css', 'background-color', 'rgb(185, 48, 48)')
       })
-
   })
 })
