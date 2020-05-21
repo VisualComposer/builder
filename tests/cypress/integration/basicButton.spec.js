@@ -22,6 +22,7 @@ describe(ELEMENT_NAME, function () {
       cy.savePage()
       cy.viewPage()
 
+      cy.wait(1000)
       cy.get(`.${settings.customClass}.vce-button--style-basic-container--align-${settings.alignment}`)
         .should('have.css', 'text-align', settings.alignment)
 

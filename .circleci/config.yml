@@ -140,8 +140,6 @@ jobs:
       - store_artifacts:
           path: ./tests/cypress/snapshots
       - store_artifacts:
-          path: ./tests/cypress/videos
-      - store_artifacts:
           path: ./tests/cypress/screenshots
   js-stores-tests:
     docker:
