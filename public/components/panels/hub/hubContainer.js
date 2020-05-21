@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import HubItemControl from './hubItemControl'
+import HubItemController from './hubItemController'
 import HubMenu from './hubMenu'
 import HubDropdown from './hubDropdown'
 import AddElementCategories from '../addElement/lib/categories'
@@ -125,13 +125,14 @@ export default class HubContainer extends AddElementCategories {
   getElementControl (elementData) {
     let tag = elementData.tag ? elementData.tag : elementData.name
     tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+    const type = elementData.type ? elementData.type : 'element'
 
     return (
-      <HubItemControl
-        key={'vcv-element-control-' + tag}
+      <HubItemController
+        key={'vcv-item-controller-' + tag}
         element={elementData}
         tag={tag}
-        type={elementData.type ? elementData.type : 'element'}
+        type={type}
         update={elementData.update ? elementData.update : false}
         name={elementData.name}
         addElement={this.addElement}

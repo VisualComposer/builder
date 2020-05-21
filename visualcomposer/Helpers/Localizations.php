@@ -162,6 +162,10 @@ class Localizations extends Container implements Helper
 <ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'visualcomposer'
             ),
+            'forgotYourLicenseText' => __(
+                'Forgot your license? Retrieve it in <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> under Licenses section',
+                'visualcomposer'
+            ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
             'addImage' => __('Add Image', 'visualcomposer'),
             'removeImage' => __('Remove Image', 'visualcomposer'),
@@ -313,6 +317,10 @@ class Localizations extends Container implements Helper
             ),
             'templateDownloadRequiresUpdate' => __(
                 'Update Visual Composer plugin to the most recent version to download this template.',
+                'visualcomposer'
+            ),
+            'addonDownloadRequiresUpdate' => __(
+                'Update Visual Composer plugin to the most recent version to download this addon.',
                 'visualcomposer'
             ),
             'startBuildingHFSButton' => __('Start Building', 'visualcomposer'),
@@ -542,7 +550,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activateFree' => __(
-                'Activate Free',
+                'I Want a Free License',
                 'visualcomposer'
             ),
             'premiumLicense' => __(
@@ -782,6 +790,10 @@ class Localizations extends Container implements Helper
             ),
             'unlockContainerNotificationText' => __(
                 'The element and all inner elements have been unlocked and can be edited by all roles with the edit option.',
+                'visualcomposer'
+            ),
+            'unsavedChangesText' => __(
+                'Changes you made may not be saved.',
                 'visualcomposer'
             ),
         ];

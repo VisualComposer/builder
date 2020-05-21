@@ -180,7 +180,7 @@ export default class AddTemplatePanel extends React.Component {
       position: 'bottom',
       type: 'error',
       text: error,
-      time: 3000
+      time: 5000
     })
   }
 
@@ -338,7 +338,7 @@ export default class AddTemplatePanel extends React.Component {
     notificationsStorage.trigger('add', {
       position: 'bottom',
       text: successText,
-      time: 3000
+      time: 5000
     })
   }
 

@@ -419,7 +419,7 @@ export default class ElementControl extends React.Component {
       transparent: true,
       rounded: true,
       text: successText,
-      time: 3000
+      time: 5000
     })
   }
 
@@ -429,7 +429,7 @@ export default class ElementControl extends React.Component {
       position: 'bottom',
       type: 'error',
       text: errorText,
-      time: 3000
+      time: 5000
     })
   }
 
