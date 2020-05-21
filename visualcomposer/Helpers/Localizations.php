@@ -163,7 +163,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'forgotYourLicenseText' => __(
-                'Forgot your license? Retrieve it in <a href="https://my.visualcomposer.com/" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> under Licenses section',
+                'Forgot your license? Retrieve it in <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> under Licenses section',
                 'visualcomposer'
             ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
