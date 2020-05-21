@@ -182,7 +182,8 @@ class Localizations extends Container implements Helper
             'onExitIntent' => __('Popup On Exit Intent', 'visualcomposer'),
             'onElementId' => __('Popup On Element ID', 'visualcomposer'),
             'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
-            'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
+            'delayInSeconds' => __('Delay in seconds', 'visualcomposer'),
+            'showEveryDays' => __('Show every (days)', 'visualcomposer'),
             'popupOpenOnPageLoad' => __('The popup will open once the page is loaded.', 'visualcomposer'),
             'popupOpenOnExitIntent' => __('The popup will load if users try to exit the page.', 'visualcomposer'),
             'popupOpenOnElementId' => __(
