@@ -1,5 +1,4 @@
 // Dashboard styles
-
 .vcv-dashboard-container {
   position: absolute;
   width: 100%;
@@ -8,6 +7,7 @@
   flex-direction: column;
   visibility: visible;
   background: @wp-default-dashboard-background-color;
+  -webkit-font-smoothing: antialiased;
 
   * {
     box-sizing: border-box;
@@ -62,10 +62,6 @@
   flex: 1 0 auto;
 }
 
-.vcv-dashboard-sidebar-navigation--bottom {
-  flex: 0 0 auto;
-}
-
 .vcv-dashboard-sidebar-navigation-menu,
 .vcv-dashboard-sidebar-navigation-menu-item {
   margin: 0;
@@ -74,13 +70,6 @@
 }
 
 .vcv-dashboard-sidebar-navigation-link {
-  display: flex;
-  align-items: center;
-  color: @text-color-base;
-  text-decoration: none;
-  font: @text-size-root/50px @text-family-base;
-  margin-right: auto;
-
   &:hover,
   &:focus,
   &.vcv-dashboard-sidebar-navigation-link--active {
@@ -194,9 +183,8 @@
   h4,
   h5,
   h6,
-  .form-table th,
-  .vcv-dashboard-tab {
-    color: #515162;
+  .form-table th {
+    color: @vcv-dashboard-headers-color;
   }
 
   h1 {
@@ -209,46 +197,59 @@
     font-size: 18px;
   }
 
-  .form-table {
-    font-family: 'Nunito Sans', Arial, sans-serif;
-    margin: 10px 0 30px;
+  a {
+    text-decoration: none;
+    color: @vcv-dashboard-link-color;
 
-    th {
-      width: 150px;
+    &:hover {
+      color: @vcv-dashboard-link-color--hover;
     }
   }
 
-  .description {
+  .form-table {
+    font-family: @vcv-dashboard-font-family;
+    margin: 10px 0 30px;
+
+    th {
+      width: 170px;
+      vertical-align: top;
+      padding-top: 27px; // to align by the top side of the dropdown in the next cell
+      font-weight: 500;
+    }
+  }
+
+  .description,
+  .vcv-headers-footers-section,
+  .vcv-description {
     color: #8E8E9E;
-    font-size: 15px;
-    font-style: normal;
-    font-family: 'Nunito Sans', Arial, sans-serif;
+    font: normal 500 15px/24px @vcv-dashboard-font-family;
   }
 
   .vcv-ui-form-switch > input:checked ~ .vcv-ui-form-switch-indicator {
-    background: #3E4BBB;
+    background: @vcv-dashboard-toggle-bg-color-on;
   }
 
   .vcv-ui-form-switch > input:not(:checked) ~ .vcv-ui-form-switch-indicator {
-    background: #a3a3a3;
+    background: @vcv-dashboard-toggle-bg-color-off;
   }
 
   .vcv-dashboard-dropdown-select {
     width: 100%;
     max-width: 100%;
   }
-}
 
-.vcv-dashboard-main{
-  .vcv-dashboard-button {
+  .vcv-dashboard-button,
+  .button {
     position: relative;
     border: none;
     border-radius: 0;
     background: transparent;
-    padding: 18px 41px;
+    margin: 0;
+    padding: 18px 58px;
     font-size: 12px;
+    font-weight: 700;
     height: auto;
-    line-height: 2;
+    line-height: 15px;
     text-transform: uppercase;
     color: @text-color-base;
     letter-spacing: 1px;
@@ -263,28 +264,55 @@
   }
 
   .vcv-dashboard-button--save {
-    background: #FFAE27;
+    background: @vcv-dashboard-save-btn-bg-color;
 
     &:hover,
     &:active,
     &:focus,
     &[disabled] {
       color: @text-color-base;
-      background: darken(#FFAE27, 15%);
+      background: darken(@vcv-dashboard-save-btn-bg-color, 15%);
     }
 
     // !important is used to override WP importants ¯\_(ツ)_/¯
     &[disabled] {
       color: @text-color-base !important;
-      background: darken(#FFAE27, 15%) !important;
+      background: darken(@vcv-dashboard-save-btn-bg-color, 15%) !important;
       text-shadow: none !important;
       cursor: not-allowed;
       opacity: .7;
     }
   }
 
+  .vcv-system-refresh {
+    padding: 8px 16px;
+    border-radius: 3px;
+    text-transform: none;
+    color: @text-color-base;
+    background-color: @vcv-dashboard-refresh-btn-bg-color;
+    font: normal 500 15px/24px @vcv-dashboard-font-family;
+    letter-spacing: initial;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: @text-color-base;
+      background-color: @vcv-dashboard-refresh-btn-bg-color--hover;
+    }
+  }
+
+  .vcv-ui-form-switch-container {
+    display: flex;
+    align-items: flex-start;
+  }
+
   .vcv-ui-form-switch + span {
     line-height: 2.5;
+    margin-left: 15px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    vertical-align: middle;
   }
 }
 
@@ -310,6 +338,10 @@
   display: none;
 }
 
+#vcv-headerFooterSettings {
+  max-width: 362px;
+}
+
 @media screen and (min-width: 783px) {
   .vcv-dashboard-container {
     flex-direction: row;
@@ -322,7 +354,7 @@
   }
 
   .vcv-dashboard-main {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
   }
 
   .vcv-dashboard-sidebar-navigation-container {
