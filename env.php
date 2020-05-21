@@ -142,7 +142,3 @@ if (!VcvEnv::has('VCV_ACCOUNT_URL')) {
 if (!VcvEnv::has('VCV_SUPPORT_URL')) {
     VcvEnv::set('VCV_SUPPORT_URL', defined('VCV_SUPPORT_URL') ? constant('VCV_SUPPORT_URL') : 'https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support');
 }
-
-if (!VcvEnv::has('VCV_FT_DASHBOARD_HUB')) {
-    VcvEnv::set('VCV_FT_DASHBOARD_HUB', true);
-}
