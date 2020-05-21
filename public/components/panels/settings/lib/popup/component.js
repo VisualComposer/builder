@@ -10,9 +10,9 @@ export default class Popup extends React.Component {
     const settingsPopup = settingsStorage.state('settingsPopup').get() || {}
     this.state = {
       isRequestInProcess: false,
-      popupOnPageLoad: settingsPopup.popupOnPageLoad || { delay: 0, isShown: 0 },
-      popupOnExitIntent: settingsPopup.popupOnExitIntent || { isShown: 0 },
-      popupOnElementId: settingsPopup.popupOnElementId || { delay: 0, isShown: 0, elementIdSelector: '' }
+      popupOnPageLoad: settingsPopup.popupOnPageLoad || { delay: 0, expires: 0 },
+      popupOnExitIntent: settingsPopup.popupOnExitIntent || { expires: 0 },
+      popupOnElementId: settingsPopup.popupOnElementId || { delay: 0, expires: 0, elementIdSelector: '' }
     }
 
     this.popupPosts = settingsStorage.state('popupPosts').get() || []
@@ -145,10 +145,12 @@ export default class Popup extends React.Component {
   }
 
   getDelayHtml (type) {
+    const delayInSeconds = this.localizations ? this.localizations.delayInSeconds : 'Delay in seconds'
+
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
-          Delay in seconds
+          {delayInSeconds}
         </span>
         <input
           className='vcv-ui-form-input'
@@ -162,10 +164,12 @@ export default class Popup extends React.Component {
   }
 
   getShowEveryHtml (type) {
+    const showEveryDays = this.localizations ? this.localizations.showEveryDays : 'Show every (days)'
+
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
-          Show every (days)
+          {showEveryDays}
         </span>
         <input
           className='vcv-ui-form-input'
