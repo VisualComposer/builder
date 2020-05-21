@@ -143,7 +143,7 @@ class Hub extends Container implements Module
             unset($variable);
         }
         $hubContent = ob_get_clean();
-        return $response . implode('', vcfilter('vcv:update:extraOutput', [])) . $hubContent . '<div id="vcv-hub"></div>';
+        return $response . implode('', vcfilter('vcv:update:extraOutput', [])) . $hubContent . '<div id="vcv-hub"></div><div id="vcv-wp-admin-notifications"></div>';
     }
 
     /**

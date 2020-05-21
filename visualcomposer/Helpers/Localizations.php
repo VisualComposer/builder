@@ -178,11 +178,12 @@ class Localizations extends Container implements Helper
             'linkToExistingContent' => __('Or link to existing content', 'visualcomposer'),
             'searchExistingContent' => __('Search existing content', 'visualcomposer'),
             'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
-            'onPageLoad' => __('On page load', 'visualcomposer'),
-            'onExitIntent' => __('On exit intent', 'visualcomposer'),
-            'onElementId' => __('On Element ID', 'visualcomposer'),
+            'onPageLoad' => __('Popup On Every Page Load', 'visualcomposer'),
+            'onExitIntent' => __('Popup On Exit Intent', 'visualcomposer'),
+            'onElementId' => __('Popup On Element ID', 'visualcomposer'),
             'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
-            'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
+            'delayInSeconds' => __('Delay in seconds', 'visualcomposer'),
+            'showEveryDays' => __('Show every (days)', 'visualcomposer'),
             'popupOpenOnPageLoad' => __('The popup will open once the page is loaded.', 'visualcomposer'),
             'popupOpenOnExitIntent' => __('The popup will load if users try to exit the page.', 'visualcomposer'),
             'popupOpenOnElementId' => __(
@@ -316,6 +317,10 @@ class Localizations extends Container implements Helper
             ),
             'templateDownloadRequiresUpdate' => __(
                 'Update Visual Composer plugin to the most recent version to download this template.',
+                'visualcomposer'
+            ),
+            'addonDownloadRequiresUpdate' => __(
+                'Update Visual Composer plugin to the most recent version to download this addon.',
                 'visualcomposer'
             ),
             'startBuildingHFSButton' => __('Start Building', 'visualcomposer'),
