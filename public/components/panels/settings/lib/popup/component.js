@@ -148,7 +148,7 @@ export default class Popup extends React.Component {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
-          Delay (in seconds)
+          Delay in seconds
         </span>
         <input
           className='vcv-ui-form-input'
@@ -184,9 +184,9 @@ export default class Popup extends React.Component {
     const popupOpenOnPageLoad = this.localizations ? this.localizations.popupOpenOnPageLoad : 'The popup will open once the page is loaded.'
     const popupOpenOnExitIntent = this.localizations ? this.localizations.popupOpenOnExitIntent : 'The popup will load if users try to exit the page.'
     const popupOpenOnElementId = this.localizations ? this.localizations.popupOpenOnElementId : 'The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.'
-    const onPageLoad = this.localizations ? this.localizations.onPageLoad : 'On page load'
-    const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'On exit intent'
-    const onElementId = this.localizations ? this.localizations.onElementId : 'On Element ID'
+    const onPageLoad = this.localizations ? this.localizations.onPageLoad : 'Popup On Every Page Load'
+    const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'Popup On Exit Intent'
+    const onElementId = this.localizations ? this.localizations.onElementId : 'Popup On Element ID'
 
     if (this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none') {
       elementIdSelectorHtml = (
