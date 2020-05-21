@@ -90,6 +90,7 @@ export const dashboard = () => {
   const handleContentFormSubmit = (e) => {
     e.preventDefault()
     formTouched = false
+    window.vcvIsCodeEditorsTouched = false
     const action = e.target.getAttribute('action')
     const submitButtonContainer = e.target.querySelector('.vcv-submit-button-container')
     const submitButton = e.target.querySelector('#submit_btn')
@@ -160,7 +161,7 @@ export const dashboard = () => {
     }, 250)
   )
   window.onbeforeunload = () => {
-    if (formTouched) {
+    if (formTouched || window.vcvIsCodeEditorsTouched) {
       return unsavedChangesText
     }
   }
