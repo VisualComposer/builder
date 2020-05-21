@@ -1,7 +1,7 @@
 /* global describe, it, cy */
 
 describe('test preview is working fine', function () {
-  it('Uses php-e2e-actions to load page with custom script localizations', function () {
+  it('Adds element to the page, checks the preview of the page works fine or not', function () {
     cy.createPage()
     cy.addElement('Text Block')
     cy.setTinyMce({
