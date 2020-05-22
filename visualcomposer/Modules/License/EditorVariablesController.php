@@ -18,7 +18,7 @@ class EditorVariablesController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:editor:variables', 'addVariables');
+        $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
     }
 
     protected function addVariables($variables, $payload)
