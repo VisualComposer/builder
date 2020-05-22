@@ -280,6 +280,7 @@
 
   .vcv-dashboard-button--save {
     background: @vcv-dashboard-save-btn-bg-color;
+    width: 100%;
 
     &:hover,
     &:active,
@@ -347,7 +348,7 @@
 
 .vcv-submit-button-container {
   position: relative;
-  display: inline-block;
+  display: block;
   &.vcv-dashboard-button--loading {
     &::before {
       .spinner()
@@ -472,5 +473,9 @@
 
   #vcv-headerFooterSettings {
     max-width: 362px;
+  }
+
+  .vcv-submit-button-container {
+    display: inline-block;
   }
 }
