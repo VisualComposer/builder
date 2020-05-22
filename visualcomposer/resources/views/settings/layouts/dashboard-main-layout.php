@@ -87,11 +87,11 @@ if (is_array($variables)) {
         z-index: -1;
     }
 
-    .notice,
-    .updated,
-    .update-nag,
-    .error {
-        display: none;
+    #wpcontent .notice,
+    #wpcontent .updated,
+    #wpcontent .update-nag,
+    #wpcontent .error {
+        display: none !important;
     }
 
     .vcv-dashboard-container {
