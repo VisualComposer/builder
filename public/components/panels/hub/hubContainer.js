@@ -127,6 +127,10 @@ export default class HubContainer extends AddElementCategories {
     tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     const type = elementData.type ? elementData.type : 'element'
 
+    if (type === 'template') {
+      tag = elementData.bundle.replace('template/', '').replace('predefinedTemplate/', '')
+    }
+
     return (
       <HubItemController
         key={'vcv-item-controller-' + tag}
