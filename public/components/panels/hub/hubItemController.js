@@ -71,7 +71,7 @@ export default class HubItemController extends ElementControl {
   }
 
   render () {
-    let { type } = this.props
+    const { type } = this.props
     let ControlElement = null
     if (type === 'element') {
       ControlElement = HubElementControl
