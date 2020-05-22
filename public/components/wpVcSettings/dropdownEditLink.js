@@ -12,9 +12,11 @@ const changeEditLink = (item) => {
       editLinkItem.querySelector('a').setAttribute('href', selectedPageUrl)
     } else {
       dropdownContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{link}', selectedPageUrl).replace('{editLinkTitle}', editLinkTitle))
+      dropdownContainer.closest('tr').classList.add('vcv-field-expand')
     }
   } else {
     editLinkItem.remove()
+    dropdownContainer.closest('tr').classList.remove('vcv-field-expand')
   }
 }
 

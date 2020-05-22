@@ -304,7 +304,7 @@
   td {
     font-family: @vcv-dashboard-font-family;
     font-weight: 500;
-    font-size: 15px;
+    font-size: @vcv-dashboard-text-font-size;
     line-height: 24px;
     background: none;
     border: none;
@@ -317,6 +317,12 @@
 
   tr {
     border-top: 1px solid #fafafa;
+  }
+
+  thead {
+    tr:first-of-type {
+      border: none;
+    }
   }
 
   td {
@@ -1138,6 +1144,8 @@ input.vcv-basic-input {
 
   .vcv-custom-page-templates-edit-link {
     margin-top: 10px;
+    font-size: @vcv-dashboard-text-font-size;
+    line-height: 24px;
   }
 }
 

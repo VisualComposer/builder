@@ -20,7 +20,7 @@ $expirationDate = vchelper('License')->getExpirationDate();
 <div class="vcv-ui-settings-status-table-container">
     <h2><?php echo esc_html__('License Information', 'visualcomposer') ?></h2>
     <div class="vcv-description">
-        <p><?php echo esc_html__(
+        <p class="description"><?php echo esc_html__(
             'Visual Composer license information. Click refresh to check for license updates',
             'visualcomposer'
         ); ?></p>
