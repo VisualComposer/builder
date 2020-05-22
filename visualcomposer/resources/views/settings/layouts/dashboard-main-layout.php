@@ -89,7 +89,8 @@ if (is_array($variables)) {
 
     .notice,
     .updated,
-    .update-nag {
+    .update-nag,
+    .error {
         display: none;
     }
 
