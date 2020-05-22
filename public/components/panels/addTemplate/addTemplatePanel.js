@@ -371,7 +371,8 @@ export default class AddTemplatePanel extends React.Component {
     }
     const next = (elements) => {
       const existingJobs = assetsStorage.state('jobs').get()
-      const existingJobsCount = (existingJobs && existingJobs.elements && existingJobs.elements.length) || 0
+      const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
+      const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
       const visibleAddedElements = utils.getVisibleElements(elements)
       const addedElementsCount = Object.keys(visibleAddedElements).length
 
