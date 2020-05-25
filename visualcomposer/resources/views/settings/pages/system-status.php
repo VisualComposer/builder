@@ -22,9 +22,8 @@ if (!defined('ABSPATH')) {
 /** @var array $aws */
 ?>
 <div class="vcv-ui-settings-status-table-container">
-    <h2><?php echo esc_html__('System status', 'visualcomposer') ?></h2>
     <div class="vcv-description">
-        <p><?php echo esc_html__('Check system status and WordPress configuration for compliance with Visual Composer requirements.', 'visualcomposer'); ?></p>
+        <p class="description"><?php echo esc_html__('Check system status and WordPress configuration for compliance with Visual Composer requirements.', 'visualcomposer'); ?></p>
         <a href="<?php echo esc_url($refreshUrl); ?>" class="button vcv-system-refresh"><?php echo esc_html__('Refresh', 'visualcomposer'); ?></a>
     </div>
     <style>

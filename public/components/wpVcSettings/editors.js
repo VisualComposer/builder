@@ -3,9 +3,13 @@ import 'public/editor/services/stylesManager/service'
 import codeEditor from 'public/components/codeEditor/codeEditor'
 
 export const initEditors = () => {
+  window.vcvIsCodeEditorsTouched = false
   // CSS PART
   const submitBtn = document.querySelector('#submit_btn[name=submit_btn]')
   const setStatus = (status) => {
+    if (!window.vcvIsCodeEditorsTouched) {
+      window.vcvIsCodeEditorsTouched = true
+    }
     if (status === 'ready') {
       submitBtn.classList.remove('disabled')
     } else {
@@ -45,11 +49,17 @@ export const initEditors = () => {
    */
   const globalJsHead = document.querySelector('#vcv-settingsGlobalJsHead')
   if (globalJsHead !== null) {
-    codeEditor.getEditor(globalJsHead, 'text/html', globalJsHead.value)
+    const globalJsHeadEditor = codeEditor.getEditor(globalJsHead, 'text/html', globalJsHead.value)
+    globalJsHeadEditor.on('change', async () => {
+      setStatus('ready')
+    })
   }
 
   const globalJsFooter = document.querySelector('#vcv-settingsGlobalJsFooter')
   if (globalJsFooter !== null) {
-    codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
+    const globalJsFooterEditor = codeEditor.getEditor(globalJsFooter, 'text/html', globalJsFooter.value)
+    globalJsFooterEditor.on('change', async () => {
+      setStatus('ready')
+    })
   }
 }

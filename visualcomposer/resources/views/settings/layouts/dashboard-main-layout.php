@@ -17,8 +17,6 @@ $activeTabData = $tabsHelper->get($activeTab);
 
 // Get Parent Tab
 $parentSlug = $activeTabData['parent'] === false ? $activeTab : $activeTabData['parent'];
-$parentTab = $tabsHelper->get($parentSlug);
-$pageTitle = $parentSlug === false ? $activeTabData['name'] : $parentTab['name'];
 
 // Make hub first item
 if (vcvenv('VCV_FT_DASHBOARD_HUB')) {
@@ -89,10 +87,11 @@ if (is_array($variables)) {
         z-index: -1;
     }
 
-    .notice,
-    .updated,
-    .update-nag {
-        display: none;
+    #wpcontent .notice,
+    #wpcontent .updated,
+    #wpcontent .update-nag,
+    #wpcontent .error {
+        display: none !important;
     }
 
     .vcv-dashboard-container {
@@ -215,9 +214,7 @@ if (is_array($variables)) {
         </aside>
         <main class="vcv-dashboard-main">
             <div>
-                <?php if ($pageTitle && !$activeTabData['hideTitle']) {
-                    echo '<h1>' . $pageTitle . '</h1>';
-                }
+                <?php
                 if (isset($allTabs[ $parentSlug ]['children'])) {
                     $renderedTabs = $allTabs[ $parentSlug ]['children'];
                     foreach ($renderedTabs as $tabKey => $tab) {

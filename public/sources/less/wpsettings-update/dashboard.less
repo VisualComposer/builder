@@ -102,7 +102,7 @@
 
 .vcv-ui-icon-dashboard::before {
   padding: 10px;
-  margin-right: 11px;
+  margin: 0 11px 0 0;
   font-size: 20px;
   border-radius: 50%;
   transition: background @transition-duration @transition-timing-function;
@@ -210,11 +210,26 @@
     font-family: @vcv-dashboard-font-family;
     margin: 10px 0 30px;
 
+    th,
+    td {
+      margin: 0;
+      padding: 20px 10px 20px 0;
+      line-height: @vcv-dashboard-text-line-height;
+    }
+
+    tr {
+      display: flex;
+      align-items: center;
+    }
+
     th {
-      width: 170px;
-      vertical-align: top;
-      padding-top: 27px; // to align by the top side of the dropdown in the next cell
+      flex: 0 0 170px;
+      font-size: @vcv-dashboard-text-font-size;
       font-weight: 500;
+    }
+
+    td {
+      flex: 1 1 auto;
     }
   }
 
@@ -222,7 +237,7 @@
   .vcv-headers-footers-section,
   .vcv-description {
     color: #8E8E9E;
-    font: normal 500 15px/24px @vcv-dashboard-font-family;
+    font: normal 500 @vcv-dashboard-text-font-size/@vcv-dashboard-text-line-height @vcv-dashboard-font-family;
   }
 
   .vcv-ui-form-switch > input:checked ~ .vcv-ui-form-switch-indicator {
@@ -265,6 +280,7 @@
 
   .vcv-dashboard-button--save {
     background: @vcv-dashboard-save-btn-bg-color;
+    width: 100%;
 
     &:hover,
     &:active,
@@ -284,13 +300,14 @@
     }
   }
 
-  .vcv-system-refresh {
+  .vcv-system-refresh,
+  .vcv-license-btn-refresh {
     padding: 8px 16px;
     border-radius: 3px;
     text-transform: none;
     color: @text-color-base;
     background-color: @vcv-dashboard-refresh-btn-bg-color;
-    font: normal 500 15px/24px @vcv-dashboard-font-family;
+    font: normal 500 @vcv-dashboard-text-font-size/@vcv-dashboard-text-line-height @vcv-dashboard-font-family;
     letter-spacing: initial;
 
     &:hover,
@@ -303,22 +320,35 @@
 
   .vcv-ui-form-switch-container {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
 
-  .vcv-ui-form-switch + span {
-    line-height: 2.5;
-    margin-left: 15px;
-    font-size: 13px;
+  .vcv-ui-form-switch {
+    font-size: 10px;
+    + span {
+      line-height: @vcv-dashboard-text-line-height;
+      margin: 0 0 0 15px;
+      font-size: @vcv-dashboard-text-font-size;
+      font-weight: 500;
+      color: #555;
+      vertical-align: middle;
+    }
+  }
+
+  .vcv-settings-popup-child-title {
+    font-size: @vcv-dashboard-text-font-size;
+    line-height: @vcv-dashboard-text-line-height;
     font-weight: 500;
-    color: #555;
-    vertical-align: middle;
+  }
+
+  .vcv-settings-tab-content select.vcv-ui-form-dropdown {
+    max-width: 100%;
   }
 }
 
 .vcv-submit-button-container {
   position: relative;
-  display: inline-block;
+  display: block;
   &.vcv-dashboard-button--loading {
     &::before {
       .spinner()
@@ -328,6 +358,39 @@
 
 .vcv-dashboards-section-content {
   display: none;
+
+  &:not([data-section="vcv-settings"]) {
+    .form-table {
+      margin: 10px 0;
+
+      td, th {
+        padding: 10px 0;
+      }
+    }
+
+    .form-table tr {
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 10px;
+    }
+
+    .vcv-child-section .form-table th,
+    .form-table th {
+      flex: 0 0 auto;
+      font-weight: 500;
+    }
+  }
+
+  &[data-section="vcv-maintenance-mode"] {
+    .form-table tr:first-of-type {
+      flex-direction: row;
+      align-items: center;
+
+      th {
+        flex: 0 0 170px;
+      }
+    }
+  }
 }
 
 .vcv-dashboards-section-content--active {
@@ -339,7 +402,56 @@
 }
 
 #vcv-headerFooterSettings {
-  max-width: 362px;
+  max-width: 100%;
+}
+
+.vcv-settings_vcv-factory {
+  margin-bottom: 45px;
+}
+
+.rtl {
+  .vcv-dashboard-nav-toggle {
+    margin: 0 10px 0 0;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu--submenu {
+    padding: 6px 50px 6px 0;
+  }
+
+  .vcv-ui-icon-dashboard::before {
+    margin: 0 0 0 11px;
+  }
+
+  .vcv-settings .vcv-settings-tab-content select.vcv-ui-form-dropdown {
+    padding: 10px 13px 10px 30px;
+    background-position: 16px;
+  }
+
+  .vcv-dashboard-main .vcv-ui-form-switch + span {
+    margin: 0 15px 0 0;
+  }
+
+  .vcv-custom-site-popups-section .vcv-settings-popup-child-title {
+    margin: 0 0 10px 30px;
+  }
+
+  .vcv-ui-settings-status-table th,
+  .vcv-ui-settings-status-table td {
+    text-align: right;
+  }
+
+  .vcv-ui-settings-status-table .good:not(.vcv-no-icon),
+  .vcv-ui-settings-status-table .bad:not(.vcv-no-icon) {
+    padding: 10px 35px 10px 15px;
+    &::before {
+      left: initial;
+      right: 13px;
+    }
+  }
+
+  .vcv-description p {
+    margin: 10px 0 10px 20px;
+  }
 }
 
 @media screen and (min-width: 783px) {
@@ -367,5 +479,59 @@
 
   .vcv-dashboard-dropdown {
     display: none;
+  }
+
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table {
+    margin: 10px 0 30px;
+  }
+
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table tr {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0;
+
+    &.vcv-field-expand {
+      align-items: flex-start;
+
+      th {
+        padding-top: 31px;
+      }
+    }
+  }
+
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table th {
+    flex: 0 0 170px;
+  }
+
+  .vcv-dashboard-main .vcv-dashboards-section-content .vcv-child-section .form-table th {
+    flex: 0 0 190px;
+  }
+
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table th,
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table td {
+    padding: 20px 10px 20px 0;
+  }
+
+  .vcv-dashboard-main .vcv-settings-tab-content select.vcv-ui-form-dropdown {
+    max-width: 300px;
+  }
+
+  #vcv-headerFooterSettings {
+    max-width: 362px;
+  }
+
+  .vcv-submit-button-container {
+    display: inline-block;
+  }
+
+  .rtl {
+    .vcv-dashboard-main .vcv-dashboards-section-content .form-table th,
+    .vcv-dashboard-main .vcv-dashboards-section-content .form-table td {
+      padding: 20px 0 20px 10px;
+    }
+
+    &.wp-admin .vcv-custom-page-templates-section .vcv-child-section {
+      margin: 0 172px 0 0;
+    }
   }
 }
