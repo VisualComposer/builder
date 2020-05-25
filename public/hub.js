@@ -56,15 +56,11 @@ export const setupCake = () => {
     workspaceStorage.state('isHubInWpDashboard').set(true)
 
     const hideScrollbar = true
+    const addNotifications = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={hideScrollbar} />,
+        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} />,
         document.querySelector('#vcv-hub')
-      )
-
-      ReactDOM.render(
-        <Notifications />,
-        document.querySelector('#vcv-wp-admin-notifications')
       )
     })
   })
