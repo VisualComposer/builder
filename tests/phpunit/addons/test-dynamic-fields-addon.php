@@ -129,8 +129,6 @@ class DynamicFieldsAddonTest extends WP_UnitTestCase
 
     protected function createPost($content)
     {
-        $templatesHelper = vchelper('EditorTemplates');
-
         $postTypeHelper = vchelper('PostType');
         $postId = $postTypeHelper->create(
             [
