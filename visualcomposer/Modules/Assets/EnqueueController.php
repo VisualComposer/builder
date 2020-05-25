@@ -145,7 +145,7 @@ class EnqueueController extends Container implements Module
                 }
 
                 // Call the callback
-                $callback['function']();
+                $callback['function']('');
             }
         }
     }

@@ -71,13 +71,12 @@ export default class HubItemController extends ElementControl {
   }
 
   render () {
-    let { type, tag, element } = this.props
+    const { type } = this.props
     let ControlElement = null
     if (type === 'element') {
       ControlElement = HubElementControl
     } else if (type === 'template') {
       ControlElement = HubTemplateControl
-      tag = element.bundle.replace('template/', '').replace('predefinedTemplate/', '')
     } else if (type === 'addon') {
       ControlElement = HubAddonControl
     }
@@ -87,7 +86,6 @@ export default class HubItemController extends ElementControl {
         {...this.props}
         isDownloading={this.state.isDownloading}
         onDownloadItem={this.handleDownloadItem}
-        tag={tag}
       />
     )
   }
