@@ -10,6 +10,7 @@ import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import categories from './categoriesSettings.json'
 import StockImages from '../../stockImages/stockImages'
+import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 
@@ -350,6 +351,11 @@ export default class HubContainer extends AddElementCategories {
       )
     }
 
+    let notifications = null
+    if (this.props.addNotifications) {
+      notifications = <Notifications />
+    }
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
         <div className='vcv-ui-tree-content'>
@@ -359,6 +365,7 @@ export default class HubContainer extends AddElementCategories {
             <HubDropdown {...this.getTypeControlProps()} />
           </div>
           <div className='vcv-ui-tree-content-section'>
+            {notifications}
             {hubContent}
           </div>
         </div>
