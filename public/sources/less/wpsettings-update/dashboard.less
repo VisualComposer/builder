@@ -102,7 +102,7 @@
 
 .vcv-ui-icon-dashboard::before {
   padding: 10px;
-  margin-right: 11px;
+  margin: 0 11px 0 0;
   font-size: 20px;
   border-radius: 50%;
   transition: background @transition-duration @transition-timing-function;
@@ -327,7 +327,7 @@
     font-size: 10px;
     + span {
       line-height: @vcv-dashboard-text-line-height;
-      margin-left: 15px;
+      margin: 0 0 0 15px;
       font-size: @vcv-dashboard-text-font-size;
       font-weight: 500;
       color: #555;
@@ -409,6 +409,51 @@
   margin-bottom: 45px;
 }
 
+.rtl {
+  .vcv-dashboard-nav-toggle {
+    margin: 0 10px 0 0;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu--submenu {
+    padding: 6px 50px 6px 0;
+  }
+
+  .vcv-ui-icon-dashboard::before {
+    margin: 0 0 0 11px;
+  }
+
+  .vcv-settings .vcv-settings-tab-content select.vcv-ui-form-dropdown {
+    padding: 10px 13px 10px 30px;
+    background-position: 16px;
+  }
+
+  .vcv-dashboard-main .vcv-ui-form-switch + span {
+    margin: 0 15px 0 0;
+  }
+
+  .vcv-custom-site-popups-section .vcv-settings-popup-child-title {
+    margin: 0 0 10px 30px;
+  }
+
+  .vcv-ui-settings-status-table th,
+  .vcv-ui-settings-status-table td {
+    text-align: right;
+  }
+
+  .vcv-ui-settings-status-table .good:not(.vcv-no-icon),
+  .vcv-ui-settings-status-table .bad:not(.vcv-no-icon) {
+    padding: 10px 35px 10px 15px;
+    &::before {
+      left: initial;
+      right: 13px;
+    }
+  }
+
+  .vcv-description p {
+    margin: 10px 0 10px 20px;
+  }
+}
+
 @media screen and (min-width: 783px) {
   .vcv-dashboard-container {
     flex-direction: row;
@@ -477,5 +522,16 @@
 
   .vcv-submit-button-container {
     display: inline-block;
+  }
+
+  .rtl {
+    .vcv-dashboard-main .vcv-dashboards-section-content .form-table th,
+    .vcv-dashboard-main .vcv-dashboards-section-content .form-table td {
+      padding: 20px 0 20px 10px;
+    }
+
+    &.wp-admin .vcv-custom-page-templates-section .vcv-child-section {
+      margin: 0 172px 0 0;
+    }
   }
 }
