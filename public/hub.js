@@ -10,7 +10,6 @@ import 'public/sources/less/bootstrap/init.less'
 import 'public/sources/css/wordpress.less'
 
 import HubContainer from './components/panels/hub/hubContainer'
-import Notifications from './components/notifications/notifications'
 
 export const setupCake = () => {
   vcCake.env('platform', 'wordpress').start(() => {
@@ -56,15 +55,11 @@ export const setupCake = () => {
     workspaceStorage.state('isHubInWpDashboard').set(true)
 
     const hideScrollbar = true
+    const addNotifications = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={hideScrollbar} />,
+        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} />,
         document.querySelector('#vcv-hub')
-      )
-
-      ReactDOM.render(
-        <Notifications />,
-        document.querySelector('#vcv-wp-admin-notifications')
       )
     })
   })
