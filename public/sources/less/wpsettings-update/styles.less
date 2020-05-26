@@ -263,10 +263,6 @@
 }
 
 .vcv-ui-settings-status-table-container {
-  h2 {
-    padding-top: 15px;
-  }
-
   .update-message {
     margin-bottom: 0;
   }
@@ -277,10 +273,6 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-
-  p {
-    margin: 10px 20px 10px 0;
-  }
 }
 
 .vcv-table-loader {
@@ -326,7 +318,7 @@
   }
 
   td {
-    color: #8e8e9e;
+    color: @vcv-dashboard-text-color;
 
     &:first-child {
       width: 33%;
@@ -460,10 +452,6 @@
     margin-left: 2px;
     color: transparent;
   }
-}
-
-.vcv-settings-tab-content .description {
-  margin: 1.3em 0;
 }
 
 .vcv-css-js-editor th[scope=row] {
@@ -1146,6 +1134,8 @@ input.vcv-basic-input {
     margin-top: 10px;
     font-size: @vcv-dashboard-text-font-size;
     line-height: 24px;
+    color: @vcv-dashboard-text-color;
+    font-weight: 500;
   }
 }
 
