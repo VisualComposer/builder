@@ -1,0 +1,29 @@
+{
+  "customId": "outline-button-id",
+  "customClass": "outline-button-class",
+  "alignment": "right",
+  "shape": {
+    "name": "round",
+    "cssValue": "84px"
+  },
+  "size": {
+    "name": "large",
+    "cssValue": "20px 56px"
+  },
+  "buttonLink": {
+    "url": "visualcomposer.com"
+  },
+  "buttonText": "Hello Outline Button",
+  "titleColor": {
+    "title": "Title color",
+    "initialValue": "E3E3E3",
+    "value": "FFC000",
+    "valueRgb": "rgb(255, 192, 0)"
+  },
+  "borderColor": {
+    "title": "Border color",
+    "initialValue": "E3E3E3",
+    "value": "9461D3",
+    "valueRgb": "rgb(148, 97, 211)"
+  }
+}
