@@ -1,0 +1,22 @@
+{
+  "customId": "shortcode-id",
+  "customClass": "shortcode-class",
+  "shortcode": "[embed]https://visualcomposer.com/[/embed]",
+  "embedHref": "https://visualcomposer.com/",
+  "designOptions": {
+    "margin": "10px",
+    "borderWidth": "3px",
+    "borderRadius": "5px",
+    "borderStyle": "dashed",
+    "padding": "30px",
+    "backgroundColor": {
+      "hex": "BF5C5C",
+      "rgb": "rgb(191, 92, 92)"
+    },
+    "borderColor": {
+      "hex": "FFC000",
+      "rgb": "rgb(255, 192, 0)"
+    },
+    "animation": "bounce"
+  }
+}
