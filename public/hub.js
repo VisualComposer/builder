@@ -27,7 +27,7 @@ export const setupCake = () => {
     require('./editor/stores/hub/hubAddonsStorage')
     // require('./editor/stores/sharedAssets/storage')
     // require('./editor/stores/history/historyStorage')
-    // require('./editor/stores/settingsStorage')
+    require('./editor/stores/settingsStorage')
     // require('./editor/stores/attributes/attributesStorage')
     require('./editor/stores/notifications/storage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
@@ -43,6 +43,11 @@ export const setupCake = () => {
 
     if (window.VCV_HUB_GET_TEMPLATES) {
       hubTemplatesStorage.state('templates').set(window.VCV_HUB_GET_TEMPLATES())
+    }
+
+    const settingsStorage = vcCake.getStorage('settings')
+    if (window.VCV_ITEM_PREVIEW_DISABLED) {
+      settingsStorage.state('itemPreviewDisabled').set(window.VCV_ITEM_PREVIEW_DISABLED())
     }
 
     // const sharedAssetsStorage = vcCake.getStorage('sharedAssets')

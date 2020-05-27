@@ -6,6 +6,7 @@ import ElementControl from '../../addElement/lib/elementControl'
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
+const settingsStorage = getStorage('settings')
 
 export default class HubElementControl extends ElementControl {
   constructor (props) {
@@ -94,7 +95,8 @@ export default class HubElementControl extends ElementControl {
     const overlayOutput = <span className={iconClasses} onClick={action} />
     let previewOutput = null
 
-    if (previewVisible) {
+    const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
+    if (!disablePreview && previewVisible) {
       previewOutput = (
         <figure className={previewClasses} style={previewStyle}>
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
@@ -111,8 +113,8 @@ export default class HubElementControl extends ElementControl {
       <li className={listItemClasses}>
         <span
           className={itemElementClasses}
-          onMouseEnter={this.handleMouseEnterShowPreview}
-          onMouseLeave={this.handleMouseLeaveHidePreview}
+          onMouseEnter={!disablePreview ? this.handleMouseEnterShowPreview : null}
+          onMouseLeave={!disablePreview ? this.handleMouseLeaveHidePreview : null}
           title={name}
         >
           <span className='vcv-ui-item-element-content'>
