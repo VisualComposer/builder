@@ -81,7 +81,9 @@ export default class HubAddonControl extends React.Component {
     return (
       <li className='vcv-ui-item-list-item'>
         <div className='vcv-hub-addon-item-container'>
-          <img className='vcv-hub-addon-image' src={element.metaAddonImageUrl} alt={name} />
+          <div className='vcv-hub-addon-item-image-container'>
+            <img className='vcv-hub-addon-image' src={element.metaAddonImageUrl} alt={name} />
+          </div>
           <div className='vcv-hub-addon-item-content-container'>
             <h3 className='vcv-hub-addon-name'>{name}</h3>
             <p className='vcv-hub-addon-description'>{element.metaDescription}</p>
