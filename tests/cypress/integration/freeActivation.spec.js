@@ -37,7 +37,7 @@ describe('Free activation test', function () {
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-download').click({ force: true })
     // Wait for element download
     cy.wait('@loadContentRequest')
-    cy.wait(500) // additional wait for triggers/element.bundle.js load
+    cy.wait(2000) // additional wait for triggers/element.bundle.js load
 
     // Add element to page
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-add').click({ force: true })
