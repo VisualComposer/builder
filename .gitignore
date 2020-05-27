@@ -78,9 +78,12 @@ tests/jest/devElements/**/
 elements/**/public/dist/*
 
 # Cypress test
-tests/cypress.env.json
-tests/cypress/screenshots/
-tests/cypress/videos/
+tests/cypressChrome/cypress.env.json
+tests/cypressChrome/screenshots/
+tests/cypressChrome/videos/
+tests/cypressElectron/cypress.env.json
+tests/cypressElectron/screenshots/
+tests/cypressElectron/videos/
 
 # languages, auto-downloadable
 languages/vcwb-*
