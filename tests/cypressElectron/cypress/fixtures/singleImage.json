@@ -1,0 +1,37 @@
+{
+  "onClickAction": "url",
+  "imageLink": {
+    "url": "visualcomposer.com"
+  },
+  "instagramFilter": {
+    "name": "1977",
+    "cssValue": "sepia(0.5) hue-rotate(-30deg) saturate(1.2) contrast(0.8)"
+  },
+  "shape": {
+    "name": "rounded",
+    "cssValue": "5px"
+  },
+  "size": {
+    "width": "250",
+    "height": "200"
+  },
+  "alignment": "right",
+  "customId": "single-image-id",
+  "customClass": "single-image-class",
+  "designOptions": {
+    "margin": "10px",
+    "borderWidth": "3px",
+    "borderRadius": "5px",
+    "borderStyle": "dashed",
+    "padding": "30px",
+    "backgroundColor": {
+      "hex": "BF5C5C",
+      "rgb": "rgb(191, 92, 92)"
+    },
+    "borderColor": {
+      "hex": "FFC000",
+      "rgb": "rgb(255, 192, 0)"
+    },
+    "animation": "jello"
+  }
+}
