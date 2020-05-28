@@ -9,6 +9,8 @@ addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const notificationsStorage = getStorage('notifications')
   const utils = getService('utils')
+  const sharedAssetsStorage = getStorage('sharedAssets')
+  const hubElementsStorage = getStorage('hubElements')
 
   storage.on('start', () => {
     /**
@@ -67,6 +69,24 @@ addStorage('hubTemplates', (storage) => {
               const template = jsonResponse.templates[0]
               template.id = template.id.toString()
               storage.trigger('add', template.type, template)
+            }
+            if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
+              Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
+                const assetData = jsonResponse.sharedAssets[assetName]
+                if (assetData.jsBundle) {
+                  assetData.jsBundle = jsonResponse.sharedAssetsUrl + assetData.jsBundle
+                }
+                if (assetData.cssBundle) {
+                  assetData.cssBundle = jsonResponse.sharedAssetsUrl + assetData.cssBundle
+                }
+                if (assetData.cssSubsetBundles) {
+                  Object.keys(assetData.cssSubsetBundles).forEach((key) => {
+                    assetData.cssSubsetBundles[key] = jsonResponse.sharedAssetsUrl + assetData.cssSubsetBundles[key]
+                  })
+                }
+                sharedAssetsStorage.trigger('add', assetData)
+                hubElementsStorage.trigger('addCssAssetInEditor', assetData)
+              })
             }
             workspaceStorage.trigger('removeFromDownloading', tag)
           } else {
