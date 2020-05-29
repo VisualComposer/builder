@@ -140,7 +140,7 @@ jobs:
       - store_artifacts:
           path: ./tests/cypressChrome/snapshots
       - store_artifacts:
-          path: ./tests/cypress/videos
+          path: ./tests/cypressChrome/videos
       - store_artifacts:
           path: ./tests/cypressChrome/screenshots
   end-2-end-tests-electron:
@@ -214,6 +214,8 @@ jobs:
       - run: yarn run cypress run --project ./tests/cypressElectron
       - store_artifacts:
           path: ./tests/cypressElectron/snapshots
+      - store_artifacts:
+          path: ./tests/cypressElectron/videos
       - store_artifacts:
           path: ./tests/cypressElectron/screenshots
   js-stores-tests:
