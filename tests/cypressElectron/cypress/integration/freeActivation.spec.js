@@ -56,6 +56,9 @@ describe('Free activation test', function () {
           waited = true
           resolve('done')
         })
+        // check is element already downloaded
+        const elements = vcCakeCypress.getStorage('hubElements').state('elements').get()
+
       })
     }
 
