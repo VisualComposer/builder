@@ -56,9 +56,6 @@ describe('Free activation test', function () {
           waited = true
           resolve('done')
         })
-        // check is element already downloaded
-        const elements = vcCakeCypress.getStorage('hubElements').state('elements').get()
-
       })
     }
 
@@ -66,11 +63,11 @@ describe('Free activation test', function () {
     // try to download FREE element
     // Wait for element download
     cy.wait('@loadContentRequest')
-    cy.wrap(null).then({ timeout: 90000 }, () => {
+    cy.wrap(null).then({ timeout: 10000 }, () => {
       expect(vcCakeCypress).to.be.a('object')
       // return a promise to cy.then() that
       // is awaited until it resolves
-      return waitForDownload().then({ timeout: 80000 }, (str) => {
+      return waitForDownload().then({ timeout: 10000 }, (str) => {
         expect(str).to.eq('done')
         expect(waited).to.be.true
       })
