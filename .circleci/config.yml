@@ -107,7 +107,7 @@ jobs:
           command: |
             echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', true); VcvEnv::set('VCV_ENV_DEV_ADDONS', true); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', false); require_once(__DIR__ . '/env.php');" > env-dev.php
             ln -s $(pwd) /var/www/html/wp-content/plugins/builder
-            chmod 777 /var/www/html/wp-content/uploads
+            chmod 777 -R /var/www/html/wp-content/uploads
       - restore_cache:
           keys:
             - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
@@ -181,7 +181,7 @@ jobs:
           name: Link files and directories
           command: |
             ln -s $(pwd) /var/www/html/wp-content/plugins/builder
-            chmod 777 /var/www/html/wp-content/uploads
+            chmod 777 -R /var/www/html/wp-content/uploads
       - restore_cache:
           keys:
             - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
