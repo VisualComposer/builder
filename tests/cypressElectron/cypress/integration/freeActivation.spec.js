@@ -65,6 +65,7 @@ describe('Free activation test', function () {
     cy.wait('@loadContentRequest')
 
     cy.wrap(null).then({ timeout: 50000 }, () => {
+      expect(vcCakeCypress).to.be.a('object')
       // return a promise to cy.then() that
       // is awaited until it resolves
       return waitForDownload().then({ timeout: 50000 }, (str) => {
