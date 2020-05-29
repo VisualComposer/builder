@@ -48,7 +48,6 @@ describe('Free activation test', function () {
     })
 
     let waited = false
-
     function waitForDownload () {
       // return a promise that resolves after 1 second
       return new Cypress.Promise((resolve, reject) => {
