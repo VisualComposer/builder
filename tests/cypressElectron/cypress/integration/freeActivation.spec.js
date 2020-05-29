@@ -62,11 +62,12 @@ describe('Free activation test', function () {
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-download').click({ force: true })
     // try to download FREE element
     // Wait for element download
-    cy.wrap(null).then({ timeout: 50000 }, () => {
+    cy.wait('@loadContentRequest')
+    cy.wrap(null).then({ timeout: 80000 }, () => {
       expect(vcCakeCypress).to.be.a('object')
       // return a promise to cy.then() that
       // is awaited until it resolves
-      return waitForDownload().then({ timeout: 50000 }, (str) => {
+      return waitForDownload().then({ timeout: 80000 }, (str) => {
         expect(str).to.eq('done')
         expect(waited).to.be.true
       })
