@@ -62,8 +62,6 @@ describe('Free activation test', function () {
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-download').click({ force: true })
     // try to download FREE element
     // Wait for element download
-    cy.wait('@loadContentRequest')
-
     cy.wrap(null).then({ timeout: 50000 }, () => {
       expect(vcCakeCypress).to.be.a('object')
       // return a promise to cy.then() that
