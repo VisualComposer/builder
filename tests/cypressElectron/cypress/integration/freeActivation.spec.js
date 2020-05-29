@@ -33,12 +33,46 @@ describe('Free activation test', function () {
     cy.get('#add-element-search').type('Faq toggle')
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"]').should('be.visible')
 
-    // try to download FREE element
+    let vcCakeCypress
+    // Inject vcCake cypress hack:
+    cy.window().then((win) => {
+      (win["vcvWebpackJsonp4x"] = win["vcvWebpackJsonp4x"] || []).push([["vcCakeCypress"], {
+        "./test/vcCake.js": function (module, __webpack_exports__, __webpack_require__) {
+          __webpack_require__.r(__webpack_exports__);
+          var vc_cake__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./node_modules/vc-cake/index.js");
+          var vc_cake__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(vc_cake__WEBPACK_IMPORTED_MODULE_0__);
+          win.vcCakeCypress = vc_cake__WEBPACK_IMPORTED_MODULE_0___default();
+        }
+      }, [['./test/vcCake.js']]])
+      vcCakeCypress = win.vcCakeCypress
+    })
+
+    let waited = false
+
+    function waitForDownload () {
+      // return a promise that resolves after 1 second
+      return new Cypress.Promise((resolve, reject) => {
+        vcCakeCypress.getStorage('hubElements').on('add', () => {
+          waited = true
+          resolve('done')
+        })
+      })
+    }
+
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-download').click({ force: true })
+    // try to download FREE element
     // Wait for element download
     cy.wait('@loadContentRequest')
-    // todo: add some event listener that element has added. waitFor element
-    cy.wait(5000) // additional wait for triggers/element.bundle.js load
+
+    cy.wrap(null).then({ timeout: 50000 }, () => {
+      // return a promise to cy.then() that
+      // is awaited until it resolves
+      return waitForDownload().then({ timeout: 50000 }, (str) => {
+        expect(str).to.eq('done')
+        expect(waited).to.be.true
+      })
+    })
+    cy.wait(1000) // additional wait for triggers/element.bundle.js load
 
     // Add element to page
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-add').click({ force: true })
