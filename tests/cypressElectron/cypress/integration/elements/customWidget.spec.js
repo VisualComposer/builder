@@ -1,10 +1,10 @@
 /* global describe, it, cy */
 
-const ELEMENT_NAME = 'WordPress Default Widget'
+const ELEMENT_NAME = 'WordPress Custom Widget'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../fixtures/defaultWidget.json').then((settings) => {
+    cy.fixture('../../fixtures/customWidget.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
@@ -16,6 +16,7 @@ describe(ELEMENT_NAME, function () {
         .contains('After Title html')
       cy.setCodeMirror(settings.beforeWidgetHTML)
       cy.setCodeMirror(settings.afterWidgetHTML)
+
       cy.setClassAndId(settings.customId, settings.customClass)
       cy.setDO(settings.designOptions)
 
@@ -25,18 +26,18 @@ describe(ELEMENT_NAME, function () {
       })
       cy.setSelect('Widget', settings.widgetType)
       cy.wait('@getWidget')
-      cy.get('#widget-form-1-text')
+      cy.get('#widget-form-1-content')
         .then(($field) => {
           cy.wrap($field)
             .clear()
-            .type(settings.widgetText)
+            .type(settings.widgetHTML)
         })
 
       cy.savePage()
       cy.viewPage()
 
-      cy.get(`.${settings.customClass}`)
-        .should('have.attr', 'id', settings.customId)
+      cy.get(`#${settings.customId}`)
+        .should('have.class', settings.customClass)
 
       cy.get('.vce-widgets-wrapper')
         .should('have.css', 'border-radius', settings.designOptions.borderRadius)
@@ -50,7 +51,7 @@ describe(ELEMENT_NAME, function () {
         .and('have.attr', 'data-vcv-o-animated', 'true')
 
       cy.wait(200)
-      cy.contains('.textwidget p', settings.widgetText)
+      cy.contains('.textwidget h1', settings.widgetText)
 
       cy.contains(settings.beforeWidgetHTML.selector, settings.beforeWidgetHTML.textString)
       cy.contains(settings.afterWidgetHTML.selector, settings.afterWidgetHTML.textString)

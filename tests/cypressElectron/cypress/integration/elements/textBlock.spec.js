@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'Text Block'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../fixtures/textBlock.json').then((settings) => {
+    cy.fixture('../../fixtures/textBlock.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
