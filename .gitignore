@@ -79,11 +79,11 @@ elements/**/public/dist/*
 
 # Cypress test
 tests/cypressChrome/cypress.env.json
-tests/cypressChrome/screenshots/
-tests/cypressChrome/videos/
+tests/cypressChrome/cypress/screenshots/
+tests/cypressChrome/cypress/videos/
 tests/cypressElectron/cypress.env.json
-tests/cypressElectron/screenshots/
-tests/cypressElectron/videos/
+tests/cypressElectron/cypress/screenshots/
+tests/cypressElectron/cypress/videos/
 
 # languages, auto-downloadable
 languages/vcwb-*

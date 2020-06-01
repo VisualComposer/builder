@@ -2,7 +2,7 @@
 
 describe('Global CSS', function () {
   it('Add text block, save global css, create new page, delete global css', function () {
-    cy.fixture('../../fixtures/globalCss.json').then((settings) => {
+    cy.fixture('../fixtures/globalCss.json').then((settings) => {
       cy.createPage()
       cy.addElement('Text Block')
 

@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'WordPress Custom Widget'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../../fixtures/customWidget.json').then((settings) => {
+    cy.fixture('../fixtures/customWidget.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
