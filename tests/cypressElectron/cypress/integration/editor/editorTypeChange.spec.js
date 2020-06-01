@@ -2,7 +2,7 @@
 
 describe('Editor Type Change', function () {
   it('Create a page and try to change editor type as vc editor, gutenberg, classic editor', function () {
-    cy.fixture('../../fixtures/editorTypeChange.json').then((settings) => {
+    cy.fixture('../fixtures/editorTypeChange.json').then((settings) => {
       cy.createPage()
       cy.addElement('Text Block')
 

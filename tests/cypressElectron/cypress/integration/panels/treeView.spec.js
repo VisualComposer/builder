@@ -2,7 +2,7 @@
 
 describe('Tree View', function () {
   it('Adds element to the page, check Tree View panel functionality', function () {
-    cy.fixture('../../fixtures/treeView.json').then((settings) => {
+    cy.fixture('../fixtures/treeView.json').then((settings) => {
       cy.createPage()
       settings.elements.forEach((element) => {
         cy.addElement(element)

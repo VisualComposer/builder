@@ -2,7 +2,7 @@
 
 describe('Template Panel', function () {
   it('Adds element to the page, check Template panel functionality', function () {
-    cy.fixture('../../fixtures/templatesPanel.json').then((settings) => {
+    cy.fixture('../fixtures/templatesPanel.json').then((settings) => {
       cy.createPage()
 
       // 1. Add elements to the page

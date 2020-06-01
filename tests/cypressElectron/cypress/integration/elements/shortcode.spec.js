@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'Shortcode'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../../fixtures/shortcode.json').then((settings) => {
+    cy.fixture('../fixtures/shortcode.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 

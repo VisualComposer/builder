@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'Google Fonts Heading'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../../fixtures/googleFontsHeading.json').then((settings) => {
+    cy.fixture('../fixtures/googleFontsHeading.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
