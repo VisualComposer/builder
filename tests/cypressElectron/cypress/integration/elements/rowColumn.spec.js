@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'Row'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../fixtures/rowColumn.json').then((settings) => {
+    cy.fixture('../../fixtures/rowColumn.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 

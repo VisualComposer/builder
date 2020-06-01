@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'Separator'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../fixtures/separator.json').then((settings) => {
+    cy.fixture('../../fixtures/separator.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 

@@ -4,7 +4,7 @@ const ELEMENT_NAME = 'Basic Button'
 
 describe(ELEMENT_NAME, function () {
   it('Adds element to the page, checks automatically added elements, checks attributes', function () {
-    cy.fixture('../fixtures/basicButton.json').then((settings) => {
+    cy.fixture('../../fixtures/basicButton.json').then((settings) => {
       cy.createPage()
       cy.addElement(ELEMENT_NAME)
 
