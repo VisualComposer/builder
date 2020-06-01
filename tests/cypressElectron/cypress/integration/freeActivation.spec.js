@@ -27,8 +27,8 @@ describe('Free activation test', function () {
 
     // Now there can be updates pending, if so need to wait till it finishes
     cy.createPage()
+    cy.viewport(800, 800)
     cy.wait(200)
-    cy.get('.vcv-ui-navbar-dropdown-trigger[title="Menu"]').click()
     cy.get('.vcv-ui-navbar-control[title="Hub"]').click()
     cy.get('#add-element-search').type('Faq toggle')
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"]').should('be.visible')
@@ -36,10 +36,10 @@ describe('Free activation test', function () {
     let vcCakeCypress
     // Inject vcCake cypress hack:
     cy.window().then((win) => {
-      (win["vcvWebpackJsonp4x"] = win["vcvWebpackJsonp4x"] || []).push([["vcCakeCypress"], {
-        "./test/vcCake.js": function (module, __webpack_exports__, __webpack_require__) {
+      (win['vcvWebpackJsonp4x'] = win['vcvWebpackJsonp4x'] || []).push([['vcCakeCypress'], {
+        './test/vcCake.js': function (module, __webpack_exports__, __webpack_require__) {
           __webpack_require__.r(__webpack_exports__);
-          var vc_cake__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("./node_modules/vc-cake/index.js");
+          var vc_cake__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__('./node_modules/vc-cake/index.js');
           var vc_cake__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(vc_cake__WEBPACK_IMPORTED_MODULE_0__);
           win.vcCakeCypress = vc_cake__WEBPACK_IMPORTED_MODULE_0___default();
         }
@@ -75,21 +75,21 @@ describe('Free activation test', function () {
 
     // Add element to page
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"] .vcv-ui-item-add.vcv-ui-icon-add').click({ force: true })
-    cy.setInput("Title text", 'Faq toggle from Hub')
+    cy.setInput('Title text', 'Faq toggle from Hub')
     cy.setClassAndId('hub-faq-toggle-id', 'hub-faq-toggle-class')
 
     // Add from add element window to page
     cy.addElement('Faq Toggle')
-    cy.setInput("Title text", 'Faq toggle from add element')
+    cy.setInput('Title text', 'Faq toggle from add element')
     cy.setClassAndId('add-element-faq-toggle-id', 'add-element-faq-toggle-class')
 
     // Test added element
     cy.savePage()
     cy.viewPage()
-    cy.get(`#hub-faq-toggle-id`).should('have.class', 'hub-faq-toggle-class')
-    cy.get(`#add-element-faq-toggle-id`).should('have.class', 'add-element-faq-toggle-class')
-    cy.get(`#hub-faq-toggle-id`).contains('Faq toggle from Hub').should('be.visible')
-    cy.get(`#add-element-faq-toggle-id`).contains('Faq toggle from add element').should('be.visible')
+    cy.get('#hub-faq-toggle-id').should('have.class', 'hub-faq-toggle-class')
+    cy.get('#add-element-faq-toggle-id').should('have.class', 'add-element-faq-toggle-class')
+    cy.get('#hub-faq-toggle-id').contains('Faq toggle from Hub').should('be.visible')
+    cy.get('#add-element-faq-toggle-id').contains('Faq toggle from add element').should('be.visible')
 
     // Revert back previous state OF DATABASE (licenses, hub, etc)
     cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=dump-vcv-db-back')
