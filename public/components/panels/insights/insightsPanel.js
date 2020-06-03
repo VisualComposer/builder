@@ -1,9 +1,9 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
-const workspaceStorage = getStorage('workspace')
 
+const workspaceStorage = getStorage('workspace')
 const insightsStorage = getStorage('insights')
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const controls = {
@@ -38,7 +38,7 @@ export default class InsightsPanel extends React.Component {
       insightData: insightsStorage.state('insights').get()
     }
 
-    this.iframe = window.document.getElementById('vcv-editor-iframe') && window.document.getElementById('vcv-editor-iframe').contentWindow.document
+    this.iframe = env('iframe').document
 
     this.setActiveSection = this.setActiveSection.bind(this)
     this.handleInsightsChange = this.handleInsightsChange.bind(this)
@@ -62,10 +62,10 @@ export default class InsightsPanel extends React.Component {
 
   handleGoToElement (elementID) {
     const editorEl = this.iframe.querySelector(`#el-${elementID}`)
-    editorEl.scrollIntoView({ behavior: 'smooth' })
+    workspaceStorage.trigger('edit', elementID, '')
     window.setTimeout(() => {
-      workspaceStorage.trigger('edit', elementID, '')
-    }, 1000)
+      editorEl.scrollIntoView({ behavior: 'smooth' })
+    }, 500)
   }
 
   render () {
