@@ -29,8 +29,11 @@ describe('Yoast SEO plugin', function () {
       cy.visit(win.vcvPostData.backendEditorUrl)
     })
 
-    cy.get('#wpseo_meta .handlediv')
-      .click()
+    cy.get('#wpseo_meta .handlediv').then((element) => {
+      if (element.attr('aria-expanded') === 'false') {
+        cy.wrap(element).click()
+      }
+    })
 
     cy.get('#yoast-seo-analysis-collapsible-metabox')
       .click()
