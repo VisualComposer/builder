@@ -74,27 +74,22 @@ addStorage('history', (storage) => {
     static checkForHeadings () {
       const headings = env('iframe').document.body.querySelectorAll('h1')
       let visibleHeadings = 0
-      headings.forEach((heading) => {
+      for (let i = 0; i < headings.length; i++) {
+        const heading = headings[i]
         if (heading.offsetParent !== null) {
+          // we found at least one <h1>, done!
           visibleHeadings++
-          // TODO: Maybe remove this check, because <h1> can be than one in page (it is fine)
-          if (visibleHeadings > 1) {
-            insightsStorage.trigger('add', {
-              state: 'warning',
-              type: 'multipleH1',
-              title: 'There are more than one H1 tags on the page',
-              description: 'Nice job!',
-              elementID: InsightsChecks.getElementId(heading)
-            })
-          }
+          break
         }
-      })
+      }
       if (visibleHeadings === 0) {
+        const h1MissingTitle = VCV_I18N().insightsH1MissingTitle
+        const h1MissingDescription = VCV_I18N().insightsH1MissingDescription
         insightsStorage.trigger('add', {
           state: 'critical',
           type: 'noH1',
-          title: 'There are no H1 tags on the page',
-          description: 'Nice job!'
+          title: h1MissingTitle,
+          description: h1MissingDescription
         })
       }
     }
@@ -103,19 +98,21 @@ addStorage('history', (storage) => {
       const images = env('iframe').document.body.querySelectorAll('img')
       images.forEach((image) => {
         if (!image.alt || image.alt === '') {
+          const altMissingTitle = VCV_I18N().insightsImageAltAttributeMissingTitle
+          const description = VCV_I18N().insightsImageAltAttributeMissingDescription
+          const elementId = InsightsChecks.getElementId(image)
           insightsStorage.trigger('add', {
             state: 'critical',
-            type: 'altMissing',
-            title: 'alt tag missing',
-            description: 'Not a Nice job!',
-            elementID: InsightsChecks.getElementId(image)
+            type: 'altMissing' + elementId,
+            title: altMissingTitle,
+            description: description,
+            elementID: elementId
           })
         }
       })
     }
 
     static checkForImageSize () {
-      // Image size checker
       const images = env('iframe').document.body.querySelectorAll('img')
       images.forEach(async function (image) {
         await InsightsChecks.getImageSize(image.src, image)
@@ -123,7 +120,6 @@ addStorage('history', (storage) => {
     }
 
     static checkForBgImageSize () {
-      // Image size checker
       function getBgImgs (doc) {
         const srcChecker = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i
         return Array.from(
@@ -142,28 +138,37 @@ addStorage('history', (storage) => {
 
       const bgImages = getBgImgs(env('iframe').document)
       bgImages.forEach(async function (data) {
-        await InsightsChecks.getImageSize(data.src, data.domNode, 'Background')
+        await InsightsChecks.getImageSize(data.src, data.domNode, 'background')
       })
     }
 
     static async getImageSize (src, domNode, type = '') {
-      const imageSize = await InsightsChecks.getImageSizeRequest(src)
-      // if more than 500kb
-      if (imageSize && imageSize >= 1024 * 1024) {
+      const imageSizeBytes = await InsightsChecks.getImageSizeRequest(src)
+      if (imageSizeBytes && imageSizeBytes >= 1024 * 1024) {
+        const imageSizeBigTitle = type === 'background' ? VCV_I18N().insightsBgImageSizeBigTitle : VCV_I18N().insightsImageSizeBigTitle
+        let description = VCV_I18N().insightsImageSizeBigDescription
+        const position = InsightsChecks.getNodePosition(domNode)
+        const elementId = InsightsChecks.getElementId(domNode)
+        description = description.replace('%s', '1 MB')
         insightsStorage.trigger('add', {
           state: 'critical',
-          type: 'imgSizeBig' + InsightsChecks.getElementId(domNode),
-          title: `${type} Image size is bigger than 1mb`.trim(),
-          description: 'Not a Nice job!',
-          elementID: InsightsChecks.getElementId(domNode)
+          type: 'imgSizeBig' + elementId,
+          title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
+          description: description,
+          elementID: elementId
         })
-      } else if (imageSize && imageSize >= 500 * 1024) {
+      } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
+        const imageSizeBigTitle = type === 'background' ? VCV_I18N().insightsBgImageSizeBigTitle : VCV_I18N().insightsImageSizeBigTitle
+        let description = VCV_I18N().insightsImageSizeBigDescription
+        const position = InsightsChecks.getNodePosition(domNode)
+        const elementId = InsightsChecks.getElementId(domNode)
+        description = description.replace('%s', '500 KB')
         insightsStorage.trigger('add', {
           state: 'warning',
-          type: 'imgSizeBig' + InsightsChecks.getElementId(domNode),
-          title: `${type} Image size is bigger than 500kb`,
-          description: 'Not a Nice job!',
-          elementID: InsightsChecks.getElementId(domNode)
+          type: 'imgSizeBig' + elementId,
+          title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
+          description: description,
+          elementID: elementId
         })
       }
     }
@@ -195,6 +200,18 @@ addStorage('history', (storage) => {
       } else {
         const closestParent = domNode.closest('[data-vcv-element]')
         return closestParent ? closestParent.getAttribute('data-vcv-element') : false
+      }
+    }
+
+    static getNodePosition (domNode) {
+      const contentRoot = env('iframe').document.getElementById('vcv-editor')
+      const documentPosition = domNode.compareDocumentPosition(contentRoot)
+      if (documentPosition & Node.DOCUMENT_POSITION_CONTAINS) {
+        return 'Content'
+      } else if (documentPosition & Node.DOCUMENT_POSITION_FOLLOWING) {
+        return 'Header'
+      } else if (documentPosition & Node.DOCUMENT_POSITION_PRECEDING) {
+        return 'Footer'
       }
     }
   }
