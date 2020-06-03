@@ -101,10 +101,11 @@ addStorage('history', (storage) => {
           const altMissingTitle = VCV_I18N().insightsImageAltAttributeMissingTitle
           const description = VCV_I18N().insightsImageAltAttributeMissingDescription
           const elementId = InsightsChecks.getElementId(image)
+          const position = InsightsChecks.getNodePosition(image)
           insightsStorage.trigger('add', {
             state: 'critical',
-            type: 'altMissing' + elementId,
-            title: altMissingTitle,
+            type: `altMissing${elementId}${position}`,
+            title: position !== 'Content' ? `${position}: ${altMissingTitle}` : altMissingTitle,
             description: description,
             elementID: elementId
           })
@@ -152,7 +153,7 @@ addStorage('history', (storage) => {
         description = description.replace('%s', '1 MB')
         insightsStorage.trigger('add', {
           state: 'critical',
-          type: 'imgSizeBig' + elementId,
+          type: `imgSizeBig${elementId}${position}`,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           description: description,
           elementID: elementId
@@ -165,7 +166,7 @@ addStorage('history', (storage) => {
         description = description.replace('%s', '500 KB')
         insightsStorage.trigger('add', {
           state: 'warning',
-          type: 'imgSizeBig' + elementId,
+          type: `imgSizeBig${elementId}${position}`,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           description: description,
           elementID: elementId
