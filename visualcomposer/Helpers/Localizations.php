@@ -796,6 +796,26 @@ class Localizations extends Container implements Helper
                 'Changes you made may not be saved.',
                 'visualcomposer'
             ),
+            'VCInsights' => __(
+                'Visual Composer Insights',
+                'visualcomposer'
+            ),
+            'all' => __(
+                'All',
+                'visualcomposer'
+            ),
+            'critical' => __(
+                'Critical',
+                'visualcomposer'
+            ),
+            'warnings' => __(
+                'Warnings',
+                'visualcomposer'
+            ),
+            'success' => __(
+                'Success',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

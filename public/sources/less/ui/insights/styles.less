@@ -1,0 +1,85 @@
+.vcv-insights.vcv-ui-tree-content-section-inner {
+  background-color: #f6f6f6;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight {
+  background-color: #fff;
+  background-image: none;
+  border-radius: 3px;
+  color: #5c5b5b;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  padding: 14px 30px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  position: relative;
+  transition: box-shadow .2s;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight:hover {
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1)
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-title {
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-description {
+  color: #999999;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.92px;
+  padding: 8px 0 0 16px;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-title:before {
+  content: "";
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight-critical .vcv-insight-title:before {
+  background-color: #F05A59;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight-warning .vcv-insight-title:before {
+  background-color: #FEB716;
+}
+
+.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight-success .vcv-insight-title:before {
+  background-color: #6bdd4d;
+}
+
+.vcv-insight-go-to {
+  display: flex;
+  position: absolute;
+  right: 16px;
+  padding: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.vcv-insight-go-to-action {
+  cursor: pointer;
+  margin: auto;
+  border: none;
+  background-color: transparent;
+  color: #E2E5EB;
+  transition: color .2s;
+}
+
+.vcv-insight-go-to-action:hover:before {
+  color: #C6CBD4;
+}
