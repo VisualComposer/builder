@@ -12,6 +12,7 @@ addStorage('history', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const elementsTimeMachine = new TimeMachine('layout')
   const documentService = getService('document')
+  const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
   let inited = false
   let lockedReason = ''
   const checkUndoRedo = () => {
@@ -83,8 +84,8 @@ addStorage('history', (storage) => {
         }
       }
       if (visibleHeadings === 0) {
-        const h1MissingTitle = VCV_I18N().insightsH1MissingTitle
-        const h1MissingDescription = VCV_I18N().insightsH1MissingDescription
+        const h1MissingTitle = localizations.insightsH1MissingTitle
+        const h1MissingDescription = localizations.insightsH1MissingDescription
         insightsStorage.trigger('add', {
           state: 'critical',
           type: 'noH1',
@@ -98,8 +99,8 @@ addStorage('history', (storage) => {
       const images = env('iframe').document.body.querySelectorAll('img')
       images.forEach((image) => {
         if (!image.alt || image.alt === '') {
-          const altMissingTitle = VCV_I18N().insightsImageAltAttributeMissingTitle
-          const description = VCV_I18N().insightsImageAltAttributeMissingDescription
+          const altMissingTitle = localizations.insightsImageAltAttributeMissingTitle
+          const description = localizations.insightsImageAltAttributeMissingDescription
           const elementId = InsightsChecks.getElementId(image)
           const position = InsightsChecks.getNodePosition(image)
           insightsStorage.trigger('add', {
@@ -146,8 +147,8 @@ addStorage('history', (storage) => {
     static async getImageSize (src, domNode, type = '') {
       const imageSizeBytes = await InsightsChecks.getImageSizeRequest(src)
       if (imageSizeBytes && imageSizeBytes >= 1024 * 1024) {
-        const imageSizeBigTitle = type === 'background' ? VCV_I18N().insightsBgImageSizeBigTitle : VCV_I18N().insightsImageSizeBigTitle
-        let description = VCV_I18N().insightsImageSizeBigDescription
+        const imageSizeBigTitle = type === 'background' ? localizations.insightsBgImageSizeBigTitle : localizations.insightsImageSizeBigTitle
+        let description = localizations.insightsImageSizeBigDescription
         const position = InsightsChecks.getNodePosition(domNode)
         const elementId = InsightsChecks.getElementId(domNode)
         description = description.replace('%s', '1 MB')
@@ -159,8 +160,8 @@ addStorage('history', (storage) => {
           elementID: elementId
         })
       } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
-        const imageSizeBigTitle = type === 'background' ? VCV_I18N().insightsBgImageSizeBigTitle : VCV_I18N().insightsImageSizeBigTitle
-        let description = VCV_I18N().insightsImageSizeBigDescription
+        const imageSizeBigTitle = type === 'background' ? localizations.insightsBgImageSizeBigTitle : localizations.insightsImageSizeBigTitle
+        let description = localizations.insightsImageSizeBigDescription
         const position = InsightsChecks.getNodePosition(domNode)
         const elementId = InsightsChecks.getElementId(domNode)
         description = description.replace('%s', '500 KB')
@@ -207,11 +208,11 @@ addStorage('history', (storage) => {
     static getNodePosition (domNode) {
       const contentRoot = env('iframe').document.getElementById('vcv-editor')
       const documentPosition = domNode.compareDocumentPosition(contentRoot)
-      if (documentPosition & Node.DOCUMENT_POSITION_CONTAINS) {
+      if (documentPosition & window.Node.DOCUMENT_POSITION_CONTAINS) {
         return 'Content'
-      } else if (documentPosition & Node.DOCUMENT_POSITION_FOLLOWING) {
+      } else if (documentPosition & window.Node.DOCUMENT_POSITION_FOLLOWING) {
         return 'Header'
-      } else if (documentPosition & Node.DOCUMENT_POSITION_PRECEDING) {
+      } else if (documentPosition & window.Node.DOCUMENT_POSITION_PRECEDING) {
         return 'Footer'
       }
     }

@@ -63,7 +63,7 @@ export default class InsightsPanel extends React.Component {
 
   handleGoToElement (elementID) {
     const editorEl = this.iframe.querySelector(`#el-${elementID}`)
-    this.iframe.scrollTo({ top: editorEl.offsetTop, behavior: 'smooth' });
+    this.iframe.scrollTo({ top: editorEl.offsetTop, behavior: 'smooth' })
     workspaceStorage.trigger('edit', elementID, '')
   }
 
