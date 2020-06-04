@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, env } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 
@@ -10,6 +10,8 @@ export default class InsightsGroup extends React.Component {
     this.state = {
       expanded: false
     }
+
+    this.iframe = env('iframe').document
 
     this.handleToggleExpand = this.handleToggleExpand.bind(this)
   }

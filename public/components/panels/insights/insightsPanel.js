@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStorage, env } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
 import InsightGroup from './insightGroup'
@@ -37,8 +37,6 @@ export default class InsightsPanel extends React.Component {
       activeSection: 'all',
       insightData: insightsStorage.state('insights').get() || {}
     }
-
-    this.iframe = env('iframe').document
 
     this.setActiveSection = this.setActiveSection.bind(this)
     this.handleInsightsChange = this.handleInsightsChange.bind(this)
