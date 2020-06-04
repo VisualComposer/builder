@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { getStorage, env } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
@@ -75,10 +76,16 @@ export default class InsightsGroup extends React.Component {
 
     let collapseButton = null
     if (filteredItems.length) {
+      let expandClasses = classNames({
+        'vcv-ui-icon': true,
+        'vcv-ui-icon-expand': !this.state.expanded,
+        'vcv-ui-icon-arrow-up': this.state.expanded,
+        'vcv-insight-collapse-button': true,
+      })
       collapseButton = (
         <button
           onClick={this.handleToggleExpand}
-          className='vcv-insight-collapse-button vcv-ui-icon vcv-ui-icon-expand'
+          className={expandClasses}
         />
       )
     }
