@@ -5,16 +5,21 @@ import { getStorage } from 'vc-cake'
 
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('insights')
+const insightsStorage = getStorage('insights')
 
 export default class InsightsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {
       isActive: workspaceContentState.get() === 'insights',
-      showWarning: false // !!assetsStorage.getCustomCss()
+      showWarning: false, // !!assetsStorage.getCustomCss()
+      insightData: insightsStorage.state('insights').get() || []
     }
     this.handleClickSettings = this.handleClickSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
+    this.handleInsightsChange = this.handleInsightsChange.bind(this)
+
+    insightsStorage.state('insights').onChange(this.handleInsightsChange)
   }
 
   /* eslint-enable */
@@ -28,6 +33,13 @@ export default class InsightsButtonControl extends NavbarContent {
 
   componentWillUnmount () {
     workspaceContentState.ignoreChange(this.setActiveState)
+    insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
+  }
+
+  handleInsightsChange (data) {
+    this.setState({
+      insightData: data
+    })
   }
 
   handleClickSettings (e) {
@@ -43,13 +55,13 @@ export default class InsightsButtonControl extends NavbarContent {
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
-      'vcv-ui-state--active': this.state.isActive
+      'vcv-ui-state--active': this.state.isActive,
+      'vcv-ui-badge--warning': this.state.insightData.length > 0
     })
     const iconClass = classNames({
       'vcv-ui-navbar-control-icon': true,
       'vcv-ui-icon': true,
-      'vcv-ui-icon-lamp': true,
-      'vcv-ui-badge--warning': false
+      'vcv-ui-icon-lamp': true
     })
 
     return (

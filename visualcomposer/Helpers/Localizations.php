@@ -816,6 +816,34 @@ class Localizations extends Container implements Helper
                 'Success',
                 'visualcomposer'
             ),
+            'insightsImageSizeBigTitle' => __(
+                'Image size exceeded.',
+                'visualcomposer'
+            ),
+            'insightsBgImageSizeBigTitle' => __(
+                'Background Image size exceeded.',
+                'visualcomposer'
+            ),
+            'insightsImageSizeBigDescription' => __(
+                'Your image size exceeds %s. This may impact your page performance.',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeMissingTitle' => __(
+                'Image ALT attribute is missing.',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeMissingDescription' => __(
+                'Missing ALT attribute for the image. This may impact your page SEO ranking.',
+                'visualcomposer'
+            ),
+            'insightsH1MissingTitle' => __(
+                'H1 title missing on the page.',
+                'visualcomposer'
+            ),
+            'insightsH1MissingDescription' => __(
+                'Your page is missing H1 tag. This may impact on your SEO ranking.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
