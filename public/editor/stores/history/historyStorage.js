@@ -15,6 +15,8 @@ addStorage('history', (storage) => {
   const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
   let inited = false
   let lockedReason = ''
+  let isImagesSizeLarge = false
+  console.log('set to false')
   const checkUndoRedo = () => {
     storage.state('canRedo').set(inited && elementsTimeMachine.canRedo())
     storage.state('canUndo').set(inited && elementsTimeMachine.canUndo())
@@ -92,17 +94,28 @@ addStorage('history', (storage) => {
           title: h1MissingTitle,
           groupDescription: h1MissingDescription
         })
+      } else {
+        const insightsH1ExistsTitle = localizations.insightsH1ExistsTitle
+        const insightsH1ExistsDescription = localizations.insightsH1ExistsDescription
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'existH1',
+          title: insightsH1ExistsTitle,
+          groupDescription: insightsH1ExistsDescription
+        })
       }
     }
 
     static checkForAlt () {
       const images = env('iframe').document.body.querySelectorAll('img')
+      let allImagesHasAlt = true
       images.forEach((image) => {
         if (!image.alt || image.alt === '') {
           const altMissingTitle = localizations.insightsImageAltAttributeMissingTitle
           const description = localizations.insightsImageAltAttributeMissingDescription
           const elementId = InsightsChecks.getElementId(image)
           const position = InsightsChecks.getNodePosition(image)
+          allImagesHasAlt = false
           insightsStorage.trigger('add', {
             state: 'critical',
             type: `altMissing:${elementId}:${position}`,
@@ -114,6 +127,16 @@ addStorage('history', (storage) => {
           })
         }
       })
+      if (allImagesHasAlt) {
+        const altExistsTitle = localizations.insightsImageAltAttributeExistsTitle
+        const altExistsDescription = localizations.insightsImageAltAttributeExistsDescription
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'altExists',
+          title: altExistsTitle,
+          groupDescription: altExistsDescription
+        })
+      }
     }
 
     static checkForImageSize () {
@@ -146,6 +169,22 @@ addStorage('history', (storage) => {
       })
     }
 
+    static checkForImagesSize () {
+      InsightsChecks.checkForImageSize()
+      InsightsChecks.checkForBgImageSize()
+      // TODO get promise with all the parsed images and then check for isImagesSizeLarge
+      // if (!isImagesSizeLarge) {
+      //   const imageSizeProperTitle = localizations.insightsImagesSizeProperTitle
+      //   let imageSizeProperDescription = localizations.insightsImagesSizeProperDescription
+      //   insightsStorage.trigger('add', {
+      //     state: 'success',
+      //     type: 'imgSizeProper',
+      //     title: imageSizeProperTitle,
+      //     groupDescription: imageSizeProperDescription
+      //   })
+      // }
+    }
+
     static async getImageSize (src, domNode, type = '') {
       const imageSizeBytes = await InsightsChecks.getImageSizeRequest(src)
       if (imageSizeBytes && imageSizeBytes >= 1024 * 1024) {
@@ -155,6 +194,7 @@ addStorage('history', (storage) => {
         const elementId = InsightsChecks.getElementId(domNode)
         const imageSizeInMB = imageSizeBytes / 1024 / 1024
         description = description.replace('%s', '1 MB')
+        isImagesSizeLarge = true
         insightsStorage.trigger('add', {
           state: 'critical',
           type: `imgSize1MB:${elementId}:${position}`,
@@ -170,6 +210,7 @@ addStorage('history', (storage) => {
         const position = InsightsChecks.getNodePosition(domNode)
         const elementId = InsightsChecks.getElementId(domNode)
         description = description.replace('%s', '500 KB')
+        isImagesSizeLarge = true
         insightsStorage.trigger('add', {
           state: 'warning',
           type: `imgSize500KB:${elementId}:${position}`,
@@ -232,7 +273,6 @@ addStorage('history', (storage) => {
     // Do all checks
     InsightsChecks.checkForHeadings()
     InsightsChecks.checkForAlt()
-    InsightsChecks.checkForImageSize()
-    InsightsChecks.checkForBgImageSize()
+    InsightsChecks.checkForImagesSize()
   }, 5000))
 })

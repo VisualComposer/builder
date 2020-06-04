@@ -1,7 +1,7 @@
 import { addStorage } from 'vc-cake'
 
 addStorage('insights', (storage) => {
-  storage.state('currentLevel').set(1)
+  storage.state('currentLevel').set(0)
   storage.state('insights').set([])
   storage.on('add', (data) => {
     // data example

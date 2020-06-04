@@ -844,6 +844,30 @@ class Localizations extends Container implements Helper
                 'Your page is missing H1 tag. This may impact on your SEO ranking.',
                 'visualcomposer'
             ),
+            'insightsH1ExistsTitle' => __(
+                'H1 title exists on the page.',
+                'visualcomposer'
+            ),
+            'insightsH1ExistsDescription' => __(
+                'Your page has an H1 tag. Well Done!',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeExistsTitle' => __(
+                'All images have ALT attribute.',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeExistsDescription' => __(
+                'All images have ALT attribute. Good Job!',
+                'visualcomposer'
+            ),
+            'insightsImagesSizeProperTitle' => __(
+                'All images have optimal size.',
+                'visualcomposer'
+            ),
+            'insightsImagesSizeProperDescription' => __(
+                'All images have optimal size. Awesome!',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
