@@ -1,6 +1,7 @@
 import { addStorage } from 'vc-cake'
 
 addStorage('insights', (storage) => {
+  storage.state('currentLevel').set(1)
   storage.state('insights').set([])
   storage.on('add', (data) => {
     // data example
@@ -15,6 +16,10 @@ addStorage('insights', (storage) => {
     if (!data || !data.type) {
       return
     }
+    let currentLevel = storage.state('currentLevel').get()
+    // bitwise operator for easier checks
+    currentLevel |= data.state === 'success' ? 1 : (data.state === 'warning' ? 2 : 4)
+    storage.state('currentLevel').set(currentLevel)
 
     const insights = storage.state('insights').get() || {}
     const typeData = data.type.split(':') // type:elementId:contentArea
@@ -52,6 +57,7 @@ addStorage('insights', (storage) => {
   })
 
   storage.on('cleanAll', () => {
+    storage.state('currentLevel').set(1)
     storage.state('insights').set({})
   })
 })
