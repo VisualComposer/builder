@@ -16,29 +16,42 @@ addStorage('insights', (storage) => {
       return
     }
 
-    const insights = storage.state('insights').get() || []
-    const updateItemIndex = insights.findIndex(item => item.type === data.type)
+    const insights = storage.state('insights').get() || {}
+    const typeData = data.type.split(':') // type:elementId:contentArea
+
+    if (!insights[typeData[0]]) {
+      insights[typeData[0]] = {
+        title: data.title,
+        description: data.groupDescription,
+        state: data.state,
+        items: []
+      }
+    }
+
+    const itemsByType = insights[typeData[0]].items
+    const updateItemIndex = itemsByType.findIndex(item => item.type === data.type)
 
     if (updateItemIndex >= 0) { // Already added insight
-      insights[updateItemIndex] = data
-      storage.state('notifications').set(insights)
+      itemsByType[updateItemIndex] = data
+      storage.state('insights').set(insights)
     } else {
-      insights.push(data)
+      itemsByType.push(data)
       storage.state('insights').set(insights)
     }
   })
 
   storage.on('remove', (type) => {
-    const insights = storage.state('insights').get()
+    console.log('remove by type', type)
+    // const insights = storage.state('insights').get() || {}
 
-    const removeItemIndex = insights.findIndex(item => item.type === type)
-    if (removeItemIndex >= 0) {
-      insights.splice(removeItemIndex, 1)
-      storage.state('notifications').set(insights)
-    }
+    // const removeItemIndex = insights.findIndex(item => item.type === type)
+    // if (removeItemIndex >= 0) {
+    //   insights.splice(removeItemIndex, 1)
+    //   storage.state('insights').set(insights)
+    // }
   })
 
   storage.on('cleanAll', () => {
-    storage.state('insights').set([])
+    storage.state('insights').set({})
   })
 })

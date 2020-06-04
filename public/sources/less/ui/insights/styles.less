@@ -10,7 +10,7 @@
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-style: italic;
-  padding: 14px 30px 14px 14px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
@@ -62,18 +62,8 @@
   background-color: #6bdd4d;
 }
 
-.vcv-insight-go-to {
-  display: flex;
-  position: absolute;
-  right: 16px;
-  padding: 0;
-  top: 0;
-  bottom: 0;
-}
-
 .vcv-insight-go-to-action {
   cursor: pointer;
-  margin: auto;
   border: none;
   background-color: transparent;
   color: #E2E5EB;
@@ -82,4 +72,38 @@
 
 .vcv-insight-go-to-action:hover:before {
   color: #C6CBD4;
+}
+
+.vcv-insight-items {
+  margin-top: 15px;
+  border-top: 1px solid #F4F4F4;
+}
+
+.vcv-insight-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.vcv-insight-item .vcv-insight-item-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.vcv-insight-header {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-right: 20px;
+}
+
+.vcv-insight-collapse-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: 0;
+  background-color: transparent;
 }

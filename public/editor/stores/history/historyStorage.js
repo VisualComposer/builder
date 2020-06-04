@@ -90,7 +90,7 @@ addStorage('history', (storage) => {
           state: 'critical',
           type: 'noH1',
           title: h1MissingTitle,
-          description: h1MissingDescription
+          groupDescription: h1MissingDescription
         })
       }
     }
@@ -105,9 +105,11 @@ addStorage('history', (storage) => {
           const position = InsightsChecks.getNodePosition(image)
           insightsStorage.trigger('add', {
             state: 'critical',
-            type: `altMissing${elementId}${position}`,
+            type: `altMissing:${elementId}:${position}`,
+            thumbnail: image.src,
             title: position !== 'Content' ? `${position}: ${altMissingTitle}` : altMissingTitle,
-            description: description,
+            groupDescription: description,
+            description: `Alt is empty for ${elementId}`,
             elementID: elementId
           })
         }
@@ -151,12 +153,15 @@ addStorage('history', (storage) => {
         let description = localizations.insightsImageSizeBigDescription
         const position = InsightsChecks.getNodePosition(domNode)
         const elementId = InsightsChecks.getElementId(domNode)
+        const imageSizeInMB = imageSizeBytes / 1024 / 1024
         description = description.replace('%s', '1 MB')
         insightsStorage.trigger('add', {
           state: 'critical',
-          type: `imgSizeBig${elementId}${position}`,
+          type: `imgSize1MB:${elementId}:${position}`,
+          thumbnail: src,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
-          description: description,
+          groupDescription: description,
+          description: `Image size is ${imageSizeInMB.toFixed(2)} MB`,
           elementID: elementId
         })
       } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
@@ -167,9 +172,11 @@ addStorage('history', (storage) => {
         description = description.replace('%s', '500 KB')
         insightsStorage.trigger('add', {
           state: 'warning',
-          type: `imgSizeBig${elementId}${position}`,
+          type: `imgSize500KB:${elementId}:${position}`,
+          thumbnail: src,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
-          description: description,
+          groupDescription: description,
+          description: `Image size is ${parseInt(imageSizeBytes / 1024)} KB`,
           elementID: elementId
         })
       }

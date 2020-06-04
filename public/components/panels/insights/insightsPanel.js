@@ -2,8 +2,7 @@ import React from 'react'
 import { getStorage, env } from 'vc-cake'
 import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
-
-const workspaceStorage = getStorage('workspace')
+import InsightGroup from './insightGroup'
 
 const insightsStorage = getStorage('insights')
 const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -36,7 +35,7 @@ export default class InsightsPanel extends React.Component {
 
     this.state = {
       activeSection: 'all',
-      insightData: insightsStorage.state('insights').get()
+      insightData: insightsStorage.state('insights').get() || {}
     }
 
     this.iframe = env('iframe').document
@@ -57,45 +56,30 @@ export default class InsightsPanel extends React.Component {
 
   handleInsightsChange (data) {
     this.setState({
-      insightData: data
+      insightData: data || {}
     })
   }
 
-  handleGoToElement (elementID) {
-    const editorEl = this.iframe.querySelector(`#el-${elementID}`)
-    this.iframe.scrollTo({ top: editorEl.offsetTop, behavior: 'smooth' })
-    workspaceStorage.trigger('edit', elementID, '')
+  getInsightsHTML (insightData) {
+    return Object.keys(insightData).map((type) => {
+      const insightGroup = insightData[type]
+
+      if (this.state.activeSection === 'all' || this.state.activeSection === insightGroup.state) {
+        return (
+          <InsightGroup
+            key={`insight-group-${type}`}
+            type={type}
+            insightGroup={insightGroup}
+          />
+        )
+      }
+    })
   }
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
-    const data = this.state.insightData
-
-    const insightsHTML = []
-    data.forEach((insight) => {
-      if (this.state.activeSection === 'all' || this.state.activeSection === insight.state) {
-        let goToButton = null
-        if (insight.elementID) {
-          goToButton = (
-            <div className='vcv-insight-go-to'>
-              <button
-                onClick={this.handleGoToElement.bind(this, insight.elementID)}
-                className='vcv-insight-go-to-action vcv-ui-icon vcv-ui-icon-forward'
-              />
-            </div>
-          )
-        }
-
-        insightsHTML.push(
-          <div className={`vcv-insight vcv-insight-${insight.state}`} key={`insights-item-${insight.type}`}>
-            <span className='vcv-insight-title'>{insight.title}</span>
-            <span className='vcv-insight-description'>{insight.description}</span>
-            {goToButton}
-          </div>
-        )
-      }
-    })
+    const insightsHTML = this.getInsightsHTML(this.state.insightData)
 
     return (
       <div className='vcv-ui-tree-view-content'>
