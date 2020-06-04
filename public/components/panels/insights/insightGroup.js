@@ -14,6 +14,17 @@ export default class InsightsGroup extends React.Component {
     this.iframe = env('iframe').document
 
     this.handleToggleExpand = this.handleToggleExpand.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
+  }
+
+  handleMouseEnter (elementID) {
+    if (elementID) {
+      workspaceStorage.state('userInteractWith').set(elementID)
+    }
+  }
+
+  handleMouseLeave () {
+    workspaceStorage.state('userInteractWith').set(false)
   }
 
   getInsightItems (items) {
@@ -32,6 +43,8 @@ export default class InsightsGroup extends React.Component {
         <div
           className='vcv-insight-item'
           key={`insights-item-${item.type}`}
+          onMouseOver={this.handleMouseEnter.bind(this, item.elementID)}
+          onMouseLeave={this.handleMouseLeave}
         >
           {item.thumbnail && (
             <img className='vcv-insight-item-thumbnail' src={item.thumbnail} alt='thumbnail' />
