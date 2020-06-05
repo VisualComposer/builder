@@ -40,7 +40,8 @@ module.exports = Object.assign({}, config, {
       wp: {
         modules: [
           'layout',
-          'wordpressWorkspace'
+          'wordpressWorkspace',
+          'insights'
         ],
         services: [
           'utils',

@@ -48,7 +48,7 @@ addStorage('insights', (storage) => {
     // }
   })
 
-  storage.on('cleanAll', () => {
+  storage.on('reset', () => {
     storage.state('currentLevel').set(0)
     storage.state('insights').set({})
   })
