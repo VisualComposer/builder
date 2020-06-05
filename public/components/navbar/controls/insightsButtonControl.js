@@ -60,7 +60,7 @@ export default class InsightsButtonControl extends NavbarContent {
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isActive,
-      'vcv-ui-badge--error': currentLevel & CRITICAL_LEVEL && !(currentLevel & WARNING_LEVEL),
+      'vcv-ui-badge--error': currentLevel & CRITICAL_LEVEL,
       'vcv-ui-badge--warning': currentLevel & WARNING_LEVEL && !(currentLevel & CRITICAL_LEVEL),
       'vcv-ui-badge--success': currentLevel & SUCCESS_LEVEL && !(currentLevel & CRITICAL_LEVEL) && !(currentLevel & WARNING_LEVEL)
     })

@@ -49,7 +49,7 @@ addStorage('insights', (storage) => {
   })
 
   storage.on('cleanAll', () => {
-    storage.state('currentLevel').set(1)
+    storage.state('currentLevel').set(0)
     storage.state('insights').set({})
   })
 })
