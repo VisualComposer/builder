@@ -200,9 +200,11 @@ add('insights', () => {
       if (documentPosition & window.Node.DOCUMENT_POSITION_CONTAINS) {
         return 'Content'
       } else if (documentPosition & window.Node.DOCUMENT_POSITION_FOLLOWING) {
-        return 'Header'
+        // Left Sidebar
+        return domNode.closest('[data-vcv-layout-zone="sidebar"]') ? 'Left Sidebar' : 'Header'
       } else if (documentPosition & window.Node.DOCUMENT_POSITION_PRECEDING) {
-        return 'Footer'
+        // Right Sidebar
+        return domNode.closest('[data-vcv-layout-zone="sidebar"]') ? 'Right Sidebar' : 'Footer'
       }
     }
   }
