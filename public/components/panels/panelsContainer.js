@@ -6,6 +6,7 @@ import HubContainer from './hub/hubContainer'
 import AddTemplatePanel from './addTemplate/addTemplatePanel'
 import TreeViewLayout from './treeView/treeViewLayout'
 import SettingsPanel from './settings/settingsPanel'
+import InsightsPanel from './insights/insightsPanel'
 import EditFormPanel from './editForm/lib/activitiesManager'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
@@ -71,6 +72,8 @@ export default class PanelsContainer extends React.Component {
       )
     } else if (content === 'addTemplate') {
       return <AddTemplatePanel />
+    } else if (content === 'insights') {
+      return <InsightsPanel />
     } else if (content === 'settings') {
       return <SettingsPanel />
     } else if (content === 'editElement') {

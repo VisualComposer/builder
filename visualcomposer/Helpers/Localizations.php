@@ -796,6 +796,86 @@ class Localizations extends Container implements Helper
                 'Changes you made may not be saved.',
                 'visualcomposer'
             ),
+            'VCInsights' => __(
+                'Visual Composer Insights',
+                'visualcomposer'
+            ),
+            'all' => __(
+                'All',
+                'visualcomposer'
+            ),
+            'critical' => __(
+                'Critical',
+                'visualcomposer'
+            ),
+            'warnings' => __(
+                'Warnings',
+                'visualcomposer'
+            ),
+            'success' => __(
+                'Success',
+                'visualcomposer'
+            ),
+            'insightsImageSizeBigTitle' => __(
+                'Image size exceeded',
+                'visualcomposer'
+            ),
+            'insightsBgImageSizeBigTitle' => __(
+                'Background Image size exceeded',
+                'visualcomposer'
+            ),
+            'insightsImageSizeBigDescription' => __(
+                'Your image size exceeds %s. This may impact your page performance and SEO ranking.',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeMissingTitle' => __(
+                'Image ALT attribute is missing',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeMissingDescription' => __(
+                'Missing ALT attribute for the image. This may impact your page SEO ranking.',
+                'visualcomposer'
+            ),
+            'insightsH1MissingTitle' => __(
+                'H1 title missing on the page',
+                'visualcomposer'
+            ),
+            'insightsH1MissingDescription' => __(
+                'Your page is missing H1 tag. This may impact on your SEO ranking.',
+                'visualcomposer'
+            ),
+            'insightsH1ExistsTitle' => __(
+                'H1 title exists on the page',
+                'visualcomposer'
+            ),
+            'insightsH1ExistsDescription' => __(
+                'Your page has an H1 tag. Great job!',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeExistsTitle' => __(
+                'All images have ALT attributes',
+                'visualcomposer'
+            ),
+            'insightsImageAltAttributeExistsDescription' => __(
+                'All images have ALT attributes. Great Job!',
+                'visualcomposer'
+            ),
+            'insightsImagesSizeProperTitle' => __(
+                'All images have optimal sizes',
+                'visualcomposer'
+            ),
+            'insightsImagesSizeProperDescription' => __(
+                'All images have optimal sizes. Awesome!',
+                'visualcomposer'
+            ),
+            'insightsNoContentOnPageTitle' => __(
+                'No content found',
+                'visualcomposer'
+            ),
+            'insightsNoContentOnPageDescription' => __(
+                'It seems your page has no content. Make sure to add elements or templates.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

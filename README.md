@@ -17,7 +17,6 @@ Any Layout. Fast and Easy.</h1>
 </p>
 
 ## About Visual Composer
-
 Visual Composer Website Builder is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
 
 <p align="center">

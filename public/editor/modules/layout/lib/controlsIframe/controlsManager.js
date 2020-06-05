@@ -402,9 +402,13 @@ export default class ControlsManager {
   interactWithTree () {
     workspaceStorage.state('userInteractWith').onChange((id = false) => {
       if (id && this.state.showOutline) {
-        const element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
-        if (element) {
-          this.outline.show(element, id)
+        if (typeof id !== 'string') {
+          this.outline.show(id)
+        } else {
+          const element = this.iframeDocument.querySelector(`[data-vcv-element="${id}"]:not([data-vcv-interact-with-controls="false"])`)
+          if (element) {
+            this.outline.show(element, id)
+          }
         }
       } else {
         this.outline.hide()
