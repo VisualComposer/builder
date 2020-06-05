@@ -817,19 +817,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsImageSizeBigTitle' => __(
-                'Image size exceeded.',
+                'Image size exceeded',
                 'visualcomposer'
             ),
             'insightsBgImageSizeBigTitle' => __(
-                'Background Image size exceeded.',
+                'Background Image size exceeded',
                 'visualcomposer'
             ),
             'insightsImageSizeBigDescription' => __(
-                'Your image size exceeds %s. This may impact your page performance.',
+                'Your image size exceeds %s. This may impact your page performance and SEO ranking.',
                 'visualcomposer'
             ),
             'insightsImageAltAttributeMissingTitle' => __(
-                'Image ALT attribute is missing.',
+                'Image ALT attribute is missing',
                 'visualcomposer'
             ),
             'insightsImageAltAttributeMissingDescription' => __(
@@ -837,7 +837,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsH1MissingTitle' => __(
-                'H1 title missing on the page.',
+                'H1 title missing on the page',
                 'visualcomposer'
             ),
             'insightsH1MissingDescription' => __(
@@ -845,27 +845,35 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsH1ExistsTitle' => __(
-                'H1 title exists on the page.',
+                'H1 title exists on the page',
                 'visualcomposer'
             ),
             'insightsH1ExistsDescription' => __(
-                'Your page has an H1 tag. Well Done!',
+                'Your page has an H1 tag. Great job!',
                 'visualcomposer'
             ),
             'insightsImageAltAttributeExistsTitle' => __(
-                'All images have ALT attribute.',
+                'All images have ALT attributes',
                 'visualcomposer'
             ),
             'insightsImageAltAttributeExistsDescription' => __(
-                'All images have ALT attribute. Good Job!',
+                'All images have ALT attributes. Great Job!',
                 'visualcomposer'
             ),
             'insightsImagesSizeProperTitle' => __(
-                'All images have optimal size.',
+                'All images have optimal sizes',
                 'visualcomposer'
             ),
             'insightsImagesSizeProperDescription' => __(
-                'All images have optimal size. Awesome!',
+                'All images have optimal sizes. Awesome!',
+                'visualcomposer'
+            ),
+            'insightsNoContentOnPageTitle' => __(
+                'No content found',
+                'visualcomposer'
+            ),
+            'insightsNoContentOnPageDescription' => __(
+                'It seems your page has no content. Make sure to add elements or templates.',
                 'visualcomposer'
             ),
         ];
