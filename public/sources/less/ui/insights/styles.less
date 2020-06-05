@@ -15,7 +15,7 @@
   flex-direction: column;
   margin-bottom: 20px;
   position: relative;
-  transition: box-shadow .2s;
+  transition: box-shadow @vcv-transition-duration @vcv-transition-timing-function;
 }
 
 .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight:hover {
@@ -30,12 +30,18 @@
   position: relative;
 }
 
-.vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-description {
-  color: #999999;
+.vcv-insight-description,
+.vcv-insight-item-description {
+  color: @vcv-insight-description-color;
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.92px;
   padding: 8px 0 0 16px;
+}
+
+.vcv-insight-item-description {
+  padding: 0 0 0 20px;
+  flex: 1 0 auto;
 }
 
 .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-title:before {
@@ -66,12 +72,14 @@
   cursor: pointer;
   border: none;
   background-color: transparent;
-  color: #E2E5EB;
-  transition: color .2s;
+  padding: 7px;
+  font-size: 16px;
+  color: #C6CBD4;
+  transition: color @vcv-transition-duration @vcv-transition-timing-function;
 }
 
 .vcv-insight-go-to-action:hover:before {
-  color: #C6CBD4;
+  color: #2039A0;
 }
 
 .vcv-insight-items {
@@ -82,7 +90,6 @@
 .vcv-insight-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin: 15px 0;
 }
 
@@ -106,5 +113,7 @@
   bottom: 0;
   border: 0;
   background-color: transparent;
+  color: #D8D8D8;
+  font-size: 18px;
   cursor: pointer;
 }

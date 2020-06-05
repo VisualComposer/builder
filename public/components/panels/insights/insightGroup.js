@@ -50,7 +50,7 @@ export default class InsightsGroup extends React.Component {
           {item.thumbnail && (
             <img className='vcv-insight-item-thumbnail' src={item.thumbnail} alt='thumbnail' />
           )}
-          <span>{item.description}</span>
+          <span className='vcv-insight-item-description'>{item.description}</span>
           {goToButton}
         </div>
       )
@@ -76,11 +76,11 @@ export default class InsightsGroup extends React.Component {
 
     let collapseButton = null
     if (filteredItems.length) {
-      let expandClasses = classNames({
+      const expandClasses = classNames({
         'vcv-ui-icon': true,
         'vcv-ui-icon-expand': !this.state.expanded,
         'vcv-ui-icon-arrow-up': this.state.expanded,
-        'vcv-insight-collapse-button': true,
+        'vcv-insight-collapse-button': true
       })
       collapseButton = (
         <button
