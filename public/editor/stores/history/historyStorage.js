@@ -117,7 +117,7 @@ addStorage('history', (storage) => {
           allImagesHasAlt = false
           insightsStorage.trigger('add', {
             state: 'critical',
-            type: `altMissing:${elementId}:${position}`,
+            type: `altMissing${position}`,
             thumbnail: image.src,
             title: position !== 'Content' ? `${position}: ${altMissingTitle}` : altMissingTitle,
             groupDescription: description,
@@ -173,13 +173,13 @@ addStorage('history', (storage) => {
     }
 
     static async checkForImagesSize () {
-      let promises = InsightsChecks.checkForImageSize()
+      const promises = InsightsChecks.checkForImageSize()
       promises.concat(InsightsChecks.checkForBgImageSize())
       await Promise.all(promises)
 
       if (!isImagesSizeLarge) {
         const imageSizeProperTitle = localizations.insightsImagesSizeProperTitle
-        let imageSizeProperDescription = localizations.insightsImagesSizeProperDescription
+        const imageSizeProperDescription = localizations.insightsImagesSizeProperDescription
         insightsStorage.trigger('add', {
           state: 'success',
           type: 'imgSizeProper',
@@ -201,7 +201,7 @@ addStorage('history', (storage) => {
         isImagesSizeLarge = true
         insightsStorage.trigger('add', {
           state: 'critical',
-          type: `imgSize1MB:${elementId}:${position}`,
+          type: `imgSize1MB${position}`,
           thumbnail: src,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           groupDescription: description,
@@ -217,7 +217,7 @@ addStorage('history', (storage) => {
         isImagesSizeLarge = true
         insightsStorage.trigger('add', {
           state: 'warning',
-          type: `imgSize500KB:${elementId}:${position}`,
+          type: `imgSize500KB${position}`,
           thumbnail: src,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           groupDescription: description,

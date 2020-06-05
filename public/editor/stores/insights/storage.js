@@ -22,10 +22,10 @@ addStorage('insights', (storage) => {
     storage.state('currentLevel').set(currentLevel)
 
     const insights = storage.state('insights').get() || {}
-    const typeData = data.type.split(':') // type:elementId:contentArea
+    const typeData = data.type // typeContentArea
 
-    if (!insights[typeData[0]]) {
-      insights[typeData[0]] = {
+    if (!insights[typeData]) {
+      insights[typeData] = {
         title: data.title,
         description: data.groupDescription,
         state: data.state,
@@ -33,16 +33,8 @@ addStorage('insights', (storage) => {
       }
     }
 
-    const itemsByType = insights[typeData[0]].items
-    const updateItemIndex = itemsByType.findIndex(item => item.type === data.type)
-
-    if (updateItemIndex >= 0) { // Already added insight
-      itemsByType[updateItemIndex] = data
-      storage.state('insights').set(insights)
-    } else {
-      itemsByType.push(data)
-      storage.state('insights').set(insights)
-    }
+    insights[typeData].items.unshift(data)
+    storage.state('insights').set(insights)
   })
 
   storage.on('remove', (type) => {
