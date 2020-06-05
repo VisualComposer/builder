@@ -16,7 +16,6 @@ addStorage('history', (storage) => {
   let inited = false
   let lockedReason = ''
   let isImagesSizeLarge = false
-  console.log('set to false')
   const checkUndoRedo = () => {
     storage.state('canRedo').set(inited && elementsTimeMachine.canRedo())
     storage.state('canUndo').set(inited && elementsTimeMachine.canUndo())
@@ -141,9 +140,11 @@ addStorage('history', (storage) => {
 
     static checkForImageSize () {
       const images = env('iframe').document.body.querySelectorAll('img')
-      images.forEach(async function (image) {
-        await InsightsChecks.getImageSize(image.src, image)
+      const promises = []
+      images.forEach((image) => {
+        promises.push(InsightsChecks.getImageSize(image.src, image))
       })
+      return promises
     }
 
     static checkForBgImageSize () {
@@ -164,25 +165,28 @@ addStorage('history', (storage) => {
       }
 
       const bgImages = getBgImgs(env('iframe').document)
-      bgImages.forEach(async function (data) {
-        await InsightsChecks.getImageSize(data.src, data.domNode, 'background')
+      const promises = []
+      bgImages.forEach((data) => {
+        promises.push(InsightsChecks.getImageSize(data.src, data.domNode, 'background'))
       })
+      return promises
     }
 
-    static checkForImagesSize () {
-      InsightsChecks.checkForImageSize()
-      InsightsChecks.checkForBgImageSize()
-      // TODO get promise with all the parsed images and then check for isImagesSizeLarge
-      // if (!isImagesSizeLarge) {
-      //   const imageSizeProperTitle = localizations.insightsImagesSizeProperTitle
-      //   let imageSizeProperDescription = localizations.insightsImagesSizeProperDescription
-      //   insightsStorage.trigger('add', {
-      //     state: 'success',
-      //     type: 'imgSizeProper',
-      //     title: imageSizeProperTitle,
-      //     groupDescription: imageSizeProperDescription
-      //   })
-      // }
+    static async checkForImagesSize () {
+      let promises = InsightsChecks.checkForImageSize()
+      promises.concat(InsightsChecks.checkForBgImageSize())
+      await Promise.all(promises)
+
+      if (!isImagesSizeLarge) {
+        const imageSizeProperTitle = localizations.insightsImagesSizeProperTitle
+        let imageSizeProperDescription = localizations.insightsImagesSizeProperDescription
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'imgSizeProper',
+          title: imageSizeProperTitle,
+          groupDescription: imageSizeProperDescription
+        })
+      }
     }
 
     static async getImageSize (src, domNode, type = '') {
@@ -269,6 +273,7 @@ addStorage('history', (storage) => {
   storage.on('init add undo redo', debounce(() => {
     // clear previous <Insights>
     insightsStorage.trigger('cleanAll')
+    isImagesSizeLarge = false
 
     // Do all checks
     InsightsChecks.checkForHeadings()
