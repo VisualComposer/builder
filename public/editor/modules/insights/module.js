@@ -1,18 +1,22 @@
-import { getStorage, env, add } from 'vc-cake'
+import { getStorage, getService, env, add } from 'vc-cake'
 import { debounce, memoize } from 'lodash'
 
 const insightsStorage = getStorage('insights')
 const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
+const cookService = getService('cook')
 
 add('insights', () => {
-  const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
-  let isImagesSizeLarge = false
-
   // VC: Insights
   class InsightsChecks {
-    static checkForHeadings () {
+    isImagesSizeLarge = false
+    localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+
+    checkForHeadings () {
+      if (window.VCV_EDITOR_TYPE) {
+        return
+      }
       const headings = env('iframe').document.body.querySelectorAll('h1')
       let visibleHeadings = 0
       for (let i = 0; i < headings.length; i++) {
@@ -24,8 +28,8 @@ add('insights', () => {
         }
       }
       if (visibleHeadings === 0) {
-        const h1MissingTitle = localizations.insightsH1MissingTitle
-        const h1MissingDescription = localizations.insightsH1MissingDescription
+        const h1MissingTitle = this.localizations.insightsH1MissingTitle
+        const h1MissingDescription = this.localizations.insightsH1MissingDescription
         insightsStorage.trigger('add', {
           state: 'critical',
           type: 'noH1',
@@ -33,8 +37,8 @@ add('insights', () => {
           groupDescription: h1MissingDescription
         })
       } else {
-        const insightsH1ExistsTitle = localizations.insightsH1ExistsTitle
-        const insightsH1ExistsDescription = localizations.insightsH1ExistsDescription
+        const insightsH1ExistsTitle = this.localizations.insightsH1ExistsTitle
+        const insightsH1ExistsDescription = this.localizations.insightsH1ExistsDescription
         insightsStorage.trigger('add', {
           state: 'success',
           type: 'existH1',
@@ -44,26 +48,26 @@ add('insights', () => {
       }
     }
 
-    static checkForEmptyContent () {
+    checkForEmptyContent () {
       const elements = getStorage('elements').state('document').get() || []
       if (!elements.length) {
         // There are no elements on a page
         insightsStorage.trigger('add', {
           state: 'critical',
           type: 'noElementsOnPage',
-          title: localizations.insightsNoContentOnPageTitle,
-          groupDescription: localizations.insightsNoContentOnPageDescription
+          title: this.localizations.insightsNoContentOnPageTitle,
+          groupDescription: this.localizations.insightsNoContentOnPageDescription
         })
       }
     }
 
-    static checkForAlt () {
+    checkForAlt () {
       const images = env('iframe').document.body.querySelectorAll('img')
       let allImagesHasAlt = true
       images.forEach((image) => {
         if (!image.alt || image.alt === '') {
-          const altMissingTitle = localizations.insightsImageAltAttributeMissingTitle
-          const description = localizations.insightsImageAltAttributeMissingDescription
+          const altMissingTitle = this.localizations.insightsImageAltAttributeMissingTitle
+          const description = this.localizations.insightsImageAltAttributeMissingDescription
           const elementId = InsightsChecks.getElementId(image)
           const position = InsightsChecks.getNodePosition(image)
           allImagesHasAlt = false
@@ -73,14 +77,14 @@ add('insights', () => {
             thumbnail: image.src,
             title: position !== 'Content' ? `${position}: ${altMissingTitle}` : altMissingTitle,
             groupDescription: description,
-            description: `Alt is empty for ${elementId}`,
+            description: 'Alt attribute is empty %s'.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
             elementID: elementId
           })
         }
       })
-      if (allImagesHasAlt) {
-        const altExistsTitle = localizations.insightsImageAltAttributeExistsTitle
-        const altExistsDescription = localizations.insightsImageAltAttributeExistsDescription
+      if (images.length && allImagesHasAlt) {
+        const altExistsTitle = this.localizations.insightsImageAltAttributeExistsTitle
+        const altExistsDescription = this.localizations.insightsImageAltAttributeExistsDescription
         insightsStorage.trigger('add', {
           state: 'success',
           type: 'altExists',
@@ -90,23 +94,22 @@ add('insights', () => {
       }
     }
 
-    static checkForImageSize () {
+    checkForImageSize () {
       const images = env('iframe').document.body.querySelectorAll('img')
       const promises = []
       images.forEach((image) => {
-        promises.push(InsightsChecks.getImageSize(image.src, image))
+        promises.push(this.getImageSize(image.src, image))
       })
       return promises
     }
 
-    static checkForBgImageSize () {
+    checkForBgImageSize () {
       function getBgImgs (doc) {
         const srcChecker = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i
         return Array.from(
           Array.from(doc.querySelectorAll('*')).reduce((collection, node) => {
             const prop = window.getComputedStyle(node, null)
               .getPropertyValue('background-image')
-            // match `url(...)`
             const match = srcChecker.exec(prop)
             if (match) {
               collection.add({ src: match[1], domNode: node })
@@ -119,19 +122,19 @@ add('insights', () => {
       const bgImages = getBgImgs(env('iframe').document)
       const promises = []
       bgImages.forEach((data) => {
-        promises.push(InsightsChecks.getImageSize(data.src, data.domNode, 'background'))
+        promises.push(this.getImageSize(data.src, data.domNode, 'background'))
       })
       return promises
     }
 
-    static async checkForImagesSize () {
-      const promises = InsightsChecks.checkForImageSize()
-      promises.concat(InsightsChecks.checkForBgImageSize())
+    async checkForImagesSize () {
+      const promises = this.checkForImageSize()
+      promises.concat(this.checkForBgImageSize())
       await Promise.all(promises)
 
-      if (!isImagesSizeLarge) {
-        const imageSizeProperTitle = localizations.insightsImagesSizeProperTitle
-        const imageSizeProperDescription = localizations.insightsImagesSizeProperDescription
+      if (promises.length && !this.isImagesSizeLarge) {
+        const imageSizeProperTitle = this.localizations.insightsImagesSizeProperTitle
+        const imageSizeProperDescription = this.localizations.insightsImagesSizeProperDescription
         insightsStorage.trigger('add', {
           state: 'success',
           type: 'imgSizeProper',
@@ -141,39 +144,39 @@ add('insights', () => {
       }
     }
 
-    static async getImageSize (src, domNode, type = '') {
+    async getImageSize (src, domNode, type = '') {
       const imageSizeBytes = await InsightsChecks.getImageSizeRequest(src)
       if (imageSizeBytes && imageSizeBytes >= 1024 * 1024) {
-        const imageSizeBigTitle = type === 'background' ? localizations.insightsBgImageSizeBigTitle : localizations.insightsImageSizeBigTitle
-        let description = localizations.insightsImageSizeBigDescription
+        const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
+        let description = this.localizations.insightsImageSizeBigDescription
         const position = InsightsChecks.getNodePosition(domNode)
         const elementId = InsightsChecks.getElementId(domNode)
         const imageSizeInMB = imageSizeBytes / 1024 / 1024
         description = description.replace('%s', '1 MB')
-        isImagesSizeLarge = true
+        this.isImagesSizeLarge = true
         insightsStorage.trigger('add', {
           state: 'critical',
           type: `imgSize1MB${position}`,
           thumbnail: src,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           groupDescription: description,
-          description: `Image size is ${imageSizeInMB.toFixed(2)} MB`,
+          description: 'Image size is' + ` ${imageSizeInMB.toFixed(2)} MB`,
           elementID: elementId
         })
       } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
-        const imageSizeBigTitle = type === 'background' ? localizations.insightsBgImageSizeBigTitle : localizations.insightsImageSizeBigTitle
-        let description = localizations.insightsImageSizeBigDescription
+        const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
+        let description = this.localizations.insightsImageSizeBigDescription
         const position = InsightsChecks.getNodePosition(domNode)
         const elementId = InsightsChecks.getElementId(domNode)
         description = description.replace('%s', '500 KB')
-        isImagesSizeLarge = true
+        this.isImagesSizeLarge = true
         insightsStorage.trigger('add', {
           state: 'warning',
           type: `imgSize500KB${position}`,
           thumbnail: src,
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           groupDescription: description,
-          description: `Image size is ${parseInt(imageSizeBytes / 1024)} KB`,
+          description: 'Image size is' + ` ${parseInt(imageSizeBytes / 1024)} KB`,
           elementID: elementId
         })
       }
@@ -224,16 +227,17 @@ add('insights', () => {
     }
   }
 
+  const insightsStorageInstance = new InsightsChecks()
   const runChecksCallback = debounce(() => {
     // clear previous <Insights>
     insightsStorage.trigger('reset')
-    isImagesSizeLarge = false
+    insightsStorageInstance.isImagesSizeLarge = false
 
     // Do all checks
-    InsightsChecks.checkForHeadings()
-    InsightsChecks.checkForAlt()
-    InsightsChecks.checkForImagesSize()
-    InsightsChecks.checkForEmptyContent()
+    insightsStorageInstance.checkForHeadings()
+    insightsStorageInstance.checkForAlt()
+    insightsStorageInstance.checkForImagesSize()
+    insightsStorageInstance.checkForEmptyContent()
   }, 5000)
   historyStorage.on('init add undo redo', runChecksCallback)
   settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
