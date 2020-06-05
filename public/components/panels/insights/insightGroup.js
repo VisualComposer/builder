@@ -12,8 +12,6 @@ export default class InsightsGroup extends React.Component {
       expanded: false
     }
 
-    this.iframe = env('iframe').document
-
     this.handleToggleExpand = this.handleToggleExpand.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
   }
@@ -58,8 +56,9 @@ export default class InsightsGroup extends React.Component {
   }
 
   handleGoToElement (elementID) {
-    const editorEl = this.iframe.querySelector(`#el-${elementID}`)
-    this.iframe.scrollTo({ top: editorEl.offsetTop, behavior: 'smooth' })
+    const iframeDocument = env('iframe').document
+    const editorEl = iframeDocument.querySelector(`#el-${elementID}`)
+    iframeDocument.scrollTo({ top: editorEl.offsetTop, behavior: 'smooth' })
     workspaceStorage.trigger('edit', elementID, '')
   }
 

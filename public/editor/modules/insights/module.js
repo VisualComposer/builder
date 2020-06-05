@@ -42,6 +42,19 @@ add('insights', () => {
       }
     }
 
+    static checkForEmptyContent () {
+      const elements = getStorage('elements').state('document').get() || []
+      if (!elements.length) {
+        // There are no elements on a page
+        insightsStorage.trigger('add', {
+          state: 'critical',
+          type: 'noElementsOnPage',
+          title: localizations.insightsNoContentOnPageTitle,
+          groupDescription: localizations.insightsNoContentOnPageDescription
+        })
+      }
+    }
+
     static checkForAlt () {
       const images = env('iframe').document.body.querySelectorAll('img')
       let allImagesHasAlt = true
@@ -218,5 +231,6 @@ add('insights', () => {
     InsightsChecks.checkForHeadings()
     InsightsChecks.checkForAlt()
     InsightsChecks.checkForImagesSize()
+    InsightsChecks.checkForEmptyContent()
   }, 5000))
 })
