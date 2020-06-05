@@ -3,6 +3,8 @@ import { debounce, memoize } from 'lodash'
 
 const insightsStorage = getStorage('insights')
 const historyStorage = getStorage('history')
+const settingsStorage = getStorage('settings')
+const workspaceStorage = getStorage('workspace')
 
 add('insights', () => {
   const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
@@ -222,7 +224,7 @@ add('insights', () => {
     }
   }
 
-  historyStorage.on('init add undo redo', debounce(() => {
+  const runChecksCallback = debounce(() => {
     // clear previous <Insights>
     insightsStorage.trigger('reset')
     isImagesSizeLarge = false
@@ -232,5 +234,12 @@ add('insights', () => {
     InsightsChecks.checkForAlt()
     InsightsChecks.checkForImagesSize()
     InsightsChecks.checkForEmptyContent()
-  }, 5000))
+  }, 5000)
+  historyStorage.on('init add undo redo', runChecksCallback)
+  settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
+  workspaceStorage.state('iframe').onChange(({ type }) => {
+    if (type === 'loaded') {
+      runChecksCallback()
+    }
+  })
 })

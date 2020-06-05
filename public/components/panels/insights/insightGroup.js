@@ -27,7 +27,7 @@ export default class InsightsGroup extends React.Component {
   }
 
   getInsightItems (items) {
-    return items.map((item) => {
+    return items.map((item, index) => {
       let goToButton = null
       if (item.elementID) {
         goToButton = (
@@ -41,7 +41,7 @@ export default class InsightsGroup extends React.Component {
       return (
         <div
           className='vcv-insight-item'
-          key={`insights-item-${item.type}`}
+          key={`insights-item-${item.type}-${index}`}
           onMouseOver={this.handleMouseEnter.bind(this, item.elementID)}
           onMouseLeave={this.handleMouseLeave}
         >

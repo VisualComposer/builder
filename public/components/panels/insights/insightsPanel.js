@@ -59,13 +59,13 @@ export default class InsightsPanel extends React.Component {
   }
 
   getInsightsHTML (insightData) {
-    return Object.keys(insightData).map((type) => {
+    return Object.keys(insightData).map((type, index) => {
       const insightGroup = insightData[type]
 
       if (this.state.activeSection === 'all' || this.state.activeSection === insightGroup.state) {
         return (
           <InsightGroup
-            key={`insight-group-${type}`}
+            key={`insight-group-${type}-${index}`}
             type={type}
             insightGroup={insightGroup}
           />
