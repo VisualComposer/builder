@@ -16,9 +16,9 @@ export default class InsightsGroup extends React.Component {
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
   }
 
-  handleMouseEnter (elementID) {
-    if (elementID) {
-      workspaceStorage.state('userInteractWith').set(elementID)
+  handleMouseEnter (domNode) {
+    if (domNode) {
+      workspaceStorage.state('userInteractWith').set(domNode)
     }
   }
 
@@ -42,7 +42,7 @@ export default class InsightsGroup extends React.Component {
         <div
           className='vcv-insight-item'
           key={`insights-item-${item.type}-${index}`}
-          onMouseOver={this.handleMouseEnter.bind(this, item.elementID)}
+          onMouseOver={this.handleMouseEnter.bind(this, item.domNode)}
           onMouseLeave={this.handleMouseLeave}
         >
           {item.thumbnail && (

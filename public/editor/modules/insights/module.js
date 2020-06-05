@@ -78,7 +78,8 @@ add('insights', () => {
             title: position !== 'Content' ? `${position}: ${altMissingTitle}` : altMissingTitle,
             groupDescription: description,
             description: 'Alt attribute is empty %s'.replace('%s', elementId ? `(${cookService.getById(elementId).getName()})` : '').trim(),
-            elementID: elementId
+            elementID: elementId,
+            domNode: image
           })
         }
       })
@@ -161,7 +162,8 @@ add('insights', () => {
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           groupDescription: description,
           description: 'Image size is' + ` ${imageSizeInMB.toFixed(2)} MB`,
-          elementID: elementId
+          elementID: elementId,
+          domNode: domNode
         })
       } else if (imageSizeBytes && imageSizeBytes >= 500 * 1024) {
         const imageSizeBigTitle = type === 'background' ? this.localizations.insightsBgImageSizeBigTitle : this.localizations.insightsImageSizeBigTitle
@@ -177,7 +179,8 @@ add('insights', () => {
           title: position !== 'Content' ? `${position}: ${imageSizeBigTitle}` : imageSizeBigTitle,
           groupDescription: description,
           description: 'Image size is' + ` ${parseInt(imageSizeBytes / 1024)} KB`,
-          elementID: elementId
+          elementID: elementId,
+          domNode: domNode
         })
       }
     }

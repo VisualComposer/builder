@@ -5,17 +5,17 @@
 .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight {
   background-color: #fff;
   background-image: none;
-  border-radius: 3px;
+  border-radius: 5px;
   color: #5c5b5b;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  font-style: italic;
   padding: 14px;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
   position: relative;
   transition: box-shadow @vcv-transition-duration @vcv-transition-timing-function;
+  -webkit-font-smoothing: antialiased;
 }
 
 .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight:hover {
@@ -24,7 +24,7 @@
 
 .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-title {
   font-size: 14px;
-  line-height: 16px;
+  line-height: 19px;
   letter-spacing: 0.3px;
   padding-left: 16px;
   position: relative;
@@ -37,6 +37,7 @@
   line-height: 20px;
   letter-spacing: 0.92px;
   padding: 8px 0 0 16px;
+  font-style: italic;
 }
 
 .vcv-insight-item-description {
@@ -73,12 +74,12 @@
   border: none;
   background-color: transparent;
   padding: 7px;
-  font-size: 16px;
+  font-size: 17px;
   color: #C6CBD4;
   transition: color @vcv-transition-duration @vcv-transition-timing-function;
 }
 
-.vcv-insight-go-to-action:hover:before {
+.vcv-insight-go-to-action:hover {
   color: #2039A0;
 }
 
