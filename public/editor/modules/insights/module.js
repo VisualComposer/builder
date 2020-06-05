@@ -230,23 +230,25 @@ add('insights', () => {
     }
   }
 
-  const insightsStorageInstance = new InsightsChecks()
-  const runChecksCallback = debounce(() => {
-    // clear previous <Insights>
-    insightsStorage.trigger('reset')
-    insightsStorageInstance.isImagesSizeLarge = false
+  if (env('VCV_FT_INSIGHTS')) {
+    const insightsStorageInstance = new InsightsChecks()
+    const runChecksCallback = debounce(() => {
+      // clear previous <Insights>
+      insightsStorage.trigger('reset')
+      insightsStorageInstance.isImagesSizeLarge = false
 
-    // Do all checks
-    insightsStorageInstance.checkForHeadings()
-    insightsStorageInstance.checkForAlt()
-    insightsStorageInstance.checkForImagesSize()
-    insightsStorageInstance.checkForEmptyContent()
-  }, 5000)
-  historyStorage.on('init add undo redo', runChecksCallback)
-  settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
-  workspaceStorage.state('iframe').onChange(({ type }) => {
-    if (type === 'loaded') {
-      runChecksCallback()
-    }
-  })
+      // Do all checks
+      insightsStorageInstance.checkForHeadings()
+      insightsStorageInstance.checkForAlt()
+      insightsStorageInstance.checkForImagesSize()
+      insightsStorageInstance.checkForEmptyContent()
+    }, 5000)
+    historyStorage.on('init add undo redo', runChecksCallback)
+    settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
+    workspaceStorage.state('iframe').onChange(({ type }) => {
+      if (type === 'loaded') {
+        runChecksCallback()
+      }
+    })
+  }
 })
