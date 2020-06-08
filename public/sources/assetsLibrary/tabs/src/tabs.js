@@ -254,6 +254,12 @@
 
       this.triggerEvent(settings.showTabSelector)
       this.getTargetTab().attr(this.activeAttribute, true)
+
+      if (window.dispatchEvent) {
+        window.setTimeout(() => {
+          window.dispatchEvent(new Event('resize'))
+        },1)
+      }
     }
 
     /**
@@ -424,6 +430,12 @@
 
         addResizeListener(resizeContainer, checkOnResize, resizeOptions)
       })
+
+      if (window.dispatchEvent) {
+        window.setTimeout(() => {
+          window.dispatchEvent(new Event('resize'))
+        },1)
+      }
     }
 
     function getActiveTab (element) {
