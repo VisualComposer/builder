@@ -1,4 +1,5 @@
 import React from 'react'
+import { env } from 'vc-cake'
 import Logo from './logo/logo'
 import PlusControl from './controls/plusControl'
 import PlusTeaserControl from './controls/plusTeaserControl'
@@ -7,6 +8,7 @@ import TreeViewControl from './controls/treeViewControl'
 import UndoRedoControl from './controls/undoRedoControl'
 import LayoutControl from './controls/layout/layoutControl'
 import SettingsButtonControl from './controls/settingsButtonControl'
+import InsightsButtonControl from './controls/insightsButtonControl'
 import WordPressAdminControl from './controls/wordpressAdminControl'
 import WordPressPostSaveControl from './controls/wordpressPostSaveControl'
 import NavbarSeparator from './controls/navbarSeparator'
@@ -27,6 +29,7 @@ export default class NavbarContainer extends React.Component {
           <AddTemplateControl />
           <TreeViewControl visibility='pinned' />
           <UndoRedoControl />
+          {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl /> : null}
           <LayoutControl visibility='pinned' />
           <SettingsButtonControl />
           <PlusTeaserControl />

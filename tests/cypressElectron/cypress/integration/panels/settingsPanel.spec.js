@@ -4,6 +4,7 @@ describe('Settings Panel', function () {
   it('Opens Settings panel, checks attributes and fields', function () {
     cy.fixture('../fixtures/settingsPanel.json').then((settings) => {
       cy.createPage()
+      cy.viewport(1200, 800)
       cy.addElement('Basic Button')
 
       cy.window().then((window) => {

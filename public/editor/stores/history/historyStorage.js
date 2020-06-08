@@ -1,9 +1,9 @@
 import { addStorage, getStorage, getService } from 'vc-cake'
 import TimeMachine from './lib/timeMachine'
+
 /**
  * History storage
  */
-
 addStorage('history', (storage) => {
   const elementsStorage = getStorage('elements')
   const workspaceStorage = getStorage('workspace')
