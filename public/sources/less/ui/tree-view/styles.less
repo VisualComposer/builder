@@ -282,6 +282,18 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  &:hover .vcv-ui-icon:before {
+    opacity: .5;
+  }
+
+  .vcv-ui-icon-lock-fill:before {
+    opacity: .5;
+  }
+
+  .vcv-ui-icon:before {
+    transition: opacity @transition-duration @transition-timing-function;
+  }
 }
 
 .vcv-ui-tree-layout-control {
@@ -289,7 +301,42 @@
     .vcv-ui-tree-layout-control-actions {
       opacity: 0;
     }
+    .vcv-ui-tree-layout-control-state {
+      opacity: 1;
+      z-index: auto;
+    }
   }
+}
+
+
+.vcv-ui-tree-layout-control-actions ~ .vcv-ui-tree-layout-control-state {
+  z-index: -999;
+  opacity: 0;
+  transition: opacity @transition-duration @transition-timing-function;
+}
+
+.vcv-ui-tree-layout-control-state {
+  position: absolute;
+  right: 0;
+  width: 40px;
+  height: 1em;
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+
+  > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+  }
+}
+
+.rtl .vcv-ui-tree-layout-control-state {
+  right: auto;
+  left: 0;
 }
 
 //== Drag handler
@@ -384,6 +431,16 @@
     .vcv-ui-tree-layout-control-dropdown-content .vcv-ui-tree-layout-control-action {
       opacity: 0.5;
     }
+  }
+}
+
+.vcv-ui-tree-layout-control-is-locked {
+  .vcv-ui-tree-layout-control-content {
+    opacity: 0.5;
+  }
+
+  .vcv-ui-tree-layout-control-dropdown-content .vcv-ui-tree-layout-control-action {
+    opacity: 0.5;
   }
 }
 
