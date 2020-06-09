@@ -64,6 +64,7 @@ addStorage('hubElements', (storage) => {
   storage.on('downloadElement', (element) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
     const { tag, name } = element
+    console.log('hubStorage downloadElement', { tag, name })
     let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     if (element.bundle) {
       bundle = element.bundle
@@ -90,21 +91,28 @@ addStorage('hubElements', (storage) => {
       const successCallback = (response) => {
         try {
           const jsonResponse = getResponse(response)
+          const downloadingItemsState = workspaceStorage.state('downloadingItems').get()
+          if (!downloadingItemsState.length) {
+            return
+          }
           if (jsonResponse && jsonResponse.status) {
-            notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
-              text: successMessage.replace('{name}', name),
-              time: 5000
-            })
             utils.buildVariables(jsonResponse.variables || [])
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
               jsonResponse.elements.forEach((element) => {
                 element.tag = element.tag.replace('element/', '')
                 const category = getCategory(element.tag, jsonResponse.categories)
                 storage.trigger('add', element, category, true)
+                // use tag and name from the actual downloaded element
+                const tag = element.tag
+                const name = element.settings.name
                 workspaceStorage.trigger('removeFromDownloading', tag)
+                notificationsStorage.trigger('add', {
+                  position: 'bottom',
+                  transparent: true,
+                  rounded: true,
+                  text: successMessage.replace('{name}', name),
+                  time: 5000
+                })
               })
             }
             if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
