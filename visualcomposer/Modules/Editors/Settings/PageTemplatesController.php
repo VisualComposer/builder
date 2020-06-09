@@ -30,6 +30,11 @@ class PageTemplatesController extends Container implements Module
             'viewPageTemplate',
             11
         );
+        $this->wpAddFilter(
+            'template_include',
+            'fallbackTemplate',
+            1000
+        );
     }
 
     protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)
@@ -162,5 +167,62 @@ class PageTemplatesController extends Container implements Module
         }
 
         return [$templateStretch, $customTemplate];
+    }
+
+    /**
+     * Prevents issues when themeEditor/themeBuilder addons are disabled
+     * Also, fixes issues when layout doesn't exists (removed)
+     *
+     * @param $template
+     *
+     * @return string
+     */
+    protected function fallbackTemplate($template)
+    {
+        if (empty($template) || !file_exists($template)) {
+            $templateGroups = [
+                'is_embed' => 'get_embed_template',
+                'is_404' => 'get_404_template',
+                'is_search' => 'get_search_template',
+                'is_front_page' => 'get_front_page_template',
+                'is_home' => 'get_home_template',
+                'is_privacy_policy' => 'get_privacy_policy_template',
+                'is_post_type_archive' => 'get_post_type_archive_template',
+                'is_tax' => 'get_taxonomy_template',
+                'is_attachment' => 'get_attachment_template',
+                'is_single' => 'get_single_template',
+                'is_page' => 'get_page_template',
+                'is_singular' => 'get_singular_template',
+                'is_category' => 'get_category_template',
+                'is_tag' => 'get_tag_template',
+                'is_author' => 'get_author_template',
+                'is_date' => 'get_date_template',
+                'is_archive' => 'get_archive_template',
+            ];
+            $template = false;
+
+            // Loop through each of the template conditionals, and find the appropriate template file.
+            foreach ($templateGroups as $tag => $templateCallback) {
+                if (call_user_func($tag)) {
+                    $template = call_user_func($templateCallback);
+                }
+
+                if ($template) {
+                    if ($tag === 'is_attachment') {
+                        remove_filter('the_content', 'prepend_attachment');
+                    }
+
+                    break;
+                }
+            }
+
+            if (!$template) {
+                $template = get_index_template();
+            }
+
+            return $template;
+        }
+
+        return $template;
     }
 }
