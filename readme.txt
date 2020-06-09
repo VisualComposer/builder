@@ -1,33 +1,37 @@
 === Visual Composer Website Builder ===
 Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cagdasdag,alperbulut,cozmoslabs
-Tags: Visual Composer, drag and drop, visual editor, visual builder, landing page, page builder, website builder, site-builder, front-end builder
+Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website builder, site-builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.4.1
-Stable tag: 27.1
+Stable tag: 28
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 
-The best drag & drop website builder for WordPress. Get 350+ ready-made elements, templates, and add-ons – all you need to create a beautiful site.
+All-in-one page builder for WordPress comes with 350+ elements, templates, and design options: All you need to create a business website for free!
 
 == Description ==
 
-**Brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Get the best page builder for your website.
+**Visual Composer Website Builder** is an intuitive **drag and drop editor** that gives you powerful tools and assets to create a responsive WordPress website. No coding required.
 
-Visual Composer Website Builder is an intuitive drag and drop editor that gives you powerful tools and assets to create a professional WordPress site. Rich library of assets - [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) offers 350+ Templates, Elements, Add-ons accompany with a **Theme Builder** and extensive **Design Options**.
+**It's brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Instead you get fast, powerful and easy-to-use website builder that gives you tools to create any kind of website.
+
+Create pixel-perfect websites easily with a help of [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme): A rich library of **350+ Elements**, **Templates**, **Integrations**, and extensive **Design Options**.
 
 https://www.youtube.com/watch?v=SJMIvMXyPHs
 
+Discover Visual Composer [free website builder for WordPress](https://visualcomposer.com/download/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme), backed by the latest technology (*ReactJS*) and an experienced team of developers.
+
 **TRUE DRAG & DROP WEBSITE BUILDER**
 
-With a drag and drop editor, you can build new layouts or customize existing ones. There is no limit to the variety of layouts, you have complete freedom in creating the most complex website designs.
+With a drag and drop editor, you can build new layouts or customize existing ones. There is no limit to the variety of layouts. You have complete freedom in creating the most complex website designs.
 
-**No Coding Skills Required**: You do not have to be a professional website developer to make your website. The website builder is designed for you to create web pages without any coding skills. Simply select the page template and drag elements across the canvas.
+**No Coding Skills Required**: You don't have to be a professional website developer to make a beautiful site. Visual Composer is designed for you to be able to create landing pages without any coding skills. Simply select a ready-made page template and drag elements across the canvas.
 
-**Instant Content Update**: The live design and inline editing allow you to instantly see all the changes you make to your page. A true *What You See Is What You Get* experience! You can play with the page design until you find the perfect one. Change colors, customize options and parameters, and see the result instantly.
+**Instant Content Update**: The live design and inline editing allow you to instantly see all the changes you make to your page. A true *What You See Is What You Get* experience! You can play with the page design until you find the perfect one. Change colors, customize options, and see the result instantly.
 
-**Works With Any WordPress Theme**: Visual Composer works with any WordPress theme. You can change the themes to your liking, it will not affect your content. What's more, the built-in [Theme Builder](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) allows you to override your theme's default settings.
+**Works With Any WordPress Theme**: Visual Composer works with any WordPress theme. You can change the themes to your liking, it will not affect your content. What's more, the built-in [Theme Builder](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) gives you total freedom to override your theme's default settings.
 
 **VISUAL COMPOSER HUB: 350+ TEMPLATES, ELEMENTS & ADD-ONS**
 
@@ -51,11 +55,13 @@ Discover what's inside the [Visual Composer Hub](https://visualcomposer.com/feat
 
 **WORDPRESS THEME BUILDER**
 
-Visual Composer is an all-in-one plugin that lets you make beautiful websites from header to footer. You can create custom page layouts in a code-free way. [Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) to use them throughout your entire WordPress site with the help of Global templates. Additionally, there's a Dynamic Content feature that allows you to design templates with dynamic content placeholders (*devs will love it*).
+Visual Composer is an all-in-one plugin that lets you make beautiful websites from header to footer. You can create custom page layouts in a code-free way.
+
+[Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) to use them throughout your entire WordPress site with the help of **Global Templates**. Additionally, there's a **Dynamic Content** feature that allows you to design templates with dynamic content placeholders (*devs will love it*).
 
 **POPUP BUILDER FOR WORDPRESS**
 
-Web agencies and marketers will appreciate our built-in [Visual Composer Popup Builder](https://visualcomposer.com/features/popup-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme). Creating beautiful and appealing popups is quick and easy. It takes place in the usual drag and drop manner, using all the elements, integration and design options available in the Visual Composer Hub. Use Visual Composer Popup Builder and save hundreds or even thousands on this effective marketing tool.
+Build unlimited popups and save hundreds or even thousands on this effective marketing tool. Built-in [Visual Composer Popup Builder](https://visualcomposer.com/features/popup-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme). lets you create beautiful and appealing popups fast and easy. It takes place in the usual drag and drop manner, using all the elements, integrations and design options available in the Visual Composer Hub.
 
 **MOBILE-FRIENDLY**
 
@@ -108,27 +114,30 @@ Visual Composer team provides one-on-one email support that is available to Visu
 
 **>> Discover All The Benefits of [Visual Composer Website Builder](https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)**
 
-
 == Installation ==
 
-Visual Composer can be installed like any other regular WordPress plugin either by uploading the zip file or install it straight from the plugin repository inside the WordPress admin. Once installed, click 'Activate Plugin' to finish the installation.
+Visual Composer can be installed like any other regular WordPress plugin either by uploading a *.zip* file or install it straight from the plugin repository inside the WordPress admin.
 
-You can now use Visual Composer Website Builder on your site:
+Once installed, click 'Activate Plugin' to finish the installation.
+
+**You can now use Visual Composer Website Builder on your site:**
+
 * Go to Pages or Posts
-* Choose 'Add New with Visual Composer'
+* Choose Add New with Visual Composer
 
-To receive additional elements, templates, and extensions it is recommended to activate **Visual Composer Hub**. A cloud marketplace for downloading additional elements, templates, and extensions.
+To receive additional elements, templates, and extensions it is recommended to **activate Visual Composer Hub**. It's cloud marketplace (*free and premium*) for downloading additional elements, templates, and extensions.
 
 **Visual Composer Hub Activation**
 
-After plugin installation, open your WordPress admin panel and do the following:
+Once you have installed and activated the Visual Composer plugin, do the following:
 
-* Open your WordPress admin panel;
-* Hover over Visual Composer in the left side menu and choose Getting Started;
-* Select Create New Page;
-* Open the Visual Composer Hub;
-* Click on the Get Started button at the top;
-* Select Activate Free;
+* Open your WordPress admin panel
+* Hover over Visual Composer in the left side menu and choose **Getting Started**
+* To activate free license, click in **Activate Free**
+* Provide your email address and click on **Get License**
+* Copy your unique license key and head back to your WordPress admin panel
+* Enter your license key and click **Activate**
+* Select **Create New Page** and you are all set to start building your website
 
 More information and tutorial videos on [how to activate Visual Composer Hub](https://visualcomposer.com/help/visual-composer-hub/free-activation/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme).
 
@@ -178,6 +187,31 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 28.0 =
+*Release Date - 2020-06-10*
+
+#### Free:
+- New: Visual Composer Dashboard added under the WordPress Admin Dashboard
+- Update: Visual Composer navigation bar design changed
+- Update: Link to My Visual Composer Licenses section added for activation
+- Update: Editor notification display duration increased for better UX
+- Fix: ContentURL works properly
+- Fix: Instagram image element does not update on every change
+- Fix: Localizations work properly
+- Fix: Backslash is not removed in Custom JS
+- Fix: Templates with multiple images work properly
+- Fix: Deleting templates work properly
+
+#### Premium:
+- New: Popup settings for display frequency added
+- Fix: Simple Contact Form element works properly in the page footer
+- Fix: Gutenberg element does display block sidebar
+- Fix: wp_print_scripts and Header, Footer, Sidebar editor does not conflict
+- Fix: Video Player element works properly on iOS
+- Fix: Custom post type limits work properly in Post Grid elements
+- Fix: Tabs with Slide works properly on replacement
+- Fix: tabs with Slide works properly with full width rows
 
 = 27.1 =
 *Release Date - 2020-05-13*
