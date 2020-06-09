@@ -102,9 +102,8 @@ addStorage('hubElements', (storage) => {
                 const category = getCategory(element.tag, jsonResponse.categories)
                 storage.trigger('add', element, category, true)
                 // use tag and name from the actual downloaded element
-                const tag = element.tag
                 const name = element.settings.name
-                workspaceStorage.trigger('removeFromDownloading', tag)
+                workspaceStorage.trigger('removeFromDownloading', element.tag)
                 notificationsStorage.trigger('add', {
                   position: 'bottom',
                   transparent: true,
