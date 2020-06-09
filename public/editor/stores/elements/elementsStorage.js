@@ -80,7 +80,6 @@ addStorage('elements', (storage) => {
       documentManager.appendTo(child.id, cookElement.get('id'))
     })
   }
-
   storage.on('add', (elementData, wrap = true, options = {}) => {
     const createdElements = []
     const cookElement = cook.get(elementData)
