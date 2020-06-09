@@ -282,7 +282,7 @@ export default class HubContainer extends AddElementCategories {
     const goPremiumText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
     const unlockHubText = HubContainer.localizations ? HubContainer.localizations.unlockHub : 'Unlock Visual Composer Hub'
     const buttonText = window.vcvIsFreeActivated ? goPremiumText : unlockHubText
-    const buttonLink = window.vcvIsFreeActivated ? window.vcvGoPremiumUrl + '&vcv-ref=hub-banner' : window.vcvUpgradeUrl + '&screen=license-options'
+    const buttonLink = window.vcvIsFreeActivated ? window.vcvGoPremiumUrl : window.vcvUpgradeUrl + '&screen=license-options'
 
     return (
       <div className='vcv-hub-banner'>
