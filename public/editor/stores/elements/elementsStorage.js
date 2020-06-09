@@ -75,7 +75,11 @@ addStorage('elements', (storage) => {
     }
     return rootId
   }
-
+  const appendChildren = (children, cookElement) => {
+    children.forEach(child => {
+      documentManager.appendTo(child.id, cookElement.get('id'))
+    })
+  }
   storage.on('add', (elementData, wrap = true, options = {}) => {
     const createdElements = []
     const cookElement = cook.get(elementData)
@@ -352,11 +356,11 @@ addStorage('elements', (storage) => {
           })
           storage.trigger('replace', childId, replaceElementMergeData)
         })
+      } else if (children) {
+        appendChildren(children, cookElement)
       }
     } else if (children) {
-      children.forEach(child => {
-        documentManager.appendTo(child.id, cookElement.get('id'))
-      })
+      appendChildren(children, cookElement)
     }
 
     documentManager.delete(id)
