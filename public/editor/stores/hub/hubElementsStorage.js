@@ -63,7 +63,7 @@ addStorage('hubElements', (storage) => {
 
   storage.on('downloadElement', (element) => {
     const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
-    const { tag, name } = element
+    const { tag } = element
     let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     if (element.bundle) {
       bundle = element.bundle
