@@ -61,6 +61,12 @@ import './lightbox.css';
   // that contain 'lightbox'. When these are clicked, start lightbox.
   Lightbox.prototype.enable = function () {
     var self = this;
+    window.jQuery('body').on('mousedown', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function (event) {
+      event.currentTarget.addEventListener('click', function (e) {
+        e.preventDefault()
+        return false
+      })
+    })
     window.jQuery('body').on('click', 'a[rel^=lightbox], area[rel^=lightbox], a[data-lightbox], area[data-lightbox]', function (event) {
       self.start(window.jQuery(event.currentTarget));
       return false;
