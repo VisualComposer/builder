@@ -288,7 +288,7 @@ export default class HubContainer extends AddElementCategories {
         <div className='vcv-hub-banner-content'>
           <p className='vcv-hub-banner-title'>{titleText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-          <span className='vcv-hub-banner-button' data-href={window.vcvUpgradeUrl} onClick={HubContainer.handleClickGoPremium}>
+          <span className='vcv-hub-banner-button' data-href={window.vcvGoPremiumUrl} onClick={HubContainer.handleClickGoPremium}>
             {buttonText}
           </span>
         </div>
