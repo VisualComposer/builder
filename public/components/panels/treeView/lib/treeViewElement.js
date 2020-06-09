@@ -10,6 +10,7 @@ const documentManger = getService('document')
 const utils = getService('utils')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
+const documentManager = getService('document')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -64,6 +65,7 @@ export default class TreeViewElement extends React.Component {
     this.checkTarget = this.checkTarget.bind(this)
     this.handleSandwichMouseEnter = this.handleSandwichMouseEnter.bind(this)
     this.handleSandwichMouseLeave = this.handleSandwichMouseLeave.bind(this)
+    this.handleClickLock = this.handleClickLock.bind(this)
   }
 
   dataUpdate (data, newProps = false) {
@@ -180,6 +182,16 @@ export default class TreeViewElement extends React.Component {
 
   handleClickHide () {
     workspaceStorage.trigger('hide', this.state.element.id)
+  }
+
+  handleClickLock () {
+    const options = {}
+    const cookElement = cook.getById(this.state.element.id)
+    if (cookElement.containerFor().length > 0) {
+      options.lockInnerElements = true
+      options.action = !documentManager.get(this.state.element.id).metaIsElementLocked ? 'lock' : 'unlock'
+    }
+    workspaceStorage.trigger('lock', this.state.element.id, options)
   }
 
   getContent (children) {
@@ -571,37 +583,55 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    const lockIcon = !isElementLocked ? null : (
-      <span className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-control--lock' title={lockedElementText}>
+    let lockControl = null
+    const vcvIsUserAdmin = window.vcvManageOptions
+    const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
+    const isLocked = cookElement.get('metaIsElementLocked') && env('VCV_ADDON_ROLE_MANAGER_ENABLED')
+
+    const lockIcon = !isLocked ? null : (
+      <span className='vcv-ui-tree-layout-control-state vcv-ui-tree-layout-control--lock' title={lockedElementText}>
         <i className='vcv-ui-icon vcv-ui-icon-lock-fill' />
       </span>
     )
 
+    if (!this.props.isAttribute && env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin && isGeneral) {
+      const lockElementClasses = classNames({
+        'vcv-ui-icon': true,
+        'vcv-ui-icon-lock-fill': isLocked,
+        'vcv-ui-icon-unlock-fill': !isLocked
+      })
+      const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
+      lockControl = (
+        <span className='vcv-ui-tree-layout-control-action' title={lockElementText} onClick={this.handleClickLock}>
+          <i className={lockElementClasses} />
+        </span>
+      )
+    }
+
     const baseControlsItems = isElementLocked ? null : (
-      <>
-        <div className='vcv-ui-tree-layout-control-actions'>
-          <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
-            <i className='vcv-ui-icon vcv-ui-icon-edit' />
-          </span>
-          <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
-            <i className='vcv-ui-icon vcv-ui-icon-trash' />
-          </span>
-          <span
-            className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
-            onMouseEnter={this.handleSandwichMouseEnter}
-            onMouseLeave={this.handleSandwichMouseLeave}
-          >
-            <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
-          </span>
-        </div>
-      </>
+      <div className='vcv-ui-tree-layout-control-actions'>
+        {lockControl}
+        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
+          <i className='vcv-ui-icon vcv-ui-icon-edit' />
+        </span>
+        <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
+          <i className='vcv-ui-icon vcv-ui-icon-trash' />
+        </span>
+        <span
+          className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
+          onMouseEnter={this.handleSandwichMouseEnter}
+          onMouseLeave={this.handleSandwichMouseLeave}
+        >
+          <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
+        </span>
+      </div>
     )
 
     const baseControls = (
-      <div className='vcv-ui-tree-layout-control-actions'>
+      <>
         {baseControlsItems}
         {lockIcon}
-      </div>
+      </>
     )
 
     const sandwichControls = (
@@ -633,7 +663,8 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-control': true,
       'vcv-ui-state--active': this.state.isActive,
       'vcv-ui-state--outline': this.state.showOutline,
-      'vcv-ui-tree-layout-control-mobile': this.isMobile
+      'vcv-ui-tree-layout-control-mobile': this.isMobile,
+      'vcv-ui-tree-layout-control-is-locked': isElementLocked
     })
 
     const publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
