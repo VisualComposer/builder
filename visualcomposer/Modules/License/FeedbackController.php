@@ -47,19 +47,28 @@ class FeedbackController extends Container implements Module
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\License $licenseHelper
      *
      * @return array
      */
-    protected function submitForm($response, Request $requestHelper, Url $urlHelper, Options $optionsHelper)
-    {
+    protected function submitForm(
+        $response,
+        Request $requestHelper,
+        Url $urlHelper,
+        Options $optionsHelper,
+        License $licenseHelper
+    ) {
         $optionsHelper->set('feedback-sent', time());
 
         $goodOrBad = (int)$requestHelper->input('vcv-feedback');
+        $licenseType = $licenseHelper->getType();
+
         $url = $urlHelper->query(
             vcvenv('VCV_HUB_URL'),
             [
                 'vcv-send-feedback' => 'sendFeedback',
                 'vcv-value' => $goodOrBad,
+                'vcv-license-type' => $licenseType,
             ]
         );
 
