@@ -148,5 +148,5 @@ if (!VcvEnv::has('VCV_FT_DASHBOARD_HUB')) {
 }
 
 if (!VcvEnv::has('VCV_FT_INSIGHTS')) {
-    VcvEnv::set('VCV_FT_INSIGHTS', true);
+    VcvEnv::set('VCV_FT_INSIGHTS', false);
 }
