@@ -3,6 +3,7 @@ import { getStorage } from 'vc-cake'
 import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
 import InsightGroup from './insightGroup'
+import vcLogo from 'public/sources/images/brandLogo/vcLogo.raw'
 
 const insightsStorage = getStorage('insights')
 const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -59,7 +60,7 @@ export default class InsightsPanel extends React.Component {
   }
 
   getInsightsHTML (insightData) {
-    return Object.keys(insightData).map((type, index) => {
+    let insightsHTML = Object.keys(insightData).map((type, index) => {
       const insightGroup = insightData[type]
 
       if (this.state.activeSection === 'all' || this.state.activeSection === insightGroup.state) {
@@ -72,12 +73,41 @@ export default class InsightsPanel extends React.Component {
         )
       }
     })
+
+    if (!insightsHTML.length) {
+      insightsHTML = <span className='vcv-ui-insights-spinner vcv-vcv-ui-icon vcv-ui-wp-spinner' />
+    } else if (insightsHTML.indexOf(undefined) > -1) {
+      const insightsNoIssuesFoundTitle = localizations.insightsNoIssuesFoundTitle ? localizations.insightsNoIssuesFoundTitle : 'No Critical Issues Found'
+      const insightsNoIssuesFoundDescription = localizations.insightsNoIssuesFoundDescription ? localizations.insightsNoIssuesFoundDescription : 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!'
+      insightsHTML = (
+        <div className='vcv-insight-no-issues'>
+          <span
+            className=''
+            dangerouslySetInnerHTML={{ __html: vcLogo }}
+          />
+          <h2 className='vcv-no-issues-heading'>{insightsNoIssuesFoundTitle}</h2>
+          <span className='vcv-insight-description'>{insightsNoIssuesFoundDescription}</span>
+        </div>
+      )
+    }
+
+    return insightsHTML
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
-    const insightsHTML = this.getInsightsHTML(this.state.insightData)
+    let insightsHTML = this.getInsightsHTML(this.state.insightData)
+
+    let insightsControls = Object.assign({}, controls)
+    let successNotifications = false
+    Object.keys(this.state.insightData).forEach((item) => {
+      if (this.state.insightData[item].state === 'success') {
+        successNotifications = true
+      }
+    })
+    if (!successNotifications) {
+      delete insightsControls.success
+    }
 
     return (
       <div className='vcv-ui-tree-view-content'>
@@ -87,7 +117,7 @@ export default class InsightsPanel extends React.Component {
             {VCInsights}
           </span>
         </div>
-        <PanelNavigation controls={controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
+        <PanelNavigation controls={insightsControls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <Scrollbar>
           <div className='vcv-ui-tree-content-section'>
             <div className='vcv-insights vcv-ui-tree-content-section-inner'>

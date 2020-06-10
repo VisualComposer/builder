@@ -876,6 +876,14 @@ class Localizations extends Container implements Helper
                 'It seems your page has no content. Make sure to add elements or templates.',
                 'visualcomposer'
             ),
+            'insightsNoIssuesFoundTitle' => __(
+                'No Critical Issues Found',
+                'visualcomposer'
+            ),
+            'insightsNoIssuesFoundDescription' => __(
+                'You don\'t have any critical issues on your page. Congratulations and keep up the good work!',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
