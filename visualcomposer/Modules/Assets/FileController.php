@@ -100,6 +100,16 @@ class FileController extends Container implements Module
 
         $sourceChecksum = wp_hash($sourceCssContent);
         $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+        $originalPostID = get_post_meta($sourceId, '_dp_original', true); // For compatibility with duplicate post plugin
+        if (!empty($originalPostID)) {
+            $originalPostChecksum = get_post_meta($originalPostID, '_' . VCV_PREFIX . 'sourceChecksum', true);
+            if ($originalPostChecksum === $oldSourceChecksum) { // Detect the post just duplicated, not edited yet
+                $sourceChecksum = $sourceChecksum . uniqid($originalPostID);
+            } else {
+                $sourceChecksum = $oldSourceChecksum;
+            }
+        }
+
         $sourceCssName = $sourceChecksum . '.source.css';
 
         $bundleUrl = $assetsHelper->updateBundleFile(
@@ -107,10 +117,13 @@ class FileController extends Container implements Module
             $sourceCssName
         );
 
+
         if ($sourceChecksum !== $oldSourceChecksum) {
             $sourcePath = $assetsHelper->getFilePath($sourceCssName);
             if ($fileHelper->isFile($sourcePath)) {
-                $this->call('deleteSourceAssetsFile', [$sourceId]);
+                if (!(isset($originalPostChecksum) && $originalPostChecksum === $oldSourceChecksum)) {
+                    $this->call('deleteSourceAssetsFile', [$sourceId]);
+                }
                 update_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', $sourceChecksum);
                 update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
                 update_post_meta($sourceId, '_' . VCV_PREFIX . 'globalCssMigrated', 1);
