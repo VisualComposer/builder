@@ -71,7 +71,8 @@ class Settings extends Container implements Module
     {
         $page = [
             'slug' => $this->slug,
-            'title' => __('Settings', 'visualcomposer'),
+            'title' => __('Dashboard', 'visualcomposer'),
+            'innerTitle' => __('Settings', 'visualcomposer'),
             'subTitle' => __('General', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'edit_pages',
