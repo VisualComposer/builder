@@ -19,7 +19,7 @@ $activeTabData = $tabsHelper->get($activeTab);
 $parentSlug = $activeTabData['parent'] === false ? $activeTab : $activeTabData['parent'];
 
 // Make hub first item
-if (vcvenv('VCV_FT_DASHBOARD_HUB')) {
+if (vcvenv('VCV_FT_DASHBOARD_HUB') && isset($allTabs['vcv-hub'])) {
     $hubArray = [
         'vcv-hub' => $allTabs['vcv-hub'],
     ];
