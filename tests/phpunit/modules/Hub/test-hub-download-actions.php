@@ -133,7 +133,7 @@ class HubDownloadActions extends WP_UnitTestCase
         $this->assertEquals(
             [
                 'predefined' => [
-                    'name' => 'Content Templates',
+                    'name' => 'Hub Templates',
                     'type' => 'predefined',
                     'templates' => [
                         [
@@ -148,15 +148,7 @@ class HubDownloadActions extends WP_UnitTestCase
                             'description' => 'An ideal one-page layout for your wedding or other events, including meetups and networking parties.',
                         ],
                     ],
-                ],
-                'hub' => [
-                    'templates' => [
-                    ],
-                ],
-                'custom' => [
-                    'templates' => [
-                    ],
-                ],
+                ]
             ],
 
             $templates
