@@ -129,8 +129,11 @@ addStorage('wordpressData', (storage) => {
       if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsFooter')) {
         settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
       }
-      if (responseData.templates) {
+      if (responseData.templates && !Array.isArray(responseData.templates)) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
+      }
+      if (responseData.templatesGroupsSorted) {
+        hubTemplatesStorage.state('templatesGroupsSorted').set(responseData.templatesGroupsSorted)
       }
       if (responseData.popups) {
         popupStorage.state('popups').set(responseData.popups)

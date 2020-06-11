@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Hub\Templates;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -36,7 +37,8 @@ class TemplatesUpdater extends Container implements Module
         $payload,
         File $fileHelper,
         Templates $hubTemplatesHelper,
-        WpMedia $wpMediaHelper
+        WpMedia $wpMediaHelper,
+        EditorTemplates $editorTemplatesHelper
     ) {
         $bundleJson = isset($payload['archive']) ? $payload['archive'] : false;
         if (vcIsBadResponse($response) || !$bundleJson || is_wp_error($bundleJson)) {
@@ -168,6 +170,10 @@ class TemplatesUpdater extends Container implements Module
             'data' => $templateElements,
             'thumbnail' => $template['thumbnail'],
             'preview' => $template['preview'],
+            'type' => $type,
+        ];
+        $response['templateGroup'] = [
+            'name' => $editorTemplatesHelper->getGroupName($type),
             'type' => $type,
         ];
 
