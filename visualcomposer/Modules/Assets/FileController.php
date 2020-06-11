@@ -100,15 +100,6 @@ class FileController extends Container implements Module
 
         $sourceChecksum = wp_hash($sourceCssContent);
         $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
-        $originalPostID = get_post_meta($sourceId, '_dp_original', true); // For compatibility with duplicate post plugin
-        if (!empty($originalPostID)) {
-            $originalPostChecksum = get_post_meta($originalPostID, '_' . VCV_PREFIX . 'sourceChecksum', true);
-            if ($originalPostChecksum === $oldSourceChecksum) { // Detect the post just duplicated, not edited yet
-                $sourceChecksum = $sourceChecksum . uniqid($originalPostID);
-            } else {
-                $sourceChecksum = $oldSourceChecksum;
-            }
-        }
 
         $sourceCssName = $sourceChecksum . '.source.css';
 
@@ -120,9 +111,7 @@ class FileController extends Container implements Module
         if ($sourceChecksum !== $oldSourceChecksum) {
             $sourcePath = $assetsHelper->getFilePath($sourceCssName);
             if ($fileHelper->isFile($sourcePath)) {
-                if (!(isset($originalPostChecksum) && $originalPostChecksum === $oldSourceChecksum)) {
-                    $this->call('deleteSourceAssetsFile', [$sourceId]);
-                }
+                $this->call('deleteSourceAssetsFile', [$sourceId]);
                 update_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', $sourceChecksum);
                 update_post_meta($sourceId, 'vcvSourceCssFileUrl', $bundleUrl);
                 update_post_meta($sourceId, '_' . VCV_PREFIX . 'globalCssMigrated', 1);
@@ -176,8 +165,25 @@ class FileController extends Container implements Module
         $assetsHelper->deleteAssetsBundles($extension);
 
         $sourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
-        $extension = $sourceChecksum . '.source.css';
-        $assetsHelper->deleteAssetsBundles($extension);
+        $checksumArgs = [
+            'meta_key' => '_' . VCV_PREFIX . 'sourceChecksum',
+            'meta_value' => $sourceChecksum,
+            'post_type' => 'any',
+            'post_status' => 'any',
+        ];
+        $checksumQuery = new WP_Query($checksumArgs);
+        //@codingStandardsIgnoreLine
+        $postCount = $checksumQuery->post_count;
+        if ($postCount === 1) { // Do not remove if this post is not match with deleting id
+            $post = $checksumQuery->post; // Fetch the post that is using that checksum
+            $postID = $post->ID;
+            if ($postID !== $sourceId) {
+                return true;
+            }
+        } elseif ($postCount < 1) {
+            $extension = $sourceChecksum . '.source.css';
+            $assetsHelper->deleteAssetsBundles($extension);
+        }
 
         return true;
     }
