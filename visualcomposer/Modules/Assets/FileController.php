@@ -117,7 +117,6 @@ class FileController extends Container implements Module
             $sourceCssName
         );
 
-
         if ($sourceChecksum !== $oldSourceChecksum) {
             $sourcePath = $assetsHelper->getFilePath($sourceCssName);
             if ($fileHelper->isFile($sourcePath)) {
