@@ -179,6 +179,9 @@ class FileController extends Container implements Module
             $postID = $post->ID;
             if ($postID !== $sourceId) {
                 return true;
+            } else {
+                $extension = $sourceChecksum . '.source.css';
+                $assetsHelper->deleteAssetsBundles($extension);
             }
         } elseif ($postCount < 1) {
             $extension = $sourceChecksum . '.source.css';
