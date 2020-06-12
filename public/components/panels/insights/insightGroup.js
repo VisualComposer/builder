@@ -58,8 +58,11 @@ export default class InsightsGroup extends React.Component {
   handleGoToElement (elementID) {
     const iframe = env('iframe')
     const editorEl = iframe.document.querySelector(`#el-${elementID}`)
-    iframe.scrollTo({ top: editorEl.offsetTop, behavior: 'smooth' })
     workspaceStorage.trigger('edit', elementID, '')
+    const scrollTimeout = setTimeout(() => {
+      editorEl.scrollIntoView({ behavior: 'smooth' })
+      clearTimeout(scrollTimeout)
+    }, 150)
   }
 
   handleToggleExpand () {
