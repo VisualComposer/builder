@@ -74,69 +74,29 @@ export default class AddTemplatePanel extends React.Component {
   setCategoryArray (data) {
     this.templatesCategories = [
       {
-        title: 'All',
         index: 0,
+        title: AddTemplatePanel.localizations.all,
         id: 'all',
         visible: true,
-        templates: data.getAllTemplates
-      },
-      {
-        title: 'My Templates',
-        index: 1,
-        id: 'myTemplates',
-        visible: data.all ? data.all.length : false,
-        templates: data.all
-      },
-      {
-        title: 'Content Templates',
-        index: 2,
-        id: 'hubAndPredefined',
-        visible: data.hubAndPredefined ? data.hubAndPredefined.length : false,
-        templates: data.hubAndPredefined
-      },
-      {
-        title: 'Block Templates',
-        index: 3,
-        id: 'block',
-        visible: data.block ? data.block.length : false,
-        templates: data.block
-      },
-      {
-        title: 'Header Templates',
-        index: 4,
-        id: 'hubHeader',
-        visible: data.hubHeader ? data.hubHeader.length : false,
-        templates: data.hubHeader
-      },
-      {
-        title: 'Footer Templates',
-        index: 5,
-        id: 'hubFooter',
-        visible: data.hubFooter ? data.hubFooter.length : false,
-        templates: data.hubFooter
-      },
-      {
-        title: 'Sidebar Templates',
-        index: 6,
-        id: 'hubSidebar',
-        visible: data.hubSidebar ? data.hubSidebar.length : false,
-        templates: data.hubSidebar
-      },
-      {
-        title: 'Download More Templates',
-        index: 7,
-        id: 'downloadMoreTemplates',
-        visible: false,
-        templates: null
-      },
-      {
-        title: 'Popup Templates',
-        index: 8,
-        id: 'popup',
-        visible: data.popup ? data.popup.length : false,
-        templates: data.popup
+        templates: myTemplatesService.getAllTemplates(null, null, data)
       }
     ]
+
+    const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
+    sortedGroups.forEach((group, index) => {
+      if (!data[group] || !data[group].templates || !data[group].templates.length) {
+        return
+      }
+      const groupData = {
+        index: index + 1,
+        id: group,
+        title: data[group].name,
+        visible: data[group] && data[group].templates && data[group].templates.length,
+        templates: data[group] && data[group].templates ? data[group].templates : []
+      }
+      this.templatesCategories.push(groupData)
+      delete data[group]
+    })
   }
 
   handleTemplateStorageStateChange () {
