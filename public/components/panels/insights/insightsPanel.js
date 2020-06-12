@@ -101,23 +101,24 @@ export default class InsightsPanel extends React.Component {
   }
 
   getCurrentControls (insightData) {
-    let insightsControls = Object.assign({}, controls)
+    const insightsControls = Object.assign({}, controls)
     let successNotifications = false
-    insightData = Object.keys(insightData).length ? insightData : this.state.insightData
-    Object.keys(insightData).forEach((item) => {
-      if (insightData[item].state === 'success') {
-        successNotifications = true
+    if (Object.keys(insightData).length) {
+      Object.keys(insightData).forEach((item) => {
+        if (insightData[item].state === 'success') {
+          successNotifications = true
+        }
+      })
+      if (!successNotifications) {
+        delete insightsControls.success
       }
-    })
-    if (!successNotifications) {
-      delete insightsControls.success
     }
     return insightsControls
   }
 
   render () {
     const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
-    let insightsHTML = this.getInsightsHTML(this.state.insightData)
+    const insightsHTML = this.getInsightsHTML(this.state.insightData)
 
     return (
       <div className='vcv-ui-tree-view-content'>
