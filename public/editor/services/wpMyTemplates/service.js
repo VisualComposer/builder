@@ -12,7 +12,6 @@ const processRequest = (action, key, data, successCallback, errorCallback) => {
   return ajax({
     'vcv-action': `editorTemplates:${action}:adminNonce`,
     'vcv-nonce': window.vcvNonce,
-    'vcv-template-type': (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE()) || 'default',
     [key]: data
   }, (result) => {
     const response = getResponse(result.response)
@@ -44,8 +43,8 @@ addService('myTemplates', {
           } else {
             const id = response.postData.id
             const templateData = { id: id.toString(), name: name, data: data, html: html }
-            const type = templateTypeId === 'template' ? 'custom' : templateTypeId
-            getStorage('hubTemplates').trigger('add', type, templateData)
+            const templateGroup = response.templateGroup
+            getStorage('hubTemplates').trigger('add', templateGroup.type, templateData, templateGroup)
             successCallback && typeof successCallback === 'function' && successCallback()
           }
         } catch (e) {
@@ -69,11 +68,7 @@ addService('myTemplates', {
     const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
     currentLayout[id].parent = false
     if (getType.call(name) === '[object String]' && name.length) {
-      let templateType = 'template'
-      if (editorType === 'popup' && currentLayout[id].tag === 'popupRoot') {
-        templateType = 'popup'
-      }
-      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true, templateType)
+      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true, 'template')
     }
     return false
   },
@@ -84,7 +79,7 @@ addService('myTemplates', {
     const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
     const currentLayoutHtml = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
     if (getType.call(name) === '[object String]' && name.length) {
-      const templateType = editorType === 'popup' ? 'popup' : 'template'
+      const templateType = 'template'
       return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, false, templateType)
     }
     return false
@@ -215,9 +210,6 @@ addService('myTemplates', {
     const allTemplatesGroups = data || getStorage('hubTemplates').state('templates').get()
     let allTemplates = []
     for (const key in allTemplatesGroups) {
-      if (editorType !== 'popup' && key === 'popup') {
-        continue
-      }
       allTemplates = allTemplates.concat(allTemplatesGroups[key].templates)
     }
     if (filter && filter.constructor === Function) {
@@ -233,21 +225,7 @@ addService('myTemplates', {
     return allTemplates
   },
   getTemplateData () {
-    const data = {}
-    const storageData = getStorage('hubTemplates').state('templates').get()
-    if (storageData) {
-      data.getAllTemplates = this.getAllTemplates(null, null, storageData)
-      data.all = this.all(null, null, storageData)
-      data.hubAndPredefined = this.hubAndPredefined(storageData)
-      data.hubHeader = this.hubHeader(storageData.hubHeader)
-      data.hubFooter = this.hubFooter(storageData.hubFooter)
-      data.hubSidebar = this.hubSidebar(storageData.hubSidebar)
-      data.block = this.hubBlock(storageData.block)
-      if (editorType === 'popup') {
-        data.popup = this.getPopupTemplates(storageData.popup)
-      }
-    }
-    return data
+    return getStorage('hubTemplates').state('templates').get()
   },
   getLiteVersionTemplates () {
     // TODO get lite version templates from hub

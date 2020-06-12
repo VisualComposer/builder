@@ -165,6 +165,11 @@ export default class SaveController {
 
       const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
       requestData['vcv-item-preview-disabled'] = itemPreviewDisabled
+
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : false
+      if (editorType) {
+        requestData['vcv-editor-type'] = editorType
+      }
       this.ajax(
         requestData,
         options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),
