@@ -32,11 +32,7 @@ class EditorTemplates implements Helper
             '_' . VCV_PREFIX . 'type'
         );
         $dataHelper = vchelper('Data');
-        $outputTemplates = [
-            'predefined' => ['templates' => []],
-            'hub' => ['templates' => []],
-            'custom' => ['templates' => []],
-        ];
+        $outputTemplates = [];
         if (!empty($templatesGroups)) {
             foreach ($templatesGroups as $groupKey => $templates) {
                 $groupTemplates = [];
@@ -80,16 +76,25 @@ class EditorTemplates implements Helper
                 $name = __('My Templates', 'visualcomposer');
                 break;
             case 'hub':
-                $name = __('Premium Templates', 'visualcomposer');
-                break;
             case 'predefined':
-                $name = __('Content Templates', 'visualcomposer');
+                $name = __('Hub Templates', 'visualcomposer');
                 break;
         }
 
         $name = vcfilter('vcv:template:groupName', $name, ['key' => $key]);
 
         return $name;
+    }
+
+    public function isUserTemplateType($type)
+    {
+        $result = false;
+        if ($type === '' || $type === 'popup' || strpos($type, 'custom') !== false) {
+            $result = true;
+        }
+        $result = vcfilter('vcv:template:isUserTemplateType', $result, ['type' => $type]);
+
+        return $result;
     }
 
     /**
