@@ -76,7 +76,7 @@ export const dashboard = () => {
     const charPositionTitle = document.title.indexOf(String.fromCharCode(8249))
     if (activeSection && charPositionTitle > -1) {
       const newTitle = activeSection.querySelector('h1').textContent
-      document.title = document.title.replace(document.title.substring(0, charPositionTitle - 1), newTitle);
+      document.title = document.title.replace(document.title.substring(0, charPositionTitle - 1), newTitle)
     }
 
     if (window.innerWidth <= 782) {
