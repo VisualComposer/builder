@@ -58,11 +58,13 @@ export const dashboard = () => {
         link.classList.remove('vcv-dashboard-sidebar-navigation-link--active')
       }
     })
+    let activeSection = null
     sections.forEach(section => {
       if (section.classList.contains('vcv-dashboards-section-content--active')) {
         section.classList.remove('vcv-dashboards-section-content--active')
       }
       if (section.dataset.section === sectionValue) {
+        activeSection = section
         section.classList.add('vcv-dashboards-section-content--active')
       }
     })
@@ -70,6 +72,12 @@ export const dashboard = () => {
     const currentURL = window.location.href
     const newUrl = currentURL.replace(window.location.search, `?page=${sectionValue}`)
     window.history.pushState('', '', newUrl)
+    // Find "‹" in title
+    const charPositionTitle = document.title.indexOf(String.fromCharCode(8249))
+    if (activeSection && charPositionTitle > -1) {
+      const newTitle = activeSection.querySelector('h1').textContent
+      document.title = document.title.replace(document.title.substring(0, charPositionTitle - 1), newTitle);
+    }
 
     if (window.innerWidth <= 782) {
       navigationToggle.click()
