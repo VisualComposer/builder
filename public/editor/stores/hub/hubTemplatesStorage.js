@@ -11,14 +11,8 @@ addStorage('hubTemplates', (storage) => {
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
   const hubElementsStorage = getStorage('hubElements')
-
-  storage.on('start', () => {
-    /**
-     * @deprecated 2.5 on remove need to set state(templates) {}
-     */
-    // TODO: Remove this code with whole on('start') block and refactor initial templates loading
-    storage.state('templates').set(storage.state('templates').get() || {})
-  })
+  storage.state('templates').set({})
+  storage.state('templatesGroupsSorted').set([])
 
   storage.on('downloadTemplate', (template) => {
     const { bundle, name } = template
@@ -68,7 +62,7 @@ addStorage('hubTemplates', (storage) => {
             if (jsonResponse.templates) {
               const template = jsonResponse.templates[0]
               template.id = template.id.toString()
-              storage.trigger('add', template.type, template)
+              storage.trigger('add', template.type, template, jsonResponse.templateGroup || {})
             }
             if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {
               Object.keys(jsonResponse.sharedAssets).forEach((assetName) => {
@@ -149,14 +143,19 @@ addStorage('hubTemplates', (storage) => {
     tryDownload()
   })
 
-  storage.on('add', (type, templateData) => {
+  storage.on('add', (type, templateData, templateGroup) => {
     const all = storage.state('templates').get() || {}
     if (!all[type]) {
       all[type] = {
-        name: type,
+        name: templateGroup && templateGroup.name ? templateGroup.name : type,
         type: type,
         templates: []
       }
+    }
+    const templatesGroupsSorted = storage.state('templatesGroupsSorted').get()
+    if (templatesGroupsSorted.indexOf(type) === -1) {
+      templatesGroupsSorted.push(type)
+      storage.state('templatesGroupsSorted').set(templatesGroupsSorted)
     }
     all[type].templates.unshift(templateData)
     storage.state('templates').set(all)

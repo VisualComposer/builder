@@ -40,6 +40,9 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::saveTemplateId */
         $this->addFilter('vcv:dataAjax:setData:sourceId', 'saveTemplateId');
 
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::saveTemplateId */
+        $this->addFilter('vcv:dataAjax:setData', 'setDataResponse');
+
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::templatesEditorBlankTemplate */
         $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
     }
@@ -80,22 +83,44 @@ class Controller extends Container implements Module
     protected function allTemplatesAsync($response, EditorTemplates $editorTemplatesHelper)
     {
         if (!vcIsBadResponse($response)) {
-            $response['templates'] = $editorTemplatesHelper->all();
+            $templates = $editorTemplatesHelper->all();
+            $response['templates'] = $templates;
+            $groups = [];
+            foreach ($templates as $templateData) {
+                $groups[] = $templateData['type'];
+            }
+            // User-made templates goes first
+            usort(
+                $groups,
+                function ($typeA, $typeB) {
+                    $cmpA = strpos($typeA, 'custom');
+                    $cmpB = strpos($typeB, 'custom');
+                    $cmpA = $cmpA !== false ? -1 * abs(20 - strlen($typeA)) : strlen($typeA);
+                    $cmpB = $cmpB !== false ? -1 * abs(20 - strlen($typeB)) : strlen($typeB);
+
+                    return $cmpA - $cmpB;
+                }
+            );
+            $response['templatesGroupsSorted'] = $groups;
         }
 
         return $response;
     }
 
     /**
+     * @param $type
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      * @param \VisualComposer\Helpers\EditorTemplates $editorTemplatesHelper
      *
      * @return bool|integer
      */
-    protected function create(CurrentUser $currentUserAccessHelper, EditorTemplates $editorTemplatesHelper)
-    {
+    protected function create(
+        $type,
+        CurrentUser $currentUserAccessHelper,
+        EditorTemplates $editorTemplatesHelper
+    ) {
         if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
-            $templateId = $editorTemplatesHelper->create('custom');
+            $templateId = $editorTemplatesHelper->create($type);
             if ($templateId) {
                 return $templateId;
             }
@@ -162,7 +187,14 @@ class Controller extends Container implements Module
     {
         if ($sourceId === 'template') {
             /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
-            $templateId = $this->call('create');
+            $type = vcfilter(
+                'vcv:editorTemplates:template:type',
+                'custom',
+                [
+                    'sourceId' => $sourceId,
+                ]
+            );
+            $templateId = $this->call('create', ['type' => $type]);
             if ($templateId) {
                 // Create template ID
                 if (!get_post_meta($sourceId, '_' . VCV_PREFIX . 'id', true)) {
@@ -176,5 +208,22 @@ class Controller extends Container implements Module
         }
 
         return $sourceId;
+    }
+
+    protected function setDataResponse($response, $payload, EditorTemplates $editorTemplatesHelper)
+    {
+        if (
+            isset($payload['sourceId'])
+            && is_numeric($payload['sourceId'])
+            && get_post_type($payload['sourceId']) === 'vcv_templates'
+        ) {
+            $type = get_post_meta($payload['sourceId'], '_' . VCV_PREFIX . 'type', true);
+            $response['templateGroup'] = [
+                'type' => $type,
+                'name' => $editorTemplatesHelper->getGroupName($type),
+            ];
+        }
+
+        return $response;
     }
 }

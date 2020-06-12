@@ -100,6 +100,7 @@ class FileController extends Container implements Module
 
         $sourceChecksum = wp_hash($sourceCssContent);
         $oldSourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
+
         $sourceCssName = $sourceChecksum . '.source.css';
 
         $bundleUrl = $assetsHelper->updateBundleFile(
@@ -164,8 +165,28 @@ class FileController extends Container implements Module
         $assetsHelper->deleteAssetsBundles($extension);
 
         $sourceChecksum = get_post_meta($sourceId, '_' . VCV_PREFIX . 'sourceChecksum', true);
-        $extension = $sourceChecksum . '.source.css';
-        $assetsHelper->deleteAssetsBundles($extension);
+        $checksumArgs = [
+            'meta_key' => '_' . VCV_PREFIX . 'sourceChecksum',
+            'meta_value' => $sourceChecksum,
+            'post_type' => 'any',
+            'post_status' => 'any',
+        ];
+        $checksumQuery = new WP_Query($checksumArgs);
+        //@codingStandardsIgnoreLine
+        $postCount = $checksumQuery->post_count;
+        if ($postCount === 1) { // Do not remove if this post is not match with deleting id
+            $post = $checksumQuery->post; // Fetch the post that is using that checksum
+            $postID = $post->ID;
+            if ($postID !== $sourceId) {
+                return true;
+            } else {
+                $extension = $sourceChecksum . '.source.css';
+                $assetsHelper->deleteAssetsBundles($extension);
+            }
+        } elseif ($postCount < 1) {
+            $extension = $sourceChecksum . '.source.css';
+            $assetsHelper->deleteAssetsBundles($extension);
+        }
 
         return true;
     }

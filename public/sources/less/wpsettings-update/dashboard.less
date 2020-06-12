@@ -87,7 +87,7 @@
 }
 
 .vcv-dashboard-sidebar-navigation-menu--submenu {
-  padding: 6px 0 6px 50px;
+  padding: 0 0 0 50px;
 
   .vcv-dashboard-sidebar-navigation-link {
     font-size: 15px;
@@ -97,6 +97,18 @@
   .vcv-dashboard-sidebar-navigation-link:hover,
   .vcv-dashboard-sidebar-navigation-link--active {
     color: rgba(255, 255, 255, 0.6);
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu-item:only-child {
+    display: none;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu-item:first-child {
+    margin-top: 6px;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu-item:last-child {
+    margin-bottom: 6px;
   }
 }
 
