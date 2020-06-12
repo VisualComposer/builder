@@ -44,7 +44,7 @@ trait SubMenu
                     $tabsHelper->set(
                         $page['slug'],
                         [
-                            'name' => $page['title'],
+                            'name' => isset($page['innerTitle']) ? $page['innerTitle'] : $page['title'],
                             'subTitle' => isset($page['subTitle']) ? $page['subTitle'] : '',
                             'capability' => $capability,
                             'parent' => $parentSlug,

@@ -158,9 +158,9 @@ if (is_array($variables)) {
                             ?>
                             <li class="vcv-dashboard-sidebar-navigation-menu-item">
                                 <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard
-                                <?php echo esc_attr($menuValue['iconClass']) .  esc_attr($activeClass) ?>"
+                                <?php echo esc_attr($menuValue['iconClass']) .  esc_attr($activeClass); ?>"
                                 href="?page=<?php echo esc_attr($menuKey)?>">
-                                    <?php echo esc_html__($menuValue['name'], 'visualcomposer') ?>
+                                    <?php echo esc_html($menuValue['name']); ?>
                                 </a>
                                 <?php
                                 // Render sub menu items
