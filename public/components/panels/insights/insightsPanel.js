@@ -36,7 +36,8 @@ export default class InsightsPanel extends React.Component {
 
     this.state = {
       activeSection: 'all',
-      insightData: insightsStorage.state('insights').get() || {}
+      insightData: insightsStorage.state('insights').get() || {},
+      currentControls: this.getCurrentControls(insightsStorage.state('insights').get())
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
@@ -50,12 +51,17 @@ export default class InsightsPanel extends React.Component {
   }
 
   setActiveSection (type) {
-    this.setState({ activeSection: type })
+    const currentControl = Object.keys(this.state.currentControls).find(control => control === type)
+    this.setState({ activeSection: currentControl || 'all' })
   }
 
   handleInsightsChange (data) {
+    const currentControls = this.getCurrentControls(data)
+    const currentActiveSection = Object.keys(currentControls).find(control => control === this.state.activeSection)
     this.setState({
-      insightData: data || {}
+      insightData: data || {},
+      currentControls: currentControls,
+      activeSection: currentActiveSection || 'all'
     })
   }
 
@@ -94,20 +100,24 @@ export default class InsightsPanel extends React.Component {
     return insightsHTML
   }
 
-  render () {
-    const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
-    let insightsHTML = this.getInsightsHTML(this.state.insightData)
-
+  getCurrentControls (insightData) {
     let insightsControls = Object.assign({}, controls)
     let successNotifications = false
-    Object.keys(this.state.insightData).forEach((item) => {
-      if (this.state.insightData[item].state === 'success') {
+    insightData = Object.keys(insightData).length ? insightData : this.state.insightData
+    Object.keys(insightData).forEach((item) => {
+      if (insightData[item].state === 'success') {
         successNotifications = true
       }
     })
     if (!successNotifications) {
       delete insightsControls.success
     }
+    return insightsControls
+  }
+
+  render () {
+    const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
+    let insightsHTML = this.getInsightsHTML(this.state.insightData)
 
     return (
       <div className='vcv-ui-tree-view-content'>
@@ -117,7 +127,7 @@ export default class InsightsPanel extends React.Component {
             {VCInsights}
           </span>
         </div>
-        <PanelNavigation controls={insightsControls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
+        <PanelNavigation controls={this.state.currentControls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <Scrollbar>
           <div className='vcv-ui-tree-content-section'>
             <div className='vcv-insights vcv-ui-tree-content-section-inner'>
