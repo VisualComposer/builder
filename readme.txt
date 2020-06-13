@@ -212,6 +212,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Custom post type limits work properly in Post Grid elements
 - Fix: Tabs with Slide works properly on replacement
 - Fix: tabs with Slide works properly with full width rows
+- Fix: Background images works properly in Design Options attributes
 
 = 27.1 =
 *Release Date - 2020-05-13*
