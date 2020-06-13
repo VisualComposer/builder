@@ -46,7 +46,7 @@ add('insights', () => {
           state: 'success',
           type: 'titleLength',
           title: insightsTitleGood,
-          groupDescription: `Your page title is ${pageTitleLength} symbols which is in-between optimal title size.`
+          groupDescription: `Your page title consists of ${pageTitleLength} characters which is optimal title size.`
         })
       } else if (pageTitleLength >= 0) {
         insightsStorage.trigger('add', {
@@ -371,6 +371,29 @@ add('insights', () => {
         }
       }
     }
+
+    checkForGA () {
+      const gaNodes = env('iframe').document.querySelectorAll('script[src*="googletagmanager.com"], script[src*="google-analytics.com"]')
+      if (!window.GoogleAnalyticsObject && !window.ga && !gaNodes.length) {
+        const insightsGAMissingTitle = this.localizations.insightsGAMissingTitle
+        const insightsGAMissingDescription = this.localizations.insightsGAMissingDescription
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'googleAnalytics',
+          title: insightsGAMissingTitle,
+          groupDescription: insightsGAMissingDescription
+        })
+      } else {
+        const insightsGAMissingTitleOK = this.localizations.insightsGAMissingTitleOK
+        const insightsGAMissingDescriptionOK = this.localizations.insightsGAMissingDescriptionOK
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'googleAnalytics',
+          title: insightsGAMissingTitleOK,
+          groupDescription: insightsGAMissingDescriptionOK
+        })
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -389,6 +412,7 @@ add('insights', () => {
       insightsStorageInstance.checkTitleLength()
       insightsStorageInstance.checkNoIndex()
       insightsStorageInstance.checkPostContentLength()
+      insightsStorageInstance.checkForGA()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)

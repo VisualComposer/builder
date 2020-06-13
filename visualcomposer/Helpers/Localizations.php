@@ -905,35 +905,51 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsTitleTooLong' => __(
-                'Title is too long',
+                'Your page title is too long',
                 'visualcomposer'
             ),
             'insightsTitleTooLong60' => __(
-                'Your page title exceeds 60 symbols which is considered too long. Make sure to adjust the title between 10 to 60 symbols.',
+                'Your page title exceeds 60 characters which are considered too long. Make sure to adjust it between 10 to 60 characters.',
                 'visualcomposer'
             ),
             'insightsTitleTooLong100' => __(
-                'Your page title exceeds 100 symbols which is considered way too long. Make sure to adjust the title between 10 to 60 symbols.',
+                'Your page title contains more than 100 characters and will be cut off by search engines. Shorten your page title!',
                 'visualcomposer'
             ),
             'insightsTitleTooShort' => __(
-                'Title is too short',
+                'Your page title is too short',
                 'visualcomposer'
             ),
             'insightsTitleTooShortDescription' => __(
-                'Your page title is less than 10 symbols which is considered too short. Make sure to adjust the title between 10 to 60 symbols.',
+                'Your page title is too short. Make sure to adjust the title between 10 to 60 characters.',
                 'visualcomposer'
             ),
             'insightsTitleGood' => __(
-                'Title length is good',
+                'Your page title length is optimal',
                 'visualcomposer'
             ),
             'noIndexMetaTag' => __(
-                'Your page has a noindex meta tag',
+                'It seems that your page is set to noindex directive',
                 'visualcomposer'
             ),
             'noIndexMetaTagDescription' => __(
-                'Noindex: Tells a search engine not to index a page. This will result in less popularity of your site. If you have set noindex on purpose, ignore this warning.',
+                'Using noindex will exclude your page from search results. If you have set noindex on purpose, ignore this warning.',
+                'visualcomposer'
+            ),
+            'insightsGAMissingTitle' => __(
+                'Google Analytics script is missing',
+                'visualcomposer'
+            ),
+            'insightsGAMissingTitleOK' => __(
+                'Google Analytics script persist in Page',
+                'visualcomposer'
+            ),
+            'insightsGAMissingDescription' => __(
+                'It seems your page has no Google Analytics script',
+                'visualcomposer'
+            ),
+            'insightsGAMissingDescriptionOK' => __(
+                'Your page has an Google Anayltics script. Great job!',
                 'visualcomposer'
             ),
             'insightsContentLengthTitle' => __(
