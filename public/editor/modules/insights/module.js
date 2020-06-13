@@ -45,7 +45,7 @@ add('insights', () => {
           state: 'success',
           type: 'titleLength',
           title: insightsTitleGood,
-          groupDescription: `Your page title is ${pageTitleLength} symbols which is in-between optimal title size.`
+          groupDescription: `Your page title consists of ${pageTitleLength} characters which is optimal title size.`
         })
       } else if (pageTitleLength >= 0) {
         insightsStorage.trigger('add', {

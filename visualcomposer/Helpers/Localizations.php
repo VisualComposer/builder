@@ -925,15 +925,15 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsTitleGood' => __(
-                'Your page title is good',
+                'Your page title length is optimal',
                 'visualcomposer'
             ),
             'noIndexMetaTag' => __(
-                'Your page has a noindex meta tag',
+                'It seems that your page is set to noindex directive',
                 'visualcomposer'
             ),
             'noIndexMetaTagDescription' => __(
-                'Noindex: Tells a search engine not to index a page. This will result in less popularity of your site. If you have set noindex on purpose, ignore this warning.',
+                'Using noindex will exclude your page from search results. If you have set noindex on purpose, ignore this warning.',
                 'visualcomposer'
             ),
             'insightsGAMissingTitle' => __(
