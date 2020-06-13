@@ -892,16 +892,16 @@ class Localizations extends Container implements Helper
                 'Paragraph word count is',
                 'visualcomposer'
             ),
-            'insightsParagraphLengthOptimalDescription' => __(
-                'None of the paragraphs are too long. Great job!',
+            'insightsParagraphLengthDescriptionOk' => __(
+                'You set a proper length for your paragraphs. Great job!',
                 'visualcomposer'
             ),
-            'insightsParagraphLengthMediumDescription' => __(
-                'Paragraph contains more than the recommended maximum of 150 words. Shorten your paragraphs!',
+            'insightsParagraphLengthDescription150' => __(
+                'Paragraph contains more than 150 words. This may affect readability.',
                 'visualcomposer'
             ),
-            'insightsParagraphLengthLongDescription' => __(
-                'Paragraph contains more than the recommended maximum of 200 words. Shorten your paragraphs!',
+            'insightsParagraphLengthDescription200' => __(
+                'Paragraph contains more than 200 words. This may affect readability.',
                 'visualcomposer'
             ),
             'insightsTitleTooLong' => __(
