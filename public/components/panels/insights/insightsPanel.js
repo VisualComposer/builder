@@ -82,7 +82,7 @@ export default class InsightsPanel extends React.Component {
 
     if (!insightsHTML.length) {
       insightsHTML = <span className='vcv-ui-insights-spinner vcv-vcv-ui-icon vcv-ui-wp-spinner' />
-    } else if (insightsHTML.indexOf(undefined) > -1) {
+    } else if (insightsHTML.filter(item => item === undefined).length === Object.keys(insightData).length) {
       const insightsNoIssuesFoundTitle = localizations.insightsNoIssuesFoundTitle ? localizations.insightsNoIssuesFoundTitle : 'No Critical Issues Found'
       const insightsNoIssuesFoundDescription = localizations.insightsNoIssuesFoundDescription ? localizations.insightsNoIssuesFoundDescription : 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!'
       insightsHTML = (
