@@ -904,7 +904,38 @@ class Localizations extends Container implements Helper
                 'Paragraph contains more than the recommended maximum of 200 words. Shorten your paragraphs!',
                 'visualcomposer'
             ),
-
+            'insightsTitleTooLong' => __(
+                'Title is too long',
+                'visualcomposer'
+            ),
+            'insightsTitleTooLong60' => __(
+                'Your page title exceeds 60 symbols which is considered too long. Make sure to adjust the title between 10 to 60 symbols.',
+                'visualcomposer'
+            ),
+            'insightsTitleTooLong100' => __(
+                'Your page title exceeds 100 symbols which is considered way too long. Make sure to adjust the title between 10 to 60 symbols.',
+                'visualcomposer'
+            ),
+            'insightsTitleTooShort' => __(
+                'Title is too short',
+                'visualcomposer'
+            ),
+            'insightsTitleTooShortDescription' => __(
+                'Your page title is less than 10 symbols which is considered too short. Make sure to adjust the title between 10 to 60 symbols.',
+                'visualcomposer'
+            ),
+            'insightsTitleGood' => __(
+                'Title length is good',
+                'visualcomposer'
+            ),
+            'noIndexMetaTag' => __(
+                'Your page has a noindex meta tag',
+                'visualcomposer'
+            ),
+            'noIndexMetaTagDescription' => __(
+                'Noindex: Tells a search engine not to index a page. This will result in less popularity of your site. If you have set noindex on purpose, ignore this warning.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

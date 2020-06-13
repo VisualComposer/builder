@@ -13,6 +13,67 @@ add('insights', () => {
     isImagesSizeLarge = false
     localizations = window.VCV_I18N ? window.VCV_I18N() : {}
 
+    checkTitleLength () {
+      if (window.VCV_EDITOR_TYPE) {
+        return
+      }
+
+      const pageTitleLength = settingsStorage.state('pageTitle').get().length
+      const insightsTitleTooLong = this.localizations.insightsTitleTooLong
+      const insightsTitleTooLong60 = this.localizations.insightsTitleTooLong60
+      const insightsTitleTooLong100 = this.localizations.insightsTitleTooLong100
+      const insightsTitleTooShort = this.localizations.insightsTitleTooShort
+      const insightsTitleTooShortDescription = this.localizations.insightsTitleTooShortDescription
+      const insightsTitleGood = this.localizations.insightsTitleGood
+
+      if (pageTitleLength > 100) {
+        insightsStorage.trigger('add', {
+          state: 'critical',
+          type: 'titleLength',
+          title: insightsTitleTooLong,
+          groupDescription: insightsTitleTooLong100,
+        })
+      } else if (pageTitleLength > 60) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'titleLength',
+          title: insightsTitleTooLong,
+          groupDescription: insightsTitleTooLong60,
+        })
+      } else if (pageTitleLength > 10) {
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'titleLength',
+          title: insightsTitleGood,
+          groupDescription: `Your page title is ${pageTitleLength} symbols which is in-between optimal title size.`
+        })
+      } else if (pageTitleLength >= 0) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'titleLength',
+          title: insightsTitleTooShort,
+          groupDescription: insightsTitleTooShortDescription,
+        })
+      }
+    }
+
+    checkNoIndex () {
+      const noIndexMetaTag = this.localizations.noIndexMetaTag
+      const noIndexMetaTagDescription = this.localizations.noIndexMetaTagDescription
+
+      const metas = document.querySelector('.vcv-layout-iframe').contentWindow.document.querySelectorAll('meta')
+      metas.forEach((meta) => {
+        if (meta.content.includes('noindex')) {
+          insightsStorage.trigger('add', {
+            state: 'warning',
+            type: 'noIndex',
+            title: noIndexMetaTag,
+            groupDescription: noIndexMetaTagDescription,
+          })
+        }
+      })
+    }
+
     checkForHeadings () {
       if (window.VCV_EDITOR_TYPE) {
         return
@@ -295,6 +356,8 @@ add('insights', () => {
       insightsStorageInstance.checkForImagesSize()
       insightsStorageInstance.checkForEmptyContent()
       insightsStorageInstance.checkParagraphsLength()
+      insightsStorageInstance.checkTitleLength()
+      insightsStorageInstance.checkNoIndex()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
