@@ -228,6 +228,58 @@ add('insights', () => {
         return domNode.closest('[data-vcv-layout-zone="sidebar"]') ? 'Right Sidebar' : 'Footer'
       }
     }
+
+    checkParagraphsLength () {
+      const paragraphs = env('iframe').document.body.querySelectorAll('p')
+      let isParagraphSizeLarge = false
+      paragraphs.forEach((paragraph) => {
+        const paragraphLength = paragraph.innerText.split(' ').length
+        if (paragraphLength > 200) {
+          const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
+          const groupDescription = this.localizations.insightsParagraphLengthLongDescription
+          const description = this.localizations.insightsParagraphLengthDescription
+          const elementId = InsightsChecks.getElementId(paragraph)
+          const position = InsightsChecks.getNodePosition(paragraph)
+          isParagraphSizeLarge = true
+          insightsStorage.trigger('add', {
+            state: 'critical',
+            type: `paragraphLengthLarge${position}`,
+            title: position !== 'Content' ? `${position}: ${insightsParagraphLengthTitle}` : insightsParagraphLengthTitle,
+            groupDescription: groupDescription,
+            description: `${description} ${paragraphLength}`,
+            elementID: elementId,
+            domNode: paragraph
+          })
+        } else if (paragraphLength > 150 && paragraphLength < 200) {
+          const elementId = InsightsChecks.getElementId(paragraph)
+          const position = InsightsChecks.getNodePosition(paragraph)
+          const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
+          const groupDescription = this.localizations.insightsParagraphLengthMediumDescription
+          const description = this.localizations.insightsParagraphLengthDescription
+          isParagraphSizeLarge = true
+          insightsStorage.trigger('add', {
+            state: 'warning',
+            type: `paragraphLengthMedium${position}`,
+            title: position !== 'Content' ? `${position}: ${insightsParagraphLengthTitle}` : insightsParagraphLengthTitle,
+            groupDescription: groupDescription,
+            description: `${description} ${paragraphLength}`,
+            elementID: elementId,
+            domNode: paragraph
+          })
+        }
+      })
+
+      if (paragraphs.length && !isParagraphSizeLarge) {
+        const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
+        const groupDescription = this.localizations.insightsParagraphLengthOptimalDescription
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'paragraphSizeProper',
+          title: insightsParagraphLengthTitle,
+          groupDescription: groupDescription
+        })
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -242,6 +294,7 @@ add('insights', () => {
       insightsStorageInstance.checkForAlt()
       insightsStorageInstance.checkForImagesSize()
       insightsStorageInstance.checkForEmptyContent()
+      insightsStorageInstance.checkParagraphsLength()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)

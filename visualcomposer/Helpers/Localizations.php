@@ -884,6 +884,27 @@ class Localizations extends Container implements Helper
                 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!',
                 'visualcomposer'
             ),
+            'insightsParagraphLengthTitle' => __(
+                'Paragraph length',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthDescription' => __(
+                'Paragraph word count is',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthOptimalDescription' => __(
+                'None of the paragraphs are too long. Great job!',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthMediumDescription' => __(
+                'Paragraph contains more than the recommended maximum of 150 words. Shorten your paragraphs!',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthLongDescription' => __(
+                'Paragraph contains more than the recommended maximum of 200 words. Shorten your paragraphs!',
+                'visualcomposer'
+            ),
+
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
