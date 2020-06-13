@@ -309,7 +309,7 @@ class SystemStatus extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('System status', 'visualcomposer'),
+            'title' => __('System Status', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'isDashboardPage' => true,
