@@ -341,6 +341,29 @@ add('insights', () => {
         })
       }
     }
+
+    checkForGA () {
+      const gaNodes = env('iframe').document.querySelectorAll('script[src*="googletagmanager.com"], script[src*="google-analytics.com"]')
+      if (!window.GoogleAnalyticsObject && !window.ga && !gaNodes.length) {
+        const insightsGAMissingTitle = this.localizations.insightsGAMissingTitle
+        const insightsGAMissingDescription = this.localizations.insightsGAMissingDescription
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'googleAnalytics',
+          title: insightsGAMissingTitle,
+          groupDescription: insightsGAMissingDescription
+        })
+      } else {
+        const insightsGAMissingTitleOK = this.localizations.insightsGAMissingTitleOK
+        const insightsGAMissingDescriptionOK = this.localizations.insightsGAMissingDescriptionOK
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'googleAnalytics',
+          title: insightsGAMissingTitleOK,
+          groupDescription: insightsGAMissingDescriptionOK
+        })
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -358,6 +381,7 @@ add('insights', () => {
       insightsStorageInstance.checkParagraphsLength()
       insightsStorageInstance.checkTitleLength()
       insightsStorageInstance.checkNoIndex()
+      insightsStorageInstance.checkForGA()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)

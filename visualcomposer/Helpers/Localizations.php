@@ -936,6 +936,22 @@ class Localizations extends Container implements Helper
                 'Noindex: Tells a search engine not to index a page. This will result in less popularity of your site. If you have set noindex on purpose, ignore this warning.',
                 'visualcomposer'
             ),
+            'insightsGAMissingTitle' => __(
+                'Google Analytics script is missing',
+                'visualcomposer'
+            ),
+            'insightsGAMissingTitleOK' => __(
+                'Google Analytics script persist in Page',
+                'visualcomposer'
+            ),
+            'insightsGAMissingDescription' => __(
+                'It seems your page has no Google Analytics script',
+                'visualcomposer'
+            ),
+            'insightsGAMissingDescriptionOK' => __(
+                'Your page has an Google Anayltics script. Great job!',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
