@@ -297,7 +297,7 @@ add('insights', () => {
         const paragraphLength = paragraph.innerText.split(' ').length
         if (paragraphLength > 200) {
           const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
-          const groupDescription = this.localizations.insightsParagraphLengthLongDescription
+          const groupDescription = this.localizations.insightsParagraphLengthDescription200
           const description = this.localizations.insightsParagraphLengthDescription
           const elementId = InsightsChecks.getElementId(paragraph)
           const position = InsightsChecks.getNodePosition(paragraph)
@@ -315,7 +315,7 @@ add('insights', () => {
           const elementId = InsightsChecks.getElementId(paragraph)
           const position = InsightsChecks.getNodePosition(paragraph)
           const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
-          const groupDescription = this.localizations.insightsParagraphLengthMediumDescription
+          const groupDescription = this.localizations.insightsParagraphLengthDescription150
           const description = this.localizations.insightsParagraphLengthDescription
           isParagraphSizeLarge = true
           insightsStorage.trigger('add', {
@@ -332,7 +332,7 @@ add('insights', () => {
 
       if (paragraphs.length && !isParagraphSizeLarge) {
         const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
-        const groupDescription = this.localizations.insightsParagraphLengthOptimalDescription
+        const groupDescription = this.localizations.insightsParagraphLengthDescriptionOk
         insightsStorage.trigger('add', {
           state: 'success',
           type: 'paragraphSizeProper',
