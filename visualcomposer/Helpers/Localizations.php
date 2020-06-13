@@ -877,11 +877,11 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsNoIssuesFoundTitle' => __(
-                'No Critical Issues Found',
+                'No Issues Found',
                 'visualcomposer'
             ),
             'insightsNoIssuesFoundDescription' => __(
-                'You don\'t have any critical issues on your page. Congratulations and keep up the good work!',
+                'You don\'t have any issues on your page. Congratulations and keep up the good work!',
                 'visualcomposer'
             ),
             'insightsParagraphLengthTitle' => __(
@@ -962,6 +962,22 @@ class Localizations extends Container implements Helper
             ),
             'insightsContentLengthDescriptionOk' => __(
                 'The text contains %length words. Good job!',
+                'visualcomposer'
+            ),
+            'noInboundLinks' => __(
+                'No internal links',
+                'visualcomposer'
+            ),
+            'noInboundLinksDescription' => __(
+                'Your site has no internal links.',
+                'visualcomposer'
+            ),
+            'noOutboundLinks' => __(
+                'No external links',
+                'visualcomposer'
+            ),
+            'noOutboundLinksDescription' => __(
+                'Your site has no external links.',
                 'visualcomposer'
             ),
         ];

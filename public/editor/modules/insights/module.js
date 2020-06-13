@@ -75,6 +75,43 @@ add('insights', () => {
       })
     }
 
+    checkLinks () {
+      const inboundLinks = []
+      const outboundLinks = []
+
+      const noInboundLinks = this.localizations.noInboundLinks
+      const noInboundLinksDescription = this.localizations.noInboundLinksDescription
+      const noOutboundLinks = this.localizations.noOutboundLinks
+      const noOutboundLinksDescription = this.localizations.noOutboundLinksDescription
+
+      const links = document.querySelector('.vcv-layout-iframe').contentWindow.document.querySelector('.vcv-container').querySelectorAll('a')
+      links.forEach((link) => {
+        if (window.location.host === link.host) {
+          inboundLinks.push(link)
+        } else {
+          outboundLinks.push(link)
+        }
+      })
+
+      if (!inboundLinks.length) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'noInboundLinks',
+          title: noInboundLinks,
+          groupDescription: noInboundLinksDescription
+        })
+      }
+
+      if (!outboundLinks.length) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'noOutboundLinks',
+          title: noOutboundLinks,
+          groupDescription: noOutboundLinksDescription
+        })
+      }
+    }
+
     checkForHeadings () {
       if (window.VCV_EDITOR_TYPE) {
         return
@@ -413,6 +450,7 @@ add('insights', () => {
       insightsStorageInstance.checkNoIndex()
       insightsStorageInstance.checkPostContentLength()
       insightsStorageInstance.checkForGA()
+      insightsStorageInstance.checkLinks()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
