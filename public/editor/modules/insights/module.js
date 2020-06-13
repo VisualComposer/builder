@@ -6,6 +6,7 @@ const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const cookService = getService('cook')
+const utils = getService('utils')
 
 add('insights', () => {
   // VC: Insights
@@ -291,11 +292,12 @@ add('insights', () => {
     }
 
     checkParagraphsLength () {
-      const paragraphs = env('iframe').document.body.querySelectorAll('p')
+      const paragraphs = env('iframe').document.body.querySelectorAll('.vcv-layouts-html p')
       let isParagraphSizeLarge = false
+
       paragraphs.forEach((paragraph) => {
         const paragraphLength = paragraph.innerText.split(' ').length
-        if (paragraphLength > 200) {
+        if (paragraph.length && paragraphLength > 200) {
           const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
           const groupDescription = this.localizations.insightsParagraphLengthDescription200
           const description = this.localizations.insightsParagraphLengthDescription
@@ -311,7 +313,7 @@ add('insights', () => {
             elementID: elementId,
             domNode: paragraph
           })
-        } else if (paragraphLength > 150 && paragraphLength < 200) {
+        } else if (paragraph.length && paragraphLength > 150 && paragraphLength < 200) {
           const elementId = InsightsChecks.getElementId(paragraph)
           const position = InsightsChecks.getNodePosition(paragraph)
           const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
@@ -341,6 +343,34 @@ add('insights', () => {
         })
       }
     }
+
+    checkPostContentLength () {
+      const elements = getStorage('elements').state('document').get() || []
+      if (elements.length) {
+        const layoutHTML = env('iframe').document.body.querySelector('.vcv-layouts-html').innerHTML
+        const contentLength = utils.getTextContent(layoutHTML).split(/\s+/).length
+        const insightsParagraphLengthTitle = this.localizations.insightsContentLengthTitle
+        let groupDescription = ''
+
+        if (layoutHTML && contentLength < 300) {
+          groupDescription = this.localizations.insightsContentLengthDescription300
+          insightsStorage.trigger('add', {
+            state: 'critical',
+            type: 'contentSize300',
+            title: insightsParagraphLengthTitle,
+            groupDescription: groupDescription.replace('%length', contentLength)
+          })
+        } else if (layoutHTML) {
+          groupDescription = this.localizations.insightsContentLengthDescriptionOk
+          insightsStorage.trigger('add', {
+            state: 'success',
+            type: 'contentSizeProper',
+            title: insightsParagraphLengthTitle,
+            groupDescription: groupDescription.replace('%length', contentLength)
+          })
+        }
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -358,6 +388,7 @@ add('insights', () => {
       insightsStorageInstance.checkParagraphsLength()
       insightsStorageInstance.checkTitleLength()
       insightsStorageInstance.checkNoIndex()
+      insightsStorageInstance.checkPostContentLength()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)

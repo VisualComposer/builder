@@ -936,6 +936,18 @@ class Localizations extends Container implements Helper
                 'Noindex: Tells a search engine not to index a page. This will result in less popularity of your site. If you have set noindex on purpose, ignore this warning.',
                 'visualcomposer'
             ),
+            'insightsContentLengthTitle' => __(
+                'Content text length',
+                'visualcomposer'
+            ),
+            'insightsContentLengthDescription300' => __(
+                'The text contains %length words. This is far below the recommended minimum of 300 words.',
+                'visualcomposer'
+            ),
+            'insightsContentLengthDescriptionOk' => __(
+                'The text contains %length words. Good job!',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
