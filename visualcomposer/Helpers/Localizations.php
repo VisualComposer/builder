@@ -905,27 +905,27 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsTitleTooLong' => __(
-                'Title is too long',
+                'Your page title is too long',
                 'visualcomposer'
             ),
             'insightsTitleTooLong60' => __(
-                'Your page title exceeds 60 symbols which is considered too long. Make sure to adjust the title between 10 to 60 symbols.',
+                'Your page title exceeds 60 characters which are considered too long. Make sure to adjust it between 10 to 60 characters.',
                 'visualcomposer'
             ),
             'insightsTitleTooLong100' => __(
-                'Your page title exceeds 100 symbols which is considered way too long. Make sure to adjust the title between 10 to 60 symbols.',
+                'Your page title contains more than 100 characters and will be cut off by search engines. Shorten your page title!',
                 'visualcomposer'
             ),
             'insightsTitleTooShort' => __(
-                'Title is too short',
+                'Your page title is too short',
                 'visualcomposer'
             ),
             'insightsTitleTooShortDescription' => __(
-                'Your page title is less than 10 symbols which is considered too short. Make sure to adjust the title between 10 to 60 symbols.',
+                'Your page title is too short. Make sure to adjust the title between 10 to 60 characters.',
                 'visualcomposer'
             ),
             'insightsTitleGood' => __(
-                'Title length is good',
+                'Your page title is good',
                 'visualcomposer'
             ),
             'noIndexMetaTag' => __(
