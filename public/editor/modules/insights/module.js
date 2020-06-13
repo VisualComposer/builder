@@ -31,14 +31,14 @@ add('insights', () => {
           state: 'critical',
           type: 'titleLength',
           title: insightsTitleTooLong,
-          groupDescription: insightsTitleTooLong100,
+          groupDescription: insightsTitleTooLong100
         })
       } else if (pageTitleLength > 60) {
         insightsStorage.trigger('add', {
           state: 'warning',
           type: 'titleLength',
           title: insightsTitleTooLong,
-          groupDescription: insightsTitleTooLong60,
+          groupDescription: insightsTitleTooLong60
         })
       } else if (pageTitleLength > 10) {
         insightsStorage.trigger('add', {
@@ -52,7 +52,7 @@ add('insights', () => {
           state: 'warning',
           type: 'titleLength',
           title: insightsTitleTooShort,
-          groupDescription: insightsTitleTooShortDescription,
+          groupDescription: insightsTitleTooShortDescription
         })
       }
     }
@@ -68,7 +68,7 @@ add('insights', () => {
             state: 'warning',
             type: 'noIndex',
             title: noIndexMetaTag,
-            groupDescription: noIndexMetaTagDescription,
+            groupDescription: noIndexMetaTagDescription
           })
         }
       })
