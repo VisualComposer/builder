@@ -411,7 +411,7 @@ add('insights', () => {
 
     checkForGA () {
       const gaNodes = env('iframe').document.querySelectorAll('script[src*="googletagmanager.com"], script[src*="google-analytics.com"]')
-      if (!window.GoogleAnalyticsObject && !window.ga && !gaNodes.length) {
+      if (!window.dataLayer && !window.GoogleAnalyticsObject && !window.ga && !gaNodes.length) {
         const insightsGAMissingTitle = this.localizations.insightsGAMissingTitle
         const insightsGAMissingDescription = this.localizations.insightsGAMissingDescription
         insightsStorage.trigger('add', {
