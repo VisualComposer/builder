@@ -970,19 +970,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'noInboundLinks' => __(
-                'No internal links',
+                'No internal links appear on your page',
                 'visualcomposer'
             ),
             'noInboundLinksDescription' => __(
-                'Your site has no internal links.',
+                'You have no internal links on your site. Add some!',
                 'visualcomposer'
             ),
             'noOutboundLinks' => __(
-                'No external links',
+                'No external links appear on your page',
                 'visualcomposer'
             ),
             'noOutboundLinksDescription' => __(
-                'Your site has no external links.',
+                'You have no external links on your site. Add some!',
                 'visualcomposer'
             ),
         ];
