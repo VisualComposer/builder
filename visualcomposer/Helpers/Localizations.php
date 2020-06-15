@@ -958,7 +958,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsContentLengthTitle' => __(
-                'Content text length',
+                'Text length',
                 'visualcomposer'
             ),
             'insightsContentLengthDescription300' => __(
