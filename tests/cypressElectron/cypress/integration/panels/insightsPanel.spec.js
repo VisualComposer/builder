@@ -47,8 +47,6 @@ describe('Inisghts Panel', function () {
       })
     })
 
-    cy.wait(1000)
-
     // Check notification count
     cy.get('.vcv-insight').then((elements) => {
       cy.wrap(elements)
