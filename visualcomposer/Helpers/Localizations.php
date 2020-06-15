@@ -177,6 +177,7 @@ class Localizations extends Container implements Helper
             'urlInputPlaceholder' => __('Enter destination URL', 'visualcomposer'),
             'linkToExistingContent' => __('Or link to existing content', 'visualcomposer'),
             'searchExistingContent' => __('Search existing content', 'visualcomposer'),
+            'popup' => __('Popup', 'visualcomposer'),
             'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
             'onPageLoad' => __('Popup On Every Page Load', 'visualcomposer'),
             'onExitIntent' => __('Popup On Exit Intent', 'visualcomposer'),
@@ -750,6 +751,10 @@ class Localizations extends Container implements Helper
             ),
             'lockedElementText' => __(
                 'The element has been locked by your site Administrator',
+                'visualcomposer'
+            ),
+            'elementsLock' => __(
+                'Elements Lock',
                 'visualcomposer'
             ),
             'lockAllText' => __(
