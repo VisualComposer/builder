@@ -16,6 +16,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Modules\Settings\Traits\Page;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
+use VisualComposer\Modules\Settings\Pages\Settings;
 
 /**
  * Class GettingStarted
@@ -74,9 +75,11 @@ class GettingStarted extends Container implements Module
     }
 
     /**
+     * @param \VisualComposer\Modules\Settings\Pages\Settings $settingsController
+     *
      * @throws \Exception
      */
-    protected function addPage()
+    protected function addPage(Settings $settingsController)
     {
         $page = [
             'slug' => $this->getSlug(),
@@ -85,7 +88,7 @@ class GettingStarted extends Container implements Module
             'showTab' => false,
             'capability' => 'edit_posts',
         ];
-        $this->addSubmenuPage($page);
+        $this->addSubmenuPage($page, $settingsController->getMainPageSlug());
     }
 
     /**
