@@ -23,7 +23,7 @@ class Localizations extends Container implements Helper
         $wpHelper = vchelper('Wp');
         $locale = [
             'addElement' => __('Add Element', 'visualcomposer'),
-            'addPremiumElement' => __('Hub', 'visualcomposer'),
+            'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
             'undo' => __('Undo', 'visualcomposer'),
@@ -202,8 +202,9 @@ class Localizations extends Container implements Helper
             'preview' => __('Preview', 'visualcomposer'),
             'previewChanges' => __('Preview Changes', 'visualcomposer'),
             'savingResults' => __('Saving Results', 'visualcomposer'),
-            'hideOff' => __('Hide: Off', 'visualcomposer'),
-            'hideOn' => __('Hide: On', 'visualcomposer'),
+            'hideOff' => __('Hide Element', 'visualcomposer'),
+            'hideOn' => __('Show Element', 'visualcomposer'),
+            'elementIsHidden' => __('Element is Hidden', 'visualcomposer'),
             'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
             'presetsHelperText' => __(
                 'Create an element with your chosen parameters. The new element will be added to your Add Element panel.',
@@ -379,7 +380,7 @@ class Localizations extends Container implements Helper
             'clickToEditColumnValue' => __('Click to edit column value', 'visualcomposer'),
             'addOn' => __('Add-on', 'visualcomposer'),
             'doNotCloseWhileUpdateText' => __(
-                'Don\'t close this window while download is in the progress.',
+                'Don\'t close this window while the download is in progress.',
                 'visualcomposer'
             ),
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
@@ -393,7 +394,7 @@ class Localizations extends Container implements Helper
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(
-                'Don\'t close this window while sending error is in the progress.',
+                'Don\'t close this window while sending error is in progress.',
                 'visualcomposer'
             ),
             'somethingWentWrong' => __('Oops ... Something Went Wrong', 'visualcomposer'),
