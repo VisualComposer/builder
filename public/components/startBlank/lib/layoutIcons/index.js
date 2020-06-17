@@ -1,4 +1,8 @@
 const layoutIcons = {
+  vc__default: {
+    icon: require('./vc__default'),
+    label: 'Default'
+  },
   vc__blank: {
     icon: require('./vc__blank'),
     label: 'Blank Template'
@@ -17,7 +21,7 @@ const layoutIcons = {
   },
   'theme-default': {
     icon: require('./theme-default'),
-    label: 'Theme Default'
+    label: 'Theme'
   }
 }
 
