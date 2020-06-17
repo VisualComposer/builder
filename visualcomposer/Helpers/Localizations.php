@@ -344,6 +344,10 @@ class Localizations extends Container implements Helper
                 'Full width blank page without header, footer, or sidebar.',
                 'visualcomposer'
             ),
+            'vcDefaultDescription' => __(
+                'Default layout for the post type created in Visual Composer Theme Builder.',
+                'visualcomposer'
+            ),
             'vcThemeHeaderFooterDescription' => __(
                 'Default layout with custom header, content, and footer area.',
                 'visualcomposer'
