@@ -30,6 +30,12 @@ class MenuController extends Container implements Module
             0
         );
 
+        /** @see \VisualComposer\Modules\Settings\MenuController::removeFirstMenuItem */
+        $this->wpAddAction(
+            'admin_menu',
+            'removeFirstMenuItem'
+        );
+
         /** @see \VisualComposer\Modules\Settings\MenuController::addMenuPage */
         $this->wpAddAction(
             'network_admin_menu',
@@ -55,6 +61,24 @@ class MenuController extends Container implements Module
             $iconUrl = $urlHelper->assetUrl('images/logo/20x14.png');
 
             add_menu_page($title, $title, 'edit_posts', $settingsController->getMainPageSlug(), null, $iconUrl, 76);
+        }
+    }
+
+    /**
+     * Remove first menu item if user has no access for settings
+     *
+     * @param \VisualComposer\Modules\Settings\Pages\Settings $settingsController
+     *
+     * @throws \Exception
+     */
+    protected function removeFirstMenuItem(Settings $settingsController)
+    {
+        $currentUserAccess = vchelper('AccessCurrentUser');
+        $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
+        $mainPageSlug = $settingsController->getMainPageSlug();
+
+        if (!$hasAccess && !is_network_admin()) {
+            remove_submenu_page($mainPageSlug, $mainPageSlug);
         }
     }
 }
