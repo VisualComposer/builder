@@ -52,7 +52,7 @@ export default class PlusTeaserControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const name = localizations ? localizations.addPremiumElement : 'Hub'
+    const name = localizations ? localizations.addPremiumElement : 'Visual Composer Hub'
 
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
