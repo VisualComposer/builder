@@ -177,6 +177,7 @@ class Localizations extends Container implements Helper
             'urlInputPlaceholder' => __('Enter destination URL', 'visualcomposer'),
             'linkToExistingContent' => __('Or link to existing content', 'visualcomposer'),
             'searchExistingContent' => __('Search existing content', 'visualcomposer'),
+            'popup' => __('Popup', 'visualcomposer'),
             'selectPopupTemplate' => __('Select popup template', 'visualcomposer'),
             'onPageLoad' => __('Popup On Every Page Load', 'visualcomposer'),
             'onExitIntent' => __('Popup On Exit Intent', 'visualcomposer'),
@@ -756,6 +757,10 @@ class Localizations extends Container implements Helper
                 'The element has been locked by your site Administrator',
                 'visualcomposer'
             ),
+            'elementsLock' => __(
+                'Elements Lock',
+                'visualcomposer'
+            ),
             'lockAllText' => __(
                 'Lock All Elements',
                 'visualcomposer'
@@ -878,6 +883,110 @@ class Localizations extends Container implements Helper
             ),
             'insightsNoContentOnPageDescription' => __(
                 'It seems your page has no content. Make sure to add elements or templates.',
+                'visualcomposer'
+            ),
+            'insightsNoIssuesFoundTitle' => __(
+                'No Issues Found',
+                'visualcomposer'
+            ),
+            'insightsNoIssuesFoundDescription' => __(
+                'You don\'t have any issues on your page. Congratulations and keep up the good work!',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthTitle' => __(
+                'Paragraph length',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthDescription' => __(
+                'Paragraph word count is',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthDescriptionOk' => __(
+                'You set a proper length for your paragraphs. Great job!',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthDescription150' => __(
+                'Paragraph contains more than 150 words. This may affect readability.',
+                'visualcomposer'
+            ),
+            'insightsParagraphLengthDescription200' => __(
+                'Paragraph contains more than 200 words. This may affect readability.',
+                'visualcomposer'
+            ),
+            'insightsTitleTooLong' => __(
+                'Your page title is too long',
+                'visualcomposer'
+            ),
+            'insightsTitleTooLong60' => __(
+                'Your page title exceeds 60 characters which are considered too long. Make sure to adjust it between 10 to 60 characters.',
+                'visualcomposer'
+            ),
+            'insightsTitleTooLong100' => __(
+                'Your page title contains more than 100 characters and will be cut off by search engines. Shorten your page title!',
+                'visualcomposer'
+            ),
+            'insightsTitleTooShort' => __(
+                'Your page title is too short',
+                'visualcomposer'
+            ),
+            'insightsTitleTooShortDescription' => __(
+                'Your page title is too short. Make sure to adjust the title between 10 to 60 characters.',
+                'visualcomposer'
+            ),
+            'insightsTitleGood' => __(
+                'Your page title length is optimal',
+                'visualcomposer'
+            ),
+            'noIndexMetaTag' => __(
+                'It seems that your page is set to noindex directive',
+                'visualcomposer'
+            ),
+            'noIndexMetaTagDescription' => __(
+                'Using noindex will exclude your page from search results. If you have set noindex on purpose, ignore this warning.',
+                'visualcomposer'
+            ),
+            'insightsGAMissingTitle' => __(
+                'Google Analytics script is missing',
+                'visualcomposer'
+            ),
+            'insightsGAMissingTitleOK' => __(
+                'Google Analytics script persist in Page',
+                'visualcomposer'
+            ),
+            'insightsGAMissingDescription' => __(
+                'It seems your page has no Google Analytics script',
+                'visualcomposer'
+            ),
+            'insightsGAMissingDescriptionOK' => __(
+                'Your page has an Google Anayltics script. Great job!',
+                'visualcomposer'
+            ),
+            'insightsContentLengthTitle' => __(
+                'Text length',
+                'visualcomposer'
+            ),
+            'insightsContentLengthDescription300' => __(
+                'The text contains %length words. This is far below the recommended minimum of 300 words.',
+                'visualcomposer'
+            ),
+            'insightsContentLengthDescriptionOk' => __(
+                'The text contains %length words. Good job!',
+                'visualcomposer'
+            ),
+            'noInboundLinks' => __(
+                'No internal links appear on your page',
+                'visualcomposer'
+            ),
+            'noInboundLinksDescription' => __(
+                'You have no internal links on your site. Add some!',
+                'visualcomposer'
+            ),
+            'noOutboundLinks' => __(
+                'No external links appear on your page',
+                'visualcomposer'
+            ),
+            'noOutboundLinksDescription' => __(
+                'You have no external links on your site. Add some!',
                 'visualcomposer'
             ),
         ];
