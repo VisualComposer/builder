@@ -7,6 +7,7 @@ addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
   const documentManager = getService('document')
   const notificationsStorage = getStorage('notifications')
+  const wordpressDataStorage = getStorage('wordpressData')
   const cook = getService('cook')
   const isElementOneRelation = (parent) => {
     const children = cook.getContainerChildren(parent.tag)
@@ -55,6 +56,14 @@ addStorage('workspace', (storage) => {
     })
   })
   storage.on('remove', (id) => {
+    // TODO: At the moment of creating only layoutWpContentPart element is available
+    // after we have finalized layout builder need to expand this functionality for other elements
+    // also need correct texts from marketing
+    if (documentManager.get(id).tag === 'layoutWpContentPart') {
+      const contentElements = wordpressDataStorage.state('contentElements').get()
+      delete contentElements[id]
+      wordpressDataStorage.state('contentElements').set(contentElements)
+    }
     const settings = storage.state('settings').get()
     elementsStorage.trigger('remove', id)
 

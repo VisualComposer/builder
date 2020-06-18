@@ -260,6 +260,8 @@ addStorage('wordpressData', (storage) => {
     })
   }
 
+  storage.state('contentElements').set({})
+
   // postUpdate event
   storage.on('rebuild', (postId) => {
     storage.state('id').set(postId)
