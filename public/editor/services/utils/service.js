@@ -173,6 +173,27 @@ const API = {
 
     return html
   },
+  getTextContent (data) {
+    data = data
+      .replace(/\s*\bdata-vcv-[^"<>]+"[^"<>]+"+/g, '')
+      .replace(/<!--\[vcvSourceHtml]/g, '')
+      .replace(/\[\/vcvSourceHtml]-->/g, '')
+      .replace(/<\//g, ' </')
+    // .replace(/&quot;/g, "'")
+    // TODO: filter HTML for shortcodes
+    const range = document.createRange()
+    const documentFragment = range.createContextualFragment(data)
+
+    let helper = documentFragment.querySelector('style, script, noscript, meta, title, .vcv-ui-blank-row-container, .vcv-row-control-container')
+
+    while (helper) {
+      const parentNode = helper.parentNode
+      parentNode.removeChild(helper)
+      helper = documentFragment.querySelector('style, script, noscript, meta, title, .vcv-ui-blank-row-container, .vcv-row-control-container')
+    }
+
+    return documentFragment.textContent.trim()
+  },
   slugify (str) {
     str = str || ''
     return str.toString().toLowerCase()
