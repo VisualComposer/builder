@@ -158,7 +158,9 @@ add('insights', () => {
           title: this.localizations.insightsNoContentOnPageTitle,
           groupDescription: this.localizations.insightsNoContentOnPageDescription
         })
+        return true
       }
+      return false
     }
 
     checkForAlt () {
@@ -442,16 +444,18 @@ add('insights', () => {
       insightsStorageInstance.isImagesSizeLarge = false
 
       // Do all checks
-      insightsStorageInstance.checkForHeadings()
-      insightsStorageInstance.checkForAlt()
-      insightsStorageInstance.checkForImagesSize()
-      insightsStorageInstance.checkForEmptyContent()
-      insightsStorageInstance.checkParagraphsLength()
-      insightsStorageInstance.checkTitleLength()
-      insightsStorageInstance.checkNoIndex()
-      insightsStorageInstance.checkPostContentLength()
-      insightsStorageInstance.checkForGA()
-      insightsStorageInstance.checkLinks()
+      const isEmptyContent = insightsStorageInstance.checkForEmptyContent()
+      if (!isEmptyContent) {
+        insightsStorageInstance.checkForHeadings()
+        insightsStorageInstance.checkForAlt()
+        insightsStorageInstance.checkForImagesSize()
+        insightsStorageInstance.checkParagraphsLength()
+        insightsStorageInstance.checkTitleLength()
+        insightsStorageInstance.checkNoIndex()
+        insightsStorageInstance.checkPostContentLength()
+        insightsStorageInstance.checkForGA()
+        insightsStorageInstance.checkLinks()
+      }
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
