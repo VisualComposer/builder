@@ -34,6 +34,12 @@ class AdminController extends Controller implements Module
             'listenAjax',
             100
         );
+        /** @see \VisualComposer\Modules\System\Ajax\AdminController::disableAjaxErrors */
+        $this->wpAddAction(
+            'vcv:boot',
+            'disableAjaxErrors',
+            10
+        );
     }
 
     protected function listenAjax(Request $requestHelper)
@@ -44,6 +50,18 @@ class AdminController extends Controller implements Module
             $rawResponse = $this->call('parseRequest');
             $output = $this->renderResponse($rawResponse);
             $this->output($output, $rawResponse);
+        }
+    }
+
+    protected function disableAjaxErrors(Request $requestHelper)
+    {
+        if ($requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)) {
+            set_time_limit(120);
+            if (!vcvenv('VCV_DEBUG')) {
+                ini_set('display_errors', 'Off');
+                ini_set('error_reporting', 0);
+                error_reporting(0);
+            }
         }
     }
 }
