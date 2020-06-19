@@ -33,13 +33,13 @@ class Controller extends Container implements Module
             'listenAjax',
             100
         );
-        /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
+        /** @see \VisualComposer\Modules\System\Ajax\Controller::disableAjaxErrors */
         $this->wpAddAction(
             'vcv:boot',
             'disableAjaxErrors',
             10
         );
-        /** @see \VisualComposer\Modules\System\Ajax\Controller::listenAjax */
+        /** @see \VisualComposer\Modules\System\Ajax\Controller::listenLateAjax */
         $this->wpAddAction(
             'wp_loaded',
             'listenLateAjax',
@@ -85,6 +85,7 @@ class Controller extends Container implements Module
     protected function disableAjaxErrors(Request $requestHelper)
     {
         if ($requestHelper->isAjax()) {
+            set_time_limit(120);
             if (!vcvenv('VCV_DEBUG')) {
                 ini_set('display_errors', 'Off');
                 ini_set('error_reporting', 0);
