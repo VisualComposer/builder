@@ -84,7 +84,8 @@ add('insights', () => {
       const noOutboundLinks = this.localizations.noOutboundLinks
       const noOutboundLinksDescription = this.localizations.noOutboundLinksDescription
 
-      const links = document.querySelector('.vcv-layout-iframe').contentWindow.document.querySelector('.vcv-container').querySelectorAll('a')
+      const contentRoot = env('iframe').document.getElementById('vcv-editor')
+      const links = contentRoot.querySelectorAll('a')
       links.forEach((link) => {
         if (window.location.host === link.host) {
           inboundLinks.push(link)
