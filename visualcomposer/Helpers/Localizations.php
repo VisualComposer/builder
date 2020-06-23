@@ -946,19 +946,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insightsGAMissingTitle' => __(
-                'Google Analytics script is missing',
+                'Google Analytics Tag is missing',
                 'visualcomposer'
             ),
             'insightsGAMissingTitleOK' => __(
-                'Google Analytics script persist in Page',
+                'Google Analytics Tag is added to your page',
                 'visualcomposer'
             ),
             'insightsGAMissingDescription' => __(
-                'It seems your page has no Google Analytics script',
+                'It seems Google Analytics Tags is not added to your page.',
                 'visualcomposer'
             ),
             'insightsGAMissingDescriptionOK' => __(
-                'Your page has an Google Anayltics script. Great job!',
+                'Google Analytics Tag is added to your page. Great job!',
                 'visualcomposer'
             ),
             'insightsContentLengthTitle' => __(
