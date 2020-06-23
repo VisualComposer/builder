@@ -15,7 +15,7 @@ export default class InsightsButtonControl extends NavbarContent {
       showWarning: false, // !!assetsStorage.getCustomCss()
       insightData: insightsStorage.state('insights').get() || []
     }
-    this.handleClickSettings = this.handleClickSettings.bind(this)
+    this.handleClickInsights = this.handleClickInsights.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.handleInsightsChange = this.handleInsightsChange.bind(this)
 
@@ -42,7 +42,7 @@ export default class InsightsButtonControl extends NavbarContent {
     })
   }
 
-  handleClickSettings (e) {
+  handleClickInsights (e) {
     e && e.preventDefault()
     workspaceContentState.set(!this.state.isActive ? 'insights' : false)
     workspaceSettings.set({ action: 'insights' })
@@ -68,7 +68,7 @@ export default class InsightsButtonControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickSettings}>
+      <span className={controlClass} title={name} onClick={this.handleClickInsights}>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>

@@ -85,9 +85,7 @@ class Settings extends Container implements Module
     public function getMainPageSlug()
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
-        $aboutConroller = vcapp('SettingsPagesAbout');
         $gettingStartedController = vcapp('LicensePagesGettingStarted');
-        $licenseHelper = vchelper('License');
         $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
 
         if ($hasAccess) {

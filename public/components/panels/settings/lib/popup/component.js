@@ -211,7 +211,7 @@ export default class Popup extends React.Component {
 
     if (this.state.isRequestInProcess) {
       popupSelect = (
-        <span className='vcv-ui-wp-spinner' />
+        <span className='vcv-ui-wp-spinner vcv-ui-settings-popup-panel-spinner' />
       )
     } else {
       popupSelect = (

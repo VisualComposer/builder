@@ -36,13 +36,20 @@
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.92px;
-  padding: 8px 0 0 16px;
+  padding: 8px 16px 0 16px;
   font-style: italic;
+  font-family: inherit;
 }
 
 .vcv-insight-item-description {
   padding: 0 0 0 20px;
   flex: 1 1 auto;
+}
+
+.vcv-insight-no-issues .vcv-insight-description {
+  padding: 0;
+  text-align: center;
+  width: 300px;
 }
 
 .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-title:before {
@@ -117,4 +124,33 @@
   color: #D8D8D8;
   font-size: 18px;
   cursor: pointer;
+}
+
+.vcv-ui-insights-spinner,
+.vcv-ui-settings-popup-panel-spinner,
+.vcv-insight-no-issues {
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.vcv-no-issues-heading {
+  //font-weight: 600;
+  //font-size: 16px;
+  //line-height: 22px;
+  letter-spacing: 1px;
+  margin: 20px 0 10px;
+  font: normal 600 16px/22px 'Montserrat', sans-serif;
+}
+
+.vcv-insight-no-issues {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto', sans-serif;
 }
