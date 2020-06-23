@@ -6,12 +6,112 @@ const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const cookService = getService('cook')
+const utils = getService('utils')
 
 add('insights', () => {
   // VC: Insights
   class InsightsChecks {
     isImagesSizeLarge = false
     localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+
+    checkTitleLength () {
+      if (window.VCV_EDITOR_TYPE) {
+        return
+      }
+
+      const pageTitleLength = settingsStorage.state('pageTitle').get().length
+      const insightsTitleTooLong = this.localizations.insightsTitleTooLong
+      const insightsTitleTooLong60 = this.localizations.insightsTitleTooLong60
+      const insightsTitleTooLong100 = this.localizations.insightsTitleTooLong100
+      const insightsTitleTooShort = this.localizations.insightsTitleTooShort
+      const insightsTitleTooShortDescription = this.localizations.insightsTitleTooShortDescription
+      const insightsTitleGood = this.localizations.insightsTitleGood
+
+      if (pageTitleLength > 100) {
+        insightsStorage.trigger('add', {
+          state: 'critical',
+          type: 'titleLength',
+          title: insightsTitleTooLong,
+          groupDescription: insightsTitleTooLong100
+        })
+      } else if (pageTitleLength > 60) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'titleLength',
+          title: insightsTitleTooLong,
+          groupDescription: insightsTitleTooLong60
+        })
+      } else if (pageTitleLength > 10) {
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'titleLength',
+          title: insightsTitleGood,
+          groupDescription: `Your page title consists of ${pageTitleLength} characters which is optimal title size.`
+        })
+      } else if (pageTitleLength >= 0) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'titleLength',
+          title: insightsTitleTooShort,
+          groupDescription: insightsTitleTooShortDescription
+        })
+      }
+    }
+
+    checkNoIndex () {
+      const noIndexMetaTag = this.localizations.noIndexMetaTag
+      const noIndexMetaTagDescription = this.localizations.noIndexMetaTagDescription
+
+      const metas = document.querySelector('.vcv-layout-iframe').contentWindow.document.querySelectorAll('meta')
+      metas.forEach((meta) => {
+        if (meta.content.includes('noindex')) {
+          insightsStorage.trigger('add', {
+            state: 'warning',
+            type: 'noIndex',
+            title: noIndexMetaTag,
+            groupDescription: noIndexMetaTagDescription
+          })
+        }
+      })
+    }
+
+    checkLinks () {
+      const inboundLinks = []
+      const outboundLinks = []
+
+      const noInboundLinks = this.localizations.noInboundLinks
+      const noInboundLinksDescription = this.localizations.noInboundLinksDescription
+      const noOutboundLinks = this.localizations.noOutboundLinks
+      const noOutboundLinksDescription = this.localizations.noOutboundLinksDescription
+
+      const contentRoot = env('iframe').document.getElementById('vcv-editor')
+      const links = contentRoot.querySelectorAll('a')
+      links.forEach((link) => {
+        if (window.location.host === link.host) {
+          inboundLinks.push(link)
+        } else {
+          outboundLinks.push(link)
+        }
+      })
+
+      if (!inboundLinks.length) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'noInboundLinks',
+          title: noInboundLinks,
+          groupDescription: noInboundLinksDescription
+        })
+      }
+
+      if (!outboundLinks.length) {
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'noOutboundLinks',
+          title: noOutboundLinks,
+          groupDescription: noOutboundLinksDescription
+        })
+      }
+    }
 
     checkForHeadings () {
       if (window.VCV_EDITOR_TYPE) {
@@ -228,6 +328,110 @@ add('insights', () => {
         return domNode.closest('[data-vcv-layout-zone="sidebar"]') ? 'Right Sidebar' : 'Footer'
       }
     }
+
+    checkParagraphsLength () {
+      const paragraphs = env('iframe').document.body.querySelectorAll('.vcv-layouts-html p')
+      let isParagraphSizeLarge = false
+
+      paragraphs.forEach((paragraph) => {
+        const paragraphLength = paragraph.innerText.split(' ').length
+        if (paragraph.length && paragraphLength > 200) {
+          const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
+          const groupDescription = this.localizations.insightsParagraphLengthDescription200
+          const description = this.localizations.insightsParagraphLengthDescription
+          const elementId = InsightsChecks.getElementId(paragraph)
+          const position = InsightsChecks.getNodePosition(paragraph)
+          isParagraphSizeLarge = true
+          insightsStorage.trigger('add', {
+            state: 'critical',
+            type: `paragraphLengthLarge${position}`,
+            title: position !== 'Content' ? `${position}: ${insightsParagraphLengthTitle}` : insightsParagraphLengthTitle,
+            groupDescription: groupDescription,
+            description: `${description} ${paragraphLength}`,
+            elementID: elementId,
+            domNode: paragraph
+          })
+        } else if (paragraph.length && paragraphLength > 150 && paragraphLength < 200) {
+          const elementId = InsightsChecks.getElementId(paragraph)
+          const position = InsightsChecks.getNodePosition(paragraph)
+          const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
+          const groupDescription = this.localizations.insightsParagraphLengthDescription150
+          const description = this.localizations.insightsParagraphLengthDescription
+          isParagraphSizeLarge = true
+          insightsStorage.trigger('add', {
+            state: 'warning',
+            type: `paragraphLengthMedium${position}`,
+            title: position !== 'Content' ? `${position}: ${insightsParagraphLengthTitle}` : insightsParagraphLengthTitle,
+            groupDescription: groupDescription,
+            description: `${description} ${paragraphLength}`,
+            elementID: elementId,
+            domNode: paragraph
+          })
+        }
+      })
+
+      if (paragraphs.length && !isParagraphSizeLarge) {
+        const insightsParagraphLengthTitle = this.localizations.insightsParagraphLengthTitle
+        const groupDescription = this.localizations.insightsParagraphLengthDescriptionOk
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'paragraphSizeProper',
+          title: insightsParagraphLengthTitle,
+          groupDescription: groupDescription
+        })
+      }
+    }
+
+    checkPostContentLength () {
+      const elements = getStorage('elements').state('document').get() || []
+      if (elements.length) {
+        const layoutHTML = env('iframe').document.body.querySelector('.vcv-layouts-html').innerHTML
+        const contentLength = utils.getTextContent(layoutHTML).split(/\s+/).length
+        const insightsParagraphLengthTitle = this.localizations.insightsContentLengthTitle
+        let groupDescription = ''
+
+        if (layoutHTML && contentLength < 300) {
+          groupDescription = this.localizations.insightsContentLengthDescription300
+          insightsStorage.trigger('add', {
+            state: 'critical',
+            type: 'contentSize300',
+            title: insightsParagraphLengthTitle,
+            groupDescription: groupDescription.replace('%length', contentLength)
+          })
+        } else if (layoutHTML) {
+          groupDescription = this.localizations.insightsContentLengthDescriptionOk
+          insightsStorage.trigger('add', {
+            state: 'success',
+            type: 'contentSizeProper',
+            title: insightsParagraphLengthTitle,
+            groupDescription: groupDescription.replace('%length', contentLength)
+          })
+        }
+      }
+    }
+
+    checkForGA () {
+      const gaNodes = env('iframe').document.querySelectorAll('script[src*="googletagmanager.com"], script[src*="google-analytics.com"]')
+      if (!window.dataLayer && !window.GoogleAnalyticsObject && !window.ga && !gaNodes.length) {
+        const insightsGAMissingTitle = this.localizations.insightsGAMissingTitle
+        const insightsGAMissingDescription = this.localizations.insightsGAMissingDescription
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'googleAnalytics',
+          title: insightsGAMissingTitle,
+          groupDescription: insightsGAMissingDescription
+        })
+      } else {
+        const insightsGAMissingTitleOK = this.localizations.insightsGAMissingTitleOK
+        const insightsGAMissingDescriptionOK = this.localizations.insightsGAMissingDescriptionOK
+        insightsStorage.trigger('add', {
+          state: 'success',
+          type: 'googleAnalytics',
+          title: insightsGAMissingTitleOK,
+          groupDescription: insightsGAMissingDescriptionOK
+        })
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -242,6 +446,12 @@ add('insights', () => {
       insightsStorageInstance.checkForAlt()
       insightsStorageInstance.checkForImagesSize()
       insightsStorageInstance.checkForEmptyContent()
+      insightsStorageInstance.checkParagraphsLength()
+      insightsStorageInstance.checkTitleLength()
+      insightsStorageInstance.checkNoIndex()
+      insightsStorageInstance.checkPostContentLength()
+      insightsStorageInstance.checkForGA()
+      insightsStorageInstance.checkLinks()
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
