@@ -985,6 +985,10 @@ class Localizations extends Container implements Helper
                 'You have no external links on your site. Add some!',
                 'visualcomposer'
             ),
+            'contentPartElementNotification' => __(
+                'Only %limit %element element available per page.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
