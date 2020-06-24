@@ -137,10 +137,10 @@ export default class TemplateLayout extends React.Component {
       options.push(
         <option
           value='theme__default'
-          title='Theme default'
+          title='Theme'
           key='settings-layout-theme-default'
         >
-          Theme default
+          Theme
         </option>
       )
 
