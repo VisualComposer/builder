@@ -877,7 +877,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'contentPartElementNotification' => __(
-                'Only one Wp Content Part element available per page.',
+                'Only %limit %element element available per page.',
                 'visualcomposer'
             ),
         ];
