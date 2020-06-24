@@ -47,6 +47,10 @@ class PageTemplatesVariablesController extends Container implements Module
         if (vcvenv('VCV_TF_BLANK_PAGE_BOXED')) {
             $value = [
                 [
+                    'label' => __('Default Template', 'visualcomposer'),
+                    'value' => 'default',
+                ],
+                [
                     'label' => __('Blank Template', 'visualcomposer'),
                     'value' => 'blank',
                 ],

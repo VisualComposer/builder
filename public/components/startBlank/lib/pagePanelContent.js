@@ -193,7 +193,7 @@ export default class PagePanelContent extends React.Component {
         onClick={this.handleLayoutClick}
         icon={Icon}
         blank
-        name='Theme default'
+        name='Theme'
         templateName='theme-default'
         active={active}
       />

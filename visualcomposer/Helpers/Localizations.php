@@ -344,6 +344,10 @@ class Localizations extends Container implements Helper
                 'Full width blank page without header, footer, or sidebar.',
                 'visualcomposer'
             ),
+            'vcDefaultDescription' => __(
+                'Default layout for the post type created in Visual Composer Theme Builder.',
+                'visualcomposer'
+            ),
             'vcThemeHeaderFooterDescription' => __(
                 'Default layout with custom header, content, and footer area.',
                 'visualcomposer'
@@ -983,6 +987,10 @@ class Localizations extends Container implements Helper
             ),
             'noOutboundLinksDescription' => __(
                 'You have no external links on your site. Add some!',
+                'visualcomposer'
+            ),
+            'contentPartElementNotification' => __(
+                'Only %limit %element element available per page.',
                 'visualcomposer'
             ),
         ];
