@@ -94,6 +94,8 @@ class TemplatesUpdater extends Container implements Module
         $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
         $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
         $templateElements = $this->processDesignOptions($templateElements, $template);
+        // Check if menu source is exist or not
+        $templateElements = $this->isMenuExist($templateElements);
         $templateElements = json_decode(
             str_replace(
                 '[publicPath]',
@@ -362,6 +364,31 @@ class TemplatesUpdater extends Container implements Module
         }
 
         return $recursiveIterator->getArrayCopy();
+    }
+
+
+    /**
+     * @param $templateElements
+     *
+     * @return mixed
+     */
+    protected function isMenuExist($templateElements)
+    {
+        foreach ($templateElements as $element) {
+            if (isset($element['menuSource']) && !empty($element['menuSource'])) {
+                $menusFromKey = get_terms(
+                    [
+                        'taxonomy' => 'nav_menu',
+                        'slug' => $element['menuSource'],
+                    ]
+                );
+                if (empty($menusFromKey)) {
+                    $templateElements[ $element['id'] ]['menuSource'] = '';
+                }
+            }
+        }
+
+        return $templateElements;
     }
 
     /**
