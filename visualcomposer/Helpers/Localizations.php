@@ -876,6 +876,10 @@ class Localizations extends Container implements Helper
                 'It seems your page has no content. Make sure to add elements or templates.',
                 'visualcomposer'
             ),
+            'contentPartElementNotification' => __(
+                'Only one Wp Content Part element available per page.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

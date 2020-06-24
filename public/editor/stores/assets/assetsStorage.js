@@ -14,7 +14,6 @@ addStorage('assets', (storage) => {
   const utils = getService('utils')
   const globalAssetsStorage = assetsStorage.create()
   const settingsStorage = getStorage('settings')
-  const notificationsStorage = getStorage('notifications')
   const assetsLibraryManager = new AssetsLibraryManager()
   const data = { elements: {} }
   const getAssetsWindow = () => {
@@ -37,25 +36,6 @@ addStorage('assets', (storage) => {
   })
 
   storage.on('addElement', (id) => {
-    // TODO: At the moment of creating only layoutWpContentPart element is available
-    // after we have finalized layout builder need to expand this functionality for other elements
-    // also need correct texts from marketing
-    if (documentManager.get(id).tag === 'layoutWpContentPart') {
-      const contentElements = wordpressDataStorage.state('contentElements').get()
-      contentElements[id] = documentManager.get(id)
-      wordpressDataStorage.state('contentElements').set(contentElements)
-      if (Object.keys(wordpressDataStorage.state('contentElements').get()).length > 1) {
-        notificationsStorage.trigger('add', {
-          position: 'top',
-          transparent: false,
-          rounded: false,
-          type: 'warning',
-          text: 'Only one element of this type available per page.',
-          html: true,
-          time: 5000
-        })
-      }
-    }
     const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)

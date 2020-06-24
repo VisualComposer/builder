@@ -6,7 +6,6 @@ import NavbarContent from '../navbarContent'
 const PostData = vcCake.getService('wordpress-post-data')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
-const notificationsStorage = vcCake.getStorage('notifications')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
@@ -95,18 +94,6 @@ export default class WordPressPostSaveControl extends NavbarContent {
 
   handleClickSaveData (e, _, __, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
-    if (Object.keys(wordpressDataStorage.state('contentElements').get()).length > 1) {
-      notificationsStorage.trigger('add', {
-        position: 'top',
-        transparent: false,
-        rounded: false,
-        type: 'error',
-        text: 'Only one element of this type available per page.',
-        html: true,
-        time: 5000
-      })
-      return
-    }
 
     if (this.state.status === 'saving') {
       return
