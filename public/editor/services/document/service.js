@@ -207,6 +207,16 @@ const api = {
   getTopParent: function (id) {
     const obj = this.get(id)
     return obj && obj.parent ? this.getTopParent(obj.parent) : id
+  },
+  getByTag: function (tag) {
+    const itemsByTag = {}
+    const data = dataStore.data.toJS()
+    Object.keys(data).map((key) => {
+      if (data[key].tag === tag) {
+        itemsByTag[key] = data[key]
+      }
+    })
+    return itemsByTag
   }
 }
 
