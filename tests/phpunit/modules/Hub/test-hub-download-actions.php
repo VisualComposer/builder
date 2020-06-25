@@ -133,7 +133,7 @@ class HubDownloadActions extends WP_UnitTestCase
         $this->assertEquals(
             [
                 'predefined' => [
-                    'name' => 'Hub Templates',
+                    'name' => 'Visual Composer Hub Templates',
                     'type' => 'predefined',
                     'templates' => [
                         [

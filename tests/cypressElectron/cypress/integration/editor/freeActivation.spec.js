@@ -29,7 +29,7 @@ describe('Free activation test', function () {
     cy.createPage()
     cy.viewport(800, 800)
     cy.wait(200)
-    cy.get('.vcv-ui-navbar-control[title="Hub"]').click()
+    cy.get('.vcv-ui-navbar-control[title="Visual Composer Hub"]').click()
     cy.get('#add-element-search').type('Faq toggle')
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser .vcv-ui-item-element[title="Faq Toggle"]').should('be.visible')
 

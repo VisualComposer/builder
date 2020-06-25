@@ -73,7 +73,7 @@ addStorage('hubElements', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': window.vcvNonce
     }
-    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
+    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
     if (hubElementsService.get(tag) !== null) {
       return
     }
