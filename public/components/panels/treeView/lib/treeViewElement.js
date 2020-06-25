@@ -598,8 +598,8 @@ export default class TreeViewElement extends React.Component {
     const isHidden = cookElement.get('hidden')
 
     const hideIcon = !isHidden ? null : (
-      <span className="vcv-ui-tree-layout-control-state" title={elementIsHidden}>
-        <i className="vcv-ui-icon vcv-ui-icon-eye-on" />
+      <span className='vcv-ui-tree-layout-control-state' title={elementIsHidden}>
+        <i className='vcv-ui-icon vcv-ui-icon-eye-on' />
       </span>
     )
 
