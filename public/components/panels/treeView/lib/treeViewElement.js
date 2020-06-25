@@ -418,9 +418,9 @@ export default class TreeViewElement extends React.Component {
     const editText = localizations ? localizations.edit : 'Edit'
     let visibilityText = ''
     if (hidden) {
-      visibilityText = localizations ? localizations.hideOn : 'Hide: On'
+      visibilityText = localizations ? localizations.hideOn : 'Hide Element'
     } else {
-      visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
+      visibilityText = localizations ? localizations.hideOff : 'Show Element'
     }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     const lockedElementText = localizations ? localizations.lockedElementText : 'The element has been locked by your site Administrator'

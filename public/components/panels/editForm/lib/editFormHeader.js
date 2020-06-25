@@ -227,9 +227,9 @@ export default class EditFormHeader extends React.Component {
       })
       let visibilityText = ''
       if (hidden) {
-        visibilityText = localizations ? localizations.hideOn : 'Hide: On'
+        visibilityText = localizations ? localizations.hideOn : 'Hide Element'
       } else {
-        visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
+        visibilityText = localizations ? localizations.hideOff : 'Show Element'
       }
       hideControl = (
         <span
