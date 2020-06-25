@@ -207,7 +207,7 @@ class Localizations extends Container implements Helper
             'elementIsHidden' => __('Element is Hidden', 'visualcomposer'),
             'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
             'presetsHelperText' => __(
-                'Create an element with your chosen parameters. The new element will be added to your Add Element panel.',
+                'Change default parameters to create a unique element. The new element will be added to your library.',
                 'visualcomposer'
             ),
             'saveAsPreset' => __('Save as Preset', 'visualcomposer'),
@@ -606,7 +606,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'templateHelperText' => __(
-                'Create a template with your chosen parameters. The new template will be added to your Add Template panel.',
+                'Change default parameters of sections and their content to create a unique block template. The new block template will be added to your library.',
                 'visualcomposer'
             ),
             'presetRemovedText' => __(
