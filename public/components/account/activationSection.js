@@ -15,7 +15,7 @@ export default class ActivationSectionProvider extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static texts = {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
-    doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : `Don’t close this window while sending error is in progress.`
+    doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don’t close this window while sending error is in progress.'
   }
 
   doUpdatePostAction = async (postUpdater) => {
