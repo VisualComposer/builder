@@ -989,8 +989,28 @@ class Localizations extends Container implements Helper
                 'You have no external links on your site. Add some!',
                 'visualcomposer'
             ),
-            'contentPartElementNotification' => __(
-                'Only %limit %element element available per page.',
+            'onlyOneElementCanBeAddedToPage' => __(
+                'Only one %element element can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyTwoElementsCanBeAddedToPage' => __(
+                'Only two %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyThreeElementsCanBeAddedToPage' => __(
+                'Only three %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyFourElementsCanBeAddedToPage' => __(
+                'Only four %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyFiveElementsCanBeAddedToPage' => __(
+                'Only five %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'elementLimitDefaultText' => __(
+                'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
         ];
