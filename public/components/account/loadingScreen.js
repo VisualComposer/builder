@@ -8,7 +8,7 @@ export default class LoadingScreen extends React.Component {
     downloadingInitialExtensionsText: LoadingScreen.localizations ? LoadingScreen.localizations.downloadingInitialExtensions : 'Downloading initial extensions',
     savingResultsText: LoadingScreen.localizations ? LoadingScreen.localizations.savingResults : 'Saving Results',
     postUpdateText: LoadingScreen.localizations ? LoadingScreen.localizations.postUpdateText : 'Update posts {i} in {cnt}: {name}',
-    doNotCloseWhileUpdateText: LoadingScreen.localizations ? LoadingScreen.localizations.doNotCloseWhileUpdateText : 'Don\'t close this window while download is in the progress.',
+    doNotCloseWhileUpdateText: LoadingScreen.localizations ? LoadingScreen.localizations.doNotCloseWhileUpdateText : `Don’t close this window while the download is in progress.`,
     skipThisPostText: LoadingScreen.localizations ? LoadingScreen.localizations.skipThisPostText : 'Skip this post'
   }
 
