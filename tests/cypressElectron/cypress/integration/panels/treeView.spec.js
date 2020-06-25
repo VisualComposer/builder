@@ -102,7 +102,7 @@ describe('Tree View', function () {
 
       cy.get('.vcv-ui-tree-layout-control')
         .first()
-        .find('.vcv-ui-tree-layout-control-action[title="Hide: Off"]')
+        .find('.vcv-ui-tree-layout-control-action[title="Hide Element"]')
         .click({ force: true })
 
       cy.savePage()
