@@ -179,7 +179,13 @@ class Plugin {
     fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
     this.isDev && fs.ensureDirSync(path.join(bundlePath, 'tests'))
     process.chdir(bundlePath)
-    const copyTests = this.isDev ? 'cp -fr ' + repoPath + '/tests/cypress ./tests &' : ''
+    let copyTests = ''
+    if (this.isDev) {
+      copyTests = 'cp -fr ' + repoPath + '/tests/cypressConfig ./tests &' +
+                  'cp -fr ' + repoPath + '/tests/cypressConfig/cypress ./tests &' +
+                  'cp -fr ' + repoPath + '/tests/cypressChrome ./tests &' +
+                  'cp -fr ' + repoPath + '/tests/cypressElectron ./tests &'
+    }
     const copyTestsPhpE2e = this.isDev ? 'cp -fr ' + repoPath + '/tests/php-e2e-actions ./tests &' : ''
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
       'cp -fr ' + repoPath + '/env.php ./ &' +

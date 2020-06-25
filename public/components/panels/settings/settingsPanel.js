@@ -13,6 +13,8 @@ const localizations = window.VCV_I18N && window.VCV_I18N()
 const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
 const settingsText = localizations ? localizations.layout : 'Layout'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
+const popupText = localizations ? localizations.popup : 'Popup'
+const elementsLockText = localizations ? localizations.elementsLock : 'Elements Lock'
 
 const controls = {
   layout: {
@@ -41,7 +43,7 @@ if (env('VCV_POPUP_BUILDER')) {
     controls.popup = {
       index: 3,
       type: 'popup',
-      title: 'Popup',
+      title: popupText,
       content: <Popup />
     }
   }
@@ -51,7 +53,7 @@ if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && window.vcvManageOptions) {
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
-    title: 'Elements Lock',
+    title: elementsLockText,
     content: <ElementsLock />
   }
 }
