@@ -154,7 +154,7 @@ export default class TemplateLayout extends React.Component {
     icons.push(
       <span
         className={classes}
-        title='Theme default'
+        title='Theme'
         key='settings-layout-theme-default'
         onClick={() => { this.handleTemplateChange('theme__default') }}
       >
@@ -208,7 +208,7 @@ export default class TemplateLayout extends React.Component {
       })
     }
 
-    optGroups.push(<option key='default' value='theme__default'>Theme Default</option>)
+    optGroups.push(<option key='default' value='theme__default'>Theme</option>)
 
     return (
       <>
