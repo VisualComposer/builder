@@ -55,7 +55,8 @@ module.exports = {
           'updateContent',
           'layout',
           'wordpressWorkspace',
-          'insights'
+          'insights',
+          'elementLimit'
         ],
         services: [
           'utils',
