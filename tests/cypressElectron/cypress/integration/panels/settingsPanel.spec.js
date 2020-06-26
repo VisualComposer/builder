@@ -23,7 +23,7 @@ describe('Settings Panel', function () {
             .type(settings.pagePermalink)
         })
 
-      cy.get('.vcv-ui-start-layout-list-item[title="Theme default"]').click()
+      cy.get('.vcv-ui-start-layout-list-item[title="Theme"]').click()
 
       cy.wait('@setPostPermalink')
 
