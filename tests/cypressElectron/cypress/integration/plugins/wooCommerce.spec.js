@@ -4,6 +4,7 @@ describe('WooCommerce plugin', function () {
   it('Enables Product post type, creates a Product page, adds content, check WP product page for WooCommerce plugin compliance.', function () {
     cy.viewport(1200, 800)
     cy.visit('/wp-admin/admin.php?page=wc-status')
+    cy.visit(`${Cypress.env('baseUrl')}shop`)
     cy.visit(`${Cypress.env('baseUrl')}wp-admin/post-new.php?post_type=product&vcv-action=frontend`)
 
     cy.get('.vcv-start-blank-title-input')
