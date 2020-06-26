@@ -41,7 +41,8 @@ module.exports = Object.assign({}, config, {
         modules: [
           'layout',
           'wordpressWorkspace',
-          'insights'
+          'insights',
+          'elementLimit'
         ],
         services: [
           'utils',

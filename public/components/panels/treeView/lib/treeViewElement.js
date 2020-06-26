@@ -418,12 +418,13 @@ export default class TreeViewElement extends React.Component {
     const editText = localizations ? localizations.edit : 'Edit'
     let visibilityText = ''
     if (hidden) {
-      visibilityText = localizations ? localizations.hideOn : 'Hide: On'
+      visibilityText = localizations ? localizations.hideOn : 'Hide Element'
     } else {
-      visibilityText = localizations ? localizations.hideOff : 'Hide: Off'
+      visibilityText = localizations ? localizations.hideOff : 'Show Element'
     }
     const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     const lockedElementText = localizations ? localizations.lockedElementText : 'The element has been locked by your site Administrator'
+    const elementIsHidden = localizations ? localizations.elementIsHidden : 'Element is Hidden'
 
     let { editable, content, copyData } = this.state
 
@@ -594,6 +595,14 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
+    const isHidden = cookElement.get('hidden')
+
+    const hideIcon = !isHidden ? null : (
+      <span className='vcv-ui-tree-layout-control-state' title={elementIsHidden}>
+        <i className='vcv-ui-icon vcv-ui-icon-eye-on' />
+      </span>
+    )
+
     if (!this.props.isAttribute && env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin && isGeneral) {
       const lockElementClasses = classNames({
         'vcv-ui-icon': true,
@@ -631,6 +640,7 @@ export default class TreeViewElement extends React.Component {
       <>
         {baseControlsItems}
         {lockIcon}
+        {hideIcon}
       </>
     )
 

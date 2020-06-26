@@ -200,13 +200,13 @@ class PostFieldsController extends Container implements Module
             'url' => [
                 'post' => [
                     'group' => [
-                        'label' => __('Post URLs', 'visualcomposer'),
+                        'label' => __('Post', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],
                 'site' => [
                     'group' => [
-                        'label' => __('Site URLs', 'visualcomposer'),
+                        'label' => __('Site', 'visualcomposer'),
                         'values' => [],
                     ],
                 ],

@@ -211,8 +211,13 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       const url = new URL(blockInfo.blockAtts.currentValue)
       const urlParams = new URLSearchParams(url.search)
 
-      alt = urlParams.get('alt')
-      title = urlParams.get('title')
+      if (urlParams.get('alt')) {
+        alt = urlParams.get('alt')
+      }
+
+      if (urlParams.get('title')) {
+        title = urlParams.get('title')
+      }
 
       if (naturalSizes) {
         shortcode += ' data-dynamic-natural-size="true"'

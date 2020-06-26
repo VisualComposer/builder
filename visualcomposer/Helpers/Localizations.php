@@ -23,7 +23,7 @@ class Localizations extends Container implements Helper
         $wpHelper = vchelper('Wp');
         $locale = [
             'addElement' => __('Add Element', 'visualcomposer'),
-            'addPremiumElement' => __('Hub', 'visualcomposer'),
+            'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
             'undo' => __('Undo', 'visualcomposer'),
@@ -57,12 +57,12 @@ class Localizations extends Container implements Helper
             'localCSS' => __('Local CSS', 'visualcomposer'),
             'localCSSLabel' => __('Local CSS will be applied to this particular page only', 'visualcomposer'),
             'globalCSS' => __('Global CSS', 'visualcomposer'),
-            'globalCSSLabel' => __('Global CSS will be applied site wide', 'visualcomposer'),
+            'globalCSSLabel' => __('Apply custom Global CSS code site-wide.', 'visualcomposer'),
             'customJS' => __('Custom JavaScript', 'visualcomposer'),
             'localJS' => __('Local JavaScript', 'visualcomposer'),
             'localJSLabel' => __('Local JavaScript will be applied to this particular page only', 'visualcomposer'),
             'globalJS' => __('Global JavaScript', 'visualcomposer'),
-            'globalJSLabel' => __('Global JavaScript will be applied site wide', 'visualcomposer'),
+            'globalJSLabel' => __('Apply custom Global Javascript code site-wide.', 'visualcomposer'),
             'save' => __('Save', 'visualcomposer'),
             'templateName' => __('Template Name', 'visualcomposer'),
             'saveTemplate' => __('Save Template', 'visualcomposer'),
@@ -202,11 +202,12 @@ class Localizations extends Container implements Helper
             'preview' => __('Preview', 'visualcomposer'),
             'previewChanges' => __('Preview Changes', 'visualcomposer'),
             'savingResults' => __('Saving Results', 'visualcomposer'),
-            'hideOff' => __('Hide: Off', 'visualcomposer'),
-            'hideOn' => __('Hide: On', 'visualcomposer'),
+            'hideOff' => __('Hide Element', 'visualcomposer'),
+            'hideOn' => __('Show Element', 'visualcomposer'),
+            'elementIsHidden' => __('Element is Hidden', 'visualcomposer'),
             'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
             'presetsHelperText' => __(
-                'Create an element with your chosen parameters. The new element will be added to your Add Element panel.',
+                'Change default parameters to create a unique element. The new element will be added to your library.',
                 'visualcomposer'
             ),
             'saveAsPreset' => __('Save as Preset', 'visualcomposer'),
@@ -344,6 +345,10 @@ class Localizations extends Container implements Helper
                 'Full width blank page without header, footer, or sidebar.',
                 'visualcomposer'
             ),
+            'vcDefaultDescription' => __(
+                'Default layout for the post type created in Visual Composer Theme Builder.',
+                'visualcomposer'
+            ),
             'vcThemeHeaderFooterDescription' => __(
                 'Default layout with custom header, content, and footer area.',
                 'visualcomposer'
@@ -375,7 +380,7 @@ class Localizations extends Container implements Helper
             'clickToEditColumnValue' => __('Click to edit column value', 'visualcomposer'),
             'addOn' => __('Add-on', 'visualcomposer'),
             'doNotCloseWhileUpdateText' => __(
-                'Don\'t close this window while download is in the progress.',
+                'Don\'t close this window while the download is in progress.',
                 'visualcomposer'
             ),
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
@@ -389,7 +394,7 @@ class Localizations extends Container implements Helper
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(
-                'Don\'t close this window while sending error is in the progress.',
+                'Don\'t close this window while sending error is in progress.',
                 'visualcomposer'
             ),
             'somethingWentWrong' => __('Oops ... Something Went Wrong', 'visualcomposer'),
@@ -601,7 +606,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'templateHelperText' => __(
-                'Create a template with your chosen parameters. The new template will be added to your Add Template panel.',
+                'Change default parameters of sections and their content to create a unique block template. The new block template will be added to your library.',
                 'visualcomposer'
             ),
             'presetRemovedText' => __(
@@ -983,6 +988,30 @@ class Localizations extends Container implements Helper
             ),
             'noOutboundLinksDescription' => __(
                 'You have no external links on your site. Add some!',
+                'visualcomposer'
+            ),
+            'onlyOneElementCanBeAddedToPage' => __(
+                'Only one %element element can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyTwoElementsCanBeAddedToPage' => __(
+                'Only two %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyThreeElementsCanBeAddedToPage' => __(
+                'Only three %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyFourElementsCanBeAddedToPage' => __(
+                'Only four %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'onlyFiveElementsCanBeAddedToPage' => __(
+                'Only five %element elements can be added to the page.',
+                'visualcomposer'
+            ),
+            'elementLimitDefaultText' => __(
+                'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
         ];

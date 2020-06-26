@@ -50,7 +50,7 @@ class CssEditor extends Container implements Module
         $sectionCallback = function () {
             echo sprintf(
                 '<p class="description">%s</p>',
-                esc_html__('Add custom CSS code to insert it globally on every page.', 'visualcomposer')
+                esc_html__('Apply custom Global CSS code site-wide.', 'visualcomposer')
             );
         };
 
