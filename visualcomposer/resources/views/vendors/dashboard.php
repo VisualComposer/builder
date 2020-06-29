@@ -23,7 +23,7 @@ $utmHelper = vchelper('Utm');
             max-width: 100%;
         }
     </style>
-    <a href="<?php echo $utmHelper->get('dashboardNewsLogo'); ?>" target="_blank" rel="noopener" class="vcwb-logo" style>
+    <a href="<?php echo $utmHelper->get('dashboardNewsLogo'); ?>" target="_blank" rel="noopener" class="vcwb-logo">
         <?php evcview('vendors/images/vc-logo'); ?>
     </a>
     <ul>
