@@ -613,8 +613,24 @@ class Localizations extends Container implements Helper
                 'Element preset has been removed.',
                 'visualcomposer'
             ),
-            'feedbackVoteText' => __(
-                'Hi there, how do You like Visual Composer?',
+            'feedbackVoteHeadingText' => __(
+                'How disappointed would you be if this product no longer existed tomorrow?',
+                'visualcomposer'
+            ),
+            'veryDisappointed' => __(
+                'Very disappointed',
+                'visualcomposer'
+            ),
+            'somewhatDisappointed' => __(
+                'Somewhat disappointed',
+                'visualcomposer'
+            ),
+            'disappointed' => __(
+                'Not disappointed (it really isn’t that useful)',
+                'visualcomposer'
+            ),
+            'feedbackVoteButtonText' => __(
+                'Submit Your Feedback',
                 'visualcomposer'
             ),
             'negativeReviewHeadingText' => __(
@@ -622,7 +638,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'positiveReviewText' => __(
-                'We are glad to hear that. Please rate us on WordPress.org and help others to discover Visual Composer.',
+                'Thanks for your feedback. Please rate us on WordPress.org and help others to discover Visual Composer.',
                 'visualcomposer'
             ),
             'negativeReviewText' => __(

@@ -132,7 +132,7 @@ class FeedbackController extends Container implements Module
         // do only if feedback not sent previously
         if (!$optionsHelper->get('feedback-sent')) {
             // Actively used for more then 1 month
-            $isActivelyUsed = $licenseHelper->isPremiumActivated() && $licenseHelper->isActivelyUsed();
+            $isActivelyUsed = $licenseHelper->isAnyActivated() && $licenseHelper->isActivelyUsed();
             // System check is OK
             $systemStatusFailing = $optionsHelper->get('systemCheckFailing', false);
             // Have at least 3 posts with VCWB
