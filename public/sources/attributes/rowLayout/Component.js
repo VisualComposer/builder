@@ -297,7 +297,7 @@ export default class Layout extends Attribute {
 
   setFieldValue (value) {
     const { updater, fieldKey } = this.props
-    const { layoutData, ...rest } = value
+    const { layoutData, defaultLayoutData, ...rest } = value
     if (value.responsivenessSettings) {
       const mobileDeviceLayout = layoutData.all ? layoutData.all.map(() => { return '100%' }) : []
       if (!layoutData.xs) {
@@ -311,7 +311,12 @@ export default class Layout extends Attribute {
       layoutData.xl = layoutData.xl || layoutData.all
       delete layoutData.all
     } else {
-      layoutData.all = value.defaultLayoutData
+      const validValuesRegex = /\d+%|\W(auto|hide)\W/g
+      const isInvalidLayoutValue = defaultLayoutData.length === 1 && (!defaultLayoutData[0] || !defaultLayoutData[0].match(validValuesRegex))
+      if (isInvalidLayoutValue) {
+        defaultLayoutData[0] = 'auto'
+      }
+      layoutData.all = defaultLayoutData
       delete layoutData.xs
       delete layoutData.sm
       delete layoutData.md
