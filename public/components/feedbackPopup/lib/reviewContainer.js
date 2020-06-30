@@ -11,13 +11,13 @@ export default class ReviewContainer extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const positiveReviewHeadingText = localizations ? localizations.thankYouText : 'Thank you!'
     const negativeReviewHeadingText = localizations ? localizations.negativeReviewHeadingText : 'How can we become better?'
-    const positiveReviewText = localizations ? localizations.positiveReviewText : 'We are glad to hear that. Please rate us on WordPress.org and help others to discover Visual Composer.'
+    const positiveReviewText = localizations ? localizations.positiveReviewText : 'Thanks for your feedback. Please rate us on WordPress.org and help others to discover Visual Composer.'
     const negativeReviewText = localizations ? localizations.negativeReviewText : 'Your opinion matters. Help us to improve by taking a quick survey.'
     const positiveReviewButtonText = localizations ? localizations.positiveReviewButtonText : 'Write Your Review'
     const negativeReviewButtonText = localizations ? localizations.negativeReviewButtonText : 'Leave Your Feedback'
     const closeButtonText = localizations ? localizations.close : 'Close'
 
-    const isPositiveReview = this.props.reviewType === 'like'
+    const isPositiveReview = this.props.reviewType === '1' || this.props.reviewType === '2'
     const headingText = isPositiveReview ? positiveReviewHeadingText : negativeReviewHeadingText
     const reviewText = isPositiveReview ? positiveReviewText : negativeReviewText
     const buttonText = isPositiveReview ? positiveReviewButtonText : negativeReviewButtonText

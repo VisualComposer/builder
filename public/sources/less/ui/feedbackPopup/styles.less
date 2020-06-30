@@ -47,69 +47,23 @@
   }
 }
 
-// Vote
-
+.vcv-feedback-review,
 .vcv-feedback-vote {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 9px 20px;
-  background: @vcv-feedback-bg-color;
-  border-radius: 93px;
-}
-
-.vcv-feedback-vote-text {
-  margin: 0 10px 0 0;
-  font-style: italic;
-  font-size: 13px;
-  line-height: 24px;
-  font-weight: bolder;
-  letter-spacing: 1px;
-  color: inherit;
-}
-
-.vcv-feedback-vote-control {
-  padding: 0;
-  min-width: @vcv-feedback-vote-control-size;
-  height: @vcv-feedback-vote-control-size;
-  -webkit-appearance: none;
-  border: none;
-  background: transparent;
-  border-radius: 50%;
-  cursor: pointer;
-  color: inherit;
-  font-size: 20px;
-  transition: background @vcv-transition-duration @vcv-transition-timing-function;
-
-  &:hover {
-    background: @vcv-feedback-vote-hover-bg-color;
-  }
-
-  &::before {
-    display: inline-flex;
-  }
-
-  &.vcv-ui-icon-thumbs-up::before {
-    margin: 0 0 5px;
-  }
-}
-
-// Leave a review
-
-.vcv-feedback-review {
   position: relative;
   background: @vcv-feedback-bg-color;
   border-radius: 5px;
   padding: @vcv-feedback-review-padding;
 }
 
-.vcv-feedback-review-header {
+.vcv-feedback-review-header,
+.vcv-feedback-vote-header {
   position: relative;
   margin: 0 0 16px;
   padding-right: 20px;
 }
 
-.vcv-feedback-review-heading {
+.vcv-feedback-review-heading,
+.vcv-feedback-vote-heading {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
@@ -128,7 +82,8 @@
   color: inherit;
 }
 
-.vcv-feedback-review-btn {
+.vcv-feedback-review-btn,
+.vcv-feedback-vote-btn {
   display: inline-block;
   padding: 9px 27px;
   background: transparent;
@@ -150,7 +105,8 @@
   }
 }
 
-.vcv-feedback-review-close {
+.vcv-feedback-review-close,
+.vcv-feedback-vote-close {
   position: absolute;
   top: calc(-@vcv-feedback-review-padding/2);
   right: calc(-@vcv-feedback-review-padding/2);
@@ -165,4 +121,29 @@
   &:hover {
     opacity: .5;
   }
+}
+
+.vcv-feedback-vote-control-wrapper {
+  margin: 16px 0;
+}
+
+.vcv-feedback-vote-control-wrapper .vcv-feedback-vote-control {
+  margin: 0 14px 0 0;
+  border-color: #fff;
+}
+
+.vcv-feedback-vote-control-wrapper .vcv-feedback-vote-control:focus {
+  border-color: #fff;
+  box-shadow: none;
+}
+
+.vcv-feedback-vote-control-wrapper .vcv-feedback-vote-control:checked::before {
+  background-color: #FFAE27;
+}
+
+.vcv-feedback-vote-control-wrapper .vcv-feedback-vote-control-label {
+  font-size: 13px;
+  font-style: italic;
+  line-height: 24px;
+  letter-spacing: 1px;
 }

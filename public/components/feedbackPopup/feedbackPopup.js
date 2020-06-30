@@ -52,10 +52,9 @@ export default class FeedbackPopup extends React.Component {
       })
       window.clearTimeout(visibilityTimeout)
     }, 1000)
-    const feedback = vote === 'like' ? 1 : -1
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'license:feedback:submit:adminNonce',
-      'vcv-feedback': feedback
+      'vcv-feedback': vote
     })
   }
 
