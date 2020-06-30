@@ -102,7 +102,7 @@ export default class TokenizationList extends React.Component {
   }
 
   handleChange (e) {
-    this.updateValue(e.target.value)
+    this.setState({ value: e.target.value, suggestedValue: null, activeSuggestion: -1 })
   }
 
   updateCursorPosition (el) {
@@ -153,6 +153,7 @@ export default class TokenizationList extends React.Component {
     if (this.state.suggestedValue && (this.state.value !== this.state.suggestedValue)) {
       this.updateValue(this.state.suggestedValue)
     }
+    this.updateValue(e.target.value)
   }
 
   handleSuggestionMouseDown (e) {
@@ -194,7 +195,6 @@ export default class TokenizationList extends React.Component {
   }
 
   updateValue (value) {
-    this.setState({ value: value, suggestedValue: null, activeSuggestion: -1 })
     const layoutSplit = this.props.device ? value : this.getLayout(value)
     const options = this.props.device ? {
       device: this.props.device,
@@ -217,6 +217,8 @@ export default class TokenizationList extends React.Component {
       layout = layout.replace(/^[\s++]+/, '')
     }
     const columns = layout.split(/[\s+;]+/)
+    // TODO: consider removing auto fractioning as it breaks layout and is non-intuitive,
+    //  return columns
     return _.flatten(columns.map((column, index) => {
       if (index < columns.length - 1) {
         const size = column.match(/^\d+$/) ? parseInt(column) : 0
