@@ -12,6 +12,17 @@ $utmHelper = vchelper('Utm');
 /** @var string $rssItems */
 ?>
 <div class="rss-widget">
+    <style>
+        .vcwb-logo {
+            padding-top: 5px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .vcwb-logo svg {
+            width: 250px;
+            max-width: 100%;
+        }
+    </style>
     <a href="<?php echo $utmHelper->get('dashboardNewsLogo'); ?>" target="_blank" rel="noopener" class="vcwb-logo">
         <?php evcview('vendors/images/vc-logo'); ?>
     </a>
