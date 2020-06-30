@@ -104,7 +104,10 @@ export default class DynamicPopup extends React.Component {
       this.setState(state)
     } else {
       // We have wrong post at all :/
-      this.setState({ postFields: {} })
+      this.setState({
+        postFields: {},
+        dataLoaded: true
+      })
     }
   }
 
