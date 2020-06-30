@@ -413,7 +413,7 @@ export default class AddTemplatePanel extends React.Component {
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {
-      itemsOutput.unshift(this.getTemplateControl({
+      itemsOutput.push(this.getTemplateControl({
         name: this.state.templateName,
         data: {},
         spinner: true
