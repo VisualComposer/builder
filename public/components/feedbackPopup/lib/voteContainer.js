@@ -11,8 +11,7 @@ export default class VoteContainer extends React.Component {
     if (!checkedInput) {
       return
     }
-    const checkedInputValue = checkedInput.value
-    return checkedInputValue
+    return checkedInput.value
   }
 
   render () {
