@@ -157,7 +157,7 @@ addStorage('hubTemplates', (storage) => {
       templatesGroupsSorted.push(type)
       storage.state('templatesGroupsSorted').set(templatesGroupsSorted)
     }
-    all[type].templates.unshift(templateData)
+    all[type].templates.push(templateData)
     storage.state('templates').set(all)
   })
   storage.on('remove', (type, id) => {
