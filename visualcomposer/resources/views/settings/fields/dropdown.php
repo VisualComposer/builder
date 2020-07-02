@@ -8,12 +8,13 @@ if (!defined('ABSPATH')) {
 /** @var array $enabledOptions */
 /** @var string $value */
 /** @var string $name */
+/** @var string $class */
 /** @var string $emptyTitle */
 /** @var string $dataTitle */
 ?>
 
 <div class="vcv-ui-form-group<?php echo isset($description) ? ' vcv-ui-form-switch-container-has-description' : ''; ?>" <?php echo isset($dataTitle) ? 'data-title="' . $dataTitle . '"' : ''; ?>>
-    <select class="vcv-ui-form-dropdown" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
+    <select class="vcv-ui-form-dropdown<?php echo isset($class) ? ' ' . $class : ''; ?>" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
         <?php if (isset($emptyTitle)) : ?>
             <option value=""><?php echo $emptyTitle; ?></option>
         <?php endif; ?>

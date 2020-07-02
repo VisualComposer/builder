@@ -21,7 +21,7 @@ const changeEditLink = (item) => {
 }
 
 export const dropdownEditLink = () => {
-  const templateDropdowns = document.querySelectorAll('.vcv-custom-page-templates-section select')
+  const templateDropdowns = document.querySelectorAll('select.vcv-edit-link-selector')
 
   for (var i = 0, len = templateDropdowns.length; i < len; i++) {
     var item = templateDropdowns[i]
