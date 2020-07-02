@@ -276,7 +276,8 @@ export default class EditFormSection extends React.Component {
     notificationsStorage.trigger('add', {
       position: 'bottom',
       text: successText,
-      time: 5000
+      time: 5000,
+      usePortal: true
     })
   }
 
@@ -286,7 +287,8 @@ export default class EditFormSection extends React.Component {
       position: 'bottom',
       type: 'error',
       text: errorText,
-      time: 5000
+      time: 5000,
+      usePortal: true
     })
   }
 
