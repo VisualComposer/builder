@@ -57,3 +57,10 @@ add_shortcode(
         return get_the_ID();
     }
 );
+
+add_shortcode(
+    'e2e_get_the_title',
+    function ($atts, $content, $tag) {
+        return get_the_title();
+    }
+);
