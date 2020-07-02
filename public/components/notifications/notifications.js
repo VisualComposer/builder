@@ -1,7 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import NotificationContainer from './notificationsContainer'
+import NotificationPortal from './notificationPortal'
 
 const notificationsStorage = vcCake.getStorage('notifications')
 const notificationsPortalState = notificationsStorage.state('portal')
@@ -37,13 +37,14 @@ export default class Notifications extends React.Component {
   }
 
   render () {
-    if (this.state.portalContainer) {
-      return ReactDOM.createPortal(
-        <NotificationContainer />,
-        this.state.portalContainer
-      )
-    }
-
-    return <NotificationContainer />
+    const isPortal = true
+    return (
+      <>
+        <NotificationContainer />
+        <NotificationPortal portalContainer={this.state.portalContainer}>
+          <NotificationContainer isPortal={isPortal} />
+        </NotificationPortal>
+      </>
+    )
   }
 }
