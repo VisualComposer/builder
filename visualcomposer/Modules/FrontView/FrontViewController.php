@@ -42,26 +42,24 @@ class FrontViewController extends Container implements Module
      */
     protected function encode($content)
     {
-        if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
-            $content = preg_replace_callback(
-                '/<!--vcv no format-->(.*)<!--vcv no format-->/si',
-                function ($matches) {
-                    $result = '<p><!--vcv no format-->' .
-                        base64_encode(
-                            do_shortcode(
-                                (string)vcfilter(
-                                    'vcv:frontend:content:encode',
-                                    (string)$matches[1]
-                                )
+        $content = preg_replace_callback(
+            '/<!--vcv no format-->(.*)<!--vcv no format-->/si',
+            function ($matches) {
+                $result = '<p><!--vcv no format-->' .
+                    base64_encode(
+                        do_shortcode(
+                            (string)vcfilter(
+                                'vcv:frontend:content:encode',
+                                (string)$matches[1]
                             )
                         )
-                        . '<!--vcv no format--></p>';
+                    )
+                    . '<!--vcv no format--></p>';
 
-                    return $result;
-                },
-                $content
-            );
-        }
+                return $result;
+            },
+            $content
+        );
 
         return $content;
     }
@@ -73,15 +71,13 @@ class FrontViewController extends Container implements Module
      */
     protected function decode($content)
     {
-        if (in_array(get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true), ['fe', 'be'])) {
-            $content = preg_replace_callback(
-                '/<p><!--vcv no format-->(.*)<!--vcv no format--><\/p>/si',
-                function ($matches) {
-                    return base64_decode($matches[1]);
-                },
-                $content
-            );
-        }
+        $content = preg_replace_callback(
+            '/<p><!--vcv no format-->(.*)<!--vcv no format--><\/p>/si',
+            function ($matches) {
+                return base64_decode($matches[1]);
+            },
+            $content
+        );
 
         return $content;
     }
