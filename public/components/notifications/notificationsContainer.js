@@ -26,13 +26,16 @@ export default class NotificationsContainer extends React.Component {
   update (data) {
     const topNotifications = []
     const bottomNotifications = []
+    const { isPortal } = this.props
 
     if (data && data.length) {
       data.forEach((item) => {
-        if (item.position === 'bottom') {
-          bottomNotifications.push(item)
-        } else {
-          topNotifications.push(item)
+        if ((isPortal && item.usePortal) || (!isPortal && !item.usePortal)) {
+          if (item.position === 'bottom') {
+            bottomNotifications.push(item)
+          } else {
+            topNotifications.push(item)
+          }
         }
       })
     }
