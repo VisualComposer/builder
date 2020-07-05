@@ -50,6 +50,9 @@ export default class LayoutDropdown extends React.Component {
       if (env('VCV_JS_THEME_LAYOUTS')) {
         settingsStorage.state(`${layoutName}Template`).set(value)
       }
+      if (typeof window.VCV_EDITOR_TYPE !== 'undefined' && window.VCV_EDITOR_TYPE() === 'vcv_layouts') {
+        return
+      }
       const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
       const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
       const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()

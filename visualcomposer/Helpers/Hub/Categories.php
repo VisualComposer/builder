@@ -225,7 +225,7 @@ class Categories implements Helper
             ],
             'Section' => [
                 'title' => 'Section',
-                'elements' => ['section', 'popupRoot', 'layoutWpContentPart'],
+                'elements' => ['section', 'popupRoot', 'layoutWpContentArea', 'layoutHeaderArea', 'layoutFooterArea'],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
             ],

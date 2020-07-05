@@ -170,6 +170,14 @@ class StylesManager {
         }))
       }
       use = use.concat(mainPlugins)
+      if (typeof style.src !== 'string') {
+        console.error('style.src is not string!', style.src)
+        console.error('Possibly related to raw-loader update')
+        console.error('Attempting to convert to string')
+        if (style.src && typeof style.src.default === 'string') {
+          style.src = style.src.default
+        }
+      }
       return iterations.push(postcss(use).process(style.src, { from: undefined }).then((result) => {
         const resultCss = result && result.css ? result.css : ''
         cssHashes[hash].result = resultCss
