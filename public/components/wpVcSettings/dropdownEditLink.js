@@ -1,10 +1,9 @@
 const localizations = window.VCV_I18N && window.VCV_I18N()
-const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle} {editLinkType}.</div>'
+const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle}.</div>'
 
 const changeEditLink = (item) => {
   const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
   const editLinkTitle = item.closest('.vcv-ui-form-group').getAttribute('data-title')
-  const editLinkType = item.closest('.vcv-ui-form-group').getAttribute('data-type')
   const dropdownContainer = item.closest('.vcv-ui-form-group').closest('td')
   const editLinkItem = dropdownContainer.querySelector('.vcv-custom-page-templates-edit-link')
 
@@ -12,7 +11,7 @@ const changeEditLink = (item) => {
     if (editLinkItem != null) {
       editLinkItem.querySelector('a').setAttribute('href', selectedPageUrl)
     } else {
-      dropdownContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{link}', selectedPageUrl).replace('{editLinkTitle}', editLinkTitle).replace('{editLinkType}', editLinkType || 'template'))
+      dropdownContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{link}', selectedPageUrl).replace('{editLinkTitle}', editLinkTitle))
       dropdownContainer.closest('tr').classList.add('vcv-field-expand')
     }
   } else {
