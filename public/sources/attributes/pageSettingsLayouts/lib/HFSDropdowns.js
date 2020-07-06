@@ -4,7 +4,7 @@ import LayoutDropdown from './layoutDropdown'
 
 const settingsStorage = getStorage('settings')
 
-export default class LayoutSettings extends React.Component {
+export default class HFSDropdowns extends React.Component {
   constructor (props) {
     super(props)
     const templateStorageData = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) || {
@@ -48,7 +48,37 @@ export default class LayoutSettings extends React.Component {
 
     const layoutSettings = []
 
-    if (currentLayoutData.header) {
+    let addHeader = true
+    let addSidebar = true
+    let addFooter = true
+
+    // Options to disable exact dropdown. Used in Header/Footer elements
+    if (
+      this.props.options &&
+      Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
+      Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addHeader') &&
+      !this.props.options.HFSDropdowns.addHeader
+    ) {
+      addHeader = false
+    }
+    if (
+      this.props.options &&
+      Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
+      Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addSidebar') &&
+      !this.props.options.HFSDropdowns.addSidebar
+    ) {
+      addSidebar = false
+    }
+    if (
+      this.props.options &&
+      Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
+      Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addFooter') &&
+      !this.props.options.HFSDropdowns.addFooter
+    ) {
+      addFooter = false
+    }
+
+    if (currentLayoutData.header && addHeader) {
       const headerData = window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES()
       if (headerData) {
         layoutSettings.push({
@@ -58,7 +88,7 @@ export default class LayoutSettings extends React.Component {
       }
     }
 
-    if (currentLayoutData.sidebar) {
+    if (currentLayoutData.sidebar && addSidebar) {
       const sidebarData = window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES()
       if (sidebarData) {
         layoutSettings.push({
@@ -68,7 +98,7 @@ export default class LayoutSettings extends React.Component {
       }
     }
 
-    if (currentLayoutData.footer) {
+    if (currentLayoutData.footer && addFooter) {
       const footerData = window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES()
       if (footerData) {
         layoutSettings.push({

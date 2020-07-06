@@ -184,7 +184,8 @@ export default class StockImagesResultsPanel extends React.Component {
             text: errorText,
             time: 5000,
             type: 'error',
-            id: 'unsplash-error'
+            id: 'unsplash-error',
+            usePortal: notificationsStorage.state('portal').get() === '.media-frame'
           })
           this.setState({
             hasError: true
@@ -287,7 +288,8 @@ export default class StockImagesResultsPanel extends React.Component {
               transparent: true,
               rounded: true,
               text: StockImagesResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been downloaded to your Media Library.',
-              time: 5000
+              time: 5000,
+              usePortal: notificationsStorage.state('portal').get() === '.media-frame'
             })
           } else {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
@@ -299,7 +301,8 @@ export default class StockImagesResultsPanel extends React.Component {
               text: errorMessage,
               time: 5000,
               type: 'error',
-              id: 'unsplash-error'
+              id: 'unsplash-error',
+              usePortal: notificationsStorage.state('portal').get() === '.media-frame'
             })
             if (env('VCV_DEBUG')) {
               console.warn(errorMessage, jsonData)
@@ -314,7 +317,8 @@ export default class StockImagesResultsPanel extends React.Component {
             text: exceptionErrorMessage,
             time: 5000,
             type: 'error',
-            id: 'unsplash-error'
+            id: 'unsplash-error',
+            usePortal: notificationsStorage.state('portal').get() === '.media-frame'
           })
           if (env('VCV_DEBUG')) {
             console.warn(exceptionErrorMessage, e)

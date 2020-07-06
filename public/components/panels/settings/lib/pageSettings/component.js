@@ -1,16 +1,21 @@
 import React from 'react'
-import { env } from 'vc-cake'
-import TitleSettings from './settings/title'
-import LayoutTemplates from './settings/layoutTemplates'
-import TemplateLayoutSettings from './settings/templateLayout'
+import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Component'
+import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/Component'
 import Permalink from 'public/components/permalink/permalink'
 
 export default class PageSettings extends React.Component {
   render () {
     const content = []
-    content.push(<TitleSettings key={content.length} />)
+    content.push(
+      <PageSettingsTitle
+        key={content.length}
+        fieldKey='pageSettingsTitle'
+        updater={() => {}} // required for attributes
+        value='' // required for attributes
+      />
+    )
 
-    if (!env('VCV_JS_THEME_EDITOR') && !env('VCV_JS_ARCHIVE_TEMPLATE')) {
+    if (typeof window.VCV_EDITOR_TYPE === 'undefined') {
       content.push(
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline vcv-ui-form-group--permalink' key={content.length}>
           <Permalink />
@@ -18,12 +23,14 @@ export default class PageSettings extends React.Component {
       )
     }
 
-    if (!env('VCV_JS_THEME_EDITOR')) {
-      content.push(<TemplateLayoutSettings key={content.length} />)
-    }
-    if (env('VCV_JS_THEME_LAYOUTS')) {
-      content.push(<LayoutTemplates key={content.length} />)
-    }
+    content.push(
+      <PageSettingsLayouts
+        key={`layouts-${content.length}`}
+        fieldKey='pageSettingsLayouts'
+        updater={() => {}} // required for attributes
+        value='' // required for attributes
+      />
+    )
 
     return (
       <>
