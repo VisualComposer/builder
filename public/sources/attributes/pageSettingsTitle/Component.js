@@ -1,11 +1,16 @@
 import React from 'react'
 import { getStorage, env } from 'vc-cake'
+import Attribute from '../attribute'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-export default class TitleSettings extends React.Component {
+export default class PageSettingsTitle extends Attribute {
+  static defaultProps = {
+    fieldType: 'pageSettingsTitle'
+  }
+
   constructor (props) {
     super(props)
     const pageTitle = settingsStorage.state('pageTitle').get()
