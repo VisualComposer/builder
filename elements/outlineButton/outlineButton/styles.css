@@ -80,19 +80,16 @@ button.vce-button--style-outline {
   z-index: 1;
   border-radius: 0;
 }
-a .vce-button--style-outline-text,
-button .vce-button--style-outline-text {
-  text-decoration: none;
-  text-transform: none;
-  font-weight: normal;
-  letter-spacing: normal;
-  -webkit-font-smoothing: antialiased;
-}
 a.vce-button--style-outline .vce-button--style-outline-text,
 button.vce-button--style-outline .vce-button--style-outline-text {
   transition: none;
   position: relative;
   z-index: 1;
+  text-decoration: none;
+  text-transform: none;
+  font-weight: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
 }
 a.vce-button--style-outline:hover,
 button.vce-button--style-outline:hover,
