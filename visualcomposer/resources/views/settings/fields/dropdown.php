@@ -11,10 +11,9 @@ if (!defined('ABSPATH')) {
 /** @var string $class */
 /** @var string $emptyTitle */
 /** @var string $dataTitle */
-/** @var string $dataType */
 ?>
 
-<div class="vcv-ui-form-group<?php echo isset($description) ? ' vcv-ui-form-switch-container-has-description' : ''; ?>" <?php echo isset($dataType) ? 'data-type="' . $dataType . '"' : ''; ?> <?php echo isset($dataTitle) ? 'data-title="' . $dataTitle . '"' : ''; ?>>
+<div class="vcv-ui-form-group<?php echo isset($description) ? ' vcv-ui-form-switch-container-has-description' : ''; ?>" <?php echo isset($dataTitle) ? 'data-title="' . $dataTitle . '"' : ''; ?>>
     <select class="vcv-ui-form-dropdown<?php echo isset($class) ? ' ' . $class : ''; ?>" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
         <?php if (isset($emptyTitle)) : ?>
             <option value=""><?php echo $emptyTitle; ?></option>
