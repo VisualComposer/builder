@@ -577,7 +577,7 @@ class Localizations extends Container implements Helper
             ),
             'editThemeTemplate' => sprintf(
                 __(
-                    '%sEdit%s this %s template.%s',
+                    '%sEdit%s this %s.%s',
                     'visualcomposer'
                 ),
                 '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">',

@@ -9,7 +9,7 @@ const themeTemplates = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAG
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-export default class TemplateLayout extends React.Component {
+export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
     super(props)
     const templateStorageData = settingsStorage.state('pageTemplate').get()

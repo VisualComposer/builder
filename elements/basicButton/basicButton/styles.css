@@ -42,6 +42,10 @@ button.vce-button--style-basic {
   position: relative;
   text-align: center;
   text-decoration: none;
+  text-transform: none;
+  font-weight: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
   vertical-align: middle;
   white-space: normal;
   -ms-touch-action: manipulation;

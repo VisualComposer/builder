@@ -1,5 +1,5 @@
 const localizations = window.VCV_I18N && window.VCV_I18N()
-const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle} template.</div>'
+const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle}.</div>'
 
 const changeEditLink = (item) => {
   const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
@@ -21,7 +21,7 @@ const changeEditLink = (item) => {
 }
 
 export const dropdownEditLink = () => {
-  const templateDropdowns = document.querySelectorAll('.vcv-custom-page-templates-section select')
+  const templateDropdowns = document.querySelectorAll('select.vcv-edit-link-selector')
 
   for (var i = 0, len = templateDropdowns.length; i < len; i++) {
     var item = templateDropdowns[i]
