@@ -85,6 +85,11 @@ button.vce-button--style-outline .vce-button--style-outline-text {
   transition: none;
   position: relative;
   z-index: 1;
+  text-decoration: none;
+  text-transform: none;
+  font-weight: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
 }
 a.vce-button--style-outline:hover,
 button.vce-button--style-outline:hover,
