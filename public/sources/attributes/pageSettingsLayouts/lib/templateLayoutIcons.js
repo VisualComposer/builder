@@ -2,6 +2,7 @@ import React from 'react'
 import { getStorage, env } from 'vc-cake'
 import LayoutIcons from 'public/components/startBlank/lib/layoutIcons'
 import lodash from 'lodash'
+import CustomLayoutDropdown from './customLayoutDropdown'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -30,6 +31,7 @@ export default class TemplateLayoutIcons extends React.Component {
     this.updateState = this.updateState.bind(this)
     this.handleTemplateChange = this.handleTemplateChange.bind(this)
     this.handleChangeUpdateStretchedContentState = this.handleChangeUpdateStretchedContentState.bind(this)
+    this.getLayoutDropdown = this.getLayoutDropdown.bind(this)
   }
 
   componentDidMount () {
@@ -112,6 +114,32 @@ export default class TemplateLayoutIcons extends React.Component {
 
   getTemplateLayoutIcons () {
     const icons = []
+    const iconProps = {
+      classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
+    }
+
+    const customLayout = vcLayouts.find(item => item.type === 'vc-custom-layout')
+
+    if (customLayout) {
+      const Icon = LayoutIcons[customLayout.type] && LayoutIcons[customLayout.type].icon.default
+      let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
+
+      if (this.state.current.type === 'vc-custom-layout') {
+        classes += ' vcv-ui-start-layout-list-item-active'
+      }
+
+      icons.push(
+        <span
+          className={classes}
+          title='Default'
+          key='settings-layout-custom'
+          onClick={() => { this.handleTemplateChange('vc-custom-layout__default') }}
+        >
+          <Icon {...iconProps} />
+        </span>
+      )
+    }
+
     if (vcLayouts && vcLayouts.length) {
       vcLayouts.forEach((templateList, index) => {
         if (this.allowedTypes.indexOf(templateList.type) < 0) {
@@ -122,9 +150,6 @@ export default class TemplateLayoutIcons extends React.Component {
           let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
           const Icon = LayoutIcons[templateName] && LayoutIcons[templateName].icon.default
           if (Icon) {
-            const iconProps = {
-              classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
-            }
             if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
               classes += ' vcv-ui-start-layout-list-item-active'
             }
@@ -145,9 +170,7 @@ export default class TemplateLayoutIcons extends React.Component {
 
     let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
     const Icon = LayoutIcons['theme-default'] && LayoutIcons['theme-default'].icon.default
-    const iconProps = {
-      classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
-    }
+
     if (this.state.current.type === 'theme') {
       classes += ' vcv-ui-start-layout-list-item-active'
     }
@@ -301,6 +324,19 @@ export default class TemplateLayoutIcons extends React.Component {
     )
   }
 
+  getLayoutDropdown () {
+    const { current } = this.state
+    if (current.type !== 'vc-custom-layout') {
+      return null
+    }
+
+    return (
+      <CustomLayoutDropdown
+        onTemplateChange={this.handleTemplateChange}
+      />
+    )
+  }
+
   render () {
     return (
       <>
@@ -309,6 +345,7 @@ export default class TemplateLayoutIcons extends React.Component {
         </div>
         {this.getThemeTemplateDropdown()}
         {this.getStretchedToggle()}
+        {this.getLayoutDropdown()}
       </>
     )
   }

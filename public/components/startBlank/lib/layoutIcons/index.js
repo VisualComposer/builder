@@ -1,5 +1,5 @@
 const layoutIcons = {
-  vc__default: {
+  'vc-custom-layout': {
     icon: require('./vc__default'),
     label: 'Default'
   },
