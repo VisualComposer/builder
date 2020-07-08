@@ -15,7 +15,7 @@ export default class CustomLayoutDropdown extends React.Component {
 
     // TODO get correct current state if page was saved
     this.state = {
-      current: currentTemplate.value ? parseInt(currentTemplate.value) : 'default'
+      current: currentTemplate.value && currentTemplate.value !== 'default' ? parseInt(currentTemplate.value) : 'default'
     }
 
     this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
