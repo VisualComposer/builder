@@ -23,7 +23,7 @@ export default class TemplatePreview extends React.Component {
         description: localizations ? localizations.vcBlankDescription : 'Full width blank page without header, footer, or sidebar.',
         img: 'blank-preview.png'
       },
-      vc__default: {
+      'vc-custom-layout': {
         description: localizations ? localizations.vcDefaultDescription : 'Default layout for the post type created in Visual Composer Theme Builder.',
         img: 'default-layout-preview.png'
       },
