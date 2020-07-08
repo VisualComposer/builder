@@ -119,7 +119,7 @@ add('wordpressWorkspace', (api) => {
       if (data.length === 0) {
         let showBlank = true
         const currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
-        if (currentTemplate && currentTemplate.type !== 'vc' && currentTemplate.value !== 'blank') {
+        if (currentTemplate && currentTemplate.type !== 'vc-custom-layout') {
           showBlank = false
         }
 

@@ -128,6 +128,28 @@ export default class PagePanelContent extends React.Component {
   getLayoutControls () {
     const layouts = []
     const inactiveIcons = Object.assign({}, LayoutIcons)
+    const customLayout = pageLayouts.find(item => item.type === 'vc-custom-layout')
+    if (customLayout) {
+      const Icon = LayoutIcons[customLayout.type] && LayoutIcons[customLayout.type].icon.default
+
+      delete inactiveIcons[customLayout.type]
+      let active = false
+      if (this.state.current.type === customLayout.type) {
+        active = true
+      }
+      layouts.push(
+        <TemplatePreview
+          key='custom-layout-icon-start-blank'
+          onClick={this.handleLayoutClick}
+          templatesList={customLayout}
+          templateValue='default'
+          templateName={customLayout.type}
+          icon={Icon}
+          active={active}
+          name={customLayout.title}
+        />
+      )
+    }
 
     if (pageLayouts) {
       const allowedTypes = ['vc', 'vc-theme']

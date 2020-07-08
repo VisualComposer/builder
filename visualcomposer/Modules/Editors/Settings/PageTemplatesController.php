@@ -96,7 +96,7 @@ class PageTemplatesController extends Container implements Module
                     )
                 ) {
                     $output = [
-                        'type' => 'vc',
+                        'type' => 'vc-custom-layout',
                         'value' => 'default',
                     ];
                 } else {
