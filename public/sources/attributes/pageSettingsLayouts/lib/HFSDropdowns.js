@@ -29,21 +29,32 @@ export default class HFSDropdowns extends React.Component {
   }
 
   render () {
+    const { currentLayout } = this.state
     const layoutDropdowns = []
     // TODO: Why not just use this.state from 'pageTemplate' ? [performance]
     const layouts = window.VCV_PAGE_TEMPLATES_LAYOUTS ? window.VCV_PAGE_TEMPLATES_LAYOUTS() : []
     const typeSearchResult = layouts.find((i) => {
-      return i.type === this.state.currentLayout.type
+      return i.type === currentLayout.type
     })
 
     let currentLayoutData = {}
-    if (this.state.currentLayout.type === 'theme') {
+    if (currentLayout.type === 'theme') {
       currentLayoutData.header = true
       currentLayoutData.footer = true
     } else if (typeSearchResult) {
       currentLayoutData = typeSearchResult.values.find((b) => {
-        return b.value === this.state.currentLayout.value
+        return b.value === currentLayout.value
       }) || {}
+    }
+
+    if (currentLayout.type === 'vc-custom-layout') {
+      const customLayouts = layouts.find(item => item.type === 'vc-custom-layout')
+      if (customLayouts && currentLayout.value !== 'default') {
+        const currentCustomLayoutData = customLayouts.values.find(item => item.value === parseInt(currentLayout.value))
+        if (currentCustomLayoutData) {
+          currentLayoutData = currentCustomLayoutData
+        }
+      }
     }
 
     const layoutSettings = []
@@ -81,6 +92,9 @@ export default class HFSDropdowns extends React.Component {
     if (currentLayoutData.header && addHeader) {
       const headerData = window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES()
       if (headerData) {
+        if (currentLayoutData.headerId) {
+          headerData.current = parseInt(currentLayoutData.headerId)
+        }
         layoutSettings.push({
           layoutName: 'Header',
           data: headerData
@@ -91,6 +105,9 @@ export default class HFSDropdowns extends React.Component {
     if (currentLayoutData.sidebar && addSidebar) {
       const sidebarData = window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES()
       if (sidebarData) {
+        if (currentLayoutData.sidebarId) {
+          sidebarData.current = parseInt(currentLayoutData.sidebarId)
+        }
         layoutSettings.push({
           layoutName: 'Sidebar',
           data: sidebarData
@@ -101,6 +118,9 @@ export default class HFSDropdowns extends React.Component {
     if (currentLayoutData.footer && addFooter) {
       const footerData = window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES()
       if (footerData) {
+        if (currentLayoutData.footerId) {
+          footerData.current = parseInt(currentLayoutData.footerId)
+        }
         layoutSettings.push({
           layoutName: 'Footer',
           data: footerData
