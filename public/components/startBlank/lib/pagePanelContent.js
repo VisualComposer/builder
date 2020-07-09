@@ -129,10 +129,10 @@ export default class PagePanelContent extends React.Component {
     const layouts = []
     const inactiveIcons = Object.assign({}, LayoutIcons)
     const customLayout = pageLayouts.find(item => item.type === 'vc-custom-layout')
+
+    delete inactiveIcons['vc-custom-layout']
     if (customLayout) {
       const Icon = LayoutIcons[customLayout.type] && LayoutIcons[customLayout.type].icon.default
-
-      delete inactiveIcons[customLayout.type]
       let active = false
       if (this.state.current.type === customLayout.type) {
         active = true
