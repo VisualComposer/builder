@@ -95,10 +95,17 @@ class PageTemplatesController extends Container implements Module
                         true
                     )
                 ) {
-                    $output = [
-                        'type' => 'vc-custom-layout',
-                        'value' => 'default',
-                    ];
+                    if (vcvenv('VCV_FT_THEME_BUILDER_LAYOUTS')) {
+                        $output = [
+                            'type' => 'vc-custom-layout',
+                            'value' => 'default',
+                        ];
+                    } else {
+                        $output = [
+                            'type' => 'vc',
+                            'value' => 'blank',
+                        ];
+                    }
                 } else {
                     $output = [
                         'type' => 'theme',
