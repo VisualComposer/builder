@@ -1030,6 +1030,11 @@ class Localizations extends Container implements Helper
                 'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
+
+            'contentAreaPlaceholderText' => __(
+                'This is a default WordPress content area where your post or page content will be displayed.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
