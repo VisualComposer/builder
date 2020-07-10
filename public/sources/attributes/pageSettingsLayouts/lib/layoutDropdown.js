@@ -104,8 +104,10 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getSelectedValue () {
-    const { data, current } = this.state
-    if (current === 'default' || Object.prototype.hasOwnProperty.call(data.all, current)) {
+    const { data } = this.props
+    const current = this.state.current
+    const defaultValues = ['default', 'defaultGlobal', 'defaultLayout']
+    if (defaultValues.includes(current) || Object.prototype.hasOwnProperty.call(data.all, current)) {
       return current
     }
     return 'none'
@@ -130,10 +132,30 @@ export default class LayoutDropdown extends React.Component {
     settingsStorage.state('skipBlank').set(true)
   }
 
+  getDefaultOptions () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    let selectHFSText = localizations ? localizations.selectHFS : 'Default'
+    const templateStorageData = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) || {
+      type: 'vc', value: 'blank'
+    }
+
+    if (templateStorageData.type === 'vc-custom-layout') {
+      selectHFSText = localizations ? localizations.selectHFSGlobal : 'Global Default'
+      const selectHFSLayoutText = localizations ? localizations.selectHFSLayout : 'Layout Default'
+
+      return ([
+        <option value='defaultGlobal' key='defaultGlobal'>{selectHFSText}</option>,
+        <option value='defaultLayout' key='defaultLayout'>{selectHFSLayoutText}</option>
+      ])
+    } else {
+      return <option value='default'>{selectHFSText}</option>
+    }
+
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const chooseHFSText = localizations ? localizations.chooseHFS : 'Choose {name} template from the list or <a href="{link}" target="_blank">create new</a>.'
-    const selectHFSText = localizations ? localizations.selectHFS : 'Default'
     const noneText = localizations ? localizations.none : 'None'
     const globalUrl = `vcvCreate${this.props.layoutName}`
     const createNewUrl = window[globalUrl] ? window[globalUrl] : ''
