@@ -207,7 +207,7 @@ vcCake.add('contentLayout', (api) => {
         let hasFooter = false
         const currentLayoutType = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
         if (currentLayoutType && currentLayoutType.values) {
-          const currentTemplate = currentLayoutType.values.find(item => item.value === parseInt(template.value))
+          const currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
           if (currentTemplate) {
             hasHeader = currentTemplate.header
             hasSidebar = currentTemplate.sidebar
