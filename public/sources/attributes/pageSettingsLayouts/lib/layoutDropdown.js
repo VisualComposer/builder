@@ -150,7 +150,6 @@ export default class LayoutDropdown extends React.Component {
     } else {
       return <option value='default'>{selectHFSText}</option>
     }
-
   }
 
   render () {
