@@ -639,8 +639,10 @@ export default class TreeViewElement extends React.Component {
     const baseControls = (
       <>
         {baseControlsItems}
-        {lockIcon}
-        {hideIcon}
+        <div className='vcv-ui-tree-layout-control-state-container'>
+          {lockIcon}
+          {hideIcon}
+        </div>
       </>
     )
 
