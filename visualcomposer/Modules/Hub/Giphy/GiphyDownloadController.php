@@ -280,7 +280,7 @@ class GiphyDownloadController extends Container implements Module
     {
         $licenseHelper = vchelper('License');
         $requestUrl = sprintf(
-            '%s/api/giphy/download/%s?size=%slicenseKey=%s&url=%s',
+            '%s/api/giphy/download/%s?size=%s&licenseKey=%s&url=%s',
             rtrim(vcvenv('VCV_API_URL'), '\\/'),
             $imageId,
             $imageSize,
