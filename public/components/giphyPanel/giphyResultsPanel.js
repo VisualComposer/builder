@@ -176,7 +176,7 @@ export default class GiphyResultsPanel extends React.Component {
           if (this.componentUnmounted) {
             return
           }
-          const errorText = `${GiphyResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088'
+          const errorText = `${GiphyResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Giphy Server! #10088'
           notificationsStorage.trigger('add', {
             position: 'bottom',
             transparent: true,
@@ -287,7 +287,7 @@ export default class GiphyResultsPanel extends React.Component {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: GiphyResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been downloaded to your Media Library.',
+              text: GiphyResultsPanel.localizations.gifDownloadedToMediaLibrary || 'GIF has been downloaded to your Media Library.',
               time: 5000,
               usePortal: notificationsStorage.state('portal').get() === '.media-frame'
             })
@@ -362,7 +362,7 @@ export default class GiphyResultsPanel extends React.Component {
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
     const allowDownload = this.allowDownload && this.unsplashLicenseKey !== 'free'
-    const unlockText = GiphyResultsPanel.localizations ? GiphyResultsPanel.localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Stock Images'
+    const unlockText = GiphyResultsPanel.localizations ? GiphyResultsPanel.localizations.activatePremiumToGiphy : 'Activate Premium to Giphy gifs'
     return columnData[columnCount].map((col, colIndex) => {
       const images = col.images.map((image, imageIndex) => {
         const { urls, user } = image
@@ -371,7 +371,7 @@ export default class GiphyResultsPanel extends React.Component {
           alt: 'Unsplash image',
           onLoad: this.handleImageLoad,
           onError: this.handleImageLoad,
-          'data-src': urls.small
+          'data-src': urls.regular
         }
         const innerItemClasses = classNames({
           'vcv-stock-image-inner': true,
@@ -510,14 +510,14 @@ export default class GiphyResultsPanel extends React.Component {
       results = this.getNoResultsElement()
     }
     const freeText = GiphyResultsPanel.localizations.free && GiphyResultsPanel.localizations.free.toLowerCase()
-    const pictureText = GiphyResultsPanel.localizations.images
-    const downloadText = GiphyResultsPanel.localizations.downloadImageFromUnsplash
+    const pictureText = GiphyResultsPanel.localizations.gifs
+    const downloadText = GiphyResultsPanel.localizations.downloadImageFromGiphy
     return (
       <>
         {searchValue && (
           <div className='vcv-stock-images-results-data'>
-            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'images'}</span>
-            <span>{downloadText || 'Download images from Unsplash to your Media Library'}</span>
+            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'gifs'}</span>
+            <span>{downloadText || 'Download gifs from Giphy to your Media Library'}</span>
           </div>
         )}
         {results}

@@ -1030,9 +1030,24 @@ class Localizations extends Container implements Helper
                 'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
-
             'contentAreaPlaceholderText' => __(
                 'This is a default WordPress content area where your post or page content will be displayed.',
+                'visualcomposer'
+            ),
+            'downloadImageFromGiphy' => __(
+                'Download gifs from Giphy to your Media Library',
+                'visualcomposer'
+            ),
+            'gifs' => __(
+                'gifs',
+                'visualcomposer'
+            ),
+            'activatePremiumToGiphy' => __(
+                'Activate Premium to Giphy gifs',
+                'visualcomposer'
+            ),
+            'gifDownloadedToMediaLibrary' => __(
+                'GIF has been downloaded to your Media Library.',
                 'visualcomposer'
             ),
         ];
