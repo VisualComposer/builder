@@ -31,9 +31,6 @@ class GiphyDownloadController extends Container implements Module
             'vcv:ajax:hub:giphy:download:adminNonce',
             'download'
         );
-
-        $this->addFilter('vcv:editor:variables', 'addVariables');
-        $this->addFilter('vcv:hub:variables', 'addVariables');
     }
 
     /**
@@ -165,32 +162,6 @@ class GiphyDownloadController extends Container implements Module
         }
 
         return $this->message;
-    }
-
-    /**
-     * @param $variables
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     *
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserHelper
-     *
-     * @return array
-     */
-    protected function addVariables($variables, License $licenseHelper, CurrentUser $currentUserHelper)
-    {
-        if ($currentUserHelper->wpAll($this->capability)->get()) {
-            $variables[] = [
-                'key' => 'VCV_LICENSE_KEY',
-                'value' => $licenseHelper->getKey(),
-                'type' => 'constant',
-            ];
-            $variables[] = [
-                'key' => 'VCV_API_URL',
-                'value' => vcvenv('VCV_API_URL'),
-                'type' => 'constant',
-            ];
-        }
-
-        return $variables;
     }
 
     /**

@@ -125,7 +125,7 @@ export default class GiphyContainer extends React.Component {
 
     const style = {}
     if (!this.state.isSearchUsed) {
-      style.backgroundColor = `#251b1b`
+      style.backgroundColor = '#251b1b'
     }
 
     const stockImageContainerClasses = classNames({
