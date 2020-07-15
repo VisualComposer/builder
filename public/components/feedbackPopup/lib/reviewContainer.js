@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 export default class ReviewContainer extends React.Component {
   static propTypes = {
     reviewType: PropTypes.string,
-    handleClose: PropTypes.func
+    onClose: PropTypes.func
   }
 
   render () {
@@ -33,7 +33,7 @@ export default class ReviewContainer extends React.Component {
           <button
             className='vcv-feedback-review-close vcv-ui-icon vcv-ui-icon-close-thin'
             aria-label={closeButtonText}
-            onClick={this.props.handleClose}
+            onClick={this.props.onClose}
           />
         </header>
         <p className='vcv-feedback-review-text'>{reviewText}</p>
@@ -42,7 +42,7 @@ export default class ReviewContainer extends React.Component {
           href={feedbackLink}
           target='_blank'
           rel='noopener noreferrer'
-          onClick={this.props.handleClose}
+          onClick={this.props.onClose}
         >
           {buttonText}
         </a>
