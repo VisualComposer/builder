@@ -62,19 +62,6 @@ export default class FeedbackPopup extends React.Component {
     this.setState({ feedbackVisible: false })
   }
 
-  getReviewProps () {
-    return {
-      reviewType: this.state.vote,
-      handleClose: this.handleClose
-    }
-  }
-
-  getVoteProps () {
-    return {
-      handleVote: this.handleVote
-    }
-  }
-
   render () {
     if (!this.state.isEditorLoaded) {
       return null
@@ -82,8 +69,8 @@ export default class FeedbackPopup extends React.Component {
 
     const feedbackState = !this.state.vote ? 'vote' : 'review'
     const feedbackContent = !this.state.vote
-      ? <VoteContainer {...this.getVoteProps()} />
-      : <ReviewContainer {...this.getReviewProps()} />
+      ? <VoteContainer onVote={this.handleVote} onClose={this.handleClose} />
+      : <ReviewContainer reviewType={this.state.vote} onClose={this.handleClose} />
 
     const feedbackClasses = classNames({
       'vcv-feedback': true,
