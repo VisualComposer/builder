@@ -91,8 +91,8 @@ describe('Inisghts Panel', function () {
     cy.contains('.vcv-ui-form-button', 'Critical')
       .click()
 
-    cy.contains('.vcv-no-issues-heading', 'No Issues Found')
-    cy.contains('.vcv-insight-description', 'You don\'t have any issues on your page. Congratulations and keep up the good work!')
+    cy.contains('.vcv-no-issues-heading', 'No Critical Issues Found')
+    cy.contains('.vcv-insight-description', 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!')
 
     cy.addElement('Single Image')
 
