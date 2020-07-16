@@ -90,7 +90,7 @@ class PostType implements Helper
             }
         }
 
-        
+
         $post = get_post($id);
         // @codingStandardsIgnoreLine
         if (!$post || ($postType && $post->post_type !== $postType)) {
@@ -241,6 +241,10 @@ class PostType implements Helper
         $data['backendEditorUrl'] = str_replace('&classic-editor', '', get_edit_post_link($post->ID, 'url'));
         $data['adminDashboardUrl'] = self_admin_url('index.php');
         $data['adminDashboardPostTypeListUrl'] = self_admin_url('edit.php?post_type=' . get_post_type());
+        $data['vcvCustomPostType'] = 0;
+        if (substr(get_post_type(), 0, 4) === 'vcv_') {
+            $data['vcvCustomPostType'] = 1;
+        }
         // @codingStandardsIgnoreLine
         $data['viewText'] = sprintf(__('View %s', 'visualcomposer'), $post_type_object->labels->singular_name);
 
