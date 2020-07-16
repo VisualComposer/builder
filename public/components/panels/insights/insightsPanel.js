@@ -83,8 +83,14 @@ export default class InsightsPanel extends React.Component {
     if (!insightsHTML.length) {
       insightsHTML = <span className='vcv-ui-insights-spinner vcv-vcv-ui-icon vcv-ui-wp-spinner' />
     } else if (insightsHTML.filter(item => item === undefined).length === Object.keys(insightData).length) {
-      const insightsNoIssuesFoundTitle = localizations.insightsNoIssuesFoundTitle ? localizations.insightsNoIssuesFoundTitle : 'No Issues Found'
-      const insightsNoIssuesFoundDescription = localizations.insightsNoIssuesFoundDescription ? localizations.insightsNoIssuesFoundDescription : 'You don\'t have any issues on your page. Congratulations and keep up the good work!'
+      let insightsNoIssuesFoundTitle, insightsNoIssuesFoundDescription
+      if (this.state.activeSection === 'critical') {
+        insightsNoIssuesFoundTitle = localizations.insightsNoCriticalIssuesFoundTitle ? localizations.insightsNoCriticalIssuesFoundTitle : 'No Critical Issues Found'
+        insightsNoIssuesFoundDescription = localizations.insightsNoCriticalIssuesFoundDescription ? localizations.insightsNoCriticalIssuesFoundDescription : 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!'
+      } else if (this.state.activeSection === 'warning') {
+        insightsNoIssuesFoundTitle = localizations.insightsNoWarningsFoundTitle ? localizations.insightsNoWarningsFoundTitle : 'No Warnings Found'
+        insightsNoIssuesFoundDescription = localizations.insightsNoWarningsFoundDescription ? localizations.insightsNoWarningsFoundDescription : 'You don\'t have any warnings on your page. Congratulations and keep up the good work!'
+      }
       insightsHTML = (
         <div className='vcv-insight-no-issues'>
           <span

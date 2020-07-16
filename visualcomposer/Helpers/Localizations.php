@@ -902,12 +902,20 @@ class Localizations extends Container implements Helper
                 'It seems your page has no content. Make sure to add elements or templates.',
                 'visualcomposer'
             ),
-            'insightsNoIssuesFoundTitle' => __(
-                'No Issues Found',
+            'insightsNoCriticalIssuesFoundTitle' => __(
+                'No Critical Issues Found',
                 'visualcomposer'
             ),
-            'insightsNoIssuesFoundDescription' => __(
-                'You don\'t have any issues on your page. Congratulations and keep up the good work!',
+            'insightsNoCriticalIssuesFoundDescription' => __(
+                'You don\'t have any critical issues on your page. Congratulations and keep up the good work!',
+                'visualcomposer'
+            ),
+            'insightsNoWarningsFoundTitle' => __(
+                'No Warnings Found',
+                'visualcomposer'
+            ),
+            'insightsNoWarningsFoundDescription' => __(
+                'You don\'t have any warnings on your page. Congratulations and keep up the good work!',
                 'visualcomposer'
             ),
             'insightsParagraphLengthTitle' => __(
