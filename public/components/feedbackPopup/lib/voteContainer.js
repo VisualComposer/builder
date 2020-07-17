@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 export default class VoteContainer extends React.Component {
   static propTypes = {
-    handleVote: PropTypes.func
+    onVote: PropTypes.func,
+    onClose: PropTypes.func
   }
 
   getVote = () => {
@@ -30,7 +31,7 @@ export default class VoteContainer extends React.Component {
           <button
             className='vcv-feedback-vote-close vcv-ui-icon vcv-ui-icon-close-thin'
             aria-label={closeButtonText}
-            onClick={this.props.handleClose}
+            onClick={this.props.onClose}
           />
         </header>
         <div className='vcv-feedback-vote-control-wrapper'>
@@ -53,7 +54,7 @@ export default class VoteContainer extends React.Component {
         </div>
         <a
           className='vcv-feedback-vote-btn'
-          onClick={() => { this.props.handleVote(this.getVote()) }}
+          onClick={() => { this.props.onVote(this.getVote()) }}
         >
           {buttonText}
         </a>

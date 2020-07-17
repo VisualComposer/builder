@@ -301,7 +301,7 @@
     .vcv-ui-tree-layout-control-actions {
       opacity: 0;
     }
-    .vcv-ui-tree-layout-control-state {
+    .vcv-ui-tree-layout-control-state-container {
       opacity: 1;
       z-index: auto;
     }
@@ -309,15 +309,19 @@
 }
 
 
-.vcv-ui-tree-layout-control-actions ~ .vcv-ui-tree-layout-control-state {
+.vcv-ui-tree-layout-control-actions ~ .vcv-ui-tree-layout-control-state-container {
   z-index: -999;
   opacity: 0;
   transition: opacity @transition-duration @transition-timing-function;
 }
 
-.vcv-ui-tree-layout-control-state {
+.vcv-ui-tree-layout-control-state-container {
   position: absolute;
   right: 0;
+}
+
+.vcv-ui-tree-layout-control-state {
+  position: relative;
   width: 40px;
   height: 1em;
   display: inline-block;
@@ -334,7 +338,7 @@
   }
 }
 
-.rtl .vcv-ui-tree-layout-control-state {
+.rtl .vcv-ui-tree-layout-control-state-container {
   right: auto;
   left: 0;
 }

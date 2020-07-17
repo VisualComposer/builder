@@ -43,6 +43,10 @@ const postData = {
     return window.vcvPostData.adminDashboardUrl
   },
 
+  vcvCustomPostType: () => {
+    return window.vcvPostData.vcvCustomPostType
+  },
+
   adminDashboardPostTypeListUrl: () => {
     return window.vcvPostData.adminDashboardPostTypeListUrl
   }
