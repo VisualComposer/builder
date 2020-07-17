@@ -2,7 +2,7 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
-import { setData, getService, getStorage, env } from 'vc-cake'
+import { setData, getService, getStorage } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -264,17 +264,17 @@ export default class WordPressAdminControl extends NavbarContent {
         className='vcv-ui-navbar-control'
         onClick={this.handleClick}
         title={wordPressDashboard}
-        data-href={env('VCV_JS_THEME_EDITOR') || env('VCV_JS_ARCHIVE_TEMPLATE') ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()}
+        data-href={PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()}
       >
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
     )
-    if (!env('VCV_JS_THEME_EDITOR') && !env('VCV_JS_ARCHIVE_TEMPLATE')) {
+    if (!PostData.vcvCustomPostType()) {
       wordpressDashboardButton = null
     }
 
     return (
-      env('VCV_JS_THEME_EDITOR') || env('VCV_JS_ARCHIVE_TEMPLATE') ? (
+      PostData.vcvCustomPostType() ? (
         <div className='vcv-ui-navbar-controls-set'>
           {saveDraftButton}
           {wordpressDashboardButton}
