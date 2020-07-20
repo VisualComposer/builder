@@ -31,6 +31,10 @@ class Utm extends Container implements Module
             'vcv:editor:variables',
             'addUtmVariable'
         );
+        $this->addFilter(
+            'vcv:hub:variables',
+            'addUtmVariable'
+        );
     }
 
     /**
