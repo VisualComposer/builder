@@ -128,7 +128,7 @@ class Frontend implements Helper
         }
         $sourceContent = get_the_content('', '', $sourceId);
         $sourceContent = apply_filters('the_content', $sourceContent);
-
+        \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
 
         return $sourceContent;
     }
