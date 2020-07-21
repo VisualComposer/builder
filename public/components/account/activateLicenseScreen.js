@@ -111,7 +111,7 @@ export default class ActivateLicenseScreen extends React.Component {
     )
     if (window.vcvIsFreeActivated) {
       getFreeButton = (
-        <button className='vcv-activation-button vcv-activation-button--dark vcv-activation-button--free-activated' disabled={true}>
+        <button className='vcv-activation-button vcv-activation-button--dark vcv-activation-button--free-activated' disabled>
           {freeLicenseActivatedText}
         </button>
       )
