@@ -4,7 +4,7 @@ import NavbarContent from '../navbarContent'
 import { getStorage } from 'vc-cake'
 
 const workspaceContentState = getStorage('workspace').state('content')
-const workspaceSettings = getStorage('workspace').state('insights')
+const workspaceSettings = getStorage('workspace').state('settings')
 const insightsStorage = getStorage('insights')
 
 export default class InsightsButtonControl extends NavbarContent {
