@@ -38,8 +38,7 @@ export default class Categories extends React.Component {
       isSearching: '',
       centered: false,
       filterType: 'all',
-      focusedElement: null,
-      allElements: categoriesService.getSortedElements()
+      focusedElement: null
     }
 
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -73,9 +72,6 @@ export default class Categories extends React.Component {
     Categories.hubElements = hubElementsStorage.state('elements').get()
 
     categoriesService.getSortedElements.cache.clear()
-    this.updateElementsTimeout = setTimeout(() => {
-      this.setState({ allElements: categoriesService.getSortedElements() })
-    }, 100)
   }
 
   hasItemInArray (arr, value) {
@@ -103,7 +99,7 @@ export default class Categories extends React.Component {
     const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
     const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
     if (isAllElements || isPresetsUpdated) {
-      const { allElements } = this.state
+      const allElements = categoriesService.getSortedElements()
       Categories.allElements = allElements.filter((elementData) => {
         // Do not show custom root element in add element panel
         if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
