@@ -41,7 +41,7 @@ class FeedbackController extends Container implements Module
     }
 
     /**
-     * Send good or bad feedback to HUB
+     * Send editor survey feedback to HUB
      *
      * @param $response
      * @param \VisualComposer\Helpers\Request $requestHelper
@@ -60,14 +60,14 @@ class FeedbackController extends Container implements Module
     ) {
         $optionsHelper->set('feedback-sent', time());
 
-        $goodOrBad = (int)$requestHelper->input('vcv-feedback');
+        $feedbackValue = (int)$requestHelper->input('vcv-feedback');
         $licenseType = $licenseHelper->getType();
 
         $url = $urlHelper->query(
             vcvenv('VCV_HUB_URL'),
             [
                 'vcv-send-feedback' => 'sendFeedback',
-                'vcv-value' => $goodOrBad,
+                'vcv-value' => $feedbackValue,
                 'vcv-version' => VCV_VERSION,
                 'vcv-license-type' => $licenseType,
             ]
