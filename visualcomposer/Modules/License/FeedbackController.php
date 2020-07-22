@@ -68,6 +68,7 @@ class FeedbackController extends Container implements Module
             [
                 'vcv-send-feedback' => 'sendFeedback',
                 'vcv-value' => $goodOrBad,
+                'vcv-version' => VCV_VERSION,
                 'vcv-license-type' => $licenseType,
             ]
         );
