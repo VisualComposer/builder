@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website builder, site-builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.4.1
-Stable tag: 28.0
+Tested up to: 5.4.2
+Stable tag: 29.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -58,6 +58,12 @@ Discover what's inside the [Visual Composer Hub](https://visualcomposer.com/feat
 Visual Composer is an all-in-one plugin that lets you make beautiful websites from header to footer. You can create custom page layouts in a code-free way.
 
 [Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme) to use them throughout your entire WordPress site with the help of **Global Templates**. Additionally, there's a **Dynamic Content** feature that allows you to design templates with dynamic content placeholders (*devs will love it*).
+
+**VISUAL COMPOSER INSIGHTS**
+
+Build better websites by using an in-built qualitative analysis of your site content with Visual Composer Insights.
+
+Visual Composer Insights is a free extension that analyzes your site content according to multiple scenarios to improve quality, performance, and SEO of your site. Finally, you don't have to be a developer, designer, or marketer to create a website that boosts your business.
 
 **POPUP BUILDER FOR WORDPRESS**
 
@@ -187,6 +193,40 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 29.0 =
+*Release Date - 2020-07-23*
+
+#### Free:
+- New: Visual Composer Insights assistant for helping to build better sites launched
+- Update: User feedback survey updated
+- Update: Naming consistency improved in the user interface
+- Update: Saved templates appear at the top of the Templates list
+- Fix: Template source key works properly
+- Fix: Elements don’t disappear when changing Row Layout
+- Fix: Getting Started menu in WP Admin Dashboard displayed properly for Contributors role
+- Fix: Asset files are not removed after cloning the page
+- Fix: Loading spinner works properly in Visual Composer Hub
+- Fix: Single Image lightbox works properly
+- Fix: Yoast SEO display proper page status
+- Fix: Woo Commerce elements have a proper element height
+- Fix: Visual Composer Dashboard logo displayed properly
+- Fix: Static listener for enqueue actions works properly
+- Fix: Notifications are displayed in a proper location
+- Fix: Button element styles are consistent across the page
+- Fix: Icons are stacking properly in the Tree View
+
+#### Premium:
+- Update: Element lock UI/UX updated for better visibility
+- Fix: Featured image works properly in Dynamic Content
+- Fix: Site-wide popup works properly
+- Fix: Food and Drink element has proper spacing
+- Fix: Loading spinner works properly in Dynamic Content
+- Fix: Logo Slider element works properly
+- Fix: Dynamic Archive in search results page works properly
+- Fix: Social Profile element Instagram icon works properly
+- Fix: Popup Builder option for returning to WP Dashboard works properly
+- Fix: Popup Builder settings for 'On first page load' work properly
 
 = 28.0 =
 *Release Date - 2020-06-10*
