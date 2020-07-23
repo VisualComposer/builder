@@ -36,7 +36,13 @@ class JsEnqueueController extends Container implements Module
     protected function initialize(Frontend $frontendHelper)
     {
         $this->wpAddAction('wp_print_scripts', 'migrateSourceJs', 1);
-        if (!$frontendHelper->isPreview() && !$frontendHelper->isPageEditable()) {
+        if (
+            !$frontendHelper->isPreview()
+            && !$frontendHelper->isPageEditable()
+            && (
+                !is_admin() || $frontendHelper->isFrontend()
+            )
+        ) {
             /** @see \VisualComposer\Modules\Assets\JsEnqueueController::enqueueHeadHtml */
             if ($frontendHelper->isFrontend()) {
                 $this->addEvent('vcv:frontend:render', 'enqueueHeadHtml');
@@ -113,7 +119,8 @@ class JsEnqueueController extends Container implements Module
     protected function printJs($globalJs, $localJs, $sourceId, $part)
     {
         if (vcvenv('VCV_DEBUG')) {
-            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part . ' START -->';
+            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part
+                . ' START -->';
         }
         $frontendHelper = vchelper('Frontend');
         if (!$frontendHelper->isPageEditable()) {
@@ -125,7 +132,8 @@ class JsEnqueueController extends Container implements Module
             }
         }
         if (vcvenv('VCV_DEBUG')) {
-            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part . ' END -->';
+            echo '<!-- \VisualComposer\Modules\Assets\JsEnqueueController::printJs ' . $sourceId . '-' . $part
+                . ' END -->';
         }
     }
 }
