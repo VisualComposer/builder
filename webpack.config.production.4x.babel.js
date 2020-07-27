@@ -1,7 +1,8 @@
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import webpack from 'webpack'
 import TerserPlugin from 'terser-webpack-plugin'
 import VirtualModulePlugin from 'virtual-module-webpack-plugin'
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 
 import Collector from './tools/webpack-collector-4x'
 import config from './webpack.config.4x.babel'
@@ -9,7 +10,7 @@ import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.custom
 
 delete config.devtool
 
-module.exports = Object.assign({}, config, {
+export default Object.assign({}, config, {
   mode: 'production',
   optimization: {
     minimize: true,
@@ -32,7 +33,8 @@ module.exports = Object.assign({}, config, {
         terserOptions: {
           safari10: true
         }
-      })
+      }),
+      new OptimizeCSSAssetsPlugin()
     ]
   },
   plugins: [
@@ -90,7 +92,9 @@ module.exports = Object.assign({}, config, {
         ]
       }
     }),
-    new ExtractTextPlugin('[name].bundle.css'),
+    new MiniCssExtractPlugin({
+      filename: '[name].bundle.css'
+    }),
     new VirtualModulePlugin({
       moduleName: 'node_modules/jquery/dist/jquery.js',
       contents: 'module.exports = window.jQuery'

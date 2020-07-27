@@ -1,13 +1,12 @@
 import path from 'path'
 import webpack from 'webpack'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import VirtualModulePlugin from 'virtual-module-webpack-plugin'
 import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
 import webpackVendors from 'vc-webpack-vendors'
-
 import Collector from './tools/webpack-collector-4x'
 
-module.exports = {
+export default {
   devtool: 'eval',
   mode: 'development',
   entry: {
@@ -104,7 +103,9 @@ module.exports = {
         ]
       }
     }),
-    new ExtractTextPlugin('[name].bundle.css'),
+    new MiniCssExtractPlugin({
+      filename: '[name].bundle.css'
+    }),
     new VirtualModulePlugin({
       moduleName: 'node_modules/jquery/dist/jquery.js',
       contents: 'module.exports = window.jQuery'
@@ -114,7 +115,11 @@ module.exports = {
   ],
   module: {
     rules: [
-      { parser: { amd: false } },
+      {
+        parser: {
+          amd: false
+        }
+      },
       {
         test: /\.mjs$/,
         include: /node_modules/,
@@ -122,56 +127,53 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        use: { loader: 'babel-loader' },
+        use: {
+          loader: 'babel-loader'
+        },
         exclude: /node_modules/
-        // exclude: new RegExp('node_modules\\' + path.sep + '(?!postcss-prefix-url)'),
-        // query: {
-        //   // https://github.com/babel/babel-loader#options
-        //   cacheDirectory: true
-        // }
-      },
-      // {
-      //   test: /\.js$/,
-      //   include: /node_modules/,
-      //   loader: StringReplacePlugin.replace({ // from the 'string-replace-webpack-plugin'
-      //     replacements: [ {
-      //       pattern: /define\.amd/ig,
-      //       replacement: function () {
-      //         return false
-      //       }
-      //     } ]
-      //   })
-      // },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [require('autoprefixer')()]
-            }
-          }, 'less-loader']
-        })
       },
       {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', {
+        test: /\.css|\.less$/,
+        exclude: [/styles\.css/, /editor\.css/],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [require('autoprefixer')()]
+              plugins: function plugins () {
+                return [require('autoprefixer')()];
+              }
             }
-          }, 'less-loader']
-        })
+          },
+          'less-loader'
+        ],
       },
-      // use ! to chain loaders./
-      { test: /\.(png|jpe?g|gif)$/, use: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]' }, // inline base64 URLs for <=8k images, direct URLs for the rest.
-      { test: /\.woff(2)?(\?.+)?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]' },
-      { test: /\.(ttf|eot|svg)(\?.+)?$/, use: 'file-loader?name=/fonts/[name].[ext]?[hash]' },
-      { test: /\.raw(\?v=\d+\.\d+\.\d+)?$/, use: 'raw-loader' }
-      // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]'
+      }, // inline base64 URLs for <=8k images, direct URLs for the rest.
+      {
+        test: /\.woff(2)?(\?.+)?$/,
+        use: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]'
+      },
+      {
+        test: /\.svg/,
+        use: {
+          loader: 'svg-url-loader',
+          options: {}
+        }
+      },
+      {
+        test: /\.(ttf|eot)(\?.+)?$/,
+        use: 'file-loader?name=/fonts/[name].[ext]?[hash]'
+      },
+      {
+        test: /\.raw(\?v=\d+\.\d+\.\d+)?$/,
+        use: 'raw-loader' // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
+      }
     ]
   },
   resolve: {
