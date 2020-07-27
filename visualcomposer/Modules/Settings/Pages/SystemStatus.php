@@ -59,7 +59,7 @@ class SystemStatus extends Container implements Module
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
         $this->wpAddAction(
-            'in_admin_header',
+            'admin_head',
             'addCss'
         );
 

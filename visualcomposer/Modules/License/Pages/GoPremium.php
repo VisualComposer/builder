@@ -48,7 +48,7 @@ class GoPremium extends Container implements Module
             $this->wpAddAction('in_admin_footer', 'addJs');
 
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addCss */
-            $this->wpAddAction('in_admin_header', 'addCss');
+            $this->wpAddAction('admin_head', 'addCss');
         }
 
         $this->wpAddAction(

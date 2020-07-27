@@ -46,7 +46,7 @@ class Hub extends Container implements Module
         );
 
         $this->wpAddAction(
-            'in_admin_header',
+            'admin_head',
             'addCss'
         );
 
