@@ -72,6 +72,7 @@ export default class Categories extends React.Component {
     Categories.hubElements = hubElementsStorage.state('elements').get()
 
     categoriesService.getSortedElements.cache.clear()
+    this.setState({ activeCategoryIndex: this.state.activeCategoryIndex })
   }
 
   hasItemInArray (arr, value) {

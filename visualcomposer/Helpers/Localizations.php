@@ -45,6 +45,8 @@ class Localizations extends Container implements Helper
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
             'saveDraft' => __('Save Draft', 'visualcomposer'),
             'goPremium' => __('Go Premium', 'visualcomposer'),
+            'getFreeLicense' => __('Get Free License', 'visualcomposer'),
+            'activated' => __('Activated', 'visualcomposer'),
             'close' => __('Close', 'visualcomposer'),
             'premiumElementsButton' => __('Go Premium', 'visualcomposer'),
             'premiumTemplatesButton' => __('Go Premium', 'visualcomposer'),
@@ -164,6 +166,10 @@ class Localizations extends Container implements Helper
             ),
             'forgotYourLicenseText' => __(
                 'Forgot your license? Retrieve it in <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> under Licenses section',
+                'visualcomposer'
+            ),
+            'alreadyHaveALicenseText' => __(
+                'Already have a license? Log in to <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> to find it.',
                 'visualcomposer'
             ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
@@ -1038,9 +1044,20 @@ class Localizations extends Container implements Helper
                 'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
-
             'contentAreaPlaceholderText' => __(
                 'This is a default WordPress content area where your post or page content will be displayed.',
+                'visualcomposer'
+            ),
+            'activateHub' => __(
+                'Activate Hub',
+                'visualcomposer'
+            ),
+            'activateVisualComposerHub' => __(
+                'Activate Visual Composer Hub',
+                'visualcomposer'
+            ),
+            'makeTheFinalStep' => __(
+                'Make the final step! Enter your License key to activate Visual Composer Hub and start creating your website right away.',
                 'visualcomposer'
             ),
         ];
