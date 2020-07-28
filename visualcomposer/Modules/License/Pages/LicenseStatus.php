@@ -56,7 +56,7 @@ class LicenseStatus extends Container implements Module
                     $this->call('addPage');
                     $this->wpAddFilter('submenu_file', 'subMenuHighlight');
                     $this->wpAddAction(
-                        'in_admin_header',
+                        'admin_head',
                         'addCss'
                     );
                 } elseif ($requestHelper->input('page') === $this->getSlug()) {
