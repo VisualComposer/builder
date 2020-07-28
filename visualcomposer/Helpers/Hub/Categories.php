@@ -399,7 +399,8 @@ class Categories implements Helper
                     'backgroundImagePostGrid',
                     'postGridWithBox',
                     'postSliderBlock',
-                    'portfolioPostGrid'
+                    'portfolioPostGrid',
+                    'postGridWithHoverButton',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Post-Grid.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Post-Grid.svg'),
@@ -430,6 +431,7 @@ class Categories implements Helper
                     'portfolioPostGridItem',
                     'postGridWithBoxItem',
                     'postSliderBlockItem',
+                    'postGridWithHoverButtonItem',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Post-Grid.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Post-Grid.svg'),
