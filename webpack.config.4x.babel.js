@@ -137,19 +137,19 @@ export default {
         exclude: [/styles\.css/, /editor\.css/],
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: MiniCssExtractPlugin.loader
           },
           'css-loader',
           {
             loader: 'postcss-loader',
             options: {
               plugins: function plugins () {
-                return [require('autoprefixer')()];
+                return [require('autoprefixer')()]
               }
             }
           },
           'less-loader'
-        ],
+        ]
       },
       {
         test: /\.(png|jpe?g|gif)$/,
