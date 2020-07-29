@@ -267,7 +267,10 @@ export default class ElementAttribute extends Attribute {
 
     if (editableElement !== currentElement) {
       const { options } = this.props
-      const { isActive } = this.state
+      let { isActive } = this.state
+      if (isActive === undefined) {
+        isActive = true
+      }
       const sectionClasses = classNames({
         'vcv-ui-edit-form-section': true,
         'vcv-ui-edit-form-section--opened': isActive,
