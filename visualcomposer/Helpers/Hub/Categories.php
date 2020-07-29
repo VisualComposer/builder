@@ -271,7 +271,7 @@ class Categories implements Helper
             ],
             'Text block' => [
                 'title' => 'Text Block',
-                'elements' => ['textBlock', 'googleFontsHeading', 'typewriterHeading', 'marqueeElement'],
+                'elements' => ['textBlock', 'googleFontsHeading', 'typewriterHeading', 'marqueeElement', 'doubleTitle'],
                 'icon' => $urlHelper->to('public/categories/icons/Text-Block.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Text-Block.svg'),
             ],
