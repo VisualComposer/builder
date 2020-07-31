@@ -111,6 +111,8 @@ class EnqueueController extends Container implements Module
                     }
                     ob_start();
                     if ($printJs) {
+                        //fix for WooCommerce Google Analytics Pro plugin
+                        add_filter('wc_google_analytics_pro_do_not_track', '__return_true');
                         // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
                         $this->callNonWordpressActionCallbacks('wp_footer');
                     }
