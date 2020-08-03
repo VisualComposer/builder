@@ -1,7 +1,9 @@
 import React from 'react'
-import { env, getStorage } from 'vc-cake'
+import { env, getStorage, getService } from 'vc-cake'
 import PropTypes from 'prop-types'
+import { getResponse } from 'public/tools/response'
 
+const Utils = getService('utils')
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
@@ -19,12 +21,15 @@ export default class LayoutDropdown extends React.Component {
     const currentLayout = settingsStorage.state(`${layoutName}Template`).get() || props.data.current || 'default'
 
     this.state = {
+      data: props.data,
+      isListLoading: false,
       current: currentLayout
     }
 
     settingsStorage.state(`${layoutName}Template`).set(currentLayout)
 
     this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
+    this.handleUpdateList = this.handleUpdateList.bind(this)
     this.getTemplateOptions = this.getTemplateOptions.bind(this)
   }
 
@@ -37,6 +42,28 @@ export default class LayoutDropdown extends React.Component {
       }
     }
     return null
+  }
+
+  handleUpdateList () {
+    const layoutName = this.props.layoutName.toLowerCase()
+    this.setState({ isListLoading: true })
+
+    const ajax = Utils.ajax
+    if (this.serverRequest) {
+      this.serverRequest.abort()
+    }
+
+    this.serverRequest = ajax({
+      'vcv-action': 'layoutDropdown:' + layoutName + ':updateList:adminNonce',
+      'vcv-nonce': window.vcvNonce
+    }, (request) => {
+      const response = getResponse(request.response)
+      if (response && response.status) {
+        this.setState({ data: response, isListLoading: false })
+      } else {
+        this.setState({ isListLoading: false })
+      }
+    })
   }
 
   handleChangeUpdateLayout (event) {
@@ -70,15 +97,14 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getTemplateOptions () {
-    const { data } = this.props
+    const { data } = this.state
     return Object.keys(data.all).map((key, index) => (
       <option key={index} value={key}>{data.all[key]}</option>
     ))
   }
 
   getSelectedValue () {
-    const { data } = this.props
-    const current = this.state.current
+    const { data, current } = this.state
     if (current === 'default' || Object.prototype.hasOwnProperty.call(data.all, current)) {
       return current
     }
@@ -112,10 +138,20 @@ export default class LayoutDropdown extends React.Component {
     const globalUrl = `vcvCreate${this.props.layoutName}`
     const createNewUrl = window[globalUrl] ? window[globalUrl] : ''
 
+    let spinnerHtml = null
+    if (this.state.isListLoading) {
+      spinnerHtml = (
+        <span className='vcv-ui-wp-spinner' />
+      )
+    }
+
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>{this.props.layoutName}</span>
-        <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.handleChangeUpdateLayout}>
+        <span className='vcv-ui-form-group-heading'>
+          {this.props.layoutName}
+          {spinnerHtml}
+        </span>
+        <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.handleChangeUpdateLayout} onClick={this.handleUpdateList}>
           <option value='default'>
             {selectHFSText}
           </option>
