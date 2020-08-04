@@ -1,3 +1,5 @@
+import { getService } from 'vc-cake'
+
 const getPopupId = (attrValue) => {
   if (attrValue && attrValue.url && attrValue.type === 'popup') {
     const popupId = attrValue.url.split('#vcv-popup-')
@@ -41,6 +43,22 @@ export function getPopupDataFromElement (cookElement) {
       if (popupId) {
         ids.push(popupId)
       }
+    }
+  })
+
+  const innerElementKeys = cookElement.filter((key, value, settings) => {
+    return settings.type === 'element'
+  })
+
+  innerElementKeys.forEach((elementKey) => {
+    const elementValue = cookElement.get(elementKey)
+    const cook = getService('cook')
+    const innerCookElement = cook.get(elementValue)
+    const innerElementIds = getPopupDataFromElement(innerCookElement)
+    if (innerElementIds.length) {
+      innerElementIds.forEach((innerId) => {
+        ids.push(innerId)
+      })
     }
   })
 
