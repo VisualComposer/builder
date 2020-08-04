@@ -69,7 +69,8 @@ export default class LayoutDropdown extends React.Component {
   handleChangeUpdateLayout (event) {
     const layoutName = this.props.layoutName.toLowerCase()
     let value = event.target.value
-    if (value !== 'none' && value !== 'default') {
+    const defaultValues = ['default', 'defaultGlobal', 'defaultLayout']
+    if (value !== 'none' && !defaultValues.includes(value)) {
       value = parseInt(value)
     }
     this.setState({
