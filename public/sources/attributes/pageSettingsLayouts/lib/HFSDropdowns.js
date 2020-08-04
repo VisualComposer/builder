@@ -44,6 +44,8 @@ export default class HFSDropdowns extends React.Component {
       return i.type === currentLayout.type
     })
 
+    this.hasLayoutElement('layoutHeaderArea')
+
     let currentLayoutData = {}
     if (currentLayout.type === 'theme') {
       currentLayoutData.header = true
