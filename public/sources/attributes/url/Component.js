@@ -339,6 +339,7 @@ export default class Url extends Attribute {
     const dropdownValue = this.state.unsavedValue.type ? this.state.unsavedValue.type : 'url'
 
     if (env('VCV_POPUP_BUILDER')) {
+      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
       optionDropdown = (
         <div className='vcv-ui-form-group'>
           <span className='vcv-ui-form-group-heading'>
@@ -351,7 +352,7 @@ export default class Url extends Attribute {
           >
             <option value='url'>{urlText}</option>
             <option value='popup'>{openPopupText}</option>
-            <option value='close-popup'>{closePopupText}</option>
+            {editorType === 'popup' ? <option value='close-popup'>{closePopupText}</option> : null}
           </select>
         </div>
       )
