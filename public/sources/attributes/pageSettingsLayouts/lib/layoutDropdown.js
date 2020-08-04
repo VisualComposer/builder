@@ -59,7 +59,7 @@ export default class LayoutDropdown extends React.Component {
     }, (request) => {
       const response = getResponse(request.response)
       if (response && response.status) {
-        this.setState({ data: response, isListLoading: false })
+        this.setState({ data: response.data, isListLoading: false })
       } else {
         this.setState({ isListLoading: false })
       }
