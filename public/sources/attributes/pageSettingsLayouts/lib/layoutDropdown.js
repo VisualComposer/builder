@@ -107,8 +107,7 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getSelectedValue () {
-    const { data } = this.props
-    const current = this.state.current
+    const { data, current } = this.state
     const defaultValues = ['default', 'defaultGlobal', 'defaultLayout']
     if (defaultValues.includes(current) || Object.prototype.hasOwnProperty.call(data.all, current)) {
       return current
@@ -177,7 +176,7 @@ export default class LayoutDropdown extends React.Component {
         </span>
         <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.handleChangeUpdateLayout} onClick={this.handleUpdateList}>
           <option value='default'>
-            {selectHFSText}
+            {this.getDefaultOptions()}
           </option>
           <option value='none'>{noneText}</option>
           {this.getTemplateOptions()}
