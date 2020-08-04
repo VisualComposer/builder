@@ -44,7 +44,9 @@ class Categories implements Helper
                 if (empty($oldValue)) {
                     return []; // Do not allow to create 'new' categories
                 }
-                $mergedValue['elements'] = array_values(array_unique(array_merge($oldValue['elements'], $newValue['elements'])));
+                $mergedValue['elements'] = array_values(
+                    array_unique(array_merge($oldValue['elements'], $newValue['elements']))
+                );
 
                 return $mergedValue;
             }
@@ -137,7 +139,7 @@ class Categories implements Helper
                     'pageableContainer',
                     'contentSlider',
                     'toggleContainer',
-                    'faqGroup'
+                    'faqGroup',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
@@ -149,7 +151,7 @@ class Categories implements Helper
                     'classicTab',
                     'pageableTab',
                     'contentSlide',
-                    'toggleContainerTab'
+                    'toggleContainerTab',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Container.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Container.svg'),
@@ -191,7 +193,7 @@ class Categories implements Helper
                     '3ColorButton',
                     'doubleTextButton',
                     'callToActionButton',
-                    'iconButton'
+                    'iconButton',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Button.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Button.svg'),
@@ -206,7 +208,7 @@ class Categories implements Helper
                     'sidebarMenu',
                     'verticalSandwichMenu',
                     'sandwichSideMenu',
-                    'linkDropdown'
+                    'linkDropdown',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Header-Footer.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Header-Footer.svg'),
@@ -225,7 +227,14 @@ class Categories implements Helper
             ],
             'Section' => [
                 'title' => 'Section',
-                'elements' => ['section', 'popupRoot', 'layoutWpContentArea', 'layoutHeaderArea', 'layoutFooterArea'],
+                'elements' => [
+                    'section',
+                    'popupRoot',
+                    'layoutWpContentArea',
+                    'layoutWpCommentsArea',
+                    'layoutHeaderArea',
+                    'layoutFooterArea',
+                ],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
             ],
@@ -299,7 +308,7 @@ class Categories implements Helper
                 'elements' => [
                     'pricingTable',
                     'outlinePricingTable',
-                    'shadowPricingTable'
+                    'shadowPricingTable',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Pricing-Table.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Pricing-Table.svg'),
