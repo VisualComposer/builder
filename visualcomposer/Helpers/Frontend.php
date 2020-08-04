@@ -123,9 +123,7 @@ class Frontend implements Helper
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
 
         $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
-        if (empty($previousDynamicContent) || $previousDynamicContent !== $sourceId) {
-            \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
-        }
+        \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
         $sourceContent = get_the_content('', '', $sourceId);
         $sourceContent = apply_filters('the_content', $sourceContent);
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
