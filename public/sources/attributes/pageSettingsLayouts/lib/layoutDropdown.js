@@ -175,9 +175,7 @@ export default class LayoutDropdown extends React.Component {
           {spinnerHtml}
         </span>
         <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.handleChangeUpdateLayout} onClick={this.handleUpdateList}>
-          <option value='default'>
-            {this.getDefaultOptions()}
-          </option>
+          {this.getDefaultOptions()}
           <option value='none'>{noneText}</option>
           {this.getTemplateOptions()}
         </select>
