@@ -1,8 +1,9 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import LayoutDropdown from './layoutDropdown'
 
 const settingsStorage = getStorage('settings')
+const documentManager = getService('document')
 
 export default class HFSDropdowns extends React.Component {
   constructor (props) {
@@ -14,6 +15,12 @@ export default class HFSDropdowns extends React.Component {
       currentLayout: templateStorageData
     }
     this.setCurrentLayout = this.setCurrentLayout.bind(this)
+  }
+
+  hasLayoutElement (elementName) {
+    const elements = documentManager.getByTag(elementName)
+
+    return Object.keys(elements).length > 0
   }
 
   componentDidMount () {
@@ -62,13 +69,18 @@ export default class HFSDropdowns extends React.Component {
     let addHeader = true
     let addSidebar = true
     let addFooter = true
+    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
 
     // Options to disable exact dropdown. Used in Header/Footer elements
     if (
-      this.props.options &&
+      (this.props.options &&
       Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
       Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addHeader') &&
-      !this.props.options.HFSDropdowns.addHeader
+      !this.props.options.HFSDropdowns.addHeader) ||
+      (
+        editorType === 'vcv_layouts' &&
+        !this.hasLayoutElement('layoutHeaderArea')
+      )
     ) {
       addHeader = false
     }
@@ -81,10 +93,14 @@ export default class HFSDropdowns extends React.Component {
       addSidebar = false
     }
     if (
-      this.props.options &&
+      (this.props.options &&
       Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
       Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addFooter') &&
-      !this.props.options.HFSDropdowns.addFooter
+      !this.props.options.HFSDropdowns.addFooter) ||
+      (
+        editorType === 'vcv_layouts' &&
+        !this.hasLayoutElement('layoutFooterArea')
+      )
     ) {
       addFooter = false
     }
@@ -92,6 +108,14 @@ export default class HFSDropdowns extends React.Component {
     if (currentLayoutData.header && addHeader) {
       const headerData = window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES()
       if (headerData) {
+        if (editorType === 'vcv_layouts') {
+          const globalHeaderData = window.VCV_GLOBAL_DATA ? window.VCV_GLOBAL_DATA().header : null
+          if (globalHeaderData && globalHeaderData.sourceId) {
+            headerData.current = globalHeaderData.sourceId
+          } else {
+            headerData.current = Object.keys(headerData.all)[0]
+          }
+        }
         if (currentLayoutData.headerId) {
           headerData.current = parseInt(currentLayoutData.headerId)
         }
@@ -118,6 +142,14 @@ export default class HFSDropdowns extends React.Component {
     if (currentLayoutData.footer && addFooter) {
       const footerData = window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES()
       if (footerData) {
+        if (editorType === 'vcv_layouts') {
+          const globalFooterData = window.VCV_GLOBAL_DATA ? window.VCV_GLOBAL_DATA().footer : null
+          if (globalFooterData && globalFooterData.sourceId) {
+            footerData.current = globalFooterData.sourceId
+          } else {
+            footerData.current = Object.keys(footerData.all)[0]
+          }
+        }
         if (currentLayoutData.footerId) {
           footerData.current = parseInt(currentLayoutData.footerId)
         }

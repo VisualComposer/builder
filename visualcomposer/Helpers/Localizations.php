@@ -319,6 +319,14 @@ class Localizations extends Container implements Helper
                 'Default',
                 'visualcomposer'
             ),
+            'selectHFSGlobal' => __(
+                'Global Default',
+                'visualcomposer'
+            ),
+            'selectHFSLayout' => __(
+                'Layout Default',
+                'visualcomposer'
+            ),
             'elementDownloadRequiresUpdate' => __(
                 'Update Visual Composer plugin to the most recent version to download this content element.',
                 'visualcomposer'
