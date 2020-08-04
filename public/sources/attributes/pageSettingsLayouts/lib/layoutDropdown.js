@@ -101,14 +101,15 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getTemplateOptions () {
-    const { data } = this.state
+    const { data } = this.props
     return Object.keys(data.all).map((key, index) => (
       <option key={index} value={key}>{data.all[key]}</option>
     ))
   }
 
   getSelectedValue () {
-    const { data, current } = this.state
+    const { data } = this.props
+    const current = this.state.current
     const defaultValues = ['default', 'defaultGlobal', 'defaultLayout']
     if (defaultValues.includes(current) || Object.prototype.hasOwnProperty.call(data.all, current)) {
       return current
