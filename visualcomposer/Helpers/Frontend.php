@@ -120,10 +120,10 @@ class Frontend implements Helper
         if (!$sourceId || get_post_status($sourceId) !== 'publish') {
             return false;
         }
-        vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
 
         $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
+        vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
         $sourceContent = get_the_content('', '', $sourceId);
         $sourceContent = apply_filters('the_content', $sourceContent);
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
