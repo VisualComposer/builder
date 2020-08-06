@@ -153,7 +153,9 @@ export default class TokenizationList extends React.Component {
     if (this.state.suggestedValue && (this.state.value !== this.state.suggestedValue)) {
       this.updateValue(this.state.suggestedValue)
     }
-    this.updateValue(e.target.value)
+    // set default value to auto if the field is empty
+    const value = e.target.value ? e.target.value : 'auto'
+    this.updateValue(value)
   }
 
   handleSuggestionMouseDown (e) {
