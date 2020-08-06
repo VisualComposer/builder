@@ -53,7 +53,7 @@ export default class TemplateLayoutIcons extends React.Component {
   handleTemplateChange (selectedTemplate) {
     const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let value = layoutData[1]
-    if (value !== 'none' && value !== 'default') {
+    if (value !== 'none' && value !== 'default' && parseInt(value)) {
       value = parseInt(layoutData[1])
     }
     const data = {
