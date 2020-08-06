@@ -611,11 +611,22 @@
       const $triggers = this.getActiveTriggers().filter(function () {
         return $this[ 0 ] !== this
       })
+      const mainParent = $this.closest(settings.tabsSelector)
+      const isCloseOnClickEnabled = mainParent.attr('data-close-on-click')
+      const isCurrentPanel = $this.closest(settings.slidePanelSelector).attr(settings.activeAttribute)
 
       if ($triggers.length) {
         Plugin.call($triggers, 'hide', opt)
       }
-      Plugin.call($this, 'show', opt)
+
+      if (isCloseOnClickEnabled === 'true' && isCurrentPanel === 'true') {
+        Plugin.call($this, 'toggle', opt)
+      } else if (!isCurrentPanel) {
+        Plugin.call($this, 'show', opt)
+      }
+
+      // Clear the hash in the site URL (address bar)
+      window.history.pushState('', document.title, window.location.pathname)
     }
 
     /**
@@ -760,6 +771,9 @@
       }
     }
 
+    // Initial set of active tabs and panels
+    // Only gets called on 'add' event
+    // Sets/removes data attributes on tabs and panels by interating over each one
     this.setActiveTab = function (action, elementId) {
       let $tabs = $(settings.tabsSelector + ':not([data-vcv-hash-navigated])')
 
