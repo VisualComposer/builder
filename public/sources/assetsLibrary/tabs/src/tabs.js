@@ -244,16 +244,17 @@
      * Tab Show
      */
     Tabs.prototype.show = function () {
+      const targetTab = this.getTargetTab()
       if (settings.isSlider) {
         this.moveSlider()
       }
       // if showed no need to do anything
-      if (this.getTargetTab().attr(this.activeAttribute) === 'true') {
+      if (targetTab.attr(this.activeAttribute) === 'true') {
         return
       }
 
       this.triggerEvent(settings.showTabSelector)
-      this.getTargetTab().attr(this.activeAttribute, true)
+      targetTab.attr(this.activeAttribute, true)
 
       if (window.dispatchEvent) {
         window.setTimeout(() => {
@@ -266,13 +267,14 @@
      * Tab Hide
      */
     Tabs.prototype.hide = function () {
+      const targetTab = this.getTargetTab()
       // if showed no need to do anything
-      if (!this.getTargetTab().attr(this.activeAttribute) || this.getTargetTab().attr(this.activeAttribute) === 'false') {
+      if (!targetTab.attr(this.activeAttribute) || targetTab.attr(this.activeAttribute) === 'false') {
         return
       }
 
       this.triggerEvent(settings.hideTabSelector)
-      this.getTargetTab().removeAttr(this.activeAttribute)
+      targetTab.removeAttr(this.activeAttribute)
     }
 
     // Tabs.prototype
