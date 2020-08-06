@@ -132,10 +132,12 @@ class EnqueueController extends Container implements Module
 
     protected function callNonWordpressActionCallbacks($action)
     {
-        global $wp_filter;
+        global $wp_filter, $wp_current_filter;
         // Run over actions sorted by priorities
         $actions = $wp_filter[ $action ]->callbacks;
         ksort($actions);
+        // @codingStandardsIgnoreLine
+        $wp_current_filter[] = $action;
         foreach ($actions as $priority => $callbacks) {
             // Run over callbacks
             foreach ($callbacks as $callback) {
@@ -150,6 +152,8 @@ class EnqueueController extends Container implements Module
                 call_user_func_array($callback['function'], ['']);
             }
         }
+        // @codingStandardsIgnoreLine
+        array_pop($wp_current_filter);
     }
 
     protected function enqueueVcvAssets($sourceIds)
