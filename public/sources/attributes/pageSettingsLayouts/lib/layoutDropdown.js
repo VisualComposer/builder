@@ -108,8 +108,7 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getSelectedValue () {
-    const { data } = this.props
-    const current = this.state.current
+    const { data, current } = this.state
     const defaultValues = ['default', 'defaultGlobal', 'defaultLayout']
     if (defaultValues.includes(current) || Object.prototype.hasOwnProperty.call(data.all, current)) {
       return current
