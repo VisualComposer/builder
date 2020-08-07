@@ -163,7 +163,7 @@ export default class HFSDropdowns extends React.Component {
     if (layoutSettings.length) {
       layoutSettings.forEach((item, index) => {
         layoutDropdowns.push(
-          <LayoutDropdown layoutName={item.layoutName} data={item.data} key={`layout-settings-dropdown-${index}`} />)
+          <LayoutDropdown layoutName={item.layoutName} data={item.data} key={`layout-settings-dropdown-${item.layoutName}-${index}`} />)
       })
     }
 
