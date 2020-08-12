@@ -7,9 +7,9 @@
     "dataPlugin": "builder/plugin-wordpress.php",
     "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend",
     "serverType": "ci",
-    "checkSnapshots": true
+    "checkSnapshots": false
   },
-  "video": true,
+  "video": false,
   "pageLoadTimeout": 80000,
   "execTimeout": 350000,
   "requestTimeout": 10000
