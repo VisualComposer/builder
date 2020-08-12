@@ -1068,6 +1068,10 @@ class Localizations extends Container implements Helper
                 'Make the final step! Enter your License key to activate Visual Composer Hub and start creating your website right away.',
                 'visualcomposer'
             ),
+            'commentsAreaPlaceholderText' => __(
+                'Define a comments area for your post or page layout.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
