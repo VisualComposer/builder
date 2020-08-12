@@ -86,6 +86,10 @@ addStorage('elements', (storage) => {
     if (!cookElement) {
       return
     }
+    const continueBeforeAdd = storage.action('beforeAdd', elementData, wrap, options)
+    if (!continueBeforeAdd) {
+      return
+    }
     elementData = recursiveElementsRebuild(cookElement)
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (wrap && !cookElement.get('parent')) {
@@ -215,6 +219,10 @@ addStorage('elements', (storage) => {
   })
   storage.on('clone', (id) => {
     const dolly = documentManager.clone(id)
+    const continueBeforeClone = storage.action('beforeClone', id)
+    if (!continueBeforeClone) {
+      return
+    }
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (dolly.tag === 'column') {
         const rowElement = documentManager.get(dolly.parent)
