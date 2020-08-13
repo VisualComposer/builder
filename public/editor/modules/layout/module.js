@@ -18,6 +18,8 @@ const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
+const wordpressDataStorage = vcCake.getStorage('wordpressData')
+const documentManager = vcCake.getService('document')
 
 vcCake.add('contentLayout', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
@@ -272,3 +274,28 @@ vcCake.add('contentLayout', (api) => {
     timer = window.setTimeout(renderDone, 200)
   })
 })
+
+// Show a notice if content area element not exist
+const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+if (editorType === 'vcv_layouts') {
+  wordpressDataStorage.on('wordpress:beforeSaveLock', (data) => {
+    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const contentElementMissingNotification = localizations.contentElementMissingNotification || 'The content area is missing for your layout. Make sure to add the Content Area element to specify the place in your layout where the page or post content will be displayed.'
+    const contentElement = documentManager.getByTag('layoutWpContentArea')
+    data.status = true
+
+    if (!contentElement.length >= 1) {
+      data.status = false
+
+      notificationsStorage.trigger('add', {
+        position: 'top',
+        transparent: false,
+        rounded: false,
+        type: 'error',
+        text: contentElementMissingNotification,
+        time: 5000,
+        showCloseButton: true
+      })
+    }
+  })
+}
