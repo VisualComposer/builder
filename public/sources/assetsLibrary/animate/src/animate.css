@@ -4,13 +4,14 @@
 
 [data-vcv-o-animated="true"] {
   animation-duration: 0.7s;
-  animation-fill-mode: both;
+  animation-fill-mode: initial;
   visibility: visible;
 }
 
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--infinite"] {
   animation-iteration-count: infinite;
 }
+
 
 @keyframes vce-o-animate--bounce {
   from,
