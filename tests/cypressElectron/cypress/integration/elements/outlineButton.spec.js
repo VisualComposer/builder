@@ -28,7 +28,7 @@ describe(ELEMENT_NAME, function () {
         .then((element) => {
           let contentContainerWidth
           cy.window().then((window) => {
-            const contentContainer = window.document.querySelector( '.vce-row-container')
+            const contentContainer = window.document.querySelector( '.vce-row')
             contentContainerWidth = window.getComputedStyle(contentContainer).width
             cy.wrap(element)
               .should('have.css', 'width', contentContainerWidth)
