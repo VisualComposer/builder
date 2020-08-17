@@ -9,6 +9,8 @@
   const headerZone = '[data-vcv-layout-zone="header"]'
   const footerZone = '[data-vcv-layout-zone="footer"]'
   const headerFooterEditor = '.vcv-editor-theme-hf'
+  const headerFooterLayout = '.vcv-content--header-footer'
+  const blankLayout = '.vcv-content--blank'
   const customContainerSelector = '.vce-full-width-custom-container'
 
   function getFullWidthElements() {
@@ -35,7 +37,7 @@
       const elMarginRight = parseInt(window.getComputedStyle(element, null)['margin-right'], 10)
       let offset, width
 
-      if (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor)) {
+      if (!element.closest('[data-vce-element-content]') && (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor) || element.closest(headerFooterLayout) || element.closest(blankLayout))) {
         return
       }
 

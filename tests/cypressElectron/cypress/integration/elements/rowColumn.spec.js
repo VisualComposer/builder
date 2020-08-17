@@ -237,8 +237,16 @@ describe(ELEMENT_NAME, function () {
 
       cy.window()
         .then((win) => {
-          cy.get('.vce-row')
-            .should('have.css', 'width', `${win.document.documentElement.clientWidth}px`)
+          cy.get('.vce-row').then(($row) => {
+            let rowWidth = $row[0].style.width
+            if (!rowWidth) {
+              const firstColumnStyles = win.getComputedStyle($row[0])
+              const rowMarginLeft = firstColumnStyles.marginLeft.replace('px', '')
+              const rowMarginRight = firstColumnStyles.marginRight.replace('px', '')
+              rowWidth = `${$row[0].offsetWidth + parseInt(rowMarginLeft) + parseInt(rowMarginRight)}px`
+            }
+            expect(rowWidth).to.eq(`${win.document.documentElement.clientWidth}px`)
+          })
         })
 
       cy.get('.vce-row-content')
