@@ -49,6 +49,19 @@ const getElementExceededLimitStatus = (element) => {
   return limitData
 }
 
+const checkAllElementsForLimit = (element) => {
+  const limitData = {}
+  if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
+    const limit = parseInt(element.metaElementLimit)
+    const limitedElements = documentManager.getByTag(element.tag) || {}
+    if (limit > 0 && Object.keys(limitedElements).length > limit) {
+      limitData.hasExceeded = true
+      limitData.limit = limit
+    }
+  }
+  return limitData
+}
+
 elementsStorage.registerAction('beforeAdd', (element) => {
   const elementLimitData = getElementExceededLimitStatus(element)
   if (elementLimitData.hasExceeded) {
@@ -76,7 +89,7 @@ wordpressDataStorage.on('wordpress:beforeSaveLock', (data) => {
 
   Object.keys(allElements).forEach((key) => {
     if (!exceededElements[key]) {
-      const elementLimitData = getElementExceededLimitStatus(allElements[key])
+      const elementLimitData = checkAllElementsForLimit(allElements[key])
       if (elementLimitData.hasExceeded) {
         const cookElement = cook.get(allElements[key])
         exceededElements[allElements[key].tag] = {

@@ -218,11 +218,11 @@ addStorage('elements', (storage) => {
     updateTimeMachine()
   })
   storage.on('clone', (id) => {
-    const dolly = documentManager.clone(id)
     const breakBeforeClone = storage.action('beforeClone', id)
     if (breakBeforeClone) {
       return
     }
+    const dolly = documentManager.clone(id)
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
       if (dolly.tag === 'column') {
         const rowElement = documentManager.get(dolly.parent)
