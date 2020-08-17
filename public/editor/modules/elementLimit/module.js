@@ -54,9 +54,9 @@ elementsStorage.registerAction('beforeAdd', (element) => {
   if (elementLimitData.hasExceeded) {
     const cookElement = cook.get(element)
     triggerNotification('error', cookElement.get('name'), elementLimitData.limit)
-    return false
+    return true
   }
-  return true
+  return false
 })
 
 elementsStorage.registerAction('beforeClone', (elementID) => {
@@ -65,9 +65,9 @@ elementsStorage.registerAction('beforeClone', (elementID) => {
   if (elementLimitData.hasExceeded) {
     const cookElement = cook.get(element)
     triggerNotification('error', cookElement.get('name'), elementLimitData.limit)
-    return false
+    return true
   }
-  return true
+  return false
 })
 
 wordpressDataStorage.on('wordpress:beforeSaveLock', (data) => {

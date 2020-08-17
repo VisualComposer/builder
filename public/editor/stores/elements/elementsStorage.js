@@ -86,8 +86,8 @@ addStorage('elements', (storage) => {
     if (!cookElement) {
       return
     }
-    const continueBeforeAdd = storage.action('beforeAdd', elementData, wrap, options)
-    if (!continueBeforeAdd) {
+    const breakBeforeAdd = storage.action('beforeAdd', elementData, wrap, options)
+    if (breakBeforeAdd) {
       return
     }
     elementData = recursiveElementsRebuild(cookElement)
@@ -219,8 +219,8 @@ addStorage('elements', (storage) => {
   })
   storage.on('clone', (id) => {
     const dolly = documentManager.clone(id)
-    const continueBeforeClone = storage.action('beforeClone', id)
-    if (!continueBeforeClone) {
+    const breakBeforeClone = storage.action('beforeClone', id)
+    if (breakBeforeClone) {
       return
     }
     if (!env('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
