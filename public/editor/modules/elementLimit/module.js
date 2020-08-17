@@ -71,7 +71,6 @@ elementsStorage.registerAction('beforeClone', (elementID) => {
 })
 
 wordpressDataStorage.on('wordpress:beforeSaveLock', (data) => {
-  data.status = true
   const allElements = documentManager.all()
   const exceededElements = {}
 

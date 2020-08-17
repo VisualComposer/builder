@@ -3,7 +3,7 @@ import fonts from 'public/sources/attributes/googleFonts/lib/google-fonts-set.js
 const googleFonts = fonts.families
 
 const getFontFamilies = function () {
-  const defaultItem = { family: 'Default Font', value: '', defaultFont: true }
+  const defaultItem = { family: 'Default Font', value: 'inherit', defaultFont: true }
   const defaultFontsFormats = [
     { family: 'Andale Mono', value: 'andale mono,monospace', defaultFont: true },
     { family: 'Arial', value: 'arial,helvetica,sans-serif', defaultFont: true },
