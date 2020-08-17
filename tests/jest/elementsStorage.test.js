@@ -13,7 +13,6 @@ import '../../public/config/wp-attributes'
 import '../../public/editor/stores/elements/elementsStorage'
 import '../../public/editor/stores/elements/elementSettings'
 import '../../public/editor/modules/elementLimit/module'
-import '../../public/editor/modules/elementLimit/module'
 
 // Elements
 import '../../elements/row/row/index'
