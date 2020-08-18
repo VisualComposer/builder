@@ -14,7 +14,6 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = getStorage('workspace').state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
-const utils = getService('utils')
 const notificationsStorage = getStorage('notifications')
 
 export default class AddTemplatePanel extends React.Component {
@@ -335,19 +334,19 @@ export default class AddTemplatePanel extends React.Component {
       const existingJobs = assetsStorage.state('jobs').get()
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
-      const visibleAddedElements = utils.getVisibleElements(elements)
-      const addedElementsCount = Object.keys(visibleAddedElements).length
 
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
+        const addedElementsCount1 = elementsStorage.state('elementAddList').get().length
         const visibleJobs = data.elements.filter(element => !element.hidden)
-        if (existingJobsCount + addedElementsCount === visibleJobs.length) {
+        if (existingJobsCount + addedElementsCount1 === visibleJobs.length) {
           const jobsInProgress = data.elements.find(element => element.jobs)
           if (jobsInProgress) {
             return
           }
           this.setState({ showLoading: 0 })
+          elementsStorage.state('elementAddList').set([])
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
         }

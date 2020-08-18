@@ -2,7 +2,6 @@ import { getStorage, getService } from 'vc-cake'
 
 const elementsStorage = getStorage('elements')
 const notificationsStorage = getStorage('notifications')
-const wordpressDataStorage = getStorage('wordpressData')
 const documentManager = getService('document')
 const cook = getService('cook')
 
@@ -49,19 +48,6 @@ const getElementExceededLimitStatus = (element) => {
   return limitData
 }
 
-const checkAllElementsForLimit = (element) => {
-  const limitData = {}
-  if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
-    const limit = parseInt(element.metaElementLimit)
-    const limitedElements = documentManager.getByTag(element.tag) || {}
-    if (limit > 0 && Object.keys(limitedElements).length > limit) {
-      limitData.hasExceeded = true
-      limitData.limit = limit
-    }
-  }
-  return limitData
-}
-
 elementsStorage.registerAction('beforeAdd', (element) => {
   const elementLimitData = getElementExceededLimitStatus(element)
   if (elementLimitData.hasExceeded) {
@@ -81,29 +67,4 @@ elementsStorage.registerAction('beforeClone', (elementID) => {
     return true
   }
   return false
-})
-
-wordpressDataStorage.on('wordpress:beforeSaveLock', (data) => {
-  const allElements = documentManager.all()
-  const exceededElements = {}
-
-  Object.keys(allElements).forEach((key) => {
-    if (!exceededElements[key]) {
-      const elementLimitData = checkAllElementsForLimit(allElements[key])
-      if (elementLimitData.hasExceeded) {
-        const cookElement = cook.get(allElements[key])
-        exceededElements[allElements[key].tag] = {
-          limit: elementLimitData.limit,
-          name: cookElement.get('name')
-        }
-      }
-    }
-  })
-
-  if (Object.keys(exceededElements).length) {
-    data.status = false
-    Object.keys(exceededElements).forEach((key) => {
-      triggerNotification('error', exceededElements[key].name, exceededElements[key].limit)
-    })
-  }
 })
