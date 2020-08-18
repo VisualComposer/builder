@@ -204,7 +204,7 @@ if (is_array($variables)) {
                             echo sprintf(
                                 '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star">%s</a></li>',
                                 esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
-                                __('Go Premium', 'visualcomposer')
+                                $licenseHelper->activationButtonTitle()
                             );
                         }
                         ?>
