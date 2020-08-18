@@ -338,9 +338,9 @@ export default class AddTemplatePanel extends React.Component {
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
-        const addedElementsCount1 = elementsStorage.state('elementAddList').get().length
+        const addedElementsCount = elementsStorage.state('elementAddList').get().length
         const visibleJobs = data.elements.filter(element => !element.hidden)
-        if (existingJobsCount + addedElementsCount1 === visibleJobs.length) {
+        if (existingJobsCount + addedElementsCount === visibleJobs.length) {
           const jobsInProgress = data.elements.find(element => element.jobs)
           if (jobsInProgress) {
             return
