@@ -90,6 +90,13 @@ addStorage('elements', (storage) => {
     if (breakBeforeAdd) {
       return
     }
+
+    if (!elementData.hidden) {
+      const elementAddList = storage.state('elementAddList').get() || []
+      elementAddList.push(elementData.id)
+      storage.state('elementAddList').set(elementAddList)
+    }
+
     elementData = recursiveElementsRebuild(cookElement)
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (wrap && !cookElement.get('parent')) {

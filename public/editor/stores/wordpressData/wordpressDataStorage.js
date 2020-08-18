@@ -51,7 +51,7 @@ addStorage('wordpressData', (storage) => {
       next()
       return
     }
-    storage.trigger('wordpress:beforeSaveLock', lockData)
+    storage.trigger('wordpress:beforeSaveLock', lockData, options.id)
     const timeoutCheck = () => {
       if (lockData.locked) {
         window.setTimeout(timeoutCheck, 30)
