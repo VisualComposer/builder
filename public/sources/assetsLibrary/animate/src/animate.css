@@ -4,7 +4,7 @@
 
 [data-vcv-o-animated="true"] {
   animation-duration: 0.7s;
-  animation-fill-mode: both;
+  animation-fill-mode: initial;
   visibility: visible;
 }
 

@@ -14,7 +14,6 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = getStorage('workspace').state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
-const utils = getService('utils')
 const notificationsStorage = getStorage('notifications')
 
 export default class AddTemplatePanel extends React.Component {
@@ -324,6 +323,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleApplyTemplate (data, templateType) {
+    elementsStorage.state('elementAddList').set([])
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
       const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'Your current popup will be replaced with the popup template.'
@@ -335,12 +335,11 @@ export default class AddTemplatePanel extends React.Component {
       const existingJobs = assetsStorage.state('jobs').get()
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
-      const visibleAddedElements = utils.getVisibleElements(elements)
-      const addedElementsCount = Object.keys(visibleAddedElements).length
 
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
+        const addedElementsCount = elementsStorage.state('elementAddList').get().length
         const visibleJobs = data.elements.filter(element => !element.hidden)
         if (existingJobsCount + addedElementsCount === visibleJobs.length) {
           const jobsInProgress = data.elements.find(element => element.jobs)
@@ -348,6 +347,7 @@ export default class AddTemplatePanel extends React.Component {
             return
           }
           this.setState({ showLoading: 0 })
+          elementsStorage.state('elementAddList').set([])
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
         }
