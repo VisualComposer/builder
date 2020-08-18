@@ -15,6 +15,7 @@ const workspaceSettings = getStorage('workspace').state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
 const notificationsStorage = getStorage('notifications')
+const cook = getService('cook')
 
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -322,6 +323,19 @@ export default class AddTemplatePanel extends React.Component {
     workspaceSettings.set(settings)
   }
 
+  getElementExceededLimitStatus (element) {
+    const limitData = {}
+    if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
+      const limit = parseInt(element.metaElementLimit)
+      const limitedElements = documentManager.getByTag(element.tag) || {}
+      if (limit > 0 && Object.keys(limitedElements).length >= limit) {
+        limitData.hasExceeded = true
+        limitData.limit = limit
+      }
+    }
+    return limitData
+  }
+
   handleApplyTemplate (data, templateType) {
     elementsStorage.state('elementAddList').set([])
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
@@ -359,6 +373,35 @@ export default class AddTemplatePanel extends React.Component {
 
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
       myTemplatesService.load(id, (response) => {
+        let elementLimitHasExceeded = false
+        if (response.data) {
+          Object.keys(response.data).forEach((elementId) => {
+            const element = response.data[elementId]
+            const limitData = this.getElementExceededLimitStatus(element)
+            if (limitData.hasExceeded) {
+              const cookElement = cook.get(element)
+              const elementName = cookElement.get('name')
+              let errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
+              errorText = errorText.split('%element').join(elementName)
+              notificationsStorage.trigger('add', {
+                position: 'top',
+                transparent: false,
+                rounded: false,
+                type: 'error',
+                text: errorText,
+                time: 5000,
+                showCloseButton: true
+              })
+              elementLimitHasExceeded = true
+            }
+          })
+        }
+
+        if (elementLimitHasExceeded) {
+          this.setState({ showLoading: 0 })
+          return
+        }
+
         const customPostData = response && response.allData && response.allData.postFields && response.allData.postFields.dynamicFieldCustomPostData
         if (customPostData) {
           const postData = settingsStorage.state('postData').get()
