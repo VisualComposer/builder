@@ -125,9 +125,11 @@ class GoPremium extends Container implements Module
      */
     protected function buttonTitle()
     {
+        $licenseHelper = vchelper('License');
+
         return sprintf(
-            '<strong style="vertical-align: middle;font-weight:500;">%s</strong>',
-            __('&#9733; Go Premium', 'visualcomposer')
+            '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
+            $licenseHelper->activationButtonTitle()
         );
     }
 

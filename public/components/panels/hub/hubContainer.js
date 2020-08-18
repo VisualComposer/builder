@@ -277,17 +277,17 @@ export default class HubContainer extends AddElementCategories {
   }
 
   getHubBanner () {
-    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Get More Elements, Templates, and Extensions'
-    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Download additional content from the Visual Composer Hub - right in your editor instantly.'
-    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
-    const unlockHubText = HubContainer.localizations ? HubContainer.localizations.unlockHub : 'Unlock Visual Composer Hub'
-    const buttonText = window.vcvIsFreeActivated ? goPremiumText : unlockHubText
+    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Connect to Visual Composer Hub.'
+    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
+    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
+    const buttonText = HubContainer.localizations ? HubContainer.localizations.goPremium : window.vcvIsFreeActivated ? 'Go Premium' : 'Activate Hub'
     const buttonLink = window.vcvIsFreeActivated ? window.vcvGoPremiumUrl + '&vcv-ref=hub-banner' : window.vcvUpgradeUrl + '&screen=license-options'
 
     return (
       <div className='vcv-hub-banner'>
         <div className='vcv-hub-banner-content'>
           <p className='vcv-hub-banner-title'>{titleText}</p>
+          <p className='vcv-hub-banner-title'>{titleSubText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
           <span className='vcv-hub-banner-button' data-href={buttonLink} onClick={HubContainer.handleClickGoPremium}>
             {buttonText}

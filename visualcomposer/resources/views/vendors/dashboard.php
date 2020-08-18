@@ -65,7 +65,7 @@ $utmHelper = vchelper('Utm');
             |
             <a href="<?php echo $utmHelper->get('dashboardNewsGoPremium'); ?>" target="_blank" rel="noopener"
                class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
-                <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
+                <?php echo vchelper('License')->activationButtonTitle(); ?>
                 <span aria-hidden="true" class="dashicons dashicons-external"></span>
             </a>
         <?php endif; ?>
