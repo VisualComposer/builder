@@ -13,6 +13,7 @@ export default class GoPremiumControl extends NavbarContent {
       const localizations = window.VCV_I18N && window.VCV_I18N()
       const goPremium = localizations ? localizations.activationButtonTitle : window.vcvIsFreeActivated ? 'Go Premium' : 'Activate Hub'
       const goPremiumUrl = `${window.vcvGoPremiumUrl}&vcv-ref=nav-bar`
+
       return (
         <span
           className='vcv-ui-navbar-control vcv-go-premium'
