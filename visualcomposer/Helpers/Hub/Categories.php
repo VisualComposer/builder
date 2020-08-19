@@ -335,7 +335,7 @@ class Categories implements Helper
                     'facebookEmbeddedComments',
                     'facebookEmbeddedPosts',
                     'socialProfileIcons',
-                    'outlineSocialIcons',
+                    'monoSocialIcons',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Social.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Social.svg'),
