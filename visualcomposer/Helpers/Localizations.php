@@ -44,13 +44,10 @@ class Localizations extends Container implements Helper
             'publish' => __('Publish', 'visualcomposer'),
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
             'saveDraft' => __('Save Draft', 'visualcomposer'),
-            'goPremium' => __('Go Premium', 'visualcomposer'),
+            'goPremium' => vchelper('License')->activationButtonTitle(),
             'getFreeLicense' => __('Get Free License', 'visualcomposer'),
             'activated' => __('Activated', 'visualcomposer'),
             'close' => __('Close', 'visualcomposer'),
-            'premiumElementsButton' => __('Go Premium', 'visualcomposer'),
-            'premiumTemplatesButton' => __('Go Premium', 'visualcomposer'),
-            'premiumHubButton' => __('Go Premium', 'visualcomposer'),
             'emptyTreeView' => __(
                 'There is no content on your page - start by adding element or template.',
                 'visualcomposer'
@@ -400,11 +397,9 @@ class Localizations extends Container implements Helper
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
             'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'visualcomposer'),
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),
-            'getMoreText' => __('Get More Elements, Templates, and Extensions', 'visualcomposer'),
-            'downloadFromHubText' => __(
-                'Download additional content from the Visual Composer Hub - right in your editor instantly.',
-                'visualcomposer'
-            ),
+            'getMoreText' => __('Connect to Visual Composer Hub.', 'visualcomposer'),
+            'getMoreTextSubText' => __('Do More.', 'visualcomposer'),
+            'downloadFromHubText' => vchelper('License')->hubActivationText(),
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(
@@ -429,10 +424,6 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'openEditForm' => __('Open Edit Form', 'visualcomposer'),
-            'unlockHub' => __(
-                'Unlock Visual Composer Hub',
-                'visualcomposer'
-            ),
             'shortcode' => __(
                 'Shortcode',
                 'visualcomposer'
