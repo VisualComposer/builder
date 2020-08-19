@@ -1060,6 +1060,18 @@ class Localizations extends Container implements Helper
                 'Make the final step! Enter your License key to activate Visual Composer Hub and start creating your website right away.',
                 'visualcomposer'
             ),
+            'commentsAreaPlaceholderText' => __(
+                'Define a comments area for your post or page layout.',
+                'visualcomposer'
+            ),
+            'contentElementMissingNotification' => __(
+                'The content area is missing for your layout. Make sure to add the Content Area element to specify the place in your layout where the page or post content will be displayed.',
+                'visualcomposer'
+            ),
+            'templateContainsLimitElement' => __(
+                'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

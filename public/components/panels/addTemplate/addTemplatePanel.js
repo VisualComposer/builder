@@ -14,8 +14,8 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = getStorage('workspace').state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
-const utils = getService('utils')
 const notificationsStorage = getStorage('notifications')
+const cook = getService('cook')
 
 export default class AddTemplatePanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -323,7 +323,21 @@ export default class AddTemplatePanel extends React.Component {
     workspaceSettings.set(settings)
   }
 
+  getElementExceededLimitStatus (element) {
+    const limitData = {}
+    if (Object.prototype.hasOwnProperty.call(element, 'metaElementLimit')) {
+      const limit = parseInt(element.metaElementLimit)
+      const limitedElements = documentManager.getByTag(element.tag) || {}
+      if (limit > 0 && Object.keys(limitedElements).length >= limit) {
+        limitData.hasExceeded = true
+        limitData.limit = limit
+      }
+    }
+    return limitData
+  }
+
   handleApplyTemplate (data, templateType) {
+    elementsStorage.state('elementAddList').set([])
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
       const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'Your current popup will be replaced with the popup template.'
@@ -335,12 +349,11 @@ export default class AddTemplatePanel extends React.Component {
       const existingJobs = assetsStorage.state('jobs').get()
       const existingElementVisibleJobs = existingJobs && existingJobs.elements && existingJobs.elements.filter(job => !job.hidden)
       const existingJobsCount = (existingElementVisibleJobs && existingElementVisibleJobs.length) || 0
-      const visibleAddedElements = utils.getVisibleElements(elements)
-      const addedElementsCount = Object.keys(visibleAddedElements).length
 
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
+        const addedElementsCount = elementsStorage.state('elementAddList').get().length
         const visibleJobs = data.elements.filter(element => !element.hidden)
         if (existingJobsCount + addedElementsCount === visibleJobs.length) {
           const jobsInProgress = data.elements.find(element => element.jobs)
@@ -348,6 +361,7 @@ export default class AddTemplatePanel extends React.Component {
             return
           }
           this.setState({ showLoading: 0 })
+          elementsStorage.state('elementAddList').set([])
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
         }
@@ -359,6 +373,35 @@ export default class AddTemplatePanel extends React.Component {
 
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
       myTemplatesService.load(id, (response) => {
+        let elementLimitHasExceeded = false
+        if (response.data) {
+          Object.keys(response.data).forEach((elementId) => {
+            const element = response.data[elementId]
+            const limitData = this.getElementExceededLimitStatus(element)
+            if (limitData.hasExceeded) {
+              const cookElement = cook.get(element)
+              const elementName = cookElement.get('name')
+              let errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
+              errorText = errorText.split('%element').join(elementName)
+              notificationsStorage.trigger('add', {
+                position: 'top',
+                transparent: false,
+                rounded: false,
+                type: 'error',
+                text: errorText,
+                time: 5000,
+                showCloseButton: true
+              })
+              elementLimitHasExceeded = true
+            }
+          })
+        }
+
+        if (elementLimitHasExceeded) {
+          this.setState({ showLoading: 0 })
+          return
+        }
+
         const customPostData = response && response.allData && response.allData.postFields && response.allData.postFields.dynamicFieldCustomPostData
         if (customPostData) {
           const postData = settingsStorage.state('postData').get()
