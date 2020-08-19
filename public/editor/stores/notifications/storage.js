@@ -59,8 +59,6 @@ addStorage('notifications', (storage) => {
 
     if (portal !== selector) {
       storage.state('portal').set(selector)
-      // Remove all notifications on portal change
-      storage.state('notifications').set([])
     }
   })
 })
