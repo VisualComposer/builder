@@ -438,7 +438,21 @@ class ColumnResizer extends React.Component {
     if (!this.state.isVisible) {
       return null
     }
-    let resizerLabels = ''
+    let resizerLabels = (
+      <div className='vce-column-resizer-helper-label'>
+        <svg width='26px' height='26px' viewBox='0 0 26 26' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+          <g id='Page-1' stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
+            <g id='vcwb-resizer-02' transform='translate(-467.000000, -272.000000)'>
+              <g id='Resizer' transform='translate(467.000000, 272.000000)'>
+                <rect id='Rectangle' fill='#2B4B81' x='0' y='0' width='26' height='26' rx='5' />
+                <polygon id='Path' fill='#FFFFFF' transform='translate(16.949747, 12.949747) rotate(-45.000000) translate(-16.949747, -12.949747) ' points='13.4497475 16.4497475 13.4497475 14.4497475 18.4497475 14.4497475 18.4497475 9.44974747 20.4497475 9.44974747 20.4497475 16.4497475' />
+                <polygon id='Path' fill='#FFFFFF' transform='translate(8.949747, 12.949747) rotate(-225.000000) translate(-8.949747, -12.949747) ' points='5.44974747 16.4497475 5.44974747 14.4497475 10.4497475 14.4497475 10.4497475 9.44974747 12.4497475 9.44974747 12.4497475 16.4497475' />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+    )
     if (this.state.dragging) {
       const labelProps = {
         style: {
