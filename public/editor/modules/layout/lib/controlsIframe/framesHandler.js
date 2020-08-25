@@ -100,7 +100,9 @@ export default class Frames {
       this.addFrame()
     }
     elements.forEach((element, index) => {
-      this.frames[index].classList.add('vcv-state--visible')
+      if (element.classList.contains('vce-row')) {
+        this.frames[index].classList.add('vcv-state--visible')
+      }
     })
     this.autoUpdatePosition(elements)
   }
