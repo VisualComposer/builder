@@ -89,11 +89,6 @@ export default class GutenbergEditorComponent extends Attribute {
       }
     }
 
-    wpData.subscribe(() => {
-      if (!wpData.select('core/block-editor').getBlockSelectionStart()) {
-        postEdit.closeGeneralSidebar()
-      }
-    })
     const postTitle = window.document.querySelector('.editor-post-title')
     const notice = window.document.querySelector('.components-notice-list')
     if (postTitle) {
