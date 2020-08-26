@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Hub\Unsplash;
+namespace VisualComposer\Modules\Hub\StockMedia;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -16,7 +16,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class UnsplashDownloadController extends Container implements Module
+class StockMediaDownloadController extends Container implements Module
 {
     use EventsFilters;
 
@@ -31,12 +31,16 @@ class UnsplashDownloadController extends Container implements Module
             'vcv:ajax:hub:unsplash:download:adminNonce',
             'download'
         );
+        $this->addFilter(
+            'vcv:ajax:hub:giphy:download:adminNonce',
+            'download'
+        );
         $this->addFilter('vcv:editor:variables', 'addVariables');
         $this->addFilter('vcv:hub:variables', 'addVariables');
     }
 
     /**
-     * Download image from Unsplash
+     * Download image from API
      *
      * @param $response
      * @param $payload
@@ -46,6 +50,7 @@ class UnsplashDownloadController extends Container implements Module
      *
      * @return array
      * @throws \ReflectionException
+     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
      */
     protected function download(
         $response,
@@ -61,21 +66,23 @@ class UnsplashDownloadController extends Container implements Module
         ) {
             $imageId = $requestHelper->input('vcv-imageId');
             $imageSize = $requestHelper->input('vcv-imageSize');
-            $imageUrl = $this->getDownloadUrl($imageId);
+            $stockMediaType = $requestHelper->input('vcv-stockMediaType');
+            $imageUrl = $this->getDownloadUrl($imageId, $imageSize, $stockMediaType);
 
             if ($imageUrl) {
-                /** @see \VisualComposer\Modules\Hub\Unsplash\UnsplashDownloadController::downloadImage */
+                /** @see \VisualComposer\Modules\Hub\StockMedia\StockMediaDownloadController::downloadImage */
                 return $this->call(
                     'downloadImage',
                     [
                         'imageUrl' => $imageUrl,
                         'imageSize' => $imageSize,
+                        'stockMediaType' => $stockMediaType,
                     ]
                 );
             }
 
             $this->message = $this->setMessage(
-                __('Failed to get the image id, please try again!', 'visualcomposer') . ' #10084'
+                __('Failed to get the media id, please try again!', 'visualcomposer') . ' #10084'
             );
 
             return ['status' => false, 'message' => $this->message];
@@ -95,17 +102,24 @@ class UnsplashDownloadController extends Container implements Module
     /**
      * @param $imageUrl
      * @param $imageSize
+     * @param $stockMediaType
      * @param \VisualComposer\Helpers\File $fileHelper
      *
      * @return array
      */
-    protected function downloadImage($imageUrl, $imageSize, File $fileHelper)
+    protected function downloadImage($imageUrl, $imageSize, $stockMediaType, File $fileHelper)
     {
         $parseUrl = parse_url($imageUrl);
-        if (preg_match('/(.*)(\.unsplash\.com)$/', $parseUrl['host'])) {
-            $tempImage = $fileHelper->download($imageUrl . '&w=' . intval($imageSize));
+        if (preg_match('/(.*)(\.' . $stockMediaType . '\.com)$/', $parseUrl['host'])) {
+            if ($stockMediaType === 'unsplash') {
+                $imageUrl = $imageUrl . '&w=' . intval($imageSize);
+            }
+            $tempImage = $fileHelper->download($imageUrl);
             $imageType = exif_imagetype($tempImage);
-            if (in_array($imageType, [IMAGETYPE_JPEG, IMAGETYPE_PNG], true)) {
+            if (
+                ($stockMediaType === 'unsplash' && in_array($imageType, [IMAGETYPE_JPEG, IMAGETYPE_PNG], true))
+                || ($stockMediaType === 'giphy' && $imageType === IMAGETYPE_GIF)
+            ) {
                 if (!vcIsBadResponse($tempImage)) {
                     $results = $this->moveTemporarilyToUploads($parseUrl, $imageType, $tempImage);
 
@@ -261,6 +275,8 @@ class UnsplashDownloadController extends Container implements Module
             $extension = 'jpg';
         } elseif ($imageType === IMAGETYPE_PNG) {
             $extension = 'png';
+        } elseif ($imageType === IMAGETYPE_GIF) {
+            $extension = 'gif';
         } else {
             return false;
         }
@@ -285,20 +301,34 @@ class UnsplashDownloadController extends Container implements Module
     /**
      * @param $imageId
      *
+     * @param $imageSize
+     * @param $stockMediaType
+     *
      * @return mixed
      */
-    protected function getDownloadUrl($imageId)
+    protected function getDownloadUrl($imageId, $imageSize, $stockMediaType)
     {
         $licenseHelper = vchelper('License');
-        $requestUrl = sprintf(
-            '%s/api/unsplash/download/%s?licenseKey=%s&url=%s%s',
-            rtrim(vcvenv('VCV_API_URL'), '\\/'),
-            $imageId,
-            $licenseHelper->getKey(),
-            VCV_PLUGIN_URL,
-            defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated() ? ('&author_api_key='
-                . VCV_AUTHOR_API_KEY) : ''
-        );
+        if ($stockMediaType === 'giphy') {
+            $requestUrl = sprintf(
+                '%s/api/giphy/download/%s?size=%s&licenseKey=%s&url=%s',
+                rtrim(vcvenv('VCV_API_URL'), '\\/'),
+                $imageId,
+                $imageSize,
+                $licenseHelper->getKey(),
+                VCV_PLUGIN_URL
+            );
+        } else {
+            $requestUrl = sprintf(
+                '%s/api/unsplash/download/%s?licenseKey=%s&url=%s%s',
+                rtrim(vcvenv('VCV_API_URL'), '\\/'),
+                $imageId,
+                $licenseHelper->getKey(),
+                VCV_PLUGIN_URL,
+                defined('VCV_AUTHOR_API_KEY') && $licenseHelper->isThemeActivated() ? ('&author_api_key='
+                    . VCV_AUTHOR_API_KEY) : ''
+            );
+        }
         $response = wp_remote_get(
             $requestUrl,
             [
