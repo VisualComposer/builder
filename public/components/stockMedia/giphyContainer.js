@@ -18,17 +18,33 @@ export default class GiphyContainer extends React.Component {
       noConnectionToStockMediaText: `${localizations.noConnectionToGiphy} #10088` || 'Could not connect to Giphy Server! #10088',
       downloadText: localizations ? localizations.downloadAnimationsFromGiphy : 'Download animations from Giphy to your Media Library',
       unlockText: localizations ? localizations.activatePremiumToUnlockGiphy : 'Activate Premium to Unlock Giphy Integration',
-      searchResultKey: localizations ? localizations.GifAnimations : 'GIF animations'
+      searchResultKey: localizations ? localizations.GifAnimations : 'GIF animations',
+      hasBeenDownloadedText: localizations ? localizations.gifAnimationDownloadedToMediaLibrary : 'GIF animation has been downloaded to your Media Library.'
     }
+    const sizes = [
+      {
+        size: 'small',
+        title: localizations ? localizations.small : 'Small'
+      },
+      {
+        size: 'regular',
+        title: localizations ? localizations.regular : 'Regular'
+      },
+      {
+        size: 'full',
+        title: localizations ? localizations.full : 'Full'
+      }
+    ]
 
     return (
       <StockMedia
         stockMediaLogo={giphyLogo}
         backgroundImage='#251b1b'
         stockMediaLocalizations={stockMediaLocalizations}
-        upgradeUrl={window.vcvUpgradeUrlUnsplash}
-        vcvAuthorApiKey={window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()}
+        upgradeUrl={window.vcvUpgradeUrlGiphy}
+        vcvAuthorApiKey={null}
         apiUrlKey='giphy'
+        sizes={sizes}
         {...this.props}
       />
     )
