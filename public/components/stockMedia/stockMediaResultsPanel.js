@@ -279,7 +279,8 @@ export default class StockMediaResultsPanel extends React.Component {
         'vcv-action': `hub:${apiUrlKey}:download:adminNonce`,
         'vcv-nonce': window.vcvNonce,
         'vcv-imageId': imageId,
-        'vcv-imageSize': size
+        'vcv-imageSize': size,
+        'vcv-stockMediaType': apiUrlKey
       }).then((data) => {
         try {
           const jsonData = JSON.parse(data)
@@ -365,7 +366,7 @@ export default class StockMediaResultsPanel extends React.Component {
     return sizes.map((sizesData) => {
       let description = null
       if (typeof sizesData.size === 'number' && imageProportions) {
-        description = <span> (size x {Math.round(sizesData.size * imageProportions)})</span>
+        description = <span> ({sizesData.size} x {Math.round(sizesData.size * imageProportions)})</span>
       }
       return (
         <button
