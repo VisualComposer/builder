@@ -108,7 +108,8 @@ export default class StockMedia extends React.Component {
       apiUrlKey,
       scrollTop,
       scrolledToBottom,
-      sizes
+      sizes,
+      previewImageSize
     } = this.props
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
@@ -164,6 +165,7 @@ export default class StockMedia extends React.Component {
           vcvAuthorApiKey={vcvAuthorApiKey}
           apiUrlKey={apiUrlKey}
           sizes={sizes}
+          previewImageSize={previewImageSize}
         />
       </>
     )

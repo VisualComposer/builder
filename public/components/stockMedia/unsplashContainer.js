@@ -54,6 +54,7 @@ export default class UnsplashContainer extends React.Component {
         vcvAuthorApiKey={window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()}
         apiUrlKey='unsplash'
         sizes={sizes}
+        previewImageSize='small'
         {...this.props}
       />
     )

@@ -45,6 +45,7 @@ export default class GiphyContainer extends React.Component {
         vcvAuthorApiKey={null}
         apiUrlKey='giphy'
         sizes={sizes}
+        previewImageSize='regular'
         {...this.props}
       />
     )
