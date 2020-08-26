@@ -1072,6 +1072,34 @@ class Localizations extends Container implements Helper
                 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.',
                 'visualcomposer'
             ),
+            'getGiphiesWithPremiumText' => __(
+                'Download and Add Free Animated Giphies to Your Site With Visual Composer Premium',
+                'visualcomposer'
+            ),
+            'getGiphiesText' => __(
+                'Download and Add Free Animated Giphies to Your Site',
+                'visualcomposer'
+            ),
+            'noConnectionToGiphy' => __(
+                'Could not connect to Giphy Server!',
+                'visualcomposer'
+            ),
+            'discoverGifAnimationsText' => __(
+                'Discover best GIF animations from Giphy',
+                'visualcomposer'
+            ),
+            'downloadAnimationsFromGiphy' => __(
+                'Download animations from Giphy to your Media Library',
+                'visualcomposer'
+            ),
+            'activatePremiumToUnlockGiphy' => __(
+                'Activate Premium to Unlock Giphy Integration',
+                'visualcomposer'
+            ),
+            'GifAnimations' => __(
+                'GIF animations',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

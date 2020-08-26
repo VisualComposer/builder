@@ -10,7 +10,7 @@ import FilterList from './filterList'
 import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
-import StockImagesMediaTab from './stockImagesMediaTab'
+import StockMediaTab from './stockMediaTab'
 import { env, getService, getStorage } from 'vc-cake'
 
 const { getBlockRegexp } = getService('utils')
@@ -143,7 +143,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.stockImagesContainer = this.$el.get(0)
-        ReactDOM.render(<StockImagesMediaTab />, _this.stockImagesContainer)
+        ReactDOM.render(<StockMediaTab />, _this.stockImagesContainer)
         return this
       }
     })
