@@ -26,8 +26,24 @@ export default class UnsplashContainer extends React.Component {
       noConnectionToStockMediaText: `${localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088',
       downloadText: localizations ? localizations.downloadImageFromUnsplash : 'Download images from Unsplash to your Media Library',
       unlockText: localizations ? localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Stock Images',
-      searchResultKey: localizations ? localizations.images : 'images'
+      searchResultKey: localizations ? localizations.images : 'images',
+      hasBeenDownloadedText: localizations ? localizations.imageDownloadedToMediaLibrary : 'Image has been downloaded to your Media Library.'
     }
+
+    const sizes = [
+      {
+        size: 400,
+        title: localizations ? localizations.small : 'Small'
+      },
+      {
+        size: 800,
+        title: localizations ? localizations.medium : 'Medium'
+      },
+      {
+        size: 1600,
+        title: localizations ? localizations.large : 'Large'
+      }
+    ]
 
     return (
       <StockMedia
@@ -37,6 +53,7 @@ export default class UnsplashContainer extends React.Component {
         upgradeUrl={window.vcvUpgradeUrlUnsplash}
         vcvAuthorApiKey={window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()}
         apiUrlKey='unsplash'
+        sizes={sizes}
         {...this.props}
       />
     )

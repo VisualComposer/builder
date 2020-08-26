@@ -1100,6 +1100,18 @@ class Localizations extends Container implements Helper
                 'GIF animations',
                 'visualcomposer'
             ),
+            'gifAnimationDownloadedToMediaLibrary' => __(
+                'GIF animation has been downloaded to your Media Library.',
+                'visualcomposer'
+            ),
+            'regular' => __(
+                'Regular',
+                'visualcomposer'
+            ),
+            'full' => __(
+                'Full',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

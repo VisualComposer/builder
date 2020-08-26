@@ -264,7 +264,7 @@ export default class StockMediaResultsPanel extends React.Component {
   }
 
   handleClickDownloadImage (e) {
-    const { apiUrlKey } = this.props
+    const { apiUrlKey, stockMediaLocalizations } = this.props
     const target = e.currentTarget
     const size = target && target.getAttribute('data-img-size')
     const wrapper = target && target.closest('.vcv-stock-image-inner')
@@ -288,7 +288,7 @@ export default class StockMediaResultsPanel extends React.Component {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: StockMediaResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been downloaded to your Media Library.',
+              text: (stockMediaLocalizations && stockMediaLocalizations.hasBeenDownloadedText) || '',
               time: 5000,
               usePortal: notificationsStorage.state('portal').get() === '.media-frame'
             })
@@ -360,6 +360,27 @@ export default class StockMediaResultsPanel extends React.Component {
     }
   }
 
+  getSizeButtons (imageProportions) {
+    const { sizes } = this.props
+    return sizes.map((size) => {
+      let description = null
+      if (typeof size === 'number' && imageProportions) {
+        description = <span> (size x {Math.round(size * imageProportions)})</span>
+      }
+      return (
+        <button
+          className='vcv-stock-image-download-button'
+          onClick={this.handleClickDownloadImage}
+          data-img-size={size}
+          key={`stock-media-download-button-${size}`}
+        >
+          {sizes.title}
+          {description}
+        </button>
+      )
+    })
+  }
+
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
     const { stockMediaLocalizations } = this.props
@@ -402,30 +423,7 @@ export default class StockMediaResultsPanel extends React.Component {
             <>
               <div className='vcv-stock-image-download-container'>
                 <div className='vcv-stock-image-download-options'>
-                  <button
-                    className='vcv-stock-image-download-button'
-                    onClick={this.handleClickDownloadImage}
-                    data-img-size='400'
-                  >
-                    {StockMediaResultsPanel.localizations.small || 'Small'}
-                    <span> (400 x {Math.round(400 * imageProportions)})</span>
-                  </button>
-                  <button
-                    className='vcv-stock-image-download-button'
-                    onClick={this.handleClickDownloadImage}
-                    data-img-size='800'
-                  >
-                    {StockMediaResultsPanel.localizations.medium || 'Medium'}
-                    <span> (800 x {Math.round(800 * imageProportions)})</span>
-                  </button>
-                  <button
-                    className='vcv-stock-image-download-button'
-                    onClick={this.handleClickDownloadImage}
-                    data-img-size='1600'
-                  >
-                    {StockMediaResultsPanel.localizations.large || 'large'}
-                    <span> (1600 x {Math.round(1600 * imageProportions)})</span>
-                  </button>
+                  {this.getSizeButtons(imageProportions)}
                 </div>
               </div>
               <div className='vcv-stock-image-loading'>

@@ -105,7 +105,10 @@ export default class StockMedia extends React.Component {
       upgradeUrl,
       stockMediaLogo,
       vcvAuthorApiKey,
-      apiUrlKey
+      apiUrlKey,
+      scrollTop,
+      scrolledToBottom,
+      sizes
     } = this.props
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
@@ -154,12 +157,13 @@ export default class StockMedia extends React.Component {
         </div>
         <StockMediaResultsPanel
           searchValue={this.state.searchValue}
-          scrolledToBottom={this.props.scrolledToBottom}
-          scrollTop={this.props.scrollTop}
+          scrolledToBottom={scrolledToBottom}
+          scrollTop={scrollTop}
           isSearchUsed={this.state.isSearchUsed}
           stockMediaLocalizations={stockMediaLocalizations}
           vcvAuthorApiKey={vcvAuthorApiKey}
           apiUrlKey={apiUrlKey}
+          sizes={sizes}
         />
       </>
     )
