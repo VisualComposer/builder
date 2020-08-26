@@ -9,7 +9,8 @@ import SearchElement from '../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 import categories from './categoriesSettings.json'
-import StockImages from '../../stockImages/stockImages'
+import GiphyContainer from '../../stockMedia/giphyContainer'
+import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
@@ -325,7 +326,9 @@ export default class HubContainer extends AddElementCategories {
 
     let panelContent = ''
     if (this.state.filterType && this.state.filterType === 'stockImages') {
-      panelContent = <StockImages scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+      panelContent = <UnsplashContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+    } else if (this.state.filterType && this.state.filterType === 'giphy') {
+      panelContent = <GiphyContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
     } else {
       panelContent = (
         <div className={innerSectionClasses}>

@@ -1,7 +1,7 @@
 import React from 'react'
-import StockImages from 'public/components/stockImages/stockImages'
+import UnsplashContainer from 'public/components/stockMedia/unsplashContainer'
 
-export default class StockImagesMediaTab extends React.Component {
+export default class StockMediaTab extends React.Component {
   constructor (props) {
     super(props)
 
@@ -41,6 +41,6 @@ export default class StockImagesMediaTab extends React.Component {
   }
 
   render () {
-    return <StockImages scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+    return <UnsplashContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
   }
 }

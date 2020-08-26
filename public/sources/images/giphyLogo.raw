@@ -1,0 +1,18 @@
+<svg width="224px" height="48px" viewBox="0 0 840 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="GIPHY-Transparent" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Fill-1" fill="#00FF99" points="0 164 20 164 20 16 0 16"></polygon>
+        <g id="Group-5" transform="translate(0.000000, 56.000000)">
+            <polygon id="Fill-2" fill="#9933FF" points="120 108 140 108 140 0 120 0"></polygon>
+            <polygon id="Fill-4" fill="#00CCFF" points="0 123.94 140 123.94 140 104 0 104"></polygon>
+        </g>
+        <polygon id="Fill-6" fill="#FFF35C" points="0 20 80 20 80 0 0 0"></polygon>
+        <polyline id="Fill-7" fill="#FF6666" points="120 40 120 20 100 20 100 0 80 0 80 60 140 60 140 40 120 40"></polyline>
+        <polyline id="Fill-8" fill="#62259F" points="120 80.161 120 60 140 60 120 80.161"></polyline>
+        <polyline id="Fill-9" fill="#9F983D" points="80 20 60.374 20 80 0 80 20"></polyline>
+        <path d="M301.318,61.77 C291.135,52.186 278.755,49.591 269.37,49.591 C246.608,49.591 231.832,63.168 231.832,90.522 C231.832,108.492 241.053,130.656 269.207,130.656 C276.595,130.656 288,129.258 296,123.467 L296,105 L261,105 L261,75 L329,75 L329,136.645 C320,154.416 295.991,164 269.035,164 C213.725,164 192.827,127.062 192.827,90.522 C192.827,53.983 216.822,16.446 269.336,16.446 C288.705,16.446 305.893,20.439 324.264,39.008 L301.318,61.77" id="Fill-10" fill="#FFFFFF"></path>
+        <polygon id="Fill-11" fill="#FFFFFF" points="349 160 388 160 388 20 349 20"></polygon>
+        <path d="M452,89 L480.203,89 C491.185,89 496.776,80.884 496.776,71.699 C496.776,62.515 490.985,54 480.203,54 L452,54 L452,89 Z M452,122 L452,160 L412,160 L412,20 L480.203,20 C517.742,20 536.311,43.546 536.311,70.9 C536.311,99.452 517.542,122 480.203,122 L452,122 L452,122 Z" id="Fill-12" fill="#FFFFFF"></path>
+        <polyline id="Fill-13" fill="#FFFFFF" points="641 160 641 107 590 107 590 160 551 160 551 21 590 21 590 74 641 74 641 21 680 21 680 160 641 160"></polyline>
+        <polyline id="Fill-14" fill="#FFFFFF" points="765.322 67.92 795.472 20 840 20 840 22.236 784 104.499 784 160 745 160 745 104.499 692 22.037 692 20 736.369 20 765.322 67.92"></polyline>
+    </g>
+</svg>
