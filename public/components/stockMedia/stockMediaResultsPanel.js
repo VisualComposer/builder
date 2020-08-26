@@ -384,7 +384,7 @@ export default class StockMediaResultsPanel extends React.Component {
 
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
-    const { stockMediaLocalizations } = this.props
+    const { stockMediaLocalizations, previewImageSize } = this.props
     const allowDownload = this.allowDownload && this.vcvLicenseKey !== 'free'
     const unlockText = stockMediaLocalizations && stockMediaLocalizations.unlockText
     return columnData[columnCount].map((col, colIndex) => {
@@ -395,7 +395,7 @@ export default class StockMediaResultsPanel extends React.Component {
           alt: 'Stock Media Image',
           onLoad: this.handleImageLoad,
           onError: this.handleImageLoad,
-          'data-src': urls.small
+          'data-src': urls[previewImageSize]
         }
         const innerItemClasses = classNames({
           'vcv-stock-image-inner': true,
