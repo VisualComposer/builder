@@ -362,19 +362,19 @@ export default class StockMediaResultsPanel extends React.Component {
 
   getSizeButtons (imageProportions) {
     const { sizes } = this.props
-    return sizes.map((size) => {
+    return sizes.map((sizesData) => {
       let description = null
-      if (typeof size === 'number' && imageProportions) {
-        description = <span> (size x {Math.round(size * imageProportions)})</span>
+      if (typeof sizesData.size === 'number' && imageProportions) {
+        description = <span> (size x {Math.round(sizesData.size * imageProportions)})</span>
       }
       return (
         <button
           className='vcv-stock-image-download-button'
           onClick={this.handleClickDownloadImage}
-          data-img-size={size}
-          key={`stock-media-download-button-${size}`}
+          data-img-size={sizesData.size}
+          key={`stock-media-download-button-${sizesData.size}`}
         >
-          {sizes.title}
+          {sizesData.title}
           {description}
         </button>
       )
