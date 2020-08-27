@@ -56,5 +56,10 @@
     "index": 8,
     "type": "stockImages",
     "title": "Stock Images"
+  },
+  "giphy": {
+    "index": 9,
+    "type": "giphy",
+    "title": "Giphy"
   }
 }

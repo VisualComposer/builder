@@ -184,6 +184,9 @@ export default class TokenizationList extends React.Component {
         over: mouseOver,
         type: 'activeToken'
       }
+      if (this.props.value !== this.state.value) {
+        this.updateValue(this.state.value)
+      }
       this.props.onColumnHover(options)
     }
   }

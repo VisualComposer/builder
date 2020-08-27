@@ -60,6 +60,11 @@ class EditorVariablesController extends Container implements Module
             'value' => set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=unsplash')),
             'type' => 'variable',
         ];
+        $variables[] = [
+            'key' => 'vcvUpgradeUrlGiphy',
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-getting-started&vcv-ref=giphy')),
+            'type' => 'variable',
+        ];
 
         return $variables;
     }
