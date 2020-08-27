@@ -110,7 +110,10 @@ class StockMediaDownloadController extends Container implements Module
     protected function downloadImage($imageUrl, $imageSize, $stockMediaType, File $fileHelper)
     {
         $parseUrl = parse_url($imageUrl);
-        if (preg_match('/(.*)(\.' . $stockMediaType . '\.com)$/', $parseUrl['host'])) {
+        if (
+            in_array($stockMediaType, ['giphy','unsplash'], true)
+            && preg_match('/(.*)(\.' . $stockMediaType . '\.com)$/', $parseUrl['host'])
+        ) {
             if ($stockMediaType === 'unsplash') {
                 $imageUrl = $imageUrl . '&w=' . intval($imageSize);
             }

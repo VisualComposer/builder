@@ -37,6 +37,46 @@
   position: relative;
 }
 
+.vcv-ui-editor-plate--stock-images:not(.vcv-ui-editor-plate--stock-images--search-is-used) .vcv-stock-media-container--giphy {
+  background: #110F1D;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: #FF6569;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: #AA39FF;
+  }
+}
+
+.vcv-stock-media-powered-text {
+  text-align: right;
+  margin-top: 14px;
+  font-family: 'Roboto', sans-serif;
+  color: #BBBBBB;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 1px;
+
+  span {
+    color: #fff;
+  }
+}
+
 .vcv-stock-images-inner {
   max-width: 600px;
   margin: auto;

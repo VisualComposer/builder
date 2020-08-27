@@ -18,8 +18,9 @@ export default class GiphyContainer extends React.Component {
       noConnectionToStockMediaText: `${localizations.noConnectionToGiphy} #10089` || 'Could not connect to Giphy Server! #10089',
       downloadText: localizations ? localizations.downloadAnimationsFromGiphy : 'Download animations from Giphy to your Media Library',
       unlockText: localizations ? localizations.activatePremiumToUnlockGiphy : 'Activate Premium to Unlock Giphy Integration',
-      searchResultKey: localizations ? localizations.GifAnimations : 'GIF animations',
-      hasBeenDownloadedText: localizations ? localizations.gifAnimationDownloadedToMediaLibrary : 'GIF animation has been downloaded to your Media Library.'
+      searchResultKey: localizations ? localizations.gifAnimations : 'GIF animations',
+      hasBeenDownloadedText: localizations ? localizations.gifAnimationDownloadedToMediaLibrary : 'GIF animation has been downloaded to your Media Library.',
+      poweredByText: (localizations && localizations.poweredBy) ? `${localizations.poweredBy} <span>GIPHY</span>` : 'Powered by <span>GIPHY</span>'
     }
     const sizes = [
       {
@@ -39,13 +40,13 @@ export default class GiphyContainer extends React.Component {
     return (
       <StockMedia
         stockMediaLogo={giphyLogo}
-        backgroundImage='#251b1b'
         stockMediaLocalizations={stockMediaLocalizations}
         upgradeUrl={window.vcvUpgradeUrlGiphy}
         vcvAuthorApiKey={null}
         apiUrlKey='giphy'
         sizes={sizes}
         previewImageSize='regular'
+        customContainerClass='vcv-stock-media-container--giphy'
         {...this.props}
       />
     )
