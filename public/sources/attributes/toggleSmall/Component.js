@@ -7,10 +7,13 @@ class ToggleSmall extends Toggle {
   }
 
   render () {
-    const { fieldKey, options } = this.props
+    const { fieldKey, options, elementAccessPoint } = this.props
     const checked = (this.state.value) ? 'checked' : ''
     let label = null
-    const fieldId = `${fieldKey}_input`
+    let fieldId = `${fieldKey}_input`
+    if (elementAccessPoint && elementAccessPoint.id) {
+      fieldId += `_${elementAccessPoint.id}`
+    }
     if (options && options.labelText) {
       label = (
         <label htmlFor={fieldId} className='vcv-ui-form-switch-small-trigger-label'>{this.props.options.labelText}</label>

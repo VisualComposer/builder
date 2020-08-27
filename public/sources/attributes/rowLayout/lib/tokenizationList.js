@@ -184,6 +184,9 @@ export default class TokenizationList extends React.Component {
         over: mouseOver,
         type: 'activeToken'
       }
+      if (this.props.value !== this.state.value) {
+        this.updateValue(this.state.value)
+      }
       this.props.onColumnHover(options)
     }
   }
@@ -261,7 +264,9 @@ export default class TokenizationList extends React.Component {
   }
 
   getSuggestions () {
-    return this.state.value.length === 0 || this.state.value.match(/\+\s+$/) ? this.props.suggestions : []
+    const isSpaceAtTheEnd = this.state.value.match(/\s$/)
+    const isPlusSignAtTheEnd = this.state.value.match(/\+\s+$/)
+    return (this.state.value.length === 0 || isPlusSignAtTheEnd || isSpaceAtTheEnd) ? this.props.suggestions : []
   }
 
   getSuggestionItems () {
