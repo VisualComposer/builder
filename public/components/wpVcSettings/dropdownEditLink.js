@@ -27,7 +27,7 @@ export const dropdownEditLink = () => {
     var item = templateDropdowns[i]
 
     // Initial Page Load
-    if (item.querySelector('option:checked').value !== '') {
+    if (item.querySelector('option:checked') && item.querySelector('option:checked').value !== '') {
       changeEditLink(item)
     }
 
