@@ -20,7 +20,7 @@ export default class GiphyContainer extends React.Component {
       unlockText: localizations ? localizations.activatePremiumToUnlockGiphy : 'Activate Premium to Unlock Giphy Integration',
       searchResultKey: localizations ? localizations.gifAnimations : 'GIF animations',
       hasBeenDownloadedText: localizations ? localizations.gifAnimationDownloadedToMediaLibrary : 'GIF animation has been downloaded to your Media Library.',
-      poweredByText: (localizations && localizations.poweredBy) ? `${localizations.poweredBy} <span>GIPHY</span>` : 'Powered by <span>GIPHY</span>'
+      poweredByText: (localizations && localizations.poweredBy) ? `${localizations.poweredBy} <a href='https://giphy.com/' target="_blank">GIPHY</a>` : 'Powered by <a href=\'https://giphy.com/\' target="_blank">GIPHY</a>'
     }
     const sizes = [
       {
