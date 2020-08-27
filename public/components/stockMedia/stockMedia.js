@@ -109,7 +109,8 @@ export default class StockMedia extends React.Component {
       scrollTop,
       scrolledToBottom,
       sizes,
-      previewImageSize
+      previewImageSize,
+      customContainerClass
     } = this.props
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
@@ -127,18 +128,23 @@ export default class StockMedia extends React.Component {
         </>
       )
     } else {
+      let poweredText = null
+      if (stockMediaLocalizations.poweredByText) {
+        poweredText = <div className='vcv-stock-media-powered-text' dangerouslySetInnerHTML={{ __html: stockMediaLocalizations.poweredByText }} />
+      }
       content = (
         <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
           <p className='vcv-stock-images-subtitle'>{getMediaText}</p>
           {this.getSearch()}
+          {poweredText}
         </>
       )
     }
 
     const style = {}
-    if (!this.state.isSearchUsed) {
-      style.backgroundImage = backgroundImage || '#251b1b'
+    if (!this.state.isSearchUsed && backgroundImage) {
+      style.backgroundImage = backgroundImage
     }
 
     const stockMediaContainerClasses = classNames({
@@ -147,10 +153,15 @@ export default class StockMedia extends React.Component {
       'vcv-ui-editor-plate--stock-images--search-is-used': this.state.isSearchUsed
     })
 
+    const stockMediaContainerInnerClasses = classNames({
+      'vcv-stock-images-container': true,
+      [customContainerClass]: !!customContainerClass
+    })
+
     return (
       <>
         <div className={stockMediaContainerClasses}>
-          <div className='vcv-stock-images-container' style={style}>
+          <div className={stockMediaContainerInnerClasses} style={style}>
             <div className='vcv-stock-images-inner'>
               {content}
             </div>

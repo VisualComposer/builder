@@ -1096,7 +1096,7 @@ class Localizations extends Container implements Helper
                 'Activate Premium to Unlock Giphy Integration',
                 'visualcomposer'
             ),
-            'GifAnimations' => __(
+            'gifAnimations' => __(
                 'GIF animations',
                 'visualcomposer'
             ),
@@ -1110,6 +1110,10 @@ class Localizations extends Container implements Helper
             ),
             'full' => __(
                 'Full',
+                'visualcomposer'
+            ),
+            'poweredBy' => __(
+                'Powered by',
                 'visualcomposer'
             ),
         ];
