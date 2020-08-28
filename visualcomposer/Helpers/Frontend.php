@@ -120,6 +120,11 @@ class Frontend implements Helper
         if (!$sourceId || get_post_status($sourceId) !== 'publish') {
             return false;
         }
+        $sourceId = apply_filters(
+            'wpml_object_id',
+            $sourceId,
+            get_post_type($sourceId)
+        );
 
         $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);

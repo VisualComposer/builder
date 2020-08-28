@@ -8,7 +8,7 @@ const dataProcessor = getService('dataProcessor')
 const notificationsStorage = getStorage('notifications')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 
-export default class StockImagesResultsPanel extends React.Component {
+export default class StockMediaResultsPanel extends React.Component {
   static propTypes = {
     searchValue: PropTypes.string,
     scrolledToBottom: PropTypes.bool,
@@ -20,7 +20,7 @@ export default class StockImagesResultsPanel extends React.Component {
   maxColumnCount = 5
   abortController = new window.AbortController()
   componentUnmounted = false
-  unsplashLicenseKey = (window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()) || 'free'
+  vcvLicenseKey = (window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()) || 'free'
   allowDownload = true
 
   constructor (props) {
@@ -130,14 +130,14 @@ export default class StockImagesResultsPanel extends React.Component {
   }
 
   getImagesFromServer (searchValue, page, action = 'search') {
+    const { vcvAuthorApiKey, apiUrlKey, stockMediaLocalizations } = this.props
     if (page > 1 && page > this.state.totalPages) {
       return
     }
     const vcvApiUrl = window.VCV_API_URL && window.VCV_API_URL()
     const vcvSiteUrl = window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL()
-    const vcvAuthorApiKey = window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()
-    const unsplashUrl = `${vcvApiUrl}/api/unsplash/${action}`
-    const unsplashLicenseKey = this.unsplashLicenseKey
+    const stockMediaUrl = `${vcvApiUrl}/api/${apiUrlKey}/${action}`
+    const vcvLicenseKey = this.vcvLicenseKey
 
     this.setState({
       page: page,
@@ -147,9 +147,9 @@ export default class StockImagesResultsPanel extends React.Component {
 
     let url = ''
     if (action === 'search') {
-      url = `${unsplashUrl}/${searchValue}?licenseKey=${unsplashLicenseKey}&page=${page}&url=${vcvSiteUrl}`
+      url = `${stockMediaUrl}/${searchValue}?licenseKey=${vcvLicenseKey}&page=${page}&url=${vcvSiteUrl}`
     } else {
-      url = `${unsplashUrl}?licenseKey=${unsplashLicenseKey}&url=${vcvSiteUrl}`
+      url = `${stockMediaUrl}?licenseKey=${vcvLicenseKey}&url=${vcvSiteUrl}`
     }
 
     if (vcvAuthorApiKey) {
@@ -176,7 +176,7 @@ export default class StockImagesResultsPanel extends React.Component {
           if (this.componentUnmounted) {
             return
           }
-          const errorText = `${StockImagesResultsPanel.localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088'
+          const errorText = stockMediaLocalizations && stockMediaLocalizations.noConnectionToStockMediaText
           notificationsStorage.trigger('add', {
             position: 'bottom',
             transparent: true,
@@ -184,7 +184,7 @@ export default class StockImagesResultsPanel extends React.Component {
             text: errorText,
             time: 5000,
             type: 'error',
-            id: 'unsplash-error',
+            id: `stock-media-error--${apiUrlKey}`,
             usePortal: notificationsStorage.state('portal').get() === '.media-frame'
           })
           this.setState({
@@ -264,6 +264,7 @@ export default class StockImagesResultsPanel extends React.Component {
   }
 
   handleClickDownloadImage (e) {
+    const { apiUrlKey, stockMediaLocalizations } = this.props
     const target = e.currentTarget
     const size = target && target.getAttribute('data-img-size')
     const wrapper = target && target.closest('.vcv-stock-image-inner')
@@ -275,10 +276,11 @@ export default class StockImagesResultsPanel extends React.Component {
         downloadingItems: downloadingItems
       })
       dataProcessor.appServerRequest({
-        'vcv-action': 'hub:unsplash:download:adminNonce',
+        'vcv-action': `hub:${apiUrlKey}:download:adminNonce`,
         'vcv-nonce': window.vcvNonce,
         'vcv-imageId': imageId,
-        'vcv-imageSize': size
+        'vcv-imageSize': size,
+        'vcv-stockMediaType': apiUrlKey
       }).then((data) => {
         try {
           const jsonData = JSON.parse(data)
@@ -287,13 +289,13 @@ export default class StockImagesResultsPanel extends React.Component {
               position: 'bottom',
               transparent: true,
               rounded: true,
-              text: StockImagesResultsPanel.localizations.imageDownloadedToMediaLibrary || 'Image has been downloaded to your Media Library.',
+              text: (stockMediaLocalizations && stockMediaLocalizations.hasBeenDownloadedText) || '',
               time: 5000,
               usePortal: notificationsStorage.state('portal').get() === '.media-frame'
             })
           } else {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
-            errorMessage = errorMessage || `${StockImagesResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087'
+            errorMessage = errorMessage || `${StockMediaResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087'
             notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
@@ -301,7 +303,7 @@ export default class StockImagesResultsPanel extends React.Component {
               text: errorMessage,
               time: 5000,
               type: 'error',
-              id: 'unsplash-error',
+              id: `stock-media-error--${apiUrlKey}`,
               usePortal: notificationsStorage.state('portal').get() === '.media-frame'
             })
             if (env('VCV_DEBUG')) {
@@ -309,7 +311,7 @@ export default class StockImagesResultsPanel extends React.Component {
             }
           }
         } catch (e) {
-          const exceptionErrorMessage = `${StockImagesResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086'
+          const exceptionErrorMessage = `${StockMediaResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086'
           notificationsStorage.trigger('add', {
             position: 'bottom',
             transparent: true,
@@ -317,7 +319,7 @@ export default class StockImagesResultsPanel extends React.Component {
             text: exceptionErrorMessage,
             time: 5000,
             type: 'error',
-            id: 'unsplash-error',
+            id: `stock-media-error--${apiUrlKey}`,
             usePortal: notificationsStorage.state('portal').get() === '.media-frame'
           })
           if (env('VCV_DEBUG')) {
@@ -359,19 +361,41 @@ export default class StockImagesResultsPanel extends React.Component {
     }
   }
 
+  getSizeButtons (imageProportions) {
+    const { sizes } = this.props
+    return sizes.map((sizesData) => {
+      let description = null
+      if (typeof sizesData.size === 'number' && imageProportions) {
+        description = <span> ({sizesData.size} x {Math.round(sizesData.size * imageProportions)})</span>
+      }
+      return (
+        <button
+          className='vcv-stock-image-download-button'
+          onClick={this.handleClickDownloadImage}
+          data-img-size={sizesData.size}
+          key={`stock-media-download-button-${sizesData.size}`}
+        >
+          {sizesData.title}
+          {description}
+        </button>
+      )
+    })
+  }
+
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
-    const allowDownload = this.allowDownload && this.unsplashLicenseKey !== 'free'
-    const unlockText = StockImagesResultsPanel.localizations ? StockImagesResultsPanel.localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Stock Images'
+    const { stockMediaLocalizations, previewImageSize } = this.props
+    const allowDownload = this.allowDownload && this.vcvLicenseKey !== 'free'
+    const unlockText = stockMediaLocalizations && stockMediaLocalizations.unlockText
     return columnData[columnCount].map((col, colIndex) => {
       const images = col.images.map((image, imageIndex) => {
         const { urls, user } = image
         const props = {
           className: 'vcv-stock-image vcv-stock-image-not-visible',
-          alt: 'Unsplash image',
+          alt: 'Stock Media Image',
           onLoad: this.handleImageLoad,
           onError: this.handleImageLoad,
-          'data-src': urls.small
+          'data-src': urls[previewImageSize]
         }
         const innerItemClasses = classNames({
           'vcv-stock-image-inner': true,
@@ -400,30 +424,7 @@ export default class StockImagesResultsPanel extends React.Component {
             <>
               <div className='vcv-stock-image-download-container'>
                 <div className='vcv-stock-image-download-options'>
-                  <button
-                    className='vcv-stock-image-download-button'
-                    onClick={this.handleClickDownloadImage}
-                    data-img-size='400'
-                  >
-                    {StockImagesResultsPanel.localizations.small || 'Small'}
-                    <span> (400 x {Math.round(400 * imageProportions)})</span>
-                  </button>
-                  <button
-                    className='vcv-stock-image-download-button'
-                    onClick={this.handleClickDownloadImage}
-                    data-img-size='800'
-                  >
-                    {StockImagesResultsPanel.localizations.medium || 'Medium'}
-                    <span> (800 x {Math.round(800 * imageProportions)})</span>
-                  </button>
-                  <button
-                    className='vcv-stock-image-download-button'
-                    onClick={this.handleClickDownloadImage}
-                    data-img-size='1600'
-                  >
-                    {StockImagesResultsPanel.localizations.large || 'large'}
-                    <span> (1600 x {Math.round(1600 * imageProportions)})</span>
-                  </button>
+                  {this.getSizeButtons(imageProportions)}
                 </div>
               </div>
               <div className='vcv-stock-image-loading'>
@@ -465,7 +466,7 @@ export default class StockImagesResultsPanel extends React.Component {
   }
 
   getNoResultsElement () {
-    const nothingFoundText = StockImagesResultsPanel.localizations ? StockImagesResultsPanel.localizations.nothingFound : 'Nothing found'
+    const nothingFoundText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.nothingFound : 'Nothing found'
 
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
@@ -484,7 +485,7 @@ export default class StockImagesResultsPanel extends React.Component {
 
   render () {
     const { total, columnCount, requestInProgress, page, hasError } = this.state
-    const { searchValue, isSearchUsed } = this.props
+    const { searchValue, isSearchUsed, stockMediaLocalizations } = this.props
     if (hasError) {
       return null
     }
@@ -512,15 +513,16 @@ export default class StockImagesResultsPanel extends React.Component {
     } else {
       results = this.getNoResultsElement()
     }
-    const freeText = StockImagesResultsPanel.localizations.free && StockImagesResultsPanel.localizations.free.toLowerCase()
-    const pictureText = StockImagesResultsPanel.localizations.images
-    const downloadText = StockImagesResultsPanel.localizations.downloadImageFromUnsplash
+    const freeText = StockMediaResultsPanel.localizations.free && StockMediaResultsPanel.localizations.free.toLowerCase()
+    const downloadText = stockMediaLocalizations && stockMediaLocalizations.downloadText
+    const searchResultKey = stockMediaLocalizations && stockMediaLocalizations.searchResultKey
+
     return (
       <>
         {searchValue && (
           <div className='vcv-stock-images-results-data'>
-            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {pictureText || 'images'}</span>
-            <span>{downloadText || 'Download images from Unsplash to your Media Library'}</span>
+            <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {searchResultKey}</span>
+            <span>{downloadText}</span>
           </div>
         )}
         {results}
