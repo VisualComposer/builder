@@ -106,13 +106,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
       return
     }
     window.setTimeout(() => {
-      const url = window.location.href
-      const captureType = /vcv-editor-type=([^&]+)/.exec(url)
-      if ((vcCake.env('VCV_JS_THEME_EDITOR') || vcCake.env('VCV_JS_ARCHIVE_TEMPLATE')) && captureType && captureType[1]) {
-        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}&vcv-editor-type=${captureType[1]}`)
-      } else {
-        window.history.replaceState({}, '', `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`)
+      let urlQuery = `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`
+      if (window.location.href.indexOf('vcv-editor-type') !== -1) {
+        // we have editor type. so add it always
+        let urlObject = new URL(window.location.href)
+        urlQuery += '&vcv-editor-type=' + urlObject.searchParams.get('vcv-editor-type')
       }
+      window.history.replaceState({}, '', urlQuery)
       // Check Save option from other modules
       !noStorageRequest && wordpressDataStorage.trigger('save', {
         options: e ? e.options : {}
