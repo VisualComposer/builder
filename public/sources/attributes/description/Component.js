@@ -7,6 +7,7 @@ export default class DescriptionAttribute extends Attribute {
   static defaultProps = {
     fieldType: 'description'
   }
+
   handleClick (action) {
     if (action && action.workspaceSettings) {
       workspaceSettings.set(action.workspaceSettings)
@@ -25,7 +26,7 @@ export default class DescriptionAttribute extends Attribute {
     if (typeof content === 'string') {
       return content
     }
-    let returnContent = []
+    const returnContent = []
     content.forEach((contentPart) => {
       if (typeof contentPart === 'string') {
         returnContent.push(contentPart)
@@ -42,8 +43,6 @@ export default class DescriptionAttribute extends Attribute {
 
   render () {
     const html = typeof this.props.value === 'string' ? this.props.value : this.getReactHtml(this.props.value)
-    return <p className='vcv-ui-form-helper'>
-      {html}
-    </p>
+    return <p className='vcv-ui-form-helper'>{html}</p>
   }
 }
