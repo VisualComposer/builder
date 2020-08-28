@@ -109,7 +109,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       let urlQuery = `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`
       if (window.location.href.indexOf('vcv-editor-type') !== -1) {
         // we have editor type. so add it always
-        let urlObject = new URL(window.location.href)
+        const urlObject = new URL(window.location.href)
         urlQuery += '&vcv-editor-type=' + urlObject.searchParams.get('vcv-editor-type')
       }
       window.history.replaceState({}, '', urlQuery)
