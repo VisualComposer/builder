@@ -157,9 +157,9 @@ class Controller extends Container implements Module
      *
      * @return mixed
      */
+    // @codingStandardsIgnoreStart
     protected function checkAction($action, $returnValue, Request $requestHelper, $token, $tokenLabels)
     {
-        // @codingStandardsIgnoreStart
         switch ($action) {
             case 'productAttribute':
                 $attribute = taxonomy_exists('pa_' . $token);
@@ -204,7 +204,6 @@ class Controller extends Container implements Module
                     $tokenLabels[ (int)$token ] = $post->post_title . ' (' . $post->ID . ')';
                 }
         }
-        // @codingStandardsIgnoreEnd
         $tokenLabels = vcfilter(
             'vcv:editor:autocomplete:checkAction',
             $tokenLabels,
@@ -213,4 +212,5 @@ class Controller extends Container implements Module
 
         return $tokenLabels;
     }
+    // @codingStandardsIgnoreEnd
 }
