@@ -39,7 +39,7 @@ export default class AutoComplete extends Attribute {
 
   render () {
     const { value, fieldKey, elementAccessPoint, options, extraClass, description } = this.props
-    const { validation, action, single, labelAction, returnValue } = options
+    const { validation, action, single, labelAction, returnValue, tokenLabel } = options
 
     return (
       <TokenizationList
@@ -55,6 +55,7 @@ export default class AutoComplete extends Attribute {
         returnValue={returnValue}
         extraClass={extraClass}
         description={description}
+        tokenLabel={tokenLabel}
       />
     )
   }
