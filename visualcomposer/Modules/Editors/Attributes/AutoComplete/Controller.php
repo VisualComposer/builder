@@ -183,6 +183,18 @@ class Controller extends Container implements Module
                     $tokenLabels[ $token ] = $term->name;
                 }
                 break;
+            case 'event_type':
+                $term = get_term_by('id', $token, 'event_type');
+                if ($term) {
+                    $tokenLabels[ $token ] = $term->name;
+                }
+                break;
+            case 'event_type_2':
+                $term = get_term_by('id', $token, 'event_type_2');
+                if ($term) {
+                    $tokenLabels[ $token ] = $term->name;
+                }
+                break;
             default:
                 $post = get_post((int)$token);
                 // @codingStandardsIgnoreLine
