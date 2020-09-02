@@ -60,11 +60,6 @@ export default class EditFormReplaceElement extends React.Component {
       elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'
     }
 
-    const categorySettings = hubCategoriesService.get(category)
-    if (!categorySettings || !categorySettings.elements || categorySettings.elements.length <= 1 || cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')) {
-      return null
-    }
-
     return (
       <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-replaceElement`}>
         <ReplaceElement

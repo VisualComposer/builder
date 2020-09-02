@@ -137,6 +137,8 @@ export default class EditFormHeader extends React.Component {
     // If multiple nesting used we can goBack only to ROOT
     if (this.props.isEditFormSettingsOpened) {
       this.props.handleEditFormSettingsToggle()
+    } else if (this.props.isElementReplaceOpened) {
+      this.props.handleReplaceElementToggle()
     } else {
       while (accessPoint.inner) {
         if (accessPoint.parentElementAccessPoint) {
@@ -170,7 +172,14 @@ export default class EditFormHeader extends React.Component {
   }
 
   render () {
-    const { elementAccessPoint, options, isEditFormSettingsOpened } = this.props
+    const {
+      elementAccessPoint,
+      options,
+      isEditFormSettingsOpened,
+      isElementReplaceOpened,
+      handleReplaceElementToggle
+    } = this.props
+
     let { content, editable, hidden, isLocked } = this.state
     const isNested = options && (options.child || options.nestedAttr)
     const headerTitleClasses = classNames({
@@ -181,7 +190,7 @@ export default class EditFormHeader extends React.Component {
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
-    if (isNested || isEditFormSettingsOpened) {
+    if (isNested || isEditFormSettingsOpened || isElementReplaceOpened) {
       backButton = (
         <span className='vcv-ui-edit-form-back-button' onClick={this.handleClickGoBack} title={backToParentTitle}>
           <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
@@ -285,12 +294,32 @@ export default class EditFormHeader extends React.Component {
       )
     }
 
+    let replaceElementIcon = null
+    const isRootElement = cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')
+    if (!isRootElement) {
+      const category = hubCategories.getElementCategoryName(elementAccessPoint.tag) || ''
+      const isReplaceShown = this.props.getReplaceShownStatus(category)
+      if (isReplaceShown) {
+        const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
+        replaceElementIcon = (
+          <span
+            className='vcv-ui-edit-form-header-control'
+            title={substituteElementText}
+            onClick={handleReplaceElementToggle}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-swap' />
+          </span>
+        )
+      }
+    }
+
     return (
       <div className='vcv-ui-edit-form-header'>
         {backButton}
         {sectionImage}
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
+          {isNested ? null : replaceElementIcon}
           {isNested ? null : lockControl}
           {isNested ? null : hideControl}
           {isNested ? null : settingsControl}

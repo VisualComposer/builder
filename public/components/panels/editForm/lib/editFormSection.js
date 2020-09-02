@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import Field from './field'
-import EditFormReplaceElement from './editFormReplaceElement'
 import EditFormSettings from './editFormSettings'
 import { env, getService, getStorage } from 'vc-cake'
 
@@ -30,10 +29,12 @@ export default class EditFormSection extends React.Component {
       name: '',
       error: false,
       errorName: '',
-      showSpinner: false
+      showSpinner: false,
+      isInnerElementReplaceOpened: false
     }
 
     this.handleClickToggleSection = this.handleClickToggleSection.bind(this)
+    this.handleToggleShowReplace = this.handleToggleShowReplace.bind(this)
     this.onSettingsSave = this.onSettingsSave.bind(this)
     this.onNameChange = this.onNameChange.bind(this)
     this.displayError = this.displayError.bind(this)
@@ -99,8 +100,10 @@ export default class EditFormSection extends React.Component {
   /**
    * Toggle section
    */
-  handleClickToggleSection () {
-    this.setState({ isActive: !this.state.isActive })
+  handleClickToggleSection (e) {
+    if (e.currentTarget === e.target || (e.target && e.target.classList && e.target.classList.contains('vcv-ui-edit-form-section-header-title'))) {
+      this.setState({ isActive: !this.state.isActive })
+    }
   }
 
   /**
@@ -127,6 +130,7 @@ export default class EditFormSection extends React.Component {
           fieldKey={param.key}
           fieldType={fieldType}
           removeDependencies={removeDependencies}
+          isInnerElementReplaceOpened={this.state.isInnerElementReplaceOpened}
         />
       )
     })
@@ -292,9 +296,15 @@ export default class EditFormSection extends React.Component {
     })
   }
 
+  handleToggleShowReplace () {
+    this.setState({
+      isInnerElementReplaceOpened: !this.state.isInnerElementReplaceOpened
+    })
+  }
+
   render () {
-    const { tab, sectionIndex, isEditFormSettings, isRootElement } = this.props
-    const { isActive, dependenciesClasses } = this.state
+    const { tab, isEditFormSettings, isRootElement } = this.props
+    const { isActive, dependenciesClasses, isInnerElementReplaceOpened } = this.state
     const sectionClasses = classNames({
       'vcv-ui-edit-form-section': true,
       'vcv-ui-edit-form-section--opened': isActive,
@@ -307,21 +317,35 @@ export default class EditFormSection extends React.Component {
     } else {
       tabTitle = tab.data.settings.options.label ? tab.data.settings.options.label : tab.data.settings.options.tabLabel
     }
-    let replaceElement = null
 
-    if (sectionIndex === 0) {
-      let disableReplaceable = false
-      if (this.props.options && this.props.options.nestedAttr) {
-        disableReplaceable = tab.data.options.disableReplaceable
-      } else {
-        disableReplaceable = tab.data.settings.options.disableReplaceable
+    let showReplaceIcon = false
+    let backButton = null
+    let innerElementReplaceIcon = null
+
+    if (this.props.options && this.props.options.nestedAttr) {
+      if (tab.data.type === 'element' && !tab.data.options.disableReplaceable && tab.data.options.replaceView !== 'dropdown') {
+        const category = tab.data.options.category || '*'
+        showReplaceIcon = this.props.getReplaceShownStatus(category)
       }
+    } else {
+      if (tab.data.settings.type === 'element' && !tab.data.settings.options.disableReplaceable && tab.data.settings.options.replaceView !== 'dropdown') {
+        const category = tab.data.settings.options.category || '*'
+        showReplaceIcon = this.props.getReplaceShownStatus(category)
+      }
+    }
 
-      if (!disableReplaceable) {
-        replaceElement = (
-          <EditFormReplaceElement {...this.props} />
+    if (showReplaceIcon) {
+      const backToParentTitle = EditFormSection.localizations ? EditFormSection.localizations.backToParent : 'Back to parent'
+
+      if (isInnerElementReplaceOpened) {
+        backButton = (
+          <span className='vcv-ui-edit-form-section-header-go-back' onClick={this.handleToggleShowReplace} title={backToParentTitle}>
+            <i className='vcv-ui-icon vcv-ui-icon-chevron-left' />
+          </span>
         )
       }
+
+      innerElementReplaceIcon = <span className='vcv-ui-edit-form-section-header-control vcv-ui-icon vcv-ui-icon-swap' onClick={this.handleToggleShowReplace} />
     }
 
     return (
@@ -330,7 +354,9 @@ export default class EditFormSection extends React.Component {
           className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
           ref={header => { this.sectionHeader = header }}
         >
-          {tabTitle}
+          {backButton}
+          <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
+          {innerElementReplaceIcon}
         </div>
         <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
@@ -342,7 +368,6 @@ export default class EditFormSection extends React.Component {
             />
           ) : (
             <>
-              {replaceElement}
               {this.getSectionFormFields(tab.params)}
             </>
           )}

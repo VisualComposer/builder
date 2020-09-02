@@ -1,17 +1,31 @@
 .vcv-ui-replace-element-block {
-  border-bottom: 1px solid @vcv-color-white-smoke;
-  padding: 0 20px 20px;
-  margin: 0 -20px 20px;
-  box-shadow: inset 0px -180px 150px -160px #fbfbfb;
+  padding: 20px;
   position: relative;
+}
 
-  .vcv-ui-form-button {
-    padding: 11px 24px;
-  }
+.vcv-ui-replace-element-block.vcv-ui-replace-element-block--inner {
+  padding: 0;
+}
+
+.vcv-ui-replace-element-heading {
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.vcv-ui-replace-element-description {
+  font-size: 13px;
+  font-weight: 500;
+  color: #999999;
+  font-style: italic;
+  letter-spacing: 1px;
+  margin-bottom: 23px;
 }
 
 .vcv-ui-replace-element-container {
-  width: ~"calc(100% + 20px)";
   overflow: hidden;
   position: relative;
 }
@@ -33,20 +47,21 @@
 }
 
 .vcv-ui-replace-element-list {
-  list-style-type: none;
-  padding: 40px 2px 0;
-  margin: 0;
-  white-space: nowrap;
-  overflow-x: auto;
+  margin: 0 -15px -30px -15px;
+  list-style: none;
+  flex-wrap: wrap;
+  display: flex;
+  padding: 0;
+  justify-content: flex-start;
+
+  //list-style-type: none;
+  //padding: 40px 2px 0;
+  //margin: 0;
 
   .vcv-ui-item-list-item {
-    display: inline-block;
-    margin: 0 7px;
-    vertical-align: top;
-
-    &:first-child {
-      margin-left: 0;
-    }
+    //display: inline-block;
+    //margin: 0 7px;
+    //vertical-align: top;
   }
 
   .vcv-ui-item-list-item-content--active {

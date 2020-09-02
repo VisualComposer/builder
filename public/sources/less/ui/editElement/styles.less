@@ -340,6 +340,8 @@
 }
 
 .vcv-ui-edit-form-section-header {
+  display: flex;
+  align-items: center;
   position: relative;
   padding: @edit-form-section-header-padding;
   color: @edit-form-text-color-white;
@@ -354,6 +356,49 @@
 
   &:hover {
     background: @edit-form-section-header-background-hover-color;
+  }
+}
+
+.vcv-ui-edit-form-section-header-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
+.vcv-ui-edit-form-section-header-control {
+  width: 22px;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2em;
+  transition: opacity .2s;
+  display: inline-flex;
+
+  &:hover {
+    opacity: .5;
+  }
+
+  .vcv-ui-icon {
+    vertical-align: middle;
+  }
+}
+
+.vcv-ui-edit-form-section-header-go-back {
+  width: 22px;
+  justify-content: center;
+  margin-right: 7px;
+  cursor: pointer;
+  color: #fff;
+  transition: opacity .2s;
+  display: inline-flex;
+
+  &:hover {
+    opacity: .5;
+  }
+
+  .vcv-ui-icon {
+    vertical-align: middle;
   }
 }
 
