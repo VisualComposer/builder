@@ -8,7 +8,7 @@ const Cook = vcCake.getService('cook')
 const hubCategoriesService = vcCake.getService('hubCategories')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 
-export default class ElementAttribute extends React.Component {
+export default class ReplaceElement extends React.Component {
   static propTypes = {
     onReplace: PropTypes.func.isRequired,
     tag: PropTypes.string.isRequired,
@@ -18,19 +18,11 @@ export default class ElementAttribute extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = {
-      showReplacements: false
-    }
     this.handleReplace = this.handleReplace.bind(this)
-    this.handleClickToggleReplace = this.handleClickToggleReplace.bind(this)
   }
 
   handleReplace (newElementTag, cookElement) {
     this.props.onReplace(newElementTag, cookElement)
-  }
-
-  handleClickToggleReplace () {
-    this.setState({ showReplacements: !this.state.showReplacements })
   }
 
   getReplacementItem (elementData, name) {
@@ -98,43 +90,27 @@ export default class ElementAttribute extends React.Component {
 
   render () {
     const { options } = this.props
-    const { category, elementLabel } = options
-    const { showReplacements } = this.state
-    let replacements = ''
+    const { category } = options
     const categorySettings = hubCategoriesService.get(category)
     const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace current element with different element from the same category'
+    const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
 
-    if (categorySettings && showReplacements) {
-      const replacementItemsOutput = this.getReplacements(categorySettings)
-      const replacementPresetItems = this.getPresetReplacements(presetsByCategory)
-      replacements = (
-        <div className='vcv-ui-replace-element-container'>
-          <span className='vcv-ui-replace-element-hide' title='Close' onClick={this.handleClickToggleReplace}>
-            <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
-          </span>
-          <ul className='vcv-ui-replace-element-list'>
-            {replacementPresetItems}
-            {replacementItemsOutput}
-          </ul>
-        </div>
-      )
-    } else {
-      replacements = (
-        <div>
-          <p className='vcv-ui-form-helper'>
-            {replaceElementText}
-          </p>
-          <button
-            type='button' className='vcv-ui-form-button vcv-ui-form-button--default'
-            onClick={this.handleClickToggleReplace}
-          >
-            Replace {elementLabel}
-          </button>
-        </div>
-      )
-    }
+    const replacementPresetItems = this.getPresetReplacements(presetsByCategory)
+    const replacementItemsOutput = this.getReplacements(categorySettings)
+    const replacements = (
+      <div className='vcv-ui-replace-element-container'>
+        <h2 className='vcv-ui-replace-element-heading'>{substituteElementText}</h2>
+        <p className='vcv-ui-replace-element-description'>
+          {replaceElementText}
+        </p>
+        <ul className='vcv-ui-replace-element-list'>
+          {replacementPresetItems}
+          {replacementItemsOutput}
+        </ul>
+      </div>
+    )
 
     return (
       <div className='vcv-ui-form-element'>

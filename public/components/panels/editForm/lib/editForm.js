@@ -3,7 +3,12 @@ import EditFormHeader from './editFormHeader'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import EditFormSection from './editFormSection'
+import EditFormReplaceElement from './editFormReplaceElement'
 import Scrollbar from 'public/components/scrollbar/scrollbar.js'
+import { getService, getStorage } from 'vc-cake'
+
+const hubCategoriesService = getService('hubCategories')
+const hubElementsStorage = getStorage('hubElements')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -19,10 +24,12 @@ export default class EditForm extends React.Component {
     this.allTabs = this.updateTabs(this.props)
     this.state = {
       activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
-      isEditFormSettingsOpened: false
+      isEditFormSettingsOpened: false,
+      isElementReplaceOpened: false
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.toggleEditFormSettings = this.toggleEditFormSettings.bind(this)
+    this.toggleShowReplace = this.toggleShowReplace.bind(this)
   }
 
   scrollBarMounted (scrollbar) {
@@ -139,6 +146,7 @@ export default class EditForm extends React.Component {
           getSectionContentScrollbar={() => { return this.scrollbar }}
           key={tab.key}
           tab={tab}
+          getReplaceShownStatus={this.getReplaceShownStatus}
         />
       )
     })
@@ -174,22 +182,68 @@ export default class EditForm extends React.Component {
 
   toggleEditFormSettings () {
     this.setState({
-      isEditFormSettingsOpened: !this.state.isEditFormSettingsOpened
+      isEditFormSettingsOpened: !this.state.isEditFormSettingsOpened,
+      isElementReplaceOpened: false
     })
   }
 
+  toggleShowReplace () {
+    this.setState({
+      isElementReplaceOpened: !this.state.isElementReplaceOpened,
+      isEditFormSettingsOpened: false
+    })
+  }
+
+  getReplaceElementBlock () {
+    return <EditFormReplaceElement {...this.props} />
+  }
+
+  getReplaceShownStatus (category) {
+    const categorySettings = hubCategoriesService.get(category)
+    let showElementReplaceIcon = false
+    const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
+
+    if (presetsByCategory.length) {
+      showElementReplaceIcon = true
+    }
+
+    if (!showElementReplaceIcon && categorySettings && categorySettings.elements && categorySettings.elements.length > 1) {
+      const replaceElements = categorySettings.elements.filter(categoryTag => Object.keys(hubElementsStorage.state('elements').get()).includes(categoryTag))
+      showElementReplaceIcon = replaceElements.length > 1
+    }
+
+    return showElementReplaceIcon
+  }
+
   render () {
-    const { activeTabIndex, isEditFormSettingsOpened } = this.state
+    const { activeTabIndex, isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
     const activeTab = this.allTabs[activeTabIndex]
     const plateClass = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true
     }, `vcv-ui-editor-plate-${activeTab.key}`)
-    const content = isEditFormSettingsOpened ? this.getEditFormSettingsSections() : this.getAccordionSections()
+
+    let content = null
+    if (isEditFormSettingsOpened) {
+      content = this.getEditFormSettingsSections()
+    } else if (isElementReplaceOpened) {
+      content = this.getReplaceElementBlock()
+    } else {
+      content = this.getAccordionSections()
+    }
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
-        <EditFormHeader isEditFormSettingsOpened={isEditFormSettingsOpened} handleEditFormSettingsToggle={this.toggleEditFormSettings} elementAccessPoint={this.props.elementAccessPoint} options={this.props.options} />
+        <EditFormHeader
+          isEditFormSettingsOpened={isEditFormSettingsOpened}
+          handleEditFormSettingsToggle={this.toggleEditFormSettings}
+          elementAccessPoint={this.props.elementAccessPoint}
+          options={this.props.options}
+          showElementReplaceIcon={showElementReplaceIcon}
+          isElementReplaceOpened={isElementReplaceOpened}
+          handleReplaceElementToggle={this.toggleShowReplace}
+          getReplaceShownStatus={this.getReplaceShownStatus}
+        />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
             <Scrollbar ref={this.scrollBarMounted}>
