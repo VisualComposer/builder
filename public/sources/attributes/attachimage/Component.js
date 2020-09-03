@@ -111,7 +111,8 @@ export default class AttachImage extends Attribute {
         }))
       },
       /**
-       * Create Stock image tab
+       * Create tabs in Media Library
+       * Clear existing, and re-render based on conditions
        * @param routerView
        */
       browseRouter: function (routerView) {
@@ -120,10 +121,14 @@ export default class AttachImage extends Attribute {
           text: 'Stock Images',
           priority: 60
         })
-        routerView.set('giphy', {
-          text: 'Giphy',
-          priority: 70
-        })
+        if (attributeOptions.gif) {
+          routerView.set('giphy', {
+            text: 'Giphy',
+            priority: 70
+          })
+        } else {
+          routerView.unset('giphy')
+        }
       }
     })
 
@@ -180,7 +185,7 @@ export default class AttachImage extends Attribute {
         return this
       },
       /**
-       * Stock images tab content render
+       * Giphy tab content render
        * @returns {CustomGiphyView}
        */
       render: function () {
@@ -189,6 +194,9 @@ export default class AttachImage extends Attribute {
         return this
       }
     })
+
+    // Set default tab to be Upload Files in Add images modal
+    window.wp.media.controller.Library.prototype.defaults.contentUserSetting = false
 
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
