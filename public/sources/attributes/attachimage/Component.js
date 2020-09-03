@@ -170,7 +170,7 @@ export default class AttachImage extends Attribute {
         return this
       }
     })
-    let CustomGiphyView = window.wp.media.View.extend({
+    const CustomGiphyView = window.wp.media.View.extend({
       /**
        * Remove Giphy tab content
        * @returns {CustomGiphyView}
