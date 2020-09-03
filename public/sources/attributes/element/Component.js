@@ -240,8 +240,6 @@ export default class ElementAttribute extends Attribute {
     category = category || '*'
     const categorySettings = hubCategoriesService.get(category)
     let replacementBlock = ''
-
-    // TODO: show another wrapper
     if (replaceView && replaceView === 'dropdown') {
       const dropdownValues = categorySettings.elements.map(
         (tag) => {
@@ -259,7 +257,7 @@ export default class ElementAttribute extends Attribute {
         <div className='vcv-ui-form-group vcv-ui-replace-element-block-dropdown'>
           <Dropdown
             fieldKey='replaceElement'
-            updater={this.onClickReplacementDropdown.bind(this)} // TODO: Tag
+            updater={this.onClickReplacementDropdown.bind(this)}
             value={this.state.value.tag}
             options={{
               values: dropdownValues
