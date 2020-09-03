@@ -32,7 +32,7 @@ class HubDownloadActions extends WP_UnitTestCase
             $hubHelper->getTempBundleFolder()
         );
 
-        $elementsAfter = vchelper('HubElements')->getElements();
+        $elementsAfter = vchelper('HubElements')->getElements(false, false);
         $this->assertArrayHasKey('icon', $elementsAfter);
         $this->assertEquals(
             [
@@ -48,8 +48,6 @@ class HubDownloadActions extends WP_UnitTestCase
                 'bundlePath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/elements/icon/public/dist/element.bundle.js',
                 'elementPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
-                    . '/elements/icon/icon/',
-                'elementRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/elements/icon/icon/',
                 'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/elements/icon/icon/public/',

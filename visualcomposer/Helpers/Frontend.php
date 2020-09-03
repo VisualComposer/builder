@@ -143,7 +143,7 @@ class Frontend implements Helper
         $sourceContent = convert_smilies($sourceContent);
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
 
-        return $sourceContent;
+        return vcfilter('vcv:frontend:content', $sourceContent);
     }
 
     public function getCurrentBlockId()
