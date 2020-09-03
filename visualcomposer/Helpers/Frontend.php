@@ -130,10 +130,24 @@ class Frontend implements Helper
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
         $sourceContent = get_the_content('', '', $sourceId);
-        $sourceContent = apply_filters('the_content', $sourceContent);
+        // Call the_content filter callbacks separately
+        if (function_exists('do_blocks')) {
+            $sourceContent = do_blocks($sourceContent);
+        }
+        $sourceContent = wptexturize($sourceContent);
+        $sourceContent = wpautop($sourceContent);
+        $sourceContent = shortcode_unautop($sourceContent);
+        $sourceContent = prepend_attachment($sourceContent);
+        if (function_exists('wp_filter_content_tags')) {
+            $sourceContent = wp_filter_content_tags($sourceContent);
+        } else {
+            $sourceContent = wp_make_content_images_responsive($sourceContent);
+        }
+        $sourceContent = do_shortcode($sourceContent);
+        $sourceContent = convert_smilies($sourceContent);
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
 
-        return $sourceContent;
+        return vcfilter('vcv:frontend:content', $sourceContent);
     }
 
     public function getCurrentBlockId()
