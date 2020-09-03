@@ -138,7 +138,11 @@ class Frontend implements Helper
         $sourceContent = wpautop($sourceContent);
         $sourceContent = shortcode_unautop($sourceContent);
         $sourceContent = prepend_attachment($sourceContent);
-        $sourceContent = wp_make_content_images_responsive($sourceContent);
+        if (function_exists('wp_filter_content_tags')) {
+            $sourceContent = wp_filter_content_tags($sourceContent);
+        } else {
+            $sourceContent = wp_make_content_images_responsive($sourceContent);
+        }
         $sourceContent = do_shortcode($sourceContent);
         $sourceContent = convert_smilies($sourceContent);
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
