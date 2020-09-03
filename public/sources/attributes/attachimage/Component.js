@@ -11,6 +11,7 @@ import Toggle from '../toggle/Component'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
+import GiphyMediaTab from './giphyMediaTab'
 import { env, getService, getStorage } from 'vc-cake'
 
 const { getBlockRegexp } = getService('utils')
@@ -43,7 +44,7 @@ export default class AttachImage extends Attribute {
   constructor (props) {
     super(props)
     this.mediaUploader = null
-    this.stockImagesContainer = null
+    this.tabsContainer = null
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
@@ -63,8 +64,8 @@ export default class AttachImage extends Attribute {
   }
 
   componentWillUnmount () {
-    if (this.stockImagesContainer) {
-      ReactDOM.unmountComponentAtNode(this.stockImagesContainer)
+    if (this.tabsContainer) {
+      ReactDOM.unmountComponentAtNode(this.tabsContainer)
     }
   }
 
@@ -77,6 +78,7 @@ export default class AttachImage extends Attribute {
 
     let oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
 
+    const attributeOptions = this.props.options
     window.wp.media.view.MediaFrame.Select = oldMediaFrameSelect.extend({
       /**
        * Bind region mode event callbacks.
@@ -87,6 +89,10 @@ export default class AttachImage extends Attribute {
         oldMediaFrameSelect.prototype.bindHandlers.apply(this, arguments)
         this.off('content:render:stockImages', this.stockImagesContent, this)
         this.on('content:render:stockImages', this.stockImagesContent, this)
+        if (attributeOptions.gif) {
+          this.off('content:render:giphy', this.giphyContent, this)
+          this.on('content:render:giphy', this.giphyContent, this)
+        }
       },
       /**
        * Show stock Images tab content
@@ -97,7 +103,16 @@ export default class AttachImage extends Attribute {
         }))
       },
       /**
-       * Create Stock image tab
+       * Show Giphy tab content
+       */
+      giphyContent: function () {
+        this.content.set(new CustomGiphyView({
+          controller: this
+        }))
+      },
+      /**
+       * Create tabs in Media Library
+       * Clear existing, and re-render based on conditions
        * @param routerView
        */
       browseRouter: function (routerView) {
@@ -106,6 +121,14 @@ export default class AttachImage extends Attribute {
           text: 'Stock Images',
           priority: 60
         })
+        if (attributeOptions.gif) {
+          routerView.set('giphy', {
+            text: 'Giphy',
+            priority: 70
+          })
+        } else {
+          routerView.unset('giphy')
+        }
       }
     })
 
@@ -122,8 +145,8 @@ export default class AttachImage extends Attribute {
       },
       multiple: this.props.options.multiple ? 'add' : false
     })
-    let _this = this
-    let CustomStockImagesView = window.wp.media.View.extend({
+    const _this = this
+    const CustomStockImagesView = window.wp.media.View.extend({
       /**
        * Remove Stock images tab content
        * @returns {CustomStockImagesView}
@@ -142,11 +165,38 @@ export default class AttachImage extends Attribute {
        * @returns {CustomStockImagesView}
        */
       render: function () {
-        _this.stockImagesContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.stockImagesContainer)
+        _this.tabsContainer = this.$el.get(0)
+        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
         return this
       }
     })
+    const CustomGiphyView = window.wp.media.View.extend({
+      /**
+       * Remove Giphy tab content
+       * @returns {CustomGiphyView}
+       */
+      remove: function () {
+        ReactDOM.unmountComponentAtNode(this.$el.get(0))
+        window.setTimeout(() => {
+          if (_this.mediaUploader.state() && _this.mediaUploader.state().get('library')) {
+            _this.mediaUploader.state().get('library')._requery(true)
+          }
+        }, 0)
+        return this
+      },
+      /**
+       * Giphy tab content render
+       * @returns {CustomGiphyView}
+       */
+      render: function () {
+        _this.tabsContainer = this.$el.get(0)
+        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        return this
+      }
+    })
+
+    // Set default tab to be Upload Files in Add images modal
+    window.wp.media.controller.Library.prototype.defaults.contentUserSetting = false
 
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
