@@ -134,7 +134,6 @@ class Frontend implements Helper
         if (function_exists('do_blocks')) {
             $sourceContent = do_blocks($sourceContent);
         }
-        $sourceContent = wptexturize($sourceContent);
         $sourceContent = wpautop($sourceContent);
         $sourceContent = shortcode_unautop($sourceContent);
         $sourceContent = prepend_attachment($sourceContent);
@@ -146,6 +145,11 @@ class Frontend implements Helper
         $sourceContent = do_shortcode($sourceContent);
         $sourceContent = convert_smilies($sourceContent);
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $previousDynamicContent);
+        $sourceContent = str_replace(
+            '<!--vcv no format-->',
+            '',
+            $sourceContent
+        );
 
         return vcfilter('vcv:frontend:content', $sourceContent);
     }
