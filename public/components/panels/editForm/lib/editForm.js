@@ -25,7 +25,7 @@ export default class EditForm extends React.Component {
     this.state = {
       activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
       isEditFormSettingsOpened: false,
-      isElementReplaceOpened: false
+      isElementReplaceOpened: props.options && props.options.isReplaceOpened ? props.options.isReplaceOpened : false
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.toggleEditFormSettings = this.toggleEditFormSettings.bind(this)
@@ -246,7 +246,7 @@ export default class EditForm extends React.Component {
         />
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
-            <Scrollbar ref={this.scrollBarMounted}>
+            <Scrollbar ref={this.scrollBarMounted} initialScrollTop={this.props.options && this.props.options.replaceElementScrollTop}>
               <div className='vcv-ui-tree-content-section-inner'>
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
