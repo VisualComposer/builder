@@ -50,7 +50,6 @@ class Controller extends Container implements Module
      * Get post content.
      *
      * @param $response
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Filters $filterHelper
      *
      * @return mixed|string
@@ -58,7 +57,6 @@ class Controller extends Container implements Module
     private function getData(
         $response,
         $payload,
-        Request $requestHelper,
         Filters $filterHelper
     ) {
         global $post;
