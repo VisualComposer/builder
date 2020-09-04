@@ -234,6 +234,7 @@ class Categories implements Helper
                     'layoutWpCommentsArea',
                     'layoutHeaderArea',
                     'layoutFooterArea',
+                    'layoutSidebarArea',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
