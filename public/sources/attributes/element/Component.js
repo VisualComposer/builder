@@ -11,6 +11,7 @@ const Cook = vcCake.getService('cook')
 const elementAccessPointService = vcCake.getService('elementAccessPoint')
 const hubCategoriesService = vcCake.getService('hubCategories')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class ElementAttribute extends Attribute {
   static defaultProps = {
@@ -49,6 +50,20 @@ export default class ElementAttribute extends Attribute {
       allTabs: ElementAttribute.updateTabs(valueElementAccessPoint.cook()),
       isInnerElementReplaceOpened: props.isInnerElementReplaceOpened
     }
+  }
+
+  handleGoToHub () {
+    const settings = {
+      action: 'addHub',
+      element: {},
+      tag: '',
+      options: {
+        filterType: 'element',
+        id: '1-0',
+        bundleType: undefined
+      }
+    }
+    workspaceStorage.state('settings').set(settings)
   }
 
   onClickReplacement (tag, presetCookElement) {
@@ -272,6 +287,18 @@ export default class ElementAttribute extends Attribute {
         const replacementItemsOutput = this.getReplacements(categorySettings)
         const replaceElementText = ElementAttribute.localizations ? ElementAttribute.localizations.replaceElementEditForm : 'Replace current element with different element from the same category'
         const substituteElementText = ElementAttribute.localizations ? ElementAttribute.localizations.substituteElement : 'Substitute Element'
+        const getMoreButtonText = ElementAttribute.localizations ? ElementAttribute.localizations.getMoreElements : 'Get More Elements'
+        const hubButtonDescriptionText = ElementAttribute.localizations ? ElementAttribute.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
+
+        const moreButton = (
+          <div className='vcv-ui-editor-get-more'>
+            <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+              {getMoreButtonText}
+            </button>
+            <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+          </div>
+        )
+
         replacementBlock = (
           <div className='vcv-ui-replace-element-block vcv-ui-replace-element-block--inner'>
             <div className='vcv-ui-replace-element-container'>
@@ -284,6 +311,7 @@ export default class ElementAttribute extends Attribute {
                 {replacementItemsOutput}
               </ul>
             </div>
+            {moreButton}
           </div>
         )
       }
@@ -335,13 +363,17 @@ export default class ElementAttribute extends Attribute {
             {innerElementReplaceIcon}
           </div>
           <div className='vcv-ui-form-element vcv-ui-edit-form-section-content'>
-            {replacementBlock}
-            <AttributeElementFieldWrapper
-              onChange={this.handleAttributeChange}
-              elementAccessPoint={this.state.elementAccessPoint}
-              allTabs={this.state.allTabs}
-              exclude={exclude}
-            />
+            {replacementBlock && (!replaceView || replaceView !== 'dropdown') ? replacementBlock : (
+              <>
+                {replacementBlock}
+                <AttributeElementFieldWrapper
+                  onChange={this.handleAttributeChange}
+                  elementAccessPoint={this.state.elementAccessPoint}
+                  allTabs={this.state.allTabs}
+                  exclude={exclude}
+                />
+              </>
+            )}
           </div>
         </div>
       )

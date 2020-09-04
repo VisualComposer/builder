@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 const Cook = vcCake.getService('cook')
 const hubCategoriesService = vcCake.getService('hubCategories')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class ReplaceElement extends React.Component {
   static propTypes = {
@@ -19,10 +20,25 @@ export default class ReplaceElement extends React.Component {
   constructor (props) {
     super(props)
     this.handleReplace = this.handleReplace.bind(this)
+    this.handleGoToHub = this.handleGoToHub.bind(this)
   }
 
   handleReplace (newElementTag, cookElement) {
     this.props.onReplace(newElementTag, cookElement)
+  }
+
+  handleGoToHub () {
+    const settings = {
+      action: 'addHub',
+      element: {},
+      tag: '',
+      options: {
+        filterType: 'element',
+        id: '1-0',
+        bundleType: undefined
+      }
+    }
+    workspaceStorage.state('settings').set(settings)
   }
 
   getReplacementItem (elementData, name) {
@@ -96,7 +112,8 @@ export default class ReplaceElement extends React.Component {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace current element with different element from the same category'
     const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
-
+    const getMoreButtonText = localizations ? localizations.getMoreElements : 'Get More Elements'
+    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
     const replacementPresetItems = this.getPresetReplacements(presetsByCategory)
     const replacementItemsOutput = this.getReplacements(categorySettings)
     const replacements = (
@@ -112,10 +129,20 @@ export default class ReplaceElement extends React.Component {
       </div>
     )
 
+    const moreButton = (
+      <div className='vcv-ui-editor-get-more'>
+        <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+          {getMoreButtonText}
+        </button>
+        <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+      </div>
+    )
+
     return (
       <div className='vcv-ui-form-element'>
         <div className='vcv-ui-replace-element-block'>
           {replacements}
+          {moreButton}
         </div>
       </div>
     )

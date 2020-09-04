@@ -18,12 +18,19 @@ export default class Scrollbar extends React.Component {
     }
   }
 
+  componentDidMount () {
+    if (this.props.initialScrollTop) {
+      this.scrollbars.scrollTop(this.props.initialScrollTop)
+    }
+  }
+
   scrollTop (top) {
     return this.scrollbars.scrollTop(top)
   }
 
   render () {
-    const { ...props } = this.props
+    const scrollProps = Object.assign({}, this.props)
+    delete scrollProps.initialScrollTop
     const scrollbarClasses = classNames({
       'vcv-ui-scroll': true,
       'vcv-ui-tree-layout-filled': Object.prototype.hasOwnProperty.call(this.props, 'content') && this.props.content
@@ -31,7 +38,7 @@ export default class Scrollbar extends React.Component {
 
     return (
       <Scrollbars
-        ref={(scrollbars) => { this.scrollbars = scrollbars }} {...props} className={scrollbarClasses}
+        ref={(scrollbars) => { this.scrollbars = scrollbars }} {...scrollProps} className={scrollbarClasses}
         renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
         renderTrackVertical={props => <div {...props} className='vcv-ui-scroll-track--vertical' />}
         renderThumbHorizontal={props => <div {...props} className='vcv-ui-scroll-thumb--horizontal' />}
