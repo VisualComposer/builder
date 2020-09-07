@@ -1,4 +1,4 @@
-/* global describe, it, cy */
+/* global describe, it, cy, Cypress */
 
 describe('Hub', function () {
   it('Create page open hub and check is it not empty on non-activated version', function () {
