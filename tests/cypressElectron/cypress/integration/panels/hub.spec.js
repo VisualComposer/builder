@@ -25,7 +25,7 @@ describe('Hub', function () {
     cy.wait(1000)
 
     cy.createPage()
-    cy.viewport(1000, 900)
+    cy.viewport(1200, 900)
     cy.wait(200)
     cy.get('.vcv-ui-navbar-control[title="Visual Composer Hub"]').click()
     // make sure that Hub is not empty!
