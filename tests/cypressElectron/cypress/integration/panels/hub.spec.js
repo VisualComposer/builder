@@ -27,7 +27,8 @@ describe('Hub', function () {
     cy.createPage()
     cy.viewport(1200, 900)
     cy.wait(200)
-    cy.get('.vcv-ui-navbar-control[title="Visual Composer Hub"]').click()
+    cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
+    // cy.get('.vcv-ui-navbar-control[title="Visual Composer Hub"]').click()
     // make sure that Hub is not empty!
 
     cy.get('.vcv-ui-editor-plates-container.vcv-ui-editor-plate--teaser').should('be.visible')
