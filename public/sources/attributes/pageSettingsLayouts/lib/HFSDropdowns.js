@@ -85,10 +85,14 @@ export default class HFSDropdowns extends React.Component {
       addHeader = false
     }
     if (
-      this.props.options &&
+      (this.props.options &&
       Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
       Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addSidebar') &&
-      !this.props.options.HFSDropdowns.addSidebar
+      !this.props.options.HFSDropdowns.addSidebar) ||
+      (
+        editorType === 'vcv_layouts' &&
+        !this.hasLayoutElement('layoutSidebarArea')
+      )
     ) {
       addSidebar = false
     }

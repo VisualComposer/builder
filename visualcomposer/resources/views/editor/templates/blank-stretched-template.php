@@ -18,11 +18,13 @@ if (!defined('ABSPATH')) {
 while (have_posts()) :
     the_post();
     ?>
-    <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-        <div class="entry-content">
-            <?php the_content(); ?>
-        </div>
-    </article>
+    <div class="vcv-content--blank">
+        <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+            <div class="entry-content">
+                <?php the_content(); ?>
+            </div>
+        </article>
+    </div>
     <?php
 endwhile;
 wp_footer(); ?>

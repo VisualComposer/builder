@@ -44,13 +44,11 @@ class Localizations extends Container implements Helper
             'publish' => __('Publish', 'visualcomposer'),
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
             'saveDraft' => __('Save Draft', 'visualcomposer'),
+            'activationButtonTitle' => vchelper('License')->activationButtonTitle(),
             'goPremium' => __('Go Premium', 'visualcomposer'),
             'getFreeLicense' => __('Get Free License', 'visualcomposer'),
             'activated' => __('Activated', 'visualcomposer'),
             'close' => __('Close', 'visualcomposer'),
-            'premiumElementsButton' => __('Go Premium', 'visualcomposer'),
-            'premiumTemplatesButton' => __('Go Premium', 'visualcomposer'),
-            'premiumHubButton' => __('Go Premium', 'visualcomposer'),
             'emptyTreeView' => __(
                 'There is no content on your page - start by adding element or template.',
                 'visualcomposer'
@@ -400,11 +398,9 @@ class Localizations extends Container implements Helper
             'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
             'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'visualcomposer'),
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),
-            'getMoreText' => __('Get More Elements, Templates, and Extensions', 'visualcomposer'),
-            'downloadFromHubText' => __(
-                'Download additional content from the Visual Composer Hub - right in your editor instantly.',
-                'visualcomposer'
-            ),
+            'getMoreText' => __('Connect to Visual Composer Hub.', 'visualcomposer'),
+            'getMoreTextSubText' => __('Do More.', 'visualcomposer'),
+            'downloadFromHubText' => vchelper('License')->hubActivationText(),
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(
@@ -429,10 +425,6 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'openEditForm' => __('Open Edit Form', 'visualcomposer'),
-            'unlockHub' => __(
-                'Unlock Visual Composer Hub',
-                'visualcomposer'
-            ),
             'shortcode' => __(
                 'Shortcode',
                 'visualcomposer'
@@ -1066,6 +1058,66 @@ class Localizations extends Container implements Helper
             ),
             'makeTheFinalStep' => __(
                 'Make the final step! Enter your License key to activate Visual Composer Hub and start creating your website right away.',
+                'visualcomposer'
+            ),
+            'commentsAreaPlaceholderText' => __(
+                'Define a comments area for your post or page layout.',
+                'visualcomposer'
+            ),
+            'contentElementMissingNotification' => __(
+                'The content area is missing for your layout. Make sure to add the Content Area element to specify the place in your layout where the page or post content will be displayed.',
+                'visualcomposer'
+            ),
+            'templateContainsLimitElement' => __(
+                'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.',
+                'visualcomposer'
+            ),
+            'getGiphiesWithPremiumText' => __(
+                'Download and Add Free Animated Giphies to Your Site With Visual Composer Premium',
+                'visualcomposer'
+            ),
+            'getGiphiesText' => __(
+                'Download and Add Free Animated Giphies to Your Site',
+                'visualcomposer'
+            ),
+            'noConnectionToGiphy' => __(
+                'Could not connect to Giphy Server!',
+                'visualcomposer'
+            ),
+            'discoverGifAnimationsText' => __(
+                'Discover best GIF animations from Giphy',
+                'visualcomposer'
+            ),
+            'downloadAnimationsFromGiphy' => __(
+                'Download animations from Giphy to your Media Library',
+                'visualcomposer'
+            ),
+            'activatePremiumToUnlockGiphy' => __(
+                'Activate Premium to Unlock Giphy Integration',
+                'visualcomposer'
+            ),
+            'gifAnimations' => __(
+                'GIF animations',
+                'visualcomposer'
+            ),
+            'gifAnimationDownloadedToMediaLibrary' => __(
+                'GIF animation has been downloaded to your Media Library.',
+                'visualcomposer'
+            ),
+            'regular' => __(
+                'Regular',
+                'visualcomposer'
+            ),
+            'full' => __(
+                'Full',
+                'visualcomposer'
+            ),
+            'poweredBy' => __(
+                'Powered by',
+                'visualcomposer'
+            ),
+            'substituteElement' => __(
+                'Substitute Element',
                 'visualcomposer'
             ),
         ];

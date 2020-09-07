@@ -33,6 +33,17 @@
   margin: @vcui-form-helper-margin;
 }
 
+.vcv-ui-form-helper--action {
+  color: #0073aa;
+  text-decoration: underline;
+  transition: border .05s ease-in-out, color .05s ease-in-out;
+  cursor: pointer;
+}
+
+.vcv-ui-form-helper--action:hover {
+  color: #00a0d2;
+}
+
 .vcv-ui-form-message {
   &:extend(.vcv-ui-form-helper);
   padding-top: @vcui-form-message-padding-top;

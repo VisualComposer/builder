@@ -40,7 +40,6 @@ class EnqueueController extends Container implements Module
         ) {
             $this->wpAddAction('init', 'setCustomWpScripts');
         }
-
         $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 11);
         $this->wpAddAction('wp_footer', 'enqueueVcvAssets');
 

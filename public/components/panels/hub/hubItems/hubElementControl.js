@@ -44,9 +44,11 @@ export default class HubElementControl extends ElementControl {
       elementState = typeof hubElementsService.all()[tag] !== 'undefined' ? 'success' : 'inactive'
     }
 
+    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
-      'vcv-ui-item-element-inactive': elementState !== 'success'
+      'vcv-ui-item-element-inactive': elementState !== 'success',
+      'vcv-ui-item-element-inactive--locked': lockIcon
     })
 
     const listItemClasses = classNames({
@@ -70,7 +72,6 @@ export default class HubElementControl extends ElementControl {
 
     const publicPathThumbnail = element.metaThumbnailUrl
     const publicPathPreview = element.metaPreviewUrl
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
 
     const iconClasses = classNames({
       'vcv-ui-item-add': true,

@@ -219,4 +219,39 @@ class License extends Container implements Helper
         // @codingStandardsIgnoreEnd
         return $message;
     }
+
+    /**
+     * Show button title depending on activation type
+     *
+     * @return string|void
+     */
+    public function activationButtonTitle()
+    {
+        $title = __('Activate Hub', 'visualcomposer');
+
+        if ($this->isAnyActivated()) {
+            $title = __('Go Premium', 'visualcomposer');
+        }
+
+        return $title;
+    }
+
+    /**
+     * Hub description text
+     *
+     * @return string|void
+     */
+    public function hubActivationText()
+    {
+        $description = __(
+            'Activate your free or premium license to get access to the Visual Composer Hub',
+            'visualcomposer'
+        );
+
+        if ($this->isFreeActivated() || $this->isThemeActivated()) {
+            $description = __('Go premium to get unlimited access to the Visual Composer Hub', 'visualcomposer');
+        }
+
+        return $description;
+    }
 }

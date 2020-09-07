@@ -311,7 +311,7 @@ export default class TokenizationList extends React.Component {
             removeCallback={this.removeToken}
             value={token}
             index={index}
-            label={this.props.single ? title : token}
+            label={this.props.single ? title : (this.props.tokenLabel === 'title' ? title : token)}
           />
         )
       }

@@ -10,6 +10,7 @@ const workspaceContentState = workspaceStorage.state('content')
 export default class EditFormReplaceElement extends React.Component {
   constructor (props) {
     super(props)
+    this.replaceElementRef = React.createRef()
     this.handleReplaceElement = this.handleReplaceElement.bind(this)
     this.openEditFormOnReplace = this.openEditFormOnReplace.bind(this)
   }
@@ -46,7 +47,13 @@ export default class EditFormReplaceElement extends React.Component {
       if (settings && settings.action === 'edit') {
         workspaceStorage.state('settings').set(false)
       }
-      workspaceStorage.trigger('edit', data.id, data.activeTab, { insertAfter: false })
+      const options = { insertAfter: false, isReplaceOpened: true }
+      const scrollElement = this.replaceElementRef && this.replaceElementRef.current && this.replaceElementRef.current.closest('.vcv-ui-scroll-content')
+      const scrollTop = scrollElement && scrollElement.scrollTop
+      if (scrollTop) {
+        options.replaceElementScrollTop = scrollTop
+      }
+      workspaceStorage.trigger('edit', data.id, data.activeTab, options)
     }
   }
 
@@ -60,13 +67,8 @@ export default class EditFormReplaceElement extends React.Component {
       elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'
     }
 
-    const categorySettings = hubCategoriesService.get(category)
-    if (!categorySettings || !categorySettings.elements || categorySettings.elements.length <= 1 || cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')) {
-      return null
-    }
-
     return (
-      <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-replaceElement`}>
+      <div className='vcv-ui-form-group' key={`form-group-field-${cookElement.get('id')}-replaceElement`} ref={this.replaceElementRef}>
         <ReplaceElement
           options={options}
           tag={tag}

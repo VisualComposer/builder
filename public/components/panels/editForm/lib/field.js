@@ -71,7 +71,7 @@ export default class Field extends React.Component {
   }
 
   render () {
-    const { fieldKey, tab, fieldType, elementAccessPoint } = this.props
+    const { fieldKey, tab, fieldType, elementAccessPoint, isInnerElementReplaceOpened } = this.props
 
     const cookElement = elementAccessPoint.cook()
     const element = cookElement.toJS()
@@ -146,6 +146,7 @@ export default class Field extends React.Component {
         elementAccessPoint={elementAccessPoint}
         setInnerFieldStatus={this.setInnerFieldStatus}
         editFormOptions={this.props.options}
+        isInnerElementReplaceOpened={isInnerElementReplaceOpened}
         onDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
           const newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
           return newValue

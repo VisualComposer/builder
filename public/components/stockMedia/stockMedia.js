@@ -1,20 +1,17 @@
 import React from 'react'
-import unsplashLogo from 'public/sources/images/unsplashLogo.raw'
 import classNames from 'classnames'
-import StockImagesResultsPanel from './stockImagesResultsPanel'
+import StockMediaResultsPanel from './stockMediaResultsPanel'
 import PropTypes from 'prop-types'
 
-const unsplashImages = ['https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-1.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-2.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-3.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-4.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-5.jpg']
-
-export default class StockImages extends React.Component {
+export default class StockMedia extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   static propTypes = {
     scrolledToBottom: PropTypes.bool,
-    scrollTop: PropTypes.number
+    scrollTop: PropTypes.number,
+    backgroundImage: PropTypes.string
   }
 
   inputTimeout = 0
-  randomImage = this.getRandomImage()
 
   constructor (props) {
     super(props)
@@ -74,7 +71,8 @@ export default class StockImages extends React.Component {
   }
 
   getSearch () {
-    const searchPhotosOnUnsplash = StockImages.localizations ? StockImages.localizations.searchPhotosOnUnsplash : 'Search free high-resolution photos on Unsplash'
+    const { stockMediaLocalizations } = this.props
+    const searchMedia = (stockMediaLocalizations && stockMediaLocalizations.searchText) || ''
     const inputContainerClasses = classNames({
       'vcv-ui-search-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
@@ -92,7 +90,7 @@ export default class StockImages extends React.Component {
           onFocus={this.handleInputFocus}
           type='text'
           value={this.state.inputValue}
-          placeholder={searchPhotosOnUnsplash}
+          placeholder={searchMedia}
           onKeyPress={this.handleKeyPress}
           autoFocus={autoFocus}
         />
@@ -100,61 +98,85 @@ export default class StockImages extends React.Component {
     )
   }
 
-  getRandomImage () {
-    return unsplashImages[Math.floor(Math.random() * unsplashImages.length)]
-  }
-
   render () {
-    const getPhotosWithPremiumText = StockImages.localizations ? StockImages.localizations.getPhotosWithPremiumText : 'Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium'
-    const getPhotosText = StockImages.localizations ? StockImages.localizations.getPhotosText : 'Download and Add Free Beautiful Photos to Your Site'
-    const activatePremium = StockImages.localizations ? StockImages.localizations.activatePremium : 'Activate Premium'
+    const {
+      backgroundImage,
+      stockMediaLocalizations,
+      upgradeUrl,
+      stockMediaLogo,
+      vcvAuthorApiKey,
+      apiUrlKey,
+      scrollTop,
+      scrolledToBottom,
+      sizes,
+      previewImageSize,
+      customContainerClass
+    } = this.props
+    const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
+    const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
+    const activatePremium = StockMedia.localizations ? StockMedia.localizations.activatePremium : 'Activate Premium'
 
     let content = ''
     if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {
       content = (
         <>
-          <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: unsplashLogo }} />
-          <p className='vcv-stock-images-subtitle'>{getPhotosWithPremiumText}</p>
-          <span className='vcv-stock-images-button' data-href={window.vcvUpgradeUrlUnsplash} onClick={StockImages.handleClickGoPremium}>
+          <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
+          <p className='vcv-stock-images-subtitle'>{getMediaWithPremiumText}</p>
+          <span className='vcv-stock-images-button' data-href={upgradeUrl} onClick={StockMedia.handleClickGoPremium}>
             {activatePremium}
           </span>
         </>
       )
     } else {
+      let poweredText = null
+      if (stockMediaLocalizations.poweredByText) {
+        poweredText = <div className='vcv-stock-media-powered-text' dangerouslySetInnerHTML={{ __html: stockMediaLocalizations.poweredByText }} />
+      }
       content = (
         <>
-          <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: unsplashLogo }} />
-          <p className='vcv-stock-images-subtitle'>{getPhotosText}</p>
+          <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
+          <p className='vcv-stock-images-subtitle'>{getMediaText}</p>
           {this.getSearch()}
+          {poweredText}
         </>
       )
     }
 
     const style = {}
-    if (!this.state.isSearchUsed) {
-      style.backgroundImage = `url(${this.randomImage})`
+    if (!this.state.isSearchUsed && backgroundImage) {
+      style.backgroundImage = backgroundImage
     }
 
-    const stockImageContainerClasses = classNames({
+    const stockMediaContainerClasses = classNames({
       'vcv-ui-editor-plates-container': true,
       'vcv-ui-editor-plate--stock-images': true,
       'vcv-ui-editor-plate--stock-images--search-is-used': this.state.isSearchUsed
     })
 
+    const stockMediaContainerInnerClasses = classNames({
+      'vcv-stock-images-container': true,
+      [customContainerClass]: !!customContainerClass
+    })
+
     return (
       <>
-        <div className={stockImageContainerClasses}>
-          <div className='vcv-stock-images-container' style={style}>
+        <div className={stockMediaContainerClasses}>
+          <div className={stockMediaContainerInnerClasses} style={style}>
             <div className='vcv-stock-images-inner'>
               {content}
             </div>
           </div>
         </div>
-        <StockImagesResultsPanel
+        <StockMediaResultsPanel
           searchValue={this.state.searchValue}
-          scrolledToBottom={this.props.scrolledToBottom}
-          scrollTop={this.props.scrollTop}
+          scrolledToBottom={scrolledToBottom}
+          scrollTop={scrollTop}
           isSearchUsed={this.state.isSearchUsed}
+          stockMediaLocalizations={stockMediaLocalizations}
+          vcvAuthorApiKey={vcvAuthorApiKey}
+          apiUrlKey={apiUrlKey}
+          sizes={sizes}
+          previewImageSize={previewImageSize}
         />
       </>
     )
