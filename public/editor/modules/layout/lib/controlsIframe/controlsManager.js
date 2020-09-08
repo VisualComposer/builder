@@ -439,8 +439,13 @@ export default class ControlsManager {
   showFrames (data) {
     const documentService = vcCake.getService('document')
     let elementsToShow = []
-    data.vcElementsPath.forEach((id) => {
+    let elementTag = ''
+    data.vcElementsPath.forEach((id, index) => {
       const documentElement = documentService.get(id)
+      // Current element will always be 0 indexed
+      if (index === 0) {
+        elementTag = documentElement.tag
+      }
       if (documentElement.tag === 'column') {
         const children = documentService.children(documentElement.parent)
         children.forEach((child) => {
@@ -463,7 +468,7 @@ export default class ControlsManager {
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
-    this.frames.show({ element: data.element, path: elementsToShow })
+    this.frames.show({ element: data.element, path: elementsToShow, tag: elementTag })
   }
 
   /**
