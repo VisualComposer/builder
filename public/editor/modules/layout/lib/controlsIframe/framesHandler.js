@@ -102,6 +102,10 @@ export default class Frames {
     elements.forEach((element, index) => {
       this.frames[index].classList.add('vcv-state--visible')
     })
+    // Add class name for row element, to always show column resizer
+    if (data.tag === 'row') {
+      data.element.classList.add('vcv-state--show-resizer')
+    }
     this.autoUpdatePosition(elements)
   }
 
@@ -112,6 +116,11 @@ export default class Frames {
     this.frames.forEach((frame) => {
       frame.classList.remove('vcv-state--visible')
     })
+    // Check active rows for resizer class and remove it
+    const row = this.iframeDocument.querySelector('.vcv-state--show-resizer')
+    if (row) {
+      row.classList.remove('vcv-state--show-resizer')
+    }
     this.stopAutoUpdatePosition()
   }
 
