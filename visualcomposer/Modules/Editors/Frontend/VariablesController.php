@@ -85,6 +85,11 @@ class VariablesController extends Container implements Module
             'key' => 'vcvManageOptions',
             'value' => vchelper('AccessCurrentUser')->wpAll('manage_options')->get(),
         ];
+        $variables[] = [
+            'key' => 'vcvCreateMenuUrl',
+            'value' => set_url_scheme(admin_url('nav-menus.php?action=edit&menu=0')),
+            'type' => 'variable',
+        ];
 
         return $variables;
     }

@@ -2,6 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import PropTypes from 'prop-types'
+import { getResponse } from '../../../tools/response'
+import { getService } from 'vc-cake'
+
+const Utils = getService('utils')
 
 export default class Dropdown extends Attribute {
   static propTypes = {
@@ -19,18 +23,10 @@ export default class Dropdown extends Attribute {
     fieldType: 'dropdown'
   }
 
-  selectChildren = null
-
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    super.UNSAFE_componentWillReceiveProps(nextProps)
-    this.generateSelectChildren(nextProps)
+  constructor (props) {
+    super(props)
+    this.handleUpdateList = this.handleUpdateList.bind(this)
   }
-
-  UNSAFE_componentWillMount () {
-    this.generateSelectChildren(this.props)
-  }
-  /* eslint-enable */
 
   createGroup (key, groupObject, fieldKey) {
     const optionElements = []
@@ -90,7 +86,37 @@ export default class Dropdown extends Attribute {
       }
     }
 
-    this.selectChildren = optionElements
+    return optionElements
+  }
+
+  handleUpdateList () {
+    this.props.setLoadingState(true)
+
+    const ajax = Utils.ajax
+    if (this.serverRequest) {
+      this.serverRequest.abort()
+    }
+
+    this.serverRequest = ajax({
+      'vcv-action': `dropdown:${this.props.options.reloadAction}:updateList:adminNonce`,
+      'vcv-nonce': window.vcvNonce
+    }, (request) => {
+      const response = getResponse(request.response)
+      this.props.setLoadingState(false)
+      if (response && response.status) {
+        const { global } = this.props.options || {}
+        if (typeof window[global] === 'function') {
+          window[global] = () => {
+            return response.data
+          }
+        } else {
+          window[global] = response.data
+        }
+        if (this.state.value === '' && response.data && response.data.length && response.data[0].value) {
+          this.setFieldValue(response.data[0].value)
+        }
+      }
+    })
   }
 
   render () {
@@ -103,14 +129,20 @@ export default class Dropdown extends Attribute {
       description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
     }
 
+    const customProps = {}
+    if (this.props.options && this.props.options.reloadAction) {
+      customProps.onClick = this.handleUpdateList
+    }
+
     return (
       <>
         <select
           value={value}
           onChange={this.handleChange}
           className={selectClass}
+          {...customProps}
         >
-          {this.selectChildren}
+          {this.generateSelectChildren(this.props)}
         </select>
         {description}
       </>
