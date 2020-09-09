@@ -139,7 +139,8 @@ export default class Field extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
     if (options && options.descriptionHTML) {
-      description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: options.descriptionHTML }} />)
+      const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', window.vcvCreateMenuUrl)
+      description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: html }} />)
     }
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === 'undefined') {
