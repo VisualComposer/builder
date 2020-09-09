@@ -446,18 +446,8 @@ export default class ControlsManager {
       if (index === 0) {
         elementTag = documentElement.tag
       }
-      if (documentElement.tag === 'column') {
-        const children = documentService.children(documentElement.parent)
-        children.forEach((child) => {
-          elementsToShow.push(child.id)
-        })
-      } else if (documentElement.tag === 'row') {
-        const children = documentService.children(documentElement.id)
-        elementsToShow.push(documentElement.id)
-        children.forEach((child) => {
-          elementsToShow.push(child.id)
-        })
-      } else {
+      // Show frames for all except columns
+      if (documentElement.tag !== 'column') {
         elementsToShow.push(documentElement.id)
       }
     })
