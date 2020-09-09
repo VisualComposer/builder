@@ -103,8 +103,9 @@ export default class Frames {
       this.frames[index].classList.add('vcv-state--visible')
     })
     // Add class name for row element, to always show column resizer
-    if (data.tag === 'row') {
-      data.element.classList.add('vcv-state--show-resizer')
+    if (data.tag === 'row' || data.tag === 'column') {
+      let row = data.tag === 'row' ? data.element : data.element.closest('.vce-row')
+      row.classList.add('vcv-state--show-resizer')
     }
     this.autoUpdatePosition(elements)
   }
