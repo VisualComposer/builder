@@ -15,7 +15,7 @@ export default (data, key, settings) => {
     } else {
       if (isMultiple) {
         returnValue = value.urls
-      } else if (value.urls && value.urls.length) {
+      } else if (lodash.isArray(value.urls)) {
         returnValue = value.urls[0]
       } else {
         returnValue = value
