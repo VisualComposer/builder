@@ -25,6 +25,9 @@ export default class Dropdown extends Attribute {
 
   constructor (props) {
     super(props)
+
+    this.state.dropdownOptions = this.getSelectOptions(props)
+
     this.handleUpdateList = this.handleUpdateList.bind(this)
   }
 
@@ -70,7 +73,7 @@ export default class Dropdown extends Attribute {
 
   generateSelectChildren (props) {
     const optionElements = []
-    const values = this.getSelectOptions(props)
+    const values = this.state.dropdownOptions
     const { fieldKey } = props
 
     for (const key in values) {
@@ -112,6 +115,7 @@ export default class Dropdown extends Attribute {
         } else {
           window[global] = response.data
         }
+        this.setState({ dropdownOptions: response.data })
         if (this.state.value === '' && response.data && response.data.length && response.data[0].value) {
           this.setFieldValue(response.data[0].value)
         }
