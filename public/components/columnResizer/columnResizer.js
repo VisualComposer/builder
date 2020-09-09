@@ -38,8 +38,8 @@ export default class ColumnResizer extends React.Component {
     super(props)
     this.state = {
       dragging: false,
-      leftColPercentage: null,
-      rightColPercentage: null,
+      leftColPercentage: this.props.leftColumnSize,
+      rightColPercentage: this.props.rightColumnSize,
       labelPosition: null,
       isVisible: true
     }
@@ -51,7 +51,6 @@ export default class ColumnResizer extends React.Component {
 
   componentDidMount () {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
-    // TODO: Set resizer percentage initial value
   }
 
   componentWillUnmount () {
