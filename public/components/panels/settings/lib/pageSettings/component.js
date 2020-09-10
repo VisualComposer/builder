@@ -35,6 +35,12 @@ export default class PageSettings extends React.Component {
     return (
       <>
         {content}
+        <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu'>
+          <span className='vcv-ui-form-group-heading'>Menu</span>
+          <p className='vcv-ui-form-helper'>
+            <a className='vcv-ui-form-link' href={window.vcvManageMenuUrl} target='_blank' rel='noopener noreferrer'>Manage your site menu</a> via WordPress Admin Menu management.
+          </p>
+        </div>
       </>
     )
   }
