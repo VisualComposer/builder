@@ -31,6 +31,13 @@ export default class Dropdown extends Attribute {
     this.handleUpdateList = this.handleUpdateList.bind(this)
   }
 
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    super.UNSAFE_componentWillReceiveProps(nextProps)
+    this.setState({ dropdownOptions: this.getSelectOptions(nextProps)})
+  }
+  /* eslint-enable */
+
   createGroup (key, groupObject, fieldKey) {
     const optionElements = []
     const { values, label } = groupObject
