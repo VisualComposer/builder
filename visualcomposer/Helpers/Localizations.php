@@ -1120,6 +1120,14 @@ class Localizations extends Container implements Helper
                 'Substitute Element',
                 'visualcomposer'
             ),
+            'manageYourSiteMenu' => __(
+                'Manage your site menu',
+                'visualcomposer'
+            ),
+            'viaWPAdminMenu' => __(
+                'via WordPress Admin Menu management.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
