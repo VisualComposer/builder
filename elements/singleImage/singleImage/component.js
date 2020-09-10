@@ -250,7 +250,7 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     customImageProps.alt = image && image.alt ? image.alt : ''
     customImageProps.title = image && image.title ? image.title : ''
 
-    let captionText = image.caption
+    let captionText = image && image.caption ? image.caption : ''
 
     if (isDynamic) {
       const url = new URL(image.full)
