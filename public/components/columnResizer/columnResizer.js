@@ -88,7 +88,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   handleResizerState () {
-    this.setState({ isResizerActive: !this.state.isResizerActive})
+    this.setState({ isResizerActive: !this.state.isResizerActive })
   }
 
   handleLayoutCustomModeChange (data) {
