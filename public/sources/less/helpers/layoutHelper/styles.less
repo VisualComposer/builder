@@ -8,14 +8,9 @@
   justify-content: center;
   align-content: center;
   align-items: center;
-  opacity: 0;
-  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+  opacity: 1;
   cursor: pointer;
   margin: @vcv-row-control-margin;
-
-  &:hover {
-    opacity: 1;
-  }
 }
 
 .vcv-row-control-container-hide-labels {
@@ -102,4 +97,14 @@
 .vce-col.vce-element--has-background > .vce-col-content > .vcv-row-control-container {
   margin-bottom: 35px;
   padding: 0;
+}
+
+.vce-col[data-vcv-centered-control="true"] {
+  align-self: stretch;
+}
+
+.vce-col-inner[data-vcv-centered-control="true"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
