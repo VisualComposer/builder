@@ -56,29 +56,11 @@ export default class Element extends React.Component {
       const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || window.vcvManageOptions || !this.state.element.metaIsElementLocked) {
-          // Calculate columns sizes for initial state of resizer
-          let leftColumnSize = childElement.size.defaultSize
-          let rightColumnSize
-          const columns = DocumentData.children(childElement.parent)
-          const rightColumn = columns.find(column => column.order === childElement.order + 1)
-          if (rightColumn) {
-            rightColumnSize = rightColumn.size.defaultSize
-          }
-          if (leftColumnSize === 'auto') {
-            leftColumnSize = 100 / columns.length
-          }
-          if (rightColumnSize === 'auto') {
-            rightColumnSize = 100 / columns.length
-          }
-          leftColumnSize = parseFloat(leftColumnSize) / 100
-          rightColumnSize = parseFloat(rightColumnSize) / 100
           elements.push(
             <ColumnResizer
               key={`columnResizer-${childElement.id}`}
               linkedElement={childElement.id}
               api={this.props.api}
-              leftColumnSize={leftColumnSize}
-              rightColumnSize={rightColumnSize}
             />
           )
         }
