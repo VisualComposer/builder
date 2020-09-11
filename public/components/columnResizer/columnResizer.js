@@ -94,7 +94,7 @@ export default class ColumnResizer extends React.Component {
       isLabelsActive: !this.state.isLabelsActive
     }
     if (e.type === 'mouseenter') {
-      const Event = new MouseEvent('mouseenter', {
+      const Event = new window.MouseEvent('mouseenter', {
         clientX: e.currentTarget.getBoundingClientRect().x
       })
       this.getRowData(Event)
@@ -486,7 +486,7 @@ export default class ColumnResizer extends React.Component {
 
     const columnResizerClasses = classNames({
       'vce-column-resizer': true,
-      'vcvhelper': true,
+      vcvhelper: true,
       'vce-column-resizer--active': this.state.isResizerActive
     })
 
