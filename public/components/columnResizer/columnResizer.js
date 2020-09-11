@@ -40,8 +40,8 @@ export default class ColumnResizer extends React.Component {
     super(props)
     this.state = {
       dragging: false,
-      leftColPercentage: this.props.leftColumnSize,
-      rightColPercentage: this.props.rightColumnSize,
+      leftColPercentage: null,
+      rightColPercentage: null,
       labelPosition: null,
       isVisible: true,
       isLabelsActive: false,
@@ -89,8 +89,20 @@ export default class ColumnResizer extends React.Component {
     }
   }
 
-  handleLabelState () {
-    this.setState({ isLabelsActive: !this.state.isLabelsActive })
+  handleLabelState (e) {
+    const newState = {
+      isLabelsActive: !this.state.isLabelsActive
+    }
+    if (e.type === 'mouseenter') {
+      const Event = new MouseEvent('mouseenter', {
+        clientX: e.currentTarget.getBoundingClientRect().x
+      })
+      this.getRowData(Event)
+      const colSizes = this.getResizedColumnsWidth(Event)
+      newState.leftColPercentage = colSizes.leftCol
+      newState.rightColPercentage = colSizes.rightCol
+    }
+    this.setState(newState)
   }
 
   handleResizerState () {
@@ -481,7 +493,7 @@ export default class ColumnResizer extends React.Component {
     return (
       <div className={columnResizerClasses} onMouseOver={this.handleResizerState} onMouseOut={this.handleResizerState}>
         <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref='resizerHandler'>
-          <div className={labelContainerClasses} {...labelProps} onMouseOver={this.handleLabelState} onMouseOut={this.handleLabelState}>
+          <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
             <div className='vce-column-resizer-label vce-column-resizer-label-left'>
               <span className='vce-column-resizer-label-percentage'>
                 {Math.round(this.state.leftColPercentage * 100) + '%'}
