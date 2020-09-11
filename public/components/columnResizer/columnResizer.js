@@ -44,11 +44,13 @@ export default class ColumnResizer extends React.Component {
       rightColPercentage: this.props.rightColumnSize,
       labelPosition: null,
       isVisible: true,
+      isLabelsActive: false,
       isResizerActive: false
     }
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
+    this.handleLabelState = this.handleLabelState.bind(this)
     this.handleResizerState = this.handleResizerState.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
   }
@@ -87,8 +89,17 @@ export default class ColumnResizer extends React.Component {
     }
   }
 
+  handleLabelState () {
+    this.setState({ isLabelsActive: !this.state.isLabelsActive })
+  }
+
   handleResizerState () {
-    this.setState({ isResizerActive: !this.state.isResizerActive })
+    if (!this.state.dragging) {
+      this.setState({
+        isResizerActive: !this.state.isResizerActive,
+        labelPosition: null
+      })
+    }
   }
 
   handleLayoutCustomModeChange (data) {
@@ -449,7 +460,7 @@ export default class ColumnResizer extends React.Component {
       return null
     }
 
-    const labelProps = {
+    const labelProps = this.state.labelPosition === null ? {} : {
       style: {
         top: `${this.state.labelPosition}px`,
         position: 'absolute'
@@ -458,13 +469,19 @@ export default class ColumnResizer extends React.Component {
 
     const labelContainerClasses = classNames({
       'vce-column-resizer-label-container': true,
-      'vce-column-resizer-label-container--active': this.state.isResizerActive
+      'vce-column-resizer-label-container--active': this.state.isLabelsActive
+    })
+
+    const columnResizerClasses = classNames({
+      'vce-column-resizer': true,
+      'vcvhelper': true,
+      'vce-column-resizer--active': this.state.isResizerActive
     })
 
     return (
-      <div className='vcvhelper vce-column-resizer'>
+      <div className={columnResizerClasses} onMouseOver={this.handleResizerState} onMouseOut={this.handleResizerState}>
         <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref='resizerHandler'>
-          <div className={labelContainerClasses} {...labelProps} onMouseOver={this.handleResizerState} onMouseOut={this.handleResizerState}>
+          <div className={labelContainerClasses} {...labelProps} onMouseOver={this.handleLabelState} onMouseOut={this.handleLabelState}>
             <div className='vce-column-resizer-label vce-column-resizer-label-left'>
               <span className='vce-column-resizer-label-percentage'>
                 {Math.round(this.state.leftColPercentage * 100) + '%'}
