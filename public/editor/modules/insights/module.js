@@ -464,5 +464,6 @@ add('insights', () => {
         runChecksCallback()
       }
     })
+    elementsStorage.on('elementsRenderDone', runChecksCallback)
   }
 })
