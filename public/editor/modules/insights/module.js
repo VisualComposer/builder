@@ -3,6 +3,7 @@ import { debounce, memoize } from 'lodash'
 
 const insightsStorage = getStorage('insights')
 const historyStorage = getStorage('history')
+const elementsStorage = getStorage('elements')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const cookService = getService('cook')
