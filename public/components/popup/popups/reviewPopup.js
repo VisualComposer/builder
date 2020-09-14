@@ -44,7 +44,7 @@ export default class ReviewPopup extends React.Component {
         popupName='reviewPopup'
         customButtonProps={customButtonProps}
       >
-        <p className='vcv-feedback-review-text'>{reviewText}</p>
+        <p className='vcv-layout-popup-text'>{reviewText}</p>
       </PopupInner>
     )
   }
