@@ -1,4 +1,4 @@
-.vcv-feedback {
+.vcv-layout-popup {
   position: fixed;
   display: flex;
   justify-content: flex-end;
@@ -10,60 +10,57 @@
   pointer-events: none;
   transform: translate(0, 100%);
   transition: opacity .5s @vcv-transition-timing-function,
-              transform .5s @vcv-transition-timing-function;
+  transform .5s @vcv-transition-timing-function;
 }
 
-.vcv-feedback-container {
-  margin: @vcv-feedback-margin;
+.vcv-layout-popup-container {
+  margin: 30px;
   max-width: 440px;
   pointer-events: all;
 }
 
-.vcv-feedback.vcv-feedback--visible {
-  transform: translate(0, 0%);
-  opacity: 1;
-}
-
-.vcv-feedback.vcv-feedback--visible.vcv-feedback--voted {
-  transform: translate(0, -100%);
-  opacity: 0;
-}
-
 .vcv-layout-dock--right {
-  .vcv-feedback-container {
-    margin-right: calc(@vcv-navbar-width + @vcv-feedback-margin);
+  .vcv-layout-popup-container {
+    margin-right: calc(@vcv-navbar-width + @vcv-popup-margin);
   }
 }
 
 .vcv-layout-dock--left {
-  .vcv-feedback-container {
-    margin-left: calc(@vcv-navbar-width + @vcv-feedback-margin);
+  .vcv-layout-popup-container {
+    margin-left: calc(@vcv-navbar-width + @vcv-popup-margin);
   }
 }
 
 .vcv-layout-dock--bottom {
-  .vcv-feedback-container {
-    margin-bottom: calc(@vcv-navbar-width + @vcv-feedback-margin);
+  .vcv-layout-popup-container {
+    margin-bottom: calc(@vcv-navbar-width + @vcv-popup-margin);
   }
 }
 
-.vcv-feedback-review,
-.vcv-feedback-vote {
-  position: relative;
-  background: @vcv-feedback-bg-color;
-  border-radius: 5px;
-  padding: @vcv-feedback-review-padding;
+.vcv-layout-popup.vcv-layout-popup--visible {
+  transform: translate(0, 0%);
+  opacity: 1;
 }
 
-.vcv-feedback-review-header,
-.vcv-feedback-vote-header {
+.vcv-layout-popup.vcv-layout-popup--visible.vcv-layout-popup--action-clicked {
+  transform: translate(0, -100%);
+  opacity: 0;
+}
+
+.vcv-layout-popup-inner {
+  position: relative;
+  background: @vcv-color-dark-sky;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.vcv-layout-popup-header {
   position: relative;
   margin: 0 0 16px;
   padding-right: 20px;
 }
 
-.vcv-feedback-review-heading,
-.vcv-feedback-vote-heading {
+.vcv-layout-popup-heading {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
@@ -73,17 +70,29 @@
   color: inherit;
 }
 
-.vcv-feedback-review-text {
-  margin: 0 0 17px;
-  font-size: 13px;
-  font-style: italic;
-  line-height: 24px;
-  letter-spacing: 1px;
+.vcv-layout-popup-close {
+  position: absolute;
+  margin-top: 1px;
+  top: -10px;
+  right: -10px;
+  padding: 10px;
+  background: transparent;
+  border: none;
   color: inherit;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    opacity: .5;
+  }
 }
 
-.vcv-feedback-review-btn,
-.vcv-feedback-vote-btn {
+.vcv-layout-popup-content {
+  margin-bottom: 16px;
+}
+
+.vcv-layout-popup-btn {
   display: inline-block;
   padding: 9px 27px;
   background: transparent;
@@ -96,31 +105,22 @@
   text-align: center;
   cursor: pointer;
   transition: background @vcv-transition-duration @vcv-transition-timing-function,
-              border-color @vcv-transition-duration @vcv-transition-timing-function;
+  border-color @vcv-transition-duration @vcv-transition-timing-function;
 
   &:hover {
     color: inherit;
-    background: @vcv-feedback-btn-hover-color;
-    border-color: @vcv-feedback-btn-hover-color;
+    background: @vcv-color-juicy-yellow;
+    border-color: @vcv-color-juicy-yellow;
   }
 }
 
-.vcv-feedback-review-close,
-.vcv-feedback-vote-close {
-  position: absolute;
-  top: calc(-@vcv-feedback-review-padding/2);
-  right: calc(-@vcv-feedback-review-padding/2);
-  padding: calc(@vcv-feedback-review-padding/2);
-  background: transparent;
-  border: none;
+.vcv-feedback-review-text {
+  margin: 0 0 17px;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 24px;
+  letter-spacing: 1px;
   color: inherit;
-  cursor: pointer;
-  opacity: 1;
-  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
-
-  &:hover {
-    opacity: .5;
-  }
 }
 
 .vcv-feedback-vote-control-wrapper {
