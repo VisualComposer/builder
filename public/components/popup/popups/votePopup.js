@@ -13,7 +13,7 @@ export default class VotePopup extends React.Component {
   }
 
   handlePrimaryButtonClick () {
-    const checkedInput = document.querySelector('input.vcv-feedback-vote-control:checked')
+    const checkedInput = document.querySelector('input.vcv-layout-popup-checkbox:checked')
     if (!checkedInput) {
       return
     }
@@ -55,21 +55,21 @@ export default class VotePopup extends React.Component {
         onPrimaryButtonClick={this.handlePrimaryButtonClick}
         popupName='votePopup'
       >
-        <div className='vcv-feedback-vote-control-wrapper'>
-          <input type='radio' id='vcv-feedback-vote-very-disappointed' className='vcv-feedback-vote-control' name='vcv-feedback' value='1' />
-          <label htmlFor='vcv-feedback-vote-very-disappointed' className='vcv-feedback-vote-control-label'>
+        <div className='vcv-layout-popup-checkbox-option-wrapper'>
+          <input type='radio' id='vcv-feedback-vote-very-disappointed' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='1' />
+          <label htmlFor='vcv-feedback-vote-very-disappointed' className='vcv-layout-popup-checkbox-label'>
             {veryDisappointed}
           </label>
         </div>
-        <div className='vcv-feedback-vote-control-wrapper'>
-          <input type='radio' id='vcv-feedback-vote-somewhat-disappointed' className='vcv-feedback-vote-control' name='vcv-feedback' value='2' />
-          <label htmlFor='vcv-feedback-vote-somewhat-disappointed' className='vcv-feedback-vote-control-label'>
+        <div className='vcv-layout-popup-checkbox-option-wrapper'>
+          <input type='radio' id='vcv-feedback-vote-somewhat-disappointed' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='2' />
+          <label htmlFor='vcv-feedback-vote-somewhat-disappointed' className='vcv-layout-popup-checkbox-label'>
             {somewhatDisappointed}
           </label>
         </div>
-        <div className='vcv-feedback-vote-control-wrapper'>
-          <input type='radio' id='vcv-feedback-vote-not-disappointed' className='vcv-feedback-vote-control' name='vcv-feedback' value='3' />
-          <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-feedback-vote-control-label'>
+        <div className='vcv-layout-popup-checkbox-option-wrapper'>
+          <input type='radio' id='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox' name='vcv-feedback' value='3' />
+          <label htmlFor='vcv-feedback-vote-not-disappointed' className='vcv-layout-popup-checkbox-label'>
             {disappointed}
           </label>
         </div>
