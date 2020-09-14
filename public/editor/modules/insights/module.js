@@ -465,6 +465,6 @@ add('insights', () => {
         runChecksCallback()
       }
     })
-    elementsStorage.on('elementsCssBuildDone', runChecksCallback)
+    elementsStorage.on('elementsRenderDone', runChecksCallback)
   }
 })
