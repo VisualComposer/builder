@@ -25,11 +25,13 @@ export default class ContentControls extends React.Component {
   componentDidMount () {
     this.container.current.closest('.vce-col').setAttribute('data-vcv-centered-control', true)
     this.container.current.closest('.vce-col-inner').setAttribute('data-vcv-centered-control', true)
+    this.container.current.closest('.vce-col-content').setAttribute('data-vcv-centered-control', true)
   }
 
   componentWillUnmount () {
     this.container.current.closest('.vce-col').removeAttribute('data-vcv-centered-control')
     this.container.current.closest('.vce-col-inner').removeAttribute('data-vcv-centered-control')
+    this.container.current.closest('.vce-col-content').removeAttribute('data-vcv-centered-control')
   }
 
   handleClick () {
