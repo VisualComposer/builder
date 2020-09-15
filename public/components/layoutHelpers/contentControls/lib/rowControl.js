@@ -50,14 +50,14 @@ export default class RowControl extends React.Component {
           } else if (containerRect.bottom > window.innerHeight && containerRect.top < window.innerHeight) {
             newState.top = `${((window.innerHeight - containerRect.top) / 2) - (iconRect.height / 2)}px`
           }
-          this.setState({iconPosition: newState })
+          this.setState({ iconPosition: newState })
         }
       }
     } else if (data.type === 'mouseLeave' && isHelperVisible) {
       if (Object.keys(this.state.iconPosition).length) {
         // CSS animation to hide the icon is 0.2s, thus needs a timeout to remove styles
         const timeout = setTimeout(() => {
-          this.setState({iconPosition: {} })
+          this.setState({ iconPosition: {} })
           clearTimeout(timeout)
         }, 200)
       }

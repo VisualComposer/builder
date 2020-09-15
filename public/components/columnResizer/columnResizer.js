@@ -114,7 +114,7 @@ export default class ColumnResizer extends React.Component {
           }
           this.setState({
             labelPosition: labelPosition,
-            isResizerActive: true,
+            isResizerActive: true
           })
         }
       }
