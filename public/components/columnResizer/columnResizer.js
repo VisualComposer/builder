@@ -6,6 +6,7 @@ import Layout from '../../sources/attributes/rowLayout/Component'
 
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
+const cook = vcCake.getService('cook')
 let previousLayoutCustomMode = false
 
 export default class ColumnResizer extends React.Component {
@@ -47,20 +48,24 @@ export default class ColumnResizer extends React.Component {
       isLabelsActive: false,
       isResizerActive: false
     }
+    this.resizer = React.createRef()
+    this.resizerControl = React.createRef()
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleLabelState = this.handleLabelState.bind(this)
-    this.handleResizerState = this.handleResizerState.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+    this.handleInteractWithContent = this.handleInteractWithContent.bind(this)
   }
 
   componentDidMount () {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    layoutStorage.state('interactWithContent').onChange(this.handleInteractWithContent)
   }
 
   componentWillUnmount () {
     vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    layoutStorage.state('interactWithContent').ignoreChange(this.handleInteractWithContent)
   }
 
   componentDidUpdate (props, state) {
@@ -89,6 +94,38 @@ export default class ColumnResizer extends React.Component {
     }
   }
 
+  handleInteractWithContent (data) {
+    const isHelperVisible = this.isElementInViewport(this.resizerControl.current)
+    const isResizer = data.event && data.event.target && data.event.target.closest('.vce-column-resizer')
+
+    if (data.type === 'mouseEnter' && !isHelperVisible && !this.state.dragging) {
+      const currentElement = cook.getById(data.vcElementId)
+      const currentElementTag = currentElement.get('tag')
+      if (currentElementTag === 'column' || currentElementTag === 'row') {
+        const closestRowId = currentElementTag === 'row' ? data.vcElementId : data.vcElementsPath[1]
+        if (this.resizer.current.closest(`#el-${closestRowId}`)) {
+          const resizerRect = this.resizer.current.getBoundingClientRect()
+          const controlRect = this.resizerControl.current.getBoundingClientRect()
+          let labelPosition
+          if (resizerRect.top < 0 && resizerRect.bottom > 0) {
+            labelPosition = resizerRect.height - (resizerRect.bottom / 2) - (controlRect.height / 2)
+          } else if (resizerRect.bottom > window.innerHeight && resizerRect.top < window.innerHeight) {
+            labelPosition = ((window.innerHeight - resizerRect.top) / 2) - (controlRect.height / 2)
+          }
+          this.setState({
+            labelPosition: labelPosition,
+            isResizerActive: true,
+          })
+        }
+      }
+    } else if (data.type === 'mouseLeave' && isHelperVisible && !isResizer && !this.state.dragging) {
+      this.setState({
+        labelPosition: null,
+        isResizerActive: false
+      })
+    }
+  }
+
   handleLabelState (e) {
     const newState = {
       isLabelsActive: !this.state.isLabelsActive
@@ -105,21 +142,23 @@ export default class ColumnResizer extends React.Component {
     this.setState(newState)
   }
 
-  handleResizerState () {
-    if (!this.state.dragging) {
-      this.setState({
-        isResizerActive: !this.state.isResizerActive,
-        labelPosition: null
-      })
-    }
-  }
-
   handleLayoutCustomModeChange (data) {
     if (data === 'contentEditable') {
       this.hide()
     } else {
       this.show()
     }
+  }
+
+  isElementInViewport (el) {
+    const rect = el.getBoundingClientRect()
+
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    )
   }
 
   getRowData (e) {
@@ -491,9 +530,9 @@ export default class ColumnResizer extends React.Component {
     })
 
     return (
-      <div className={columnResizerClasses} onMouseOver={this.handleResizerState} onMouseOut={this.handleResizerState}>
-        <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref='resizerHandler'>
-          <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
+      <div className={columnResizerClasses}>
+        <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref={this.resizer}>
+          <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState} ref={this.resizerControl}>
             <div className='vce-column-resizer-label vce-column-resizer-label-left'>
               <span className='vce-column-resizer-label-percentage'>
                 {Math.round(this.state.leftColPercentage * 100) + '%'}
