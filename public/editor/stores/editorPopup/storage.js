@@ -26,6 +26,10 @@ addStorage('editorPopup', (storage) => {
     reviewPopup: {
       visible: false,
       priority: 2
+    },
+    dataCollectionPopup: {
+      visible: window.VCV_SHOW_DATA_COLLECTION_POPUP && window.VCV_SHOW_DATA_COLLECTION_POPUP(),
+      priority: 3
     }
   }
 

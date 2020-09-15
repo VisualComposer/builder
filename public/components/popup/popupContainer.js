@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
 import ReviewPopup from './popups/reviewPopup'
+import DataCollectionPopup from './popups/dataCollectionPopup'
 
 const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
@@ -89,6 +90,8 @@ export default class PopupContainer extends React.Component {
       activePopupHtml = <VotePopup {...popupProps} />
     } else if (activePopup === 'reviewPopup') {
       activePopupHtml = <ReviewPopup {...popupProps} />
+    } else if (activePopup === 'dataCollectionPopup') {
+      activePopupHtml = <DataCollectionPopup {...popupProps} />
     }
 
     return (
