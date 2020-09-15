@@ -10,6 +10,7 @@ export default class VotePopup extends React.Component {
     super(props)
 
     this.handlePrimaryButtonClick = this.handlePrimaryButtonClick.bind(this)
+    this.handleCloseClick = this.handleCloseClick.bind(this)
   }
 
   handlePrimaryButtonClick () {
@@ -39,6 +40,15 @@ export default class VotePopup extends React.Component {
     this.props.onPrimaryButtonClick()
   }
 
+  handleCloseClick () {
+    // Do not show popup again
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'license:feedback:submit:adminNonce',
+      'vcv-feedback': 'skip'
+    })
+    this.props.onClose()
+  }
+
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const headingText = localizations ? localizations.feedbackVoteHeadingText : 'How disappointed would you be if this product no longer existed tomorrow?'
@@ -53,6 +63,7 @@ export default class VotePopup extends React.Component {
         headingText={headingText}
         buttonText={buttonText}
         onPrimaryButtonClick={this.handlePrimaryButtonClick}
+        onClose={this.handleCloseClick}
         popupName='votePopup'
       >
         <div className='vcv-layout-popup-checkbox-option-wrapper'>
