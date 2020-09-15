@@ -4,11 +4,12 @@ import PropTypes from 'prop-types'
 export default class PopupInner extends React.Component {
   static propTypes = {
     headingText: PropTypes.string.isRequired,
-    buttonText: PropTypes.string.isRequired,
+    buttonText: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onPrimaryButtonClick: PropTypes.func.isRequired,
     popupName: PropTypes.string.isRequired,
-    customButtonProps: PropTypes.object
+    customButtonProps: PropTypes.object,
+    customButtonTag: PropTypes.string
   }
 
   constructor (props) {
@@ -22,9 +23,11 @@ export default class PopupInner extends React.Component {
   }
 
   render () {
-    const { children, headingText, buttonText, onPrimaryButtonClick, customButtonProps } = this.props
+    const { children, headingText, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag } = this.props
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const closeButtonText = localizations ? localizations.close : 'Close'
+    const popupButtonText = buttonText || (localizations ? localizations.submit : 'Submit')
+    const ButtonTag = customButtonTag || 'a'
 
     return (
       <div className='vcv-layout-popup-inner'>
@@ -39,9 +42,9 @@ export default class PopupInner extends React.Component {
         <div className='vcv-layout-popup-content'>
           {children}
         </div>
-        <a className='vcv-layout-popup-btn' onClick={onPrimaryButtonClick} {...customButtonProps}>
-          {buttonText}
-        </a>
+        <ButtonTag className='vcv-layout-popup-btn' onClick={onPrimaryButtonClick} {...customButtonProps}>
+          {popupButtonText}
+        </ButtonTag>
       </div>
     )
   }
