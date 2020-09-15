@@ -1,8 +1,17 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { getStorage, getService } from 'vc-cake'
 import addElementIcon from 'public/sources/images/blankRowPlaceholderIcons/addElement.raw'
 
+const layoutStorage = getStorage('layout')
+const cook = getService('cook')
+
 export default class RowControl extends React.Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired
+  }
+
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
   constructor (props) {
@@ -10,9 +19,49 @@ export default class RowControl extends React.Component {
     this.state = {
       iconPosition: {}
     }
-    this.handleMouseMovement = this.handleMouseMovement.bind(this)
+    this.handleInteractWithContent = this.handleInteractWithContent.bind(this)
     this.icon = React.createRef()
     this.container = React.createRef()
+  }
+
+  componentDidMount () {
+    layoutStorage.state('interactWithContent').onChange(this.handleInteractWithContent)
+  }
+
+  componentWillUnmount () {
+    layoutStorage.state('interactWithContent').ignoreChange(this.handleInteractWithContent)
+  }
+
+  handleInteractWithContent (data) {
+    const isHelperVisible = this.isElementInViewport(this.icon.current)
+    if (data.type === 'mouseEnter' && !isHelperVisible) {
+      const currentElement = cook.getById(data.vcElementId)
+      const currentElementTag = currentElement.get('tag')
+      if (currentElementTag === 'column' || currentElementTag === 'row') {
+        const closestRowId = currentElementTag === 'row' ? data.vcElementId : data.vcElementsPath[1]
+        if (this.icon.current.closest(`#el-${closestRowId}`)) {
+          const newState = {
+            position: 'absolute'
+          }
+          const containerRect = this.container.current.getBoundingClientRect()
+          const iconRect = this.icon.current.getBoundingClientRect()
+          if (containerRect.top < 0 && containerRect.bottom > 0) {
+            newState.bottom = `${(containerRect.bottom / 2) - (iconRect.height / 2)}px`
+          } else if (containerRect.bottom > window.innerHeight && containerRect.top < window.innerHeight) {
+            newState.top = `${((window.innerHeight - containerRect.top) / 2) - (iconRect.height / 2)}px`
+          }
+          this.setState({iconPosition: newState })
+        }
+      }
+    } else if (data.type === 'mouseLeave' && isHelperVisible) {
+      if (Object.keys(this.state.iconPosition).length) {
+        // CSS animation to hide the icon is 0.2s, thus needs a timeout to remove styles
+        const timeout = setTimeout(() => {
+          this.setState({iconPosition: {} })
+          clearTimeout(timeout)
+        }, 200)
+      }
+    }
   }
 
   isElementInViewport (el) {
@@ -26,30 +75,6 @@ export default class RowControl extends React.Component {
     )
   }
 
-  handleMouseMovement (e) {
-    const isHelperVisible = this.isElementInViewport(this.icon.current)
-    if (e.type === 'mouseenter' && !isHelperVisible) {
-      const newState = {
-        position: 'absolute'
-      }
-      const iconPosition = this.icon.current.getBoundingClientRect().top
-      if (iconPosition < 0) {
-        newState.bottom = `${(this.container.current.getBoundingClientRect().bottom / 2) - (this.icon.current.getBoundingClientRect().height / 2)}px`
-      } else if (iconPosition > window.innerHeight) {
-        newState.top = `${((window.innerHeight - this.container.current.getBoundingClientRect().top) / 2) - (this.icon.current.getBoundingClientRect().height / 2)}px`
-      }
-      this.setState({iconPosition: newState })
-    } else {
-      if (Object.keys(this.state.iconPosition).length) {
-        // CSS animation to hide the icon is 0.2s, thus needs a timeout to remove styles
-        const timeout = setTimeout(() => {
-          this.setState({iconPosition: {} })
-          clearTimeout(timeout)
-        }, 200)
-      }
-    }
-  }
-
   render () {
     const svgClasses = classNames({
       'vcv-ui-blank-row-element-control-icon': true
@@ -58,8 +83,6 @@ export default class RowControl extends React.Component {
     return (
       <span
         className='vcv-ui-blank-row-element-control'
-        onMouseEnter={this.handleMouseMovement}
-        onMouseLeave={this.handleMouseMovement}
         ref={this.container}
       >
         <span
