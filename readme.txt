@@ -3,7 +3,7 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website builder, site-builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.4.2
+Tested up to: 5.5.1
 Stable tag: 30.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
