@@ -1128,6 +1128,26 @@ class Localizations extends Container implements Helper
                 'via WordPress Admin Menu management.',
                 'visualcomposer'
             ),
+            'dataCollectionHeadingText' => __(
+                'Help us make Visual Composer better',
+                'visualcomposer'
+            ),
+            'dataCollectionText' => __(
+                'Help us make improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                'visualcomposer'
+            ),
+            'readMoreText' => __(
+                'Read more',
+                'visualcomposer'
+            ),
+            'yesIWouldLikeToHelpText' => __(
+                'Yes, I would like to help',
+                'visualcomposer'
+            ),
+            'submit' => __(
+                'Submit',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
