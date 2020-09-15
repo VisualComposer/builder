@@ -60,7 +60,7 @@ export default class ContentControls extends React.Component {
         onClick={this.handleClick}
         ref={this.container}
       >
-        <RowControl />
+        <RowControl id={this.props.id} />
       </div>
     )
   }
