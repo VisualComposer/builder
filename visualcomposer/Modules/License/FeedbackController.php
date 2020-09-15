@@ -151,7 +151,6 @@ class FeedbackController extends Container implements Module
             // @codingStandardsIgnoreLine
             $foundPostsOk = (int)$vcvPosts->found_posts >= 3;
             $value = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
-            $value = true;
         }
         $variables[] = [
             'key' => 'VCV_SHOW_FEEDBACK_FORM',
