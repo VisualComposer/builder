@@ -61,7 +61,7 @@ class FeedbackController extends Container implements Module
         $optionsHelper->set('feedback-sent', time());
 
         $feedbackValue = (int)$requestHelper->input('vcv-feedback');
-        if($feedbackValue) {
+        if ($feedbackValue) {
             $licenseType = $licenseHelper->getType();
 
             $url = $urlHelper->query(
@@ -81,7 +81,6 @@ class FeedbackController extends Container implements Module
                 ]
             );
         }
-
 
         return ['status' => true];
     }
