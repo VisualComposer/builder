@@ -165,10 +165,17 @@ class Controller extends Container implements Module
         EditorTemplates $editorTemplatesHelper,
         CurrentUser $currentUserHelper
     ) {
+        $sourceId = $requestHelper->input('vcv-source-id');
         $id = $requestHelper->input('vcv-template-id');
         if ($currentUserHelper->wpAll(['edit_posts', $id])) {
             $template = $editorTemplatesHelper->read($id);
             if ($template) {
+                $optionsHelper = vchelper('Options');
+                $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
+                if ($isAllowed) {
+                    vcfilter('vcv:saveTemplateUsage', ['source-id' => $sourceId, 'template-id' => $id, 'template' => $template]);
+                }
+
                 return $template;
             }
         }

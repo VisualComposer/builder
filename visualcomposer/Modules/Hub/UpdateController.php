@@ -15,6 +15,7 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Url;
 
 /**
  * Class UpdateController
@@ -67,6 +68,7 @@ class UpdateController extends Container implements Module
      * @param \VisualComposer\Helpers\Hub\Update $hubUpdateHelper
      *
      * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return mixed
      * @throws \ReflectionException
@@ -76,10 +78,51 @@ class UpdateController extends Container implements Module
         $payload,
         Options $optionsHelper,
         Update $hubUpdateHelper,
-        License $licenseHelper
-    ) {
-        // Check for update in case if activated
+        License $licenseHelper,
+        Url $urlHelper
+    ) {     // Check for update in case if activated
         if (intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
+            $licenseKey = $optionsHelper->get('license-key');
+            $licenseType = $optionsHelper->get('license-type');
+            $updatedPostsList = $optionsHelper->get('updated-posts-list');
+            if ($updatedPostsList && is_array($updatedPostsList)) {
+                $usageStats = [];
+                $teaserDownloads = $optionsHelper->get('downloaded-content');
+                foreach ($updatedPostsList as $postId) {
+                    $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editor-usage', true);
+                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'element-counts', true);
+                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'template-counts', true);
+
+                    $usageStats[$postId] = array(
+                        'source-id' => $postId,
+                        'license-type' => $licenseType,
+                        'editor-usage' => unserialize($editorUsage),
+                        'element-usage' => unserialize($elementUsage),
+                        'template-usage' => unserialize($templateUsage),
+                    );
+                }
+
+                $usageStats['downloaded-content'] = unserialize($teaserDownloads);
+
+                $url = $urlHelper->query(
+                    vcvenv('VCV_HUB_URL'),
+                    [
+                        'vcv-send-usage-statistics' => 'sendUsageStatistics',
+                        'vcv-license-key' => $licenseKey,
+                        'vcv-statistics' => $usageStats,
+                    ]
+                );
+
+                wp_remote_get(
+                    $url,
+                    [
+                        'timeout' => 30,
+                    ]
+                );
+                $optionsHelper->set('last-sent-date', time());
+                $optionsHelper->delete('updated-posts-list');
+            }
+
             $result = $hubUpdateHelper->checkVersion($payload);
             if (!vcIsBadResponse($result)) {
                 $optionsHelper->setTransient('lastBundleUpdate', time() + DAY_IN_SECONDS);
