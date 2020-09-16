@@ -49,6 +49,12 @@ window.vcv.on('ready', function (action, id, options) {
       handler: function (a, b, c, d, e) {
         element.setAttribute('data-vcv-o-animated', 'true')
         waypointObj.destroy()
+
+        const duration = parseFloat(window.getComputedStyle(element)[ 'animationDuration' ]) * 1000
+        const delay = parseFloat(window.getComputedStyle(element)[ 'animationDelay' ]) * 1000
+        window.setTimeout(() => {
+          element.setAttribute('data-vcv-o-animated-fully', 'true')
+        }, delay + duration + 5)
       },
       offset: '90%'
     })
