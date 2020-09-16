@@ -12,6 +12,7 @@ const processRequest = (action, key, data, successCallback, errorCallback) => {
   return ajax({
     'vcv-action': `editorTemplates:${action}:adminNonce`,
     'vcv-nonce': window.vcvNonce,
+    'vcv-source-id': window.vcvSourceID,
     [key]: data
   }, (result) => {
     const response = getResponse(result.response)

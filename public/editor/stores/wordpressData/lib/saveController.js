@@ -11,6 +11,7 @@ const settingsStorage = vcCake.getStorage('settings')
 const cook = vcCake.getService('cook')
 const renderProcessor = vcCake.getService('renderProcessor')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const documentManager = vcCake.getService('document')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -145,6 +146,31 @@ export default class SaveController {
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
       }
+      const elementTeaser = window.VCV_HUB_GET_TEASER()
+      const allElements = elementTeaser[0].elements
+      const elements = documentManager.all()
+      const elementCounts = {}
+      Object.keys(elements).forEach(key => {
+        const tag = elements[key].tag
+        if (Object.prototype.hasOwnProperty.call(elementCounts, tag)) {
+          elementCounts[tag].count += 1
+        } else {
+          const result = allElements.filter(element => element.tag === tag)[0]
+          if (result) {
+            const elementType = result.bundleType.includes('free') ? 'free' : 'premium'
+            elementCounts[tag] = { name: tag, count: 1, type: elementType, action: 'added' }
+          }
+        }
+      })
+      requestData['vcv-element-counts'] = JSON.stringify(elementCounts)
+
+      let licenseType
+      if (!window.vcvIsAnyActivated) {
+        licenseType = 'none'
+      } else {
+        licenseType = window.vcvIsPremiumActivated ? 'premium' : 'free'
+      }
+      requestData['vcv-license-type'] = licenseType
       const pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {
         if (pageTemplateData.stretchedContent) {

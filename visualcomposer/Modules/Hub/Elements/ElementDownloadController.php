@@ -52,24 +52,39 @@ class ElementDownloadController extends Container implements Module
                         $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response, [], true);
                     }
                 }
-                if ($response && isset($response['elements'])) {
-                    $response['variables'] = [];
-                    foreach ($response['elements'] as &$element) {
-                        // Try to initialize PHP in element via autoloader
-                        vcevent('vcv:hub:elements:autoload', ['element' => $element]);
-                        $response['variables'] = vcfilter(
-                            'vcv:editor:variables/' . $element['tag'],
-                            $response['variables']
-                        );
-                        unset($element['elementRealPath']);
-                    }
-                }
+                $this->call('initializePhpElement', [$response, $payload['sourceId']]);
             } else {
                 return false;
             }
         }
 
         return $response;
+    }
+
+    protected function initializePhpElement($response, $sourceId)
+    {
+        $optionsHelper = vchelper('Options');
+        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
+        if ($response && isset($response['elements'])) {
+            $response['variables'] = [];
+            foreach ($response['elements'] as &$element) {
+                // Try to initialize PHP in element via autoloader
+                if ($isAllowed) {
+                    vcfilter('vcv:saveTeaserDownload', ['source-id' => $sourceId, 'element' => $element]);
+                }
+                vcevent('vcv:hub:elements:autoload', ['element' => $element]);
+                $response['variables'] = vcfilter(
+                    'vcv:editor:variables/' . $element['tag'],
+                    $response['variables']
+                );
+                unset($element['elementRealPath']);
+            }
+        }
+        if ($response && isset($response['templates']) && $isAllowed) {
+            foreach ($response['templates'] as &$template) {
+                vcfilter('vcv:saveTeaserDownload', ['source-id' => $sourceId, 'template' => $template]);
+            }
+        }
     }
 
     /**
