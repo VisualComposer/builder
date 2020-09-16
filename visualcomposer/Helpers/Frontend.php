@@ -134,7 +134,6 @@ class Frontend implements Helper
         if (function_exists('do_blocks')) {
             $sourceContent = do_blocks($sourceContent);
         }
-        $sourceContent = wpautop($sourceContent);
         $sourceContent = shortcode_unautop($sourceContent);
         $sourceContent = prepend_attachment($sourceContent);
         if (function_exists('wp_filter_content_tags')) {
