@@ -291,7 +291,9 @@ export default class ColumnResizer extends React.Component {
     this.setState({ dragging: false })
     this.removeWrapBlockers()
     this.rebuildRowLayout()
-    this.removeTemporaryColStyles()
+    setTimeout(() => {
+      this.removeTemporaryColStyles()
+    }, 100)
     layoutStorage.state('resizeColumns').set(false)
   }
 
