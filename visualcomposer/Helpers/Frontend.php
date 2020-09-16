@@ -130,11 +130,14 @@ class Frontend implements Helper
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
         $sourceContent = get_the_content('', '', $sourceId);
+        if (strpos($sourceContent, '<!--vcv no format-->') === false) {
+            // Call wpautop for non VCWB sourceId
+            $sourceContent = wpautop($sourceContent);
+        }
         // Call the_content filter callbacks separately
         if (function_exists('do_blocks')) {
             $sourceContent = do_blocks($sourceContent);
         }
-        $sourceContent = wpautop($sourceContent);
         $sourceContent = shortcode_unautop($sourceContent);
         $sourceContent = prepend_attachment($sourceContent);
         if (function_exists('wp_filter_content_tags')) {
