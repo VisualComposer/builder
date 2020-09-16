@@ -4,7 +4,7 @@ Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.5.1
-Stable tag: 30.0
+Stable tag: 30.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,7 +48,7 @@ Discover what's inside the [Visual Composer Hub](https://visualcomposer.com/feat
 * **Add-ons**: Extensions allow you to enhance your Visual Composer experience with advanced add-ons. Global Templates, Import/Export, Gutenberg Block template, **[Popup Builder](https://visualcomposer.com/features/popup-builder/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)** and others.
 
 
-* **[Free Stock Images](https://visualcomposer.com/blog/unsplash-in-wordpress/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)**: Get free Unsplash stock photos straight from the Visual Composer editor. The stock images can be used for both personal and commercial projects.
+* **Integrations**: Stock images from **[Unsplash](https://visualcomposer.com/blog/unsplash-in-wordpress/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)** and GIFs from **GIPHY** are available straight from the Visual Composer editor. The graphics can be used for both personal and commercial projects.
 
 
 * **Endless [Design Options](https://visualcomposer.com/features/design-options/?utm_source=wordpress.org&utm_medium=link&utm_campaign=readme)**: Website builder includes powerful design options that allow beginners and experts to create unique page designs. Make custom background effects, take advantage of modern parallax background, control paddings, margins, borders, and radius of any element.
@@ -193,6 +193,14 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 30.1 =
+*Release Date - 2020-09-16*
+#### Free:
+- Fix: Animation Delay works properly
+
+#### Premium:
+- Fix: Prevent empty <code><p></p></code> tag adding in header and footer layouts
 
 = 30.0 =
 *Release Date - 2020-09-15*
