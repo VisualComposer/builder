@@ -196,6 +196,9 @@ Yes, we have an awesome online community that you can join to share your experti
 
 = 30.1 =
 *Release Date - 2020-09-16*
+#### Free:
+- Fix: Animation Delay works properly
+
 #### Premium:
 - Fix: Prevent empty <code><p></p></code> tag adding in header and footer layouts
 
