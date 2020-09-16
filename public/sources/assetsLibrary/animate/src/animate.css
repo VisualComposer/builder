@@ -4,8 +4,12 @@
 
 [data-vcv-o-animated="true"] {
   animation-duration: 0.7s;
-  animation-fill-mode: initial;
+  animation-fill-mode: both;
   visibility: visible;
+}
+
+[data-vcv-o-animated-fully="true"] {
+  animation-fill-mode: initial;
 }
 
 [data-vcv-o-animated="true"][data-vce-animate="vce-o-animate--infinite"] {
