@@ -61,24 +61,26 @@ class FeedbackController extends Container implements Module
         $optionsHelper->set('feedback-sent', time());
 
         $feedbackValue = (int)$requestHelper->input('vcv-feedback');
-        $licenseType = $licenseHelper->getType();
+        if ($feedbackValue) {
+            $licenseType = $licenseHelper->getType();
 
-        $url = $urlHelper->query(
-            vcvenv('VCV_HUB_URL'),
-            [
-                'vcv-send-feedback' => 'sendFeedback',
-                'vcv-value' => $feedbackValue,
-                'vcv-version' => VCV_VERSION,
-                'vcv-license-type' => $licenseType,
-            ]
-        );
+            $url = $urlHelper->query(
+                vcvenv('VCV_HUB_URL'),
+                [
+                    'vcv-send-feedback' => 'sendFeedback',
+                    'vcv-value' => $feedbackValue,
+                    'vcv-version' => VCV_VERSION,
+                    'vcv-license-type' => $licenseType,
+                ]
+            );
 
-        wp_remote_get(
-            $url,
-            [
-                'timeout' => 30,
-            ]
-        );
+            wp_remote_get(
+                $url,
+                [
+                    'timeout' => 30,
+                ]
+            );
+        }
 
         return ['status' => true];
     }

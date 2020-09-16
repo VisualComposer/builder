@@ -548,7 +548,7 @@ Cypress.Commands.add('replaceElement', (settings) => {
  */
 Cypress.Commands.add('createWpPost', (settings, callback) => {
   cy.visit('/wp-admin/post-new.php')
-
+  cy.wait(1000)
   cy.window().then(async (window) => {
     await window.wp.data.dispatch("core/editor").editPost({ title: settings.postTitle })
     await window.wp.data.dispatch("core/editor").editPost({ content: settings.postContent })

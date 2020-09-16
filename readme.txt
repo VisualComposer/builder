@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website builder, site-builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.4.2
-Stable tag: 29.0
+Tested up to: 5.5.1
+Stable tag: 30.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -193,6 +193,49 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 30.0 =
+*Release Date - 2020-09-15*
+
+#### Free:
+- Update: Row layout input is simplified for better UX
+- Fix: All element presets are displayed in the Add Element window
+- Fix: Sassy Social Plugin works properly with Visual Composer
+- Fix: Custom responsiveness values can be added properly
+- Fix: Toggle attributes have different IDs to avoid conflicts
+- Fix: Custom JavaScript is rendered properly
+- Fix: Default font option in TinyMCE fonts dropdown works properly
+- Fix: Submenu works without glitches in the Visual Composer Dashboard
+- Fix: Templates with advanced row layout renders properly
+- Fix: Visual Composer Insights updated properly
+- Fix: Media Library works properly in the editor
+- Fix: Image placeholders are displayed properly
+
+#### Premium:
+- New: Giphy compatibility is introduced in the Visual Composer Hub to download gif animations right in the editor
+- New: Giphy tab is introduced in Media Library for gif elements
+- New: Giphy element is added to the Visual Composer Hub to insert gif animations
+- New: Gif Animation element is added to the Visual Composer Hub to insert gif animations
+- New: Mono Social Icons element added to the Visual Composer Hub
+- New: Post Grid With Hover Button element is added to the Visual Composer Hub
+- New: Double Title element is added to the Visual Composer Hub
+- Update: Accordion elements can be closed by clicking on the titles
+- Fix: Video element is not muted on Safari
+- Fix: Schema has been removed from all post grid elements
+- Fix: Dynamic Content works properly with the page scope
+- Fix: Close popup option in the Link Selector can be used on all pages
+- Fix: Popups work on pages not created in Visual Composer
+- Fix: Z-index works properly in headers
+- Fix: Global footer HTML works properly in the Preview mode
+- Fix: Header and Footer settings work properly with WPML
+- Fix: Popup works properly with inner elements triggering it
+- Fix: Popup Builder works properly after refreshing the page
+- Fix: Pages with enabled popup scroll properly
+- Fix: Gutenberg element works properly with the latest WordPress installed
+- Fix: Simple Contact Form elements' Submit button does not trigger Oops screen
+- Fix: EventOn elements' category filter works properly
+- Fix: All popup templates are displayed in the popup dropdown
+- Fix: the_content filter works properly with Header, Footer, Sidebar editors
 
 = 29.0 =
 *Release Date - 2020-07-23*
