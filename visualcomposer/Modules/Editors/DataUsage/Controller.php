@@ -27,6 +27,12 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::updateInitialUsage */
         $this->addFilter('vcv:editors:frontend:render', 'updateInitialUsage', 1);
+        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageDataAction */
+        $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'sendUsageDataAction');
+        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
+        $this->wpAddAction('admin_menu', 'sendUsageData', 9);
+        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
+        $this->addFilter('vcv:editors:frontend:render', 'sendUsageData', -1);
         $this->addFilter('vcv:editor:variables', 'addDataCollectionVariables');
         $this->addFilter('vcv:ajax:dataCollection:submit:adminNonce', 'submitDataCollection');
         $this->addFilter('vcv:saveUsageStats', 'saveUsageStats', 10);
@@ -61,6 +67,61 @@ class Controller extends Container implements Module
         return false;
     }
 
+    protected function sendUsageDataAction()
+    {
+        return $this->call('sendUsageData');
+    }
+
+    protected function sendUsageData()
+    {
+        $urlHelper = vchelper('Url');
+        $optionsHelper = vchelper('Options');
+        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
+        // Send usage data once in a day
+        if ($isAllowed && intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
+            $licenseKey = $optionsHelper->get('license-key');
+            $licenseType = $optionsHelper->get('license-type');
+            $updatedPostsList = $optionsHelper->get('updated-posts-list');
+            if ($updatedPostsList && is_array($updatedPostsList)) {
+                $usageStats = [];
+                $teaserDownloads = $optionsHelper->get('downloaded-content');
+                foreach ($updatedPostsList as $postId) {
+                    $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editor-usage', true);
+                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'element-counts', true);
+                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'template-counts', true);
+
+                    $usageStats[$postId] = array(
+                        'source-id' => $postId,
+                        'license-type' => $licenseType,
+                        'editor-usage' => unserialize($editorUsage),
+                        'element-usage' => unserialize($elementUsage),
+                        'template-usage' => unserialize($templateUsage),
+                    );
+                }
+
+                $usageStats['downloaded-content'] = unserialize($teaserDownloads);
+
+                $url = $urlHelper->query(
+                    vcvenv('VCV_HUB_URL'),
+                    [
+                        'vcv-send-usage-statistics' => 'sendUsageStatistics',
+                        'vcv-license-key' => $licenseKey,
+                        'vcv-statistics' => $usageStats,
+                    ]
+                );
+
+                wp_remote_get(
+                    $url,
+                    [
+                        'timeout' => 30,
+                    ]
+                );
+                $optionsHelper->set('last-sent-date', time());
+                $optionsHelper->delete('updated-posts-list');
+            }
+        }
+    }
+
     /**
      * @param $variables
      * @param $payload
@@ -71,7 +132,10 @@ class Controller extends Container implements Module
     {
         if (isset($payload['sourceId'])) {
             $optionsHelper = vchelper('Options');
-            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled');
+            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', null);
+            if (isset($isEnabled)) {
+                $isEnabled = true;
+            }
             // Have at least 10 initial usages
             $initialUsages = (int)$optionsHelper->get('initial-editor-usage');
             // @codingStandardsIgnoreLine
@@ -106,7 +170,8 @@ class Controller extends Container implements Module
         Request $requestHelper,
         Options $optionsHelper
     ) {
-        $isChecked = (bool)$requestHelper->input('vcv-dataCollection');
+        $isChecked = $requestHelper->input('vcv-dataCollection');
+        $isChecked = filter_var($isChecked, FILTER_VALIDATE_BOOLEAN);
         $value = $isChecked ? 'itemDataCollectionEnabled' : '';
 
         $optionsHelper->set('settings-itemdatacollection-enabled', $value);
