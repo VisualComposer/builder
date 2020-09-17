@@ -82,6 +82,11 @@ class Controller extends Container implements Module
                 'value' => $dataCollectionPopupOk,
                 'type' => 'constant',
             ];
+            $variables[] = [
+                'key' => 'VCV_DATA_COLLECTION_ENABLED',
+                'value' => $isEnabled,
+                'type' => 'constant',
+            ];
         }
 
         return $variables;
@@ -191,6 +196,7 @@ class Controller extends Container implements Module
             $templateCounts = [];
         }
         $templateCounts[$id] = [
+            'page-id' => $sourceId,
             'name' => $template['allData']['pageTitle']['current'],
             'license' => $licenseType,
             'action' => 'added',
@@ -239,6 +245,9 @@ class Controller extends Container implements Module
     protected function saveTeaserDownload($data)
     {
         $sourceId = $data['source-id'];
+        if (!$sourceId) {
+            $sourceId = 'dashboard';
+        }
         $teaser = isset($data['template']) ? $data['template'] : $data['element'];
         $optionsHelper = vchelper('Options');
         $licenseType = $optionsHelper->get('license-type');
@@ -279,7 +288,7 @@ class Controller extends Container implements Module
                 'license' => $licenseType,
                 'action' => 'downloaded',
                 'date' => date('Y-m-d H:i:s', time()),
-                'type' => $teaser['type'],
+                'type' => $teaser['type'] === 'hub' ? 'premium' : 'free',
             ];
         } else {
             $downloadedContent['element-usage'][$teaserId] = [
