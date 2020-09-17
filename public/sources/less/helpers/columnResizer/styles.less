@@ -49,8 +49,6 @@
 .vce-column-resizer-label-container {
   position: relative;
   height: 29px;
-  opacity: 0.8;
-  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
 
   &::before {
     z-index: 99999;
@@ -65,10 +63,10 @@
   }
 
   &.vce-column-resizer-label-container--active {
-    opacity: 1;
     .vce-column-resizer-label {
       width: 45px;
       opacity: 1;
+      background: @color-base;
     }
 
     .vce-column-resizer-label-percentage {
@@ -93,7 +91,9 @@
   direction: ltr;
   z-index: 9999;
   background: @color-base;
-  transition: width @vcv-transition-duration @vcv-transition-timing-function;
+  background: rgba(0, 0, 0, 0.3);
+  transition: width @vcv-transition-duration @vcv-transition-timing-function,
+  background @vcv-transition-duration @vcv-transition-timing-function;
 
   &.vce-column-resizer-label-left {
     right: 0;
