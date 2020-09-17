@@ -146,6 +146,17 @@ export default class SaveController {
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
       }
+
+      const today = new Date()
+      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+      const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
+      const dateTime = date + ' ' + time
+      let licenseType
+      if (!window.vcvIsAnyActivated) {
+        licenseType = 'none'
+      } else {
+        licenseType = window.vcvIsPremiumActivated ? 'premium' : 'free'
+      }
       const elementTeaser = window.VCV_HUB_GET_TEASER()
       const allElements = elementTeaser[0].elements
       const elements = documentManager.all()
@@ -158,19 +169,13 @@ export default class SaveController {
           const result = allElements.filter(element => element.tag === tag)[0]
           if (result) {
             const elementType = result.bundleType.includes('free') ? 'free' : 'premium'
-            elementCounts[tag] = { name: tag, count: 1, type: elementType, action: 'added' }
+            elementCounts[tag] = { name: tag, count: 1, type: elementType, action: 'added', license: licenseType, date: dateTime }
           }
         }
       })
       requestData['vcv-element-counts'] = JSON.stringify(elementCounts)
-
-      let licenseType
-      if (!window.vcvIsAnyActivated) {
-        licenseType = 'none'
-      } else {
-        licenseType = window.vcvIsPremiumActivated ? 'premium' : 'free'
-      }
       requestData['vcv-license-type'] = licenseType
+
       const pageTemplateData = settingsStorage.state('pageTemplate').get()
       if (pageTemplateData) {
         if (pageTemplateData.stretchedContent) {
