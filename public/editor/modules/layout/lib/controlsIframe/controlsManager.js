@@ -162,7 +162,6 @@ export default class ControlsManager {
         // unset prev element
         if (this.state.prevElement) {
           layoutStorage.state('interactWithContent').set({
-            event: e,
             type: 'mouseLeave',
             element: this.state.prevElement,
             vcElementId: this.state.prevElement.dataset.vcvElement,
@@ -175,7 +174,6 @@ export default class ControlsManager {
         // set new element
         if (element) {
           layoutStorage.state('interactWithContent').set({
-            event: e,
             type: 'mouseEnter',
             element: element,
             vcElementId: element.dataset.vcvElement,
@@ -185,7 +183,6 @@ export default class ControlsManager {
             })
           })
           layoutStorage.state('interactWithContent').set({
-            event: e,
             type: 'mouseDown',
             element: element,
             vcElementId: element.dataset.vcvElement,
