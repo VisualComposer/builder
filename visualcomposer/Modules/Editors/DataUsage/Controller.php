@@ -192,7 +192,7 @@ class Controller extends Container implements Module
         }
         $templateCounts[$id] = [
             'name' => $template['allData']['pageTitle']['current'],
-            'license-type' => $licenseType,
+            'license' => $licenseType,
             'action' => 'added',
             'date' => date('Y-m-d H:i:s', time()),
             'type' => $templateType,
@@ -249,6 +249,29 @@ class Controller extends Container implements Module
 
         $teaserId = isset($teaser['id']) ? $teaser['id'] : $teaser['key'];
 
+        if (isset($data['element'])) {
+            $elementData = array_values(
+                (array)$optionsHelper->get(
+                    'hubTeaserElements',
+                    [
+                        'All Elements' => [
+                            'id' => 'AllElements0',
+                            'index' => 0,
+                            'title' => 'All Elements',
+                            'elements' => [],
+                        ],
+                    ]
+                )
+            );
+            $allElements = $elementData[0]['elements'];
+
+            foreach ($allElements as $value) {
+                if ($value['tag'] === $teaser['tag']) {
+                    $teaser['type'] = in_array('free', $value['bundleType']) ? 'free' : 'premium';
+                }
+            }
+        }
+
         if (isset($data['template'])) {
             $downloadedContent['template-usage'][$teaserId] = [
                 'page-id' => $sourceId,
@@ -261,7 +284,7 @@ class Controller extends Container implements Module
         } else {
             $downloadedContent['element-usage'][$teaserId] = [
                 'page-id' => $sourceId,
-                'name' => $teaser['name'],
+                'name' => isset($teaser['name']) ? $teaser['name'] : $teaser['tag'],
                 'license' => $licenseType,
                 'action' => 'downloaded',
                 'date' => date('Y-m-d H:i:s', time()),
