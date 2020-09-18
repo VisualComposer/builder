@@ -32,6 +32,12 @@ addStorage('shortcodeAssets', (storage) => {
           tmpScript = null
           scriptsLoader.loadNext(assetsWindow, finishCb)
         }
+        tmpScript.onerror = function () {
+          console.warn('Error loading script', tmpSrc[0].src)
+          tmpScript.parentNode && tmpScript.parentNode.removeChild(tmpScript)
+          tmpScript = null
+          scriptsLoader.loadNext(assetsWindow, finishCb)
+        }
 
         tmpSrc[0].ref.insertBefore(tmpScript, tmpSrc[0].ref.firstChild)
       } else {
