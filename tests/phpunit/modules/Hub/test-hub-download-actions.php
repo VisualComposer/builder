@@ -95,6 +95,8 @@ class HubDownloadActions extends WP_UnitTestCase
                 'phpFiles' => [
                     '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php',
+                    '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
+                    . '/addons/pluginVersionCheck/pluginVersionCheck/EnqueueController.php',
                 ],
                 'addonRealPath' => '/var/www/html/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/addons/pluginVersionCheck/pluginVersionCheck/',

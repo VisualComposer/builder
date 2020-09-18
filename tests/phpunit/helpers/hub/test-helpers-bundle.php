@@ -190,6 +190,7 @@ class BundleHelperTest extends WP_UnitTestCase
                         ],
                         'phpFiles' => [
                             0 => 'SettingsController.php',
+                            1 => 'EnqueueController.php'
                         ],
                     ],
                 ],
