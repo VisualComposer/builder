@@ -18,15 +18,22 @@ addStorage('shortcodeAssets', (storage) => {
 
   const scriptsLoader = {
     src: [],
-    add: (src) => {
-      scriptsLoader.src.push(src)
+    add: (src, ref) => {
+      scriptsLoader.src.push({ src: src, ref: ref })
     },
     loadNext: (assetsWindow, finishCb) => {
       if (scriptsLoader.src.length) {
         const tmpSrc = scriptsLoader.src.splice(0, 1)
-        assetsWindow.jQuery.getScript(tmpSrc).always(() => {
+        let tmpScript = document.createElement('script')
+        tmpScript.async = true
+        tmpScript.src = tmpSrc[0].src
+        tmpScript.onload = tmpScript.onreadystatechange = function () {
+          tmpScript.parentNode && tmpScript.parentNode.removeChild(tmpScript)
+          tmpScript = null
           scriptsLoader.loadNext(assetsWindow, finishCb)
-        })
+        }
+
+        tmpSrc[0].ref.insertBefore(tmpScript, tmpSrc[0].ref.firstChild)
       } else {
         finishCb && finishCb()
       }
@@ -77,7 +84,7 @@ addStorage('shortcodeAssets', (storage) => {
             try {
               if (domNode.tagName === 'SCRIPT') {
                 if (domNode.src) {
-                  scriptsLoader.add(domNode.src)
+                  scriptsLoader.add(domNode.src, data.ref)
                 } else {
                   data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
                 }
