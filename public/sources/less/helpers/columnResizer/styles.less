@@ -1,8 +1,13 @@
+.vcv-state--show-resizer .vce-column-resizer,
+.vce-column-resizer.vce-column-resizer--active {
+  display: block;
+}
+
 .vce-column-resizer {
   position: relative;
   width: 0;
   align-self: stretch;
-  display: block;
+  display: none;
 }
 
 .vce-column-resizer-handler {
@@ -11,10 +16,13 @@
   top: 0;
   bottom: 0;
   z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: col-resize;
 
   &:before {
-    display: none;
+    display: block;
     content: "";
     position: absolute;
     border-right: @resizer-handler-width dashed @resizer-handler-color;
@@ -22,10 +30,6 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-  }
-
-  &:hover::before {
-    display: block;
   }
 }
 
@@ -43,41 +47,69 @@
 }
 
 .vce-column-resizer-label-container {
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
+  height: 29px;
+
+  &::before {
+    z-index: 99999;
+    content: '';
+    position: absolute;
+    width: @vcv-resizer-dot-size;
+    height: @vcv-resizer-dot-size;
+    background: @vcv-color-white;
+    border-radius: 50%;
+    transform: translate(-50%, 13px);
+    box-shadow: 0 5px @vcv-color-white, 0 -5px @vcv-color-white;
+  }
+
+  &.vce-column-resizer-label-container--active {
+    .vce-column-resizer-label {
+      width: 45px;
+      opacity: 1;
+      background: @color-base;
+    }
+
+    .vce-column-resizer-label-percentage {
+      opacity: 1;
+    }
+  }
 }
 
 .vce-column-resizer-label {
-  color: #fff;
+  position: absolute;
+  top: 0;
+  width: 7px;
+  height: 100%;
+  color: @vcv-color-white;
   font-size: 12px;
   font-family: 'Nunito Sans', sans-serif;
   font-weight: bold;
-  position: relative;
-  margin-top: -12px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
   direction: ltr;
   z-index: 9999;
+  background: @color-base;
+  background: rgba(0, 0, 0, 0.3);
+  transition: width @vcv-transition-duration @vcv-transition-timing-function,
+  background @vcv-transition-duration @vcv-transition-timing-function;
 
   &.vce-column-resizer-label-left {
-    float: left;
-    margin-left: -55px;
+    right: 0;
+    border-radius: 7.5px 0 0 7.5px;
   }
 
   &.vce-column-resizer-label-right {
-    float: right;
-    margin-right: -55px;
+    left: 0;
+    border-radius: 0 7.5px 7.5px 0;
   }
 }
 
-.vce-column-resizer-label-background {
-  height: 23px;
-  line-height: 23px;
-  background: rgba(40, 40, 40, .5);
-  text-align: center;
-  min-width: 34px;
-  padding: 0 2px;
+.vce-column-resizer-label-percentage {
+  line-height: 0;
+  opacity: 0;
+  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
 }
 
 .vce-column-wrap-blocker {

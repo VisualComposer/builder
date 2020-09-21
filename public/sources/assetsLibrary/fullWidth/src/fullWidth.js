@@ -37,7 +37,15 @@
       const elMarginRight = parseInt(window.getComputedStyle(element, null)['margin-right'], 10)
       let offset, width
 
-      if (!element.closest('[data-vce-element-content]') && (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor) || element.closest(headerFooterLayout) || element.closest(blankLayout))) {
+      if (element.closest(headerFooterLayout) || element.closest(blankLayout)) {
+        if (!element.getAttribute('data-vce-stretch-content') && !element.getAttribute('data-vce-section-stretch-content')) { // Fix BC for row paddings
+          elementContent.style['padding-left'] = ''
+          elementContent.style['padding-right'] = ''
+        }
+        return
+      }
+
+      if (!element.closest('[data-vce-element-content]') && (element.closest(headerZone) || element.closest(footerZone) || element.closest(headerFooterEditor))) {
         return
       }
 

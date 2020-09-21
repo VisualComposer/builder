@@ -57,7 +57,11 @@ export default class Element extends React.Component {
       if (childElement.tag === 'column') {
         if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || window.vcvManageOptions || !this.state.element.metaIsElementLocked) {
           elements.push(
-            <ColumnResizer key={`columnResizer-${childElement.id}`} linkedElement={childElement.id} api={this.props.api} />
+            <ColumnResizer
+              key={`columnResizer-${childElement.id}`}
+              linkedElement={childElement.id}
+              api={this.props.api}
+            />
           )
         }
       }

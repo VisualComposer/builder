@@ -23,11 +23,13 @@ export default class Field extends React.Component {
     this.state = {
       value: value,
       dependenciesClasses: [],
-      hasInnerFields: false
+      hasInnerFields: false,
+      isFieldLoading: false
     }
     this.updateElement = this.updateElement.bind(this)
     this.updateValue = this.updateValue.bind(this)
     this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
+    this.setLoadingState = this.setLoadingState.bind(this)
   }
 
   componentDidMount () {
@@ -68,6 +70,10 @@ export default class Field extends React.Component {
     this.setState({
       hasInnerFields: true
     })
+  }
+
+  setLoadingState (isLoading) {
+    this.setState({ isFieldLoading: isLoading })
   }
 
   render () {
@@ -120,14 +126,21 @@ export default class Field extends React.Component {
     const isRegularAttributeField = tabTypeName === 'group' && fieldType !== 'paramsGroup'
     const isParamsGroupAttributeField = tabTypeName === 'paramsGroup'
     if (isOptionsLabel && (isRegularAttributeField || isParamsGroupAttributeField)) {
-      label = (<span className='vcv-ui-form-group-heading'>{options.label}</span>)
+      let spinnerHtml = null
+      if (this.state.isFieldLoading) {
+        spinnerHtml = (
+          <span className='vcv-ui-wp-spinner' />
+        )
+      }
+      label = (<span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>)
     }
     let description = ''
     if (options && typeof options.description === 'string') {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
     if (options && options.descriptionHTML) {
-      description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: options.descriptionHTML }} />)
+      const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', window.vcvCreateMenuUrl)
+      description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: html }} />)
     }
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === 'undefined') {
@@ -160,6 +173,7 @@ export default class Field extends React.Component {
           return newValue
         }}
         ref='attributeComponent'
+        setLoadingState={this.setLoadingState}
       />
     )
 

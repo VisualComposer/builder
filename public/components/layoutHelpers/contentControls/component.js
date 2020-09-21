@@ -12,29 +12,26 @@ export default class ContentControls extends React.Component {
     id: PropTypes.string.isRequired
   }
 
-  container = null
-
   constructor (props) {
     super(props)
-    this.state = {
-      hideIcon: false
-    }
     this.handleClick = this.handleClick.bind(this)
-    this.handleMouseEnter = this.handleMouseEnter.bind(this)
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
       this.isMobile = true
     }
+    this.container = React.createRef()
   }
 
-  handleMouseEnter () {
-    const image = this.container.querySelector('.vcv-ui-blank-row-element-control-icon')
-    if (image.getBoundingClientRect().width > this.container.getBoundingClientRect().width && !this.state.hideIcon) {
-      this.setState({ hideIcon: true })
-    }
-    if (image.getBoundingClientRect().width < this.container.getBoundingClientRect().width && this.state.hideIcon) {
-      this.setState({ hideIcon: false })
-    }
+  componentDidMount () {
+    this.container.current.closest('.vce-col').setAttribute('data-vcv-centered-control', true)
+    this.container.current.closest('.vce-col-inner').setAttribute('data-vcv-centered-control', true)
+    this.container.current.closest('.vce-col-content').setAttribute('data-vcv-centered-control', true)
+  }
+
+  componentWillUnmount () {
+    this.container.current.closest('.vce-col').removeAttribute('data-vcv-centered-control')
+    this.container.current.closest('.vce-col-inner').removeAttribute('data-vcv-centered-control')
+    this.container.current.closest('.vce-col-content').removeAttribute('data-vcv-centered-control')
   }
 
   handleClick () {
@@ -61,13 +58,9 @@ export default class ContentControls extends React.Component {
         className={classes}
         title={addElementText}
         onClick={this.handleClick}
-        onMouseEnter={this.handleMouseEnter}
-        ref={(container) => { this.container = container }}
+        ref={this.container}
       >
-        <RowControl
-          ref={(icon) => { this.icon = icon }}
-          hideIcon={this.state.hideIcon}
-        />
+        <RowControl />
       </div>
     )
   }

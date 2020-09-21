@@ -5,6 +5,7 @@ const insightsStorage = getStorage('insights')
 const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
+const elementsStorage = getStorage('elements')
 const cookService = getService('cook')
 const utils = getService('utils')
 
@@ -464,5 +465,6 @@ add('insights', () => {
         runChecksCallback()
       }
     })
+    elementsStorage.on('elementsRenderDone', runChecksCallback)
   }
 })

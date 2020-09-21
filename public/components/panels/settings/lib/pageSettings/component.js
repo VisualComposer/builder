@@ -3,6 +3,11 @@ import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Compo
 import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/Component'
 import Permalink from 'public/components/permalink/permalink'
 
+const localizations = window.VCV_I18N && window.VCV_I18N()
+const menuText = localizations ? localizations.menu : 'Menu'
+const manageYourSiteMenu = localizations ? localizations.manageYourSiteMenu : 'Manage your site menu'
+const viaWPAdminMenu = localizations ? localizations.viaWPAdminMenu : 'via WordPress Admin Menu management.'
+
 export default class PageSettings extends React.Component {
   render () {
     const content = []
@@ -35,6 +40,12 @@ export default class PageSettings extends React.Component {
     return (
       <>
         {content}
+        <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu'>
+          <span className='vcv-ui-form-group-heading'>{menuText}</span>
+          <p className='vcv-ui-form-helper'>
+            <a className='vcv-ui-form-link' href={window.vcvManageMenuUrl} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
+          </p>
+        </div>
       </>
     )
   }

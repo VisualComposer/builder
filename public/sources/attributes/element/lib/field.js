@@ -16,9 +16,11 @@ export default class EditFromField extends React.Component {
     super(props)
     this.state = {
       dependenciesClasses: [],
-      hasInnerFields: false
+      hasInnerFields: false,
+      isFieldLoading: false
     }
     this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
+    this.setLoadingState = this.setLoadingState.bind(this)
   }
 
   componentDidMount () {
@@ -48,6 +50,10 @@ export default class EditFromField extends React.Component {
     this.setState({
       hasInnerFields: true
     })
+  }
+
+  setLoadingState (isLoading) {
+    this.setState({ isFieldLoading: isLoading })
   }
 
   render () {
@@ -80,11 +86,21 @@ export default class EditFromField extends React.Component {
     const { options } = settings
     let label = ''
     if (options && typeof options.label === 'string') {
-      label = (<span className='vcv-ui-form-group-heading'>{options.label}</span>)
+      let spinnerHtml = null
+      if (this.state.isFieldLoading) {
+        spinnerHtml = (
+          <span className='vcv-ui-wp-spinner' />
+        )
+      }
+      label = (<span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>)
     }
     let description = ''
     if (options && typeof options.description === 'string') {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
+    }
+    if (options && options.descriptionHTML) {
+      const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', window.vcvCreateMenuUrl)
+      description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: html }} />)
     }
     let defaultValue = settings.defaultValue
     if (typeof defaultValue === 'undefined') {
@@ -105,6 +121,7 @@ export default class EditFromField extends React.Component {
             updater={this.props.updater}
             elementAccessPoint={elementAccessPoint}
             ref='attributeComponent'
+            setLoadingState={this.setLoadingState}
           />
           {description}
         </div>

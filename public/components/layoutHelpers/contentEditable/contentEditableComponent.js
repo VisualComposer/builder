@@ -379,15 +379,15 @@ export default class ContentEditableComponent extends React.Component {
             const { headerContent, shortcodeContent, footerContent } = jsonData
             _this.ref && (_this.ref.innerHTML = '')
 
-            const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+            const headerDom = window.jQuery('<div>' + headerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
             headerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'header', ref: _this.ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-            const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+            const shortcodeDom = window.jQuery('<div>' + shortcodeContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
             shortcodeDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.contents(), addToDocument: true })
 
-            const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+            const footerDom = window.jQuery('<div>' + footerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
             footerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: _this.ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
           })(iframe, iframe.document))

@@ -204,7 +204,7 @@
   "equalHeight": {
     "type": "toggle",
     "access": "public",
-    "value": false,
+    "value": true,
     "options": {
       "label": "Column equal height"
     }

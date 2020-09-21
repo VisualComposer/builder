@@ -1,13 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
+import classNames from 'classnames'
 import Layout from '../../sources/attributes/rowLayout/Component'
 
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
 let previousLayoutCustomMode = false
 
-class ColumnResizer extends React.Component {
+export default class ColumnResizer extends React.Component {
   static defaultGridPercentage = [20, 25, 33.33, 50, 66.66, 75]
 
   static deviceViewports = {
@@ -23,6 +24,7 @@ class ColumnResizer extends React.Component {
     rowData: null,
     rowWidth: null,
     helper: null,
+    resizer: null,
     rightColumn: null,
     leftColumn: null,
     bothColumnsWidth: null,
@@ -41,11 +43,15 @@ class ColumnResizer extends React.Component {
       leftColPercentage: null,
       rightColPercentage: null,
       labelPosition: null,
-      isVisible: true
+      isVisible: true,
+      isLabelsActive: false,
+      isResizerActive: false
     }
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
+    this.handleLabelState = this.handleLabelState.bind(this)
+    this.handleResizerState = this.handleResizerState.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
   }
 
@@ -83,11 +89,36 @@ class ColumnResizer extends React.Component {
     }
   }
 
+  handleLabelState (e) {
+    const newState = {
+      isLabelsActive: !this.state.isLabelsActive
+    }
+    if (e.type === 'mouseenter') {
+      const Event = new window.MouseEvent('mouseenter', {
+        clientX: e.currentTarget.getBoundingClientRect().x
+      })
+      this.getRowData(Event)
+      const colSizes = this.getResizedColumnsWidth(Event)
+      newState.leftColPercentage = colSizes.leftCol
+      newState.rightColPercentage = colSizes.rightCol
+    }
+    this.setState(newState)
+  }
+
   handleLayoutCustomModeChange (data) {
     if (data === 'contentEditable') {
       this.hide()
     } else {
       this.show()
+    }
+  }
+
+  handleResizerState () {
+    if (!this.state.dragging) {
+      this.setState({
+        isResizerActive: !this.state.isResizerActive,
+        labelPosition: null
+      })
     }
   }
 
@@ -139,6 +170,7 @@ class ColumnResizer extends React.Component {
     this.resizerData.rowData = rowData
     this.resizerData.rowWidth = rowWidth
     this.resizerData.helper = $helper
+    this.resizerData.resizer = $helper.querySelector('.vce-column-resizer-label-container')
     this.resizerData.rightColumn = $rightCol
     this.resizerData.leftColumn = $leftCol
     this.resizerData.bothColumnsWidth = bothColumnsWidth
@@ -220,7 +252,9 @@ class ColumnResizer extends React.Component {
     this.setState({ dragging: false })
     this.removeWrapBlockers()
     this.rebuildRowLayout()
-    this.removeTemporaryColStyles()
+    setTimeout(() => {
+      this.removeTemporaryColStyles()
+    }, 100)
     layoutStorage.state('resizeColumns').set(false)
   }
 
@@ -233,7 +267,8 @@ class ColumnResizer extends React.Component {
   }
 
   setResizeLabelsPosition (e) {
-    const labelPosition = e.clientY - this.resizerData.helper.getBoundingClientRect().top
+    const resizerHeight = this.resizerData.resizer.getBoundingClientRect().height
+    const labelPosition = e.clientY - this.resizerData.helper.getBoundingClientRect().top - (resizerHeight / 2)
     this.setState({ labelPosition: labelPosition })
   }
 
@@ -438,83 +473,42 @@ class ColumnResizer extends React.Component {
     if (!this.state.isVisible) {
       return null
     }
-    let resizerLabels = ''
-    if (this.state.dragging) {
-      const labelProps = {
-        style: {
-          top: `${this.state.labelPosition}px`
-        }
+
+    const labelProps = this.state.labelPosition === null ? {} : {
+      style: {
+        top: `${this.state.labelPosition}px`,
+        position: 'absolute'
       }
-      resizerLabels = (
-        <div className='vce-column-resizer-label-container' {...labelProps}>
-          <div className='vce-column-resizer-label vce-column-resizer-label-left'>
-            <svg
-              width='5px' height='23px' viewBox='0 0 5 23'
-              version='1.1'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <g id='Page-1' stroke='none' strokeWidth='1' fill='rgba(40, 40, 40, .5)' fillRule='evenodd'>
-                <path
-                  d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
-                  transform='translate(20.086359, 11.500000) scale(-1, 1) translate(-20.086359, -11.500000)'
-                />
-              </g>
-            </svg>
-            <div className='vce-column-resizer-label-background'>
-              <span
-                className='vce-column-resizer-label-percentage'
-              >{Math.round(this.state.leftColPercentage * 100) + '%'}
-              </span>
-            </div>
-            <svg
-              width='11px' height='23px' viewBox='0 0 11 23'
-              version='1.1' xmlns='http://www.w3.org/2000/svg'
-            >
-              <g
-                id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd'
-                transform='translate(-30.000000, 0.000000)' fill='rgba(40, 40, 40, .5)'
-              >
-                <path
-                  d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
-                  transform='translate(20.086359, 11.500000) scale(-1, 1) translate(-20.086359, -11.500000)'
-                />
-              </g>
-            </svg>
-          </div>
-          <div className='vce-column-resizer-label vce-column-resizer-label-right'>
-            <svg width='10px' height='23px' viewBox='0 0 10 23' version='1.1' xmlns='http://www.w3.org/2000/svg'>
-              <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' fill='#282828' opacity='0.5'>
-                <path
-                  d='M9.67660985,2.33058017e-12 L35.1786526,0 C37.9367983,0 40.1727172,2.24721412 40.1727172,4.99065745 L40.1727172,18.0093426 C40.1727172,20.7656066 37.9304373,23 35.1786526,23 L9.67660985,23 C9.12217523,23 8.35313873,22.6804216 7.97065195,22.2979348 L0.582842894,12.9101257 C-0.195948043,12.1313348 -0.192612096,10.8653293 0.582842894,10.0898743 L7.97065195,0.702065207 C8.35839186,0.3143253 9.12167598,2.33058017e-12 9.67660985,2.33058017e-12 Z'
-                />
-              </g>
-            </svg>
-            <div className='vce-column-resizer-label-background'>
-              <span
-                className='vce-column-resizer-label-percentage'
-              >{Math.round(this.state.rightColPercentage * 100) + '%'}
-              </span>
-            </div>
-            <svg width='6px' height='23px' viewBox='0 0 6 23' version='1.1' xmlns='http://www.w3.org/2000/svg'>
-              <g id='Page-1' stroke='none' strokeWidth='1' fillRule='evenodd' fill='#282828' opacity='0.5'>
-                <path
-                  d='M-25.3233902,2.33058017e-12 L0.178652594,0 C2.93679829,0 5.17271716,2.24721412 5.17271716,4.99065745 L5.17271716,18.0093426 C5.17271716,20.7656066 2.93043732,23 0.178652594,23 L-25.3233902,23 C-25.8778248,23 -26.6468613,22.6804216 -27.029348,22.2979348 L-34.4171571,12.9101257 C-35.195948,12.1313348 -35.1926121,10.8653293 -34.4171571,10.0898743 L-27.029348,0.702065207 C-26.6416081,0.3143253 -25.878324,2.33058017e-12 -25.3233902,2.33058017e-12 Z'
-                />
-              </g>
-            </svg>
-          </div>
-        </div>
-      )
     }
 
+    const labelContainerClasses = classNames({
+      'vce-column-resizer-label-container': true,
+      'vce-column-resizer-label-container--active': this.state.isLabelsActive
+    })
+
+    const columnResizerClasses = classNames({
+      'vce-column-resizer': true,
+      vcvhelper: true,
+      'vce-column-resizer--active': this.state.isResizerActive
+    })
+
     return (
-      <div className='vcvhelper vce-column-resizer'>
-        <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown} ref='resizerHandler'>
-          {resizerLabels}
+      <div className={columnResizerClasses} onMouseOver={this.handleResizerState} onMouseOut={this.handleResizerState}>
+        <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
+          <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
+            <div className='vce-column-resizer-label vce-column-resizer-label-left'>
+              <span className='vce-column-resizer-label-percentage'>
+                {Math.round(this.state.leftColPercentage * 100) + '%'}
+              </span>
+            </div>
+            <div className='vce-column-resizer-label vce-column-resizer-label-right'>
+              <span className='vce-column-resizer-label-percentage'>
+                {Math.round(this.state.rightColPercentage * 100) + '%'}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 }
-
-export default ColumnResizer
