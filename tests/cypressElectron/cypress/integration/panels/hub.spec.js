@@ -85,6 +85,9 @@ describe('Hub', function () {
     cy.wait(300)
     cy.get('.vcv-ui-edit-form-header-title').contains('Icon')
 
+    cy.savePage()
+    cy.viewPage()
+
     // Revert back previous state OF DATABASE (licenses, hub, etc)
     cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=dump-vcv-db-back')
   })
