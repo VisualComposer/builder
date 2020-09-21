@@ -445,9 +445,16 @@ export default class ControlsManager {
       // Current element will always be 0 indexed
       if (index === 0) {
         elementTag = documentElement.tag
-      }
-      // Show frames for all except columns
-      if (documentElement.tag !== 'column') {
+        if (elementTag === 'row' || elementTag === 'column') {
+          const topParentId = documentService.getTopParent(id)
+          const descendantElements = documentService.getDescendants(topParentId)
+          Object.keys(descendantElements).forEach((element) => {
+            if (descendantElements[element].tag === 'row') {
+              elementsToShow.push(element)
+            }
+          })
+        }
+      } else if (elementTag !== 'column') {
         elementsToShow.push(documentElement.id)
       }
     })
