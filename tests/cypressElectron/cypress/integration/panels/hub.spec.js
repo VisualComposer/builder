@@ -2,6 +2,7 @@
 
 describe('Hub', function () {
   it('Create page open hub and check is it not empty on non-activated version', function () {
+
     // Dump and clean database
     cy.visit('/wp-content/plugins/' + Cypress.env('dataPlugin').replace('/plugin-wordpress.php', '') + '/tests/php-e2e-actions/init.php?php-e2e=1&php-e2e-action=dump-vcv-db-start-clean')
 
