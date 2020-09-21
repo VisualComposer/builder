@@ -4,7 +4,7 @@
     "baseUrl": "http://localhost/",
     "wpUserName": "admin",
     "wpPassword": "12345",
-    "dataPlugin": "visualcomposer/plugin-wordpress.php",
+    "dataPlugin": "builder/plugin-wordpress.php",
     "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend",
     "serverType": "ci",
     "checkSnapshots": false
