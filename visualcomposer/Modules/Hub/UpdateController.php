@@ -15,7 +15,6 @@ use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 
 /**
  * Class UpdateController
@@ -68,7 +67,6 @@ class UpdateController extends Container implements Module
      * @param \VisualComposer\Helpers\Hub\Update $hubUpdateHelper
      *
      * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Url $urlHelper
      *
      * @return mixed
      * @throws \ReflectionException
@@ -78,8 +76,7 @@ class UpdateController extends Container implements Module
         $payload,
         Options $optionsHelper,
         Update $hubUpdateHelper,
-        License $licenseHelper,
-        Url $urlHelper
+        License $licenseHelper
     ) {     // Check for update in case if activated
         if (intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
             $result = $hubUpdateHelper->checkVersion($payload);

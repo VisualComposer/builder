@@ -50,19 +50,19 @@ class Controller extends Container implements Module
 
         $sourceId = $post->ID;
 
-        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
-        if ($isAllowed) {
+        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', 'noData');
+        if (!empty($isAllowed)) {
             $editorStartDate = date('Y-m-d H:i:s', time());
-            update_post_meta($sourceId, '_' . VCV_PREFIX . 'editor-start-at', $editorStartDate);
+            update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartAt', $editorStartDate);
         }
 
-        $initialUsages = (int)$optionsHelper->get('initial-editor-usage');
+        $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
         if ($initialUsages) {
             $initialUsages += 1;
         } else {
             $initialUsages = 1;
         }
-        $optionsHelper->set('initial-editor-usage', $initialUsages);
+        $optionsHelper->set('initialEditorUsage', $initialUsages);
 
         return false;
     }
@@ -78,29 +78,33 @@ class Controller extends Container implements Module
         $optionsHelper = vchelper('Options');
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
-        if ($isAllowed && intval($optionsHelper->getTransient('lastBundleUpdate')) < time()) {
+        if ($isAllowed && $optionsHelper->getTransient('lastUsageSend')) {
             $licenseKey = $optionsHelper->get('license-key');
-            $licenseType = $optionsHelper->get('license-type');
-            $updatedPostsList = $optionsHelper->get('updated-posts-list');
+            $updatedPostsList = $optionsHelper->get('updatedPostsList');
             if ($updatedPostsList && is_array($updatedPostsList)) {
                 $usageStats = [];
-                $teaserDownloads = $optionsHelper->get('downloaded-content');
+                $teaserDownloads = $optionsHelper->get('downloadedContent');
                 foreach ($updatedPostsList as $postId) {
-                    $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editor-usage', true);
-                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'element-counts', true);
-                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'template-counts', true);
+                    $hashedId = $this->getHashedKey($postId);
+                    $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
+                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementCounts', true);
+                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts', true);
 
-                    $usageStats[$postId] = array(
-                        'source-id' => $postId,
-                        'license-type' => $licenseType,
-                        'editor-usage' => unserialize($editorUsage),
-                        'element-usage' => unserialize($elementUsage),
-                        'template-usage' => unserialize($templateUsage),
-                    );
+                    if ($editorUsage) {
+                        $usageStats[$hashedId]['editorUsage'] = unserialize($editorUsage);
+                    }
+                    if ($elementUsage) {
+                        $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
+                    }
+                    if ($templateUsage) {
+                        $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
+                    }
                 }
 
-                $usageStats['downloaded-content'] = unserialize($teaserDownloads);
-
+                if ($teaserDownloads) {
+                    $usageStats['downloadedContent'] = unserialize($teaserDownloads);
+                }
+                
                 $url = $urlHelper->query(
                     vcvenv('VCV_HUB_URL'),
                     [
@@ -116,8 +120,10 @@ class Controller extends Container implements Module
                         'timeout' => 30,
                     ]
                 );
-                $optionsHelper->set('last-sent-date', time());
-                $optionsHelper->delete('updated-posts-list');
+                // Set transient that expires in 1 day
+                $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
+                $optionsHelper->set('lastSentDate', time());
+                $optionsHelper->delete('updatedPostsList');
             }
         }
     }
@@ -132,14 +138,17 @@ class Controller extends Container implements Module
     {
         if (isset($payload['sourceId'])) {
             $optionsHelper = vchelper('Options');
-            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', null);
-            if (isset($isEnabled)) {
-                $isEnabled = true;
+            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled');
+            $dataCollectionPopupOk = false;
+            $isEnabledStatus = false;
+            if ($isEnabled && $isEnabled !== '') {
+                $isEnabledStatus = true;
+            } elseif (!$isEnabled && $isEnabled !== '') {
+                // Have at least 10 initial usages
+                $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
+                // @codingStandardsIgnoreLine
+                $dataCollectionPopupOk = $initialUsages >= 10;
             }
-            // Have at least 10 initial usages
-            $initialUsages = (int)$optionsHelper->get('initial-editor-usage');
-            // @codingStandardsIgnoreLine
-            $dataCollectionPopupOk = !$isEnabled && $initialUsages >= 10;
 
             $variables[] = [
                 'key' => 'VCV_SHOW_DATA_COLLECTION_POPUP',
@@ -148,8 +157,8 @@ class Controller extends Container implements Module
             ];
             $variables[] = [
                 'key' => 'VCV_DATA_COLLECTION_ENABLED',
-                'value' => $isEnabled,
-                'type' => 'constant',
+                'value' => $isEnabledStatus,
+                'type' => 'variable',
             ];
         }
 
@@ -181,11 +190,15 @@ class Controller extends Container implements Module
 
     protected function saveUsageStats($data)
     {
-        $sourceId = $data['source-id'];
-        $elementCounts = $data['element-counts'];
-        $licenseType = $data['license-type'];
+        $sourceId = $data['sourceId'];
+        $hashedId = $this->getHashedKey($sourceId);
+        $elementCounts = $data['elementCounts'];
+        $licenseType = $data['licenseType'];
+        if (!$licenseType) {
+            $licenseType = 'Not Activated';
+        }
         $optionsHelper = vchelper('Options');
-        $updatedPostsList = $optionsHelper->get('updated-posts-list');
+        $updatedPostsList = $optionsHelper->get('updatedPostsList');
         if ($updatedPostsList && is_array($updatedPostsList)) {
             if (!in_array($sourceId, $updatedPostsList)) {
                 array_push($updatedPostsList, $sourceId);
@@ -193,10 +206,10 @@ class Controller extends Container implements Module
         } else {
             $updatedPostsList = array($sourceId);
         }
-        $optionsHelper->set('updated-posts-list', $updatedPostsList);
-        $editorStartDate = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editor-start-at', true);
+        $optionsHelper->set('updatedPostsList', $updatedPostsList);
+        $editorStartDate = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartAt', true);
         $editorEndDate = date('Y-m-d H:i:s', time());
-        $editorUsage = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editor-usage', true);
+        $editorUsage = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', true);
         if ($editorUsage) {
             $editorUsage = unserialize($editorUsage);
         } else {
@@ -204,119 +217,82 @@ class Controller extends Container implements Module
         }
 
         // Remove previous usage if data was sent before
-        $lastSentDate = $optionsHelper->get('last-sent-date');
+        $lastSentDate = $optionsHelper->get('lastSentDate');
         foreach ($editorUsage as $key => $value) {
             if ($value['timestamp'] < $lastSentDate) {
                 unset($editorUsage[$key]);
             }
         }
         array_push($editorUsage, array(
-            'page-id' => $sourceId,
-            'license' => $licenseType,
-            'start-date' => $editorStartDate,
-            'end-date' => $editorEndDate,
+            'pageId' => $hashedId,
+            'license' => ucfirst($licenseType),
+            'startDate' => $editorStartDate,
+            'endDate' => $editorEndDate,
             'timestamp' => time(),
         ));
 
         $editorUsage = serialize($editorUsage);
         $elementCounts = json_decode($elementCounts, true);
+        foreach ($elementCounts as $key => $value) {
+            $elementCounts[$key]['pageId'] = $this->getHashedKey($elementCounts[$key]['pageId']);
+        }
         $elementCounts = serialize($elementCounts);
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editor-usage', $editorUsage);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
         // Update editor start time field for multiple save without page refresh
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editor-start-at', date('Y-m-d H:i:s', time()));
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'element-counts', $elementCounts);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartAt', date('Y-m-d H:i:s', time()));
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementCounts', $elementCounts);
 
         return false;
     }
 
     protected function saveTemplateUsage($data)
     {
-        $sourceId = $data['source-id'];
-        $id = $data['template-id'];
-        $templateUniqueId = get_post_meta($id, '_' . VCV_PREFIX . 'id', true);
-        $template = $data['template'];
+        $sourceId = $data['sourceId'];
+        $hashedId = $this->getHashedKey($sourceId);
+        $id = $data['templateId'];
+        $editorTemplatesHelper = vchelper('EditorTemplates');
         $optionsHelper = vchelper('Options');
+        $template = $editorTemplatesHelper->read($id);
         $licenseType = $optionsHelper->get('license-type');
-        $allTemplates = array_values(
-            (array)$optionsHelper->get(
-                'hubTeaserTemplates',
-                []
-            )
-        );
-
-        $templateData = [];
-        foreach ($allTemplates as $value) {
-            if ($value['id'] === $templateUniqueId) {
-                $templateData = $value;
-            }
+        if (!$licenseType) {
+            $licenseType = 'Not Activated';
         }
-        if (empty($templateData)) {
-            $templateData['templateType'] = 'custom';
-        }
-        $templateType = $this->getTemplateType($templateData);
+        $templateType = $editorTemplatesHelper->getTemplateType($id);
 
-        $templateCounts = get_post_meta($sourceId, '_' . VCV_PREFIX . 'template-counts', true);
+        $templateCounts = get_post_meta($sourceId, '_' . VCV_PREFIX . 'templateCounts', true);
         $templateCounts = unserialize($templateCounts);
         if (empty($templateCounts)) {
             $templateCounts = [];
         }
         $templateCounts[$id] = [
-            'page-id' => $sourceId,
+            'pageId' => $hashedId,
             'name' => $template['allData']['pageTitle']['current'],
-            'license' => $licenseType,
-            'action' => 'added',
+            'license' => ucfirst($licenseType),
+            'action' => 'Added',
             'date' => date('Y-m-d H:i:s', time()),
             'type' => $templateType,
         ];
         $templateCounts = serialize($templateCounts);
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'template-counts', $templateCounts);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'templateCounts', $templateCounts);
 
 
         return false;
     }
 
-    protected function getTemplateType($templateData)
-    {
-        $type = '';
-        $typeKey = $templateData['templateType'];
-        switch ($typeKey) {
-            case $typeKey === 'hubHeader':
-                $type = 'Header';
-                break;
-            case $typeKey === 'hubFooter':
-                $type = 'Footer';
-                break;
-            case $typeKey === 'hubBlock':
-                $type = 'Block';
-                break;
-            case $typeKey === 'hubSidebar':
-                $type = 'Sidebar';
-                break;
-            case $typeKey === 'custom':
-                $type = 'Custom Template';
-                break;
-            case $typeKey === 'hub':
-                if (in_array('free', $templateData['bundleType'])) {
-                    $type = 'Free Template';
-                } else {
-                    $type = 'Premium Template';
-                }
-                break;
-        }
-
-        return $type;
-    }
-
     protected function saveTeaserDownload($data)
     {
-        $sourceId = $data['source-id'];
+        $sourceId = $data['sourceId'];
         if (!$sourceId) {
             $sourceId = 'dashboard';
         }
+        $hashedId = $this->getHashedKey($sourceId);
         $teaser = isset($data['template']) ? $data['template'] : $data['element'];
         $optionsHelper = vchelper('Options');
         $licenseType = $optionsHelper->get('license-type');
-        $downloadedContent = $optionsHelper->get('downloaded-content', []);
+        if (!$licenseType) {
+            $licenseType = 'Not Activated';
+        }
+        $downloadedContent = $optionsHelper->get('downloadedContent', []);
         if (!empty($downloadedContent)) {
             $downloadedContent = unserialize($downloadedContent);
         }
@@ -341,34 +317,48 @@ class Controller extends Container implements Module
 
             foreach ($allElements as $value) {
                 if ($value['tag'] === $teaser['tag']) {
-                    $teaser['type'] = in_array('free', $value['bundleType']) ? 'free' : 'premium';
+                    $teaser['type'] = in_array('free', $value['bundleType']) ? 'Free' : 'Premium';
                 }
             }
         }
 
         if (isset($data['template'])) {
-            $downloadedContent['template-usage'][$teaserId] = [
-                'page-id' => $sourceId,
+            $downloadedContent['templateUsage'][$teaserId] = [
+                'pageId' => $hashedId,
                 'name' => $teaser['name'],
-                'license' => $licenseType,
-                'action' => 'downloaded',
+                'license' => ucfirst($licenseType),
+                'action' => 'Downloaded',
                 'date' => date('Y-m-d H:i:s', time()),
-                'type' => $teaser['type'] === 'hub' ? 'premium' : 'free',
+                'type' => $teaser['type'] === 'hub' ? 'Premium' : 'Free',
             ];
         } else {
-            $downloadedContent['element-usage'][$teaserId] = [
-                'page-id' => $sourceId,
+            $downloadedContent['elementUsage'][$teaserId] = [
+                'pageId' => $hashedId,
                 'name' => isset($teaser['name']) ? $teaser['name'] : $teaser['tag'],
-                'license' => $licenseType,
-                'action' => 'downloaded',
+                'license' => ucfirst($licenseType),
+                'action' => 'Downloaded',
                 'date' => date('Y-m-d H:i:s', time()),
                 'type' => $teaser['type'],
             ];
         }
 
         $downloadedContent = serialize($downloadedContent);
-        $optionsHelper->set('downloaded-content', $downloadedContent);
+        $optionsHelper->set('downloadedContent', $downloadedContent);
 
         return false;
+    }
+
+    /**
+     * Get hashed key
+     *
+     * @param $key
+     *
+     * @return false|string
+     */
+    protected function getHashedKey($key)
+    {
+        $salt = 'vcvSourceId';
+
+        return substr(md5($salt . $key), 2, 12);
     }
 }

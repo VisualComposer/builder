@@ -44,21 +44,12 @@ class ItemDataCollectionController extends Container implements Module
     protected function buildPage()
     {
         $sectionCallback = function () {
-            $url = 'https://visualcomposer.com/cloud-access-terms/';
-            $linkTitle = __('Read more', 'visualcomposer');
-            $link = sprintf(
-                '<a href="%s" target="_blank">%s</a>',
-                // @codingStandardsIgnoreLine
-                esc_url($url),
-                esc_html($linkTitle)
-            );
-            $sectionDescription = esc_html__(
-                'Help us improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help. %s',
-                'visualcomposer'
-            );
             echo sprintf(
                 '<p class="description">%s</p>',
-                sprintf($sectionDescription, $link)
+                esc_html__(
+                    'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                    'visualcomposer'
+                )
             );
         };
         $this->addSection(
