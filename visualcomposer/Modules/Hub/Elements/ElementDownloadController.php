@@ -52,7 +52,7 @@ class ElementDownloadController extends Container implements Module
                         $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response, [], true);
                     }
                 }
-                $this->call('initializePhpElement', [$response, $payload['sourceId']]);
+                $this->call('collectElementVariables', [$response, $payload['sourceId']]);
             } else {
                 return false;
             }
@@ -61,17 +61,17 @@ class ElementDownloadController extends Container implements Module
         return $response;
     }
 
-    protected function initializePhpElement($response, $sourceId)
+    protected function collectElementVariables($response, $sourceId)
     {
         $optionsHelper = vchelper('Options');
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         if ($response && isset($response['elements'])) {
             $response['variables'] = [];
             foreach ($response['elements'] as &$element) {
-                // Try to initialize PHP in element via autoloader
                 if ($isAllowed) {
-                    vcfilter('vcv:saveTeaserDownload', ['source-id' => $sourceId, 'element' => $element]);
+                    vcfilter('vcv:saveTeaserDownload', ['sourceId' => $sourceId, 'element' => $element]);
                 }
+                // Try to initialize PHP in element via autoloader
                 vcevent('vcv:hub:elements:autoload', ['element' => $element]);
                 $response['variables'] = vcfilter(
                     'vcv:editor:variables/' . $element['tag'],
@@ -82,7 +82,7 @@ class ElementDownloadController extends Container implements Module
         }
         if ($response && isset($response['templates']) && $isAllowed) {
             foreach ($response['templates'] as &$template) {
-                vcfilter('vcv:saveTeaserDownload', ['source-id' => $sourceId, 'template' => $template]);
+                vcfilter('vcv:saveTeaserDownload', ['sourceId' => $sourceId, 'template' => $template]);
             }
         }
     }

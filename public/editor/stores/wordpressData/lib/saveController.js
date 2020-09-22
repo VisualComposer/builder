@@ -147,17 +147,16 @@ export default class SaveController {
         'vcv-updatePost': '1'
       }
 
-      const isDataCollectionEnabled = window.VCV_DATA_COLLECTION_ENABLED && window.VCV_DATA_COLLECTION_ENABLED()
-      if (isDataCollectionEnabled) {
+      if (window.VCV_DATA_COLLECTION_ENABLED) {
         const today = new Date()
         const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
         const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
         const dateTime = date + ' ' + time
         let licenseType
         if (!window.vcvIsAnyActivated) {
-          licenseType = 'none'
+          licenseType = 'Not Activated'
         } else {
-          licenseType = window.vcvIsPremiumActivated ? 'premium' : 'free'
+          licenseType = window.vcvIsPremiumActivated ? 'Premium' : 'Free'
         }
         const elementTeaser = window.VCV_HUB_GET_TEASER()
         const allElements = elementTeaser[0].elements
@@ -170,8 +169,8 @@ export default class SaveController {
           } else {
             const result = allElements.filter(element => element.tag === tag)[0]
             if (result) {
-              const elementType = result.bundleType.includes('free') ? 'free' : 'premium'
-              elementCounts[tag] = { 'page-id': window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'added', license: licenseType, date: dateTime }
+              const elementType = result.bundleType.includes('free') ? 'Free' : 'Premium'
+              elementCounts[tag] = { pageId: window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'Added', license: licenseType, date: dateTime }
             }
           }
         })

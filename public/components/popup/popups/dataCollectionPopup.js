@@ -31,6 +31,8 @@ export default class DataCollectionPopup extends React.Component {
       'vcv-dataCollection': true
     })
 
+    window.VCV_DATA_COLLECTION_ENABLED = true
+
     this.props.onPrimaryButtonClick()
   }
 
@@ -46,8 +48,7 @@ export default class DataCollectionPopup extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const headingText = localizations ? localizations.dataCollectionHeadingText : 'Help us make Visual Composer better'
-    const text = localizations ? localizations.dataCollectionText : 'Help us make improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!'
-    const readMoreText = localizations ? localizations.readMoreText : 'Read more'
+    const text = localizations ? localizations.dataCollectionText : 'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!'
     const confirmText = localizations ? localizations.yesIWouldLikeToHelpText : 'Yes, I would like to help'
 
     const customButtonProps = {
@@ -64,7 +65,7 @@ export default class DataCollectionPopup extends React.Component {
         onPrimaryButtonClick={this.handlePrimaryButtonClick}
         onClose={this.handleCloseClick}
       >
-        <p className='vcv-layout-popup-text'>{text} <a className='vcv-layout-popup-text--anchor' target='_blank' rel='noopener noreferrer' href='https://visualcomposer.com/cloud-access-terms/'>{readMoreText}</a></p>
+        <p className='vcv-layout-popup-text'>{text}</p>
         <div className='vcv-layout-popup-checkbox-option-wrapper'>
           <input
             type='checkbox'
