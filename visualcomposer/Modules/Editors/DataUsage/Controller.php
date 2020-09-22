@@ -248,11 +248,12 @@ class Controller extends Container implements Module
         $editorTemplatesHelper = vchelper('EditorTemplates');
         $optionsHelper = vchelper('Options');
         $template = $editorTemplatesHelper->read($id);
+        $templateGroupKey = $template['allData']['templatesGroupsSorted'][0];
         $licenseType = $optionsHelper->get('license-type');
         if (!$licenseType) {
             $licenseType = 'Not Activated';
         }
-        $templateType = $editorTemplatesHelper->getTemplateType($id);
+        $templateType = $editorTemplatesHelper->getGroupName($templateGroupKey);
 
         $templateCounts = get_post_meta($sourceId, '_' . VCV_PREFIX . 'templateCounts', true);
         $templateCounts = unserialize($templateCounts);

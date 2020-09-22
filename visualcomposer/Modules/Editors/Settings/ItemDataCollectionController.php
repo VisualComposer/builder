@@ -98,7 +98,7 @@ class ItemDataCollectionController extends Container implements Module
 
     protected function outputItemDataCollection($response, $payload, Options $optionsHelper)
     {
-        $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', false);
+        $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', true);
         $response['itemDataCollectionEnabled'] = !$isEnabled;
 
         return $response;
