@@ -50,11 +50,8 @@ class Controller extends Container implements Module
 
         $sourceId = $post->ID;
 
-        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', 'noData');
-        if (!empty($isAllowed)) {
-            $editorStartDate = date('Y-m-d H:i:s', time());
-            update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartAt', $editorStartDate);
-        }
+        $editorStartDate = date('Y-m-d H:i:s');
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', $editorStartDate);
 
         $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
         if ($initialUsages) {
@@ -199,16 +196,16 @@ class Controller extends Container implements Module
                 array_push($updatedPostsList, $sourceId);
             }
         } else {
-            $updatedPostsList = array($sourceId);
+            $updatedPostsList[] = $sourceId;
         }
         $optionsHelper->set('updatedPostsList', $updatedPostsList);
-        $editorStartDate = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartAt', true);
-        $editorEndDate = date('Y-m-d H:i:s', time());
+        $editorStartDate = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', true);
+        $editorEndDate = date('Y-m-d H:i:s');
         $editorUsage = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', true);
         if ($editorUsage) {
             $editorUsage = unserialize($editorUsage);
         } else {
-            $editorUsage = array();
+            $editorUsage = [];
         }
 
         // Remove previous usage if data was sent before
@@ -218,13 +215,13 @@ class Controller extends Container implements Module
                 unset($editorUsage[$key]);
             }
         }
-        array_push($editorUsage, array(
+        array_push($editorUsage, [
             'pageId' => $hashedId,
             'license' => ucfirst($licenseType),
             'startDate' => $editorStartDate,
             'endDate' => $editorEndDate,
             'timestamp' => time(),
-        ));
+        ]);
 
         $editorUsage = serialize($editorUsage);
         $elementCounts = json_decode($elementCounts, true);
@@ -234,7 +231,7 @@ class Controller extends Container implements Module
         $elementCounts = serialize($elementCounts);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
         // Update editor start time field for multiple save without page refresh
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartAt', date('Y-m-d H:i:s', time()));
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', date('Y-m-d H:i:s'));
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementCounts', $elementCounts);
 
         return false;
@@ -265,7 +262,7 @@ class Controller extends Container implements Module
             'name' => $template['allData']['pageTitle']['current'],
             'license' => ucfirst($licenseType),
             'action' => 'Added',
-            'date' => date('Y-m-d H:i:s', time()),
+            'date' => date('Y-m-d H:i:s'),
             'type' => $templateType,
         ];
         $templateCounts = serialize($templateCounts);
@@ -324,7 +321,7 @@ class Controller extends Container implements Module
                 'name' => $teaser['name'],
                 'license' => ucfirst($licenseType),
                 'action' => 'Downloaded',
-                'date' => date('Y-m-d H:i:s', time()),
+                'date' => date('Y-m-d H:i:s'),
                 'type' => $teaser['type'] === 'hub' ? 'Premium' : 'Free',
             ];
         } else {
@@ -333,7 +330,7 @@ class Controller extends Container implements Module
                 'name' => isset($teaser['name']) ? $teaser['name'] : $teaser['tag'],
                 'license' => ucfirst($licenseType),
                 'action' => 'Downloaded',
-                'date' => date('Y-m-d H:i:s', time()),
+                'date' => date('Y-m-d H:i:s'),
                 'type' => $teaser['type'],
             ];
         }
