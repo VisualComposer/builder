@@ -31,8 +31,8 @@ export default class NavbarContainer extends React.Component {
           <UndoRedoControl />
           {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl /> : null}
           <LayoutControl visibility='pinned' />
-          <SettingsButtonControl />
           <PlusTeaserControl />
+          <SettingsButtonControl />
           <NavbarSeparator visibility='pinned' />
           <WordPressPostSaveControl visibility='pinned' />
           <WordPressAdminControl visibility='hidden' />

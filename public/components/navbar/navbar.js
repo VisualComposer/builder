@@ -291,7 +291,9 @@ export default class Navbar extends React.Component {
   /* eslint-disable */
   UNSAFE_componentWillUpdate (nextProps, nextState) {
     if (nextState.visibleControls.length !== this.state.visibleControls.length) {
-      this.refreshControls(nextState.visibleControls)
+      setTimeout(() => {
+        this.refreshControls(nextState.visibleControls)
+      }, 1)
     }
   }
 
