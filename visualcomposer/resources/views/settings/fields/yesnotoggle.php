@@ -18,5 +18,5 @@ if (!defined('ABSPATH')) {
         <span class="vcv-ui-form-switch-label" data-vc-switch-on="<?php echo esc_attr__('yes', 'visualcomposer'); ?>"></span>
         <span class="vcv-ui-form-switch-label" data-vc-switch-off="<?php echo esc_attr__('no', 'visualcomposer'); ?>"></span>
     </label>
-    <span><?php echo isset($title) ? $title : ''; ?></span>
+    <span><?php echo isset($title) ? esc_html($title) : ''; ?></span>
 </div>

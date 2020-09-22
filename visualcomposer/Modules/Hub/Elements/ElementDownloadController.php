@@ -53,6 +53,7 @@ class ElementDownloadController extends Container implements Module
                     }
                 }
                 $this->call('collectElementVariables', [$response, $payload['sourceId']]);
+                $this->call('collectTemplateVariables', [$response, $payload['sourceId']]);
             } else {
                 return false;
             }
@@ -69,7 +70,7 @@ class ElementDownloadController extends Container implements Module
             $response['variables'] = [];
             foreach ($response['elements'] as &$element) {
                 if ($isAllowed) {
-                    vcfilter('vcv:saveTeaserDownload', ['sourceId' => $sourceId, 'element' => $element]);
+                    vcevent('vcv:saveTeaserDownload', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'element' => $element]]);
                 }
                 // Try to initialize PHP in element via autoloader
                 vcevent('vcv:hub:elements:autoload', ['element' => $element]);
@@ -80,9 +81,15 @@ class ElementDownloadController extends Container implements Module
                 unset($element['elementRealPath']);
             }
         }
+    }
+
+    protected function collectTemplateVariables($response, $sourceId)
+    {
+        $optionsHelper = vchelper('Options');
+        $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         if ($response && isset($response['templates']) && $isAllowed) {
-            foreach ($response['templates'] as &$template) {
-                vcfilter('vcv:saveTeaserDownload', ['sourceId' => $sourceId, 'template' => $template]);
+            foreach ($response['templates'] as $template) {
+                vcevent('vcv:saveTeaserDownload', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'template' => $template]]);
             }
         }
     }

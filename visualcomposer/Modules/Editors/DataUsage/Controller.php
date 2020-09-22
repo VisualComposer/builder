@@ -27,17 +27,17 @@ class Controller extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::updateInitialUsage */
         $this->addFilter('vcv:editors:frontend:render', 'updateInitialUsage', 1);
-        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageDataAction */
-        $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'sendUsageDataAction');
+        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
+        $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'sendUsageData');
         /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
         $this->wpAddAction('admin_menu', 'sendUsageData', 9);
         /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
         $this->addFilter('vcv:editors:frontend:render', 'sendUsageData', -1);
         $this->addFilter('vcv:editor:variables', 'addDataCollectionVariables');
         $this->addFilter('vcv:ajax:dataCollection:submit:adminNonce', 'submitDataCollection');
-        $this->addFilter('vcv:saveUsageStats', 'saveUsageStats', 10);
-        $this->addFilter('vcv:saveTemplateUsage', 'saveTemplateUsage', 10);
-        $this->addFilter('vcv:saveTeaserDownload', 'saveTeaserDownload', 10);
+        $this->addEvent('vcv:saveUsageStats', 'saveUsageStats');
+        $this->addEvent('vcv:saveTemplateUsage', 'saveTemplateUsage');
+        $this->addEvent('vcv:saveTeaserDownload', 'saveTeaserDownload');
     }
 
     protected function updateInitialUsage()
@@ -65,11 +65,6 @@ class Controller extends Container implements Module
         $optionsHelper->set('initialEditorUsage', $initialUsages);
 
         return false;
-    }
-
-    protected function sendUsageDataAction()
-    {
-        return $this->call('sendUsageData');
     }
 
     protected function sendUsageData()
@@ -104,7 +99,7 @@ class Controller extends Container implements Module
                 if ($teaserDownloads) {
                     $usageStats['downloadedContent'] = unserialize($teaserDownloads);
                 }
-                
+
                 $url = $urlHelper->query(
                     vcvenv('VCV_HUB_URL'),
                     [
@@ -188,12 +183,12 @@ class Controller extends Container implements Module
         return ['status' => true];
     }
 
-    protected function saveUsageStats($data)
+    protected function saveUsageStats($response, $payload)
     {
-        $sourceId = $data['sourceId'];
+        $sourceId = $payload['sourceId'];
         $hashedId = $this->getHashedKey($sourceId);
-        $elementCounts = $data['elementCounts'];
-        $licenseType = $data['licenseType'];
+        $elementCounts = $payload['elementCounts'];
+        $licenseType = $payload['licenseType'];
         if (!$licenseType) {
             $licenseType = 'Not Activated';
         }
@@ -245,11 +240,11 @@ class Controller extends Container implements Module
         return false;
     }
 
-    protected function saveTemplateUsage($data)
+    protected function saveTemplateUsage($response, $payload)
     {
-        $sourceId = $data['sourceId'];
+        $sourceId = $payload['sourceId'];
         $hashedId = $this->getHashedKey($sourceId);
-        $id = $data['templateId'];
+        $id = $payload['templateId'];
         $editorTemplatesHelper = vchelper('EditorTemplates');
         $optionsHelper = vchelper('Options');
         $template = $editorTemplatesHelper->read($id);
@@ -279,14 +274,14 @@ class Controller extends Container implements Module
         return false;
     }
 
-    protected function saveTeaserDownload($data)
+    protected function saveTeaserDownload($response, $payload)
     {
-        $sourceId = $data['sourceId'];
+        $sourceId = $payload['sourceId'];
         if (!$sourceId) {
             $sourceId = 'dashboard';
         }
         $hashedId = $this->getHashedKey($sourceId);
-        $teaser = isset($data['template']) ? $data['template'] : $data['element'];
+        $teaser = isset($payload['template']) ? $payload['template'] : $payload['element'];
         $optionsHelper = vchelper('Options');
         $licenseType = $optionsHelper->get('license-type');
         if (!$licenseType) {
@@ -299,7 +294,7 @@ class Controller extends Container implements Module
 
         $teaserId = isset($teaser['id']) ? $teaser['id'] : $teaser['key'];
 
-        if (isset($data['element'])) {
+        if (isset($payload['element'])) {
             $elementData = array_values(
                 (array)$optionsHelper->get(
                     'hubTeaserElements',
@@ -322,7 +317,7 @@ class Controller extends Container implements Module
             }
         }
 
-        if (isset($data['template'])) {
+        if (isset($payload['template'])) {
             $downloadedContent['templateUsage'][$teaserId] = [
                 'pageId' => $hashedId,
                 'name' => $teaser['name'],
