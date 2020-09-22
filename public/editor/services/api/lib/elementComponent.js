@@ -85,11 +85,11 @@ export default class ElementComponent extends React.Component {
             const { headerContent, shortcodeContent, footerContent } = jsonData
             ref && (ref.innerHTML = '')
             window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
-            const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+            const headerDom = window.jQuery('<div>' + headerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
             headerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-            const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+            const shortcodeDom = window.jQuery('<div>' + shortcodeContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
             shortcodeDom.context = document
             if (shortcodeDom.children().length) {
               shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
@@ -97,7 +97,7 @@ export default class ElementComponent extends React.Component {
               window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
             }
 
-            const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+            const footerDom = window.jQuery('<div>' + footerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
             footerDom.context = document
             shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
               window.setTimeout(() => {
@@ -114,11 +114,11 @@ export default class ElementComponent extends React.Component {
                 const { headerContent, shortcodeContent, footerContent } = jsonData
                 ref && (ref.innerHTML = '')
                 window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
-                const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+                const headerDom = window.jQuery('<div>' + headerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
                 headerDom.context = document
                 shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
 
-                const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+                const shortcodeDom = window.jQuery('<div>' + shortcodeContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
                 shortcodeDom.context = document
                 if (shortcodeDom.children().length) {
                   shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
@@ -126,7 +126,7 @@ export default class ElementComponent extends React.Component {
                   window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
                 }
 
-                const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+                const footerDom = window.jQuery('<div>' + footerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
                 footerDom.context = document
                 shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
                   window.setTimeout(() => {

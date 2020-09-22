@@ -162,7 +162,6 @@ export default class ControlsManager {
         // unset prev element
         if (this.state.prevElement) {
           layoutStorage.state('interactWithContent').set({
-            event: e,
             type: 'mouseLeave',
             element: this.state.prevElement,
             vcElementId: this.state.prevElement.dataset.vcvElement,
@@ -175,7 +174,6 @@ export default class ControlsManager {
         // set new element
         if (element) {
           layoutStorage.state('interactWithContent').set({
-            event: e,
             type: 'mouseEnter',
             element: element,
             vcElementId: element.dataset.vcvElement,
@@ -185,7 +183,6 @@ export default class ControlsManager {
             })
           })
           layoutStorage.state('interactWithContent').set({
-            event: e,
             type: 'mouseDown',
             element: element,
             vcElementId: element.dataset.vcvElement,
@@ -448,9 +445,16 @@ export default class ControlsManager {
       // Current element will always be 0 indexed
       if (index === 0) {
         elementTag = documentElement.tag
-      }
-      // Show frames for all except columns
-      if (documentElement.tag !== 'column') {
+        if (elementTag === 'row' || elementTag === 'column') {
+          const topParentId = documentService.getTopParent(id)
+          const descendantElements = documentService.getDescendants(topParentId)
+          Object.keys(descendantElements).forEach((element) => {
+            if (descendantElements[element].tag === 'row') {
+              elementsToShow.push(element)
+            }
+          })
+        }
+      } else if (elementTag !== 'column') {
         elementsToShow.push(documentElement.id)
       }
     })
