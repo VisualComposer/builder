@@ -280,7 +280,7 @@ class Controller extends Container implements Module
         if ($isAllowed) {
             $licenseType = $requestHelper->input('vcv-license-type');
             $elementCounts = $requestHelper->input('vcv-element-counts');
-            vcfilter('vcv:saveUsageStats', ['sourceId' => $sourceId, 'elementCounts' => $elementCounts, 'licenseType' => $licenseType]);
+            vcevent('vcv:saveUsageStats', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'elementCounts' => $elementCounts, 'licenseType' => $licenseType]]);
         }
 
         //bring it back once you're done posting
