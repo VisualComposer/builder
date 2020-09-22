@@ -32,7 +32,6 @@ class ItemDataCollectionController extends Container implements Module
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = 'vcv-settings-itemdatacollection-enabled';
-        $this->addFilter('vcv:dataAjax:getData', 'outputItemDataCollection');
 
         $this->wpAddAction(
             'admin_init',
@@ -94,13 +93,5 @@ class ItemDataCollectionController extends Container implements Module
                 'isEnabled' => $isEnabled,
             ]
         );
-    }
-
-    protected function outputItemDataCollection($response, $payload, Options $optionsHelper)
-    {
-        $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', true);
-        $response['itemDataCollectionEnabled'] = !$isEnabled;
-
-        return $response;
     }
 }
