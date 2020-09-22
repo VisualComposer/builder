@@ -53,6 +53,7 @@ class CurrentUser extends AccessFactory implements Helper
     public function wpMulti($callback, $valid, $argsList)
     {
         if ($this->getValidAccess()) {
+            require_once ABSPATH . "wp-includes/pluggable.php";
             $access = !$valid;
             /** @var Application $vcapp */
             $vcapp = vcapp();

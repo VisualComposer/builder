@@ -178,6 +178,7 @@ jobs:
       - run:
           name: Link files and directories
           command: |
+            echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', false); VcvEnv::set('VCV_ENV_DEV_ADDONS', false); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', true); require_once(__DIR__ . '/env.php');" > env-dev.php
             ln -s $(pwd) /var/www/html/wp-content/plugins/builder
             sudo chmod 777 -R /var/www/html/wp-content
       - restore_cache:
