@@ -13,6 +13,8 @@ const hubElementsStorage = getStorage('hubElements')
 const cook = getService('cook')
 
 export default class EditFormSection extends React.Component {
+  _isMounted = false
+
   static propTypes = {
     tab: PropTypes.object.isRequired,
     onAttributeChange: PropTypes.func.isRequired,
@@ -44,6 +46,7 @@ export default class EditFormSection extends React.Component {
   }
 
   componentDidMount () {
+    this._isMounted = true
     if (this.props.tab.index === this.props.activeTabIndex) {
       window.setTimeout(() => {
         this.checkSectionPosition()
@@ -69,6 +72,7 @@ export default class EditFormSection extends React.Component {
   }
 
   componentWillUnmount () {
+    this._isMounted = false
     if (this.props.setFieldUnmount) {
       this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
     }
@@ -235,18 +239,24 @@ export default class EditFormSection extends React.Component {
         if (jsonData && jsonData.status && jsonData.data) {
           jsonData.data.presetData = JSON.parse(window.decodeURIComponent(jsonData.data.presetData))
           hubElementsStorage.trigger('addPreset', jsonData.data)
-          this.displaySuccess(elementHasBeenSaved)
+          if (this._isMounted) {
+            this.displaySuccess(elementHasBeenSaved)
+          }
         } else {
           let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
           errorMessage = errorMessage || noAccessCheckLicence
-          this.displayError(errorMessage)
+          if (this._isMounted) {
+            this.displayError(errorMessage)
+          }
 
           if (env('VCV_DEBUG')) {
             console.warn(errorMessage, jsonData)
           }
         }
       } catch (e) {
-        this.displayError(couldNotParseData)
+        if (this._isMounted) {
+          this.displayError(couldNotParseData)
+        }
 
         if (env('VCV_DEBUG')) {
           console.warn(couldNotParseData, e)
