@@ -2,124 +2,172 @@ import { addStorage, getService, getStorage } from 'vc-cake'
 
 addStorage('shortcodeAssets', (storage) => {
   const utils = getService('utils')
+  let loadedAssetsList = []
 
-  // new shortcode logic
-  let loadedFiles = []
-  const collectLoadFiles = () => {
-    loadedFiles = []
-    const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-
-    const data = {
-      domNodes: assetsWindow.document.querySelectorAll('style, link[href], script'),
-      cacheInnerHTML: true
+  /**
+   * Get unique Slug for provided DomNode
+   * @param {Element} domNode
+   * @returns {string}
+   */
+  const getNodeSlug = (domNode) => {
+    let slug = ''
+    if (domNode.href) {
+      slug = utils.slugify(domNode.href)
+    } else if (domNode.src) {
+      slug = utils.slugify(domNode.src)
+    } else if (domNode.id && domNode.type && domNode.type.indexOf('template') >= 0) {
+      slug = domNode.id
+    } else {
+      slug = utils.slugify(domNode.innerHTML || domNode.textContent)
     }
-    loadFiles(data)
+
+    return slug
   }
 
-  const scriptsLoader = {
-    src: [],
-    add: (src, ref) => {
-      scriptsLoader.src.push({ src: src, ref: ref })
-    },
-    loadNext: (assetsWindow, finishCb) => {
-      if (scriptsLoader.src.length) {
-        const tmpSrc = scriptsLoader.src.splice(0, 1)
-        let tmpScript = document.createElement('script')
-        tmpScript.async = true
-        tmpScript.src = tmpSrc[0].src
-        tmpScript.onload = tmpScript.onreadystatechange = function () {
-          tmpScript.parentNode && tmpScript.parentNode.removeChild(tmpScript)
-          tmpScript = null
-          scriptsLoader.loadNext(assetsWindow, finishCb)
+  /**
+   * Checking is provided slug already loaded in page
+   * @param {string} slug
+   * @returns {boolean}
+   */
+  const isNodeCached = (slug) => {
+    let cached = slug && slug.length > 0 && loadedAssetsList.indexOf(slug) >= 0
+    // Remove first part of url, because they can differ by CDN and local files
+    // Additional check for is cached by strip wp-content part
+    if (!cached) {
+      const cutSlug = slug.split('wp-content')[1]
+      loadedAssetsList.forEach((loadedFile) => {
+        const cutLoadedFile = loadedFile.split('wp-content')[1]
+        if (cutLoadedFile && cutSlug && (cutLoadedFile === cutSlug)) {
+          cached = true
         }
-        tmpScript.onerror = function () {
-          console.warn('Error loading script', tmpSrc[0].src)
-          tmpScript.parentNode && tmpScript.parentNode.removeChild(tmpScript)
-          tmpScript = null
-          scriptsLoader.loadNext(assetsWindow, finishCb)
-        }
+      })
+    }
 
-        tmpSrc[0].ref.insertBefore(tmpScript, tmpSrc[0].ref.firstChild)
+    return cached
+  }
+
+  /**
+   * This method used to generate list of already loaded scripts/styles
+   * in a page to avoid unnecessary overriding or duplicating
+   */
+  const cachePageAssets = () => {
+    loadedAssetsList = []
+    const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+
+    assetsWindow.document.querySelectorAll('style, link[href], script').forEach((domNode) => {
+      loadedAssetsList.push(getNodeSlug(domNode))
+    })
+  }
+
+  /**
+   * Custom Scripts loaded
+   * Used to async load provided scripts by src
+   * Or append it immediately
+   */
+  const scriptsLoader = {
+    shadowScriptsNodes: [],
+    add: (item) => {
+      scriptsLoader.shadowScriptsNodes.push(item)
+    },
+    /**
+     * Recursive script queue loading
+     * @param assetsWindow
+     * @param ref
+     * @param finishCb
+     */
+    loadNext: (assetsWindow, ref, finishCb) => {
+      if (scriptsLoader.shadowScriptsNodes.length) {
+        try {
+          /** @var {Element} tmpScript **/
+          const tmpScript = scriptsLoader.shadowScriptsNodes.splice(0, 1)[0]
+          loadedAssetsList.push(getNodeSlug(tmpScript))
+
+          if (tmpScript && tmpScript.src) {
+            // Load script from src
+            let tmpScriptNode = document.createElement('script')
+            tmpScriptNode.async = true
+            tmpScriptNode.src = tmpScript.src
+            tmpScriptNode.onload = tmpScriptNode.onreadystatechange = function () {
+              tmpScriptNode.parentNode && tmpScriptNode.parentNode.removeChild(tmpScriptNode)
+              tmpScriptNode = null
+              scriptsLoader.loadNext(assetsWindow, ref, finishCb)
+            }
+            tmpScriptNode.onerror = function () {
+              console.warn('Error loading script', tmpScript.src)
+              tmpScriptNode.parentNode && tmpScriptNode.parentNode.removeChild(tmpScriptNode)
+              tmpScriptNode = null
+              scriptsLoader.loadNext(assetsWindow, ref, finishCb)
+            }
+
+            ref.append(tmpScriptNode)
+          } else {
+            // Just append inline
+            ref.append(tmpScript)
+            scriptsLoader.loadNext(assetsWindow, ref, finishCb)
+          }
+        } catch (e) {
+          console.warn('Failed to loadScript', e)
+          scriptsLoader.loadNext(assetsWindow, ref, finishCb)
+        }
       } else {
         finishCb && finishCb()
       }
     }
   }
-  const loadFiles = (data, finishCb) => {
+
+  const renderShadowDom = (data, finishCb) => {
+    // Context
     const assetsWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
 
-    if (data.domNodes && data.domNodes.length) {
-      const allowedHeadTags = ['META', 'LINK', 'STYLE', 'SCRIPT']
-      Array.from(data.domNodes).forEach(domNode => {
-        let slug = ''
-        let position = ''
-        let type = ''
-        if (domNode.href && (allowedHeadTags.indexOf(domNode.tagName) > -1)) {
-          slug = utils.slugify(domNode.href)
-          position = 'head'
-          type = 'css'
-        } else if (domNode.src) {
-          slug = utils.slugify(domNode.src)
-          !data.ignoreCache && (position = 'body')
-          type = 'js'
-        } else if (domNode.id && domNode.type && domNode.type.indexOf('template') >= 0) {
-          slug = domNode.id
-          position = 'head'
-          type = 'template'
-        } else if (data.cacheInnerHTML) {
-          slug = utils.slugify(domNode.innerHTML || domNode.textContent)
-        }
+    // ### Nodes ### logic:
+    // - get all assets
+    // - check if it is cached (or ignoreCache)
+    // - put css in HEAD
+    // - put scripts in data.ref
 
-        let cached = slug && slug.length > 0 && loadedFiles.indexOf(slug) >= 0
+    // ###SCRIPTS### collect and remove scripts from data.ref
+    const shadowScriptNodes = data.shadowDom.find('script')
+    shadowScriptNodes.each((index, domNode) => {
+      const slug = getNodeSlug(domNode)
 
-        // Remove first part of url, because they can differ by CDN and local files
-        if (!cached) {
-          loadedFiles.forEach((loadedFile) => {
-            const cutLoadedFile = loadedFile.split('wp-content')[1]
-            const cutSlug = slug.split('wp-content')[1]
-            if (cutLoadedFile && cutSlug && (cutLoadedFile === cutSlug)) {
-              cached = true
-            }
-          })
-        }
+      if (!isNodeCached(slug) || data.ignoreCache) {
+        // Put scripts to queue, this will also add to loadedAssetsList cache
+        scriptsLoader.add(domNode)
+      }
+      // Will be added later (or already added-cached), remove from shadow dom
+      domNode.remove()
+    })
 
-        const ignoreCache = type === 'template' ? false : data.ignoreCache
-        if (!cached || ignoreCache) {
-          !ignoreCache && slug && loadedFiles.push(slug)
-          if (data.addToDocument) {
-            try {
-              if (domNode.tagName === 'SCRIPT') {
-                if (domNode.src) {
-                  scriptsLoader.add(domNode.src, data.ref)
-                } else {
-                  data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
-                }
-              } else {
-                if (position) {
-                  assetsWindow.document[position] && assetsWindow.jQuery(assetsWindow.document[position]).append(domNode)
-                } else {
-                  data.ref && assetsWindow.jQuery(data.ref) && assetsWindow.jQuery(data.ref).append(domNode)
-                }
-              }
-            } catch (e) {
-              console.warn('Failed to add domNode', e, domNode)
-            }
-          }
+    // ###STYLES###
+    const shadowStylesNodes = data.shadowDom.find('style,link[href]')
+    shadowStylesNodes.each((index, domNode) => {
+      const slug = getNodeSlug(domNode)
+
+      // For CSS in case if cached don't append it again
+      // In case if data.ignoreCache it will be appended
+      if (isNodeCached(slug)) {
+        if (!data.ignoreCache) {
+          // Already added on page
+          domNode.remove()
         }
-      })
-      scriptsLoader.loadNext(assetsWindow, finishCb)
-    } else {
-      finishCb && finishCb()
-    }
+      } else {
+        // Add CSS to Cache list
+        loadedAssetsList.push(slug)
+      }
+    })
+
+    // Append shadowDom to ref
+    assetsWindow.jQuery(data.ref).append(data.shadowDom)
+
+    // Append scripts to ref
+    scriptsLoader.loadNext(assetsWindow, data.ref, finishCb)
   }
 
   // Collecting
-  collectLoadFiles()
+  cachePageAssets()
 
   // Event listen
-  storage.on('add', (data, finishCb) => {
-    loadFiles(data, finishCb)
-  })
+  storage.on('add', renderShadowDom)
 
   let timer = null
   getStorage('workspace').state('iframe').onChange((data) => {
@@ -129,7 +177,8 @@ addStorage('shortcodeAssets', (storage) => {
         timer = null
       }
       timer = window.setTimeout(() => {
-        collectLoadFiles()
+        loadedAssetsList = []
+        cachePageAssets()
       }, 100)
     }
   })

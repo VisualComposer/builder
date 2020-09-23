@@ -12,14 +12,13 @@ import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
-import { getResponse } from 'public/tools/response'
+import { updateHtmlWithServer } from 'public/tools/updateHtmlWithServer'
+import { spinnerHtml } from 'public/tools/spinnerHtml'
 
-const shortcodesAssetsStorage = getStorage('shortcodeAssets')
 const assetsStorage = getStorage('assets')
-const { getShortcodesRegexp, getBlockRegexp } = getService('utils')
+const { getBlockRegexp } = getService('utils')
 const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
-const dataProcessor = getService('dataProcessor')
 const elementsSettingsStorage = getStorage('elementsSettings')
 
 export default class ElementComponent extends React.Component {
@@ -41,14 +40,8 @@ export default class ElementComponent extends React.Component {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
   }
 
-  componentWillUnmount () {
-    if (this.ajax) {
-      this.ajax.cancelled = true
-    }
-  }
-
   spinnerHTML () {
-    return '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
+    return spinnerHtml
   }
 
   updateElementAssets (data, source, options) {
@@ -64,90 +57,7 @@ export default class ElementComponent extends React.Component {
   }
 
   updateShortcodeToHtml (content, ref, cb) {
-    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
-      ref && (ref.innerHTML = this.spinnerHTML())
-      const that = this
-      this.ajax = dataProcessor.appServerRequest({
-        'vcv-action': 'elements:ajaxShortcode:adminNonce',
-        'vcv-shortcode-string': content,
-        'vcv-nonce': window.vcvNonce,
-        'vcv-source-id': window.vcvSourceID
-      }).then((data) => {
-        if (this.ajax && this.ajax.cancelled) {
-          this.ajax = null
-          return
-        }
-        const iframe = env('iframe')
-
-        try {
-          ((function (window, document) {
-            const jsonData = JSON.parse(data)
-            const { headerContent, shortcodeContent, footerContent } = jsonData
-            ref && (ref.innerHTML = '')
-            window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
-            const headerDom = window.jQuery('<div>' + headerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-            headerDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
-
-            const shortcodeDom = window.jQuery('<div>' + shortcodeContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-            shortcodeDom.context = document
-            if (shortcodeDom.children().length) {
-              shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
-            } else if (shortcodeDom.text()) {
-              window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
-            }
-
-            const footerDom = window.jQuery('<div>' + footerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-            footerDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
-              window.setTimeout(() => {
-                window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
-                window.vcv && window.vcv.trigger('ready', 'update', that.props.id)
-              }, 150)
-            })
-          })(iframe, iframe.document))
-        } catch (e) {
-          const jsonData = this.getResponse(data)
-          if (jsonData) {
-            try {
-              ((function (window, document) {
-                const { headerContent, shortcodeContent, footerContent } = jsonData
-                ref && (ref.innerHTML = '')
-                window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, true)
-                const headerDom = window.jQuery('<div>' + headerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-                headerDom.context = document
-                shortcodesAssetsStorage.trigger('add', { type: 'header', ref: ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
-
-                const shortcodeDom = window.jQuery('<div>' + shortcodeContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-                shortcodeDom.context = document
-                if (shortcodeDom.children().length) {
-                  shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, domNodes: shortcodeDom.contents(), addToDocument: true })
-                } else if (shortcodeDom.text()) {
-                  window.jQuery(ref).append(document.createTextNode(shortcodeDom.text()))
-                }
-
-                const footerDom = window.jQuery('<div>' + footerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-                footerDom.context = document
-                shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true }, () => {
-                  window.setTimeout(() => {
-                    window.vcvFreezeReady && window.vcvFreezeReady(that.props.id, false)
-                    window.vcv && window.vcv.trigger('ready', 'update', that.props.id)
-                  }, 150)
-                })
-              })(iframe, iframe.document))
-            } catch (pe) {
-              console.warn(pe)
-            }
-          } else {
-            console.warn('failed to parse json', e, data)
-          }
-        }
-        this.ajax = null
-        cb && cb.constructor === Function && cb()
-      })
-    } else {
-      ref && (ref.innerHTML = content)
-    }
+    updateHtmlWithServer(content, ref, this.props.id, cb)
   }
 
   updateInlineHtml (elementWrapper, html = '', tagString = '') {
@@ -697,10 +607,6 @@ export default class ElementComponent extends React.Component {
       })
     }
     return attributes
-  }
-
-  getResponse (result) {
-    return getResponse(result)
   }
 
   render () {
