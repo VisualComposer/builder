@@ -6,18 +6,14 @@ import lodash from 'lodash'
 import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
 import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
 import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts.js'
+import { updateHtmlWithServer } from 'public/tools/updateHtmlWithServer'
 
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
-const shortcodesAssetsStorage = vcCake.getStorage('shortcodeAssets')
 const workspaceStorage = vcCake.getStorage('workspace')
-const { getShortcodesRegexp } = vcCake.getService('utils')
-const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class ContentEditableComponent extends React.Component {
-  static spinnerHTML = '<span class="vcv-ui-content-editable-helper-loader vcv-ui-wp-spinner"></span>'
-
   static propTypes = {
     api: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
@@ -48,7 +44,6 @@ export default class ContentEditableComponent extends React.Component {
     this.state = {
       contentEditable: false,
       trackMouse: false,
-      html: ContentEditableComponent.spinnerHTML,
       realContent: this.props.children,
       mouse: null,
       overlayTimeout: null,
@@ -362,42 +357,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || content.indexOf('<!-- wp') !== -1)) {
-      this.ref && (this.ref.innerHTML = ContentEditableComponent.spinnerHTML)
-      dataProcessor.appServerRequest({
-        'vcv-action': 'elements:ajaxShortcode:adminNonce',
-        'vcv-shortcode-string': content,
-        'vcv-nonce': window.vcvNonce,
-        'vcv-source-id': window.vcvSourceID
-      }).then((data) => {
-        const iframe = vcCake.env('iframe')
-        const _this = this
-
-        try {
-          ((function (window, document) {
-            const jsonData = JSON.parse(data)
-            const { headerContent, shortcodeContent, footerContent } = jsonData
-            _this.ref && (_this.ref.innerHTML = '')
-
-            const headerDom = window.jQuery('<div>' + headerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-            headerDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'header', ref: _this.ref, domNodes: headerDom.children(), cacheInnerHTML: true, addToDocument: true })
-
-            const shortcodeDom = window.jQuery('<div>' + shortcodeContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-            shortcodeDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'shortcode', ref: _this.ref, domNodes: shortcodeDom.contents(), addToDocument: true })
-
-            const footerDom = window.jQuery('<div>' + footerContent.replace(/<p><script/, '<script').replace(/<\/script><\/p>/, '</script>') + '</div>', document)
-            footerDom.context = document
-            shortcodesAssetsStorage.trigger('add', { type: 'footer', ref: _this.ref, domNodes: footerDom.children(), addToDocument: true, ignoreCache: true })
-          })(iframe, iframe.document))
-        } catch (e) {
-          console.warn('failed to parse json', e)
-        }
-      })
-    } else {
-      this.ref && (this.ref.innerHTML = content)
-    }
+    updateHtmlWithServer(content, this.ref, this.props.id)
   }
 
   updateElementData (content) {
