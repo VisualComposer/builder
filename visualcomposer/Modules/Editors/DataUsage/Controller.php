@@ -51,7 +51,7 @@ class Controller extends Container implements Module
 
         $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
         if ($initialUsages) {
-            $initialUsages ++;
+            $initialUsages++;
         } else {
             $initialUsages = 1;
         }
