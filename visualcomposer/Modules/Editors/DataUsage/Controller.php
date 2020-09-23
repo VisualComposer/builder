@@ -29,10 +29,6 @@ class Controller extends Container implements Module
         $this->addFilter('vcv:editors:frontend:render', 'updateInitialUsage', 1);
         /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
         $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'sendUsageData');
-        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
-        $this->wpAddAction('admin_menu', 'sendUsageData', 9);
-        /** @see \VisualComposer\Modules\Editors\DataUsage\Controller::sendUsageData */
-        $this->addFilter('vcv:editors:frontend:render', 'sendUsageData', -1);
         $this->addFilter('vcv:editor:variables', 'addDataCollectionVariables');
         $this->addFilter('vcv:ajax:dataCollection:submit:adminNonce', 'submitDataCollection');
         $this->addEvent('vcv:saveUsageStats', 'saveUsageStats');
@@ -55,7 +51,7 @@ class Controller extends Container implements Module
 
         $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
         if ($initialUsages) {
-            $initialUsages += 1;
+            $initialUsages ++;
         } else {
             $initialUsages = 1;
         }
@@ -103,6 +99,7 @@ class Controller extends Container implements Module
                         'vcv-send-usage-statistics' => 'sendUsageStatistics',
                         'vcv-license-key' => $licenseKey,
                         'vcv-statistics' => $usageStats,
+                        'vcv-hashed-url' => $this->getHashedKey(get_site_url()),
                     ]
                 );
 
@@ -130,26 +127,20 @@ class Controller extends Container implements Module
     {
         if (isset($payload['sourceId'])) {
             $optionsHelper = vchelper('Options');
-            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled');
-            $dataCollectionPopupOk = false;
-            $isEnabledStatus = false;
-            if ($isEnabled && $isEnabled !== '') {
-                $isEnabledStatus = true;
-            } elseif (!$isEnabled && $isEnabled !== '') {
-                // Have at least 10 initial usages
-                $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
-                // @codingStandardsIgnoreLine
-                $dataCollectionPopupOk = $initialUsages >= 10;
-            }
+            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', null);
+            // Have at least 10 initial usages
+            $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
+            // @codingStandardsIgnoreLine
+            $dataCollectionPopupOk = $initialUsages >= 10;
 
             $variables[] = [
                 'key' => 'VCV_SHOW_DATA_COLLECTION_POPUP',
-                'value' => $dataCollectionPopupOk,
+                'value' => is_null($isEnabled) && $dataCollectionPopupOk,
                 'type' => 'constant',
             ];
             $variables[] = [
                 'key' => 'VCV_DATA_COLLECTION_ENABLED',
-                'value' => $isEnabledStatus,
+                'value' => $isEnabled,
                 'type' => 'variable',
             ];
         }
@@ -193,7 +184,7 @@ class Controller extends Container implements Module
         $updatedPostsList = $optionsHelper->get('updatedPostsList');
         if ($updatedPostsList && is_array($updatedPostsList)) {
             if (!in_array($sourceId, $updatedPostsList)) {
-                array_push($updatedPostsList, $sourceId);
+                $updatedPostsList[] = $sourceId;
             }
         } else {
             $updatedPostsList[] = $sourceId;
@@ -215,13 +206,13 @@ class Controller extends Container implements Module
                 unset($editorUsage[$key]);
             }
         }
-        array_push($editorUsage, [
+        $editorUsage[] = [
             'pageId' => $hashedId,
             'license' => ucfirst($licenseType),
             'startDate' => $editorStartDate,
             'endDate' => $editorEndDate,
             'timestamp' => time(),
-        ]);
+        ];
 
         $editorUsage = serialize($editorUsage);
         $elementCounts = json_decode($elementCounts, true);
