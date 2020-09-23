@@ -16,7 +16,7 @@ add('insights', () => {
     localizations = window.VCV_I18N ? window.VCV_I18N() : {}
 
     checkTitleLength () {
-      if (window.VCV_EDITOR_TYPE) {
+      if (window.VCV_EDITOR_TYPE || settingsStorage.state('pageTitleDisabled').get()) {
         return
       }
 
@@ -35,14 +35,14 @@ add('insights', () => {
           title: insightsTitleTooLong,
           groupDescription: insightsTitleTooLong100
         })
-      } else if (pageTitleLength > 60) {
+      } else if (pageTitleLength > 61) {
         insightsStorage.trigger('add', {
           state: 'warning',
           type: 'titleLength',
           title: insightsTitleTooLong,
           groupDescription: insightsTitleTooLong60
         })
-      } else if (pageTitleLength > 10) {
+      } else if (pageTitleLength > 9) {
         insightsStorage.trigger('add', {
           state: 'success',
           type: 'titleLength',
@@ -122,7 +122,7 @@ add('insights', () => {
       let visibleHeadings = 0
       for (let i = 0; i < headings.length; i++) {
         const heading = headings[i]
-        if (heading.offsetParent !== null) {
+        if (heading.offsetParent !== null && heading.getBoundingClientRect().height) {
           // we found at least one <h1>, done!
           visibleHeadings++
           break
@@ -460,6 +460,7 @@ add('insights', () => {
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
     settingsStorage.state('pageTitleDisabled').onChange(runChecksCallback)
+    settingsStorage.state('pageTitle').onChange(runChecksCallback)
     workspaceStorage.state('iframe').onChange(({ type }) => {
       if (type === 'loaded') {
         runChecksCallback()
