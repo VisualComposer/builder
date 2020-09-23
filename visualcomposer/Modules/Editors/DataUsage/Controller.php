@@ -36,7 +36,7 @@ class Controller extends Container implements Module
         $this->addEvent('vcv:saveTeaserDownload', 'saveTeaserDownload');
     }
 
-    protected function updateInitialUsage()
+    protected function updateInitialUsage($response, $payload)
     {
         global $post;
         if (!isset($post, $post->ID)) {
@@ -57,7 +57,7 @@ class Controller extends Container implements Module
         }
         $optionsHelper->set('initialEditorUsage', $initialUsages);
 
-        return false;
+        return $response;
     }
 
     protected function sendUsageData()
@@ -66,7 +66,7 @@ class Controller extends Container implements Module
         $optionsHelper = vchelper('Options');
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
-        if ($isAllowed && $optionsHelper->getTransient('lastUsageSend')) {
+        if ($isAllowed && !$optionsHelper->getTransient('lastUsageSend')) {
             $licenseKey = $optionsHelper->get('license-key');
             $updatedPostsList = $optionsHelper->get('updatedPostsList');
             if ($updatedPostsList && is_array($updatedPostsList)) {
