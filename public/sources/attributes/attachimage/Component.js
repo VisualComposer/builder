@@ -280,7 +280,10 @@ export default class AttachImage extends Attribute {
 
   onMediaSelect () {
     const selection = this.mediaUploader.state().get('selection')
-    this.setFieldValue(this.parseSelection(selection))
+    const parsedSelection = this.parseSelection(selection)
+    if (parsedSelection && parsedSelection.urls && parsedSelection.urls.length) {
+      this.setFieldValue(parsedSelection)
+    }
   }
 
   parseSelection (selection) {
@@ -294,6 +297,9 @@ export default class AttachImage extends Attribute {
     const urls = []
     selection.forEach((attachment, index) => {
       const attachmentData = this.mediaAttachmentParse(attachment)
+      if (!attachmentData || !attachmentData.url || !attachmentData.url.full) {
+        return
+      }
       const url = Object.assign({}, attachmentData.url)
       ids.push(attachmentData.id)
 
