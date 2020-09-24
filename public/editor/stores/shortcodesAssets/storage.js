@@ -102,7 +102,9 @@ addStorage('shortcodeAssets', (storage) => {
             ref.append(tmpScriptNode)
           } else {
             // Just append inline
-            ref.append(tmpScript)
+            const range = document.createRange()
+            const documentFragment = range.createContextualFragment(tmpScript.outerHTML)
+            ref.appendChild(documentFragment)
             scriptsLoader.loadNext(assetsWindow, ref, finishCb)
           }
         } catch (e) {
