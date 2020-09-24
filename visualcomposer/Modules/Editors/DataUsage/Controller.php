@@ -67,7 +67,6 @@ class Controller extends Container implements Module
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
         if ($isAllowed && !$optionsHelper->getTransient('lastUsageSend')) {
-            $licenseKey = $optionsHelper->get('license-key');
             $updatedPostsList = $optionsHelper->get('updatedPostsList');
             if ($updatedPostsList && is_array($updatedPostsList)) {
                 $usageStats = [];
@@ -78,18 +77,18 @@ class Controller extends Container implements Module
                     $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementCounts', true);
                     $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts', true);
 
-                    if ($editorUsage) {
+                    if (unserialize($editorUsage)) {
                         $usageStats[$hashedId]['editorUsage'] = unserialize($editorUsage);
                     }
-                    if ($elementUsage) {
+                    if (unserialize($elementUsage)) {
                         $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
                     }
-                    if ($templateUsage) {
+                    if (unserialize($templateUsage)) {
                         $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
                     }
                 }
 
-                if ($teaserDownloads) {
+                if (unserialize($teaserDownloads)) {
                     $usageStats['downloadedContent'] = unserialize($teaserDownloads);
                 }
 
@@ -97,7 +96,6 @@ class Controller extends Container implements Module
                     vcvenv('VCV_HUB_URL'),
                     [
                         'vcv-send-usage-statistics' => 'sendUsageStatistics',
-                        'vcv-license-key' => $licenseKey,
                         'vcv-statistics' => $usageStats,
                         'vcv-hashed-url' => $this->getHashedKey(get_site_url()),
                     ]
@@ -341,8 +339,6 @@ class Controller extends Container implements Module
      */
     protected function getHashedKey($key)
     {
-        $salt = 'vcvSourceId';
-
-        return substr(md5($salt . $key), 2, 12);
+        return substr(md5(wp_salt() . $key), 2, 12);
     }
 }
