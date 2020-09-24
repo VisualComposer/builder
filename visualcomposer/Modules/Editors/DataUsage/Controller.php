@@ -67,10 +67,14 @@ class Controller extends Container implements Module
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
         if ($isAllowed && !$optionsHelper->getTransient('lastUsageSend')) {
+            $usageStats = [];
+            $teaserDownloads = $optionsHelper->get('downloadedContent');
+            if (unserialize($teaserDownloads)) {
+                $usageStats['downloadedContent'] = unserialize($teaserDownloads);
+            }
+
             $updatedPostsList = $optionsHelper->get('updatedPostsList');
             if ($updatedPostsList && is_array($updatedPostsList)) {
-                $usageStats = [];
-                $teaserDownloads = $optionsHelper->get('downloadedContent');
                 foreach ($updatedPostsList as $postId) {
                     $hashedId = $this->getHashedKey($postId);
                     $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
@@ -87,26 +91,30 @@ class Controller extends Container implements Module
                         $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
                     }
                 }
+            }
 
-                if (unserialize($teaserDownloads)) {
-                    $usageStats['downloadedContent'] = unserialize($teaserDownloads);
-                }
+            if (!empty($usageStats)) {
+                $data = [
+                    'vcv-send-usage-statistics' => 'sendUsageStatistics',
+                    'vcv-statistics' => $usageStats,
+                    'vcv-hashed-url' => $this->getHashedKey(get_site_url()),
+                ];
+                $json = json_encode($data);
+                $zip = zlib_encode($json, ZLIB_ENCODING_DEFLATE);
+                // @codingStandardsIgnoreLine
+                $base64 = base64_encode($zip);
 
-                $url = $urlHelper->query(
+                $request = wp_remote_post(
                     vcvenv('VCV_HUB_URL'),
                     [
-                        'vcv-send-usage-statistics' => 'sendUsageStatistics',
-                        'vcv-statistics' => $usageStats,
-                        'vcv-hashed-url' => $this->getHashedKey(get_site_url()),
-                    ]
-                );
-
-                wp_remote_get(
-                    $url,
-                    [
+                        'body' => [
+                            // @codingStandardsIgnoreLine
+                            'vcv-send-usage-statistics' => $base64
+                        ],
                         'timeout' => 30,
                     ]
                 );
+
                 // Set transient that expires in 1 day
                 $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
                 $optionsHelper->set('lastSentDate', time());
@@ -265,9 +273,10 @@ class Controller extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         if (!$sourceId) {
-            $sourceId = 'dashboard';
+            $hashedId = 'dashboard';
+        } else {
+            $hashedId = $this->getHashedKey($sourceId);
         }
-        $hashedId = $this->getHashedKey($sourceId);
         $teaser = isset($payload['template']) ? $payload['template'] : $payload['element'];
         $optionsHelper = vchelper('Options');
         $licenseType = $optionsHelper->get('license-type');
