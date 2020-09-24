@@ -16,11 +16,22 @@ add('insights', () => {
     localizations = window.VCV_I18N ? window.VCV_I18N() : {}
 
     checkTitleLength () {
-      if (window.VCV_EDITOR_TYPE || settingsStorage.state('pageTitleDisabled').get()) {
+      if (window.VCV_EDITOR_TYPE) {
         return
       }
 
-      const pageTitleLength = settingsStorage.state('pageTitle').get().length
+      let pageTitleLength = settingsStorage.state('pageTitle').get().length
+      if (settingsStorage.state('pageTitleDisabled').get()) {
+        const headings = env('iframe').document.body.querySelectorAll('h1')
+        for (let i = 0; i < headings.length; i++) {
+          const heading = headings[i]
+          if (heading.offsetParent !== null && heading.getBoundingClientRect().height) {
+            pageTitleLength = heading.innerText.length
+            break
+          }
+        }
+      }
+
       const insightsTitleTooLong = this.localizations.insightsTitleTooLong
       const insightsTitleTooLong60 = this.localizations.insightsTitleTooLong60
       const insightsTitleTooLong100 = this.localizations.insightsTitleTooLong100
@@ -123,9 +134,7 @@ add('insights', () => {
       for (let i = 0; i < headings.length; i++) {
         const heading = headings[i]
         if (heading.offsetParent !== null && heading.getBoundingClientRect().height) {
-          // we found at least one <h1>, done!
           visibleHeadings++
-          break
         }
       }
       if (visibleHeadings === 0) {
@@ -137,7 +146,7 @@ add('insights', () => {
           title: h1MissingTitle,
           groupDescription: h1MissingDescription
         })
-      } else {
+      } else if (visibleHeadings === 1) {
         const insightsH1ExistsTitle = this.localizations.insightsH1ExistsTitle
         const insightsH1ExistsDescription = this.localizations.insightsH1ExistsDescription
         insightsStorage.trigger('add', {
@@ -145,6 +154,15 @@ add('insights', () => {
           type: 'existH1',
           title: insightsH1ExistsTitle,
           groupDescription: insightsH1ExistsDescription
+        })
+      } else {
+        const insightsMultipleH1Title = this.localizations.insightsMultipleH1Title
+        const insightsMultipleH1Description = this.localizations.insightsMultipleH1Description
+        insightsStorage.trigger('add', {
+          state: 'critical',
+          type: 'multipleH1',
+          title: insightsMultipleH1Title,
+          groupDescription: insightsMultipleH1Description
         })
       }
     }
