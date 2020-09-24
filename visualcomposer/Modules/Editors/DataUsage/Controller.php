@@ -113,10 +113,13 @@ class Controller extends Container implements Module
                     ]
                 );
 
-                // Set transient that expires in 1 day
-                $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
-                $optionsHelper->set('lastSentDate', time());
-                $optionsHelper->delete('updatedPostsList');
+                if ($request['response']['code'] === 200) {
+                    // Set transient that expires in 1 day
+                    $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
+                    $optionsHelper->set('lastSentDate', time());
+                    $optionsHelper->delete('updatedPostsList');
+                    $optionsHelper->delete('downloadedContent');
+                }
             }
         }
     }
