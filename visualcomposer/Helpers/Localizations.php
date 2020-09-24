@@ -884,6 +884,14 @@ class Localizations extends Container implements Helper
                 'Your page has an H1 tag. Great job!',
                 'visualcomposer'
             ),
+            'insightsMultipleH1Title' => __(
+                'More than one H1 tag found',
+                'visualcomposer'
+            ),
+            'insightsMultipleH1Description' => __(
+                'You have more than one H1 tag on your page which is bad for SEO ranking. Make sure to keep only one H1 and use lower-level headings (H2, H3, etc.) to structure your content.',
+                'visualcomposer'
+            ),
             'insightsImageAltAttributeExistsTitle' => __(
                 'All images have ALT attributes',
                 'visualcomposer'
