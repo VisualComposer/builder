@@ -12,6 +12,7 @@ import ColorGradientBackground from './colorGradientBackground'
 import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
+import { getResponse } from 'public/tools/response'
 import { updateHtmlWithServer } from 'public/tools/updateHtmlWithServer'
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 
@@ -58,6 +59,10 @@ export default class ElementComponent extends React.Component {
 
   updateShortcodeToHtml (content, ref, cb) {
     updateHtmlWithServer(content, ref, this.props.id, cb)
+  }
+
+  getResponse (result) {
+    return getResponse(result)
   }
 
   updateInlineHtml (elementWrapper, html = '', tagString = '') {
