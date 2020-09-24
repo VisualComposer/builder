@@ -45,6 +45,9 @@ addStorage('popup', (storage) => {
 
   elementsStorage.on('update', (id) => {
     const cookElement = cook.getById(id)
+    if (!cookElement) {
+      return
+    }
     const ids = getPopupDataFromElement(cookElement)
     ids.forEach((id) => {
       addPopupHtml(id)
