@@ -101,15 +101,13 @@ class Controller extends Container implements Module
                 ];
                 $json = json_encode($data);
                 $zip = zlib_encode($json, ZLIB_ENCODING_DEFLATE);
-                // @codingStandardsIgnoreLine
-                $base64 = base64_encode($zip);
+                $encodedData = base64_encode($zip);
 
                 $request = wp_remote_post(
                     vcvenv('VCV_HUB_URL'),
                     [
                         'body' => [
-                            // @codingStandardsIgnoreLine
-                            'vcv-send-usage-statistics' => $base64
+                            'vcv-send-usage-statistics' => $encodedData
                         ],
                         'timeout' => 30,
                     ]
