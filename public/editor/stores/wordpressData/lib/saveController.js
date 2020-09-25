@@ -160,6 +160,27 @@ export default class SaveController {
         }
         const elementTeaser = window.VCV_HUB_GET_TEASER()
         const allElements = elementTeaser[0].elements
+        const defaultElements = [
+          'row',
+          'column',
+          'textBlock',
+          'singleImage',
+          'basicButton',
+          'googleFontsHeading',
+          'youtubePlayer',
+          'vimeoPlayer',
+          'separator',
+          'wpWidgetsCustom',
+          'wpWidgetsDefault',
+          'shortcode',
+          'outlineButton'
+        ]
+        defaultElements.forEach(defaultElement => {
+          allElements.push({
+            bundleType: ['free', 'premium'],
+            tag: defaultElement
+          })
+        })
         const elements = documentManager.all()
         const elementCounts = {}
         Object.keys(elements).forEach(key => {
