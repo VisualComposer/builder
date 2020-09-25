@@ -98,10 +98,9 @@ export const start = (callback) => {
       }
     }
     $('[data-vcv="edit-fe-editor"]', iframeDocument).remove()
-
+    vcCake.env('iframe', iframe)
     setupCake()
 
-    vcCake.env('iframe', iframe)
     if ($iframe && $iframe.get(0).contentWindow) {
       const settingsStorage = vcCake.getStorage('settings')
       let beforeMainUnload = false

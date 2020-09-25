@@ -13,7 +13,7 @@ import ParallaxBackground from './parallaxBackground'
 import Divider from './divider'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
-import { updateHtmlWithServer } from 'public/tools/updateHtmlWithServer'
+import { updateHtmlWithServer, renderInlineHtml } from 'public/tools/updateHtmlWithServer'
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 
 const assetsStorage = getStorage('assets')
@@ -65,28 +65,24 @@ export default class ElementComponent extends React.Component {
     return getResponse(result)
   }
 
-  updateInlineHtml (elementWrapper, html = '', tagString = '') {
-    // const helper = document.createElement('vcvhelper')
-    // const comment = document.createComment('[vcvSourceHtml]' + tagString + '[/vcvSourceHtml]')
-    // elementWrapper.innerHTML = ''
-    // let range = document.createRange()
-    // let documentFragment = range.createContextualFragment(tagString)
-    //
-    // helper.appendChild(documentFragment)
-    // elementWrapper.appendChild(comment)
-    // elementWrapper.appendChild(helper)
-
+  updateInlineHtml (ref, html = '', tagString = '') {
     const helper = document.createElement('div')
-    elementWrapper.innerHTML = ''
+    ref.innerHTML = this.spinnerHTML()
     if (!tagString) {
       tagString = html
     }
     helper.setAttribute('data-vcvs-html', `${tagString}`)
     helper.classList.add('vcvhelper')
-    const range = document.createRange()
-    const documentFragment = range.createContextualFragment(html)
-    helper.appendChild(documentFragment)
-    elementWrapper.appendChild(helper)
+    const id = this.props.id
+    const finishCallback = function () {
+      ((function (window) {
+        window.setTimeout(() => {
+          window.vcvFreezeReady && window.vcvFreezeReady(id, false)
+          window.vcv && window.vcv.trigger('ready', 'update', id)
+        }, 500)
+      })(env('iframe')))
+    }
+    renderInlineHtml(html, { headerContent: '', shortcodeContent: html, footerContent: '' }, ref, id, finishCallback)
   }
 
   updateInlineScript (elementWrapper, tagString = '') {

@@ -8,6 +8,34 @@ const { getShortcodesRegexp } = getService('utils')
 
 let requests = {}
 
+export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
+  const iframe = env('iframe')
+  try {
+    ((function (window, document) {
+      const { headerContent, shortcodeContent, footerContent } = jsonData
+      ref && (ref.innerHTML = '')
+      window.vcvFreezeReady && window.vcvFreezeReady(id, true)
+      const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
+      headerDom.context = document
+      shortcodeAssetsStorage.trigger('add', { type: 'header', ref: ref, shadowDom: headerDom }, () => {
+        // Once Header assets is added continue with shortcodeContent
+        const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
+        shortcodeDom.context = document
+        shortcodeAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, shadowDom: shortcodeDom, ignoreCache: true }, () => {
+          // Once Element Content Assets is added continue with footerContent
+          const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
+          footerDom.context = document
+          shortcodeAssetsStorage.trigger('add', { type: 'footer', ref: ref, shadowDom: footerDom, ignoreCache: true }, finishCallback)
+        })
+      })
+    })(iframe, iframe.document))
+  } catch (e) {
+    console.warn('failed to parse json', e)
+    ref && (ref.innerHTML = content)
+    finishCallback()
+  }
+}
+
 export function updateHtmlWithServer (content, ref, id, cb) {
   // If already pending request, need wait for finish
   if (requests[id]) {
@@ -37,29 +65,14 @@ export function updateHtmlWithServer (content, ref, id, cb) {
         })(iframe))
       }
       try {
-        ((function (window, document) {
-          const jsonData = getResponse(data)
-          if (jsonData) {
-            const { headerContent, shortcodeContent, footerContent } = jsonData
-            ref && (ref.innerHTML = '')
-            window.vcvFreezeReady && window.vcvFreezeReady(id, true)
-            const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
-            headerDom.context = document
-            shortcodeAssetsStorage.trigger('add', { type: 'header', ref: ref, shadowDom: headerDom })
-
-            const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
-            shortcodeDom.context = document
-            shortcodeAssetsStorage.trigger('add', { type: 'shortcode', ref: ref, shadowDom: shortcodeDom, ignoreCache: true })
-
-            const footerDom = window.jQuery('<div>' + footerContent + '</div>', document)
-            footerDom.context = document
-            shortcodeAssetsStorage.trigger('add', { type: 'footer', ref: ref, shadowDom: footerDom, ignoreCache: true }, finishCallback)
-          } else {
-            console.warn('failed to parse data', data)
-            ref && (ref.innerHTML = content)
-            finishCallback()
-          }
-        })(iframe, iframe.document))
+        const jsonData = getResponse(data)
+        if (jsonData) {
+          renderInlineHtml(content, jsonData, ref, id, finishCallback)
+        } else {
+          console.warn('failed to parse data', data)
+          ref && (ref.innerHTML = content)
+          finishCallback()
+        }
       } catch (e) {
         console.warn('failed to parse json', e)
         ref && (ref.innerHTML = content)
