@@ -159,28 +159,23 @@ export default class SaveController {
           licenseType = window.vcvIsPremiumActivated ? 'Premium' : 'Free'
         }
         const elementTeaser = window.VCV_HUB_GET_TEASER()
-        const allElements = elementTeaser[0].elements
+        let allElements = elementTeaser[0].elements
         const defaultElements = [
-          'row',
-          'column',
-          'textBlock',
-          'singleImage',
-          'basicButton',
-          'googleFontsHeading',
-          'youtubePlayer',
-          'vimeoPlayer',
-          'separator',
-          'wpWidgetsCustom',
-          'wpWidgetsDefault',
-          'shortcode',
-          'outlineButton'
+          {tag: 'row', bundleType: ['free', 'premium']},
+          {tag: 'column', bundleType: ['free', 'premium']},
+          {tag: 'textBlock', bundleType: ['free', 'premium']},
+          {tag: 'singleImage', bundleType: ['free', 'premium']},
+          {tag: 'basicButton', bundleType: ['free', 'premium']},
+          {tag: 'googleFontsHeading', bundleType: ['free', 'premium']},
+          {tag: 'youtubePlayer', bundleType: ['free', 'premium']},
+          {tag: 'vimeoPlayer', bundleType: ['free', 'premium']},
+          {tag: 'separator', bundleType: ['free', 'premium']},
+          {tag: 'wpWidgetsCustom', bundleType: ['free', 'premium']},
+          {tag: 'wpWidgetsDefault', bundleType: ['free', 'premium']},
+          {tag: 'shortcode', bundleType: ['free', 'premium']},
+          {tag: 'outlineButton', bundleType: ['free', 'premium']}
         ]
-        defaultElements.forEach(defaultElement => {
-          allElements.push({
-            bundleType: ['free', 'premium'],
-            tag: defaultElement
-          })
-        })
+        allElements = allElements.concat(defaultElements)
         const elements = documentManager.all()
         const elementCounts = {}
         Object.keys(elements).forEach(key => {
