@@ -62,7 +62,6 @@ class Controller extends Container implements Module
 
     protected function sendUsageData()
     {
-        $urlHelper = vchelper('Url');
         $optionsHelper = vchelper('Options');
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
@@ -78,7 +77,7 @@ class Controller extends Container implements Module
                 foreach ($updatedPostsList as $postId) {
                     $hashedId = $this->getHashedKey($postId);
                     $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
-                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementCounts', true);
+                    $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs', true);
                     $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts', true);
 
                     if (unserialize($editorUsage)) {
@@ -113,14 +112,30 @@ class Controller extends Container implements Module
                     ]
                 );
 
-                if ($request['response']['code'] === 200) {
-                    // Set transient that expires in 1 day
-                    $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
-                    $optionsHelper->set('lastSentDate', time());
-                    $optionsHelper->delete('updatedPostsList');
-                    $optionsHelper->delete('downloadedContent');
+                $this->afterDataSendProcess($request['response']['code'], $updatedPostsList);
+            }
+        }
+    }
+
+    protected function afterDataSendProcess($responseCode, $updatedPostsList)
+    {
+        if ($responseCode === 200) {
+            $optionsHelper = vchelper('Options');
+            // Set transient that expires in 1 day
+            $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
+            $optionsHelper->set('lastSentDate', time());
+
+            // Prevent multiple same template sending
+            if ($updatedPostsList && is_array($updatedPostsList)) {
+                foreach ($updatedPostsList as $postId) {
+                    delete_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts');
+                    delete_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs');
+                    $allElements = get_post_meta($postId, '_' . VCV_PREFIX . 'allElements', true);
+                    update_post_meta($postId, '_' . VCV_PREFIX . 'elementCounts', $allElements);
                 }
             }
+            $optionsHelper->delete('updatedPostsList');
+            $optionsHelper->delete('downloadedContent');
         }
     }
 
@@ -223,16 +238,60 @@ class Controller extends Container implements Module
 
         $editorUsage = serialize($editorUsage);
         $elementCounts = json_decode($elementCounts, true);
-        foreach ($elementCounts as $key => $value) {
-            $elementCounts[$key]['pageId'] = $this->getHashedKey($elementCounts[$key]['pageId']);
+        if ($elementCounts) {
+            foreach ($elementCounts as $key => $value) {
+                $elementCounts[$key]['pageId'] = $this->getHashedKey($elementCounts[$key]['pageId']);
+            }
+
+            $previousElements = get_post_meta($sourceId, '_' . VCV_PREFIX . 'elementCounts', true);
+            $previousElements = unserialize($previousElements);
+
+            $newElements = $this->getNewlyUsedElements($previousElements, $elementCounts);
+            $newElements = serialize($newElements);
+            update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementDiffs', $newElements);
         }
+
         $elementCounts = serialize($elementCounts);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'allElements', $elementCounts);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
         // Update editor start time field for multiple save without page refresh
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', date('Y-m-d H:i:s'));
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementCounts', $elementCounts);
 
         return false;
+    }
+
+    protected function getNewlyUsedElements($previousElements, $elementCounts)
+    {
+        $newElements = [];
+        if ($previousElements) {
+            foreach ($elementCounts as $element) {
+                if (!$newElements[$element['name']]) {
+                    $newElements[$element['name']] = $element;
+                }
+                foreach ($previousElements as $previousElement) {
+                    if ($element['name'] === $previousElement['name']) {
+                        $diff = $element['count'] - $previousElement['count'];
+                        if ($diff === 0) {
+                            unset($newElements[$element['name']]);
+                        } else {
+                            $newElements[$element['name']] = [
+                                'pageId' => $this->getHashedKey($element['pageId']),
+                                'name' => $element['name'],
+                                'count' => abs($diff),
+                                'type' => $element['type'],
+                                'action' => $diff > 0 ? 'Added' : 'Deleted',
+                                'license' => $element['license'],
+                                'date' => date('Y-m-d H:i:s'),
+                            ];
+                        }
+                    }
+                }
+            }
+        } else {
+            $newElements = $elementCounts;
+        }
+
+        return $newElements;
     }
 
     protected function saveTemplateUsage($response, $payload)
