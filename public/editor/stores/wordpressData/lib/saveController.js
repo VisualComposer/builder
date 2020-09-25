@@ -161,19 +161,19 @@ export default class SaveController {
         const elementTeaser = window.VCV_HUB_GET_TEASER()
         let allElements = elementTeaser[0].elements
         const defaultElements = [
-          {tag: 'row', bundleType: ['free', 'premium']},
-          {tag: 'column', bundleType: ['free', 'premium']},
-          {tag: 'textBlock', bundleType: ['free', 'premium']},
-          {tag: 'singleImage', bundleType: ['free', 'premium']},
-          {tag: 'basicButton', bundleType: ['free', 'premium']},
-          {tag: 'googleFontsHeading', bundleType: ['free', 'premium']},
-          {tag: 'youtubePlayer', bundleType: ['free', 'premium']},
-          {tag: 'vimeoPlayer', bundleType: ['free', 'premium']},
-          {tag: 'separator', bundleType: ['free', 'premium']},
-          {tag: 'wpWidgetsCustom', bundleType: ['free', 'premium']},
-          {tag: 'wpWidgetsDefault', bundleType: ['free', 'premium']},
-          {tag: 'shortcode', bundleType: ['free', 'premium']},
-          {tag: 'outlineButton', bundleType: ['free', 'premium']}
+          { tag: 'row', bundleType: ['free', 'premium'] },
+          { tag: 'column', bundleType: ['free', 'premium'] },
+          { tag: 'textBlock', bundleType: ['free', 'premium'] },
+          { tag: 'singleImage', bundleType: ['free', 'premium'] },
+          { tag: 'basicButton', bundleType: ['free', 'premium'] },
+          { tag: 'googleFontsHeading', bundleType: ['free', 'premium'] },
+          { tag: 'youtubePlayer', bundleType: ['free', 'premium'] },
+          { tag: 'vimeoPlayer', bundleType: ['free', 'premium'] },
+          { tag: 'separator', bundleType: ['free', 'premium'] },
+          { tag: 'wpWidgetsCustom', bundleType: ['free', 'premium'] },
+          { tag: 'wpWidgetsDefault', bundleType: ['free', 'premium'] },
+          { tag: 'shortcode', bundleType: ['free', 'premium'] },
+          { tag: 'outlineButton', bundleType: ['free', 'premium'] }
         ]
         allElements = allElements.concat(defaultElements)
         const elements = documentManager.all()
