@@ -67,52 +67,59 @@ class Controller extends Container implements Module
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
         if ($isAllowed && !$optionsHelper->getTransient('lastUsageSend')) {
-            $licenseKey = $optionsHelper->get('license-key');
+            $usageStats = [];
+            $teaserDownloads = $optionsHelper->get('downloadedContent');
+            if (unserialize($teaserDownloads)) {
+                $usageStats['downloadedContent'] = unserialize($teaserDownloads);
+            }
+
             $updatedPostsList = $optionsHelper->get('updatedPostsList');
             if ($updatedPostsList && is_array($updatedPostsList)) {
-                $usageStats = [];
-                $teaserDownloads = $optionsHelper->get('downloadedContent');
                 foreach ($updatedPostsList as $postId) {
                     $hashedId = $this->getHashedKey($postId);
                     $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
                     $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementCounts', true);
                     $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts', true);
 
-                    if ($editorUsage) {
+                    if (unserialize($editorUsage)) {
                         $usageStats[$hashedId]['editorUsage'] = unserialize($editorUsage);
                     }
-                    if ($elementUsage) {
+                    if (unserialize($elementUsage)) {
                         $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
                     }
-                    if ($templateUsage) {
+                    if (unserialize($templateUsage)) {
                         $usageStats[$hashedId]['templateUsage'] = unserialize($templateUsage);
                     }
                 }
+            }
 
-                if ($teaserDownloads) {
-                    $usageStats['downloadedContent'] = unserialize($teaserDownloads);
-                }
+            if (!empty($usageStats)) {
+                $data = [
+                    'vcv-send-usage-statistics' => 'sendUsageStatistics',
+                    'vcv-statistics' => $usageStats,
+                    'vcv-hashed-url' => $this->getHashedKey(get_site_url()),
+                ];
+                $json = json_encode($data);
+                $zip = zlib_encode($json, ZLIB_ENCODING_DEFLATE);
+                $encodedData = base64_encode($zip);
 
-                $url = $urlHelper->query(
+                $request = wp_remote_post(
                     vcvenv('VCV_HUB_URL'),
                     [
-                        'vcv-send-usage-statistics' => 'sendUsageStatistics',
-                        'vcv-license-key' => $licenseKey,
-                        'vcv-statistics' => $usageStats,
-                        'vcv-hashed-url' => $this->getHashedKey(get_site_url()),
-                    ]
-                );
-
-                wp_remote_get(
-                    $url,
-                    [
+                        'body' => [
+                            'vcv-send-usage-statistics' => $encodedData
+                        ],
                         'timeout' => 30,
                     ]
                 );
-                // Set transient that expires in 1 day
-                $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
-                $optionsHelper->set('lastSentDate', time());
-                $optionsHelper->delete('updatedPostsList');
+
+                if ($request['response']['code'] === 200) {
+                    // Set transient that expires in 1 day
+                    $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
+                    $optionsHelper->set('lastSentDate', time());
+                    $optionsHelper->delete('updatedPostsList');
+                    $optionsHelper->delete('downloadedContent');
+                }
             }
         }
     }
@@ -267,9 +274,10 @@ class Controller extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         if (!$sourceId) {
-            $sourceId = 'dashboard';
+            $hashedId = 'dashboard';
+        } else {
+            $hashedId = $this->getHashedKey($sourceId);
         }
-        $hashedId = $this->getHashedKey($sourceId);
         $teaser = isset($payload['template']) ? $payload['template'] : $payload['element'];
         $optionsHelper = vchelper('Options');
         $licenseType = $optionsHelper->get('license-type');
@@ -341,8 +349,6 @@ class Controller extends Container implements Module
      */
     protected function getHashedKey($key)
     {
-        $salt = 'vcvSourceId';
-
-        return substr(md5($salt . $key), 2, 12);
+        return substr(md5(wp_salt() . $key), 2, 12);
     }
 }

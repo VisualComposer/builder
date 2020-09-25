@@ -124,7 +124,7 @@ export default class HtmlEditorComponent extends React.Component {
   handleFontChange (editor) {
     const { fieldKey, elementAccessPoint, options } = this.props
     const usedGoogleFonts = getUsedFonts(editor.getBody())
-    if (usedGoogleFonts) {
+    if (usedGoogleFonts && Object.keys(usedGoogleFonts).length > 0) {
       const element = elementAccessPoint.cook()
       const sharedAssetsData = element.get('metaElementAssets')
       const fieldPathKey = options.nestedAttrPath ? options.nestedAttrPath : fieldKey
