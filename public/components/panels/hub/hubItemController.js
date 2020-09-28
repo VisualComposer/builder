@@ -19,7 +19,9 @@ export default class HubItemController extends ElementControl {
     }
 
     this.state = {
-      isDownloading
+      isDownloading,
+      isNew: true,
+      isShown: true
     }
 
     this.downloadingItemOnChange = this.downloadingItemOnChange.bind(this)
@@ -72,6 +74,7 @@ export default class HubItemController extends ElementControl {
 
   render () {
     const { type } = this.props
+    const { isNew, isShown } = this.state
     let ControlElement = null
     if (type === 'element') {
       ControlElement = HubElementControl
@@ -86,6 +89,8 @@ export default class HubItemController extends ElementControl {
         {...this.props}
         isDownloading={this.state.isDownloading}
         onDownloadItem={this.handleDownloadItem}
+        isNew={isNew}
+        isShown={isShown}
       />
     )
   }

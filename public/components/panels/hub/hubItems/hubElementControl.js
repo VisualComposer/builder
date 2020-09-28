@@ -94,6 +94,11 @@ export default class HubElementControl extends ElementControl {
 
     const overlayOutput = <span className={iconClasses} onClick={action} />
     let previewOutput = null
+    let newBadge = null
+
+    if (this.props.isNew) {
+      newBadge = <span className='vcv-ui-item-badge'>New</span>
+    }
 
     if (previewVisible) {
       previewOutput = (
@@ -116,6 +121,7 @@ export default class HubElementControl extends ElementControl {
           onMouseLeave={this.handleMouseLeaveHidePreview}
           title={name}
         >
+          {newBadge}
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt={name} />
             <span className={itemOverlayClasses}>
