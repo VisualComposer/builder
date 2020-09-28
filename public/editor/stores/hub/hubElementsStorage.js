@@ -48,6 +48,8 @@ addStorage('hubElements', (storage) => {
     const parsedPresets = parseData(presets)
     storage.state('elementPresets').set(parsedPresets)
     storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
+
+    // TODO: set state for favorite elements?
   })
 
   storage.on('add', (elementData, categoryData, addBundle) => {

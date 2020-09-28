@@ -352,7 +352,7 @@ export default class ElementControl extends React.Component {
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
-      this.props.addElement(this.props.element)
+      this.props.addElement(this.props.element, this.props.elementPresetId)
       this.endDrag()
     } else {
       this.endDragGlobal()
