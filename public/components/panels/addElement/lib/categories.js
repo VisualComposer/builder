@@ -13,6 +13,7 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
+const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class Categories extends React.Component {
   static propTypes = {
@@ -26,6 +27,11 @@ export default class Categories extends React.Component {
   static addedId = null
   static parentElementTag = null
   static elementPresets = []
+  static favoriteElements = [
+    'singleImage',
+    'textBlock',
+    'heroSection'
+  ]
 
   updateElementsTimeout = 0
 
@@ -101,6 +107,7 @@ export default class Categories extends React.Component {
     const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
     if (isAllElements || isPresetsUpdated) {
       const allElements = categoriesService.getSortedElements()
+      console.log('allElements', allElements)
       Categories.allElements = allElements.filter((elementData) => {
         // Do not show custom root element in add element panel
         if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
@@ -108,6 +115,7 @@ export default class Categories extends React.Component {
         }
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
+      // const favoriteElements
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
         const cookElement = cook.get(elementPreset.presetData)
         const element = cookElement.toJS()
@@ -121,6 +129,8 @@ export default class Categories extends React.Component {
       })
       Categories.allElements = elementPresets.concat(Categories.allElements)
     }
+    console.log('Categories.allElements', Categories.allElements)
+    // TODO sort by count property
     return Categories.allElements
   }
 
@@ -344,7 +354,7 @@ export default class Categories extends React.Component {
     }
   }
 
-  addElement (element) {
+  addElement (element, presetId = false) {
     const workspace = workspaceStorage.state('settings').get() || false
     element.parent = workspace && workspace.element ? workspace.element.id : false
     element = cook.get(element).toJS()
@@ -353,6 +363,17 @@ export default class Categories extends React.Component {
       insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
     this.addedId = element.id
+    console.log('element', element)
+    console.log('presetId', presetId)
+    const itemTag = presetId ? Categories.elementPresets.find(element => element.id === presetId).tag : element.tag
+    console.log('itemTag', itemTag)
+    // const itemType = ''
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'favoriteElements:updateUsage:adminNonce',
+      // 'vcv-item-type': itemType,
+      'vcv-item-tag': itemTag,
+      'vcv-nonce': window.vcvNonce
+    })
 
     const iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
