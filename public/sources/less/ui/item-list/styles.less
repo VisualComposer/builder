@@ -227,6 +227,7 @@
   margin: 0;
   visibility: hidden;
   opacity: 0;
+  border-radius: @vcv-item-border-radius;
   transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
 
   &.vcv-ui-state--visible {
@@ -251,6 +252,8 @@
   max-height: 240px;
   display: block;
   width: 100%;
+  border-top-left-radius: @vcv-item-border-radius;
+  border-top-right-radius: @vcv-item-border-radius;
 }
 
 .vcv-ui-item-preview-caption {
@@ -260,6 +263,8 @@
   text-align: left;
   padding: 20px;
   line-height: 1.43;
+  border-bottom-left-radius: @vcv-item-border-radius;
+  border-bottom-right-radius: @vcv-item-border-radius;
 }
 
 .vcv-ui-item-preview-text {
