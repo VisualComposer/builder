@@ -5,6 +5,7 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
+import { sortingTool } from 'public/editor/services/hubCategories/lib/tools'
 
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
@@ -118,6 +119,7 @@ export default class Categories extends React.Component {
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
         const cookElement = cook.get(elementPreset.presetData)
         const element = cookElement.toJS()
+        element.usageCount = elementPreset.usageCount
         element.name = elementPreset.name
         element.presetId = elementPreset.id
         element.metaDescription = cookElement.get('metaDescription')
@@ -126,10 +128,10 @@ export default class Categories extends React.Component {
         delete element.id
         return element
       })
-      Categories.allElements = elementPresets.concat(Categories.allElements)
+      Categories.allElements = elementPresets.sort(sortingTool).concat(Categories.allElements)
     }
-    // TODO sort by count property
-    return Categories.allElements
+
+    return Categories.allElements.sort((elementA, elementB) => elementB.usageCount - elementA.usageCount)
   }
 
   getAllElementsTags () {
