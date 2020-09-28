@@ -6,6 +6,7 @@ import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 import { sortingTool } from 'public/editor/services/hubCategories/lib/tools'
+import lodash from 'lodash'
 
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
@@ -130,8 +131,11 @@ export default class Categories extends React.Component {
       })
       Categories.allElements = elementPresets.sort(sortingTool).concat(Categories.allElements)
     }
+    const allElements = Categories.allElements
+    const favoriteElements = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+    const restElements = lodash.differenceWith(allElements, favoriteElements, lodash.isEqual)
 
-    return Categories.allElements.sort((elementA, elementB) => elementB.usageCount - elementA.usageCount)
+    return favoriteElements.concat(restElements)
   }
 
   getAllElementsTags () {
