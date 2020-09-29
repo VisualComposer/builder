@@ -177,20 +177,20 @@ export default class SaveController {
         ]
         allElements = allElements.concat(defaultElements)
         const elements = documentManager.all()
-        const elementCounts = {}
+        const elementStats = {}
         Object.keys(elements).forEach(key => {
           const tag = elements[key].tag
-          if (Object.prototype.hasOwnProperty.call(elementCounts, tag)) {
-            elementCounts[tag].count += 1
+          if (Object.prototype.hasOwnProperty.call(elementStats, tag)) {
+            elementStats[tag].count += 1
           } else {
             const result = allElements.filter(element => element.tag === tag)[0]
             if (result) {
               const elementType = result.bundleType.includes('free') ? 'Free' : 'Premium'
-              elementCounts[tag] = { pageId: window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'Added', license: licenseType, date: dateTime }
+              elementStats[tag] = { pageId: window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'Added', license: licenseType, date: dateTime }
             }
           }
         })
-        requestData['vcv-element-counts'] = JSON.stringify(elementCounts)
+        requestData['vcv-elements'] = JSON.stringify(elementStats)
         requestData['vcv-license-type'] = licenseType
       }
 

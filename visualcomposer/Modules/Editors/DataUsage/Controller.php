@@ -78,7 +78,7 @@ class Controller extends Container implements Module
                     $hashedId = $this->getHashedKey($postId);
                     $editorUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'editorUsage', true);
                     $elementUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs', true);
-                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts', true);
+                    $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templates', true);
 
                     if (unserialize($editorUsage)) {
                         $usageStats[$hashedId]['editorUsage'] = unserialize($editorUsage);
@@ -128,10 +128,10 @@ class Controller extends Container implements Module
             // Prevent multiple same template sending
             if ($updatedPostsList && is_array($updatedPostsList)) {
                 foreach ($updatedPostsList as $postId) {
-                    delete_post_meta($postId, '_' . VCV_PREFIX . 'templateCounts');
+                    delete_post_meta($postId, '_' . VCV_PREFIX . 'templates');
                     delete_post_meta($postId, '_' . VCV_PREFIX . 'elementDiffs');
                     $allElements = get_post_meta($postId, '_' . VCV_PREFIX . 'allElements', true);
-                    update_post_meta($postId, '_' . VCV_PREFIX . 'elementCounts', $allElements);
+                    update_post_meta($postId, '_' . VCV_PREFIX . 'elements', $allElements);
                 }
             }
             $optionsHelper->delete('updatedPostsList');
@@ -197,7 +197,7 @@ class Controller extends Container implements Module
     {
         $sourceId = $payload['sourceId'];
         $hashedId = $this->getHashedKey($sourceId);
-        $elementCounts = $payload['elementCounts'];
+        $elements = $payload['elements'];
         $licenseType = $payload['licenseType'];
         if (!$licenseType) {
             $licenseType = 'Not Activated';
@@ -237,22 +237,22 @@ class Controller extends Container implements Module
         ];
 
         $editorUsage = serialize($editorUsage);
-        $elementCounts = json_decode($elementCounts, true);
-        if ($elementCounts) {
-            foreach ($elementCounts as $key => $value) {
-                $elementCounts[$key]['pageId'] = $this->getHashedKey($elementCounts[$key]['pageId']);
+        $elements = json_decode($elements, true);
+        if ($elements) {
+            foreach ($elements as $key => $value) {
+                $elements[$key]['pageId'] = $this->getHashedKey($elements[$key]['pageId']);
             }
 
-            $previousElements = get_post_meta($sourceId, '_' . VCV_PREFIX . 'elementCounts', true);
+            $previousElements = get_post_meta($sourceId, '_' . VCV_PREFIX . 'elements', true);
             $previousElements = unserialize($previousElements);
 
-            $newElements = $this->getNewlyUsedElements($previousElements, $elementCounts);
+            $newElements = $this->getNewElements($previousElements, $elements);
             $newElements = serialize($newElements);
             update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementDiffs', $newElements);
         }
 
-        $elementCounts = serialize($elementCounts);
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'allElements', $elementCounts);
+        $elements = serialize($elements);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'allElements', $elements);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
         // Update editor start time field for multiple save without page refresh
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', date('Y-m-d H:i:s'));
@@ -260,11 +260,11 @@ class Controller extends Container implements Module
         return false;
     }
 
-    protected function getNewlyUsedElements($previousElements, $elementCounts)
+    protected function getNewElements($previousElements, $elements)
     {
         $newElements = [];
         if ($previousElements) {
-            foreach ($elementCounts as $element) {
+            foreach ($elements as $element) {
                 if (!$newElements[$element['name']]) {
                     $newElements[$element['name']] = $element;
                 }
@@ -288,7 +288,7 @@ class Controller extends Container implements Module
                 }
             }
         } else {
-            $newElements = $elementCounts;
+            $newElements = $elements;
         }
 
         return $newElements;
@@ -309,12 +309,12 @@ class Controller extends Container implements Module
         }
         $templateType = $editorTemplatesHelper->getGroupName($templateGroupKey);
 
-        $templateCounts = get_post_meta($sourceId, '_' . VCV_PREFIX . 'templateCounts', true);
-        $templateCounts = unserialize($templateCounts);
-        if (empty($templateCounts)) {
-            $templateCounts = [];
+        $templates = get_post_meta($sourceId, '_' . VCV_PREFIX . 'templates', true);
+        $templates = unserialize($templates);
+        if (empty($templates)) {
+            $templates = [];
         }
-        $templateCounts[$id] = [
+        $templates[$id] = [
             'pageId' => $hashedId,
             'name' => $template['allData']['pageTitle']['current'],
             'license' => ucfirst($licenseType),
@@ -322,8 +322,8 @@ class Controller extends Container implements Module
             'date' => date('Y-m-d H:i:s'),
             'type' => $templateType,
         ];
-        $templateCounts = serialize($templateCounts);
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'templateCounts', $templateCounts);
+        $templates = serialize($templates);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'templates', $templates);
 
 
         return false;
