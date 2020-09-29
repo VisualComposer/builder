@@ -9,6 +9,28 @@
 }
 
 // vcv-layouts-html class only in editor
+.vcv-content--boxed .entry-content > .vce-row-container > .vce-row:not([data-vce-full-width="true"]),
+.vcv-content--boxed .vcv-layouts-html > .vce-row-container > .vce-row:not([data-vce-full-width="true"]),
+.vcv-content--boxed .entry-content > .vce-section > .vce-section-inner:not([data-vce-full-width="true"]),
+.vcv-content--boxed .vcv-layouts-html > .vce-section > .vce-section-inner:not([data-vce-full-width="true"]),
+.vcv-editor-theme-hf .vcv-layouts-html > .vce-row-container > .vce-row:not([data-vce-full-width="true"]),
+.vcv-editor-theme-hf .vcv-layouts-html > .vce-section > .vce-section-inner:not([data-vce-full-width="true"]),
+.vcv-header > .vce-row-container > .vce-row:not([data-vce-full-width="true"]),
+.vcv-footer > .vce-row-container > .vce-row:not([data-vce-full-width="true"]),
+.vcv-header > .vce-section > .vce-section-inner:not([data-vce-full-width="true"]),
+.vcv-footer > .vce-section > .vce-section-inner:not([data-vce-full-width="true"]) {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
+.vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
+.vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
+.vcv-footer > [data-vce-boxed-width="true"],
+.vcv-footer > [data-vce-boxed-width="true"] {
+  margin-right: auto;
+  margin-left: auto;
+}
 
 @media (min-width: @grid-breakpoint-sm) {
   .vcv-content--boxed .entry-content > .vce-row-container > .vce-row:not([data-vce-full-width="true"]),
@@ -36,6 +58,21 @@
   .vcv-footer > .vce-section > .vce-section-inner[data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"] {
     padding-left: ~"calc(50% - "@container-max-width-sm / 2~")";
     padding-right: ~"calc(50% - "@container-max-width-sm / 2~")";
+  }
+
+
+
+  .vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
+  .vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"] {
+    max-width: @container-max-width-sm!important;
+
+    .vce-row,
+    .vce-section-inner {
+      max-width: initial!important;
+    }
   }
 }
 
@@ -66,6 +103,19 @@
     padding-left: ~"calc(50% - "@container-max-width-md / 2~")";
     padding-right: ~"calc(50% - "@container-max-width-md / 2~")";
   }
+
+  .vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
+  .vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"] {
+    max-width: @container-max-width-md!important;
+
+    .vce-row,
+    .vce-section-inner {
+      max-width: initial!important;
+    }
+  }
 }
 
 @media (min-width: @grid-breakpoint-lg) {
@@ -95,6 +145,19 @@
     padding-left: ~"calc(50% - "@container-max-width-lg / 2~")";
     padding-right: ~"calc(50% - "@container-max-width-lg / 2~")";
   }
+
+  .vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
+  .vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"] {
+    max-width: @container-max-width-lg!important;
+
+    .vce-row,
+    .vce-section-inner {
+      max-width: initial!important;
+    }
+  }
 }
 
 @media (min-width: @grid-breakpoint-xl) {
@@ -123,5 +186,18 @@
   .vcv-footer > .vce-section > .vce-section-inner[data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"] {
     padding-left: ~"calc(50% - "@container-max-width-xl / 2~")";
     padding-right: ~"calc(50% - "@container-max-width-xl / 2~")";
+  }
+
+  .vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
+  .vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"],
+  .vcv-footer > [data-vce-boxed-width="true"] {
+    max-width: @container-max-width-xl!important;
+
+    .vce-row,
+    .vce-section-inner {
+      max-width: initial!important;
+    }
   }
 }

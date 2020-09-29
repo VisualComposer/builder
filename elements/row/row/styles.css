@@ -6,9 +6,6 @@
 }
 .vce-row-container {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
 }
 .vce-row {
   position: relative;
@@ -19,7 +16,6 @@
   margin-left: 0;
   margin-right: 0;
   transition: box-shadow .2s;
-  flex-grow: 1;
 }
 .vce-row-content > .vce-col:last-child {
   margin-right: 0;
