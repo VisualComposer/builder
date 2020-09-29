@@ -4,6 +4,7 @@ import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const myTemplatesService = getService('myTemplates')
+const dataProcessorService = getService('dataProcessor')
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
@@ -17,12 +18,13 @@ export default class HubTemplateControl extends ElementControl {
 
     this.state = {
       showLoading: false,
-      isNew: true
+      isNew: this.props.isNew
     }
 
     this.isHubInWpDashboard = workspaceStorage.state('isHubInWpDashboard').get()
     this.downloadTemplate = this.downloadTemplate.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
+    this.sendHubTemplateStatus = this.sendHubTemplateStatus.bind(this)
   }
 
   downloadTemplate () {
@@ -52,6 +54,23 @@ export default class HubTemplateControl extends ElementControl {
       const template = myTemplatesService.findTemplateByBundle(this.props.element.bundle)
       next(template.data)
     }
+  }
+
+  handleMouseLeaveHidePreview () {
+    // send ajax if template is NEW
+    if (this.state.isNew) {
+      this.setState({
+        isNew: false
+      }, this.sendHubTemplateStatus)
+    }
+    super.handleMouseLeaveHidePreview()
+  }
+
+  sendHubTemplateStatus () {
+    dataProcessorService.appAdminServerRequest({
+      'vcv-action': 'hub:templates:teasers:updateStatus:adminNonce',
+      'vcv-item-tag': this.props.tag
+    })
   }
 
   openPremiumTab () {
@@ -124,7 +143,7 @@ export default class HubTemplateControl extends ElementControl {
       newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
     }
 
-    if (previewVisible && isNew) {
+    if (previewVisible) {
       previewOutput = (
         <figure className={previewClasses} style={previewStyle}>
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />

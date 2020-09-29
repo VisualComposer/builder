@@ -24,9 +24,12 @@ class TeasersDownloadController extends Container implements Module
 
     protected function processAction($teasers, Options $optionsHelper)
     {
-        if (isset($teasers) && isset($teasers['data'])) {
+        if (isset($teasers['data'])) {
+            $teaserTemplatesBefore = $optionsHelper->get('hubTeaserTemplates', false);
             $teaserTemplates = $this->getTeaserTemplates($teasers['data']['templates']);
-            // TODO: GET NEW TEMPLATES
+            if ($teaserTemplatesBefore) {
+                $teaserTemplates = $this->compareTeaserTemplates($teaserTemplatesBefore, $teaserTemplates);
+            }
             $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
         }
     }
@@ -36,7 +39,7 @@ class TeasersDownloadController extends Container implements Module
         $allTemplates = [];
         $dataHelper = vchelper('Data');
         foreach ($teasers as $template) {
-            $elementData = [
+            $templateData = [
                 'bundle' => $template['bundle'],
                 'name' => $template['name'],
                 'metaThumbnailUrl' => $template['thumbnailUrl'],
@@ -45,15 +48,51 @@ class TeasersDownloadController extends Container implements Module
                 'type' => 'template',
                 'templateType' => $template['type'],
                 'id' => $template['id'],
-//                'isNew' => true/false,
                 'update' => isset($template['update']) ? $template['update'] : false,
                 'allowDownload' => isset($template['allowDownload']) ? $template['allowDownload'] : false,
                 'bundleType' => isset($template['bundleType']) ? $template['bundleType'] : [],
             ];
-            $allTemplates[] = $elementData;
+            $allTemplates[] = $templateData;
         }
-        $elements = array_values($dataHelper->arrayDeepUnique($allTemplates));
+        $templates = array_values($dataHelper->arrayDeepUnique($allTemplates));
 
-        return $elements;
+        return $templates;
+    }
+
+    /**
+     * @param $teaserTemplatesBefore
+     * @param array $teaserTemplates
+     *
+     * @return array
+     */
+    protected function compareTeaserTemplates($teaserTemplatesBefore, array $teaserTemplates)
+    {
+        // Compare old with new
+        // We can compare $teaserElementsBefore with $teaserElements.
+        // It will give us list of items that was newly added.
+        $dataHelper = vchelper('Data');
+        $templatesBefore = $dataHelper->arrayColumn(
+            $teaserTemplatesBefore,
+            'bundle'
+        );
+        $newTemplates = $dataHelper->arrayColumn($teaserTemplates, 'bundle');
+        $difference = array_diff($newTemplates, $templatesBefore);
+        if (!empty($difference)) {
+            // There are new elements
+            foreach ($difference as $diffTemplate) {
+                // it is new Element so mark it as isNew = true
+                $newTemplateKey = $dataHelper->arraySearch(
+                    $teaserTemplates,
+                    'bundle',
+                    $diffTemplate,
+                    true
+                );
+                if ($newTemplateKey) {
+                    $teaserTemplates[ $newTemplateKey ]['isNew'] = true;
+                }
+            }
+        }
+
+        return $teaserTemplates;
     }
 }

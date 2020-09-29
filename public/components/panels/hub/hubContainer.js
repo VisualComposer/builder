@@ -320,10 +320,12 @@ export default class HubContainer extends AddElementCategories {
 
     let panelContent = ''
     if (this.state.filterType && this.state.filterType === 'stockImages') {
-      panelContent = <UnsplashContainer
-        scrolledToBottom={this.state.scrolledToBottom}
-        scrollTop={this.state.scrollTop}
-      />
+      panelContent = (
+        <UnsplashContainer
+          scrolledToBottom={this.state.scrolledToBottom}
+          scrollTop={this.state.scrollTop}
+        />
+      )
     } else if (this.state.filterType && this.state.filterType === 'giphy') {
       panelContent = <GiphyContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
     } else {
