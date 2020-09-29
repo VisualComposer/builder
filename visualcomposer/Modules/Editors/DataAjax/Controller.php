@@ -279,8 +279,8 @@ class Controller extends Container implements Module
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         if ($isAllowed) {
             $licenseType = $requestHelper->input('vcv-license-type');
-            $elementCounts = $requestHelper->input('vcv-element-counts');
-            vcevent('vcv:saveUsageStats', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'elementCounts' => $elementCounts, 'licenseType' => $licenseType]]);
+            $elements = $requestHelper->input('vcv-elements');
+            vcevent('vcv:saveUsageStats', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'elements' => $elements, 'licenseType' => $licenseType]]);
         }
 
         //bring it back once you're done posting
