@@ -10,7 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
@@ -28,6 +30,7 @@ class TeasersController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::ajaxSetTeaserBadge */
         $this->addFilter('vcv:ajax:vcv:hub:teaser:visit:adminNonce', 'ajaxSetTeaserBadge');
+        $this->addFilter('vcv:ajax:hub:elements:teasers:updateStatus:adminNonce', 'ajaxSetElementTeaserStatus');
 
         /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::addVariables */
         $this->addFilter(
@@ -49,6 +52,36 @@ class TeasersController extends Container implements Module
     protected function ajaxSetTeaserBadge(Options $optionsHelper)
     {
         $optionsHelper->setUser('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
+
+        return true;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Data $dataHelper
+     *
+     * @return bool
+     */
+    protected function ajaxSetElementTeaserStatus(
+        $response,
+        $payload,
+        Request $requestHelper,
+        Options $optionsHelper,
+        Data $dataHelper
+    ) {
+        $tag = $requestHelper->input('vcv-item-tag');
+        $teaserElements = $optionsHelper->get('hubTeaserElements', false);
+        $newElementKey = $dataHelper->arraySearch(
+            $teaserElements['All Elements']['elements'],
+            'tag',
+            $tag,
+            true
+        );
+        if ($newElementKey) {
+            $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = false;
+            $optionsHelper->set('hubTeaserElements', $teaserElements);
+        }
 
         return true;
     }

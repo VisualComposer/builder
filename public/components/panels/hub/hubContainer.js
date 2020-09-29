@@ -83,16 +83,9 @@ export default class HubContainer extends AddElementCategories {
   getElementGroup (category) {
     const { title, index } = category
     const elementCategories = window.VCV_HUB_GET_TEASER()
-    elementCategories.forEach((item, index) => {
-      let elements = lodash.sortBy(item.elements, ['name'])
-      elements = elements.map((element) => {
-        const tag = element.tag
-        element.tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
+    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['isNew'])
 
-        return element
-      })
-      elementCategories[index].elements = elements
-    })
     return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
   }
 
@@ -141,6 +134,7 @@ export default class HubContainer extends AddElementCategories {
         type={type}
         update={elementData.update ? elementData.update : false}
         name={elementData.name}
+        isNew={!!elementData.isNew}
         addElement={this.addElement}
       />
     )
@@ -184,7 +178,7 @@ export default class HubContainer extends AddElementCategories {
       elements = allCategories && allCategories[activeCategoryIndex] && allCategories[activeCategoryIndex].elements
     }
 
-    return elements ? elements.map((tag) => { return this.getElementControl(tag) }) : []
+    return elements ? elements.map((elementData) => { return this.getElementControl(elementData) }) : []
   }
 
   getSearchProps () {
@@ -326,7 +320,10 @@ export default class HubContainer extends AddElementCategories {
 
     let panelContent = ''
     if (this.state.filterType && this.state.filterType === 'stockImages') {
-      panelContent = <UnsplashContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+      panelContent = <UnsplashContainer
+        scrolledToBottom={this.state.scrolledToBottom}
+        scrollTop={this.state.scrollTop}
+      />
     } else if (this.state.filterType && this.state.filterType === 'giphy') {
       panelContent = <GiphyContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
     } else {

@@ -26,6 +26,7 @@ class TeasersDownloadController extends Container implements Module
     {
         if (isset($teasers) && isset($teasers['data'])) {
             $teaserTemplates = $this->getTeaserTemplates($teasers['data']['templates']);
+            // TODO: GET NEW TEMPLATES
             $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
         }
     }
@@ -44,6 +45,7 @@ class TeasersDownloadController extends Container implements Module
                 'type' => 'template',
                 'templateType' => $template['type'],
                 'id' => $template['id'],
+//                'isNew' => true/false,
                 'update' => isset($template['update']) ? $template['update'] : false,
                 'allowDownload' => isset($template['allowDownload']) ? $template['allowDownload'] : false,
                 'bundleType' => isset($template['bundleType']) ? $template['bundleType'] : [],
