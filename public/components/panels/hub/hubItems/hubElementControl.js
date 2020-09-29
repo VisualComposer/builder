@@ -4,6 +4,7 @@ import { getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const hubElementsService = getService('hubElements')
+const dataProcessorService = getService('dataProcessor')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
 
@@ -13,12 +14,13 @@ export default class HubElementControl extends ElementControl {
   constructor (props) {
     super(props)
     this.state = {
-      isNew: true
+      isNew: this.props.isNew
     }
     this.isHubInWpDashboard = workspaceStorage.state('isHubInWpDashboard').get()
 
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
+    this.sendHubElementStatus = this.sendHubElementStatus.bind(this)
   }
 
   downloadElement () {
@@ -37,6 +39,23 @@ export default class HubElementControl extends ElementControl {
 
   openPremiumTab () {
     window.open(window.VCV_UTM().goPremiumElementDownload)
+  }
+
+  handleMouseLeaveHidePreview () {
+    // send ajax if element is NEW
+    if (this.state.isNew) {
+      this.setState({
+        isNew: false
+      }, this.sendHubElementStatus)
+    }
+    super.handleMouseLeaveHidePreview()
+  }
+
+  sendHubElementStatus () {
+    dataProcessorService.appAdminServerRequest({
+      'vcv-action': 'hub:elements:teasers:updateStatus:adminNonce',
+      'vcv-item-tag': this.props.tag
+    })
   }
 
   render () {
@@ -74,8 +93,8 @@ export default class HubElementControl extends ElementControl {
       'vcv-ui-item-downloading': elementState === 'downloading'
     })
 
-    const publicPathThumbnail = element.metaThumbnailUrl
-    const publicPathPreview = element.metaPreviewUrl
+    const publicPathThumbnail = element.thumbnailUrl
+    const publicPathPreview = element.previewUrl
 
     const iconClasses = classNames({
       'vcv-ui-item-add': true,
@@ -105,13 +124,13 @@ export default class HubElementControl extends ElementControl {
       newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
     }
 
-    if (previewVisible && isNew) {
+    if (previewVisible) {
       previewOutput = (
         <figure className={previewClasses} style={previewStyle}>
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
-              {element.metaDescription}
+              {element.description}
             </div>
             {newBadge}
           </figcaption>
