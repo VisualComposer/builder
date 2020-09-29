@@ -467,6 +467,11 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     containerProps['data-vce-delete-attr'] = 'style'
     customRowProps['data-vce-delete-attr'] = 'style'
+    customProps['data-vce-delete-attr'] = 'style'
+
+    if (rowWidth === 'boxed') {
+      containerProps['data-vce-boxed-width'] = true
+    }
 
     customProps['data-vce-element-content'] = true
 
