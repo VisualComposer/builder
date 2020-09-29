@@ -118,7 +118,7 @@ export default class HubTemplateControl extends ElementControl {
     let newBadge = null
 
     if (this.props.isNew) {
-      newBadge = <span className='vcv-ui-item-badge'>New</span>
+      newBadge = <span className='vcv-ui-hub-item-badge'>New</span>
     }
 
     if (previewVisible) {
@@ -129,6 +129,7 @@ export default class HubTemplateControl extends ElementControl {
             <div className='vcv-ui-item-preview-text'>
               {element.metaDescription}
             </div>
+            {newBadge}
           </figcaption>
         </figure>
       )

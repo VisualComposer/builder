@@ -29,11 +29,6 @@ export default class Categories extends React.Component {
   static addedId = null
   static parentElementTag = null
   static elementPresets = []
-  static favoriteElements = [
-    'singleImage',
-    'textBlock',
-    'heroSection'
-  ]
 
   updateElementsTimeout = 0
 
@@ -116,7 +111,7 @@ export default class Categories extends React.Component {
         }
         return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
-      // const favoriteElements
+
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
         const cookElement = cook.get(elementPreset.presetData)
         const element = cookElement.toJS()
