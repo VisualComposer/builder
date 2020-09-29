@@ -25,7 +25,7 @@ class TeasersDownloadController extends Container implements Module
 
     protected function processAction($teasers, Options $optionsHelper)
     {
-        if (isset($teasers, $teasers['data'])) {
+        if (isset($teasers['data'])) {
             $teaserElementsBefore = $optionsHelper->get('hubTeaserElements', false);
             $teaserElements = [
                 'All Elements' => [
@@ -36,30 +36,7 @@ class TeasersDownloadController extends Container implements Module
                 ],
             ];
             if ($teaserElementsBefore) {
-                // We can compare $teaserElementsBefore with $teaserElements.
-                // It will give us list of items that was newly added.
-                $dataHelper = vchelper('Data');
-                $elementsBefore = $dataHelper->arrayColumn(
-                    $teaserElementsBefore['All Elements']['elements'],
-                    'tag'
-                );
-                $newElements = $dataHelper->arrayColumn($teaserElements['All Elements']['elements'], 'tag');
-                $difference = array_diff($newElements, $elementsBefore);
-                if (!empty($difference)) {
-                    // There are new elements
-                    foreach ($difference as $diffElement) {
-                        // it is new Element so mark it as isNew = true
-                        $newElementKey = $dataHelper->arraySearch(
-                            $teaserElements['All Elements']['elements'],
-                            'tag',
-                            $diffElement,
-                            true
-                        );
-                        if ($newElementKey) {
-                            $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = true;
-                        }
-                    }
-                }
+                $teaserElements = $this->compareTeaserElements($teaserElementsBefore, $teaserElements);
             }
             $optionsHelper->set('hubTeaserElements', $teaserElements);
         }
@@ -68,5 +45,41 @@ class TeasersDownloadController extends Container implements Module
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper->delete('hubTeaserElements');
+    }
+
+    /**
+     * @param array $teaserElementsBefore
+     * @param array $teaserElements
+     *
+     * @return array
+     */
+    protected function compareTeaserElements($teaserElementsBefore, $teaserElements)
+    {
+        // We can compare $teaserElementsBefore with $teaserElements.
+        // It will give us list of items that was newly added.
+        $dataHelper = vchelper('Data');
+        $elementsBefore = $dataHelper->arrayColumn(
+            $teaserElementsBefore['All Elements']['elements'],
+            'tag'
+        );
+        $newElements = $dataHelper->arrayColumn($teaserElements['All Elements']['elements'], 'tag');
+        $difference = array_diff($newElements, $elementsBefore);
+        if (!empty($difference)) {
+            // There are new elements
+            foreach ($difference as $diffElement) {
+                // it is new Element so mark it as isNew = true
+                $newElementKey = $dataHelper->arraySearch(
+                    $teaserElements['All Elements']['elements'],
+                    'tag',
+                    $diffElement,
+                    true
+                );
+                if ($newElementKey) {
+                    $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = true;
+                }
+            }
+        }
+
+        return $teaserElements;
     }
 }
