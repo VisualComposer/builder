@@ -51,6 +51,7 @@ class HubDownloadActions extends WP_UnitTestCase
                     . '/elements/icon/icon/',
                 'assetsPath' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                     . '/elements/icon/icon/public/',
+                'usageCount' => 0,
             ],
             $elementsAfter['icon']
         );
@@ -148,7 +149,7 @@ class HubDownloadActions extends WP_UnitTestCase
                             'description' => 'An ideal one-page layout for your wedding or other events, including meetups and networking parties.',
                         ],
                     ],
-                ]
+                ],
             ],
 
             $templates
