@@ -5,9 +5,15 @@ import { getStorage } from 'vc-cake'
 const hubAddonsStorage = getStorage('hubAddons')
 const eventsStorage = getStorage('events')
 
+const localizations = window.VCV_I18N && window.VCV_I18N()
+
 export default class HubAddonControl extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      // isNew: hubAddonsStorage.state('addons').get()[this.props.tag]
+      isNew: this.props.isNew
+    }
 
     this.downloadAddon = this.downloadAddon.bind(this)
     this.handleAddonClick = this.handleAddonClick.bind(this)
@@ -15,7 +21,6 @@ export default class HubAddonControl extends React.Component {
 
   downloadAddon () {
     const { element, onDownloadItem } = this.props
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const errorMessage = localizations.addonDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this addon.'
 
     const allowDownload = onDownloadItem(errorMessage)
@@ -37,12 +42,12 @@ export default class HubAddonControl extends React.Component {
 
   render () {
     const { name, element, isDownloading, tag } = this.props
+    const { isNew } = this.state
     let elementState = 'downloading'
     if (!isDownloading) {
       elementState = hubAddonsStorage.state('addons').get()[tag] ? 'success' : 'inactive'
     }
 
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
     const downloadAddonText = localizations.downloadAddonText || 'Download Addon'
     const addonInstalledText = localizations.installedText || 'Installed'
@@ -78,6 +83,12 @@ export default class HubAddonControl extends React.Component {
       addonControl = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
     }
 
+    let newBadge = null
+    if (isNew) {
+      const newText = localizations.new || 'New'
+      newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
+    }
+
     return (
       <li className='vcv-ui-item-list-item'>
         <div className='vcv-hub-addon-item-container'>
@@ -85,6 +96,7 @@ export default class HubAddonControl extends React.Component {
             <img className='vcv-hub-addon-image' src={element.metaAddonImageUrl} alt={name} />
           </div>
           <div className='vcv-hub-addon-item-content-container'>
+            {newBadge}
             <h3 className='vcv-hub-addon-name'>{name}</h3>
             <p className='vcv-hub-addon-description'>{element.metaDescription}</p>
             {addonControl}
