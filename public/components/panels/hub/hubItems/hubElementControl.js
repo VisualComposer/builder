@@ -7,9 +7,14 @@ const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
 
+const localizations = window.VCV_I18N && window.VCV_I18N()
+
 export default class HubElementControl extends ElementControl {
   constructor (props) {
     super(props)
+    this.state = {
+      isNew: true
+    }
     this.isHubInWpDashboard = workspaceStorage.state('isHubInWpDashboard').get()
 
     this.addElement = this.addElement.bind(this)
@@ -18,7 +23,6 @@ export default class HubElementControl extends ElementControl {
 
   downloadElement () {
     const { element, onDownloadItem } = this.props
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
 
     const allowDownload = onDownloadItem(errorMessage)
@@ -37,7 +41,7 @@ export default class HubElementControl extends ElementControl {
 
   render () {
     const { name, element, isDownloading, tag } = this.props
-    const { previewVisible, previewStyle } = this.state
+    const { previewVisible, previewStyle, isNew } = this.state
 
     let elementState = 'downloading'
     if (!isDownloading) {
@@ -96,11 +100,12 @@ export default class HubElementControl extends ElementControl {
     let previewOutput = null
     let newBadge = null
 
-    if (this.props.isNew) {
-      newBadge = <span className='vcv-ui-hub-item-badge'>New</span>
+    if (isNew) {
+      const newText = localizations.new || 'New'
+      newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
     }
 
-    if (true) {
+    if (previewVisible && isNew) {
       previewOutput = (
         <figure className={previewClasses} style={previewStyle}>
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
