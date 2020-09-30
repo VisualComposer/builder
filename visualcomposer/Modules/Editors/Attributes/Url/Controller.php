@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
+use WP_Query;
 
 class Controller extends Container implements Module
 {
@@ -43,12 +44,15 @@ class Controller extends Container implements Module
         if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
             $search = $request->input('vcv-search');
 
-            $args = [
+            $query = [
                 'posts_per_page' => $search ? -1 : 20,
                 'post_type' => get_post_types(['public' => true], 'names'),
                 's' => $search,
             ];
-            $posts = get_posts($args);
+
+            $query = apply_filters('wp_link_query_args', $query);
+            $getPosts = new WP_Query();
+            $posts = $getPosts->query($query);
 
             foreach ($posts as $post) {
                 $results[] = [
