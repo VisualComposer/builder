@@ -52,9 +52,17 @@ export default class HubElementControl extends ElementControl {
   }
 
   sendHubElementStatus () {
+    const elementTag = this.props.tag
     dataProcessorService.appAdminServerRequest({
       'vcv-action': 'hub:elements:teasers:updateStatus:adminNonce',
       'vcv-item-tag': this.props.tag
+    }).then(() => {
+      const allElementTeasers = hubElementsStorage.state('elementTeasers').get()
+      const currentElementIndex = allElementTeasers[0].elements.findIndex(element => element.tag === elementTag)
+      allElementTeasers[0].elements[currentElementIndex].isNew = false
+      hubElementsStorage.state('elementTeasers').set(allElementTeasers)
+    }, (error) => {
+      console.warn(error)
     })
   }
 

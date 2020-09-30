@@ -78,7 +78,7 @@ class TeasersController extends Container implements Module
             $tag,
             true
         );
-        if ($newElementKey) {
+        if ($newElementKey !== false) {
             $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = false;
             $optionsHelper->set('hubTeaserElements', $teaserElements);
         }

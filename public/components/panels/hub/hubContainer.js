@@ -14,6 +14,8 @@ import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const hubElementsStorage = vcCake.getStorage('hubElements')
+const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 
 export default class HubContainer extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -31,18 +33,28 @@ export default class HubContainer extends AddElementCategories {
     }
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
   componentDidMount () {
     if (this.props.hideScrollbar) {
       window.addEventListener('scroll', this.handleScroll)
     }
+    hubElementsStorage.state('elementTeasers').onChange(this.handleForceUpdateCategories)
+    hubTemplateStorage.state('templateTeasers').onChange(this.handleForceUpdateCategories)
   }
 
   componentWillUnmount () {
     if (this.props.hideScrollbar) {
       window.removeEventListener('scroll', this.handleScroll)
     }
+    hubElementsStorage.state('elementTeasers').ignoreChange(this.handleForceUpdateCategories)
+    hubTemplateStorage.state('templateTeasers').ignoreChange(this.handleForceUpdateCategories)
+  }
+
+  handleForceUpdateCategories () {
+    this.allCategories = false
+    this.getAllCategories()
   }
 
   getAllCategories () {
@@ -82,7 +94,7 @@ export default class HubContainer extends AddElementCategories {
 
   getElementGroup (category) {
     const { title, index } = category
-    const elementCategories = window.VCV_HUB_GET_TEASER()
+    const elementCategories = hubElementsStorage.state('elementTeasers').get()
     elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
     elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['isNew'])
 
@@ -91,15 +103,15 @@ export default class HubContainer extends AddElementCategories {
 
   getTemplateGroup (category) {
     const { title, index } = category
-    const elements = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((element) => {
-      return element.templateType === 'hub' || element.templateType === 'predefined'
+    const templates = hubTemplateStorage.state('templateTeasers').get().filter((template) => {
+      return template.templateType === 'hub' || template.templateType === 'predefined'
     })
-    return { elements: elements, id: `${title}${index}`, index: index, title: title }
+    return { elements: templates, id: `${title}${index}`, index: index, title: title }
   }
 
   getBlockGroup (category) {
     const { title, index, type } = category
-    const blocks = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((block) => {
+    const blocks = hubTemplateStorage.state('templateTeasers').get().filter((block) => {
       return block.templateType === type
     })
     return { elements: blocks, id: `${title}${index}`, index: index, title: title }
@@ -108,11 +120,10 @@ export default class HubContainer extends AddElementCategories {
   getHFSGroup (category) {
     const { type, title, index } = category
     if (index) {
-      let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
-      elements = elements.filter(element => {
-        return element.templateType === type
+      const templates = hubTemplateStorage.state('templateTeasers').get().filter(template => {
+        return template.templateType === type
       })
-      return { elements, id: `${title}${index}`, index, title: title }
+      return { elements: templates, id: `${title}${index}`, index, title: title }
     }
     return {}
   }
