@@ -46,7 +46,7 @@ class Controller extends Container implements Module
 
         $sourceId = $post->ID;
 
-        $editorStartDate = date('Y-m-d H:i:s');
+        $editorStartDate = time();
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', $editorStartDate);
 
         $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
@@ -199,6 +199,7 @@ class Controller extends Container implements Module
         $hashedId = $this->getHashedKey($sourceId);
         $elements = $payload['elements'];
         $licenseType = $payload['licenseType'];
+        $date = time();
         if (!$licenseType) {
             $licenseType = 'Not Activated';
         }
@@ -213,7 +214,7 @@ class Controller extends Container implements Module
         }
         $optionsHelper->set('updatedPostsList', $updatedPostsList);
         $editorStartDate = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', true);
-        $editorEndDate = date('Y-m-d H:i:s');
+        $editorEndDate = $date;
         $editorUsage = get_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', true);
         if ($editorUsage) {
             $editorUsage = unserialize($editorUsage);
@@ -241,21 +242,22 @@ class Controller extends Container implements Module
         if ($elements) {
             foreach ($elements as $key => $value) {
                 $elements[$key]['pageId'] = $this->getHashedKey($elements[$key]['pageId']);
+                $elements[$key]['date'] = $date;
             }
-
-            $previousElements = get_post_meta($sourceId, '_' . VCV_PREFIX . 'elements', true);
-            $previousElements = unserialize($previousElements);
-
-            $newElements = $this->getNewElements($previousElements, $elements);
-            $newElements = serialize($newElements);
-            update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementDiffs', $newElements);
         }
+
+        $previousElements = get_post_meta($sourceId, '_' . VCV_PREFIX . 'elements', true);
+        $previousElements = unserialize($previousElements);
+
+        $newElements = $this->getNewElements($previousElements, $elements);
+        $newElements = serialize($newElements);
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'elementDiffs', $newElements);
 
         $elements = serialize($elements);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'allElements', $elements);
         update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorUsage', $editorUsage);
         // Update editor start time field for multiple save without page refresh
-        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', date('Y-m-d H:i:s'));
+        update_post_meta($sourceId, '_' . VCV_PREFIX . 'editorStartedAt', $date);
 
         return false;
     }
@@ -264,26 +266,42 @@ class Controller extends Container implements Module
     {
         $newElements = [];
         if ($previousElements) {
-            foreach ($elements as $element) {
-                if (!$newElements[$element['name']]) {
-                    $newElements[$element['name']] = $element;
+            $mergedElements = array_merge($previousElements, $elements);
+            foreach ($mergedElements as $key => $value) {
+                if (!isset($elements[$key])) {
+                    $newElements[$key] = [
+                        'pageId' => $value['pageId'],
+                        'name' => $value['name'],
+                        'count' => $value['count'],
+                        'type' => $value['type'],
+                        'action' => 'Deleted',
+                        'license' => $value['license'],
+                        'date' => time(),
+                    ];
                 }
-                foreach ($previousElements as $previousElement) {
-                    if ($element['name'] === $previousElement['name']) {
-                        $diff = $element['count'] - $previousElement['count'];
-                        if ($diff === 0) {
-                            unset($newElements[$element['name']]);
-                        } else {
-                            $newElements[$element['name']] = [
-                                'pageId' => $this->getHashedKey($element['pageId']),
-                                'name' => $element['name'],
-                                'count' => abs($diff),
-                                'type' => $element['type'],
-                                'action' => $diff > 0 ? 'Added' : 'Deleted',
-                                'license' => $element['license'],
-                                'date' => date('Y-m-d H:i:s'),
-                            ];
-                        }
+                if (!isset($previousElements[$key])) {
+                    $newElements[$key] = [
+                        'pageId' => $value['pageId'],
+                        'name' => $value['name'],
+                        'count' => $value['count'],
+                        'type' => $value['type'],
+                        'action' => 'Added',
+                        'license' => $value['license'],
+                        'date' => time(),
+                    ];
+                }
+                if (isset($elements[$key]) && isset($previousElements[$key])) {
+                    $diff = $elements[$key]['count'] - $previousElements[$key]['count'];
+                    if ($diff !== 0) {
+                        $newElements[$key] = [
+                            'pageId' => $value['pageId'],
+                            'name' => $value['name'],
+                            'count' => abs($diff),
+                            'type' => $value['type'],
+                            'action' => $diff > 0 ? 'Added' : 'Deleted',
+                            'license' => $value['license'],
+                            'date' => time(),
+                        ];
                     }
                 }
             }
@@ -319,7 +337,7 @@ class Controller extends Container implements Module
             'name' => $template['allData']['pageTitle']['current'],
             'license' => ucfirst($licenseType),
             'action' => 'Added',
-            'date' => date('Y-m-d H:i:s'),
+            'date' => time(),
             'type' => $templateType,
         ];
         $templates = serialize($templates);
@@ -379,7 +397,7 @@ class Controller extends Container implements Module
                 'name' => $teaser['name'],
                 'license' => ucfirst($licenseType),
                 'action' => 'Downloaded',
-                'date' => date('Y-m-d H:i:s'),
+                'date' => time(),
                 'type' => $teaser['type'] === 'hub' ? 'Premium' : 'Free',
             ];
         } else {
@@ -388,7 +406,7 @@ class Controller extends Container implements Module
                 'name' => isset($teaser['name']) ? $teaser['name'] : $teaser['tag'],
                 'license' => ucfirst($licenseType),
                 'action' => 'Downloaded',
-                'date' => date('Y-m-d H:i:s'),
+                'date' => time(),
                 'type' => $teaser['type'],
             ];
         }
