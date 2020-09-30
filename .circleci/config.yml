@@ -242,7 +242,5 @@ workflows:
   tests:
     jobs:
       - php-tests
-      - end-2-end-tests-chrome
-      - end-2-end-tests-electron
       - js-stores-tests
 
