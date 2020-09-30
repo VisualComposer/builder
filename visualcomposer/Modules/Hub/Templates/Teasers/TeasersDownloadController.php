@@ -60,15 +60,14 @@ class TeasersDownloadController extends Container implements Module
     }
 
     /**
-     * @param $teaserTemplatesBefore
+     * @param array $teaserTemplatesBefore
      * @param array $teaserTemplates
      *
      * @return array
      */
-    protected function compareTeaserTemplates($teaserTemplatesBefore, array $teaserTemplates)
+    protected function compareTeaserTemplates($teaserTemplatesBefore, $teaserTemplates)
     {
         // Compare old with new
-        // We can compare $teaserElementsBefore with $teaserElements.
         // It will give us list of items that was newly added.
         $dataHelper = vchelper('Data');
         $templatesBefore = $dataHelper->arrayColumn(
@@ -78,9 +77,9 @@ class TeasersDownloadController extends Container implements Module
         $newTemplates = $dataHelper->arrayColumn($teaserTemplates, 'bundle');
         $difference = array_diff($newTemplates, $templatesBefore);
         if (!empty($difference)) {
-            // There are new elements
+            // There are new item
             foreach ($difference as $diffTemplate) {
-                // it is new Element so mark it as isNew = true
+                // it is new item so mark it as isNew = true
                 $newTemplateKey = $dataHelper->arraySearch(
                     $teaserTemplates,
                     'bundle',
