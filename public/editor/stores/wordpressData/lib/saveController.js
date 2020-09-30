@@ -148,10 +148,6 @@ export default class SaveController {
       }
 
       if (window.VCV_DATA_COLLECTION_ENABLED) {
-        const today = new Date()
-        const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-        const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()
-        const dateTime = date + ' ' + time
         let licenseType
         if (!window.vcvIsAnyActivated) {
           licenseType = 'Not Activated'
@@ -186,7 +182,7 @@ export default class SaveController {
             const result = allElements.filter(element => element.tag === tag)[0]
             if (result) {
               const elementType = result.bundleType.includes('free') ? 'Free' : 'Premium'
-              elementStats[tag] = { pageId: window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'Added', license: licenseType, date: dateTime }
+              elementStats[tag] = { pageId: window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'Added', license: licenseType }
             }
           }
         })
