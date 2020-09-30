@@ -15,7 +15,7 @@ addStorage('hubTemplates', (storage) => {
   storage.state('templatesGroupsSorted').set([])
 
   storage.on('start', () => {
-    storage.state('templates').set(window.VCV_HUB_GET_TEMPLATES_TEASER ? window.VCV_HUB_GET_TEMPLATES_TEASER() : {})
+    storage.state('templateTeasers').set(window.VCV_HUB_GET_TEMPLATES_TEASER ? window.VCV_HUB_GET_TEMPLATES_TEASER() : {})
   })
 
   storage.on('downloadTemplate', (template) => {

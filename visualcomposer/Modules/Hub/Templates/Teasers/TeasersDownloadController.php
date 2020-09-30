@@ -87,7 +87,7 @@ class TeasersDownloadController extends Container implements Module
                     $diffTemplate,
                     true
                 );
-                if ($newTemplateKey) {
+                if ($newTemplateKey !== false) {
                     $teaserTemplates[ $newTemplateKey ]['isNew'] = true;
                 }
             }

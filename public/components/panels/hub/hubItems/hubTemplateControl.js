@@ -67,9 +67,17 @@ export default class HubTemplateControl extends ElementControl {
   }
 
   sendHubTemplateStatus () {
+    const templateBundle = this.props.element.bundle
     dataProcessorService.appAdminServerRequest({
       'vcv-action': 'hub:templates:teasers:updateStatus:adminNonce',
-      'vcv-item-tag': this.props.tag
+      'vcv-item-tag': templateBundle
+    }).then(() => {
+      const allTemplateTeasers = hubTemplateStorage.state('templateTeasers').get()
+      const currentTemplateIndex = allTemplateTeasers.findIndex(template => template.bundle === templateBundle)
+      allTemplateTeasers[currentTemplateIndex].isNew = false
+      hubTemplateStorage.state('templateTeasers').set(allTemplateTeasers)
+    }, (error) => {
+      console.warn(error)
     })
   }
 

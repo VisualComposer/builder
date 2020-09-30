@@ -34,7 +34,7 @@ class TeasersController extends Container implements Module
      *
      * @return bool
      */
-    protected function ajaxSetElementTeaserStatus(
+    protected function ajaxSetTemplateTeaserStatus(
         $response,
         $payload,
         Request $requestHelper,
@@ -49,7 +49,7 @@ class TeasersController extends Container implements Module
             $tag,
             true
         );
-        if ($newTemplateKey) {
+        if ($newTemplateKey !== false) {
             $teaserTemplates[ $newTemplateKey ]['isNew'] = false;
             $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
         }

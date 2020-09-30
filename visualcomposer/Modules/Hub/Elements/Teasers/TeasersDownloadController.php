@@ -74,7 +74,7 @@ class TeasersDownloadController extends Container implements Module
                     $diffElement,
                     true
                 );
-                if ($newElementKey) {
+                if ($newElementKey !== false) {
                     $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = true;
                 }
             }
