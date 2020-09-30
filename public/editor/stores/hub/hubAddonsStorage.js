@@ -12,7 +12,7 @@ addStorage('hubAddons', (storage) => {
   const utils = getService('utils')
 
   storage.on('start', () => {
-    storage.state('addonsTeasers').set(window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {})
+    storage.state('addonTeasers').set(window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {})
     storage.state('addons').set(window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {})
   })
 

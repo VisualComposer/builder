@@ -15,6 +15,7 @@ import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const hubAddonsStorage = vcCake.getStorage('hubAddons')
 const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 
 export default class HubContainer extends AddElementCategories {
@@ -41,6 +42,7 @@ export default class HubContainer extends AddElementCategories {
       window.addEventListener('scroll', this.handleScroll)
     }
     hubElementsStorage.state('elementTeasers').onChange(this.handleForceUpdateCategories)
+    hubAddonsStorage.state('addonTeasers').onChange(this.handleForceUpdateCategories)
     hubTemplateStorage.state('templateTeasers').onChange(this.handleForceUpdateCategories)
   }
 
@@ -49,6 +51,7 @@ export default class HubContainer extends AddElementCategories {
       window.removeEventListener('scroll', this.handleScroll)
     }
     hubElementsStorage.state('elementTeasers').ignoreChange(this.handleForceUpdateCategories)
+    hubAddonsStorage.state('addonTeasers').ignoreChange(this.handleForceUpdateCategories)
     hubTemplateStorage.state('templateTeasers').ignoreChange(this.handleForceUpdateCategories)
   }
 
@@ -83,46 +86,48 @@ export default class HubContainer extends AddElementCategories {
         elements.push(...groupAllElements)
       }
     })
-    return { elements: elements, id: `${title}${index}`, index: index, title: title }
+    return { elements: lodash.orderBy(elements, (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc']), id: `${title}${index}`, index: index, title: title }
   }
 
   getAddonsGroup (category) {
     const { title, index } = category
-    const addonsCategories = window.VCV_HUB_GET_ADDON_TEASER()
-    return { elements: addonsCategories, id: `${title}${index}`, index: index, title: title }
+    const addonTeasers = lodash.orderBy(hubAddonsStorage.state('addonTeasers').get(), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+
+    return { elements: addonTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
   getElementGroup (category) {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
     elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
-    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['isNew'])
+    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
 
     return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
   }
 
   getTemplateGroup (category) {
     const { title, index } = category
-    const templates = hubTemplateStorage.state('templateTeasers').get().filter((template) => {
+    const templateTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((template) => {
       return template.templateType === 'hub' || template.templateType === 'predefined'
-    })
-    return { elements: templates, id: `${title}${index}`, index: index, title: title }
+    }), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+
+    return { elements: templateTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
   getBlockGroup (category) {
     const { title, index, type } = category
-    const blocks = hubTemplateStorage.state('templateTeasers').get().filter((block) => {
+    const blockTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((block) => {
       return block.templateType === type
-    })
-    return { elements: blocks, id: `${title}${index}`, index: index, title: title }
+    }), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+    return { elements: blockTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
   getHFSGroup (category) {
     const { type, title, index } = category
     if (index) {
-      const templates = hubTemplateStorage.state('templateTeasers').get().filter(template => {
+      const templates = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter(template => {
         return template.templateType === type
-      })
+      }), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
       return { elements: templates, id: `${title}${index}`, index, title: title }
     }
     return {}
