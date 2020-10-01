@@ -10,8 +10,7 @@ export default class SearchElement extends React.Component {
     changeActive: PropTypes.func.isRequired,
     changeTerm: PropTypes.func.isRequired,
     changeInput: PropTypes.func.isRequired,
-    applyFirstElement: PropTypes.func,
-    disableSelect: PropTypes.bool
+    applyFirstElement: PropTypes.func
   }
 
   inputTimeout = 0
@@ -30,7 +29,6 @@ export default class SearchElement extends React.Component {
     this.handleSearch = this.handleSearch.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
     this.handleCategorySelect = this.handleCategorySelect.bind(this)
-    this.handleCategoryClick = this.handleCategoryClick.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
     this.getPlaceholder = this.getPlaceholder.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
@@ -151,25 +149,6 @@ export default class SearchElement extends React.Component {
     return optGroup
   }
 
-  getCategorySelect () {
-    return (
-      <select
-        className='vcv-ui-form-dropdown'
-        onChange={this.handleCategorySelect}
-        value={this.state.activeIndex}
-      >
-        {this.getSelectGroups()}
-      </select>
-    )
-  }
-
-  handleCategoryClick () {
-    this.setState({ dropdown: true })
-    this.dropdownTimeout = setTimeout(() => {
-      this.setState({ dropdown: false })
-    }, 400)
-  }
-
   handleInputFocus () {
     this.setState({ input: true })
     this.inputTimeout = setTimeout(() => {
@@ -199,10 +178,6 @@ export default class SearchElement extends React.Component {
   }
 
   render () {
-    const dropdownContainerClasses = classNames({
-      'vcv-ui-editor-search-dropdown-container': true,
-      'vcv-ui-editor-field-highlight': this.state.dropdown
-    })
     const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
@@ -211,15 +186,6 @@ export default class SearchElement extends React.Component {
 
     return (
       <div className='vcv-ui-editor-search-container'>
-        {!this.props.disableSelect && (
-          <div
-            className={dropdownContainerClasses}
-            data-content={this.state.content}
-            onClick={this.handleCategoryClick}
-          >
-            {this.getCategorySelect()}
-          </div>
-        )}
         <div className={inputContainerClasses}>
           <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />

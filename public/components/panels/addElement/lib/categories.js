@@ -333,7 +333,7 @@ export default class Categories extends React.Component {
     if (!presets) {
       const presetElements = Categories.allElements.filter(element => element.presetId)
       if (presetElements.length > 0) {
-        let presetElementsCategory = {
+        const presetElementsCategory = {
           id: 'Presets',
           title: 'Presets',
           isVisible: true,
@@ -346,7 +346,7 @@ export default class Categories extends React.Component {
     if (!favorites) {
       const favoriteElements = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
       if (favoriteElements.length > 0) {
-        let favoriteElementsCategory = {
+        const favoriteElementsCategory = {
           id: 'Favorites',
           title: 'Favorites',
           isVisible: true,
@@ -356,11 +356,11 @@ export default class Categories extends React.Component {
       }
     }
 
-    let allElements = []
+    const allElements = []
 
     allCategories.forEach((categoryItem) => {
       if (categoryItem.title !== 'All') {
-        let categoryItems = []
+        const categoryItems = []
         categoryItem.elements.forEach((element) => {
           categoryItems.push(this.getElementControl(element))
         })
@@ -371,9 +371,9 @@ export default class Categories extends React.Component {
           'vcv-element-categories-expand-button': true
         })
         allElements.push(
-          <div key={`vcv-element-category-${categoryItem.id}`} className="vcv-element-category-items">
-            <div className="vcv-element-category-title-wrapper">
-              <span className="vcv-element-category-title">{categoryItem.title}</span>
+          <div key={`vcv-element-category-${categoryItem.id}`} className='vcv-element-category-items'>
+            <div className='vcv-element-category-title-wrapper'>
+              <span className='vcv-element-category-title'>{categoryItem.title}</span>
               <button
                 onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
                 className={expandClasses}
