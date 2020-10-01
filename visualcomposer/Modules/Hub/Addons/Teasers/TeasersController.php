@@ -44,12 +44,7 @@ class TeasersController extends Container implements Module
     ) {
         $teaserAddons = $optionsHelper->get('hubTeaserAddons', false);
         if (!empty($teaserAddons)) {
-            while ($newAddonKey = $dataHelper->arraySearch(
-                $teaserAddons,
-                'isNew',
-                true,
-                true
-            )) {
+            while ($newAddonKey = $dataHelper->arraySearch($teaserAddons, 'isNew', true, true)) {
                 $teaserAddons[ $newAddonKey ]['isNew'] = time();
             }
             $optionsHelper->set('hubTeaserAddons', $teaserAddons);
