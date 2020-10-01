@@ -62,6 +62,22 @@ class TeasersDownloadController extends Container implements Module
             $teaserElementsBefore['All Elements']['elements'],
             'tag'
         );
+        // There are new elements
+        while (
+            $newElementKey = $dataHelper->arraySearchKey(
+                $teaserElementsBefore['All Elements']['elements'],
+                'isNew'
+            )
+        ) {
+            $newTeaserElementKey = $dataHelper->arraySearch(
+                $teaserElements['All Elements']['elements'],
+                'tag',
+                $teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['tag'],
+                true
+            );
+            $teaserElements['All Elements']['elements'][ $newTeaserElementKey ]['isNew'] = $teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['isNew'];
+        }
+
         $newElements = $dataHelper->arrayColumn($teaserElements['All Elements']['elements'], 'tag');
         $difference = array_diff($newElements, $elementsBefore);
         if (!empty($difference)) {
