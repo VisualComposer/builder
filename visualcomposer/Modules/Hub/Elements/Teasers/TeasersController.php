@@ -55,6 +55,7 @@ class TeasersController extends Container implements Module
         $optionsHelper->setUser('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
 
         vcevent('vcv:hub:teasers:updateStatus');
+
         return true;
     }
 
@@ -71,12 +72,14 @@ class TeasersController extends Container implements Module
         // Find all isNew=true elements and set it to time()
         $teaserElements = $optionsHelper->get('hubTeaserElements', false);
         if (!empty($teaserElements)) {
-            while ($newElementKey = $dataHelper->arraySearch(
-                $teaserElements['All Elements']['elements'],
-                'isNew',
-                true,
-                true
-            )) {
+            while (
+                $newElementKey = $dataHelper->arraySearch(
+                    $teaserElements['All Elements']['elements'],
+                    'isNew',
+                    true,
+                    true
+                )
+            ) {
                 $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = time();
             }
             $optionsHelper->set('hubTeaserElements', $teaserElements);

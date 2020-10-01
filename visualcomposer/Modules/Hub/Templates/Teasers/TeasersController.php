@@ -37,12 +37,7 @@ class TeasersController extends Container implements Module
     ) {
         $teaserTemplates = $optionsHelper->get('hubTeaserTemplates', false);
         if (!empty($teaserTemplates)) {
-            while ($newTemplateKey = $dataHelper->arraySearch(
-                $teaserTemplates,
-                'isNew',
-                true,
-                true
-            )) {
+            while ($newTemplateKey = $dataHelper->arraySearch($teaserTemplates, 'isNew', true, true)) {
                 $teaserTemplates[ $newTemplateKey ]['isNew'] = time();
             }
             $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
