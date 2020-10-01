@@ -1,10 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const hubAddonsStorage = getStorage('hubAddons')
 const eventsStorage = getStorage('events')
-const dataProcessorService = getService('dataProcessor')
 
 const localizations = window.VCV_I18N && window.VCV_I18N()
 
@@ -17,8 +16,6 @@ export default class HubAddonControl extends React.Component {
 
     this.downloadAddon = this.downloadAddon.bind(this)
     this.handleAddonClick = this.handleAddonClick.bind(this)
-    this.handleMouseEnter = this.handleMouseEnter.bind(this)
-    this.sendHubAddonStatus = this.sendHubAddonStatus.bind(this)
   }
 
   downloadAddon () {
@@ -29,29 +26,6 @@ export default class HubAddonControl extends React.Component {
     if (allowDownload) {
       hubAddonsStorage.trigger('downloadAddon', element)
     }
-  }
-
-  handleMouseEnter () {
-    if (this.state.isNew) {
-      this.setState({
-        isNew: false
-      }, this.sendHubAddonStatus)
-    }
-  }
-
-  sendHubAddonStatus () {
-    const addonBundle = this.props.element.bundle
-    dataProcessorService.appAdminServerRequest({
-      'vcv-action': 'hub:addons:teasers:updateStatus:adminNonce',
-      'vcv-item-tag': addonBundle
-    }).then(() => {
-      const allAddonTeasers = hubAddonsStorage.state('addonTeasers').get()
-      const currentAddonIndex = allAddonTeasers.findIndex(addon => addon.bundle === addonBundle)
-      allAddonTeasers[currentAddonIndex].isNew = false
-      hubAddonsStorage.state('addonTeasers').set(allAddonTeasers)
-    }, (error) => {
-      console.warn(error)
-    })
   }
 
   handleAddonClick () {
@@ -117,7 +91,6 @@ export default class HubAddonControl extends React.Component {
     return (
       <li
         className='vcv-ui-item-list-item'
-        onMouseEnter={this.handleMouseEnter}
       >
         <div className='vcv-hub-addon-item-container'>
           <div className='vcv-hub-addon-item-image-container'>

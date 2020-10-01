@@ -28,40 +28,32 @@ class TeasersController extends Container implements Module
      */
     public function __construct()
     {
-        $this->addFilter('vcv:ajax:hub:addons:teasers:updateStatus:adminNonce', 'ajaxSetAddonTeaserStatus');
+        $this->addEvent('vcv:hub:teasers:updateStatus', 'setAddonTeaserStatus');
 
         $this->addFilter('vcv:editor:variables', 'addTeaserAddonsVariables');
         $this->addFilter('vcv:hub:variables', 'addTeaserAddonsVariables');
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Data $dataHelper
-     *
-     * @return bool
      */
-    protected function ajaxSetAddonTeaserStatus(
-        $response,
-        $payload,
-        Request $requestHelper,
+    protected function setAddonTeaserStatus(
         Options $optionsHelper,
         Data $dataHelper
     ) {
-        $tag = $requestHelper->input('vcv-item-tag');
         $teaserAddons = $optionsHelper->get('hubTeaserAddons', false);
-        $newAddonKey = $dataHelper->arraySearch(
-            $teaserAddons,
-            'bundle',
-            $tag,
-            true
-        );
-        if ($newAddonKey !== false) {
-            $teaserAddons[ $newAddonKey ]['isNew'] = false;
+        if (!empty($teaserAddons)) {
+            while ($newAddonKey = $dataHelper->arraySearch(
+                $teaserAddons,
+                'isNew',
+                true,
+                true
+            )) {
+                $teaserAddons[ $newAddonKey ]['isNew'] = time();
+            }
             $optionsHelper->set('hubTeaserAddons', $teaserAddons);
         }
-
-        return true;
     }
 
     /**

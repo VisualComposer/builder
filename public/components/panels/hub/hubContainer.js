@@ -21,6 +21,7 @@ const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 export default class HubContainer extends AddElementCategories {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   allCategories = null
+  static minusThreeDayTimeStamp = window.VCV_HUB_SERVER_TIME() - 3 * 86400
 
   constructor (props) {
     super(props)
@@ -86,7 +87,7 @@ export default class HubContainer extends AddElementCategories {
         elements.push(...groupAllElements)
       }
     })
-    return { elements: lodash.orderBy(elements, (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc']), id: `${title}${index}`, index: index, title: title }
+    return { elements: lodash.orderBy(elements, this.isItemNew, ['desc']), id: `${title}${index}`, index: index, title: title }
   }
 
   getAddonsGroup (category) {
@@ -96,11 +97,21 @@ export default class HubContainer extends AddElementCategories {
     return { elements: addonTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
+  isItemNew = (item) => {
+    if (typeof item.isNew === 'number') {
+      // Show element as new for 3 days after opening
+      return item.isNew > HubContainer.minusThreeDayTimeStamp
+    } else {
+      // Show element as new for first time
+      return typeof item.isNew !== 'undefined' && item.isNew
+    }
+  }
+
   getElementGroup (category) {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
     elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
-    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, this.isItemNew, ['desc'])
 
     return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
   }
@@ -109,7 +120,7 @@ export default class HubContainer extends AddElementCategories {
     const { title, index } = category
     const templateTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((template) => {
       return template.templateType === 'hub' || template.templateType === 'predefined'
-    }), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+    }), this.isItemNew, ['desc'])
 
     return { elements: templateTeasers, id: `${title}${index}`, index: index, title: title }
   }
@@ -118,7 +129,7 @@ export default class HubContainer extends AddElementCategories {
     const { title, index, type } = category
     const blockTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((block) => {
       return block.templateType === type
-    }), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+    }), this.isItemNew, ['desc'])
     return { elements: blockTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
@@ -127,7 +138,7 @@ export default class HubContainer extends AddElementCategories {
     if (index) {
       const templates = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter(template => {
         return template.templateType === type
-      }), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+      }), this.isItemNew, ['desc'])
       return { elements: templates, id: `${title}${index}`, index, title: title }
     }
     return {}
@@ -150,7 +161,7 @@ export default class HubContainer extends AddElementCategories {
         type={type}
         update={elementData.update ? elementData.update : false}
         name={elementData.name}
-        isNew={!!elementData.isNew}
+        isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
       />
     )

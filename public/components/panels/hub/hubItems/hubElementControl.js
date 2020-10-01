@@ -4,7 +4,6 @@ import { getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const hubElementsService = getService('hubElements')
-const dataProcessorService = getService('dataProcessor')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
 
@@ -20,7 +19,6 @@ export default class HubElementControl extends ElementControl {
 
     this.addElement = this.addElement.bind(this)
     this.downloadElement = this.downloadElement.bind(this)
-    this.sendHubElementStatus = this.sendHubElementStatus.bind(this)
   }
 
   downloadElement () {
@@ -39,31 +37,6 @@ export default class HubElementControl extends ElementControl {
 
   openPremiumTab () {
     window.open(window.VCV_UTM().goPremiumElementDownload)
-  }
-
-  handleMouseLeaveHidePreview () {
-    // send ajax if element is NEW
-    if (this.state.isNew) {
-      this.setState({
-        isNew: false
-      }, this.sendHubElementStatus)
-    }
-    super.handleMouseLeaveHidePreview()
-  }
-
-  sendHubElementStatus () {
-    const elementTag = this.props.tag
-    dataProcessorService.appAdminServerRequest({
-      'vcv-action': 'hub:elements:teasers:updateStatus:adminNonce',
-      'vcv-item-tag': this.props.tag
-    }).then(() => {
-      const allElementTeasers = hubElementsStorage.state('elementTeasers').get()
-      const currentElementIndex = allElementTeasers[0].elements.findIndex(element => element.tag === elementTag)
-      allElementTeasers[0].elements[currentElementIndex].isNew = false
-      hubElementsStorage.state('elementTeasers').set(allElementTeasers)
-    }, (error) => {
-      console.warn(error)
-    })
   }
 
   render () {
