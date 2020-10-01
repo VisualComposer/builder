@@ -5,8 +5,6 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
-import { sortingTool } from 'public/editor/services/hubCategories/lib/tools'
-import lodash from 'lodash'
 
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
@@ -41,7 +39,8 @@ export default class Categories extends React.Component {
       isSearching: '',
       centered: false,
       filterType: 'all',
-      focusedElement: null
+      focusedElement: null,
+      allCategories: this.getAllCategories()
     }
 
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -53,6 +52,7 @@ export default class Categories extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
+    this.handleCategoryCollapse = this.handleCategoryCollapse.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
     hubElementsStorage.state('elements').onChange(this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
@@ -124,13 +124,9 @@ export default class Categories extends React.Component {
         delete element.id
         return element
       })
-      Categories.allElements = elementPresets.sort(sortingTool).concat(Categories.allElements)
+      Categories.allElements = elementPresets.concat(Categories.allElements)
     }
-    const allElements = Categories.allElements
-    const favoriteElements = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
-    const restElements = lodash.differenceWith(allElements, favoriteElements, lodash.isEqual)
-
-    return favoriteElements.concat(restElements)
+    return Categories.allElements
   }
 
   getAllElementsTags () {
@@ -176,6 +172,9 @@ export default class Categories extends React.Component {
       const groups = groupsService.all()
       const tags = this.getAllElementsTags()
       Categories.allCategories = groups.filter((group) => {
+        if (group.title === 'All') {
+          return false
+        }
         groupsStore[group.title] = this.getElementsList(group.categories, tags)
         return groupsStore[group.title].length > 0
       }).map((group, index) => {
@@ -316,23 +315,87 @@ export default class Categories extends React.Component {
     })
   }
 
-  getElementsByCategory () {
-    const { activeCategoryIndex } = this.state
-    const allCategories = this.getAllCategories()
-    const i = activeCategoryIndex
+  handleCategoryCollapse (categoryItemId) {
+    const allCategories = this.state.allCategories
+    const currentCategory = allCategories.find(element => element.id === categoryItemId)
+    const currentCategoryIndex = allCategories.findIndex(element => element.id === categoryItemId)
 
-    return allCategories && allCategories[i] && allCategories[i].elements ? allCategories[i].elements.map((element) => {
-      return this.getElementControl(element)
-    }) : []
+    currentCategory.isVisible = !currentCategory.isVisible
+    allCategories[currentCategoryIndex] = currentCategory
+
+    this.setState({
+      allCategories: allCategories
+    })
+  }
+
+  getElementsByCategory () {
+    const allCategories = this.getAllCategories()
+    const presets = allCategories.find(element => element.id === 'Presets')
+    const favorites = allCategories.find(element => element.id === 'Favorites')
+
+    if (!presets) {
+      const presetElements = Categories.allElements.filter(element => element.presetId)
+      if (presetElements.length > 0) {
+        let presetElementsCategory = {
+          id: 'Presets',
+          title: 'Presets',
+          isVisible: true,
+          elements: presetElements
+        }
+        allCategories.unshift(presetElementsCategory)
+      }
+    }
+
+    if (!favorites) {
+      const favoriteElements = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+      if (favoriteElements.length > 0) {
+        let favoriteElementsCategory = {
+          id: 'Favorites',
+          title: 'Favorites',
+          isVisible: true,
+          elements: favoriteElements
+        }
+        allCategories.unshift(favoriteElementsCategory)
+      }
+    }
+
+    let allElements = []
+
+    allCategories.forEach((categoryItem) => {
+      let categoryItems = []
+      categoryItem.elements.forEach((element) => {
+        categoryItems.push(this.getElementControl(element))
+      })
+      const expandClasses = classNames({
+        'vcv-ui-icon': true,
+        'vcv-ui-icon-expand': !categoryItem.isVisible,
+        'vcv-ui-icon-arrow-up': true,
+        'vcv-element-categories-expand-button': true
+      })
+      allElements.push(
+        <div key={`vcv-element-category-${categoryItem.id}`} className="vcv-element-category-items">
+          <div className="vcv-element-category-title-wrapper">
+            <span className="vcv-element-category-title">{categoryItem.title}</span>
+            <button
+              onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
+              className={expandClasses}
+            />
+          </div>
+          {categoryItem.isVisible && categoryItems}
+        </div>
+      )
+    })
+
+    return allElements
   }
 
   getElementListContainer (itemsOutput) {
     if (itemsOutput.length) {
       return (
         <div className='vcv-ui-item-list-container'>
-          <ul className='vcv-ui-item-list'>
+          <div className='vcv-ui-item-list'>
             {itemsOutput}
-          </ul>
+          </div>
         </div>
       )
     } else {
