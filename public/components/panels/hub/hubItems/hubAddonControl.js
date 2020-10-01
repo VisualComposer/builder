@@ -115,7 +115,9 @@ export default class HubAddonControl extends React.Component {
     }
 
     return (
-      <li className='vcv-ui-item-list-item' onMouseEnter={this.handleMouseEnter}
+      <li
+        className='vcv-ui-item-list-item'
+        onMouseEnter={this.handleMouseEnter}
       >
         <div className='vcv-hub-addon-item-container'>
           <div className='vcv-hub-addon-item-image-container'>
