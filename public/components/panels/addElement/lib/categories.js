@@ -172,9 +172,6 @@ export default class Categories extends React.Component {
       const groups = groupsService.all()
       const tags = this.getAllElementsTags()
       Categories.allCategories = groups.filter((group) => {
-        if (group.title === 'All') {
-          return false
-        }
         groupsStore[group.title] = this.getElementsList(group.categories, tags)
         return groupsStore[group.title].length > 0
       }).map((group, index) => {
@@ -362,28 +359,30 @@ export default class Categories extends React.Component {
     let allElements = []
 
     allCategories.forEach((categoryItem) => {
-      let categoryItems = []
-      categoryItem.elements.forEach((element) => {
-        categoryItems.push(this.getElementControl(element))
-      })
-      const expandClasses = classNames({
-        'vcv-ui-icon': true,
-        'vcv-ui-icon-expand': !categoryItem.isVisible,
-        'vcv-ui-icon-arrow-up': true,
-        'vcv-element-categories-expand-button': true
-      })
-      allElements.push(
-        <div key={`vcv-element-category-${categoryItem.id}`} className="vcv-element-category-items">
-          <div className="vcv-element-category-title-wrapper">
-            <span className="vcv-element-category-title">{categoryItem.title}</span>
-            <button
-              onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
-              className={expandClasses}
-            />
+      if (categoryItem.title !== 'All') {
+        let categoryItems = []
+        categoryItem.elements.forEach((element) => {
+          categoryItems.push(this.getElementControl(element))
+        })
+        const expandClasses = classNames({
+          'vcv-ui-icon': true,
+          'vcv-ui-icon-expand': !categoryItem.isVisible,
+          'vcv-ui-icon-arrow-up': true,
+          'vcv-element-categories-expand-button': true
+        })
+        allElements.push(
+          <div key={`vcv-element-category-${categoryItem.id}`} className="vcv-element-category-items">
+            <div className="vcv-element-category-title-wrapper">
+              <span className="vcv-element-category-title">{categoryItem.title}</span>
+              <button
+                onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
+                className={expandClasses}
+              />
+            </div>
+            {categoryItem.isVisible && categoryItems}
           </div>
-          {categoryItem.isVisible && categoryItems}
-        </div>
-      )
+        )
+      }
     })
 
     return allElements
