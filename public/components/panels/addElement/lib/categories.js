@@ -373,7 +373,10 @@ export default class Categories extends React.Component {
         allElements.push(
           <div key={`vcv-element-category-${categoryItem.id}`} className='vcv-element-category-items'>
             <div className='vcv-element-category-title-wrapper'>
-              <span className='vcv-element-category-title'>{categoryItem.title}</span>
+              <span
+                className='vcv-element-category-title'
+                onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
+              >{categoryItem.title}</span>
               <button
                 onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
                 className={expandClasses}
