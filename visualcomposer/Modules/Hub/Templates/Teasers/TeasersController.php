@@ -21,40 +21,32 @@ class TeasersController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:ajax:hub:templates:teasers:updateStatus:adminNonce', 'ajaxSetTemplateTeaserStatus');
+        $this->addEvent('vcv:hub:teasers:updateStatus', 'setTemplateTeaserStatus');
 
         $this->addFilter('vcv:editor:variables', 'outputTeaserTemplates');
         $this->addFilter('vcv:hub:variables', 'outputTeaserTemplates');
     }
 
     /**
-     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Data $dataHelper
-     *
-     * @return bool
      */
-    protected function ajaxSetTemplateTeaserStatus(
-        $response,
-        $payload,
-        Request $requestHelper,
+    protected function setTemplateTeaserStatus(
         Options $optionsHelper,
         Data $dataHelper
     ) {
-        $tag = $requestHelper->input('vcv-item-tag');
         $teaserTemplates = $optionsHelper->get('hubTeaserTemplates', false);
-        $newTemplateKey = $dataHelper->arraySearch(
-            $teaserTemplates,
-            'bundle',
-            $tag,
-            true
-        );
-        if ($newTemplateKey !== false) {
-            $teaserTemplates[ $newTemplateKey ]['isNew'] = false;
+        if (!empty($teaserTemplates)) {
+            while ($newTemplateKey = $dataHelper->arraySearch(
+                $teaserTemplates,
+                'isNew',
+                true,
+                true
+            )) {
+                $teaserTemplates[ $newTemplateKey ]['isNew'] = time();
+            }
             $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
         }
-
-        return true;
     }
 
     protected function outputTeaserTemplates($variables, Options $optionsHelper)

@@ -4,7 +4,6 @@ import { env, getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
 const myTemplatesService = getService('myTemplates')
-const dataProcessorService = getService('dataProcessor')
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
@@ -24,7 +23,6 @@ export default class HubTemplateControl extends ElementControl {
     this.isHubInWpDashboard = workspaceStorage.state('isHubInWpDashboard').get()
     this.downloadTemplate = this.downloadTemplate.bind(this)
     this.addTemplate = this.addTemplate.bind(this)
-    this.sendHubTemplateStatus = this.sendHubTemplateStatus.bind(this)
   }
 
   downloadTemplate () {
@@ -54,31 +52,6 @@ export default class HubTemplateControl extends ElementControl {
       const template = myTemplatesService.findTemplateByBundle(this.props.element.bundle)
       next(template.data)
     }
-  }
-
-  handleMouseLeaveHidePreview () {
-    // send ajax if template is NEW
-    if (this.state.isNew) {
-      this.setState({
-        isNew: false
-      }, this.sendHubTemplateStatus)
-    }
-    super.handleMouseLeaveHidePreview()
-  }
-
-  sendHubTemplateStatus () {
-    const templateBundle = this.props.element.bundle
-    dataProcessorService.appAdminServerRequest({
-      'vcv-action': 'hub:templates:teasers:updateStatus:adminNonce',
-      'vcv-item-tag': templateBundle
-    }).then(() => {
-      const allTemplateTeasers = hubTemplateStorage.state('templateTeasers').get()
-      const currentTemplateIndex = allTemplateTeasers.findIndex(template => template.bundle === templateBundle)
-      allTemplateTeasers[currentTemplateIndex].isNew = false
-      hubTemplateStorage.state('templateTeasers').set(allTemplateTeasers)
-    }, (error) => {
-      console.warn(error)
-    })
   }
 
   openPremiumTab () {
