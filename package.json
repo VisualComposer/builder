@@ -42,7 +42,6 @@
     "react-sortable-hoc": "1.11.0",
     "react-textarea-autosize": "8.2.0",
     "reactcss": "1.2.3",
-    "tinycolor2": "1.4.1",
     "webfontloader": "1.6.28"
   },
   "babel": {
