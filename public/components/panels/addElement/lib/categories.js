@@ -363,6 +363,11 @@ export default class Categories extends React.Component {
         categoryItem.elements.forEach((element) => {
           categoryItems.push(this.getElementControl(element))
         })
+        categoryItems.sort(function (a, b) {
+          const x = a.props.name
+          const y = b.props.name
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+        })
         const expandClasses = classNames({
           'vcv-ui-icon': true,
           'vcv-ui-icon-expand': !categoryItem.isVisible,
