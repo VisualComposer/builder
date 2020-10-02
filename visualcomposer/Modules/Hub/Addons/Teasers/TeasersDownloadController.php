@@ -69,6 +69,23 @@ class TeasersDownloadController extends Container implements Module
         // Compare old with new
         // It will give us list of items that was newly added.
         $dataHelper = vchelper('Data');
+
+        // Merge items that already isNew
+        while (
+            $newAddonKey = $dataHelper->arraySearchKey(
+                $teaserAddonsBefore,
+                'isNew'
+            )
+        ) {
+            $newTeaserAddonKey = $dataHelper->arraySearch(
+                $teaserAddons,
+                'bundle',
+                $teaserAddonsBefore[ $newAddonKey ]['bundle'],
+                true
+            );
+            $teaserAddons[ $newTeaserAddonKey ]['isNew'] = $teaserAddonsBefore[ $newAddonKey ]['isNew'];
+        }
+
         $addonsBefore = $dataHelper->arrayColumn(
             $teaserAddonsBefore,
             'bundle'

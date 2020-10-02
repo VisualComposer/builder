@@ -70,11 +70,29 @@ class TeasersDownloadController extends Container implements Module
         // Compare old with new
         // It will give us list of items that was newly added.
         $dataHelper = vchelper('Data');
+
+        // Merge items that already isNew
+        while (
+            $newTemplateKey = $dataHelper->arraySearchKey(
+                $teaserTemplatesBefore,
+                'isNew'
+            )
+        ) {
+            $newTeaserTemplateKey = $dataHelper->arraySearch(
+                $teaserTemplates,
+                'bundle',
+                $teaserTemplatesBefore[ $newTemplateKey ]['bundle'],
+                true
+            );
+            $teaserTemplates[ $newTeaserTemplateKey ]['isNew'] = $teaserTemplatesBefore[ $newTemplateKey ]['isNew'];
+        }
+
         $templatesBefore = $dataHelper->arrayColumn(
             $teaserTemplatesBefore,
             'bundle'
         );
         $newTemplates = $dataHelper->arrayColumn($teaserTemplates, 'bundle');
+
         $difference = array_diff($newTemplates, $templatesBefore);
         if (!empty($difference)) {
             // There are new item
