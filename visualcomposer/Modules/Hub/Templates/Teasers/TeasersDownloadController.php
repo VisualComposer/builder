@@ -84,7 +84,9 @@ class TeasersDownloadController extends Container implements Module
                 $teaserTemplatesBefore[ $newTemplateKey ]['bundle'],
                 true
             );
-            $teaserTemplates[ $newTeaserTemplateKey ]['isNew'] = $teaserTemplatesBefore[ $newTemplateKey ]['isNew'];
+            if ($newTeaserTemplateKey !== false) {
+                $teaserTemplates[ $newTeaserTemplateKey ]['isNew'] = $teaserTemplatesBefore[ $newTemplateKey ]['isNew'];
+            }
             unset($teaserTemplatesBefore[ $newTemplateKey ]['isNew']);
         }
 
