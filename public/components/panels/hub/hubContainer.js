@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import HubItemController from './hubItemController'
 import HubMenu from './hubMenu'
 import HubDropdown from './hubDropdown'
-import AddElementCategories from '../addElement/lib/categories'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import SearchElement from '../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
@@ -14,17 +13,22 @@ import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const cook = vcCake.getService('cook')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const hubAddonsStorage = vcCake.getStorage('hubAddons')
 const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 
-export default class HubContainer extends AddElementCategories {
+export default class HubContainer extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   allCategories = null
   static minusThreeDayTimeStamp = window.VCV_HUB_SERVER_TIME() - 3 * 86400
 
   constructor (props) {
     super(props)
+    this.state = {
+      filterType: 'all',
+      activeCategoryIndex: 0
+    }
     if (props && props.options && props.options.filterType) {
       const { filterType, id, bundleType } = props.options
       this.state = {
@@ -33,8 +37,10 @@ export default class HubContainer extends AddElementCategories {
         bundleType: bundleType
       }
     }
+    this.changeInput = this.changeInput.bind(this)
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
@@ -190,6 +196,12 @@ export default class HubContainer extends AddElementCategories {
     )
   }
 
+  changeActiveCategory (catIndex) {
+    this.setState({
+      activeCategoryIndex: catIndex
+    })
+  }
+
   getElementsByCategory () {
     const { activeCategoryIndex } = this.state
     const allCategories = this.getAllCategories()
@@ -213,7 +225,6 @@ export default class HubContainer extends AddElementCategories {
       allCategories: this.getAllCategories(),
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
-      changeTerm: this.changeSearchState,
       changeInput: this.changeInput,
       inputPlaceholder: 'elements and templates',
       activeFilter: this.state.filterId,
@@ -226,6 +237,39 @@ export default class HubContainer extends AddElementCategories {
         this.setState(result)
       }
     }
+  }
+
+  changeInput (value) {
+    this.setState({
+      inputValue: value,
+      searchResults: this.getSearchResults(value)
+    })
+  }
+
+  getSearchResults (value) {
+    const allCategories = this.getAllCategories()
+    const getIndex = allCategories.findIndex((val) => {
+      return val.title === 'All' || val.title === 'All Elements'
+    })
+
+    function getElementName (elementData) {
+      let elName = ''
+      if (elementData.name) {
+        elName = elementData.name.toLowerCase()
+      } else if (elementData.tag) {
+        const element = cook.get(elementData)
+        if (element.get('name')) {
+          elName = element.get('name').toLowerCase()
+        }
+      }
+
+      return elName
+    }
+
+    return allCategories[getIndex].elements.filter((elementData) => {
+      const elName = getElementName(elementData)
+      return elName.indexOf(value.trim()) !== -1
+    }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
   }
 
   getSearchElement () {
@@ -241,9 +285,29 @@ export default class HubContainer extends AddElementCategories {
     })
   }
 
+  getElementListContainer (itemsOutput) {
+    if (itemsOutput.length) {
+      return (
+        <div className='vcv-ui-item-list-container'>
+          <div className='vcv-ui-item-list'>
+            {itemsOutput}
+          </div>
+        </div>
+      )
+    } else {
+      return this.getNoResultsElement()
+    }
+  }
+
+  getFoundElements () {
+    return this.state.searchResults.map((elementData) => {
+      return this.getElementControl(elementData)
+    })
+  }
+
   filterResult () {
     const { filterType, bundleType } = this.state
-    let result = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
+    let result = this.state.inputValue ? this.getFoundElements() : this.getElementsByCategory()
     result = result.filter((item) => {
       let isClean = false
 
