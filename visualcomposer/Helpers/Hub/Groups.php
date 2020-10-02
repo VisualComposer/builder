@@ -19,62 +19,133 @@ class Groups implements Helper
                 'title' => 'Basic',
                 'categories' => [
                     'Row',
-                    'Column',
-                    'Section',
                     'Text block',
+                    'Basic Button',
+                    'Outline Button',
                     'Single image',
-                    'Button',
+                    'WordPress Basic',
+                    'Widgetized Sidebar',
+                    'Empty Space',
+                    'Basic Call To Action',
+                    'FAQ Toggle',
+                    'Separator',
+                    'Social Profile Icons',
+                    'Feature',
+                    'Feature section',
+                    'Misc Basic',
+                    'Hero section',
+                    'Icon',
+                    'Image Gallery',
+                    'Image Masonry Gallery',
+                    'Simple Image Slider',
+                    'Message Box Basic',
+                    'Social Videos'
                 ],
             ],
             'Media' => [
                 'title' => 'Media',
                 'categories' => [
-                    'Image gallery',
-                    'Image sliders',
                     'Single image',
-                    'Videos',
+                    'Banner Element',
+                    'Giphy',
+                    'Images',
+                    'Instagram Image',
+                    'Flip Box',
+                    'Icon Hover Box',
+                    'Tall Hover Box',
+                    'Image Gallery',
+                    'Image Masonry Gallery',
+                    'Multiple Image Collage',
+                    'Image Galleries',
+                    'Simple Image Slider',
+                    'Timeline Slideshow',
+                    'Social Videos',
+                    'Videos'
+                ],
+            ],
+            'Buttons' => [
+                'title' => 'Buttons',
+                'categories' => [
+                    'Basic Button',
+                    'Outline Button',
+                    'Buttons',
+                    'Button Group'
+                ],
+            ],
+            'E-Commerce' => [
+                'title' => 'E-Commerce',
+                'categories' => [
+                    'WooCommerce',
+                    'Pricing table'
                 ],
             ],
             'Containers' => [
                 'title' => 'Containers',
                 'categories' => [
-                    'Tabs',
-                    'Tours',
-                    'Accordions',
                     'Row',
                     'Section',
+                    'Accordions',
+                    'Tabs'
                 ],
             ],
             'Social' => [
                 'title' => 'Social',
-                'categories' => ['Social'],
-            ],
-            'Wordpress' => [
-                'title' => 'Wordpress',
-                'categories' => ['Wordpress'],
-            ],
-            'Content' => [
-                'title' => 'Content',
                 'categories' => [
-                    'Hero section',
-                    'Icon',
-                    'Single image',
-                    'Text Block',
-                    'Feature',
+                    'Add To Any Share Buttons',
                     'Maps',
-                    'Separators',
-                    'Grids',
-                    'Feature section',
-                    'Feature Description',
+                    'Instagram Image',
+                    'Social Profile Icons',
+                    'Social'
                 ],
             ],
-            'WooCommerce' => [
-                'title' => 'WooCommerce',
-                'categories' => ['WooCommerce'],
+            'Integrations' => [
+                'title' => 'Integrations',
+                'categories' => [
+                    'WordPress',
+                    'Maps',
+                    'Giphy',
+                    'Soundcloud Player'
+                ],
             ],
-            'WP Widgets' => [
-                'title' => 'WP Widgets',
-                'categories' => ['WP Widgets'],
+            'Menus' => [
+                'title' => 'Menus',
+                'categories' => [
+                    'Menus',
+                    'Link Dropdown'
+                ],
+            ],
+            'Post Grids' => [
+                'title' => 'Post Grids',
+                'categories' => [
+                    'Grids'
+                ],
+            ],
+            'Other' => [
+                'title' => 'Other',
+                'categories' => [
+                    'Heading Elements',
+                    'Link Dropdown',
+                    'Headers & Footers',
+                    'Testimonial',
+                    'Button Group',
+                    'Widgetized Sidebar',
+                    'Simple Search',
+                    'Counter',
+                    'Charts',
+                    'Call To Action',
+                    'Feature Description',
+                    'Outline FAQ Toggle',
+                    'FAQ Group',
+                    'Separators',
+                    'Flip Box',
+                    'Hover Box',
+                    'Icon Hover Box',
+                    'Misc',
+                    'Icon Group',
+                    'Multiple Image Collage',
+                    'Logo Slider',
+                    'Message Box'
+                ],
             ],
         ];
     }
