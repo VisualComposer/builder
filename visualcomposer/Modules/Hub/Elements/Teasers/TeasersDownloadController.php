@@ -75,7 +75,9 @@ class TeasersDownloadController extends Container implements Module
                 $teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['tag'],
                 true
             );
-            $teaserElements['All Elements']['elements'][ $newTeaserElementKey ]['isNew'] = $teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['isNew'];
+            if ($newTeaserElementKey !== false) {
+                $teaserElements['All Elements']['elements'][ $newTeaserElementKey ]['isNew'] = $teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['isNew'];
+            }
             unset($teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['isNew']);
         }
 

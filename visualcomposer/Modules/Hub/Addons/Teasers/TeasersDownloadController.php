@@ -83,7 +83,9 @@ class TeasersDownloadController extends Container implements Module
                 $teaserAddonsBefore[ $newAddonKey ]['bundle'],
                 true
             );
-            $teaserAddons[ $newTeaserAddonKey ]['isNew'] = $teaserAddonsBefore[ $newAddonKey ]['isNew'];
+            if ($newTeaserAddonKey !== false) {
+                $teaserAddons[ $newTeaserAddonKey ]['isNew'] = $teaserAddonsBefore[ $newAddonKey ]['isNew'];
+            }
             unset($teaserAddonsBefore[ $newAddonKey ]['isNew']);
         }
 
