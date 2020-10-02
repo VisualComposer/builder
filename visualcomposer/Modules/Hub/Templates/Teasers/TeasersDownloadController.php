@@ -85,6 +85,7 @@ class TeasersDownloadController extends Container implements Module
                 true
             );
             $teaserTemplates[ $newTeaserTemplateKey ]['isNew'] = $teaserTemplatesBefore[ $newTemplateKey ]['isNew'];
+            unset($teaserTemplatesBefore[ $newTemplateKey ]['isNew']);
         }
 
         $templatesBefore = $dataHelper->arrayColumn(

@@ -267,12 +267,13 @@ export default class Categories extends React.Component {
   }
 
   getSearchResults (value) {
+    value = value.toLowerCase()
     const allCategories = this.getAllCategories()
     const getIndex = allCategories.findIndex((val) => {
       return val.title === 'All' || val.title === 'All Elements'
     })
 
-    return allCategories[getIndex].elements.filter((elementData) => {
+    function getElementName (elementData) {
       let elName = ''
       if (elementData.name) {
         elName = elementData.name.toLowerCase()
@@ -283,8 +284,13 @@ export default class Categories extends React.Component {
         }
       }
 
+      return elName
+    }
+
+    return allCategories[getIndex].elements.filter((elementData) => {
+      const elName = getElementName(elementData)
       return elName.indexOf(value.trim()) !== -1
-    })
+    }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
   }
 
   handleCategoryCollapse (currentCategoryId) {
