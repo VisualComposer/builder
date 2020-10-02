@@ -84,6 +84,7 @@ class TeasersDownloadController extends Container implements Module
                 true
             );
             $teaserAddons[ $newTeaserAddonKey ]['isNew'] = $teaserAddonsBefore[ $newAddonKey ]['isNew'];
+            unset($teaserAddonsBefore[ $newAddonKey ]['isNew']);
         }
 
         $addonsBefore = $dataHelper->arrayColumn(

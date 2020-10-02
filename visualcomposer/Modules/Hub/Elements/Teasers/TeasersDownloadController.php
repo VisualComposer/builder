@@ -76,6 +76,7 @@ class TeasersDownloadController extends Container implements Module
                 true
             );
             $teaserElements['All Elements']['elements'][ $newTeaserElementKey ]['isNew'] = $teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['isNew'];
+            unset($teaserElementsBefore['All Elements']['elements'][ $newElementKey ]['isNew']);
         }
 
         $newElements = $dataHelper->arrayColumn($teaserElements['All Elements']['elements'], 'tag');
