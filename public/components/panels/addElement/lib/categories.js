@@ -267,7 +267,6 @@ export default class Categories extends React.Component {
   }
 
   getSearchResults (value) {
-    value = value.toLowerCase()
     const allCategories = this.getAllCategories()
     const getIndex = allCategories.findIndex((val) => {
       return val.title === 'All' || val.title === 'All Elements'
@@ -442,7 +441,7 @@ export default class Categories extends React.Component {
 
   render () {
     const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
-    const itemsOutput = this.state.inputValue.trim() ? this.getFoundElements() : this.getElementsByCategory()
+    const itemsOutput = this.state.inputValue ? this.getFoundElements() : this.getElementsByCategory()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
