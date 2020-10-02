@@ -15,11 +15,6 @@ class Groups implements Helper
     public function getGroups()
     {
         return [
-            'All' => [
-                'title' => 'All',
-                'metaOrder' => 1,
-                'categories' => true,
-            ],
             'Basic' => [
                 'title' => 'Basic',
                 'categories' => [

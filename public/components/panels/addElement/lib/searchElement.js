@@ -5,30 +5,20 @@ import PropTypes from 'prop-types'
 
 export default class SearchElement extends React.Component {
   static propTypes = {
-    allCategories: PropTypes.array.isRequired,
-    index: PropTypes.any.isRequired,
-    changeActive: PropTypes.func.isRequired,
-    changeTerm: PropTypes.func.isRequired,
     changeInput: PropTypes.func.isRequired,
     applyFirstElement: PropTypes.func
   }
 
   inputTimeout = 0
-  dropdownTimeout = 0
   mobileDetect = null
 
   constructor (props) {
     super(props)
     this.state = {
       inputValue: '',
-      activeIndex: this.props.index,
-      content: this.getContentTitle(this.props.index),
-      dropdown: false,
       input: false
     }
     this.handleSearch = this.handleSearch.bind(this)
-    this.handleCategoryChange = this.handleCategoryChange.bind(this)
-    this.handleCategorySelect = this.handleCategorySelect.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
     this.getPlaceholder = this.getPlaceholder.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
@@ -41,21 +31,7 @@ export default class SearchElement extends React.Component {
       window.clearTimeout(this.inputTimeout)
       this.inputTimeout = 0
     }
-    if (this.dropdownTimeout) {
-      window.clearTimeout(this.dropdownTimeout)
-      this.dropdownTimeout = 0
-    }
   }
-
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.setState({
-      activeIndex: nextProps.index,
-      content: this.getContentTitle(nextProps.index)
-    })
-  }
-
-  /* eslint-enable */
 
   handleKeyPress (e) {
     if (e.key === 'Enter' && this.props.applyFirstElement) {
@@ -68,46 +44,10 @@ export default class SearchElement extends React.Component {
     const inputVal = e.currentTarget.value.toLowerCase()
     this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent('0')
     this.setState({
-      inputValue: e.currentTarget.value,
-      activeIndex: 0,
-      content: this.getContentTitle('0')
+      inputValue: e.currentTarget.value
     })
-    this.props.changeActive('0')
-    this.props.changeTerm('search')
+
     this.props.changeInput(inputVal)
-  }
-
-  getContentTitle (index) {
-    if (index.indexOf && index.indexOf('-') > -1) {
-      index = index.split('-')
-      const group = this.props.allCategories[index[0]]
-      const category = group && group.categories && group.categories[index[1]]
-
-      return category ? category.title : ''
-    }
-    return this.props.allCategories[index] ? this.props.allCategories[index].title : ''
-  }
-
-  handleCategoryChange (value) {
-    this.setState({
-      inputValue: '',
-      activeIndex: value,
-      content: this.getContentTitle(value)
-    })
-    this.props.changeActive(value)
-    this.props.changeTerm('')
-  }
-
-  handleCategorySelect (e) {
-    this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent(e.currentTarget.value)
-
-    this.setState({
-      inputValue: '',
-      activeIndex: e.currentTarget.value,
-      content: this.getContentTitle(e.currentTarget.value)
-    })
-    this.props.changeActive(e.currentTarget.value)
-    this.props.changeTerm('')
   }
 
   getSelectOptions (categories, groupIndex) {
@@ -123,30 +63,6 @@ export default class SearchElement extends React.Component {
       )
     })
     return options
-  }
-
-  getSelectGroups () {
-    const optGroup = []
-    this.props.allCategories.forEach((item, index) => {
-      if (item.categories) {
-        optGroup.push(
-          <optgroup key={`search-select-group-item-${item.id}-${item.index}`} label={item.title}>
-            {this.getSelectOptions(item.categories, index)}
-          </optgroup>
-        )
-      } else {
-        optGroup.push(
-          <option
-            key={`search-select-item-${item.id}-${item.index}`}
-            value={item.index}
-          >
-            {item.title}
-          </option>
-        )
-      }
-    })
-
-    return optGroup
   }
 
   handleInputFocus () {
