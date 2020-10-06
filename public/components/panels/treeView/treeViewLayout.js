@@ -275,11 +275,11 @@ export default class TreeViewLayout extends React.Component {
               title={removeAllText}
               onClick={this.handleRemoveAllElements}
             >
-            <span className='vcv-ui-tree-layout-action-content'>
-              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-trash' />
-              <span>{removeAllText}</span>
+              <span className='vcv-ui-tree-layout-action-content'>
+                <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-trash' />
+                <span>{removeAllText}</span>
+              </span>
             </span>
-          </span>
           ) : null}
         </div>
       </>
