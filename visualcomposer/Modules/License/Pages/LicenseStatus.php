@@ -52,17 +52,12 @@ class LicenseStatus extends Container implements Module
                     return;
                 }
 
-                if ($licenseHelper->isAnyActivated()) {
-                    $this->call('addPage');
-                    $this->wpAddFilter('submenu_file', 'subMenuHighlight');
-                    $this->wpAddAction(
-                        'admin_head',
-                        'addCss'
-                    );
-                } elseif ($requestHelper->input('page') === $this->getSlug()) {
-                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-                    exit;
-                }
+                $this->call('addPage');
+                $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+                $this->wpAddAction(
+                    'admin_head',
+                    'addCss'
+                );
             },
             70
         );
