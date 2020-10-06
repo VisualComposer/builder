@@ -5,6 +5,7 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
+import ElementsGroup from './elementsGroup'
 
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
@@ -20,8 +21,11 @@ export default class Categories extends React.Component {
     parent: PropTypes.object
   }
 
+  static localizations = window.VCV_I18N && window.VCV_I18N()
+
   static allElements = []
   static allCategories = []
+  static allGroupData = {}
   static allElementsTags = []
   static hubElements = []
   static addedId = null
@@ -35,8 +39,7 @@ export default class Categories extends React.Component {
 
     this.state = {
       inputValue: '',
-      focusedElement: null,
-      allCategories: this.getAllCategories()
+      focusedElement: null
     }
 
     this.changeInput = this.changeInput.bind(this)
@@ -46,7 +49,7 @@ export default class Categories extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
-    this.handleCategoryCollapse = this.handleCategoryCollapse.bind(this)
+    this.handleGroupToggle = this.handleGroupToggle.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
     hubElementsStorage.state('elements').onChange(this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
@@ -173,8 +176,7 @@ export default class Categories extends React.Component {
           id: group.title + index, // TODO: Should it be more unique?
           index: index,
           title: group.title,
-          elements: groupsStore[group.title],
-          isVisible: true
+          elements: groupsStore[group.title]
         }
       })
       Categories.parentElementTag = this.props.parent.tag
@@ -206,9 +208,8 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const nothingFoundText = localizations ? localizations.nothingFound : 'Nothing found'
-    const helperText = localizations ? localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
+    const nothingFoundText = Categories.localizations ? Categories.localizations.nothingFound : 'Nothing found'
+    const helperText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return (
@@ -257,17 +258,27 @@ export default class Categories extends React.Component {
     })
   }
 
-  getSearchProps () {
-    return {
-      allCategories: this.getAllCategories(),
+  getSearchElement () {
+    const searchProps = {
       changeInput: this.changeInput,
       applyFirstElement: this.applyFirstElement
     }
+    return <SearchElement {...searchProps} />
   }
 
-  getSearchElement () {
-    const searchProps = this.getSearchProps()
-    return <SearchElement {...searchProps} />
+  getAllGroupData () {
+    const isAllGroupDataSet = Categories.allGroupData && Categories.allGroupData.elements
+
+    if (!isAllGroupDataSet) {
+      const tags = this.getAllElementsTags()
+
+      Categories.allGroupData = {
+        title: 'All',
+        elements: this.getElementsList(true, tags)
+      }
+    }
+
+    return Categories.allGroupData
   }
 
   getFoundElements () {
@@ -277,10 +288,7 @@ export default class Categories extends React.Component {
   }
 
   getSearchResults (value) {
-    const allCategories = this.getAllCategories()
-    const getIndex = allCategories.findIndex((val) => {
-      return val.title === 'All' || val.title === 'All Elements'
-    })
+    const allGroupData = this.getAllGroupData()
 
     function getElementName (elementData) {
       let elName = ''
@@ -296,21 +304,10 @@ export default class Categories extends React.Component {
       return elName
     }
 
-    return allCategories[getIndex].elements.filter((elementData) => {
+    return allGroupData.elements.filter((elementData) => {
       const elName = getElementName(elementData)
       return elName.indexOf(value.trim()) !== -1
     }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
-  }
-
-  handleCategoryCollapse (currentCategoryId) {
-    const allCategories = this.state.allCategories
-    const currentCategory = allCategories.find(element => element.id === currentCategoryId)
-
-    currentCategory.isVisible = !currentCategory.isVisible
-
-    this.setState({
-      allCategories: allCategories
-    })
   }
 
   getElementsByCategory () {
@@ -324,7 +321,6 @@ export default class Categories extends React.Component {
         const presetElementsCategory = {
           id: 'Presets',
           title: 'Presets',
-          isVisible: true,
           elements: presetElements
         }
         allCategories.unshift(presetElementsCategory)
@@ -337,7 +333,6 @@ export default class Categories extends React.Component {
         const favoriteElementsCategory = {
           id: 'Favorites',
           title: 'Favorites',
-          isVisible: true,
           elements: favoriteElements
         }
         allCategories.unshift(favoriteElementsCategory)
@@ -346,44 +341,36 @@ export default class Categories extends React.Component {
 
     const allElements = []
 
-    allCategories.forEach((categoryItem) => {
-      if (categoryItem.title !== 'All') {
-        const categoryItems = []
-        categoryItem.elements.forEach((element) => {
-          categoryItems.push(this.getElementControl(element))
-        })
-        categoryItems.sort(function (a, b) {
-          const x = a.props.name
-          const y = b.props.name
-          return ((x < y) ? -1 : ((x > y) ? 1 : 0))
-        })
-        const expandClasses = classNames({
-          'vcv-ui-icon': true,
-          'vcv-ui-icon-expand': !categoryItem.isVisible,
-          'vcv-ui-icon-arrow-up': true,
-          'vcv-element-categories-expand-button': true
-        })
-        allElements.push(
-          <div key={`vcv-element-category-${categoryItem.id}`} className='vcv-element-category-items'>
-            <div className='vcv-element-category-title-wrapper'>
-              <span
-                className='vcv-element-category-title'
-                onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
-              >
-                {categoryItem.title}
-              </span>
-              <button
-                onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
-                className={expandClasses}
-              />
-            </div>
-            {categoryItem.isVisible && categoryItems}
-          </div>
-        )
-      }
+    allCategories.forEach((groupData) => {
+      const groupElements = []
+      groupData.elements.forEach((element) => {
+        groupElements.push(this.getElementControl(element))
+      })
+      groupElements.sort((a, b) => {
+        const x = a.props.name
+        const y = b.props.name
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+      })
+      allElements.push(
+        <ElementsGroup
+          key={`vcv-element-category-${groupData.id}`}
+          groupData={groupData}
+          isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
+          onGroupToggle={this.handleGroupToggle}
+        >
+          {groupElements}
+        </ElementsGroup>
+      )
     })
 
     return allElements
+  }
+
+  handleGroupToggle (groupID, isOpened) {
+    const groupIndex = Categories.allCategories.findIndex(group => group.id === groupID)
+    if (groupIndex > -1 && Categories.allCategories[groupIndex]) {
+      Categories.allCategories[groupIndex].isOpened = isOpened
+    }
   }
 
   getElementListContainer (itemsOutput) {
@@ -437,8 +424,7 @@ export default class Categories extends React.Component {
   }
 
   getMoreButton () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const buttonText = localizations ? localizations.getMoreElements : 'Get More Elements'
+    const buttonText = Categories.localizations ? Categories.localizations.getMoreElements : 'Get More Elements'
     return (
       <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
         {buttonText}
@@ -451,8 +437,7 @@ export default class Categories extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
+    const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
     const itemsOutput = this.state.inputValue ? this.getFoundElements() : this.getElementsByCategory()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
