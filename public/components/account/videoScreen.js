@@ -24,7 +24,6 @@ export default class VideoScreen extends React.Component {
     if (!window.vcvIsAnyActivated) {
       doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">free and premium.</a>`
     }
-
     if (window.vcvIsFreeActivated) {
       doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">premium.</a>`
     }
