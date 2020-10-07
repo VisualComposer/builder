@@ -312,10 +312,9 @@ export default class Categories extends React.Component {
     })
   }
 
-  handleCategoryCollapse (categoryItemId) {
-    const allCategories = this.state.allCategories
-    const currentCategory = allCategories.find(element => element.id === categoryItemId)
-    const currentCategoryIndex = allCategories.findIndex(element => element.id === categoryItemId)
+  handleCategoryCollapse (currentCategory) {
+    const allCategories = this.getAllCategories()
+    const currentCategoryIndex = allCategories.indexOf(currentCategory)
 
     currentCategory.isVisible = !currentCategory.isVisible
     allCategories[currentCategoryIndex] = currentCategory
@@ -375,12 +374,12 @@ export default class Categories extends React.Component {
             <div className='vcv-element-category-title-wrapper'>
               <span
                 className='vcv-element-category-title'
-                onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
+                onClick={this.handleCategoryCollapse.bind(this, categoryItem)}
               >
                 {categoryItem.title}
               </span>
               <button
-                onClick={this.handleCategoryCollapse.bind(this, categoryItem.id)}
+                onClick={this.handleCategoryCollapse.bind(this, categoryItem)}
                 className={expandClasses}
               />
             </div>
