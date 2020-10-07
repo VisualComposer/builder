@@ -266,7 +266,6 @@ class HubDownloadActions extends WP_UnitTestCase
         $iconCat = $all['Icon'];
         $this->assertContains('megaCustomIcon', $iconCat['elements']);
         $this->assertContains('icon', $iconCat['elements']);
-        $this->assertContains('iconGroup', $iconCat['elements']);
         unset($iconCat['elements']);
         $this->assertEquals(
             [
