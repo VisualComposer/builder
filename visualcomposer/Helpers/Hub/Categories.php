@@ -72,7 +72,7 @@ class Categories implements Helper
         $hubCategories = $this->getHubCategories();
         $hubCategories = vcfilter('vcv:helpers:hub:getCategories', $hubCategories);
         $categoriesDiffer->set($hubCategories);
-
+        $updateThirdParty = $this->updateStoredCategories($hubCategories, $this->thirdPartyCategoriesElements);
         // Add 3rd Party elements
         $categoriesDiffer->onUpdate(
             function ($key, $oldValue, $newValue, $mergedValue) {
@@ -86,7 +86,7 @@ class Categories implements Helper
                 return $mergedValue;
             }
         )->set(
-            $this->thirdPartyCategoriesElements
+            $updateThirdParty['storedInDbCategories']
         );
         $new = $categoriesDiffer->get();
 
