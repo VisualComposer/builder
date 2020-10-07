@@ -14,9 +14,12 @@ import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const cook = vcCake.getService('cook')
+const dataProcessor = vcCake.getService('dataProcessor')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const workspaceStorage = vcCake.getStorage('workspace')
 const hubAddonsStorage = vcCake.getStorage('hubAddons')
 const hubTemplateStorage = vcCake.getStorage('hubTemplates')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class HubContainer extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -38,6 +41,8 @@ export default class HubContainer extends React.Component {
       }
     }
     this.changeInput = this.changeInput.bind(this)
+    this.addElement = this.addElement.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
@@ -148,6 +153,34 @@ export default class HubContainer extends React.Component {
       return { elements: templates, id: `${title}${index}`, index, title: title }
     }
     return {}
+  }
+
+  addElement (element, presetId = false) {
+    const workspace = workspaceStorage.state('settings').get() || false
+    element.parent = workspace && workspace.element ? workspace.element.id : false
+    element = cook.get(element).toJS()
+
+    elementsStorage.trigger('add', element, true, {
+      insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
+    })
+    this.addedId = element.id
+    const itemTag = element.tag
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'favoriteItems:updateUsage:adminNonce',
+      'vcv-item-tag': itemTag,
+      'vcv-nonce': window.vcvNonce
+    })
+
+    const iframe = document.getElementById('vcv-editor-iframe')
+    this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+    this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
+  }
+
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '')
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
   }
 
   getElementControl (elementData) {
