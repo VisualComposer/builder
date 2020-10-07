@@ -58,7 +58,9 @@ addStorage('hubElements', (storage) => {
     storage.state('elements').set(elements)
     setCategoryState(categoryData, storage.state('categories'))
     if (addBundle) {
-      Promise.all([window.jQuery.getScript(elementData.bundlePath)])
+      Promise.all([window.jQuery.getScript(elementData.bundlePath)]).then(() => {
+        storage.trigger('loaded', elementData, categoryData)
+      })
     }
   })
 

@@ -32,8 +32,6 @@ export default class Categories extends React.Component {
   static parentElementTag = null
   static elementPresets = []
 
-  updateElementsTimeout = 0
-
   constructor (props) {
     super(props)
 
@@ -51,17 +49,16 @@ export default class Categories extends React.Component {
     this.reset = this.reset.bind(this)
     this.handleGroupToggle = this.handleGroupToggle.bind(this)
     Categories.hubElements = hubElementsStorage.state('elements').get()
-    hubElementsStorage.state('elements').onChange(this.reset)
+    hubElementsStorage.once('loaded', this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
 
   componentWillUnmount () {
-    hubElementsStorage.state('elements').ignoreChange(this.reset)
-    hubElementsStorage.state('elementPresets').ignoreChange(this.reset)
-    if (this.updateElementsTimeout) {
-      window.clearTimeout(this.updateElementsTimeout)
-      this.updateElementsTimeout = 0
-    }
+    this.isComponentMounted = false
+  }
+
+  componentDidMount () {
+    this.isComponentMounted = true
   }
 
   reset () {
@@ -72,7 +69,7 @@ export default class Categories extends React.Component {
     Categories.hubElements = hubElementsStorage.state('elements').get()
 
     categoriesService.getSortedElements.cache.clear()
-    this.forceUpdate()
+    this.isComponentMounted && this.forceUpdate()
   }
 
   hasItemInArray (arr, value) {
