@@ -25,20 +25,55 @@ class Categories implements Helper
         );
     }
 
-    public function getCategories($type = false)
+    protected function updateStoredCategories($defaultCategories, $storedInDbCategories)
     {
-        $categoriesDiffer = vchelper('Differ');
-        $optionHelper = vchelper('Options');
+        $searchInArray = function ($array, $key, $value) {
+            foreach ($array as $index => $data) {
+                if (isset($data[ $key ]) && in_array($value, $data[ $key ], true)) {
+                    return $index;
+                }
+            }
 
-        if ($type) {
-            $hubCategories = $optionHelper->get('hubCategories', []);
-        } else {
-            $hubCategories = $this->getHubCategories();
+            return false;
+        };
+        $changesInStoredDb = false;
+        if (!empty($storedInDbCategories)) {
+            foreach ($storedInDbCategories as $categoryName => $data) {
+                foreach ($data['elements'] as $index => $element) {
+                    $inArray = $searchInArray($defaultCategories, 'elements', $element);
+                    if ($inArray !== false) {
+                        // Already stored inside default hub categories
+                        // Remove it!
+                        unset($storedInDbCategories[ $categoryName ]['elements'][ $index ]);
+                        $changesInStoredDb = true;
+                    }
+                }
+                if (
+                    !isset($storedInDbCategories[ $categoryName ]['elements'])
+                    || empty($storedInDbCategories[ $categoryName ]['elements'])
+                ) {
+                    // If stored category is empty, just remove it
+                    unset($storedInDbCategories[ $categoryName ]);
+                    $changesInStoredDb = true;
+                }
+            }
         }
 
+        return ['changesInStoredDb' => $changesInStoredDb, 'storedInDbCategories' => $storedInDbCategories];
+    }
+
+    /**
+     * Return all default elements, stored in db and 3rd party categories
+     * @return array
+     */
+    public function getCategories()
+    {
+        $categoriesDiffer = vchelper('Differ');
+        $hubCategories = $this->getHubCategories();
         $hubCategories = vcfilter('vcv:helpers:hub:getCategories', $hubCategories);
         $categoriesDiffer->set($hubCategories);
 
+        // Add 3rd Party elements
         $categoriesDiffer->onUpdate(
             function ($key, $oldValue, $newValue, $mergedValue) {
                 if (empty($oldValue)) {
@@ -108,7 +143,7 @@ class Categories implements Helper
     }
 
     /**
-     * Return all default elements categories.
+     * Return all default elements and stored in DB elements categories.
      * @return array
      */
     public function getHubCategories()
@@ -373,7 +408,7 @@ class Categories implements Helper
                     'syntaxHighlighter',
                     'timelineWithIcons',
                     'profileWithIcon',
-                    'starRanking'
+                    'starRanking',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Misc.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Misc.svg'),
@@ -425,7 +460,7 @@ class Categories implements Helper
                     'twitterGrid',
                     'twitterTweet',
                     'twitterTimeline',
-                    'twitterButton'
+                    'twitterButton',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Social.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Social.svg'),
@@ -712,9 +747,14 @@ class Categories implements Helper
             ],
         ];
 
-        $hubCategories = $optionHelper->get('hubCategories', []);
-        if (!empty($hubCategories)) {
-            $categoriesDiffer->set($hubCategories);
+        $categoriesDiffer->set($defaultCategories);
+        $storedInDbCategories = $optionHelper->get('hubCategories', []);
+        // BC for stored categories and fix in case if element was moved to other category
+        $updateStoredCategories = $this->updateStoredCategories($defaultCategories, $storedInDbCategories);
+        if ($updateStoredCategories['changesInStoredDb']) {
+            $storedInDbCategories = $updateStoredCategories['storedInDbCategories'];
+            // Update database for performance in next reload
+            $this->setCategories($storedInDbCategories);
         }
 
         $categoriesDiffer->onUpdate(
@@ -722,7 +762,7 @@ class Categories implements Helper
                 $hubCategoriesHelper,
                 'updateCategory',
             ]
-        )->set($defaultCategories);
+        )->set($storedInDbCategories);
 
         return $categoriesDiffer->get();
     }
