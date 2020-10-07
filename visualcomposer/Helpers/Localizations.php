@@ -170,6 +170,10 @@ class Localizations extends Container implements Helper
                 'Already have a license? Log in to <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> to find it.',
                 'visualcomposer'
             ),
+            'doMoreWithVcText' => __(
+                'Do more with Visual Composer Hub',
+                'visualcomposer'
+            ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
             'addImage' => __('Add Image', 'visualcomposer'),
             'removeImage' => __('Remove Image', 'visualcomposer'),
@@ -746,6 +750,10 @@ class Localizations extends Container implements Helper
             ),
             'upgradeToPremium' => __(
                 'Upgrade To Premium',
+                'visualcomposer'
+            ),
+            'takeTutorialTemplate' => __(
+                'Take Tutorial Template',
                 'visualcomposer'
             ),
             'buildYourSiteWithDragAndDrop' => __(
