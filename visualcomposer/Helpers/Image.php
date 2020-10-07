@@ -83,6 +83,8 @@ class Image implements Helper
     {
         $imageData = $this->getImageData($src);
         $image = wp_get_image_editor($imageData['path']);
+        $originalSizes = $image->get_size();
+        $originalWidth = $originalSizes['width'];
         $srcset = [];
         if (!$dynamic && !is_wp_error($image) && $width && $height) {
             $image->resize($width, $height, true);
@@ -96,12 +98,24 @@ class Image implements Helper
                 $src = $uploadDir['url'] . '/' . $newfile['file'];
             }
 
-            $originalWidth = $width;
-            $sizes = [320, 480, 800, (int)$originalWidth];
-            $aspectRatio = $originalWidth / $height;
+            $resizedWidth = $width;
+            $retinaImage = false;
+            $sizes = [
+                '320w' => 320,
+                '480w' => 480,
+                '800w' => 800,
+                (int)$resizedWidth . 'w' => (int)$resizedWidth,
+            ];
 
-            foreach ($sizes as $width) {
-                if ($width > $originalWidth) {
+            if ($resizedWidth * 2 <= $originalWidth) {
+                $retinaImage = $resizedWidth * 2;
+                $sizes['2x'] = (int)$retinaImage;
+            }
+
+            $aspectRatio = $resizedWidth / $height;
+
+            foreach ($sizes as $widthAttr => $width) {
+                if ($width > $resizedWidth && !$retinaImage) {
                     continue;
                 }
                 $image = wp_get_image_editor($imageData['path']);
@@ -113,7 +127,7 @@ class Image implements Helper
                     . '.' . $imageData['extension'];
                 $newfile = $image->save($newPath);
 
-                array_push($srcset, $uploadDir['url'] . '/' . $newfile['file'] . ' ' . $width . 'w');
+                array_push($srcset, $uploadDir['url'] . '/' . $newfile['file'] . ' ' . $widthAttr);
             }
         }
 
