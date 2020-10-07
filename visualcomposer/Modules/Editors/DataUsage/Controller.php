@@ -119,8 +119,8 @@ class Controller extends Container implements Module
 
     protected function afterDataSendProcess($responseCode, $updatedPostsList)
     {
+        $optionsHelper = vchelper('Options');
         if ($responseCode === 200) {
-            $optionsHelper = vchelper('Options');
             // Set transient that expires in 1 day
             $optionsHelper->setTransient('lastUsageSend', 1, 12 * 3600);
             $optionsHelper->set('lastSentDate', time());
@@ -136,6 +136,9 @@ class Controller extends Container implements Module
             }
             $optionsHelper->delete('updatedPostsList');
             $optionsHelper->delete('downloadedContent');
+        } else {
+            // If failed try one more time after one hour
+            $optionsHelper->setTransient('lastUsageSend', 1, 3600);
         }
     }
 
