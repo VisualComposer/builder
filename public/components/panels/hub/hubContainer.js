@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import HubItemController from './hubItemController'
 import HubMenu from './hubMenu'
 import HubDropdown from './hubDropdown'
-import AddElementCategories from '../addElement/lib/categories'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import SearchElement from '../addElement/lib/searchElement'
 import vcCake from 'vc-cake'
@@ -14,13 +13,25 @@ import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const cook = vcCake.getService('cook')
+const dataProcessor = vcCake.getService('dataProcessor')
+const hubElementsStorage = vcCake.getStorage('hubElements')
+const workspaceStorage = vcCake.getStorage('workspace')
+const hubAddonsStorage = vcCake.getStorage('hubAddons')
+const hubTemplateStorage = vcCake.getStorage('hubTemplates')
+const elementsStorage = vcCake.getStorage('elements')
 
-export default class HubContainer extends AddElementCategories {
+export default class HubContainer extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
   allCategories = null
+  static minusThreeDayTimeStamp = window.VCV_HUB_SERVER_TIME() - 3 * 86400
 
   constructor (props) {
     super(props)
+    this.state = {
+      filterType: 'all',
+      activeCategoryIndex: 0
+    }
     if (props && props.options && props.options.filterType) {
       const { filterType, id, bundleType } = props.options
       this.state = {
@@ -29,20 +40,36 @@ export default class HubContainer extends AddElementCategories {
         bundleType: bundleType
       }
     }
+    this.changeInput = this.changeInput.bind(this)
+    this.addElement = this.addElement.bind(this)
+    this.openEditForm = this.openEditForm.bind(this)
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.changeActiveCategory = this.changeActiveCategory.bind(this)
+    this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
   componentDidMount () {
     if (this.props.hideScrollbar) {
       window.addEventListener('scroll', this.handleScroll)
     }
+    hubElementsStorage.state('elementTeasers').onChange(this.handleForceUpdateCategories)
+    hubAddonsStorage.state('addonTeasers').onChange(this.handleForceUpdateCategories)
+    hubTemplateStorage.state('templateTeasers').onChange(this.handleForceUpdateCategories)
   }
 
   componentWillUnmount () {
     if (this.props.hideScrollbar) {
       window.removeEventListener('scroll', this.handleScroll)
     }
+    hubElementsStorage.state('elementTeasers').ignoreChange(this.handleForceUpdateCategories)
+    hubAddonsStorage.state('addonTeasers').ignoreChange(this.handleForceUpdateCategories)
+    hubTemplateStorage.state('templateTeasers').ignoreChange(this.handleForceUpdateCategories)
+  }
+
+  handleForceUpdateCategories () {
+    this.allCategories = false
+    this.getAllCategories()
   }
 
   getAllCategories () {
@@ -71,57 +98,89 @@ export default class HubContainer extends AddElementCategories {
         elements.push(...groupAllElements)
       }
     })
-    return { elements: elements, id: `${title}${index}`, index: index, title: title }
+    return { elements: lodash.orderBy(elements, this.isItemNew, ['desc']), id: `${title}${index}`, index: index, title: title }
   }
 
   getAddonsGroup (category) {
     const { title, index } = category
-    const addonsCategories = window.VCV_HUB_GET_ADDON_TEASER()
-    return { elements: addonsCategories, id: `${title}${index}`, index: index, title: title }
+    const addonTeasers = lodash.orderBy(hubAddonsStorage.state('addonTeasers').get(), (i) => typeof i.isNew !== 'undefined' && i.isNew, ['desc'])
+
+    return { elements: addonTeasers, id: `${title}${index}`, index: index, title: title }
+  }
+
+  isItemNew = (item) => {
+    if (typeof item.isNew === 'number') {
+      // Show element as new for 3 days after opening
+      return item.isNew > HubContainer.minusThreeDayTimeStamp
+    } else {
+      // Show element as new for first time
+      return typeof item.isNew !== 'undefined' && item.isNew
+    }
   }
 
   getElementGroup (category) {
     const { title, index } = category
-    const elementCategories = window.VCV_HUB_GET_TEASER()
-    elementCategories.forEach((item, index) => {
-      let elements = lodash.sortBy(item.elements, ['name'])
-      elements = elements.map((element) => {
-        const tag = element.tag
-        element.tag = tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
+    const elementCategories = hubElementsStorage.state('elementTeasers').get()
+    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
+    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, this.isItemNew, ['desc'])
 
-        return element
-      })
-      elementCategories[index].elements = elements
-    })
     return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
   }
 
   getTemplateGroup (category) {
     const { title, index } = category
-    const elements = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((element) => {
-      return element.templateType === 'hub' || element.templateType === 'predefined'
-    })
-    return { elements: elements, id: `${title}${index}`, index: index, title: title }
+    const templateTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((template) => {
+      return template.templateType === 'hub' || template.templateType === 'predefined'
+    }), this.isItemNew, ['desc'])
+
+    return { elements: templateTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
   getBlockGroup (category) {
     const { title, index, type } = category
-    const blocks = window.VCV_HUB_GET_TEMPLATES_TEASER().filter((block) => {
+    const blockTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((block) => {
       return block.templateType === type
-    })
-    return { elements: blocks, id: `${title}${index}`, index: index, title: title }
+    }), this.isItemNew, ['desc'])
+    return { elements: blockTeasers, id: `${title}${index}`, index: index, title: title }
   }
 
   getHFSGroup (category) {
     const { type, title, index } = category
     if (index) {
-      let elements = window.VCV_HUB_GET_TEMPLATES_TEASER()
-      elements = elements.filter(element => {
-        return element.templateType === type
-      })
-      return { elements, id: `${title}${index}`, index, title: title }
+      const templates = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter(template => {
+        return template.templateType === type
+      }), this.isItemNew, ['desc'])
+      return { elements: templates, id: `${title}${index}`, index, title: title }
     }
     return {}
+  }
+
+  addElement (element, presetId = false) {
+    const workspace = workspaceStorage.state('settings').get() || false
+    element.parent = workspace && workspace.element ? workspace.element.id : false
+    element = cook.get(element).toJS()
+
+    elementsStorage.trigger('add', element, true, {
+      insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
+    })
+    this.addedId = element.id
+    const itemTag = element.tag
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'favoriteItems:updateUsage:adminNonce',
+      'vcv-item-tag': itemTag,
+      'vcv-nonce': window.vcvNonce
+    })
+
+    const iframe = document.getElementById('vcv-editor-iframe')
+    this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
+    this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
+  }
+
+  openEditForm (action, id) {
+    if (action === 'add' && id === this.addedId) {
+      workspaceStorage.trigger('edit', this.addedId, '')
+      this.iframeWindow.vcv.off('ready', this.openEditForm)
+    }
   }
 
   getElementControl (elementData) {
@@ -141,6 +200,7 @@ export default class HubContainer extends AddElementCategories {
         type={type}
         update={elementData.update ? elementData.update : false}
         name={elementData.name}
+        isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
       />
     )
@@ -169,6 +229,12 @@ export default class HubContainer extends AddElementCategories {
     )
   }
 
+  changeActiveCategory (catIndex) {
+    this.setState({
+      activeCategoryIndex: catIndex
+    })
+  }
+
   getElementsByCategory () {
     const { activeCategoryIndex } = this.state
     const allCategories = this.getAllCategories()
@@ -184,7 +250,7 @@ export default class HubContainer extends AddElementCategories {
       elements = allCategories && allCategories[activeCategoryIndex] && allCategories[activeCategoryIndex].elements
     }
 
-    return elements ? elements.map((tag) => { return this.getElementControl(tag) }) : []
+    return elements ? elements.map((elementData) => { return this.getElementControl(elementData) }) : []
   }
 
   getSearchProps () {
@@ -192,7 +258,6 @@ export default class HubContainer extends AddElementCategories {
       allCategories: this.getAllCategories(),
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
-      changeTerm: this.changeSearchState,
       changeInput: this.changeInput,
       inputPlaceholder: 'elements and templates',
       activeFilter: this.state.filterId,
@@ -205,6 +270,39 @@ export default class HubContainer extends AddElementCategories {
         this.setState(result)
       }
     }
+  }
+
+  changeInput (value) {
+    this.setState({
+      inputValue: value,
+      searchResults: this.getSearchResults(value)
+    })
+  }
+
+  getSearchResults (value) {
+    const allCategories = this.getAllCategories()
+    const getIndex = allCategories.findIndex((val) => {
+      return val.title === 'All' || val.title === 'All Elements'
+    })
+
+    function getElementName (elementData) {
+      let elName = ''
+      if (elementData.name) {
+        elName = elementData.name.toLowerCase()
+      } else if (elementData.tag) {
+        const element = cook.get(elementData)
+        if (element.get('name')) {
+          elName = element.get('name').toLowerCase()
+        }
+      }
+
+      return elName
+    }
+
+    return allCategories[getIndex].elements.filter((elementData) => {
+      const elName = getElementName(elementData)
+      return elName.indexOf(value.trim()) !== -1
+    }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
   }
 
   getSearchElement () {
@@ -220,9 +318,29 @@ export default class HubContainer extends AddElementCategories {
     })
   }
 
+  getElementListContainer (itemsOutput) {
+    if (itemsOutput.length) {
+      return (
+        <div className='vcv-ui-item-list-container'>
+          <div className='vcv-ui-item-list'>
+            {itemsOutput}
+          </div>
+        </div>
+      )
+    } else {
+      return this.getNoResultsElement()
+    }
+  }
+
+  getFoundElements () {
+    return this.state.searchResults.map((elementData) => {
+      return this.getElementControl(elementData)
+    })
+  }
+
   filterResult () {
     const { filterType, bundleType } = this.state
-    let result = this.isSearching() ? this.getFoundElements() : this.getElementsByCategory()
+    let result = this.state.inputValue ? this.getFoundElements() : this.getElementsByCategory()
     result = result.filter((item) => {
       let isClean = false
 
@@ -326,7 +444,12 @@ export default class HubContainer extends AddElementCategories {
 
     let panelContent = ''
     if (this.state.filterType && this.state.filterType === 'stockImages') {
-      panelContent = <UnsplashContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+      panelContent = (
+        <UnsplashContainer
+          scrolledToBottom={this.state.scrolledToBottom}
+          scrollTop={this.state.scrollTop}
+        />
+      )
     } else if (this.state.filterType && this.state.filterType === 'giphy') {
       panelContent = <GiphyContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
     } else {

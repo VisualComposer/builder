@@ -352,7 +352,7 @@ export default class ElementControl extends React.Component {
     const dragState = workspaceStorage.state('drag').get()
     const activeDragging = dragState && dragState.active
     if (!activeDragging) {
-      this.props.addElement(this.props.element)
+      this.props.addElement(this.props.element, this.props.elementPresetId)
       this.endDrag()
     } else {
       this.endDragGlobal()
@@ -504,7 +504,7 @@ export default class ElementControl extends React.Component {
     })
 
     return (
-      <li className={listItemClasses}>
+      <div className={listItemClasses}>
         <span
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? this.handleMouseEnterShowPreview : null}
@@ -534,7 +534,7 @@ export default class ElementControl extends React.Component {
           </span>
           {previewBox}
         </span>
-      </li>
+      </div>
     )
   }
 }

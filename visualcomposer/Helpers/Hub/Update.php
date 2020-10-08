@@ -321,8 +321,11 @@ class Update implements Helper
 
     protected function processTeasers($actions)
     {
+
         if (isset($actions['hubTeaser'])) {
             vcevent('vcv:hub:process:action:hubTeaser', ['teasers' => $actions['hubTeaser']]);
+            $optionsHelper = vchelper('Options');
+            $optionsHelper->set('hubAction:hubTeaser', $actions['hubTeaser']['version']);
         }
         if (isset($actions['hubAddons'])) {
             vcevent('vcv:hub:process:action:hubAddons', ['teasers' => $actions['hubAddons']]);

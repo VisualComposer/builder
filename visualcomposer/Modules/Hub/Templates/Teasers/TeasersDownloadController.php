@@ -24,8 +24,12 @@ class TeasersDownloadController extends Container implements Module
 
     protected function processAction($teasers, Options $optionsHelper)
     {
-        if (isset($teasers) && isset($teasers['data'])) {
+        if (isset($teasers['data'])) {
+            $teaserTemplatesBefore = $optionsHelper->get('hubTeaserTemplates', false);
             $teaserTemplates = $this->getTeaserTemplates($teasers['data']['templates']);
+            if ($teaserTemplatesBefore) {
+                $teaserTemplates = $this->compareTeaserTemplates($teaserTemplatesBefore, $teaserTemplates);
+            }
             $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
         }
     }
@@ -35,7 +39,7 @@ class TeasersDownloadController extends Container implements Module
         $allTemplates = [];
         $dataHelper = vchelper('Data');
         foreach ($teasers as $template) {
-            $elementData = [
+            $templateData = [
                 'bundle' => $template['bundle'],
                 'name' => $template['name'],
                 'metaThumbnailUrl' => $template['thumbnailUrl'],
@@ -48,10 +52,67 @@ class TeasersDownloadController extends Container implements Module
                 'allowDownload' => isset($template['allowDownload']) ? $template['allowDownload'] : false,
                 'bundleType' => isset($template['bundleType']) ? $template['bundleType'] : [],
             ];
-            $allTemplates[] = $elementData;
+            $allTemplates[] = $templateData;
         }
-        $elements = array_values($dataHelper->arrayDeepUnique($allTemplates));
+        $templates = array_values($dataHelper->arrayDeepUnique($allTemplates));
 
-        return $elements;
+        return $templates;
+    }
+
+    /**
+     * @param array $teaserTemplatesBefore
+     * @param array $teaserTemplates
+     *
+     * @return array
+     */
+    protected function compareTeaserTemplates($teaserTemplatesBefore, $teaserTemplates)
+    {
+        // Compare old with new
+        // It will give us list of items that was newly added.
+        $dataHelper = vchelper('Data');
+
+        // Merge items that already isNew
+        while (
+            $newTemplateKey = $dataHelper->arraySearchKey(
+                $teaserTemplatesBefore,
+                'isNew'
+            )
+        ) {
+            $newTeaserTemplateKey = $dataHelper->arraySearch(
+                $teaserTemplates,
+                'bundle',
+                $teaserTemplatesBefore[ $newTemplateKey ]['bundle'],
+                true
+            );
+            if ($newTeaserTemplateKey !== false) {
+                $teaserTemplates[ $newTeaserTemplateKey ]['isNew'] = $teaserTemplatesBefore[ $newTemplateKey ]['isNew'];
+            }
+            unset($teaserTemplatesBefore[ $newTemplateKey ]['isNew']);
+        }
+
+        $templatesBefore = $dataHelper->arrayColumn(
+            $teaserTemplatesBefore,
+            'bundle'
+        );
+        $newTemplates = $dataHelper->arrayColumn($teaserTemplates, 'bundle');
+
+        $difference = array_diff($newTemplates, $templatesBefore);
+        if (!empty($difference)) {
+            // There are new item
+            foreach ($difference as $diffTemplate) {
+                // it is new item so mark it as isNew = true
+                $newTemplateKey = $dataHelper->arraySearch(
+                    $teaserTemplates,
+                    'bundle',
+                    $diffTemplate,
+                    true
+                );
+                if ($newTemplateKey !== false) {
+                    $teaserTemplates[ $newTemplateKey ]['isNew'] = true;
+                }
+            }
+        }
+
+        return $teaserTemplates;
     }
 }

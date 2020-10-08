@@ -14,6 +14,10 @@ addStorage('hubTemplates', (storage) => {
   storage.state('templates').set({})
   storage.state('templatesGroupsSorted').set([])
 
+  storage.on('start', () => {
+    storage.state('templateTeasers').set(window.VCV_HUB_GET_TEMPLATES_TEASER ? window.VCV_HUB_GET_TEMPLATES_TEASER() : {})
+  })
+
   storage.on('downloadTemplate', (template) => {
     const { bundle, name } = template
     const localizations = window.VCV_I18N && window.VCV_I18N()
