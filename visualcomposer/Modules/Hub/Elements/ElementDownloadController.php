@@ -52,8 +52,8 @@ class ElementDownloadController extends Container implements Module
                         $response = vcfilter('vcv:ajax:hub:action:adminNonce', $response, [], true);
                     }
                 }
-                $this->call('collectElementVariables', [$response, $payload['sourceId']]);
-                $this->call('collectTemplateVariables', [$response, $payload['sourceId']]);
+                $response = $this->call('collectElementVariables', [$response, $payload['sourceId']]);
+                $response = $this->call('collectTemplateVariables', [$response, $payload['sourceId']]);
             } else {
                 return false;
             }
@@ -70,7 +70,10 @@ class ElementDownloadController extends Container implements Module
             $response['variables'] = [];
             foreach ($response['elements'] as &$element) {
                 if ($isAllowed) {
-                    vcevent('vcv:saveTeaserDownload', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'element' => $element]]);
+                    vcevent(
+                        'vcv:saveTeaserDownload',
+                        ['response' => [], 'payload' => ['sourceId' => $sourceId, 'element' => $element]]
+                    );
                 }
                 // Try to initialize PHP in element via autoloader
                 vcevent('vcv:hub:elements:autoload', ['element' => $element]);
@@ -81,6 +84,8 @@ class ElementDownloadController extends Container implements Module
                 unset($element['elementRealPath']);
             }
         }
+
+        return $response;
     }
 
     protected function collectTemplateVariables($response, $sourceId)
@@ -89,9 +94,14 @@ class ElementDownloadController extends Container implements Module
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         if ($response && isset($response['templates']) && $isAllowed) {
             foreach ($response['templates'] as $template) {
-                vcevent('vcv:saveTeaserDownload', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'template' => $template]]);
+                vcevent(
+                    'vcv:saveTeaserDownload',
+                    ['response' => [], 'payload' => ['sourceId' => $sourceId, 'template' => $template]]
+                );
             }
         }
+
+        return $response;
     }
 
     /**
