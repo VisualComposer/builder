@@ -9,15 +9,16 @@ const workspaceContentState = getStorage('workspace').state('content')
 export default class PlusControl extends NavbarContent {
   constructor (props) {
     super(props)
-    this.handleClickAddElement = this.handleClickAddElement.bind(this)
+    this.handleClickAddContent = this.handleClickAddContent.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
+    const contentState = 'addElement'
     this.state = {
-      isActive: workspaceContentState.get() === 'addElement'
+      isActive: contentState === 'addElement' || contentState === 'addTemplate'
     }
   }
 
-  setActiveState (state) {
-    this.setState({ isActive: state === 'addElement' })
+  setActiveState (contentState) {
+    this.setState({ isActive: contentState === 'addElement' || contentState === 'addTemplate' })
   }
 
   componentDidMount () {
@@ -28,7 +29,7 @@ export default class PlusControl extends NavbarContent {
     workspaceContentState.ignoreChange(this.setActiveState)
   }
 
-  handleClickAddElement (e) {
+  handleClickAddContent (e) {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
       action: 'add',
@@ -41,7 +42,7 @@ export default class PlusControl extends NavbarContent {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const name = localizations ? localizations.addElement : 'Add Element'
+    const name = localizations ? localizations.addContent : 'Add Content'
 
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
@@ -49,7 +50,7 @@ export default class PlusControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickAddElement}>
+      <span className={controlClass} title={name} onClick={this.handleClickAddContent}>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>{name}</span>

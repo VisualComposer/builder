@@ -3,7 +3,6 @@ import { env } from 'vc-cake'
 import Logo from './logo/logo'
 import PlusControl from './controls/plusControl'
 import PlusTeaserControl from './controls/plusTeaserControl'
-import AddTemplateControl from './controls/addTemplateControl'
 import TreeViewControl from './controls/treeViewControl'
 import UndoRedoControl from './controls/undoRedoControl'
 import LayoutControl from './controls/layout/layoutControl'
@@ -26,7 +25,6 @@ export default class NavbarContainer extends React.Component {
           <GoPremiumControl visibility='hidden' />
           <Logo visibility='pinned' editor='frontend' />
           <PlusControl visibility='pinned' />
-          <AddTemplateControl />
           <TreeViewControl visibility='pinned' />
           <UndoRedoControl />
           {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl /> : null}
