@@ -127,7 +127,7 @@ class Image implements Helper
                     . '.' . $imageData['extension'];
                 $newfile = $image->save($newPath);
 
-                array_push($srcset, $uploadDir['url'] . '/' . $newfile['file'] . ' ' . $widthAttr);
+                $srcset[] = $uploadDir['url'] . '/' . $newfile['file'] . ' ' . $widthAttr;
             }
         }
 
