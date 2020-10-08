@@ -34,11 +34,12 @@ class CategoriesUpdater extends Container implements Module
             return $response;
         }
         $hubHelper = vchelper('HubCategories');
+        $optionHelper = vchelper('Options');
         /** @var Differ $categoriesDiffer */
-        $hubCategories = $hubHelper->getCategories('hub');
+        $storedInDbCategories = $optionHelper->get('hubCategories', []);
         $categoriesDiffer = vchelper('Differ');
-        if (!empty($hubCategories)) {
-            $categoriesDiffer->set($hubCategories);
+        if (!empty($storedInDbCategories)) {
+            $categoriesDiffer->set($storedInDbCategories);
         }
 
         $categoriesDiffer->onUpdate(
@@ -46,6 +47,9 @@ class CategoriesUpdater extends Container implements Module
         )->set(
             $bundleJson['categories']
         );
+
+        // Save in DB downloaded element category.
+        // Will be updated in HubCategories helper -> getCategories()
         $hubHelper->setCategories($categoriesDiffer->get());
 
         if (isset($bundleJson['categories'])) {

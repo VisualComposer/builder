@@ -31,7 +31,7 @@ class Data implements Helper
             return false;
         }
         foreach ($array as $key => $innerArray) {
-            $exists = isset($innerArray[ $column ]) && $innerArray[ $column ] == $value;
+            $exists = isset($innerArray[ $column ]) && $innerArray[ $column ] === $value;
             if ($exists) {
                 if ($returnKey) {
                     return $key;

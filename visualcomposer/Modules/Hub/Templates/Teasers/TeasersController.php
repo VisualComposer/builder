@@ -10,7 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class TeasersController extends Container implements Module
@@ -19,8 +21,27 @@ class TeasersController extends Container implements Module
 
     public function __construct()
     {
+        $this->addEvent('vcv:hub:teasers:updateStatus', 'setTemplateTeaserStatus');
+
         $this->addFilter('vcv:editor:variables', 'outputTeaserTemplates');
         $this->addFilter('vcv:hub:variables', 'outputTeaserTemplates');
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Data $dataHelper
+     */
+    protected function setTemplateTeaserStatus(
+        Options $optionsHelper,
+        Data $dataHelper
+    ) {
+        $teaserTemplates = $optionsHelper->get('hubTeaserTemplates', false);
+        if (!empty($teaserTemplates)) {
+            while ($newTemplateKey = $dataHelper->arraySearch($teaserTemplates, 'isNew', true, true)) {
+                $teaserTemplates[ $newTemplateKey ]['isNew'] = time();
+            }
+            $optionsHelper->set('hubTeaserTemplates', $teaserTemplates);
+        }
     }
 
     protected function outputTeaserTemplates($variables, Options $optionsHelper)

@@ -31,6 +31,14 @@ export default class Dropdown extends Attribute {
     this.handleUpdateList = this.handleUpdateList.bind(this)
   }
 
+  componentDidMount () {
+    let value = this.state.value
+    if (!value && this.props.options && this.props.options.global) {
+      value = this.state.dropdownOptions[0].value
+      this.setFieldValue(value)
+    }
+  }
+
   /* eslint-disable */
   UNSAFE_componentWillReceiveProps (nextProps) {
     super.UNSAFE_componentWillReceiveProps(nextProps)
