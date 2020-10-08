@@ -357,7 +357,7 @@ class Categories implements Helper
                 'icon' => $urlHelper->to('public/categories/icons/Single-Image.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Single-Image.svg'),
             ],
-            'Image Gallery' => [
+            'Image gallery' => [
                 'title' => 'Image Gallery',
                 'elements' => ['imageGallery'],
                 'icon' => $urlHelper->to('public/categories/icons/Image-Gallery.svg'),
@@ -744,6 +744,31 @@ class Categories implements Helper
                 'elements' => ['counterUp', 'countdownTimer'],
                 'icon' => $urlHelper->to('public/categories/icons/Counter.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Counter.svg'),
+            ],
+            // BC Categories for 3rd party
+            'Button' => [
+                'title' => 'Simple Button',
+                'elements' => [],
+                'icon' => $urlHelper->to('public/categories/icons/Button.svg'),
+                'iconDark' => $urlHelper->to('public/categories/iconsDark/Button.svg'),
+            ],
+            'Header & Footer' => [
+                'title' => 'Header & Footer',
+                'elements' => [],
+                'icon' => $urlHelper->to('public/categories/icons/Header-Footer.svg'),
+                'iconDark' => $urlHelper->to('public/categories/iconsDark/Header-Footer.svg'),
+            ],
+            'Image Slider' => [
+                'title' => 'Image Slider',
+                'elements' => [],
+                'icon' => $urlHelper->to('public/categories/icons/Image-Slider.svg'),
+                'iconDark' => $urlHelper->to('public/categories/iconsDark/Image-Slider.svg'),
+            ],
+            'Toggle' => [
+                'title' => 'Toggle',
+                'elements' => [],
+                'icon' => $urlHelper->to('public/categories/icons/Toggle.svg'),
+                'iconDark' => $urlHelper->to('public/categories/iconsDark/Toggle.svg'),
             ],
         ];
 

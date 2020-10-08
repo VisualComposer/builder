@@ -35,7 +35,7 @@ class Groups implements Helper
                     'Misc Basic',
                     'Hero section',
                     'Icon',
-                    'Image Gallery',
+                    'Image gallery',
                     'Image Masonry Gallery',
                     'Simple Image Slider',
                     'Message Box Basic',
@@ -53,7 +53,8 @@ class Groups implements Helper
                     'Flip Box',
                     'Icon Hover Box',
                     'Tall Hover Box',
-                    'Image Gallery',
+                    'Image gallery',
+                    'Image sliders',
                     'Image Masonry Gallery',
                     'Multiple Image Collage',
                     'Image Galleries',
@@ -68,6 +69,7 @@ class Groups implements Helper
                 'categories' => [
                     'Basic Button',
                     'Outline Button',
+                    'Button',
                     'Buttons',
                     'Button Group'
                 ],
@@ -83,6 +85,7 @@ class Groups implements Helper
                 'title' => 'Containers',
                 'categories' => [
                     'Row',
+                    'Column',
                     'Section',
                     'Accordions',
                     'Tabs'
