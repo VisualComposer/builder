@@ -24,8 +24,12 @@ class TeasersDownloadController extends Container implements Module
 
     protected function processAction($teasers, Options $optionsHelper)
     {
-        if (isset($teasers) && isset($teasers['data'])) {
+        if (isset($teasers['data'])) {
+            $teaserAddonsBefore = $optionsHelper->get('hubTeaserAddons', false);
             $teaserAddons = $this->getTeaserAddons($teasers['data']['addons']);
+            if ($teaserAddonsBefore) {
+                $teaserAddons = $this->compareTeaserAddons($teaserAddonsBefore, $teaserAddons);
+            }
             $optionsHelper->set('hubTeaserAddons', $teaserAddons);
         }
     }
@@ -35,7 +39,7 @@ class TeasersDownloadController extends Container implements Module
         $allAddons = [];
         $dataHelper = vchelper('Data');
         foreach ($teasers as $addon) {
-            $elementData = [
+            $addonData = [
                 'bundle' => $addon['bundle'],
                 'tag' => $addon['tag'],
                 'name' => $addon['name'],
@@ -47,10 +51,66 @@ class TeasersDownloadController extends Container implements Module
                 'update' => isset($addon['update']) ? $addon['update'] : false,
                 'allowDownload' => isset($addon['allowDownload']) ? $addon['allowDownload'] : false,
             ];
-            $allAddons[] = $elementData;
+            $allAddons[] = $addonData;
         }
         $addons = array_values($dataHelper->arrayDeepUnique($allAddons));
 
         return $addons;
+    }
+
+    /**
+     * @param array $teaserAddonsBefore
+     * @param array $teaserAddons
+     *
+     * @return array
+     */
+    protected function compareTeaserAddons($teaserAddonsBefore, $teaserAddons)
+    {
+        // Compare old with new
+        // It will give us list of items that was newly added.
+        $dataHelper = vchelper('Data');
+
+        // Merge items that already isNew
+        while (
+            $newAddonKey = $dataHelper->arraySearchKey(
+                $teaserAddonsBefore,
+                'isNew'
+            )
+        ) {
+            $newTeaserAddonKey = $dataHelper->arraySearch(
+                $teaserAddons,
+                'bundle',
+                $teaserAddonsBefore[ $newAddonKey ]['bundle'],
+                true
+            );
+            if ($newTeaserAddonKey !== false) {
+                $teaserAddons[ $newTeaserAddonKey ]['isNew'] = $teaserAddonsBefore[ $newAddonKey ]['isNew'];
+            }
+            unset($teaserAddonsBefore[ $newAddonKey ]['isNew']);
+        }
+
+        $addonsBefore = $dataHelper->arrayColumn(
+            $teaserAddonsBefore,
+            'bundle'
+        );
+        $newAddons = $dataHelper->arrayColumn($teaserAddons, 'bundle');
+        $difference = array_diff($newAddons, $addonsBefore);
+        if (!empty($difference)) {
+            // There are new item
+            foreach ($difference as $diffAddon) {
+                // it is new item so mark it as isNew = true
+                $newAddonKey = $dataHelper->arraySearch(
+                    $teaserAddons,
+                    'bundle',
+                    $diffAddon,
+                    true
+                );
+                if ($newAddonKey !== false) {
+                    $teaserAddons[ $newAddonKey ]['isNew'] = true;
+                }
+            }
+        }
+
+        return $teaserAddons;
     }
 }

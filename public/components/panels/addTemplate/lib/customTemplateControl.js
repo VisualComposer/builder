@@ -53,7 +53,7 @@ export default class CustomTemplateControl extends React.Component {
     })
 
     return (
-      <li className='vcv-ui-item-list-item'>
+      <div className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element' title={name}>
           <span
             className='vcv-ui-item-element-content'
@@ -84,7 +84,7 @@ export default class CustomTemplateControl extends React.Component {
             </span>
           </span>
         </span>
-      </li>
+      </div>
     )
   }
 }

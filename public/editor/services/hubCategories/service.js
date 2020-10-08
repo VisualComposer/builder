@@ -41,13 +41,16 @@ const API = {
     // Get sorted cook elements
     const cookElements = []
     elements.forEach((element) => {
-      const cookElement = cook.get({ tag: element })
-      if (cookElement) {
-        const elementObject = cookElement.toJS(true, false)
-        const elementHubElement = hubElements[elementObject.tag]
-        elementObject.thirdParty = elementHubElement && Object.prototype.hasOwnProperty.call(elementHubElement, 'thirdParty') && elementHubElement.thirdParty === true
-        delete elementObject.id
-        cookElements.push(elementObject)
+      if (hubElements[element]) {
+        const cookElement = cook.get({ tag: element })
+        if (cookElement) {
+          const elementObject = cookElement.toJS(true, false)
+          const elementHubElement = hubElements[elementObject.tag]
+          elementObject.thirdParty = elementHubElement && Object.prototype.hasOwnProperty.call(elementHubElement, 'thirdParty') && elementHubElement.thirdParty === true
+          delete elementObject.id
+          elementObject.usageCount = hubElements[element].usageCount
+          cookElements.push(elementObject)
+        }
       }
     })
     return cookElements.sort(sortingTool)
