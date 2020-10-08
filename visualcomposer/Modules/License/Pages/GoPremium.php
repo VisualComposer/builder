@@ -32,7 +32,7 @@ class GoPremium extends Container implements Module
     /**
      * @var string
      */
-    protected $slug = 'vcv-go-premium';
+    protected $slug = 'vcv-activate-hub';
 
     /**
      * GoPremium constructor.

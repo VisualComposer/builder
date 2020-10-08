@@ -42,7 +42,7 @@ class EditorVariablesController extends Container implements Module
         ];
         $variables[] = [
             'key' => 'vcvGoPremiumUrl',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-go-premium')),
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-hub')),
             'type' => 'variable',
         ];
         $variables[] = [

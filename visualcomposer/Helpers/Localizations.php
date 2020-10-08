@@ -23,6 +23,7 @@ class Localizations extends Container implements Helper
         $wpHelper = vchelper('Wp');
         $locale = [
             'addElement' => __('Add Element', 'visualcomposer'),
+            'addContent' => __('Add Content', 'visualcomposer'),
             'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
@@ -168,6 +169,10 @@ class Localizations extends Container implements Helper
             ),
             'alreadyHaveALicenseText' => __(
                 'Already have a license? Log in to <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> to find it.',
+                'visualcomposer'
+            ),
+            'doMoreWithVcText' => __(
+                'Do more with Visual Composer Hub',
                 'visualcomposer'
             ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
@@ -746,6 +751,10 @@ class Localizations extends Container implements Helper
             ),
             'upgradeToPremium' => __(
                 'Upgrade To Premium',
+                'visualcomposer'
+            ),
+            'takeTutorialTemplate' => __(
+                'Take Tutorial Template',
                 'visualcomposer'
             ),
             'buildYourSiteWithDragAndDrop' => __(
