@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
@@ -24,14 +23,10 @@ export default class Search extends React.Component {
   }
 
   render () {
-    const inputContainerClasses = classNames({
-      'vcv-ui-editor-search-field-container': true
-    })
-
     const autofocus = !this.mobileDetect.mobile()
     return (
       <div className='vcv-ui-editor-search-container'>
-        <div className={inputContainerClasses}>
+        <div className='vcv-ui-editor-search-field-container'>
           <label className='vcv-ui-editor-search-icon-container' htmlFor='add-content-search'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
