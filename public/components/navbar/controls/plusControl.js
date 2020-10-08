@@ -11,7 +11,7 @@ export default class PlusControl extends NavbarContent {
     super(props)
     this.handleClickAddContent = this.handleClickAddContent.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-    const contentState = 'addElement'
+    const contentState = workspaceContentState.get()
     this.state = {
       isActive: contentState === 'addElement' || contentState === 'addTemplate'
     }
