@@ -4,6 +4,9 @@ import AddTemplatePanel from '../addTemplate/addTemplatePanel'
 import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
 import Search from './lib/search'
+import vcCake from 'vc-cake'
+
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class AddContentPanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -12,7 +15,6 @@ export default class AddContentPanel extends React.Component {
     super(props)
 
     this.state = {
-      activeSection: this.props.activeTab,
       searchValue: ''
     }
 
@@ -21,8 +23,12 @@ export default class AddContentPanel extends React.Component {
   }
 
   setActiveSection (type) {
-    this.setState({
-      activeSection: type
+    const action = type === 'addTemplate' ? 'addTemplate' : 'add'
+    workspaceStorage.state('settings').set({
+      action: action,
+      element: {},
+      tag: '',
+      options: {}
     })
   }
 
@@ -50,11 +56,11 @@ export default class AddContentPanel extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
-        <Search onSearchChange={this.handleSearch} searchValue={this.state.searchValue} searchPlaceholder={controls[this.state.activeSection].searchPlaceholder} />
-        <PanelNavigation controls={controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
+        <Search onSearchChange={this.handleSearch} searchValue={this.state.searchValue} searchPlaceholder={controls[this.props.activeTab].searchPlaceholder} />
+        <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
-            {controls[this.state.activeSection].content}
+            {controls[this.props.activeTab].content}
           </Scrollbar>
         </div>
       </div>
