@@ -139,7 +139,7 @@ export default class HubTemplateControl extends ElementControl {
     }
 
     return (
-      <li className={listItemClasses}>
+      <div className={listItemClasses}>
         <span
           className={itemElementClasses}
           onMouseEnter={this.handleMouseEnterShowPreview}
@@ -160,7 +160,7 @@ export default class HubTemplateControl extends ElementControl {
           </span>
           {previewOutput}
         </span>
-      </li>
+      </div>
     )
   }
 }

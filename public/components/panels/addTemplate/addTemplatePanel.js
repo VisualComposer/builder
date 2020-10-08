@@ -248,9 +248,9 @@ export default class AddTemplatePanel extends React.Component {
     if (itemsOutput.length) {
       return (
         <div className='vcv-ui-item-list-container'>
-          <ul className='vcv-ui-item-list'>
+          <div className='vcv-ui-item-list'>
             {itemsOutput}
-          </ul>
+          </div>
         </div>
       )
     } else {

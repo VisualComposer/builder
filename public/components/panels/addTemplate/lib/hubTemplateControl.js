@@ -80,7 +80,7 @@ export default class HubTemplateControl extends React.Component {
     }
 
     return (
-      <li className='vcv-ui-item-list-item'>
+      <div className='vcv-ui-item-list-item'>
         <span
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? showPreview : null}
@@ -114,7 +114,7 @@ export default class HubTemplateControl extends React.Component {
           </span>
           {previewBox}
         </span>
-      </li>
+      </div>
     )
   }
 }

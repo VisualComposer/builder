@@ -89,7 +89,7 @@ export default class HubAddonControl extends React.Component {
     }
 
     return (
-      <li
+      <div
         className='vcv-ui-item-list-item'
       >
         <div className='vcv-hub-addon-item-container'>
@@ -103,7 +103,7 @@ export default class HubAddonControl extends React.Component {
             {addonControl}
           </div>
         </div>
-      </li>
+      </div>
     )
   }
 }
