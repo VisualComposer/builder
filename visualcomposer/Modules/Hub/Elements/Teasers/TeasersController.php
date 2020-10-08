@@ -10,7 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Data;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 /**
@@ -28,6 +30,7 @@ class TeasersController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::ajaxSetTeaserBadge */
         $this->addFilter('vcv:ajax:vcv:hub:teaser:visit:adminNonce', 'ajaxSetTeaserBadge');
+        $this->addEvent('vcv:hub:teasers:updateStatus', 'setElementTeaserStatus');
 
         /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::addVariables */
         $this->addFilter(
@@ -43,14 +46,44 @@ class TeasersController extends Container implements Module
 
     /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Data $dataHelper
      *
      * @return bool
      */
-    protected function ajaxSetTeaserBadge(Options $optionsHelper)
+    protected function ajaxSetTeaserBadge(Options $optionsHelper, Data $dataHelper)
     {
         $optionsHelper->setUser('hubTeaserVisit', $optionsHelper->get('hubAction:hubTeaser'));
 
+        vcevent('vcv:hub:teasers:updateStatus');
+
         return true;
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Data $dataHelper
+     */
+    protected function setElementTeaserStatus(
+        Options $optionsHelper,
+        Data $dataHelper
+    ) {
+        // time() current Stamp
+        // we can set isNew = time() for all currently new Elements/Templates/Addons/etc.
+        // Find all isNew=true elements and set it to time()
+        $teaserElements = $optionsHelper->get('hubTeaserElements', false);
+        if (!empty($teaserElements)) {
+            while (
+                $newElementKey = $dataHelper->arraySearch(
+                    $teaserElements['All Elements']['elements'],
+                    'isNew',
+                    true,
+                    true
+                )
+            ) {
+                $teaserElements['All Elements']['elements'][ $newElementKey ]['isNew'] = time();
+            }
+            $optionsHelper->set('hubTeaserElements', $teaserElements);
+        }
     }
 
     /**
@@ -90,7 +123,11 @@ class TeasersController extends Container implements Module
             'key' => 'VCV_HUB_GET_TEASER',
             'value' => $value,
             'type' => 'constant',
-
+        ];
+        $variables[] = [
+            'key' => 'VCV_HUB_SERVER_TIME',
+            'value' => time(),
+            'type' => 'constant',
         ];
 
         return $variables;

@@ -37,14 +37,6 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
 }
 
 export function updateHtmlWithServer (content, ref, id, cb) {
-  // If already pending request, need wait for finish
-  if (requests[id]) {
-    window.setTimeout(() => {
-      updateHtmlWithServer(content, ref, id, cb)
-    }, 500)
-    return
-  }
-
   if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
     requests[id] = dataProcessor.appServerRequest({

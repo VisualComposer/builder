@@ -9,12 +9,15 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubTemplateStorage = getStorage('hubTemplates')
 
+const localizations = window.VCV_I18N && window.VCV_I18N()
+
 export default class HubTemplateControl extends ElementControl {
   constructor (props) {
     super(props)
 
     this.state = {
-      showLoading: false
+      showLoading: false,
+      isNew: this.props.isNew
     }
 
     this.isHubInWpDashboard = workspaceStorage.state('isHubInWpDashboard').get()
@@ -24,7 +27,6 @@ export default class HubTemplateControl extends ElementControl {
 
   downloadTemplate () {
     const { element, onDownloadItem } = this.props
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
 
     const allowDownload = onDownloadItem(errorMessage)
@@ -58,7 +60,7 @@ export default class HubTemplateControl extends ElementControl {
 
   render () {
     const { name, element, isDownloading } = this.props
-    const { previewVisible, previewStyle } = this.state
+    const { previewVisible, previewStyle, isNew } = this.state
 
     let elementState = 'downloading'
     if (!isDownloading) {
@@ -115,6 +117,12 @@ export default class HubTemplateControl extends ElementControl {
 
     const overlayOutput = <span className={iconClasses} onClick={action} />
     let previewOutput = null
+    let newBadge = null
+
+    if (isNew) {
+      const newText = localizations.new || 'New'
+      newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
+    }
 
     if (previewVisible) {
       previewOutput = (
@@ -124,19 +132,21 @@ export default class HubTemplateControl extends ElementControl {
             <div className='vcv-ui-item-preview-text'>
               {element.metaDescription}
             </div>
+            {newBadge}
           </figcaption>
         </figure>
       )
     }
 
     return (
-      <li className={listItemClasses}>
+      <div className={listItemClasses}>
         <span
           className={itemElementClasses}
           onMouseEnter={this.handleMouseEnterShowPreview}
           onMouseLeave={this.handleMouseLeaveHidePreview}
           title={name}
         >
+          {newBadge}
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt={name} />
             <span className={itemOverlayClasses}>
@@ -150,7 +160,7 @@ export default class HubTemplateControl extends ElementControl {
           </span>
           {previewOutput}
         </span>
-      </li>
+      </div>
     )
   }
 }

@@ -46,6 +46,7 @@ class Elements implements Helper
          * Last one is 3rd party elements
          */
         $elements = array_merge($this->thirdPartyElements, $dbElements, $this->defaultElements);
+        $favoriteItems = $optionHelper->get('favoriteItems', []);
         $outputElements = [];
         foreach ($elements as $tag => $element) {
             $data = $element;
@@ -97,6 +98,8 @@ class Elements implements Helper
                     $metaData
                 );
             }
+
+            $data['usageCount'] = isset($favoriteItems[$tag]) ? $favoriteItems[$tag] : 0;
 
             $outputElements[ $tag ] = $data;
         }

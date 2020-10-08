@@ -44,6 +44,38 @@
   direction: rtl;
 }
 
+//== category styles
+.vcv-element-category-items {
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+}
+.vcv-element-category-title-wrapper {
+  width: 100%;
+  margin: 0 15px 15px;
+  position: relative;
+
+  > .vcv-element-category-title {
+    line-height: 18px;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    font-weight: 700;
+    color: #70757d;
+    cursor: pointer;
+  }
+}
+.vcv-element-categories-expand-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border: 0;
+  background-color: transparent;
+  color: #70757d;
+  font-size: 18px;
+  cursor: pointer;
+}
+
 //== title controls
 .vcv-ui-tree-content-title-controls {
   padding-left: 0;
@@ -241,4 +273,5 @@
     text-align: center;
   }
 }
+
 
