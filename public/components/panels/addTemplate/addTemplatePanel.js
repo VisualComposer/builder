@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-import SearchTemplate from './lib/searchTemplate'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
@@ -30,8 +29,6 @@ export default class AddTemplatePanel extends React.Component {
       activeCategoryIndex: 0,
       categoryTitle: 'My Templates',
       templateName: '',
-      inputValue: '',
-      isSearching: false,
       error: false,
       errorName: '',
       showSpinner: false,
@@ -40,10 +37,7 @@ export default class AddTemplatePanel extends React.Component {
       removing: false
     }
 
-    this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.handleChangeTemplateName = this.handleChangeTemplateName.bind(this)
-    this.changeSearchInput = this.changeSearchInput.bind(this)
-    this.changeSearchState = this.changeSearchState.bind(this)
     this.displayError = this.displayError.bind(this)
     this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
@@ -108,7 +102,7 @@ export default class AddTemplatePanel extends React.Component {
   // Check state
 
   isSearching () {
-    return this.state.isSearching && this.state.inputValue.trim()
+    return this.props.searchValue ? this.props.searchValue.trim() : false
   }
 
   // Change state
@@ -120,21 +114,6 @@ export default class AddTemplatePanel extends React.Component {
     })
   }
 
-  changeActiveCategory (index) {
-    this.setState({
-      activeCategoryIndex: index,
-      categoryTitle: this.state.categories[index].title
-    })
-  }
-
-  changeSearchState (state) {
-    this.setState({ isSearching: state })
-  }
-
-  changeSearchInput (value) {
-    this.setState({ inputValue: value })
-  }
-
   displayError (error) {
     notificationsStorage.trigger('add', {
       position: 'bottom',
@@ -143,19 +122,6 @@ export default class AddTemplatePanel extends React.Component {
       time: 5000,
       usePortal: true
     })
-  }
-
-  // Get Props
-
-  getSearchProps () {
-    return {
-      inputValue: this.state.inputValue,
-      changeSearchState: this.changeSearchState,
-      changeSearchInput: this.changeSearchInput,
-      index: this.state.activeCategoryIndex,
-      allCategories: this.state.categories,
-      changeActiveCategory: this.changeActiveCategory
-    }
   }
 
   getTemplateControlProps (template) {
@@ -172,12 +138,6 @@ export default class AddTemplatePanel extends React.Component {
       removeTemplate: this.handleRemoveTemplate,
       ...template
     }
-  }
-
-  // Get HTML elements
-
-  getSearch () {
-    return <SearchTemplate {...this.getSearchProps()} />
   }
 
   getNoResultsElement () {
@@ -222,10 +182,10 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getSearchResults () {
-    const { inputValue } = this.state
+    const { searchValue } = this.props
     return this.state.categories[0].templates.filter((template) => {
       const name = template.name.toLowerCase()
-      return Object.prototype.hasOwnProperty.call(template, 'name') && name.indexOf(inputValue.toLowerCase().trim()) !== -1
+      return Object.prototype.hasOwnProperty.call(template, 'name') && name.indexOf(searchValue.toLowerCase().trim()) !== -1
     }).map((template) => {
       return this.getTemplateControl(template)
     })
@@ -290,7 +250,6 @@ export default class AddTemplatePanel extends React.Component {
       templateName: '',
       categoryTitle: this.state.categories[1].title,
       isSearching: false,
-      inputValue: '',
       showSpinner: false
     })
 
@@ -493,7 +452,6 @@ export default class AddTemplatePanel extends React.Component {
         {transparentOverlay}
         {this.state.showLoading ? <LoadingOverlayComponent /> : null}
         <div className='vcv-ui-tree-content'>
-          {this.getSearch()}
           <div className='vcv-ui-tree-content-section'>
             <div className='vcv-ui-tree-content-error-message-container'>
               <div className={errorMessageClasses}>{this.state.errorName}</div>

@@ -1,9 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import Content from './contentParts/content'
-import AddElementPanel from './addElement/addElementPanel'
 import HubContainer from './hub/hubContainer'
-import AddTemplatePanel from './addTemplate/addTemplatePanel'
 import TreeViewLayout from './treeView/treeViewLayout'
 import SettingsPanel from './settings/settingsPanel'
 import InsightsPanel from './insights/insightsPanel'
@@ -11,6 +9,7 @@ import EditFormPanel from './editForm/lib/activitiesManager'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
+import AddContentPanel from './addContent/addContentPanel'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -59,8 +58,8 @@ export default class PanelsContainer extends React.Component {
     const { content, settings } = this.props
     if (content === 'treeView') {
       return null
-    } else if (content === 'addElement') {
-      return <AddElementPanel options={settings || {}} />
+    } else if (content === 'addElement' || content === 'addTemplate') {
+      return <AddContentPanel options={settings || {}} activeTab={content} />
     } else if (content === 'addHubElement') {
       const workspaceState = workspaceStorage.state('settings').get()
       let options = {}
@@ -70,8 +69,6 @@ export default class PanelsContainer extends React.Component {
       return (
         <HubContainer parent={{}} options={options} />
       )
-    } else if (content === 'addTemplate') {
-      return <AddTemplatePanel />
     } else if (content === 'insights') {
       return <InsightsPanel />
     } else if (content === 'settings') {
