@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import ElementControl from './elementControl'
 import Scrollbar from '../../../scrollbar/scrollbar.js'
-import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
@@ -36,11 +35,9 @@ export default class Categories extends React.Component {
     super(props)
 
     this.state = {
-      inputValue: '',
       focusedElement: null
     }
 
-    this.changeInput = this.changeInput.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.applyFirstElement = this.applyFirstElement.bind(this)
     this.addElement = this.addElement.bind(this)
@@ -183,13 +180,6 @@ export default class Categories extends React.Component {
     return Categories.allCategories
   }
 
-  changeInput (value) {
-    this.setState({
-      inputValue: value,
-      searchResults: this.getSearchResults(value)
-    })
-  }
-
   handleGoToHub () {
     const settings = {
       action: 'addHub',
@@ -249,20 +239,6 @@ export default class Categories extends React.Component {
     )
   }
 
-  changeSearchState (state) {
-    this.setState({
-      isSearching: state
-    })
-  }
-
-  getSearchElement () {
-    const searchProps = {
-      changeInput: this.changeInput,
-      applyFirstElement: this.applyFirstElement
-    }
-    return <SearchElement {...searchProps} />
-  }
-
   getAllGroupData () {
     const isAllGroupDataSet = Categories.allGroupData && Categories.allGroupData.elements
 
@@ -279,7 +255,8 @@ export default class Categories extends React.Component {
   }
 
   getFoundElements () {
-    return this.state.searchResults.map((elementData) => {
+    const searchResults = this.getSearchResults(this.props.searchValue)
+    return searchResults.map((elementData) => {
       return this.getElementControl(elementData)
     })
   }
@@ -435,7 +412,7 @@ export default class Categories extends React.Component {
 
   render () {
     const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
-    const itemsOutput = this.state.inputValue ? this.getFoundElements() : this.getElementsByCategory()
+    const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByCategory()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
@@ -452,7 +429,6 @@ export default class Categories extends React.Component {
 
     return (
       <div className='vcv-ui-tree-content'>
-        {this.getSearchElement()}
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
             <div className={innerSectionClasses}>

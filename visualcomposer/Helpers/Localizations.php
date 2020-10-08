@@ -23,6 +23,7 @@ class Localizations extends Container implements Helper
         $wpHelper = vchelper('Wp');
         $locale = [
             'addElement' => __('Add Element', 'visualcomposer'),
+            'addContent' => __('Add Content', 'visualcomposer'),
             'addPremiumElement' => __('Visual Composer Hub', 'visualcomposer'),
             'addTemplate' => __('Add Template', 'visualcomposer'),
             'treeView' => __('Tree View', 'visualcomposer'),
