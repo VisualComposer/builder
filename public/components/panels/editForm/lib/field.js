@@ -93,6 +93,7 @@ export default class Field extends React.Component {
       'vcv-ui-form-group--has-inner-fields': this.state.hasInnerFields
     })
     let value = null
+    let fieldKeyInner = ''
     if (fieldKey && element) {
       value = element[fieldKey]
     }
@@ -106,6 +107,7 @@ export default class Field extends React.Component {
         settings.options = {}
       }
       settings.options.nestedAttrPath = `${this.props.options.fieldKey}:${this.props.options.activeParamGroupIndex}:${fieldKey}`
+      fieldKeyInner = settings.options.nestedAttrPath
       value = element[this.props.options.fieldKey].value[this.props.options.activeParamGroupIndex][fieldKey]
     }
     const AttributeComponent = type.component
@@ -149,10 +151,11 @@ export default class Field extends React.Component {
 
     const fieldComponent = (
       <AttributeComponent
-        key={`attribute-${fieldKey}-${element.id}`}
+        key={`attribute-${fieldKeyInner}-${fieldKey}-${element.id}`}
         options={options}
         value={value}
         defaultValue={defaultValue}
+        fieldKeyInner={fieldKeyInner}
         fieldKey={fieldKey}
         fieldType={fieldType}
         updater={this.updateElement}

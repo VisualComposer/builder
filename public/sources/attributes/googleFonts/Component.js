@@ -37,6 +37,7 @@ export default class GoogleFonts extends Attribute {
 
   constructor (props) {
     super(props)
+    this.state.value.status = 'loading'
     props.setInnerFieldStatus && props.setInnerFieldStatus()
     this.fontFamilyChange = this.fontFamilyChange.bind(this)
     this.fontStyleChange = this.fontStyleChange.bind(this)
@@ -180,6 +181,28 @@ export default class GoogleFonts extends Attribute {
         </div>
       )
     }
+    let fontFamilyContent
+    let fontStyleContent
+    if (this.state.value.status !== 'loading') {
+      fontFamilyContent = (
+        <Dropdown
+          options={fontFamilyOptions}
+          value={this.state.value.fontFamily}
+          updater={this.fontFamilyChange}
+          api={this.props.api}
+          fieldKey={`${this.props.fieldKey}.fontFamily`}
+        />
+      )
+      fontStyleContent = (
+        <Dropdown
+          options={fontStyleOptions}
+          value={this.state.value.fontStyle.weight + this.state.value.fontStyle.style}
+          updater={this.fontStyleChange}
+          api={this.props.api}
+          fieldKey={`${this.props.fieldKey}.fontStyle`}
+        />
+      )
+    }
 
     return (
       <div className='vcv-ui-google-fonts-container'>
@@ -191,13 +214,7 @@ export default class GoogleFonts extends Attribute {
               </span>
               <div className={fontfamilyContainerClasses}>
                 {spinner}
-                <Dropdown
-                  options={fontFamilyOptions}
-                  value={this.state.value.fontFamily}
-                  updater={this.fontFamilyChange}
-                  api={this.props.api}
-                  fieldKey={`${this.props.fieldKey}.fontFamily`}
-                />
+                {fontFamilyContent}
               </div>
             </div>
             {loadedFail}
@@ -209,13 +226,7 @@ export default class GoogleFonts extends Attribute {
               </span>
               <div className={fontfamilyContainerClasses}>
                 {spinner}
-                <Dropdown
-                  options={fontStyleOptions}
-                  value={this.state.value.fontStyle.weight + this.state.value.fontStyle.style}
-                  updater={this.fontStyleChange}
-                  api={this.props.api}
-                  fieldKey={`${this.props.fieldKey}.fontStyle`}
-                />
+                {fontStyleContent}
               </div>
             </div>
           </div>

@@ -39,6 +39,10 @@ export default class ElementAttribute extends Attribute {
   }
 
   updateState (props) {
+    // Fix for params group
+    if (!props.value.id && props.fieldKeyInner) {
+      props.value.id = props.fieldKeyInner
+    }
     const valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value)
     valueElementAccessPoint.parentElementAccessPoint = this.props.elementAccessPoint
 
@@ -352,7 +356,12 @@ export default class ElementAttribute extends Attribute {
             </span>
           )
         }
-        innerElementReplaceIcon = <span className='vcv-ui-edit-form-section-header-control vcv-ui-icon vcv-ui-icon-swap' onClick={this.handleToggleShowReplace} />
+        innerElementReplaceIcon = (
+          <span
+            className='vcv-ui-edit-form-section-header-control vcv-ui-icon vcv-ui-icon-swap'
+            onClick={this.handleToggleShowReplace}
+          />
+        )
       }
 
       return (
