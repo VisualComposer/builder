@@ -52,6 +52,33 @@
   }
 }
 
+.vcv-ui-form-button--large {
+  background: #2b4b80;
+  padding: 16px 34px;
+  font-family: @vcui-button-large-font-family;
+  font-size: 12px;
+  letter-spacing: .077em;
+  text-transform: uppercase;
+  color: @text-color-base;
+  -webkit-font-smoothing: antialiased;
+  margin-bottom: 12px;
+  max-width: 100%;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+
+  &:hover, &:focus {
+    background: #274473;
+    color: @text-color-base;
+  }
+
+  &:hover, &:focus, &:visited, &:active {
+    text-decoration: none;
+    box-shadow: none;
+    border: none;
+  }
+}
+
 .rtl .vcv-ui-form-button .vcv-ui-icon + * {
   margin-left: 0;
   margin-right: 1em;
