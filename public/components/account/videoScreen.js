@@ -22,10 +22,10 @@ export default class VideoScreen extends React.Component {
     const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
 
     if (!window.vcvIsAnyActivated) {
-      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">free and premium.</a>`
+      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">free and premium</a>.`
     }
     if (window.vcvIsFreeActivated) {
-      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">premium.</a>`
+      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">premium</a>.`
     }
 
     if (!window.vcvIsPremiumActivated && hasManageOptions) {
@@ -36,7 +36,7 @@ export default class VideoScreen extends React.Component {
   }
 
   render () {
-    const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Take Tutorial Template'
+    // TODO: add tutorial template button when it will be ready
     const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.'
     const anyLayoutFastAndEasy = VideoScreen.localizations ? VideoScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
     const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of drag and drop editor straight from the frontend - it’s that easy.'
@@ -47,15 +47,6 @@ export default class VideoScreen extends React.Component {
         <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
       )
     }
-    const tutorialTemplateLink = 'link' // TODO: add tutorial template link later
-    const takeTutorialButton = (
-      <a
-        href={tutorialTemplateLink} target='_blank' rel='noopener noreferrer'
-        className='vcv-activation-button vcv-activation-button--dark'
-      >
-        {takeTutorialText}
-      </a>
-    )
 
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
@@ -83,7 +74,6 @@ export default class VideoScreen extends React.Component {
         </div>
 
         <div className='vcv-activation-button-container'>
-          {takeTutorialButton}
           {createNewButton}
         </div>
 
