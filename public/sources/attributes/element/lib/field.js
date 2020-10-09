@@ -113,7 +113,7 @@ export default class EditFromField extends React.Component {
           {label}
           <AttributeComponent
             {...this.props}
-            key={'attribute-' + fieldKey + cookElement.get('id')}
+            key={'inner-attribute-' + fieldKey + cookElement.get('id')}
             options={options}
             value={value}
             fieldKey={fieldKey}
