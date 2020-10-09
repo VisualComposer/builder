@@ -41,14 +41,14 @@ export default class AddContentPanel extends React.Component {
       addElement: {
         index: 0,
         type: 'addElement',
-        title: 'Elements',
+        title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search content elements',
         content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} />
       },
       addTemplate: {
         index: 1,
         type: 'addTemplate',
-        title: 'Templates',
+        title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search content templates',
         content: <AddTemplatePanel searchValue={this.state.searchValue} />
       }
