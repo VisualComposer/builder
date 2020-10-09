@@ -138,12 +138,7 @@ vcCake.add('contentLayout', (api) => {
           <div class='vcv-loading-dot vcv-loading-dot-2'></div>
         </div>
       </div>`
-    const startBlank = iframeContent.querySelector('.vcv-start-blank-container')
-    if (startBlank) {
-      iframeContent.insertBefore(loadingOverlay, startBlank)
-    } else {
-      iframeContent.appendChild(loadingOverlay)
-    }
+    iframeContent.appendChild(loadingOverlay)
   }
 
   const reloadLayout = ({ type, template, header, sidebar, footer }) => {
