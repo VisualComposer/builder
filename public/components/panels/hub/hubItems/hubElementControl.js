@@ -74,8 +74,8 @@ export default class HubElementControl extends ElementControl {
       'vcv-ui-item-downloading': elementState === 'downloading'
     })
 
-    const publicPathThumbnail = element.thumbnailUrl
-    const publicPathPreview = element.previewUrl
+    const publicPathThumbnail = element.thumbnailUrl || element.metaThumbnailUrl
+    const publicPathPreview = element.previewUrl || element.metaPreviewUrl
 
     const iconClasses = classNames({
       'vcv-ui-item-add': true,
@@ -111,7 +111,7 @@ export default class HubElementControl extends ElementControl {
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
-              {element.description}
+              {element.description || element.metaDescription}
             </div>
             {newBadge}
           </figcaption>
