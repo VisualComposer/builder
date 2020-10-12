@@ -15,7 +15,8 @@ export default class AddContentPanel extends React.Component {
     super(props)
 
     this.state = {
-      searchValue: ''
+      searchValue: '',
+      rawSearchValue: ''
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
@@ -33,7 +34,10 @@ export default class AddContentPanel extends React.Component {
   }
 
   handleSearch (value) {
-    this.setState({ searchValue: value })
+    this.setState({
+      searchValue: value.toLowerCase().trim(),
+      rawSearchValue: value
+    })
   }
 
   render () {
@@ -56,7 +60,7 @@ export default class AddContentPanel extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
-        <Search onSearchChange={this.handleSearch} searchValue={this.state.searchValue} searchPlaceholder={controls[this.props.activeTab].searchPlaceholder} />
+        <Search onSearchChange={this.handleSearch} searchValue={this.state.rawSearchValue} searchPlaceholder={controls[this.props.activeTab].searchPlaceholder} />
         <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
