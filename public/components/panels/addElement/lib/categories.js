@@ -400,7 +400,7 @@ export default class Categories extends React.Component {
   getMoreButton () {
     const buttonText = Categories.localizations ? Categories.localizations.getMoreElements : 'Get More Elements'
     return (
-      <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+      <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
         {buttonText}
       </button>
     )

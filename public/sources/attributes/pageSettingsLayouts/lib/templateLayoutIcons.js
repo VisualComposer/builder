@@ -113,7 +113,6 @@ export default class TemplateLayoutIcons extends React.Component {
       sidebar: lastSavedSidebarTemplate,
       footer: lastSavedFooterTemplate
     })
-    settingsStorage.state('skipBlank').set(true)
   }
 
   getTemplateLayoutIcons () {
