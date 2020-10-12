@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 
 export default class Search extends React.Component {
   static propTypes = {
-    searchValue: PropTypes.string.isRequired,
+    rawSearchValue: PropTypes.string.isRequired,
     onSearchChange: PropTypes.func.isRequired,
+    setFirstElement: PropTypes.func.isRequired,
     searchPlaceholder: PropTypes.string
   }
 
@@ -15,11 +16,19 @@ export default class Search extends React.Component {
     super(props)
 
     this.handleSearch = this.handleSearch.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
   }
 
   handleSearch (e) {
     this.props.onSearchChange(e.currentTarget.value)
+  }
+
+  handleKeyPress (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      this.props.setFirstElement()
+    }
   }
 
   render () {
@@ -34,8 +43,9 @@ export default class Search extends React.Component {
             className='vcv-ui-form-input vcv-ui-editor-search-field'
             id='add-content-search'
             onChange={this.handleSearch}
+            onKeyPress={this.handleKeyPress}
             type='text'
-            value={this.props.searchValue}
+            value={this.props.rawSearchValue}
             placeholder={this.props.searchPlaceholder}
             autoFocus={autofocus}
           />

@@ -58,6 +58,12 @@ export default class Categories extends React.Component {
     this.isComponentMounted = true
   }
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (this.props.applyFirstElement && (prevProps.applyFirstElement !== this.props.applyFirstElement)) {
+      this.applyFirstElement()
+    }
+  }
+
   reset () {
     Categories.allCategories = []
     Categories.allElements = []
@@ -362,7 +368,8 @@ export default class Categories extends React.Component {
   }
 
   applyFirstElement () {
-    const { searchResults, focusedElement } = this.state
+    const searchResults = this.getSearchResults(this.props.searchValue)
+    const { focusedElement } = this.state
     if ((searchResults && searchResults.length) || focusedElement) {
       const element = focusedElement || searchResults[0]
       this.addElement(element)
