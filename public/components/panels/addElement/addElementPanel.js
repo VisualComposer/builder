@@ -12,11 +12,11 @@ export default class AddElementPanel extends React.Component {
   render () {
     let childrenOutput = this.props.children
     if (!childrenOutput) {
-      childrenOutput = <Categories
+      childrenOutput = (<Categories
         parent={this.props.options.element ? this.props.options.element : {}}
         searchValue={this.props.searchValue}
         applyFirstElement={this.props.applyFirstElement}
-      />
+      />)
     }
 
     return (
