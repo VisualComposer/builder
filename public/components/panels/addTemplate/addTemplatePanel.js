@@ -174,7 +174,7 @@ export default class AddTemplatePanel extends React.Component {
 
   getMoreButton () {
     const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
-    return <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>{buttonText}</button>
+    return <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>{buttonText}</button>
   }
 
   getTemplateControl (template) {

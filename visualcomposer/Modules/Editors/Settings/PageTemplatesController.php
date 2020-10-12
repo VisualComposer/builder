@@ -102,8 +102,8 @@ class PageTemplatesController extends Container implements Module
                         ];
                     } else {
                         $output = [
-                            'type' => 'vc',
-                            'value' => 'blank',
+                            'type' => 'theme',
+                            'value' => 'default',
                         ];
                     }
                 } else {

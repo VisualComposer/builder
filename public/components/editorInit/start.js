@@ -133,7 +133,6 @@ export const start = (callback) => {
             template: lastSavedPageTemplate
           })
         }
-        settingsStorage.state('skipBlank').set(true)
         isIframeLoaded = false
       }
 
