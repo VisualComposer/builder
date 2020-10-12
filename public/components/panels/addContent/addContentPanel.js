@@ -21,6 +21,7 @@ export default class AddContentPanel extends React.Component {
 
     this.setActiveSection = this.setActiveSection.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
+    this.setFirstElement = this.setFirstElement.bind(this)
   }
 
   setActiveSection (type) {
@@ -40,6 +41,10 @@ export default class AddContentPanel extends React.Component {
     })
   }
 
+  setFirstElement () {
+    this.setState({ applyFirstElement: this.state.searchValue })
+  }
+
   render () {
     const controls = {
       addElement: {
@@ -47,7 +52,7 @@ export default class AddContentPanel extends React.Component {
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search content elements',
-        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} />
+        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} />
       },
       addTemplate: {
         index: 1,
@@ -60,7 +65,12 @@ export default class AddContentPanel extends React.Component {
 
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
-        <Search onSearchChange={this.handleSearch} searchValue={this.state.rawSearchValue} searchPlaceholder={controls[this.props.activeTab].searchPlaceholder} />
+        <Search
+          onSearchChange={this.handleSearch}
+          rawSearchValue={this.state.rawSearchValue}
+          searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
+          setFirstElement={this.setFirstElement}
+        />
         <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
