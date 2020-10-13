@@ -114,7 +114,8 @@ export default class StockMedia extends React.Component {
     } = this.props
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
-    const activatePremium = StockMedia.localizations ? StockMedia.localizations.activatePremium : 'Activate Premium'
+    const goPremium = StockMedia.localizations ? StockMedia.localizations.goPremium : 'Go Premium'
+    const activateHub = StockMedia.localizations ? StockMedia.localizations.activateHub : 'Activate Hub'
 
     let content = ''
     if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {
@@ -123,7 +124,8 @@ export default class StockMedia extends React.Component {
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
           <p className='vcv-stock-images-subtitle'>{getMediaWithPremiumText}</p>
           <span className='vcv-stock-images-button' data-href={upgradeUrl} onClick={StockMedia.handleClickGoPremium}>
-            {activatePremium}
+            {!window.vcvIsFreeActivated && activateHub}
+            {window.vcvIsFreeActivated && !window.vcvIsPremiumActivated && goPremium}
           </span>
         </>
       )
