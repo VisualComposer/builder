@@ -233,7 +233,9 @@ export default class TreeViewElement extends React.Component {
     const above = elRect.bottom < 0 && elRect.top < 0
 
     if (above || below) {
-      editorEl.scrollIntoView({ behavior: 'smooth' })
+      window.setTimeout(() => {
+        editorEl.scrollIntoView({ behavior: 'smooth' })
+      }, 400)
     }
   }
 
