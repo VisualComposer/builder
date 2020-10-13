@@ -233,13 +233,13 @@ export default class TreeViewElement extends React.Component {
     const above = elRect.bottom < 0 && elRect.top < 0
 
     if (above || below) {
-      if (e.target.classList.contains('vcv-ui-icon-edit')) {
-        window.setTimeout(() => {
-          editorEl.scrollIntoView({ behavior: 'smooth' })
-        }, 400)
-      } else {
-        editorEl.scrollIntoView({ behavior: 'smooth' })
+      let scrollTimeout = 0
+      if (e.target.classList.contains('vcv-ui-tree-layout-control-action--edit') || e.target.classList.contains('vcv-ui-icon-edit')) { // Fixes scroll to element when click on edit action
+        scrollTimeout = 500
       }
+      window.setTimeout(() => {
+        editorEl.scrollIntoView({ behavior: 'smooth' })
+      }, scrollTimeout)
     }
   }
 
@@ -626,7 +626,7 @@ export default class TreeViewElement extends React.Component {
     const baseControlsItems = isElementLocked ? null : (
       <div className='vcv-ui-tree-layout-control-actions'>
         {lockControl}
-        <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
+        <span className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-control-action--edit' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </span>
         <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
