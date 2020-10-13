@@ -233,9 +233,13 @@ export default class TreeViewElement extends React.Component {
     const above = elRect.bottom < 0 && elRect.top < 0
 
     if (above || below) {
-      window.setTimeout(() => {
+      if (e.target.classList.contains('vcv-ui-icon-edit')) {
+        window.setTimeout(() => {
+          editorEl.scrollIntoView({ behavior: 'smooth' })
+        }, 400)
+      } else {
         editorEl.scrollIntoView({ behavior: 'smooth' })
-      }, 400)
+      }
     }
   }
 
