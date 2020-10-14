@@ -11,6 +11,8 @@ const workspaceStorage = vcCake.getStorage('workspace')
 export default class AddContentPanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
+  iframe = document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
+
   constructor (props) {
     super(props)
 
@@ -22,6 +24,7 @@ export default class AddContentPanel extends React.Component {
     this.setActiveSection = this.setActiveSection.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
     this.setFirstElement = this.setFirstElement.bind(this)
+    this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
   }
 
   setActiveSection (type) {
@@ -45,6 +48,22 @@ export default class AddContentPanel extends React.Component {
     this.setState({ applyFirstElement: this.state.searchValue })
   }
 
+  scrollToElementInsideFrame (id, isElement) {
+    const editorEl = this.iframe.querySelector(`#el-${id}`)
+    if (!editorEl) {
+      return
+    }
+
+    const scrollProps = { behavior: 'smooth' }
+    if (isElement) {
+      scrollProps.block = 'center'
+    }
+
+    window.setTimeout(() => {
+      editorEl.scrollIntoView(scrollProps)
+    }, 500)
+  }
+
   render () {
     const controls = {
       addElement: {
@@ -52,14 +71,14 @@ export default class AddContentPanel extends React.Component {
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search content elements',
-        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} />
+        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
       },
       addTemplate: {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search templates',
-        content: <AddTemplatePanel searchValue={this.state.searchValue} />
+        content: <AddTemplatePanel searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       }
     }
 

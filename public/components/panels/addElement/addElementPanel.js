@@ -6,7 +6,8 @@ export default class AddElementPanel extends React.Component {
   static propTypes = {
     options: PropTypes.object,
     searchValue: PropTypes.string,
-    applyFirstElement: PropTypes.string
+    applyFirstElement: PropTypes.string,
+    handleScrollToElement: PropTypes.func
   }
 
   render () {
@@ -17,6 +18,7 @@ export default class AddElementPanel extends React.Component {
           parent={this.props.options.element ? this.props.options.element : {}}
           searchValue={this.props.searchValue}
           applyFirstElement={this.props.applyFirstElement}
+          onScrollToElement={this.props.handleScrollToElement}
         />
       )
     }
