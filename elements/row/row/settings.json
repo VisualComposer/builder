@@ -78,8 +78,8 @@
     "type": "group",
     "access": "protected",
     "value": [
-      "editFormTab1",
       "layout",
+      "editFormTab1",
       "designOptionsAdvanced",
       "parallax",
       "boxShadow",
