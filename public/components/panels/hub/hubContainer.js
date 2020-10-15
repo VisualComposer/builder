@@ -280,6 +280,7 @@ export default class HubContainer extends React.Component {
   }
 
   getSearchResults (value) {
+    value = value.toLowerCase().trim()
     const allCategories = this.getAllCategories()
     const getIndex = allCategories.findIndex((val) => {
       return val.title === 'All' || val.title === 'All Elements'
@@ -301,8 +302,8 @@ export default class HubContainer extends React.Component {
 
     return allCategories[getIndex].elements.filter((elementData) => {
       const elName = getElementName(elementData)
-      return elName.indexOf(value.trim()) !== -1
-    }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
+      return elName.indexOf(value) !== -1
+    }).sort((a, b) => getElementName(a).indexOf(value) - getElementName(b).indexOf(value))
   }
 
   getSearchElement () {

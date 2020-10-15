@@ -269,6 +269,7 @@ export default class Categories extends React.Component {
   }
 
   getSearchResults (value) {
+    value = value.toLowerCase().trim()
     const allGroupData = this.getAllGroupData()
 
     function getElementName (elementData) {

@@ -17,8 +17,7 @@ export default class AddContentPanel extends React.Component {
     super(props)
 
     this.state = {
-      searchValue: '',
-      rawSearchValue: ''
+      searchValue: ''
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
@@ -39,8 +38,7 @@ export default class AddContentPanel extends React.Component {
 
   handleSearch (value) {
     this.setState({
-      searchValue: value.toLowerCase().trim(),
-      rawSearchValue: value
+      searchValue: value
     })
   }
 
@@ -86,7 +84,7 @@ export default class AddContentPanel extends React.Component {
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
         <Search
           onSearchChange={this.handleSearch}
-          rawSearchValue={this.state.rawSearchValue}
+          searchValue={this.state.searchValue}
           searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
           setFirstElement={this.setFirstElement}
         />

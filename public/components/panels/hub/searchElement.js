@@ -41,7 +41,7 @@ export default class SearchElement extends React.Component {
   }
 
   handleSearch (e) {
-    const inputVal = e.currentTarget.value.toLowerCase().trim()
+    const inputVal = e.currentTarget.value
     this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent('0')
     this.setState({
       inputValue: inputVal

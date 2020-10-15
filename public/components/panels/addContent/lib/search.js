@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 export default class Search extends React.Component {
   static propTypes = {
-    rawSearchValue: PropTypes.string.isRequired,
+    searchValue: PropTypes.string.isRequired,
     onSearchChange: PropTypes.func.isRequired,
     setFirstElement: PropTypes.func.isRequired,
     searchPlaceholder: PropTypes.string
@@ -45,7 +45,7 @@ export default class Search extends React.Component {
             onChange={this.handleSearch}
             onKeyPress={this.handleKeyPress}
             type='text'
-            value={this.props.rawSearchValue}
+            value={this.props.searchValue}
             placeholder={this.props.searchPlaceholder}
             autoFocus={autofocus}
           />
