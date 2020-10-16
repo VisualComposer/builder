@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import TemplateControl from './lib/templateControl'
@@ -17,6 +18,11 @@ const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 
 export default class AddTemplatePanel extends React.Component {
+  static propTypes = {
+    searchValue: PropTypes.string,
+    handleScrollToElement: PropTypes.func
+  }
+
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
   errorTimeout = 0
@@ -312,7 +318,8 @@ export default class AddTemplatePanel extends React.Component {
       elementsStorage.trigger('merge', elements)
 
       const handleJobsChange = (data) => {
-        const addedElementsCount = elementsStorage.state('elementAddList').get().length
+        const addedElements = elementsStorage.state('elementAddList').get()
+        const addedElementsCount = addedElements.length
         const visibleJobs = data.elements.filter(element => !element.hidden)
         if (existingJobsCount + addedElementsCount === visibleJobs.length) {
           const jobsInProgress = data.elements.find(element => element.jobs)
@@ -323,6 +330,10 @@ export default class AddTemplatePanel extends React.Component {
           elementsStorage.state('elementAddList').set([])
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
+
+          window.setTimeout(() => {
+            this.props.handleScrollToElement(addedElements[0])
+          }, 100)
         }
       }
       assetsStorage.state('jobs').onChange(handleJobsChange)

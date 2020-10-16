@@ -17,7 +17,8 @@ const dataProcessor = vcCake.getService('dataProcessor')
 
 export default class Categories extends React.Component {
   static propTypes = {
-    parent: PropTypes.object
+    parent: PropTypes.object,
+    onScrollToElement: PropTypes.func
   }
 
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -268,6 +269,7 @@ export default class Categories extends React.Component {
   }
 
   getSearchResults (value) {
+    value = value.toLowerCase().trim()
     const allGroupData = this.getAllGroupData()
 
     function getElementName (elementData) {
@@ -400,6 +402,7 @@ export default class Categories extends React.Component {
   openEditForm (action, id) {
     if (action === 'add' && id === this.addedId) {
       workspaceStorage.trigger('edit', this.addedId, '')
+      this.props.onScrollToElement(this.addedId, true)
       this.iframeWindow.vcv.off('ready', this.openEditForm)
     }
   }

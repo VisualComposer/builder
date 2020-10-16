@@ -11,17 +11,19 @@ const workspaceStorage = vcCake.getStorage('workspace')
 export default class AddContentPanel extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
 
+  iframe = document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
+
   constructor (props) {
     super(props)
 
     this.state = {
-      searchValue: '',
-      rawSearchValue: ''
+      searchValue: ''
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
     this.handleSearch = this.handleSearch.bind(this)
     this.setFirstElement = this.setFirstElement.bind(this)
+    this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
   }
 
   setActiveSection (type) {
@@ -36,13 +38,28 @@ export default class AddContentPanel extends React.Component {
 
   handleSearch (value) {
     this.setState({
-      searchValue: value.toLowerCase().trim(),
-      rawSearchValue: value
+      searchValue: value
     })
   }
 
   setFirstElement () {
     this.setState({ applyFirstElement: this.state.searchValue })
+  }
+
+  scrollToElementInsideFrame (id, isElement) {
+    const editorEl = this.iframe.querySelector(`#el-${id}`)
+    if (!editorEl) {
+      return
+    }
+
+    const scrollProps = { behavior: 'smooth' }
+    if (isElement) {
+      scrollProps.block = 'center'
+    }
+
+    window.setTimeout(() => {
+      editorEl.scrollIntoView(scrollProps)
+    }, 500)
   }
 
   render () {
@@ -52,14 +69,14 @@ export default class AddContentPanel extends React.Component {
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search content elements',
-        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} />
+        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
       },
       addTemplate: {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search templates',
-        content: <AddTemplatePanel searchValue={this.state.searchValue} />
+        content: <AddTemplatePanel searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       }
     }
 
@@ -67,7 +84,7 @@ export default class AddContentPanel extends React.Component {
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
         <Search
           onSearchChange={this.handleSearch}
-          rawSearchValue={this.state.rawSearchValue}
+          searchValue={this.state.searchValue}
           searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
           setFirstElement={this.setFirstElement}
         />
