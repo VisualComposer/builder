@@ -3,12 +3,12 @@ import getFontFamilies from './getFontFamilies'
 const ButtonControl = function (tinymce) {
   const getFontFamilyList = function () {
     const list = []
-    let offset = 30
+    let offset = 22
     getFontFamilies().forEach((item, i) => {
       let familyStyle = ''
       if (item.family !== 'Default Font') {
-        familyStyle = `background-position: 10px ${offset - 25}px;`
-        offset -= 25
+        familyStyle = `background-position: 10px ${offset - 22}px;`
+        offset -= 22
       } else {
         familyStyle = 'background: none;text-indent: 0;'
       }
