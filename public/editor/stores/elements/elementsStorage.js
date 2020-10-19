@@ -3,6 +3,7 @@ import { rebuildRawLayout } from './lib/tools'
 
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
+  const dataManager = getService('dataManager')
   const cook = getService('cook')
   const historyStorage = getStorage('history')
   const utils = getService('utils')
@@ -98,7 +99,7 @@ addStorage('elements', (storage) => {
     }
 
     elementData = recursiveElementsRebuild(cookElement)
-    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    const editorType = dataManager.get('editorType')
     if (wrap && !cookElement.get('parent')) {
       const parentWrapper = cookElement.get('parentWrapper')
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
@@ -319,7 +320,7 @@ addStorage('elements', (storage) => {
   }
   storage.on('merge', (content) => {
     const layoutData = JSON.parse(JSON.stringify(content))
-    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    const editorType = dataManager.get('editorType')
     mergeChildrenLayout(layoutData, false, editorType === 'popup')
     storage.state('document').set(documentManager.children(false), 'merge')
     substituteIds = {}

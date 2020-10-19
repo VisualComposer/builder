@@ -11,24 +11,26 @@ addStorage('hubTemplates', (storage) => {
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
   const hubElementsStorage = getStorage('hubElements')
+  const dataManager = getService('dataManager')
+
   storage.state('templates').set({})
   storage.state('templatesGroupsSorted').set([])
 
   storage.on('start', () => {
-    storage.state('templateTeasers').set(window.VCV_HUB_GET_TEMPLATES_TEASER ? window.VCV_HUB_GET_TEMPLATES_TEASER() : {})
+    storage.state('templateTeasers').set(dataManager.get('hubGetTemplatesTeaser'))
   })
 
   storage.on('downloadTemplate', (template) => {
     const { bundle, name } = template
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const data = {
       'vcv-action': 'hub:download:template:adminNonce',
       'vcv-bundle': bundle,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': dataManager.get('nonce')
     }
     const tag = bundle.replace('template/', '').replace('predefinedTemplate/', '')
     const successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
-    const hubTemplates = window.VCV_HUB_GET_TEMPLATES_TEASER()
+    const hubTemplates = dataManager.get('hubGetTemplatesTeaser')
     const findTemplate = hubTemplates.find(template => template.bundle === bundle)
     if (!findTemplate) {
       return

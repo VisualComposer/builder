@@ -2,6 +2,8 @@ import { addStorage, getService } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 
 addStorage('settings', (storage) => {
+  const dataManager = getService('dataManager')
+
   storage.state('globalCss').onChange((data) => {
     // Used in onbeforeunload to show warning
     storage.state('status').set({ status: 'changed' })
@@ -12,18 +14,21 @@ addStorage('settings', (storage) => {
   })
   storage.on('start', () => {
     !storage.state('pageTemplate').get() && storage.state('pageTemplate').set(
-      (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) ||
+      (dataManager.get('pageTemplatesLayoutsCurrent')) ||
       { type: 'theme', value: 'default' }
     )
-    !storage.state('headerTemplate').get() && storage.state('headerTemplate').set(
-      window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES() && window.VCV_HEADER_TEMPLATES().current
-    )
-    !storage.state('sidebarTemplate').get() && storage.state('sidebarTemplate').set(
-      window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES() && window.VCV_SIDEBAR_TEMPLATES().current
-    )
-    !storage.state('footerTemplate').get() && storage.state('footerTemplate').set(
-      window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() && window.VCV_FOOTER_TEMPLATES().current
-    )
+    if (!storage.state('headerTemplate').get()) {
+      const headerTemplates = dataManager.get('headerTemplates')
+      storage.state('headerTemplate').set(headerTemplates && headerTemplates.current)
+    }
+    if (!storage.state('sidebarTemplate').get()) {
+      const sidebarTemplates = dataManager.get('sidebarTemplates')
+      storage.state('sidebarTemplate').set(sidebarTemplates && sidebarTemplates.current)
+    }
+    if (!storage.state('footerTemplate').get()) {
+      const footerTemplates = dataManager.get('footerTemplates')
+      storage.state('footerTemplate').set(footerTemplates && footerTemplates.current)
+    }
   })
 
   const dataProcessor = getService('dataProcessor')

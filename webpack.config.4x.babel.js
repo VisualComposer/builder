@@ -58,6 +58,7 @@ export default {
           'elementLimit'
         ],
         services: [
+          'dataManager',
           'utils',
           'document',
           'wordpress-post-data',
@@ -81,6 +82,7 @@ export default {
       },
       hub: {
         services: [
+          'dataManager',
           'utils',
           'document',
           'wordpress-post-data',

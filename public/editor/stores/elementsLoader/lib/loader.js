@@ -1,4 +1,7 @@
 import { log as logError } from './logger'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class {
   constructor (globalUrls, vendorUrl) {
@@ -13,7 +16,7 @@ export default class {
         jqXHR.url = settings.url
       }
     })
-    await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvNonce }).done((data) => {
+    await $.getJSON(this.globalUrls, { 'vcv-nonce': dataManager.get('nonce') }).done((data) => {
       /**
        * @param {{vcvGlobals}} data
        */
@@ -23,8 +26,8 @@ export default class {
       logError('Error in rebuild process get json globalUrls', {
         code: 'postsUpdate-update-3',
         codeNum: '000012',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        type: dataManager.get('activationType'),
+        activationFinishedUrl: dataManager.get('activationFinishedUrl'),
         jqXHR: jqXHR,
         status: status,
         error: error,
@@ -37,8 +40,8 @@ export default class {
       logError('Error in rebuild process get json vendorUrl ', {
         code: 'postsUpdate-update-4',
         codeNum: '000013',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        type: dataManager.get('activationType'),
+        activationFinishedUrl: dataManager.get('activationFinishedUrl'),
         jqXHR: jqXHR,
         status: status,
         error: error,
@@ -56,19 +59,18 @@ export default class {
   downloadElements () {
     const $ = window.jQuery
     const elementBundles = []
-    if (typeof window.VCV_HUB_GET_ELEMENTS === 'function') {
-      const elements = window.VCV_HUB_GET_ELEMENTS()
-      Object.keys(elements).forEach((key) => {
-        const element = elements[key]
-        elementBundles.push($.getScript(element.bundlePath))
-      })
-    }
+    const elements = dataManager.get('hubGetElements')
+    Object.keys(elements).forEach((key) => {
+      const element = elements[key]
+      elementBundles.push($.getScript(element.bundlePath))
+    })
+
     return Promise.all(elementBundles).catch((e) => {
       logError('Error in rebuild process downloadElements', {
         code: 'postsUpdate-downloadElements-1',
         codeNum: '000015',
-        type: window.vcvActivationType,
-        activationFinishedUrl: window.vcvActivationFinishedUrl,
+        type: dataManager.get('activationType'),
+        activationFinishedUrl: dataManager.get('activationFinishedUrl'),
         error: e
       })
     })
