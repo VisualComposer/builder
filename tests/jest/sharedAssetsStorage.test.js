@@ -1,13 +1,8 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
 
-// Services & Storages
-import '../../public/editor/services/dataManager/service.js'
-import '../../public/editor/stores/sharedAssets/storage'
-
 // Skip test with xdescribe (replace to describe later)
-xdescribe('Test sharesAssetsStorage', () => {
-  const sharesAssetsStorage = vcCake.getStorage('sharedAssets')
+describe('Test sharesAssetsStorage', () => {
   global.VCV_GET_SHARED_ASSETS = () => {
     return {
       'animate': {
@@ -22,6 +17,11 @@ xdescribe('Test sharesAssetsStorage', () => {
       }
     }
   }
+  window = global
+  // Services & Storages
+  require('../../public/editor/services/dataManager/service.js')
+  require('../../public/editor/stores/sharedAssets/storage')
+  const sharesAssetsStorage = vcCake.getStorage('sharedAssets')
   vcCake.env('debug', true)
   vcCake.start(() => {
     test('sharesAssetsStorage start', () => {
