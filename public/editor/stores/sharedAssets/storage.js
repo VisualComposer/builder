@@ -1,8 +1,10 @@
-import { addStorage } from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
 
 addStorage('sharedAssets', (storage) => {
+  const dataManager = getService('dataManager')
+
   storage.on('start', () => {
-    storage.state('sharedAssets').set(window && window.VCV_GET_SHARED_ASSETS ? window.VCV_GET_SHARED_ASSETS() : {})
+    storage.state('sharedAssets').set(window && dataManager.get('getSharedAssets'))
   })
 
   storage.on('add', (assetsData) => {

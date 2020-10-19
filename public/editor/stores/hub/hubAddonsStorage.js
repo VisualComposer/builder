@@ -10,10 +10,11 @@ addStorage('hubAddons', (storage) => {
   const notificationsStorage = getStorage('notifications')
   const hubAddonsService = getService('hubAddons')
   const utils = getService('utils')
+  const dataManager = getService('dataManager')
 
   storage.on('start', () => {
-    storage.state('addonTeasers').set(window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {})
-    storage.state('addons').set(window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {})
+    storage.state('addonTeasers').set(dataManager.get('hubGetAddonTeaser'))
+    storage.state('addons').set(dataManager.get('hubGetAddons'))
   })
 
   storage.on('add', (addonsData, addBundle) => {
@@ -27,7 +28,7 @@ addStorage('hubAddons', (storage) => {
   })
 
   storage.on('downloadAddon', (addon) => {
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const localizations = dataManager.get('localizations')
     const { tag, name } = addon
     let bundle = 'addon/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     const downloadedAddons = storage.state('addons').get()
@@ -37,7 +38,7 @@ addStorage('hubAddons', (storage) => {
     const data = {
       'vcv-action': 'hub:download:addon:adminNonce',
       'vcv-bundle': bundle,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': dataManager.get('nonce')
     }
     const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library. To finish the installation process you need to reload the page.'
     if (downloadedAddons[tag]) {

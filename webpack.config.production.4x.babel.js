@@ -47,6 +47,7 @@ export default Object.assign({}, config, {
           'elementLimit'
         ],
         services: [
+          'dataManager',
           'utils',
           'document',
           'wordpress-post-data',
@@ -70,6 +71,7 @@ export default Object.assign({}, config, {
       },
       hub: {
         services: [
+          'dataManager',
           'utils',
           'document',
           'wordpress-post-data',

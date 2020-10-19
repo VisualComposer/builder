@@ -8,6 +8,7 @@ addStorage('workspace', (storage) => {
   const documentManager = getService('document')
   const notificationsStorage = getStorage('notifications')
   const cook = getService('cook')
+  const dataManager = getService('dataManager')
   const isElementOneRelation = (parent) => {
     const children = cook.getContainerChildren(parent.tag)
     if (children.length === 1) {
@@ -69,7 +70,7 @@ addStorage('workspace', (storage) => {
     elementsStorage.trigger('clone', id)
     const metaCustomId = cook.getById(id).get('metaCustomId')
     if (metaCustomId) {
-      const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+      const localizations = dataManager.get('localizations')
       const successMessage = localizations.cloneElementWithId || 'Your element was cloned without a unique Element ID. You can adjust the Element ID by editing the cloned element.'
       notificationsStorage.trigger('add', {
         position: 'bottom',
@@ -83,7 +84,7 @@ addStorage('workspace', (storage) => {
     debounce: 250
   })
   storage.on('copy', (id, tag, options) => {
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const localizations = dataManager.get('localizations')
     const successMessage = localizations.copyElementWithId || 'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.'
     const element = documentManager.copy(id)
     const metaCustomId = cook.getById(id).get('metaCustomId')
@@ -276,7 +277,7 @@ addStorage('workspace', (storage) => {
     }
 
     let messageText
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const localizations = dataManager.get('localizations')
     const lockElementMessage = localizations.lockElementNotificationText || 'The element has been locked and can be edited only by the Administrator role.'
     const unlockElementMessage = localizations.unlockElementNotificationText || 'The element has been unlocked and can be edited by all roles with the edit option.'
     const lockContainerMessage = localizations.lockContainerNotificationText || 'The element and all inner elements have been locked and can be edited only by the Administrator role.'
@@ -307,7 +308,7 @@ addStorage('workspace', (storage) => {
     elementsStorage.state('document').set(documentManager.children(false))
     elementsStorage.trigger('updateTimeMachine') // save undo/redo
 
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const localizations = dataManager.get('localizations')
     const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
     const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
     notificationsStorage.trigger('add', {
