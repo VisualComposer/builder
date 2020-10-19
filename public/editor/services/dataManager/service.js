@@ -34,7 +34,6 @@ const dataManager = {
     if (Object.prototype.hasOwnProperty.call(data, dataKey)) {
       return data[dataKey]
     }
-
     return null
   }
 }
