@@ -166,7 +166,7 @@ export default class HubContainer extends React.Component {
     this.addedId = element.id
     const itemTag = element.tag
     dataProcessor.appAdminServerRequest({
-      'vcv-action': 'favoriteItems:updateUsage:adminNonce',
+      'vcv-action': 'usageCount:updateUsage:adminNonce',
       'vcv-item-tag': itemTag,
       'vcv-nonce': window.vcvNonce
     })

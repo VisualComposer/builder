@@ -294,8 +294,8 @@ export default class Categories extends React.Component {
 
   getElementsByCategory () {
     const allCategories = this.getAllCategories()
-    const presets = allCategories.find(element => element.id === 'Presets')
-    const favorites = allCategories.find(element => element.id === 'Favorites')
+    const presets = allCategories.find(category => category.id === 'Presets')
+    const favorites = allCategories.find(category => category.id === 'usageCount')
 
     if (!presets) {
       const presetElements = Categories.allElements.filter(element => element.presetId)
@@ -310,14 +310,14 @@ export default class Categories extends React.Component {
     }
 
     if (!favorites) {
-      const favoriteElements = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
-      if (favoriteElements.length > 0) {
-        const favoriteElementsCategory = {
-          id: 'Favorites',
-          title: 'Favorites',
-          elements: favoriteElements
+      const mostUsedItems = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+      if (mostUsedItems.length > 0) {
+        const mostUsedElementsCategory = {
+          id: 'usageCount',
+          title: 'Most Used',
+          elements: mostUsedItems
         }
-        allCategories.unshift(favoriteElementsCategory)
+        allCategories.unshift(mostUsedElementsCategory)
       }
     }
 
@@ -389,7 +389,7 @@ export default class Categories extends React.Component {
     this.addedId = element.id
     const itemTag = presetId ? Categories.elementPresets.find(element => element.id === presetId).tag : element.tag
     dataProcessor.appAdminServerRequest({
-      'vcv-action': 'favoriteItems:updateUsage:adminNonce',
+      'vcv-action': 'usageCount:updateUsage:adminNonce',
       'vcv-item-tag': itemTag,
       'vcv-nonce': window.vcvNonce
     })
