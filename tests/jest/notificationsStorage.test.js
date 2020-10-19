@@ -2,6 +2,7 @@
 import vcCake from 'vc-cake'
 
 // Services & Storages
+import '../../public/editor/services/dataManager/service.js'
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/stores/notifications/storage'
 
