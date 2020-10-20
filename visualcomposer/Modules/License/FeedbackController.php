@@ -12,11 +12,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Options;
+use VisualComposer\Helpers\Popups;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
-use WP_Query;
 
 /**
  * Class FeedbackController
@@ -124,37 +124,15 @@ class FeedbackController extends Container implements Module
     /**
      * @param $variables
      * @param $payload
-     * @param \VisualComposer\Helpers\License $licenseHelper
-     * @param \VisualComposer\Helpers\Options $optionsHelper
+     * @param \VisualComposer\Helpers\Popups $popupsHelper
      *
      * @return array
      */
-    protected function addVariables($variables, $payload, License $licenseHelper, Options $optionsHelper)
+    protected function addVariables($variables, $payload, Popups $popupsHelper)
     {
-        $value = false;
-        // do only if feedback not sent previously
-        if (!$optionsHelper->get('feedback-sent')) {
-            // Actively used for more then 1 month
-            $isActivelyUsed = $licenseHelper->isAnyActivated() && $licenseHelper->isActivelyUsed();
-            // System check is OK
-            $systemStatusFailing = $optionsHelper->get('systemCheckFailing', false);
-            // Have at least 3 posts with VCWB
-            $vcvPosts = new WP_Query(
-                [
-                    'post_type' => 'any',
-                    'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
-                    'posts_per_page' => 3,
-                    'meta_key' => VCV_PREFIX . 'pageContent',
-                    'suppress_filters' => true,
-                ]
-            );
-            // @codingStandardsIgnoreLine
-            $foundPostsOk = (int)$vcvPosts->found_posts >= 3;
-            $value = $isActivelyUsed && !$systemStatusFailing && $foundPostsOk;
-        }
         $variables[] = [
             'key' => 'VCV_SHOW_FEEDBACK_FORM',
-            'value' => $value,
+            'value' => $popupsHelper->showFeedbackPopup(),
             'type' => 'constant',
         ];
 
