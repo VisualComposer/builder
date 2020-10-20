@@ -294,10 +294,10 @@ export default class Categories extends React.Component {
 
   getElementsByCategory () {
     const allCategories = this.getAllCategories()
-    const presets = allCategories.find(category => category.id === 'Presets')
-    const favorites = allCategories.find(category => category.id === 'usageCount')
+    const presetsCategory = allCategories.find(category => category.id === 'Presets')
+    const mostUsedElementsCategory = allCategories.find(category => category.id === 'usageCount')
 
-    if (!presets) {
+    if (!presetsCategory) {
       const presetElements = Categories.allElements.filter(element => element.presetId)
       if (presetElements.length > 0) {
         const presetElementsCategory = {
@@ -309,7 +309,7 @@ export default class Categories extends React.Component {
       }
     }
 
-    if (!favorites) {
+    if (!mostUsedElementsCategory) {
       const mostUsedItems = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
       if (mostUsedItems.length > 0) {
         const mostUsedElementsCategory = {
