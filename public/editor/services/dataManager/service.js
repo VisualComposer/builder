@@ -26,7 +26,8 @@ const data = {
   pageTemplatesLayoutsCurrent: window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT(),
   headerTemplates: window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES(),
   sidebarTemplates: window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES(),
-  footerTemplates: window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES()
+  footerTemplates: window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES(),
+  showPremiumPromoPopup: window.VCV_SHOW_PREMIUM_PROMO_POPUP && window.VCV_SHOW_PREMIUM_PROMO_POPUP()
 }
 
 const dataManager = {
