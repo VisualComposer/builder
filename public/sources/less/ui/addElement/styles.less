@@ -66,7 +66,7 @@
 }
 .vcv-element-categories-expand-button {
   position: absolute;
-  right: 0;
+  right: -8px;
   top: 0;
   bottom: 0;
   border: 0;
@@ -74,9 +74,15 @@
   color: #70757d;
   font-size: 18px;
   cursor: pointer;
+  padding: 0 5px;
 }
 
-//== title controls
+.rtl .vcv-element-categories-expand-button {
+  right: auto;
+  left: -8px;
+}
+
+  //== title controls
 .vcv-ui-tree-content-title-controls {
   padding-left: 0;
   padding-right: 0;
