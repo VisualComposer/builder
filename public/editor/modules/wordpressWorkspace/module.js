@@ -130,14 +130,7 @@ add('wordpressWorkspace', (api) => {
           workspaceStorage.state('settings').set(settings)
         }
         const editorType = dataManager.get('editorType')
-        let showBlank = editorType !== 'default' && !env('VCV_JS_ARCHIVE_TEMPLATE')
-        const currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
-        const allLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
-        const isCustomAvailable = allLayouts.find(item => item.type === 'vc-custom-layout')
-        if (currentTemplate && ((isCustomAvailable && currentTemplate.type !== 'vc-custom-layout') || (!isCustomAvailable && currentTemplate.type !== 'vc' && currentTemplate.value !== 'blank'))) {
-          showBlank = false
-        }
-
+        const showBlank = editorType !== 'default' && !env('VCV_JS_ARCHIVE_TEMPLATE')
         if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
           isBlank = true
