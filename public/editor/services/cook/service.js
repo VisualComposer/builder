@@ -567,14 +567,16 @@ const API = {
       } else if ((typeName === 'htmleditor' && (!options || !options.inline)) || (isNested && options && options.inline)) {
         layoutAtts[fieldKey] =
           <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
-      } else if (typeName === 'dropdown' && !value && options.hasOwnProperty('global') && options.global) {
+      } else if (typeName === 'dropdown' && !value && Object.prototype.hasOwnProperty.call(options, 'global') && options.global) {
         let globalOptions
         if (typeof window[options.global] === 'function') {
           globalOptions = window[options.global]()
         } else {
-          globalOptions = window[options.global] || []
+          globalOptions = window[options.global]
         }
-        layoutAtts[fieldKey] = globalOptions[0].value
+        if (globalOptions.length) {
+          layoutAtts[fieldKey] = globalOptions[0].value
+        }
       } else {
         layoutAtts[fieldKey] = value
       }
