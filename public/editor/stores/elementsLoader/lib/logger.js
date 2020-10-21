@@ -1,3 +1,7 @@
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
+
 let errors = []
 
 const logError = (message, details) => {
@@ -32,9 +36,9 @@ const sendErrors = (e, cb) => {
   window.jQuery.ajax(
     {
       type: 'POST',
-      url: window.vcvErrorReportUrl,
+      url: dataManager.get('errorReportUrl'),
       data: {
-        'vcv-nonce': window.vcvNonce,
+        'vcv-nonce': dataManager.get('nonce'),
         errors: JSON.stringify(getErrors())
       }
     }

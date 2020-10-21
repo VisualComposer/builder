@@ -1,6 +1,8 @@
-import { addStorage } from 'vc-cake'
+import { addStorage, getService } from 'vc-cake'
 
 addStorage('editorPopup', (storage) => {
+  const dataManager = getService('dataManager')
+
   const getActivePopup = (popupData) => {
     const popupDataByPriority = []
     for (const popupName in popupData) {
@@ -20,7 +22,7 @@ addStorage('editorPopup', (storage) => {
 
   const initialPopupData = {
     votePopup: {
-      visible: window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM(),
+      visible: dataManager.get('showFeedbackForm'),
       priority: 1
     },
     reviewPopup: {
@@ -28,8 +30,12 @@ addStorage('editorPopup', (storage) => {
       priority: 2
     },
     dataCollectionPopup: {
-      visible: window.VCV_SHOW_DATA_COLLECTION_POPUP && window.VCV_SHOW_DATA_COLLECTION_POPUP(),
+      visible: dataManager.get('showDataCollectionPopup'),
       priority: 3
+    },
+    premiumPromoPopup: {
+      visible: dataManager.get('showPremiumPromoPopup'),
+      priority: 4
     }
   }
 
@@ -61,6 +67,16 @@ addStorage('editorPopup', (storage) => {
     if (popupName && popupState[popupName]) {
       popupState[popupName].visible = false
     }
+
+    storage.state('popups').set(popupState)
+  })
+
+  storage.on('hideAll', () => {
+    const popupState = storage.state('popups').get()
+
+    Object.keys(popupState).forEach((popupName) => {
+      popupState[popupName].visible = false
+    })
 
     storage.state('popups').set(popupState)
   })

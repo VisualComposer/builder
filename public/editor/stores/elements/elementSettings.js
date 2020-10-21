@@ -1,5 +1,5 @@
 import { defaultsDeep } from 'lodash'
-import { addStorage, getStorage } from 'vc-cake'
+import { addStorage, getStorage, getService } from 'vc-cake'
 import { getAttributeType } from '../../services/cook/lib/tools'
 
 const fieldOptionsStorage = getStorage('fieldOptions')
@@ -7,8 +7,10 @@ const fieldOptionsStorage = getStorage('fieldOptions')
 const items = {}
 
 addStorage('elementSettings', (storage) => {
+  const dataManager = getService('dataManager')
+
   storage.on('add', (settings, componentCallback, cssSettings, modifierOnCreate) => {
-    const allElementsSettings = getStorage('hubElements').state('elements').get() || (window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
+    const allElementsSettings = getStorage('hubElements').state('elements').get() || dataManager.get('hubGetElements')
     let settingsCloneJsonString = JSON.stringify(settings)
 
     if (allElementsSettings[settings.tag.value]) {

@@ -12,6 +12,7 @@ const cook = vcCake.getService('cook')
 const renderProcessor = vcCake.getService('renderProcessor')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const documentManager = vcCake.getService('document')
+const dataManager = vcCake.getService('dataManager')
 
 export default class SaveController {
   ajax (data, successCallback, failureCallback) {
@@ -147,14 +148,14 @@ export default class SaveController {
         'vcv-updatePost': '1'
       }
 
-      if (window.VCV_DATA_COLLECTION_ENABLED) {
+      if (dataManager.get('dataCollectionEnabled')) {
         let licenseType
-        if (!window.vcvIsAnyActivated) {
+        if (!dataManager.get('isAnyActivated')) {
           licenseType = 'Not Activated'
         } else {
-          licenseType = window.vcvIsPremiumActivated ? 'Premium' : 'Free'
+          licenseType = dataManager.get('isPremiumActivated') ? 'Premium' : 'Free'
         }
-        const elementTeaser = window.VCV_HUB_GET_TEASER()
+        const elementTeaser = dataManager.get('hubGetTeaser')
         let allElements = elementTeaser[0].elements
         const defaultElements = [
           { tag: 'row', bundleType: ['free', 'premium'] },
@@ -182,7 +183,7 @@ export default class SaveController {
             const result = allElements.filter(element => element.tag === tag)[0]
             if (result) {
               const elementType = result.bundleType.includes('free') ? 'Free' : 'Premium'
-              elementStats[tag] = { pageId: window.vcvSourceID, name: tag, count: 1, type: elementType, action: 'Added', license: licenseType }
+              elementStats[tag] = { pageId: dataManager.get('sourceID'), name: tag, count: 1, type: elementType, action: 'Added', license: licenseType }
             }
           }
         })
@@ -211,8 +212,8 @@ export default class SaveController {
       const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
       requestData['vcv-item-preview-disabled'] = itemPreviewDisabled
 
-      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : false
-      if (editorType) {
+      const editorType = dataManager.get('editorType')
+      if (editorType !== 'default') {
         requestData['vcv-editor-type'] = editorType
       }
       this.ajax(

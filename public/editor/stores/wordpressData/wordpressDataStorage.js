@@ -11,14 +11,15 @@ addStorage('wordpressData', (storage) => {
   const hubTemplatesStorage = getStorage('hubTemplates')
   const migrationStorage = getStorage('migration')
   const documentManager = getService('document')
+  const dataManager = getService('dataManager')
   const wordpressDataStorage = getStorage('wordpressData')
   const popupStorage = getStorage('popup')
 
   storage.on('start', () => {
     // Here we call data load
-    if (window.vcvSourceID) {
+    if (dataManager.get('sourceID')) {
       // Fix trigger.start on initial post update action (performance)
-      controller.load(window.vcvSourceID, {}, storage.state('status'))
+      controller.load(dataManager.get('sourceID'), {}, storage.state('status'))
     }
   })
 
@@ -44,7 +45,7 @@ addStorage('wordpressData', (storage) => {
       data = Object.assign({}, {
         elements: documentData
       }, data)
-      const id = options && options.id ? options.id : window.vcvSourceID
+      const id = options && options.id ? options.id : dataManager.get('sourceID')
       controller.save(id, data, status, options)
     }
     if (getData('wp-preview') === 'dopreview') {
@@ -79,7 +80,7 @@ addStorage('wordpressData', (storage) => {
        */
       const responseData = getResponse(request)
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
-      const pageTemplateData = window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : ''
+      const pageTemplateData = dataManager.get('pageTemplates')
       const initialContent = responseData.post_content
       let empty = false
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {

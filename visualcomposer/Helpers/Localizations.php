@@ -1182,6 +1182,14 @@ class Localizations extends Container implements Helper
                 'Templates',
                 'visualcomposer'
             ),
+            'getFullAccessToTheVisualComposerHub' => __(
+                'Get full access to the Visual Composer Hub',
+                'visualcomposer'
+            ),
+            'downloadAllExclusiveText' => __(
+                'Download all exclusive elements, templates, and extensions with Visual Composer Premium.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -41,14 +41,15 @@ addStorage('hubElements', (storage) => {
   const hubElementsService = getService('hubElements')
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
+  const dataManager = getService('dataManager')
 
   storage.on('start', () => {
-    storage.state('elements').set(window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {})
-    const presets = window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : []
+    storage.state('elements').set(dataManager.get('hubGetElements'))
+    const presets = dataManager.get('addonElementPresets')
     const parsedPresets = parseData(presets)
     storage.state('elementPresets').set(parsedPresets)
-    storage.state('categories').set(window.VCV_HUB_GET_CATEGORIES ? window.VCV_HUB_GET_CATEGORIES() : {})
-    storage.state('elementTeasers').set(window.VCV_HUB_GET_TEASER ? window.VCV_HUB_GET_TEASER() : {})
+    storage.state('categories').set(dataManager.get('hubGetCategories'))
+    storage.state('elementTeasers').set(dataManager.get('hubGetTeaser'))
   })
 
   storage.on('add', (elementData, categoryData, addBundle) => {
@@ -65,7 +66,7 @@ addStorage('hubElements', (storage) => {
   })
 
   storage.on('downloadElement', (element) => {
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    const localizations = dataManager.get('localizations')
     const { tag } = element
     let bundle = 'element/' + tag.charAt(0).toLowerCase() + tag.substr(1, tag.length - 1)
     if (element.bundle) {
@@ -74,7 +75,7 @@ addStorage('hubElements', (storage) => {
     const data = {
       'vcv-action': 'hub:download:element:adminNonce',
       'vcv-bundle': bundle,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': dataManager.get('nonce')
     }
     const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
     if (hubElementsService.get(tag) !== null) {
