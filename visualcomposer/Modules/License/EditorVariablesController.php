@@ -42,7 +42,7 @@ class EditorVariablesController extends Container implements Module
         ];
         $variables[] = [
             'key' => 'vcvGoPremiumUrl',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-hub')),
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license')),
             'type' => 'variable',
         ];
         $variables[] = [
@@ -52,17 +52,17 @@ class EditorVariablesController extends Container implements Module
         ];
         $variables[] = [
             'key' => 'vcvUpgradeUrl',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-hub&vcv-ref=hub-banner')),
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=hub-banner')),
             'type' => 'variable',
         ];
         $variables[] = [
             'key' => 'vcvUpgradeUrlUnsplash',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-hub&vcv-ref=unsplash')),
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=unsplash')),
             'type' => 'variable',
         ];
         $variables[] = [
             'key' => 'vcvUpgradeUrlGiphy',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-hub&vcv-ref=giphy')),
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=giphy')),
             'type' => 'variable',
         ];
 
