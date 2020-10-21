@@ -28,8 +28,8 @@ class Controller extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addEnvVariables');
-        $this->addFilter('vcv:ajax:createTutorialPage:adminNonce', 'createTutorialPage', 10);
+        $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
+        $this->addFilter('vcv:ajax:editors:tutorial:create:adminNonce', 'createTutorialPage', 10);
         $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
     }
 
@@ -38,7 +38,7 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function addEnvVariables($variables)
+    protected function addVariables($variables)
     {
         // Get Tutorial Template Post ID
         $frontendHelper = vchelper('Frontend');

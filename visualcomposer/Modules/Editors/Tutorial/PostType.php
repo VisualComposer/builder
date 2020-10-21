@@ -47,7 +47,6 @@ class PostType extends Container implements Module
             'vcv:editors:frontend:render',
             function ($response, Request $requestHelper, Frontend $frontendHelper) {
                 if ($requestHelper->input('vcv-editor-type') === $this->postType && $frontendHelper->isFrontend()) {
-                    $this->addFilter('vcv:frontend:footer:extraOutput', 'addFooterBundleScript', 11);
                     $this->addFilter('vcv:editor:variables', 'addEditorTypeVariable');
                 }
 
@@ -228,38 +227,6 @@ class PostType extends Container implements Module
         }
 
         return $actions;
-    }
-
-    protected function addFooterBundleScript($response, $payload, Url $urlHelper, Assets $assetsHelper)
-    {
-        // Add JS
-        if (vcvenv('VCV_ENV_DEV_ADDONS')) {
-            $response = array_merge(
-                (array)$response,
-                [
-                    sprintf(
-                        '<script id="vcv-script-theme-builder-fe-bundle" type="text/javascript" src="%s"></script>',
-                        $urlHelper->to(
-                            'devAddons/themeBuilder/public/dist/element.bundle.js?v=' . VCV_VERSION
-                        )
-                    ),
-                ]
-            );
-        } else {
-            $response = array_merge(
-                (array)$response,
-                [
-                    sprintf(
-                        '<script id="vcv-script-theme-builder-fe-bundle" type="text/javascript" src="%s"></script>',
-                        $assetsHelper->getAssetUrl(
-                            '/addons/themeBuilder/public/dist/element.bundle.js?v=' . VCV_VERSION
-                        )
-                    ),
-                ]
-            );
-        }
-
-        return $response;
     }
 
     /**

@@ -53,7 +53,7 @@ export default class VideoScreen extends React.Component {
       e.preventDefault()
       this.setState({ isLoading: true })
       dataProcessorService.appAdminServerRequest({
-        'vcv-action': 'createTutorialPage:adminNonce',
+        'vcv-action': 'editors:tutorial:create:adminNonce',
       }).then((requestData) => {
         // This means everything is done and just need to redirect user
         const response = getResponse(requestData)
@@ -93,7 +93,7 @@ export default class VideoScreen extends React.Component {
     takeTutorialButton = (
       <a href={(window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL()) || ''} className={takeTutorialButtonClasses} onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>
     )
-    
+
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>
         <VCVLogo />
