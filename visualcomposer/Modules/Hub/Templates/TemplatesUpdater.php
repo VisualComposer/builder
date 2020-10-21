@@ -89,7 +89,8 @@ class TemplatesUpdater extends Container implements Module
                 'thumbnail' => $payload['actionData']['data']['thumbnail'],
             ]
         );
-        $template['name'] = $payload['actionData']['data']['name'];
+        $template['name'] = isset($response['isTutorial']) ? 'Tutorial Page' : $payload['actionData']['data']['name'];
+        $postType = isset($response['isTutorial']) ? 'vcv_tutorials' : 'vcv_templates';
         $templateElements = $template['data'];
         $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
         $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
@@ -108,7 +109,7 @@ class TemplatesUpdater extends Container implements Module
 
         $savedTemplates = new WP_Query(
             [
-                'post_type' => 'vcv_templates',
+                'post_type' => $postType,
                 'meta_query' => [
                     [
                         'key' => '_' . VCV_PREFIX . 'id',
@@ -128,7 +129,7 @@ class TemplatesUpdater extends Container implements Module
             $templateId = wp_insert_post(
                 [
                     'post_title' => $template['name'],
-                    'post_type' => 'vcv_templates',
+                    'post_type' => $postType,
                     'post_status' => 'publish',
                 ]
             );
@@ -140,7 +141,7 @@ class TemplatesUpdater extends Container implements Module
                 [
                     'ID' => $templateId,
                     'post_title' => $payload['actionData']['data']['name'],
-                    'post_type' => 'vcv_templates',
+                    'post_type' => $postType,
                     'post_status' => 'publish',
                 ]
             );

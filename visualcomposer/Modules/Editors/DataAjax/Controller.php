@@ -76,7 +76,7 @@ class Controller extends Container implements Module
             } else {
                 // BC for hub templates and old templates
                 // @codingStandardsIgnoreLine
-                if ($post->post_type === 'vcv_templates') {
+                if ($post->post_type === 'vcv_templates' || $post->post_type === 'vcv_tutorials') {
                     $data = rawurlencode(
                         wp_json_encode(
                             [

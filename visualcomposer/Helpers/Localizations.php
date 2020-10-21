@@ -223,6 +223,7 @@ class Localizations extends Container implements Helper
             'saveAsTemplate' => __('Save as Template', 'visualcomposer'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'visualcomposer'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'visualcomposer'),
+            'downloading' => __('Downloading', 'visualcomposer'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'visualcomposer'),
             'postUpdateAjaxRequestError' => __('Failed to load: {file}', 'visualcomposer') . ' #10077',
             'none' => __('None', 'visualcomposer'),
@@ -755,6 +756,10 @@ class Localizations extends Container implements Helper
             ),
             'takeTutorialTemplate' => __(
                 'Take Tutorial Template',
+                'visualcomposer'
+            ),
+            'createNewPage' => __(
+                'Create a new page',
                 'visualcomposer'
             ),
             'buildYourSiteWithDragAndDrop' => __(
