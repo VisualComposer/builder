@@ -2,6 +2,9 @@ import React from 'react'
 import HelperContainer from './lib/HelperContainer'
 import Welcome from './lib/welcome'
 import vcCake from 'vc-cake'
+import lodash from 'lodash'
+
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class Helpers extends React.Component {
   helpers = {
@@ -14,13 +17,13 @@ export default class Helpers extends React.Component {
       heading: 'Element Controls',
       description: 'Use <a href="https://visualcomposer.com/help/interface/element-controls/" target="blank">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="blank">layout structure</a> or modify the particular row, column, or content element.',
       step: 2,
-      helperImage: 'vcv-helper-container-image element-controls'
+      helperImage: 'vcv-helper-box-image element-controls'
     },
     'quick-actions': {
       heading: 'Quick Actions',
       description: 'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
       step: 3,
-      helperImage: 'vcv-helper-container-image bottom-menu'
+      helperImage: 'vcv-helper-box-image bottom-menu'
     },
     'insights-control': {
       heading: 'Insights',
@@ -45,7 +48,10 @@ export default class Helpers extends React.Component {
     'save-control': {
       heading: 'Publishing Options',
       description: 'Preview, save, and publish your content.',
-      step: 8
+      step: 8,
+      position: {
+        vertical: 'bottom'
+      }
     }
   }
 
@@ -59,20 +65,20 @@ export default class Helpers extends React.Component {
       loaded: false
     }
 
-    // Todo: set state when editor is loaded
-    // window.onload(() => {
-    //   this.setState({ loaded: true })
-    // })
-    window.setTimeout(() => {
-      this.setState({ loaded: true })
-    }, 4000)
-
-    this.resizeListener = this.resizeListener.bind(this)
     this.setActiveStep = this.setActiveStep.bind(this)
     this.setNextActiveStep = this.setNextActiveStep.bind(this)
     this.closeGuide = this.closeGuide.bind(this)
+    this.handleEditorLoaded = this.handleEditorLoaded.bind(this)
+    this.resizeListener = lodash.debounce(this.resizeListener.bind(this), 50)
 
-    window.addEventListener('resize', this.resizeListener)
+    elementsStorage.state('document').onChange(this.handleEditorLoaded)
+  }
+
+  handleEditorLoaded () {
+    this.setState({ loaded: true })
+    const iframeContentWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+    iframeContentWindow.addEventListener('resize', this.resizeListener)
+    elementsStorage.state('document').ignoreChange(this.handleEditorLoaded)
   }
 
   resizeListener () {
@@ -107,16 +113,16 @@ export default class Helpers extends React.Component {
   }
 
   render () {
+    if (!this.state.loaded || !this.state.isGuideVisible || window.innerWidth < 768) {
+      return null
+    }
+
     const Utils = vcCake.getService('utils')
     Utils.setCookie('navPosition', 'left')
     const dataProcessor = vcCake.getService('dataProcessor')
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'disableInitialHelpers:adminNonce'
     })
-
-    if (!this.state.isGuideVisible || window.innerWidth < 768) {
-      return null
-    }
 
     const $helpers = document.querySelectorAll('[data-vcv-guide-helper]')
     const items = []
@@ -132,24 +138,32 @@ export default class Helpers extends React.Component {
       const helperData = this.helpers[helperId]
 
       if (this.isInViewPort(item)) {
-        helperData.top = top + (height / 2)
-        if (helperId === 'save-control') {
-          helperData.top = top + height
-        }
         helperData.left = left + width
+        helperData.top = top + (height / 2)
+
+        if (helperData.position) {
+          const { horizontal, vertical } = helperData.position
+          if (horizontal === 'left') {
+            helperData.left = left
+          } else if (horizontal === 'center') {
+            helperData.left = left + (width / 2)
+          }
+          if (vertical === 'top') {
+            helperData.top = top
+          } else if (vertical === 'bottom') {
+            helperData.top = top + height
+          }
+        }
+
         helperData.helperId = helperId
         this.visibleItems.push(helperData)
       }
 
       helperData.helperPosition = {
-        left: '36px',
-        top: 'auto',
         bottom: false
       }
 
       if (window.innerWidth < left + 400) {
-        helperData.helperPosition.left = '-170px'
-        helperData.helperPosition.top = '120px'
         helperData.helperPosition.bottom = true
       }
     })

@@ -1,15 +1,19 @@
 import React from 'react'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
+
+const dataManager = vcCake.getService('dataManager')
 
 export default class HelperContainer extends React.Component {
+  static localizations = dataManager.get('localizations')
+
   constructor (props) {
     super(props)
+
     this.state = {
       activeStep: false
     }
   }
-
-  static localizations = window.VCV_I18N && window.VCV_I18N()
 
   render () {
     const { handleActiveChange, handleNextClick, handleCloseGuide, isActive, isLast } = this.props
@@ -18,8 +22,8 @@ export default class HelperContainer extends React.Component {
     const clickHereToSkip = HelperContainer.localizations ? HelperContainer.localizations.clickHereToSkip : 'Click here to skip'
 
     const helperClasses = classNames({
-      'vcv-helper-wrapper': true,
-      'vcv-helper-container-helper-bottom': this.props.helperPosition.bottom
+      'vcv-helper-box': true,
+      'vcv-helper-box-position--bottom': this.props.helperPosition.bottom
     })
 
     const iconClasses = classNames({
@@ -33,11 +37,6 @@ export default class HelperContainer extends React.Component {
       top: this.props.top
     }
 
-    const helperStyleProps = {
-      left: this.props.helperPosition.left,
-      top: this.props.helperPosition.top
-    }
-
     let buttonText = nextTip
     if (isLast) {
       buttonText = `${done}!`
@@ -45,21 +44,21 @@ export default class HelperContainer extends React.Component {
     let helperContent = null
     if (isActive) {
       helperContent = (
-        <div className={helperClasses} style={helperStyleProps}>
-          <h2 className='vcv-helper-container-heading'>{this.props.helperData.heading}</h2>
-          <p className='vcv-helper-container-description' dangerouslySetInnerHTML={{ __html: this.props.helperData.description }} />
-          <div className='vcv-helper-container-actions'>
-            <div className='vcv-helper-container-actions-skip'>
-              <span className='vcv-helper-container-done'>{done}?</span>
+        <div className={helperClasses}>
+          <h2 className='vcv-helper-box-heading'>{this.props.helperData.heading}</h2>
+          <p className='vcv-helper-box-description' dangerouslySetInnerHTML={{ __html: this.props.helperData.description }} />
+          <div className='vcv-helper-box-actions'>
+            <div className='vcv-helper-box-actions-skip'>
+              <span className='vcv-helper-box-done'>{done}?</span>
               <span
-                className='vcv-helper-container-skip'
+                className='vcv-helper-box-skip'
                 onClick={handleCloseGuide}
               >
                 {clickHereToSkip}
               </span>
             </div>
             <button
-              className='vcv-helper-container-next'
+              className='vcv-helper-box-next'
               onClick={isLast ? handleCloseGuide : handleNextClick}
             >
               {buttonText}
@@ -77,7 +76,7 @@ export default class HelperContainer extends React.Component {
     }
 
     return (
-      <div className='vcv-helper-container' style={containerStyleProps}>
+      <div className='vcv-helper' style={containerStyleProps}>
         <i
           className={iconClasses}
           onClick={handleActiveChange.bind(this, this.props.helperData.step)}
