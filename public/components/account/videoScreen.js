@@ -1,9 +1,11 @@
 import React from 'react'
+import vcCake from 'vc-cake'
+import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
 import Timeline from './timeline'
-import vcCake from 'vc-cake'
 import { getResponse } from 'public/tools/response'
+
 const dataProcessorService = vcCake.getService('dataProcessor')
 
 export default class VideoScreen extends React.Component {
@@ -45,6 +47,8 @@ export default class VideoScreen extends React.Component {
   handleTakeTutorialClick (e) {
     if (window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL()) {
       return true
+    } else if (this.state.isLoading) {
+      e.preventDefault()
     } else {
       e.preventDefault()
       this.setState({ isLoading: true })
@@ -72,14 +76,6 @@ export default class VideoScreen extends React.Component {
     const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Take Tutorial Template'
     const downloadingText = VideoScreen.localizations ? VideoScreen.localizations.downloading : 'Downloading'
 
-    if (this.state.isLoading) {
-      return (
-        <div className='vcv-activation-loading-screen vcv-activation-content vcv-activation-content--active'>
-          <p className='vcv-activation-loading-text vcv-activation-loading-text--animation'>{downloadingText}</p>
-        </div>
-      )
-    }
-
     let createNewButton = null
     let takeTutorialButton = null
 
@@ -89,8 +85,13 @@ export default class VideoScreen extends React.Component {
       )
     }
 
+    const takeTutorialButtonClasses = classNames({
+      'vcv-activation-button': true,
+      'vcv-activation-button--dark': true,
+      'vcv-activation-loading-text--animation': this.state.isLoading
+    })
     takeTutorialButton = (
-      <a href={(window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL()) || ''} className='vcv-activation-button vcv-activation-button--dark' onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>
+      <a href={(window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL()) || ''} className={takeTutorialButtonClasses} onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>
     )
     
     return (

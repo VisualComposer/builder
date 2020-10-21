@@ -147,6 +147,20 @@
         z-index: 1;
       }
     }
+
+    &.vcv-activation-loading-text--animation {
+      cursor: not-allowed;
+      &::after {
+        content: '.';
+        animation: dots 1.5s steps(5, end) infinite;
+        color: inherit;
+      }
+
+      &.vcv-activation-button--dark:hover,
+      &.vcv-activation-button--dark:focus {
+        background: #363636;
+      }
+    }
   }
 }
 
@@ -213,14 +227,6 @@
   font-weight: 600;
   font-size: 18px;
   margin: 31px 0 6px;
-}
-
-.vcv-activation-loading-text--animation {
-  &::after {
-    content: '.';
-    animation: dots 1.5s steps(5, end) infinite;
-    color: inherit;
-  }
 }
 
 .vcv-error-screen .vcv-screen-text {
