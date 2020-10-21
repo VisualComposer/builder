@@ -2,6 +2,7 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
+import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -9,6 +10,7 @@ const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
 const settingsStorage = getStorage('settings')
 const utils = getService('utils')
+const dataManager = getService('dataManager')
 
 add('wordpressWorkspace', (api) => {
   api.reply('start', () => {
@@ -92,6 +94,15 @@ add('wordpressWorkspace', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
+    const removeStartBlank = () => {
+      ReactDOM.unmountComponentAtNode(iframeContent)
+    }
+    const addStartBlank = () => {
+      ReactDOM.render(
+        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
+        iframeContent
+      )
+    }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
       document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
@@ -102,12 +113,13 @@ add('wordpressWorkspace', (api) => {
       }
     }
     let documentElements
+    let isBlank = true
     let isNewPage = true
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        if (isNewPage) {
+        if (isNewPage) { // Open AddElement panel when new page
           isNewPage = false
           const settings = {
             action: 'add',
@@ -117,16 +129,36 @@ add('wordpressWorkspace', (api) => {
           }
           workspaceStorage.state('settings').set(settings)
         }
-        removeOverlay()
-      } else if (data.length) {
+        const editorType = dataManager.get('editorType')
+        let showBlank = editorType !== 'default' && !env('VCV_JS_ARCHIVE_TEMPLATE')
+        const currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
+        const allLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+        const isCustomAvailable = allLayouts.find(item => item.type === 'vc-custom-layout')
+        if (currentTemplate && ((isCustomAvailable && currentTemplate.type !== 'vc-custom-layout') || (!isCustomAvailable && currentTemplate.type !== 'vc' && currentTemplate.value !== 'blank'))) {
+          showBlank = false
+        }
+
+        if (showBlank && !settingsStorage.state('skipBlank').get()) {
+          addStartBlank()
+          isBlank = true
+          document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
+        } else {
+          removeOverlay()
+        }
+      } else if (data.length && isBlank) {
         const visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
+        removeStartBlank()
+        isBlank = false
+      }
+      if (data.length) {
         if (isNewPage) {
           isNewPage = false
         }
       }
+      settingsStorage.state('skipBlank').set(false)
     })
 
     assetsStorage.state('jobs').onChange((data) => {
