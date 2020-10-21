@@ -142,7 +142,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
 
     return (
-      <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end'>
+      <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end' data-vcv-guide-helper='save-control'>
         <span
           className={saveButtonClasses}
           title={saveText}

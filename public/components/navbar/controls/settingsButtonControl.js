@@ -70,7 +70,7 @@ export default class SettingsButtonControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickSettings}>
+      <span className={controlClass} title={name} onClick={this.handleClickSettings} data-vcv-guide-helper='settings-control'>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>

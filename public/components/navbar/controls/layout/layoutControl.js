@@ -146,7 +146,7 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     return (
-      <dl className={navbarControlClasses} tabIndex='0'>
+      <dl className={navbarControlClasses} tabIndex='0' data-vcv-guide-helper='layout-control'>
         <dt
           className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
           title={LayoutButtonControl.devices[this.state.activeDevice].type}
