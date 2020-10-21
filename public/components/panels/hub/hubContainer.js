@@ -401,7 +401,7 @@ export default class HubContainer extends React.Component {
     const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
     const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
     const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : window.vcvIsFreeActivated ? 'Go Premium' : 'Activate Hub'
-    const buttonLink = window.vcvIsFreeActivated ? window.vcvGoPremiumUrl + '&vcv-ref=hub-banner' : window.vcvUpgradeUrl + '&screen=license-options'
+    const buttonLink = window.vcvIsFreeActivated ? window.vcvGoPremiumUrl + '&vcv-ref=hub-banner' : window.vcvUpgradeUrl
 
     return (
       <div className='vcv-hub-banner'>
