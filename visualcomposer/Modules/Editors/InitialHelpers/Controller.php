@@ -53,7 +53,8 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function disableInitialHelpers(Options $optionsHelper) {
+    protected function disableInitialHelpers(Options $optionsHelper)
+    {
         $optionsHelper->set('settings-initial-helpers-enabled', '');
 
         return ['status' => true];
