@@ -65,6 +65,8 @@ export default class Helpers extends React.Component {
       loaded: false
     }
 
+    this.iframeContentWindow = null
+
     this.setActiveStep = this.setActiveStep.bind(this)
     this.setNextActiveStep = this.setNextActiveStep.bind(this)
     this.closeGuide = this.closeGuide.bind(this)
@@ -76,8 +78,8 @@ export default class Helpers extends React.Component {
 
   handleEditorLoaded () {
     this.setState({ loaded: true })
-    const iframeContentWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
-    iframeContentWindow.addEventListener('resize', this.resizeListener)
+    this.iframeContentWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
+    this.iframeContentWindow.addEventListener('resize', this.resizeListener)
     elementsStorage.state('document').ignoreChange(this.handleEditorLoaded)
   }
 
@@ -95,6 +97,7 @@ export default class Helpers extends React.Component {
   }
 
   closeGuide () {
+    this.iframeContentWindow.removeEventListener('resize', this.resizeListener)
     this.setState({ isGuideVisible: false })
   }
 
@@ -121,7 +124,7 @@ export default class Helpers extends React.Component {
     Utils.setCookie('navPosition', 'left')
     const dataProcessor = vcCake.getService('dataProcessor')
     dataProcessor.appAdminServerRequest({
-      'vcv-action': 'disableInitialHelpers:adminNonce'
+      'vcv-action': 'editors:initialHelpers:disable:adminNonce'
     })
 
     const $helpers = document.querySelectorAll('[data-vcv-guide-helper]')

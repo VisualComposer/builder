@@ -20,7 +20,7 @@ class Controller extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:editor:variables', 'addInitialHelperVariables');
-        $this->addFilter('vcv:ajax:disableInitialHelpers:adminNonce', 'disableInitialHelpers');
+        $this->addFilter('vcv:ajax:editors:initialHelpers:disable:adminNonce', 'disableInitialHelpers');
     }
 
     /**

@@ -1,5 +1,5 @@
 import React from 'react'
-import Wave from './../../../../visualcomposer/resources/images/helpers/wave.png'
+import Wave from './../../../sources/images/helpers/wave.png'
 import vcCake from 'vc-cake'
 
 const dataManager = vcCake.getService('dataManager')
