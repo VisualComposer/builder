@@ -43,7 +43,7 @@ class Controller extends Container implements Module
         // Get Tutorial Template Post ID
         $frontendHelper = vchelper('Frontend');
         $tutorialTemplate = get_posts(['post_type' => $this->postType, 'post_status' => 'publish', 'numberposts' => 1]);
-        if(isset($tutorialTemplate) && !empty($tutorialTemplate)){
+        if (isset($tutorialTemplate) && !empty($tutorialTemplate)) {
             $tutorialTemplateId = $tutorialTemplate[0]->ID;
             $tutorialUrl = $frontendHelper->getFrontendUrl($tutorialTemplateId);
             $variables[] = [
@@ -63,13 +63,15 @@ class Controller extends Container implements Module
     protected function createTutorialPage()
     {
         $frontendHelper = vchelper('Frontend');
-        vchelper('Request')->setData(['vcv-bundle'=>'template/tutorial']);
+        vchelper('Request')->setData(['vcv-bundle' => 'template/tutorial']);
         $response = vcfilter('vcv:ajax:hub:download:template:adminNonce', ['isTutorial' => true], ['sourceId' => '']);
         if (!vcIsBadResponse($response)) {
             $tutorialId = isset($response['templates'][0]['id']) ? $response['templates'][0]['id'] : '';
             $tutorialUrl = $frontendHelper->getFrontendUrl($tutorialId);
+
             return ['status' => true, 'tutorialUrl' => $tutorialUrl];
         }
+
         return ['status' => false];
     }
 

@@ -146,7 +146,7 @@ class TemplatesUpdater extends Container implements Module
                 [
                     'ID' => $templateId,
                     'post_title' => $payload['actionData']['data']['name'],
-                    'post_type' => $postType,
+                    'post_type' => $this->templatePostType,
                     'post_status' => 'publish',
                 ]
             );
