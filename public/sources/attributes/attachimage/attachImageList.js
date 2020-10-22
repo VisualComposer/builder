@@ -42,9 +42,9 @@ export default class AttachImageList extends React.Component {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const addImage = localizations ? localizations.addImage : 'Add Image'
-    const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or Replace Image'
-    const moveImage = localizations ? localizations.moveImage : 'Move Image'
+    const addImage = localizations ? localizations.addImage : 'Add an image'
+    const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or replace the image'
+    const moveImage = localizations ? localizations.moveImage : 'Move the image'
     const { fieldKey, value } = this.props
     const images = []
 

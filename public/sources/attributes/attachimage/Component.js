@@ -118,7 +118,7 @@ export default class AttachImage extends Attribute {
       browseRouter: function (routerView) {
         oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
         routerView.set('stockImages', {
-          text: 'Stock Images',
+          text: 'Unsplash',
           priority: 60
         })
         if (attributeOptions.gif) {

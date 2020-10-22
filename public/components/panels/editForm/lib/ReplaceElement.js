@@ -110,10 +110,10 @@ export default class ReplaceElement extends React.Component {
     const categorySettings = hubCategoriesService.get(category)
     const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace current element with different element from the same category'
+    const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace the element with a different element from the same category.'
     const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
     const getMoreButtonText = localizations ? localizations.getMoreElements : 'Get More Elements'
-    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
+    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
     const replacementPresetItems = this.getPresetReplacements(presetsByCategory)
     const replacementItemsOutput = this.getReplacements(categorySettings)
     const replacements = (

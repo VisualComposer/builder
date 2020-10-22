@@ -71,7 +71,7 @@ addStorage('workspace', (storage) => {
     const metaCustomId = cook.getById(id).get('metaCustomId')
     if (metaCustomId) {
       const localizations = dataManager.get('localizations')
-      const successMessage = localizations.cloneElementWithId || 'Your element was cloned without a unique Element ID. You can adjust the Element ID by editing the cloned element.'
+      const successMessage = localizations.cloneElementWithId || 'The element was cloned without a unique Element ID. Adjust the Element ID by editing the element.'
       notificationsStorage.trigger('add', {
         position: 'bottom',
         transparent: true,
@@ -85,7 +85,7 @@ addStorage('workspace', (storage) => {
   })
   storage.on('copy', (id, tag, options) => {
     const localizations = dataManager.get('localizations')
-    const successMessage = localizations.copyElementWithId || 'Your element was copied without a unique Element ID. You can adjust the Element ID by editing the copied element.'
+    const successMessage = localizations.copyElementWithId || 'The element was copied without a unique Element ID. Adjust the Element ID by editing the element.'
     const element = documentManager.copy(id)
     const metaCustomId = cook.getById(id).get('metaCustomId')
     const copyData = {

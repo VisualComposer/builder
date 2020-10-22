@@ -14,7 +14,7 @@ const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
 const settingsText = localizations ? localizations.layout : 'Layout'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 const popupText = localizations ? localizations.popup : 'Popup'
-const elementsLockText = localizations ? localizations.elementsLock : 'Elements Lock'
+const elementsLockText = localizations ? localizations.elementsLock : 'Element lock'
 
 const controls = {
   layout: {

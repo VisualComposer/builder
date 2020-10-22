@@ -88,7 +88,7 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
           classes += ` vce-google-fonts-heading--color-${mixinData.selector}`
           break
         default:
-          console.warn('There was an issue assigning color type!')
+          console.warn('There was an issue assigning color type.')
       }
     }
 

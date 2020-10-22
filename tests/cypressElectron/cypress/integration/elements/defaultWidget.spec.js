@@ -11,9 +11,9 @@ describe(ELEMENT_NAME, function () {
       // 1. Set attributes and DO
       cy.setSwitch('Enable custom widget HTML')
       cy.get('.vcv-ui-form-group-heading')
-        .contains('Before Title html')
+        .contains('Before "Title" HTML')
       cy.get('.vcv-ui-form-group-heading')
-        .contains('After Title html')
+        .contains('After "Title" HTML')
       cy.setCodeMirror(settings.beforeWidgetHTML)
       cy.setCodeMirror(settings.afterWidgetHTML)
       cy.setClassAndId(settings.customId, settings.customClass)
