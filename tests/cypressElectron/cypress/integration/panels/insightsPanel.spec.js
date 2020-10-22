@@ -92,7 +92,7 @@ describe('Inisghts Panel', function () {
       .click()
 
     cy.contains('.vcv-no-issues-heading', 'No Critical Issues Found')
-    cy.contains('.vcv-insight-description', 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!')
+    cy.contains('.vcv-insight-description', 'There are no critical issues on the page. Congratulations and keep up the good work!')
 
     cy.addElement('Single Image')
 

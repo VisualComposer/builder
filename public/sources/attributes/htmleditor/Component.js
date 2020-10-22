@@ -83,7 +83,7 @@ export default class HtmlEditorWrapper extends Attribute {
       browseRouter: function (routerView) {
         oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
         routerView.set('stockImages', {
-          text: 'Stock Images',
+          text: 'Unsplash',
           priority: 60
         })
         routerView.set('giphy', {

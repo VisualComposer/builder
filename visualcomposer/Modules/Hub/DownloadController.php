@@ -80,7 +80,7 @@ class DownloadController extends Container implements Module
                 $loggerHelper->log(
                     sprintf(
                         __(
-                            'A zip file of Visual Composer extension is broken. Checksum check failed. Please check your Internet connection, run Reset in Visual Composer Settings and try again.
+                            'A .zip file of the Visual Composer is broken - the checksum check failed. Check your Internet connection, initiate reset under Visual Composer Settings, and try again.
 
 If the problem still occurs, visit %ssupport.visualcomposer.io%s for technical assistance.
 ',

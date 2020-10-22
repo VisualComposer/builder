@@ -170,9 +170,9 @@ export default class EditFormSection extends React.Component {
   }
 
   saveAsTemplate () {
-    const templateAlreadyExistsText = EditFormSection.localizations ? EditFormSection.localizations.templateAlreadyExists : 'Template with this name already exist. Please specify another name.'
-    const templateSaveFailedText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Template save failed'
-    const specifyTemplateNameText = EditFormSection.localizations ? EditFormSection.localizations.specifyTemplateName : 'Enter template name to save your page as a template'
+    const templateAlreadyExistsText = EditFormSection.localizations ? EditFormSection.localizations.templateAlreadyExists : 'A template with this name already exists. Choose a different template name.'
+    const templateSaveFailedText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Failed to save the template.'
+    const specifyTemplateNameText = EditFormSection.localizations ? EditFormSection.localizations.specifyTemplateName : 'Enter the template name to save this page as a template.'
 
     let { name } = this.state
     name = name.trim()
@@ -192,11 +192,11 @@ export default class EditFormSection extends React.Component {
   }
 
   saveAsPreset () {
-    const couldNotParseData = EditFormSection.localizations ? EditFormSection.localizations.couldNotParseData : 'Could not parse data from server!'
+    const couldNotParseData = EditFormSection.localizations ? EditFormSection.localizations.couldNotParseData : 'Could not parse data from the server.'
     const elementHasBeenSaved = EditFormSection.localizations ? EditFormSection.localizations.elementHasBeenSaved : 'The element has been successfully saved.'
-    const noAccessCheckLicence = EditFormSection.localizations ? EditFormSection.localizations.noAccessCheckLicence : 'No access, please check your license!'
-    const elementNameAlreadyExists = EditFormSection.localizations ? EditFormSection.localizations.elementNameAlreadyExists : 'The element with such name already exists!'
-    const enterPresetNameToSave = EditFormSection.localizations ? EditFormSection.localizations.enterPresetNameToSave : 'Enter preset name to save your element as a preset!'
+    const noAccessCheckLicence = EditFormSection.localizations ? EditFormSection.localizations.noAccessCheckLicence : 'No access, check your license.'
+    const elementNameAlreadyExists = EditFormSection.localizations ? EditFormSection.localizations.elementNameAlreadyExists : 'The element with such a name already exists!'
+    const enterPresetNameToSave = EditFormSection.localizations ? EditFormSection.localizations.enterPresetNameToSave : 'Enter a preset name to save the element as a preset!'
 
     if (!this.state.name) {
       this.displayError(enterPresetNameToSave)
@@ -274,7 +274,7 @@ export default class EditFormSection extends React.Component {
   }
 
   onSaveFailed () {
-    const errorText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Template save failed'
+    const errorText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Failed to save the template.'
     this.displayError(errorText)
   }
 

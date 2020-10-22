@@ -170,27 +170,27 @@ function vcLogWpHttpCodes($code)
     switch ($code) {
         case 'http_no_url':
             $message = __(
-                'An error occurred while retrieving the download URL for Visual Composer extensions. Please deactivate other plugins, re-install Visual Composer and try again.',
+                'An error occurred while retrieving the download URL for Visual Composer extensions. Deactivate other plugins, re-install Visual Composer and try again.',
                 'visualcomposer'
             );
             break;
         case 'http_no_file':
             $message = __(
-                'An error occurred when creating temporary installation files. Please verify that WP_TEMP_DIR exists and is writable.',
+                'An error occurred when creating temporary installation files. Verify that WP_TEMP_DIR exists and is writable.',
                 'visualcomposer'
             );
             break;
         case 'http_404':
             $message = __(
-                'An error occurred during the Visual Composer extension download process. 
-<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
+                'An error occurred during the Visual Composer extension download process.
+<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'visualcomposer'
             );
             break;
         case 'http_request_failed':
             $message = __(
                 'An HTTP requests failed during the download process of the plugin.
-<ul><li>- Check if your server has a connection to the Internet</li><li>- Check your server proxy configuration settings</li><li>- Check your server firewall settings and access to <a href="https://account.visualcomposer.io" target="_blank">https://account.visualcomposer.io</a></li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
+<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to <a href="https://account.visualcomposer.io" target="_blank">https://account.visualcomposer.io</a></li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
                 'visualcomposer'
             );
             break;
@@ -213,33 +213,33 @@ function vcLogWpErrorByCode($code, $errorMessage)
     switch ($code) {
         case 'fs_unavailable':
             $message = __(
-                'An error occurred when extracting Visual Composer extension files. Visual Composer requires a direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it.',
+                'An error occurred when extracting Visual Composer extension files. Visual Composer requires direct access to the file system of your server. Check if FS_METHOD is defined in wp-config.php and disable it.',
                 'visualcomposer'
             );
             break;
         case 'incompatible_archive':
         case 'stat_failed_ziparchive':
             $message = __(
-                'A zip file of Visual Composer extension is broken. Please check your Internet connection, run Reset in Visual Composer Settings and try again.',
+                'A .zip file of Visual Composer is broken - the checksum check failed. Check your Internet connection, initiate reset under Visual Composer Settings, and try again.',
                 'visualcomposer'
             );
             break;
         case 'disk_full_unzip_file':
             $message = __(
-                'We could not copy files to your server. It seems that you have run out of the disk space. Please increase your server disk space and try again.',
+                'We could not copy files to your server. It seems that you have run out of the disk space. Increase your server disk space and try again.',
                 'visualcomposer'
             );
             break;
         case 'mkdir_failed_ziparchive':
         case 'mkdir_failed_copy_dir':
             $message = __(
-                'We could not create a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'We could not create a directory for the plugin in wp-content/uploads. Check if your server has "write" permissions for wp-content/uploads.',
                 'visualcomposer'
             );
             break;
         case 'copy_failed_ziparchive':
             $message = __(
-                'We could not copy a directory for the plugin in wp-content/uploads. Please check if your server has write permissions for wp-content/uploads.',
+                'We could not copy a directory for the plugin in wp-content/uploads. Check if your server has a "write" permissions for wp-content/uploads.',
                 'visualcomposer'
             );
             break;
@@ -301,7 +301,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong JSON response
                 $loggerHelper->log(
-                    __('Wrong response body received.', 'visualcomposer'),
+                    __('A wrong response body was received.', 'visualcomposer'),
                     [
                         'body' => $body,
                     ]
@@ -315,7 +315,7 @@ function _vcCheckIsResponseBad($response)
             if ($isBodyErr) {
                 // Wrong Response status
                 $additionalMessage = isset($body['message']) ? ' ' . $body['message'] : '';
-                $message = __('Bad status code received.', 'visualcomposer') . $additionalMessage;
+                $message = __('Bad status code was received.', 'visualcomposer') . $additionalMessage;
                 $loggerHelper->log(
                     $message,
                     [
@@ -331,7 +331,7 @@ function _vcCheckIsResponseBad($response)
             $responseCode = wp_remote_retrieve_response_code($response);
             $isRequestError = $responseCode !== 200;
             if ($isRequestError) {
-                $message = sprintf(__('Bad response status code %d received.', 'visualcomposer'), $responseCode);
+                $message = sprintf(__('A bad response status code %d was received.', 'visualcomposer'), $responseCode);
                 $loggerHelper->log(
                     $message,
                     [
@@ -347,7 +347,7 @@ function _vcCheckIsResponseBad($response)
     $isFilterError = isset($response['status']) && !$response['status'];
     if ($isFilterError) {
         $additionalMessage = isset($response['message']) ? ' ' . $response['message'] : '';
-        $message = __('Failed to process action.', 'visualcomposer') . $additionalMessage;
+        $message = __('Failed to process the action.', 'visualcomposer') . $additionalMessage;
         $loggerHelper->log(
             $message,
             [

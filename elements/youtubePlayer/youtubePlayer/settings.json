@@ -5,7 +5,7 @@
     "value": "https://www.youtube.com/watch?v=Im6gfxoiHeU",
     "options": {
       "label": "YouTube video link",
-      "description": "Enter link to YouTube video.",
+      "description": "Enter a link to the YouTube video.",
       "link": true
     }
   },
@@ -94,7 +94,7 @@
     "value": "",
     "options": {
       "label": "Extra class name",
-      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
   },
   "advanced": {
@@ -132,7 +132,7 @@
     "value": "red",
     "options": {
       "label": "Color",
-      "description": "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen.",
+      "description": "Specifies the color that will be used in the player's video progress bar that highlights the amount of the video that the viewer has already seen.",
       "values": [
         {
           "label": "White",
@@ -226,7 +226,7 @@
     "value": "",
     "options": {
       "label": "Start at",
-      "description": "Causes the player to begin playing the video at the given time (e.g. 2h09m34s or 2:09:34)",
+      "description": "Causes the player to begin playing the video at the given time (example: 2h09m34s or 2:09:34).",
       "onChange": {
         "rules": {
           "advanced": {
@@ -247,7 +247,7 @@
     "value": "",
     "options": {
       "label": "End at",
-      "description": "Causes the player to stop playing the video at the given time (e.g. 2h09m34s or 2:09:34)",
+      "description": "Causes the player to stop playing the video at the given time (example: 2h09m34s or 2:09:34).",
       "onChange": {
         "rules": {
           "advanced": {

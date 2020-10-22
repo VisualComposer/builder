@@ -13,7 +13,7 @@ describe(ELEMENT_NAME, function () {
       // Font Family and Font Style both have a div wrapper around select element,
       // can't use cy.setSelect command.
       cy.get('.vcv-ui-form-group-heading')
-        .contains('Font Family')
+        .contains('Font family')
         .then(($field) => {
           cy.wrap($field)
             .next()
@@ -21,7 +21,7 @@ describe(ELEMENT_NAME, function () {
             .select(settings.fontFamily)
         })
       cy.get('.vcv-ui-form-group-heading')
-        .contains('Font Style')
+        .contains('Font style')
         .then(($field) => {
           cy.wrap($field)
             .next()

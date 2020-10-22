@@ -92,7 +92,7 @@ class GoPremium extends Container implements Module
                     'hubActivationNotice',
                     sprintf(
                         __(
-                            '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with Free or Premium subscription to get more content elements, templates, and add-ons.',
+                            '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with a free or premium license to get more content elements, templates, and addons.',
                             'visualcomposer'
                         ),
                         admin_url('admin.php?page=vcv-getting-started')

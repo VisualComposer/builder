@@ -5,7 +5,7 @@
     "value": "https://vimeo.com/channels/staffpicks/181907337",
     "options": {
       "label": "Vimeo video link",
-      "description": "Enter link to Vimeo video.",
+      "description": "Enter a link to the Vimeo video.",
       "link": true
     }
   },
@@ -94,7 +94,7 @@
     "value": "",
     "options": {
       "label": "Extra class name",
-      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
   },
   "advanced": {

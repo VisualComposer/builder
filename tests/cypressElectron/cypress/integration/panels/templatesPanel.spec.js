@@ -66,7 +66,7 @@ describe('Template Panel', function () {
 
       // 9. Confirm template removal
       cy.on("window:confirm", (text) => {
-        expect(text).to.eq('Do you want to remove this template?')
+        expect(text).to.eq('Do you want to delete this template?')
       })
       cy.wait('@saveTemplate')
 

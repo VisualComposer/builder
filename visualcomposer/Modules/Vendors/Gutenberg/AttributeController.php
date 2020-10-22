@@ -109,7 +109,7 @@ class AttributeController extends Container implements Module
                 'visualcomposer'
             ),
             'use_featured_image' => _x(
-                'Use as cover image',
+                'Use as a cover image',
                 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3',
                 'visualcomposer'
             ),
@@ -205,7 +205,7 @@ class AttributeController extends Container implements Module
                 left: 0;
                 top: 0;
             }
-            
+
         </style>
         <?php
     }
