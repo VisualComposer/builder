@@ -1185,6 +1185,78 @@ class Localizations extends Container implements Helper
                 'Download all exclusive elements, templates, and extensions with Visual Composer Premium.',
                 'visualcomposer'
             ),
+            'welcome' => __(
+                'welcome',
+                'visualcomposer'
+            ),
+            'discoverVC' => __(
+                'Discover visual editor that gives everything to create a website you are proud of.',
+                'visualcomposer'
+            ),
+            'done' => __(
+                'Done',
+                'visualcomposer'
+            ),
+            'nextTip' => __(
+                'Next Tip',
+                'visualcomposer'
+            ),
+            'clickHereToSkip' => __(
+                'Click here to skip',
+                'visualcomposer'
+            ),
+            'elementControls' => __(
+                'Element Controls',
+                'visualcomposer'
+            ),
+            'quickActions' => __(
+                'Quick Actions',
+                'visualcomposer'
+            ),
+            'insights' => __(
+                'Insights',
+                'visualcomposer'
+            ),
+            'onPageSettings' => __(
+                'On-Page Settings',
+                'visualcomposer'
+            ),
+            'publishingOptions' => __(
+                'Publishing Options',
+                'visualcomposer'
+            ),
+            'thisIsYourContentLibrary' => __(
+                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Hub</a>.',
+                'visualcomposer'
+            ),
+            'useElementControls' => __(
+                'Use <a href="https://visualcomposer.com/help/interface/element-controls/" target="blank">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="blank">layout structure</a> or modify the particular row, column, or content element.',
+                'visualcomposer'
+            ),
+            'useQuickActions' => __(
+                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
+                'visualcomposer'
+            ),
+            'validateYourPage' => __(
+                '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/" target="blank">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
+                'visualcomposer'
+            ),
+            'checkHowYourPageLooksOnDifferentDevices' => __(
+                'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/" target="blank">preview your layout responsiveness</a>.',
+                'visualcomposer'
+            ),
+            'accessVisualComposerHub' => __(
+                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, add-ons, stock images, and more.',
+                'visualcomposer'
+            ),
+            'changeSettingsOfYourPageOrPost' => __(
+                'Change <a href="https://visualcomposer.com/help/settings/" target="blank">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
+                'visualcomposer'
+            ),
+            'previewSaveAndPublish' => __(
+                'Preview, save, and publish your content.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

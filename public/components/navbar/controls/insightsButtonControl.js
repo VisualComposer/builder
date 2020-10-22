@@ -68,7 +68,7 @@ export default class InsightsButtonControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickInsights}>
+      <span className={controlClass} title={name} onClick={this.handleClickInsights} data-vcv-guide-helper='insights-control'>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>
