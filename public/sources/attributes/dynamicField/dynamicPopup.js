@@ -155,7 +155,7 @@ export default class DynamicPopup extends React.Component {
   }
 
   renderDynamicFieldsDropdown (fieldsList) {
-    const dropdownLabel = DynamicPopup.localizations.dynamicSelectCustomField || 'Select custom field'
+    const dropdownLabel = DynamicPopup.localizations.dynamicSelectCustomField || 'Select a custom field'
     const newFieldsList = Object.values(fieldsList)
     newFieldsList.unshift({ label: dropdownLabel, value: '', disabled: true })
     return (

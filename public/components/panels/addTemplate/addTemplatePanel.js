@@ -147,7 +147,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
-    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - to download additional elements, templates and extensions.'
+    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
 
     let source
@@ -228,10 +228,10 @@ export default class AddTemplatePanel extends React.Component {
 
   handleSaveTemplate (e) {
     e && e.preventDefault()
-    const templateAlreadyExistsText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateAlreadyExists : 'Template with this name already exist. Please specify another name.'
-    const templateContentEmptyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContentEmpty : 'There is no content on your page - nothing to save'
-    const templateSaveFailedText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed'
-    const specifyTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.specifyTemplateName : 'Enter template name to save your page as a template'
+    const templateAlreadyExistsText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateAlreadyExists : 'A template with this name already exists. Choose a different template name.'
+    const templateContentEmptyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContentEmpty : 'There is no content on the page to be saved.'
+    const templateSaveFailedText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Failed to save the template.'
+    const specifyTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.specifyTemplateName : 'Enter the template name to save this page as a template.'
     let { templateName } = this.state
     templateName = templateName.trim()
     if (templateName) {
@@ -270,7 +270,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onSaveFailed () {
-    const errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Template save failed'
+    const errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Failed to save the template.'
     this.displayError(errorText)
   }
 
@@ -305,7 +305,7 @@ export default class AddTemplatePanel extends React.Component {
     elementsStorage.state('elementAddList').set([])
     const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
-      const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'Your current popup will be replaced with the popup template.'
+      const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'The current popup will be replaced with the popup template.'
       if (!window.confirm(replacePopupTemplateText)) {
         return
       }
@@ -394,7 +394,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   handleRemoveTemplate (id) {
-    const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to remove this template?'
+    const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to delete this template?'
     if (window.confirm(removeTemplateWarning)) {
       this.setState({
         showSpinner: id,
@@ -414,7 +414,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onRemoveFailed () {
-    const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Failed to remove template'
+    const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Failed to remove the template'
 
     this.displayError(templateRemoveFailed)
     this.setState({ showSpinner: false })
@@ -423,7 +423,7 @@ export default class AddTemplatePanel extends React.Component {
   render () {
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
-    const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates and extensions.'
+    const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {

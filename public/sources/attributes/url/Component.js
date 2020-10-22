@@ -258,7 +258,7 @@ export default class Url extends Attribute {
 
   renderTitleInput () {
     const title = this.localizations ? this.localizations.title : 'Title'
-    const titleAttributeText = this.localizations ? this.localizations.titleAttributeText : 'Title attribute will be displayed on link hover'
+    const titleAttributeText = this.localizations ? this.localizations.titleAttributeText : 'The title attribute will be displayed on the link hover.'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -279,8 +279,8 @@ export default class Url extends Attribute {
   }
 
   renderCheckboxes () {
-    const openLinkInTab = this.localizations ? this.localizations.openLinkInTab : 'Open link in a new tab'
-    const addNofollow = this.localizations ? this.localizations.addNofollow : 'Add nofollow option to link'
+    const openLinkInTab = this.localizations ? this.localizations.openLinkInTab : 'Open the link in a new tab'
+    const addNofollow = this.localizations ? this.localizations.addNofollow : 'Add "nofollow" option to the link'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -324,15 +324,15 @@ export default class Url extends Attribute {
   }
 
   drawModal () {
-    const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or Edit Link'
-    const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter destination URL'
+    const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or edit a link'
+    const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter the destination URL'
     const onClickAction = this.localizations ? this.localizations.onClickAction : 'OnClick action'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
-    const urlText = this.localizations ? this.localizations.url : 'Url'
+    const urlText = this.localizations ? this.localizations.url : 'URL'
     const openPopupText = this.localizations ? this.localizations.openPopup : 'Open Popup'
     const closePopupText = this.localizations ? this.localizations.closePopup : 'Close Popup'
-    const closingThePopupDescription = this.localizations ? this.localizations.closingThePopupDescription : 'Closing the popup option will close the current popup'
+    const closingThePopupDescription = this.localizations ? this.localizations.closingThePopupDescription : 'Closing the popup option will close the current popup.'
 
     let optionDropdown = null
     let modalContent = null
@@ -518,8 +518,8 @@ export default class Url extends Attribute {
 
   render () {
     const { title, url, popupTitle, type } = this.state.value
-    const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select URL'
-    const addLink = this.localizations ? this.localizations.addLink : 'Add Link'
+    const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select a URL'
+    const addLink = this.localizations ? this.localizations.addLink : 'Add a link'
 
     let linkDataHtml = null
     if (type && type === 'popup') {

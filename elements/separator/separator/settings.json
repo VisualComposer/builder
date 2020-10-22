@@ -78,7 +78,7 @@
     "value": "1",
     "options": {
       "label": "Thickness",
-      "description": "Enter separator thickeness in pixels.",
+      "description": "Enter a separator thickness in pixels.",
       "cssMixin": {
         "mixin": "separatorThickness",
         "property": "thickness",
@@ -93,7 +93,7 @@
     "value": "60",
     "options": {
       "label": "Separator width",
-      "description": "Enter separator width in percents (Example: 60).",
+      "description": "Enter a separator width in percentage (example: 60).",
       "cssMixin": {
         "mixin": "separatorWidth",
         "property": "width",
@@ -110,7 +110,7 @@
     "value": "",
     "options": {
       "label": "Extra class name",
-      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
   },
   "designOptions": {
@@ -176,7 +176,7 @@
     "value": "",
     "options": {
       "label": "Element ID",
-      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+      "description": "Apply a unique ID to the element link by using #your_id (for element ID use lowercase input only)."
     }
   },
   "tag": {

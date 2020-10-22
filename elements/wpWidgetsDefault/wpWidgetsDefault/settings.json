@@ -35,7 +35,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Before Title html",
+      "label": "Before \"Title\" HTML",
       "height": "20vh",
       "mode": "html",
       "onChange": {
@@ -57,7 +57,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "After Title html",
+      "label": "After \"Title\" HTML",
       "height": "20vh",
       "mode": "html",
       "onChange": {
@@ -79,7 +79,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "Before Widget html",
+      "label": "Before \"Widget\" HTML",
       "height": "20vh",
       "mode": "html",
       "onChange": {
@@ -101,7 +101,7 @@
     "access": "public",
     "value": "",
     "options": {
-      "label": "After Widget html",
+      "label": "After \"Widget\" HTML",
       "height": "20vh",
       "mode": "html",
       "onChange": {
@@ -184,7 +184,7 @@
     "value": "",
     "options": {
       "label": "Extra class name",
-      "description": "Add an extra class name to the element and refer to it from Custom CSS option."
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
     }
   },
   "metaCustomId": {
@@ -193,7 +193,7 @@
     "value": "",
     "options": {
       "label": "Element ID",
-      "description": "Apply unique Id to element to link directly to it by using #your_id (for element id use lowercase input only)."
+      "description": "Apply a unique ID to the element link by using #your_id (for element ID use lowercase input only)."
     }
   }
 }

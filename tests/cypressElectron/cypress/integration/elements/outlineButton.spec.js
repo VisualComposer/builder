@@ -13,7 +13,7 @@ describe(ELEMENT_NAME, function () {
       cy.setButtonGroup('Alignment', settings.alignment)
       cy.setButtonGroup('Shape', settings.shape.name)
       cy.setButtonGroup('Size', settings.size.name)
-      cy.setSwitch('Stretch button')
+      cy.setSwitch('Stretch')
       cy.setColor(settings.titleColor)
       cy.setColor(settings.borderColor)
       cy.setClassAndId(settings.customId, settings.customClass)

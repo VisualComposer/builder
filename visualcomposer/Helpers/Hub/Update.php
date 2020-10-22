@@ -187,7 +187,7 @@ class Update implements Helper
 
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_TEXT',
-                'value' => __('Create new post', 'visualcomposer'),
+                'value' => __('Create a new post', 'visualcomposer'),
                 'type' => 'constant',
             ];
         }

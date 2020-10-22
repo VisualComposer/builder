@@ -31,7 +31,7 @@ addStorage('popup', (storage) => {
       storage.state('popupAddInProgress').set(false)
     }, (error) => {
       storage.state('popupAddInProgress').set(false)
-      console.warn('Failed to get popup HTML', error)
+      console.warn('Failed to get the popup HTML', error)
     })
   }
 

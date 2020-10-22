@@ -89,7 +89,7 @@ class SettingsController extends Container implements Module
         if (isset($_REQUEST['message']) && $_REQUEST['message'] === 'vcv-saved') {
             echo sprintf(
                 '<div class="notice notice-success"><p>%s</p></div>',
-                __('Settings Saved', 'visualcomposer')
+                __('Your settings are saved.', 'visualcomposer')
             );
         }
     }

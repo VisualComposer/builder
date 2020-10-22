@@ -52,7 +52,7 @@ $utmHelper = vchelper('Utm');
                 </li>
             <?php endforeach;
         else : ?>
-            <li><?php echo esc_html__('No News Found', 'visualcomposer'); ?></li>;
+            <li><?php echo esc_html__('No news found.', 'visualcomposer'); ?></li>;
         <?php endif; ?>
     </ul>
     <p class="vcwb-rss-widget-bottom community-events-footer">

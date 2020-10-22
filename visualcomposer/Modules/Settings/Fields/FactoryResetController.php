@@ -110,7 +110,7 @@ class FactoryResetController extends Container implements Module
         Notice $noticeHelper
     ) {
         if (!$currentUserAccess->wpAll('manage_options')->get()) {
-            $loggerHelper->log(__('Wrong permissions', 'visualcomposer') . ' #10072');
+            $loggerHelper->log(__('Incorrect permissions.', 'visualcomposer') . ' #10072');
             wp_redirect(admin_url('admin.php?page=vcv-settings&reset=false'));
             exit;
         }

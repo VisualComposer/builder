@@ -150,7 +150,7 @@ export default class UrlDropdownInput extends React.Component {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const urlInputPlaceholder = localizations ? localizations.urlInputPlaceholder : 'Enter destination URL'
+    const urlInputPlaceholder = localizations ? localizations.urlInputPlaceholder : 'Enter the destination URL'
     const dropdownContainerClasses = classNames({
       'vcv-ui-editor-dropdown-input-dropdown-container': true,
       'vcv-ui-editor-field-highlight': this.state.dropdownFocus
