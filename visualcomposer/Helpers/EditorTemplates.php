@@ -183,7 +183,7 @@ class EditorTemplates implements Helper
         $templateGroups = $this->all();
         $options = [];
         $options[] = [
-            'label' => __('Select your template', 'visualcomposer'),
+            'label' => __('Select a template', 'visualcomposer'),
             'value' => '',
         ];
 

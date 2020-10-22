@@ -70,7 +70,7 @@ class SettingsController extends Container implements Module
                 echo sprintf(
                     '<p class="description">%s</p>',
                     esc_html__(
-                        'Enable/disable Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable Classic WordPress editor. In both cases, you can still use Visual Composer.',
+                        'Enable/disable the Gutenberg editor for your WordPress site. Disabling Gutenberg editor will enable classic WordPress editor. In both cases, you can still use Visual Composer.',
                         'visualcomposer'
                     )
                 );

@@ -55,7 +55,7 @@ export default class PostsBlock extends React.Component {
   }
 
   render () {
-    const linkToExistingContent = this.localizations ? this.localizations.linkToExistingContent : 'Or link to existing content'
+    const linkToExistingContent = this.localizations ? this.localizations.linkToExistingContent : 'Or link to an existing content'
     const searchExistingContent = this.localizations ? this.localizations.searchExistingContent : 'Search existing content'
     if (!this.props.shouldRenderExistingPosts) {
       return null

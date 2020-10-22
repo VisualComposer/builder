@@ -115,7 +115,7 @@ export default class StockMedia extends React.Component {
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
     const goPremium = StockMedia.localizations ? StockMedia.localizations.goPremium : 'Go Premium'
-    const activateHub = StockMedia.localizations ? StockMedia.localizations.activateHub : 'Activate Hub'
+    const activateHub = StockMedia.localizations ? StockMedia.localizations.activateHub : 'Activate Visual Composer Hub'
 
     let content = ''
     if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {

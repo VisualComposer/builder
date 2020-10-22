@@ -119,7 +119,7 @@ class SystemStatus extends Container implements Module
     {
         $check = $this->statusHelper->getWpDebugStatus();
 
-        $textResponse = $check ? __('WP_DEBUG is FALSE', 'visualcomposer') : __('WP_DEBUG is TRUE', 'visualcomposer');
+        $textResponse = $check ? __('WP_DEBUG, false', 'visualcomposer') : __('WP_DEBUG, true', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
@@ -225,7 +225,7 @@ class SystemStatus extends Container implements Module
     protected function getZipStatusForView()
     {
         $zipStatus = $this->statusHelper->getZipStatus();
-        $textResponse = $zipStatus ? __('Enabled', 'visualcomposer') : __('Zip extension is not installed', 'visualcomposer');
+        $textResponse = $zipStatus ? __('Enabled', 'visualcomposer') : __('.zip extension is not installed.', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($zipStatus)];
     }
@@ -337,7 +337,7 @@ class SystemStatus extends Container implements Module
                     'systemCheckStatus',
                     sprintf(
                         __(
-                            'It seems that you have a problem with your server configuration that might affect Visual Composer. For more details, please visit <a href="%s">system status</a> page.',
+                            'It seems that there is a problem with your server configuration that might affect Visual Composer. For more details, visit <a href="%s">System Status</a> page.',
                             'visualcomposer'
                         ),
                         admin_url('admin.php?page=' . $systemStatus->slug)

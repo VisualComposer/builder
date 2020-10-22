@@ -47,7 +47,7 @@ class ItemPreviewController extends Container implements Module
             echo sprintf(
                 '<p class="description">%s</p>',
                 esc_html__(
-                    'Enable element and template preview popup in Add Element and Add Template windows.',
+                    'Enable element and template preview popup.',
                     'visualcomposer'
                 )
             );

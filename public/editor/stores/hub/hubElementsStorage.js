@@ -77,7 +77,7 @@ addStorage('hubElements', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': dataManager.get('nonce')
     }
-    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library.'
+    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.'
     if (hubElementsService.get(tag) !== null) {
       return
     }
@@ -141,7 +141,7 @@ addStorage('hubElements', (storage) => {
             if (tries < 2) {
               tryDownload()
             } else {
-              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download element (license expired or request timed out)'
+              let errorMessage = localizations.licenseErrorElementDownload || 'Failed to download the element (license expired or request timed out)'
               if (jsonResponse && jsonResponse.message) {
                 errorMessage = jsonResponse.message
               }
@@ -165,7 +165,7 @@ addStorage('hubElements', (storage) => {
           } else {
             notificationsStorage.trigger('add', {
               type: 'error',
-              text: localizations.defaultErrorElementDownload || 'Failed to download element',
+              text: localizations.defaultErrorElementDownload || 'Failed to download the element',
               showCloseButton: 'true',
               icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
@@ -183,7 +183,7 @@ addStorage('hubElements', (storage) => {
         } else {
           notificationsStorage.trigger('add', {
             type: 'error',
-            text: localizations.defaultErrorElementDownload || 'Failed to download element',
+            text: localizations.defaultErrorElementDownload || 'Failed to download the element',
             showCloseButton: 'true',
             icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000

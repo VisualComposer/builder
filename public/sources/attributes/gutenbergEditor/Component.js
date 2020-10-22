@@ -51,7 +51,7 @@ export default class GutenbergEditorComponent extends Attribute {
     if (!wpData) {
       const localizations = window.VCV_I18N && window.VCV_I18N()
 
-      const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Please check Gutenberg plugin."
+      const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Check the Gutenberg plugin."
       window.alert(alertNotice)
       this.closeEditor()
     }

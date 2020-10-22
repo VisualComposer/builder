@@ -30,7 +30,7 @@ if (!vchelper('License')->isAnyActivated()) {
     echo sprintf(
         '<a href="%s" class="button vcv-license-btn-activate-hub">%s</a>',
         $activateHubUrl,
-        __('Activate Hub', 'visualcomposer')
+        __('Activate Visual Composer Hub', 'visualcomposer')
     );
     echo '</div>';
 
@@ -75,7 +75,7 @@ if (!vchelper('License')->isAnyActivated()) {
                 </td>
             </tr>
             <tr>
-                <td><?php echo esc_html__('License Type', 'visualcomposer') ?>:</td>
+                <td><?php echo esc_html__('License type', 'visualcomposer') ?>:</td>
                 <td><?php $type = vchelper('License')->getType();
                     echo ucfirst($type);
                     echo $type === 'free' ? (' - <a href="' . esc_url($upgradeLicenseUrl)
@@ -86,7 +86,7 @@ if (!vchelper('License')->isAnyActivated()) {
             </tr>
             <?php if (!empty($expirationDate)) : ?>
                 <tr>
-                    <td><?php echo esc_html__('License Expiration', 'visualcomposer') ?>:</td>
+                    <td><?php echo esc_html__('License expiration date', 'visualcomposer') ?>:</td>
                     <td><?php
                         echo $expirationDate !== 'lifetime' ? date(
                             get_option('date_format') . ' ' . get_option('time_format'),

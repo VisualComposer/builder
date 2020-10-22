@@ -29,7 +29,7 @@ addStorage('hubTemplates', (storage) => {
       'vcv-nonce': dataManager.get('nonce')
     }
     const tag = bundle.replace('template/', '').replace('predefinedTemplate/', '')
-    const successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your library'
+    const successMessage = localizations.successTemplateDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.'
     const hubTemplates = dataManager.get('hubGetTemplatesTeaser')
     const findTemplate = hubTemplates.find(template => template.bundle === bundle)
     if (!findTemplate) {
