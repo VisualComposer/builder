@@ -33,7 +33,8 @@ const data = {
   tutorialPageUrl: window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL(),
   createNewUrl: window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL(),
   manageOptions: window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS(),
-  vcvGoPremiumUrl: window.vcvGoPremiumUrl
+  vcvGoPremiumUrl: window.vcvGoPremiumUrl,
+  vcvGettingStartedUrl: window.vcvGettingStartedUrl
 }
 
 const dataManager = {

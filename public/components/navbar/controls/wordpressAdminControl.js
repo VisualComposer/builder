@@ -267,12 +267,17 @@ export default class WordPressAdminControl extends NavbarContent {
       </span>
     )
 
+    let dataHref = PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()
+    console.log('this.editorType', this.editorType)
+    if (this.editorType === 'vcv_tutorials') {
+      dataHref = dataManager.get('vcvGettingStartedUrl')
+    }
     let wordpressDashboardButton = (
       <span
         className='vcv-ui-navbar-control'
         onClick={this.handleClick}
         title={wordPressDashboard}
-        data-href={PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()}
+        data-href={dataHref}
       >
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
