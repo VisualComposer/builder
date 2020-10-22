@@ -1,5 +1,5 @@
 import React from 'react'
-import HelperContainer from './lib/HelperContainer'
+import HelperContainer from './lib/helperContainer'
 import Welcome from './lib/welcome'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
