@@ -143,7 +143,7 @@ class PluginsController extends Container implements Module
         /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
             '<a href="%s" class="vcv-plugins-go-premium">%s</a>',
-            esc_url(admin_url('admin.php?page=vcv-go-premium&vcv-ref=plugins-page')),
+            esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=plugins-page')),
             __('Go Premium', 'visualcomposer')
         );
 
