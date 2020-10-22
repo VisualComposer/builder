@@ -2,6 +2,7 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
+import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
@@ -94,6 +95,15 @@ add('wordpressWorkspace', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
 
   if (iframeContent) {
+    const removeStartBlank = () => {
+      ReactDOM.unmountComponentAtNode(iframeContent)
+    }
+    const addStartBlank = () => {
+      ReactDOM.render(
+        <StartBlankPanel unmountStartBlank={removeStartBlank} />,
+        iframeContent
+      )
+    }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
       document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
@@ -104,12 +114,13 @@ add('wordpressWorkspace', (api) => {
       }
     }
     let documentElements
+    let isBlank = true
     let isNewPage = true
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
       if (data.length === 0) {
-        if (isNewPage) {
+        if (isNewPage) { // Open AddElement panel when new page
           isNewPage = false
           const settings = {
             action: 'add',
@@ -119,12 +130,24 @@ add('wordpressWorkspace', (api) => {
           }
           workspaceStorage.state('settings').set(settings)
         }
-        removeOverlay()
-      } else if (data.length) {
+        const editorType = dataManager.get('editorType')
+        const showBlank = editorType !== 'default' && !env('VCV_JS_ARCHIVE_TEMPLATE')
+        if (showBlank && !settingsStorage.state('skipBlank').get()) {
+          addStartBlank()
+          isBlank = true
+          document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
+        } else {
+          removeOverlay()
+        }
+      } else if (data.length && isBlank) {
         const visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
           removeOverlay()
         }
+        removeStartBlank()
+        isBlank = false
+      }
+      if (data.length) {
         if (isNewPage) {
           isNewPage = false
           if (dataManager.get('editorType') === 'vcv_tutorials') {
@@ -140,6 +163,7 @@ add('wordpressWorkspace', (api) => {
           }
         }
       }
+      settingsStorage.state('skipBlank').set(false)
     })
 
     assetsStorage.state('jobs').onChange((data) => {

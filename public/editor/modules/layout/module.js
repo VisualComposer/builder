@@ -10,6 +10,7 @@ import MobileDetect from 'mobile-detect'
 import OopsScreen from 'public/components/account/oopsScreen'
 import Notifications from 'public/components/notifications/notifications'
 import Popup from 'public/components/popup/popupContainer'
+import Helpers from 'public/components/helpers/helpers'
 
 const notificationsStorage = vcCake.getStorage('notifications')
 const Utils = vcCake.getService('utils')
@@ -18,6 +19,7 @@ const workspaceSettings = workspaceStorage.state('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
+const dataManager = vcCake.getService('dataManager')
 
 vcCake.add('contentLayout', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
@@ -35,6 +37,7 @@ vcCake.add('contentLayout', (api) => {
       <>
         <Notifications />
         <Popup />
+        {dataManager.get('showInitialHelpers') && <Helpers />}
       </>,
       layoutOverlay
     )
@@ -138,7 +141,12 @@ vcCake.add('contentLayout', (api) => {
           <div class='vcv-loading-dot vcv-loading-dot-2'></div>
         </div>
       </div>`
-    iframeContent.appendChild(loadingOverlay)
+    const startBlank = iframeContent.querySelector('.vcv-start-blank-container')
+    if (startBlank) {
+      iframeContent.insertBefore(loadingOverlay, startBlank)
+    } else {
+      iframeContent.appendChild(loadingOverlay)
+    }
   }
 
   const reloadLayout = ({ type, template, header, sidebar, footer }) => {
