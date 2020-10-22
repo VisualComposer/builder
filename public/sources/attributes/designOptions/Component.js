@@ -940,7 +940,7 @@ export default class DesignOptions extends Attribute {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
-          Images
+          Background Images
         </span>
         {fieldComponent}
       </div>
@@ -1076,47 +1076,47 @@ export default class DesignOptions extends Attribute {
     const options = {
       values: [
         {
-          label: 'Left Top',
+          label: 'Left top',
           value: 'left top',
           icon: 'vcv-ui-icon-attribute-background-position-left-top'
         },
         {
-          label: 'Center Top',
+          label: 'Center top',
           value: 'center top',
           icon: 'vcv-ui-icon-attribute-background-position-center-top'
         },
         {
-          label: 'Right Top',
+          label: 'Right top',
           value: 'right top',
           icon: 'vcv-ui-icon-attribute-background-position-right-top'
         },
         {
-          label: 'Left Center',
+          label: 'Left center',
           value: 'left center',
           icon: 'vcv-ui-icon-attribute-background-position-left-center'
         },
         {
-          label: 'Center Center',
+          label: 'Center center',
           value: 'center center',
           icon: 'vcv-ui-icon-attribute-background-position-center-center'
         },
         {
-          label: 'Right Center',
+          label: 'Right center',
           value: 'right center',
           icon: 'vcv-ui-icon-attribute-background-position-right-center'
         },
         {
-          label: 'Left Bottom',
+          label: 'Left bottom',
           value: 'left bottom',
           icon: 'vcv-ui-icon-attribute-background-position-left-bottom'
         },
         {
-          label: 'Center Bottom',
+          label: 'Center bottom',
           value: 'center bottom',
           icon: 'vcv-ui-icon-attribute-background-position-center-bottom'
         },
         {
-          label: 'Right Bottom',
+          label: 'Right bottom',
           value: 'right bottom',
           icon: 'vcv-ui-icon-attribute-background-position-right-bottom'
         }

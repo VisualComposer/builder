@@ -8,7 +8,7 @@ export default class Timeline extends React.Component {
     const goPremiumText = Timeline.localizations ? Timeline.localizations.goPremium : 'Go Premium'
     const downloadText = Timeline.localizations ? Timeline.localizations.download : 'Download'
     const installText = Timeline.localizations ? Timeline.localizations.install : 'Install'
-    const activateText = Timeline.localizations ? Timeline.localizations.activateHub : 'Activate Hub'
+    const activateText = Timeline.localizations ? Timeline.localizations.activateHub : 'Activate Visual Composer Hub'
 
     const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
     if (!hasManageOptions) {

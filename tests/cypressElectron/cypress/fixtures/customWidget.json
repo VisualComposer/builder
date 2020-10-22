@@ -5,13 +5,13 @@
   "widgetHTML": "<h1>Visual Composer Custom WordPress Widget element</h1>",
   "widgetText": "Visual Composer Custom WordPress Widget element",
   "beforeWidgetHTML": {
-    "title": "Before Widget html",
+    "title": "Before \"Widget\" HTML",
     "code": "<b class='vce-before-widget'>Before Widget HTML</b>",
     "selector": ".vce-before-widget",
     "textString": "Before Widget HTML"
   },
   "afterWidgetHTML": {
-    "title": "After Widget html",
+    "title": "After \"Widget\" HTML",
     "code": "<i class='vce-after-widget'>After Widget HTML</i>",
     "selector": ".vce-after-widget",
     "textString": "After Widget HTML"

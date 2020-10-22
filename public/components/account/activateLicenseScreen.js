@@ -97,12 +97,12 @@ export default class ActivateLicenseScreen extends React.Component {
     const getFreeLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.getFreeLicense : 'Get Free License'
     const freeLicenseActivatedText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activated : 'Activated'
     const freeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.freeLicense : 'Free License'
-    const limitedText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.limitedAccessToExtensions : 'Limited access to the Visual Composer Hub of elements, templates, and add-ons'
-    const themeBuilderWithHFSText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.themeBuilderWithHFS : 'Theme builder with Header, Footer, and Sidebar editor'
+    const limitedText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.limitedAccessToExtensions : 'Limited access to the Visual Composer Hub of elements, templates, and addons'
+    const themeBuilderWithHFSText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.themeBuilderWithHFS : 'A theme builder with Header, Footer, and Sidebar editor'
     const wooCommerceCompatibilityText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.wooCommerceCompatibility : 'WooCommerce compatibility'
     const premiumSupportAndUpdatesText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumSupportAndUpdates : 'Premium support and updates'
     const premiumLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumLicense : 'Premium License'
-    const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and add-ons'
+    const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and addons'
 
     let getFreeButton = (
       <a href={window.VCV_GO_FREE_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
@@ -156,10 +156,10 @@ export default class ActivateLicenseScreen extends React.Component {
   render () {
     const { hasError, errorText, loading } = this.state
     const enterYourLicenseKey = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.enterYourLicenseKey : 'Enter your license key'
-    const makeTheFinalStepText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.makeTheFinalStep : 'Make the final step! Enter your License key to activate Visual Composer Hub and start creating your website right away.'
+    const makeTheFinalStepText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.makeTheFinalStep : 'Make the final step! Enter your license key to activate Visual Composer Hub and start creating the website right away.'
     const activateVisualComposerHubText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateVisualComposerHub : 'Activate Visual Composer Hub'
     const activateText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activate : 'Activate'
-    const bundledInAThemeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.bundledInAThemeText : 'It seems that your Visual Composer copy was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.'
+    const bundledInAThemeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.bundledInAThemeText : 'It seems that your copy of Visual Composer was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.'
     const alreadyHaveALicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.alreadyHaveALicenseText : 'Already have a license? Log in to My Visual Composer(link) to find it.'
 
     let inputClasses = 'vcv-activation-input-field'

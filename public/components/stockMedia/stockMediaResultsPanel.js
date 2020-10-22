@@ -295,7 +295,7 @@ export default class StockMediaResultsPanel extends React.Component {
             })
           } else {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
-            errorMessage = errorMessage || `${StockMediaResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, please check your license! #10087'
+            errorMessage = errorMessage || `${StockMediaResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, check your license. #10087'
             notificationsStorage.trigger('add', {
               position: 'bottom',
               transparent: true,
@@ -311,7 +311,7 @@ export default class StockMediaResultsPanel extends React.Component {
             }
           }
         } catch (e) {
-          const exceptionErrorMessage = `${StockMediaResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from server! #10086'
+          const exceptionErrorMessage = `${StockMediaResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from the server. #10086'
           notificationsStorage.trigger('add', {
             position: 'bottom',
             transparent: true,

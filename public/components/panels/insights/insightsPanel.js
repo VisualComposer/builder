@@ -86,10 +86,10 @@ export default class InsightsPanel extends React.Component {
       let insightsNoIssuesFoundTitle, insightsNoIssuesFoundDescription
       if (this.state.activeSection === 'critical') {
         insightsNoIssuesFoundTitle = localizations.insightsNoCriticalIssuesFoundTitle ? localizations.insightsNoCriticalIssuesFoundTitle : 'No Critical Issues Found'
-        insightsNoIssuesFoundDescription = localizations.insightsNoCriticalIssuesFoundDescription ? localizations.insightsNoCriticalIssuesFoundDescription : 'You don\'t have any critical issues on your page. Congratulations and keep up the good work!'
+        insightsNoIssuesFoundDescription = localizations.insightsNoCriticalIssuesFoundDescription ? localizations.insightsNoCriticalIssuesFoundDescription : 'There are no critical issues on the page. Congratulations and keep up the good work!'
       } else if (this.state.activeSection === 'warning') {
         insightsNoIssuesFoundTitle = localizations.insightsNoWarningsFoundTitle ? localizations.insightsNoWarningsFoundTitle : 'No Warnings Found'
-        insightsNoIssuesFoundDescription = localizations.insightsNoWarningsFoundDescription ? localizations.insightsNoWarningsFoundDescription : 'You don\'t have any warnings on your page. Congratulations and keep up the good work!'
+        insightsNoIssuesFoundDescription = localizations.insightsNoWarningsFoundDescription ? localizations.insightsNoWarningsFoundDescription : 'There are no warnings on the page. Congratulations and keep up the good work!'
       }
       insightsHTML = (
         <div className='vcv-insight-no-issues'>

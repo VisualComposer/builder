@@ -67,7 +67,7 @@ const ButtonsRegister = function (editor, window) {
 
   editor.addButton('VcvFontsSelect', {
     type: 'VcvFontsSelect',
-    tooltip: 'Font Family',
+    tooltip: 'Font family',
     onPostRender: onPostRender(editor)
   })
 }

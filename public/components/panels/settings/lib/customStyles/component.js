@@ -9,7 +9,7 @@ export default class CustomStyles extends React.Component {
   styleData = [
     {
       buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
-      editorLabel: CustomStyles.localizations ? CustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only',
+      editorLabel: CustomStyles.localizations ? CustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only..',
       index: 1,
       name: 'local',
       settingsStorageState: 'customCss'
@@ -22,7 +22,7 @@ export default class CustomStyles extends React.Component {
       this.styleData.push(
         {
           buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
-          editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Apply custom Global CSS code site-wide.',
+          editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied sitewide.',
           index: 2,
           name: 'global',
           settingsStorageState: 'globalCss'

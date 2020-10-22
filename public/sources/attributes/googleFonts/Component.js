@@ -210,7 +210,7 @@ export default class GoogleFonts extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             <div className='vcv-ui-form-group'>
               <span className='vcv-ui-form-group-heading'>
-                Font Family
+                Font family
               </span>
               <div className={fontfamilyContainerClasses}>
                 {spinner}
@@ -222,7 +222,7 @@ export default class GoogleFonts extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             <div className='vcv-ui-form-group'>
               <span className='vcv-ui-form-group-heading'>
-                Font Style
+                Font style
               </span>
               <div className={fontfamilyContainerClasses}>
                 {spinner}

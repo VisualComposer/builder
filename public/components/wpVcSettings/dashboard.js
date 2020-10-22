@@ -1,5 +1,5 @@
 const localizations = window.VCV_I18N && window.VCV_I18N()
-const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes you made may not be saved.'
+const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes may not be saved.'
 
 export const dashboard = () => {
   const dashboardContainer = document.querySelector('.vcv-settings')

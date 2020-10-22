@@ -78,16 +78,16 @@ export default class SearchElement extends React.Component {
 
     switch (this.props.inputPlaceholder) {
       case 'elements':
-        result = localizations ? localizations.searchContentElements : 'Search content elements'
+        result = localizations ? localizations.searchContentElements : 'Search for content elements'
         break
       case 'elements and templates':
-        result = localizations ? localizations.searchContentElementsAndTemplates : 'Search content elements and templates'
+        result = localizations ? localizations.searchContentElementsAndTemplates : 'Search for content elements and templates'
         break
       case 'templates':
-        result = localizations ? localizations.searchContentTemplates : 'Search content templates'
+        result = localizations ? localizations.searchContentTemplates : 'Search for templates'
         break
       default:
-        result = localizations ? localizations.searchContentElements : 'Search content elements'
+        result = localizations ? localizations.searchContentElements : 'Search for content elements'
     }
 
     return result
