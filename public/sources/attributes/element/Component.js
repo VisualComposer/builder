@@ -296,7 +296,7 @@ export default class ElementAttribute extends Attribute {
 
         const moreButton = (
           <div className='vcv-ui-editor-get-more'>
-            <button className='vcv-start-blank-button' onClick={this.handleGoToHub}>
+            <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
               {getMoreButtonText}
             </button>
             <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>

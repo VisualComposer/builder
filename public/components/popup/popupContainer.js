@@ -4,6 +4,7 @@ import { getStorage } from 'vc-cake'
 import VotePopup from './popups/votePopup'
 import ReviewPopup from './popups/reviewPopup'
 import DataCollectionPopup from './popups/dataCollectionPopup'
+import PremiumPromoPopup from './popups/premiumPromoPopup'
 
 const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
@@ -57,7 +58,7 @@ export default class PopupContainer extends React.Component {
   handleCloseClick () {
     this.setState({ popupVisible: false })
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hidePopup', this.state.activePopup)
+      editorPopupStorage.trigger('hideAll')
     }, 1000)
   }
 
@@ -68,7 +69,7 @@ export default class PopupContainer extends React.Component {
         actionClicked: false,
         popupVisible: false
       })
-      editorPopupStorage.trigger('hidePopup', this.state.activePopup)
+      editorPopupStorage.trigger('hideAll')
     }, 1000)
   }
 
@@ -92,6 +93,8 @@ export default class PopupContainer extends React.Component {
       activePopupHtml = <ReviewPopup {...popupProps} />
     } else if (activePopup === 'dataCollectionPopup') {
       activePopupHtml = <DataCollectionPopup {...popupProps} />
+    } else if (activePopup === 'premiumPromoPopup') {
+      activePopupHtml = <PremiumPromoPopup {...popupProps} />
     }
 
     return (

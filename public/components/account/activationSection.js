@@ -250,7 +250,7 @@ export default class ActivationSectionProvider extends React.Component {
       }
     } else if (!hasManageOptions) {
       return <VideoScreen licenseType={licenseType} />
-    } else if (activePage === 'vcv-activate-hub' || activePage === 'vcv-about' || activePage === 'vcv-license-options') {
+    } else if (activePage === 'vcv-activate-license' || activePage === 'vcv-about' || activePage === 'vcv-license-options') {
       return <ActivateLicenseScreen licenseType={licenseType} />
     } else if (activePage === 'vcv-getting-started') {
       return <VideoScreen licenseType={licenseType} />

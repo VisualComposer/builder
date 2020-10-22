@@ -32,6 +32,10 @@ addStorage('editorPopup', (storage) => {
     dataCollectionPopup: {
       visible: dataManager.get('showDataCollectionPopup'),
       priority: 3
+    },
+    premiumPromoPopup: {
+      visible: dataManager.get('showPremiumPromoPopup'),
+      priority: 4
     }
   }
 
@@ -63,6 +67,16 @@ addStorage('editorPopup', (storage) => {
     if (popupName && popupState[popupName]) {
       popupState[popupName].visible = false
     }
+
+    storage.state('popups').set(popupState)
+  })
+
+  storage.on('hideAll', () => {
+    const popupState = storage.state('popups').get()
+
+    Object.keys(popupState).forEach((popupName) => {
+      popupState[popupName].visible = false
+    })
 
     storage.state('popups').set(popupState)
   })

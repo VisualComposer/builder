@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Favorites;
+namespace VisualComposer\Modules\Editors\DataUsage;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -14,13 +14,13 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
-class Controller extends Container implements Module
+class MostUsedItemsController extends Container implements Module
 {
     use EventsFilters;
 
     public function __construct()
     {
-        $this->addFilter('vcv:ajax:favoriteItems:updateUsage:adminNonce', 'updateItemUsage');
+        $this->addFilter('vcv:ajax:usageCount:updateUsage:adminNonce', 'updateItemUsage');
     }
 
     protected function updateItemUsage(
@@ -30,13 +30,13 @@ class Controller extends Container implements Module
     ) {
         $itemTag = $requestHelper->input('vcv-item-tag');
         if ($itemTag) {
-            $favoriteItems = $optionsHelper->get('favoriteItems', []);
-            if (isset($favoriteItems[ $itemTag ])) {
-                $favoriteItems[ $itemTag ] += 1;
+            $usageCount = $optionsHelper->get('usageCount', []);
+            if (isset($usageCount[ $itemTag ])) {
+                $usageCount[ $itemTag ] += 1;
             } else {
-                $favoriteItems[ $itemTag ] = 1;
+                $usageCount[ $itemTag ] = 1;
             }
-            $optionsHelper->set('favoriteItems', $favoriteItems);
+            $optionsHelper->set('usageCount', $usageCount);
         }
 
         return ['status' => true];
