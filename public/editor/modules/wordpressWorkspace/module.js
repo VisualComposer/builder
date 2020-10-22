@@ -142,6 +142,7 @@ add('wordpressWorkspace', (api) => {
       } else if (data.length && isBlank) {
         const visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
+          console.log('call removeOverlay')
           removeOverlay()
         }
         removeStartBlank()
@@ -150,17 +151,6 @@ add('wordpressWorkspace', (api) => {
       if (data.length) {
         if (isNewPage) {
           isNewPage = false
-          if (dataManager.get('editorType') === 'vcv_tutorials') {
-            const localizations = dataManager.get('localizations')
-            const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
-            notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
-              text: tutorialPageMessage,
-              time: 5000
-            })
-          }
         }
       }
       settingsStorage.state('skipBlank').set(false)
@@ -177,6 +167,17 @@ add('wordpressWorkspace', (api) => {
             return
           }
           removeOverlay()
+          if (dataManager.get('editorType') === 'vcv_tutorials') {
+            const localizations = dataManager.get('localizations')
+            const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
+            notificationsStorage.trigger('add', {
+              position: 'bottom',
+              transparent: true,
+              rounded: true,
+              text: tutorialPageMessage,
+              time: 5000
+            })
+          }
         }
       }
     })
