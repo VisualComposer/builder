@@ -65,7 +65,7 @@ describe('Hub', function () {
     cy.get('.vcv-ui-item-element').should('be.visible')
     cy.get('.vcv-ui-item-element[title="Banner Sidebar"] .vcv-ui-item-add.vcv-ui-icon-lock')
 
-    cy.contains('.vcv-ui-form-button', 'Stock Images').click()
+    cy.contains('.vcv-ui-form-button', 'Unsplash').click()
     cy.contains('.vcv-stock-images-button', 'Activate Premium').should('be.visible')
     cy.wait(1500)
     cy.get('.vcv-stock-image-wrapper.vcv-stock-image--loaded')

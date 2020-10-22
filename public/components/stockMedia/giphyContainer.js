@@ -12,9 +12,9 @@ export default class GiphyContainer extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const stockMediaLocalizations = {
-      searchText: localizations ? localizations.discoverGifAnimationsText : 'Discover best GIF animations from Giphy',
-      getMediaText: localizations ? localizations.getGiphiesText : 'Download and Add Free Animated Giphies to Your Site',
-      getMediaWithPremiumText: localizations ? localizations.getGiphiesWithPremiumText : 'Download and Add Free Animated Giphies to Your Site With Visual Composer Premium',
+      searchText: localizations ? localizations.discoverGifAnimationsText : 'Discover the best GIF animations from Giphy.',
+      getMediaText: localizations ? localizations.getGiphiesText : 'Download and Add Free Animated GIFs to Your Site',
+      getMediaWithPremiumText: localizations ? localizations.getGiphiesWithPremiumText : 'Download and Add Free Animated GIFs to Your Site With Visual Composer Premium',
       noConnectionToStockMediaText: `${localizations.noConnectionToGiphy} #10089` || 'Could not connect to Giphy Server! #10089',
       downloadText: localizations ? localizations.downloadAnimationsFromGiphy : 'Download animations from Giphy to your Media Library',
       unlockText: localizations ? localizations.activatePremiumToUnlockGiphy : 'Activate Premium to Unlock Giphy Integration',

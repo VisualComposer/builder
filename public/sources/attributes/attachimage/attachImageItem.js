@@ -55,7 +55,7 @@ export default class AttachImageItem extends React.Component {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const removeImage = localizations ? localizations.removeImage : 'Remove Image'
+    const removeImage = localizations ? localizations.removeImage : 'Remove the image'
     let { className, url, oneMoreControl, indexValue, imgUrl } = this.props
 
     className = classNames(className, {

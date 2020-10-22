@@ -134,7 +134,7 @@ export default class BlankRowPlaceholder extends React.Component {
         tag: 'textBlock',
         options: {
           icon: isIconDark ? textBlockIcon : textBlockIconLight,
-          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add Text block'
+          title: BlankRowPlaceholder.localizations ? BlankRowPlaceholder.localizations.addTextBlock : 'Add a text block'
         }
       },
       {

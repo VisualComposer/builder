@@ -373,11 +373,11 @@ export default class ElementControl extends React.Component {
 
   handleRemovePreset () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
-    const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to remove this template?'
+    const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to delete this template?'
 
     if (window.confirm(removeTemplateWarning)) {
-      const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from server!'
-      const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, please check your license!'
+      const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from the server.'
+      const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, check your license.'
       const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
       const presetId = this.props.elementPresetId
 
@@ -460,7 +460,7 @@ export default class ElementControl extends React.Component {
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
     if (!disablePreview && previewVisible) {
-      const addOnTitle = localizations ? localizations.addOn : 'Add-on'
+      const addOnTitle = localizations ? localizations.addOn : 'Addon'
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>
           {hubElement && hubElement.thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}

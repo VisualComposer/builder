@@ -22,7 +22,7 @@ const ButtonControl = function (tinymce) {
       const self = this
       const id = self._id
 
-      return `<div id="${id}" tabindex="-1" class="${self.classes} vcv-ui-tinymce-fonts-selectbox mce-widget mce-menubtn mce-btn-has-text mce-fixed-width mce-btn mce-listbox" aria-labelledby="${id}" role="button" aria-label="Font Family" aria-haspopup="true">
+      return `<div id="${id}" tabindex="-1" class="${self.classes} vcv-ui-tinymce-fonts-selectbox mce-widget mce-menubtn mce-btn-has-text mce-fixed-width mce-btn mce-listbox" aria-labelledby="${id}" role="button" aria-label="Font family" aria-haspopup="true">
         <input type="hidden" value="" class="vcv-ui-tinymce-fonts-selectbox-font-family" />
         <button class="vcv-ui-tinymce-fonts-selectbox-toggle" role="presentation" tabindex="-1" data-toggle="vcv-ui-tinymce-fonts-selectbox">
          <span class="vcv-ui-tinymce-fonts-selectbox-label mce-txt">Default Font</span><i class="mce-caret"></i>
@@ -30,7 +30,7 @@ const ButtonControl = function (tinymce) {
         <div class="vcv-ui-tinymce-fonts-selectbox-options">
           <div class="vcv-ui-tinymce-fonts-selectbox-input-box">
             <input type="text" class="vcv-ui-tinymce-fonts-selectbox-filter">
-          </div>  
+          </div>
           <div role="listbox">
             <ul role="option">${getFontFamilyList()}</ul>
           </div>

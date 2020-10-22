@@ -20,14 +20,14 @@ export default class UnsplashContainer extends React.Component {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const stockMediaLocalizations = {
-      searchText: localizations ? localizations.searchPhotosOnUnsplash : 'Search free high-resolution photos on Unsplash',
+      searchText: localizations ? localizations.searchPhotosOnUnsplash : 'Search for free high-resolution photos on Unsplash',
       getMediaText: localizations ? localizations.getPhotosText : 'Download and Add Free Beautiful Photos to Your Site',
       getMediaWithPremiumText: localizations ? localizations.getPhotosWithPremiumText : 'Download and Add Free Beautiful Photos to Your Site With Visual Composer Premium',
-      noConnectionToStockMediaText: `${localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server! #10088',
-      downloadText: localizations ? localizations.downloadImageFromUnsplash : 'Download images from Unsplash to your Media Library',
-      unlockText: localizations ? localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Stock Images',
+      noConnectionToStockMediaText: `${localizations.noConnectionToUnsplash} #10088` || 'Could not connect to Unsplash Server. #10088',
+      downloadText: localizations ? localizations.downloadImageFromUnsplash : 'Download images from Unsplash to the Media Library',
+      unlockText: localizations ? localizations.activatePremiumToUnlockStockImages : 'Activate Premium to Unlock Unsplash',
       searchResultKey: localizations ? localizations.images : 'images',
-      hasBeenDownloadedText: localizations ? localizations.imageDownloadedToMediaLibrary : 'Image has been downloaded to your Media Library.'
+      hasBeenDownloadedText: localizations ? localizations.imageDownloadedToMediaLibrary : 'The image has been downloaded to the Media Library.'
     }
 
     const sizes = [

@@ -82,7 +82,7 @@ class StockMediaDownloadController extends Container implements Module
             }
 
             $this->message = $this->setMessage(
-                __('Failed to get the media id, please try again!', 'visualcomposer') . ' #10084'
+                __('Failed to get the media\'s item ID, please try again.', 'visualcomposer') . ' #10084'
             );
 
             return ['status' => false, 'message' => $this->message];
@@ -90,7 +90,7 @@ class StockMediaDownloadController extends Container implements Module
 
         $this->message = $this->setMessage(
             __(
-                'No access, please check your license and make sure your capabilities allow to upload files!',
+                'No access to upload files. Check your license options to make sure you are allowed to upload files.',
                 'visualcomposer'
             )
             . ' #10083'
@@ -153,7 +153,7 @@ class StockMediaDownloadController extends Container implements Module
 
                 $this->message = $this->setMessage(
                     __(
-                        'Failed to download image, make sure that your upload folder is writable and please try again!',
+                        'Failed to download the image. Make sure the upload folder is writable and try again.',
                         'visualcomposer'
                     ) . ' #10081'
                 );
@@ -162,11 +162,11 @@ class StockMediaDownloadController extends Container implements Module
             }
 
             $fileHelper->removeFile($tempImage);
-            $this->message = $this->setMessage(__('Unknown image format!', 'visualcomposer') . ' #10085');
+            $this->message = $this->setMessage(__('Unknown image format.', 'visualcomposer') . ' #10085');
 
             return ['status' => false, 'message' => $this->message];
         }
-        $this->message = $this->setMessage(__('Unknown image provider!', 'visualcomposer') . ' #10082');
+        $this->message = $this->setMessage(__('Unknown image provider.', 'visualcomposer') . ' #10082');
 
         return ['status' => false, 'message' => $this->message];
     }

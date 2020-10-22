@@ -103,7 +103,7 @@ class LicenseController extends Container implements Module
         }
 
         $loggerHelper->log(
-            esc_html__('Failed to activate the license, please try again.', 'visualcomposer'),
+            esc_html__('Failed to activate the license, try again.', 'visualcomposer'),
             [
                 'result' => $body,
             ]

@@ -145,7 +145,7 @@ export default class Popup extends React.Component {
   }
 
   getDelayHtml (type) {
-    const delayInSeconds = this.localizations ? this.localizations.delayInSeconds : 'Delay in seconds'
+    const delayInSeconds = this.localizations ? this.localizations.delayInSeconds : 'Delay (seconds)'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -186,11 +186,11 @@ export default class Popup extends React.Component {
     let popupSelect = null
     let elementIdSelectorHtml = null
     const popupOpenOnPageLoad = this.localizations ? this.localizations.popupOpenOnPageLoad : 'The popup will open once the page is loaded.'
-    const popupOpenOnExitIntent = this.localizations ? this.localizations.popupOpenOnExitIntent : 'The popup will load if users try to exit the page.'
+    const popupOpenOnExitIntent = this.localizations ? this.localizations.popupOpenOnExitIntent : 'The popup will load if a user tries to exit the page.'
     const popupOpenOnElementId = this.localizations ? this.localizations.popupOpenOnElementId : 'The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.'
-    const onPageLoad = this.localizations ? this.localizations.onPageLoad : 'Popup On Every Page Load'
-    const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'Popup On Exit Intent'
-    const onElementId = this.localizations ? this.localizations.onElementId : 'Popup On Element ID'
+    const onPageLoad = this.localizations ? this.localizations.onPageLoad : 'Popup on every page load'
+    const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'Popup on exit-intent'
+    const onElementId = this.localizations ? this.localizations.onElementId : 'Popup on element ID'
 
     if (this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none') {
       elementIdSelectorHtml = (

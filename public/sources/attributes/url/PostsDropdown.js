@@ -46,7 +46,7 @@ export default class PostsDropdown extends React.Component {
 
   renderExistingPosts () {
     const noExistingContentFound = this.localizations ? this.localizations.noExistingContentFound : 'Nothing found'
-    const selectPopupTemplate = this.localizations ? this.localizations.selectPopupTemplate : 'Select popup template'
+    const selectPopupTemplate = this.localizations ? this.localizations.selectPopupTemplate : 'Select a popup template'
     const items = []
     const { posts } = this.props
 
