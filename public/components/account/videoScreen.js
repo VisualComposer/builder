@@ -7,9 +7,10 @@ import Timeline from './timeline'
 import { getResponse } from 'public/tools/response'
 
 const dataProcessorService = vcCake.getService('dataProcessor')
+const dataManager = vcCake.getService('dataManager')
 
 export default class VideoScreen extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -28,16 +29,16 @@ export default class VideoScreen extends React.Component {
 
   getDoMoreText () {
     let doMoreWithVcText = VideoScreen.localizations ? VideoScreen.localizations.doMoreWithVcText : 'Do more with Visual Composer Hub'
-    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
-    if (!window.vcvIsAnyActivated) {
-      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">free and premium</a>.`
+    const hasManageOptions = dataManager.get('manageOptions')
+    if (!dataManager.get('vcvIsAnyActivated')) {
+      doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">free and premium</a>.`
     }
 
-    if (window.vcvIsFreeActivated) {
-      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">premium</a>.`
+    if (dataManager.get('vcvIsFreeActivated')) {
+      doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">premium</a>.`
     }
 
-    if (!window.vcvIsPremiumActivated && hasManageOptions) {
+    if (!dataManager.get('vcvIsPremiumActivated') && hasManageOptions) {
       return (
         <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: doMoreWithVcText }} />
       )
@@ -45,7 +46,7 @@ export default class VideoScreen extends React.Component {
   }
 
   handleTakeTutorialClick (e) {
-    if (window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL()) {
+    if (dataManager.get('tutorialPageUrl')) {
       return true
     } else if (this.state.isLoading) {
       e.preventDefault()
@@ -68,31 +69,31 @@ export default class VideoScreen extends React.Component {
   }
 
   render () {
-    // TODO: add tutorial template button when it will be ready
     const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.'
     const anyLayoutFastAndEasy = VideoScreen.localizations ? VideoScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
     const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of drag and drop editor straight from the frontend - it\'s that easy.'
     const createNewText = VideoScreen.localizations ? VideoScreen.localizations.createNewPage : 'Create a new page'
     const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Take Tutorial Template'
-    const downloadingText = VideoScreen.localizations ? VideoScreen.localizations.downloading : 'Downloading'
 
     let createNewButton = null
     let takeTutorialButton = null
 
-    if (window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL()) {
+    if (dataManager.get('createNewUrl')) {
       createNewButton = (
-        <a href={window.VCV_CREATE_NEW_URL() || ''} className='vcv-activation-button'>{createNewText}</a>
+        <a href={dataManager.get('createNewUrl') || ''} className='vcv-activation-button'>{createNewText}</a>
       )
     }
 
-    const takeTutorialButtonClasses = classNames({
-      'vcv-activation-button': true,
-      'vcv-activation-button--dark': true,
-      'vcv-activation-loading-text--animation': this.state.isLoading
-    })
-    takeTutorialButton = (
-      <a href={(window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL()) || ''} className={takeTutorialButtonClasses} onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>
-    )
+    if (dataManager.get('manageOptions')) {
+      const takeTutorialButtonClasses = classNames({
+        'vcv-activation-button': true,
+        'vcv-activation-button--dark': true,
+        'vcv-activation-loading-text--animation': this.state.isLoading
+      })
+      takeTutorialButton = (
+        <a href={dataManager.get('tutorialPageUrl') || ''} className={takeTutorialButtonClasses} onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>
+      )
+    }
 
     return (
       <div className='vcv-activation-content' ref={this.activationContent}>

@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 
 const PostData = vcCake.getService('wordpress-post-data')
+const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
@@ -17,7 +18,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.state = {
       saving: false,
       loading: false,
-      status: ''
+      status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : ''
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
@@ -95,7 +96,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleClickSaveData (e, _, __, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
 
-    if (this.state.status === 'saving') {
+    if (this.state.status === 'saving' || this.state.status === 'disabled') {
       return
     }
     this.clearTimer()
@@ -121,11 +122,12 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-state--success': this.state.status === 'success',
-      'vcv-ui-state--error': this.state.status === 'error'
+      'vcv-ui-state--error': this.state.status === 'error',
+      'vcv-ui-state--disabled': this.state.status === 'disabled'
     })
     const saveIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,

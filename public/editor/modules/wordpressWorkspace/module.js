@@ -8,7 +8,9 @@ const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
 const settingsStorage = getStorage('settings')
+const notificationsStorage = getStorage('notifications')
 const utils = getService('utils')
+const dataManager = getService('dataManager')
 
 add('wordpressWorkspace', (api) => {
   api.reply('start', () => {
@@ -125,6 +127,17 @@ add('wordpressWorkspace', (api) => {
         }
         if (isNewPage) {
           isNewPage = false
+          if (dataManager.get('editorType') === 'vcv_tutorials') {
+            const localizations = dataManager.get('localizations')
+            const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
+            notificationsStorage.trigger('add', {
+              position: 'bottom',
+              transparent: true,
+              rounded: true,
+              text: tutorialPageMessage,
+              time: 5000
+            })
+          }
         }
       }
     })

@@ -1190,6 +1190,14 @@ class Localizations extends Container implements Helper
                 'Download all exclusive elements, templates, and extensions with Visual Composer Premium.',
                 'visualcomposer'
             ),
+            'tutorialPageNotification' => __(
+                'This page can not be saved, because it is made for the demo purposes only.',
+                'visualcomposer'
+            ),
+            'reset' => __(
+                'Reset',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
