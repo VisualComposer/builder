@@ -23,6 +23,8 @@ class TemplatesUpdater extends Container implements Module
 
     protected $importedImages = [];
 
+    protected $templatePostType;
+
     /** @noinspection PhpMissingParentConstructorInspection */
     public function __construct()
     {
@@ -49,6 +51,8 @@ class TemplatesUpdater extends Container implements Module
         if (!isset($response['templates']) || empty($response['templates'])) {
             $response['templates'] = [];
         }
+
+        $this->templatePostType = isset($response['isTutorial']) ? 'vcv_tutorials' : 'vcv_templates';
 
         $createDirResult = $fileHelper->createDirectory(
             $hubTemplatesHelper->getTemplatesPath()
@@ -82,18 +86,20 @@ class TemplatesUpdater extends Container implements Module
             }
         }
 
+        $template['name'] = $this->templatePostType === 'vcv_tutorials' ? 'Tutorial Page' : $payload['actionData']['data']['name'];
+        $templateElements = $template['data'];
         $templateMeta = $this->processTemplateMetaImages(
             [
                 'id' => $template['id'],
-                'preview' => $payload['actionData']['data']['preview'],
-                'thumbnail' => $payload['actionData']['data']['thumbnail'],
+                'preview' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['preview'],
+                'thumbnail' => $this->templatePostType === 'vcv_tutorials' ? '' : $payload['actionData']['data']['thumbnail'],
             ]
         );
-        $template['name'] = $payload['actionData']['data']['name'];
-        $templateElements = $template['data'];
-        $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
-        $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
-        $templateElements = $this->processDesignOptions($templateElements, $template);
+        if ($this->templatePostType !== 'vcv_tutorials') {
+            $elementsImages = $wpMediaHelper->getTemplateElementMedia($templateElements);
+            $templateElements = $this->processTemplateImages($elementsImages, $template, $templateElements);
+            $templateElements = $this->processDesignOptions($templateElements, $template);
+        }
         // Check if menu source is exist or not
         $templateElements = $this->isMenuExist($templateElements);
         $templateElements = json_decode(
@@ -108,7 +114,7 @@ class TemplatesUpdater extends Container implements Module
 
         $savedTemplates = new WP_Query(
             [
-                'post_type' => 'vcv_templates',
+                'post_type' => $this->templatePostType,
                 'meta_query' => [
                     [
                         'key' => '_' . VCV_PREFIX . 'id',
@@ -128,7 +134,7 @@ class TemplatesUpdater extends Container implements Module
             $templateId = wp_insert_post(
                 [
                     'post_title' => $template['name'],
-                    'post_type' => 'vcv_templates',
+                    'post_type' => $this->templatePostType,
                     'post_status' => 'publish',
                 ]
             );
@@ -140,7 +146,7 @@ class TemplatesUpdater extends Container implements Module
                 [
                     'ID' => $templateId,
                     'post_title' => $payload['actionData']['data']['name'],
-                    'post_type' => 'vcv_templates',
+                    'post_type' => $this->templatePostType,
                     'post_status' => 'publish',
                 ]
             );

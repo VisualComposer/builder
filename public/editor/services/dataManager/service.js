@@ -24,11 +24,17 @@ const data = {
   dataCollectionEnabled: window.VCV_DATA_COLLECTION_ENABLED,
   isAnyActivated: window.vcvIsAnyActivated,
   isPremiumActivated: window.vcvIsPremiumActivated,
+  vcvIsFreeActivated: window.vcvIsFreeActivated,
   pageTemplatesLayoutsCurrent: window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT(),
   headerTemplates: window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES(),
   sidebarTemplates: window.VCV_SIDEBAR_TEMPLATES && window.VCV_SIDEBAR_TEMPLATES(),
   footerTemplates: window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES(),
-  showPremiumPromoPopup: window.VCV_SHOW_PREMIUM_PROMO_POPUP && window.VCV_SHOW_PREMIUM_PROMO_POPUP()
+  showPremiumPromoPopup: window.VCV_SHOW_PREMIUM_PROMO_POPUP && window.VCV_SHOW_PREMIUM_PROMO_POPUP(),
+  tutorialPageUrl: window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL(),
+  createNewUrl: window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL(),
+  manageOptions: window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS(),
+  vcvGoPremiumUrl: window.vcvGoPremiumUrl,
+  vcvGettingStartedUrl: window.vcvGettingStartedUrl
 }
 
 const dataManager = {

@@ -36,6 +36,11 @@ addStorage('history', (storage) => {
     updateElementsStorage()
     checkUndoRedo()
   })
+  storage.on('reset', () => {
+    elementsTimeMachine.reset()
+    updateElementsStorage()
+    checkUndoRedo()
+  })
   storage.on('init', (data = false) => {
     if (data) {
       inited = true

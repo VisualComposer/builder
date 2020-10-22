@@ -223,6 +223,7 @@ class Localizations extends Container implements Helper
             'saveAsTemplate' => __('Save as a Template', 'visualcomposer'),
             'downloadingInitialExtensions' => __('Downloading initial extensions', 'visualcomposer'),
             'downloadingAssets' => __('Downloading assets {i} of {cnt}: {name}', 'visualcomposer'),
+            'downloading' => __('Downloading', 'visualcomposer'),
             'postUpdateText' => __('Updating posts {i} in {cnt}: {name}', 'visualcomposer'),
             'postUpdateAjaxRequestError' => __('Failed to load: {file}', 'visualcomposer') . ' #10077',
             'none' => __('None', 'visualcomposer'),
@@ -757,6 +758,10 @@ class Localizations extends Container implements Helper
                 'Take Tutorial Template',
                 'visualcomposer'
             ),
+            'createNewPage' => __(
+                'Create a new page',
+                'visualcomposer'
+            ),
             'buildYourSiteWithDragAndDrop' => __(
                 'Build your site with the help of the drag and drop builder straight from the frontend editor - it\'s that easy.',
                 'visualcomposer'
@@ -1183,6 +1188,14 @@ class Localizations extends Container implements Helper
             ),
             'downloadAllExclusiveText' => __(
                 'Download all exclusive elements, templates, and extensions with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'tutorialPageNotification' => __(
+                'This page can not be saved, because it is made for the demo purposes only.',
+                'visualcomposer'
+            ),
+            'reset' => __(
+                'Reset',
                 'visualcomposer'
             ),
             'welcome' => __(

@@ -321,6 +321,13 @@
   &.vcv-ui-state--error {
     background-color: @navbar-bg-error;
   }
+  &.vcv-ui-state--disabled {
+    cursor: not-allowed;
+    opacity: .5;
+    &:hover {
+      background-color: transparent;
+    }
+  }
   &.vcv-ui-toggle--inactive {
     opacity: .5;
   }

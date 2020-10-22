@@ -1,14 +1,24 @@
 import React from 'react'
+import vcCake from 'vc-cake'
+import classNames from 'classnames'
 import VCVLogo from './vcvLogo'
 import VersionBox from './versionBox'
 import Timeline from './timeline'
+import { getResponse } from 'public/tools/response'
+
+const dataProcessorService = vcCake.getService('dataProcessor')
+const dataManager = vcCake.getService('dataManager')
 
 export default class VideoScreen extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
+    this.state = {
+      isLoading: false
+    }
     this.activationContent = React.createRef()
+    this.handleTakeTutorialClick = this.handleTakeTutorialClick.bind(this)
   }
 
   componentDidMount () {
@@ -19,32 +29,69 @@ export default class VideoScreen extends React.Component {
 
   getDoMoreText () {
     let doMoreWithVcText = VideoScreen.localizations ? VideoScreen.localizations.doMoreWithVcText : 'Do more with Visual Composer Hub'
-    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
-
-    if (!window.vcvIsAnyActivated) {
-      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">free and premium</a>.`
-    }
-    if (window.vcvIsFreeActivated) {
-      doMoreWithVcText = `${doMoreWithVcText} - <a href="${window.vcvGoPremiumUrl}">premium</a>.`
+    const hasManageOptions = dataManager.get('manageOptions')
+    if (!dataManager.get('vcvIsAnyActivated')) {
+      doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">free and premium</a>.`
     }
 
-    if (!window.vcvIsPremiumActivated && hasManageOptions) {
+    if (dataManager.get('vcvIsFreeActivated')) {
+      doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">premium</a>.`
+    }
+
+    if (!dataManager.get('vcvIsPremiumActivated') && hasManageOptions) {
       return (
         <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: doMoreWithVcText }} />
       )
     }
   }
 
+  handleTakeTutorialClick (e) {
+    if (dataManager.get('tutorialPageUrl')) {
+      return true
+    } else if (this.state.isLoading) {
+      e.preventDefault()
+    } else {
+      e.preventDefault()
+      this.setState({ isLoading: true })
+      dataProcessorService.appAdminServerRequest({
+        'vcv-action': 'editors:tutorial:create:adminNonce'
+      }).then((requestData) => {
+        // This means everything is done and just need to redirect user
+        const response = getResponse(requestData)
+        if (response.status === true) {
+          window.location.href = response.tutorialUrl
+        }
+      }, (error) => {
+        this.setState({ isLoading: false })
+        console.warn('Failed to get Tutorial Template URL', error)
+      })
+    }
+  }
+
   render () {
-    // TODO: add tutorial template button when it will be ready
     const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.'
     const anyLayoutFastAndEasy = VideoScreen.localizations ? VideoScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
     const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of the drag and drop builder straight from the frontend editor - it\'s that easy.'
+    const createNewText = VideoScreen.localizations ? VideoScreen.localizations.createNewPage : 'Create a new page'
+    const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Take Tutorial Template'
 
     let createNewButton = null
-    if (window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL()) {
+    let takeTutorialButton = null
+
+    if (dataManager.get('createNewUrl')) {
       createNewButton = (
-        <a href={window.VCV_CREATE_NEW_URL()} className='vcv-activation-button'>{window.VCV_CREATE_NEW_TEXT()}</a>
+        <a href={dataManager.get('createNewUrl') || ''} className='vcv-activation-button'>{createNewText}</a>
+      )
+    }
+
+    if (dataManager.get('manageOptions')) {
+      const takeTutorialButtonClasses = classNames({
+        'vcv-activation-button': true,
+        'vcv-activation-button--dark': true,
+        'vcv-activation-loading-text--animation': this.state.isLoading
+      })
+      takeTutorialButton = (
+        <a href={dataManager.get('tutorialPageUrl') || ''} className={takeTutorialButtonClasses} onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>
       )
     }
 
@@ -53,7 +100,6 @@ export default class VideoScreen extends React.Component {
         <VCVLogo />
         <VersionBox />
         <Timeline />
-
         <p className='vcv-activation-heading'>
           {createYourWordpressWebsite}
           <br />
@@ -62,7 +108,6 @@ export default class VideoScreen extends React.Component {
         <p className='vcv-activation-description'>
           {buildYourSiteWithDragAndDropText}
         </p>
-
         <div className='vcv-activation-video-container'>
           <div className='vcv-activation-video'>
             <iframe
@@ -72,11 +117,10 @@ export default class VideoScreen extends React.Component {
             />
           </div>
         </div>
-
         <div className='vcv-activation-button-container'>
           {createNewButton}
+          {takeTutorialButton}
         </div>
-
         {this.getDoMoreText()}
       </div>
     )

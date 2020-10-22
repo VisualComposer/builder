@@ -5,12 +5,15 @@ import NavbarContent from '../navbarContent'
 import { setData, getService, getStorage } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
+const dataManager = getService('dataManager')
 const wordpressDataStorage = getStorage('wordpressData')
 const workspaceStorage = getStorage('workspace')
+const historyStorage = getStorage('history')
 
 export default class WordPressAdminControl extends NavbarContent {
   previewWindow = false
   previewWindowTarget = false
+  editorType = dataManager.get('editorType')
 
   constructor (props) {
     super(props)
@@ -20,6 +23,7 @@ export default class WordPressAdminControl extends NavbarContent {
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
     this.updateButtons = this.updateButtons.bind(this)
     this.handleViewPageClick = this.handleViewPageClick.bind(this)
+    this.handleResetClick = this.handleResetClick.bind(this)
   }
 
   componentDidMount () {
@@ -204,9 +208,13 @@ export default class WordPressAdminControl extends NavbarContent {
     window.open(viewUrl, '_blank')
   }
 
+  handleResetClick () {
+    historyStorage.state('canUndo').get() && historyStorage.trigger('reset')
+  }
+
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-    const { backToWordpress, saveDraft, wordPressDashboard, preview, previewChanges } = localizations
+    const localizations = dataManager.get('localizations')
+    const { backToWordpress, saveDraft, wordPressDashboard, preview, previewChanges, reset } = localizations
 
     let saveDraftButton = ''
     if (PostData.isDraft()) {
@@ -259,12 +267,17 @@ export default class WordPressAdminControl extends NavbarContent {
       </span>
     )
 
+    let dataHref = PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()
+    console.log('this.editorType', this.editorType)
+    if (this.editorType === 'vcv_tutorials') {
+      dataHref = dataManager.get('vcvGettingStartedUrl')
+    }
     let wordpressDashboardButton = (
       <span
         className='vcv-ui-navbar-control'
         onClick={this.handleClick}
         title={wordPressDashboard}
-        data-href={PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()}
+        data-href={dataHref}
       >
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
@@ -273,10 +286,24 @@ export default class WordPressAdminControl extends NavbarContent {
       wordpressDashboardButton = null
     }
 
+    let resetButton = null
+    if (this.editorType === 'vcv_tutorials') {
+      resetButton = (
+        <span
+          className='vcv-ui-navbar-control'
+          onClick={this.handleResetClick}
+          title={reset}
+        >
+          <span className='vcv-ui-navbar-control-content'>{reset}</span>
+        </span>
+      )
+    }
+
     return (
       PostData.vcvCustomPostType() ? (
         <div className='vcv-ui-navbar-controls-set'>
           {saveDraftButton}
+          {resetButton}
           {wordpressDashboardButton}
         </div>
       ) : (

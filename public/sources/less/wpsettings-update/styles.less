@@ -147,6 +147,20 @@
         z-index: 1;
       }
     }
+
+    &.vcv-activation-loading-text--animation {
+      cursor: not-allowed;
+      &::after {
+        content: '.';
+        animation: dots 1.5s steps(5, end) infinite;
+        color: inherit;
+      }
+
+      &.vcv-activation-button--dark:hover,
+      &.vcv-activation-button--dark:focus {
+        background: #363636;
+      }
+    }
   }
 }
 
@@ -1028,6 +1042,31 @@ input.vcv-basic-input {
     &:hover {
       border-bottom: 1px solid #363636;
     }
+  }
+}
+
+@keyframes dots {
+  0%, 20% {
+    color: rgba(0,0,0,0);
+    text-shadow:
+        .25em 0 0 rgba(0,0,0,0),
+        .5em 0 0 rgba(0,0,0,0);
+  }
+  40% {
+    color: inherit;
+    text-shadow:
+        .25em 0 0 rgba(0,0,0,0),
+        .5em 0 0 rgba(0,0,0,0);
+  }
+  60% {
+    text-shadow:
+        .25em 0 0,
+        .5em 0 0 rgba(0,0,0,0);
+  }
+  80%, 100% {
+    text-shadow:
+        .25em 0 0,
+        .5em 0 0;
   }
 }
 
