@@ -62,7 +62,7 @@ export default class PlusTeaserControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickHub}>
+      <span className={controlClass} title={name} onClick={this.handleClickHub} data-vcv-guide-helper='hub-control'>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-hub-shop' />
           <span>{name}</span>
