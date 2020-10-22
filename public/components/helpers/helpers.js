@@ -4,50 +4,68 @@ import Welcome from './lib/welcome'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
 
+const dataManager = vcCake.getService('dataManager')
 const elementsStorage = vcCake.getStorage('elements')
+const localizations = dataManager.get('localizations')
+const addContent = localizations ? localizations.addContent : 'Add Content'
+const elementControls = localizations ? localizations.elementControls : 'Element Controls'
+const quickActions = localizations ? localizations.quickActions : 'Quick Actions'
+const insights = localizations ? localizations.insights : 'Insights'
+const responsiveView = localizations ? localizations.responsiveView : 'Responsive View'
+const addPremiumElement = localizations ? localizations.addPremiumElement : 'Visual Composer Hub'
+const onPageSettings = localizations ? localizations.onPageSettings : 'On-Page Settings'
+const publishingOptions = localizations ? localizations.publishingOptions : 'Publishing Options'
+const thisIsYourContentLibrary = localizations ? localizations.thisIsYourContentLibrary : 'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Hub</a>.'
+const useElementControls = localizations ? localizations.useElementControls : 'Use <a href="https://visualcomposer.com/help/interface/element-controls/" target="blank">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="blank">layout structure</a> or modify the particular row, column, or content element.'
+const useQuickActions = localizations ? localizations.useQuickActions : 'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.'
+const validateYourPage = localizations ? localizations.validateYourPage : '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/" target="blank">Validate your page</a> for SEO and performance to speed up your site and rank higher.'
+const checkHowYourPageLooksOnDifferentDevices = localizations ? localizations.checkHowYourPageLooksOnDifferentDevices : 'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/" target="blank">preview your layout responsiveness</a>.'
+const accessVisualComposerHub = localizations ? localizations.accessVisualComposerHub : 'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, add-ons, stock images, and more.'
+const changeSettingsOfYourPageOrPost = localizations ? localizations.changeSettingsOfYourPageOrPost : 'Change <a href="https://visualcomposer.com/help/settings/" target="blank">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.'
+const previewSaveAndPublish = localizations ? localizations.previewSaveAndPublish : 'Preview, save, and publish your content.'
 
 export default class Helpers extends React.Component {
   helpers = {
     'plus-control': {
-      heading: 'Add Content',
-      description: 'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Hub</a>.',
+      heading: addContent,
+      description: thisIsYourContentLibrary,
       step: 1
     },
     'element-controls': {
-      heading: 'Element Controls',
-      description: 'Use <a href="https://visualcomposer.com/help/interface/element-controls/" target="blank">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="blank">layout structure</a> or modify the particular row, column, or content element.',
+      heading: elementControls,
+      description: useElementControls,
       step: 2,
       helperImage: 'vcv-helper-box-image element-controls'
     },
     'quick-actions': {
-      heading: 'Quick Actions',
-      description: 'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
+      heading: quickActions,
+      description: useQuickActions,
       step: 3,
       helperImage: 'vcv-helper-box-image bottom-menu'
     },
     'insights-control': {
-      heading: 'Insights',
-      description: '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/" target="blank">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
+      heading: insights,
+      description: validateYourPage,
       step: 4
     },
     'layout-control': {
-      heading: 'Responsive View',
-      description: 'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/" target="blank">preview your layout responsiveness</a>.',
+      heading: responsiveView,
+      description: checkHowYourPageLooksOnDifferentDevices,
       step: 5
     },
     'hub-control': {
-      heading: 'Visual Composer Hub',
-      description: 'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, add-ons, stock images, and more.',
+      heading: addPremiumElement,
+      description: accessVisualComposerHub,
       step: 6
     },
     'settings-control': {
-      heading: 'On-Page Settings',
-      description: 'Change <a href="https://visualcomposer.com/help/settings/" target="blank">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
+      heading: onPageSettings,
+      description: changeSettingsOfYourPageOrPost,
       step: 7
     },
     'save-control': {
-      heading: 'Publishing Options',
-      description: 'Preview, save, and publish your content.',
+      heading: publishingOptions,
+      description: previewSaveAndPublish,
       step: 8,
       position: {
         vertical: 'bottom'
