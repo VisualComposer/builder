@@ -4,6 +4,7 @@ const data = {
   sourceID: window.vcvSourceID,
   pageTemplates: window.VCV_PAGE_TEMPLATES ? window.VCV_PAGE_TEMPLATES() : '',
   showFeedbackForm: window.VCV_SHOW_FEEDBACK_FORM && window.VCV_SHOW_FEEDBACK_FORM(),
+  showInitialHelpers: window.VCV_SHOW_INITIAL_HELPERS && window.VCV_SHOW_INITIAL_HELPERS(),
   showDataCollectionPopup: window.VCV_SHOW_DATA_COLLECTION_POPUP && window.VCV_SHOW_DATA_COLLECTION_POPUP(),
   hubGetElements: window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {},
   editorType: window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default',

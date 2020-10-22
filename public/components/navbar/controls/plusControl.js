@@ -50,7 +50,7 @@ export default class PlusControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickAddContent}>
+      <span className={controlClass} title={name} onClick={this.handleClickAddContent} data-vcv-guide-helper='plus-control'>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>{name}</span>

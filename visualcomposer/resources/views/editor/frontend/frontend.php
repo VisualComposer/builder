@@ -79,6 +79,10 @@ if (is_array($extraOutput)) {
         <div class="vcv-layout-content">
             <div class="vcv-layout-iframe-container">
                 <div class="vcv-layout-iframe-wrapper">
+                    <div class="vcv-layout-guide-helper-controls" data-vcv-guide-helper="element-controls">
+                    </div>
+                    <div class="vcv-layout-guide-helper-bottom-menu" data-vcv-guide-helper="quick-actions">
+                    </div>
                     <iframe class="vcv-layout-iframe"
                             src="<?php
                             // @codingStandardsIgnoreLine
