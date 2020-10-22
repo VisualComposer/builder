@@ -303,8 +303,8 @@ class PostType extends Container implements Module
         foreach ($variables as $i => $variable) {
             if ($variable['key'] === $key) {
                 $variables[ $i ] = [
-                    'key' => 'VCV_EDITOR_TYPE',
-                    'value' => 'template',
+                    'key' => $key,
+                    'value' => $this->postType,
                     'type' => 'constant',
                 ];
                 $editorType = true;
@@ -314,7 +314,7 @@ class PostType extends Container implements Module
         if (!$editorType) {
             $variables[] = [
                 'key' => $key,
-                'value' => 'template',
+                'value' => $this->postType,
                 'type' => 'constant',
             ];
         }
