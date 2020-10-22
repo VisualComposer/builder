@@ -156,6 +156,7 @@ add('wordpressWorkspace', (api) => {
       settingsStorage.state('skipBlank').set(false)
     })
 
+    let isTutorialNotificationShown = false
     assetsStorage.state('jobs').onChange((data) => {
       if (documentElements) {
         const visibleJobs = data.elements.filter(element => !element.hidden)
@@ -167,7 +168,8 @@ add('wordpressWorkspace', (api) => {
             return
           }
           removeOverlay()
-          if (dataManager.get('editorType') === 'vcv_tutorials') {
+          if (dataManager.get('editorType') === 'vcv_tutorials' && !isTutorialNotificationShown) {
+            isTutorialNotificationShown = true
             const localizations = dataManager.get('localizations')
             const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
             notificationsStorage.trigger('add', {
