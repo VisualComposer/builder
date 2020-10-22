@@ -289,8 +289,8 @@ export default class WordPressAdminControl extends NavbarContent {
           onClick={this.handleResetClick}
           title={reset}
         >
-        <span className='vcv-ui-navbar-control-content'>{reset}</span>
-      </span>
+          <span className='vcv-ui-navbar-control-content'>{reset}</span>
+        </span>
       )
     }
 
