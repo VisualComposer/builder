@@ -54,7 +54,7 @@ export default class VideoScreen extends React.Component {
       e.preventDefault()
       this.setState({ isLoading: true })
       dataProcessorService.appAdminServerRequest({
-        'vcv-action': 'editors:tutorial:create:adminNonce',
+        'vcv-action': 'editors:tutorial:create:adminNonce'
       }).then((requestData) => {
         // This means everything is done and just need to redirect user
         const response = getResponse(requestData)
