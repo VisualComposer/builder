@@ -34,7 +34,8 @@ const data = {
   createNewUrl: window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL(),
   manageOptions: window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS(),
   vcvGoPremiumUrl: window.vcvGoPremiumUrl,
-  vcvGettingStartedUrl: window.vcvGettingStartedUrl
+  vcvGettingStartedUrl: window.vcvGettingStartedUrl,
+  vcvManageOptions: window.vcvManageOptions
 }
 
 const dataManager = {
