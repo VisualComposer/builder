@@ -227,7 +227,7 @@ class License extends Container implements Helper
      */
     public function activationButtonTitle()
     {
-        $title = __('Activate Visual Composer Hub', 'visualcomposer');
+        $title = __('Activate Hub', 'visualcomposer');
 
         if ($this->isAnyActivated()) {
             $title = __('Go Premium', 'visualcomposer');

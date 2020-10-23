@@ -113,7 +113,7 @@ export default class ReplaceElement extends React.Component {
     const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace the element with a different element from the same category.'
     const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
     const getMoreButtonText = localizations ? localizations.getMoreElements : 'Get More Elements'
-    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
+    const hubButtonDescriptionText = localizations ? localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
     const replacementPresetItems = this.getPresetReplacements(presetsByCategory)
     const replacementItemsOutput = this.getReplacements(categorySettings)
     const replacements = (
