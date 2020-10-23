@@ -1,8 +1,10 @@
 import React from 'react'
 import Attribute from '../attribute'
-import { env } from 'vc-cake'
+import { env, getService } from 'vc-cake'
 import HFSDropdowns from './lib/HFSDropdowns'
 import TemplateLayoutIcons from './lib/templateLayoutIcons'
+
+const dataManager = getService('dataManager')
 
 export default class PageSettingsLayouts extends Attribute {
   static defaultProps = {
@@ -11,8 +13,9 @@ export default class PageSettingsLayouts extends Attribute {
 
   render () {
     const content = []
+    const editorType = dataManager.get('editorType')
 
-    if (typeof window.VCV_EDITOR_TYPE === 'undefined' || window.VCV_EDITOR_TYPE() === 'archive') {
+    if (editorType === 'default' || editorType === 'archive' || editorType === 'vcv_tutorials') {
       let addTemplateIcons = true
       if (
         this.props.options &&
