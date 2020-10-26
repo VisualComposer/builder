@@ -37,7 +37,7 @@ class PageTemplatesController extends Container implements Module
         );
     }
 
-    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper)
+    protected function getCurrentTemplateLayout($output, PostType $postTypeHelper, Frontend $frontendHelper, Request $requestHelper)
     {
         $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
 
@@ -95,7 +95,12 @@ class PageTemplatesController extends Container implements Module
                         true
                     )
                 ) {
-                    if (vcvenv('VCV_FT_THEME_BUILDER_LAYOUTS')) {
+                    if ($requestHelper->input('post_type') === 'vcv_tutorials') {
+                        $output = [
+                            'type' => 'vc',
+                            'value' => 'blank',
+                        ];
+                    } elseif (vcvenv('VCV_FT_THEME_BUILDER_LAYOUTS')) {
                         $output = [
                             'type' => 'vc-custom-layout',
                             'value' => 'default',
@@ -131,7 +136,7 @@ class PageTemplatesController extends Container implements Module
                 'output' => [
                     'type' => 'theme',
                     'value' => $originalTemplate,
-                ],
+                ]
             ]
         );
         if (!empty($current)) {
