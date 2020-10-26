@@ -94,7 +94,7 @@ class Controller extends Container implements Module
             $frontendHelper->isPageEditable()
             && $postTypeHelper->get()->post_type === $this->postType
         ) {
-            $template = 'blank-stretched-template.php';
+            $template = 'blank-template.php';
 
             return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
         }
