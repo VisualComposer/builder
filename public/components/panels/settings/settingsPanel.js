@@ -40,7 +40,7 @@ const controls = {
 
 const editorType = dataManager.get('editorType')
 if (env('VCV_POPUP_BUILDER')) {
-  if (editorType === 'default' || editorType === 'archive' || editorType === 'vcv_tutorials') {
+  if (editorType === 'default' || editorType === 'vcv_archives' || editorType === 'vcv_tutorials') {
     controls.popup = {
       index: 3,
       type: 'popup',
