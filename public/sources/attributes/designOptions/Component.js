@@ -940,7 +940,7 @@ export default class DesignOptions extends Attribute {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
-          Background Images
+          Background images
         </span>
         {fieldComponent}
       </div>

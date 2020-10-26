@@ -203,7 +203,7 @@ export default class Categories extends React.Component {
 
   getNoResultsElement () {
     const nothingFoundText = Categories.localizations ? Categories.localizations.nothingFound : 'Nothing found'
-    const helperText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
+    const helperText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return (
@@ -421,7 +421,7 @@ export default class Categories extends React.Component {
   }
 
   render () {
-    const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
+    const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
     const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByCategory()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,

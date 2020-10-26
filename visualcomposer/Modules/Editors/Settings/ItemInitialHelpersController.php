@@ -45,14 +45,14 @@ class ItemInitialHelpersController extends Container implements Module
             echo sprintf(
                 '<p class="description">%s</p>',
                 esc_html__(
-                    'Display initial help guide on the editor’s first entrance.',
+                    'Display an interactive help guide when you enter the editor next time.',
                     'visualcomposer'
                 )
             );
         };
         $this->addSection(
             [
-                'title' => __('Enable First-Entrance Help', 'visualcomposer'),
+                'title' => __('Help Guide', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
@@ -66,7 +66,7 @@ class ItemInitialHelpersController extends Container implements Module
         $this->addField(
             [
                 'page' => $this->slug,
-                'title' => __('First-Entrance Help', 'visualcomposer'),
+                'title' => __('Display Help Guide', 'visualcomposer'),
                 'name' => 'settings-initial-helpers-enabled',
                 'id' => $this->optionSlug,
                 'fieldCallback' => $fieldCallback,
