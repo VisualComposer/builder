@@ -83,10 +83,10 @@ class Image implements Helper
     {
         $imageData = $this->getImageData($src);
         $image = wp_get_image_editor($imageData['path']);
-        $originalSizes = $image->get_size();
-        $originalWidth = $originalSizes['width'];
         $srcset = [];
         if (!$dynamic && !is_wp_error($image) && $width && $height) {
+            $originalSizes = $image->get_size();
+            $originalWidth = $originalSizes['width'];
             $image->resize($width, $height, true);
 
             $uploadDir = wp_upload_dir();
@@ -104,14 +104,12 @@ class Image implements Helper
                 '320w' => 320,
                 '480w' => 480,
                 '800w' => 800,
-                (int)$resizedWidth . 'w' => (int)$resizedWidth,
             ];
-
+            $sizes[ (int)$resizedWidth . 'w' ] = (int)$resizedWidth;
             if ($resizedWidth * 2 <= $originalWidth) {
                 $retinaImage = $resizedWidth * 2;
                 $sizes['2x'] = (int)$retinaImage;
             }
-
             $aspectRatio = $resizedWidth / $height;
 
             foreach ($sizes as $widthAttr => $width) {
@@ -131,7 +129,7 @@ class Image implements Helper
             }
         }
 
-        $newSrc = 'src="' . set_url_scheme($src) . '"';
+        $newSrc = ' src="' . set_url_scheme($src) . '"';
         if (!empty($srcset) && !$dynamic) {
             $newSrc .= ' srcset="' . implode(',', $srcset) . '"';
         }
