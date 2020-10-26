@@ -225,7 +225,7 @@ class SystemStatus extends Container implements Module
     protected function getZipStatusForView()
     {
         $zipStatus = $this->statusHelper->getZipStatus();
-        $textResponse = $zipStatus ? __('Enabled', 'visualcomposer') : __('.zip extension is not installed.', 'visualcomposer');
+        $textResponse = $zipStatus ? __('Enabled', 'visualcomposer') : __('The Zip extension is not installed.', 'visualcomposer');
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($zipStatus)];
     }

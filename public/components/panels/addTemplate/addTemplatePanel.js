@@ -147,7 +147,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getNoResultsElement () {
-    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
+    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
     const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
 
     let source
@@ -423,7 +423,7 @@ export default class AddTemplatePanel extends React.Component {
   render () {
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
-    const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
+    const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {

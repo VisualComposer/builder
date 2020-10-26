@@ -77,7 +77,7 @@ class EditorTemplates implements Helper
                 break;
             case 'hub':
             case 'predefined':
-                $name = __('Visual Composer Hub Templates', 'visualcomposer');
+                $name = __('Hub Templates', 'visualcomposer');
                 break;
         }
 

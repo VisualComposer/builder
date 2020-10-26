@@ -63,7 +63,7 @@ if (!vchelper('License')->isAnyActivated()) {
             </thead>
             <tbody>
             <tr>
-                <td><?php echo esc_html__('License Key', 'visualcomposer') ?>:</td>
+                <td><?php echo esc_html__('License key', 'visualcomposer') ?>:</td>
                 <td><?php echo vchelper('License')->getHiddenKey(); ?> <a href="<?php
                     echo esc_url(
                         $deactivateUrl

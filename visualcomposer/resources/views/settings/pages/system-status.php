@@ -254,7 +254,7 @@ if (!defined('ABSPATH')) {
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
-                        <?php echo esc_html__('The .zip extension should be enabled on your server', 'visualcomposer') ?>
+                        <?php echo esc_html__('The Zip Extension should be enabled on your server', 'visualcomposer') ?>
                     </span>
                 </td>
                 <td class="<?php echo $zipExt['status'] ?>"><?php echo $zipExt['text']; ?></td>
