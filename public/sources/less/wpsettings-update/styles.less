@@ -148,17 +148,26 @@
       }
     }
 
-    &.vcv-activation-loading-text--animation {
-      cursor: not-allowed;
-      &::after {
-        content: '.';
-        animation: dots 1.5s steps(5, end) infinite;
-        color: inherit;
+    &.vcv-activation-button--loading-spinner {
+      cursor: default;
+      outline: none;
+      color: transparent;
+      background: transparent;
+      &:focus,
+      &:active {
+        outline: none;
+        box-shadow: none;
+        border: none;
       }
-
-      &.vcv-activation-button--dark:hover,
-      &.vcv-activation-button--dark:focus {
-        background: #363636;
+      &::before {
+        display: none;
+      }
+      &::after {
+        height: @wp-spinner-large-size;
+        width: @wp-spinner-large-size;
+        background: transparent url('../../images/loaders/spinner.svg') 50% 50% no-repeat;
+        background-size: @wp-spinner-large-size;
+        opacity: 0.5;
       }
     }
   }
@@ -1042,31 +1051,6 @@ input.vcv-basic-input {
     &:hover {
       border-bottom: 1px solid #363636;
     }
-  }
-}
-
-@keyframes dots {
-  0%, 20% {
-    color: rgba(0,0,0,0);
-    text-shadow:
-        .25em 0 0 rgba(0,0,0,0),
-        .5em 0 0 rgba(0,0,0,0);
-  }
-  40% {
-    color: inherit;
-    text-shadow:
-        .25em 0 0 rgba(0,0,0,0),
-        .5em 0 0 rgba(0,0,0,0);
-  }
-  60% {
-    text-shadow:
-        .25em 0 0,
-        .5em 0 0 rgba(0,0,0,0);
-  }
-  80%, 100% {
-    text-shadow:
-        .25em 0 0,
-        .5em 0 0;
   }
 }
 
