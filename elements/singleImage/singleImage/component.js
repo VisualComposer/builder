@@ -208,15 +208,20 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     if (isDynamicImage) {
       const blockInfo = parseDynamicBlock(this.props.rawAtts.image.full)
       shortcode += ` data-dynamic="${blockInfo.blockAtts.value}"`
-      const url = new URL(blockInfo.blockAtts.currentValue)
-      const urlParams = new URLSearchParams(url.search)
+      try {
+        const url = new URL(blockInfo.blockAtts.currentValue)
+        const urlParams = new URLSearchParams(url.search)
 
-      if (urlParams.get('alt')) {
-        alt = urlParams.get('alt')
-      }
+        if (urlParams.get('alt')) {
+          alt = urlParams.get('alt')
+        }
 
-      if (urlParams.get('title')) {
-        title = urlParams.get('title')
+        if (urlParams.get('title')) {
+          title = urlParams.get('title')
+        }
+      } catch (e) {
+        // In case if dynamicField (noValue)
+        console.warn('URL is not valid, skipping', blockInfo, blockInfo.blockAtts.currentValue)
       }
 
       if (naturalSizes) {
@@ -253,11 +258,15 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     let captionText = image && image.caption ? image.caption : ''
 
     if (isDynamic) {
-      const url = new URL(image.full)
-      const urlParams = new URLSearchParams(url.search)
-      customImageProps.alt = urlParams.get('alt') ? urlParams.get('alt') : ''
-      customImageProps.title = urlParams.get('title') ? urlParams.get('title') : ''
-      captionText = urlParams.get('caption') ? urlParams.get('caption') : ''
+      try {
+        const url = new URL(image.full)
+        const urlParams = new URLSearchParams(url.search)
+        customImageProps.alt = urlParams.get('alt') ? urlParams.get('alt') : ''
+        customImageProps.title = urlParams.get('title') ? urlParams.get('title') : ''
+        captionText = urlParams.get('caption') ? urlParams.get('caption') : ''
+      } catch (e) {
+        console.warn('URL is not valid, skipping', image, image.full)
+      }
     }
 
     if (typeof customClass === 'string' && customClass) {
