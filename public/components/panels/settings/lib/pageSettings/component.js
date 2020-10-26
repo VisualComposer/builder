@@ -5,8 +5,8 @@ import Permalink from 'public/components/permalink/permalink'
 
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const menuText = localizations ? localizations.menu : 'Menu'
-const manageYourSiteMenu = localizations ? localizations.manageYourSiteMenu : 'Manage your site menu'
-const viaWPAdminMenu = localizations ? localizations.viaWPAdminMenu : 'via WordPress Admin Menu management.'
+const manageYourSiteMenu = localizations ? localizations.manageYourSiteMenu : 'Manage your site menus'
+const viaWPAdminMenu = localizations ? localizations.viaWPAdminMenu : 'in the WordPress dashboard.'
 
 export default class PageSettings extends React.Component {
   render () {

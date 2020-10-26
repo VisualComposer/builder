@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-26 13:25+0300\n"
+"POT-Creation-Date: 2020-10-26 17:15+0300\n"
 "PO-Revision-Date: 2017-03-20 21:48+0200\n"
 "Last-Translator: WPBakery <hello@wpbakery.com>\n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
@@ -127,7 +127,7 @@ msgid "My Templates"
 msgstr ""
 
 #: Helpers/EditorTemplates.php:80
-msgid "Visual Composer Hub Templates"
+msgid "Hub Templates"
 msgstr ""
 
 #: Helpers/EditorTemplates.php:186
@@ -209,9 +209,7 @@ msgid "An error occurred, try again."
 msgstr ""
 
 #: Helpers/License.php:230 Helpers/Localizations.php:1074
-#: Helpers/Localizations.php:1078
-#: resources/views/license/pages/license.php:33
-msgid "Activate Visual Composer Hub"
+msgid "Activate Hub"
 msgstr ""
 
 #: Helpers/License.php:233 Helpers/Localizations.php:49
@@ -425,8 +423,8 @@ msgstr ""
 
 #: Helpers/Localizations.php:85 Helpers/Localizations.php:418
 msgid ""
-"Access Visual Composer Hub - download additional elements, templates, and "
-"extensions."
+"Access the Visual Composer Hub - download additional elements, blocks, "
+"templates, and addons."
 msgstr ""
 
 #: Helpers/Localizations.php:88
@@ -640,7 +638,7 @@ msgid ""
 msgstr ""
 
 #: Helpers/Localizations.php:175
-msgid "Do more with Visual Composer Hub"
+msgid "Do more with the Visual Composer Hub"
 msgstr ""
 
 #: Helpers/Localizations.php:178 Helpers/Localizations.php:204
@@ -847,7 +845,7 @@ msgid "To apply title changes save changes and reload the page"
 msgstr ""
 
 #: Helpers/Localizations.php:249
-msgid "Disable page title"
+msgid "Disable the page title"
 msgstr ""
 
 #: Helpers/Localizations.php:251
@@ -938,7 +936,7 @@ msgstr ""
 
 #: Helpers/Localizations.php:315
 #, php-format
-msgid "Select %s or %screate new%s."
+msgid "Select a %s or %screate a new one%s."
 msgstr ""
 
 #: Helpers/Localizations.php:323
@@ -1468,7 +1466,7 @@ msgid "Upgrade To Premium"
 msgstr ""
 
 #: Helpers/Localizations.php:758
-msgid "Take Tutorial Template"
+msgid "Try The Tutorial Template"
 msgstr ""
 
 #: Helpers/Localizations.php:766
@@ -1837,6 +1835,11 @@ msgid ""
 "will be displayed."
 msgstr ""
 
+#: Helpers/Localizations.php:1078
+#: resources/views/license/pages/license.php:33
+msgid "Activate Visual Composer Hub"
+msgstr ""
+
 #: Helpers/Localizations.php:1082
 msgid ""
 "Make the final step! Enter your license key to activate Visual Composer "
@@ -1912,11 +1915,11 @@ msgid "Substitute Element"
 msgstr ""
 
 #: Helpers/Localizations.php:1146
-msgid "Manage your site menu"
+msgid "Manage your site menus"
 msgstr ""
 
 #: Helpers/Localizations.php:1150
-msgid "via WordPress Admin Menu management."
+msgid "in the WordPress dashboard."
 msgstr ""
 
 #: Helpers/Localizations.php:1154
@@ -2211,15 +2214,16 @@ msgid "Help Us Make Visual Composer Better"
 msgstr ""
 
 #: Modules/Editors/Settings/ItemInitialHelpersController.php:48
-msgid "Display initial help guide on the editor’s first entrance."
+msgid ""
+"Display an interactive help guide when you enter the editor next time."
 msgstr ""
 
 #: Modules/Editors/Settings/ItemInitialHelpersController.php:55
-msgid "Enable First-Entrance Help"
+msgid "Help Guide"
 msgstr ""
 
 #: Modules/Editors/Settings/ItemInitialHelpersController.php:69
-msgid "First-Entrance Help"
+msgid "Display Help Guide"
 msgstr ""
 
 #: Modules/Editors/Settings/ItemPreviewController.php:50
@@ -2574,7 +2578,7 @@ msgid "Enabled"
 msgstr ""
 
 #: Modules/Settings/Pages/SystemStatus.php:228
-msgid ".zip extension is not installed."
+msgid "The Zip extension is not installed."
 msgstr ""
 
 #: Modules/Settings/Pages/SystemStatus.php:236
@@ -2793,7 +2797,7 @@ msgid "License information"
 msgstr ""
 
 #: resources/views/license/pages/license.php:66
-msgid "License Key"
+msgid "License key"
 msgstr ""
 
 #: resources/views/license/pages/license.php:72
@@ -2971,7 +2975,7 @@ msgid ".zip extension"
 msgstr ""
 
 #: resources/views/settings/pages/system-status.php:257
-msgid "The .zip extension should be enabled on your server"
+msgid "The Zip Extension should be enabled on your server"
 msgstr ""
 
 #: resources/views/settings/pages/system-status.php:263
