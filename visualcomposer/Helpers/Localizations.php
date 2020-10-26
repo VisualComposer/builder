@@ -1071,7 +1071,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activateHub' => __(
-                'Activate Visual Composer Hub',
+                'Activate Hub',
                 'visualcomposer'
             ),
             'activateVisualComposerHub' => __(
