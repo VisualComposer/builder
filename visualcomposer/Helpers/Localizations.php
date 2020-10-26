@@ -82,7 +82,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'accessVisualComposerHubToDownload' => __(
-                'Access Visual Composer Hub - download additional elements, templates, and extensions.',
+                'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.',
                 'visualcomposer'
             ),
             'removeTemplateWarning' => __('Do you want to delete this template?', 'visualcomposer'),
@@ -172,7 +172,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'doMoreWithVcText' => __(
-                'Do more with Visual Composer Hub',
+                'Do more with the Visual Composer Hub',
                 'visualcomposer'
             ),
             'nothingFound' => __('Nothing found', 'visualcomposer'),
@@ -246,7 +246,7 @@ class Localizations extends Container implements Helper
                 'To apply title changes save changes and reload the page',
                 'visualcomposer'
             ),
-            'pageTitleDisableDescription' => __('Disable page title', 'visualcomposer'),
+            'pageTitleDisableDescription' => __('Disable the page title', 'visualcomposer'),
             'successElementDownload' => __(
                 '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.',
                 'visualcomposer'
@@ -312,7 +312,7 @@ class Localizations extends Container implements Helper
             ),
             'chooseHFS' => sprintf(
                 __(
-                    'Select %s or %screate new%s.',
+                    'Select a %s or %screate a new one%s.',
                     'visualcomposer'
                 ),
                 '{name}',
@@ -415,7 +415,7 @@ class Localizations extends Container implements Helper
             ),
             'somethingWentWrong' => __('Oops ... Something Went Wrong', 'visualcomposer'),
             'goToHubButtonDescription' => __(
-                'Access Visual Composer Hub - download additional elements, templates, and extensions.',
+                'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.',
                 'visualcomposer'
             ),
             'settingsGlobalTemplateCustomJsLocal' => __(
@@ -755,7 +755,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'takeTutorialTemplate' => __(
-                'Take Tutorial Template',
+                'Try The Tutorial Template',
                 'visualcomposer'
             ),
             'createNewPage' => __(
@@ -1071,7 +1071,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'activateHub' => __(
-                'Activate Visual Composer Hub',
+                'Activate Hub',
                 'visualcomposer'
             ),
             'activateVisualComposerHub' => __(
@@ -1143,11 +1143,11 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'manageYourSiteMenu' => __(
-                'Manage your site menu',
+                'Manage your site menus',
                 'visualcomposer'
             ),
             'viaWPAdminMenu' => __(
-                'via WordPress Admin Menu management.',
+                'in the WordPress dashboard.',
                 'visualcomposer'
             ),
             'dataCollectionHeadingText' => __(
