@@ -89,8 +89,6 @@ export default class startBlank extends React.Component {
       )
     }
 
-
-
     return (
       <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>
         <div className='vcv-start-blank-scroll-container'>
