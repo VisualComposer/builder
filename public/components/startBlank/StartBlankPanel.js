@@ -71,7 +71,13 @@ export default class startBlank extends React.Component {
     let startBlankContent
     let headingPart1
     let headingPart2
-    if (editorType !== 'vcv_archives') { // Just in case if default
+    if (editorType === 'vcv_archives') {
+      headingPart1 = localizations ? localizations.blankPageHeadingSelect : 'Name Your page, Select'
+      headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'Layout and Start Building'
+      startBlankContent = (
+        <PagePanelContent />
+      )
+    } else {
       type = type.charAt(0).toUpperCase() + type.slice(1)
       headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
       headingPart2 = localizations ? localizations.blankPageTitleHeadingPart2 : 'and Start Building'
@@ -80,12 +86,6 @@ export default class startBlank extends React.Component {
           type={type}
           onClick={this.handleStartClick}
         />
-      )
-    } else {
-      headingPart1 = localizations ? localizations.blankPageHeadingSelect : 'Name Your page, Select'
-      headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'Layout and Start Building'
-      startBlankContent = (
-        <PagePanelContent />
       )
     }
 
