@@ -132,6 +132,7 @@ export default class LayoutDropdown extends React.Component {
       footer: lastSavedFooterTemplate,
       [layoutName]: lastSavedTemplate
     })
+    settingsStorage.state('skipBlank').set(true)
   }
 
   getDefaultOptions () {
