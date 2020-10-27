@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\PostType;
+use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
@@ -28,6 +31,7 @@ class Controller extends Container implements Module
     {
         $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
         $this->addFilter('vcv:ajax:editors:tutorial:create:adminNonce', 'createTutorialPage', 10);
+        $this->wpAddFilter('template_include', 'tutorialEditorBlankTemplate', 30);
     }
 
     /**
@@ -70,5 +74,34 @@ class Controller extends Container implements Module
         }
 
         return ['status' => false];
+    }
+
+
+    /**
+     * The tutorial template editors should have always "blank" behaviour
+     *
+     * @param $originalTemplate
+     * @param \VisualComposer\Helpers\PostType $postTypeHelper
+     * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     *
+     * @return string
+     */
+    protected function tutorialEditorBlankTemplate(
+        $originalTemplate,
+        PostType $postTypeHelper,
+        Frontend $frontendHelper,
+        Request $requestHelper
+    ) {
+        if (
+            $frontendHelper->isPageEditable()
+            && $postTypeHelper->get()->post_type === 'vcv_tutorials'
+            && !$requestHelper->exists('vcv-template')
+        ) {
+            $template = 'blank-template.php';
+
+            return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
+        }
+
+        return $originalTemplate;
     }
 }

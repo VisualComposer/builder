@@ -124,23 +124,16 @@ class PageTemplatesController extends Container implements Module
             return $originalTemplate;
         }
 
-        if ($requestHelper->input('post_type') === 'vcv_tutorials') {
-            $current = [
-                'type' => 'vc',
-                'value' => 'blank',
-            ];
-        } else {
-            /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
-            $current = $this->call(
-                'getCurrentTemplateLayout',
-                [
-                    'output' => [
-                        'type' => 'theme',
-                        'value' => $originalTemplate,
-                    ],
-                ]
-            );
-        }
+        /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
+        $current = $this->call(
+            'getCurrentTemplateLayout',
+            [
+                'output' => [
+                    'type' => 'theme',
+                    'value' => $originalTemplate,
+                ],
+            ]
+        );
         if (!empty($current)) {
             $result = $originalTemplate;
             if ($current['type'] !== 'theme') {
