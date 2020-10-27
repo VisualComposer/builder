@@ -28,7 +28,7 @@ export default class VideoScreen extends React.Component {
   }
 
   getDoMoreText () {
-    let doMoreWithVcText = VideoScreen.localizations ? VideoScreen.localizations.doMoreWithVcText : 'Do more with Visual Composer Hub'
+    let doMoreWithVcText = VideoScreen.localizations ? VideoScreen.localizations.doMoreWithVcText : 'Do more with the Visual Composer Hub'
     const hasManageOptions = dataManager.get('manageOptions')
     if (!dataManager.get('vcvIsAnyActivated')) {
       doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">free and premium</a>.`
@@ -73,7 +73,7 @@ export default class VideoScreen extends React.Component {
     const anyLayoutFastAndEasy = VideoScreen.localizations ? VideoScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
     const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of the drag and drop builder straight from the frontend editor - it\'s that easy.'
     const createNewText = VideoScreen.localizations ? VideoScreen.localizations.createNewPage : 'Create a new page'
-    const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Take Tutorial Template'
+    const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Try The Tutorial Template'
 
     let createNewButton = null
     let takeTutorialButton = null

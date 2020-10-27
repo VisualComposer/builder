@@ -292,7 +292,7 @@ export default class ElementAttribute extends Attribute {
         const replaceElementText = ElementAttribute.localizations ? ElementAttribute.localizations.replaceElementEditForm : 'Replace the element with a different element from the same category.'
         const substituteElementText = ElementAttribute.localizations ? ElementAttribute.localizations.substituteElement : 'Substitute Element'
         const getMoreButtonText = ElementAttribute.localizations ? ElementAttribute.localizations.getMoreElements : 'Get More Elements'
-        const hubButtonDescriptionText = ElementAttribute.localizations ? ElementAttribute.localizations.goToHubButtonDescription : 'Access Visual Composer Hub - download additional elements, templates, and extensions.'
+        const hubButtonDescriptionText = ElementAttribute.localizations ? ElementAttribute.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
         const moreButton = (
           <div className='vcv-ui-editor-get-more'>

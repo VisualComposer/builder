@@ -109,7 +109,7 @@ export default class PageSettingsTitle extends Attribute {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const settingName = localizations ? localizations.title : 'Title'
-    const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable page title'
+    const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable the page title'
     const checked = (this.state.disabled) ? 'checked' : ''
 
     let toggleHTML = null
