@@ -14,8 +14,9 @@ export default class PageSettingsLayouts extends Attribute {
   render () {
     const content = []
     const editorType = dataManager.get('editorType')
+    const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
 
-    if (editorType === 'default' || editorType === 'vcv_archives' || editorType === 'vcv_tutorials') {
+    if (allowedPostTypes.indexOf(editorType) > -1) {
       let addTemplateIcons = true
       if (
         this.props.options &&
