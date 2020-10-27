@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
+const dataManager = vcCake.getService('dataManager')
+
+const localizations = dataManager.get('localizations')
 
 export default class TemplatePreview extends React.Component {
   constructor (props) {
@@ -12,7 +15,6 @@ export default class TemplatePreview extends React.Component {
       previewVisible: false,
       previewStyle: {}
     }
-    const localizations = window.VCV_I18N && window.VCV_I18N()
 
     this.templateInfo = {
       'theme-default': {
@@ -164,7 +166,6 @@ export default class TemplatePreview extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const addText = localizations ? localizations.add : 'Add'
     const availableInPremiumText = localizations ? localizations.availableInPremium : 'Available in Premium version.'
 

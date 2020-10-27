@@ -11,7 +11,8 @@ const settingsStorage = vcCake.getStorage('settings')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-const pageLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+const pageLayouts = dataManager.get('pageTemplatesLayouts')
+const localizations = dataManager.get('localizations')
 
 export default class PagePanelContent extends React.Component {
   rowContainer = null
@@ -21,7 +22,7 @@ export default class PagePanelContent extends React.Component {
   constructor (props) {
     super(props)
 
-    const currentTemplate = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT())
+    const currentTemplate = settingsStorage.state('pageTemplate').get() || dataManager.get('pageTemplatesLayoutsCurrent')
     if (currentTemplate && currentTemplate.type && currentTemplate.value) {
       settingsStorage.state('pageTemplate').set(currentTemplate)
     }
@@ -252,7 +253,6 @@ export default class PagePanelContent extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const addTemplatText = localizations ? localizations.addTemplate : 'Add Template'
     const descriptionText = localizations ? localizations.blankPageHelperText : 'Start by adding an element to your layout or select one of the pre-defined templates.'
