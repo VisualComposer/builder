@@ -119,8 +119,9 @@ add('wordpressWorkspace', (api) => {
 
     elementsStorage.state('document').onChange((data, elements) => {
       documentElements = elements
+      const editorType = dataManager.get('editorType')
       if (data.length === 0) {
-        if (isNewPage) { // Open AddElement panel when new page
+        if (isNewPage && editorType === 'default') { // Open AddElement panel when new page
           isNewPage = false
           const settings = {
             action: 'add',
@@ -130,8 +131,7 @@ add('wordpressWorkspace', (api) => {
           }
           workspaceStorage.state('settings').set(settings)
         }
-        const editorType = dataManager.get('editorType')
-        const showBlank = editorType !== 'default' && !env('VCV_JS_ARCHIVE_TEMPLATE')
+        const showBlank = editorType !== 'default'
         if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
           isBlank = true

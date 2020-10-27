@@ -94,9 +94,89 @@
   }
 }
 
+.vcv-start-blank-controls {
+  margin: @editor-layout-start-blank-controls-spacing-xs auto 0;
+  max-width: @editor-layout-start-blank-controls-max-width;
+
+  &-layout {
+    max-width: @editor-layout-start-blank-controls-layout-max-width;
+  }
+}
+
+.vcv-start-blank-item-list-container {
+  margin: 0 -15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .vcv-ui-item-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vcv-ui-item-control {
+    padding: @editor-layout-start-blank-control-icon-spacing;
+    font-size: @editor-layout-start-blank-control-icon-size;
+    cursor: pointer;
+    transition: color @transition-duration @transition-timing-function;
+  }
+
+  .vcv-start-blank-item-list {
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: center;
+  }
+}
+
+.vcv-start-blank-description {
+  margin-top: 42px;
+  color: #9a9a9a;
+  -webkit-font-smoothing: antialiased;
+  font: italic 700 12px/20px 'Nunito Sans', 'Arial', sans-serif;
+}
+
+.vcv-start-blank-title-input-container {
+  width: 100%;
+  max-width: 650px;
+  padding: 0 15px;
+}
+
+.vcv-start-blank-button-container {
+  margin: 44px -9px 0;
+  .vcv-ui-form-button {
+    margin-left: 9px;
+    margin-right: 9px;
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
 @media screen and (min-width: @vcv-grid-breakpoint-sm-min) {
   .vcv-start-blank-page-heading {
     font-size: @editor-layout-start-blank-heading-font-size-sm;
+  }
+
+  .vcv-start-blank-inner {
+    padding: @editor-layout-start-blank-spacing-sm;
+  }
+
+  .vcv-hfs-start-blank-container {
+    .vcv-start-blank-title-input,
+    .vcv-hfs-start-blank-start-button {
+      width: 390px;
+    }
+  }
+}
+
+@media screen and (min-width: @vcv-grid-breakpoint-sm-min) {
+  .vcv-start-blank-page-heading {
+    font-size: @editor-layout-start-blank-heading-font-size-sm;
+  }
+
+  .vcv-start-blank-controls {
+    margin: 50px auto 0;
   }
 
   .vcv-start-blank-inner {
