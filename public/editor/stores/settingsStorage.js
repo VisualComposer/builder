@@ -13,10 +13,15 @@ addStorage('settings', (storage) => {
     storage.state('status').set({ status: 'changed' })
   })
   storage.on('start', () => {
-    !storage.state('pageTemplate').get() && storage.state('pageTemplate').set(
-      (dataManager.get('pageTemplatesLayoutsCurrent')) ||
-      { type: 'theme', value: 'default' }
-    )
+    let pageTemplate
+    if (dataManager.get('editorType') === 'vcv_tutorials') {
+      pageTemplate = { type: 'vc', value: 'blank' }
+    } else if (dataManager.get('pageTemplatesLayoutsCurrent')) {
+      pageTemplate = dataManager.get('pageTemplatesLayoutsCurrent')
+    } else {
+      pageTemplate = { type: 'theme', value: 'default' }
+    }
+    !storage.state('pageTemplate').get() && storage.state('pageTemplate').set(pageTemplate)
     if (!storage.state('headerTemplate').get()) {
       const headerTemplates = dataManager.get('headerTemplates')
       storage.state('headerTemplate').set(headerTemplates && headerTemplates.current)

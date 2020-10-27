@@ -10,12 +10,10 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
-use VisualComposer\Helpers\Url;
 
 class PostType extends Container implements Module
 {
@@ -48,6 +46,7 @@ class PostType extends Container implements Module
             function ($response, Request $requestHelper, Frontend $frontendHelper) {
                 if ($requestHelper->input('vcv-editor-type') === $this->postType && $frontendHelper->isFrontend()) {
                     $this->addFilter('vcv:editor:variables', 'addEditorTypeVariable');
+                    $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'setTemplateVariableBlank');
                 }
 
                 return $response;
@@ -320,5 +319,17 @@ class PostType extends Container implements Module
         }
 
         return $variables;
+    }
+
+    /**
+     * Set current layout variable as blank
+     * @return array
+     */
+    protected function setTemplateVariableBlank()
+    {
+        return [
+            'value' => 'blank',
+            'type' => 'vc',
+        ];
     }
 }

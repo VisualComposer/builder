@@ -1,5 +1,5 @@
 import React from 'react'
-import { env } from 'vc-cake'
+import { env, getService } from 'vc-cake'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
@@ -9,7 +9,8 @@ import ElementsLock from './lib/elementsLock/component'
 import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
 
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
 const settingsText = localizations ? localizations.layout : 'Layout'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
@@ -37,9 +38,10 @@ const controls = {
   }
 }
 
-const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+const editorType = dataManager.get('editorType')
 if (env('VCV_POPUP_BUILDER')) {
-  if (editorType === 'default' || editorType === 'archive') {
+  const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
+  if (allowedPostTypes.indexOf(editorType) > -1) {
     controls.popup = {
       index: 3,
       type: 'popup',
@@ -49,7 +51,7 @@ if (env('VCV_POPUP_BUILDER')) {
   }
 }
 
-if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && window.vcvManageOptions) {
+if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && dataManager.get('vcvManageOptions')) {
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
@@ -74,7 +76,6 @@ export default class SettingsPanel extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
     const settingsText = localizations ? localizations.settings : 'Settings'
 
     return (
