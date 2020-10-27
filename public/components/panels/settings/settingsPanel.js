@@ -40,7 +40,8 @@ const controls = {
 
 const editorType = dataManager.get('editorType')
 if (env('VCV_POPUP_BUILDER')) {
-  if (editorType === 'default' || editorType === 'vcv_archives' || editorType === 'vcv_tutorials') {
+  const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
+  if (allowedPostTypes.indexOf(editorType) > -1) {
     controls.popup = {
       index: 3,
       type: 'popup',
