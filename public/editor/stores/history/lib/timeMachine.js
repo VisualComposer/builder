@@ -115,7 +115,6 @@ export default class TimeMachine {
   }
 
   set (index) {
-    console.log('set', index)
     if (this.stackPosition < index) {
       this.stack = this.stack.slice(index - this.stackPosition)
       this.stackHash = JSON.stringify(this.get())

@@ -142,7 +142,6 @@ add('wordpressWorkspace', (api) => {
       } else if (data.length && isBlank) {
         const visibleElements = utils.getVisibleElements(documentElements)
         if (!Object.keys(visibleElements).length) {
-          console.log('call removeOverlay')
           removeOverlay()
         }
         removeStartBlank()
