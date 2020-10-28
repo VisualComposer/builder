@@ -85,12 +85,15 @@ class Controller extends Container implements Module
     protected function disableAjaxErrors(Request $requestHelper)
     {
         if ($requestHelper->isAjax()) {
-            set_time_limit(120);
+            // Silence required to avoid warnings in case if function is restricted
+            // @codingStandardsIgnoreStart
+            @set_time_limit(120);
             if (!vcvenv('VCV_DEBUG')) {
-                ini_set('display_errors', 'Off');
-                ini_set('error_reporting', 0);
-                error_reporting(0);
+                @ini_set('display_errors', 'Off');
+                @ini_set('error_reporting', 0);
+                @error_reporting(0);
             }
+            // @codingStandardsIgnoreEnd
         }
     }
 

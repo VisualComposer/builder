@@ -47,6 +47,7 @@ class TestPostUpdate extends WP_UnitTestCase
         $this->assertFalse($optionsHelper->get('bundleUpdateRequired'));
         $optionsHelper = vchelper('Options');
         $postId = $this->createPost('megaTest3');
+        vchelper('PostType')->setupPost($postId);
         $optionsHelper->set('hubAction:updatePosts', [$postId]);
         $optionsHelper->set('bundleUpdateRequired', 1);
         $actions = vcapp(\VisualComposer\Helpers\Hub\Update::class)->getRequiredActions();
