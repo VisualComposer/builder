@@ -138,8 +138,8 @@
 # or without expression
 'if ($code) ${"expr"}'
 
-# All silenced
-'@$_'
+# All silenced, disabled because used in some needed places.
+# '@$_'
 
 #
 '$${"var"}'
