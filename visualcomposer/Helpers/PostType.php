@@ -270,9 +270,8 @@ class PostType implements Helper
         if (is_array($postTypes) && !empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if (!in_array($postType, $excludedPostTypes, true)) {
-                    $label = ucfirst($postType);
                     $postTypesList[] = [
-                        'label' => $label,
+                        'label' => $this->getPostLabel($postType),
                         'value' => $postType,
                     ];
                 }
@@ -314,5 +313,24 @@ class PostType implements Helper
         }
 
         return $categories;
+    }
+
+    /**
+     * Get post plural label
+     *
+     * @param $postType
+     *
+     * @return mixed
+     */
+    public function getPostLabel($postType)
+    {
+        $postTypeObject = get_post_type_object($postType);
+        if (isset($postTypeObject)) {
+            $label = esc_html($postTypeObject->label);
+        } else {
+            $label = ucfirst($postType);
+        }
+
+        return $label;
     }
 }
