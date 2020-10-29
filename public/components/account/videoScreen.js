@@ -88,8 +88,7 @@ export default class VideoScreen extends React.Component {
       const takeTutorialButtonClasses = classNames({
         'vcv-activation-button': true,
         'vcv-activation-button--dark': true,
-        'vcv-activation-button--loading': this.state.isLoading,
-        'vcv-activation-button--loading-spinner': this.state.isLoading
+        'vcv-activation-button--loading': this.state.isLoading
       })
       takeTutorialButton = (
         <a href={dataManager.get('tutorialPageUrl') || ''} className={takeTutorialButtonClasses} onClick={this.handleTakeTutorialClick}>{takeTutorialText}</a>

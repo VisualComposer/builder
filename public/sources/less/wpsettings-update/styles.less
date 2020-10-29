@@ -147,29 +147,6 @@
         z-index: 1;
       }
     }
-
-    &.vcv-activation-button--loading-spinner {
-      cursor: default;
-      outline: none;
-      color: transparent;
-      background: transparent;
-      &:focus,
-      &:active {
-        outline: none;
-        box-shadow: none;
-        border: none;
-      }
-      &::before {
-        display: none;
-      }
-      &::after {
-        height: @wp-spinner-large-size;
-        width: @wp-spinner-large-size;
-        background: transparent url('../../images/loaders/spinner.svg') 50% 50% no-repeat;
-        background-size: @wp-spinner-large-size;
-        opacity: 0.5;
-      }
-    }
   }
 }
 
