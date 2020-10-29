@@ -9,6 +9,8 @@ const dataManager = getService('dataManager')
 const wordpressDataStorage = getStorage('wordpressData')
 const workspaceStorage = getStorage('workspace')
 const historyStorage = getStorage('history')
+const settingsStorage = getStorage('settings')
+const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class WordPressAdminControl extends NavbarContent {
   previewWindow = false
@@ -210,6 +212,39 @@ export default class WordPressAdminControl extends NavbarContent {
 
   handleResetClick () {
     historyStorage.state('canUndo').get() && historyStorage.trigger('reset')
+
+    const initialPageTemplate = dataManager.get('pageTemplatesLayoutsCurrent')
+    const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
+
+    const initialHeaderTemplate = dataManager.get('headerTemplates') && dataManager.get('headerTemplates').current
+    const lastSavedHeaderTemplate = settingsStorage.state('headerTemplate').get()
+
+    const initialSidebarTemplate = dataManager.get('sidebarTemplates') && dataManager.get('sidebarTemplates').current
+    const lastSavedSidebarTemplate = settingsStorage.state('sidebarTemplate').get()
+
+    const initialFooterTemplate = dataManager.get('footerTemplates') && dataManager.get('footerTemplates').current
+    const lastSavedFooterTemplate = settingsStorage.state('footerTemplate').get()
+
+    if (
+      (initialPageTemplate && (initialPageTemplate.value !== lastSavedPageTemplate.value || initialPageTemplate.type !== lastSavedPageTemplate.type || (initialPageTemplate.stretchedContent !== lastSavedPageTemplate.stretchedContent))) ||
+      (initialHeaderTemplate && initialHeaderTemplate !== lastSavedHeaderTemplate) ||
+      (initialSidebarTemplate && initialSidebarTemplate !== lastSavedSidebarTemplate) ||
+      (initialFooterTemplate && initialFooterTemplate !== lastSavedFooterTemplate)
+    ) {
+      window.vcvLastLoadedPageTemplate = initialPageTemplate
+      window.vcvLastLoadedHeaderTemplate = initialHeaderTemplate
+      window.vcvLastLoadedSidebarTemplate = initialSidebarTemplate
+      window.vcvLastLoadedFooterTemplate = initialFooterTemplate
+
+      workspaceIFrame.set({
+        type: 'reload',
+        template: initialPageTemplate,
+        header: initialHeaderTemplate,
+        sidebar: initialSidebarTemplate,
+        footer: initialFooterTemplate
+      })
+      settingsStorage.state('skipBlank').set(true)
+    }
   }
 
   render () {
