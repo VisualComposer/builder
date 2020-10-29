@@ -30,15 +30,15 @@ export default class VideoScreen extends React.Component {
   getDoMoreText () {
     let doMoreWithVcText = VideoScreen.localizations ? VideoScreen.localizations.doMoreWithVcText : 'Do more with the Visual Composer Hub'
     const hasManageOptions = dataManager.get('manageOptions')
-    if (!dataManager.get('vcvIsAnyActivated')) {
+    if (!dataManager.get('isAnyActivated')) {
       doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">free and premium</a>.`
     }
 
-    if (dataManager.get('vcvIsFreeActivated')) {
+    if (dataManager.get('isFreeActivated')) {
       doMoreWithVcText = `${doMoreWithVcText} - <a href="${dataManager.get('vcvGoPremiumUrl')}">premium</a>.`
     }
 
-    if (!dataManager.get('vcvIsPremiumActivated') && hasManageOptions) {
+    if (!dataManager.get('isPremiumActivated') && hasManageOptions) {
       return (
         <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: doMoreWithVcText }} />
       )

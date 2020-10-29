@@ -24,7 +24,7 @@ const data = {
   dataCollectionEnabled: window.VCV_DATA_COLLECTION_ENABLED,
   isAnyActivated: window.vcvIsAnyActivated,
   isPremiumActivated: window.vcvIsPremiumActivated,
-  vcvIsFreeActivated: window.vcvIsFreeActivated,
+  isFreeActivated: window.vcvIsFreeActivated,
   pageTemplatesLayoutsCurrent: window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT(),
   pageTemplatesLayouts: window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS(),
   headerTemplates: window.VCV_HEADER_TEMPLATES && window.VCV_HEADER_TEMPLATES(),
