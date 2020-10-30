@@ -84,7 +84,7 @@ class TemplatesUpdater extends Container implements Module
             }
         }
 
-        $this->templatePostType = (isset($payload['actionData']['action']) && $payload['actionData']['action'] === 'template/tutorial') ? 'vcv_tutorials' : 'vcv_templates';
+        $this->templatePostType = isset($payload['actionData']['action']) && $payload['actionData']['action'] === 'template/tutorial' ? 'vcv_tutorials' : 'vcv_templates';
         $template['name'] = $this->templatePostType === 'vcv_tutorials' ? 'Tutorial Page' : $payload['actionData']['data']['name'];
         $templateElements = $template['data'];
         $templateMeta = $this->processTemplateMetaImages(
