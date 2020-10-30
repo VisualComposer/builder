@@ -65,7 +65,7 @@ class Controller extends Container implements Module
     {
         $frontendHelper = vchelper('Frontend');
         vchelper('Request')->setData(['vcv-bundle' => 'template/tutorial']);
-        $response = vcfilter('vcv:ajax:hub:download:template:adminNonce', ['isTutorial' => true], ['sourceId' => '']);
+        $response = vcfilter('vcv:ajax:hub:download:template:adminNonce', [], ['sourceId' => '']);
         if (!vcIsBadResponse($response)) {
             $tutorialId = isset($response['templates'][0]['id']) ? $response['templates'][0]['id'] : '';
             $tutorialUrl = $frontendHelper->getFrontendUrl($tutorialId);
