@@ -167,6 +167,23 @@ class TemplatesUpdater extends Container implements Module
         update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
         update_post_meta($templateId, '_' . VCV_PREFIX . 'bundle', $payload['actionData']['action']);
         update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
+        if ($this->templatePostType === 'vcv_tutorials') {
+            if (isset($template['postMeta']['vcvSourceCss'][0])) {
+                update_post_meta(
+                    $templateId,
+                    'vcvSourceCss',
+                    $template['postMeta']['vcvSourceCss'][0]
+                );
+            }
+
+            if (isset($template['postMeta']['vcvSettingsSourceCustomCss'][0])) {
+                update_post_meta(
+                    $templateId,
+                    'vcvSettingsSourceCustomCss',
+                    $template['postMeta']['vcvSettingsSourceCustomCss'][0]
+                );
+            }
+        }
 
         $response['templates'][] = [
             'id' => $templateId,
