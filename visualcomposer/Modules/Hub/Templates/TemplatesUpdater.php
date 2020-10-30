@@ -160,30 +160,7 @@ class TemplatesUpdater extends Container implements Module
             $type = 'hub';
         }
 
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'description', $template['description']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $type);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
-        update_post_meta($templateId, '_' . VCV_PREFIX . 'bundle', $payload['actionData']['action']);
-        update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
-        if ($this->templatePostType === 'vcv_tutorials') {
-            if (isset($template['postMeta']['vcvSourceCss'][0])) {
-                update_post_meta(
-                    $templateId,
-                    'vcvSourceCss',
-                    $template['postMeta']['vcvSourceCss'][0]
-                );
-            }
-
-            if (isset($template['postMeta']['vcvSettingsSourceCustomCss'][0])) {
-                update_post_meta(
-                    $templateId,
-                    'vcvSettingsSourceCustomCss',
-                    $template['postMeta']['vcvSettingsSourceCustomCss'][0]
-                );
-            }
-        }
+        $this->updatePostMetas($templateId, $template, $type, $payload, $templateElements);
 
         $response['templates'][] = [
             'id' => $templateId,
@@ -202,6 +179,44 @@ class TemplatesUpdater extends Container implements Module
         ];
 
         return $response;
+    }
+
+    /**
+     * Update post metas for template
+     *
+     * @param $templateId
+     * @param $template
+     * @param $type
+     * @param $payload
+     * @param $templateElements
+     */
+    protected function updatePostMetas($templateId, $template, $type, $payload, $templateElements)
+    {
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'description', $template['description']);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'type', $type);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'thumbnail', $template['thumbnail']);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'preview', $template['preview']);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'id', $template['id']);
+        update_post_meta($templateId, '_' . VCV_PREFIX . 'bundle', $payload['actionData']['action']);
+        update_post_meta($templateId, 'vcvEditorTemplateElements', $templateElements);
+
+        if ($this->templatePostType === 'vcv_tutorials') {
+            if (isset($template['postMeta']['vcvSourceCss'][0])) {
+                update_post_meta(
+                    $templateId,
+                    'vcvSourceCss',
+                    $template['postMeta']['vcvSourceCss'][0]
+                );
+            }
+
+            if (isset($template['postMeta']['vcvSettingsSourceCustomCss'][0])) {
+                update_post_meta(
+                    $templateId,
+                    'vcvSettingsSourceCustomCss',
+                    $template['postMeta']['vcvSettingsSourceCustomCss'][0]
+                );
+            }
+        }
     }
 
     /**
