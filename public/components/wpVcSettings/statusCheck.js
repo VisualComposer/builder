@@ -50,10 +50,10 @@ export const checkStatus = () => {
   if (!$checkContainer.length) {
     return
   }
-  const nonce = dataManager.get('nonce')
+
   const binaryString = deflate(JSON.stringify({
     'vcv-action': 'settings:systemStatus:checkPayloadProcessing:adminNonce',
-    'vcv-nonce': nonce,
+    'vcv-nonce': dataManager.get('nonce'),
     'vcv-check-payload': generateFakeData()
   }), { to: 'string' })
 

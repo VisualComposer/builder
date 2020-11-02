@@ -227,13 +227,12 @@ export default class EditFormSection extends React.Component {
 
     this.setState({ showSpinner: this.state.name })
 
-    const nonce = dataManager.get('nonce')
     dataProcessor.appServerRequest({
       'vcv-action': 'addon:presets:save:adminNonce',
       'vcv-preset-title': this.state.name,
       'vcv-preset-tag': `${elementData.tag}-preset-${this.state.name.replace(/ /g, '')}`,
       'vcv-preset-value': window.encodeURIComponent(JSON.stringify(elementPublicData)),
-      'vcv-nonce': nonce
+      'vcv-nonce': dataManager.get('nonce')
     }).then((data) => {
       try {
         const jsonData = JSON.parse(data)

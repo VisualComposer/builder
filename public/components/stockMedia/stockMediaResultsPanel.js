@@ -276,10 +276,10 @@ export default class StockMediaResultsPanel extends React.Component {
       this.setState({
         downloadingItems: downloadingItems
       })
-      const nonce = dataManager.get('nonce')
+
       dataProcessor.appServerRequest({
         'vcv-action': `hub:${apiUrlKey}:download:adminNonce`,
-        'vcv-nonce': nonce,
+        'vcv-nonce': dataManager.get('nonce'),
         'vcv-imageId': imageId,
         'vcv-imageSize': size,
         'vcv-stockMediaType': apiUrlKey
