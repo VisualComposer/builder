@@ -7,12 +7,14 @@ import ThankYouScreen from './thankYouScreen'
 import { log as logError, send as sendErrorReport } from './logger'
 import { getResponse } from '../../tools/response'
 import VideoScreen from './videoScreen'
+import { getService } from 'vc-cake'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
+const dataManager = getService('dataManager')
 
 export default class ActivationSectionProvider extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   static texts = {
     sendingErrorReport: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.sendingErrorReport : 'Sending Error Report',
     doNotCloseWhileSendingErrorReportText: ActivationSectionProvider.localizations ? ActivationSectionProvider.localizations.doNotCloseWhileSendingErrorReportText : 'Don’t close this window while sending error is in progress.'
@@ -64,11 +66,11 @@ export default class ActivationSectionProvider extends React.Component {
   constructor (props) {
     super(props)
 
-    const updateActions = window.VCV_UPDATE_ACTIONS()
+    const updateActions = dataManager.get('updateActions')
     const assetsActions = updateActions && updateActions.actions
     const postUpdateActions = updateActions && updateActions.posts
     const isLoadingFinished = !assetsActions.length && !postUpdateActions.length
-    const activePage = window.VCV_SLUG && window.VCV_SLUG()
+    const activePage = dataManager.get('slug')
 
     ActivationSectionProvider.shouldDoUpdate = activePage === 'vcv-update' || activePage === 'vcv-update-fe'
 
@@ -120,12 +122,12 @@ export default class ActivationSectionProvider extends React.Component {
     const action = this.state.assetsActions[this.state.activeAssetsAction]
     this.setState({ error: null })
 
-    $.ajax(window.VCV_UPDATE_PROCESS_ACTION_URL(),
+    $.ajax(dataManager.get('updateProcessActionUrl'),
       {
         dataType: 'json',
         data: {
           'vcv-hub-action': action,
-          'vcv-nonce': window.vcvNonce
+          'vcv-nonce': dataManager.get('nonce')
         }
       }
     ).done((json) => {
@@ -203,7 +205,7 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   doPostUpdate () {
-    const postUpdater = new PostUpdater(window.VCV_UPDATE_GLOBAL_VARIABLES_URL(), window.VCV_UPDATE_VENDOR_URL(), window.VCV_UPDATE_WP_BUNDLE_URL())
+    const postUpdater = new PostUpdater(dataManager.get('updateGlobalVariablesUrl'), dataManager.get('updateVendorUrl'), dataManager.get('updateWPBundleUrl'))
     this.setState({ error: null })
     return this.doUpdatePostAction(postUpdater)
   }
@@ -216,8 +218,9 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   redirect () {
-    if (window.vcvPageBack && window.vcvPageBack.length) {
-      window.location.href = window.vcvPageBack
+    const pageBack = dataManager.get('pageBack')
+    if (pageBack && pageBack.length) {
+      window.location.href = pageBack
     } else {
       window.location.reload()
     }
@@ -239,8 +242,8 @@ export default class ActivationSectionProvider extends React.Component {
       return <ThankYouScreen />
     }
 
-    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
-    const licenseType = window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
+    const hasManageOptions = dataManager.get('manageOptions')
+    const licenseType = dataManager.get('licenseType')
 
     if (shouldDoUpdate) {
       if (this.state.isLoadingFinished) {

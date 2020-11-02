@@ -7,9 +7,10 @@ import { getService } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 
 const dataProcessor = getService('dataProcessor')
+const dataManager = getService('dataManager')
 
 export default class ActivateLicenseScreen extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -57,7 +58,7 @@ export default class ActivateLicenseScreen extends React.Component {
       }).then((responseData) => {
         const response = getResponse(responseData)
         if (response && response.status) {
-          const updateUrl = window.VCV_UPDATE_URL && window.VCV_UPDATE_URL()
+          const updateUrl = dataManager.get('updateUrl')
           if (updateUrl) {
             window.location.href = updateUrl
           } else {
@@ -105,11 +106,11 @@ export default class ActivateLicenseScreen extends React.Component {
     const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and addons'
 
     let getFreeButton = (
-      <a href={window.VCV_GO_FREE_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
+      <a href={dataManager.get('goFreeUrl')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
         {getFreeLicenseText}
       </a>
     )
-    if (window.vcvIsFreeActivated) {
+    if (dataManager.get('isFreeActivated')) {
       getFreeButton = (
         <button className='vcv-activation-button vcv-activation-button--dark vcv-activation-button--free-activated' disabled>
           {freeLicenseActivatedText}
@@ -118,7 +119,7 @@ export default class ActivateLicenseScreen extends React.Component {
     }
 
     const goPremiumButton = (
-      <a href={window.VCV_GO_PREMIUM_URL()} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
+      <a href={dataManager.get('goPremiumUrl')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
         {iWantToGoPremiumText}
       </a>
     )
@@ -175,7 +176,7 @@ export default class ActivateLicenseScreen extends React.Component {
       errorBox = <div className='vcv-activation-box-error-box'>{errorText}</div>
     }
 
-    const authorApiKey = window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY()
+    const authorApiKey = dataManager.get('authorApiKey')
     let forgotYourLicense = (
       <p className='vcv-activation-input-field-forgot-license' dangerouslySetInnerHTML={{ __html: alreadyHaveALicenseText }} />
     )
