@@ -34,9 +34,21 @@ const data = {
   tutorialPageUrl: window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL(),
   createNewUrl: window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL(),
   manageOptions: window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS(),
-  vcvGoPremiumUrl: window.vcvGoPremiumUrl,
-  vcvGettingStartedUrl: window.vcvGettingStartedUrl,
-  vcvManageOptions: window.vcvManageOptions
+  vcvManageOptions: window.vcvManageOptions, // vcv prefix added to avoid duplicating
+  goPremiumUrl: window.VCV_GO_PREMIUM_URL ? window.VCV_GO_PREMIUM_URL() : '',
+  vcvGoPremiumUrl: window.vcvGoPremiumUrl, // vcv prefix added to avoid duplicating
+  gettingStartedUrl: window.vcvGettingStartedUrl,
+  updateUrl: window.VCV_UPDATE_URL && window.VCV_UPDATE_URL(),
+  goFreeUrl: window.VCV_GO_FREE_URL ? window.VCV_GO_FREE_URL() : '',
+  authorApiKey: window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY(),
+  updateActions: window.VCV_UPDATE_ACTIONS && window.VCV_UPDATE_ACTIONS(),
+  slug: window.VCV_SLUG && window.VCV_SLUG(),
+  updateProcessActionUrl: window.VCV_UPDATE_PROCESS_ACTION_URL && window.VCV_UPDATE_PROCESS_ACTION_URL(),
+  updateGlobalVariablesUrl: window.VCV_UPDATE_GLOBAL_VARIABLES_URL && window.VCV_UPDATE_GLOBAL_VARIABLES_URL(),
+  updateVendorUrl: window.VCV_UPDATE_VENDOR_URL && window.VCV_UPDATE_VENDOR_URL(),
+  updateWPBundleUrl: window.VCV_UPDATE_WP_BUNDLE_URL && window.VCV_UPDATE_WP_BUNDLE_URL(),
+  pageBack: window.vcvPageBack,
+  licenseType: window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
 }
 
 const dataManager = {
