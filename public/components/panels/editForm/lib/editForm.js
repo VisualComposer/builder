@@ -6,7 +6,7 @@ import EditFormSection from './editFormSection'
 import EditFormReplaceElement from './editFormReplaceElement'
 import Scrollbar from 'public/components/scrollbar/scrollbar.js'
 import { getService, getStorage } from 'vc-cake'
-
+const dataManager = getService('dataManager')
 const hubCategoriesService = getService('hubCategories')
 const hubElementsStorage = getStorage('hubElements')
 
@@ -154,7 +154,7 @@ export default class EditForm extends React.Component {
 
   getEditFormSettingsSections () {
     const isRootElement = this.props.elementAccessPoint.cook().relatedTo('RootElements')
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const tabLabel = localizations ? localizations.editFormSettingsText : 'Element Presets'
 
     return (

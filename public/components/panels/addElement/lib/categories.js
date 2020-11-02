@@ -5,7 +5,7 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
-
+const dataManager = vcCake.getService('dataManager')
 const categoriesService = vcCake.getService('hubCategories')
 const groupsService = vcCake.getService('hubGroups')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
@@ -21,7 +21,7 @@ export default class Categories extends React.Component {
     onScrollToElement: PropTypes.func
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   static allElements = []
   static allCategories = []
@@ -391,7 +391,7 @@ export default class Categories extends React.Component {
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'usageCount:updateUsage:adminNonce',
       'vcv-item-tag': itemTag,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': dataManager.get('nonce')
     })
 
     const iframe = document.getElementById('vcv-editor-iframe')

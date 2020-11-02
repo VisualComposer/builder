@@ -1,8 +1,11 @@
 import React from 'react'
 import { ActivationSectionConsumer } from './activationSection'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class LoadingScreen extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   static texts = {
     downloadingAssetsText: LoadingScreen.localizations ? LoadingScreen.localizations.downloadingAssets : 'Downloading assets {i} of {cnt}: {name}',
     downloadingInitialExtensionsText: LoadingScreen.localizations ? LoadingScreen.localizations.downloadingInitialExtensions : 'Downloading initial extensions',
@@ -50,7 +53,9 @@ export default class LoadingScreen extends React.Component {
   }
 
   static handleClickSkipPostUpdate () {
-    window.vcvRebuildPostSkipPost && window.vcvSourceID && window.vcvRebuildPostSkipPost(window.vcvSourceID)
+    const rebuildPostSkipPost = dataManager.get('rebuildPostSkipPost')
+    const sourceID = dataManager.get('sourceID')
+    rebuildPostSkipPost && sourceID && rebuildPostSkipPost(sourceID)
   }
 
   render () {

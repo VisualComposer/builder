@@ -1,7 +1,7 @@
 import React from 'react'
 import PopupInner from '../popupInner'
 import { getService } from 'vc-cake'
-
+const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 
 export default class DataCollectionPopup extends React.Component {
@@ -46,7 +46,7 @@ export default class DataCollectionPopup extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const headingText = localizations ? localizations.dataCollectionHeadingText : 'Help us make Visual Composer better'
     const text = localizations ? localizations.dataCollectionText : 'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!'
     const confirmText = localizations ? localizations.yesIWouldLikeToHelpText : 'Yes, I would like to help'

@@ -2,9 +2,11 @@ import React from 'react'
 import classNames from 'classnames'
 import StockMediaResultsPanel from './stockMediaResultsPanel'
 import PropTypes from 'prop-types'
+import { getService } from 'vc-cake'
+const dataManager = getService('dataManager')
 
 export default class StockMedia extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   static propTypes = {
     scrolledToBottom: PropTypes.bool,
     scrollTop: PropTypes.number,
@@ -118,14 +120,14 @@ export default class StockMedia extends React.Component {
     const activateHub = StockMedia.localizations ? StockMedia.localizations.activateVisualComposerHub : 'Activate Visual Composer Hub'
 
     let content = ''
-    if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {
+    if (typeof dataManager.get('isPremiumActivated') !== 'undefined' && !dataManager.get('isPremiumActivated')) {
       content = (
         <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
           <p className='vcv-stock-images-subtitle'>{getMediaWithPremiumText}</p>
           <span className='vcv-stock-images-button' data-href={upgradeUrl} onClick={StockMedia.handleClickGoPremium}>
-            {!window.vcvIsFreeActivated && activateHub}
-            {window.vcvIsFreeActivated && !window.vcvIsPremiumActivated && goPremium}
+            {!dataManager.get('isFreeActivated') && activateHub}
+            {dataManager.get('isFreeActivated') && !dataManager.get('isPremiumActivated') && goPremium}
           </span>
         </>
       )

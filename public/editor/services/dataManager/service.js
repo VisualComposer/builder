@@ -12,7 +12,7 @@ const data = {
   nonce: window.vcvNonce,
   activationType: window.vcvActivationType,
   activationFinishedUrl: window.vcvActivationFinishedUrl,
-  errorReportUrl: window.vcvErrorReportUrl,
+  vcvErrorReportUrl: window.vcvErrorReportUrl, // vcv prefix added to avoid duplicating
   localizations: window.VCV_I18N ? window.VCV_I18N() : {},
   hubGetAddonTeaser: window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {},
   hubGetAddons: window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {},
@@ -48,7 +48,18 @@ const data = {
   updateVendorUrl: window.VCV_UPDATE_VENDOR_URL && window.VCV_UPDATE_VENDOR_URL(),
   updateWPBundleUrl: window.VCV_UPDATE_WP_BUNDLE_URL && window.VCV_UPDATE_WP_BUNDLE_URL(),
   pageBack: window.vcvPageBack,
-  licenseType: window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
+  licenseType: window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE(),
+  rebuildPostSkipPost: window.vcvRebuildPostSkipPost,
+  errorReportUrl: window.VCV_ERROR_REPORT_URL && window.VCV_ERROR_REPORT_URL(),
+  supportUrl: window.VCV_SUPPORT_URL && window.VCV_SUPPORT_URL(),
+  licenseKey: window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY(),
+  apiUrl: window.VCV_API_URL && window.VCV_API_URL(),
+  pluginUrl: window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL(),
+  licenseUnsplashAuthorApiKey: window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY(),
+  adminAjaxUrl: window.vcvAdminAjaxUrl,
+  upgradeUrlGiphy: window.vcvUpgradeUrlGiphy,
+  upgradeUrlUnsplash: window.vcvUpgradeUrlUnsplash,
+  createMenuUrl: window.vcvCreateMenuUrl
 }
 
 const dataManager = {

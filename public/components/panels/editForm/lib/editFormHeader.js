@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
-
+const dataManager = getService('dataManager')
 const hubCategories = getService('hubCategories')
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
@@ -186,7 +186,7 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       active: editable
     })
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
     let backButton = null
@@ -280,7 +280,7 @@ export default class EditFormHeader extends React.Component {
     })
 
     let lockControl = null
-    const vcvIsUserAdmin = window.vcvManageOptions
+    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
     if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin && isGeneral) {
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       lockControl = (

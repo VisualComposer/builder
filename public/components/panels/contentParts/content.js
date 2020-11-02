@@ -1,10 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import ReactDOM from 'react-dom'
-import { getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
 import PropTypes from 'prop-types'
-
+const dataManager = getService('dataManager')
 const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class Content extends React.Component {
@@ -99,7 +99,7 @@ export default class Content extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const closeTitle = localizations ? localizations.close : 'Close'
 
     let aligned = false

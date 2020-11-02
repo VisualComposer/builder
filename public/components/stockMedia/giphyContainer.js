@@ -2,6 +2,8 @@ import React from 'react'
 import StockMedia from './stockMedia'
 import PropTypes from 'prop-types'
 import giphyLogo from 'public/sources/images/giphyLogo.raw'
+import { getService } from 'vc-cake'
+const dataManager = getService('dataManager')
 
 export default class GiphyContainer extends React.Component {
   static propTypes = {
@@ -10,7 +12,7 @@ export default class GiphyContainer extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const stockMediaLocalizations = {
       searchText: localizations ? localizations.discoverGifAnimationsText : 'Discover the best GIF animations from Giphy.',
       getMediaText: localizations ? localizations.getGiphiesText : 'Download and Add Free Animated GIFs to Your Site',
@@ -41,7 +43,7 @@ export default class GiphyContainer extends React.Component {
       <StockMedia
         stockMediaLogo={giphyLogo}
         stockMediaLocalizations={stockMediaLocalizations}
-        upgradeUrl={window.vcvUpgradeUrlGiphy}
+        upgradeUrl={dataManager.get('upgradeUrlGiphy')}
         vcvAuthorApiKey={null}
         apiUrlKey='giphy'
         sizes={sizes}
