@@ -1,7 +1,7 @@
 import React from 'react'
 import PopupInner from '../popupInner'
 import { getService, getStorage } from 'vc-cake'
-
+const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const editorPopupStorage = getStorage('editorPopup')
 
@@ -50,7 +50,7 @@ export default class VotePopup extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const headingText = localizations ? localizations.feedbackVoteHeadingText : 'How disappointed would you be if this product no longer existed tomorrow?'
     const buttonText = localizations ? localizations.feedbackVoteButtonText : 'Submit Your Feedback'
     const veryDisappointed = localizations ? localizations.veryDisappointed : 'Very disappointed'

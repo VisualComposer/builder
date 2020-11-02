@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Field from './field'
 import EditFormSettings from './editFormSettings'
 import { env, getService, getStorage } from 'vc-cake'
-
+const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const documentService = getService('document')
 const myTemplatesService = getService('myTemplates')
@@ -21,7 +21,7 @@ export default class EditFormSection extends React.Component {
     isRootElement: PropTypes.bool
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -146,7 +146,7 @@ export default class EditFormSection extends React.Component {
     const opts = {}
 
     if (containerDependency) {
-      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+      const editorType = dataManager.get('editorType')
 
       Object.keys(containerDependency).forEach((key) => {
         const action = containerDependency[key]
@@ -227,12 +227,13 @@ export default class EditFormSection extends React.Component {
 
     this.setState({ showSpinner: this.state.name })
 
+    const nonce = dataManager.get('nonce')
     dataProcessor.appServerRequest({
       'vcv-action': 'addon:presets:save:adminNonce',
       'vcv-preset-title': this.state.name,
       'vcv-preset-tag': `${elementData.tag}-preset-${this.state.name.replace(/ /g, '')}`,
       'vcv-preset-value': window.encodeURIComponent(JSON.stringify(elementPublicData)),
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': nonce
     }).then((data) => {
       try {
         const jsonData = JSON.parse(data)

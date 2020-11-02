@@ -7,6 +7,7 @@ import classNames from 'classnames'
 const dataProcessor = getService('dataProcessor')
 const notificationsStorage = getStorage('notifications')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
+const dataManager = getService('dataManager')
 
 export default class StockMediaResultsPanel extends React.Component {
   static propTypes = {
@@ -16,11 +17,11 @@ export default class StockMediaResultsPanel extends React.Component {
     isSearchUsed: PropTypes.bool
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   maxColumnCount = 5
   abortController = new window.AbortController()
   componentUnmounted = false
-  vcvLicenseKey = (window.VCV_LICENSE_KEY && window.VCV_LICENSE_KEY()) || 'free'
+  vcvLicenseKey = dataManager.get('licenseKey') || 'free'
   allowDownload = true
 
   constructor (props) {
@@ -134,8 +135,8 @@ export default class StockMediaResultsPanel extends React.Component {
     if (page > 1 && page > this.state.totalPages) {
       return
     }
-    const vcvApiUrl = window.VCV_API_URL && window.VCV_API_URL()
-    const vcvSiteUrl = window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL()
+    const vcvApiUrl = dataManager.get('apiUrl')
+    const vcvSiteUrl = dataManager.get('pluginUrl')
     const stockMediaUrl = `${vcvApiUrl}/api/${apiUrlKey}/${action}`
     const vcvLicenseKey = this.vcvLicenseKey
 
@@ -275,9 +276,10 @@ export default class StockMediaResultsPanel extends React.Component {
       this.setState({
         downloadingItems: downloadingItems
       })
+      const nonce = dataManager.get('nonce')
       dataProcessor.appServerRequest({
         'vcv-action': `hub:${apiUrlKey}:download:adminNonce`,
-        'vcv-nonce': window.vcvNonce,
+        'vcv-nonce': nonce,
         'vcv-imageId': imageId,
         'vcv-imageSize': size,
         'vcv-stockMediaType': apiUrlKey

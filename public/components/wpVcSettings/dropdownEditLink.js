@@ -1,4 +1,6 @@
-const localizations = window.VCV_I18N && window.VCV_I18N()
+import { getService } from 'vc-cake'
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle}.</div>'
 
 const changeEditLink = (item) => {

@@ -1,4 +1,6 @@
-const localizations = window.VCV_I18N && window.VCV_I18N()
+import { getService } from 'vc-cake'
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes may not be saved.'
 
 export const dashboard = () => {
@@ -174,7 +176,8 @@ export const dashboard = () => {
     }, 250)
   )
   window.onbeforeunload = () => {
-    if (formTouched || window.vcvIsCodeEditorsTouched) {
+    const isCodeEditorsTouched = dataManager.get('isCodeEditorsTouched')
+    if (formTouched || isCodeEditorsTouched) {
       return unsavedChangesText
     }
   }

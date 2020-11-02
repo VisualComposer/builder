@@ -1,8 +1,10 @@
 import React from 'react'
 import VCVLogo from './vcvLogo'
 import PropTypes from 'prop-types'
+import { getService } from 'vc-cake'
 
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 const Errors = {
   default: {
     message: localizations.feOopsMessageDefault,
@@ -69,7 +71,7 @@ export default class OopsScreen extends React.Component {
             </button>
           )}
           {errorReportAction && (
-            <a href={window.VCV_SUPPORT_URL()} className='vcv-screen-button vcv-screen-button--dark'>
+            <a href={dataManager.get('supportUrl')} className='vcv-screen-button vcv-screen-button--dark'>
               {reportAnIssueButtonText}
             </a>
           )}

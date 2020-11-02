@@ -2,12 +2,12 @@ import React from 'react'
 import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
 import { getResponse } from 'public/tools/response'
-
+const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const settingsStorage = getStorage('settings')
 
 export default class Permalink extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)

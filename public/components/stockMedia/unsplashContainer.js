@@ -2,7 +2,8 @@ import React from 'react'
 import StockMedia from './stockMedia'
 import PropTypes from 'prop-types'
 import unsplashLogo from 'public/sources/images/unsplashLogo.raw'
-
+import { getService } from 'vc-cake'
+const dataManager = getService('dataManager')
 const unsplashImages = ['https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-1.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-2.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-3.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-4.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-5.jpg']
 
 export default class UnsplashContainer extends React.Component {
@@ -18,7 +19,7 @@ export default class UnsplashContainer extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const stockMediaLocalizations = {
       searchText: localizations ? localizations.searchPhotosOnUnsplash : 'Search for free high-resolution photos on Unsplash',
       getMediaText: localizations ? localizations.getPhotosText : 'Download and Add Free Beautiful Photos to Your Site',
@@ -50,8 +51,8 @@ export default class UnsplashContainer extends React.Component {
         stockMediaLogo={unsplashLogo}
         backgroundImage={`url(${this.randomImage})`}
         stockMediaLocalizations={stockMediaLocalizations}
-        upgradeUrl={window.vcvUpgradeUrlUnsplash}
-        vcvAuthorApiKey={window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY()}
+        upgradeUrl={dataManager.get('upgradeUrlUnsplash')}
+        vcvAuthorApiKey={dataManager.get('licenseUnsplashAuthorApiKey')}
         apiUrlKey='unsplash'
         sizes={sizes}
         previewImageSize='small'

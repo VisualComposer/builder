@@ -6,7 +6,7 @@ import Helper from '../../../dnd/helper'
 import DOMElement from '../../../dnd/domElement'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
-
+const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubCategories = vcCake.getService('hubCategories')
 const settingsStorage = vcCake.getStorage('settings')
@@ -372,7 +372,7 @@ export default class ElementControl extends React.Component {
   }
 
   handleRemovePreset () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to delete this template?'
 
     if (window.confirm(removeTemplateWarning)) {
@@ -382,11 +382,10 @@ export default class ElementControl extends React.Component {
       const presetId = this.props.elementPresetId
 
       this.setState({ showSpinner: true })
-
       dataProcessor.appServerRequest({
         'vcv-action': 'addon:presets:delete:adminNonce',
         'vcv-preset-id': presetId,
-        'vcv-nonce': window.vcvNonce
+        'vcv-nonce': dataManager.get('nonce')
       }).then((data) => {
         try {
           const jsonData = JSON.parse(data)
@@ -437,7 +436,7 @@ export default class ElementControl extends React.Component {
     const { name, element, elementPresetId, hubElement } = this.props
     const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
 
     const listItemClasses = classNames({
       'vcv-ui-item-list-item': true,

@@ -1,13 +1,13 @@
 import React from 'react'
 import PopupInner from '../popupInner'
 
-import { getStorage } from 'vc-cake'
-
+import { getService, getStorage } from 'vc-cake'
+const dataManager = getService('dataManager')
 const editorPopupStorage = getStorage('editorPopup')
 
 export default class ReviewPopup extends React.Component {
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const positiveReviewHeadingText = localizations ? localizations.thankYouText : 'Thank you!'
     const negativeReviewHeadingText = localizations ? localizations.negativeReviewHeadingText : 'How can we become better?'
     const positiveReviewText = localizations ? localizations.positiveReviewText : 'Thanks for your feedback. Please rate us on WordPress.org and help others to discover Visual Composer.'

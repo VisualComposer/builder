@@ -8,6 +8,7 @@ const Cook = vcCake.getService('cook')
 const hubCategoriesService = vcCake.getService('hubCategories')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const workspaceStorage = vcCake.getStorage('workspace')
+const dataManager = vcCake.getService('dataManager')
 
 export default class ReplaceElement extends React.Component {
   static propTypes = {
@@ -109,7 +110,7 @@ export default class ReplaceElement extends React.Component {
     const { category } = options
     const categorySettings = hubCategoriesService.get(category)
     const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace the element with a different element from the same category.'
     const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
     const getMoreButtonText = localizations ? localizations.getMoreElements : 'Get More Elements'

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { env, getService } from 'vc-cake'
 import classNames from 'classnames'
 
+const dataManager = getService('dataManager')
 const { getDynamicValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
 
 export default class Field extends React.Component {
@@ -141,7 +142,8 @@ export default class Field extends React.Component {
       description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
     }
     if (options && options.descriptionHTML) {
-      const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', window.vcvCreateMenuUrl)
+      const createMenuUrl = dataManager.get('createMenuUrl')
+      const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', createMenuUrl)
       description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: html }} />)
     }
     let defaultValue = settings.defaultValue

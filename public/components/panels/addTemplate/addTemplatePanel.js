@@ -6,7 +6,7 @@ import TemplateControl from './lib/templateControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
-
+const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const myTemplatesService = getService('myTemplates')
 const documentManager = getService('document')
@@ -23,7 +23,7 @@ export default class AddTemplatePanel extends React.Component {
     handleScrollToElement: PropTypes.func
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   errorTimeout = 0
 
@@ -303,7 +303,7 @@ export default class AddTemplatePanel extends React.Component {
 
   handleApplyTemplate (data, templateType) {
     elementsStorage.state('elementAddList').set([])
-    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    const editorType = dataManager.get('editorType')
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
       const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'The current popup will be replaced with the popup template.'
       if (!window.confirm(replacePopupTemplateText)) {

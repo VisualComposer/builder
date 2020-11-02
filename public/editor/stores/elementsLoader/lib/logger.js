@@ -36,7 +36,7 @@ const sendErrors = (e, cb) => {
   window.jQuery.ajax(
     {
       type: 'POST',
-      url: dataManager.get('errorReportUrl'),
+      url: dataManager.get('vcvErrorReportUrl'),
       data: {
         'vcv-nonce': dataManager.get('nonce'),
         errors: JSON.stringify(getErrors())
