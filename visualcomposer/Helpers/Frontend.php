@@ -132,6 +132,7 @@ class Frontend implements Helper
         $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
+
         // @codingStandardsIgnoreLine
         if (version_compare($wp_version, '5.2', '>=')) {
             $sourceContent = get_the_content('', false, $sourceId);
