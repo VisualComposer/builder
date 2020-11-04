@@ -1,0 +1,44 @@
+.vcv-tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.vcv-tooltip-box {
+  position: absolute;
+  z-index: 99999;
+  width: 234px;
+  padding: 10px 15px;
+  background-color: #203251;
+  border-radius: 5px;
+  top: 25px;
+  left: 7px;
+  font-size: 12px;
+  letter-spacing: .92px;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  color: #9EA6B3;
+  text-align: center;
+}
+
+.vcv-tooltip-container .vcv-ui-icon-question {
+  cursor: pointer;
+  color: #BCBCBC;
+  font-size: 14px;
+
+  &.vcv-ui-icon--active {
+    color: #203251;
+  }
+
+  &.vcv-ui-icon--active:after {
+    content: '';
+    display: block;
+    position: absolute;
+    border: 5px solid;
+    border-color: transparent transparent #203251 transparent;
+    left: 2px;
+    top: 15px;
+  }
+}
+
+
