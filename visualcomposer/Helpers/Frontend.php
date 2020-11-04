@@ -117,6 +117,9 @@ class Frontend implements Helper
 
     public function renderContent($sourceId)
     {
+        // @codingStandardsIgnoreLine
+        global $wp_version;
+
         if (!$sourceId || get_post_status($sourceId) !== 'publish') {
             return false;
         }
@@ -129,7 +132,15 @@ class Frontend implements Helper
         $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);
         vchelper('AssetsEnqueue')->addToEnqueueList($sourceId);
-        $sourceContent = get_the_content('', '', $sourceId);
+        // @codingStandardsIgnoreLine
+        if (version_compare($wp_version, '5.2', '>=')) {
+            $sourceContent = get_the_content('', false, $sourceId);
+        } else {
+            $post = get_post($sourceId);
+            setup_postdata($post);
+            $sourceContent = get_the_content('', false);
+            wp_reset_postdata();
+        }
         if (strpos($sourceContent, '<!--vcv no format-->') === false) {
             // Call wpautop for non VCWB sourceId
             $sourceContent = wpautop($sourceContent);
