@@ -15,15 +15,17 @@ export default class ElementsLock extends React.Component {
 
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
+    const elementsLock = localizations ? localizations.elementsLock : 'Element Lock'
     const lockAllText = localizations ? localizations.lockAllText : 'Lock All Elements'
     const unlockAllText = localizations ? localizations.unlockAllText : 'Unlock All Elements'
-    const lockAllDescriptionText = localizations ? localizations.lockAllDescriptionText : 'Lock or unlock all elements on the page. Users with Administrator role access will be able to edit elements.'
-    const lockSpecificDescriptionText = localizations ? localizations.lockSpecificDescriptionText : 'Lock or unlock specific elements under the element edit window.'
+    const lockAllDescriptionText = localizations ? localizations.lockAllDescriptionText : 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements.'
+    const lockSpecificDescriptionText = localizations ? localizations.lockSpecificDescriptionText : 'You can lock/unlock specific elements under the element Edit window.'
 
     return (
       <div className='vcv-ui-element-lock-container'>
-        <p className='vcv-ui-form-helper'>{lockAllDescriptionText}</p>
-        <p className='vcv-ui-form-helper'>{lockSpecificDescriptionText}</p>
+        <h2 className="vcv-ui-section-heading">{elementsLock}</h2>
+        <p className='vcv-ui-section-description'>{lockAllDescriptionText}</p>
+        <p className='vcv-ui-section-description'>{lockSpecificDescriptionText}</p>
         <div className='vcv-ui-lock-control-container'>
           <button
             className='vcv-ui-form-button vcv-ui-form-button--action'

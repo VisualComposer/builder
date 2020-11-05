@@ -360,14 +360,16 @@ export default class EditFormSection extends React.Component {
 
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
-        <div
-          className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
-          ref={header => { this.sectionHeader = header }}
-        >
-          {backButton}
-          <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
-          {innerElementReplaceIcon}
-        </div>
+        {!isEditFormSettings && (
+          <div
+            className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
+            ref={header => { this.sectionHeader = header }}
+          >
+            {backButton}
+            <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
+            {innerElementReplaceIcon}
+          </div>
+        )}
         <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
             <EditFormSettings
@@ -375,6 +377,7 @@ export default class EditFormSection extends React.Component {
               handleNameChange={this.onNameChange}
               nameValue={this.state.name}
               showSpinner={this.state.showSpinner}
+              tabTitle={tabTitle}
             />
           ) : (
             <>
