@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import Dropdown from '../dropdown/Component'
+import Tooltip from '../../../components/tooltip/tooltip'
+import vcCake from 'vc-cake'
+const dataManager = vcCake.getService('dataManager')
 
 export default class Devices extends Attribute {
   static defaultProps = {
@@ -146,12 +149,18 @@ export default class Devices extends Attribute {
   }
 
   render () {
+    const localizations = dataManager.get('localizations')
+    const manageIfTheElementAppearsOnAParticularDevice = localizations ? localizations.manageIfTheElementAppearsOnAParticularDevice : 'Manage if the element appears on a particular device.'
+
     return (
       <div className='vcv-ui-row vcv-ui-row-gap--md'>
         <div className='vcv-ui-col vcv-ui-col--fixed-width'>
           {this.getDevicesSettings()}
         </div>
         {this.getCustomDevices()}
+        <Tooltip>
+          {manageIfTheElementAppearsOnAParticularDevice}
+        </Tooltip>
       </div>
     )
   }

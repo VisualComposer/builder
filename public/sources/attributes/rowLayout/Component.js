@@ -10,6 +10,9 @@ import DefaultLayouts from './lib/defaultLayouts'
 import TokenizationList from './lib/tokenizationList'
 import Toggle from '../toggle/Component'
 import LayoutResponsiveness from './lib/layoutResponsiveness'
+import Tooltip from '../../../components/tooltip/tooltip'
+
+const dataManager = vcCake.getService('dataManager')
 
 export default class Layout extends Attribute {
   static defaultProps = {
@@ -79,7 +82,7 @@ export default class Layout extends Attribute {
   }
 
   static devices = ['xs', 'sm', 'md', 'lg', 'xl']
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   static deviceData = [
     {
       deviceKey: 'xl',
@@ -379,6 +382,7 @@ export default class Layout extends Attribute {
 
   getReverseToggle () {
     const data = this.state.value
+    const useReverseStackingToggle = Layout.localizations ? Layout.localizations.useReverseStackingToggle : 'Use Reverse stacking toggle to stack columns from right to left on mobile devices.'
     if (data && data.disableStacking) {
       return null
     }
@@ -393,6 +397,9 @@ export default class Layout extends Attribute {
             options={{ labelText: 'Reverse column stacking' }}
             value={reverseState}
           />
+          <Tooltip>
+            {useReverseStackingToggle}
+          </Tooltip>
         </div>
       </div>
     )
@@ -430,6 +437,7 @@ export default class Layout extends Attribute {
 
   getResponsiveToggle () {
     const data = this.state.value
+    const enableCustomResponsivness = Layout.localizations ? Layout.localizations.enableCustomResponsivness : 'Enable custom responsiveness to control column width on different devices.'
     const responsivenessSettingsState = data && Object.prototype.hasOwnProperty.call(data, 'responsivenessSettings') ? data.responsivenessSettings : false
     return (
       <div className='vcv-ui-form-group'>
@@ -441,6 +449,9 @@ export default class Layout extends Attribute {
             options={{ labelText: 'Custom responsiveness settings' }}
             value={responsivenessSettingsState}
           />
+          <Tooltip>
+            {enableCustomResponsivness}
+          </Tooltip>
         </div>
       </div>
     )
