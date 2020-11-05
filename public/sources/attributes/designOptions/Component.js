@@ -193,6 +193,7 @@ export default class DesignOptions extends Attribute {
     attributeMixins: {},
     defaultStyles: null
   }
+
   static localizations = dataManager.get('localizations')
 
   constructor (props) {
