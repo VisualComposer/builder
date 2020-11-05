@@ -5,7 +5,6 @@ import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
 import Search from './lib/search'
 import vcCake from 'vc-cake'
-import Tooltip from '../../tooltip/tooltip'
 const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -79,8 +78,6 @@ export default class AddContentPanel extends React.Component {
       }
     }
 
-    const searchForContentElementsAndTemplates = AddContentPanel.localizations ? AddContentPanel.localizations.searchForContentElementsAndTemplates : 'Search for content elements and templates to add to your layout.'
-
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
         <Search
@@ -88,9 +85,6 @@ export default class AddContentPanel extends React.Component {
           searchValue={this.state.searchValue}
           setFirstElement={this.setFirstElement}
         />
-        <Tooltip>
-          {searchForContentElementsAndTemplates}
-        </Tooltip>
         <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>

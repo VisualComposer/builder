@@ -8,6 +8,7 @@ import Textarea from 'react-textarea-autosize'
 
 import Token from './token'
 import { getResponse } from 'public/tools/response'
+import Tooltip from '../../../../components/tooltip/tooltip'
 
 export default class TokenizationList extends React.Component {
   static propTypes = {
@@ -429,7 +430,9 @@ export default class TokenizationList extends React.Component {
           {this.renderTokensList()}
           {this.getLoading()}
         </div>
-        {description}
+        <Tooltip>
+          {description}
+        </Tooltip>
       </>
     )
   }

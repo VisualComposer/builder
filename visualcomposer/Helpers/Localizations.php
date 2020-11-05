@@ -513,7 +513,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'dynamicAutocompleteDescription' => __(
-                'Select page, post, or custom post type.',
+                'Select a page, post, or custom post type as the dynamic content source.',
                 'visualcomposer'
             ),
             'dynamicAutocompleteToggleDescription' => __(
@@ -1281,6 +1281,18 @@ class Localizations extends Container implements Helper
             ),
             'insightsIsAContentAnalysisTool' => __(
                 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.',
+                'visualcomposer'
+            ),
+            'VCHubIsAnOnlineLibrary' => __(
+                '<a href="https://visualcomposer.com/help/visual-composer-hub/">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
+                'visualcomposer'
+            ),
+            'useTheToggleToSwitchBetweenLightAndDarkBackground' => __(
+                'Use the toggle to switch between light and dark background while editing the text.',
+                'visualcomposer'
+            ),
+            'replaceStaticContentWithDynamicContent' => __(
+                'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/">dynamic content</a> placeholders (WordPress default and custom fields).',
                 'visualcomposer'
             ),
         ];

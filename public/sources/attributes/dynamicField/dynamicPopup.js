@@ -7,13 +7,14 @@ import { getService, getStorage } from 'vc-cake'
 import Modal from 'public/components/modal/modal'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-
+import Tooltip from '../../../components/tooltip/tooltip'
+const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
 export default class DynamicPopup extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   static propTypes = {
     onSave: PropTypes.func.isRequired,
@@ -131,7 +132,7 @@ export default class DynamicPopup extends React.Component {
               validation: true
             }}
             updater={this.sourceIdChange}
-            description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select page, post, or custom post type.'}
+            description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select a page, post, or custom post type as the dynamic content source.'}
           />
         </div>
       </div>
@@ -223,6 +224,7 @@ export default class DynamicPopup extends React.Component {
     const popupTitle = DynamicPopup.localizations.dynamicContent || 'Dynamic Content'
     const saveText = DynamicPopup.localizations.save || 'Save'
     const closeText = DynamicPopup.localizations.close || 'Close'
+    const replaceStaticContentWithDynamicContent = DynamicPopup.localizations ? DynamicPopup.localizations.replaceStaticContentWithDynamicContent : 'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/">dynamic content</a> placeholders (WordPress default and custom fields).'
     const autoCompleteComponent = this.state.showAutocomplete ? this.renderAutoCompleteInput() : null
     let loader = null
     let fieldComponent = null
@@ -248,6 +250,9 @@ export default class DynamicPopup extends React.Component {
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
             <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
+            <Tooltip>
+              {replaceStaticContentWithDynamicContent}
+            </Tooltip>
           </header>
           <section className='vcv-ui-modal-content'>
             <div className='vcv-ui-dynamic-field-inner'>
