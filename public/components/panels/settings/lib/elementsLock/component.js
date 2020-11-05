@@ -23,7 +23,7 @@ export default class ElementsLock extends React.Component {
 
     return (
       <div className='vcv-ui-element-lock-container'>
-        <h2 className="vcv-ui-section-heading">{elementsLock}</h2>
+        <h2 className='vcv-ui-section-heading'>{elementsLock}</h2>
         <p className='vcv-ui-section-description'>{lockAllDescriptionText}</p>
         <p className='vcv-ui-section-description'>{lockSpecificDescriptionText}</p>
         <div className='vcv-ui-lock-control-container'>
