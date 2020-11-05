@@ -12,7 +12,7 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
 
   return (
     <div className='vcv-ui-presets-form'>
-      <h2 className="vcv-ui-section-heading">{tabTitle}</h2>
+      <h2 className='vcv-ui-section-heading'>{tabTitle}</h2>
       <p className='vcv-ui-section-description'>{isRootElement ? templateHelperText : presetsHelperText}</p>
       <div className='vcv-ui-form-input-group'>
         <input
