@@ -251,6 +251,7 @@ export default class HtmlEditorComponent extends React.Component {
               }
             }
             this.loadUsedFonts(this.props)
+            editor.iframeElement.style.visibility = 'hidden'
             editor.iframeElement.style.height = '0'
             editor.on('BeforeExecCommand', function () {
               editor.selection.select(editor.getBody(), true)
