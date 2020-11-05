@@ -1,8 +1,13 @@
 import React from 'react'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import Tooltip from '../../../tooltip/tooltip'
+import vcCake from 'vc-cake'
+const dataManager = vcCake.getService('dataManager')
 
 export default class Search extends React.Component {
+  static localizations = dataManager.get('localizations')
+
   static propTypes = {
     searchValue: PropTypes.string.isRequired,
     onSearchChange: PropTypes.func.isRequired,
@@ -33,6 +38,7 @@ export default class Search extends React.Component {
 
   render () {
     const autofocus = !this.mobileDetect.mobile()
+    const searchForContentElementsAndTemplates = Search.localizations ? Search.localizations.searchForContentElementsAndTemplates : 'Search for content elements and templates to add to your layout.'
     return (
       <div className='vcv-ui-editor-search-container'>
         <div className='vcv-ui-editor-search-field-container'>
@@ -50,6 +56,9 @@ export default class Search extends React.Component {
             autoFocus={autofocus}
           />
         </div>
+        <Tooltip>
+          {searchForContentElementsAndTemplates}
+        </Tooltip>
       </div>
     )
   }

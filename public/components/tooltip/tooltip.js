@@ -76,9 +76,7 @@ export default class Tooltip extends React.Component {
       const boxStyles = this.getTooltipPosition()
 
       tooltipBox = (
-        <div className='vcv-tooltip-box' style={boxStyles}>
-          {this.props.children}
-        </div>
+        <div className='vcv-tooltip-box' style={boxStyles} dangerouslySetInnerHTML={{ __html: this.props.children }} />
       )
     }
 

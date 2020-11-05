@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import Tooltip from '../../tooltip/tooltip'
+import vcCake from 'vc-cake'
+const dataManager = vcCake.getService('dataManager')
 
 export default class SearchElement extends React.Component {
   static propTypes = {
@@ -20,7 +23,6 @@ export default class SearchElement extends React.Component {
     }
     this.handleSearch = this.handleSearch.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
-    this.getPlaceholder = this.getPlaceholder.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
 
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -72,28 +74,10 @@ export default class SearchElement extends React.Component {
     }, 400)
   }
 
-  getPlaceholder () {
-    let result = ''
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-
-    switch (this.props.inputPlaceholder) {
-      case 'elements':
-        result = localizations ? localizations.searchContentElements : 'Search for content elements'
-        break
-      case 'elements and templates':
-        result = localizations ? localizations.searchContentElementsAndTemplates : 'Search for content elements and templates'
-        break
-      case 'templates':
-        result = localizations ? localizations.searchContentTemplates : 'Search for templates'
-        break
-      default:
-        result = localizations ? localizations.searchContentElements : 'Search for content elements'
-    }
-
-    return result
-  }
-
   render () {
+    const localizations = dataManager.get('localizations')
+    const VCHubIsAnOnlineLibrary = localizations ? localizations.VCHubIsAnOnlineLibrary : '<a href="https://visualcomposer.com/help/visual-composer-hub/">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.'
+
     const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
@@ -113,10 +97,12 @@ export default class SearchElement extends React.Component {
             onFocus={this.handleInputFocus}
             type='text'
             value={this.state.inputValue}
-            placeholder={this.getPlaceholder()}
             autoFocus={autoFocus}
             onKeyPress={this.handleKeyPress}
           />
+          <Tooltip>
+            {VCHubIsAnOnlineLibrary}
+          </Tooltip>
         </div>
       </div>
     )
