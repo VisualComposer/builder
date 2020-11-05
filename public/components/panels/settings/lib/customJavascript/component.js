@@ -1,11 +1,14 @@
 import React from 'react'
 import ScriptControl from './control'
 import HtmlEditor from './htmlEditor'
-import { getStorage } from 'vc-cake'
-
+import { getStorage, getService } from 'vc-cake'
+import Tooltip from '../../../../tooltip/tooltip'
+const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 
 export default class CustomJavascript extends React.Component {
+  static localizations = dataManager.get('localizations')
+
   constructor (props) {
     super(props)
 
@@ -91,26 +94,29 @@ export default class CustomJavascript extends React.Component {
   }
 
   getHelperText () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
-
     if (this.state.activeIndex === 'localJs') {
       if (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() === 'template') {
-        return localizations.settingsGlobalTemplateCustomJsLocal
+        return CustomJavascript.localizations.settingsGlobalTemplateCustomJsLocal
       } else {
-        return localizations.settingsCustomJsLocal
+        return CustomJavascript.localizations.settingsCustomJsLocal
       }
     } else {
-      return localizations.settingsCustomJsGlobal
+      return CustomJavascript.localizations.settingsCustomJsGlobal
     }
   }
 
   render () {
+    const insertCustomJSCodeSpetsn = CustomJavascript.localizations ? CustomJavascript.localizations.insertCustomJSCodeSpetsn : 'Apply custom CSS code to the whole site or to this particular page only. '
+
     return (
       <div className='vcv-ui-custom-scripts vcv-ui-custom-scripts-areas'>
         <div className='vcv-ui-script-control-container'>
           <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
             {this.getButtons()}
           </div>
+          <Tooltip>
+            {insertCustomJSCodeSpetsn}
+          </Tooltip>
         </div>
         <p className='vcv-ui-form-helper'>
           {this.getHelperText()}
