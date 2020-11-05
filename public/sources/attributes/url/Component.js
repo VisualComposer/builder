@@ -10,7 +10,8 @@ import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
 import { getService, getStorage, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
-
+import Tooltip from '../../../components/tooltip/tooltip'
+const dataManager = getService('dataManager')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const popupStorage = getStorage('popup')
@@ -46,7 +47,7 @@ export default class Url extends Attribute {
     fieldType: 'url'
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -520,6 +521,7 @@ export default class Url extends Attribute {
     const { title, url, popupTitle, type } = this.state.value
     const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select a URL'
     const addLink = this.localizations ? this.localizations.addLink : 'Add a link'
+    const opensTheFieldToAddALink = this.localizations ? this.localizations.opensTheFieldToAddALink : 'Opens the field to add a link to the element.'
 
     let linkDataHtml = null
     if (type && type === 'popup') {
@@ -588,6 +590,9 @@ export default class Url extends Attribute {
 
     return (
       <div className='vcv-ui-form-link'>
+        <Tooltip>
+          {opensTheFieldToAddALink}
+        </Tooltip>
         <DynamicAttribute
           {...this.props}
           setFieldValue={this.dynamicAttributeChange}

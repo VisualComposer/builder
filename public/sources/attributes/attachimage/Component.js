@@ -13,7 +13,8 @@ import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
 import { env, getService, getStorage } from 'vc-cake'
-
+import Tooltip from '../../../components/tooltip/tooltip'
+const dataManager = getService('dataManager')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const notificationsStorage = getStorage('notifications')
@@ -552,8 +553,14 @@ export default class AttachImage extends Attribute {
       dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
 
+    const localizations = dataManager.get('localizations')
+    const selectAnImage = localizations ? localizations.selectAnImage : 'Select an image.'
+
     return (
       <>
+        <Tooltip>
+          {selectAnImage}
+        </Tooltip>
         <DynamicAttribute
           {...this.props}
           setFieldValue={this.setFieldValue}

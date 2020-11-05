@@ -1319,6 +1319,34 @@ class Localizations extends Container implements Helper
                 'Choose an event performed when clicking on the image.',
                 'visualcomposer'
             ),
+            'selectAnImage' => __(
+                'Select an image.',
+                'visualcomposer'
+            ),
+            'opensTheFieldToAddALink' => __(
+                'Opens the field to add a link to the element.',
+                'visualcomposer'
+            ),
+            'modifyTheDestinationLinkToThePage' => __(
+                'Modify the destination link to the page. Make sure to enable the option to set a custom permalink in WordPress Settings.',
+                'visualcomposer'
+            ),
+            'selectOrChangeTheLayoutOfThePage' => __(
+                'Select or change the layout of the page, post, or custom post type.',
+                'visualcomposer'
+            ),
+            'insertCustomJSCodeSpetsn' => __(
+                'Insert custom JavaScript code snippets to the whole site or locally on this page in <header> or <footer>.',
+                'visualcomposer'
+            ),
+            'applyCustomCSSCode' => __(
+                'Apply custom CSS code to the whole site or to this particular page only.',
+                'visualcomposer'
+            ),
+            'toPreviewTheChangesUseTheResponsiveView' => __(
+                'To preview the changes, use the Responsive View in the navigation bar.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
