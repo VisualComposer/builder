@@ -6,6 +6,7 @@ import TemplateControl from './lib/templateControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
+import Tooltip from '../../tooltip/tooltip'
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const myTemplatesService = getService('myTemplates')
@@ -424,6 +425,7 @@ export default class AddTemplatePanel extends React.Component {
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
+    const nameYourLayoutToSaveItAsATemplate = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nameYourLayoutToSaveItAsATemplate : 'Name your layout to save it as a template.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {
@@ -472,6 +474,9 @@ export default class AddTemplatePanel extends React.Component {
                 <div className='vcv-ui-form-dependency'>
                   <div className='vcv-ui-form-group'>
                     <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
+                    <Tooltip>
+                      {nameYourLayoutToSaveItAsATemplate}
+                    </Tooltip>
                     <form
                       className='vcv-ui-save-template-form'
                       onSubmit={this.handleSaveTemplate}

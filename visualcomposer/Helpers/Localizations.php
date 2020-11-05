@@ -217,7 +217,7 @@ class Localizations extends Container implements Helper
             'elementIsHidden' => __('Element is Hidden', 'visualcomposer'),
             'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
             'presetsHelperText' => __(
-                'Change default parameters to create a unique element. The new element will be added to the Element Library.',
+                'Change the default parameters to create a unique element. The new element will be added to your library.',
                 'visualcomposer'
             ),
             'saveAsPreset' => __('Save as a Preset', 'visualcomposer'),
@@ -619,7 +619,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'templateHelperText' => __(
-                'Change the default parameters of sections and their content to create a unique block template. The new block template will be added to your library.',
+                'Change the default parameters of the section to save it as a unique block template. The new block template will be added to your library.',
                 'visualcomposer'
             ),
             'presetRemovedText' => __(
@@ -808,11 +808,11 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'lockAllDescriptionText' => __(
-                'Lock or unlock all elements on the page. Users with Administrator role access will be able to edit elements.',
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements.',
                 'visualcomposer'
             ),
             'lockSpecificDescriptionText' => __(
-                'Lock or unlock specific elements under the element edit window.',
+                'You can lock/unlock specific elements under the element Edit window.',
                 'visualcomposer'
             ),
             'lockAllNotificationText' => __(
@@ -1260,7 +1260,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'accessVisualComposerHub' => __(
-                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, add-ons, stock images, and more.',
+                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, addons, stock images, and more.',
                 'visualcomposer'
             ),
             'changeSettingsOfYourPageOrPost' => __(
@@ -1269,6 +1269,18 @@ class Localizations extends Container implements Helper
             ),
             'previewSaveAndPublish' => __(
                 'Preview, save, and publish your content.',
+                'visualcomposer'
+            ),
+            'searchForContentElementsAndTemplates' => __(
+                'Search for content elements and templates to add to your layout.',
+                'visualcomposer'
+            ),
+            'nameYourLayoutToSaveItAsATemplate' => __(
+                'Name your layout to save it as a template.',
+                'visualcomposer'
+            ),
+            'insightsIsAContentAnalysisTool' => __(
+                'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.',
                 'visualcomposer'
             ),
         ];
