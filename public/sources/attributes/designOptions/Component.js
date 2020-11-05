@@ -13,10 +13,11 @@ import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import { getStorage, getService, env } from 'vc-cake'
 import Number from '../number/Component'
+import Tooltip from '../../../components/tooltip/tooltip'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
-
+const dataManager = getService('dataManager')
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
 const { getDynamicValue, getDynamicFieldsData, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
@@ -192,6 +193,7 @@ export default class DesignOptions extends Attribute {
     attributeMixins: {},
     defaultStyles: null
   }
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -660,6 +662,7 @@ export default class DesignOptions extends Attribute {
    */
   getDeviceVisibilityRender () {
     if (this.state.currentDevice === 'all') {
+      const useTheShowElementToggle = DesignOptions.localizations ? DesignOptions.localizations.useTheShowElementToggle : 'Use the Show element toggle to hide or show elements on all or custom devices.'
       const id = this.props.elementAccessPoint.id
       // TODO: Maybe COOK.get() correct here?
       const element = documentService.get(id)
@@ -678,6 +681,9 @@ export default class DesignOptions extends Attribute {
             <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
               Show element
             </label>
+            <Tooltip>
+              {useTheShowElementToggle}
+            </Tooltip>
           </div>
         </div>
       )

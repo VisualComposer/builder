@@ -1295,6 +1295,30 @@ class Localizations extends Container implements Helper
                 'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/">dynamic content</a> placeholders (WordPress default and custom fields).',
                 'visualcomposer'
             ),
+            'controlYourGridLayout' => __(
+                'Control your grid layout: specify the number of columns within a row, adjust responsiveness and more.',
+                'visualcomposer'
+            ),
+            'useReverseStackingToggle' => __(
+                'Use Reverse stacking toggle to stack columns from right to left on mobile devices.',
+                'visualcomposer'
+            ),
+            'enableCustomResponsivness' => __(
+                'Enable custom responsiveness to control column width on different devices.',
+                'visualcomposer'
+            ),
+            'useTheShowElementToggle' => __(
+                'Use the Show element toggle to hide or show elements on all or custom devices.',
+                'visualcomposer'
+            ),
+            'manageIfTheElementAppearsOnAParticularDevice' => __(
+                'Manage if the element appears on a particular device.',
+                'visualcomposer'
+            ),
+            'chooseAnEventPerformedWhenClickingOnTheImage' => __(
+                'Choose an event performed when clicking on the image.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
