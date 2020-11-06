@@ -68,12 +68,14 @@ export default class AddContentPanel extends React.Component {
         index: 0,
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
+        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements',
         content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
       },
       addTemplate: {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
+        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search templates',
         content: <AddTemplatePanel searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       }
     }
@@ -83,6 +85,7 @@ export default class AddContentPanel extends React.Component {
         <Search
           onSearchChange={this.handleSearch}
           searchValue={this.state.searchValue}
+          searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
           setFirstElement={this.setFirstElement}
         />
         <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />

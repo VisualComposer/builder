@@ -1271,10 +1271,6 @@ class Localizations extends Container implements Helper
                 'Preview, save, and publish your content.',
                 'visualcomposer'
             ),
-            'searchForContentElementsAndTemplates' => __(
-                'Search for content elements and templates to add to your layout.',
-                'visualcomposer'
-            ),
             'nameYourLayoutToSaveItAsATemplate' => __(
                 'Name your layout to save it as a template.',
                 'visualcomposer'
@@ -1345,6 +1341,38 @@ class Localizations extends Container implements Helper
             ),
             'toPreviewTheChangesUseTheResponsiveView' => __(
                 'To preview the changes, use the Responsive View in the navigation bar.',
+                'visualcomposer'
+            ),
+            'applyTheMostCommonStyles' => __(
+                'Apply the most common style properties and effects to content elements with <a href="https://visualcomposer.com/help/design-options/">Design Options</a>.',
+                'visualcomposer'
+            ),
+            'enablingParallax' => __(
+                'Enabling <a href="https://visualcomposer.com/help/design-options/parallax-effect/">Parallax</a> creates a 3D scrolling effect on the page.',
+                'visualcomposer'
+            ),
+            'addOutlinedShadesToAnElement' => __(
+                'Add outlined shades to an element.',
+                'visualcomposer'
+            ),
+            'addPreDesignedOrCustomShapes' => __(
+                'Add pre-designed or custom shapes to divide rows and columns.',
+                'visualcomposer'
+            ),
+            'theStickyOption' => __(
+                'The sticky option makes the container and its content fixed at the top of the page.',
+                'visualcomposer'
+            ),
+            'specifyTheTypeOfContentToDisplay' => __(
+                'Specify the type of content to display in the Post grid element.',
+                'visualcomposer'
+            ),
+            'modifyExistingParametersOfASingleGridItem' => __(
+                'Modify existing parameters of a single grid item of the chosen grid element.',
+                'visualcomposer'
+            ),
+            'specifyHowManyItemsWillBeDisplayedWithinThePage' => __(
+                'Specify how many items will be displayed within the page.',
                 'visualcomposer'
             ),
         ];

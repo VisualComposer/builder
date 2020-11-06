@@ -272,9 +272,9 @@ export default class Url extends Attribute {
           api={this.props.api}
           updater={this.inputChange}
         />
-        <p className='vcv-ui-form-helper'>
+        <Tooltip>
           {titleAttributeText}
-        </p>
+        </Tooltip>
       </div>
     )
   }
