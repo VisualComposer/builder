@@ -31,7 +31,6 @@ export default class ReplaceElement extends React.Component {
 
   ellipsize (selector) {
     const elements = this.elementListRef.current.querySelectorAll(selector)
-    console.log('elements', elements)
     if (!elements || !elements.length) {
       return
     }
