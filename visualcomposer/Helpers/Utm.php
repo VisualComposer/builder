@@ -16,7 +16,7 @@ class Utm implements Helper
     {
         $premiumLicenseUtmTemplate = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium={medium}&utm_campaign=gopremium&utm_content=button';
 
-        return str_replace('{medium}', $medium, $premiumLicenseUtmTemplate);
+        return str_replace('{medium}', esc_attr($medium), $premiumLicenseUtmTemplate);
     }
 
     public function freeBtnUtm($medium)
@@ -27,7 +27,7 @@ class Utm implements Helper
             rtrim($myVc, '\//')
         );
 
-        return str_replace('{medium}', $medium, $freeLicenseUtmTemplate);
+        return str_replace('{medium}', esc_attr($medium), $freeLicenseUtmTemplate);
     }
 
     /**
