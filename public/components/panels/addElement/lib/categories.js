@@ -140,37 +140,15 @@ export default class Categories extends React.Component {
     return Categories.allElementsTags
   }
 
-  getElementsList (groupCategories, tags) {
-    let groupElements = []
-    const setGroupElements = (element) => {
-      if (tags.indexOf(element.tag) > -1) {
-        groupElements.push(element)
-      }
-    }
-    if (groupCategories === true) {
-      // Get ALL
-      groupElements = this.getAllElements()
-    } else {
-      groupCategories.forEach((category) => {
-        const categoryElements = categoriesService.getSortedElements(category)
-        categoryElements.forEach(setGroupElements)
-      })
-    }
-    groupElements = [...new Set(groupElements)]
-
-    return groupElements
-  }
-
-  getAllCategories () {
+  getAllGroups () {
     const isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
     const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
 
     if (isCategories || isPresetsUpdated) {
       const groupsStore = {}
       const groups = groupsService.all()
-      const tags = this.getAllElementsTags()
       Categories.allCategories = groups.filter((group) => {
-        groupsStore[group.title] = this.getElementsList(group.categories, tags)
+        groupsStore[group.title] = categoriesService.getSortedElements(group.elements)
         return groupsStore[group.title].length > 0
       }).map((group, index) => {
         return {
@@ -250,11 +228,9 @@ export default class Categories extends React.Component {
     const isAllGroupDataSet = Categories.allGroupData && Categories.allGroupData.elements
 
     if (!isAllGroupDataSet) {
-      const tags = this.getAllElementsTags()
-
       Categories.allGroupData = {
         title: 'All',
-        elements: this.getElementsList(true, tags)
+        elements: [...new Set(this.getAllElements())]
       }
     }
 
@@ -292,10 +268,10 @@ export default class Categories extends React.Component {
     }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
   }
 
-  getElementsByCategory () {
-    const allCategories = this.getAllCategories()
-    const presetsCategory = allCategories.find(category => category.id === 'Presets')
-    const mostUsedElementsCategory = allCategories.find(category => category.id === 'usageCount')
+  getElementsByGroup () {
+    const allGroups = this.getAllGroups()
+    const presetsCategory = allGroups.find(group => group.id === 'Presets')
+    const mostUsedElementsCategory = allGroups.find(group => group.id === 'usageCount')
 
     if (!presetsCategory) {
       const presetElements = Categories.allElements.filter(element => element.presetId)
@@ -305,7 +281,7 @@ export default class Categories extends React.Component {
           title: 'Presets',
           elements: presetElements
         }
-        allCategories.unshift(presetElementsCategory)
+        allGroups.unshift(presetElementsCategory)
       }
     }
 
@@ -317,13 +293,13 @@ export default class Categories extends React.Component {
           title: 'Most Used',
           elements: mostUsedItems
         }
-        allCategories.unshift(mostUsedElementsCategory)
+        allGroups.unshift(mostUsedElementsCategory)
       }
     }
 
     const allElements = []
 
-    allCategories.forEach((groupData) => {
+    allGroups.forEach((groupData) => {
       const groupElements = []
       groupData.elements.forEach((element) => {
         groupElements.push(this.getElementControl(element))
@@ -422,7 +398,7 @@ export default class Categories extends React.Component {
 
   render () {
     const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
-    const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByCategory()
+    const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByGroup()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
