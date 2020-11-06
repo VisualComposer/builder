@@ -409,7 +409,11 @@ export default class TokenizationList extends React.Component {
 
     let description = ''
     if (this.props.description) {
-      description = <p className='vcv-ui-form-helper'>{this.props.description}</p>
+      description = (
+          <Tooltip>
+            {this.props.description}
+          </Tooltip>
+        )
     }
 
     return (
@@ -430,9 +434,7 @@ export default class TokenizationList extends React.Component {
           {this.renderTokensList()}
           {this.getLoading()}
         </div>
-        <Tooltip>
-          {description}
-        </Tooltip>
+        {description}
       </>
     )
   }

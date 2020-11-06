@@ -150,7 +150,9 @@ export default class DynamicPopup extends React.Component {
           options={{ labelText: DynamicPopup.localizations.dynamicAutocompleteToggleLabel || 'Set custom post source' }}
           updater={this.autocompleteToggleChange}
         />
-        <p className='vcv-ui-form-helper'>{DynamicPopup.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}</p>
+        <Tooltip>
+          {DynamicPopup.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}
+        </Tooltip>
       </>
     )
   }

@@ -3,6 +3,7 @@ import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import { env, getService } from 'vc-cake'
 import classNames from 'classnames'
+import Tooltip from '../../../tooltip/tooltip'
 
 const dataManager = getService('dataManager')
 const { getDynamicValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
@@ -139,7 +140,11 @@ export default class Field extends React.Component {
     }
     let description = ''
     if (options && typeof options.description === 'string') {
-      description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
+      description = (
+        <Tooltip>
+          {options.description}
+        </Tooltip>
+      )
     }
     if (options && options.descriptionHTML) {
       const createMenuUrl = dataManager.get('createMenuUrl')
