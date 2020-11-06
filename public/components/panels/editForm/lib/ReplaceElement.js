@@ -20,8 +20,32 @@ export default class ReplaceElement extends React.Component {
 
   constructor (props) {
     super(props)
+    this.elementListRef = React.createRef()
     this.handleReplace = this.handleReplace.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
+  }
+
+  componentDidMount () {
+    this.ellipsize('.vcv-ui-item-element-name')
+  }
+
+  ellipsize (selector) {
+    const elements = this.elementListRef.current.querySelectorAll(selector)
+    console.log('elements', elements)
+    if (!elements || !elements.length) {
+      return
+    }
+    elements.forEach((element) => {
+      const wordArray = element.innerHTML.split(' ')
+
+      // Check if difference is within a 3px threshold
+      // 3px is a safe value to cover the differences between the browsers
+      while (((element.scrollHeight - element.offsetHeight) > 3) && wordArray.length > 0) {
+        wordArray.pop()
+        element.innerHTML = wordArray.join(' ') + '...'
+      }
+    })
+    return this
   }
 
   handleReplace (newElementTag, cookElement) {
@@ -123,7 +147,7 @@ export default class ReplaceElement extends React.Component {
         <p className='vcv-ui-replace-element-description'>
           {replaceElementText}
         </p>
-        <ul className='vcv-ui-replace-element-list'>
+        <ul className='vcv-ui-replace-element-list' ref={this.elementListRef}>
           {replacementPresetItems}
           {replacementItemsOutput}
         </ul>
