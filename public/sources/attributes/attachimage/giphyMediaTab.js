@@ -1,5 +1,8 @@
 import React from 'react'
+import { getService } from 'vc-cake'
 import GiphyContainer from 'public/components/stockMedia/giphyContainer'
+
+const dataManager = getService('dataManager')
 
 export default class GiphyMediaTab extends React.Component {
   constructor (props) {
@@ -11,6 +14,7 @@ export default class GiphyMediaTab extends React.Component {
     }
 
     this.handleMediaScroll = this.handleMediaScroll.bind(this)
+    this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
   }
 
   componentDidMount () {
@@ -40,7 +44,21 @@ export default class GiphyMediaTab extends React.Component {
     })
   }
 
+  handleClickGoPremium (e) {
+    e && e.preventDefault && e.preventDefault()
+
+    const refRoot = '&vcv-ref=giphy-add-media-editor'
+    const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    window.open(utmUrlRef)
+  }
+
   render () {
-    return <GiphyContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+    return (
+      <GiphyContainer
+        onClickGoPremium={this.handleClickGoPremium}
+        scrolledToBottom={this.state.scrolledToBottom}
+        scrollTop={this.state.scrollTop}
+      />
+    )
   }
 }

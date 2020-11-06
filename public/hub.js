@@ -58,7 +58,7 @@ export const setupCake = () => {
     const addNotifications = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} />,
+        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} namespace='vc-dashboard' />,
         document.querySelector('#vcv-hub')
       )
     })

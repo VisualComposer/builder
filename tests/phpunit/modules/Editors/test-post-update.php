@@ -137,7 +137,10 @@ class TestPostUpdate extends WP_UnitTestCase
         preg_match_all('/window\.vcvIsFreeActivated/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'vcvIsFreeActivated');
 
-        preg_match_all('/window\.vcvGoPremiumUrl/', $output, $matches);
+        preg_match_all('/window\.vcvGoPremiumUrlWithRef/', $output, $matches);
+        $this->assertEquals(1, count($matches[0]), 'vcvGoPremiumUrlWithRef');
+
+        preg_match_all('/window\.vcvGoPremiumUrl\s\=/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'vcvGoPremiumUrl');
 
         preg_match_all('/window\.vcvGettingStartedUrl/', $output, $matches);
@@ -145,12 +148,6 @@ class TestPostUpdate extends WP_UnitTestCase
 
         preg_match_all('/window\.vcvIsAnyActivated/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'vcvIsAnyActivated');
-
-        preg_match_all('/window\.vcvUpgradeUrl \=/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'vcvUpgradeUrl');
-
-        preg_match_all('/window\.vcvUpgradeUrlUnsplash/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'vcvUpgradeUrlUnsplash');
 
         preg_match_all('/Object\.defineProperty\(window, \'VCV_LICENSE_KEY\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_LICENSE_KEY');
@@ -216,17 +213,11 @@ class TestPostUpdate extends WP_UnitTestCase
         preg_match_all('/Object\.defineProperty\(window, \'VCV_CREATE_NEW_TEXT\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_CREATE_NEW_TEXT');
 
-        preg_match_all('/Object\.defineProperty\(window, \'VCV_PREMIUM_URL\', {/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'VCV_PREMIUM_URL');
-
-        preg_match_all('/Object\.defineProperty\(window, \'VCV_GO_PREMIUM_URL\', {/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'VCV_GO_PREMIUM_URL');
+        //        preg_match_all('/Object\.defineProperty\(window, \'VCV_PREMIUM_URL\', {/', $output, $matches);
+        //        $this->assertEquals(1, count($matches[0]), 'VCV_PREMIUM_URL');
 
         preg_match_all('/Object\.defineProperty\(window, \'VCV_MANAGE_OPTIONS\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_MANAGE_OPTIONS');
-
-        preg_match_all('/Object\.defineProperty\(window, \'VCV_ACTIVATE_FREE_URL\', {/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'VCV_ACTIVATE_FREE_URL');
 
         preg_match_all('/Object\.defineProperty\(window, \'VCV_ENV\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_ENV');
@@ -236,65 +227,5 @@ class TestPostUpdate extends WP_UnitTestCase
 
         preg_match_all('/Object\.defineProperty\(window, \'VCV_SLUG\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_SLUG');
-
-        //       window.vcvAjaxUrl = '?vcv-ajax=1';
-        //       window.vcvAdminAjaxUrl = 'http://localhost/wp-admin/admin-ajax.php?vcv-admin-ajax=1&action=vcv-admin-ajax';
-
-        //     window.vcvIsPremiumActivated = false;
-        //     window.vcvGoPremiumUrl = "http:\/\/localhost\/wp-admin\/admin.php?page=vcv-go-premium";
-        //     window.vcvGettingStartedUrl = "http:\/\/localhost\/wp-admin\/admin.php?page=vcv-getting-started&vcv-ref=logoFrontend";
-        //     window.vcvIsAnyActivated = false;
-        //     window.vcvUpgradeUrl = "http:\/\/localhost\/wp-admin\/admin.php?page=vcv-getting-started&vcv-ref=hub-banner";
-        //     window.vcvUpgradeUrlUnsplash = "http:\/\/localhost\/wp-admin\/admin.php?page=vcv-getting-started&vcv-ref=unsplash";
-        //           Object.defineProperty(window, 'VCV_ERROR_REPORT_URL', {
-
-        /*
-          if(typeof window['VCV_UPDATE_ACTIONS'] === 'undefined') {
-          Object.defineProperty(window, 'VCV_UPDATE_ACTIONS', {
-            value: function () {
-              return {"actions":[],"posts":[{"id":648,"editableLink":"http:\/\/localhost\/?p=648&vcv-editable=1&vcv-source-id=648&vcv-nonce=f1447aa3ca","name":""}]} },
-            writable: false
-          });
-        }
-         */
-
-        //           Object.defineProperty(window, 'VCV_UPDATE_PROCESS_ACTION_URL', {
-
-        //          Object.defineProperty(window, 'VCV_UPDATE_SKIP_POST_URL', {
-        //           Object.defineProperty(window, 'VCV_UPDATE_WP_BUNDLE_URL', {
-        //           Object.defineProperty(window, 'VCV_UPDATE_VENDOR_URL', {
-        //           Object.defineProperty(window, 'VCV_UPDATE_GLOBAL_VARIABLES_URL', {
-        //           Object.defineProperty(window, 'VCV_PLUGIN_VERSION', {
-        //           Object.defineProperty(window, 'VCV_UPDATE_URL', {
-        //           Object.defineProperty(window, 'VCV_CREATE_NEW_URL', {
-        //           Object.defineProperty(window, 'VCV_CREATE_NEW_TEXT', {
-        //           Object.defineProperty(window, 'VCV_PREMIUM_URL', {
-        //           Object.defineProperty(window, 'VCV_GO_PREMIUM_URL', {
-        //           Object.defineProperty(window, 'VCV_MANAGE_OPTIONS', {
-
-        //           Object.defineProperty(window, 'VCV_ACTIVATE_FREE_URL', {
-
-        /*
-         Object.defineProperty(window, 'VCV_ENV', {
-            value: function () {
-              return {"VCV_ENV_DEV_ADDONS":true,"VCV_DEBUG":true,"VCV_ENV_DEV_ELEMENTS":true,"VCV_JS_SAVE_ZIP":false,"VCV_ENV_ADDONS_ID":"account","VCV_ENV_HUB_DOWNLOAD":true,"VCV_ENV_EXTENSION_DOWNLOAD":true,"VCV_HUB_URL":"https:\/\/my.visualcomposer.com\/","VCV_TOKEN_URL":"https:\/\/my.visualcomposer.com\/authorization-token","VCV_PREMIUM_TOKEN_URL":"https:\/\/my.visualcomposer.com\/\/authorization-token","VCV_API_URL":"https:\/\/api.visualcomposer.com","VCV_ACTIVATE_LICENSE_URL":"https:\/\/my.visualcomposer.com\/?edd_action=activate_license&item_name=Visual%20Composer","VCV_FIX_CURL_JSON_DOWNLOAD":false,"VCV_TF_ASSETS_URLS_FACTORY_RESET":true,"VCV_ENV_ELEMENTS_FILES_NOGLOB":false,"VCV_TF_BLANK_PAGE_BOXED":true,"VCV_FT_INITIAL_CSS_LOAD":true,"VCV_TF_CSS_CHECKSUM":true,"VCV_FT_TEMPLATE_DATA_ASYNC":true,"VCV_FT_ASSETS_INSIDE_PLUGIN":true,"VCV_FT_DEFAULT_ELEMENTS_INSIDE_PLUGIN":true,"VCV_ENV_FT_SYSTEM_CHECK_LIST":true,"VCV_ENV_FT_GLOBAL_CSS_JS_SETTINGS":true,"VCV_JS_THEME_LAYOUTS":false,"VCV_JS_THEME_EDITOR":false,"VCV_JS_ARCHIVE_TEMPLATE":false,"VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR":false,"VCV_JS_FT_DYNAMIC_FIELDS":true,"VCV_ACCOUNT_URL":"https:\/\/account.visualcomposer.io"} },
-            writable: false
-          });
-         */
-
-        //           Object.defineProperty(window, 'VCV_SITE_URL', {
-
-        //           Object.defineProperty(window, 'VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT', {
-        //           Object.defineProperty(window, 'VCV_HUB_GET_ADDONS', {
-
-        //           Object.defineProperty(window, 'VCV_LICENSE_KEY', {
-
-        //           Object.defineProperty(window, 'VCV_API_URL', {
-
-        //           Object.defineProperty(window, 'VCV_SLUG', {
-
-        //     Object.defineProperty(window, 'VCV_UTM', {
-
-        // 		<link rel="stylesheet" href="http://localhost/wp-content/plugins/builder/public/dist/wpUpdate.bundle.css?v=dev"></link><script id="vcv-script-vendor-bundle-update" type="text/javascript" src="http://localhost/wp-content/plugins/builder/public/dist/vendor.bundle.js?v=dev"></script><script id="vcv-script-wpUpdate-bundle-update" type="text/javascript" src="http://localhost/wp-content/plugins/builder/public/dist/wpUpdate.bundle.js?v=dev"></script></body>
     }
 }

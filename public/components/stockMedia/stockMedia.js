@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import StockMediaResultsPanel from './stockMediaResultsPanel'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
+
 const dataManager = getService('dataManager')
 
 export default class StockMedia extends React.Component {
@@ -34,12 +35,6 @@ export default class StockMedia extends React.Component {
       window.clearTimeout(this.inputTimeout)
       this.inputTimeout = 0
     }
-  }
-
-  static handleClickGoPremium (e) {
-    e && e.preventDefault && e.preventDefault()
-    const target = e.currentTarget
-    window.location.replace(target.dataset.href)
   }
 
   handleKeyPress (e) {
@@ -104,7 +99,6 @@ export default class StockMedia extends React.Component {
     const {
       backgroundImage,
       stockMediaLocalizations,
-      upgradeUrl,
       stockMediaLogo,
       vcvAuthorApiKey,
       apiUrlKey,
@@ -116,25 +110,27 @@ export default class StockMedia extends React.Component {
     } = this.props
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
-    const goPremium = StockMedia.localizations ? StockMedia.localizations.goPremium : 'Go Premium'
-    const activateHub = StockMedia.localizations ? StockMedia.localizations.activateVisualComposerHub : 'Activate Visual Composer Hub'
+    const goPremiumText = StockMedia.localizations ? StockMedia.localizations.goPremium : 'Go Premium'
+    const activateHubText = StockMedia.localizations ? StockMedia.localizations.activateVisualComposerHub : 'Activate Visual Composer Hub'
 
     let content = ''
-    if (typeof dataManager.get('isPremiumActivated') !== 'undefined' && !dataManager.get('isPremiumActivated')) {
+    if (!dataManager.get('isPremiumActivated')) {
       content = (
         <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
           <p className='vcv-stock-images-subtitle'>{getMediaWithPremiumText}</p>
-          <span className='vcv-stock-images-button' data-href={upgradeUrl} onClick={StockMedia.handleClickGoPremium}>
-            {!dataManager.get('isFreeActivated') && activateHub}
-            {dataManager.get('isFreeActivated') && !dataManager.get('isPremiumActivated') && goPremium}
+          <span className='vcv-stock-images-button' onClick={this.props.onClickGoPremium}>
+            {!dataManager.get('isFreeActivated') && activateHubText}
+            {dataManager.get('isFreeActivated') && goPremiumText}
           </span>
         </>
       )
     } else {
       let poweredText = null
       if (stockMediaLocalizations.poweredByText) {
-        poweredText = <div className='vcv-stock-media-powered-text' dangerouslySetInnerHTML={{ __html: stockMediaLocalizations.poweredByText }} />
+        poweredText = (
+          <div className='vcv-stock-media-powered-text' dangerouslySetInnerHTML={{ __html: stockMediaLocalizations.poweredByText }} />
+        )
       }
       content = (
         <>
@@ -181,6 +177,7 @@ export default class StockMedia extends React.Component {
           apiUrlKey={apiUrlKey}
           sizes={sizes}
           previewImageSize={previewImageSize}
+          onClickGoPremium={this.props.onClickGoPremium}
         />
       </>
     )

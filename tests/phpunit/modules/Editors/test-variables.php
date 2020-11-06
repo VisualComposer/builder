@@ -168,8 +168,6 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('vcvGettingStartedUrl', $variableKeys, 'vcvGettingStartedUrl');
         $this->assertContains('vcvGutenbergEditorUrl', $variableKeys, 'vcvGutenbergEditorUrl');
         $this->assertContains('vcvIsAnyActivated', $variableKeys, 'vcvIsAnyActivated');
-        $this->assertContains('vcvUpgradeUrl', $variableKeys, 'vcvUpgradeUrl');
-        $this->assertContains('vcvUpgradeUrlUnsplash', $variableKeys, 'vcvUpgradeUrlUnsplash');
     }
 
     public function testJsonVariables()

@@ -4,7 +4,6 @@ import { getStorage } from 'vc-cake'
 
 const hubAddonsStorage = getStorage('hubAddons')
 const eventsStorage = getStorage('events')
-
 const localizations = window.VCV_I18N && window.VCV_I18N()
 
 export default class HubAddonControl extends React.Component {
@@ -35,10 +34,6 @@ export default class HubAddonControl extends React.Component {
     eventsStorage.trigger('hub:addon:clickAdd', options)
   }
 
-  openPremiumTab () {
-    window.open(window.VCV_UTM().goPremiumElementDownload)
-  }
-
   render () {
     const { name, element, isDownloading, tag } = this.props
     const { isNew } = this.state
@@ -57,7 +52,7 @@ export default class HubAddonControl extends React.Component {
     let action = this.handleAddonClick
     if (elementState !== 'success') {
       if (lockIcon) {
-        action = this.openPremiumTab
+        action = this.props.onClickGoPremium
       } else {
         action = this.downloadAddon
       }

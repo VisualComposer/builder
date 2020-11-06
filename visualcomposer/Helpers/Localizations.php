@@ -161,15 +161,11 @@ class Localizations extends Container implements Helper
             ),
             'activationFailed' => __(
                 'An error occurred during the Visual Composer extension download process.
-<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://cdn.hub.visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-player-preview.jpg" target="_blank">Amazon AWS</a></li></ul>',
-                'visualcomposer'
-            ),
-            'forgotYourLicenseText' => __(
-                'Forgot your license? Retrieve it in <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> under Licenses section',
+<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://aws.amazon.com/ru/premiumsupport/knowledge-center/s3-find-ip-address-ranges/" target="_blank" rel="noopener noreferrer">Amazon AWS Region: `us-west-2` IP</a></li></ul>',
                 'visualcomposer'
             ),
             'alreadyHaveALicenseText' => __(
-                'Already have a license? Log in to <a href="https://my.visualcomposer.com/licenses/?utm_medium=wp-dashboard&utm_source=activation-page&utm_campaign=get-license" class="vcv-activation-input-field-forgot-license-link" target="_blank">My Visual Composer</a> to find it.',
+                'Already have a license? Log in to <a href="{link}" class="vcv-activation-input-field-forgot-license-link" target="_blank" rel="noopener noreferrer">My Visual Composer</a> to find it.',
                 'visualcomposer'
             ),
             'doMoreWithVcText' => __(
@@ -192,7 +188,6 @@ class Localizations extends Container implements Helper
             'onPageLoad' => __('Popup on every page load', 'visualcomposer'),
             'onExitIntent' => __('Popup on exit-intent', 'visualcomposer'),
             'onElementId' => __('Popup on element ID', 'visualcomposer'),
-            'selectPopupTemplate' => __('Select a popup template', 'visualcomposer'),
             'delayInSeconds' => __('Delay (seconds)', 'visualcomposer'),
             'showEveryDays' => __('Show every (days)', 'visualcomposer'),
             'popupOpenOnPageLoad' => __('The popup will open once the page is loaded.', 'visualcomposer'),
@@ -317,7 +312,7 @@ class Localizations extends Container implements Helper
                     'visualcomposer'
                 ),
                 '{name}',
-                '<a href="{link}" target="_blank">',
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'selectHFS' => __(
@@ -593,7 +588,7 @@ class Localizations extends Container implements Helper
                     '%sEdit%s this %s.%s',
                     'visualcomposer'
                 ),
-                '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">',
+                '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>',
                 '{editLinkTitle}',
                 '</div>'
@@ -749,10 +744,6 @@ class Localizations extends Container implements Helper
             ),
             'activate' => __(
                 'Activate',
-                'visualcomposer'
-            ),
-            'upgradeToPremium' => __(
-                'Upgrade To Premium',
                 'visualcomposer'
             ),
             'takeTutorialTemplate' => __(
@@ -1240,31 +1231,31 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'thisIsYourContentLibrary' => __(
-                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Hub</a>.',
+                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="_blank" rel="noopener noreferrer">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="_blank" rel="noopener noreferrer">Hub</a>.',
                 'visualcomposer'
             ),
             'useElementControls' => __(
-                'Use <a href="https://visualcomposer.com/help/interface/element-controls/" target="blank">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="blank">layout structure</a> or modify the particular row, column, or content element.',
+                'Use <a href="https://visualcomposer.com/help/interface/element-controls/" target="_blank" rel="noopener noreferrer">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="_blank" rel="noopener noreferrer">layout structure</a> or modify the particular row, column, or content element.',
                 'visualcomposer'
             ),
             'useQuickActions' => __(
-                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="blank">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
+                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/" target="_blank" rel="noopener noreferrer">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
                 'visualcomposer'
             ),
             'validateYourPage' => __(
-                '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/" target="blank">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
+                '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/" target="_blank" rel="noopener noreferrer">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
                 'visualcomposer'
             ),
             'checkHowYourPageLooksOnDifferentDevices' => __(
-                'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/" target="blank">preview your layout responsiveness</a>.',
+                'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/" target="_blank" rel="noopener noreferrer">preview your layout responsiveness</a>.',
                 'visualcomposer'
             ),
             'accessVisualComposerHub' => __(
-                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="blank">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, add-ons, stock images, and more.',
+                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, add-ons, stock images, and more.',
                 'visualcomposer'
             ),
             'changeSettingsOfYourPageOrPost' => __(
-                'Change <a href="https://visualcomposer.com/help/settings/" target="blank">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
+                'Change <a href="https://visualcomposer.com/help/settings/" target="_blank" rel="noopener noreferrer">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
                 'visualcomposer'
             ),
             'previewSaveAndPublish' => __(

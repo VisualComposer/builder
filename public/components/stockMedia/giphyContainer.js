@@ -43,7 +43,6 @@ export default class GiphyContainer extends React.Component {
       <StockMedia
         stockMediaLogo={giphyLogo}
         stockMediaLocalizations={stockMediaLocalizations}
-        upgradeUrl={dataManager.get('upgradeUrlGiphy')}
         vcvAuthorApiKey={null}
         apiUrlKey='giphy'
         sizes={sizes}
