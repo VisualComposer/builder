@@ -15,6 +15,7 @@
     },
     "options": {
       "label": "Link selection",
+      "description": "Opens the field to add a link to the element.",
       "dynamicField": true
     }
   },

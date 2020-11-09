@@ -106,7 +106,7 @@ export default class CustomJavascript extends React.Component {
   }
 
   render () {
-    const insertCustomJSCodeSpetsn = CustomJavascript.localizations ? CustomJavascript.localizations.insertCustomJSCodeSpetsn : 'Apply custom CSS code to the whole site or to this particular page only. '
+    const insertCustomJSCodeSnippets = CustomJavascript.localizations ? CustomJavascript.localizations.insertCustomJSCodeSnippets : 'Insert custom JavaScript code snippets to the whole site or locally on this page in header or footer.'
 
     return (
       <div className='vcv-ui-custom-scripts vcv-ui-custom-scripts-areas'>
@@ -115,7 +115,7 @@ export default class CustomJavascript extends React.Component {
             {this.getButtons()}
           </div>
           <Tooltip>
-            {insertCustomJSCodeSpetsn}
+            {insertCustomJSCodeSnippets}
           </Tooltip>
         </div>
         <p className='vcv-ui-form-helper'>

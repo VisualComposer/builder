@@ -16,15 +16,18 @@ import Number from '../number/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import Range from '../range/Component'
+import Tooltip from '../../../components/tooltip/tooltip'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
-
+const dataManager = getService('dataManager')
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 
 export default class DesignOptionsAdvanced extends Attribute {
+  static localizations = dataManager.get('localizations')
+
   static defaultProps = {
     fieldType: 'designOptionsAdvanced'
   }
@@ -805,6 +808,8 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {XML}
    */
   getDeviceVisibilityRender () {
+    const useTheShowElementToggle = DesignOptionsAdvanced.localizations ? DesignOptionsAdvanced.localizations.useTheShowElementToggle : 'Use the Show element toggle to hide or show elements on all or custom devices.'
+
     if (this.state.currentDevice === 'all') {
       const id = this.props.elementAccessPoint.id
       const element = documentService.get(id)
@@ -828,6 +833,9 @@ export default class DesignOptionsAdvanced extends Attribute {
               <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
                 Show element
               </label>
+              <Tooltip>
+                {useTheShowElementToggle}
+              </Tooltip>
             </div>
           </div>
         )
@@ -843,6 +851,9 @@ export default class DesignOptionsAdvanced extends Attribute {
           options={{ labelText: 'Show on device' }}
           value={!this.state.devices[this.state.currentDevice].display}
         />
+        <Tooltip>
+          {useTheShowElementToggle}
+        </Tooltip>
       </div>
     )
   }
@@ -1149,11 +1160,18 @@ export default class DesignOptionsAdvanced extends Attribute {
       )
     }
 
+    const selectAnImage = DesignOptionsAdvanced.localizations ? DesignOptionsAdvanced.localizations.selectAnImage : 'Select an image.'
+
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          Images
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            Background images
+          </span>
+          <Tooltip>
+            {selectAnImage}
+          </Tooltip>
+        </div>
         {fieldComponent}
       </div>
     )

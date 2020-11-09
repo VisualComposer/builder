@@ -16,7 +16,8 @@ export default class Tooltip extends React.Component {
   }
 
   componentDidMount () {
-    this.overflowContainer = this.tooltipRef.current.closest('.vcv-ui-scroll') || document.body
+    const relativeElementSelector = this.props.relativeElementSelector || '.vcv-ui-scroll'
+    this.overflowContainer = this.tooltipRef.current.closest(relativeElementSelector) || document.body
   }
 
   componentWillUnmount () {
