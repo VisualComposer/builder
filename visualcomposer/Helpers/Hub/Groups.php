@@ -153,7 +153,6 @@ class Groups implements Helper
                 'title' => 'Containers',
                 'elements' => [
                     'row',
-                    'column',
                     'section',
                     'classicAccordion',
                     'tabsWithSlide',
