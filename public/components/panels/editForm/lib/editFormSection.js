@@ -361,11 +361,11 @@ export default class EditFormSection extends React.Component {
 
     let tooltip = null
     if (tab.data.settings.options.tooltip) {
-        tooltip = (
-          <Tooltip>
-            {tab.data.settings.options.tooltip}
-          </Tooltip>
-        )
+      tooltip = (
+        <Tooltip>
+          {tab.data.settings.options.tooltip}
+        </Tooltip>
+      )
     }
 
     return (
