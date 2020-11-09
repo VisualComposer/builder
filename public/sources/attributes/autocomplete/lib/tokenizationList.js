@@ -410,7 +410,9 @@ export default class TokenizationList extends React.Component {
     let description = ''
     if (this.props.description) {
       description = (
-        <Tooltip>
+        <Tooltip
+          relativeElementSelector='.vcv-ui-modal-content'
+        >
           {this.props.description}
         </Tooltip>
       )

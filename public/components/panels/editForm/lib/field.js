@@ -129,6 +129,14 @@ export default class Field extends React.Component {
     const isOptionsLabel = options && typeof options.label === 'string'
     const isRegularAttributeField = tabTypeName === 'group' && fieldType !== 'paramsGroup'
     const isParamsGroupAttributeField = tabTypeName === 'paramsGroup'
+    let tooltip = null
+    if (options && typeof options.description === 'string') {
+      tooltip = (
+        <Tooltip>
+          {options.description}
+        </Tooltip>
+      )
+    }
     if (isOptionsLabel && (isRegularAttributeField || isParamsGroupAttributeField)) {
       let spinnerHtml = null
       if (this.state.isFieldLoading) {
@@ -136,16 +144,14 @@ export default class Field extends React.Component {
           <span className='vcv-ui-wp-spinner' />
         )
       }
-      label = (<span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>)
-    }
-    let description = ''
-    if (options && typeof options.description === 'string') {
-      description = (
-        <Tooltip>
-          {options.description}
-        </Tooltip>
+      label = (
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>
+          {tooltip}
+        </div>
       )
     }
+    let description = ''
     if (options && options.descriptionHTML) {
       const createMenuUrl = dataManager.get('createMenuUrl')
       const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', createMenuUrl)

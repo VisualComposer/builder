@@ -473,10 +473,12 @@ export default class AddTemplatePanel extends React.Component {
               <div className={innerSectionClasses}>
                 <div className='vcv-ui-form-dependency'>
                   <div className='vcv-ui-form-group'>
-                    <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
-                    <Tooltip>
-                      {nameYourLayoutToSaveItAsATemplate}
-                    </Tooltip>
+                    <div className='vcv-ui-form-group-heading-wrapper'>
+                      <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
+                      <Tooltip>
+                        {nameYourLayoutToSaveItAsATemplate}
+                      </Tooltip>
+                    </div>
                     <form
                       className='vcv-ui-save-template-form'
                       onSubmit={this.handleSaveTemplate}

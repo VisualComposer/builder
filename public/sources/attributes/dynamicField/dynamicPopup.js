@@ -150,7 +150,9 @@ export default class DynamicPopup extends React.Component {
           options={{ labelText: DynamicPopup.localizations.dynamicAutocompleteToggleLabel || 'Set custom post source' }}
           updater={this.autocompleteToggleChange}
         />
-        <Tooltip>
+        <Tooltip
+          relativeElementSelector='.vcv-ui-modal-content'
+        >
           {DynamicPopup.localizations.dynamicAutocompleteToggleDescription || 'By default, dynamic content is taken from the current post.'}
         </Tooltip>
       </>
@@ -248,13 +250,15 @@ export default class DynamicPopup extends React.Component {
       >
         <div className='vcv-ui-modal'>
           <header className='vcv-ui-modal-header'>
+            <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
+            <Tooltip
+              relativeElementSelector='.vcv-ui-modal-content'
+            >
+              {replaceStaticContentWithDynamicContent}
+            </Tooltip>
             <span className='vcv-ui-modal-close' onClick={this.handleCloseClick} title={closeText}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
-            <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
-            <Tooltip>
-              {replaceStaticContentWithDynamicContent}
-            </Tooltip>
           </header>
           <section className='vcv-ui-modal-content'>
             <div className='vcv-ui-dynamic-field-inner'>

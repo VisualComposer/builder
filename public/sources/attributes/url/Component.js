@@ -263,18 +263,22 @@ export default class Url extends Attribute {
 
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          {title}
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            {title}
+          </span>
+          <Tooltip
+            relativeElementSelector='.vcv-ui-modal-content'
+          >
+            {titleAttributeText}
+          </Tooltip>
+        </div>
         <String
           fieldKey='title'
           value={this.state.unsavedValue.title || ''}
           api={this.props.api}
           updater={this.inputChange}
         />
-        <Tooltip>
-          {titleAttributeText}
-        </Tooltip>
       </div>
     )
   }
@@ -442,10 +446,10 @@ export default class Url extends Attribute {
       >
         <div className='vcv-ui-modal'>
           <header className='vcv-ui-modal-header'>
+            <h1 className='vcv-ui-modal-header-title'>{insertEditLink}</h1>
             <span className='vcv-ui-modal-close' onClick={this.handleClose} title={close}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
-            <h1 className='vcv-ui-modal-header-title'>{insertEditLink}</h1>
           </header>
 
           <section className='vcv-ui-modal-content'>
@@ -521,7 +525,6 @@ export default class Url extends Attribute {
     const { title, url, popupTitle, type } = this.state.value
     const selectUrl = this.localizations ? this.localizations.selectUrl : 'Select a URL'
     const addLink = this.localizations ? this.localizations.addLink : 'Add a link'
-    const opensTheFieldToAddALink = this.localizations ? this.localizations.opensTheFieldToAddALink : 'Opens the field to add a link to the element.'
 
     let linkDataHtml = null
     if (type && type === 'popup') {
@@ -590,9 +593,6 @@ export default class Url extends Attribute {
 
     return (
       <div className='vcv-ui-form-link'>
-        <Tooltip>
-          {opensTheFieldToAddALink}
-        </Tooltip>
         <DynamicAttribute
           {...this.props}
           setFieldValue={this.dynamicAttributeChange}

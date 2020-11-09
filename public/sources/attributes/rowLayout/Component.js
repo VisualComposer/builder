@@ -493,9 +493,14 @@ responsiveness options and stacking order.
           onChange={this.handleActiveLayoutChange}
         />
         <div className='vcv-ui-form-layout-custom-layout'>
-          <span className='vcv-ui-form-group-heading'>Custom row layout</span>
+          <div className='vcv-ui-form-group-heading-wrapper'>
+            <span className='vcv-ui-form-group-heading'>Custom row layout</span>
+            <Tooltip>
+              Enter custom layout option for columns by using percentages, fractions or ‘auto’ value (ex. 50% + 50%; 1/3 + 1/3 + 1/3; auto + auto).
+            </Tooltip>
+          </div>
           <div className='vcv-ui-row vcv-ui-row-gap--md'>
-            <div className='vcv-ui-col vcv-ui-col--md-6'>
+            <div className='vcv-ui-col vcv-ui-col--md-6 vcv-ui-form-group'>
               <div className='vcv-ui-form-layout-custom-layout-columns'>
                 <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
                   <div className='vcv-ui-form-layout-custom-layout-input'>
@@ -508,7 +513,6 @@ responsiveness options and stacking order.
                       onColumnHover={this.handleColumnHover}
                       activeToken={this.state.activeToken}
                     />
-                    <p className='vcv-ui-form-helper'>Enter custom layout option for columns by using percentages, fractions or ‘auto’ value (ex. 50% + 50%; 1/3 + 1/3 + 1/3; auto + auto).</p>
                   </div>
                 </div>
               </div>

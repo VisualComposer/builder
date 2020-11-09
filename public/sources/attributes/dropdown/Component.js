@@ -4,9 +4,7 @@ import Attribute from '../attribute'
 import PropTypes from 'prop-types'
 import { getResponse } from '../../../tools/response'
 import { getService } from 'vc-cake'
-import Tooltip from '../../../components/tooltip/tooltip'
 
-const dataManager = getService('dataManager')
 const Utils = getService('utils')
 
 export default class Dropdown extends Attribute {
@@ -133,17 +131,6 @@ export default class Dropdown extends Attribute {
   }
 
   render () {
-    const localizations = dataManager.get('localizations')
-    let helper = null
-    if (this.props.fieldKey === 'clickableOptions') {
-      const chooseAnEventPerformedWhenClickingOnTheImage = localizations ? localizations.chooseAnEventPerformedWhenClickingOnTheImage : 'Choose an event performed when clicking on the image.'
-
-      helper = (
-        <Tooltip>
-          {chooseAnEventPerformedWhenClickingOnTheImage}
-        </Tooltip>
-      )
-    }
     const { value } = this.state
     const selectClass = classNames({
       'vcv-ui-form-dropdown': true
@@ -169,7 +156,6 @@ export default class Dropdown extends Attribute {
           {this.generateSelectChildren(this.props)}
         </select>
         {description}
-        {helper}
       </>
     )
   }

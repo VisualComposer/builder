@@ -2,6 +2,7 @@ import React from 'react'
 import { format } from 'util'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import Tooltip from '../../../../components/tooltip/tooltip'
 
 export default class EditFromField extends React.Component {
   static propTypes = {
@@ -85,6 +86,14 @@ export default class EditFromField extends React.Component {
     }
     const { options } = settings
     let label = ''
+    let tooltip = null
+    if (options && typeof options.description === 'string') {
+      tooltip = (
+        <Tooltip>
+          {options.description}
+        </Tooltip>
+      )
+    }
     if (options && typeof options.label === 'string') {
       let spinnerHtml = null
       if (this.state.isFieldLoading) {
@@ -92,12 +101,14 @@ export default class EditFromField extends React.Component {
           <span className='vcv-ui-wp-spinner' />
         )
       }
-      label = (<span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>)
+      label = (
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>
+          {tooltip}
+        </div>
+      )
     }
     let description = ''
-    if (options && typeof options.description === 'string') {
-      description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
-    }
     if (options && options.descriptionHTML) {
       const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', window.vcvCreateMenuUrl)
       description = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: html }} />)

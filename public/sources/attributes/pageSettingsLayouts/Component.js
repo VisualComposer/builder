@@ -40,10 +40,12 @@ export default class PageSettingsLayouts extends Attribute {
 
     return (
       <>
-        <span className='vcv-ui-form-group-heading'>Page Layout</span>
-        <Tooltip>
-          {selectOrChangeTheLayoutOfThePage}
-        </Tooltip>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>Page Layout</span>
+          <Tooltip>
+            {selectOrChangeTheLayoutOfThePage}
+          </Tooltip>
+        </div>
         {content}
       </>
     )
