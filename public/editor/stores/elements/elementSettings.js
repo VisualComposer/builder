@@ -18,6 +18,11 @@ addStorage('elementSettings', (storage) => {
     }
 
     const dataSettings = JSON.parse(settingsCloneJsonString)
+    Object.keys(dataSettings).forEach((attrKey) => {
+      if (dataSettings[attrKey].type === 'designOptionsAdvanced' || dataSettings[attrKey].type === 'designOptions') {
+        dataSettings[attrKey].options.tooltip = 'Apply the most common style properties and effects to content elements with <a href="https://visualcomposer.com/help/design-options/">Design Options</a>.'
+      }
+    })
 
     // Change elements initial values from storage
     const elementInitialValues = fieldOptionsStorage.state('elementInitialValue').get()

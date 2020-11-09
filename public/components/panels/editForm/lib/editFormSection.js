@@ -359,70 +359,13 @@ export default class EditFormSection extends React.Component {
       innerElementReplaceIcon = <span className='vcv-ui-edit-form-section-header-control vcv-ui-icon vcv-ui-icon-swap' onClick={this.handleToggleShowReplace} />
     }
 
-    let helper = null
-    if (tabTitle === 'Row Layout') {
-      const controlYourGridLayout = EditFormSection.localizations ? EditFormSection.localizations.controlYourGridLayout : 'Control your grid layout: specify the number of columns within a row, adjust responsiveness and more.'
-      helper = (
-        <Tooltip>
-          {controlYourGridLayout}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Design Options') {
-      const applyTheMostCommonStyles = EditFormSection.localizations ? EditFormSection.localizations.applyTheMostCommonStyles : 'Apply the most common style properties and effects to content elements with <a href="https://visualcomposer.com/help/design-options/">Design Options</a>.'
-      helper = (
-        <Tooltip>
-          {applyTheMostCommonStyles}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Parallax') {
-      const enablingParallax = EditFormSection.localizations ? EditFormSection.localizations.enablingParallax : 'Enabling <a href="https://visualcomposer.com/help/design-options/parallax-effect/">Parallax</a> creates a 3D scrolling effect on the page.'
-      helper = (
-        <Tooltip>
-          {enablingParallax}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Box Shadow') {
-      const addOutlinedShadesToAnElement = EditFormSection.localizations ? EditFormSection.localizations.addOutlinedShadesToAnElement : 'Add outlined shades to an element.'
-      helper = (
-        <Tooltip>
-          {addOutlinedShadesToAnElement}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Dividers') {
-      const addPreDesignedOrCustomShapes = EditFormSection.localizations ? EditFormSection.localizations.addPreDesignedOrCustomShapes : 'Add pre-designed or custom shapes to divide rows and columns.'
-      helper = (
-        <Tooltip>
-          {addPreDesignedOrCustomShapes}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Sticky') {
-      const theStickyOption = EditFormSection.localizations ? EditFormSection.localizations.theStickyOption : 'The sticky option makes the container and its content fixed at the top of the page.'
-      helper = (
-        <Tooltip>
-          {theStickyOption}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Data Source') {
-      const specifyTheTypeOfContentToDisplay = EditFormSection.localizations ? EditFormSection.localizations.specifyTheTypeOfContentToDisplay : 'Specify the type of content to display in the Post grid element.'
-      helper = (
-        <Tooltip>
-          {specifyTheTypeOfContentToDisplay}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Grid Item') {
-      const modifyExistingParametersOfASingleGridItem = EditFormSection.localizations ? EditFormSection.localizations.modifyExistingParametersOfASingleGridItem : 'Modify existing parameters of a single grid item of the chosen grid element.'
-      helper = (
-        <Tooltip>
-          {modifyExistingParametersOfASingleGridItem}
-        </Tooltip>
-      )
-    } else if (tabTitle === 'Pagination') {
-      const specifyHowManyItemsWillBeDisplayedWithinThePage = EditFormSection.localizations ? EditFormSection.localizations.specifyHowManyItemsWillBeDisplayedWithinThePage : 'Specify how many items will be displayed within the page.'
-      helper = (
-        <Tooltip>
-          {specifyHowManyItemsWillBeDisplayedWithinThePage}
-        </Tooltip>
-      )
+    let tooltip = null
+    if (tab.data.settings.options.tooltip) {
+        tooltip = (
+          <Tooltip>
+            {tab.data.settings.options.tooltip}
+          </Tooltip>
+        )
     }
 
     return (
@@ -434,7 +377,7 @@ export default class EditFormSection extends React.Component {
           >
             {backButton}
             <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
-            {helper}
+            {tooltip}
             {innerElementReplaceIcon}
           </div>
         )}
