@@ -117,9 +117,13 @@ export default class ReplaceElement extends React.Component {
   }
 
   getReplacements (categorySettings) {
-    return categorySettings.elements.map((tag) => {
-      return this.getReplacementItem({ tag: tag })
+    let elements = []
+    categorySettings.elements.forEach((tag) => {
+      if (tag !== this.props.tag) {
+        elements.push(this.getReplacementItem({ tag: tag }))
+      }
     })
+    return elements
   }
 
   getPresetReplacements (presets) {
