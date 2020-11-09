@@ -410,10 +410,10 @@ export default class TokenizationList extends React.Component {
     let description = ''
     if (this.props.description) {
       description = (
-          <Tooltip>
-            {this.props.description}
-          </Tooltip>
-        )
+        <Tooltip>
+          {this.props.description}
+        </Tooltip>
+      )
     }
 
     return (
