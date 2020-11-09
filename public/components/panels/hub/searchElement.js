@@ -23,6 +23,7 @@ export default class SearchElement extends React.Component {
     }
     this.handleSearch = this.handleSearch.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
+    this.getPlaceholder = this.getPlaceholder.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
 
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -74,6 +75,27 @@ export default class SearchElement extends React.Component {
     }, 400)
   }
 
+  getPlaceholder () {
+    let result = ''
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+
+    switch (this.props.inputPlaceholder) {
+      case 'elements':
+        result = localizations ? localizations.searchContentElements : 'Search for content elements'
+        break
+      case 'elements and templates':
+        result = localizations ? localizations.searchContentElementsAndTemplates : 'Search for content elements and templates'
+        break
+      case 'templates':
+        result = localizations ? localizations.searchContentTemplates : 'Search for templates'
+        break
+      default:
+        result = localizations ? localizations.searchContentElements : 'Search for content elements'
+    }
+
+    return result
+  }
+
   render () {
     const localizations = dataManager.get('localizations')
     const VCHubIsAnOnlineLibrary = localizations ? localizations.VCHubIsAnOnlineLibrary : '<a href="https://visualcomposer.com/help/visual-composer-hub/">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.'
@@ -96,6 +118,7 @@ export default class SearchElement extends React.Component {
             onChange={this.handleSearch}
             onFocus={this.handleInputFocus}
             type='text'
+            placeholder={this.getPlaceholder()}
             value={this.state.inputValue}
             autoFocus={autoFocus}
             onKeyPress={this.handleKeyPress}
