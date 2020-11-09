@@ -273,6 +273,9 @@ export default class Categories extends React.Component {
     const presetsCategory = allGroups.find(group => group.id === 'Presets')
     const mostUsedElementsCategory = allGroups.find(group => group.id === 'usageCount')
 
+    if (!Categories.allElements.length) {
+      this.getAllElements()
+    }
     if (!presetsCategory) {
       const presetElements = Categories.allElements.filter(element => element.presetId)
       if (presetElements.length > 0) {
