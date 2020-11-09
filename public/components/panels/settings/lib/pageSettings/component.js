@@ -2,6 +2,7 @@ import React from 'react'
 import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Component'
 import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/Component'
 import Permalink from 'public/components/permalink/permalink'
+import ParentPage from '../parentPage/component'
 
 const localizations = window.VCV_I18N && window.VCV_I18N()
 const menuText = localizations ? localizations.menu : 'Menu'
@@ -11,6 +12,7 @@ const viaWPAdminMenu = localizations ? localizations.viaWPAdminMenu : 'in the Wo
 export default class PageSettings extends React.Component {
   render () {
     const content = []
+    const wordpressSettings = []
     content.push(
       <PageSettingsTitle
         key={content.length}
@@ -37,6 +39,14 @@ export default class PageSettings extends React.Component {
       />
     )
 
+    if (window.VCV_PAGE_LIST) {
+      wordpressSettings.push(
+        <ParentPage
+          key='parentPage'
+        />
+      )
+    }
+
     return (
       <>
         {content}
@@ -46,6 +56,7 @@ export default class PageSettings extends React.Component {
             <a className='vcv-ui-form-link' href={window.vcvManageMenuUrl} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
           </p>
         </div>
+        {wordpressSettings}
       </>
     )
   }
