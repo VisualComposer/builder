@@ -117,7 +117,7 @@ export default class ReplaceElement extends React.Component {
   }
 
   getReplacements (categorySettings) {
-    let elements = []
+    const elements = []
     categorySettings.elements.forEach((tag) => {
       if (tag !== this.props.tag) {
         elements.push(this.getReplacementItem({ tag: tag }))
