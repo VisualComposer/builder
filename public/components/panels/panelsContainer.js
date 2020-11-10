@@ -67,7 +67,7 @@ export default class PanelsContainer extends React.Component {
         options = workspaceState.options
       }
       return (
-        <HubContainer parent={{}} options={options} />
+        <HubContainer parent={{}} options={options} namespace='editor' />
       )
     } else if (content === 'insights') {
       return <InsightsPanel />

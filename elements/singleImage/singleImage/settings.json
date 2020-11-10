@@ -5,6 +5,7 @@
     "value": "single-image.jpg",
     "options": {
       "label": "Image",
+      "description": "Select an image.",
       "multiple": false,
       "dynamicField": true,
       "defaultValue": "single-image.jpg",
@@ -121,6 +122,7 @@
     "value": "",
     "options": {
       "label": "OnClick action",
+      "description": "Choose an event performed when clicking on the image.",
       "values": [
         {
           "label": "None",

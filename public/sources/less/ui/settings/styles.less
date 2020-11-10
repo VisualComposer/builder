@@ -10,11 +10,14 @@
   line-height: 37px;
   padding: 12px 60px 12px 20px;
   font-size: 16px;
+  display: flex;
+  align-items: center;
 
   .vcv-ui-panel-heading-icon {
     display: inline-block;
     vertical-align: middle;
     margin-right: 12px;
+    margin-left: 0px;
   }
 
   .vcv-ui-panel-heading-text {
@@ -69,6 +72,17 @@
 }
 
 .rtl {
+  .vcv-ui-panel-heading {
+    padding: 12px 20px 12px 60px;
+
+    .vcv-ui-panel-heading-icon {
+      margin-right: 0px;
+      margin-left: 12px;
+    }
+  }
+  .vcv-ui-panel-dropdown-container {
+    margin: 6px 20px 12px 60px;
+  }
   .vcv-ui-navbar-control-icon.vcv-ui-settings-title-icon {
     margin-left: 0;
     margin-right: 5px;

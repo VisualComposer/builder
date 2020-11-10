@@ -1,8 +1,10 @@
 import vcCake from 'vc-cake'
 
+const dataManager = vcCake.getService('dataManager')
+
 const API = {
   all: () => {
-    return window.VCV_HUB_GET_GROUPS()
+    return dataManager.get('hubGetGroups')
   }
 }
 

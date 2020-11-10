@@ -8,6 +8,7 @@ import Textarea from 'react-textarea-autosize'
 
 import Token from './token'
 import { getResponse } from 'public/tools/response'
+import Tooltip from '../../../../components/tooltip/tooltip'
 
 export default class TokenizationList extends React.Component {
   static propTypes = {
@@ -408,7 +409,13 @@ export default class TokenizationList extends React.Component {
 
     let description = ''
     if (this.props.description) {
-      description = <p className='vcv-ui-form-helper'>{this.props.description}</p>
+      description = (
+        <Tooltip
+          relativeElementSelector='.vcv-ui-modal-content'
+        >
+          {this.props.description}
+        </Tooltip>
+      )
     }
 
     return (

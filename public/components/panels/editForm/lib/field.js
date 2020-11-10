@@ -3,6 +3,7 @@ import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import { env, getService } from 'vc-cake'
 import classNames from 'classnames'
+import Tooltip from '../../../tooltip/tooltip'
 
 const dataManager = getService('dataManager')
 const { getDynamicValue, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
@@ -128,6 +129,14 @@ export default class Field extends React.Component {
     const isOptionsLabel = options && typeof options.label === 'string'
     const isRegularAttributeField = tabTypeName === 'group' && fieldType !== 'paramsGroup'
     const isParamsGroupAttributeField = tabTypeName === 'paramsGroup'
+    let tooltip = null
+    if (options && typeof options.description === 'string') {
+      tooltip = (
+        <Tooltip>
+          {options.description}
+        </Tooltip>
+      )
+    }
     if (isOptionsLabel && (isRegularAttributeField || isParamsGroupAttributeField)) {
       let spinnerHtml = null
       if (this.state.isFieldLoading) {
@@ -135,12 +144,14 @@ export default class Field extends React.Component {
           <span className='vcv-ui-wp-spinner' />
         )
       }
-      label = (<span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>)
+      label = (
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>{options.label}{spinnerHtml}</span>
+          {tooltip}
+        </div>
+      )
     }
     let description = ''
-    if (options && typeof options.description === 'string') {
-      description = (<p className='vcv-ui-form-helper'>{options.description}</p>)
-    }
     if (options && options.descriptionHTML) {
       const createMenuUrl = dataManager.get('createMenuUrl')
       const html = options.descriptionHTML.replace('{vcvCreateMenuUrl}', createMenuUrl)
