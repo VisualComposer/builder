@@ -51,7 +51,6 @@ export default class UnsplashContainer extends React.Component {
         stockMediaLogo={unsplashLogo}
         backgroundImage={`url(${this.randomImage})`}
         stockMediaLocalizations={stockMediaLocalizations}
-        upgradeUrl={dataManager.get('upgradeUrlUnsplash')}
         vcvAuthorApiKey={dataManager.get('licenseUnsplashAuthorApiKey')}
         apiUrlKey='unsplash'
         sizes={sizes}

@@ -24,7 +24,7 @@ if (!VcvEnv::has('VCV_HUB_PUBLIC_URL')) {
 }
 
 if (!VcvEnv::has('VCV_HUB_LICENSES_URL')) {
-    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses?utm_medium=wp-dashboard&utm_source=getting-started&utm_campaign=gopremium');
+    VcvEnv::set('VCV_HUB_LICENSES_URL', defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses/?utm_source=vcwb&utm_medium=license-vc-dashboard&utm_campaign=upgrade&utm_content=text');
 }
 
 if (!VcvEnv::has('VCV_TOKEN_URL')) {
@@ -140,7 +140,7 @@ if (!VcvEnv::has('VCV_ACCOUNT_URL')) {
 }
 
 if (!VcvEnv::has('VCV_SUPPORT_URL')) {
-    VcvEnv::set('VCV_SUPPORT_URL', defined('VCV_SUPPORT_URL') ? constant('VCV_SUPPORT_URL') : 'https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support');
+    VcvEnv::set('VCV_SUPPORT_URL', defined('VCV_SUPPORT_URL') ? constant('VCV_SUPPORT_URL') : 'https://my.visualcomposer.com/support/?utm_source=vcwb&utm_medium=error-screen&utm_campaign=support&utm_content=button');
 }
 
 if (!VcvEnv::has('VCV_FT_DASHBOARD_HUB')) {

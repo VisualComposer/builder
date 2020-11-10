@@ -6,7 +6,6 @@ import ElementControl from '../../addElement/lib/elementControl'
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
-
 const localizations = window.VCV_I18N && window.VCV_I18N()
 
 export default class HubElementControl extends ElementControl {
@@ -33,10 +32,6 @@ export default class HubElementControl extends ElementControl {
 
   addElement () {
     this.props.addElement(this.props.element)
-  }
-
-  openPremiumTab () {
-    window.open(window.VCV_UTM().goPremiumElementDownload)
   }
 
   render () {
@@ -90,7 +85,7 @@ export default class HubElementControl extends ElementControl {
     let action = this.isHubInWpDashboard ? null : this.addElement
     if (elementState !== 'success') {
       if (lockIcon) {
-        action = this.openPremiumTab
+        action = this.props.onClickGoPremium
       } else {
         action = this.downloadElement
       }

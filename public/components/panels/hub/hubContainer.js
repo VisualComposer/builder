@@ -20,6 +20,7 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const hubAddonsStorage = vcCake.getStorage('hubAddons')
 const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 const elementsStorage = vcCake.getStorage('elements')
+const dataManager = vcCake.getService('dataManager')
 
 export default class HubContainer extends React.Component {
   static localizations = window.VCV_I18N && window.VCV_I18N()
@@ -46,6 +47,7 @@ export default class HubContainer extends React.Component {
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
+    this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
@@ -202,6 +204,7 @@ export default class HubContainer extends React.Component {
         name={elementData.name}
         isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
+        onClickGoPremium={this.handleClickGoPremium}
       />
     )
   }
@@ -390,10 +393,14 @@ export default class HubContainer extends React.Component {
     return <HubMenu {...this.getTypeControlProps()} />
   }
 
-  static handleClickGoPremium (e) {
+  handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
-    const target = e.currentTarget
-    window.location.replace(target.dataset.href)
+
+    const activeFilterType = this.state.filterType.replace('hub', '').toLowerCase()
+    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+    const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+    const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    window.open(utmUrlRef)
   }
 
   getHubBanner () {
@@ -401,7 +408,6 @@ export default class HubContainer extends React.Component {
     const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
     const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
     const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : window.vcvIsFreeActivated ? 'Go Premium' : 'Activate Visual Composer Hub'
-    const buttonLink = window.vcvIsFreeActivated ? window.vcvGoPremiumUrl + '&vcv-ref=hub-banner' : window.vcvUpgradeUrl
 
     return (
       <div className='vcv-hub-banner'>
@@ -409,7 +415,7 @@ export default class HubContainer extends React.Component {
           <p className='vcv-hub-banner-title'>{titleText}</p>
           <p className='vcv-hub-banner-title'>{titleSubText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-          <span className='vcv-hub-banner-button' data-href={buttonLink} onClick={HubContainer.handleClickGoPremium}>
+          <span className='vcv-hub-banner-button' onClick={this.handleClickGoPremium}>
             {buttonText}
           </span>
         </div>
@@ -437,22 +443,30 @@ export default class HubContainer extends React.Component {
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
     })
+    const filterType = this.state.filterType
     const editorPlateClasses = classNames({
       'vcv-ui-editor-plate': true,
       'vcv-ui-state--active': true,
-      'vcv-ui-editor-plate--addon': this.state.filterType === 'addon'
+      'vcv-ui-editor-plate--addon': filterType === 'addon'
     })
 
     let panelContent = ''
-    if (this.state.filterType && this.state.filterType === 'stockImages') {
+    if (filterType === 'unsplash') {
       panelContent = (
         <UnsplashContainer
           scrolledToBottom={this.state.scrolledToBottom}
           scrollTop={this.state.scrollTop}
+          onClickGoPremium={this.handleClickGoPremium}
         />
       )
-    } else if (this.state.filterType && this.state.filterType === 'giphy') {
-      panelContent = <GiphyContainer scrolledToBottom={this.state.scrolledToBottom} scrollTop={this.state.scrollTop} />
+    } else if (filterType === 'giphy') {
+      panelContent = (
+        <GiphyContainer
+          scrolledToBottom={this.state.scrolledToBottom}
+          scrollTop={this.state.scrollTop}
+          onClickGoPremium={this.handleClickGoPremium}
+        />
+      )
     } else {
       panelContent = (
         <div className={innerSectionClasses}>

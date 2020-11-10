@@ -28,7 +28,7 @@ class Utm extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Utm\Utm::addUtmVariable */
         $this->addFilter(
-            'vcv:editor:variables',
+            'vcv:editor:variables vcv:hub:variables vcv:wp:dashboard:variables',
             'addUtmVariable'
         );
         $this->addFilter(

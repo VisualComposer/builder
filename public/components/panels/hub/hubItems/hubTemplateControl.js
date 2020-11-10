@@ -8,7 +8,6 @@ const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubTemplateStorage = getStorage('hubTemplates')
-
 const localizations = window.VCV_I18N && window.VCV_I18N()
 
 export default class HubTemplateControl extends ElementControl {
@@ -52,10 +51,6 @@ export default class HubTemplateControl extends ElementControl {
       const template = myTemplatesService.findTemplateByBundle(this.props.element.bundle)
       next(template.data)
     }
-  }
-
-  openPremiumTab () {
-    window.open(window.VCV_UTM().goPremiumElementDownload)
   }
 
   render () {
@@ -109,7 +104,7 @@ export default class HubTemplateControl extends ElementControl {
     let action = this.isHubInWpDashboard ? null : this.addTemplate
     if (elementState !== 'success') {
       if (lockIcon) {
-        action = this.openPremiumTab
+        action = this.props.onClickGoPremium
       } else {
         action = this.downloadTemplate
       }
