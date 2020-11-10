@@ -56,6 +56,7 @@ class ParentPageController extends Container implements Module
         if (empty($posts)) {
             return ['status' => false];
         }
+        
         $currentParentPage = 'none';
         $currentPost = $postTypeHelper->get($sourceId);
         $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
