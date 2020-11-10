@@ -46,20 +46,25 @@ class ParentPageController extends Container implements Module
     {
         $requestHelper = vchelper('Request');
         $postTypeHelper = vchelper('PostType');
-        if (!$requestHelper->exists('vcv-source-id')) {
-            return ['status' => false];
+        $currentPost = $postTypeHelper->get();
+
+        $currentParentPage = 'none';
+        $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
+        $postQuery = ['post_type' => 'page', 'posts_per_page' => -1];
+
+        // Set source id for ajax requests
+        if (!$currentPost && $requestHelper->exists('vcv-source-id')) {
+            $sourceId = $requestHelper->input('vcv-source-id');
+            $currentPost = $postTypeHelper->get($sourceId);
         }
-        $sourceId = $requestHelper->input('vcv-source-id');
+
+        // Exclude current post
+        if ($currentPost) {
+            $postQuery['post__not_in'][] = $currentPost->ID;
+        }
 
         // Get all pages except current page
-        $posts = $postTypeHelper->query(['post_type' => 'page', 'posts_per_page' => -1, 'post__not_in' => [$sourceId]]);
-        if (empty($posts)) {
-            return ['status' => false];
-        }
-        
-        $currentParentPage = 'none';
-        $currentPost = $postTypeHelper->get($sourceId);
-        $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
+        $posts = $postTypeHelper->query($postQuery);
         foreach ($posts as $post) {
             /** @var \WP_Post $post */
             // @codingStandardsIgnoreLine
