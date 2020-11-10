@@ -1335,6 +1335,10 @@ class Localizations extends Container implements Helper
                 'To preview the changes, use the Responsive View in the navigation bar.',
                 'visualcomposer'
             ),
+            'parentPageTitle' => __(
+                'Parent Page',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
