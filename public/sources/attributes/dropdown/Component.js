@@ -109,7 +109,8 @@ export default class Dropdown extends Attribute {
 
     this.serverRequest = ajax({
       'vcv-action': `dropdown:${this.props.options.reloadAction}:updateList:adminNonce`,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': window.vcvNonce,
+      'vcv-source-id': window.vcvSourceID
     }, (request) => {
       const response = getResponse(request.response)
       this.props.setLoadingState(false)
