@@ -123,10 +123,10 @@ export default class SearchElement extends React.Component {
             autoFocus={autoFocus}
             onKeyPress={this.handleKeyPress}
           />
-          <Tooltip>
-            {VCHubIsAnOnlineLibrary}
-          </Tooltip>
         </div>
+        <Tooltip>
+          {VCHubIsAnOnlineLibrary}
+        </Tooltip>
       </div>
     )
   }

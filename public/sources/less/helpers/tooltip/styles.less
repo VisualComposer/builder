@@ -2,14 +2,14 @@
   position: relative;
   display: inline-block;
   margin-left: 8px;
-  margin-right: 0px;
+  margin-right: 0;
   width: 14px;
   height: 14px;
 }
 
 .rtl {
   .vcv-tooltip-container {
-    margin-left: 0px;
+    margin-left: 0;
     margin-right: 8px;
   }
 }
@@ -75,4 +75,17 @@
 
 .vcv-ui-modal .vcv-ui-modal-header .vcv-tooltip-container {
   flex: 1;
+}
+
+.vcv-ui-editor-search-container .vcv-tooltip-container {
+  position: absolute;
+  top: 0;
+  right: -32px;
+  bottom: 0;
+  margin: auto;
+}
+
+.rtl .vcv-ui-editor-search-container .vcv-tooltip-container {
+  right: auto;
+  left: -32px;
 }
