@@ -10,6 +10,7 @@ export default class Tooltip extends React.Component {
     }
 
     this.tooltipRef = React.createRef()
+    this.tooltipButtonRef = React.createRef()
 
     this.handleTooltipClick = this.handleTooltipClick.bind(this)
     this.closeIfNotInside = this.closeIfNotInside.bind(this)
@@ -27,12 +28,9 @@ export default class Tooltip extends React.Component {
   closeIfNotInside (e) {
     e && e.preventDefault()
     const $el = e.target
+    const tooltipBox = $el.closest('.vcv-tooltip-box')
 
-    const $dropDown = '.vcv-tooltip-button'
-    const $openingButton = '.vcv-tooltip-box'
-    const container = $el.closest($dropDown) || $el.closest($openingButton)
-
-    if (container) {
+    if (tooltipBox || $el === this.tooltipButtonRef.current) {
       return
     }
 
@@ -91,6 +89,7 @@ export default class Tooltip extends React.Component {
     return (
       <div className='vcv-tooltip-container' ref={this.tooltipRef}>
         <i
+          ref={this.tooltipButtonRef}
           className={iconClasses}
           onClick={this.handleTooltipClick}
         />
