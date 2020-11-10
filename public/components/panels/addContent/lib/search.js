@@ -33,6 +33,7 @@ export default class Search extends React.Component {
 
   render () {
     const autofocus = !this.mobileDetect.mobile()
+
     return (
       <div className='vcv-ui-editor-search-container'>
         <div className='vcv-ui-editor-search-field-container'>

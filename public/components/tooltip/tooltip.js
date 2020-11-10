@@ -10,13 +10,15 @@ export default class Tooltip extends React.Component {
     }
 
     this.tooltipRef = React.createRef()
+    this.tooltipButtonRef = React.createRef()
 
     this.handleTooltipClick = this.handleTooltipClick.bind(this)
     this.closeIfNotInside = this.closeIfNotInside.bind(this)
   }
 
   componentDidMount () {
-    this.overflowContainer = this.tooltipRef.current.closest('.vcv-ui-scroll') || document.body
+    const relativeElementSelector = this.props.relativeElementSelector || '.vcv-ui-scroll'
+    this.overflowContainer = this.tooltipRef.current.closest(relativeElementSelector) || document.body
   }
 
   componentWillUnmount () {
@@ -26,12 +28,9 @@ export default class Tooltip extends React.Component {
   closeIfNotInside (e) {
     e && e.preventDefault()
     const $el = e.target
+    const tooltipBox = $el.closest('.vcv-tooltip-box')
 
-    const $dropDown = '.vcv-tooltip-button'
-    const $openingButton = '.vcv-tooltip-box'
-    const container = $el.closest($dropDown) || $el.closest($openingButton)
-
-    if (container) {
+    if (tooltipBox || $el === this.tooltipButtonRef.current) {
       return
     }
 
@@ -76,9 +75,7 @@ export default class Tooltip extends React.Component {
       const boxStyles = this.getTooltipPosition()
 
       tooltipBox = (
-        <div className='vcv-tooltip-box' style={boxStyles}>
-          {this.props.children}
-        </div>
+        <div className='vcv-tooltip-box' style={boxStyles} dangerouslySetInnerHTML={{ __html: this.props.children }} />
       )
     }
 
@@ -92,6 +89,7 @@ export default class Tooltip extends React.Component {
     return (
       <div className='vcv-tooltip-container' ref={this.tooltipRef}>
         <i
+          ref={this.tooltipButtonRef}
           className={iconClasses}
           onClick={this.handleTooltipClick}
         />

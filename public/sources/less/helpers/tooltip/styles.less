@@ -1,6 +1,17 @@
 .vcv-tooltip-container {
   position: relative;
   display: inline-block;
+  margin-left: 8px;
+  margin-right: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.rtl {
+  .vcv-tooltip-container {
+    margin-left: 0;
+    margin-right: 8px;
+  }
 }
 
 .vcv-tooltip-box {
@@ -19,9 +30,22 @@
   font-style: italic;
   color: #9EA6B3;
   text-align: center;
+  box-shadow: 0 0 10px 0 rgba(26, 57, 157, 0.8);
+  white-space: normal;
+  line-height: 20px;
+
+  a {
+    color: #9EA6B3;
+    transition: color .05s ease-in-out;
+
+    &:hover {
+      color: #fff;
+    }
+  }
 }
 
 .vcv-tooltip-container .vcv-ui-icon-question {
+  display: block;
   cursor: pointer;
   color: #BCBCBC;
   font-size: 14px;
@@ -38,7 +62,30 @@
     border-color: transparent transparent #203251 transparent;
     left: 2px;
     top: 15px;
+    z-index: 9999;
   }
 }
 
+.vcv-ui-panel-heading  .vcv-tooltip-container .vcv-ui-icon-question,
+.vcv-ui-edit-form-section-header .vcv-tooltip-container .vcv-ui-icon-question {
+  &.vcv-ui-icon--active {
+    color: #fff;
+  }
+}
 
+.vcv-ui-modal .vcv-ui-modal-header .vcv-tooltip-container {
+  flex: 1;
+}
+
+.vcv-ui-editor-search-container .vcv-tooltip-container {
+  position: absolute;
+  top: 0;
+  right: -32px;
+  bottom: 0;
+  margin: auto;
+}
+
+.rtl .vcv-ui-editor-search-container .vcv-tooltip-container {
+  right: auto;
+  left: -32px;
+}

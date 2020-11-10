@@ -3,6 +3,7 @@
   background: @vcui-form-input-background;
   border-radius: @vcui-form-border-radius;
   margin: @vcui-form-search-container-margin;
+  position: relative;
 
   .vcv-ui-form-dropdown {
     height: 100%;
@@ -19,6 +20,14 @@
       box-shadow: none;
     }
   }
+}
+
+.vcv-ui-teaser-add-element-content .vcv-ui-editor-search-container {
+  margin: @vcui-form-hub-search-container-margin;
+}
+
+.rtl .vcv-ui-teaser-add-element-content .vcv-ui-editor-search-container {
+  margin: @vcui-form-hub-search-container-margin-rtl;
 }
 
 .rtl .vcv-ui-editor-search-container {

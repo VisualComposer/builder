@@ -1,11 +1,13 @@
 import React from 'react'
 import StyleControl from './control'
 import StyleEditor from './editor'
-import { setData, getStorage } from 'vc-cake'
+import { setData, getStorage, getService } from 'vc-cake'
+import Tooltip from '../../../../tooltip/tooltip'
 const settingsStorage = getStorage('settings')
+const dataManager = getService('dataManager')
 
 export default class CustomStyles extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   styleData = [
     {
       buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
@@ -105,14 +107,19 @@ export default class CustomStyles extends React.Component {
   }
 
   render () {
+    const applyCustomCSSCode = CustomStyles.localizations ? CustomStyles.localizations.applyCustomCSSCode : 'Apply custom CSS code to the whole site or to this particular page only.'
     const button = this.getButtons()
     const editor = this.getEditor()
+
     return (
       <div className='vcv-ui-custom-styles'>
         <div className='vcv-ui-style-control-container'>
           <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
             {button}
           </div>
+          <Tooltip>
+            {applyCustomCSSCode}
+          </Tooltip>
         </div>
         <div className='vcv-ui-style-editor-container'>
           {editor}

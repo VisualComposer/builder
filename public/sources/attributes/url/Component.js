@@ -10,7 +10,8 @@ import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
 import { getService, getStorage, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
-
+import Tooltip from '../../../components/tooltip/tooltip'
+const dataManager = getService('dataManager')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const popupStorage = getStorage('popup')
@@ -46,7 +47,7 @@ export default class Url extends Attribute {
     fieldType: 'url'
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -262,18 +263,22 @@ export default class Url extends Attribute {
 
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          {title}
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            {title}
+          </span>
+          <Tooltip
+            relativeElementSelector='.vcv-ui-modal-content'
+          >
+            {titleAttributeText}
+          </Tooltip>
+        </div>
         <String
           fieldKey='title'
           value={this.state.unsavedValue.title || ''}
           api={this.props.api}
           updater={this.inputChange}
         />
-        <p className='vcv-ui-form-helper'>
-          {titleAttributeText}
-        </p>
       </div>
     )
   }
@@ -441,10 +446,10 @@ export default class Url extends Attribute {
       >
         <div className='vcv-ui-modal'>
           <header className='vcv-ui-modal-header'>
+            <h1 className='vcv-ui-modal-header-title'>{insertEditLink}</h1>
             <span className='vcv-ui-modal-close' onClick={this.handleClose} title={close}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
-            <h1 className='vcv-ui-modal-header-title'>{insertEditLink}</h1>
           </header>
 
           <section className='vcv-ui-modal-content'>

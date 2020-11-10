@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import Tooltip from '../../tooltip/tooltip'
+import vcCake from 'vc-cake'
+const dataManager = vcCake.getService('dataManager')
 
 export default class SearchElement extends React.Component {
   static propTypes = {
@@ -94,6 +97,9 @@ export default class SearchElement extends React.Component {
   }
 
   render () {
+    const localizations = dataManager.get('localizations')
+    const VCHubIsAnOnlineLibrary = localizations ? localizations.VCHubIsAnOnlineLibrary : '<a href="https://visualcomposer.com/help/visual-composer-hub/">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.'
+
     const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
@@ -112,12 +118,15 @@ export default class SearchElement extends React.Component {
             onChange={this.handleSearch}
             onFocus={this.handleInputFocus}
             type='text'
-            value={this.state.inputValue}
             placeholder={this.getPlaceholder()}
+            value={this.state.inputValue}
             autoFocus={autoFocus}
             onKeyPress={this.handleKeyPress}
           />
         </div>
+        <Tooltip>
+          {VCHubIsAnOnlineLibrary}
+        </Tooltip>
       </div>
     )
   }
