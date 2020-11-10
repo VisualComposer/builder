@@ -14,7 +14,12 @@ class Utm implements Helper
 {
     public function premiumBtnUtm($medium)
     {
-        $premiumLicenseUtmTemplate = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium={medium}&utm_campaign=gopremium&utm_content=button';
+        $source = 'vcwb';
+        if (defined('VCV_AUTHOR_API_KEY')) {
+            $source = 'theme-author-vcwb';
+        }
+
+        $premiumLicenseUtmTemplate = 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=button';
 
         return str_replace('{medium}', esc_attr($medium), $premiumLicenseUtmTemplate);
     }
@@ -22,9 +27,15 @@ class Utm implements Helper
     public function freeBtnUtm($medium)
     {
         $myVc = vcvenv('VCV_HUB_PUBLIC_URL');
+        $source = 'vcwb';
+        if (defined('VCV_AUTHOR_API_KEY')) {
+            $source = 'theme-author-vcwb';
+        }
+
         $freeLicenseUtmTemplate = sprintf(
-            '%s/free-license/?utm_source=vcwb&utm_medium={medium}&utm_campaign=get-free-license&utm_content=button',
-            rtrim($myVc, '\//')
+            '%s/free-license/?utm_source=%s&utm_medium={medium}&utm_campaign=get-free-license&utm_content=button',
+            rtrim($myVc, '\//'),
+            $source
         );
 
         return str_replace('{medium}', esc_attr($medium), $freeLicenseUtmTemplate);
@@ -37,33 +48,39 @@ class Utm implements Helper
     {
         $myVc = vcvenv('VCV_HUB_PUBLIC_URL');
 
+        $source = 'vcwb';
+        if (defined('VCV_AUTHOR_API_KEY')) {
+            $source = 'theme-author-vcwb';
+        }
+
         $utm = [
             // Dashboard News Feed Direct URLs
-            'wp-dashboard-news-logo' => 'https://visualcomposer.com/?utm_source=vcwb&utm_medium=wp-dashboard&utm_campaign=info&utm_content=logo',
-            'wp-dashboard-news-blog' => 'https://visualcomposer.com/blog/?utm_source=vcwb&utm_medium=wp-dashboard&utm_campaign=info&utm_content=text',
-            'wp-dashboard-news-blog-post' => '?utm_source=vcwb&utm_medium=wp-dashboard&utm_campaign=info&utm_content=text-post',
-            'wp-dashboard-news-gopremium' => 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=wp-dashboard&utm_campaign=gopremium&utm_content=text',
+            'wp-dashboard-news-logo' => 'https://visualcomposer.com/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=logo',
+            'wp-dashboard-news-blog' => 'https://visualcomposer.com/blog/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=text',
+            'wp-dashboard-news-blog-post' => '?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=text-post',
+            'wp-dashboard-news-gopremium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=gopremium&utm_content=text',
 
             // VC Dashboard Direct URLs
-            'vc-dashboard-help' => 'https://visualcomposer.com/help/?utm_source=vcwb&utm_medium=vc-dashboard&utm_campaign=info&utm_content=menu',
+            'vc-dashboard-help' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=menu',
             'vc-dashboard-myvc' => rtrim($myVc, '\//')
-                . '/?utm_source=vcwb&utm_medium=vc-dashboard&utm_campaign=info&utm_content=menu',
+                . '/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=menu',
 
             // Plugin Row Meta (changelog/more details) Direct URLS
-            'wp-plugins-meta-help-center' => 'https://visualcomposer.com/help/?utm_source=vcwb&utm_medium=wp-plugins&utm_campaign=info&utm_content=text',
-            'wp-plugins-meta-api' => 'https://visualcomposer.com/help/api/?utm_source=vcwb&utm_medium=wp-plugins&utm_campaign=info&utm_content=text',
+            'wp-plugins-meta-help-center' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=text',
+            'wp-plugins-meta-api' => 'https://visualcomposer.com/help/api/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=text',
             'wp-plugins-meta-premium-support' => rtrim($myVc, '\//')
-                . '/support/?utm_source=vcwb&utm_medium=wp-plugins&utm_campaign=info&utm_content=text',
+                . '/support/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=text',
 
             // Premium Promo Popup direct URL
-            'editor-gopremium-popup-button' => 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=editor&utm_campaign=gopremium&utm_content=popup-button',
+            'editor-gopremium-popup-button' => 'https://visualcomposer.com/premium/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=gopremium&utm_content=popup-button',
 
             // Review Popup Button direct URL
-            'editor-feedback-review-popup-button' => 'https://my.visualcomposer.com/feedback/visualcomposer/?utm_source=vcwb&utm_medium=editor&utm_campaign=feedback&utm_content=button',
+            'editor-feedback-review-popup-button' => 'https://my.visualcomposer.com/feedback/visualcomposer/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=feedback&utm_content=button',
 
             // vcv-activate-license myVC licenses URL
             'activate-license-myvc-license-url' => rtrim($myVc, '\//')
-                . '/licenses/?utm_source=vcwb&utm_media={media}&utm_campaign=info&utm_content=text',
+                . '/licenses/?utm_source=' . $source . '&utm_media={media}&utm_campaign=info&utm_content=text',
         ];
 
         return $utm;
