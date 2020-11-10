@@ -44,20 +44,25 @@ class ParentPageController extends Container implements Module
      */
     protected function getPageList()
     {
+        $requestHelper = vchelper('Request');
         $postTypeHelper = vchelper('PostType');
-        $currentPost = $postTypeHelper->get();
-        $posts = $postTypeHelper->query(['post_type' => 'page', 'posts_per_page' => -1]);
-        $currentParentPage = 'none';
+        if (!$requestHelper->exists('vcv-source-id')) {
+            return ['status' => false];
+        }
+        $sourceId = $requestHelper->input('vcv-source-id');
 
+        // Get all pages except current page
+        $posts = $postTypeHelper->query(['post_type' => 'page', 'posts_per_page' => -1, 'post__not_in' => [$sourceId]]);
         if (empty($posts)) {
             return ['status' => false];
         }
-
+        $currentParentPage = 'none';
+        $currentPost = $postTypeHelper->get($sourceId);
         $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
         foreach ($posts as $post) {
             /** @var \WP_Post $post */
             // @codingStandardsIgnoreLine
-            $pages[] = ['label' => $post->post_title, 'value' => (string) $post->ID];
+            $pages[] = ['label' => $post->post_title, 'value' => (string)$post->ID];
         }
 
         // @codingStandardsIgnoreLine
