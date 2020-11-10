@@ -53,6 +53,11 @@
   cursor: pointer;
   color: #BCBCBC;
   font-size: 14px;
+  transition: color .05s ease-in-out;
+
+  &:hover {
+    color: #203251;
+  }
 
   &.vcv-ui-icon--active {
     color: #203251;
@@ -72,6 +77,10 @@
 
 .vcv-ui-panel-heading  .vcv-tooltip-container .vcv-ui-icon-question,
 .vcv-ui-edit-form-section-header .vcv-tooltip-container .vcv-ui-icon-question {
+  &:hover {
+    color: #fff;
+  }
+
   &.vcv-ui-icon--active {
     color: #fff;
   }
