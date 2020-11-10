@@ -98,7 +98,7 @@ export default class SearchElement extends React.Component {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const VCHubIsAnOnlineLibrary = localizations ? localizations.VCHubIsAnOnlineLibrary : '<a href="https://visualcomposer.com/help/visual-composer-hub/">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.'
+    const VCHubIsAnOnlineLibrary = localizations ? localizations.VCHubIsAnOnlineLibrary : '<a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.'
 
     const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
