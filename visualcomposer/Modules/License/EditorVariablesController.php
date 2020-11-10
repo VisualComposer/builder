@@ -40,31 +40,6 @@ class EditorVariablesController extends Container implements Module
             'value' => $licenseHelper->isAnyActivated(),
             'type' => 'variable',
         ];
-        $variables[] = [
-            'key' => 'vcvGoPremiumUrl',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license')),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvGettingStartedUrl',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-getting-started')),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvUpgradeUrl',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=hub-banner')),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvUpgradeUrlUnsplash',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=unsplash')),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvUpgradeUrlGiphy',
-            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=giphy')),
-            'type' => 'variable',
-        ];
 
         return $variables;
     }

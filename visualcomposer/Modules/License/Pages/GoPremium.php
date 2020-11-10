@@ -74,6 +74,18 @@ class GoPremium extends Container implements Module
             },
             70
         );
+        $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
+    }
+
+    protected function addVariables($variables, $payload)
+    {
+        $variables[] = [
+            'key' => 'vcvGoPremiumUrl',
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-activate-license')),
+            'type' => 'variable',
+        ];
+
+        return $variables;
     }
 
     /**
@@ -95,7 +107,7 @@ class GoPremium extends Container implements Module
                             '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with a free or premium license to get more content elements, templates, and addons.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=vcv-getting-started')
+                        admin_url('admin.php?page=vcv-activate-license&vcv-ref=wp-dashboard')
                     ),
                     'info'
                 );
@@ -131,71 +143,6 @@ class GoPremium extends Container implements Module
             '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
             $licenseHelper->activationButtonTitle()
         );
-    }
-
-    /**
-     * Add go premium link in plugins page
-     *
-     * @param $links
-     *
-     * @return mixed
-     */
-    protected function pluginsPageLink($links)
-    {
-        /** @noinspection HtmlUnknownTarget */
-        $goPremiumLink = sprintf(
-            '<a href="%s" class="vcv-plugins-go-premium">%s</a>',
-            esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=plugins-page')),
-            __('Go Premium', 'visualcomposer')
-        );
-
-        $links[] = $goPremiumLink;
-
-        return $links;
-    }
-
-    /**
-     * Add help center, api, premium support links in plugins page
-     *
-     * @param $pluginLinks
-     *
-     * @return mixed
-     */
-    protected function pluginRowMeta($pluginLinks, $pluginFile)
-    {
-        $urlHelper = vchelper('Url');
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
-            ['vcv:assets:vendor:script'],
-            VCV_VERSION
-        );
-        wp_enqueue_script('vcv:wpVcSettings:script');
-        wp_enqueue_script('vcv:assets:runtime:script');
-
-        if (VCV_PLUGIN_BASE_NAME === $pluginFile) {
-            $rowMeta = [
-                'helpCenter' => sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    'https://visualcomposer.com/help/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=help-center-link',
-                    __('Help Center', 'visualcomposer')
-                ),
-                'api' => sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    'https://visualcomposer.com/help/api/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=api-link',
-                    __('API', 'visualcomposer')
-                ),
-                'premiumSupport' => sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    'https://my.visualcomposer.com/support/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=premium-support-link',
-                    __('Premium Support', 'visualcomposer')
-                ),
-            ];
-
-            return array_merge($pluginLinks, $rowMeta);
-        }
-
-        return (array)$pluginLinks;
     }
 
     /**

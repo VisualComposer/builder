@@ -39,7 +39,7 @@ export default class PremiumPromoPopup extends React.Component {
     const customButtonProps = {
       target: '_blank',
       rel: 'noopener noreferrer',
-      href: 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=editor&utm_campaign=gopremium&utm_content=popup-button'
+      href: window.VCV_UTM()['editor-gopremium-popup-button']
     }
 
     return (
