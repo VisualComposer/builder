@@ -20,7 +20,7 @@ addStorage('elementSettings', (storage) => {
     const dataSettings = JSON.parse(settingsCloneJsonString)
     Object.keys(dataSettings).forEach((attrKey) => {
       if (dataSettings[attrKey].type === 'designOptionsAdvanced' || dataSettings[attrKey].type === 'designOptions') {
-        dataSettings[attrKey].options.tooltip = 'Apply the most common style properties and effects to content elements with <a href="https://visualcomposer.com/help/design-options/">Design Options</a>.'
+        dataSettings[attrKey].options.tooltip = 'Apply the most common style properties and effects to content elements with <a href="https://visualcomposer.com/help/design-options/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.'
       }
     })
 

@@ -26,7 +26,6 @@ export default class Tooltip extends React.Component {
   }
 
   closeIfNotInside (e) {
-    e && e.preventDefault()
     const $el = e.target
     const tooltipBox = $el.closest('.vcv-tooltip-box')
 

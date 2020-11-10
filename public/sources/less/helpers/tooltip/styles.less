@@ -41,6 +41,10 @@
     &:hover {
       color: #fff;
     }
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 }
 
@@ -88,4 +92,11 @@
 .rtl .vcv-ui-editor-search-container .vcv-tooltip-container {
   right: auto;
   left: -32px;
+}
+
+.vcv-ui-form-wp-tinymce {
+  .vcv-tooltip-container {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
 }
