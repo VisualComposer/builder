@@ -120,6 +120,14 @@ export default class DynamicPopup extends React.Component {
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-dynamic-field-autocomplete-container'>
+          <div className='vcv-ui-form-group-heading-wrapper'>
+            <span className='vcv-ui-form-group-heading'>Source</span>
+            <Tooltip
+              relativeElementSelector='.vcv-ui-modal-content'
+            >
+              {DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select a page, post, or custom post type as the dynamic content source.'}
+            </Tooltip>
+          </div>
           <Autocomplete
             value={this.state.sourceId + ''} // force string
             elementAccessPoint={this.props.elementAccessPoint}
@@ -132,7 +140,6 @@ export default class DynamicPopup extends React.Component {
               validation: true
             }}
             updater={this.sourceIdChange}
-            description={DynamicPopup.localizations.dynamicAutocompleteDescription || 'Select a page, post, or custom post type as the dynamic content source.'}
           />
         </div>
       </div>
