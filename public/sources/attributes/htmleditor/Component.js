@@ -54,8 +54,8 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       bindHandlers: function () {
         oldMediaFrameSelect.prototype.bindHandlers.apply(this, arguments)
-        this.off('content:render:stockImages', this.stockImagesContent, this)
-        this.on('content:render:stockImages', this.stockImagesContent, this)
+        this.off('content:render:unsplash', this.stockImagesContent, this)
+        this.on('content:render:unsplash', this.stockImagesContent, this)
         this.off('content:render:giphy', this.giphyContent, this)
         this.on('content:render:giphy', this.giphyContent, this)
       },
@@ -82,7 +82,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       browseRouter: function (routerView) {
         oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
-        routerView.set('stockImages', {
+        routerView.set('unsplash', {
           text: 'Unsplash',
           priority: 60
         })

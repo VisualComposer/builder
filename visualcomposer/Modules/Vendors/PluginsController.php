@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Utm;
 
 class PluginsController extends Container implements Module
 {
@@ -101,26 +102,28 @@ class PluginsController extends Container implements Module
      * Add help center, api, premium support links in plugins page
      *
      * @param $pluginLinks
+     * @param $pluginFile
+     * @param \VisualComposer\Helpers\Utm $utmHelper
      *
      * @return mixed
      */
-    protected function pluginRowMeta($pluginLinks, $pluginFile)
+    protected function pluginRowMeta($pluginLinks, $pluginFile, Utm $utmHelper)
     {
         if (VCV_PLUGIN_BASE_NAME === $pluginFile) {
             $rowMeta = [
                 'helpCenter' => sprintf(
                     '<a href="%s" target="_blank">%s</a>',
-                    'https://visualcomposer.com/help/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=help-center-link',
+                    $utmHelper->get('wp-plugins-meta-help-center'),
                     __('Help Center', 'visualcomposer')
                 ),
                 'api' => sprintf(
                     '<a href="%s" target="_blank">%s</a>',
-                    'https://visualcomposer.com/help/api/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=api-link',
+                    $utmHelper->get('wp-plugins-meta-api'),
                     __('API', 'visualcomposer')
                 ),
                 'premiumSupport' => sprintf(
                     '<a href="%s" target="_blank">%s</a>',
-                    'https://my.visualcomposer.com/support/?utm_medium=wp-dashboard&utm_source=plugins-page&utm_campaign=vcwb&utm_content=premium-support-link',
+                    $utmHelper->get('wp-plugins-meta-premium-support'),
                     __('Premium Support', 'visualcomposer')
                 ),
             ];
@@ -143,7 +146,7 @@ class PluginsController extends Container implements Module
         /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
             '<a href="%s" class="vcv-plugins-go-premium">%s</a>',
-            esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=plugins-page')),
+            esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=wp-plugins')),
             __('Go Premium', 'visualcomposer')
         );
 

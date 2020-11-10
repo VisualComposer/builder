@@ -2,6 +2,7 @@ import React from 'react'
 import PopupInner from '../popupInner'
 
 import { getService, getStorage } from 'vc-cake'
+
 const dataManager = getService('dataManager')
 const editorPopupStorage = getStorage('editorPopup')
 
@@ -28,7 +29,7 @@ export default class ReviewPopup extends React.Component {
 
     const feedbackLink = isPositiveReview
       ? 'https://wordpress.org/support/plugin/visualcomposer/reviews/?filter=5#new-topic-0'
-      : 'https://my.visualcomposer.com/feedback/visualcomposer?utm_medium=frontend-editor&utm_source=editor&utm_campaign=feedback'
+      : window.VCV_UTM()['editor-feedback-review-popup-button']
 
     const customButtonProps = {
       target: '_blank',
