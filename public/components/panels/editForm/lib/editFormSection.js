@@ -359,11 +359,17 @@ export default class EditFormSection extends React.Component {
       innerElementReplaceIcon = <span className='vcv-ui-edit-form-section-header-control vcv-ui-icon vcv-ui-icon-swap' onClick={this.handleToggleShowReplace} />
     }
 
+    let tooltipText = null
     let tooltip = null
-    if (tab.data.settings.options.tooltip) {
+    if (this.props.options && this.props.options.nestedAttr) {
+      tooltipText = tab.data.options.tooltip
+    } else {
+      tooltipText = tab.data.settings.options.tooltip
+    }
+    if (tooltipText) {
       tooltip = (
         <Tooltip>
-          {tab.data.settings.options.tooltip}
+          {tooltipText}
         </Tooltip>
       )
     }
