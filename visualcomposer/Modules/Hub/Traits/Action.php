@@ -76,7 +76,10 @@ If the problem still occurs, visit %smy.visualcomposer.com/support%s for technic
 ',
                             'visualcomposer'
                         ),
-                        '<a href="https://my.visualcomposer.com/support/?utm=vcwb-editor&utm-source=error-message&utm_campaign=support" target="_blank">',
+                        sprintf(
+                            '<a href="%s" target="_blank" rel="noopener noreferrer">',
+                            str_replace('utm_content=button', 'utm_content=text', vcvenv('VCV_SUPPORT_URL'))
+                        ),
                         '</a>'
                     )
                 );
