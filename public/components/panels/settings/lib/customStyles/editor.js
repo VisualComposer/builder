@@ -14,7 +14,6 @@ export default class StyleEditor extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    editorLabel: PropTypes.string,
     activeIndex: PropTypes.number,
     value: PropTypes.string,
     updater: PropTypes.func
@@ -48,7 +47,6 @@ export default class StyleEditor extends React.Component {
     return (
       <div className={controlClass}>
         <textarea className='vcv-ui-style-ace-container' ref={editor => (this.editorWrapper = editor)} />
-        <p className='vcv-ui-form-helper'>{this.props.editorLabel}</p>
       </div>
     )
   }
