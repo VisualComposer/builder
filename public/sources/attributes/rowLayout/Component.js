@@ -484,10 +484,6 @@ export default class Layout extends Attribute {
 
     return (
       <div className='vcv-ui-form-layout'>
-        <span className='vcv-ui-form-layout-description'>Specify number of columns within row by choosing preset
-or enter custom values. Extend row layout by customizing
-responsiveness options and stacking order.
-        </span>
         <DefaultLayouts
           layouts={this.props.layouts} value={this.sanitizeLayout(defaultLayoutData)}
           onChange={this.handleActiveLayoutChange}
