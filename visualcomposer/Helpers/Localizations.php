@@ -1320,10 +1320,6 @@ class Localizations extends Container implements Helper
                 'Choose an event performed when clicking on the image.',
                 'visualcomposer'
             ),
-            'selectAnImage' => __(
-                'Select an image.',
-                'visualcomposer'
-            ),
             'modifyTheDestinationLinkToThePage' => __(
                 'Modify the destination link to the page. Make sure to enable the option to set a custom permalink in WordPress Settings.',
                 'visualcomposer'

@@ -955,17 +955,12 @@ export default class DesignOptions extends Attribute {
       )
     }
 
-    const selectAnImage = DesignOptions.localizations ? DesignOptions.localizations.selectAnImage : 'Select an image.'
-
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-group-heading-wrapper'>
           <span className='vcv-ui-form-group-heading'>
             Background images
           </span>
-          <Tooltip>
-            {selectAnImage}
-          </Tooltip>
         </div>
         {fieldComponent}
       </div>
