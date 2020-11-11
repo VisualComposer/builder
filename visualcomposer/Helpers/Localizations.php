@@ -1327,6 +1327,34 @@ class Localizations extends Container implements Helper
                 'A popup container element allows to style the overall look of your popup.',
                 'visualcomposer'
             ),
+            'marginTop' => __(
+                'Margin top',
+                'visualcomposer'
+            ),
+            'specifySpacesFromTheScreenTop' => __(
+                'Specify space (in pixels) from the screen top where element should stick.',
+                'visualcomposer'
+            ),
+            'zIndex' => __(
+                'Z-index',
+                'visualcomposer'
+            ),
+            'relateToParent' => __(
+                'Relate to parent',
+                'visualcomposer'
+            ),
+            'limitStickinessToWorkOnlyInTheParentContainer' => __(
+                'Limit stickiness to work only in the parent container.',
+                'visualcomposer'
+            ),
+            'showOnSticky' => __(
+                'Show on sticky',
+                'visualcomposer'
+            ),
+            'showOnlyWhenItBecomesSticky' => __(
+                'Show only when it becomes sticky.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
