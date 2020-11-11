@@ -31,6 +31,14 @@ export default class PageSettingsLayouts extends Attribute {
 
       if (addTemplateIcons) {
         content.push(
+          <div className='vcv-ui-form-group-heading-wrapper' key={content.length}>
+            <span className='vcv-ui-form-group-heading'>Page Layout</span>
+            <Tooltip>
+              {selectOrChangeTheLayoutOfThePage}
+            </Tooltip>
+          </div>
+        )
+        content.push(
           <TemplateLayoutIcons key={content.length} options={this.props.options || {}} />)
       }
     }
@@ -40,12 +48,6 @@ export default class PageSettingsLayouts extends Attribute {
 
     return (
       <>
-        <div className='vcv-ui-form-group-heading-wrapper'>
-          <span className='vcv-ui-form-group-heading'>Page Layout</span>
-          <Tooltip>
-            {selectOrChangeTheLayoutOfThePage}
-          </Tooltip>
-        </div>
         {content}
       </>
     )
