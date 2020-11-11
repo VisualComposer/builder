@@ -5,11 +5,16 @@ import Attribute from '../attribute'
 import Toggle from '../toggle/Component'
 import Number from '../number/Component'
 import Tooltip from '../../../components/tooltip/tooltip'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class Sticky extends Attribute {
   static defaultProps = {
     fieldType: 'sticky'
   }
+
+  static localizations = dataManager.get('localizations')
 
   static deviceDefaults = {
     stickyEnable: false,
@@ -131,13 +136,14 @@ export default class Sticky extends Attribute {
       return null
     }
     const value = deviceData[fieldKey] || false
-    const labelText = 'Margin top'
+    const labelText = Sticky.localizations ? Sticky.localizations.marginTop : 'Margin top'
+    const tooltipText = Sticky.localizations ? Sticky.localizations.specifySpacesFromTheScreenTop : 'Specify space (in pixels) from the screen top where element should stick.'
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-group-heading-wrapper'>
           <span className='vcv-ui-form-group-heading'>{labelText}</span>
           <Tooltip>
-            Specify space (in pixels) from the screen top where element should stick.
+            {tooltipText}
           </Tooltip>
         </div>
         <Number
@@ -158,13 +164,14 @@ export default class Sticky extends Attribute {
       return null
     }
     const value = deviceData[fieldKey] || false
-    const labelText = 'Z-index'
+    const labelText = Sticky.localizations ? Sticky.localizations.zIndex : 'Z-index'
+    const tooltipText = Sticky.localizations ? Sticky.localizations.specifySpacesFromTheScreenTop : 'Control z-index for the element to place it on top or above the following content.'
     return (
       <div className='vcv-ui-form-group'>
         <div className='vcv-ui-form-group-heading-wrapper'>
           <span className='vcv-ui-form-group-heading'>{labelText}</span>
           <Tooltip>
-            Control z-index for the element to place it on top or above the following content.
+            {tooltipText}
           </Tooltip>
         </div>
         <Number
@@ -185,7 +192,8 @@ export default class Sticky extends Attribute {
       return null
     }
     const value = deviceData[fieldKey] || false
-    const labelText = 'Relate to parent'
+    const labelText = Sticky.localizations ? Sticky.localizations.relateToParent : 'Relate to parent'
+    const tooltipText = Sticky.localizations ? Sticky.localizations.limitStickinessToWorkOnlyInTheParentContainer : 'Limit stickiness to work only in the parent container.'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
@@ -197,7 +205,7 @@ export default class Sticky extends Attribute {
           value={value}
         />
         <Tooltip>
-          Limit stickiness to work only in the parent container.
+          {tooltipText}
         </Tooltip>
       </div>
     )
@@ -210,7 +218,8 @@ export default class Sticky extends Attribute {
       return null
     }
     const value = deviceData[fieldKey] || false
-    const labelText = 'Show on sticky'
+    const labelText = Sticky.localizations ? Sticky.localizations.showOnSticky : 'Show on sticky'
+    const tooltipText = Sticky.localizations ? Sticky.localizations.showOnlyWhenItBecomesSticky : 'Show only when it becomes sticky.'
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <Toggle
@@ -221,7 +230,7 @@ export default class Sticky extends Attribute {
           value={value}
         />
         <Tooltip>
-          Show only when it becomes sticky.
+          {tooltipText}
         </Tooltip>
       </div>
     )
