@@ -80,7 +80,7 @@ class Utm implements Helper
 
             // vcv-activate-license myVC licenses URL
             'activate-license-myvc-license-url' => rtrim($myVc, '\//')
-                . '/licenses/?utm_source=' . $source . '&utm_media={media}&utm_campaign=info&utm_content=text',
+                . '/licenses/?utm_source=' . $source . '&utm_medium={media}&utm_campaign=info&utm_content=text',
         ];
 
         return $utm;
