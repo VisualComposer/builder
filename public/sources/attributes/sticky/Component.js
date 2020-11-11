@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import Attribute from '../attribute'
 import Toggle from '../toggle/Component'
 import Number from '../number/Component'
+import Tooltip from '../../../components/tooltip/tooltip'
 
 export default class Sticky extends Attribute {
   static defaultProps = {
@@ -132,10 +133,13 @@ export default class Sticky extends Attribute {
     const value = deviceData[fieldKey] || false
     const labelText = 'Margin top'
     return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <span className='vcv-ui-form-group-heading'>
-          {labelText}
-        </span>
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>{labelText}</span>
+          <Tooltip>
+            Specify space (in pixels) from the screen top where element should stick.
+          </Tooltip>
+        </div>
         <Number
           api={this.props.api}
           fieldKey={fieldKey}
@@ -143,7 +147,6 @@ export default class Sticky extends Attribute {
           options={{ placeholder: Sticky.deviceDefaults.stickyOffsetTop }}
           value={value}
         />
-        <p className='vcv-ui-form-helper'>Specify space (in pixels) from the screen top where element should stick.</p>
       </div>
     )
   }
@@ -157,10 +160,13 @@ export default class Sticky extends Attribute {
     const value = deviceData[fieldKey] || false
     const labelText = 'Z-index'
     return (
-      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-        <span className='vcv-ui-form-group-heading'>
-          {labelText}
-        </span>
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>{labelText}</span>
+          <Tooltip>
+            Control z-index for the element to place it on top or above the following content.
+          </Tooltip>
+        </div>
         <Number
           api={this.props.api}
           fieldKey={fieldKey}
@@ -168,7 +174,6 @@ export default class Sticky extends Attribute {
           options={{ placeholder: '999' }}
           value={value}
         />
-        <p className='vcv-ui-form-helper'>Control z-index for the element to place it on top or above the following content.</p>
       </div>
     )
   }
@@ -191,7 +196,9 @@ export default class Sticky extends Attribute {
           options={{ labelText: labelText }}
           value={value}
         />
-        <p className='vcv-ui-form-helper'>Limit stickiness to work only in the parent container.</p>
+        <Tooltip>
+          Limit stickiness to work only in the parent container.
+        </Tooltip>
       </div>
     )
   }
@@ -213,7 +220,9 @@ export default class Sticky extends Attribute {
           options={{ labelText: labelText }}
           value={value}
         />
-        <p className='vcv-ui-form-helper'>Show only when it becomes sticky.</p>
+        <Tooltip>
+          Show only when it becomes sticky.
+        </Tooltip>
       </div>
     )
   }
