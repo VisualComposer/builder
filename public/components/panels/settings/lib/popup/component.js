@@ -1,6 +1,7 @@
 import React from 'react'
 import { getStorage } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
+import Tooltip from '../../../../tooltip/tooltip'
 
 const settingsStorage = getStorage('settings')
 
@@ -217,30 +218,35 @@ export default class Popup extends React.Component {
       popupSelect = (
         <div>
           <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              {onPageLoad}
-            </span>
+            <div className='vcv-ui-form-group-heading-wrapper'>
+              <span className='vcv-ui-form-group-heading'>{onPageLoad}</span>
+              <Tooltip>
+                {popupOpenOnPageLoad}
+              </Tooltip>
+            </div>
             {this.renderExistingPosts('popupOnPageLoad')}
-            <p className='vcv-ui-form-helper'>{popupOpenOnPageLoad}</p>
           </div>
           {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id && this.state.popupOnPageLoad.id !== 'none' ? this.getDelayHtml('popupOnPageLoad') : null}
           {this.state.popupOnPageLoad && this.state.popupOnPageLoad.id && this.state.popupOnPageLoad.id !== 'none' ? this.getShowEveryHtml('popupOnPageLoad') : null}
           <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              {onExitIntent}
-            </span>
+            <div className='vcv-ui-form-group-heading-wrapper'>
+              <span className='vcv-ui-form-group-heading'>{onExitIntent}</span>
+              <Tooltip>
+                {popupOpenOnExitIntent}
+              </Tooltip>
+            </div>
             {this.renderExistingPosts('popupOnExitIntent')}
-            <p className='vcv-ui-form-helper'>{popupOpenOnExitIntent}</p>
           </div>
           {this.state.popupOnExitIntent && this.state.popupOnExitIntent.id && this.state.popupOnExitIntent.id !== 'none' ? this.getShowEveryHtml('popupOnExitIntent') : null}
           <div className='vcv-ui-form-group'>
-            <span className='vcv-ui-form-group-heading'>
-              {onElementId}
-            </span>
+            <div className='vcv-ui-form-group-heading-wrapper'>
+              <span className='vcv-ui-form-group-heading'>{onElementId}</span>
+              <Tooltip>
+                {popupOpenOnElementId}
+              </Tooltip>
+            </div>
             {this.renderExistingPosts('popupOnElementId')}
-            <p className='vcv-ui-form-helper'>{popupOpenOnElementId}</p>
           </div>
-
           {elementIdSelectorHtml}
           {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
           {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getShowEveryHtml('popupOnElementId') : null}
