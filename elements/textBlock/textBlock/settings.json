@@ -5,7 +5,6 @@
     "value": "<h2>Typography is the art and technique</h2>\n<p>Typography is the art and technique of arranging type to make written language legible, readable and appealing when displayed. The arrangement of type involves selecting typefaces, point size, line length, line-spacing (leading), letter-spacing (tracking), and adjusting the space within letters pairs (kerning).</p>",
     "options": {
       "label": "Content",
-      "description": "Content for the text block.",
       "inline": true,
       "skinToggle": "darkTextSkin",
       "dynamicField": true
