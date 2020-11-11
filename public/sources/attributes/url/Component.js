@@ -330,7 +330,6 @@ export default class Url extends Attribute {
 
   drawModal () {
     const insertEditLink = this.localizations ? this.localizations.insertEditLink : 'Insert or edit a link'
-    const enterDestinationUrl = this.localizations ? this.localizations.enterDestinationUrl : 'Enter the destination URL'
     const onClickAction = this.localizations ? this.localizations.onClickAction : 'OnClick action'
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
@@ -391,9 +390,6 @@ export default class Url extends Attribute {
     } else {
       modalContent = (
         <div>
-          <p className='vcv-ui-form-helper'>
-            {enterDestinationUrl}
-          </p>
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               URL

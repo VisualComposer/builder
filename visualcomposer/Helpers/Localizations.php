@@ -180,7 +180,6 @@ class Localizations extends Container implements Helper
             'addLink' => __('Add a link', 'visualcomposer'),
             'selectUrl' => __('Select a URL', 'visualcomposer'),
             'insertEditLink' => __('Insert or edit a link', 'visualcomposer'),
-            'urlInputPlaceholder' => __('Enter the destination URL', 'visualcomposer'),
             'linkToExistingContent' => __('Or link to an existing content', 'visualcomposer'),
             'searchExistingContent' => __('Search existing content', 'visualcomposer'),
             'popup' => __('Popup', 'visualcomposer'),
