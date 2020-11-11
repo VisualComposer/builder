@@ -20,6 +20,11 @@ class Localizations extends Container implements Helper
      */
     public function getLocalizations()
     {
+        $source = 'vcwb';
+        if (defined('VCV_AUTHOR_API_KEY')) {
+            $source = 'theme-author-vcwb';
+        }
+
         $wpHelper = vchelper('Wp');
         $locale = [
             'addElement' => __('Add Element', 'visualcomposer'),
@@ -1231,31 +1236,41 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'thisIsYourContentLibrary' => __(
-                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="_blank" rel="noopener noreferrer">Hub</a>.',
+                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source='
+                . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/" target="_blank" rel="noopener noreferrer">Hub</a>.',
                 'visualcomposer'
             ),
             'useElementControls' => __(
-                'Use <a href="https://visualcomposer.com/help/interface/element-controls/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="_blank" rel="noopener noreferrer">layout structure</a> or modify the particular row, column, or content element.',
+                'Use <a href="https://visualcomposer.com/help/interface/element-controls/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">element controls</a> to see your <a href="https://visualcomposer.com/help/content-elements-structure/grid-layout-row-column/" target="_blank" rel="noopener noreferrer">layout structure</a> or modify the particular row, column, or content element.',
                 'visualcomposer'
             ),
             'useQuickActions' => __(
-                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
+                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source='
+                . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
                 'visualcomposer'
             ),
             'validateYourPage' => __(
-                '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
+                '<a href="https://visualcomposer.com/help/visual-composer-insights-assistant/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Validate your page</a> for SEO and performance to speed up your site and rank higher.',
                 'visualcomposer'
             ),
             'checkHowYourPageLooksOnDifferentDevices' => __(
-                'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">preview your layout responsiveness</a>.',
+                'Check how your page looks on different devices. Select the device type to <a href="https://visualcomposer.com/help/responsive-design/?utm_source='
+                . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">preview your layout responsiveness</a>.',
                 'visualcomposer'
             ),
             'accessVisualComposerHub' => __(
-                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, addons, stock images, and more.',
+                'Access <a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> in-built cloud library to download additional elements, templates, addons, stock images, and more.',
                 'visualcomposer'
             ),
             'changeSettingsOfYourPageOrPost' => __(
-                'Change <a href="https://visualcomposer.com/help/settings/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
+                'Change <a href="https://visualcomposer.com/help/settings/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">settings of your page or post</a>, modify the layout, control popups, add custom CSS, and Javascript.',
                 'visualcomposer'
             ),
             'previewSaveAndPublish' => __(
@@ -1271,7 +1286,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'VCHubIsAnOnlineLibrary' => __(
-                '<a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
+                '<a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=' . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
                 'visualcomposer'
             ),
             'useTheToggleToSwitchBetweenLightAndDarkBackground' => __(
@@ -1279,7 +1295,9 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'replaceStaticContentWithDynamicContent' => __(
-                'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">dynamic content</a> placeholders (WordPress default and custom fields).',
+                'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/?utm_source='
+                . $source
+                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">dynamic content</a> placeholders (WordPress default and custom fields).',
                 'visualcomposer'
             ),
             'useReverseStackingToggle' => __(
