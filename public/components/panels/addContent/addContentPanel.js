@@ -75,7 +75,7 @@ export default class AddContentPanel extends React.Component {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
-        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search templates',
+        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search for templates',
         content: <AddTemplatePanel searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       }
     }
