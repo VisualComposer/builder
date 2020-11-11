@@ -131,7 +131,7 @@ class Localizations extends Container implements Helper
             'move' => __('Move', 'visualcomposer'),
             'searchContentElements' => __('Search for content elements', 'visualcomposer'),
             'searchContentElementsAndTemplates' => __('Search for content elements and templates', 'visualcomposer'),
-            'searchContentTemplates' => __('Search templates', 'visualcomposer'),
+            'searchContentTemplates' => __('Search for templates', 'visualcomposer'),
             'templateAlreadyExists' => __(
                 'A template with this name already exists. Choose a different template name.',
                 'visualcomposer'
