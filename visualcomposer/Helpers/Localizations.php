@@ -1308,7 +1308,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'insertCustomJSCodeSnippets' => __(
-                'Insert custom JavaScript code snippets to the whole site or locally on this page in header or footer.',
+                'Add custom JavaScript code to insert it locally or globally on every page in header or footer. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
                 'visualcomposer'
             ),
             'applyCustomCSSCode' => __(
@@ -1321,6 +1321,10 @@ class Localizations extends Container implements Helper
             ),
             'parentPageTitle' => __(
                 'Parent Page',
+                'visualcomposer'
+            ),
+            'aPopupContainerElementAllowsToStyle' => __(
+                'A popup container element allows to style the overall look of your popup.',
                 'visualcomposer'
             ),
         ];
