@@ -172,11 +172,11 @@ if (is_array($variables)) {
         <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
                 <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-                    <a class="vcv-dashboard-logo" href="<?php echo esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=vc-dashboard')); ?>" rel="noopener" target="_blank">
+                    <a class="vcv-dashboard-logo" href="<?php echo esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=vc-dashboard')); ?>">
                         <?php evcview('settings/partials/dashboard-logo'); ?>
                     </a>
                 <?php else : ?>
-                    <a class="vcv-dashboard-logo" rel="noopener" target="_blank">
+                    <a class="vcv-dashboard-logo">
                         <?php evcview('settings/partials/dashboard-logo'); ?>
                     </a>
                 <?php endif; ?>
