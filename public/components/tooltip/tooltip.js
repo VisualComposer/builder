@@ -14,6 +14,8 @@ export default class Tooltip extends React.Component {
 
     this.handleTooltipClick = this.handleTooltipClick.bind(this)
     this.closeIfNotInside = this.closeIfNotInside.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
   }
 
   componentDidMount () {
@@ -66,11 +68,19 @@ export default class Tooltip extends React.Component {
     }
   }
 
+  handleMouseEnter () {
+    this.setState({ isHovered: true })
+  }
+
+  handleMouseLeave () {
+    this.setState({ isHovered: false })
+  }
+
   render () {
-    const { isVisible } = this.state
+    const { isVisible, isHovered } = this.state
     let tooltipBox = null
 
-    if (isVisible) {
+    if (isVisible || isHovered) {
       const boxStyles = this.getTooltipPosition()
 
       tooltipBox = (
@@ -82,7 +92,7 @@ export default class Tooltip extends React.Component {
       'vcv-tooltip-button': true,
       'vcv-ui-icon': true,
       'vcv-ui-icon-question': true,
-      'vcv-ui-icon--active': isVisible
+      'vcv-ui-icon--active': isVisible || isHovered
     })
 
     return (
@@ -91,6 +101,8 @@ export default class Tooltip extends React.Component {
           ref={this.tooltipButtonRef}
           className={iconClasses}
           onClick={this.handleTooltipClick}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
         />
         {tooltipBox}
       </div>

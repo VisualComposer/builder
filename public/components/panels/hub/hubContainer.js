@@ -396,11 +396,15 @@ export default class HubContainer extends React.Component {
   handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
 
-    const activeFilterType = this.state.filterType.replace('hub', '').toLowerCase()
+    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
     const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
     const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    window.open(utmUrlRef)
+    if (this.props.namespace === 'vc-dashboard') {
+      window.location.href = utmUrlRef // open in same window
+    } else {
+      window.open(utmUrlRef)
+    }
   }
 
   getHubBanner () {

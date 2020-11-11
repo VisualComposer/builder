@@ -71,7 +71,7 @@
     "value": {},
     "options": {
       "label": "Dividers",
-      "tooltip": "Add pre-designed or custom shapes to divide rows and columns."
+      "tooltip": "Add pre-designed shapes to divide rows and columns."
     }
   },
   "boxShadow": {

@@ -30,16 +30,16 @@
   font-style: italic;
   color: #9EA6B3;
   text-align: center;
-  box-shadow: 0 0 10px 0 rgba(26, 57, 157, 0.8);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
   white-space: normal;
   line-height: 20px;
 
   a {
-    color: #9EA6B3;
-    transition: color .05s ease-in-out;
+    color: #fff;
+    transition: text-decoration .05s ease-in-out;
 
     &:hover {
-      color: #fff;
+      text-decoration: none;
     }
 
     &:focus {
@@ -53,6 +53,11 @@
   cursor: pointer;
   color: #BCBCBC;
   font-size: 14px;
+  transition: color .05s ease-in-out;
+
+  &:hover {
+    color: #203251;
+  }
 
   &.vcv-ui-icon--active {
     color: #203251;
@@ -66,12 +71,17 @@
     border-color: transparent transparent #203251 transparent;
     left: 2px;
     top: 15px;
-    z-index: 9999;
+    z-index: 999999;
   }
 }
 
-.vcv-ui-panel-heading  .vcv-tooltip-container .vcv-ui-icon-question,
+.vcv-ui-editor-search-container .vcv-tooltip-container .vcv-ui-icon-question,
+.vcv-ui-panel-heading .vcv-tooltip-container .vcv-ui-icon-question,
 .vcv-ui-edit-form-section-header .vcv-tooltip-container .vcv-ui-icon-question {
+  &:hover {
+    color: #fff;
+  }
+
   &.vcv-ui-icon--active {
     color: #fff;
   }
