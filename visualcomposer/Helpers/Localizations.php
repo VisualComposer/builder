@@ -63,7 +63,6 @@ class Localizations extends Container implements Helper
             'localCSS' => __('Local CSS', 'visualcomposer'),
             'localCSSLabel' => __('Local CSS will be applied to this particular page only.', 'visualcomposer'),
             'globalCSS' => __('Global CSS', 'visualcomposer'),
-            'globalCSSLabel' => __('Global CSS will be applied sitewide.', 'visualcomposer'),
             'customJS' => __('Custom JavaScript', 'visualcomposer'),
             'localJS' => __('Local JavaScript', 'visualcomposer'),
             'localJSLabel' => __('Local JavaScript will be applied to this particular page only.', 'visualcomposer'),
