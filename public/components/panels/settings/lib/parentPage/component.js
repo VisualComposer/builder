@@ -37,8 +37,9 @@ export default class ParentPage extends React.Component {
 
   getSelectedValue () {
     const { data, current } = this.state
+    const dataList = data.all || data
     // Is current page id exist inside all page list
-    if (data.all.findIndex((item) => { return item.value === current }) > -1) {
+    if (dataList && dataList.findIndex((item) => { return item.value === current }) > -1) {
       return current
     }
     return 'none'
