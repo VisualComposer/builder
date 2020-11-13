@@ -17,6 +17,8 @@ All-in-one page builder for WordPress comes with 500+ elements, templates, addon
 
 **It's a brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Instead, you get a fast, powerful, and easy-to-use website builder that gives you tools to create any kind of website.
 
+**[Visual Composer DEMO](https://demo.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-demo-text-link)**: Try Visual Composer in action, make a page while playing and get an idea of the easy-to-use interface.
+
 Create pixel-perfect websites easily with a help of [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-hub-text-link): A rich library of **500+ Elements**, **Templates**, **Addons**, and powerful **Design Options**.
 
 https://www.youtube.com/watch?v=SJMIvMXyPHs
