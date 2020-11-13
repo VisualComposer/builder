@@ -4,6 +4,7 @@ import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
 import InsightGroup from './insightGroup'
 import vcLogo from 'public/sources/images/brandLogo/vcLogo.raw'
+import Tooltip from '../../tooltip/tooltip'
 
 const insightsStorage = getStorage('insights')
 const localizations = window.VCV_I18N && window.VCV_I18N()
@@ -124,6 +125,7 @@ export default class InsightsPanel extends React.Component {
 
   render () {
     const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
+    const insightsIsAContentAnalysisTool = localizations ? localizations.insightsIsAContentAnalysisTool : 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.'
     const insightsHTML = this.getInsightsHTML(this.state.insightData)
 
     return (
@@ -133,6 +135,9 @@ export default class InsightsPanel extends React.Component {
           <span className='vcv-ui-panel-heading-text'>
             {VCInsights}
           </span>
+          <Tooltip>
+            {insightsIsAContentAnalysisTool}
+          </Tooltip>
         </div>
         <PanelNavigation controls={this.state.currentControls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <Scrollbar>

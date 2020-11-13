@@ -21,18 +21,15 @@ const API = {
   get: (key) => {
     return API.all()[key]
   },
-  getSortedElements: lodash.memoize((category) => {
+  getSortedElements: lodash.memoize((elements = []) => {
     const hubElements = hubElementsStorage.state('elements').get()
     const cook = vcCake.getService('cook')
     const allCategories = API.all()
-    let elements = []
     const setElements = (cat) => {
       const category = API.get(cat)
       elements = elements.concat(category && category.elements ? category.elements : [])
     }
-    if (category) {
-      setElements(category)
-    } else {
+    if (!elements.length) {
       Object.keys(allCategories).forEach(setElements)
     }
     // Make unique

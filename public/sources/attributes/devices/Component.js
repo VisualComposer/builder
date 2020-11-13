@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import Attribute from '../attribute'
 import Dropdown from '../dropdown/Component'
+import Tooltip from '../../../components/tooltip/tooltip'
+import vcCake from 'vc-cake'
+const dataManager = vcCake.getService('dataManager')
 
 export default class Devices extends Attribute {
   static defaultProps = {
@@ -125,11 +128,17 @@ export default class Devices extends Attribute {
         )
       })
 
+      const localizations = dataManager.get('localizations')
+      const toPreviewTheChangesUseTheResponsiveView = localizations ? localizations.toPreviewTheChangesUseTheResponsiveView : 'To preview the changes, use the Responsive View in the navigation bar.'
+
       returnData = (
         <div className='vcv-ui-col vcv-ui-col--fixed-width'>
           <div className='vcv-ui-form-buttons-group vcv-ui-form-group vcv-ui-form-button-group--attribute vcv-ui-form-devices'>
             {devices}
           </div>
+          <Tooltip>
+            {toPreviewTheChangesUseTheResponsiveView}
+          </Tooltip>
         </div>
       )
     }

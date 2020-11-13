@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Field from './field'
 import EditFormSettings from './editFormSettings'
 import { env, getService, getStorage } from 'vc-cake'
+import Tooltip from '../../../tooltip/tooltip'
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const documentService = getService('document')
@@ -358,16 +359,34 @@ export default class EditFormSection extends React.Component {
       innerElementReplaceIcon = <span className='vcv-ui-edit-form-section-header-control vcv-ui-icon vcv-ui-icon-swap' onClick={this.handleToggleShowReplace} />
     }
 
+    let tooltipText = null
+    let tooltip = null
+    if (this.props.options && this.props.options.nestedAttr) {
+      tooltipText = tab.data.options.tooltip
+    } else {
+      tooltipText = tab.data.settings.options.tooltip
+    }
+    if (tooltipText) {
+      tooltip = (
+        <Tooltip>
+          {tooltipText}
+        </Tooltip>
+      )
+    }
+
     return (
       <div className={sectionClasses} key={tab.key} ref={ref => { this.section = ref }}>
-        <div
-          className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
-          ref={header => { this.sectionHeader = header }}
-        >
-          {backButton}
-          <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
-          {innerElementReplaceIcon}
-        </div>
+        {!isEditFormSettings && (
+          <div
+            className='vcv-ui-edit-form-section-header' onClick={this.handleClickToggleSection}
+            ref={header => { this.sectionHeader = header }}
+          >
+            {backButton}
+            <span className='vcv-ui-edit-form-section-header-title'>{tabTitle}</span>
+            {tooltip}
+            {innerElementReplaceIcon}
+          </div>
+        )}
         <form className='vcv-ui-edit-form-section-content' onSubmit={isEditFormSettings && this.onSettingsSave}>
           {isEditFormSettings ? (
             <EditFormSettings
@@ -375,6 +394,7 @@ export default class EditFormSection extends React.Component {
               handleNameChange={this.onNameChange}
               nameValue={this.state.name}
               showSpinner={this.state.showSpinner}
+              tabTitle={tabTitle}
             />
           ) : (
             <>

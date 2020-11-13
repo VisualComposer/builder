@@ -13,10 +13,11 @@ import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import { getStorage, getService, env } from 'vc-cake'
 import Number from '../number/Component'
+import Tooltip from '../../../components/tooltip/tooltip'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
-
+const dataManager = getService('dataManager')
 const documentService = getService('document')
 const { getBlockRegexp } = getService('utils')
 const { getDynamicValue, getDynamicFieldsData, getDefaultDynamicFieldKey } = getService('cook').dynamicFields
@@ -192,6 +193,8 @@ export default class DesignOptions extends Attribute {
     attributeMixins: {},
     defaultStyles: null
   }
+
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -615,11 +618,18 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   getDevicesRender () {
+    const manageIfTheElementAppearsOnAParticularDevice = DesignOptions.localizations ? DesignOptions.localizations.manageIfTheElementAppearsOnAParticularDevice : 'Manage if the element appears on a particular device.'
+
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group--has-inner-fields'>
-        <span className='vcv-ui-form-group-heading'>
-          Device type
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            Device type
+          </span>
+          <Tooltip>
+            {manageIfTheElementAppearsOnAParticularDevice}
+          </Tooltip>
+        </div>
         <Devices
           api={this.props.api}
           fieldKey='currentDevice'
@@ -659,6 +669,8 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   getDeviceVisibilityRender () {
+    const useTheShowElementToggle = DesignOptions.localizations ? DesignOptions.localizations.useTheShowElementToggle : 'Use the Show element toggle to hide or show elements on all or custom devices.'
+
     if (this.state.currentDevice === 'all') {
       const id = this.props.elementAccessPoint.id
       // TODO: Maybe COOK.get() correct here?
@@ -678,6 +690,9 @@ export default class DesignOptions extends Attribute {
             <label htmlFor='show_element' className='vcv-ui-form-switch-trigger-label'>
               Show element
             </label>
+            <Tooltip>
+              {useTheShowElementToggle}
+            </Tooltip>
           </div>
         </div>
       )
@@ -692,6 +707,9 @@ export default class DesignOptions extends Attribute {
           options={{ labelText: 'Show on device' }}
           value={!this.state.devices[this.state.currentDevice].display}
         />
+        <Tooltip>
+          {useTheShowElementToggle}
+        </Tooltip>
       </div>
     )
   }
@@ -939,9 +957,11 @@ export default class DesignOptions extends Attribute {
 
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          Background images
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            Background images
+          </span>
+        </div>
         {fieldComponent}
       </div>
     )

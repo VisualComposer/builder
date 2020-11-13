@@ -49,6 +49,19 @@ class GettingStarted extends Container implements Module
             },
             70
         );
+        $this->addFilter('vcv:editor:variables', 'addVariables');
+    }
+
+    protected function addVariables($variables, $payload)
+    {
+        // Used in Tutorial Template to get back to WordPress
+        $variables[] = [
+            'key' => 'vcvGettingStartedUrl',
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-getting-started')),
+            'type' => 'variable',
+        ];
+
+        return $variables;
     }
 
     /**

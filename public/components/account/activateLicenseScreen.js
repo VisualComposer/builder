@@ -106,7 +106,7 @@ export default class ActivateLicenseScreen extends React.Component {
     const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and addons'
 
     let getFreeButton = (
-      <a href={dataManager.get('goFreeUrl')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
+      <a href={dataManager.get('goFreeUrlWithRef')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
         {getFreeLicenseText}
       </a>
     )
@@ -119,7 +119,7 @@ export default class ActivateLicenseScreen extends React.Component {
     }
 
     const goPremiumButton = (
-      <a href={dataManager.get('goPremiumUrl')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
+      <a href={dataManager.get('goPremiumUrlWithRef')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
         {iWantToGoPremiumText}
       </a>
     )
@@ -177,8 +177,9 @@ export default class ActivateLicenseScreen extends React.Component {
     }
 
     const authorApiKey = dataManager.get('authorApiKey')
+    const myVcLicenseUrl = window.VCV_UTM()['activate-license-myvc-license-url'].replace('{media}', dataManager.get('isFreeActivated') ? 'go-premium' : 'activate-hub')
     let forgotYourLicense = (
-      <p className='vcv-activation-input-field-forgot-license' dangerouslySetInnerHTML={{ __html: alreadyHaveALicenseText }} />
+      <p className='vcv-activation-input-field-forgot-license' dangerouslySetInnerHTML={{ __html: alreadyHaveALicenseText.replace('{link}', myVcLicenseUrl) }} />
     )
     let themeNotice = null
     if (this.props.licenseType !== 'theme' && authorApiKey) {

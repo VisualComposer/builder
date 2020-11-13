@@ -33,7 +33,8 @@
     "access": "public",
     "value": {},
     "options": {
-      "label": "Parallax"
+      "label": "Parallax",
+      "tooltip": "Enabling <a href=\"https://visualcomposer.com/help/design-options/parallax-effect/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point\" target=\"_blank\" rel=\"noopener noreferrer\">Parallax</a> creates a 3D scrolling effect on the page."
     }
   },
   "designOptionsAdvanced": {
@@ -49,7 +50,8 @@
     "access": "public",
     "value": {},
     "options": {
-      "label": "Sticky"
+      "label": "Sticky",
+      "tooltip": "The sticky option makes the container and its content fixed at the top of the page."
     }
   },
   "editFormTab1": {
@@ -68,7 +70,8 @@
     "access": "public",
     "value": {},
     "options": {
-      "label": "Dividers"
+      "label": "Dividers",
+      "tooltip": "Add pre-designed shapes to divide rows and columns."
     }
   },
   "boxShadow": {
@@ -76,7 +79,8 @@
     "access": "public",
     "value": {},
     "options": {
-      "label": "Box Shadow"
+      "label": "Box Shadow",
+      "tooltip": "Add outlined shades to an element."
     }
   },
   "metaEditFormTabs": {

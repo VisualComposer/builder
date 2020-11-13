@@ -218,12 +218,7 @@ export default class ActivationSectionProvider extends React.Component {
   }
 
   redirect () {
-    const pageBack = dataManager.get('pageBack')
-    if (pageBack && pageBack.length) {
-      window.location.href = pageBack
-    } else {
-      window.location.reload()
-    }
+    window.location.reload()
   }
 
   getActiveScreen () {

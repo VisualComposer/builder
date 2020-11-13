@@ -2,6 +2,7 @@ import React from 'react'
 import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
 import { getResponse } from 'public/tools/response'
+import Tooltip from '../tooltip/tooltip'
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const settingsStorage = getStorage('settings')
@@ -167,10 +168,15 @@ export default class Permalink extends React.Component {
       )
     }
 
+    const modifyTheDestinationLinkToThePage = Permalink.localizations ? Permalink.localizations.modifyTheDestinationLinkToThePage : 'Modify the destination link to the page. Make sure to enable the option to set a custom permalink in WordPress Settings.'
+
     return (
       <div className={permalinkClass}>
         <span className='vcv-permalink-text'>{Permalink.localizations ? Permalink.localizations.permalink : 'Permalink'}:&nbsp;</span>
         <span className='vcv-permalink-link'>{content}</span>
+        <Tooltip>
+          {modifyTheDestinationLinkToThePage}
+        </Tooltip>
       </div>
     )
   }
