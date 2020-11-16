@@ -2,6 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import vcCake from 'vc-cake'
+
+const dataManager = vcCake.getService('dataManager')
 
 export default class HubMenu extends React.Component {
   buttonsGroup = null
@@ -111,7 +114,7 @@ export default class HubMenu extends React.Component {
   }
 
   getDropdownItems (bundleTypes, type, categoryIndex, isActive) {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     return bundleTypes.map((bundleType) => {
       const dropdownItemClasses = classNames({
         'vcv-ui-form-button-group-dropdown-item': true,

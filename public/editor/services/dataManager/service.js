@@ -22,7 +22,6 @@ const data = {
   hubGetTeaser: window.VCV_HUB_GET_TEASER ? window.VCV_HUB_GET_TEASER() : {},
   hubGetTemplatesTeaser: window.VCV_HUB_GET_TEMPLATES_TEASER ? window.VCV_HUB_GET_TEMPLATES_TEASER() : {},
   getSharedAssets: window.VCV_GET_SHARED_ASSETS ? window.VCV_GET_SHARED_ASSETS() : {},
-  dataCollectionEnabled: window.VCV_DATA_COLLECTION_ENABLED,
   isAnyActivated: window.vcvIsAnyActivated,
   isPremiumActivated: window.vcvIsPremiumActivated,
   isFreeActivated: window.vcvIsFreeActivated,
@@ -56,7 +55,11 @@ const data = {
   apiUrl: window.VCV_API_URL && window.VCV_API_URL(),
   pluginUrl: window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL(),
   licenseUnsplashAuthorApiKey: window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY(),
-  createMenuUrl: window.vcvCreateMenuUrl
+  createMenuUrl: window.vcvCreateMenuUrl,
+  utm: window.VCV_UTM && window.VCV_UTM(),
+  hubServerTime: window.VCV_HUB_SERVER_TIME && window.VCV_HUB_SERVER_TIME(),
+  pageList: window.VCV_PAGE_LIST,
+  manageMenuUrl: window.vcvManageMenuUrl
 }
 
 const dataManager = {
@@ -65,6 +68,9 @@ const dataManager = {
       return data[dataKey]
     }
     return null
+  },
+  set: (dataKey, value) => {
+    data[dataKey] = value
   }
 }
 

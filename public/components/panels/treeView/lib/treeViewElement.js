@@ -11,6 +11,7 @@ const utils = getService('utils')
 const cook = getService('cook')
 const hubCategoriesService = getService('hubCategories')
 const documentManager = getService('document')
+const dataManager = getService('dataManager')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -49,7 +50,7 @@ export default class TreeViewElement extends React.Component {
       copyData: window.localStorage && (window.localStorage.getItem('vcv-copy-data') || workspaceStorage.state('copyData').get())
     }
 
-    this.editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    this.editorType = dataManager.get('editorType')
 
     this.handleClick = this.handleClick.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
@@ -413,7 +414,7 @@ export default class TreeViewElement extends React.Component {
 
   render () {
     const hidden = this.state.element.hidden
-    const localizations = window.VCV_I18N ? window.VCV_I18N() : false
+    const localizations = dataManager.get('localizations')
     const addText = localizations ? localizations.add : 'Add'
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const cloneText = localizations ? localizations.clone : 'Clone'
@@ -438,7 +439,7 @@ export default class TreeViewElement extends React.Component {
     if (!element) {
       return null
     }
-    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions
+    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !dataManager.get('vcvManageOptions')
     const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
@@ -591,7 +592,7 @@ export default class TreeViewElement extends React.Component {
     )
 
     let lockControl = null
-    const vcvIsUserAdmin = window.vcvManageOptions
+    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
     const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
     const isLocked = cookElement.get('metaIsElementLocked') && env('VCV_ADDON_ROLE_MANAGER_ENABLED')
 
@@ -706,7 +707,7 @@ export default class TreeViewElement extends React.Component {
     const controlPadding = (space * this.props.level + defaultSpace) + 'rem'
     const controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
 
-    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions && cookElement && cookElement.get('metaIsElementLocked')) {
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions') && cookElement && cookElement.get('metaIsElementLocked')) {
       treeChildProps['data-vcv-element-locked'] = true
     }
 

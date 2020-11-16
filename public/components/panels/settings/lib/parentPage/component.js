@@ -1,15 +1,16 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 
+const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const localizations = dataManager.get('localizations')
 const parentPageTitle = localizations ? localizations.parentPageTitle : 'Parent Page'
 
 export default class ParentPage extends React.Component {
   constructor (props) {
     super(props)
-    const data = window.VCV_PAGE_LIST
+    const data = dataManager.get('pageList')
     const currentParentPage = settingsStorage.state('parentPage').get() || data.current || 'none'
 
     this.state = {

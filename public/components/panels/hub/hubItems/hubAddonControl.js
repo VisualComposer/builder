@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const hubAddonsStorage = getStorage('hubAddons')
 const eventsStorage = getStorage('events')
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 
 export default class HubAddonControl extends React.Component {
   constructor (props) {
@@ -42,11 +43,11 @@ export default class HubAddonControl extends React.Component {
       elementState = hubAddonsStorage.state('addons').get()[tag] ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
+    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
     const downloadAddonText = localizations.downloadAddonText || 'Download Addon'
     const addonInstalledText = localizations.installedText || 'Installed'
     const availableInPremiumText = localizations.availableInPremiumText || 'Available in Premium'
-    const isAddonLocked = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
+    const isAddonLocked = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
     let buttonText
 
     let action = this.handleAddonClick

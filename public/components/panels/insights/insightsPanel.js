@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
 import InsightGroup from './insightGroup'
@@ -7,7 +7,8 @@ import vcLogo from 'public/sources/images/brandLogo/vcLogo.raw'
 import Tooltip from '../../tooltip/tooltip'
 
 const insightsStorage = getStorage('insights')
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 const controls = {
   all: {
     index: 0,
