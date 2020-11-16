@@ -15,7 +15,7 @@ $deactivateUrl = $urlHelper->adminAjax(
     ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
 );
 
-$activateHubUrl = esc_url(admin_url('admin.php?page=vcv-activate-license'));
+$activateHubUrl = esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=license-vc-dashboard'));
 $upgradeLicenseUrl = esc_url(vcvenv('VCV_HUB_LICENSES_URL'));
 
 $expirationDate = vchelper('License')->getExpirationDate();

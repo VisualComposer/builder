@@ -11,7 +11,6 @@ export default class CustomStyles extends React.Component {
   styleData = [
     {
       buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.localCSS : 'Local CSS',
-      editorLabel: CustomStyles.localizations ? CustomStyles.localizations.localCSSLabel : 'Local CSS will be applied to this particular page only..',
       index: 1,
       name: 'local',
       settingsStorageState: 'customCss'
@@ -20,11 +19,10 @@ export default class CustomStyles extends React.Component {
 
   constructor (props) {
     super(props)
-    if (window.vcvManageOptions) {
+    if (dataManager.get('vcvManageOptions')) {
       this.styleData.push(
         {
           buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
-          editorLabel: CustomStyles.localizations ? CustomStyles.localizations.globalCSSLabel : 'Global CSS will be applied sitewide.',
           index: 2,
           name: 'global',
           settingsStorageState: 'globalCss'

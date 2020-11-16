@@ -5,7 +5,6 @@
     "value": "single-image.jpg",
     "options": {
       "label": "Image",
-      "description": "Select an image.",
       "multiple": false,
       "dynamicField": true,
       "defaultValue": "single-image.jpg",

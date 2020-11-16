@@ -6,7 +6,8 @@ import ElementControl from '../../addElement/lib/elementControl'
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 
 export default class HubElementControl extends ElementControl {
   constructor (props) {
@@ -43,7 +44,7 @@ export default class HubElementControl extends ElementControl {
       elementState = typeof hubElementsService.all()[tag] !== 'undefined' ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
+    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',

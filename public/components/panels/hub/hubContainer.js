@@ -23,9 +23,9 @@ const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
 
 export default class HubContainer extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   allCategories = null
-  static minusThreeDayTimeStamp = window.VCV_HUB_SERVER_TIME() - 3 * 86400
+  static minusThreeDayTimeStamp = dataManager.get('hubServerTime') - 3 * 86400
 
   constructor (props) {
     super(props)
@@ -170,7 +170,7 @@ export default class HubContainer extends React.Component {
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'usageCount:updateUsage:adminNonce',
       'vcv-item-tag': itemTag,
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': dataManager.get('nonce')
     })
 
     const iframe = document.getElementById('vcv-editor-iframe')
@@ -396,18 +396,22 @@ export default class HubContainer extends React.Component {
   handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
 
-    const activeFilterType = this.state.filterType.replace('hub', '').toLowerCase()
+    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
     const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
     const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    window.open(utmUrlRef)
+    if (this.props.namespace === 'vc-dashboard') {
+      window.location.href = utmUrlRef // open in same window
+    } else {
+      window.open(utmUrlRef)
+    }
   }
 
   getHubBanner () {
     const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Connect to Visual Composer Hub.'
     const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
     const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
-    const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : window.vcvIsFreeActivated ? 'Go Premium' : 'Activate Visual Composer Hub'
+    const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : dataManager.get('isFreeActivated') ? 'Go Premium' : 'Activate Visual Composer Hub'
 
     return (
       <div className='vcv-hub-banner'>
@@ -470,7 +474,7 @@ export default class HubContainer extends React.Component {
     } else {
       panelContent = (
         <div className={innerSectionClasses}>
-          {(typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) ? this.getHubBanner() : null}
+          {(typeof dataManager.get('isPremiumActivated') !== 'undefined' && !dataManager.get('isPremiumActivated')) ? this.getHubBanner() : null}
           <div className='vcv-ui-editor-plates-container vcv-ui-editor-plate--teaser'>
             <div className='vcv-ui-editor-plates'>
               <div className={editorPlateClasses}>

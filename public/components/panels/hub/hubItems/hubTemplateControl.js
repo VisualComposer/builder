@@ -8,7 +8,8 @@ const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubTemplateStorage = getStorage('hubTemplates')
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 
 export default class HubTemplateControl extends ElementControl {
   constructor (props) {
@@ -62,7 +63,7 @@ export default class HubTemplateControl extends ElementControl {
       elementState = myTemplatesService.findTemplateByBundle(element.bundle) ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
+    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',

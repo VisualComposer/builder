@@ -31,7 +31,7 @@ export default class DataCollectionPopup extends React.Component {
       'vcv-dataCollection': true
     })
 
-    window.VCV_DATA_COLLECTION_ENABLED = true
+    dataManager.set('dataCollectionEnabled', true)
 
     this.props.onPrimaryButtonClick()
   }
