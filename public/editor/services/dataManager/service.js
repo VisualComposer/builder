@@ -57,7 +57,7 @@ const data = {
   pluginUrl: window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL(),
   licenseUnsplashAuthorApiKey: window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY(),
   createMenuUrl: window.vcvCreateMenuUrl,
-  postData: window.vcvPostData || {},
+  postData: window.vcvPostData || {}
 }
 
 const dataManager = {
