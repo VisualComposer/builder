@@ -24,7 +24,7 @@ class UpdateHelperTest extends WP_UnitTestCase
         $variableKeys = $dataHelper->arrayColumn($variables, 'key');
         $key = array_search('vcvGoPremiumUrlWithRef', $variableKeys);
         $this->assertEquals(
-            'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=all-hub-editor&utm_campaign=gopremium&utm_content=button',
+            'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=all-hub-editor&utm_campaign=gopremium&utm_content=go-premium-button',
             $variables[ $key ]['value']
         );
 
