@@ -458,6 +458,9 @@ add('insights', () => {
   if (env('VCV_FT_INSIGHTS')) {
     const insightsStorageInstance = new InsightsChecks()
     const runChecksCallback = debounce(() => {
+      if (!document.querySelector('.vcv-layout-iframe') || !document.querySelector('.vcv-layout-iframe').contentWindow) {
+        return // editor reload
+      }
       // clear previous <Insights>
       insightsStorage.trigger('reset')
       insightsStorageInstance.isImagesSizeLarge = false

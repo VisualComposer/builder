@@ -37,9 +37,8 @@ class Elements extends Container implements Module
             'vcv:frontend:head:extraOutput vcv:update:extraOutput',
             'outputWebpackBc'
         );
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputElements');
         $this->addFilter('vcv:frontend:footer:extraOutput', 'outputElementsBundle', 15); // more than addons
-        $this->addFilter('vcv:frontend:hub:extraOutput', 'outputElements');
+        $this->addFilter('vcv:editor:variables vcv:wp:dashboard:variables', 'addVariables');
     }
 
     /**
@@ -85,26 +84,21 @@ SCRIPT
     }
 
     /**
-     * @param $response
+     * @param $variables
      * @param $payload
      * @param HubElements $hubHelper
      *
      * @return array
      */
-    protected function outputElements($response, $payload, HubElements $hubHelper)
+    protected function addVariables($variables, $payload, HubElements $hubHelper)
     {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_HUB_GET_ELEMENTS',
-                        'value' => $hubHelper->getElements(false, false),
-                    ]
-                ),
-            ]
-        );
+        $variables[] = [
+            'key' => 'VCV_HUB_GET_ELEMENTS',
+            'value' => $hubHelper->getElements(false, false),
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 
     /**

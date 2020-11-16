@@ -85,6 +85,9 @@ export default class {
 
   setGlobalVariable (key, data) {
     if (typeof window[key] === 'undefined') {
+      if (key === 'vcvSourceID') {
+        return
+      }
       Object.defineProperty(window, key, {
         value: function () {
           return data
@@ -95,8 +98,8 @@ export default class {
   }
 
   buildGlobalVariables (globals) {
-    Object.keys(globals).forEach((key) => {
-      this.setGlobalVariable(key, globals[key])
+    Object.keys(globals).forEach((index) => {
+      this.setGlobalVariable(globals[index].key, globals[index].value)
     })
   }
 
