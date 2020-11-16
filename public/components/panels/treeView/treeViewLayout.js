@@ -14,6 +14,7 @@ const workspaceSettings = getStorage('workspace').state('settings')
 
 const documentManager = getService('document')
 const cook = getService('cook')
+const dataManager = getService('dataManager')
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
@@ -230,7 +231,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   getElementsOutput () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const text = localizations ? localizations.emptyTreeView : 'There is no content on the page - start by adding an element or template.'
 
     const elements = this.getElements()
@@ -251,7 +252,7 @@ export default class TreeViewLayout extends React.Component {
   }
 
   getScrollbarContent () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const removeAllText = localizations ? localizations.removeAll : 'Remove All'
 

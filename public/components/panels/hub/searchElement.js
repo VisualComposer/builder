@@ -77,7 +77,7 @@ export default class SearchElement extends React.Component {
 
   getPlaceholder () {
     let result = ''
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
 
     switch (this.props.inputPlaceholder) {
       case 'elements':

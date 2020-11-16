@@ -42,7 +42,7 @@ export default class CustomJavascript extends React.Component {
       />
     )
 
-    if (window.vcvManageOptions) {
+    if (dataManager.get('vcvManageOptions')) {
       allButtons.push(
         <ScriptControl
           key='vcv-settings-custom-js-global'
@@ -65,8 +65,7 @@ export default class CustomJavascript extends React.Component {
   getEditor (type) {
     const allEditors = []
 
-    if (window.VCV_EDITOR_TYPE &&
-      window.VCV_EDITOR_TYPE() === 'template' &&
+    if (dataManager.get('editorType') === 'template' &&
       type === 'Head' &&
       this.state.activeIndex === 'localJs') {
       return
@@ -95,7 +94,7 @@ export default class CustomJavascript extends React.Component {
 
   getHelperText () {
     if (this.state.activeIndex === 'localJs') {
-      if (window.VCV_EDITOR_TYPE && window.VCV_EDITOR_TYPE() === 'template') {
+      if (dataManager.get('editorType') === 'template') {
         return CustomJavascript.localizations.settingsGlobalTemplateCustomJsLocal
       } else {
         return CustomJavascript.localizations.settingsCustomJsLocal
