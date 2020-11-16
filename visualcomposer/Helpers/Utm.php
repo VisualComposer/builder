@@ -33,7 +33,7 @@ class Utm implements Helper
         }
 
         $freeLicenseUtmTemplate = sprintf(
-            '%s/free-license/?utm_source=%s&utm_medium={medium}&utm_campaign=get-free-license&utm_content=free-button',
+            '%s/free-license/?utm_source=%s&utm_medium={medium}&utm_campaign=get-free-license&utm_content=get-free-license-button',
             rtrim($myVc, '\//'),
             $source
         );
