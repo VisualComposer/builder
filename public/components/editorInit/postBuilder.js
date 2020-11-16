@@ -2,7 +2,7 @@ import vcCake from 'vc-cake'
 
 import { setupCake } from './setupCake'
 
-const { env, getStorage } = vcCake
+const { env, getStorage, getService } = vcCake
 const $ = window.jQuery
 
 export default class PostBuilder {
@@ -65,9 +65,10 @@ export default class PostBuilder {
    */
   renderData () {
     env('iframe', this.iframe.contentWindow)
+    window.vcvSourceID = this.settings.id
+    getService('dataManager').reset() // update global variables
     !this.cakeReady && this.setupCake()
     getStorage('wordpressData').trigger('rebuild', this.settings.id)
-    window.vcvSourceID = this.settings.id
   }
 
   /**

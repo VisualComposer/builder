@@ -34,12 +34,7 @@ class TeasersController extends Container implements Module
 
         /** @see \VisualComposer\Modules\Hub\Elements\Teasers\TeasersController::addVariables */
         $this->addFilter(
-            'vcv:editor:variables',
-            'addVariables'
-        );
-
-        $this->addFilter(
-            'vcv:hub:variables',
+            'vcv:editor:variables vcv:hub:variables',
             'addVariables'
         );
     }

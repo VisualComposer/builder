@@ -16,10 +16,9 @@ class GlobalVariablesControllerTest extends \WP_UnitTestCase
         $this->assertTrue(array_key_exists('status', $filterResult));
         $this->assertTrue(array_key_exists('vcvGlobals', $filterResult));
         $this->assertTrue($filterResult['status']);
-
-        $this->assertTrue(array_key_exists('VCV_HUB_GET_ELEMENTS', $filterResult['vcvGlobals']));
-        $this->assertTrue(array_key_exists('VCV_HUB_GET_CATEGORIES', $filterResult['vcvGlobals']));
-        $this->assertTrue(array_key_exists('VCV_HUB_GET_GROUPS', $filterResult['vcvGlobals']));
-        $this->assertTrue(array_key_exists('VCV_GET_SHARED_ASSETS', $filterResult['vcvGlobals']));
+        $this->assertNotFalse(array_search('VCV_HUB_GET_ELEMENTS', array_column($filterResult['vcvGlobals'], 'key')));
+        $this->assertNotFalse(array_search('VCV_HUB_GET_CATEGORIES', array_column($filterResult['vcvGlobals'], 'key')));
+        $this->assertNotFalse(array_search('VCV_HUB_GET_GROUPS', array_column($filterResult['vcvGlobals'], 'key')));
+        $this->assertNotFalse(array_search('VCV_GET_SHARED_ASSETS', array_column($filterResult['vcvGlobals'], 'key')));
     }
 }

@@ -16,7 +16,10 @@ addStorage('wordpressData', (storage) => {
   const popupStorage = getStorage('popup')
 
   storage.on('start', () => {
-    // Here we call data load
+    if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
+      // Skip initial editor loading for posts update actions
+      return
+    }
     if (dataManager.get('sourceID')) {
       // Fix trigger.start on initial post update action (performance)
       controller.load(dataManager.get('sourceID'), {}, storage.state('status'))

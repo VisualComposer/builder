@@ -112,7 +112,7 @@ class VariablesController extends Container implements Module
 
             $sourceId = $payload['sourceId'];
 
-            $feError = intval(get_option('page_for_posts')) === $sourceId ? 'page_for_posts' : false;
+            $feError = (int)get_option('page_for_posts') === $sourceId ? 'page_for_posts' : false;
             $variables[] = [
                 'key' => 'vcvFeError',
                 'value' => $feError,

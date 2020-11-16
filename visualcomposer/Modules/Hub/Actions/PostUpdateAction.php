@@ -57,6 +57,12 @@ class PostUpdateAction extends Container implements Module
     {
         $optionsHelper = vchelper('Options');
         $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
+        if (!is_array($updatePosts)) {
+            $updatePosts = [];
+            $optionsHelper->set('hubAction:updatePosts', $updatePosts);
+
+            return true;
+        }
         $key = array_search($id, $updatePosts);
         if ($key !== false) {
             unset($updatePosts[ $key ]);
@@ -70,7 +76,7 @@ class PostUpdateAction extends Container implements Module
     protected function ajaxSkipPost($response, $payload, Request $requestHelper)
     {
         if ($requestHelper->exists('vcv-source-id')) {
-            $this->removePostFromUpdatesList(intval($requestHelper->input('vcv-source-id')));
+            $this->removePostFromUpdatesList((int)$requestHelper->input('vcv-source-id'));
 
             return ['status' => true];
         }

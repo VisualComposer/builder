@@ -19,22 +19,17 @@ class SharedController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:frontend:head:extraOutput', 'outputSharedLibraries');
+        $this->addFilter('vcv:editor:variables', 'addVariables');
     }
 
-    protected function outputSharedLibraries($response, $payload, AssetsShared $assetsSharedHelper)
+    protected function addVariables($variables, $payload, AssetsShared $assetsSharedHelper)
     {
-        return array_merge(
-            $response,
-            [
-                vcview(
-                    'partials/constant-script',
-                    [
-                        'key' => 'VCV_GET_SHARED_ASSETS',
-                        'value' => $assetsSharedHelper->getSharedAssets(),
-                    ]
-                ),
-            ]
-        );
+        $variables[] = [
+            'key' => 'VCV_GET_SHARED_ASSETS',
+            'value' => $assetsSharedHelper->getSharedAssets(),
+            'type' => 'constant',
+        ];
+
+        return $variables;
     }
 }
