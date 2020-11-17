@@ -312,7 +312,8 @@
 .vcv-layout-iframe-container[data-vcv-device='mobile-portrait'],
 .vcv-layout-iframe-container[data-vcv-device='mobile-landscape'],
 .vcv-layout-iframe-container[data-vcv-device='tablet-portrait'],
-.vcv-layout-iframe-container[data-vcv-device='tablet-landscape'] {
+.vcv-layout-iframe-container[data-vcv-device='tablet-landscape'],
+.vcv-layout-iframe-container[data-vcv-device='desktop'] {
   flex: initial;
   position: relative;
   border-color: #F6F6F6;
@@ -381,6 +382,22 @@
   &:after {
     bottom: 50%;
     right: -69px;
-    transform: translateY(50%)
+    transform: translateY(50%);
+  }
+}
+
+.vcv-layout-iframe-container[data-vcv-device='desktop'] {
+  border-width: 32px 0 12px 0;
+  border-radius: 5px;
+
+  &:after {
+    border: none;
+  }
+
+  &:before {
+    content: url('../../images/deviceViews/desktop-view-dots.svg');
+    position: absolute;
+    top: -28px;
+    left: 14px;
   }
 }
