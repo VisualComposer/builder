@@ -92,6 +92,11 @@ SCRIPT
      */
     protected function addVariables($variables, $payload, HubElements $hubHelper)
     {
+        if (isset($payload['slug']) && in_array($payload['slug'], ['vcv-update', 'vcv-update-fe'], true)) {
+            // In case if loaded for post-update actions
+            return $variables;
+        }
+
         $variables[] = [
             'key' => 'VCV_HUB_GET_ELEMENTS',
             'value' => $hubHelper->getElements(false, false),
