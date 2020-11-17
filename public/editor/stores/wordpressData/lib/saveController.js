@@ -144,6 +144,7 @@ export default class SaveController {
         'vcv-settings-global-head-js': settingsStorage.state('globalJsHead').get() || '',
         'vcv-settings-global-footer-js': settingsStorage.state('globalJsFooter').get() || '',
         'vcv-settings-parent-page': settingsStorage.state('parentPage').get() || '',
+        'vcv-settings-excerpt': settingsStorage.state('excerpt').get() || '',
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'

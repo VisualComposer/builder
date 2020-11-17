@@ -3,6 +3,7 @@ import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Compo
 import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/Component'
 import Permalink from 'public/components/permalink/permalink'
 import ParentPage from '../parentPage/component'
+import Excerpt from '../excerpt/component'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
@@ -45,6 +46,14 @@ export default class PageSettings extends React.Component {
       wordpressSettings.push(
         <ParentPage
           key='parentPage'
+        />
+      )
+    }
+
+    if (typeof dataManager.get('excerpt') !== 'undefined') {
+      wordpressSettings.push(
+        <Excerpt
+          key='excerpt'
         />
       )
     }
