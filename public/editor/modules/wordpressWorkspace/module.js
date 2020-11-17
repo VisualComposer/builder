@@ -121,7 +121,7 @@ add('wordpressWorkspace', (api) => {
     workspaceStorage.state('app').onChange((status) => {
       if (status === 'started') {
         const elements = elementsStorage.state('document').get()
-        if (!elements.length) {
+        if (!elements.length && editorType === 'default') {
           const settings = {
             action: 'add',
             element: {},
