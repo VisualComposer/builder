@@ -22,7 +22,9 @@ export default class {
        */
       if (data && data.vcvGlobals) {
         this.buildGlobalVariables(data.vcvGlobals)
-        const newElementsIndex = data.vcvGlobals.findIndex((i) => {return i.key === 'VCV_HUB_GET_ELEMENTS'})
+        const newElementsIndex = data.vcvGlobals.findIndex((i) => {
+          return i.key === 'VCV_HUB_GET_ELEMENTS'
+        })
         if (newElementsIndex > -1) {
           elements = data.vcvGlobals[newElementsIndex].value
         } else {
