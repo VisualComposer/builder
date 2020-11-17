@@ -47,7 +47,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
-        width: '554',
+        width: '580',
+        height: '275',
         min: '554',
         max: '767'
       }
@@ -56,7 +57,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobilePortrait : 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
-        width: '480',
+        width: '275',
+        height: '580',
         min: '0',
         max: '553'
       }
@@ -82,36 +84,38 @@ export default class LayoutButtonControl extends React.Component {
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
   }
 
-  componentDidMount () {
-    this.addResizeListener(window, this.setDefautlDevice)
-  }
-
-  componentWillUnmount () {
-    this.removeResizeListener(window, this.setDefautlDevice)
-  }
-
-  addResizeListener (el, fn) {
-    el.addEventListener('resize', fn)
-  }
-
-  removeResizeListener (el, fn) {
-    el.removeEventListener('resize', fn)
-  }
+  // componentDidMount () {
+  //   this.addResizeListener(window, this.setDefautlDevice)
+  // }
+  //
+  // componentWillUnmount () {
+  //   this.removeResizeListener(window, this.setDefautlDevice)
+  // }
+  //
+  // addResizeListener (el, fn) {
+  //   el.addEventListener('resize', fn)
+  // }
+  //
+  // removeResizeListener (el, fn) {
+  //   el.removeEventListener('resize', fn)
+  // }
 
   setDefautlDevice () {
     this.handleClickSetSelectedLayout(0)
   }
 
   handleClickSetSelectedLayout (index) {
-    this.setViewport(LayoutButtonControl.devices[index].viewport.width)
+    this.setViewport(LayoutButtonControl.devices[index].viewport.width, LayoutButtonControl.devices[index].viewport.height, LayoutButtonControl.devices[index].className)
     this.setState({
       activeDevice: index
     })
   }
 
-  setViewport (width) {
+  setViewport (width, height, device) {
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
     iframeContainer.style.width = width ? width + 'px' : ''
+    iframeContainer.style.height = height ? height + 'px' : ''
+    iframeContainer.setAttribute('data-vcv-device', device);
   }
 
   render () {
