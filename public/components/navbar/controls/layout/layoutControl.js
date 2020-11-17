@@ -2,10 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
 import MobileDetect from 'mobile-detect'
-import { env } from 'vc-cake'
+import { env, getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class LayoutButtonControl extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations =dataManager.get('localizations')
   static devices = [
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
@@ -77,35 +79,15 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     if (env('VCV_JS_THEME_EDITOR')) {
-      this.editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+      this.editorType = dataManager.get('editorType')
     }
 
-    this.setDefautlDevice = this.setDefautlDevice.bind(this)
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
   }
 
-  // componentDidMount () {
-  //   this.addResizeListener(window, this.setDefautlDevice)
-  // }
-  //
-  // componentWillUnmount () {
-  //   this.removeResizeListener(window, this.setDefautlDevice)
-  // }
-  //
-  // addResizeListener (el, fn) {
-  //   el.addEventListener('resize', fn)
-  // }
-  //
-  // removeResizeListener (el, fn) {
-  //   el.removeEventListener('resize', fn)
-  // }
-
-  setDefautlDevice () {
-    this.handleClickSetSelectedLayout(0)
-  }
-
   handleClickSetSelectedLayout (index) {
-    this.setViewport(LayoutButtonControl.devices[index].viewport.width, LayoutButtonControl.devices[index].viewport.height, LayoutButtonControl.devices[index].className)
+    const variableName = LayoutButtonControl.devices[index]
+    this.setViewport(variableName.viewport.width, variableName.viewport.height, variableName.className)
     this.setState({
       activeDevice: index
     })
@@ -115,7 +97,7 @@ export default class LayoutButtonControl extends React.Component {
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
     iframeContainer.style.width = width ? width + 'px' : ''
     iframeContainer.style.height = height ? height + 'px' : ''
-    iframeContainer.setAttribute('data-vcv-device', device);
+    iframeContainer.setAttribute('data-vcv-device', device)
   }
 
   render () {
