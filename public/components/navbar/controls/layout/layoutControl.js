@@ -7,7 +7,7 @@ import { env, getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 
 export default class LayoutButtonControl extends React.Component {
-  static localizations =dataManager.get('localizations')
+  static localizations = dataManager.get('localizations')
   static devices = [
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
