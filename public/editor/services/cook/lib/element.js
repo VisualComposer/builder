@@ -8,12 +8,13 @@ import DynamicElement from 'public/components/dynamicFields/dynamicElement'
 import { getAttributeType } from './tools'
 
 const { createKey } = vcCake.getService('utils')
-const hubElementService = vcCake.getService('hubElements')
+const hubElementStorage = vcCake.getStorage('hubElements')
 const assetsStorage = vcCake.getStorage('assets')
 const elementSettingsStorage = vcCake.getStorage('elementSettings')
 const elData = Symbol('element data')
 const elComponent = Symbol('element component')
 let cookApi = null
+const hubElementsState = hubElementStorage.state('elements')
 
 export default class Element {
   constructor (data, dataSettings = null, cssSettings = null, API) {
@@ -36,7 +37,7 @@ export default class Element {
     attr.id = id
     cookApi = API
 
-    const elements = hubElementService.all()
+    const elements = hubElementsState.get()
     let element = elements ? elements[tag] : null
 
     if (!element) {
