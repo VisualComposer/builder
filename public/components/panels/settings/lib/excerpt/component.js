@@ -33,7 +33,7 @@ export default class Excerpt extends React.Component {
     return (
       <>
         <div className='vcv-ui-edit-form-section-header vcv-ui-wordpress-setting-header'>
-          <span className='vcv-ui-edit-form-section-header-title'>Excerpt</span>
+          <span className='vcv-ui-edit-form-section-header-title'>{settingName}</span>
         </div>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
