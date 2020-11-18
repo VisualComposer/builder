@@ -52,7 +52,7 @@ class ExcerptController extends Container implements Module
         $excerpt = get_the_excerpt();
         $currentPost = $postTypeHelper->get();
         // @codingStandardsIgnoreLine
-        if (isset($currentPost->post_type) && $currentPost->post_type === 'post') {
+        if (isset($currentPost->post_type) && post_type_supports($currentPost->post_type, 'excerpt')) {
             $response = array_merge(
                 $response,
                 [
@@ -70,7 +70,7 @@ class ExcerptController extends Container implements Module
     }
 
     /**
-     * Set parent page
+     * Set excerpt for the post
      *
      * @param $response
      * @param $payload
