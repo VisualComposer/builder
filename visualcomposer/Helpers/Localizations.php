@@ -1383,8 +1383,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'authorTitle' => __(
-	            'Author',
-	            'visualcomposer'
+                'Author',
+                'visualcomposer'
             ),
         ];
 
