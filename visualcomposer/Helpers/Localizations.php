@@ -205,6 +205,7 @@ class Localizations extends Container implements Helper
             'enterDestinationUrl' => __('Enter the destination URL', 'visualcomposer'),
             'titleAttributeText' => __('The title attribute will be displayed on the link hover.', 'visualcomposer'),
             'title' => __('Title', 'visualcomposer'),
+            'excerpt' => __('Excerpt', 'visualcomposer'),
             'bundleUpdateFailed' => __('Visual Composer Hub update failed, try again.', 'visualcomposer'),
             'preview' => __('Preview', 'visualcomposer'),
             'previewChanges' => __('Preview Changes', 'visualcomposer'),
@@ -1327,6 +1328,10 @@ class Localizations extends Container implements Helper
             ),
             'selectOrChangeTheLayoutOfThePage' => __(
                 'Select or change the layout of the page, post, or custom post type.',
+                'visualcomposer'
+            ),
+            'excerptsAreOptional' => __(
+                'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. Learn more about manual excerpts.',
                 'visualcomposer'
             ),
             'insertCustomJSCodeSnippets' => __(
