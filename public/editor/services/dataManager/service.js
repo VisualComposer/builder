@@ -72,6 +72,7 @@ const dataManager = {
       hubServerTime: window.VCV_HUB_SERVER_TIME && window.VCV_HUB_SERVER_TIME(),
       pageList: window.VCV_PAGE_LIST,
       excerpt: window.VCV_EXCERPT,
+      authorList: window.VCV_AUTHOR_LIST,
       manageMenuUrl: window.vcvManageMenuUrl
     }
   }

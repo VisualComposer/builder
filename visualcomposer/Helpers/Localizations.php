@@ -1382,6 +1382,10 @@ class Localizations extends Container implements Helper
                 'Show only when it becomes sticky.',
                 'visualcomposer'
             ),
+            'authorTitle' => __(
+	            'Author',
+	            'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

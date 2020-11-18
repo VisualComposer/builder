@@ -4,6 +4,7 @@ import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/C
 import Permalink from 'public/components/permalink/permalink'
 import ParentPage from '../parentPage/component'
 import Excerpt from '../excerpt/component'
+import Author from '../author/component'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
@@ -54,6 +55,14 @@ export default class PageSettings extends React.Component {
       wordpressSettings.push(
         <Excerpt
           key='excerpt'
+        />
+      )
+    }
+
+    if (dataManager.get('authorList')) {
+      wordpressSettings.push(
+        <Author
+          key='author'
         />
       )
     }
