@@ -15,10 +15,10 @@ export default class Excerpt extends React.Component {
     }
 
     settingsStorage.state('excerpt').set(current)
-    this.handleChangeTitle = this.handleChangeTitle.bind(this)
+    this.handleChangeText = this.handleChangeText.bind(this)
   }
 
-  handleChangeTitle (event) {
+  handleChangeText (event) {
     const newValue = event.target.value
     this.setState({
       current: newValue
@@ -37,7 +37,7 @@ export default class Excerpt extends React.Component {
         </div>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
-          <textarea className='vcv-ui-form-input' value={this.state.current} onChange={this.handleChangeTitle} />
+          <textarea className='vcv-ui-form-input' value={this.state.current} onChange={this.handleChangeText} />
           <p className='vcv-ui-form-helper'>{excerptsAreOptional}</p>
         </div>
       </>
