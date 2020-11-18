@@ -50,7 +50,6 @@ wp_enqueue_media();
         ],
         [
             'slug' => 'vcv-update-fe',
-            'sourceId' => $sourceId
         ]
     );
     if (is_array($variables)) {

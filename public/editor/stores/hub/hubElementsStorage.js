@@ -38,7 +38,6 @@ const parseData = (presets) => {
 addStorage('hubElements', (storage) => {
   const workspaceStorage = getStorage('workspace')
   const notificationsStorage = getStorage('notifications')
-  const hubElementsService = getService('hubElements')
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
   const dataManager = getService('dataManager')
@@ -55,7 +54,6 @@ addStorage('hubElements', (storage) => {
   storage.on('add', (elementData, categoryData, addBundle) => {
     const elements = storage.state('elements').get() || {}
     elements[elementData.tag] = elementData
-    hubElementsService.add(elementData)
     storage.state('elements').set(elements)
     setCategoryState(categoryData, storage.state('categories'))
     if (addBundle) {
@@ -77,11 +75,11 @@ addStorage('hubElements', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': dataManager.get('nonce')
     }
-    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.'
-    if (hubElementsService.get(tag) !== null) {
+    if (storage.state('elements').get()[tag]) {
+      // already exists -> skip
       return
     }
-
+    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.'
     const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (downloadingItems.includes(tag)) {
       return
