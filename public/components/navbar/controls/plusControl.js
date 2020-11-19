@@ -7,6 +7,8 @@ const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentState = getStorage('workspace').state('content')
 
 export default class PlusControl extends NavbarContent {
+  static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
   constructor (props) {
     super(props)
     this.handleClickAddContent = this.handleClickAddContent.bind(this)
@@ -43,6 +45,7 @@ export default class PlusControl extends NavbarContent {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const name = localizations ? localizations.addContent : 'Add Content'
+    const title = PlusControl.isMacLike ? name + ' (⇧A)' : name + ' (Shift + A)'
 
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
@@ -50,7 +53,7 @@ export default class PlusControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickAddContent} data-vcv-guide-helper='plus-control'>
+      <span className={controlClass} title={title} onClick={this.handleClickAddContent} data-vcv-guide-helper='plus-control'>
         <span className='vcv-ui-navbar-control-content'>
           <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add' />
           <span>{name}</span>

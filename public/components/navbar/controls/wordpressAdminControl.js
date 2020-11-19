@@ -13,6 +13,8 @@ const settingsStorage = getStorage('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
 export default class WordPressAdminControl extends NavbarContent {
+  static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
   previewWindow = false
   previewWindowTarget = false
   editorType = dataManager.get('editorType')
@@ -279,10 +281,11 @@ export default class WordPressAdminControl extends NavbarContent {
     }
 
     const previewText = PostData.isPublished() ? previewChanges : preview
+    const previewTitleText = WordPressAdminControl.isMacLike ? previewText + ' (⌘⇧P)' : previewText + ' (Ctrl + Shift + P)'
     const previewButton = (
       <span
         className='vcv-ui-navbar-control'
-        title={previewText}
+        title={previewTitleText}
         onClick={this.handleClickSavePreview}
         ref={(previewBtn) => { this.previewBtn = previewBtn }}
       >
