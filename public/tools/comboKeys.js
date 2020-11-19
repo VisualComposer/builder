@@ -17,7 +17,7 @@ export function bindEditorKeys (document) {
     historyStorage.state('canRedo').get() && historyStorage.trigger('redo')
     return false
   })
-  combokeysInstance.bind('a', (e) => {
+  combokeysInstance.bind('shift+a', (e) => {
     e.preventDefault()
     let settings = workspaceStorage.state('settings').get()
     if (settings && settings.action === 'add') {
@@ -26,16 +26,7 @@ export function bindEditorKeys (document) {
       workspaceStorage.trigger('add')
     }
   })
-  combokeysInstance.bind('l', (e) => {
-    e.preventDefault()
-    let settings = workspaceStorage.state('settings').get()
-    if (settings && settings.action === 'addTemplate') {
-      workspaceStorage.state('settings').set(false)
-    } else {
-      workspaceStorage.trigger('addTemplate')
-    }
-  })
-  combokeysInstance.bind('t', (e) => {
+  combokeysInstance.bind('shift+t', (e) => {
     e.preventDefault()
     let settings = workspaceStorage.state('content').get()
     if (settings === 'treeView') {
@@ -59,4 +50,9 @@ export function bindEditorKeys (document) {
     e.preventDefault()
     workspaceStorage.state('settings').set(false)
   }, 'keyup')
+  combokeysInstance.bind('shift+s', (e) => {
+    e.preventDefault()
+    workspaceStorage.state('content').set('settings')
+    workspaceStorage.state('settings').set({ action: 'settings' })
+  })
 }
