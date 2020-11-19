@@ -16,7 +16,7 @@ export default class FeaturedImage extends React.Component {
       data: data
     }
 
-    settingsStorage.state('featuredImage').set(data.ids[0])
+    settingsStorage.state('featuredImage').set(data)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
   }
 
@@ -24,7 +24,7 @@ export default class FeaturedImage extends React.Component {
     this.setState({
       data: value
     })
-    settingsStorage.state('featuredImage').set(value.ids[0])
+    settingsStorage.state('featuredImage').set(value)
   }
 
   render () {
@@ -45,7 +45,7 @@ export default class FeaturedImage extends React.Component {
               dynamicField: false,
               url: false,
               multiple: false,
-              imageFilter: true
+              imageFilter: false
             }} // required for attributes
             value={this.state.data} // required for attributes
           />
