@@ -73,7 +73,8 @@ const dataManager = {
       pageList: window.VCV_PAGE_LIST,
       excerpt: window.VCV_EXCERPT,
       authorList: window.VCV_AUTHOR_LIST,
-      manageMenuUrl: window.vcvManageMenuUrl
+      manageMenuUrl: window.vcvManageMenuUrl,
+      featuredImage: window.VCV_FEATURED_IMAGE || {"ids":[6525],"urls":[{"thumbnail":"http://localhost:8888/wp-one/wp-content/uploads/2020/11/CP_RLowRes-050-150x150.jpg","medium":"http://localhost:8888/wp-one/wp-content/uploads/2020/11/CP_RLowRes-050-300x200.jpg","large":"http://localhost:8888/wp-one/wp-content/uploads/2020/11/CP_RLowRes-050-1024x683.jpg","full":"http://localhost:8888/wp-one/wp-content/uploads/2020/11/CP_RLowRes-050.jpg","id":6525,"title":"CP_RLowRes-050","alt":"","caption":"","link":{"relNofollow":false,"targetBlank":true,"title":"","url":""}}]}
     }
   }
 }

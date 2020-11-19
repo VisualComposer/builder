@@ -1390,6 +1390,10 @@ class Localizations extends Container implements Helper
                 'Page Settings',
                 'visualcomposer'
             ),
+            'featuredImage' => __(
+                'Featured Image',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

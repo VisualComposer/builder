@@ -146,6 +146,7 @@ export default class SaveController {
         'vcv-settings-parent-page': settingsStorage.state('parentPage').get() || '',
         'vcv-settings-excerpt': settingsStorage.state('excerpt').get() || '',
         'vcv-settings-author': settingsStorage.state('author').get() || '',
+        'vcv-settings-featured-image': settingsStorage.state('featuredImage').get() || '',
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
