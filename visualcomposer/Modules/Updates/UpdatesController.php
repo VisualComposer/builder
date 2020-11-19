@@ -46,7 +46,7 @@ class UpdatesController extends Container implements Module
         $value = $wpHelper->getUpdateVersionFromWordpressOrg();
         $variables[] = [
             'key' => $key,
-            'value' => !!$value,
+            'value' => (bool)$value,
             'type' => 'constant',
         ];
 

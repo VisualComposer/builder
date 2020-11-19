@@ -205,6 +205,7 @@ class Localizations extends Container implements Helper
             'enterDestinationUrl' => __('Enter the destination URL', 'visualcomposer'),
             'titleAttributeText' => __('The title attribute will be displayed on the link hover.', 'visualcomposer'),
             'title' => __('Title', 'visualcomposer'),
+            'excerpt' => __('Excerpt', 'visualcomposer'),
             'bundleUpdateFailed' => __('Visual Composer Hub update failed, try again.', 'visualcomposer'),
             'preview' => __('Preview', 'visualcomposer'),
             'previewChanges' => __('Preview Changes', 'visualcomposer'),
@@ -1329,6 +1330,10 @@ class Localizations extends Container implements Helper
                 'Select or change the layout of the page, post, or custom post type.',
                 'visualcomposer'
             ),
+            'excerptsAreOptional' => __(
+                'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. Learn more about manual excerpts.',
+                'visualcomposer'
+            ),
             'insertCustomJSCodeSnippets' => __(
                 'Add custom JavaScript code to insert it locally or globally on every page in header or footer. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.',
                 'visualcomposer'
@@ -1375,6 +1380,10 @@ class Localizations extends Container implements Helper
             ),
             'showOnlyWhenItBecomesSticky' => __(
                 'Show only when it becomes sticky.',
+                'visualcomposer'
+            ),
+            'authorTitle' => __(
+                'Author',
                 'visualcomposer'
             ),
             'pageSettings' => __(
