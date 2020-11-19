@@ -367,21 +367,23 @@
 }
 
 .vcv-layout-iframe-container[data-vcv-device='tablet-portrait'] {
-  border-width: 50px 25px 100px 25px;
+  border-width: 50px 25px 90px 25px;
+  margin: 30px auto;
 
   &:after {
-    bottom: -69px;
+    bottom: -64px;
     left: 50%;
     transform: translateX(-50%);
   }
 }
 
 .vcv-layout-iframe-container[data-vcv-device='tablet-landscape'] {
-  border-width: 25px 100px 25px 50px;
+  border-width: 25px 90px 25px 50px;
+  margin: 30px auto;
 
   &:after {
     bottom: 50%;
-    right: -69px;
+    right: -64px;
     transform: translateY(50%);
   }
 }
@@ -389,6 +391,7 @@
 .vcv-layout-iframe-container[data-vcv-device='desktop'] {
   border-width: 32px 0 12px 0;
   border-radius: 5px;
+  margin: 30px auto;
 
   &:after {
     border: none;
