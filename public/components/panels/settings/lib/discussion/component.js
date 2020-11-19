@@ -41,7 +41,7 @@ export default class Discussion extends React.Component {
   }
 
   getCommentToggle () {
-    if (typeof dataManager.get('commentStatus') !== 'undefined') {
+    if (dataManager.get('commentStatus')) {
       return (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <Toggle
@@ -56,7 +56,7 @@ export default class Discussion extends React.Component {
   }
 
   getPingToggle () {
-    if (typeof dataManager.get('pingStatus') !== 'undefined') {
+    if (dataManager.get('pingStatus')) {
       return (
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <Toggle
