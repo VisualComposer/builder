@@ -47,13 +47,14 @@ export default class ContentEditableComponent extends React.Component {
       realContent: this.props.children,
       mouse: null,
       overlayTimeout: null,
-      allowInline: this.props.options.allowInline
+      allowInline: this.props.options.allowInline,
+      temporaryEditable: false
     }
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
+    this.handleDoubleClick = this.handleDoubleClick.bind(this)
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
     this.updateElementData = this.updateElementData.bind(this)
     this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this)
     this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 500)
@@ -380,6 +381,33 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
+  handleDoubleClick () {
+    if (this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
+      this.setState({ trackMouse: true, contentEditable: true }, () => {
+        const isHtmlEditor = this.props.fieldType === 'htmleditor'
+        if (isHtmlEditor) {
+          this.editorSetup({ caretPosition: this.state.caretPosition })
+        }
+        const layoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
+        if (layoutCustomMode !== 'contentEditable') {
+          const data = {
+            mode: 'contentEditable',
+            options: {}
+          }
+          vcCake.setData('vcv:layoutCustomMode', data)
+          this.handleLayoutModeChange('contentEditable')
+        }
+        this.iframeWindow.addEventListener('click', this.handleGlobalClick)
+        this.layoutHeader.addEventListener('click', this.handleGlobalClick)
+        this.ref && (this.ref.innerHTML = this.state.realContent)
+
+        if (!isHtmlEditor) {
+          this.setSelectionRange(this.ref, this.state.caretPosition)
+        }
+      })
+    }
+  }
+
   handleMouseMove () {
     if (this.state.trackMouse === true) {
       this.setState({ trackMouse: false, contentEditable: false })
@@ -387,35 +415,18 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
-  handleMouseDown () {
+  handleMouseDown (e) {
     if (this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
-      this.setState({ trackMouse: true, contentEditable: true })
-    }
-  }
-
-  handleMouseUp (e) {
-    if (this.state.trackMouse === true) {
-      const caretPosition = this.getCaretPosition(e.currentTarget)
-      const isHtmlEditor = this.props.fieldType === 'htmleditor'
-      if (isHtmlEditor) {
-        this.editorSetup({ caretPosition })
-      }
-      const layoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
-      if (layoutCustomMode && layoutCustomMode !== 'contentEditable') {
-        const data = {
-          mode: 'contentEditable',
-          options: {}
-        }
-        vcCake.setData('vcv:layoutCustomMode', data)
-        this.handleLayoutModeChange('contentEditable')
-      }
-      this.iframeWindow.addEventListener('click', this.handleGlobalClick)
-      this.layoutHeader.addEventListener('click', this.handleGlobalClick)
-      this.ref && (this.ref.innerHTML = this.state.realContent)
-
-      if (!isHtmlEditor) {
-        this.setSelectionRange(this.ref, caretPosition)
-      }
+      const currentTarget = e.currentTarget
+      this.setState({ temporaryEditable: true }, () => {
+        window.setTimeout(() => {
+          const caretPosition = this.getCaretPosition(currentTarget)
+          this.setState({
+            caretPosition: caretPosition,
+            temporaryEditable: false
+          })
+        }, 0)
+      })
     }
   }
 
@@ -498,10 +509,10 @@ export default class ContentEditableComponent extends React.Component {
     const CustomTag = this.props.fieldType === 'htmleditor' ? 'div' : 'span'
     const props = {
       className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
-      contentEditable: this.state.contentEditable,
-      onMouseDown: this.handleMouseDown,
+      contentEditable: this.state.contentEditable || this.state.temporaryEditable,
+      onDoubleClick: this.handleDoubleClick,
       onMouseMove: this.handleMouseMove,
-      onMouseUp: this.handleMouseUp,
+      onMouseDown: this.handleMouseDown,
       'data-vcvs-html': this.state.realContent,
       'data-vcv-content-editable-inline-mode': this.getInlineMode() || 'html'
     }

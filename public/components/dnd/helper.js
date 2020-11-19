@@ -69,7 +69,11 @@ export default class Helper {
   }
 
   show () {
-    this.control.style.display = 'flex'
+    window.setTimeout(() => {
+      if (this && this.control) {
+        this.control.style.display = 'flex'
+      }
+    }, 50)
   }
 
   remove () {
