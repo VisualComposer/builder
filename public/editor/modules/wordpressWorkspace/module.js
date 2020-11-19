@@ -115,14 +115,13 @@ add('wordpressWorkspace', (api) => {
     }
     let documentElements
     let isBlank = true
-    let isNewPage = true
+    const editorType = dataManager.get('editorType')
 
-    elementsStorage.state('document').onChange((data, elements) => {
-      documentElements = elements
-      const editorType = dataManager.get('editorType')
-      if (data.length === 0) {
-        if (isNewPage && editorType === 'default') { // Open AddElement panel when new page
-          isNewPage = false
+    // Once ajax is done, and app is ready trigger add element panel opening
+    workspaceStorage.state('app').onChange((status) => {
+      if (status === 'started') {
+        const elements = elementsStorage.state('document').get()
+        if (!elements.length && editorType === 'default') {
           const settings = {
             action: 'add',
             element: {},
@@ -131,6 +130,12 @@ add('wordpressWorkspace', (api) => {
           }
           workspaceStorage.state('settings').set(settings)
         }
+      }
+    })
+
+    elementsStorage.state('document').onChange((data, elements) => {
+      documentElements = elements
+      if (data.length === 0) {
         const showBlank = editorType !== 'default'
         if (showBlank && !settingsStorage.state('skipBlank').get()) {
           addStartBlank()
@@ -146,11 +151,6 @@ add('wordpressWorkspace', (api) => {
         }
         removeStartBlank()
         isBlank = false
-      }
-      if (data.length) {
-        if (isNewPage) {
-          isNewPage = false
-        }
       }
       settingsStorage.state('skipBlank').set(false)
     })

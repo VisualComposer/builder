@@ -69,6 +69,7 @@ export default class Categories extends React.Component {
     Categories.allCategories = []
     Categories.allElements = []
     Categories.allElementsTags = []
+    Categories.allGroupData = []
     Categories.elementPresets = []
     Categories.hubElements = hubElementsStorage.state('elements').get()
 

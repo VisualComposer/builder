@@ -15,11 +15,22 @@ export default class {
         jqXHR.url = settings.url
       }
     })
+    let elements = window.VCV_HUB_GET_ELEMENTS ? window.VCV_HUB_GET_ELEMENTS() : {}
     await $.getJSON(this.globalUrls, { 'vcv-nonce': window.vcvNonce }).done((data) => {
       /**
        * @param {{vcvGlobals}} data
        */
-      data && data.vcvGlobals && this.buildGlobalVariables(data.vcvGlobals)
+      if (data && data.vcvGlobals) {
+        this.buildGlobalVariables(data.vcvGlobals)
+        const newElementsIndex = data.vcvGlobals.findIndex((i) => {
+          return i.key === 'VCV_HUB_GET_ELEMENTS'
+        })
+        if (newElementsIndex > -1) {
+          elements = data.vcvGlobals[newElementsIndex].value
+        } else {
+          console.warn('VCV_HUB_GET_ELEMENTS not available in response', data.vcvGlobals)
+        }
+      }
     }).fail((jqXHR, status, error) => {
       console.warn(jqXHR, status, error)
       logError('Error in rebuild process get json globalUrls', {
@@ -54,25 +65,22 @@ export default class {
       })
     })
 
-    await this.downloadElements()
+    await this.downloadElements(elements)
   }
 
   isReady () {
     return !!this.ready
   }
 
-  downloadElements () {
+  downloadElements (elements) {
     const $ = window.jQuery
     const elementBundles = []
-    if (typeof window.VCV_HUB_GET_ELEMENTS === 'function') {
-      const elements = window.VCV_HUB_GET_ELEMENTS()
-      Object.keys(elements).forEach((key) => {
-        const element = elements[key]
-        elementBundles.push($.getScript(element.bundlePath).fail((jqxhr, settings, exception) => {
-          console.warn(jqxhr, settings, exception)
-        }))
-      })
-    }
+    Object.keys(elements).forEach((key) => {
+      const element = elements[key]
+      elementBundles.push($.getScript(element.bundlePath).fail((jqxhr, settings, exception) => {
+        console.warn(jqxhr, settings, exception)
+      }))
+    })
     return Promise.all(elementBundles).catch((e) => {
       console.warn(e)
       logError('Error in rebuild process downloadElements', {
