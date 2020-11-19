@@ -1386,6 +1386,18 @@ class Localizations extends Container implements Helper
                 'Author',
                 'visualcomposer'
             ),
+            'discussionTitle' => __(
+                'Discussion',
+                'visualcomposer'
+            ),
+            'allowComments' => __(
+                'Allow comments',
+                'visualcomposer'
+            ),
+            'allowPingbacks' => __(
+                'Allow trackbacks and pingbacks on this page',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
