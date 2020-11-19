@@ -44,6 +44,12 @@ export default class PageSettings extends React.Component {
       />
     )
 
+    if (dataManager.get('featuredImage')) {
+      wordpressSettings.push(
+        <FeaturedImage key='featuredImage' />
+      )
+    }
+
     if (dataManager.get('pageList')) {
       wordpressSettings.push(
         <ParentPage
@@ -65,12 +71,6 @@ export default class PageSettings extends React.Component {
         <Author
           key='author'
         />
-      )
-    }
-
-    if (dataManager.get('featuredImage')) {
-      wordpressSettings.push(
-        <FeaturedImage key='featuredImage' />
       )
     }
 
