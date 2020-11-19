@@ -1,9 +1,10 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 import Tooltip from '../../../../tooltip/tooltip'
 
 const settingsStorage = getStorage('settings')
+const dataManager = getService('dataManager')
 
 export default class Popup extends React.Component {
   constructor (props) {
@@ -53,8 +54,8 @@ export default class Popup extends React.Component {
   loadPosts () {
     this.ajaxPost({
       'vcv-action': 'attribute:linkSelector:getPopups:adminNonce',
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }, (request) => {
       const posts = getResponse(request.response)
       this.postRequest = null

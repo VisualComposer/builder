@@ -3,10 +3,11 @@ import HubElementControl from './hubItems/hubElementControl'
 import HubTemplateControl from './hubItems/hubTemplateControl'
 import HubAddonControl from './hubItems/hubAddonControl'
 import ElementControl from '../addElement/lib/elementControl'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const notificationsStorage = getStorage('notifications')
 const workspaceStorage = getStorage('workspace')
+const dataManager = getService('dataManager')
 
 export default class HubItemController extends ElementControl {
   constructor (props) {
@@ -51,7 +52,7 @@ export default class HubItemController extends ElementControl {
 
   handleDownloadItem (errorMessage) {
     const { element } = this.props
-    if (!element.allowDownload || !window.vcvIsAnyActivated) {
+    if (!element.allowDownload || !dataManager.get('isAnyActivated')) {
       return false
     }
 

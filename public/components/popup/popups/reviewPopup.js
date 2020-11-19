@@ -29,7 +29,7 @@ export default class ReviewPopup extends React.Component {
 
     const feedbackLink = isPositiveReview
       ? 'https://wordpress.org/support/plugin/visualcomposer/reviews/?filter=5#new-topic-0'
-      : window.VCV_UTM()['editor-feedback-review-popup-button']
+      : dataManager.get('utm')['editor-feedback-review-popup-button']
 
     const customButtonProps = {
       target: '_blank',

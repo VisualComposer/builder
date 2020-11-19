@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import vcCake from 'vc-cake'
+
+const dataManager = vcCake.getService('dataManager')
 
 export default class HubDropdown extends React.Component {
   static propTypes = {
@@ -9,7 +12,7 @@ export default class HubDropdown extends React.Component {
     bundleType: PropTypes.string
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="6px" viewBox="0 0 66 6" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile" transform="translate(-317.000000, -144.000000)" fill="#DEDEDE">
+            <g id="Group" transform="translate(317.000000, 144.000000)">
+                <circle id="Oval" cx="3" cy="3" r="3"></circle>
+                <rect id="Rectangle" x="16" y="1" width="50" height="4" rx="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

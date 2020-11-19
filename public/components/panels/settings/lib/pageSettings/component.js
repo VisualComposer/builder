@@ -3,8 +3,12 @@ import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Compo
 import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/Component'
 import Permalink from 'public/components/permalink/permalink'
 import ParentPage from '../parentPage/component'
+import Excerpt from '../excerpt/component'
+import Author from '../author/component'
+import { getService } from 'vc-cake'
 
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 const menuText = localizations ? localizations.menu : 'Menu'
 const manageYourSiteMenu = localizations ? localizations.manageYourSiteMenu : 'Manage your site menus'
 const viaWPAdminMenu = localizations ? localizations.viaWPAdminMenu : 'in the WordPress dashboard.'
@@ -22,7 +26,7 @@ export default class PageSettings extends React.Component {
       />
     )
 
-    if (typeof window.VCV_EDITOR_TYPE === 'undefined') {
+    if (dataManager.get('editorType') === 'default') {
       content.push(
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline vcv-ui-form-group--permalink' key={content.length}>
           <Permalink />
@@ -39,10 +43,26 @@ export default class PageSettings extends React.Component {
       />
     )
 
-    if (window.VCV_PAGE_LIST) {
+    if (dataManager.get('pageList')) {
       wordpressSettings.push(
         <ParentPage
           key='parentPage'
+        />
+      )
+    }
+
+    if (typeof dataManager.get('excerpt') !== 'undefined') {
+      wordpressSettings.push(
+        <Excerpt
+          key='excerpt'
+        />
+      )
+    }
+
+    if (dataManager.get('authorList')) {
+      wordpressSettings.push(
+        <Author
+          key='author'
         />
       )
     }
@@ -53,7 +73,7 @@ export default class PageSettings extends React.Component {
         <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu'>
           <span className='vcv-ui-form-group-heading'>{menuText}</span>
           <p className='vcv-ui-form-helper'>
-            <a className='vcv-ui-form-link' href={window.vcvManageMenuUrl} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
+            <a className='vcv-ui-form-link' href={dataManager.get('manageMenuUrl')} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
           </p>
         </div>
         {wordpressSettings}

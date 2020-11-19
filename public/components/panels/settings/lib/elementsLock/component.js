@@ -1,7 +1,8 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
+const dataManager = getService('dataManager')
 
 export default class ElementsLock extends React.Component {
   constructor (props) {
@@ -14,7 +15,7 @@ export default class ElementsLock extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const elementsLock = localizations ? localizations.elementsLock : 'Element Lock'
     const lockAllText = localizations ? localizations.lockAllText : 'Lock All Elements'
     const unlockAllText = localizations ? localizations.unlockAllText : 'Unlock All Elements'

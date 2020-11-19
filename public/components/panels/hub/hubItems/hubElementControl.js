@@ -3,10 +3,11 @@ import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
 import ElementControl from '../../addElement/lib/elementControl'
 
-const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 const workspaceStorage = getStorage('workspace')
-const localizations = window.VCV_I18N && window.VCV_I18N()
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
+const hubElementsState = hubElementsStorage.state('elements')
 
 export default class HubElementControl extends ElementControl {
   constructor (props) {
@@ -40,10 +41,10 @@ export default class HubElementControl extends ElementControl {
 
     let elementState = 'downloading'
     if (!isDownloading) {
-      elementState = typeof hubElementsService.all()[tag] !== 'undefined' ? 'success' : 'inactive'
+      elementState = typeof hubElementsState.get()[tag] !== 'undefined' ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !window.vcvIsAnyActivated
+    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',
