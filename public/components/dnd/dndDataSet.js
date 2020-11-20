@@ -158,6 +158,7 @@ export default class DndDataSet {
     this.handleDragFunction = this.handleDrag.bind(this)
     this.handleMobileCancelDragFunction = this.handleMobileCancelDrag.bind(this)
     this.handleDragStartFunction = this.handleDragStart.bind(this)
+    this.handleDoubleClickFuntion = this.handleDoubleClick.bind(this)
     this.handleMobileDragStartFunction = this.handleMobileDragStart.bind(this)
     this.handleDragEndFunction = this.handleDragEnd.bind(this)
     this.handleRightMouseClickFunction = this.handleRightMouseClick.bind(this)
@@ -208,7 +209,9 @@ export default class DndDataSet {
     dOMElement
       .on('dragstart', (e) => { e.preventDefault() })
       .on('mousedown', this.handleDragStartFunction)
-      .on('mousedown', this.handleDragFunction)
+    if (dOMElement.options.containerFor === null) {
+      dOMElement.on('dblclick', this.handleDoubleClickFuntion)
+    }
 
     if (!this.options.disableMobile) {
       dOMElement
@@ -625,6 +628,16 @@ export default class DndDataSet {
     } else {
       this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     }
+
+    this.handleDrag(e)
+  }
+
+  handleDoubleClick (e) {
+    if (e.target && e.target.closest('[data-vcv-content-editable-inline-mode]')) {
+      return
+    }
+    const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
+    workspaceStorage.trigger('edit', id)
   }
 
   handleMobileDragStart (e) {
