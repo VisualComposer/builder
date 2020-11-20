@@ -82,4 +82,3 @@ const dataManager = {
 dataManager.reset()
 
 vcCake.addService('dataManager', dataManager)
-g
