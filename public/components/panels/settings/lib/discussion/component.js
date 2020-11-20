@@ -24,7 +24,7 @@ export default class Discussion extends React.Component {
     this.pingValueChangeHandler = this.pingValueChangeHandler.bind(this)
   }
 
-  commentValueChangeHandler (_, value) {
+  commentValueChangeHandler (fieldKey, value) {
     if (value) {
       settingsStorage.state('commentStatus').set('open')
     } else {
@@ -32,7 +32,7 @@ export default class Discussion extends React.Component {
     }
   }
 
-  pingValueChangeHandler (_, value) {
+  pingValueChangeHandler (fieldKey, value) {
     if (value) {
       settingsStorage.state('pingStatus').set('open')
     } else {
