@@ -59,34 +59,26 @@ class DiscussionController extends Container implements Module
                 [get_post_type_object($currentPost->post_type)->cap->publish_posts, $currentPost->ID]
             )->get()) {
             // @codingStandardsIgnoreEnd
+            $discussionVariables = [];
             if (post_type_supports($currentPostType, 'trackbacks')) {
-                $response = array_merge(
-                    $response,
+                $discussionVariables[] = vcview(
+                    'partials/variableTypes/variable',
                     [
-                        vcview(
-                            'partials/variableTypes/variable',
-                            [
-                                'key' => 'VCV_PING_STATUS',
-                                'value' => $pingStatus,
-                            ]
-                        ),
+                        'key' => 'VCV_PING_STATUS',
+                        'value' => $pingStatus,
                     ]
                 );
             }
             if (post_type_supports($currentPostType, 'comments')) {
-                $response = array_merge(
-                    $response,
+                $discussionVariables[] = vcview(
+                    'partials/variableTypes/variable',
                     [
-                        vcview(
-                            'partials/variableTypes/variable',
-                            [
-                                'key' => 'VCV_COMMENT_STATUS',
-                                'value' => $commentStatus,
-                            ]
-                        ),
+                        'key' => 'VCV_COMMENT_STATUS',
+                        'value' => $commentStatus,
                     ]
                 );
             }
+            $response = array_merge($response, $discussionVariables);
         }
         return $response;
     }
@@ -103,12 +95,12 @@ class DiscussionController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $postTypeHelper = vchelper('PostType');
-        $currentPost = $postTypeHelper->get();
+        $currentPageId = $payload['sourceId'];
+        $currentPost = $postTypeHelper->get($currentPageId);
         // @codingStandardsIgnoreStart
         $postCommentStatus = $requestHelper->input('vcv-settings-comment-status', $currentPost->comment_status);
         $postPingStatus = $requestHelper->input('vcv-settings-ping-status', $currentPost->ping_status);
         // @codingStandardsIgnoreEnd
-        $currentPageId = $requestHelper->input('vcv-source-id', '');
         wp_update_post(['ID' => $currentPageId, 'comment_status' => $postCommentStatus, 'ping_status' => $postPingStatus]);
 
         return $response;

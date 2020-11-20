@@ -71,7 +71,7 @@ export default class Discussion extends React.Component {
   }
 
   render () {
-    const settingName = localizations ? localizations.discussionTitle : 'Discussion'
+    const settingName = localizations ? localizations.discussion : 'Discussion'
 
     return (
       <>
