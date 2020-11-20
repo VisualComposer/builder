@@ -22,6 +22,10 @@ class FeaturedImageController extends Container implements Module
 
     public function __construct()
     {
+        if (!vcvenv('FT_FEATURED_IMAGE_SETTINGS')) {
+            return;
+        }
+
         $this->addFilter(
             'vcv:dataAjax:setData',
             'setData'
@@ -113,8 +117,8 @@ class FeaturedImageController extends Container implements Module
     {
         // Get selected image id
         $imageId = $requestHelper->input('vcv-settings-featured-image', '');
-        $imageId = $imageId['ids'][0];
-        if ($imageId) {
+        if ($imageId && isset($imageId['ids'][0])) {
+            $imageId = $imageId['ids'][0];
             $currentPageId = $payload['sourceId'];
             set_post_thumbnail($currentPageId, $imageId);
         }
