@@ -22,8 +22,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.desktop : 'Desktop',
       className: 'desktop',
       viewport: {
-        width: '810',
-        height: '712',
+        width: '1200',
+        height: '880',
         min: '1200',
         max: Infinity
       }
@@ -32,8 +32,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletLandscape : 'Tablet Landscape',
       className: 'tablet-landscape',
       viewport: {
-        width: '970',
-        height: '650',
+        width: '1220',
+        height: '818',
         min: '992',
         max: '1199'
       }
@@ -42,8 +42,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletPortrait : 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
-        width: '650',
-        height: '970',
+        width: '818',
+        height: '1220',
         min: '768',
         max: '991'
       }
@@ -52,8 +52,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
-        width: '580',
-        height: '275',
+        width: '600',
+        height: '340',
         min: '554',
         max: '767'
       }
@@ -62,8 +62,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobilePortrait : 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
-        width: '275',
-        height: '580',
+        width: '340',
+        height: '600',
         min: '0',
         max: '553'
       }
