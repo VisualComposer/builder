@@ -106,6 +106,7 @@ addStorage('hubElements', (storage) => {
                 // use tag and name from the actual downloaded element
                 workspaceStorage.trigger('removeFromDownloading', element.tag)
                 const metaDescription = element.settings.metaDescription
+                // Need to show notification only for the elements that can be added to the page
                 if (metaDescription) {
                   const name = element.settings.name
                   notificationsStorage.trigger('add', {
