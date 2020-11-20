@@ -2,10 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
 import MobileDetect from 'mobile-detect'
-import { env } from 'vc-cake'
+import { env, getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class LayoutButtonControl extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   static devices = [
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
@@ -21,6 +23,7 @@ export default class LayoutButtonControl extends React.Component {
       className: 'desktop',
       viewport: {
         width: '1200',
+        height: '880',
         min: '1200',
         max: Infinity
       }
@@ -29,7 +32,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletLandscape : 'Tablet Landscape',
       className: 'tablet-landscape',
       viewport: {
-        width: '992',
+        width: '1220',
+        height: '818',
         min: '992',
         max: '1199'
       }
@@ -38,7 +42,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletPortrait : 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
-        width: '768',
+        width: '818',
+        height: '1220',
         min: '768',
         max: '991'
       }
@@ -47,7 +52,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
-        width: '554',
+        width: '600',
+        height: '340',
         min: '554',
         max: '767'
       }
@@ -56,7 +62,8 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobilePortrait : 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
-        width: '480',
+        width: '340',
+        height: '600',
         min: '0',
         max: '553'
       }
@@ -75,43 +82,25 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     if (env('VCV_JS_THEME_EDITOR')) {
-      this.editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+      this.editorType = dataManager.get('editorType')
     }
 
-    this.setDefautlDevice = this.setDefautlDevice.bind(this)
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
   }
 
-  componentDidMount () {
-    this.addResizeListener(window, this.setDefautlDevice)
-  }
-
-  componentWillUnmount () {
-    this.removeResizeListener(window, this.setDefautlDevice)
-  }
-
-  addResizeListener (el, fn) {
-    el.addEventListener('resize', fn)
-  }
-
-  removeResizeListener (el, fn) {
-    el.removeEventListener('resize', fn)
-  }
-
-  setDefautlDevice () {
-    this.handleClickSetSelectedLayout(0)
-  }
-
   handleClickSetSelectedLayout (index) {
-    this.setViewport(LayoutButtonControl.devices[index].viewport.width)
+    const variableName = LayoutButtonControl.devices[index]
+    this.setViewport(variableName.viewport.width, variableName.viewport.height, variableName.className)
     this.setState({
       activeDevice: index
     })
   }
 
-  setViewport (width) {
+  setViewport (width, height, device) {
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
     iframeContainer.style.width = width ? width + 'px' : ''
+    iframeContainer.style.height = height ? height + 'px' : ''
+    iframeContainer.setAttribute('data-vcv-device', device)
   }
 
   render () {

@@ -58,11 +58,12 @@ addStorage('hubAddons', (storage) => {
           const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
+              position: 'top',
+              transparent: false,
+              rounded: false,
+              type: 'warning',
               text: successMessage.replace('{name}', name),
-              time: 5000
+              time: 8000
             })
             utils.buildVariables(jsonResponse.variables || [])
             // Initialize addon depended elements
