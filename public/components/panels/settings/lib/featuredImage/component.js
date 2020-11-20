@@ -10,7 +10,7 @@ const featuredImage = localizations ? localizations.featuredImage : 'Featured Im
 export default class FeaturedImage extends React.Component {
   constructor (props) {
     super(props)
-    const data = dataManager.get('featuredImage')
+    const data = settingsStorage.state('featuredImage').get() || dataManager.get('featuredImage')
 
     this.state = {
       data: data
