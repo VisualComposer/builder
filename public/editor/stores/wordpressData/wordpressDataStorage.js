@@ -225,8 +225,10 @@ addStorage('wordpressData', (storage) => {
   })
   settingsStorage.state('pageTitle').onChange(setTitle)
   settingsStorage.state('pageTitleDisabled').onChange(setTitle)
+  settingsStorage.state('featuredImage').onChange(setFeaturedImage)
   workspaceIFrame.onChange(onIframeChange)
   let titles = []
+  let featuredImage
 
   function onIframeChange (data = {}) {
     const { type = 'loaded' } = data
@@ -234,6 +236,7 @@ addStorage('wordpressData', (storage) => {
       const iframe = document.getElementById('vcv-editor-iframe')
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
+        featuredImage = iframe.contentDocument.querySelector('.wp-post-image')
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
@@ -241,6 +244,7 @@ addStorage('wordpressData', (storage) => {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
         setTitle()
+        setFeaturedImage()
       }
     }
   }
@@ -262,6 +266,18 @@ addStorage('wordpressData', (storage) => {
         workspaceContentState.set('settings')
       }
     })
+  }
+
+  function setFeaturedImage () {
+    const current = settingsStorage.state('featuredImage').get()
+    if (!featuredImage) {
+      return
+    }
+    if (typeof current === 'undefined') {
+      return
+    }
+    featuredImage.src = current.urls[0].full || current.urls[0].large
+    featuredImage.hasAttribute('srcset') && featuredImage.removeAttribute('srcset')
   }
 
   // postUpdate event
