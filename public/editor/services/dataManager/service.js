@@ -74,7 +74,7 @@ const dataManager = {
       excerpt: window.VCV_EXCERPT,
       authorList: window.VCV_AUTHOR_LIST,
       manageMenuUrl: window.vcvManageMenuUrl,
-      featuredImage: window.VCV_FEATURED_IMAGE || {}
+      featuredImage: window.VCV_FEATURED_IMAGE
     }
   }
 }
