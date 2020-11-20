@@ -5,6 +5,8 @@ import NavbarContent from '../navbarContent'
 const historyStorage = getStorage('history')
 
 export default class UndoRedoControl extends NavbarContent {
+  static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
   constructor (props) {
     super(props)
     this.state = {
@@ -60,13 +62,14 @@ export default class UndoRedoControl extends NavbarContent {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const undoName = localizations ? localizations.undo : 'Undo'
+    const undoTitleName = UndoRedoControl.isMacLike ? undoName + ' (⌘Z)' : undoName + ' (Ctrl + Z)'
     const redoName = localizations ? localizations.redo : 'Redo'
-
+    const redoTitleName = UndoRedoControl.isMacLike ? redoName + ' (⌘⇧Z)' : redoName + ' (Ctrl + Shift + Z)'
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
         <span
           className='vcv-ui-navbar-control'
-          title={undoName}
+          title={undoTitleName}
           disabled={this.state.undoDisabled}
           onClick={this.handleUndo}
         >
@@ -77,7 +80,7 @@ export default class UndoRedoControl extends NavbarContent {
         </span>
         <span
           className='vcv-ui-navbar-control'
-          title={redoName}
+          title={redoTitleName}
           disabled={this.state.redoDisabled}
           onClick={this.handleRedo}
         >

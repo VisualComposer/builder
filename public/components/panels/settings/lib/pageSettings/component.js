@@ -4,6 +4,7 @@ import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/C
 import Permalink from 'public/components/permalink/permalink'
 import ParentPage from '../parentPage/component'
 import Excerpt from '../excerpt/component'
+import Discussion from '../discussion/component'
 import Author from '../author/component'
 import { getService } from 'vc-cake'
 
@@ -63,6 +64,14 @@ export default class PageSettings extends React.Component {
       wordpressSettings.push(
         <Author
           key='author'
+        />
+      )
+    }
+
+    if (dataManager.get('commentStatus') || dataManager.get('pingStatus')) {
+      wordpressSettings.push(
+        <Discussion
+          key='discussion'
         />
       )
     }

@@ -5,7 +5,7 @@ import Dropdown from 'public/sources/attributes/dropdown/Component'
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const localizations = dataManager.get('localizations')
-const authorTitle = localizations ? localizations.authorTitle : 'Author'
+const authorTitle = localizations ? localizations.author : 'Author'
 
 export default class Author extends React.Component {
   constructor (props) {

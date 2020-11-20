@@ -1382,8 +1382,20 @@ class Localizations extends Container implements Helper
                 'Show only when it becomes sticky.',
                 'visualcomposer'
             ),
-            'authorTitle' => __(
+            'author' => __(
                 'Author',
+                'visualcomposer'
+            ),
+            'discussion' => __(
+                'Discussion',
+                'visualcomposer'
+            ),
+            'allowComments' => __(
+                'Allow comments',
+                'visualcomposer'
+            ),
+            'allowPingbacks' => __(
+                'Allow trackbacks and pingbacks on this page',
                 'visualcomposer'
             ),
         ];
