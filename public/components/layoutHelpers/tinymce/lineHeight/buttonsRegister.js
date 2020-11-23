@@ -50,6 +50,7 @@ const ButtonsRegister = function (editor, window) {
       const { value } = e.control.settings
       if (value) {
         editor.formatter.apply('lineheight', { value: value })
+        editor.fire('change')
       }
     }
   })
