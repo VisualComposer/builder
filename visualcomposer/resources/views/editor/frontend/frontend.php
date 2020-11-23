@@ -77,26 +77,28 @@ if (is_array($extraOutput)) {
         <div class="vcv-layout-header" id="vcv-layout-header">
         </div>
         <div class="vcv-layout-content">
-            <div class="vcv-layout-iframe-container">
-                <div class="vcv-layout-iframe-wrapper">
-                    <div class="vcv-layout-guide-helper-controls" data-vcv-guide-helper="element-controls">
+            <div class="vcv-layout-scroll-container">
+                <div class="vcv-layout-iframe-container">
+                    <div class="vcv-layout-iframe-wrapper">
+                        <div class="vcv-layout-guide-helper-controls" data-vcv-guide-helper="element-controls">
+                        </div>
+                        <div class="vcv-layout-guide-helper-bottom-menu" data-vcv-guide-helper="quick-actions">
+                        </div>
+                        <iframe class="vcv-layout-iframe"
+                                src="<?php
+                                // @codingStandardsIgnoreLine
+                                echo $editableLink;
+                                ?>" id="vcv-editor-iframe"
+                                frameborder="0" scrolling="auto"></iframe>
                     </div>
-                    <div class="vcv-layout-guide-helper-bottom-menu" data-vcv-guide-helper="quick-actions">
-                    </div>
-                    <iframe class="vcv-layout-iframe"
-                            src="<?php
-                            // @codingStandardsIgnoreLine
-                            echo $editableLink;
-                            ?>" id="vcv-editor-iframe"
-                            frameborder="0" scrolling="auto"></iframe>
-                </div>
-                <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
-                <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
-                    <div class="vcv-loading-overlay">
-                        <div class="vcv-loading-overlay-inner">
-                            <div class="vcv-loading-dots-container">
-                                <div class="vcv-loading-dot vcv-loading-dot-1"></div>
-                                <div class="vcv-loading-dot vcv-loading-dot-2"></div>
+                    <div class="vcv-layout-iframe-overlay" id="vcv-editor-iframe-overlay"></div>
+                    <div class="vcv-layout-iframe-content" id="vcv-layout-iframe-content">
+                        <div class="vcv-loading-overlay">
+                            <div class="vcv-loading-overlay-inner">
+                                <div class="vcv-loading-dots-container">
+                                    <div class="vcv-loading-dot vcv-loading-dot-1"></div>
+                                    <div class="vcv-loading-dot vcv-loading-dot-2"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
