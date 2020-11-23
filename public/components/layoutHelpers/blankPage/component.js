@@ -6,8 +6,7 @@ import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const cook = vcCake.getService('cook')
-// const categories = vcCake.getService('categories')
-const hubCategoriesService = vcCake.getService('hubCategories')
+const hubElementsService = vcCake.getService('hubElements')
 
 export default class BlankPage extends React.Component {
   static propTypes = {
@@ -79,7 +78,7 @@ export default class BlankPage extends React.Component {
     if (!element) {
       return null
     }
-    const icon = hubCategoriesService.getElementIcon(tag)
+    const icon = hubElementsService.getElementIcon(tag)
 
     return {
       key: 'vcvBlankPage' + tag + index,

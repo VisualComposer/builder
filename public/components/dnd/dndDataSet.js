@@ -8,7 +8,7 @@ import DOMElement from './domElement'
 
 const documentManager = getService('document')
 const cook = getService('cook')
-const hubCategories = getService('hubCategories')
+const hubElementsService = getService('hubElements')
 const workspaceStorage = getStorage('workspace')
 
 export default class DndDataSet {
@@ -200,7 +200,7 @@ export default class DndDataSet {
       parent: parentId,
       handler: this.options.handler,
       tag: element.get('tag'),
-      iconLink: hubCategories.getElementIcon(element.get('tag'))
+      iconLink: hubElementsService.getElementIcon(element.get('tag'))
     })
   }
 
@@ -460,7 +460,7 @@ export default class DndDataSet {
       parent: this.options.rootID,
       handler: this.options.handler,
       tag: element.get('tag'),
-      iconLink: hubCategories.getElementIcon(element.get('tag'))
+      iconLink: hubElementsService.getElementIcon(element.get('tag'))
     })
   }
 
