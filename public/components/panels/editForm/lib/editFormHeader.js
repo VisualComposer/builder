@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
 const dataManager = getService('dataManager')
-const hubCategories = getService('hubCategories')
+const hubElementsService = getService('hubElements')
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
@@ -202,7 +202,7 @@ export default class EditFormHeader extends React.Component {
       content = options.activeParamGroupTitle
     }
 
-    const sectionImageSrc = hubCategories.getElementIcon(elementAccessPoint.tag)
+    const sectionImageSrc = hubElementsService.getElementIcon(elementAccessPoint.tag)
     let sectionImage = null
     if (sectionImageSrc) {
       sectionImage = <img className='vcv-ui-edit-form-header-image' src={sectionImageSrc} title={content} />
@@ -297,7 +297,7 @@ export default class EditFormHeader extends React.Component {
     let replaceElementIcon = null
     const isRootElement = cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')
     if (!isRootElement) {
-      const category = hubCategories.getElementCategoryName(elementAccessPoint.tag) || ''
+      const category = hubElementsService.getElementCategoryName(elementAccessPoint.tag) || ''
       const isReplaceShown = this.props.getReplaceShownStatus(category)
       if (isReplaceShown) {
         const substituteElementText = localizations ? localizations.substituteElement : 'Substitute Element'
