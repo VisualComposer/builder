@@ -276,7 +276,7 @@ addStorage('wordpressData', (storage) => {
     if (typeof current === 'undefined') {
       return
     }
-    featuredImage.src = current.urls[0].full || current.urls[0].large
+    featuredImage.src = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
     featuredImage.hasAttribute('srcset') && featuredImage.removeAttribute('srcset')
   }
 
