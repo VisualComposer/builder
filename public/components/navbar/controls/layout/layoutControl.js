@@ -155,4 +155,3 @@ export default class LayoutButtonControl extends React.Component {
     )
   }
 }
-
