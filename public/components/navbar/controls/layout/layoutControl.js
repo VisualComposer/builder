@@ -97,10 +97,16 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   setViewport (width, height, device) {
+    const layoutContent = window.document.querySelector('.vcv-layout-content')
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
+    layoutContent.style.padding = width ? '30px' : ''
+    layoutContent.style.display = 'grid'
     iframeContainer.style.width = width ? width + 'px' : ''
     iframeContainer.style.height = height ? height + 'px' : ''
     iframeContainer.setAttribute('data-vcv-device', device)
+    if (device === 'desktop' || device === 'tablet-landscape' || device === 'tablet-portrait') {
+      layoutContent.style.display = 'block'
+    }
   }
 
   render () {
@@ -149,3 +155,4 @@ export default class LayoutButtonControl extends React.Component {
     )
   }
 }
+
