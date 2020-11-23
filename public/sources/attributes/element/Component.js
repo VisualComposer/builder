@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 
 const Cook = vcCake.getService('cook')
 const elementAccessPointService = vcCake.getService('elementAccessPoint')
-const hubCategoriesService = vcCake.getService('hubCategories')
+const hubElementsService = vcCake.getService('hubElements')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -232,7 +232,7 @@ export default class ElementAttribute extends Attribute {
   }
 
   getReplaceShownStatus (category) {
-    const categorySettings = hubCategoriesService.get(category)
+    const categorySettings = hubElementsService.get(category)
     let showElementReplaceIcon = false
     const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
 
@@ -257,7 +257,7 @@ export default class ElementAttribute extends Attribute {
   render () {
     let { category, replaceView, exclude } = this.props.options
     category = category || '*'
-    const categorySettings = hubCategoriesService.get(category)
+    const categorySettings = hubElementsService.get(category)
     let replacementBlock = ''
     if (replaceView && replaceView === 'dropdown') {
       const dropdownValues = categorySettings.elements.map(

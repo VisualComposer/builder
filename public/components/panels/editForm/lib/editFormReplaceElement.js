@@ -2,7 +2,8 @@ import React from 'react'
 import ReplaceElement from './ReplaceElement'
 import vcCake from 'vc-cake'
 
-const hubCategoriesService = vcCake.getService('hubCategories')
+const hubElementsService = vcCake.getService('hubElements')
+const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
@@ -29,6 +30,7 @@ export default class EditFormReplaceElement extends React.Component {
     const replaceElementMergeData = {
       tag
     }
+    const category = hubElementsService.getElementCategoryName(tag)
     currentElementAttributes.forEach(key => {
       replaceElementMergeData[key] = cookElement.get(key)
     })
@@ -61,7 +63,7 @@ export default class EditFormReplaceElement extends React.Component {
     const { elementAccessPoint } = this.props
     const cookElement = elementAccessPoint.cook()
     const tag = cookElement.get('tag')
-    const category = hubCategoriesService.getElementCategoryName(tag) || ''
+    const category = hubElementsService.getElementCategoryName(tag) || ''
     const options = {
       category: category || '*',
       elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'

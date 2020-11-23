@@ -5,7 +5,7 @@ import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 
 const Cook = vcCake.getService('cook')
-const hubCategoriesService = vcCake.getService('hubCategories')
+const hubElementsService = vcCake.getService('hubElements')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const dataManager = vcCake.getService('dataManager')
@@ -131,7 +131,7 @@ export default class ReplaceElement extends React.Component {
   render () {
     const { options } = this.props
     const { category } = options
-    const categorySettings = hubCategoriesService.get(category)
+    const categorySettings = hubElementsService.get(category)
     const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
     const localizations = dataManager.get('localizations')
     const replaceElementText = localizations ? localizations.replaceElementEditForm : 'Replace the element with a different element from the same category.'
