@@ -96,6 +96,7 @@ export default class ReplaceElement extends React.Component {
         <span
           className='vcv-ui-item-element'
           onClick={this.handleReplace.bind(this, tag, name ? cookElement : null)}
+          title={elementName}
         >
           <span className={itemContentClasses}>
             <img
