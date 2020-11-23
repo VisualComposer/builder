@@ -149,6 +149,7 @@ var ButtonsRegister = function (editor, window) {
           controlManager.buttons.fontWeight.classes.remove('active')
         }
         editor.nodeChanged()
+        editor.fire('change')
       }
     },
     values: items,
