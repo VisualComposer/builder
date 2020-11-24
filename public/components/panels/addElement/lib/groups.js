@@ -27,8 +27,6 @@ export default class Groups extends React.Component {
   static allGroups = []
   static lastAddedElementId = null
 
-  // static parentElementTag = null
-
   constructor (props) {
     super(props)
 
