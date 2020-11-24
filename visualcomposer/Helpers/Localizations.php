@@ -1377,6 +1377,26 @@ class Localizations extends Container implements Helper
                 'Show only when it becomes sticky.',
                 'visualcomposer'
             ),
+            'author' => __(
+                'Author',
+                'visualcomposer'
+            ),
+            'discussion' => __(
+                'Discussion',
+                'visualcomposer'
+            ),
+            'allowComments' => __(
+                'Allow comments',
+                'visualcomposer'
+            ),
+            'allowPingbacks' => __(
+                'Allow trackbacks and pingbacks on this page',
+                'visualcomposer'
+            ),
+            'parallaxEffect' => __(
+                'Parallax effect',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
