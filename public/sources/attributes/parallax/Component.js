@@ -6,14 +6,17 @@ import Toggle from '../toggle/Component'
 import Devices from '../devices/Component'
 import Dropdown from '../dropdown/Component'
 import Number from '../number/Component'
-import { getStorage } from 'vc-cake'
-
+import { getStorage, getService } from 'vc-cake'
+import Tooltip from '../../../components/tooltip/tooltip'
+const dataManager = getService('dataManager')
 const defaultValues = ['simple', 'simple-fade', 'mouse-move']
 
 export default class Parallax extends Attribute {
   static defaultProps = {
     fieldType: 'parallax'
   }
+
+  static localizations = dataManager.get('localizations')
 
   static deviceDefaults = {
     parallaxEnable: false,
@@ -168,16 +171,25 @@ export default class Parallax extends Attribute {
     storage.state('currentAttribute:settings').delete()
     const value = this.state.devices[this.state.currentDevice].parallax || 'simple'
     const currentOption = options.values.find(option => option.value === value)
-    let descriptionContent = null
+    let tooltip = null
     if (currentOption && currentOption.description) {
-      descriptionContent = <p className='vcv-ui-form-helper'>{currentOption.description}</p>
+      tooltip = (
+        <Tooltip>
+          {currentOption.description}
+        </Tooltip>
+      )
     }
+
+    const parallaxEffect = Parallax.localizations ? Parallax.localizations.parallaxEffect : 'Parallax effect'
 
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          Parallax effect
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            {parallaxEffect}
+          </span>
+          {tooltip}
+        </div>
         <Dropdown
           api={this.props.api}
           fieldKey={fieldKey}
@@ -185,7 +197,6 @@ export default class Parallax extends Attribute {
           updater={this.valueChangeHandler}
           value={value}
         />
-        {descriptionContent}
       </div>
     )
   }
