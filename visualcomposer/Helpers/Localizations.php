@@ -41,7 +41,6 @@ class Localizations extends Container implements Helper
             'mobileLandscape' => __('Mobile Landscape', 'visualcomposer'),
             'mobilePortrait' => __('Mobile Portrait', 'visualcomposer'),
             'settings' => __('Settings', 'visualcomposer'),
-            'layout' => __('Layout', 'visualcomposer'),
             'update' => __('Update', 'visualcomposer'),
             'menu' => __('Menu', 'visualcomposer'),
             'viewPage' => __('View Page', 'visualcomposer'),
