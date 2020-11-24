@@ -69,14 +69,14 @@ export default class AddContentPanel extends React.Component {
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements',
-        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
+        content: <AddElementPanel key='addElementPanel' options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
       },
       addTemplate: {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search for templates',
-        content: <AddTemplatePanel searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
+        content: <AddTemplatePanel key='addTemplatePanel' searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       }
     }
 
