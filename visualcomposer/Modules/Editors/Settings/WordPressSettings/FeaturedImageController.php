@@ -117,10 +117,14 @@ class FeaturedImageController extends Container implements Module
     {
         // Get selected image id
         $imageId = $requestHelper->input('vcv-settings-featured-image', '');
-        if ($imageId && isset($imageId['ids'][0])) {
-            $imageId = $imageId['ids'][0];
+        if ($imageId) {
             $currentPageId = $payload['sourceId'];
-            set_post_thumbnail($currentPageId, $imageId);
+            if ($imageId === 'empty') {
+                delete_post_meta($currentPageId, '_thumbnail_id');
+            } elseif (isset($imageId['ids'][0])) {
+                $imageId = $imageId['ids'][0];
+                set_post_thumbnail($currentPageId, $imageId);
+            }
         }
 
         return $response;
