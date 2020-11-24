@@ -8,6 +8,8 @@ const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
 
 export default class SettingsButtonControl extends NavbarContent {
+  static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
   constructor (props) {
     super(props)
     this.state = {
@@ -56,6 +58,7 @@ export default class SettingsButtonControl extends NavbarContent {
   render () {
     const localizations = window.VCV_I18N && window.VCV_I18N()
     const name = localizations ? localizations.settings : 'Settings'
+    const title = SettingsButtonControl.isMacLike ? name + ' (⇧S)' : name + ' (Shift + S)'
 
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
@@ -70,7 +73,7 @@ export default class SettingsButtonControl extends NavbarContent {
     })
 
     return (
-      <span className={controlClass} title={name} onClick={this.handleClickSettings} data-vcv-guide-helper='settings-control'>
+      <span className={controlClass} title={title} onClick={this.handleClickSettings} data-vcv-guide-helper='settings-control'>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>

@@ -73,6 +73,8 @@ const dataManager = {
       pageList: window.VCV_PAGE_LIST,
       excerpt: window.VCV_EXCERPT,
       authorList: window.VCV_AUTHOR_LIST,
+      commentStatus: window.VCV_COMMENT_STATUS,
+      pingStatus: window.VCV_PING_STATUS,
       manageMenuUrl: window.vcvManageMenuUrl,
       featuredImage: window.VCV_FEATURED_IMAGE
     }

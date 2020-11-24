@@ -104,15 +104,19 @@ addStorage('hubElements', (storage) => {
                 const category = getCategory(element.tag, jsonResponse.categories)
                 storage.trigger('add', element, category, true)
                 // use tag and name from the actual downloaded element
-                const name = element.settings.name
                 workspaceStorage.trigger('removeFromDownloading', element.tag)
-                notificationsStorage.trigger('add', {
-                  position: 'bottom',
-                  transparent: true,
-                  rounded: true,
-                  text: successMessage.replace('{name}', name),
-                  time: 5000
-                })
+                const metaDescription = element.settings.metaDescription
+                // Need to show notification only for the elements that can be added to the page
+                if (metaDescription) {
+                  const name = element.settings.name
+                  notificationsStorage.trigger('add', {
+                    position: 'bottom',
+                    transparent: true,
+                    rounded: true,
+                    text: successMessage.replace('{name}', name),
+                    time: 5000
+                  })
+                }
               })
             }
             if (jsonResponse.sharedAssets && jsonResponse.sharedAssetsUrl) {

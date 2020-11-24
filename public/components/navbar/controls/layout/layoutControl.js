@@ -52,7 +52,7 @@ export default class LayoutButtonControl extends React.Component {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
-        width: '600',
+        width: '664',
         height: '340',
         min: '554',
         max: '767'
@@ -63,7 +63,7 @@ export default class LayoutButtonControl extends React.Component {
       className: 'mobile-portrait',
       viewport: {
         width: '340',
-        height: '600',
+        height: '664',
         min: '0',
         max: '553'
       }
@@ -97,9 +97,11 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   setViewport (width, height, device) {
+    const layoutContent = window.document.querySelector('.vcv-layout-content')
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
+    layoutContent.style.padding = width ? '30px' : ''
     iframeContainer.style.width = width ? width + 'px' : ''
-    iframeContainer.style.height = height ? height + 'px' : ''
+    iframeContainer.style.minHeight = height ? height + 'px' : ''
     iframeContainer.setAttribute('data-vcv-device', device)
   }
 

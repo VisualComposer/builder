@@ -11,6 +11,8 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
 
 export default class WordPressPostSaveControl extends NavbarContent {
+  static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+
   timer = 0
 
   constructor (props) {
@@ -143,11 +145,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
       saveText = localizations.update
     }
 
+    const titleText = WordPressPostSaveControl.isMacLike ? saveText + ' (⌘S)' : saveText + ' (Ctrl + S)'
+
     return (
       <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end' data-vcv-guide-helper='save-control'>
         <span
           className={saveButtonClasses}
-          title={saveText}
+          title={titleText}
           onClick={this.handleClickSaveData}
         >
           <span className='vcv-ui-navbar-control-content'>
