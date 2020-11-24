@@ -8,7 +8,7 @@ import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
-const hubCategories = vcCake.getService('hubCategories')
+const hubElementsService = vcCake.getService('hubElements')
 const settingsStorage = vcCake.getStorage('settings')
 const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
@@ -19,7 +19,7 @@ export default class ElementControl extends React.Component {
     tag: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     element: PropTypes.object.isRequired,
-    hubElement: PropTypes.object,
+    thirdParty: PropTypes.bool,
     addElement: PropTypes.func,
     setFocusedElement: PropTypes.func,
     applyFirstElement: PropTypes.func
@@ -324,7 +324,7 @@ export default class ElementControl extends React.Component {
       parent: null,
       handler: null,
       tag: tag,
-      iconLink: hubCategories.getElementIcon(tag)
+      iconLink: hubElementsService.getElementIcon(tag)
     })
     this.helper = new Helper(draggingElement, {
       container: container
@@ -433,7 +433,7 @@ export default class ElementControl extends React.Component {
   }
 
   render () {
-    const { name, element, elementPresetId, hubElement } = this.props
+    const { name, element, elementPresetId, thirdParty } = this.props
     const { previewVisible, previewStyle } = this.state
     const dragState = workspaceStorage.state('drag').get()
     const localizations = dataManager.get('localizations')
@@ -462,7 +462,7 @@ export default class ElementControl extends React.Component {
       const addOnTitle = localizations ? localizations.addOn : 'Addon'
       previewBox = (
         <figure className={previewClasses} style={previewStyle}>
-          {hubElement && hubElement.thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
+          {thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
           <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>

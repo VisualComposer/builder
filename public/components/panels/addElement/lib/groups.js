@@ -5,9 +5,9 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
+
 const dataManager = vcCake.getService('dataManager')
-const categoriesService = vcCake.getService('hubCategories')
-const groupsService = vcCake.getService('hubGroups')
+const hubElementsService = vcCake.getService('hubElements')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsStorage = vcCake.getStorage('hubElements')
@@ -15,7 +15,7 @@ const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
 const dataProcessor = vcCake.getService('dataProcessor')
 
-export default class Categories extends React.Component {
+export default class Groups extends React.Component {
   static propTypes = {
     parent: PropTypes.object,
     onScrollToElement: PropTypes.func
@@ -24,13 +24,9 @@ export default class Categories extends React.Component {
   static localizations = dataManager.get('localizations')
 
   static allElements = []
-  static allCategories = []
-  static allGroupData = {}
-  static allElementsTags = []
-  static hubElements = []
-  static addedId = null
+  static allGroups = []
+  static lastAddedElementId = null
   static parentElementTag = null
-  static elementPresets = []
 
   constructor (props) {
     super(props)
@@ -46,7 +42,6 @@ export default class Categories extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     this.handleGroupToggle = this.handleGroupToggle.bind(this)
-    Categories.hubElements = hubElementsStorage.state('elements').get()
     hubElementsStorage.once('loaded', this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
@@ -66,14 +61,10 @@ export default class Categories extends React.Component {
   }
 
   reset () {
-    Categories.allCategories = []
-    Categories.allElements = []
-    Categories.allElementsTags = []
-    Categories.allGroupData = []
-    Categories.elementPresets = []
-    Categories.hubElements = hubElementsStorage.state('elements').get()
+    Groups.allGroups = []
+    Groups.allElements = []
 
-    categoriesService.getSortedElements.cache.clear()
+    hubElementsService.getSortedElements.cache.clear()
     this.isComponentMounted && this.forceUpdate()
   }
 
@@ -89,7 +80,7 @@ export default class Categories extends React.Component {
     return arr.indexOf(value) > -1
   }
 
-  getAllElements () {
+  getElements () {
     const { parent } = this.props
     let relatedTo = ['General', 'RootElements']
     const isParentTag = parent && parent.tag && parent.tag !== 'column'
@@ -99,17 +90,10 @@ export default class Categories extends React.Component {
         relatedTo = parentElement.containerFor()
       }
     }
-    const isAllElements = !Categories.allElements.length || Categories.parentElementTag !== parent.tag
-    const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
-    if (isAllElements || isPresetsUpdated) {
-      const allElements = categoriesService.getSortedElements()
-      Categories.allElements = allElements.filter((elementData) => {
-        // Do not show custom root element in add element panel
-        if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
-          return false
-        }
-        return this.hasItemInArray(relatedTo, elementData.relatedTo)
-      })
+
+    if (!Groups.allElements.length || Groups.parentElementTag !== parent.tag) {
+      const allElements = hubElementsService.getSortedElements()
+      Groups.allElements = allElements
 
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
         const cookElement = cook.get(elementPreset.presetData)
@@ -120,50 +104,110 @@ export default class Categories extends React.Component {
         element.metaDescription = cookElement.get('metaDescription')
         element.metaThumbnailUrl = cookElement.get('metaThumbnailUrl')
         element.metaPreviewUrl = cookElement.get('metaPreviewUrl')
+        const relatedTo = cookElement.get('relatedTo')
+        if (relatedTo && relatedTo.value) {
+          element.relatedTo = relatedTo.value
+        }
         delete element.id
         return element
       })
-      Categories.allElements = elementPresets.concat(Categories.allElements)
-    }
-    return Categories.allElements
-  }
+      Groups.allElements = elementPresets.concat(Groups.allElements)
 
-  getAllElementsTags () {
-    const isElementTags = !Categories.allElementsTags.length || Categories.parentElementTag !== this.props.parent.tag
-    if (isElementTags) {
-      const allElements = this.getAllElements()
-
-      Categories.allElementsTags = allElements.map((element) => {
-        return element.tag
+      Groups.allElements = Groups.allElements.filter((elementData) => {
+        // Do not show custom root element in add element panel
+        if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
+          return false
+        }
+        return this.hasItemInArray(relatedTo, elementData.relatedTo)
       })
     }
 
-    return Categories.allElementsTags
+    return Groups.allElements
   }
 
-  getAllGroups () {
-    const isCategories = !Categories.allCategories.length || Categories.parentElementTag !== this.props.parent.tag
-    const isPresetsUpdated = Categories.elementPresets.length !== hubElementsStorage.state('elementPresets').get().length
-
-    if (isCategories || isPresetsUpdated) {
+  getGroups () {
+    if (!Groups.allGroups.length || Groups.parentElementTag !== this.props.parent.tag) {
+      const allElements = this.getElements()
+      let usedElements = []
       const groupsStore = {}
-      const groups = groupsService.all()
-      Categories.allCategories = groups.filter((group) => {
-        groupsStore[group.title] = categoriesService.getSortedElements(group.elements)
+      const groups = dataManager.get('hubGetGroups')
+      const hubCategories = hubElementsStorage.state('categories').get()
+
+      const getGroupElements = function (group) {
+        let groupElements = []
+        if (group.categories) {
+          group.categories.forEach(category => {
+            if (hubCategories[category]) {
+              groupElements = groupElements.concat(hubCategories[category].elements)
+            }
+          })
+        }
+        groupElements = [...new Set(groupElements.concat(group.elements))]
+
+        // Filter out sub-elements like column
+        return groupElements.filter(element => allElements.findIndex(el => el.tag === element) > -1)
+      }
+      Groups.allGroups = groups.filter((group) => {
+        // get all elements by group.categories
+        // concatenate with group.elements
+        const groupElements = getGroupElements(group)
+        groupsStore[group.title] = []
+        if (groupElements.length) {
+          groupsStore[group.title] = hubElementsService.getSortedElements(groupElements)
+        }
+        usedElements = usedElements.concat(groupElements)
+
         return groupsStore[group.title].length > 0
       }).map((group, index) => {
         return {
-          id: group.title + index, // TODO: Should it be more unique?
+          id: group.title + index,
           index: index,
           title: group.title,
           elements: groupsStore[group.title]
         }
       })
-      Categories.parentElementTag = this.props.parent.tag
-      Categories.elementPresets = hubElementsStorage.state('elementPresets').get()
+
+      // Element Presets Group
+      const presetElements = allElements.filter(element => element.presetId)
+      if (presetElements.length > 0) {
+        const presetElementsGroup = {
+          id: 'Presets',
+          title: 'Presets',
+          elements: presetElements
+        }
+        Groups.allGroups.unshift(presetElementsGroup)
+      }
+
+      // Most User Group
+      const mostUsedItems = allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+      if (mostUsedItems.length > 0) {
+        const mostUsedElementsGroup = {
+          id: 'usageCount',
+          title: 'Most Used',
+          elements: mostUsedItems
+        }
+        Groups.allGroups.unshift(mostUsedElementsGroup)
+      }
+
+      usedElements = [...new Set(usedElements)]
+      if (allElements.length !== usedElements.length) {
+        // There are elements that are not inside any group
+        // Move them to Other group
+        const otherElements = allElements.filter(element => usedElements.indexOf(element.tag) === -1).filter(element => !element.presetId)
+        if (otherElements.length) {
+          const otherElementsGroup = {
+            id: 'other',
+            title: 'Other',
+            elements: otherElements
+          }
+          Groups.allGroups.push(otherElementsGroup)
+        }
+      }
+
+      Groups.parentElementTag = this.props.parent.tag
     }
 
-    return Categories.allCategories
+    return Groups.allGroups
   }
 
   handleGoToHub () {
@@ -181,8 +225,8 @@ export default class Categories extends React.Component {
   }
 
   getNoResultsElement () {
-    const nothingFoundText = Categories.localizations ? Categories.localizations.nothingFound : 'Nothing found'
-    const helperText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
+    const nothingFoundText = Groups.localizations ? Groups.localizations.nothingFound : 'Nothing found'
+    const helperText = Groups.localizations ? Groups.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
     return (
@@ -215,7 +259,7 @@ export default class Categories extends React.Component {
         key={key}
         elementPresetId={elementData.presetId}
         element={elementData}
-        hubElement={Categories.hubElements[tag]}
+        thirdParty={elementData.thirdParty}
         tag={tag}
         name={name}
         addElement={this.addElement}
@@ -225,19 +269,6 @@ export default class Categories extends React.Component {
     )
   }
 
-  getAllGroupData () {
-    const isAllGroupDataSet = Categories.allGroupData && Categories.allGroupData.elements
-
-    if (!isAllGroupDataSet) {
-      Categories.allGroupData = {
-        title: 'All',
-        elements: [...new Set(this.getAllElements())]
-      }
-    }
-
-    return Categories.allGroupData
-  }
-
   getFoundElements () {
     const searchResults = this.getSearchResults(this.props.searchValue)
     return searchResults.map((elementData) => {
@@ -245,62 +276,18 @@ export default class Categories extends React.Component {
     })
   }
 
-  getSearchResults (value) {
-    value = value.toLowerCase().trim()
-    const allGroupData = this.getAllGroupData()
+  getSearchResults (searchValue) {
+    searchValue = searchValue.toLowerCase().trim()
+    const allElements = [...new Set(this.getElements())]
 
-    function getElementName (elementData) {
-      let elName = ''
-      if (elementData.name) {
-        elName = elementData.name.toLowerCase()
-      } else if (elementData.tag) {
-        const element = cook.get(elementData)
-        if (element.get('name')) {
-          elName = element.get('name').toLowerCase()
-        }
-      }
-
-      return elName
-    }
-
-    return allGroupData.elements.filter((elementData) => {
-      const elName = getElementName(elementData)
-      return elName.indexOf(value.trim()) !== -1
-    }).sort((a, b) => getElementName(a).indexOf(value.trim()) - getElementName(b).indexOf(value.trim()))
+    return allElements.filter((elementData) => {
+      const elName = hubElementsService.getElementName(elementData)
+      return elName.indexOf(searchValue) !== -1
+    }).sort((a, b) => hubElementsService.getElementName(a).indexOf(searchValue) - hubElementsService.getElementName(b).indexOf(searchValue))
   }
 
-  getElementsByGroup () {
-    const allGroups = this.getAllGroups()
-    const presetsCategory = allGroups.find(group => group.id === 'Presets')
-    const mostUsedElementsCategory = allGroups.find(group => group.id === 'usageCount')
-
-    if (!Categories.allElements.length) {
-      this.getAllElements()
-    }
-    if (!presetsCategory) {
-      const presetElements = Categories.allElements.filter(element => element.presetId)
-      if (presetElements.length > 0) {
-        const presetElementsCategory = {
-          id: 'Presets',
-          title: 'Presets',
-          elements: presetElements
-        }
-        allGroups.unshift(presetElementsCategory)
-      }
-    }
-
-    if (!mostUsedElementsCategory) {
-      const mostUsedItems = Categories.allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
-      if (mostUsedItems.length > 0) {
-        const mostUsedElementsCategory = {
-          id: 'usageCount',
-          title: 'Most Used',
-          elements: mostUsedItems
-        }
-        allGroups.unshift(mostUsedElementsCategory)
-      }
-    }
-
+  getElementsByGroups () {
+    const allGroups = this.getGroups()
     const allElements = []
 
     allGroups.forEach((groupData) => {
@@ -329,9 +316,9 @@ export default class Categories extends React.Component {
   }
 
   handleGroupToggle (groupID, isOpened) {
-    const groupIndex = Categories.allCategories.findIndex(group => group.id === groupID)
-    if (groupIndex > -1 && Categories.allCategories[groupIndex]) {
-      Categories.allCategories[groupIndex].isOpened = isOpened
+    const groupIndex = Groups.allGroups.findIndex(group => group.id === groupID)
+    if (groupIndex > -1 && Groups.allGroups[groupIndex]) {
+      Groups.allGroups[groupIndex].isOpened = isOpened
     }
   }
 
@@ -366,12 +353,11 @@ export default class Categories extends React.Component {
     elementsStorage.trigger('add', element, true, {
       insertAfter: workspace && workspace.options && workspace.options.insertAfter ? workspace.options.insertAfter : false
     })
-    this.addedId = element.id
-    const itemTag = presetId ? Categories.elementPresets.find(element => element.id === presetId).tag : element.tag
+    Groups.lastAddedElementId = element.id
+    const itemTag = presetId ? hubElementsStorage.state('elementPresets').get().find(element => element.id === presetId).tag : element.tag
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'usageCount:updateUsage:adminNonce',
-      'vcv-item-tag': itemTag,
-      'vcv-nonce': dataManager.get('nonce')
+      'vcv-item-tag': itemTag
     })
 
     const iframe = document.getElementById('vcv-editor-iframe')
@@ -380,15 +366,15 @@ export default class Categories extends React.Component {
   }
 
   openEditForm (action, id) {
-    if (action === 'add' && id === this.addedId) {
-      workspaceStorage.trigger('edit', this.addedId, '')
-      this.props.onScrollToElement(this.addedId, true)
+    if (action === 'add' && id === Groups.lastAddedElementId) {
+      workspaceStorage.trigger('edit', Groups.lastAddedElementId, '')
+      this.props.onScrollToElement && this.props.onScrollToElement(Groups.lastAddedElementId, true)
       this.iframeWindow.vcv.off('ready', this.openEditForm)
     }
   }
 
   getMoreButton () {
-    const buttonText = Categories.localizations ? Categories.localizations.getMoreElements : 'Get More Elements'
+    const buttonText = Groups.localizations ? Groups.localizations.getMoreElements : 'Get More Elements'
     return (
       <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
         {buttonText}
@@ -401,8 +387,8 @@ export default class Categories extends React.Component {
   }
 
   render () {
-    const hubButtonDescriptionText = Categories.localizations ? Categories.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
-    const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByGroup()
+    const hubButtonDescriptionText = Groups.localizations ? Groups.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
+    const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByGroups()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': !itemsOutput.length
