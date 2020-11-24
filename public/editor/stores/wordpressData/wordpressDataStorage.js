@@ -299,7 +299,7 @@ addStorage('wordpressData', (storage) => {
       })
     }
     const imageSource = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
-    featuredImage.src = imageSource ? imageSource : ''
+    featuredImage.src = imageSource || ''
     featuredImage.hasAttribute('srcset') && featuredImage.removeAttribute('srcset')
   }
 
