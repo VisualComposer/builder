@@ -42,7 +42,7 @@ export default class Groups extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     this.handleGroupToggle = this.handleGroupToggle.bind(this)
-    hubElementsStorage.once('loaded', this.reset)
+    hubElementsStorage.on('loaded', this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
   }
 
