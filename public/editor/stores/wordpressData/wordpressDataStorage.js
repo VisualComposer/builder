@@ -14,6 +14,8 @@ addStorage('wordpressData', (storage) => {
   const dataManager = getService('dataManager')
   const wordpressDataStorage = getStorage('wordpressData')
   const popupStorage = getStorage('popup')
+  const notificationsStorage = getStorage('notifications')
+  const localizations = dataManager.get('localizations')
 
   storage.on('start', () => {
     if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
@@ -229,6 +231,7 @@ addStorage('wordpressData', (storage) => {
   workspaceIFrame.onChange(onIframeChange)
   let titles = []
   let featuredImage
+  let featuredImageNotification = false
 
   function onIframeChange (data = {}) {
     const { type = 'loaded' } = data
@@ -271,10 +274,29 @@ addStorage('wordpressData', (storage) => {
   function setFeaturedImage () {
     const current = settingsStorage.state('featuredImage').get()
     if (!featuredImage) {
+      if (!featuredImageNotification && current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
+        featuredImageNotification = true
+        notificationsStorage.trigger('add', {
+          position: 'bottom',
+          transparent: true,
+          rounded: true,
+          text: localizations.featuredImageSet || 'Featured image is set. Save page and reload editor to see changes.',
+          time: 8000
+        })
+      }
       return
     }
     if (typeof current === 'undefined') {
       return
+    }
+    if (current && current.urls && !current.urls.length) {
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: localizations.featuredImageRemoved || 'Featured image is removed. Save page and reload editor to see changes.',
+        time: 8000
+      })
     }
     const imageSource = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
     featuredImage.src = imageSource ? imageSource : ''

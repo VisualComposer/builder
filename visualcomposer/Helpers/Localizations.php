@@ -1394,6 +1394,14 @@ class Localizations extends Container implements Helper
                 'Featured Image',
                 'visualcomposer'
             ),
+            'featuredImageSet' => __(
+                'Featured image is set. Save page and reload editor to see changes.',
+                'visualcomposer'
+            ),
+            'featuredImageRemoved' => __(
+                'Featured image is removed. Save page and reload editor to see changes.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
