@@ -3,7 +3,7 @@ import { getService, getStorage, setData } from 'vc-cake'
 import { ControlDropdown } from './controlDropdown'
 import { ControlHelpers } from './controlHelpers'
 
-const hubCategoriesService = getService('hubCategories')
+const hubElementsService = getService('hubElements')
 const layoutStorage = getStorage('layout')
 
 let clickState = 'mouseUp'
@@ -19,7 +19,7 @@ export function Control (props) {
   }
   const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
   const title = vcElement.get('customHeaderTitle') || vcElement.get('name')
-  const icon = hubCategoriesService.getElementIcon(vcElement.get('tag'))
+  const icon = hubElementsService.getElementIcon(vcElement.get('tag'))
   const activeClass = 'vcv-ui-outline-control-dropdown-active'
 
   let controlsClasses = [
