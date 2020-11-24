@@ -7,7 +7,7 @@ import Devices from '../devices/Component'
 import Dropdown from '../dropdown/Component'
 import Number from '../number/Component'
 import { getStorage, getService } from 'vc-cake'
-import Tooltip from '../../../components/tooltip/tooltip'
+import Tooltip from 'public/components/tooltip/tooltip'
 const dataManager = getService('dataManager')
 const defaultValues = ['simple', 'simple-fade', 'mouse-move']
 
