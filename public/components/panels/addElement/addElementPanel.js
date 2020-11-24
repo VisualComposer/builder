@@ -15,6 +15,7 @@ export default class AddElementPanel extends React.Component {
     if (!childrenOutput) {
       childrenOutput = (
         <Groups
+          key='addElementGroups'
           parent={this.props.options.element ? this.props.options.element : {}}
           searchValue={this.props.searchValue}
           applyFirstElement={this.props.applyFirstElement}

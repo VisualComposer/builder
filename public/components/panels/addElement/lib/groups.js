@@ -26,6 +26,7 @@ export default class Groups extends React.Component {
   static allElements = []
   static allGroups = []
   static lastAddedElementId = null
+  static parentElementTag = null
 
   constructor (props) {
     super(props)
@@ -54,9 +55,6 @@ export default class Groups extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState, snapshot) {
-    if (this.props.parent.tag !== prevProps.parent.tag) {
-      this.reset()
-    }
     if (this.props.applyFirstElement && (prevProps.applyFirstElement !== this.props.applyFirstElement)) {
       this.applyFirstElement()
     }
@@ -83,25 +81,19 @@ export default class Groups extends React.Component {
   }
 
   getElements () {
-    if (!Groups.allElements.length) {
-      const { parent } = this.props
-      let relatedTo = ['General', 'RootElements']
-      const isParentTag = parent && parent.tag && parent.tag !== 'column'
-      if (isParentTag) {
-        const parentElement = cook.get(parent)
-        if (parentElement) {
-          relatedTo = parentElement.containerFor()
-        }
+    const { parent } = this.props
+    let relatedTo = ['General', 'RootElements']
+    const isParentTag = parent && parent.tag && parent.tag !== 'column'
+    if (isParentTag) {
+      const parentElement = cook.get(parent)
+      if (parentElement) {
+        relatedTo = parentElement.containerFor()
       }
+    }
 
+    if (!Groups.allElements.length || Groups.parentElementTag !== parent.tag) {
       const allElements = hubElementsService.getSortedElements()
-      Groups.allElements = allElements.filter((elementData) => {
-        // Do not show custom root element in add element panel
-        if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
-          return false
-        }
-        return this.hasItemInArray(relatedTo, elementData.relatedTo)
-      })
+      Groups.allElements = allElements
 
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
         const cookElement = cook.get(elementPreset.presetData)
@@ -112,17 +104,29 @@ export default class Groups extends React.Component {
         element.metaDescription = cookElement.get('metaDescription')
         element.metaThumbnailUrl = cookElement.get('metaThumbnailUrl')
         element.metaPreviewUrl = cookElement.get('metaPreviewUrl')
+        const relatedTo = cookElement.get('relatedTo')
+        if (relatedTo && relatedTo.value) {
+          element.relatedTo = relatedTo.value
+        }
         delete element.id
         return element
       })
       Groups.allElements = elementPresets.concat(Groups.allElements)
+
+      Groups.allElements = Groups.allElements.filter((elementData) => {
+        // Do not show custom root element in add element panel
+        if (Array.isArray(elementData.relatedTo) && elementData.relatedTo.indexOf('CustomRoot') > -1) {
+          return false
+        }
+        return this.hasItemInArray(relatedTo, elementData.relatedTo)
+      })
     }
 
     return Groups.allElements
   }
 
   getGroups () {
-    if (!Groups.allGroups.length) {
+    if (!Groups.allGroups.length || Groups.parentElementTag !== this.props.parent.tag) {
       const allElements = this.getElements()
       let usedElements = []
       const groupsStore = {}
@@ -189,14 +193,18 @@ export default class Groups extends React.Component {
       if (allElements.length !== usedElements.length) {
         // There are elements that are not inside any group
         // Move them to Other group
-        const otherElements = allElements.filter(element => usedElements.indexOf(element.tag) === -1)
-        const otherElementsGroup = {
-          id: 'other',
-          title: 'Other',
-          elements: otherElements
+        const otherElements = allElements.filter(element => usedElements.indexOf(element.tag) === -1).filter(element => !element.presetId)
+        if (otherElements.length) {
+          const otherElementsGroup = {
+            id: 'other',
+            title: 'Other',
+            elements: otherElements
+          }
+          Groups.allGroups.push(otherElementsGroup)
         }
-        Groups.allGroups.push(otherElementsGroup)
       }
+
+      Groups.parentElementTag = this.props.parent.tag
     }
 
     return Groups.allGroups
