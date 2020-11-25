@@ -22,7 +22,7 @@ class FeaturedImageController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('FT_FEATURED_IMAGE_SETTINGS')) {
+        if (!vcvenv('VCV_FT_FEATURED_IMAGE_SETTINGS')) {
             return;
         }
 
@@ -31,21 +31,20 @@ class FeaturedImageController extends Container implements Module
             'setData'
         );
         $this->addFilter(
-            'vcv:frontend:head:extraOutput',
-            'outputFeaturedImage'
+            'vcv:editor:variables',
+            'addFeaturedImageVariable'
         );
     }
 
     /**
-     * @param $response
+     * @param $variables
      * @param $payload
-     *
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      *
      * @return mixed
      */
-    protected function outputFeaturedImage(
-        $response,
+    protected function addFeaturedImageVariable(
+        $variables,
         $payload,
         PostType $postTypeHelper
     ) {
@@ -87,21 +86,15 @@ class FeaturedImageController extends Container implements Module
                     "urls" => [],
                 ];
             }
-            $response = array_merge(
-                $response,
-                [
-                    vcview(
-                        'partials/variableTypes/variable',
-                        [
-                            'key' => 'VCV_FEATURED_IMAGE',
-                            'value' => $result,
-                        ]
-                    ),
-                ]
-            );
+
+            $variables[] = [
+                'key' => 'VCV_FEATURED_IMAGE',
+                'value' => $result,
+                'type' => 'constant',
+            ];
         }
 
-        return $response;
+        return $variables;
     }
 
     /**
