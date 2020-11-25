@@ -209,6 +209,7 @@ export default class ActivitiesManager extends React.Component {
         callFieldActivities={this.callFieldActivities}
         ref={ref => { this.formWrapper = ref }}
         options={options}
+        visible={this.props.visible}
       />
     )
   }
