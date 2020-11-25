@@ -169,7 +169,7 @@ export default class TreeViewLayout extends React.Component {
         return (
           <TreeViewElement
             element={element}
-            key={element.id}
+            key={'tree-view-' + element.id}
             level={1}
             showOutlineCallback={this.checkShowOutlineCallback}
             onMountCallback={this.handleElementMount}

@@ -18,6 +18,22 @@ export default class Search extends React.Component {
     this.handleSearch = this.handleSearch.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
+    this.autoFocusInputRef = React.createRef()
+  }
+
+  componentDidMount () {
+    this.focusInput()
+  }
+
+  componentDidUpdate () {
+    this.focusInput()
+  }
+
+  focusInput () {
+    const autofocus = !this.mobileDetect.mobile()
+    if (typeof this.props.autoFocus !== 'undefined' ? this.props.autoFocus && autofocus : autofocus) {
+      this.autoFocusInputRef && this.autoFocusInputRef.current && this.autoFocusInputRef.current.focus()
+    }
   }
 
   handleSearch (e) {
@@ -46,9 +62,10 @@ export default class Search extends React.Component {
             onChange={this.handleSearch}
             onKeyPress={this.handleKeyPress}
             type='text'
+            ref={this.autoFocusInputRef}
             value={this.props.searchValue}
             placeholder={this.props.searchPlaceholder}
-            autoFocus={autofocus}
+            autoFocus={typeof this.props.autoFocus !== 'undefined' ? this.props.autoFocus && autofocus : autofocus}
           />
         </div>
       </div>

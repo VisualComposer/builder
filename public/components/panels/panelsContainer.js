@@ -23,6 +23,8 @@ export default class PanelsContainer extends React.Component {
     treeViewId: PropTypes.string
   }
 
+  static openedPanels = {}
+
   constructor (props) {
     super(props)
     this.state = {
@@ -55,35 +57,79 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
-    const { content, settings } = this.props
-    if (content === 'treeView') {
-      return null
-    } else if (content === 'addElement' || content === 'addTemplate') {
-      return <AddContentPanel key='addContentPanel' options={settings || { parent: {} }} activeTab={content} />
-    } else if (content === 'addHubElement') {
+    const { content, settings, treeViewId } = this.props
+    PanelsContainer.openedPanels[content] = true
+
+    const response = []
+    if (PanelsContainer.openedPanels.treeView) {
+      response.push(
+        <TreeViewLayout
+          key='panels-container-treeView'
+          treeViewId={treeViewId}
+          visible={content === 'treeView'}
+        />
+      )
+    }
+    if (PanelsContainer.openedPanels.addElement) {
+      response.push(
+        <AddContentPanel
+          key='panels-container-addElement'
+          options={settings || { parent: {} }}
+          activeTab='addElement'
+          visible={content === 'addElement'}
+        />
+      )
+    }
+    if (PanelsContainer.openedPanels.addTemplate) {
+      response.push(
+        <AddContentPanel
+          key='panels-container-addTemplate'
+          options={settings || { parent: {} }}
+          activeTab='addTemplate'
+          visible={content === 'addTemplate'}
+        />
+      )
+    }
+    if (PanelsContainer.openedPanels.addHubElement) {
       const workspaceState = workspaceStorage.state('settings').get()
       let options = {}
       if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
         options = workspaceState.options
       }
-      return (
-        <HubContainer parent={{}} options={options} namespace='editor' />
+      response.push(
+        <HubContainer
+          key='panels-container-addHubElement'
+          parent={{}}
+          options={options}
+          namespace='editor'
+          visible={content === 'addHubElement'}
+        />
       )
-    } else if (content === 'insights') {
-      return <InsightsPanel />
-    } else if (content === 'settings') {
-      return <SettingsPanel />
-    } else if (content === 'editElement') {
-      // TODO: Check content = editElement
-      if (settings && settings.elementAccessPoint) {
-        const activeTabId = settings.activeTab || ''
-        return <EditFormPanel key={`panels-container-edit-element-${settings.elementAccessPoint.id}`} elementAccessPoint={settings.elementAccessPoint} activeTabId={activeTabId} options={settings.options || {}} />
-      }
     }
+    if (PanelsContainer.openedPanels.insights) {
+      response.push(<InsightsPanel key='panels-container-insights' visible={content === 'insights'} />)
+    }
+    if (PanelsContainer.openedPanels.settings) {
+      response.push(<SettingsPanel key='panels-container-settings' visible={content === 'settings'} />)
+    }
+    if (PanelsContainer.openedPanels.editElement && settings && settings.elementAccessPoint) {
+      const activeTabId = settings.activeTab || ''
+      response.push(
+        <EditFormPanel
+          key={`panels-container-editElement-${settings.elementAccessPoint.id}`}
+          elementAccessPoint={settings.elementAccessPoint}
+          activeTabId={activeTabId}
+          options={settings.options || {}}
+          visible={content === 'editElement'}
+        />
+      )
+    }
+
+    return response
   }
 
   render () {
-    const { content, treeViewId } = this.props
+    const { content } = this.props
     const layoutClasses = classNames({
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!content,
@@ -96,12 +142,9 @@ export default class PanelsContainer extends React.Component {
       layoutStyle.height = this.state.height
     }
 
-    const treeViewLayout = <TreeViewLayout treeViewId={treeViewId} visible={content === 'treeView'} />
-
     return (
       <div className={layoutClasses} style={layoutStyle} ref={this.props.wrapperRef}>
         <Content content={content}>
-          {treeViewLayout}
           {this.getContent()}
         </Content>
       </div>
