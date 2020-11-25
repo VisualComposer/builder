@@ -4,7 +4,7 @@ Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.5.3
-Stable tag: 31.0
+Stable tag: 31.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -195,6 +195,12 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 31.1 =
+*Release Date - 2020-11-25*
+#### Free:
+- Fix: The stretching option works properly for rows and inner rows
+- Fix: Custom elements are displayed properly in the Add Content window
 
 = 31.0 =
 *Release Date - 2020-11-17*
