@@ -100,10 +100,11 @@ export default class ContentEditableComponent extends React.Component {
       const content = this.editor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
         ? striptags(content) : content
-      let fieldPathKey = this.props.fieldKey
+      const fieldKey = this.props.paramParentField ? this.props.paramParentField : this.props.fieldKey
+      let fieldPathKey = fieldKey
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
-        fieldPathKey = `${this.props.fieldKey}:${this.props.paramIndex}:${this.props.paramField}`
+        fieldPathKey = `${fieldKey}:${this.props.paramIndex}:${this.props.paramField}`
       }
 
       if (this.props.fieldType === 'htmleditor') {
@@ -117,8 +118,8 @@ export default class ContentEditableComponent extends React.Component {
         }
       }
 
-      element.set(this.props.fieldKey, contentToSave)
-      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${this.props.fieldKey}`, { disableUpdateAssets: true })
+      element.set(fieldKey, contentToSave)
+      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${fieldKey}`, { disableUpdateAssets: true })
       const workspaceStorageState = workspaceStorage.state('settings').get()
 
       if (workspaceStorageState && workspaceStorageState.action === 'edit') {
@@ -139,7 +140,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   getParamsGroupContent (element, content) {
-    const attrValue = element.get(this.props.fieldKey)
+    const attrValue = element.get(this.props.paramParentField)
     const newValue = lodash.defaultsDeep({}, attrValue)
     newValue.value[this.props.paramIndex][this.props.paramField] = content
     return newValue
@@ -307,6 +308,7 @@ export default class ContentEditableComponent extends React.Component {
       powerpaste_html_import: 'clean',
       init_instance_callback: (editor) => {
         editor.on('Change', (e) => {
+          console.log('editor Change')
           this.updateElementData(e.target.getContent())
         })
       },
@@ -358,10 +360,13 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
+    console.log('updateHtmlWithServer content: ', content, this.state.realContent)
     updateHtmlWithServer(content, this.ref, this.props.id)
+    // updateHtmlWithServer(this.state.realContent, this.ref, this.props.id)
   }
 
   updateElementData (content) {
+    console.log('updateElementData content:', content)
     this.setState({ realContent: content })
     wordpressDataStorage.state('status').set({ status: 'changed' })
   }
@@ -377,6 +382,7 @@ export default class ContentEditableComponent extends React.Component {
           this.handleLayoutModeChange(null)
         }, 0)
       }
+      console.log('trigger debouncedUpdateHtmlWithServer state.realContent:', this.state.realContent)
       this.debouncedUpdateHtmlWithServer(this.state.realContent)
     }
   }
@@ -431,12 +437,12 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   getInlineMode () {
-    let inlineMode = this.props.options && this.props.options.inlineMode
-    if (this.props.paramField && this.props.paramIndex >= 0) {
-      const { paramField } = this.props
-      inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
-    }
-    return inlineMode
+    // let inlineMode = this.props.options && this.props.options.inlineMode
+    // if (this.props.paramField && this.props.paramIndex >= 0) {
+    //   const { paramField } = this.props
+    //   inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
+    // }
+    return this.props.options && this.props.options.inlineMode
   }
 
   getCaretPosition (element) {
