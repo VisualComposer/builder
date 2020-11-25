@@ -13,15 +13,15 @@ import Scrollbar from '../../scrollbar/scrollbar'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
-const settingsText = localizations ? localizations.layout : 'Layout'
+const settingsText = localizations ? localizations.pageSettings : 'Page Settings'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 const popupText = localizations ? localizations.popup : 'Popup'
 const elementsLockText = localizations ? localizations.elementsLock : 'Element lock'
 
 const controls = {
-  layout: {
+  pageSettings: {
     index: 0,
-    type: 'layout',
+    type: 'pageSettings',
     title: settingsText,
     content: <PageSettings />
   },
@@ -66,7 +66,7 @@ export default class SettingsPanel extends React.Component {
     super(props)
 
     this.state = {
-      activeSection: 'layout'
+      activeSection: 'pageSettings'
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)

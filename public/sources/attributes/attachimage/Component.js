@@ -29,7 +29,7 @@ export default class AttachImage extends Attribute {
     fieldKey: PropTypes.string.isRequired,
     fieldType: PropTypes.string,
     updater: PropTypes.func.isRequired,
-    elementAccessPoint: PropTypes.object.isRequired,
+    elementAccessPoint: PropTypes.object,
     onDynamicFieldOpen: PropTypes.func,
     onDynamicFieldChange: PropTypes.func,
     onDynamicFieldClose: PropTypes.func,
@@ -488,8 +488,8 @@ export default class AttachImage extends Attribute {
 
   getAttachImageComponent (dynamicApi) {
     const useDragHandle = true
-    const cookElement = this.props.elementAccessPoint.cook()
-    const metaAssetsPath = cookElement.get('metaAssetsPath')
+    const cookElement = this.props.elementAccessPoint && this.props.elementAccessPoint.cook()
+    const metaAssetsPath = cookElement ? cookElement.get('metaAssetsPath') : ''
     const dragClass = 'vcv-ui-form-attach-image-item--dragging'
 
     return (
@@ -513,8 +513,6 @@ export default class AttachImage extends Attribute {
     const { options } = this.props
     const { value, filter = false } = this.state
 
-    const cookElement = this.props.elementAccessPoint.cook()
-    const metaAssetsPath = cookElement.get('metaAssetsPath')
     let filterControl = (
       <div className='vcv-ui-form-attach-image-filter-toggle'>
         <Toggle
@@ -525,7 +523,9 @@ export default class AttachImage extends Attribute {
     )
 
     let filterList = null
-    if (filter) {
+    if (filter && this.props.elementAccessPoint) {
+      const cookElement = this.props.elementAccessPoint.cook()
+      const metaAssetsPath = cookElement.get('metaAssetsPath')
       filterList = (
         <FilterList
           onFilterChange={this.handleFilterChange}

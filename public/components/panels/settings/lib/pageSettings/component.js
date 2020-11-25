@@ -6,6 +6,7 @@ import ParentPage from '../parentPage/component'
 import Excerpt from '../excerpt/component'
 import Discussion from '../discussion/component'
 import Author from '../author/component'
+import FeaturedImage from '../featuredImage/component'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
@@ -43,6 +44,12 @@ export default class PageSettings extends React.Component {
         value='' // required for attributes
       />
     )
+
+    if (dataManager.get('featuredImage')) {
+      wordpressSettings.push(
+        <FeaturedImage key='featuredImage' />
+      )
+    }
 
     if (dataManager.get('pageList')) {
       wordpressSettings.push(
