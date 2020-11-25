@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { env, getService } from 'vc-cake'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
@@ -78,8 +79,14 @@ export default class SettingsPanel extends React.Component {
   render () {
     const settingsText = localizations ? localizations.settings : 'Settings'
 
+    const settingsPanelClasses = classNames({
+      'vcv-ui-tree-view-content': true,
+      'vcv-ui-tree-view-content--full-width': true,
+      'vcv-ui-state--hidden': !this.props.visible
+    })
+
     return (
-      <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
+      <div className={settingsPanelClasses}>
         <div className='vcv-ui-panel-heading'>
           <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-cog' />
           <span className='vcv-ui-panel-heading-text'>
