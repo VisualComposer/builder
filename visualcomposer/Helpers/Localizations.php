@@ -1405,6 +1405,10 @@ class Localizations extends Container implements Helper
                 'Allow trackbacks and pingbacks on this page',
                 'visualcomposer'
             ),
+            'parallaxEffect' => __(
+                'Parallax effect',
+                'visualcomposer'
+            ),
             'featuredImageSet' => __(
                 'Featured image is set. Save page and reload editor to see changes.',
                 'visualcomposer'

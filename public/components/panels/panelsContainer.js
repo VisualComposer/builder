@@ -59,7 +59,7 @@ export default class PanelsContainer extends React.Component {
     if (content === 'treeView') {
       return null
     } else if (content === 'addElement' || content === 'addTemplate') {
-      return <AddContentPanel options={settings || {}} activeTab={content} />
+      return <AddContentPanel key='addContentPanel' options={settings || { parent: {} }} activeTab={content} />
     } else if (content === 'addHubElement') {
       const workspaceState = workspaceStorage.state('settings').get()
       let options = {}
