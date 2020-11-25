@@ -545,8 +545,6 @@ const API = {
           paramGroupProps.paramField = fieldKey
           paramGroupProps.paramParentField = props.attrKey
         }
-        console.log('options', options)
-        console.log('options', options)
         layoutAtts[fieldKey] =
           <ContentEditableComponent
             id={id} fieldKey={fieldKey} fieldType={typeName} api={api} cook={API}
