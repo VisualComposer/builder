@@ -51,6 +51,18 @@ export default class HubContainer extends React.Component {
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps && nextProps.options && nextProps.options.filterType && nextProps.options.filterType !== this.state.filterType) {
+      this.setState({
+        filterType: nextProps.options.filterType,
+        activeCategoryIndex: nextProps.options.id
+      })
+    }
+  }
+
+  /* eslint-enable */
+
   componentDidMount () {
     if (this.props.hideScrollbar) {
       window.addEventListener('scroll', this.handleScroll)
