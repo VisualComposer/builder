@@ -61,7 +61,11 @@ class FeaturedImageController extends Container implements Module
                 $sizes = [];
                 foreach ($attachmentData['sizes'] as $key => $size) {
                     $imageSizeData = wp_get_attachment_image_src($featuredImageId, $key);
-                    $sizes[$key] = $imageSizeData[0];
+                    $sizes[ $key ] = $imageSizeData[0];
+                }
+                $fullImageUrl = wp_get_attachment_image_src($featuredImageId, 'full');
+                if (isset($fullImageUrl[0])) {
+                    $sizes['full'] = $fullImageUrl[0];
                 }
 
                 // Get image text data

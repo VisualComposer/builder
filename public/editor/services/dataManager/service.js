@@ -76,7 +76,7 @@ const dataManager = {
       commentStatus: window.VCV_COMMENT_STATUS,
       pingStatus: window.VCV_PING_STATUS,
       manageMenuUrl: window.vcvManageMenuUrl,
-      featuredImage: window.VCV_FEATURED_IMAGE
+      featuredImage: window.VCV_FEATURED_IMAGE && window.VCV_FEATURED_IMAGE()
     }
   }
 }
