@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { env, getService } from 'vc-cake'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
@@ -12,15 +13,15 @@ import Scrollbar from '../../scrollbar/scrollbar'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
-const settingsText = localizations ? localizations.layout : 'Layout'
+const settingsText = localizations ? localizations.pageSettings : 'Page Settings'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 const popupText = localizations ? localizations.popup : 'Popup'
 const elementsLockText = localizations ? localizations.elementsLock : 'Element lock'
 
 const controls = {
-  layout: {
+  pageSettings: {
     index: 0,
-    type: 'layout',
+    type: 'pageSettings',
     title: settingsText,
     content: <PageSettings />
   },
@@ -65,7 +66,7 @@ export default class SettingsPanel extends React.Component {
     super(props)
 
     this.state = {
-      activeSection: 'layout'
+      activeSection: 'pageSettings'
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
@@ -78,8 +79,14 @@ export default class SettingsPanel extends React.Component {
   render () {
     const settingsText = localizations ? localizations.settings : 'Settings'
 
+    const settingsPanelClasses = classNames({
+      'vcv-ui-tree-view-content': true,
+      'vcv-ui-tree-view-content--full-width': true,
+      'vcv-ui-state--hidden': !this.props.visible
+    })
+
     return (
-      <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
+      <div className={settingsPanelClasses}>
         <div className='vcv-ui-panel-heading'>
           <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-cog' />
           <span className='vcv-ui-panel-heading-text'>

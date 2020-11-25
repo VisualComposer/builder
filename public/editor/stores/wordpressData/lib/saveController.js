@@ -127,6 +127,9 @@ export default class SaveController {
       const iframe = document.getElementById('vcv-editor-iframe')
       const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
       const content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
+      const featuredImageState = settingsStorage.state('featuredImage').get()
+      // if storage state is empty, need to explicitly send a string, otherwise it won't be sent in a request
+      const featuredImageDataValue = featuredImageState && featuredImageState.urls && featuredImageState.urls.length ? featuredImageState : 'empty'
       const requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id,
@@ -148,6 +151,7 @@ export default class SaveController {
         'vcv-settings-comment-status': settingsStorage.state('commentStatus').get() || 'closed',
         'vcv-settings-ping-status': settingsStorage.state('pingStatus').get() || 'closed',
         'vcv-settings-author': settingsStorage.state('author').get() || '',
+        'vcv-settings-featured-image': featuredImageDataValue,
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
