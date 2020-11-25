@@ -308,7 +308,6 @@ export default class ContentEditableComponent extends React.Component {
       powerpaste_html_import: 'clean',
       init_instance_callback: (editor) => {
         editor.on('Change', (e) => {
-          console.log('editor Change')
           this.updateElementData(e.target.getContent())
         })
       },
@@ -360,13 +359,10 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   updateHtmlWithServer (content) {
-    console.log('updateHtmlWithServer content: ', content, this.state.realContent)
     updateHtmlWithServer(content, this.ref, this.props.id)
-    // updateHtmlWithServer(this.state.realContent, this.ref, this.props.id)
   }
 
   updateElementData (content) {
-    console.log('updateElementData content:', content)
     this.setState({ realContent: content })
     wordpressDataStorage.state('status').set({ status: 'changed' })
   }
@@ -437,11 +433,6 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   getInlineMode () {
-    // let inlineMode = this.props.options && this.props.options.inlineMode
-    // if (this.props.paramField && this.props.paramIndex >= 0) {
-    //   const { paramField } = this.props
-    //   inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
-    // }
     return this.props.options && this.props.options.inlineMode
   }
 
