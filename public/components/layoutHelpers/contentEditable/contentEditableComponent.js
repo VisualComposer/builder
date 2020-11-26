@@ -378,7 +378,6 @@ export default class ContentEditableComponent extends React.Component {
           this.handleLayoutModeChange(null)
         }, 0)
       }
-      console.log('trigger debouncedUpdateHtmlWithServer state.realContent:', this.state.realContent)
       this.debouncedUpdateHtmlWithServer(this.state.realContent)
     }
   }
