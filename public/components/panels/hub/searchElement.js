@@ -19,7 +19,7 @@ export default class SearchElement extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputValue: '',
+      inputValue: this.props.inputValue || '',
       input: false
     }
     this.handleSearch = this.handleSearch.bind(this)
@@ -46,6 +46,17 @@ export default class SearchElement extends React.Component {
     }
   }
 
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps && nextProps.inputValue !== this.state.inputValue) {
+      // Update search from props
+      this.setState({
+        inputValue: nextProps.inputValue
+      })
+    }
+  }
+
+  /* eslint-enable */
   componentWillUnmount () {
     if (this.inputTimeout) {
       window.clearTimeout(this.inputTimeout)

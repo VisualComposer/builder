@@ -59,6 +59,12 @@ export default class HubContainer extends React.Component {
         activeCategoryIndex: nextProps.options.id
       })
     }
+    if (nextProps && nextProps.visible !== this.props.visible) {
+      // Reset Search on re-open
+      this.setState({
+        inputValue: ''
+      })
+    }
   }
 
   /* eslint-enable */
@@ -274,8 +280,8 @@ export default class HubContainer extends React.Component {
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
       changeInput: this.changeInput,
+      inputValue: this.state.inputValue || '',
       inputPlaceholder: 'elements and templates',
-      activeFilter: this.state.filterId,
       autoFocus: this.props.visible,
       disableSelect: true,
       selectEvent: (active) => {

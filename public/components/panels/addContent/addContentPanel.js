@@ -28,6 +28,17 @@ export default class AddContentPanel extends React.Component {
     this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
   }
 
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps && nextProps.visible !== this.props.visible) {
+      // Reset Search on re-open
+      this.setState({
+        searchValue: ''
+      })
+    }
+  }
+
+  /* eslint-enable */
   setActiveSection (type) {
     const action = type === 'addTemplate' ? 'addTemplate' : 'add'
     workspaceStorage.state('settings').set({
