@@ -27,14 +27,15 @@ const cook = vcCake.getService('cook')
 const utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
+const dataManager = vcCake.getService('dataManager')
 
 export default class BlankRowPlaceholder extends React.Component {
   static propTypes = {
     api: PropTypes.object.isRequired
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
-  static editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+  static localizations = dataManager.get('localizations')
+  static editorType = dataManager.get('editorType')
 
   addedId = null
   iframeWindow = null
