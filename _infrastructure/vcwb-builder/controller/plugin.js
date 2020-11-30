@@ -233,11 +233,7 @@ class Plugin {
 
   async installBuildProject () {
     process.chdir(this.repoPath)
-    if (this.isDev) {
-      await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
-    } else {
-      await this.execute('mv ./visualcomposer/Modules/Development ./ && php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
-    }
+    await this.execute('php ci/composer.phar install --no-dev --optimize-autoloader --no-interaction --quiet', 'Build project...')
     await this.execute('php tools/php-composer/cli.php', 'PHP CLI...')
     await this.execute('yarn build-production', 'Yarn build production...')
     await this.execute('bash ./tools/elements/buildProductionScript.sh', 'Build default elements...')
