@@ -14,9 +14,14 @@ addStorage('wordpressData', (storage) => {
   const dataManager = getService('dataManager')
   const wordpressDataStorage = getStorage('wordpressData')
   const popupStorage = getStorage('popup')
+  const notificationsStorage = getStorage('notifications')
+  const localizations = dataManager.get('localizations')
 
   storage.on('start', () => {
-    // Here we call data load
+    if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
+      // Skip initial editor loading for posts update actions
+      return
+    }
     if (dataManager.get('sourceID')) {
       // Fix trigger.start on initial post update action (performance)
       controller.load(dataManager.get('sourceID'), {}, storage.state('status'))
@@ -82,6 +87,7 @@ addStorage('wordpressData', (storage) => {
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = dataManager.get('pageTemplates')
       const initialContent = responseData.post_content
+      const featuredImageData = dataManager.get('featuredImage')
       let empty = false
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
@@ -162,6 +168,9 @@ addStorage('wordpressData', (storage) => {
           settingsStorage.state('postName').set(permalinkData.permalinkFull)
         }
       }
+      if (featuredImageData && featuredImageData.urls && featuredImageData.urls.length) {
+        settingsStorage.state('featuredImage').set(featuredImageData)
+      }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
         postData = responseData.postData
@@ -222,8 +231,11 @@ addStorage('wordpressData', (storage) => {
   })
   settingsStorage.state('pageTitle').onChange(setTitle)
   settingsStorage.state('pageTitleDisabled').onChange(setTitle)
+  settingsStorage.state('featuredImage').onChange(setFeaturedImage)
   workspaceIFrame.onChange(onIframeChange)
   let titles = []
+  let featuredImage
+  let featuredImageNotification = false
 
   function onIframeChange (data = {}) {
     const { type = 'loaded' } = data
@@ -231,6 +243,7 @@ addStorage('wordpressData', (storage) => {
       const iframe = document.getElementById('vcv-editor-iframe')
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
+        featuredImage = iframe.contentDocument.querySelector('.wp-post-image')
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
@@ -238,6 +251,7 @@ addStorage('wordpressData', (storage) => {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
         setTitle()
+        setFeaturedImage()
       }
     }
   }
@@ -259,6 +273,38 @@ addStorage('wordpressData', (storage) => {
         workspaceContentState.set('settings')
       }
     })
+  }
+
+  function setFeaturedImage () {
+    const current = settingsStorage.state('featuredImage').get()
+    if (!featuredImage) {
+      if (!featuredImageNotification && current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
+        featuredImageNotification = true
+        notificationsStorage.trigger('add', {
+          position: 'bottom',
+          transparent: true,
+          rounded: true,
+          text: localizations.featuredImageSet || 'Featured image is set. Save page and reload editor to see changes.',
+          time: 8000
+        })
+      }
+      return
+    }
+    if (typeof current === 'undefined') {
+      return
+    }
+    if (current && current.urls && !current.urls.length) {
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: localizations.featuredImageRemoved || 'Featured image is removed. Save page and reload editor to see changes.',
+        time: 8000
+      })
+    }
+    const imageSource = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
+    featuredImage.src = imageSource || ''
+    featuredImage.hasAttribute('srcset') && featuredImage.removeAttribute('srcset')
   }
 
   // postUpdate event

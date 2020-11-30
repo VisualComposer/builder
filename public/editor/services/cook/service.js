@@ -539,6 +539,12 @@ const API = {
         if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions) {
           allowInline = false
         }
+        const paramGroupProps = {}
+        if (props) {
+          paramGroupProps.paramIndex = props.index
+          paramGroupProps.paramField = fieldKey
+          paramGroupProps.paramParentField = props.attrKey
+        }
         layoutAtts[fieldKey] =
           <ContentEditableComponent
             id={id} fieldKey={fieldKey} fieldType={typeName} api={api} cook={API}
@@ -546,6 +552,7 @@ const API = {
               ...options,
               allowInline
             }}
+            {...paramGroupProps}
           >
             {value || ''}
           </ContentEditableComponent>
@@ -561,6 +568,7 @@ const API = {
         const attrValue = element.get(fieldKey).value
         attrValue.forEach((value, i) => {
           paramsGroupProps.atts = value
+          paramsGroupProps.index = i
           fieldValue.value[i] = API.visualizeAttributes(element, api, paramsGroupProps, isNested)
         })
         layoutAtts[fieldKey] = fieldValue

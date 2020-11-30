@@ -9,7 +9,7 @@ const elementsStorage = getStorage('elements')
 const documentManger = getService('document')
 const utils = getService('utils')
 const cook = getService('cook')
-const hubCategoriesService = getService('hubCategories')
+const hubElementsService = getService('hubElements')
 const documentManager = getService('document')
 const dataManager = getService('dataManager')
 
@@ -686,7 +686,7 @@ export default class TreeViewElement extends React.Component {
       'vcv-ui-tree-layout-control-is-locked': isElementLocked
     })
 
-    const publicPath = hubCategoriesService.getElementIcon(element.get('tag'))
+    const publicPath = hubElementsService.getElementIcon(element.get('tag'))
     const space = 0.8
     const defaultSpace = utils.isRTL() ? 2 : 1
 

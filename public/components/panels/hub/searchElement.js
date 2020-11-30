@@ -4,6 +4,7 @@ import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import Tooltip from '../../tooltip/tooltip'
 import vcCake from 'vc-cake'
+
 const dataManager = vcCake.getService('dataManager')
 
 export default class SearchElement extends React.Component {
@@ -18,7 +19,7 @@ export default class SearchElement extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputValue: '',
+      inputValue: this.props.inputValue || '',
       input: false
     }
     this.handleSearch = this.handleSearch.bind(this)
@@ -27,8 +28,35 @@ export default class SearchElement extends React.Component {
     this.handleKeyPress = this.handleKeyPress.bind(this)
 
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
+    this.autoFocusInputRef = React.createRef()
   }
 
+  componentDidMount () {
+    this.focusInput()
+  }
+
+  componentDidUpdate () {
+    this.focusInput()
+  }
+
+  focusInput () {
+    const autofocus = !this.mobileDetect.mobile()
+    if (typeof this.props.autoFocus !== 'undefined' ? this.props.autoFocus && autofocus : autofocus) {
+      this.autoFocusInputRef && this.autoFocusInputRef.current && this.autoFocusInputRef.current.focus()
+    }
+  }
+
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps && nextProps.inputValue !== this.state.inputValue) {
+      // Update search from props
+      this.setState({
+        inputValue: nextProps.inputValue
+      })
+    }
+  }
+
+  /* eslint-enable */
   componentWillUnmount () {
     if (this.inputTimeout) {
       window.clearTimeout(this.inputTimeout)
@@ -104,7 +132,7 @@ export default class SearchElement extends React.Component {
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
     })
-    const autoFocus = !this.mobileDetect.mobile()
+    const autofocus = !this.mobileDetect.mobile()
 
     return (
       <div className='vcv-ui-editor-search-container'>
@@ -118,9 +146,10 @@ export default class SearchElement extends React.Component {
             onChange={this.handleSearch}
             onFocus={this.handleInputFocus}
             type='text'
+            ref={this.autoFocusInputRef}
             placeholder={this.getPlaceholder()}
             value={this.state.inputValue}
-            autoFocus={autoFocus}
+            autoFocus={typeof this.props.autoFocus !== 'undefined' ? this.props.autoFocus && autofocus : autofocus}
             onKeyPress={this.handleKeyPress}
           />
         </div>

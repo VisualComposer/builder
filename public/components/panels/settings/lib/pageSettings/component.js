@@ -3,6 +3,10 @@ import PageSettingsTitle from 'public/sources/attributes/pageSettingsTitle/Compo
 import PageSettingsLayouts from 'public/sources/attributes/pageSettingsLayouts/Component'
 import Permalink from 'public/components/permalink/permalink'
 import ParentPage from '../parentPage/component'
+import Excerpt from '../excerpt/component'
+import Discussion from '../discussion/component'
+import Author from '../author/component'
+import FeaturedImage from '../featuredImage/component'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
@@ -41,10 +45,40 @@ export default class PageSettings extends React.Component {
       />
     )
 
+    if (dataManager.get('featuredImage')) {
+      wordpressSettings.push(
+        <FeaturedImage key='featuredImage' />
+      )
+    }
+
     if (dataManager.get('pageList')) {
       wordpressSettings.push(
         <ParentPage
           key='parentPage'
+        />
+      )
+    }
+
+    if (typeof dataManager.get('excerpt') !== 'undefined') {
+      wordpressSettings.push(
+        <Excerpt
+          key='excerpt'
+        />
+      )
+    }
+
+    if (dataManager.get('authorList')) {
+      wordpressSettings.push(
+        <Author
+          key='author'
+        />
+      )
+    }
+
+    if (dataManager.get('commentStatus') || dataManager.get('pingStatus')) {
+      wordpressSettings.push(
+        <Discussion
+          key='discussion'
         />
       )
     }

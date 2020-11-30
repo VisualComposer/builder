@@ -170,3 +170,7 @@ if (!VcvEnv::has('VCV_FT_INSIGHTS')) {
 if (!VcvEnv::has('VCV_FT_DYNAMIC_ARCHIVE_FIELDS')) {
     VcvEnv::set('VCV_FT_DYNAMIC_ARCHIVE_FIELDS', true);
 }
+
+if (!VcvEnv::has('VCV_FT_FEATURED_IMAGE_SETTINGS')) {
+    VcvEnv::set('VCV_FT_FEATURED_IMAGE_SETTINGS', false);
+}

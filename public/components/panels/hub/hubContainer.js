@@ -51,6 +51,24 @@ export default class HubContainer extends React.Component {
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps && nextProps.options && nextProps.options.filterType && nextProps.options.filterType !== this.state.filterType) {
+      this.setState({
+        filterType: nextProps.options.filterType,
+        activeCategoryIndex: nextProps.options.id
+      })
+    }
+    if (nextProps && nextProps.visible !== this.props.visible) {
+      // Reset Search on re-open
+      this.setState({
+        inputValue: ''
+      })
+    }
+  }
+
+  /* eslint-enable */
+
   componentDidMount () {
     if (this.props.hideScrollbar) {
       window.addEventListener('scroll', this.handleScroll)
@@ -262,8 +280,9 @@ export default class HubContainer extends React.Component {
       index: this.state.activeCategoryIndex,
       changeActive: this.changeActiveCategory,
       changeInput: this.changeInput,
+      inputValue: this.state.inputValue || '',
       inputPlaceholder: 'elements and templates',
-      activeFilter: this.state.filterId,
+      autoFocus: this.props.visible,
       disableSelect: true,
       selectEvent: (active) => {
         const activeId = active && active.constructor === String && active.split('-')[0]
@@ -502,8 +521,14 @@ export default class HubContainer extends React.Component {
       notifications = <Notifications />
     }
 
+    const hubContainerClasses = classNames({
+      'vcv-ui-tree-view-content': true,
+      'vcv-ui-teaser-add-element-content': true,
+      'vcv-ui-state--hidden': !this.props.visible
+    })
+
     return (
-      <div className='vcv-ui-tree-view-content vcv-ui-teaser-add-element-content'>
+      <div className={hubContainerClasses}>
         <div className='vcv-ui-tree-content'>
           {this.getSearchElement()}
           {this.getHubPanelControls()}

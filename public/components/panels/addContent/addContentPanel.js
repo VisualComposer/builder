@@ -5,6 +5,8 @@ import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
 import Search from './lib/search'
 import vcCake from 'vc-cake'
+import classNames from 'classnames'
+
 const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -26,6 +28,17 @@ export default class AddContentPanel extends React.Component {
     this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
   }
 
+  /* eslint-disable */
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps && nextProps.visible !== this.props.visible) {
+      // Reset Search on re-open
+      this.setState({
+        searchValue: ''
+      })
+    }
+  }
+
+  /* eslint-enable */
   setActiveSection (type) {
     const action = type === 'addTemplate' ? 'addTemplate' : 'add'
     workspaceStorage.state('settings').set({
@@ -68,30 +81,46 @@ export default class AddContentPanel extends React.Component {
         index: 0,
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
-        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements',
-        content: <AddElementPanel options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
+        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements'
       },
       addTemplate: {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
-        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search for templates',
-        content: <AddTemplatePanel searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
+        searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentTemplates : 'Search for templates'
       }
     }
 
+    let content = null
+    if (this.props.activeTab === 'addElement') {
+      content = (
+        <AddElementPanel key='addElementPanel' options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
+      )
+    } else if (this.props.activeTab === 'addTemplate') {
+      content = (
+        <AddTemplatePanel key='addTemplatePanel' searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
+      )
+    }
+
+    const addContentPanelClasses = classNames({
+      'vcv-ui-tree-view-content': true,
+      'vcv-ui-tree-view-content--full-width': true,
+      'vcv-ui-state--hidden': !this.props.visible
+    })
+
     return (
-      <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content--full-width'>
+      <div className={addContentPanelClasses}>
         <Search
           onSearchChange={this.handleSearch}
           searchValue={this.state.searchValue}
           searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
           setFirstElement={this.setFirstElement}
+          autoFocus={this.props.visible}
         />
         <PanelNavigation controls={controls} activeSection={this.props.activeTab} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
-            {controls[this.props.activeTab].content}
+            {content}
           </Scrollbar>
         </div>
       </div>

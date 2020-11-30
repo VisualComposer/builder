@@ -6,8 +6,9 @@ import EditFormSection from './editFormSection'
 import EditFormReplaceElement from './editFormReplaceElement'
 import Scrollbar from 'public/components/scrollbar/scrollbar.js'
 import { getService, getStorage } from 'vc-cake'
+
 const dataManager = getService('dataManager')
-const hubCategoriesService = getService('hubCategories')
+const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
 
 export default class EditForm extends React.Component {
@@ -50,6 +51,7 @@ export default class EditForm extends React.Component {
       activeTabIndex: this.getActiveTabIndex(nextProps.activeTabId)
     })
   }
+
   /* eslint-enable */
 
   updateTabs (props) {
@@ -199,7 +201,7 @@ export default class EditForm extends React.Component {
   }
 
   getReplaceShownStatus (category) {
-    const categorySettings = hubCategoriesService.get(category)
+    const categorySettings = hubElementsService.get(category)
     let showElementReplaceIcon = false
     const presetsByCategory = hubElementsStorage.action('getPresetsByCategory', category)
 
@@ -232,8 +234,14 @@ export default class EditForm extends React.Component {
       content = this.getAccordionSections()
     }
 
+    const editFormClasses = classNames({
+      'vcv-ui-tree-view-content': true,
+      'vcv-ui-tree-view-content-accordion': true,
+      'vcv-ui-state--hidden': !this.props.visible
+    })
+
     return (
-      <div className='vcv-ui-tree-view-content vcv-ui-tree-view-content-accordion'>
+      <div className={editFormClasses}>
         <EditFormHeader
           isEditFormSettingsOpened={isEditFormSettingsOpened}
           handleEditFormSettingsToggle={this.toggleEditFormSettings}

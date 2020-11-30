@@ -1,8 +1,10 @@
 import React from 'react'
 import ReplaceElement from './ReplaceElement'
 import vcCake from 'vc-cake'
+import { isEqual } from 'lodash'
 
-const hubCategoriesService = vcCake.getService('hubCategories')
+const hubElementsService = vcCake.getService('hubElements')
+const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
@@ -29,8 +31,19 @@ export default class EditFormReplaceElement extends React.Component {
     const replaceElementMergeData = {
       tag
     }
+    const category = hubElementsService.getElementCategoryName(tag)
     currentElementAttributes.forEach(key => {
-      replaceElementMergeData[key] = cookElement.get(key)
+      let value = cookElement.get(key)
+      if (key === 'image' && category === 'Image gallery') {
+        const initialValue = cookElement.settings(key).settings.value
+        const currentValue = cookElement.get(key)
+        const isValuesEqual = isEqual(initialValue, currentValue)
+        if (isValuesEqual) {
+          value = cook.get({ tag }).get(key)
+          replaceElementMergeData[key] = value
+        }
+      }
+      replaceElementMergeData[key] = value
     })
     if (presetCookElement) {
       replaceElementMergeData.parent = currentCookElement.get('parent')
@@ -61,7 +74,7 @@ export default class EditFormReplaceElement extends React.Component {
     const { elementAccessPoint } = this.props
     const cookElement = elementAccessPoint.cook()
     const tag = cookElement.get('tag')
-    const category = hubCategoriesService.getElementCategoryName(tag) || ''
+    const category = hubElementsService.getElementCategoryName(tag) || ''
     const options = {
       category: category || '*',
       elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'

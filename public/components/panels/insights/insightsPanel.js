@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import Scrollbar from '../../scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
@@ -129,8 +130,13 @@ export default class InsightsPanel extends React.Component {
     const insightsIsAContentAnalysisTool = localizations ? localizations.insightsIsAContentAnalysisTool : 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.'
     const insightsHTML = this.getInsightsHTML(this.state.insightData)
 
+    const insightsPanelClasses = classNames({
+      'vcv-ui-tree-view-content': true,
+      'vcv-ui-state--hidden': !this.props.visible
+    })
+
     return (
-      <div className='vcv-ui-tree-view-content'>
+      <div className={insightsPanelClasses}>
         <div className='vcv-ui-panel-heading'>
           <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-lamp' />
           <span className='vcv-ui-panel-heading-text'>

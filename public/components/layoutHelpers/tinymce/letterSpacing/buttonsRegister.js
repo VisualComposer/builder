@@ -59,6 +59,7 @@ const ButtonsRegister = function (editor, window) {
       const { value } = e.control.settings
       if (value) {
         editor.formatter.apply('letterspacing', { value: value })
+        editor.fire('change')
       }
     }
   })

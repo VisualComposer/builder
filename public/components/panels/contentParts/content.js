@@ -100,7 +100,8 @@ export default class Content extends React.Component {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const closeTitle = localizations ? localizations.close : 'Close'
+    let closeTitle = localizations ? localizations.close : 'Close'
+    closeTitle = closeTitle + ' (Esc)'
 
     let aligned = false
     const { children, content } = this.props

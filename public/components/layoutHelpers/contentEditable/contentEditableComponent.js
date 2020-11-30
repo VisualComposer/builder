@@ -47,13 +47,14 @@ export default class ContentEditableComponent extends React.Component {
       realContent: this.props.children,
       mouse: null,
       overlayTimeout: null,
-      allowInline: this.props.options.allowInline
+      allowInline: this.props.options.allowInline,
+      temporaryEditable: false
     }
     this.handleLayoutModeChange = this.handleLayoutModeChange.bind(this)
     this.handleGlobalClick = this.handleGlobalClick.bind(this)
+    this.handleDoubleClick = this.handleDoubleClick.bind(this)
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
-    this.handleMouseUp = this.handleMouseUp.bind(this)
     this.updateElementData = this.updateElementData.bind(this)
     this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this)
     this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 500)
@@ -99,10 +100,11 @@ export default class ContentEditableComponent extends React.Component {
       const content = this.editor ? this.state.realContent : this.ref.innerHTML
       let contentToSave = this.getInlineMode() === 'text'
         ? striptags(content) : content
-      let fieldPathKey = this.props.fieldKey
+      const fieldKey = this.props.paramParentField ? this.props.paramParentField : this.props.fieldKey
+      let fieldPathKey = fieldKey
       if (this.props.paramField && this.props.paramIndex >= 0) {
         contentToSave = this.getParamsGroupContent(element, contentToSave)
-        fieldPathKey = `${this.props.fieldKey}:${this.props.paramIndex}:${this.props.paramField}`
+        fieldPathKey = `${fieldKey}:${this.props.paramIndex}:${this.props.paramField}`
       }
 
       if (this.props.fieldType === 'htmleditor') {
@@ -116,8 +118,8 @@ export default class ContentEditableComponent extends React.Component {
         }
       }
 
-      element.set(this.props.fieldKey, contentToSave)
-      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${this.props.fieldKey}`, { disableUpdateAssets: true })
+      element.set(fieldKey, contentToSave)
+      elementsStorage.trigger('update', element.get('id'), element.toJS(), `contentEditable:${element.get('tag')}:${fieldKey}`, { disableUpdateAssets: true })
       const workspaceStorageState = workspaceStorage.state('settings').get()
 
       if (workspaceStorageState && workspaceStorageState.action === 'edit') {
@@ -138,7 +140,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   getParamsGroupContent (element, content) {
-    const attrValue = element.get(this.props.fieldKey)
+    const attrValue = element.get(this.props.paramParentField)
     const newValue = lodash.defaultsDeep({}, attrValue)
     newValue.value[this.props.paramIndex][this.props.paramField] = content
     return newValue
@@ -380,6 +382,33 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
+  handleDoubleClick () {
+    if (this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
+      this.setState({ trackMouse: true, contentEditable: true }, () => {
+        const isHtmlEditor = this.props.fieldType === 'htmleditor'
+        if (isHtmlEditor) {
+          this.editorSetup({ caretPosition: this.state.caretPosition })
+        }
+        const layoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
+        if (layoutCustomMode !== 'contentEditable') {
+          const data = {
+            mode: 'contentEditable',
+            options: {}
+          }
+          vcCake.setData('vcv:layoutCustomMode', data)
+          this.handleLayoutModeChange('contentEditable')
+        }
+        this.iframeWindow.addEventListener('click', this.handleGlobalClick)
+        this.layoutHeader.addEventListener('click', this.handleGlobalClick)
+        this.ref && (this.ref.innerHTML = this.state.realContent)
+
+        if (!isHtmlEditor) {
+          this.setSelectionRange(this.ref, this.state.caretPosition)
+        }
+      })
+    }
+  }
+
   handleMouseMove () {
     if (this.state.trackMouse === true) {
       this.setState({ trackMouse: false, contentEditable: false })
@@ -387,45 +416,23 @@ export default class ContentEditableComponent extends React.Component {
     }
   }
 
-  handleMouseDown () {
+  handleMouseDown (e) {
     if (this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
-      this.setState({ trackMouse: true, contentEditable: true })
-    }
-  }
-
-  handleMouseUp (e) {
-    if (this.state.trackMouse === true) {
-      const caretPosition = this.getCaretPosition(e.currentTarget)
-      const isHtmlEditor = this.props.fieldType === 'htmleditor'
-      if (isHtmlEditor) {
-        this.editorSetup({ caretPosition })
-      }
-      const layoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
-      if (layoutCustomMode && layoutCustomMode !== 'contentEditable') {
-        const data = {
-          mode: 'contentEditable',
-          options: {}
-        }
-        vcCake.setData('vcv:layoutCustomMode', data)
-        this.handleLayoutModeChange('contentEditable')
-      }
-      this.iframeWindow.addEventListener('click', this.handleGlobalClick)
-      this.layoutHeader.addEventListener('click', this.handleGlobalClick)
-      this.ref && (this.ref.innerHTML = this.state.realContent)
-
-      if (!isHtmlEditor) {
-        this.setSelectionRange(this.ref, caretPosition)
-      }
+      const currentTarget = e.currentTarget
+      this.setState({ temporaryEditable: true }, () => {
+        window.setTimeout(() => {
+          const caretPosition = this.getCaretPosition(currentTarget)
+          this.setState({
+            caretPosition: caretPosition,
+            temporaryEditable: false
+          })
+        }, 0)
+      })
     }
   }
 
   getInlineMode () {
-    let inlineMode = this.props.options && this.props.options.inlineMode
-    if (this.props.paramField && this.props.paramIndex >= 0) {
-      const { paramField } = this.props
-      inlineMode = this.props.options.settings[paramField].options && this.props.options.settings[paramField].options.inlineMode
-    }
-    return inlineMode
+    return this.props.options && this.props.options.inlineMode
   }
 
   getCaretPosition (element) {
@@ -498,10 +505,10 @@ export default class ContentEditableComponent extends React.Component {
     const CustomTag = this.props.fieldType === 'htmleditor' ? 'div' : 'span'
     const props = {
       className: this.props.className ? this.props.className + ' vcvhelper' : 'vcvhelper',
-      contentEditable: this.state.contentEditable,
-      onMouseDown: this.handleMouseDown,
+      contentEditable: this.state.contentEditable || this.state.temporaryEditable,
+      onDoubleClick: this.handleDoubleClick,
       onMouseMove: this.handleMouseMove,
-      onMouseUp: this.handleMouseUp,
+      onMouseDown: this.handleMouseDown,
       'data-vcvs-html': this.state.realContent,
       'data-vcv-content-editable-inline-mode': this.getInlineMode() || 'html'
     }
