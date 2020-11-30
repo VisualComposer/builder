@@ -77,7 +77,8 @@ const dataManager = {
       pingStatus: window.VCV_PING_STATUS,
       manageMenuUrl: window.vcvManageMenuUrl,
       featuredImage: window.VCV_FEATURED_IMAGE && window.VCV_FEATURED_IMAGE(),
-      postData: window.vcvPostData || {}
+      postData: window.vcvPostData || {},
+      hubTeaserShowBadge: window.vcvHubTeaserShowBadge
     }
   }
 }

@@ -1,5 +1,8 @@
 import React from 'react'
 import NavbarContent from '../navbarContent'
+import vcCake from 'vc-cake'
+
+const dataManager = vcCake.getService('dataManager')
 
 export default class GoPremiumControl extends NavbarContent {
   static handleClickGoPremium (e) {
@@ -9,10 +12,11 @@ export default class GoPremiumControl extends NavbarContent {
   }
 
   render () {
-    if (typeof window.vcvIsPremiumActivated !== 'undefined' && !window.vcvIsPremiumActivated) {
-      const localizations = window.VCV_I18N && window.VCV_I18N()
-      const goPremium = localizations ? localizations.activationButtonTitle : window.vcvIsFreeActivated ? 'Go Premium' : 'Activate Hub'
-      const goPremiumUrl = `${window.vcvGoPremiumUrl}&vcv-ref=editor`
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
+    if (typeof isPremiumActivated !== 'undefined' && !isPremiumActivated) {
+      const localizations = dataManager.get('localizations')
+      const goPremium = localizations ? localizations.activationButtonTitle : dataManager.get('isFreeActivated') ? 'Go Premium' : 'Activate Hub'
+      const goPremiumUrl = `${dataManager.get('goPremiumUrl')}&vcv-ref=editor`
       return (
         <span
           className='vcv-ui-navbar-control vcv-go-premium'

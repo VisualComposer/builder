@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
+const dataManager = getService('dataManager')
 
 export default class SettingsButtonControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
@@ -56,7 +57,7 @@ export default class SettingsButtonControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const name = localizations ? localizations.settings : 'Settings'
     const title = SettingsButtonControl.isMacLike ? name + ' (⇧S)' : name + ' (Shift + S)'
 

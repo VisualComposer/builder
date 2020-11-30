@@ -109,7 +109,8 @@ export default class WordPressPostSaveControl extends NavbarContent {
       return
     }
     window.setTimeout(() => {
-      let urlQuery = `post.php?post=${window.vcvSourceID}&action=edit&vcv-action=frontend&vcv-source-id=${window.vcvSourceID}`
+      const sourceID = dataManager.get('sourceID')
+      let urlQuery = `post.php?post=${sourceID}&action=edit&vcv-action=frontend&vcv-source-id=${sourceID}`
       if (window.location.href.indexOf('vcv-editor-type') !== -1) {
         // we have editor type. so add it always
         const urlObject = new URL(window.location.href)

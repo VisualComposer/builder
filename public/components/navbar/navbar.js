@@ -13,6 +13,7 @@ const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRe
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
 const wordpressBackendDataStorage = vcCake.getStorage('wordpressData')
 const workspaceSettings = vcCake.getStorage('workspace').state('settings')
+const dataManager = vcCake.getService('dataManager')
 
 export default class Navbar extends React.Component {
   static propTypes = {
@@ -327,7 +328,7 @@ export default class Navbar extends React.Component {
   }
 
   buildHiddenControls () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const menuTitle = localizations ? localizations.menu : 'Menu'
 
     const controls = this.getHiddenControls(this.state.visibleControls)
