@@ -1,9 +1,12 @@
 import React from 'react'
+import vcCake from 'vc-cake'
 import classNames from 'classnames'
 import addElementIcon from 'public/sources/images/blankRowPlaceholderIcons/addElement.raw'
 
+const dataManager = vcCake.getService('dataManager')
+
 export default class RowControl extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   render () {
     const svgClasses = classNames({

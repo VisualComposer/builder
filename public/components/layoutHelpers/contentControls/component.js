@@ -5,6 +5,7 @@ import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
+const dataManager = vcCake.getService('dataManager')
 
 export default class ContentControls extends React.Component {
   static propTypes = {
@@ -46,7 +47,7 @@ export default class ContentControls extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     let classes = 'vcvhelper vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
     if (this.isMobile) {
