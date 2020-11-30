@@ -1,54 +1,55 @@
 import vcCake from 'vc-cake'
 const settingsStorage = vcCake.getStorage('settings')
+const dataManager = vcCake.getService('dataManager')
 
 const postData = {
   canPublish: () => {
-    return window.vcvPostData.canPublish
+    return dataManager.get('postData').canPublish
   },
 
   isDraft: () => {
     return (
-      window.vcvPostData.status !== 'publish' &&
-      window.vcvPostData.status !== 'future' &&
-      window.vcvPostData.status !== 'pending' &&
-      window.vcvPostData.status !== 'private'
+      dataManager.get('postData').status !== 'publish' &&
+      dataManager.get('postData').status !== 'future' &&
+      dataManager.get('postData').status !== 'pending' &&
+      dataManager.get('postData').status !== 'private'
     )
   },
 
   isPublished: () => {
-    return window.vcvPostData.status === 'publish' || window.vcvPostData.status === 'private' || window.vcvPostData.status === 'future'
+    return dataManager.get('postData').status === 'publish' || dataManager.get('postData').status === 'private' || dataManager.get('postData').status === 'future'
   },
 
   permalink: () => {
-    return settingsStorage.state('permalink').get() || window.vcvPostData.permalink
+    return settingsStorage.state('permalink').get() || dataManager.get('postData').permalink
   },
 
   previewUrl: () => {
-    return settingsStorage.state('previewUrl').get() || window.vcvPostData.previewUrl
+    return settingsStorage.state('previewUrl').get() || dataManager.get('postData').previewUrl
   },
 
   isViewable: () => {
-    return window.vcvPostData.viewable
+    return dataManager.get('postData').viewable
   },
 
   viewText: () => {
-    return window.vcvPostData.viewText
+    return dataManager.get('postData').viewText
   },
 
   backendEditorUrl: () => {
-    return window.vcvPostData.backendEditorUrl
+    return dataManager.get('postData').backendEditorUrl
   },
 
   adminDashboardUrl: () => {
-    return window.vcvPostData.adminDashboardUrl
+    return dataManager.get('postData').adminDashboardUrl
   },
 
   vcvCustomPostType: () => {
-    return window.vcvPostData.vcvCustomPostType
+    return dataManager.get('postData').vcvCustomPostType
   },
 
   adminDashboardPostTypeListUrl: () => {
-    return window.vcvPostData.adminDashboardPostTypeListUrl
+    return dataManager.get('postData').adminDashboardPostTypeListUrl
   }
 }
 

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests Basic Button element render Basic Button render 1`] = `
+<div
+  className="vce-button--style-basic-container"
+>
+  <span
+    className="vce-button--style-basic-wrapper vce"
+    data-vce-do-apply="margin el-123456789"
+    id="el-123456789"
+  >
+    <button
+      className="vce-button--style-basic"
+      data-vce-do-apply="padding border background  el-123456789"
+    >
+      Hello jest from react
+    </button>
+  </span>
+</div>
+`;
