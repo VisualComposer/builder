@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
 const insightsStorage = getStorage('insights')
+const dataManager = getService('dataManager')
 
 export default class InsightsButtonControl extends NavbarContent {
   constructor (props) {
@@ -49,7 +50,7 @@ export default class InsightsButtonControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const name = localizations ? localizations.VCInsights : 'Visual Composer Insights'
 
     const currentLevel = insightsStorage.state('currentLevel').get()

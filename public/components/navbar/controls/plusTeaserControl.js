@@ -6,6 +6,7 @@ import { getStorage, getService } from 'vc-cake'
 const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentState = getStorage('workspace').state('content')
+const dataManager = getService('dataManager')
 
 export default class PlusTeaserControl extends NavbarContent {
   constructor (props) {
@@ -14,7 +15,7 @@ export default class PlusTeaserControl extends NavbarContent {
     this.setActiveState = this.setActiveState.bind(this)
     this.state = {
       isActive: workspaceContentState.get() === 'addHubElement',
-      showBadge: window.vcvHubTeaserShowBadge
+      showBadge: dataManager.get('hubTeaserShowBadge')
     }
   }
 
@@ -39,19 +40,19 @@ export default class PlusTeaserControl extends NavbarContent {
       options: {}
     }
     workspaceSettings.set(settings)
-    if (window.vcvHubTeaserShowBadge || this.state.showBadge) {
+    if (dataManager.get('hubTeaserShowBadge') || this.state.showBadge) {
       dataProcessor.appAdminServerRequest({
         'vcv-action': 'vcv:hub:teaser:visit:adminNonce'
       })
       dataProcessor.appAllDone().then(() => {
-        window.vcvHubTeaserShowBadge = false
+        dataManager.set('hubTeaserShowBadge', false)
         this.setState({ showBadge: false })
       })
     }
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const name = localizations ? localizations.addPremiumElement : 'Visual Composer Hub'
 
     const controlClass = classNames({

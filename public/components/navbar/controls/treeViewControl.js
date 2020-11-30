@@ -1,10 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
+const dataManager = getService('dataManager')
 
 export default class TreeViewControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
@@ -38,7 +39,7 @@ export default class TreeViewControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const name = localizations ? localizations.treeView : 'Tree View'
     const title = TreeViewControl.isMacLike ? name + ' (⇧T)' : name + ' (Shift + T)'
 
