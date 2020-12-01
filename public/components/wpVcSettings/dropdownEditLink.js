@@ -1,7 +1,7 @@
 import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
-const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank">Edit</a> this {editLinkTitle}.</div>'
+const editLinkText = localizations && localizations.editThemeTemplate ? localizations.editThemeTemplate : '<div class="vcv-custom-page-templates-edit-link"><a href="{editLink}" target="_blank">Edit</a> this {editLinkTitle} or <a href="{createLink}" target="_blank">create</a> a new one.</div>'
 
 const changeEditLink = (item) => {
   const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
@@ -13,7 +13,7 @@ const changeEditLink = (item) => {
     if (editLinkItem != null) {
       editLinkItem.querySelector('a').setAttribute('href', selectedPageUrl)
     } else {
-      dropdownContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{link}', selectedPageUrl).replace('{editLinkTitle}', editLinkTitle))
+      dropdownContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{editLink}', selectedPageUrl).replace('{editLinkTitle}', editLinkTitle).replace('{createLink}', 'post-new.php?post_type=vcv_headers&vcv-action=frontend&vcv-editor-type=vcv_headers'))
       dropdownContainer.closest('tr').classList.add('vcv-field-expand')
     }
   } else {
@@ -27,6 +27,7 @@ export const dropdownEditLink = () => {
 
   for (var i = 0, len = templateDropdowns.length; i < len; i++) {
     var item = templateDropdowns[i]
+    console.log(item)
 
     // Initial Page Load
     if (item.querySelector('option:checked') && item.querySelector('option:checked').value !== '') {
