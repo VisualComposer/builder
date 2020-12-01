@@ -587,12 +587,14 @@ class Localizations extends Container implements Helper
             ),
             'editThemeTemplate' => sprintf(
                 __(
-                    '%sEdit%s this %s.%s',
+                    '%sEdit%s this %s or %screate%s a new one.%s',
                     'visualcomposer'
                 ),
-                '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '<div class="vcv-custom-page-templates-edit-link"><a href="{editLink}" target="_blank" rel="noopener noreferrer">',
                 '</a>',
                 '{editLinkTitle}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
                 '</div>'
             ),
             'enterYourLicenseKey' => __(
