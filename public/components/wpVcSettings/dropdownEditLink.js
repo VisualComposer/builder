@@ -6,15 +6,16 @@ const createLinkText = localizations && localizations.editThemeTemplate ? locali
 
 const changeEditLink = (item) => {
   const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
+  const createNewPageUrl = item.getAttribute('data-create-url')
   const linkTitle = item.closest('.vcv-ui-form-group').getAttribute('data-title')
   const actionsContainer = item.closest('.vcv-ui-form-group').closest('td').querySelector('.vcv-custom-page-templates-edit-link')
   actionsContainer.closest('tr').classList.add('vcv-field-expand')
   actionsContainer.innerHTML = null
 
   if (item.value) {
-    actionsContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{editLink}', selectedPageUrl).replace('{linkTitle}', linkTitle).replace('{createLink}', 'post-new.php?post_type=vcv_headers&vcv-action=frontend&vcv-editor-type=vcv_headers'))
+    actionsContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{editLink}', selectedPageUrl).replace('{linkTitle}', linkTitle).replace('{createLink}', createNewPageUrl))
   } else {
-    actionsContainer.insertAdjacentHTML('beforeend', createLinkText.replace('{createLink}', selectedPageUrl).replace('{linkTitle}', linkTitle))
+    actionsContainer.insertAdjacentHTML('beforeend', createLinkText.replace('{createLink}', createNewPageUrl).replace('{linkTitle}', linkTitle))
   }
 }
 
