@@ -14,7 +14,8 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="vcv-ui-form-group<?php echo isset($description) ? ' vcv-ui-form-switch-container-has-description' : ''; ?>" <?php echo isset($dataTitle) ? 'data-title="' . $dataTitle . '"' : ''; ?>>
-    <select class="vcv-ui-form-dropdown<?php echo isset($class) ? ' ' . $class : ''; ?>" id="<?php echo $name; ?>" name="<?php echo $name; ?>">
+    <?php $createUrlAttribute = isset($createUrl) ? 'data-create-url="' . $createUrl . '"' : ''; ?>
+    <select class="vcv-ui-form-dropdown<?php echo isset($class) ? ' ' . $class : ''; ?>" <?php echo $createUrlAttribute ?> id="<?php echo $name; ?>" name="<?php echo $name; ?>">
         <?php if (isset($emptyTitle)) : ?>
             <option value=""><?php echo $emptyTitle; ?></option>
         <?php endif; ?>
