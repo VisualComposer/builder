@@ -480,6 +480,18 @@
   }
 }
 
+.vcv-ui-settings-data-collection-table-wrapper {
+  overflow: hidden;
+  transition: all .2s ease;
+
+  &-active {
+    padding-top: 24px;
+  }
+  .vcv-description, .description, .vcv-description p {
+    margin: 0;
+  }
+}
+
 @media screen and (min-width: 783px) {
   .vcv-dashboard-container {
     flex-direction: row;
@@ -533,9 +545,15 @@
     flex: 0 0 190px;
   }
 
-  .vcv-dashboard-main .vcv-dashboards-section-content .form-table th,
-  .vcv-dashboard-main .vcv-dashboards-section-content .form-table td {
-    padding: 20px 10px 20px 0;
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table,
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table {
+    .vcv-ui-settings-data-collection-table th,
+    .vcv-ui-settings-data-collection-table td {
+      padding: 15px 10px;
+    }
+    th, td {
+      padding: 20px 10px 20px 0;
+    }
   }
 
   .vcv-dashboard-main .vcv-settings-tab-content select.vcv-ui-form-dropdown {
@@ -560,4 +578,8 @@
       margin: 0 172px 0 0;
     }
   }
+}
+
+.vcv-settings-itemdatacollection-child {
+  padding: 0 0 20px;
 }

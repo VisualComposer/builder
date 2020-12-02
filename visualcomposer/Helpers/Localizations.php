@@ -1145,19 +1145,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'dataCollectionHeadingText' => __(
-                'Help us make Visual Composer better',
+                'Share Usage Data',
                 'visualcomposer'
             ),
             'dataCollectionText' => __(
-                'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                'Help to make Visual Composer better by sharing anonymous usage data. We appreciate your help.',
                 'visualcomposer'
             ),
             'readMoreText' => __(
                 'Read more',
                 'visualcomposer'
             ),
-            'yesIWouldLikeToHelpText' => __(
-                'Yes, I would like to help',
+            'dataCollectionToggleText' => __(
+                'Share anonymous data',
                 'visualcomposer'
             ),
             'submit' => __(
