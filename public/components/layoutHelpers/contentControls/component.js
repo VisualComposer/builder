@@ -24,21 +24,25 @@ export default class ContentControls extends React.Component {
   }
 
   componentDidMount () {
-    if (!this.container.current.closest('.vce-col') || !this.container.current.closest('.vce-col-inner') || !this.container.current.closest('.vce-col-content')) {
-      return
-    }
-    this.container.current.closest('.vce-col').setAttribute('data-vcv-centered-control', true)
-    this.container.current.closest('.vce-col-inner').setAttribute('data-vcv-centered-control', true)
-    this.container.current.closest('.vce-col-content').setAttribute('data-vcv-centered-control', true)
+    const { current } = this.container
+    const col = current.closest('.vce-col')
+    const colInner = current.closest('.vce-col-inner')
+    const colContent = current.closest('.vce-col-content')
+
+    col && col.setAttribute('data-vcv-centered-control', true)
+    colInner && colInner.setAttribute('data-vcv-centered-control', true)
+    colContent && colContent.setAttribute('data-vcv-centered-control', true)
   }
 
   componentWillUnmount () {
-    if (!this.container.current.closest('.vce-col') || !this.container.current.closest('.vce-col-inner') || !this.container.current.closest('.vce-col-content')) {
-      return
-    }
-    this.container.current.closest('.vce-col').removeAttribute('data-vcv-centered-control')
-    this.container.current.closest('.vce-col-inner').removeAttribute('data-vcv-centered-control')
-    this.container.current.closest('.vce-col-content').removeAttribute('data-vcv-centered-control')
+    const { current } = this.container
+    const col = current.closest('.vce-col')
+    const colInner = current.closest('.vce-col-inner')
+    const colContent = current.closest('.vce-col-content')
+
+    col && col.removeAttribute('data-vcv-centered-control')
+    colInner && colInner.removeAttribute('data-vcv-centered-control')
+    colContent && colContent.removeAttribute('data-vcv-centered-control')
   }
 
   handleClick () {
