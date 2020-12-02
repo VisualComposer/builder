@@ -7,6 +7,7 @@ import Excerpt from '../excerpt/component'
 import Discussion from '../discussion/component'
 import Author from '../author/component'
 import FeaturedImage from '../featuredImage/component'
+import Categories from '../categories/component'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
@@ -44,6 +45,12 @@ export default class PageSettings extends React.Component {
         value='' // required for attributes
       />
     )
+
+    if (dataManager.get('categories')) {
+      wordpressSettings.push(
+        <Categories key='categories' />
+      )
+    }
 
     if (dataManager.get('featuredImage')) {
       wordpressSettings.push(

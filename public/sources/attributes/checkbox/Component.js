@@ -1,9 +1,32 @@
 import React from 'react'
 import Attribute from '../attribute'
+import Scrollbar from '../../../components/scrollbar/scrollbar'
 
 export default class Checkbox extends Attribute {
   static defaultProps = {
     fieldType: 'checkbox'
+  }
+
+  constructor (props) {
+    super(props)
+    this.ref = React.createRef()
+  }
+
+  componentDidMount () {
+    if (this.props.options && this.props.options.itemLimit) {
+      const items = this.ref.current && this.ref.current.querySelectorAll('.vcv-ui-form-checkbox')
+      if (items.length > this.props.options.itemLimit) {
+        let heightLimit = 0
+        items.forEach((item, i) => {
+          if (i < this.props.options.itemLimit) {
+            const itemHeight = item.getBoundingClientRect().height
+            const itemMargins = parseInt(getComputedStyle(item).marginTop) + parseInt(getComputedStyle(item).marginBottom)
+            heightLimit = heightLimit + itemHeight + itemMargins
+          }
+        })
+        this.setState({ heightLimit: heightLimit })
+      }
+    }
   }
 
   handleChange (event) {
@@ -53,9 +76,22 @@ export default class Checkbox extends Attribute {
     if (this.props.options && this.props.options.listView) {
       classNames += ' vcv-ui-form-checkboxes--list'
     }
+    if (this.props.options && this.props.options.itemLimit) {
+      classNames += ` vcv-ui-form-checkboxes--limit`
+    }
+
+    let content = optionElements
+    const styleProps = {}
+    if (this.state.heightLimit) {
+      styleProps.height = `${this.state.heightLimit}px`
+      content = (
+        <Scrollbar>{optionElements}</Scrollbar>
+      )
+    }
+
     return (
-      <div className={classNames}>
-        {optionElements}
+      <div className={classNames} ref={this.ref} style={{...styleProps}}>
+        {content}
       </div>)
   }
 }

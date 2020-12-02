@@ -78,7 +78,8 @@ const dataManager = {
       manageMenuUrl: window.vcvManageMenuUrl,
       featuredImage: window.VCV_FEATURED_IMAGE && window.VCV_FEATURED_IMAGE(),
       postData: window.vcvPostData || {},
-      hubTeaserShowBadge: window.vcvHubTeaserShowBadge
+      hubTeaserShowBadge: window.vcvHubTeaserShowBadge,
+      categories: window.VCV_CATEGORIES || {"value": ["xl", "md", "tv"],"options":[{"label":"Desktop","value":"xl"},{"label":"Mobile","value":"xs"},{"label":"Tablet","value":"md"},{"label":"Laptop","value":"lg"},{"label":"TV","value":"tv"},{"label":"MV","value":"mv"},{"label":"MTV","value":"mtv"},{"label":"CD","value":"cd"},{"label":"BJ","value":"bj"},{"label":"OCD","value":"ocd"},{"label":"LTV","value":"ltv"},{"label":"WWW","value":"www"}]}
     }
   }
 }
