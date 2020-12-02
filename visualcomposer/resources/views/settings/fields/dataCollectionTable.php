@@ -4,10 +4,6 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-
-/** @var bool $isEnabled */
-/** @var string $name */
-/** @var string $value */
 ?>
 
 <div class="vcv-ui-settings-data-collection-table-container">
