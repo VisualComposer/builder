@@ -51,6 +51,9 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
               }
               layouts[device].push(element.size[device])
             } else {
+              if (!layouts[device]) {
+                layouts[device] = []
+              }
               layouts[device].push('100%')
             }
 
