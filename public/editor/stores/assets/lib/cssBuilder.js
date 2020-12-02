@@ -1,6 +1,7 @@
 import { getService, getStorage, env } from 'vc-cake'
 
 const cook = getService('cook')
+const dataManager = getService('dataManager')
 const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
 
@@ -282,11 +283,27 @@ export default class CssBuilder {
       }
     )
   }
-
+  getCachedCSS (id) {
+    const sourceID = dataManager.get('sourceID')
+    const cache =  JSON.parse(localStorage.getItem(`vcv-style-cache-${sourceID}`) || '{}')
+    return cache[id] || false
+  }
+  setCachedCSS (id, data) {
+    const sourceID = dataManager.get('sourceID')
+    const cache = JSON.parse(localStorage.getItem(`vcv-style-cache-${sourceID}`) || '{}')
+    cache[id] = data
+    localStorage.setItem(`vcv-style-cache-${sourceID}`, JSON.stringify(cache))
+  }
   addElementEditorFiles (data) {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedEditorStylesTagList.indexOf(tag) === -1) {
+
+        if (this.getCachedCSS(tag)) {
+          const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
+          file.innerHTML = this.getCachedCSS(tag)
+          return
+        }
         const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
         if (elementEditorCss.length) {
           this.addedEditorStylesTagList.push(tag)
@@ -296,6 +313,7 @@ export default class CssBuilder {
             const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
             if (file) {
               file.innerHTML = result
+              this.setCachedCSS(tag, result)
             }
           }))
         }
@@ -321,12 +339,18 @@ export default class CssBuilder {
   addElementLocalAttributesCssMixins (data) {
     const styles = this.stylesManager.create()
     const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
+    if (this.getCachedCSS(data.id)) {
+      const file = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
+      file.innerHTML = this.getCachedCSS(data.id)
+      return
+    }
     styles.add(localElementStyles)
 
     const attributesStylesPromise = styles.compile().then((result) => {
       const style = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
       if (style) {
         style.innerHTML = result
+        this.setCachedCSS(data.id, result)
       }
     })
     this.addJob(attributesStylesPromise)
@@ -339,6 +363,13 @@ export default class CssBuilder {
         // we can get localCss for inner element
         const innerData = elementObject.get(key)
         const checksum = this.checksum(JSON.stringify(innerData))
+        if (this.getCachedCSS(`${data.id}-${checksum}`)) {
+          const style = this.window.document.getElementById(`vcv-css-styles-${data.id}-${checksum}`)
+          if (style) {
+            style.innerHTML = this.getCachedCSS(`${data.id}-${checksum}`)
+          }
+          return
+        }
         const innerElementLocalAttributesCssMixins = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(innerData)
         const innerStyles = this.stylesManager.create()
         innerStyles.add(innerElementLocalAttributesCssMixins)
@@ -346,6 +377,7 @@ export default class CssBuilder {
           const style = this.window.document.getElementById(`vcv-css-styles-${data.id}-${checksum}`)
           if (style) {
             style.innerHTML = result
+            this.setCachedCSS(`${data.id}-${checksum}`, result)
           }
         })
         this.addJob(innerStylesPromise)
@@ -362,6 +394,13 @@ export default class CssBuilder {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedBaseStylesTagList.indexOf(tag) === -1) {
+        if (this.getCachedCSS(`base-${tag}`)) {
+          const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
+          if (style) {
+            style.innerHTML = this.getCachedCSS(`base-${tag}`)
+          }
+          return
+        }
         const elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
         if (elementCssBase.length) {
           this.addedBaseStylesTagList.push(tag)
@@ -371,6 +410,7 @@ export default class CssBuilder {
             const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
             if (style) {
               style.innerHTML = result
+              this.setCachedCSS(`base-${tag}`, result)
             }
           })
           this.addJob(css)
@@ -381,6 +421,13 @@ export default class CssBuilder {
 
   addElementGlobalAttributesCssMixins (data) {
     const styles = this.stylesManager.create()
+    if (this.getCachedCSS(`do-style-${data.id}`)) {
+      const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
+      if (style) {
+        style.innerHTML = this.getCachedCSS(`do-style-${data.id}`)
+      }
+      return
+    }
     const elementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(data)
 
     styles.add(elementGlobalAttributesCssMixins)
@@ -388,7 +435,10 @@ export default class CssBuilder {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
         style.innerHTML = result
+        this.setCachedCSS(`do-style-${data.id}`, result)
+
       }
+      return
     })
     this.addJob(stylesPromise)
 
