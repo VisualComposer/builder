@@ -71,6 +71,7 @@ const dataManager = {
       utm: window.VCV_UTM && window.VCV_UTM(),
       hubServerTime: window.VCV_HUB_SERVER_TIME && window.VCV_HUB_SERVER_TIME(),
       pageList: window.VCV_PAGE_LIST,
+      tags: window.VCV_TAGS,
       excerpt: window.VCV_EXCERPT,
       authorList: window.VCV_AUTHOR_LIST,
       commentStatus: window.VCV_COMMENT_STATUS,
