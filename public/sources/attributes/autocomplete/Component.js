@@ -4,7 +4,7 @@ import Attribute from '../attribute'
 import TokenizationList from './lib/tokenizationList'
 import PropTypes from 'prop-types'
 
-import ReactTagContainer from './libNew/ReactTagContainer'
+import ReactTagContainer from './reactTagsLib/ReactTagContainer'
 
 export default class AutoComplete extends Attribute {
   static propTypes = {

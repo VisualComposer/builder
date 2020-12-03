@@ -13,17 +13,15 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class TagsController extends Container implements Module
 {
-    use WpFiltersActions;
     use EventsFilters;
 
     public function __construct()
     {
         $this->addFilter(
-            'vcv:ajax:autocomplete:findTag:adminNonce',
+            'vcv:ajax:editors:settings:tags:autocomplete:findTag:adminNonce',
             'getFoundTags',
             11
         );
@@ -32,22 +30,19 @@ class TagsController extends Container implements Module
             'setData'
         );
         $this->addFilter(
-            'vcv:frontend:head:extraOutput',
-            'outputTags'
+            'vcv:editor:variables',
+            'addTagsVariable'
         );
     }
 
     /**
-     * @param $response
-     * @param $payload
-     *
+     * @param $variables
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      *
-     * @return mixed
+     * @return array
      */
-    protected function outputTags(
-        $response,
-        $payload,
+    protected function addTagsVariable(
+        $variables,
         PostType $postTypeHelper
     ) {
         $currentPost = $postTypeHelper->get();
@@ -57,21 +52,13 @@ class TagsController extends Container implements Module
             // @codingStandardsIgnoreLine
             if (isset($currentPost->post_type) && ($tagTaxonomy->show_ui || false !== $tagTaxonomy->meta_box_cb)) {
                 $tags = get_the_tags($currentPost->ID);
-                $response = array_merge(
-                    $response,
-                    [
-                        vcview(
-                            'partials/variableTypes/variable',
-                            [
-                                'key' => 'VCV_TAGS',
-                                'value' => !empty($tags) ? $tags : [],
-                            ]
-                        ),
-                    ]
-                );
+                $variables[] = [
+                    'key' => 'VCV_TAGS',
+                    'value' => !empty($tags) ? $tags : [],
+                ];
             }
         }
-        return $response;
+        return $variables;
     }
 
     /**

@@ -64,7 +64,7 @@ export default class Tags extends React.Component {
     }
 
     this.serverRequest = ajax({
-      'vcv-action': 'autocomplete:findTag:adminNonce',
+      'vcv-action': 'editors:settings:tags:autocomplete:findTag:adminNonce',
       'vcv-search': searchValue,
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
