@@ -93,7 +93,7 @@ export default class Checkbox extends Attribute {
         const children = initialValues.filter(value => value.parent === values[key].id)
         if (children.length && toRender) {
           const childCheckboxes = this.getCheckboxes(children, true)
-          optionElements.push(<div className='vcv-ui-form-checkbox-children'>{childCheckboxes}</div>)
+          optionElements.push(<div key={`${fieldKey}:${key}:children:${children.length}`} className='vcv-ui-form-checkbox-children'>{childCheckboxes}</div>)
         }
       }
     }
