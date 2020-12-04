@@ -113,6 +113,7 @@ export default class Tags extends React.Component {
           options={{}}
           isNewAutocomplete={isNewAutocomplete}
           handleInputChange={this.onInputChange}
+          isSuggestionsLoading={this.state.loading}
         />
       </div>
     )
