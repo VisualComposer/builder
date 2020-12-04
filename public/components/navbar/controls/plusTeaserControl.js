@@ -45,7 +45,7 @@ export default class PlusTeaserControl extends NavbarContent {
         'vcv-action': 'vcv:hub:teaser:visit:adminNonce'
       })
       dataProcessor.appAllDone().then(() => {
-        dataManager.set('hubTeaserShowBadge', false)
+        dataManager.set('hubTeaserShowBadge', () => { return false })
         this.setState({ showBadge: false })
       })
     }
