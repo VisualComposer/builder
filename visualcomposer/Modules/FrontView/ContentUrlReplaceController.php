@@ -55,6 +55,7 @@ class ContentUrlReplaceController extends Container implements Module
             // We got wrong get_site_url() (support #18071)
             return;
         }
+        $currentSiteUrl = rtrim($currentSiteUrl, '/\\');
         $siteUrls = $optionsHelper->get('siteUrls');
         if (!$siteUrls || !is_array($siteUrls)) {
             $siteUrls = ['prevUrls' => [], 'currentUrl' => $currentSiteUrl];
@@ -135,6 +136,7 @@ class ContentUrlReplaceController extends Container implements Module
                 //@codingStandardsIgnoreLine
                 if ($pageContent && !empty($post->post_content)) {
                     $siteUrls = $optionsHelper->get('siteUrls');
+                    $siteUrls['currentUrl'] = rtrim($siteUrls['currentUrl'], '/\\');
                     if (!is_array($siteUrls)) {
                         return $content;
                     }
@@ -206,7 +208,13 @@ class ContentUrlReplaceController extends Container implements Module
             return !(empty($url) || in_array($url, ['https:', 'http:', 'http://', 'https://'], true));
         };
 
-        return array_values(array_unique(array_filter($urls, $callback)));
+
+        return array_map([$this,'removeTrailingSlash'], array_values(array_unique(array_filter($urls, $callback))));
+    }
+
+    protected function removeTrailingSlash($url)
+    {
+        return rtrim($url, '/\\');
     }
 
     /**
