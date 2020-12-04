@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import Attribute from '../attribute'
 import Scrollbar from '../../../components/scrollbar/scrollbar'
 
@@ -55,22 +56,53 @@ export default class Checkbox extends Attribute {
     return values
   }
 
-  render () {
+  getCheckboxes (values, isChildren = false) {
     const { fieldKey } = this.props
-    const optionElements = []
-    const values = this.getValues()
     const currentValues = this.state.value
+    const optionElements = []
+    const initialValues = this.getValues()
     for (const key in values) {
       const value = values[key].value
       const checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
-      optionElements.push(
-        <label key={fieldKey + ':' + key + ':' + value} className='vcv-ui-form-checkbox' htmlFor={fieldKey + '-' + key + '-' + value}>
-          <input type='checkbox' onChange={this.handleChange} checked={checked} value={value} id={fieldKey + '-' + key + '-' + value} />
-          <span className='vcv-ui-form-checkbox-indicator' />
-          {values[key].label}
-        </label>
-      )
+      const labelClasses = classNames({
+        'vcv-ui-form-checkbox': true,
+        'vcv-ui-form-checkbox--nested': isChildren
+      })
+
+      let toRender = false
+      if (values[key].parent) {
+        // Expicit nested conditional is necessary to handle different order of children in the array
+        if (isChildren) {
+          toRender = true
+        }
+      } else {
+        toRender = true
+      }
+
+      if (toRender) {
+        optionElements.push(
+          <label key={fieldKey + ':' + key + ':' + value} className={labelClasses} htmlFor={fieldKey + '-' + key + '-' + value}>
+            <input type='checkbox' onChange={this.handleChange} checked={checked} value={value} id={fieldKey + '-' + key + '-' + value} />
+            <span className='vcv-ui-form-checkbox-indicator' />
+            {values[key].label}
+          </label>
+        )
+      }
+
+      if (this.props.options.listView && this.props.options.nesting) {
+        const children = initialValues.filter(value => value.parent === values[key].id)
+        if (children.length && toRender) {
+          const childCheckboxes = this.getCheckboxes(children, true)
+          optionElements.push(<div className='vcv-ui-form-checkbox-children'>{childCheckboxes}</div>)
+        }
+      }
     }
+    return optionElements
+  }
+
+  render () {
+    const values = this.getValues()
+    const optionElements = this.getCheckboxes(values)
 
     let classNames = 'vcv-ui-form-checkboxes'
     if (this.props.options && this.props.options.listView) {

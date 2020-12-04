@@ -13,24 +13,41 @@ export default class Categories extends React.Component {
   constructor (props) {
     super(props)
     const data = dataManager.get('categories')
-    const categories = settingsStorage.state('categories').get() || data || []
+    const categoriesData = settingsStorage.state('categories').get() || data || []
 
     this.state = {
       isListLoading: false,
-      value: categories.value,
-      options: categories.options,
+      value: categoriesData.used,
+      options: categoriesData.categories,
       newCategory: '',
       parentCategory: '',
-      parentCategoryOptions: [...categories.options],
+      parentCategoryOptions: [...categoriesData.categories],
       isNewCategoryVisible: false
     }
 
-    settingsStorage.state('categories').set(categories)
+    settingsStorage.state('categories').set(categoriesData)
     this.stringChangeHandler = this.stringChangeHandler.bind(this)
     this.dropdownChangeHandler = this.dropdownChangeHandler.bind(this)
     this.checkboxChangeHandler = this.checkboxChangeHandler.bind(this)
     this.handleAddCategory = this.handleAddCategory.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
+    this.updateCategories = this.updateCategories.bind(this)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('categories').onChange(this.updateCategories)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('categories').ignoreChange(this.updateCategories)
+  }
+
+  updateCategories (data) {
+    this.setState({
+      value: data.used,
+      options: data.categories,
+      parentCategoryOptions: [...data.categories],
+    })
   }
 
   changeLoadingState = (status) => {
@@ -44,20 +61,35 @@ export default class Categories extends React.Component {
       value: value
     })
     const currentStorageState = settingsStorage.state('categories').get()
-    currentStorageState.value = value
+    currentStorageState.used = value
     settingsStorage.state('categories').set(currentStorageState)
   }
 
   handleAddCategory () {
     const currentStorageState = settingsStorage.state('categories').get()
+    const newCategorySlug = this.state.newCategory.split(' ').map(word => word.toLowerCase()).join('-')
+    const newValue = this.state.value
+    newValue.push(newCategorySlug)
+    const newOptions = currentStorageState.categories
+
+    // TODO replace random id with a server request
     const newCategory = {
       label: this.state.newCategory,
-      value: this.state.newCategory.split(' ').map(word => word.toLowerCase()).join('-')
+      value: newCategorySlug,
+      id:  Math.floor(Math.random() * 10000),
+      parent: 0
     }
-    currentStorageState.values = currentStorageState.values.push(newCategory)
+    if (this.state.parentCategory) {
+      newCategory.parent = newOptions.find(option => option.value === this.state.parentCategory).id
+    }
+    newOptions.push(newCategory)
+    currentStorageState.used = newValue
+    currentStorageState.categories = newOptions
     settingsStorage.state('categories').set(currentStorageState)
+
     this.setState({
-      newCategory: ''
+      newCategory: '',
+      parentCategory: '',
     })
   }
 
@@ -141,6 +173,7 @@ export default class Categories extends React.Component {
             options={{
               listView: true,
               itemLimit: 10,
+              nesting: true,
               values: this.state.options,
               reloadAction: 'categories',
               global: 'VCV_CATEGORIES'
