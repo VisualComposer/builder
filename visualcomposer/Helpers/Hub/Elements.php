@@ -93,21 +93,21 @@ class Elements implements Helper
         }
 
         $metaData = [];
-        if (isset($element['settings']['metaThumbnailUrl'])) {
+        if (isset($data['settings']['metaThumbnailUrl'])) {
             if ($raw) {
-                $metaData['metaThumbnailUrl'] = $element['settings']['metaThumbnailUrl'];
+                $metaData['metaThumbnailUrl'] = $data['settings']['metaThumbnailUrl'];
             } else {
                 $metaData['metaThumbnailUrl'] = $this->getElementUrl(
-                    $element['settings']['metaThumbnailUrl']
+                    $data['settings']['metaThumbnailUrl']
                 );
             }
         }
-        if (isset($element['settings']['metaPreviewUrl'])) {
+        if (isset($data['settings']['metaPreviewUrl'])) {
             if ($raw) {
-                $metaData['metaPreviewUrl'] = $element['settings']['metaPreviewUrl'];
+                $metaData['metaPreviewUrl'] = $data['settings']['metaPreviewUrl'];
             } else {
                 $metaData['metaPreviewUrl'] = $this->getElementUrl(
-                    $element['settings']['metaPreviewUrl']
+                    $data['settings']['metaPreviewUrl']
                 );
             }
         }
