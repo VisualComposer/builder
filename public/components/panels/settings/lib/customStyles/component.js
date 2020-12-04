@@ -110,17 +110,19 @@ export default class CustomStyles extends React.Component {
     const editor = this.getEditor()
 
     return (
-      <div className='vcv-ui-custom-styles'>
-        <div className='vcv-ui-style-control-container'>
-          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
-            {button}
+      <div className='vcv-ui-tree-content-section-inner'>
+        <div className='vcv-ui-custom-styles'>
+          <div className='vcv-ui-style-control-container'>
+            <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+              {button}
+            </div>
+            <Tooltip>
+              {applyCustomCSSCode}
+            </Tooltip>
           </div>
-          <Tooltip>
-            {applyCustomCSSCode}
-          </Tooltip>
-        </div>
-        <div className='vcv-ui-style-editor-container'>
-          {editor}
+          <div className='vcv-ui-style-editor-container'>
+            {editor}
+          </div>
         </div>
       </div>
     )

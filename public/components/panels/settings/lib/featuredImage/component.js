@@ -29,28 +29,23 @@ export default class FeaturedImage extends React.Component {
 
   render () {
     return (
-      <>
-        <div className='vcv-ui-edit-form-section-header vcv-ui-wordpress-setting-header'>
-          <span className='vcv-ui-edit-form-section-header-title'>{featuredImage}</span>
-        </div>
-        <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>
-            {featuredImage}
-          </span>
-          <AttachImage
-            key='attachImage'
-            fieldKey='featuredImage'
-            updater={this.valueChangeHandler} // required for attributes
-            options={{
-              dynamicField: false,
-              url: false,
-              multiple: false,
-              imageFilter: false
-            }} // required for attributes
-            value={this.state.data} // required for attributes
-          />
-        </div>
-      </>
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          {featuredImage}
+        </span>
+        <AttachImage
+          key='attachImage'
+          fieldKey='featuredImage'
+          updater={this.valueChangeHandler} // required for attributes
+          options={{
+            dynamicField: false,
+            url: false,
+            multiple: false,
+            imageFilter: false
+          }} // required for attributes
+          value={this.state.data} // required for attributes
+        />
+      </div>
     )
   }
 }
