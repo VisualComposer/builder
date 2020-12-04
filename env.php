@@ -5,13 +5,6 @@ if (defined('VCV_AUTHOR_API_KEY')) {
     $source = 'theme-author-vcwb';
 }
 
-if (!VcvEnv::has('VCV_ENV_ADDONS_ID')) {
-    VcvEnv::set(
-        'VCV_ENV_ADDONS_ID',
-        isset($_SERVER['ENV_VCV_ENV_ADDONS_ID']) ? $_SERVER['ENV_VCV_ENV_ADDONS_ID'] : 'account'
-    );
-}
-
 if (!VcvEnv::has('VCV_ENV_HUB_DOWNLOAD')) {
     VcvEnv::set('VCV_ENV_HUB_DOWNLOAD', true);
 }
@@ -23,46 +16,46 @@ if (!VcvEnv::has('VCV_ENV_EXTENSION_DOWNLOAD')) {
 if (!VcvEnv::has('VCV_HUB_URL')) {
     VcvEnv::set(
         'VCV_HUB_URL',
-        defined('VCV_HUB_URL') ? constant('VCV_HUB_URL') : 'https://gateway.my.visualcomposer.com'
+        'https://gateway.my.visualcomposer.com'
     );
 }
 
 if (!VcvEnv::has('VCV_HUB_PUBLIC_URL')) {
     VcvEnv::set(
         'VCV_HUB_PUBLIC_URL',
-        defined('VCV_HUB_PUBLIC_URL') ? constant('VCV_HUB_PUBLIC_URL') : 'https://my.visualcomposer.com'
+        'https://my.visualcomposer.com'
     );
 }
 
 if (!VcvEnv::has('VCV_HUB_LICENSES_URL')) {
     VcvEnv::set(
         'VCV_HUB_LICENSES_URL',
-        defined('VCV_HUB_LICENSES_URL') ? constant('VCV_HUB_LICENSES_URL') : 'https://my.visualcomposer.com/licenses/?utm_source=' . $source . '&utm_medium=license-vc-dashboard&utm_campaign=upgrade&utm_content=text'
+        'https://my.visualcomposer.com/licenses/?utm_source=' . $source . '&utm_medium=license-vc-dashboard&utm_campaign=upgrade&utm_content=text'
     );
 }
 
 if (!VcvEnv::has('VCV_TOKEN_URL')) {
     VcvEnv::set(
         'VCV_TOKEN_URL',
-        defined('VCV_TOKEN_URL') ? constant('VCV_TOKEN_URL') : 'https://gateway.my.visualcomposer.com/authorization-token'
+        'https://gateway.my.visualcomposer.com/authorization-token'
     );
 }
 
 if (!VcvEnv::has('VCV_THEME_TOKEN_URL')) {
     VcvEnv::set(
         'VCV_THEME_TOKEN_URL',
-        defined('VCV_THEME_TOKEN_URL') ? constant('VCV_THEME_TOKEN_URL') : 'https://gateway.my.visualcomposer.com/theme-authorization-token'
+        'https://gateway.my.visualcomposer.com/theme-authorization-token'
     );
 }
 
 if (!VcvEnv::has('VCV_API_URL')) {
-    VcvEnv::set('VCV_API_URL', defined('VCV_API_URL') ? constant('VCV_API_URL') : 'https://api.visualcomposer.com');
+    VcvEnv::set('VCV_API_URL', 'https://api.visualcomposer.com');
 }
 
 if (!VcvEnv::has('VCV_ACTIVATE_LICENSE_URL')) {
     VcvEnv::set(
         'VCV_ACTIVATE_LICENSE_URL',
-        defined('VCV_ACTIVATE_LICENSE_URL') ? constant('VCV_ACTIVATE_LICENSE_URL') : 'https://gateway.my.visualcomposer.com/?edd_action=activate_license&item_name=Visual%20Composer'
+        'https://gateway.my.visualcomposer.com/?edd_action=activate_license&item_name=Visual%20Composer'
     );
 }
 
@@ -155,7 +148,7 @@ if (!VcvEnv::has('VCV_ACCOUNT_URL')) {
 if (!VcvEnv::has('VCV_SUPPORT_URL')) {
     VcvEnv::set(
         'VCV_SUPPORT_URL',
-        defined('VCV_SUPPORT_URL') ? constant('VCV_SUPPORT_URL') : 'https://my.visualcomposer.com/support/?utm_source=' . $source . '&utm_medium=error-screen&utm_campaign=support&utm_content=button'
+        'https://my.visualcomposer.com/support/?utm_source=' . $source . '&utm_medium=error-screen&utm_campaign=support&utm_content=button'
     );
 }
 
