@@ -8,8 +8,8 @@ const dataManager = {
     }
     return null
   },
-  set: (dataKey, callback) => {
-    data[dataKey] = callback
+  set: (dataKey, value) => {
+    data[dataKey] = () => { return value }
   },
   reset () {
     data = {
@@ -26,7 +26,7 @@ const dataManager = {
       elementsGlobalsUrl: () => { return window.vcvElementsGlobalsUrl },
       activationType: () => { return window.vcvActivationType },
       activationFinishedUrl: () => { return window.vcvActivationFinishedUrl },
-      hubGetAddonTeaser: () => { return  window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {} },
+      hubGetAddonTeaser: () => { return window.VCV_HUB_GET_ADDON_TEASER ? window.VCV_HUB_GET_ADDON_TEASER() : {} },
       hubGetAddons: () => { return window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {} },
       addonElementPresets: () => { return window.VCV_ADDON_ELEMENT_PRESETS ? window.VCV_ADDON_ELEMENT_PRESETS() : [] },
       hubGetGroups: () => { return window.VCV_HUB_GET_GROUPS ? window.VCV_HUB_GET_GROUPS() : {} },
