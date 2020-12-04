@@ -22,10 +22,6 @@ class ExcerptController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('FT_EXCERPT_SETTINGS')) {
-            return;
-        }
-
         $this->addFilter(
             'vcv:dataAjax:setData',
             'setData'
