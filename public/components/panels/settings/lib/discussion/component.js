@@ -71,13 +71,8 @@ export default class Discussion extends React.Component {
   }
 
   render () {
-    const settingName = localizations ? localizations.discussion : 'Discussion'
-
     return (
       <>
-        <div className='vcv-ui-edit-form-section-header vcv-ui-wordpress-setting-header'>
-          <span className='vcv-ui-edit-form-section-header-title'>{settingName}</span>
-        </div>
         {this.getCommentToggle()}
         {this.getPingToggle()}
       </>

@@ -582,7 +582,7 @@ const API = {
         } else {
           globalOptions = window[options.global]
         }
-        if (globalOptions.length) {
+        if (globalOptions && globalOptions.length) {
           layoutAtts[fieldKey] = globalOptions[0].value
         }
       } else {
