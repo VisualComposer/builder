@@ -11,6 +11,26 @@ const DefaultSuggestionComponent = ({ item, query }) => (
 )
 
 class Suggestions extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      showAtTop: false
+    }
+    this.suggestionBox = React.createRef()
+  }
+
+  componentDidMount () {
+    if (this.suggestionBox && this.suggestionBox.current) {
+      const suggestionRect = this.suggestionBox.current.getBoundingClientRect()
+      const bodyRect = window.document.body.getBoundingClientRect()
+
+      if (suggestionRect.bottom > bodyRect.height) {
+        this.setState({ showAtTop: true })
+      }
+    }
+  }
+
   onMouseDown (item, e) {
     // focus is shifted on mouse down but calling preventDefault prevents this
     e.preventDefault()
@@ -18,10 +38,6 @@ class Suggestions extends React.Component {
   }
 
   render () {
-    if (!this.props.expanded || !this.props.options.length) {
-      return null
-    }
-
     const SuggestionComponent = this.props.suggestionComponent || DefaultSuggestionComponent
 
     const options = this.props.options.map((item, index) => {
@@ -52,8 +68,13 @@ class Suggestions extends React.Component {
       )
     })
 
+    let classes = this.props.classNames.suggestions
+    if (this.state.showAtTop) {
+      classes += ` ${this.props.classNames.suggestions}--top`
+    }
+
     return (
-      <div className={this.props.classNames.suggestions}>
+      <div className={classes} ref={this.suggestionBox}>
         <ul role='listbox' id={this.props.id}>{options}</ul>
       </div>
     )

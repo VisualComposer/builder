@@ -251,6 +251,21 @@ class ReactTags extends React.Component {
 
     this.state.focused && classNames.push(this.props.classNames.rootFocused)
 
+    let suggestionComponent = null
+    if (expanded && this.state.options.length) {
+      suggestionComponent = (
+        <Suggestions
+          {...this.state}
+          id={this.props.id}
+          ref={this.suggestions}
+          classNames={this.props.classNames}
+          addTag={this.addTag.bind(this)}
+          disableMarkIt={this.props.disableMarkIt}
+          suggestionComponent={this.props.suggestionComponent}
+        />
+      )
+    }
+
     return (
       <div ref={this.container} className={classNames.join(' ')} onClick={this.onClick.bind(this)}>
         <div
@@ -281,16 +296,7 @@ class ReactTags extends React.Component {
             placeholderText={this.props.placeholderText}
             ariaLabelText={this.props.ariaLabelText}
           />
-          <Suggestions
-            {...this.state}
-            id={this.props.id}
-            ref={this.suggestions}
-            classNames={this.props.classNames}
-            expanded={expanded}
-            addTag={this.addTag.bind(this)}
-            disableMarkIt={this.props.disableMarkIt}
-            suggestionComponent={this.props.suggestionComponent}
-          />
+          {suggestionComponent}
         </div>
       </div>
     )
