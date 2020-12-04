@@ -5,6 +5,7 @@ import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const removeText = localizations ? localizations.remove : 'Remove'
+const addNewText = localizations ? localizations.addNew : 'Add new'
 
 function suggestionsFilter () {
   return true
@@ -42,6 +43,8 @@ export default class ReactTagContainer extends React.Component {
         onInput={this.props.handleInputChange}
         suggestionsFilter={suggestionsFilter}
         removeButtonText={removeText}
+        newTagPrefix={`${addNewText}: `}
+        isSuggestionsLoading={this.props.isSuggestionsLoading}
       />
     )
   }
