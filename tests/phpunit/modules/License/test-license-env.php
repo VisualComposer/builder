@@ -7,11 +7,6 @@ class LicenseEnvTest extends WP_UnitTestCase
         $this->assertTrue(vcvenv('VCV_ENV_HUB_DOWNLOAD'));
     }
 
-    public function testAccountId()
-    {
-        $this->assertEquals('account', vcvenv('VCV_ENV_ADDONS_ID'));
-    }
-
     public function testHubUrl()
     {
         $this->assertEquals('https://gateway.my.visualcomposer.com', vcvenv('VCV_HUB_URL'));
