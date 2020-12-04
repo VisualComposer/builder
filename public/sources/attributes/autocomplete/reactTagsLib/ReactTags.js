@@ -6,6 +6,7 @@ import Suggestions from './Suggestions'
 import { matchExact, matchPartial } from './concerns/matchers'
 
 const KEYS = {
+  COMMA: ',',
   ENTER: 'Enter',
   TAB: 'Tab',
   BACKSPACE: 'Backspace',
@@ -143,7 +144,12 @@ class ReactTags extends React.Component {
       this.props.delimiters.indexOf(query.slice(-1)) > -1
     ) {
       pressDelimiter.call(this)
-    } else if (query !== this.state.query) {
+    } else if (
+      query.length === this.state.query.length + 1 &&
+      this.props.newTagDelimiters.indexOf(query.slice(-1)) > -1
+    ) {
+      this.addTag({ name: query.slice(0, -1) })
+    } if (query !== this.state.query) {
       this.setState({ query })
     }
   }
@@ -229,7 +235,9 @@ class ReactTags extends React.Component {
 
     this.props.onAddition(tag)
 
-    this.clearInput()
+    window.setTimeout(() => {
+      this.clearInput()
+    }, 1)
   }
 
   deleteTag (i) {
@@ -252,7 +260,7 @@ class ReactTags extends React.Component {
     this.state.focused && classNames.push(this.props.classNames.rootFocused)
 
     let suggestionComponent = null
-    if (expanded && this.state.options.length) {
+    if (expanded && this.state.options.length && !this.props.isSuggestionsLoading) {
       suggestionComponent = (
         <Suggestions
           {...this.state}
@@ -327,12 +335,13 @@ ReactTags.defaultProps = {
   autoresize: true,
   classNames: CLASS_NAMES,
   delimiters: [KEYS.ENTER],
+  newTagDelimiters: [KEYS.COMMA],
   minQueryLength: 2,
   maxSuggestionsLength: 20,
-  allowNew: false,
-  newTagPrefix: null,
+  allowNew: true,
+  newTagPrefix: 'Add new: ',
   allowBackspace: true,
-  addOnBlur: false,
+  addOnBlur: true,
   tagComponent: null,
   suggestionComponent: null,
   inputAttributes: {},
@@ -351,6 +360,7 @@ ReactTags.propTypes = {
   suggestionsTransform: PropTypes.func,
   autoresize: PropTypes.bool,
   delimiters: PropTypes.arrayOf(PropTypes.string),
+  newTagDelimiters: PropTypes.arrayOf(PropTypes.string),
   onDelete: PropTypes.func.isRequired,
   onAddition: PropTypes.func.isRequired,
   onInput: PropTypes.func,
