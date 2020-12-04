@@ -1421,6 +1421,31 @@ class Localizations extends Container implements Helper
                 'Categories',
                 'visualcomposer'
             ),
+            'category' => __(
+                'Category',
+                'visualcomposer'
+            ),
+            'parentCategory' => __(
+                'Parent Category',
+                'visualcomposer'
+            ),
+            'addNewCategory' => __(
+                'Add New Category',
+                'visualcomposer'
+            ),
+            'selectCategoriesForPostOr' => __(
+                'Select categories for the post or ',
+                'visualcomposer'
+            ),
+            'addANewCategory' => __(
+                'add a new category',
+                'visualcomposer'
+            ),
+            'selectParentCategory' => __(
+                'Select Parent Category',
+                'visualcomposer'
+            ),
+
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

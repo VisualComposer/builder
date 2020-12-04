@@ -8,6 +8,12 @@ const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const localizations = dataManager.get('localizations')
 const categoriesTitle = localizations ? localizations.categories : 'Categories'
+const categoryTitle = localizations ? localizations.category : 'Category'
+const parentCategoryTitle = localizations ? localizations.parentCategory : 'Parent Category'
+const addNewCategory = localizations ? localizations.addNewCategory : 'Add New Category'
+const selectCategoriesForPostOr = localizations ? localizations.selectCategoriesForPostOr : 'Select categories for the post or '
+const addANewCategory = localizations ? localizations.addANewCategory : 'add a new category'
+const selectParentCategory = localizations ? localizations.selectParentCategory : 'Select Parent Category'
 
 export default class Categories extends React.Component {
   constructor (props) {
@@ -120,14 +126,14 @@ export default class Categories extends React.Component {
 
     let newCategory = null
     if (this.state.isNewCategoryVisible) {
-      if (!this.state.parentCategoryOptions.find(option => option.label === 'Select Parent Category')) {
-        this.state.parentCategoryOptions.unshift({ label: 'Select Parent Category', value: '' })
+      if (!this.state.parentCategoryOptions.find(option => option.label === selectParentCategory)) {
+        this.state.parentCategoryOptions.unshift({ label: selectParentCategory, value: '' })
       }
       newCategory = (
         <div className='vcv-ui-form-group-container'>
           <div className='vcv-ui-form-group'>
           <span className='vcv-ui-form-group-heading'>
-            Category
+            {categoryTitle}
           </span>
             <StringAttribute
               api={this.props.api}
@@ -138,7 +144,7 @@ export default class Categories extends React.Component {
           </div>
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
-              Parent Category
+              {parentCategoryTitle}
               {spinnerHtml}
             </span>
             <Dropdown
@@ -155,7 +161,7 @@ export default class Categories extends React.Component {
             />
           </div>
           <div className='vcv-ui-form-group'>
-            <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.handleAddCategory}>Add New Category</button>
+            <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.handleAddCategory}>{addNewCategory}</button>
           </div>
         </div>
       )
@@ -178,11 +184,10 @@ export default class Categories extends React.Component {
               reloadAction: 'categories',
               global: 'VCV_CATEGORIES'
             }}
-            // setLoadingState={this.changeLoadingState}
             updater={this.checkboxChangeHandler}
             value={this.state.value}
           />
-          <p className='vcv-ui-form-helper'>Select categories for the post or <a className='vcv-ui-form-link' href='#' onClick={this.handleExpand}>add a new category</a>.</p>
+          <p className='vcv-ui-form-helper'>{selectCategoriesForPostOr}<a className='vcv-ui-form-link' href='#' onClick={this.handleExpand}>{addANewCategory}</a>.</p>
         </div>
         {newCategory}
       </>
