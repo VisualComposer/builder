@@ -32,6 +32,11 @@ class Elements implements Helper
         return false;
     }
 
+    public function getDefaultElements()
+    {
+        return $this->defaultElements;
+    }
+
     public function getElements($raw = false, $outputElementRealPath = true)
     {
         $optionHelper = vchelper('Options');
@@ -45,66 +50,78 @@ class Elements implements Helper
          * Then Database elements
          * Last one is 3rd party elements
          */
-        $elements = array_merge($this->thirdPartyElements, $dbElements, $this->defaultElements);
+        $elements = $dbElements;
+        if (!$raw) {
+            $elements = array_merge($this->thirdPartyElements, $dbElements, $this->defaultElements);
+        }
         $usageCount = $optionHelper->get('usageCount', []);
         $outputElements = [];
         foreach ($elements as $tag => $element) {
-            $data = $element;
-            if ($raw) {
-                $elementRealPath = str_replace('[thirdPartyFullPath]', '', $element['elementRealPath']);
-            } else {
-                $elementRealPath = $this->getElementPath(
-                    $element['elementRealPath']
-                );
-            }
-            $data = array_merge(
-                $data,
-                [
-                    'bundlePath' => $raw ? $element['bundlePath'] : $this->getElementUrl($element['bundlePath']),
-                    'elementPath' => $raw ? $element['elementPath'] : $this->getElementUrl($element['elementPath']),
-                    'elementRealPath' => $elementRealPath,
-                    'assetsPath' => $raw ? $element['assetsPath'] : $this->getElementUrl($element['assetsPath']),
-                ]
-            );
-
-            if (!$outputElementRealPath) {
-                unset($data['elementRealPath']);
-                unset($data['phpFiles']);
-            }
-
-            $metaData = [];
-            if (isset($element['settings']['metaThumbnailUrl'])) {
-                if ($raw) {
-                    $metaData['metaThumbnailUrl'] = $element['settings']['metaThumbnailUrl'];
-                } else {
-                    $metaData['metaThumbnailUrl'] = $this->getElementUrl(
-                        $element['settings']['metaThumbnailUrl']
-                    );
-                }
-            }
-            if (isset($element['settings']['metaPreviewUrl'])) {
-                if ($raw) {
-                    $metaData['metaPreviewUrl'] = $element['settings']['metaPreviewUrl'];
-                } else {
-                    $metaData['metaPreviewUrl'] = $this->getElementUrl(
-                        $element['settings']['metaPreviewUrl']
-                    );
-                }
-            }
-
-            if (!empty($metaData)) {
-                $data['settings'] = array_merge(
-                    $data['settings'],
-                    $metaData
-                );
-            }
-
-            $data['usageCount'] = isset($usageCount[$tag]) ? $usageCount[$tag] : 0;
+            $data = $this->loopElement($tag, $element, $usageCount, $raw, $outputElementRealPath);
 
             $outputElements[ $tag ] = $data;
         }
 
         return $outputElements;
+    }
+
+    protected function loopElement($tag, $data, $usageCount, $raw, $outputElementRealPath)
+    {
+        if (array_key_exists($tag, $this->defaultElements)) {
+            $data['metaIsDefaultElement'] = true;
+        }
+        if ($raw) {
+            $elementRealPath = str_replace('[thirdPartyFullPath]', '', $data['elementRealPath']);
+        } else {
+            $elementRealPath = $this->getElementPath(
+                $data['elementRealPath']
+            );
+        }
+        $data = array_merge(
+            $data,
+            [
+                'bundlePath' => $raw ? $data['bundlePath'] : $this->getElementUrl($data['bundlePath']),
+                'elementPath' => $raw ? $data['elementPath'] : $this->getElementUrl($data['elementPath']),
+                'elementRealPath' => $elementRealPath,
+                'assetsPath' => $raw ? $data['assetsPath'] : $this->getElementUrl($data['assetsPath']),
+            ]
+        );
+
+        if (!$outputElementRealPath) {
+            unset($data['elementRealPath']);
+            unset($data['phpFiles']);
+        }
+
+        $metaData = [];
+        if (isset($element['settings']['metaThumbnailUrl'])) {
+            if ($raw) {
+                $metaData['metaThumbnailUrl'] = $element['settings']['metaThumbnailUrl'];
+            } else {
+                $metaData['metaThumbnailUrl'] = $this->getElementUrl(
+                    $element['settings']['metaThumbnailUrl']
+                );
+            }
+        }
+        if (isset($element['settings']['metaPreviewUrl'])) {
+            if ($raw) {
+                $metaData['metaPreviewUrl'] = $element['settings']['metaPreviewUrl'];
+            } else {
+                $metaData['metaPreviewUrl'] = $this->getElementUrl(
+                    $element['settings']['metaPreviewUrl']
+                );
+            }
+        }
+
+        if (!empty($metaData)) {
+            $data['settings'] = array_merge(
+                $data['settings'],
+                $metaData
+            );
+        }
+
+        $data['usageCount'] = isset($usageCount[ $tag ]) ? $usageCount[ $tag ] : 0;
+
+        return $data;
     }
 
     public function setElements($elements = [])
@@ -142,6 +159,7 @@ class Elements implements Helper
         // $this->getElementPath($key . '/' . $key . '/');
         $merged['elementRealPath'] = $key . '/' . $key . '/';
         $merged['assetsPath'] = $merged['elementPath'] . 'public/';
+        unset($merged['metaIsElementRemoved']);
         if (isset($merged['settings'])) {
             if (isset($merged['settings']['metaThumbnailUrl'])) {
                 $merged['settings']['metaThumbnailUrl'] = str_replace(

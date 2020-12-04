@@ -75,7 +75,8 @@ addStorage('hubElements', (storage) => {
       'vcv-bundle': bundle,
       'vcv-nonce': dataManager.get('nonce')
     }
-    if (storage.state('elements').get()[tag]) {
+    const elements = storage.state('elements').get()
+    if (elements[tag] && !elements[tag].metaIsElementRemoved) {
       // already exists -> skip
       return
     }
@@ -243,6 +244,13 @@ addStorage('hubElements', (storage) => {
   storage.on('removePreset', (id) => {
     const elementPresetsState = storage.state('elementPresets').get() || []
     storage.state('elementPresets').set(elementPresetsState.filter(item => item.id !== id))
+  })
+  storage.on('removeElement', (tag) => {
+    const elements = storage.state('elements').get() || {}
+    if (Object.prototype.hasOwnProperty.call(elements, tag)) {
+      elements[tag].metaIsElementRemoved = true
+      storage.state('elements').set(elements)
+    }
   })
 
   storage.registerAction('getPresetsByCategory', (categoryKey) => {
