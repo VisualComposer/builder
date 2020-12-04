@@ -13,18 +13,23 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Hub\Elements;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class Controller extends Container implements Module
 {
     use EventsFilters;
-    use WpFiltersActions;
 
     public function __construct()
     {
+        /** @see \VisualComposer\Modules\Editors\Elements\Controller::softDelete */
         $this->addFilter('vcv:ajax:editors:elements:delete:adminNonce', 'softDelete');
     }
 
+    /**
+     * @param \VisualComposer\Helpers\Request $requestHelper
+     * @param \VisualComposer\Helpers\Hub\Elements $elementsHelper
+     *
+     * @return array|bool[]
+     */
     protected function softDelete(Request $requestHelper, Elements $elementsHelper)
     {
         $elementToRemove = esc_sql($requestHelper->input('vcv-element-tag'));
@@ -33,7 +38,7 @@ class Controller extends Container implements Module
             return ['status' => false, 'message' => __('The default element cannot be removed', 'visualcomposer')];
         }
 
-        if ($this->isElementUsed($elementToRemove)) {
+        if ($elementsHelper->isElementUsed($elementToRemove)) {
             return [
                 'status' => false,
                 'message' => __(
@@ -53,31 +58,5 @@ class Controller extends Container implements Module
         }
 
         return ['status' => true];
-    }
-
-    /**
-     * @param $elementToRemove
-     *
-     * @return bool
-     */
-    protected function isElementUsed($elementToRemove)
-    {
-        // Find
-        // 1. check is element used
-        /** @see \VisualComposer\Modules\Hub\Actions\PostUpdateAction::getUpdateablePosts */
-        $vcvPosts = new \WP_Query(
-            [
-                'post_type' => get_post_types(['public' => true], 'names'),
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft'],
-                'posts_per_page' => 1, // we just need one page
-                'meta_key' => VCV_PREFIX . 'pageContent',
-                'meta_value' => rawurlencode('"tag":"' . $elementToRemove . '"'),
-                'meta_compare' => 'LIKE',
-                'suppress_filters' => true,
-            ]
-        );
-
-        // @codingStandardsIgnoreLine
-        return $vcvPosts->found_posts > 0;
     }
 }

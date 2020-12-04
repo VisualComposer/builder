@@ -243,4 +243,30 @@ class Elements implements Helper
 
         return $assetsHelper->getAssetUrl('/elements/' . ltrim($path, '\\/'));
     }
+
+    /**
+     * @param $elementTag
+     *
+     * @return bool
+     */
+    public function isElementUsed($elementTag)
+    {
+        // Find
+        // 1. check is element used
+        /** @see \VisualComposer\Modules\Hub\Actions\PostUpdateAction::getUpdateablePosts */
+        $vcvPosts = new \WP_Query(
+            [
+                'post_type' => get_post_types(['public' => true], 'names'),
+                'post_status' => ['publish', 'pending', 'draft', 'auto-draft'],
+                'posts_per_page' => 1, // we just need one page
+                'meta_key' => VCV_PREFIX . 'pageContent',
+                'meta_value' => rawurlencode('"tag":"' . $elementTag . '"'),
+                'meta_compare' => 'LIKE',
+                'suppress_filters' => true,
+            ]
+        );
+
+        // @codingStandardsIgnoreLine
+        return $vcvPosts->found_posts > 0;
+    }
 }
