@@ -45,7 +45,7 @@ class FeaturedImageController extends Container implements Module
         PostType $postTypeHelper
     ) {
         $currentPost = $postTypeHelper->get();
-        if (isset($currentPost)) {
+        if ($currentPost) {
             $featuredImageId = get_post_thumbnail_id($currentPost->ID);
 
             // Is featured image exist
