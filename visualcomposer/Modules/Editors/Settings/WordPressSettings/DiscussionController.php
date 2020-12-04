@@ -22,10 +22,6 @@ class DiscussionController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('FT_DISCUSSION_SETTINGS')) {
-            return;
-        }
-
         $this->addFilter(
             'vcv:dataAjax:setData',
             'setData'

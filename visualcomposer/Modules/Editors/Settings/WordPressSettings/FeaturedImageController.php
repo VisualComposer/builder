@@ -22,10 +22,6 @@ class FeaturedImageController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_FEATURED_IMAGE_SETTINGS')) {
-            return;
-        }
-
         $this->addFilter(
             'vcv:dataAjax:setData',
             'setData'
