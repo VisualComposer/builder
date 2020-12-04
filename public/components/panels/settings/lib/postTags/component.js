@@ -2,7 +2,6 @@ import React from 'react'
 import { getStorage, getService } from 'vc-cake'
 import AutoComplete from 'public/sources/attributes/autocomplete/Component'
 import { getResponse } from 'public/tools/response'
-import Tooltip from 'public/components/tooltip/tooltip'
 
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
@@ -98,31 +97,24 @@ export default class Tags extends React.Component {
 
     const localizations = dataManager.get('localizations')
     const tagsText = localizations ? localizations.tags : 'Tags'
-    const tagsDescription = localizations ? localizations.manageTagsAssociatedWithThePost : 'Manage tags associated with the post.'
     const isNewAutocomplete = true
     return (
-      <>
-        <div className='vcv-ui-edit-form-section-header vcv-ui-wordpress-setting-header'>
-          <span className='vcv-ui-edit-form-section-header-title'>{tagsText}</span>
-          <Tooltip>{tagsDescription}</Tooltip>
-        </div>
-        <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>
-            {tagsText}
-            {spinnerHtml}
-          </span>
-          <AutoComplete
-            api={this.props.api}
-            fieldKey='tags'
-            updater={this.valueChangeHandler}
-            value={this.state.value}
-            suggestions={this.state.suggestions}
-            options={{}}
-            isNewAutocomplete={isNewAutocomplete}
-            handleInputChange={this.onInputChange}
-          />
-        </div>
-      </>
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          {tagsText}
+          {spinnerHtml}
+        </span>
+        <AutoComplete
+          api={this.props.api}
+          fieldKey='tags'
+          updater={this.valueChangeHandler}
+          value={this.state.value}
+          suggestions={this.state.suggestions}
+          options={{}}
+          isNewAutocomplete={isNewAutocomplete}
+          handleInputChange={this.onInputChange}
+        />
+      </div>
     )
   }
 }

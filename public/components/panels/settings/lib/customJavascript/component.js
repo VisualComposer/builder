@@ -108,18 +108,20 @@ export default class CustomJavascript extends React.Component {
     const insertCustomJSCodeSnippets = CustomJavascript.localizations ? CustomJavascript.localizations.insertCustomJSCodeSnippets : 'Add custom JavaScript code to insert it locally or globally on every page in header or footer. Insert Google Analytics, Tag Manager, Kissmetrics, or other JavaScript code snippets.'
 
     return (
-      <div className='vcv-ui-custom-scripts vcv-ui-custom-scripts-areas'>
-        <div className='vcv-ui-script-control-container'>
-          <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
-            {this.getButtons()}
+      <div className='vcv-ui-tree-content-section-inner'>
+        <div className='vcv-ui-custom-scripts vcv-ui-custom-scripts-areas'>
+          <div className='vcv-ui-script-control-container'>
+            <div className='vcv-ui-form-buttons-group vcv-ui-form-button-group--large'>
+              {this.getButtons()}
+            </div>
+            <Tooltip>
+              {insertCustomJSCodeSnippets}
+            </Tooltip>
           </div>
-          <Tooltip>
-            {insertCustomJSCodeSnippets}
-          </Tooltip>
-        </div>
-        <div className='vcv-ui-script-editor-container'>
-          {this.getEditor('Head')}
-          {this.getEditor('Footer')}
+          <div className='vcv-ui-script-editor-container'>
+            {this.getEditor('Head')}
+            {this.getEditor('Footer')}
+          </div>
         </div>
       </div>
     )
