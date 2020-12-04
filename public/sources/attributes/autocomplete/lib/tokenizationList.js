@@ -13,7 +13,8 @@ import Tooltip from '../../../../components/tooltip/tooltip'
 export default class TokenizationList extends React.Component {
   static propTypes = {
     validator: PropTypes.func.isRequired,
-    validation: PropTypes.bool
+    validation: PropTypes.bool,
+    elementAccessPoint: PropTypes.object.isRequired
   }
 
   stayEditing = false

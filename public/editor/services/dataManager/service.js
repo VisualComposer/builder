@@ -78,7 +78,8 @@ const dataManager = {
       manageMenuUrl: () => { return window.vcvManageMenuUrl },
       featuredImage: () => { return window.VCV_FEATURED_IMAGE && window.VCV_FEATURED_IMAGE() },
       postData: () => { return window.vcvPostData || {} },
-      hubTeaserShowBadge: () => { return window.vcvHubTeaserShowBadge }
+      hubTeaserShowBadge: () => { return window.vcvHubTeaserShowBadge },
+      tags: () => { return window.VCV_TAGS }
     }
   }
 }
