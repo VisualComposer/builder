@@ -114,7 +114,7 @@ export default class Checkbox extends Attribute {
 
     let content = optionElements
     const styleProps = {}
-    if (this.state.heightLimit) {
+    if (this.props.options.listView && this.state.heightLimit) {
       styleProps.height = `${this.state.heightLimit}px`
       content = (
         <Scrollbar>{optionElements}</Scrollbar>

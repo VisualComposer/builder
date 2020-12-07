@@ -587,13 +587,23 @@ class Localizations extends Container implements Helper
             ),
             'editThemeTemplate' => sprintf(
                 __(
-                    '%sEdit%s this %s.%s',
+                    '%sEdit%s this %s or %screate%s a new one.',
                     'visualcomposer'
                 ),
-                '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
                 '</a>',
-                '{editLinkTitle}',
-                '</div>'
+                '{linkTitle}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'createThemeTemplate' => sprintf(
+                __(
+                    '%sCreate%s a new %s.',
+                    'visualcomposer'
+                ),
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{linkTitle}'
             ),
             'enterYourLicenseKey' => __(
                 'Enter your license key',
@@ -1417,6 +1427,22 @@ class Localizations extends Container implements Helper
                 'Featured image is removed. Save page and reload editor to see changes.',
                 'visualcomposer'
             ),
+            'tags' => __(
+                'Tags',
+                'visualcomposer'
+            ),
+            'manageTagsAssociatedWithThePost' => __(
+                'Manage tags associated with the post.',
+                'visualcomposer'
+            ),
+            'general' => __(
+                'General',
+                'visualcomposer'
+            ),
+            'addNew' => __(
+                'Add new',
+                'visualcomposer'
+            ),
             'categories' => __(
                 'Categories',
                 'visualcomposer'
@@ -1445,7 +1471,6 @@ class Localizations extends Container implements Helper
                 'Select Parent Category',
                 'visualcomposer'
             ),
-
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

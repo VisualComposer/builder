@@ -96,9 +96,7 @@ export default class SettingsPanel extends React.Component {
         <PanelNavigation controls={controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
-            <div className='vcv-ui-tree-content-section-inner'>
-              {controls[this.state.activeSection].content}
-            </div>
+            {controls[this.state.activeSection].content}
           </Scrollbar>
         </div>
       </div>

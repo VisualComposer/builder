@@ -58,29 +58,24 @@ export default class Author extends React.Component {
     }
 
     return (
-      <>
-        <div className='vcv-ui-edit-form-section-header vcv-ui-wordpress-setting-header'>
-          <span className='vcv-ui-edit-form-section-header-title'>{authorTitle}</span>
-        </div>
-        <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>
-            {authorTitle}
-            {spinnerHtml}
-          </span>
-          <Dropdown
-            api={this.props.api}
-            fieldKey='author'
-            options={{
-              values: data.all,
-              reloadAction: 'author',
-              global: 'VCV_AUTHOR_LIST'
-            }}
-            setLoadingState={this.changeLoadingState}
-            updater={this.valueChangeHandler}
-            value={selectedValue}
-          />
-        </div>
-      </>
+      <div className='vcv-ui-form-group'>
+        <span className='vcv-ui-form-group-heading'>
+          {authorTitle}
+          {spinnerHtml}
+        </span>
+        <Dropdown
+          api={this.props.api}
+          fieldKey='author'
+          options={{
+            values: data.all,
+            reloadAction: 'author',
+            global: 'VCV_AUTHOR_LIST'
+          }}
+          setLoadingState={this.changeLoadingState}
+          updater={this.valueChangeHandler}
+          value={selectedValue}
+        />
+      </div>
     )
   }
 }

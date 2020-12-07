@@ -170,9 +170,6 @@ export default class Categories extends React.Component {
 
     return (
       <>
-        <div className='vcv-ui-edit-form-section-header vcv-ui-wordpress-setting-header'>
-          <span className='vcv-ui-edit-form-section-header-title'>{categoriesTitle}</span>
-        </div>
         <div className='vcv-ui-form-group vcv-ui-form-group--category'>
           <Checkbox
             api={this.props.api}
