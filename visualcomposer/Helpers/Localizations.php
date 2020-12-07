@@ -1439,6 +1439,12 @@ class Localizations extends Container implements Helper
                 'General',
                 'visualcomposer'
             ),
+            'removeElementWarning' => __('Do you want to delete this element?', 'visualcomposer'),
+            'removeElementInUseCurrentPageWarning' => __('The element is in use on current page. Remove all element copies from your site before deleting it.', 'visualcomposer'),
+            'elementRemovedText' => __(
+                'Element has been removed.',
+                'visualcomposer'
+            ),
             'addNew' => __(
                 'Add new',
                 'visualcomposer'

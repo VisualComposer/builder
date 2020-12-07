@@ -6,12 +6,15 @@ import Helper from '../../../dnd/helper'
 import DOMElement from '../../../dnd/domElement'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import { getResponse } from 'public/tools/response'
+
 const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsService = vcCake.getService('hubElements')
 const settingsStorage = vcCake.getStorage('settings')
 const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
+const documentService = vcCake.getService('document')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 
 export default class ElementControl extends React.Component {
@@ -53,6 +56,7 @@ export default class ElementControl extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
     this.handleRemovePreset = this.handleRemovePreset.bind(this)
+    this.handleRemoveElement = this.handleRemoveElement.bind(this)
     this.displayError = this.displayError.bind(this)
     this.displaySuccess = this.displaySuccess.bind(this)
   }
@@ -346,7 +350,10 @@ export default class ElementControl extends React.Component {
     e && e.preventDefault()
     if (e.target.dataset && e.target.dataset.action && e.target.dataset.action === 'deleteElementPreset') {
       this.endDragGlobal()
-      // TODO: Delete preset form storage?
+      return
+    }
+    if (e.target.dataset && e.target.dataset.action && e.target.dataset.action === 'deleteElement') {
+      this.endDragGlobal()
       return
     }
     const dragState = workspaceStorage.state('drag').get()
@@ -373,39 +380,86 @@ export default class ElementControl extends React.Component {
 
   handleRemovePreset () {
     const localizations = dataManager.get('localizations')
-    const removeTemplateWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to delete this template?'
+    const removePresetWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to delete this element preset?'
 
-    if (window.confirm(removeTemplateWarning)) {
+    if (window.confirm(removePresetWarning)) {
       const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from the server.'
       const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, check your license.'
       const presetRemovedText = localizations ? localizations.presetRemovedText : 'Element preset has been removed.'
       const presetId = this.props.elementPresetId
 
       this.setState({ showSpinner: true })
-      dataProcessor.appServerRequest({
+      dataProcessor.appAdminServerRequest({
         'vcv-action': 'addon:presets:delete:adminNonce',
         'vcv-preset-id': presetId,
         'vcv-nonce': dataManager.get('nonce')
       }).then((data) => {
-        try {
-          const jsonData = JSON.parse(data)
-          if (jsonData && jsonData.status) {
-            hubElementsStorage.trigger('removePreset', presetId)
-            this.displaySuccess(presetRemovedText)
-          } else {
-            let errorMessage = jsonData.response && jsonData.response.message ? jsonData.response.message : jsonData.message
-            errorMessage = errorMessage || noAccessCheckLicence
-            this.displayError(errorMessage)
-
-            if (vcCake.env('VCV_DEBUG')) {
-              console.warn(errorMessage, jsonData)
-            }
-          }
-        } catch (e) {
+        const jsonData = getResponse(data)
+        if (!jsonData) {
           this.displayError(couldNotParseData)
+          return
+        }
+        if (jsonData && jsonData.status) {
+          hubElementsStorage.trigger('removePreset', presetId)
+          this.displaySuccess(presetRemovedText)
+        } else {
+          let errorMessage
+          if (jsonData && jsonData.response && jsonData.response.message) {
+            errorMessage = jsonData.response.message
+          } else {
+            errorMessage = jsonData && jsonData.message ? jsonData.message : noAccessCheckLicence
+          }
+          this.displayError(errorMessage)
 
           if (vcCake.env('VCV_DEBUG')) {
-            console.warn(couldNotParseData, e)
+            console.warn(errorMessage, jsonData)
+          }
+        }
+      })
+    }
+  }
+
+  handleRemoveElement () {
+    const localizations = dataManager.get('localizations')
+    const removeElementWarning = localizations ? localizations.removeElementWarning : 'Do you want to delete this template?'
+    if (window.confirm(removeElementWarning)) {
+      const tag = this.props.element.tag
+      const removeElementInUseCurrentPageWarning = localizations ? localizations.removeElementInUseCurrentPageWarning : 'Could not parse data from the server.'
+
+      const elementUsages = Object.keys(documentService.getByTag(tag))
+      if (elementUsages.length > 0) {
+        this.displayError(removeElementInUseCurrentPageWarning)
+        return
+      }
+
+      const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from the server.'
+      const noAccessCheckLicence = localizations ? localizations.noAccessCheckLicence : 'No access, check your license.'
+      const elementRemovedText = localizations ? localizations.elementRemovedText : 'Element has been removed.'
+
+      this.setState({ showSpinner: true })
+      dataProcessor.appAdminServerRequest({
+        'vcv-action': 'editors:elements:delete:adminNonce',
+        'vcv-element-tag': tag
+      }).then((data) => {
+        const jsonData = getResponse(data)
+        if (!jsonData) {
+          this.displayError(couldNotParseData)
+          return
+        }
+        if (jsonData && jsonData.status) {
+          hubElementsStorage.trigger('removeElement', tag)
+          this.displaySuccess(elementRemovedText)
+        } else {
+          let errorMessage
+          if (jsonData && jsonData.response && jsonData.response.message) {
+            errorMessage = jsonData.response.message
+          } else {
+            errorMessage = jsonData && jsonData.message ? jsonData.message : noAccessCheckLicence
+          }
+          this.displayError(errorMessage)
+
+          if (vcCake.env('VCV_DEBUG')) {
+            console.warn(errorMessage, jsonData)
           }
         }
       })
@@ -483,6 +537,18 @@ export default class ElementControl extends React.Component {
           className={removeClasses}
           onClick={this.handleRemovePreset}
           data-action='deleteElementPreset'
+        />
+      )
+    } else if (!element.metaIsDefaultElement && !element.thirdParty) {
+      const removeClasses = classNames({
+        'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
+        'vcv-ui-state--hidden': this.state.showSpinner
+      })
+      removeControl = (
+        <span
+          className={removeClasses}
+          onClick={this.handleRemoveElement}
+          data-action='deleteElement'
         />
       )
     }
