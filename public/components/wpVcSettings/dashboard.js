@@ -13,12 +13,16 @@ export const dashboard = () => {
   let tabletMinHeight = ''
   let desktopMinHeight = ''
   let formTouched = false
+  const urlHash = new URL(document.URL).hash
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
   const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const menuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-link'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
+  const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
+  const dataCollectionTableHeight = dataCollectionTableWrapper.clientHeight
+  const dataCollectionTableButton = document.querySelector('#vcv-data-collection-table-button')
   const adminMenuBack = document.querySelector('#adminmenuback')
   const adminMenuWrap = document.querySelector('#adminmenuwrap')
   const dashboardStylesContainer = document.querySelector('#vcv-dashboard-styles')
@@ -161,8 +165,29 @@ export const dashboard = () => {
     }
   }
 
+  const handleDataCollectionTableToggle = () => {
+    if (!dataCollectionTableWrapper) {
+      return
+    }
+    const className = 'vcv-ui-settings-data-collection-table-wrapper-active'
+    let classString = dataCollectionTableWrapper.className
+    const nameIndex = classString.indexOf(className)
+    if (nameIndex === -1) {
+      classString += ' ' + className
+      dataCollectionTableWrapper.style.height = dataCollectionTableHeight + 'px'
+    } else {
+      classString = classString.substr(0, nameIndex) + classString.substr(nameIndex + className.length)
+      dataCollectionTableWrapper.style.height = 0
+    }
+    dataCollectionTableWrapper.className = classString
+  }
+
   setDashboardMinHeight()
 
+  if (urlHash.indexOf(dataCollectionTableWrapper.id) === -1) {
+    dataCollectionTableWrapper.style.height = 0
+  }
+  dataCollectionTableButton.addEventListener('click', handleDataCollectionTableToggle)
   menuLinks.forEach(link => link.addEventListener('click', handleMenuLinkClick))
   contentForms.forEach(form => {
     form.addEventListener('submit', handleContentFormSubmit)

@@ -38,6 +38,7 @@ class ItemDataCollectionController extends Container implements Module
             'buildPage',
             50
         );
+        $this->addFilter('vcv:editor:variables', 'addVariables');
     }
 
     protected function buildPage()
@@ -46,14 +47,14 @@ class ItemDataCollectionController extends Container implements Module
             echo sprintf(
                 '<p class="description">%s</p>',
                 esc_html__(
-                    'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                    'Help to make Visual Composer better by sharing anonymous usage data. We appreciate your help.',
                     'visualcomposer'
                 )
             );
         };
         $this->addSection(
             [
-                'title' => __('Help Us Make Visual Composer Better', 'visualcomposer'),
+                'title' => __('Share Usage Data', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
@@ -63,16 +64,57 @@ class ItemDataCollectionController extends Container implements Module
             /** @see \VisualComposer\Modules\Editors\Settings\itemDataCollectionEnabled::renderToggle */
             echo $this->call('renderToggle', ['value' => 'itemDataCollectionEnabled']);
         };
+        $innerTableCallback = function () {
+            echo $this->call('renderTable', ['value' => 'itemDataCollectionTable']);
+        };
 
         $this->addField(
             [
                 'page' => $this->slug,
-                'title' => __('Yes, I would like to help', 'visualcomposer'),
+                'title' => __('Share anonymous data', 'visualcomposer'),
                 'name' => 'settings-itemdatacollection-enabled',
                 'id' => $this->optionSlug,
                 'fieldCallback' => $fieldCallback,
+                'args' => [
+                    'class' => 'vcv-settings-itemdatacollection-table',
+                ],
             ]
         );
+
+        $this->addSection(
+            [
+                'page' => $this->slug,
+                'slug' => 'settings-itemdatacollection-table',
+                'vcv-args' => [
+                    'class' => 'vcv-settings-itemdatacollection-child',
+                    'parent' => 'vcv-settings-itemdatacollection-enabled',
+                ],
+            ]
+        );
+
+        $this->addField(
+            [
+                'page' => $this->slug,
+                'name' => 'settings-itemdatacollection-table',
+                'id' => 'vcv-settings-itemdatacollection-table',
+                'slug' => 'settings-itemdatacollection-table',
+                'fieldCallback' => $innerTableCallback,
+                'args' => [
+                    'vcv-no-label' => true,
+                ]
+            ]
+        );
+    }
+
+    protected function addVariables($variables, $payload)
+    {
+        $variables[] = [
+            'key' => 'vcvSettingsDashboardUrl',
+            'value' => set_url_scheme(admin_url('admin.php?page=vcv-settings')),
+            'type' => 'variable',
+        ];
+
+        return $variables;
     }
 
     /**
@@ -86,11 +128,27 @@ class ItemDataCollectionController extends Container implements Module
         $isEnabled = (bool)$optionsHelper->get('settings-itemdatacollection-enabled', false);
 
         return vcview(
-            'settings/fields/yesnotoggle',
+            'settings/fields/toggle',
             [
                 'name' => $this->optionSlug,
                 'value' => $value,
                 'isEnabled' => $isEnabled,
+            ]
+        );
+    }
+
+    /**
+     * @param $value
+     *
+     * @return mixed|string
+     */
+    protected function renderTable($value)
+    {
+        return vcview(
+            'settings/fields/dataCollectionTable',
+            [
+                'name' => $this->optionSlug,
+                'value' => $value,
             ]
         );
     }

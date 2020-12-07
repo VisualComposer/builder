@@ -292,7 +292,8 @@
   display: none;
 }
 
-.vcv-ui-settings-status-table {
+.vcv-ui-settings-status-table,
+.vcv-ui-settings-data-collection-table {
   background-color: #fff;
   border: none;
   border-radius: 5px;
@@ -469,6 +470,10 @@
     margin-left: 2px;
     color: transparent;
   }
+}
+
+.vcv-ui-settings-data-collection-table td:first-child {
+  max-width: 15%;
 }
 
 .vcv-css-js-editor th[scope=row] {
@@ -1147,12 +1152,21 @@ input.vcv-basic-input {
     margin: 0;
   }
 
-  .vcv-custom-page-templates-edit-link {
+  .vcv-custom-page-templates-edit-link,
+  .vcv-data-collection-table-toggle {
     margin-top: 10px;
     font-size: @vcv-dashboard-text-font-size;
     line-height: 24px;
     color: @vcv-dashboard-text-color;
     font-weight: 500;
+  }
+  .vcv-data-collection-table-toggle {
+    margin-top: 0;
+
+    a:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
 }
 
