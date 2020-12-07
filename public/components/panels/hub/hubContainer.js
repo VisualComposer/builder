@@ -276,14 +276,10 @@ export default class HubContainer extends React.Component {
 
   getSearchProps () {
     return {
-      allCategories: this.getAllCategories(),
-      index: this.state.activeCategoryIndex,
-      changeActive: this.changeActiveCategory,
       changeInput: this.changeInput,
       inputValue: this.state.inputValue || '',
       inputPlaceholder: 'elements and templates',
       autoFocus: this.props.visible,
-      disableSelect: true,
       selectEvent: (active) => {
         const activeId = active && active.constructor === String && active.split('-')[0]
         const result = this.state
@@ -297,7 +293,8 @@ export default class HubContainer extends React.Component {
   changeInput (value) {
     this.setState({
       inputValue: value,
-      searchResults: this.getSearchResults(value)
+      searchResults: this.getSearchResults(value),
+      bundleType: null
     })
   }
 
