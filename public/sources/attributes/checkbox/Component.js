@@ -60,7 +60,6 @@ export default class Checkbox extends Attribute {
     const { fieldKey } = this.props
     const currentValues = this.state.value
     const optionElements = []
-    const initialValues = this.getValues()
     for (const key in values) {
       const value = values[key].value
       const checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
@@ -90,6 +89,7 @@ export default class Checkbox extends Attribute {
       }
 
       if (this.props.options.listView && this.props.options.nesting) {
+        const initialValues = this.getValues()
         const children = initialValues.filter(value => value.parent === values[key].id)
         if (children.length && toRender) {
           const childCheckboxes = this.getCheckboxes(children, true)
