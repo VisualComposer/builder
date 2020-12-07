@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
 
 /** @var array $wpVersion */
 /** @var array $phpVersion */
+/** @var array $pluginFolder */
 /** @var array $wpDebug */
 /** @var string $vcVersion */
 /** @var string $refreshUrl */
@@ -141,6 +142,19 @@ if (!defined('ABSPATH')) {
             </tr>
             </thead>
             <tbody>
+            <tr>
+                <td><?php echo esc_html__('Plugin folder', 'visualcomposer') ?>:</td>
+                <td class="vcv-help">
+                    <span class="vcv-help-tooltip-icon"></span>
+                    <span class="vcv-help-tooltip">
+                        <?php echo esc_html__(
+                            'Plugin folder must be `visualcomposer` to ensure correct plugin work.',
+                            'visualcomposer'
+                        ); ?>
+                    </span>
+                </td>
+                <td class="<?php echo $pluginFolder['status'] ?>"><?php echo $pluginFolder['text']; ?></td>
+            </tr>
             <tr>
                 <td><?php echo esc_html__('Memory limit', 'visualcomposer') ?>:</td>
                 <td class="vcv-help">

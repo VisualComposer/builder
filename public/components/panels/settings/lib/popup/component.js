@@ -217,7 +217,7 @@ export default class Popup extends React.Component {
       )
     } else {
       popupSelect = (
-        <div>
+        <>
           <div className='vcv-ui-form-group'>
             <div className='vcv-ui-form-group-heading-wrapper'>
               <span className='vcv-ui-form-group-heading'>{onPageLoad}</span>
@@ -251,12 +251,12 @@ export default class Popup extends React.Component {
           {elementIdSelectorHtml}
           {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getDelayHtml('popupOnElementId') : null}
           {this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none' ? this.getShowEveryHtml('popupOnElementId') : null}
-        </div>
+        </>
       )
     }
 
     return (
-      <div>
+      <div className='vcv-ui-tree-content-section-inner'>
         {popupSelect}
       </div>
     )

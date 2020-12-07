@@ -23,25 +23,27 @@ export default class ElementsLock extends React.Component {
     const lockSpecificDescriptionText = localizations ? localizations.lockSpecificDescriptionText : 'You can lock/unlock specific elements under the element Edit window.'
 
     return (
-      <div className='vcv-ui-element-lock-container'>
-        <h2 className='vcv-ui-section-heading'>{elementsLock}</h2>
-        <p className='vcv-ui-section-description'>{lockAllDescriptionText}</p>
-        <p className='vcv-ui-section-description'>{lockSpecificDescriptionText}</p>
-        <div className='vcv-ui-lock-control-container'>
-          <button
-            className='vcv-ui-form-button vcv-ui-form-button--action'
-            data-action='lockAll'
-            onClick={this.handleClick}
-          >
-            {lockAllText}
-          </button>
-          <button
-            className='vcv-ui-form-button vcv-ui-form-button--default'
-            data-action='unlockAll'
-            onClick={this.handleClick}
-          >
-            {unlockAllText}
-          </button>
+      <div className='vcv-ui-tree-content-section-inner'>
+        <div className='vcv-ui-element-lock-container'>
+          <h2 className='vcv-ui-section-heading'>{elementsLock}</h2>
+          <p className='vcv-ui-section-description'>{lockAllDescriptionText}</p>
+          <p className='vcv-ui-section-description'>{lockSpecificDescriptionText}</p>
+          <div className='vcv-ui-lock-control-container'>
+            <button
+              className='vcv-ui-form-button vcv-ui-form-button--action'
+              data-action='lockAll'
+              onClick={this.handleClick}
+            >
+              {lockAllText}
+            </button>
+            <button
+              className='vcv-ui-form-button vcv-ui-form-button--default'
+              data-action='unlockAll'
+              onClick={this.handleClick}
+            >
+              {unlockAllText}
+            </button>
+          </div>
         </div>
       </div>
     )

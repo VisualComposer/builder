@@ -22,10 +22,6 @@ class ParentPageController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('FT_PARENT_PAGE_SETTINGS')) {
-            return;
-        }
-
         $this->addFilter(
             'vcv:ajax:dropdown:parentPage:updateList:adminNonce',
             'getPageListForUpdate',

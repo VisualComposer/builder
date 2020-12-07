@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -19,7 +18,6 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
  */
 class Controller extends Container implements Module
 {
-    use EventsFilters;
     use WpFiltersActions;
 
     /**

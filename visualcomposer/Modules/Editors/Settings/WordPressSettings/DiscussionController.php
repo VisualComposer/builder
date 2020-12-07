@@ -22,10 +22,6 @@ class DiscussionController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('FT_DISCUSSION_SETTINGS')) {
-            return;
-        }
-
         $this->addFilter(
             'vcv:dataAjax:setData',
             'setData'
@@ -55,7 +51,7 @@ class DiscussionController extends Container implements Module
         $currentPostType = $currentPost->post_type;
         $pingStatus = $currentPost->ping_status;
         $commentStatus = $currentPost->comment_status;
-        if (isset($currentPostType) && $currentUserAccessHelper->wpAll(
+        if ($currentPostType && $currentUserAccessHelper->wpAll(
                 [get_post_type_object($currentPost->post_type)->cap->publish_posts, $currentPost->ID]
             )->get()) {
             // @codingStandardsIgnoreEnd
