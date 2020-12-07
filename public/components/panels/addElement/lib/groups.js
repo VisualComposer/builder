@@ -44,6 +44,7 @@ export default class Groups extends React.Component {
     this.handleGroupToggle = this.handleGroupToggle.bind(this)
     hubElementsStorage.on('loaded', this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
+    hubElementsStorage.state('elements').onChange(this.reset)
   }
 
   componentWillUnmount () {
@@ -93,9 +94,13 @@ export default class Groups extends React.Component {
 
     if (!Groups.allElements.length || Groups.parentElementTag !== parent.tag) {
       const allElements = hubElementsService.getSortedElements()
+      const hubElements = hubElementsStorage.state('elements').get()
       Groups.allElements = allElements
 
       const elementPresets = hubElementsStorage.state('elementPresets').get().map((elementPreset) => {
+        if (!hubElements[elementPreset.presetData.tag] || hubElements[elementPreset.presetData.tag].metaIsElementRemoved) {
+          return false
+        }
         const cookElement = cook.get(elementPreset.presetData)
         const element = cookElement.toJS()
         element.usageCount = elementPreset.usageCount
@@ -109,8 +114,9 @@ export default class Groups extends React.Component {
           element.relatedTo = relatedTo.value
         }
         delete element.id
+
         return element
-      })
+      }).filter(i => i)
       Groups.allElements = elementPresets.concat(Groups.allElements)
 
       Groups.allElements = Groups.allElements.filter((elementData) => {

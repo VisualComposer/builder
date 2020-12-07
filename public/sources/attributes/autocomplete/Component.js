@@ -40,7 +40,7 @@ export default class AutoComplete extends Attribute {
   }
 
   render () {
-    const { value, fieldKey, elementAccessPoint, options, extraClass, description, suggestions, handleInputChange, isNewAutocomplete } = this.props
+    const { value, fieldKey, elementAccessPoint, options, extraClass, description, suggestions, handleInputChange, isNewAutocomplete, isSuggestionsLoading } = this.props
     const { validation, action, single, labelAction, returnValue, tokenLabel } = options
 
     if (!isNewAutocomplete) {
@@ -69,6 +69,7 @@ export default class AutoComplete extends Attribute {
           suggestions={suggestions}
           fieldKey={fieldKey}
           handleInputChange={handleInputChange}
+          isSuggestionsLoading={isSuggestionsLoading}
         />
       )
     }
