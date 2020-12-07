@@ -33,7 +33,7 @@ const API = {
       elementTags = Object.keys(hubElements)
     }
     elementTags.forEach(tag => {
-      if (hubElements[tag]) {
+      if (hubElements[tag] && !hubElements[tag].metaIsElementRemoved) {
         const cook = vcCake.getService('cook')
         const cookElement = cook.get({ tag: tag })
         const elementObject = cookElement.toJS(true, false)
@@ -41,6 +41,7 @@ const API = {
         elementObject.thirdParty = Object.prototype.hasOwnProperty.call(element, 'thirdParty') && element.thirdParty === true
         delete elementObject.id
         elementObject.usageCount = hubElements[tag].usageCount
+        elementObject.metaIsDefaultElement = hubElements[tag].metaIsDefaultElement
         cookElements.push(elementObject)
       }
     })
