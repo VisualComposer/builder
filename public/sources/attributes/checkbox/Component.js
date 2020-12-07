@@ -21,7 +21,7 @@ export default class Checkbox extends Attribute {
         items.forEach((item, i) => {
           if (i < this.props.options.itemLimit) {
             const itemHeight = item.getBoundingClientRect().height
-            const itemMargins = parseInt(getComputedStyle(item).marginTop) + parseInt(getComputedStyle(item).marginBottom)
+            const itemMargins = parseInt(window.getComputedStyle(item).marginTop) + parseInt(window.getComputedStyle(item).marginBottom)
             heightLimit = heightLimit + itemHeight + itemMargins
           }
         })
@@ -109,7 +109,7 @@ export default class Checkbox extends Attribute {
       classNames += ' vcv-ui-form-checkboxes--list'
     }
     if (this.props.options && this.props.options.itemLimit) {
-      classNames += ` vcv-ui-form-checkboxes--limit`
+      classNames += ' vcv-ui-form-checkboxes--limit'
     }
 
     let content = optionElements
@@ -122,7 +122,7 @@ export default class Checkbox extends Attribute {
     }
 
     return (
-      <div className={classNames} ref={this.ref} style={{...styleProps}}>
+      <div className={classNames} ref={this.ref} style={{ ...styleProps }}>
         {content}
       </div>)
   }
