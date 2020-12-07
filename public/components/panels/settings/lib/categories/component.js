@@ -52,7 +52,7 @@ export default class Categories extends React.Component {
     this.setState({
       value: data.used,
       options: data.categories,
-      parentCategoryOptions: [...data.categories],
+      parentCategoryOptions: [...data.categories]
     })
   }
 
@@ -82,7 +82,7 @@ export default class Categories extends React.Component {
     const newCategory = {
       label: this.state.newCategory,
       value: newCategorySlug,
-      id:  Math.floor(Math.random() * 10000),
+      id: Math.floor(Math.random() * 10000),
       parent: 0
     }
     if (this.state.parentCategory) {
@@ -95,7 +95,7 @@ export default class Categories extends React.Component {
 
     this.setState({
       newCategory: '',
-      parentCategory: '',
+      parentCategory: ''
     })
   }
 
@@ -127,14 +127,14 @@ export default class Categories extends React.Component {
     let newCategory = null
     if (this.state.isNewCategoryVisible) {
       if (!this.state.parentCategoryOptions.find(option => option.label === selectParentCategory)) {
-        this.state.parentCategoryOptions.unshift({ label: selectParentCategory, value: '' })
+        this.state.parentCategoryOptions.unshift({ label: selectParentCategory, value: '', parent: 0, id: '' })
       }
       newCategory = (
         <div className='vcv-ui-form-group-container'>
           <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>
-            {categoryTitle}
-          </span>
+            <span className='vcv-ui-form-group-heading'>
+              {categoryTitle}
+            </span>
             <StringAttribute
               api={this.props.api}
               fieldKey='newCategory'
@@ -152,6 +152,7 @@ export default class Categories extends React.Component {
               fieldKey='parentCategory'
               options={{
                 values: this.state.parentCategoryOptions,
+                nesting: true,
                 reloadAction: 'categories',
                 global: 'VCV_CATEGORIES'
               }}
