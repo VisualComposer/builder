@@ -7,7 +7,6 @@ import Checkbox from 'public/sources/attributes/checkbox/Component'
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const localizations = dataManager.get('localizations')
-const categoriesTitle = localizations ? localizations.categories : 'Categories'
 const categoryTitle = localizations ? localizations.category : 'Category'
 const parentCategoryTitle = localizations ? localizations.parentCategory : 'Parent Category'
 const addNewCategory = localizations ? localizations.addNewCategory : 'Add New Category'
