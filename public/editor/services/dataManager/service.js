@@ -80,8 +80,7 @@ const dataManager = {
       postData: () => { return window.vcvPostData || {} },
       hubTeaserShowBadge: () => { return window.vcvHubTeaserShowBadge },
       tags: () => { return window.VCV_TAGS },
-      categories: () => { return window.VCV_CATEGORIES || {"used":["tv","xs","mtv","ltv","md","bj"],"categories":[{"label":"Old Monitor","value":"old-monitor","id":13,"parent":1},{"label":"Desktop","value":"xl","id":1,"parent":0},{"label":"Mobile","value":"xs","id":2,"parent":0},{"label":"Tablet","value":"md","id":3,"parent":0},{"label":"Laptop","value":"lg","id":4,"parent":0},{"label":"TV","value":"tv","id":5,"parent":0},{"label":"MV","value":"mv","id":6,"parent":0},{"label":"MTV","value":"mtv","id":7,"parent":5},{"label":"CD","value":"cd","id":8,"parent":0},{"label":"BJ","value":"bj","id":9,"parent":7},{"label":"OCD","value":"ocd","id":10,"parent":0},{"label":"LTV","value":"ltv","id":11,"parent":5},{"label":"WWW","value":"www","id":12,"parent":0}]} }
-
+      categories: () => { return window.VCV_CATEGORIES }
     }
   }
 }
