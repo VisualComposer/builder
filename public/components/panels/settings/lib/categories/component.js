@@ -3,10 +3,13 @@ import { getStorage, getService } from 'vc-cake'
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 import StringAttribute from 'public/sources/attributes/string/Component'
 import Checkbox from 'public/sources/attributes/checkbox/Component'
+import { getResponse } from 'public/tools/response'
 
+const dataProcessor = getService('dataProcessor')
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const localizations = dataManager.get('localizations')
+
 const categoryTitle = localizations ? localizations.category : 'Category'
 const parentCategoryTitle = localizations ? localizations.parentCategory : 'Parent Category'
 const addNewCategory = localizations ? localizations.addNewCategory : 'Add New Category'
@@ -72,29 +75,42 @@ export default class Categories extends React.Component {
 
   handleAddCategory () {
     const currentStorageState = settingsStorage.state('categories').get()
-    const newCategorySlug = this.state.newCategory.split(' ').map(word => word.toLowerCase()).join('-')
     const newValue = this.state.value
-    newValue.push(newCategorySlug)
     const newOptions = currentStorageState.categories
-
-    // TODO replace random id with a server request
-    const newCategory = {
-      label: this.state.newCategory,
-      value: newCategorySlug,
-      id: Math.floor(Math.random() * 10000),
-      parent: 0
-    }
+    let parentCategoryId = 0
     if (this.state.parentCategory) {
-      newCategory.parent = newOptions.find(option => option.value === this.state.parentCategory).id
+      parentCategoryId = newOptions.find(option => option.value === this.state.parentCategory).id
     }
-    newOptions.push(newCategory)
-    currentStorageState.used = newValue
-    currentStorageState.categories = newOptions
-    settingsStorage.state('categories').set(currentStorageState)
 
-    this.setState({
-      newCategory: '',
-      parentCategory: ''
+    dataProcessor.appAdminServerRequest({
+      'vcv-action': 'editors:settings:add:category:adminNonce',
+      'vcv-category': this.state.newCategory,
+      'vcv-parent-category': parentCategoryId,
+      'vcv-nonce': window.vcvNonce,
+      'vcv-source-id': window.vcvSourceID
+    }).then((responseData) => {
+      const response = getResponse(responseData)
+      if (response && response.status) {
+        const newCategory = {
+          label: this.state.newCategory,
+          value: response.id,
+          id: response.id,
+          parent: parentCategoryId
+        }
+        newValue.push(response.id)
+        newOptions.push(newCategory)
+        currentStorageState.used = newValue
+        currentStorageState.categories = newOptions
+        settingsStorage.state('categories').set(currentStorageState)
+        this.setState({
+          newCategory: '',
+          parentCategory: ''
+        })
+      } else {
+        console.warn(response)
+      }
+    }, (error) => {
+      console.warn(error)
     })
   }
 

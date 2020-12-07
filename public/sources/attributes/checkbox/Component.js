@@ -61,7 +61,7 @@ export default class Checkbox extends Attribute {
     const currentValues = this.state.value
     const optionElements = []
     for (const key in values) {
-      const value = values[key].value
+      const value = values[key].value + ''
       const checked = currentValues && currentValues.indexOf(value) !== -1 ? 'checked' : ''
       const labelClasses = classNames({
         'vcv-ui-form-checkbox': true,
