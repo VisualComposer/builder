@@ -21,7 +21,6 @@ export const dashboard = () => {
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
   const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
-  const dataCollectionTableHeight = dataCollectionTableWrapper.clientHeight
   const dataCollectionTableButton = document.querySelector('#vcv-data-collection-table-button')
   const adminMenuBack = document.querySelector('#adminmenuback')
   const adminMenuWrap = document.querySelector('#adminmenuwrap')
@@ -169,23 +168,13 @@ export const dashboard = () => {
     if (!dataCollectionTableWrapper) {
       return
     }
-    const className = 'vcv-ui-settings-data-collection-table-wrapper-active'
-    let classString = dataCollectionTableWrapper.className
-    const nameIndex = classString.indexOf(className)
-    if (nameIndex === -1) {
-      classString += ' ' + className
-      dataCollectionTableWrapper.style.height = dataCollectionTableHeight + 'px'
-    } else {
-      classString = classString.substr(0, nameIndex) + classString.substr(nameIndex + className.length)
-      dataCollectionTableWrapper.style.height = 0
-    }
-    dataCollectionTableWrapper.className = classString
+    window.jQuery(dataCollectionTableWrapper).slideToggle()
   }
 
   setDashboardMinHeight()
 
-  if (urlHash.indexOf(dataCollectionTableWrapper.id) === -1) {
-    dataCollectionTableWrapper.style.height = 0
+  if (urlHash.indexOf(dataCollectionTableWrapper.id) !== -1) {
+    dataCollectionTableWrapper.style.display = 'block'
   }
   dataCollectionTableButton.addEventListener('click', handleDataCollectionTableToggle)
   menuLinks.forEach(link => link.addEventListener('click', handleMenuLinkClick))

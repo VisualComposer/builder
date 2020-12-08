@@ -480,12 +480,26 @@
   }
 }
 
+.vcv-settings-itemdatacollection-child {
+  padding-bottom: 0;
+}
 .vcv-ui-settings-data-collection-table-wrapper {
+  display: none;
   overflow: hidden;
   transition: all .2s ease;
 
-  &-active {
+  .vcv-ui-settings-data-collection-table {
     margin-top: 24px;
+    tr {
+      display: table-row;
+    }
+    td {
+      display: table-cell;
+      padding: 15px 10px;
+      &:first-child {
+        flex: none;
+      }
+    }
   }
   .vcv-description, .description, .vcv-description p {
     margin: 0;
@@ -578,8 +592,4 @@
       margin: 0 172px 0 0;
     }
   }
-}
-
-.vcv-settings-itemdatacollection-child {
-  padding: 0 0 20px;
 }
