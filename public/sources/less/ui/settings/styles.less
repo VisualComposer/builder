@@ -207,7 +207,8 @@
   }
 }
 
-.vcv-ui-form-group--wp-menu {
+.vcv-ui-form-group--wp-menu,
+.vcv-ui-form-group--category {
   .vcv-ui-form-helper {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -266,5 +267,18 @@
 .vcv-ui-edit-form-section-header {
   &.vcv-ui-wordpress-setting-header {
     margin: 0 -20px 12px -20px;
+  }
+}
+
+.vcv-ui-form-group-container {
+  &.vcv-ui-form-group-container--saving {
+    .vcv-ui-form-input,
+    .vcv-ui-form-dropdown {
+      background-color: #f5f5f5;
+      border-color: #d1d1d1;
+      color: #7e7e7e;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
   }
 }

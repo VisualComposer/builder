@@ -1155,19 +1155,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'dataCollectionHeadingText' => __(
-                'Help us make Visual Composer better',
+                'Share Usage Data',
                 'visualcomposer'
             ),
             'dataCollectionText' => __(
-                'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                'Help to make Visual Composer better by sharing anonymous usage data. We appreciate your help.',
                 'visualcomposer'
             ),
             'readMoreText' => __(
                 'Read more',
                 'visualcomposer'
             ),
-            'yesIWouldLikeToHelpText' => __(
-                'Yes, I would like to help',
+            'dataCollectionToggleText' => __(
+                'Share anonymous data',
                 'visualcomposer'
             ),
             'submit' => __(
@@ -1447,6 +1447,34 @@ class Localizations extends Container implements Helper
             ),
             'addNew' => __(
                 'Add new',
+                'visualcomposer'
+            ),
+            'categories' => __(
+                'Categories',
+                'visualcomposer'
+            ),
+            'category' => __(
+                'Category',
+                'visualcomposer'
+            ),
+            'parentCategory' => __(
+                'Parent Category',
+                'visualcomposer'
+            ),
+            'addNewCategory' => __(
+                'Add New Category',
+                'visualcomposer'
+            ),
+            'selectCategoriesForPostOr' => __(
+                'Select categories for the post or ',
+                'visualcomposer'
+            ),
+            'addANewCategory' => __(
+                'add a new category',
+                'visualcomposer'
+            ),
+            'selectParentCategory' => __(
+                'Select Parent Category',
                 'visualcomposer'
             ),
         ];

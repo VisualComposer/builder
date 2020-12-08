@@ -8,6 +8,8 @@ import Discussion from '../discussion/component'
 import Author from '../author/component'
 import FeaturedImage from '../featuredImage/component'
 import Tags from '../postTags/component'
+import Categories from '../categories/component'
+
 import { getService } from 'vc-cake'
 import AccordionPanel from '../../accordionPanel'
 
@@ -57,11 +59,15 @@ export default class PageSettings extends React.Component {
       </div>
     )
 
-    if (dataManager.get('pageList')) {
-      content.push(
-        <ParentPage
-          key='parentPage'
-        />
+    if (dataManager.get('categories')) {
+      const categoriesTitle = localizations ? localizations.categories : 'Categories'
+      wordpressSettings.push(
+        <AccordionPanel
+          key='categories'
+          sectionTitle={categoriesTitle}
+        >
+          <Categories />
+        </AccordionPanel>
       )
     }
 
@@ -87,6 +93,18 @@ export default class PageSettings extends React.Component {
           sectionTitle={featuredImage}
         >
           <FeaturedImage />
+        </AccordionPanel>
+      )
+    }
+
+    if (dataManager.get('pageList')) {
+      const parentPageTitle = localizations ? localizations.parentPageTitle : 'Parent Page'
+      wordpressSettings.push(
+        <AccordionPanel
+          key='parentPage'
+          sectionTitle={parentPageTitle}
+        >
+          <ParentPage />
         </AccordionPanel>
       )
     }

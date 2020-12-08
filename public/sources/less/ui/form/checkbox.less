@@ -2,8 +2,15 @@
   margin: @vcui-form-checkboxes-margin;
 }
 
-.vcv-ui-form-checkboxes--list .vcv-ui-form-checkbox {
-  display: block;
+.vcv-ui-form-checkboxes--list {
+  margin: 0;
+  .vcv-ui-form-checkbox {
+    display: block;
+  }
+}
+
+.vcv-ui-form-checkboxes--limit .vcv-ui-scroll-content {
+  padding: 5px 1px;
 }
 
 .vcv-ui-form-checkbox {
@@ -99,6 +106,10 @@
   + .vcv-ui-form-helper {
     margin-left: @vcui-form-checkbox-content-padding;
   }
+}
+
+.vcv-ui-form-checkbox-children {
+  margin-left: 10px;
 }
 
 .rtl {

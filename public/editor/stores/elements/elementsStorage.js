@@ -91,8 +91,7 @@ addStorage('elements', (storage) => {
     if (breakBeforeAdd) {
       return
     }
-
-    if (!elementData.hidden) {
+    if (!utils.checkIfElementIsHidden(elementData)) {
       const elementAddList = storage.state('elementAddList').get() || []
       elementAddList.push(elementData.id)
       storage.state('elementAddList').set(elementAddList)

@@ -79,7 +79,8 @@ const dataManager = {
       featuredImage: () => { return window.VCV_FEATURED_IMAGE && window.VCV_FEATURED_IMAGE() },
       postData: () => { return window.vcvPostData || {} },
       hubTeaserShowBadge: () => { return window.vcvHubTeaserShowBadge },
-      tags: () => { return window.VCV_TAGS }
+      tags: () => { return window.VCV_TAGS },
+      categories: () => { return window.VCV_CATEGORIES }
     }
   }
 }
