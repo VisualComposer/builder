@@ -1155,19 +1155,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'dataCollectionHeadingText' => __(
-                'Help us make Visual Composer better',
+                'Share Usage Data',
                 'visualcomposer'
             ),
             'dataCollectionText' => __(
-                'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                'Help to make Visual Composer better by sharing anonymous usage data. We appreciate your help.',
                 'visualcomposer'
             ),
             'readMoreText' => __(
                 'Read more',
                 'visualcomposer'
             ),
-            'yesIWouldLikeToHelpText' => __(
-                'Yes, I would like to help',
+            'dataCollectionToggleText' => __(
+                'Share anonymous data',
                 'visualcomposer'
             ),
             'submit' => __(
@@ -1437,6 +1437,12 @@ class Localizations extends Container implements Helper
             ),
             'general' => __(
                 'General',
+                'visualcomposer'
+            ),
+            'removeElementWarning' => __('Do you want to delete this element?', 'visualcomposer'),
+            'removeElementInUseCurrentPageWarning' => __('The element is in use on current page. Remove all element copies from your site before deleting it.', 'visualcomposer'),
+            'elementRemovedText' => __(
+                'Element has been removed.',
                 'visualcomposer'
             ),
             'addNew' => __(

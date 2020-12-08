@@ -60,6 +60,7 @@ class Controller extends Container implements Module
         return $response;
     }
 
+    // NOTE: If you change anything in the data, you also need to change the information table here visualcomposer/resources/views/settings/fields/dataCollectionTable.php
     protected function sendUsageData()
     {
         $optionsHelper = vchelper('Options');

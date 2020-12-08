@@ -41,7 +41,12 @@ export default class HubElementControl extends ElementControl {
 
     let elementState = 'downloading'
     if (!isDownloading) {
-      elementState = typeof hubElementsState.get()[tag] !== 'undefined' ? 'success' : 'inactive'
+      const hubElement = hubElementsState.get()[tag]
+      if (typeof hubElement !== 'undefined' && !hubElement.metaIsElementRemoved) {
+        elementState = 'success'
+      } else {
+        elementState = 'inactive'
+      }
     }
 
     const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')

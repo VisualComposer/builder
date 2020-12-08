@@ -81,12 +81,15 @@ export default class ElementComponent extends React.Component {
     const finishCallback = function () {
       ((function (window) {
         window.setTimeout(() => {
+          const spinner = ref.querySelector('.vcv-ui-wp-spinner')
+          spinner && spinner.remove()
           window.vcvFreezeReady && window.vcvFreezeReady(id, false)
           window.vcv && window.vcv.trigger('ready', 'update', id)
         }, 500)
       })(env('iframe')))
     }
-    renderInlineHtml(html, { headerContent: '', shortcodeContent: html, footerContent: '' }, ref, id, finishCallback)
+    renderInlineHtml(html, { headerContent: '', shortcodeContent: html, footerContent: '' }, helper, id, finishCallback)
+    ref.appendChild(helper)
   }
 
   updateInlineScript (elementWrapper, tagString = '') {

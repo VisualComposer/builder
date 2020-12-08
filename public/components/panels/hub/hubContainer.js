@@ -294,7 +294,9 @@ export default class HubContainer extends React.Component {
     this.setState({
       inputValue: value,
       searchResults: this.getSearchResults(value),
-      bundleType: null
+      bundleType: null,
+      filterType: 'all',
+      activeCategoryIndex: 0
     })
   }
 
