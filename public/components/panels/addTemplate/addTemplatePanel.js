@@ -394,14 +394,14 @@ export default class AddTemplatePanel extends React.Component {
     }
   }
 
-  handleRemoveTemplate (id) {
+  handleRemoveTemplate (id, type) {
     const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to delete this template?'
     if (window.confirm(removeTemplateWarning)) {
       this.setState({
         showSpinner: id,
         removing: true
       })
-      myTemplatesService.remove(id, this.onRemoveSuccess, this.onRemoveFailed)
+      myTemplatesService.remove(id, type, this.onRemoveSuccess, this.onRemoveFailed)
     }
   }
 

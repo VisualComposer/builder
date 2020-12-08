@@ -85,9 +85,9 @@ addService('myTemplates', {
     }
     return false
   },
-  remove (id, successCallback, errorCallback) {
+  remove (id, type, successCallback, errorCallback) {
     processRequest('delete', 'vcv-template-id', id, (response) => {
-      getStorage('hubTemplates').trigger('remove', 'custom', id)
+      getStorage('hubTemplates').trigger('remove', type, id)
       successCallback && typeof successCallback === 'function' && successCallback(response)
     }, errorCallback)
   },

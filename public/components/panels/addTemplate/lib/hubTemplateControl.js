@@ -28,7 +28,7 @@ export default class HubTemplateControl extends React.Component {
   }
 
   render () {
-    const { name, spinner, thumbnail, preview, description, addTemplateText, removeTemplateText, handleApplyTemplate, showPreview, hidePreview, previewVisible, previewStyle } = this.props
+    const { name, spinner, thumbnail, preview, description, addTemplateText, removeTemplateText, handleApplyTemplate, handleRemoveTemplate, showPreview, hidePreview, previewVisible, previewStyle } = this.props
 
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -101,7 +101,7 @@ export default class HubTemplateControl extends React.Component {
               />
               <span
                 className={removeClasses}
-                style={{ cursor: 'not-allowed' }}
+                onClick={handleRemoveTemplate}
                 title={removeTemplateText}
               />
               <span className={spinnerClasses} />
