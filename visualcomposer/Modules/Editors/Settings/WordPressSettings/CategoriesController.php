@@ -52,12 +52,15 @@ class CategoriesController extends Container implements Module
                 $usedCategories = get_the_category($currentPost->ID);
                 $categoryData = ['used' => [], 'categories' => []];
                 foreach ($usedCategories as $key => $value) {
+                    // @codingStandardsIgnoreLine
                     $categoryData['used'][] = (string)$value->term_id;
                 }
                 foreach ($allCategories as $key => $value) {
                     $categoryData['categories'][] = [
                         'label' => $value->name,
+                        // @codingStandardsIgnoreLine
                         'value' => $value->term_id,
+                        // @codingStandardsIgnoreLine
                         'id' => $value->term_id,
                         'parent' => $value->parent,
                     ];
@@ -108,7 +111,7 @@ class CategoriesController extends Container implements Module
     {
         $currentPageId = $payload['sourceId'];
         $savedCategories = $requestHelper->input('vcv-settings-categories', []);
-        if (isset($currentPageId) && $this->isCategoryTaxonomyExist($currentPageId)) {
+        if (isset($currentPageId) && isset($savedCategories['used']) && $this->isCategoryTaxonomyExist($currentPageId)) {
             wp_set_post_categories($currentPageId, $savedCategories['used']);
         }
 
@@ -123,10 +126,13 @@ class CategoriesController extends Container implements Module
         if ($createCategory) {
             $categoryData = get_term_by('term_id', $createCategory, 'category');
 
+            // @codingStandardsIgnoreLine
             return [
                 'status' => true,
                 'label' => $categoryData->name,
+                // @codingStandardsIgnoreLine
                 'value' => $categoryData->term_id,
+                // @codingStandardsIgnoreLine
                 'id' => $categoryData->term_id,
                 'parent' => $categoryData->parent,
             ];
