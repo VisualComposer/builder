@@ -153,6 +153,7 @@ export default class SaveController {
         'vcv-settings-ping-status': settingsStorage.state('pingStatus').get() || 'closed',
         'vcv-settings-author': settingsStorage.state('author').get() || '',
         'vcv-settings-featured-image': featuredImageDataValue,
+        'vcv-settings-categories': settingsStorage.state('categories').get() || '',
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'

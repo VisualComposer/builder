@@ -88,6 +88,7 @@ addStorage('wordpressData', (storage) => {
       const pageTemplateData = dataManager.get('pageTemplates')
       const initialContent = responseData.post_content
       const featuredImageData = dataManager.get('featuredImage')
+      const categoriesData = dataManager.get('categories')
       let empty = false
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
@@ -170,6 +171,9 @@ addStorage('wordpressData', (storage) => {
       }
       if (featuredImageData && featuredImageData.urls && featuredImageData.urls.length) {
         settingsStorage.state('featuredImage').set(featuredImageData)
+      }
+      if (categoriesData && categoriesData.length) {
+        settingsStorage.state('categories').set(categoriesData)
       }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
