@@ -235,6 +235,7 @@ const API = {
       } else if (el.parent && allElements[el.parent]) {
         const elParent = allElements[el.parent]
         if (elParent.parent && elParent.parent === el.id) {
+          // For templates with corrupted data (to remove infinite loading VC-434)
           return true
         } else {
           return checkIfHidden(allElements[el.parent])
