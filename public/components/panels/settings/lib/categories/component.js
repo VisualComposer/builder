@@ -85,7 +85,7 @@ export default class Categories extends React.Component {
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'editors:settings:add:category:adminNonce',
       'vcv-category': this.state.newCategory,
-      'vcv-parent-category': parentCategoryId,
+      'vcv-parent-category': parseInt(parentCategoryId),
       'vcv-nonce': window.vcvNonce,
       'vcv-source-id': window.vcvSourceID
     }).then((responseData) => {
@@ -95,7 +95,7 @@ export default class Categories extends React.Component {
           label: this.state.newCategory,
           value: response.id,
           id: response.id,
-          parent: parentCategoryId
+          parent: parseInt(parentCategoryId)
         }
         newValue.push(response.id)
         newOptions.push(newCategory)
