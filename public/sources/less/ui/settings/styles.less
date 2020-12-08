@@ -269,3 +269,16 @@
     margin: 0 -20px 12px -20px;
   }
 }
+
+.vcv-ui-form-group-container {
+  &.vcv-ui-form-group-container--saving {
+    .vcv-ui-form-input,
+    .vcv-ui-form-dropdown {
+      background-color: #f5f5f5;
+      border-color: #d1d1d1;
+      color: #7e7e7e;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import Dropdown from 'public/sources/attributes/dropdown/Component'
 import StringAttribute from 'public/sources/attributes/string/Component'
@@ -24,13 +25,13 @@ export default class Categories extends React.Component {
     const categoriesData = settingsStorage.state('categories').get() || data || []
 
     this.state = {
-      isListLoading: false,
       value: categoriesData.used,
       options: categoriesData.categories,
       newCategory: '',
       parentCategory: '',
       parentCategoryOptions: [...categoriesData.categories],
-      isNewCategoryVisible: false
+      isNewCategoryVisible: false,
+      isSaving: false
     }
 
     settingsStorage.state('categories').set(categoriesData)
@@ -58,12 +59,6 @@ export default class Categories extends React.Component {
     })
   }
 
-  changeLoadingState = (status) => {
-    this.setState({
-      isListLoading: status
-    })
-  }
-
   checkboxChangeHandler (fieldKey, value) {
     this.setState({
       value: value
@@ -74,6 +69,9 @@ export default class Categories extends React.Component {
   }
 
   handleAddCategory () {
+    if (!this.state.newCategory) {
+      return
+    }
     const currentStorageState = settingsStorage.state('categories').get()
     const newValue = this.state.value
     const newOptions = currentStorageState.categories
@@ -81,6 +79,7 @@ export default class Categories extends React.Component {
     if (this.state.parentCategory) {
       parentCategoryId = newOptions.find(option => option.value === this.state.parentCategory).id
     }
+    this.setState({ isSaving: true })
 
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'editors:settings:add:category:adminNonce',
@@ -104,13 +103,16 @@ export default class Categories extends React.Component {
         settingsStorage.state('categories').set(currentStorageState)
         this.setState({
           newCategory: '',
-          parentCategory: ''
+          parentCategory: '',
+          isSaving: false
         })
       } else {
         console.warn(response)
+        this.setState({ isSaving: false })
       }
     }, (error) => {
       console.warn(error)
+      this.setState({ isSaving: false })
     })
   }
 
@@ -133,7 +135,7 @@ export default class Categories extends React.Component {
 
   render () {
     let spinnerHtml = null
-    if (this.state.isListLoading) {
+    if (this.state.isSaving) {
       spinnerHtml = (
         <span className='vcv-ui-wp-spinner' />
       )
@@ -144,8 +146,12 @@ export default class Categories extends React.Component {
       if (!this.state.parentCategoryOptions.find(option => option.label === selectParentCategory)) {
         this.state.parentCategoryOptions.unshift({ label: selectParentCategory, value: '', parent: 0, id: '' })
       }
+      const containerClasses = classNames({
+        'vcv-ui-form-group-container': true,
+        'vcv-ui-form-group-container--saving': this.state.isSaving
+      })
       newCategory = (
-        <div className='vcv-ui-form-group-container'>
+        <div className={containerClasses}>
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {categoryTitle}
@@ -160,24 +166,27 @@ export default class Categories extends React.Component {
           <div className='vcv-ui-form-group'>
             <span className='vcv-ui-form-group-heading'>
               {parentCategoryTitle}
-              {spinnerHtml}
             </span>
             <Dropdown
               api={this.props.api}
               fieldKey='parentCategory'
               options={{
                 values: this.state.parentCategoryOptions,
-                nesting: true,
-                reloadAction: 'categories',
-                global: 'VCV_CATEGORIES'
+                nesting: true
               }}
-              setLoadingState={this.changeLoadingState}
               updater={this.dropdownChangeHandler}
               value={this.state.parentCategory}
             />
           </div>
           <div className='vcv-ui-form-group'>
-            <button className='vcv-ui-form-button vcv-ui-form-button--action' onClick={this.handleAddCategory}>{addNewCategory}</button>
+            <button
+              className='vcv-ui-form-button vcv-ui-form-button--action'
+              onClick={this.handleAddCategory}
+              disabled={this.state.isSaving}
+            >
+              {addNewCategory}
+              {spinnerHtml}
+            </button>
           </div>
         </div>
       )
@@ -193,9 +202,7 @@ export default class Categories extends React.Component {
               listView: true,
               itemLimit: 10,
               nesting: true,
-              values: this.state.options,
-              reloadAction: 'categories',
-              global: 'VCV_CATEGORIES'
+              values: this.state.options
             }}
             updater={this.checkboxChangeHandler}
             value={this.state.value}
