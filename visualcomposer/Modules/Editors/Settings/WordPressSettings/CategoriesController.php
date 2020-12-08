@@ -21,6 +21,11 @@ class CategoriesController extends Container implements Module
     public function __construct()
     {
         $this->addFilter(
+            'vcv:ajax:editors:settings:add:category:adminNonce',
+            'addNewCategory',
+            11
+        );
+        $this->addFilter(
             'vcv:dataAjax:setData',
             'setData'
         );
@@ -41,34 +46,53 @@ class CategoriesController extends Container implements Module
         PostType $postTypeHelper
     ) {
         $currentPost = $postTypeHelper->get();
-        if($currentPost) {
+        if ($currentPost) {
+            if ($this->isCategoryTaxonomyExist($currentPost->ID)) {
+                $allCategories = get_categories(['hide_empty' => 0, 'hierarchical' => 1]);
+                $usedCategories = get_the_category($currentPost->ID);
+                $categoryData = ['used' => [], 'categories' => []];
+                foreach ($usedCategories as $key => $value) {
+                    $categoryData['used'][] = (string)$value->term_id;
+                }
+                foreach ($allCategories as $key => $value) {
+                    $categoryData['categories'][] = [
+                        'label' => $value->name,
+                        'value' => $value->term_id,
+                        'id' => $value->term_id,
+                        'parent' => $value->parent,
+                    ];
+                }
+                $variables[] = [
+                    'key' => 'VCV_CATEGORIES',
+                    'value' => $categoryData,
+                ];
+            }
+        }
+
+        return $variables;
+    }
+
+    /**
+     * @param $postId
+     *
+     * @return bool
+     */
+    protected function isCategoryTaxonomyExist($postId)
+    {
+        $postTypeHelper = vchelper('PostType');
+        $currentPost = $postTypeHelper->get($postId);
+        if ($currentPost) {
             $postTypeTaxonomies = get_object_taxonomies($currentPost);
-            if (in_array('category', $postTypeTaxonomies)) {
+            if (in_array('category', $postTypeTaxonomies, true)) {
                 $categoryTaxonomy = get_taxonomy('category');
                 // @codingStandardsIgnoreLine
                 if ($categoryTaxonomy->show_ui || false !== $categoryTaxonomy->meta_box_cb) {
-                    $allCategories = get_categories(['hide_empty'  => 0, 'hierarchical'=> 1]);
-                    $usedCategories = get_the_category($currentPost->ID);
-                    $categoryData = ['used' => [], 'categories' => []];
-                    foreach ($usedCategories as $key => $value){
-                        $categoryData['used'][] = $value->term_id;
-                    }
-                    foreach ($allCategories as $key => $value){
-                        $categoryData['categories'][] = [
-                            'label' => $value->name,
-                            'value' => $value->term_id,
-                            'id' => $value->term_id,
-                            'parent' => $value->parent
-                        ];
-                    }
-                    $variables[] = [
-                        'key' => 'VCV_CATEGORIES',
-                        'value' => $categoryData,
-                    ];
+                    return true;
                 }
             }
         }
-        return $variables;
+
+        return false;
     }
 
     /**
@@ -83,8 +107,31 @@ class CategoriesController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $savedCategories = $requestHelper->input('vcv-settings-categories', '');
+        $savedCategories = $requestHelper->input('vcv-settings-categories', []);
+        if (isset($currentPageId) && $this->isCategoryTaxonomyExist($currentPageId)) {
+            wp_set_post_categories($currentPageId, $savedCategories['used']);
+        }
 
         return $response;
+    }
+
+    protected function addNewCategory($response, $payload, Request $requestHelper)
+    {
+        $categoryName = $requestHelper->input('vcv-category', '');
+        $parentId = $requestHelper->input('vcv-parent-category', '');
+        $createCategory = wp_create_category($categoryName, $parentId);
+        if ($createCategory) {
+            $categoryData = get_term_by('term_id', $createCategory, 'category');
+
+            return [
+                'status' => true,
+                'label' => $categoryData->name,
+                'value' => $categoryData->term_id,
+                'id' => $categoryData->term_id,
+                'parent' => $categoryData->parent,
+            ];
+        }
+
+        return ['status' => false];
     }
 }
