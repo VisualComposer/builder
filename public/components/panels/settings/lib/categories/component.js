@@ -77,7 +77,7 @@ export default class Categories extends React.Component {
     const newOptions = currentStorageState.categories
     let parentCategoryId = 0
     if (this.state.parentCategory) {
-      parentCategoryId = newOptions.find(option => option.value === this.state.parentCategory).id
+      parentCategoryId = newOptions.find(option => option.value === parseInt(this.state.parentCategory)).id
     }
     this.setState({ isSaving: true })
 
@@ -96,7 +96,7 @@ export default class Categories extends React.Component {
           id: response.id,
           parent: parseInt(parentCategoryId)
         }
-        newValue.push(response.id)
+        newValue.push(response.id + '')
         newOptions.push(newCategory)
         currentStorageState.used = newValue
         currentStorageState.categories = newOptions
