@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     <div class="vcv-data-collection-table-toggle">
         <a id="vcv-data-collection-table-button" href="javascript:void(0)"><?php echo esc_html__('What kind of data will I share?', 'visualcomposer') ?></a>
     </div>
-    <div class="vcv-ui-settings-data-collection-table-wrapper" id="vcv-ui-settings-data-collection-table">
+    <div class="vcv-ui-settings-data-collection-table-wrapper" id="vcv-ui-settings-data-collection-table" style="display: none;">
         <table class="vcv-ui-settings-data-collection-table">
             <tbody>
                 <tr>
