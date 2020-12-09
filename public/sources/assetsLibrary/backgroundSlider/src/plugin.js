@@ -54,20 +54,25 @@
         this.effect = this.slider.dataset.vceAssetsSliderEffect;
         this.autoplay();
       },
-      updateKeyframesRule: function updateKeyframesRule (rule, keyframesRules, direction) {
-        let ss = document.styleSheets;
-        for (let i = 0; i < ss.length; ++i) {
-          try {
-            if (ss[i].cssRules && ss[i].cssRules.length) {
-              for (let j = 0; j < ss[i].cssRules.length; ++j) {
-                if (ss[i].cssRules[j].type === window.CSSRule.KEYFRAMES_RULE && ss[i].cssRules[j].name === rule) {
-                  ss[i].cssRules[j].deleteRule(keyframesRules[ direction ].key);
-                  ss[i].cssRules[j].appendRule(keyframesRules[ direction ].value);
-                }
-              }
-            }
-          } catch (e) {}
+      addKeyframesRule: function addKeyframesRule (direction, count) {
+        let animationName = `vce-asset-background-slide--carousel-${direction}-${count}`;
+        let keyframesRules = {
+          left: `0% { transform: translateX(0); } 100% { transform: translateX(-${100 - (100 / count)}%); }`,
+          top: `0% { transform: translateY(0); } 100% { transform: translateY(-${100 - (100 / count)}%); }`,
+          right: `0% { transform: translateX(-${100 - (100 / count)}%); } 100% { transform: translateX(0); }`,
+          bottom: `0% { transform: translateY(-${100 - (100 / count)}%); } 100% { transform: translateY(0) }`,
+        };
+        this.slidesContainer.style.animationName = animationName;
+        if (document.getElementById(animationName)) {
+          return;
         }
+        let styleElement = document.createElement('style');
+        styleElement.id = animationName;
+          styleElement.type = 'text/css';
+        let keyFrames = `@keyframes ${animationName} { ${keyframesRules[direction]} }`;
+        styleElement.innerHTML = keyFrames;
+
+        this.slidesContainer.parentElement.appendChild(styleElement);
       },
       initCarousel: function initCarousel () {
         let isHorizontal = this.direction === 'left' || this.direction === 'right';
@@ -93,27 +98,7 @@
         this.slidesContainer.style[ isHorizontal ? 'width' : 'height' ] = `${count}00%`;
         this.slidesContainer.style.animationDuration = `${(count - 1) * (this.timeout / 1000)}s`;
         // update animation keyframes rules depending on count
-        let keyframesRules = {
-          left: {
-            key: '100%',
-            value: `100% { transform: translateX(-${100 - (100 / count)}%); }`
-          },
-          top: {
-            key: '100%',
-            value: `100% { transform: translateY(-${100 - (100 / count)}%); }`
-          },
-          right: {
-            key: '0%',
-            value: `0% { transform: translateX(-${100 - (100 / count)}%); }`
-          },
-          bottom: {
-            key: '0%',
-            value: `0% { transform: translateY(-${100 - (100 / count)}%); }`
-          },
-        };
-        this.updateKeyframesRule(`vce-asset-background-slide--carousel-${this.direction}`, keyframesRules, this.direction);
-        // add animation
-        this.slidesContainer.classList.add(`animate-${this.direction}`);
+        this.addKeyframesRule(this.direction, count);
       },
       destroy: function destroy () {
         this.stopAutoplay();
