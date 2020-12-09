@@ -170,6 +170,34 @@ class PostType implements Helper
     }
 
     /**
+     * @param $id
+     * @param string $postType
+     *
+     * @return bool
+     */
+    public function trash($id, $postType = '')
+    {
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $post = $this->get($id);
+
+        // @codingStandardsIgnoreLine
+        $postTypeObject = get_post_type_object($post->post_type);
+        if (
+            $postTypeObject
+            && $currentUserAccessHelper->wpAll([$postTypeObject->cap->delete_posts, $post->ID])->get()
+        ) {
+            if ($postType) {
+                // @codingStandardsIgnoreLine
+                return $post && $post->post_type == $postType ? (bool)wp_trash_post($id) : !$post;
+            }
+
+            return (bool)wp_delete_post($id);
+        }
+
+        return !$post;
+    }
+
+    /**
      * @param $sourceId
      *
      * @return \WP_Post|false
