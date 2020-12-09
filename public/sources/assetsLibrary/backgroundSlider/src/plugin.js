@@ -62,6 +62,7 @@
           right: `0% { transform: translateX(-${100 - (100 / count)}%); } 100% { transform: translateX(0); }`,
           bottom: `0% { transform: translateY(-${100 - (100 / count)}%); } 100% { transform: translateY(0) }`,
         };
+        this.slidesContainer.style.animationName = animationName;
         if (document.getElementById(animationName)) {
           return;
         }
@@ -72,7 +73,6 @@
         styleElement.innerHTML = keyFrames;
 
         this.slidesContainer.parentElement.appendChild(styleElement);
-        this.slidesContainer.style.animationName = animationName;
       },
       initCarousel: function initCarousel () {
         let isHorizontal = this.direction === 'left' || this.direction === 'right';
