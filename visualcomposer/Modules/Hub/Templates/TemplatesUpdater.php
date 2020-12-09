@@ -114,6 +114,7 @@ class TemplatesUpdater extends Container implements Module
         $savedTemplates = new WP_Query(
             [
                 'post_type' => $this->templatePostType,
+                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'trash'],
                 'meta_query' => [
                     [
                         'key' => '_' . VCV_PREFIX . 'id',
@@ -402,7 +403,6 @@ class TemplatesUpdater extends Container implements Module
 
         return $recursiveIterator->getArrayCopy();
     }
-
 
     /**
      * @param $templateElements
