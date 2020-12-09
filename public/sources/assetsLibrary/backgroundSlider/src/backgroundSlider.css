@@ -40,26 +40,6 @@
   flex-direction: column;
 }
 
-@keyframes vce-asset-background-slide--carousel-left {
-  0%   {transform: translateX(0)}
-  100% {transform: translateX(-100%)}
-}
-
-@keyframes vce-asset-background-slide--carousel-top {
-  0%   {transform: translateY(0)}
-  100% {transform: translateY(-100%)}
-}
-
-@keyframes vce-asset-background-slide--carousel-right {
-  0%   {transform: translateX(-100%)}
-  100% {transform: translateX(0)}
-}
-
-@keyframes vce-asset-background-slide--carousel-bottom {
-  0%   {transform: translateY(-100%)}
-  100% {transform: translateY(0)}
-}
-
 .vce-asset-background-slider .vce-asset-background-slider-slides-carousel {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
