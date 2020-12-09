@@ -486,6 +486,25 @@ export default class ElementControl extends React.Component {
     })
   }
 
+  isElementRemovable (element) {
+    // Allowed only for 'manager_options' capability users
+    // - Not allowed to remove default included elements
+    // - Not allowed to remove third party elements
+    // - Not allowed to remove addon-dependent elements
+    // TODO: Make this variable dynamic in case if addon elements will be more and more
+    const addonElements = [
+      'globalTemplate',
+      'layoutFooterArea',
+      'layoutHeaderArea',
+      'layoutSidebarArea',
+      'layoutWpCommentsArea',
+      'layoutWpContentArea'
+    ]
+    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
+
+    return vcvIsUserAdmin && !element.metaIsDefaultElement && !element.thirdParty && addonElements.indexOf(element.tag) === -1
+  }
+
   render () {
     const { name, element, elementPresetId, thirdParty } = this.props
     const { previewVisible, previewStyle } = this.state
@@ -539,7 +558,7 @@ export default class ElementControl extends React.Component {
           data-action='deleteElementPreset'
         />
       )
-    } else if (!element.metaIsDefaultElement && !element.thirdParty) {
+    } else if (this.isElementRemovable(element)) {
       const removeClasses = classNames({
         'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
         'vcv-ui-state--hidden': this.state.showSpinner

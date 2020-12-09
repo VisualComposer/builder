@@ -153,7 +153,7 @@ export default class TemplateControl extends React.Component {
   }
 
   handleRemoveTemplate () {
-    this.props.removeTemplate(this.props.id)
+    this.props.removeTemplate(this.props.id, this.props.type)
   }
 
   ellipsize (selector) {

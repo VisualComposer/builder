@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\Hub\Elements;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -27,11 +28,25 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Hub\Elements $elementsHelper
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @return array|bool[]
+     * @throws \Exception
      */
-    protected function softDelete(Request $requestHelper, Elements $elementsHelper)
-    {
+    protected function softDelete(
+        Request $requestHelper,
+        Elements $elementsHelper,
+        CurrentUser $currentUserAccess
+    ) {
+        if (!$currentUserAccess->can('manage_options')->get()) {
+            return [
+                'status' => false,
+                'message' => __(
+                    'Only the Administrator role can remove the element.',
+                    'visualcomposer'
+                ),
+            ];
+        }
         $elementToRemove = esc_sql($requestHelper->input('vcv-element-tag'));
         // don't allow for default elements
         if (in_array($elementToRemove, $elementsHelper->getDefaultElements(), true)) {

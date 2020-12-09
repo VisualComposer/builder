@@ -13,6 +13,7 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Helpers\Access\CurrentUser;
 use VisualComposer\Helpers\EditorTemplates;
 use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -45,6 +46,9 @@ class Controller extends Container implements Module
 
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::templatesEditorBlankTemplate */
         $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
+
+        // In case if Trashed template removed
+        $this->wpAddAction('before_delete_post', 'deleteTemplateData');
     }
 
     /**
@@ -138,17 +142,45 @@ class Controller extends Container implements Module
      *
      * @return array
      */
-    protected function delete(Request $requestHelper, PostType $postTypeHelper, CurrentUser $currentUserAccessHelper)
-    {
+    protected function delete(
+        Request $requestHelper,
+        PostType $postTypeHelper,
+        CurrentUser $currentUserAccessHelper
+    ) {
         if ($currentUserAccessHelper->wpAll('delete_published_posts')->get()) {
             $id = $requestHelper->input('vcv-template-id');
+            $template = $postTypeHelper->get($id, 'vcv_templates');
+            $status = false;
+            if ($template) {
+                $status = $postTypeHelper->delete($id, 'vcv_templates');
+            }
 
             return [
-                'status' => $postTypeHelper->delete($id, 'vcv_templates'),
+                'status' => $status,
             ];
         }
 
         return ['status' => false];
+    }
+
+    protected function deleteTemplateData(
+        $sourceId,
+        PostType $postTypeHelper,
+        EditorTemplates $editorTemplatesHelper,
+        Options $optionsHelper
+    ) {
+        $template = $postTypeHelper->get($sourceId, 'vcv_templates');
+        if ($template) {
+            $templateType = get_post_meta($sourceId, '_vcv-type', true);
+            if (!$editorTemplatesHelper->isUserTemplateType($templateType)) {
+                // @codingStandardsIgnoreLine
+                $templateSlug = vchelper('Str')->camel($template->post_title);
+                $optionsHelper->delete('hubAction:template/' . $templateSlug);
+                if ($templateType === 'predefined') {
+                    $optionsHelper->delete('hubAction:predefinedTemplate/' . $templateSlug);
+                }
+            }
+        }
     }
 
     /**
@@ -173,7 +205,10 @@ class Controller extends Container implements Module
                 $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
                 if ($isAllowed) {
                     $sourceId = $requestHelper->input('vcv-source-id');
-                    vcevent('vcv:saveTemplateUsage', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'templateId' => $id]]);
+                    vcevent(
+                        'vcv:saveTemplateUsage',
+                        ['response' => [], 'payload' => ['sourceId' => $sourceId, 'templateId' => $id]]
+                    );
                 }
 
                 return $template;
