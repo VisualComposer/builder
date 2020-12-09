@@ -191,7 +191,7 @@ class PostType implements Helper
                 return $post && $post->post_type == $postType ? (bool)wp_trash_post($id) : !$post;
             }
 
-            return (bool)wp_delete_post($id);
+            return (bool)wp_trash_post($id);
         }
 
         return !$post;
