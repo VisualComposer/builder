@@ -9,9 +9,9 @@ export default class TooltipBox extends React.Component {
 
   componentDidMount () {
     if (this.tooltipBoxRef && this.tooltipBoxRef.current) {
-      const suggestionRect = this.tooltipBoxRef.current.getBoundingClientRect()
+      const tooltipBoxRect = this.tooltipBoxRef.current.getBoundingClientRect()
       const bodyRect = window.document.body.getBoundingClientRect()
-      if (suggestionRect.bottom > bodyRect.height) {
+      if (tooltipBoxRect.bottom > bodyRect.height) {
         this.props.setTopState(true)
       }
     }
