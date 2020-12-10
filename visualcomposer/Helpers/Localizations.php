@@ -87,8 +87,8 @@ class Localizations extends Container implements Helper
                 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.',
                 'visualcomposer'
             ),
-            'removeTemplateWarning' => __('Do you want to delete this template?', 'visualcomposer'),
-            'removeElementPresetWarning' => __('Do you want to delete this element preset?', 'visualcomposer'),
+            'removeTemplateWarning' => __('Do you want to remove this template?', 'visualcomposer'),
+            'removeElementPresetWarning' => __('Do you want to remove this element preset?', 'visualcomposer'),
             'templateRemoveFailed' => __('Failed to remove the template', 'visualcomposer'),
             'blankPageHeadingSelect' => __('Name Your Page, Select', 'visualcomposer'),
             'blankPageHeadingPart1' => __('Name The Page', 'visualcomposer'),
@@ -1439,7 +1439,7 @@ class Localizations extends Container implements Helper
                 'General',
                 'visualcomposer'
             ),
-            'removeElementWarning' => __('Do you want to delete this element?', 'visualcomposer'),
+            'removeElementWarning' => __('Do you want to remove this element?', 'visualcomposer'),
             'removeElementInUseCurrentPageWarning' => __('The element is in use on current page. Remove all element copies from your site before deleting it.', 'visualcomposer'),
             'elementRemovedText' => __(
                 'Element has been removed.',
@@ -1477,6 +1477,8 @@ class Localizations extends Container implements Helper
                 'Select Parent Category',
                 'visualcomposer'
             ),
+            'removePlaceholder' => __('Remove `%`', 'visualcomposer'),
+            'addPlaceholder' => __('Add `%`', 'visualcomposer'),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

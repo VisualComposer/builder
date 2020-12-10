@@ -1,9 +1,10 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
+const dataManager = getService('dataManager')
 
 export default class HubTemplateControl extends React.Component {
   static propTypes = {
@@ -21,15 +22,13 @@ export default class HubTemplateControl extends React.Component {
     handleRemoveTemplate: PropTypes.func.isRequired,
     showPreview: PropTypes.func.isRequired,
     hidePreview: PropTypes.func.isRequired,
-    addTemplateText: PropTypes.string.isRequired,
-    removeTemplateText: PropTypes.string.isRequired,
     previewStyle: PropTypes.object.isRequired,
     previewVisible: PropTypes.bool.isRequired
   }
 
   render () {
-    const { name, spinner, thumbnail, preview, description, addTemplateText, removeTemplateText, handleApplyTemplate, handleRemoveTemplate, showPreview, hidePreview, previewVisible, previewStyle } = this.props
-
+    const { name, spinner, thumbnail, preview, description, handleApplyTemplate, handleRemoveTemplate, showPreview, hidePreview, previewVisible, previewStyle } = this.props
+    const localizations = dataManager.get('localizations')
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
@@ -85,7 +84,6 @@ export default class HubTemplateControl extends React.Component {
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? showPreview : null}
           onMouseLeave={!disablePreview ? hidePreview : null}
-          title={name}
         >
           <span className='vcv-ui-item-element-content'>
             <img
@@ -97,12 +95,12 @@ export default class HubTemplateControl extends React.Component {
               <span
                 className={applyClasses}
                 onClick={handleApplyTemplate}
-                title={addTemplateText}
+                title={localizations.addPlaceholder.replace('%s', name)}
               />
               <span
                 className={removeClasses}
                 onClick={handleRemoveTemplate}
-                title={removeTemplateText}
+                title={localizations.removePlaceholder.replace('%s', name)}
               />
               <span className={spinnerClasses} />
             </span>

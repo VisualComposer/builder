@@ -148,7 +148,7 @@ if (!defined('ABSPATH')) {
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
-                            'Plugin folder must be `visualcomposer` to ensure correct plugin work.',
+                            'Plugin folder must be `visualcomposer`.',
                             'visualcomposer'
                         ); ?>
                     </span>
@@ -231,12 +231,12 @@ if (!defined('ABSPATH')) {
                 <td class="<?php echo $fileUploadSize['status'] ?>"><?php echo $fileUploadSize['text']; ?></td>
             </tr>
             <tr>
-                <td><?php echo esc_html__('Access to the upload directory', 'visualcomposer') ?>:</td>
+                <td><?php echo esc_html__('Access to the upload folder', 'visualcomposer') ?>:</td>
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
-                            'Visual Composer stores assets in the WordPress uploads directory. The directory must be writable for this to happen.',
+                            'Visual Composer stores assets in the WordPress uploads folder. The folder must be writable for this to happen.',
                             'visualcomposer'
                         ) ?>
                     </span>
