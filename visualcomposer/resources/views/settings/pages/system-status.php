@@ -143,12 +143,12 @@ if (!defined('ABSPATH')) {
             </thead>
             <tbody>
             <tr>
-                <td><?php echo esc_html__('Plugin folder', 'visualcomposer') ?>:</td>
+                <td><?php echo esc_html__('Plugin directory', 'visualcomposer') ?>:</td>
                 <td class="vcv-help">
                     <span class="vcv-help-tooltip-icon"></span>
                     <span class="vcv-help-tooltip">
                         <?php echo esc_html__(
-                            'Plugin folder must be `visualcomposer` to ensure correct plugin work.',
+                            'Plugin folder must be `visualcomposer`.',
                             'visualcomposer'
                         ); ?>
                     </span>

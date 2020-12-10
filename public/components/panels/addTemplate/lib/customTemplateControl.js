@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { getService } from 'vc-cake'
 
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
+const dataManager = getService('dataManager')
 
 export default class CustomTemplateControl extends React.Component {
   static propTypes = {
@@ -18,15 +19,13 @@ export default class CustomTemplateControl extends React.Component {
     preview: PropTypes.string,
     thumbnail: PropTypes.string,
     handleApplyTemplate: PropTypes.func.isRequired,
-    handleRemoveTemplate: PropTypes.func.isRequired,
-    addTemplateText: PropTypes.string,
-    removeTemplateText: PropTypes.string
+    handleRemoveTemplate: PropTypes.func.isRequired
   }
 
   render () {
-    const { name, spinner, addTemplateText, removeTemplateText, handleApplyTemplate, handleRemoveTemplate } = this.props
+    const { name, spinner, handleApplyTemplate, handleRemoveTemplate } = this.props
     const letter = name.charAt(0).toUpperCase()
-
+    const localizations = dataManager.get('localizations')
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
       'vcv-ui-item-badge vcv-ui-badge--warning': false
@@ -54,7 +53,7 @@ export default class CustomTemplateControl extends React.Component {
 
     return (
       <div className='vcv-ui-item-list-item'>
-        <span className='vcv-ui-item-element' title={name}>
+        <span className='vcv-ui-item-element'>
           <span
             className='vcv-ui-item-element-content'
             data-letter={letter}
@@ -68,12 +67,12 @@ export default class CustomTemplateControl extends React.Component {
               <span
                 className={applyClasses}
                 onClick={handleApplyTemplate}
-                title={addTemplateText}
+                title={localizations.addPlaceholder.replace('%s', name)}
               />
               <span
                 className={removeClasses}
                 onClick={handleRemoveTemplate}
-                title={removeTemplateText}
+                title={localizations.removePlaceholder.replace('%s', name)}
               />
               <span className={spinnerClasses} />
             </span>
