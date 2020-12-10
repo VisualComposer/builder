@@ -152,7 +152,7 @@ class Controller extends Container implements Module
             $template = $postTypeHelper->get($id, 'vcv_templates');
             $status = false;
             if ($template) {
-                $status = $postTypeHelper->delete($id, 'vcv_templates');
+                $status = $postTypeHelper->trash($id, 'vcv_templates');
             }
 
             return [

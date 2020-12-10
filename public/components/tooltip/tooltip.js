@@ -1,12 +1,14 @@
 import React from 'react'
 import classNames from 'classnames'
+import TooltipBox from './tooltipBox'
 
 export default class Tooltip extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      isVisible: false
+      isVisible: false,
+      showAtTop: false
     }
 
     this.tooltipRef = React.createRef()
@@ -16,6 +18,7 @@ export default class Tooltip extends React.Component {
     this.closeIfNotInside = this.closeIfNotInside.bind(this)
     this.handleMouseEnter = this.handleMouseEnter.bind(this)
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
+    this.setTopState = this.setTopState.bind(this)
   }
 
   componentDidMount () {
@@ -76,6 +79,10 @@ export default class Tooltip extends React.Component {
     this.setState({ isHovered: false })
   }
 
+  setTopState () {
+    this.setState({ showAtTop: true })
+  }
+
   render () {
     const { isVisible, isHovered } = this.state
     let tooltipBox = null
@@ -84,7 +91,12 @@ export default class Tooltip extends React.Component {
       const boxStyles = this.getTooltipPosition()
 
       tooltipBox = (
-        <div className='vcv-tooltip-box' style={boxStyles} dangerouslySetInnerHTML={{ __html: this.props.children }} />
+        <TooltipBox
+          boxStyles={boxStyles}
+          setTopState={this.setTopState}
+        >
+          {this.props.children}
+        </TooltipBox>
       )
     }
 
@@ -95,8 +107,13 @@ export default class Tooltip extends React.Component {
       'vcv-ui-icon--active': isVisible || isHovered
     })
 
+    const tooltipClasses = classNames({
+      'vcv-tooltip-container': true,
+      'vcv-tooltip-container--box-position--top': this.state.showAtTop
+    })
+
     return (
-      <div className='vcv-tooltip-container' ref={this.tooltipRef}>
+      <div className={tooltipClasses} ref={this.tooltipRef}>
         <i
           ref={this.tooltipButtonRef}
           className={iconClasses}
