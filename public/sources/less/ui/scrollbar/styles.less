@@ -92,7 +92,7 @@
   content: '';
   position: absolute;
   height: 30px;
-  width: 100%;
+  width: 96%; // leave space for the scrollbar
   left: 0;
   bottom: 0;
   background-image: linear-gradient(0, @vcv-scroll-dots-fade-color 30%, transparent);
@@ -115,6 +115,6 @@
   &.vcv-scroll-dots::after {
     bottom: initial;
     top: 0;
-    background-image: linear-gradient(180deg, @vcv-scroll-dots-fade-color 30%, transparent);
+    background-image: linear-gradient(180deg, @vcv-scroll-dots-fade-color, transparent 30%);
   }
 }
