@@ -380,7 +380,7 @@ export default class ElementControl extends React.Component {
 
   handleRemovePreset () {
     const localizations = dataManager.get('localizations')
-    const removePresetWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to delete this element preset?'
+    const removePresetWarning = localizations ? localizations.removeElementPresetWarning : 'Do you want to remove this element preset?'
 
     if (window.confirm(removePresetWarning)) {
       const couldNotParseData = localizations ? localizations.couldNotParseData : 'Could not parse data from the server.'
@@ -421,7 +421,7 @@ export default class ElementControl extends React.Component {
 
   handleRemoveElement () {
     const localizations = dataManager.get('localizations')
-    const removeElementWarning = localizations ? localizations.removeElementWarning : 'Do you want to delete this template?'
+    const removeElementWarning = localizations ? localizations.removeElementWarning : 'Do you want to remove this element?'
     if (window.confirm(removeElementWarning)) {
       const tag = this.props.element.tag
       const removeElementInUseCurrentPageWarning = localizations ? localizations.removeElementInUseCurrentPageWarning : 'Could not parse data from the server.'
@@ -486,6 +486,25 @@ export default class ElementControl extends React.Component {
     })
   }
 
+  isElementRemovable (element) {
+    // Allowed only for 'manager_options' capability users
+    // - Not allowed to remove default included elements
+    // - Not allowed to remove third party elements
+    // - Not allowed to remove addon-dependent elements
+    // TODO: Make this variable dynamic in case if addon elements will be more and more
+    const addonElements = [
+      'globalTemplate',
+      'layoutFooterArea',
+      'layoutHeaderArea',
+      'layoutSidebarArea',
+      'layoutWpCommentsArea',
+      'layoutWpContentArea'
+    ]
+    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
+
+    return vcvIsUserAdmin && !element.metaIsDefaultElement && !element.thirdParty && addonElements.indexOf(element.tag) === -1
+  }
+
   render () {
     const { name, element, elementPresetId, thirdParty } = this.props
     const { previewVisible, previewStyle } = this.state
@@ -535,11 +554,12 @@ export default class ElementControl extends React.Component {
       removeControl = (
         <span
           className={removeClasses}
+          title={localizations.removePlaceholder.replace('%', name)}
           onClick={this.handleRemovePreset}
           data-action='deleteElementPreset'
         />
       )
-    } else if (!element.metaIsDefaultElement && !element.thirdParty) {
+    } else if (this.isElementRemovable(element)) {
       const removeClasses = classNames({
         'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
         'vcv-ui-state--hidden': this.state.showSpinner
@@ -548,6 +568,7 @@ export default class ElementControl extends React.Component {
         <span
           className={removeClasses}
           onClick={this.handleRemoveElement}
+          title={localizations.removePlaceholder.replace('%', name)}
           data-action='deleteElement'
         />
       )
@@ -578,7 +599,6 @@ export default class ElementControl extends React.Component {
           onMouseUp={this.handleMouseUp}
           onFocus={this.handleFocus}
           onKeyPress={this.handleKeyPress}
-          title={name}
           tabIndex={0}
         >
           <span className='vcv-ui-item-element-content'>
@@ -587,9 +607,9 @@ export default class ElementControl extends React.Component {
               alt={name}
             />
             <span className={overlayClasses}>
-              <span className={applyClasses} />
+              <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} />
               {removeControl}
-              {elementPresetId ? <span className={spinnerClasses} /> : null}
+              {removeControl ? <span className={spinnerClasses} /> : null}
             </span>
           </span>
           <span className='vcv-ui-item-element-name'>
