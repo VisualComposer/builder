@@ -233,7 +233,7 @@ export default class Categories extends React.Component {
             }}
             updater={this.checkboxChangeHandler}
             value={this.state.value}
-            handleScroll={this.handleScroll}
+            onScroll={this.handleScroll}
           />
           <div className={bottomDotsClasses} />
           <p className='vcv-ui-form-helper'>{selectCategoriesForPostOr}<a className='vcv-ui-form-link' href='#' onClick={this.handleExpand}>{addANewCategory}</a>.</p>
