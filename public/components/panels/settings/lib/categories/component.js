@@ -31,7 +31,9 @@ export default class Categories extends React.Component {
       parentCategory: '',
       parentCategoryOptions: [...categoriesData.categories],
       isNewCategoryVisible: false,
-      isSaving: false
+      isSaving: false,
+      topDots: false,
+      bottomDots: true
     }
 
     settingsStorage.state('categories').set(categoriesData)
@@ -41,6 +43,7 @@ export default class Categories extends React.Component {
     this.handleAddCategory = this.handleAddCategory.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
     this.updateCategories = this.updateCategories.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
   componentDidMount () {
@@ -133,6 +136,19 @@ export default class Categories extends React.Component {
     this.setState({ isNewCategoryVisible: !this.state.isNewCategoryVisible })
   }
 
+  handleScroll (scrollbars) {
+    const { top } = scrollbars.getValues()
+    if (top > 0.25 && !this.state.topDots) {
+      this.setState({ topDots: true })
+    } else if (top < 0.25 && this.state.topDots) {
+      this.setState({ topDots: false })
+    } else if (top > 0.8 && this.state.bottomDots) {
+      this.setState({ bottomDots: false })
+    } else if (top < 0.8 && !this.state.bottomDots) {
+      this.setState({ bottomDots: true })
+    }
+  }
+
   render () {
     let spinnerHtml = null
     if (this.state.isSaving) {
@@ -192,9 +208,20 @@ export default class Categories extends React.Component {
       )
     }
 
+    const topDotsClasses = classNames({
+      'vcv-scroll-dots': true,
+      'vcv-scroll-dots--before': true,
+      'vcv-scroll-dots--visible': this.state.topDots
+    })
+    const bottomDotsClasses = classNames({
+      'vcv-scroll-dots': true,
+      'vcv-scroll-dots--after': true,
+      'vcv-scroll-dots--visible': this.state.bottomDots
+    })
     return (
       <>
         <div className='vcv-ui-form-group vcv-ui-form-group--category'>
+          <div className={topDotsClasses} />
           <Checkbox
             api={this.props.api}
             fieldKey='category'
@@ -206,7 +233,9 @@ export default class Categories extends React.Component {
             }}
             updater={this.checkboxChangeHandler}
             value={this.state.value}
+            handleScroll={this.handleScroll}
           />
+          <div className={bottomDotsClasses} />
           <p className='vcv-ui-form-helper'>{selectCategoriesForPostOr}<a className='vcv-ui-form-link' href='#' onClick={this.handleExpand}>{addANewCategory}</a>.</p>
         </div>
         {newCategory}
