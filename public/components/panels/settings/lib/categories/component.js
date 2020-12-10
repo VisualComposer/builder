@@ -138,13 +138,13 @@ export default class Categories extends React.Component {
 
   handleScroll (scrollbars) {
     const { top } = scrollbars.getValues()
-    if (top > 0.25 && !this.state.topDots) {
+    if (top > 0.11 && !this.state.topDots) {
       this.setState({ topDots: true })
-    } else if (top < 0.25 && this.state.topDots) {
+    } else if (top < 0.11 && this.state.topDots) {
       this.setState({ topDots: false })
-    } else if (top > 0.8 && this.state.bottomDots) {
+    } else if (top > 0.89 && this.state.bottomDots) {
       this.setState({ bottomDots: false })
-    } else if (top < 0.8 && !this.state.bottomDots) {
+    } else if (top < 0.89 && !this.state.bottomDots) {
       this.setState({ bottomDots: true })
     }
   }
