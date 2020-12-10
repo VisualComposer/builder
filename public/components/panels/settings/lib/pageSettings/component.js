@@ -61,10 +61,13 @@ export default class PageSettings extends React.Component {
 
     if (dataManager.get('categories')) {
       const categoriesTitle = localizations ? localizations.categories : 'Categories'
+      const categoriesDescription = localizations ? localizations.categoriesDescription : 'Manage post categories or add a new category.'
+
       wordpressSettings.push(
         <AccordionPanel
           key='categories'
           sectionTitle={categoriesTitle}
+          tooltipText={categoriesDescription}
         >
           <Categories />
         </AccordionPanel>

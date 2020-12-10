@@ -8,9 +8,13 @@ export default class Checkbox extends Attribute {
     fieldType: 'checkbox'
   }
 
+  scrollbar = null
+
   constructor (props) {
     super(props)
     this.ref = React.createRef()
+    this.handleScroll = this.handleScroll.bind(this)
+    this.scrollBarMounted = this.scrollBarMounted.bind(this)
   }
 
   componentDidMount () {
@@ -28,6 +32,10 @@ export default class Checkbox extends Attribute {
         this.setState({ heightLimit: heightLimit })
       }
     }
+  }
+
+  scrollBarMounted (scrollbar) {
+    this.scrollbar = scrollbar
   }
 
   handleChange (event) {
@@ -100,6 +108,10 @@ export default class Checkbox extends Attribute {
     return optionElements
   }
 
+  handleScroll () {
+    this.props.handleScroll(this.scrollbar.scrollbars)
+  }
+
   render () {
     const values = this.getValues()
     const optionElements = this.getCheckboxes(values)
@@ -117,7 +129,7 @@ export default class Checkbox extends Attribute {
     if (this.props.options.listView && this.state.heightLimit) {
       styleProps.height = `${this.state.heightLimit}px`
       content = (
-        <Scrollbar>{optionElements}</Scrollbar>
+        <Scrollbar ref={this.scrollBarMounted} onScroll={this.handleScroll}>{optionElements}</Scrollbar>
       )
     }
 

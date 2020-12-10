@@ -1479,6 +1479,10 @@ class Localizations extends Container implements Helper
             ),
             'removePlaceholder' => __('Remove `%`', 'visualcomposer'),
             'addPlaceholder' => __('Add `%`', 'visualcomposer'),
+            'categoriesDescription' => __(
+                'Manage post categories or add a new category.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
