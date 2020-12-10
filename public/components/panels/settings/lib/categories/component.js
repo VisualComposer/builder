@@ -44,7 +44,6 @@ export default class Categories extends React.Component {
     this.handleExpand = this.handleExpand.bind(this)
     this.updateCategories = this.updateCategories.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
-    this.handleScrollFallback = this.handleScrollFallback.bind(this)
   }
 
   componentDidMount () {
@@ -137,29 +136,15 @@ export default class Categories extends React.Component {
     this.setState({ isNewCategoryVisible: !this.state.isNewCategoryVisible })
   }
 
-  handleScrollFallback (target) {
-    const isTopPosition = target.scrollTop === 0
-    const isBottomPosition = target.scrollTop === (target.scrollHeight - target.offsetHeight)
-    if (!isTopPosition && !this.state.topDots) {
-      this.setState({ topDots: true })
-    } else if (isTopPosition && this.state.topDots) {
-      this.setState({ topDots: false })
-    } else if (isBottomPosition && this.state.bottomDots) {
-      this.setState({ bottomDots: false })
-    } else if (!isBottomPosition && !this.state.bottomDots) {
-      this.setState({ bottomDots: true })
-    }
-  }
-
   handleScroll (scrollbars) {
     const { top } = scrollbars.getValues()
-    if (top > 0.25 && !this.state.topDots) {
+    if (top > 0.11 && !this.state.topDots) {
       this.setState({ topDots: true })
-    } else if (top < 0.25 && this.state.topDots) {
+    } else if (top < 0.11 && this.state.topDots) {
       this.setState({ topDots: false })
-    } else if (top > 0.8 && this.state.bottomDots) {
+    } else if (top > 0.89 && this.state.bottomDots) {
       this.setState({ bottomDots: false })
-    } else if (top < 0.8 && !this.state.bottomDots) {
+    } else if (top < 0.89 && !this.state.bottomDots) {
       this.setState({ bottomDots: true })
     }
   }
@@ -249,7 +234,6 @@ export default class Categories extends React.Component {
             updater={this.checkboxChangeHandler}
             value={this.state.value}
             onScroll={this.handleScroll}
-            handleScrollFallback={this.handleScrollFallback}
           />
           <div className={bottomDotsClasses} />
           <p className='vcv-ui-form-helper'>{selectCategoriesForPostOr}<a className='vcv-ui-form-link' href='#' onClick={this.handleExpand}>{addANewCategory}</a>.</p>

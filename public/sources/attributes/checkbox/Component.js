@@ -108,12 +108,8 @@ export default class Checkbox extends Attribute {
     return optionElements
   }
 
-  handleScroll (e) {
-    if (this.props.handleScroll) {
-      this.props.handleScroll(this.scrollbar.scrollbars)
-    } else {
-      this.props.handleScrollFallback(e.currentTarget)
-    }
+  handleScroll () {
+    this.props.onScroll && this.props.onScroll(this.scrollbar.scrollbars)
   }
 
   render () {
