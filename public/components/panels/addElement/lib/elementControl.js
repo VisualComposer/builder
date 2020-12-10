@@ -523,7 +523,7 @@ export default class ElementControl extends React.Component {
 
     const previewClasses = classNames({
       'vcv-ui-item-preview-container': true,
-      'vcv-ui-state--visible': previewVisible
+      'vcv-ui-state--visible': previewVisible && !this.state.showSpinner
     })
 
     const publicPathThumbnail = element.metaThumbnailUrl
@@ -607,8 +607,8 @@ export default class ElementControl extends React.Component {
               alt={name}
             />
             <span className={overlayClasses}>
-              <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} />
-              {removeControl}
+              {!this.state.showSpinner ? <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} /> : null}
+              {!this.state.showSpinner ? removeControl : null}
               {removeControl ? <span className={spinnerClasses} /> : null}
             </span>
           </span>
