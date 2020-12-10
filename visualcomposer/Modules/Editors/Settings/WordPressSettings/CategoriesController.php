@@ -20,6 +20,9 @@ class CategoriesController extends Container implements Module
 
     public function __construct()
     {
+        if (!vcvenv('VCV_FT_CATEGORIES_SETTINGS')) {
+            return;
+        }
         $this->addFilter(
             'vcv:ajax:editors:settings:add:category:adminNonce',
             'addNewCategory',
