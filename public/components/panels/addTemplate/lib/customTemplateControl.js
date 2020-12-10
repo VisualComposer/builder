@@ -67,12 +67,12 @@ export default class CustomTemplateControl extends React.Component {
               <span
                 className={applyClasses}
                 onClick={handleApplyTemplate}
-                title={localizations.addPlaceholder.replace('%s', name)}
+                title={localizations.addPlaceholder.replace('%', name)}
               />
               <span
                 className={removeClasses}
                 onClick={handleRemoveTemplate}
-                title={localizations.removePlaceholder.replace('%s', name)}
+                title={localizations.removePlaceholder.replace('%', name)}
               />
               <span className={spinnerClasses} />
             </span>
