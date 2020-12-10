@@ -173,10 +173,12 @@ export const dashboard = () => {
 
   setDashboardMinHeight()
 
-  if (urlHash.indexOf(dataCollectionTableWrapper.id) !== -1) {
-    dataCollectionTableWrapper.style.display = 'block'
+  if (dataCollectionTableWrapper) {
+    if (urlHash.indexOf(dataCollectionTableWrapper.id) !== -1) {
+      dataCollectionTableWrapper.style.display = 'block'
+    }
+    dataCollectionTableButton.addEventListener('click', handleDataCollectionTableToggle)
   }
-  dataCollectionTableButton.addEventListener('click', handleDataCollectionTableToggle)
   menuLinks.forEach(link => link.addEventListener('click', handleMenuLinkClick))
   contentForms.forEach(form => {
     form.addEventListener('submit', handleContentFormSubmit)
