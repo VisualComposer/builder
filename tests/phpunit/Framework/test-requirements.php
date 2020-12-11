@@ -8,9 +8,9 @@ class RequirementsTest extends WP_UnitTestCase
 
         $this->assertTrue(version_compare(VCV_REQUIRED_PHP_VERSION, '5.3', '>'));
         $this->assertTrue(version_compare(VCV_REQUIRED_PHP_VERSION, '5.3.1', '>'));
-        $this->assertFalse(version_compare(VCV_REQUIRED_PHP_VERSION, '5.4', '>'));
-        $this->assertFalse(version_compare(VCV_REQUIRED_PHP_VERSION, '5.4.1', '>'));
-        $this->assertFalse(version_compare(VCV_REQUIRED_PHP_VERSION, '5.5', '>'));
+        $this->assertTrue(version_compare(VCV_REQUIRED_PHP_VERSION, '5.4', '>'));
+        $this->assertTrue(version_compare(VCV_REQUIRED_PHP_VERSION, '5.4.1', '>'));
+        $this->assertTrue(version_compare(VCV_REQUIRED_PHP_VERSION, '5.5', '>'));
         $this->assertFalse(version_compare(VCV_REQUIRED_PHP_VERSION, '7.0', '>'));
 
         $this->assertTrue(version_compare(VCV_REQUIRED_BLOG_VERSION, '4.0', '>'));
