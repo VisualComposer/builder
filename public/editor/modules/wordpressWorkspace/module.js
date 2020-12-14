@@ -108,7 +108,7 @@ add('wordpressWorkspace', (api) => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
       document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
       // Remove Current Post Source-CSS to avoid cascading issues
-      const sourceCss = env('iframe').document.querySelector('link[id*="assets:source:main:styles"][href$="-' + window.vcvSourceID + '"]')
+      const sourceCss = env('iframe').document.querySelector('link[id*="assets:source:main:styles"][href$="-' + dataManager.get('sourceID') + '"]')
       if (sourceCss) {
         sourceCss.remove()
       }

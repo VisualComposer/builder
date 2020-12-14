@@ -4,6 +4,7 @@ import { getService, getStorage } from 'vc-cake'
 const cook = getService('cook')
 const documentManager = getService('document')
 const workspaceStorage = getStorage('workspace')
+const dataManager = getService('dataManager')
 
 const iframe = document.getElementById('vcv-editor-iframe')
 
@@ -42,7 +43,7 @@ export function AppendControl (props) {
     }
   })
 
-  const localizations = window.VCV_I18N && window.VCV_I18N()
+  const localizations = dataManager.get('localizations')
   const addElementText = localizations ? localizations.addElement : 'Add Element'
   const elementIds = props.data.vcElementsPath
   const insertAfterElement = elementIds && elementIds.length ? elementIds[0] : false
