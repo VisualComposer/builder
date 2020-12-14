@@ -1340,7 +1340,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'excerptsAreOptional' => __(
-                'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. Learn more about manual excerpts.',
+                'Excerpts are optional hand-crafted summaries of your content.',
                 'visualcomposer'
             ),
             'insertCustomJSCodeSnippets' => __(
