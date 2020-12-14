@@ -1,6 +1,7 @@
 import { getService, env } from 'vc-cake'
 
 const cook = getService('cook')
+const dataManager = getService('dataManager')
 
 export default class Frames {
   constructor (props) {
@@ -52,7 +53,7 @@ export default class Frames {
     let isElementLocked = false
     let isParentElementLocked = false
     let isTopParent = false
-    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions')) {
       const id = element.dataset.vcvElement
       const cookElement = cook.getById(id)
       if (!cookElement) {

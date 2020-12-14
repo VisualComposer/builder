@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import { Control } from './control'
 import { ControlAction } from './controlAction'
 
 const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
+const dataManager = getService('dataManager')
 
 function updateContainerPosition (data, controlsContainer) {
   if (!controlsContainer.current) {
@@ -78,7 +79,7 @@ function getControls (data, visibleControls) {
   const { vcvDraggableIds, vcvEditableElements } = data
   const controls = []
   const iterableControls = visibleControls || vcvEditableElements
-  const localizations = window.VCV_I18N && window.VCV_I18N()
+  const localizations = dataManager.get('localizations')
   iterableControls.forEach((id, i) => {
     if (i === iterableControls.length - 1 && visibleControls) {
       const treeViewText = localizations ? localizations.treeView : 'Tree View'

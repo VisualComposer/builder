@@ -80,7 +80,10 @@ const dataManager = {
       postData: () => { return window.vcvPostData || {} },
       hubTeaserShowBadge: () => { return window.vcvHubTeaserShowBadge },
       tags: () => { return window.VCV_TAGS },
-      categories: () => { return window.VCV_CATEGORIES }
+      categories: () => { return window.VCV_CATEGORIES },
+      pluginVersion: () => { return window.VCV_PLUGIN_VERSION && window.VCV_PLUGIN_VERSION() },
+      frontEndError: () => { return window.vcvFeError || 'default' },
+      pageEditableNonce: () => { return window.vcvPageEditableNonce }
     }
   }
 }

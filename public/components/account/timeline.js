@@ -1,16 +1,19 @@
 import React from 'react'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class Timeline extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   render () {
-    const licenseType = window.VCV_LICENSE_TYPE && window.VCV_LICENSE_TYPE()
+    const licenseType = dataManager.get('licenseType')
     const goPremiumText = Timeline.localizations ? Timeline.localizations.goPremium : 'Go Premium'
     const downloadText = Timeline.localizations ? Timeline.localizations.download : 'Download'
     const installText = Timeline.localizations ? Timeline.localizations.install : 'Install'
     const activateText = Timeline.localizations ? Timeline.localizations.activateHub : 'Activate Hub'
 
-    const hasManageOptions = window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS()
+    const hasManageOptions = dataManager.get('manageOptions')
     if (!hasManageOptions) {
       return null
     }

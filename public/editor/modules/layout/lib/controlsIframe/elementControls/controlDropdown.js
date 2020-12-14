@@ -5,6 +5,7 @@ import { ControlHelpers } from './controlHelpers'
 
 const cook = getService('cook')
 const workspaceStorage = getStorage('workspace')
+const dataManager = getService('dataManager')
 
 const iframe = document.getElementById('vcv-editor-iframe')
 
@@ -93,7 +94,7 @@ function getPasteOptions (copyData, pasteEl) {
 }
 
 function getControlDropdown (elementId, options) {
-  const localizations = window.VCV_I18N && window.VCV_I18N()
+  const localizations = dataManager.get('localizations')
   const cloneText = localizations ? localizations.clone : 'Clone'
   const copyText = localizations ? localizations.copy : 'Copy'
   const pasteText = localizations ? localizations.paste : 'Paste'

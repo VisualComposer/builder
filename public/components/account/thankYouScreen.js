@@ -1,9 +1,11 @@
 import React from 'react'
-
 import VCVLogo from './vcvLogo'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class ThankYouScreen extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
   static texts = {
     thankYouText: ThankYouScreen.localizations ? ThankYouScreen.localizations.thankYouText : 'Thank You!'
   }

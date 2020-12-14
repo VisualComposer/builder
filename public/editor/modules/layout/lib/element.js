@@ -10,6 +10,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
+const dataManager = vcCake.getService('dataManager')
 
 const {
   updateDynamicComments,
@@ -120,7 +121,7 @@ export default class Element extends React.Component {
     const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
-        if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || window.vcvManageOptions || !this.state.element.metaIsElementLocked) {
+        if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || dataManager.get('vcvManageOptions') || !this.state.element.metaIsElementLocked) {
           elements.push(
             <ColumnResizer
               key={`columnResizer-${childElement.id}`} linkedElement={childElement.id}
@@ -136,7 +137,7 @@ export default class Element extends React.Component {
       returnData = elementsList
     } else {
       if (currentElement.containerFor().length > 0) {
-        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions && currentElement.get('metaIsElementLocked')) {
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions') && currentElement.get('metaIsElementLocked')) {
           returnData = null
         } else {
           returnData = <ContentControls api={this.props.api} id={currentElement.get('id')} />
@@ -158,7 +159,7 @@ export default class Element extends React.Component {
     if (cookElement.get('metaDisableInteractionInEditor')) {
       editor['data-vcv-element-disable-interaction'] = true
     }
-    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions && cookElement.get('metaIsElementLocked')) {
+    if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions') && cookElement.get('metaIsElementLocked')) {
       editor['data-vcv-element-locked'] = true
     }
     return editor
