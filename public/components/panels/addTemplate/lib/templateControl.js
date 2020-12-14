@@ -3,12 +3,9 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import HubTemplateControl from './hubTemplateControl'
 import CustomTemplateControl from './customTemplateControl'
-import { getService, env } from 'vc-cake'
-const dataManager = getService('dataManager')
+import { env } from 'vc-cake'
+
 const hubTemplateTypes = ['predefined', 'hub', 'hubHeader', 'hubFooter', 'hubSidebar', 'block']
-const localizations = dataManager.get('localizations')
-const addTemplate = localizations ? localizations.addTemplate : 'Add Template'
-const removeTemplate = localizations ? localizations.removeTemplate : 'Remove Template'
 
 export default class TemplateControl extends React.Component {
   static propTypes = {
@@ -153,7 +150,7 @@ export default class TemplateControl extends React.Component {
   }
 
   handleRemoveTemplate () {
-    this.props.removeTemplate(this.props.id)
+    this.props.removeTemplate(this.props.id, this.props.type)
   }
 
   ellipsize (selector) {
@@ -173,9 +170,7 @@ export default class TemplateControl extends React.Component {
     return {
       ...this.props,
       handleApplyTemplate: this.handleApplyTemplate,
-      handleRemoveTemplate: this.handleRemoveTemplate,
-      addTemplateText: addTemplate,
-      removeTemplateText: removeTemplate
+      handleRemoveTemplate: this.handleRemoveTemplate
     }
   }
 
@@ -186,8 +181,6 @@ export default class TemplateControl extends React.Component {
       handleRemoveTemplate: this.handleRemoveTemplate,
       showPreview: this.showPreview,
       hidePreview: this.hidePreview,
-      addTemplateText: addTemplate,
-      removeTemplateText: removeTemplate,
       previewStyle: this.state.previewStyle,
       previewVisible: this.state.previewVisible
     }

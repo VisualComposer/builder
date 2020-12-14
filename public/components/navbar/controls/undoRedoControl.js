@@ -1,8 +1,9 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import NavbarContent from '../navbarContent'
 
 const historyStorage = getStorage('history')
+const dataManager = getService('dataManager')
 
 export default class UndoRedoControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
@@ -60,7 +61,7 @@ export default class UndoRedoControl extends NavbarContent {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const undoName = localizations ? localizations.undo : 'Undo'
     const undoTitleName = UndoRedoControl.isMacLike ? undoName + ' (⌘Z)' : undoName + ' (Ctrl + Z)'
     const redoName = localizations ? localizations.redo : 'Redo'

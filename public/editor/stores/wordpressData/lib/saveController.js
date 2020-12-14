@@ -147,11 +147,13 @@ export default class SaveController {
         'vcv-settings-global-head-js': settingsStorage.state('globalJsHead').get() || '',
         'vcv-settings-global-footer-js': settingsStorage.state('globalJsFooter').get() || '',
         'vcv-settings-parent-page': settingsStorage.state('parentPage').get() || '',
+        'vcv-settings-tags': settingsStorage.state('tags').get() || '',
         'vcv-settings-excerpt': settingsStorage.state('excerpt').get() || '',
         'vcv-settings-comment-status': settingsStorage.state('commentStatus').get() || 'closed',
         'vcv-settings-ping-status': settingsStorage.state('pingStatus').get() || 'closed',
         'vcv-settings-author': settingsStorage.state('author').get() || '',
         'vcv-settings-featured-image': featuredImageDataValue,
+        'vcv-settings-categories': settingsStorage.state('categories').get() || '',
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'

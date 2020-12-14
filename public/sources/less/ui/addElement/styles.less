@@ -224,10 +224,20 @@
   }
 }
 
-.vcv-ui-add-element-content .vcv-ui-item-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.vcv-ui-add-element-content {
+  .vcv-ui-item-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > span {
+      padding: 0.6em;
+    }
+
+    &--visible {
+      opacity: 1;
+    }
+  }
 }
 
 .vcv-ui-add-element-content .vcv-ui-state--hidden {

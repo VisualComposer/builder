@@ -4,6 +4,7 @@ import Attribute from '../attribute'
 import PropTypes from 'prop-types'
 import { getResponse } from '../../../tools/response'
 import { getService } from 'vc-cake'
+import { cloneDeep } from 'lodash'
 
 const Utils = getService('utils')
 
@@ -78,10 +79,56 @@ export default class Dropdown extends Attribute {
     return values
   }
 
+  getIndentation (level) {
+    let indentaion = ''
+    const nbsp = '\xa0'
+    for (let i = 0; i <= level; i++) {
+      indentaion += nbsp
+    }
+    return indentaion
+  }
+
+  /**
+   * Creates and returns a new array with the items sorted by relation to parent.
+   * @param options
+   * @returns {[]}
+   */
+  getSortedOptions (options) {
+    const topParents = options.filter(option => !option.parent)
+    const children = options.filter(option => option.parent)
+    const sortedOptions = []
+    if (topParents.length && children.length) {
+      const sort = (options, level = 0) => {
+        options.forEach((option) => {
+          let hasChildren = children.filter(child => child.parent === option.id)
+          sortedOptions.push(option)
+          if (hasChildren) {
+            level = ++level
+            const indentaion = this.getIndentation(level)
+            hasChildren = hasChildren.map((child) => {
+              child.label = `${indentaion}${child.label}`
+              return child
+            })
+            sort(hasChildren, level)
+          }
+          level = 0
+        })
+      }
+      sort(topParents)
+    }
+    return sortedOptions
+  }
+
   generateSelectChildren (props) {
     const optionElements = []
-    const values = this.state.dropdownOptions
+    let values = this.state.dropdownOptions
     const { fieldKey } = props
+    if (props.options && props.options.nesting) {
+      // need a deep copy, to prevent changing initial array label values
+      const optionsToSort = cloneDeep(values)
+      const sortedOption = this.getSortedOptions(optionsToSort)
+      values = sortedOption.length ? sortedOption : values
+    }
 
     for (const key in values) {
       if (Object.prototype.hasOwnProperty.call(values, key)) {

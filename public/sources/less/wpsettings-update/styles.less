@@ -292,7 +292,8 @@
   display: none;
 }
 
-.vcv-ui-settings-status-table {
+.vcv-ui-settings-status-table,
+.vcv-ui-settings-data-collection-table {
   background-color: #fff;
   border: none;
   border-radius: 5px;
@@ -358,15 +359,16 @@
     z-index: -9999;
     position: absolute;
     top: 100%;
-    left: -70px;
+    left: -60px;
     width: 150px;
     max-width: 200px;
     color: @vcv-status-color-tooltip;
     background: @vcv-status-background-color-tooltip;
-    font-size: 10px;
+    font-size: 12px;
     padding: 5px 10px;
     border-radius: 5px;
     text-align: center;
+    line-height: 20px;
 
     &::before {
       content: '';
@@ -397,13 +399,13 @@
   .vcv-help-tooltip-icon {
     color: #666;
     display: inline-block;
-    font-size: 1.1em;
     font-style: normal;
     height: 16px;
     line-height: 16px;
     position: relative;
     vertical-align: middle;
     width: 16px;
+    font-size: 16px;
 
     &::after {
       font-family: Dashicons;
@@ -1147,12 +1149,21 @@ input.vcv-basic-input {
     margin: 0;
   }
 
-  .vcv-custom-page-templates-edit-link {
+  .vcv-custom-page-templates-edit-link,
+  .vcv-data-collection-table-toggle {
     margin-top: 10px;
     font-size: @vcv-dashboard-text-font-size;
     line-height: 24px;
     color: @vcv-dashboard-text-color;
     font-weight: 500;
+  }
+  .vcv-data-collection-table-toggle {
+    margin-top: 0;
+
+    a:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
 }
 

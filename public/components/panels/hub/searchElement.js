@@ -81,21 +81,6 @@ export default class SearchElement extends React.Component {
     this.props.changeInput(inputVal)
   }
 
-  getSelectOptions (categories, groupIndex) {
-    const options = []
-    categories.forEach((item) => {
-      options.push(
-        <option
-          key={`search-select-item-${item.id}-${item.index}`}
-          value={`${groupIndex}-${item.index}`}
-        >
-          {item.title}
-        </option>
-      )
-    })
-    return options
-  }
-
   handleInputFocus () {
     this.setState({ input: true })
     this.inputTimeout = setTimeout(() => {

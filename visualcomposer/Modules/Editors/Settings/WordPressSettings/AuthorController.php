@@ -22,10 +22,6 @@ class AuthorController extends Container implements Module
 
     public function __construct()
     {
-        if (!vcvenv('FT_AUTHOR_SETTINGS')) {
-            return;
-        }
-
         $this->addFilter(
             'vcv:ajax:dropdown:author:updateList:adminNonce',
             'getAuthorListForUpdate',

@@ -480,6 +480,35 @@
   }
 }
 
+.vcv-settings-itemdatacollection-child {
+  padding-bottom: 0;
+
+  &.vcv-settings_settings-itemdatacollection-table .form-table > tbody > tr > td {
+    padding-top: 5px;
+  }
+}
+.vcv-ui-settings-data-collection-table-wrapper {
+  overflow: hidden;
+  transition: all .2s ease;
+
+  .vcv-ui-settings-data-collection-table {
+    margin-top: 24px;
+    tr {
+      display: table-row;
+    }
+    td {
+      display: table-cell;
+      padding: 15px 10px;
+      &:first-child {
+        flex: none;
+      }
+    }
+  }
+  .vcv-description, .description, .vcv-description p {
+    margin: 0;
+  }
+}
+
 @media screen and (min-width: 783px) {
   .vcv-dashboard-container {
     flex-direction: row;
@@ -533,9 +562,15 @@
     flex: 0 0 190px;
   }
 
-  .vcv-dashboard-main .vcv-dashboards-section-content .form-table th,
-  .vcv-dashboard-main .vcv-dashboards-section-content .form-table td {
-    padding: 20px 10px 20px 0;
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table,
+  .vcv-dashboard-main .vcv-dashboards-section-content .form-table {
+    .vcv-ui-settings-data-collection-table th,
+    .vcv-ui-settings-data-collection-table td {
+      padding: 15px 10px;
+    }
+    th, td {
+      padding: 20px 10px 20px 0;
+    }
   }
 
   .vcv-dashboard-main .vcv-settings-tab-content select.vcv-ui-form-dropdown {

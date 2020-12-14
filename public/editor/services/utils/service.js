@@ -208,6 +208,25 @@ const API = {
     }
     return string
   },
+  checkIfElementIsHidden (el) {
+    const documentManager = getService('document')
+    if (el.hidden) {
+      return true
+    } else if (el.parent) {
+      const elParent = documentManager.get(el.parent)
+      if (elParent) {
+        if (elParent.parent && elParent.parent === el.id) {
+          return true
+        } else {
+          return this.checkIfElementIsHidden(elParent)
+        }
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  },
   getVisibleElements (allElements) {
     const visibleElements = Object.assign({}, allElements)
     const checkIfHidden = (el) => {
@@ -216,6 +235,7 @@ const API = {
       } else if (el.parent && allElements[el.parent]) {
         const elParent = allElements[el.parent]
         if (elParent.parent && elParent.parent === el.id) {
+          // For templates with corrupted data (to remove infinite loading VC-434)
           return true
         } else {
           return checkIfHidden(allElements[el.parent])

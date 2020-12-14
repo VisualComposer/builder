@@ -254,12 +254,21 @@ class SystemStatus extends Container implements Module
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
     }
 
+    protected function getPluginFolderStatusForView()
+    {
+        $check = VCV_PLUGIN_DIRNAME === 'visualcomposer';
+        $textResponse = $check ? VCV_PLUGIN_DIRNAME : sprintf(__('Incorrect plugin folder name: %s. Plugin folder name must be ‘visualcomposer’', 'visualcomposer'), VCV_PLUGIN_DIRNAME);
+
+        return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
+    }
+
     protected function getRenderArgs()
     {
         return [
             'refreshUrl' => $this->getRefreshUrl(),
             'phpVersion' => $this->getPhpVersionStatusForView(),
             'wpVersion' => $this->getWpVersionStatusForView(),
+            'pluginFolder' => $this->getPluginFolderStatusForView(),
             'vcVersion' => $this->statusHelper->getVcvVersion(),
             'wpDebug' => $this->getWpDebugStatusForView(),
             'memoryLimit' => $this->getMemoryLimitStatusForView(),

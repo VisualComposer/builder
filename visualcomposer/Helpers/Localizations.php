@@ -87,8 +87,8 @@ class Localizations extends Container implements Helper
                 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.',
                 'visualcomposer'
             ),
-            'removeTemplateWarning' => __('Do you want to delete this template?', 'visualcomposer'),
-            'removeElementPresetWarning' => __('Do you want to delete this element preset?', 'visualcomposer'),
+            'removeTemplateWarning' => __('Do you want to remove this template?', 'visualcomposer'),
+            'removeElementPresetWarning' => __('Do you want to remove this element preset?', 'visualcomposer'),
             'templateRemoveFailed' => __('Failed to remove the template', 'visualcomposer'),
             'blankPageHeadingSelect' => __('Name Your Page, Select', 'visualcomposer'),
             'blankPageHeadingPart1' => __('Name The Page', 'visualcomposer'),
@@ -587,13 +587,23 @@ class Localizations extends Container implements Helper
             ),
             'editThemeTemplate' => sprintf(
                 __(
-                    '%sEdit%s this %s.%s',
+                    '%sEdit%s this %s or %screate%s a new one.',
                     'visualcomposer'
                 ),
-                '<div class="vcv-custom-page-templates-edit-link"><a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
                 '</a>',
-                '{editLinkTitle}',
-                '</div>'
+                '{linkTitle}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'createThemeTemplate' => sprintf(
+                __(
+                    '%sCreate%s a new %s.',
+                    'visualcomposer'
+                ),
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{linkTitle}'
             ),
             'enterYourLicenseKey' => __(
                 'Enter your license key',
@@ -1145,19 +1155,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'dataCollectionHeadingText' => __(
-                'Help us make Visual Composer better',
+                'Share Usage Data',
                 'visualcomposer'
             ),
             'dataCollectionText' => __(
-                'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!',
+                'Help to make Visual Composer better by sharing anonymous usage data. We appreciate your help.',
                 'visualcomposer'
             ),
             'readMoreText' => __(
                 'Read more',
                 'visualcomposer'
             ),
-            'yesIWouldLikeToHelpText' => __(
-                'Yes, I would like to help',
+            'dataCollectionToggleText' => __(
+                'Share anonymous data',
                 'visualcomposer'
             ),
             'submit' => __(
@@ -1415,6 +1425,62 @@ class Localizations extends Container implements Helper
             ),
             'featuredImageRemoved' => __(
                 'Featured image is removed. Save page and reload editor to see changes.',
+                'visualcomposer'
+            ),
+            'tags' => __(
+                'Tags',
+                'visualcomposer'
+            ),
+            'manageTagsAssociatedWithThePost' => __(
+                'Manage tags associated with the post.',
+                'visualcomposer'
+            ),
+            'general' => __(
+                'General',
+                'visualcomposer'
+            ),
+            'removeElementWarning' => __('Do you want to remove this element?', 'visualcomposer'),
+            'removeElementInUseCurrentPageWarning' => __('The element is in use on current page. Remove all element copies from your site before deleting it.', 'visualcomposer'),
+            'elementRemovedText' => __(
+                'Element has been removed.',
+                'visualcomposer'
+            ),
+            'addNew' => __(
+                'Add new',
+                'visualcomposer'
+            ),
+            'categories' => __(
+                'Categories',
+                'visualcomposer'
+            ),
+            'category' => __(
+                'Category',
+                'visualcomposer'
+            ),
+            'parentCategory' => __(
+                'Parent Category',
+                'visualcomposer'
+            ),
+            'addNewCategory' => __(
+                'Add New Category',
+                'visualcomposer'
+            ),
+            'selectCategoriesForPostOr' => __(
+                'Select categories for the post or ',
+                'visualcomposer'
+            ),
+            'addANewCategory' => __(
+                'add a new category',
+                'visualcomposer'
+            ),
+            'selectParentCategory' => __(
+                'Select Parent Category',
+                'visualcomposer'
+            ),
+            'removePlaceholder' => __('Remove `%`', 'visualcomposer'),
+            'addPlaceholder' => __('Add `%`', 'visualcomposer'),
+            'categoriesDescription' => __(
+                'Manage post categories or add a new category.',
                 'visualcomposer'
             ),
         ];

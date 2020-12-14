@@ -47,9 +47,11 @@ export default class DataCollectionPopup extends React.Component {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const headingText = localizations ? localizations.dataCollectionHeadingText : 'Help us make Visual Composer better'
-    const text = localizations ? localizations.dataCollectionText : 'Help us to improve the plugin by sharing anonymous data about Visual Composer usage. We appreciate your help!'
-    const confirmText = localizations ? localizations.yesIWouldLikeToHelpText : 'Yes, I would like to help'
+    const headingText = localizations ? localizations.dataCollectionHeadingText : 'Share Usage Data'
+    const text = localizations ? localizations.dataCollectionText : 'Help to make Visual Composer better by sharing anonymous usage data. We appreciate your help.'
+    const readMoreText = localizations ? localizations.readMoreText : 'Read more'
+    const dashboardUrl = `${window.vcvSettingsDashboardUrl}#vcv-ui-settings-data-collection-table`
+    const confirmText = localizations ? localizations.dataCollectionToggleText : 'Share anonymous data'
 
     const customButtonProps = {
       disabled: !this.state.isChecked
@@ -65,7 +67,7 @@ export default class DataCollectionPopup extends React.Component {
         onPrimaryButtonClick={this.handlePrimaryButtonClick}
         onClose={this.handleCloseClick}
       >
-        <p className='vcv-layout-popup-text'>{text}</p>
+        <p className='vcv-layout-popup-text'>{text} <a className='vcv-layout-popup-text--anchor' target='_blank' rel='noopener noreferrer' href={dashboardUrl}>{readMoreText}</a></p>
         <div className='vcv-layout-popup-checkbox-option-wrapper'>
           <input
             type='checkbox'
