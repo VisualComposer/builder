@@ -6,7 +6,7 @@ const dataManager = getService('dataManager')
 export default class Logo extends React.Component {
   render () {
     let output = (
-      <a href={`${dataManager.get('goPremiumUrl')}&vcv-ref=editor`} target='_blank' rel='noopener noreferrer' className='vcv-ui-navbar-logo' title='Visual Composer Website Builder'>
+      <a href={`${dataManager.get('utm')['editor-logo-url']}`} target='_blank' rel='noopener noreferrer' className='vcv-ui-navbar-logo' title='Visual Composer Website Builder'>
         <span className='vcv-ui-navbar-logo-title'>Visual Composer Website Builder</span>
       </a>
     )
