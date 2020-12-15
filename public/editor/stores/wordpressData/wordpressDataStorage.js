@@ -90,6 +90,9 @@ addStorage('wordpressData', (storage) => {
       const featuredImageData = dataManager.get('featuredImage')
       const categoriesData = dataManager.get('categories')
       let empty = false
+      if (featuredImageData) {
+        featuredImageData.initialSet = true
+      }
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
         empty = true
@@ -282,7 +285,7 @@ addStorage('wordpressData', (storage) => {
   function setFeaturedImage () {
     const current = settingsStorage.state('featuredImage').get()
     if (!featuredImage) {
-      if (!featuredImageNotification && current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
+      if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
         featuredImageNotification = true
         notificationsStorage.trigger('add', {
           position: 'bottom',
