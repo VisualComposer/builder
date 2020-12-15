@@ -12,6 +12,7 @@ if (isset($_GET['page'])) {
 }
 
 $tabsHelper = vchelper('SettingsTabsRegistry');
+$utmHelper = vchelper('Utm');
 $allTabs = $tabsHelper->getHierarchy();
 $activeTabData = $tabsHelper->get($activeTab);
 
@@ -172,7 +173,7 @@ if (is_array($variables)) {
         <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
                 <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-                    <a class="vcv-dashboard-logo" href="<?php echo esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=vc-dashboard')); ?>">
+                    <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get('vc-dashboard-logo-url') ?>" target="_blank" rel="noopener noreferrer">
                         <?php evcview('settings/partials/dashboard-logo'); ?>
                     </a>
                 <?php else : ?>
