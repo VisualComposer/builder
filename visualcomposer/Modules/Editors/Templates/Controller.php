@@ -147,7 +147,11 @@ class Controller extends Container implements Module
         PostType $postTypeHelper,
         CurrentUser $currentUserAccessHelper
     ) {
-        if ($currentUserAccessHelper->wpAll('delete_published_posts')->get()) {
+        /**
+         * Note: `ss` at the end is not a typo!
+         * @see visualcomposer/Modules/Editors/Templates/PostType.php:62
+         */
+        if ($currentUserAccessHelper->wpAll('delete_published_vcv_templatess')->get()) {
             $id = $requestHelper->input('vcv-template-id');
             $template = $postTypeHelper->get($id, 'vcv_templates');
             $status = false;
