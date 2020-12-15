@@ -414,10 +414,10 @@ export default class AddTemplatePanel extends React.Component {
     })
   }
 
-  onRemoveFailed () {
+  onRemoveFailed (response) {
     const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Failed to remove the template'
 
-    this.displayError(templateRemoveFailed)
+    this.displayError(response && response.message ? response.message : templateRemoveFailed)
     this.setState({ showSpinner: false })
   }
 
