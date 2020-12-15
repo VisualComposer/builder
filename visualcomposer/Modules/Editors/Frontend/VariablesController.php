@@ -39,7 +39,6 @@ class VariablesController extends Container implements Module
     {
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
-        $utmHelper = vchelper('Utm');
 
         $variables[] = [
             'key' => 'ajaxurl',
@@ -94,11 +93,6 @@ class VariablesController extends Container implements Module
         $variables[] = [
             'key' => 'vcvManageMenuUrl',
             'value' => set_url_scheme(admin_url('nav-menus.php')),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvEditorLogoUrl',
-            'value' => $utmHelper->get('vc-editor-logo-url'),
             'type' => 'variable',
         ];
 
