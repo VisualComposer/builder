@@ -50,7 +50,6 @@ const dataManager = {
       updateUrl: () => { return window.VCV_UPDATE_URL && window.VCV_UPDATE_URL() },
       goPremiumUrlWithRef: () => { return window.vcvGoPremiumUrlWithRef }, // used only in wp-admin/ license pages components
       goPremiumUrl: () => { return window.vcvGoPremiumUrl },
-      editorLogoUrl: () => { return window.vcvEditorLogoUrl },
       gettingStartedUrl: () => { return window.vcvGettingStartedUrl },
       goFreeUrlWithRef: () => { return window.vcvGoFreeUrlWithRef },
       authorApiKey: () => { return window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY() },
