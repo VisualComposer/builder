@@ -47,6 +47,8 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::templatesEditorBlankTemplate */
         $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
 
+        $this->wpAddFilter('wp_untrash_post_status', 'untrashTemplate', 30);
+
         // In case if Trashed template removed
         $this->wpAddAction('before_delete_post', 'deleteTemplateData');
     }
@@ -188,6 +190,16 @@ class Controller extends Container implements Module
                 }
             }
         }
+    }
+
+    protected function untrashTemplate($status, $sourceId, PostType $postTypeHelper)
+    {
+        $template = $postTypeHelper->get($sourceId, 'vcv_templates');
+        if ($template) {
+            return 'publish';
+        }
+
+        return $status;
     }
 
     /**
