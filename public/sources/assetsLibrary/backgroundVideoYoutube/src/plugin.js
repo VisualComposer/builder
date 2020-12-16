@@ -66,8 +66,9 @@
           },
           events: {
             onReady: function onReady(event) {
-              var height = event.target.f.getAttribute('height');
-              var width = event.target.f.getAttribute('width');
+              var iframe = event.target.getIframe();
+              var height = iframe.getAttribute('height');
+              var width = iframe.getAttribute('width');
               _this.resizer.setAttribute('height', height);
               _this.resizer.setAttribute('width', width);
               _this.resizer.setAttribute('data-vce-assets-video-state', 'visible');
