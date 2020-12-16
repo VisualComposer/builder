@@ -42,7 +42,7 @@ class Controller extends Container implements Module
             return [
                 'status' => false,
                 'message' => __(
-                    'You are not allowed to delete content elements.',
+                    'You are not allowed to delete elements.',
                     'visualcomposer'
                 ),
             ];
