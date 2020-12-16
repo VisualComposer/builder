@@ -149,6 +149,10 @@ export default class AddTemplatePanel extends React.Component {
     ) {
       template.spinner = true
     }
+    if (!template.type) {
+      template.type = 'custom'
+    }
+
     return {
       key: 'vcv-element-control-' + template.id,
       applyTemplate: this.handleApplyTemplate,
