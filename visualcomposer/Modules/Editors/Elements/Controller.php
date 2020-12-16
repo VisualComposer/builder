@@ -42,7 +42,7 @@ class Controller extends Container implements Module
             return [
                 'status' => false,
                 'message' => __(
-                    'Only the Administrator role can remove the element.',
+                    'You don\'t have an access to remove this element.',
                     'visualcomposer'
                 ),
             ];
