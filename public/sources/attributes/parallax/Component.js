@@ -193,9 +193,7 @@ export default class Parallax extends Attribute {
         disabled: true
       }
     ]
-    if (options.values.length <= 3) {
-      options.values = options.values.concat(premiumOptions)
-    }
+    options.values = options.values.concat(premiumOptions)
 
     const storage = getStorage('fieldOptions')
     storage.state('currentAttribute:settings').set(options)
