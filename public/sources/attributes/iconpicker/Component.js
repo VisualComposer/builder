@@ -1,14 +1,17 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const attributesStorage = getStorage('attributes')
+const dataManager = getService('dataManager')
 
 class Iconpicker extends Attribute {
   static defaultProps = {
     fieldType: 'iconpicker'
   }
+
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -148,23 +151,112 @@ class Iconpicker extends Attribute {
       )
     }
 
-    let iconsSetContent = ''
+    const innerSetContent = []
     if (iconSetLength > 1) {
-      const innerSetContent = []
-      Object.keys(iconSetList).forEach((i) => {
-        const name = i.charAt(0).toUpperCase() + i.slice(1)
-        const optionText = iconSetList[i].disabled ? name + ' (Premium)' : name
-        innerSetContent.push(<option key={'inner' + i} value={i}>{optionText}</option>)
+      const sortedIconSetList = Object.keys(iconSetList).filter(item => item !== 'fontawesome').sort()
+      sortedIconSetList.unshift('fontawesome')
+      sortedIconSetList.forEach((iconSet) => {
+        const name = iconSet.charAt(0).toUpperCase() + iconSet.slice(1)
+        innerSetContent.push(<option key={'inner' + iconSet} value={iconSet}>{name}</option>)
       })
-      iconsSetContent = (
-        <select onChange={this.handleIconSetChange} value={iconSet} className='vcv-ui-form-dropdown'>
-          {innerSetContent}
-        </select>
-      )
+    } else {
+      const downloadPremiumIconLibraries = Iconpicker.localizations ? Iconpicker.localizations.downloadPremiumIconLibraries : 'Download Premium Icon Libraries'
+      const availableInPremiumText = Iconpicker.localizations ? Iconpicker.localizations.availableInPremiumText : 'Available in Premium'
+
+      const labelPostFix = dataManager.get('isPremiumActivated') ? `(${downloadPremiumIconLibraries})` : `(${availableInPremiumText})`
+      const premiumOptions = [
+        {
+          label: 'Fontawesome',
+          value: 'fontawesome',
+          disabled: false
+        },
+        {
+          label: `Batch ${labelPostFix}`,
+          value: 'batch',
+          disabled: true
+        },
+        {
+          label: `Dripicons ${labelPostFix}`,
+          value: 'dripicons',
+          disabled: true
+        },
+        {
+          label: `Entypo ${labelPostFix}`,
+          value: 'entypo',
+          disabled: true
+        },
+        {
+          label: `Evil ${labelPostFix}`,
+          value: 'evil',
+          disabled: true
+        },
+        {
+          label: `Feater ${labelPostFix}`,
+          value: 'feather',
+          disabled: true
+        },
+        {
+          label: `Jam ${labelPostFix}`,
+          value: 'jam',
+          disabled: true
+        },
+        {
+          label: `Linearicons ${labelPostFix}`,
+          value: 'linearicons',
+          disabled: true
+        },
+        {
+          label: `Lineicons ${labelPostFix}`,
+          value: 'lineicons',
+          disabled: true
+        },
+        {
+          label: `Material ${labelPostFix}`,
+          value: 'material',
+          disabled: true
+        },
+        {
+          label: `Metrize ${labelPostFix}`,
+          value: 'metrize',
+          disabled: true
+        },
+        {
+          label: `Mfglabs ${labelPostFix}`,
+          value: 'mfglabs',
+          disabled: true
+        },
+        {
+          label: `Monosocial ${labelPostFix}`,
+          value: 'monosocial',
+          disabled: true
+        },
+        {
+          label: `Openiconic ${labelPostFix}`,
+          value: 'openiconic',
+          disabled: true
+        },
+        {
+          label: `Socialicons ${labelPostFix}`,
+          value: 'socialicons',
+          disabled: true
+        },
+        {
+          label: `Typicons ${labelPostFix}`,
+          value: 'typicons',
+          disabled: true
+        },
+        {
+          label: `Zondicons ${labelPostFix}`,
+          value: 'zondicons',
+          disabled: true
+        }
+      ]
+      premiumOptions.forEach((iconSet) => {
+        innerSetContent.push(<option key={iconSet.value} value={iconSet.value} disabled={!!iconSet.disabled}>{iconSet.label}</option>)
+      })
     }
 
     let renderSearch = null
-
     if (showSearch) {
       renderSearch = (
         <div className='vcv-ui-input-search'>
@@ -182,7 +274,9 @@ class Iconpicker extends Attribute {
     return (
       <div className={popupClasses}>
         <div className='vcv-ui-form-iconpicker-content-heading'>
-          {iconsSetContent}
+          <select onChange={this.handleIconSetChange} value={iconSet} className='vcv-ui-form-dropdown'>
+            {innerSetContent}
+          </select>
           {renderSearch}
           {categoriesContent}
         </div>
