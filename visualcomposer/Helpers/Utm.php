@@ -80,7 +80,9 @@ class Utm implements Helper
 
             // vcv-activate-license myVC licenses URL
             'activate-license-myvc-license-url' => rtrim($myVc, '\//')
-                . '/licenses/?utm_source=' . $source . '&utm_medium={media}&utm_campaign=info&utm_content=my-visual-composer-text',
+                . '/licenses/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=info&utm_content=my-visual-composer-text',
+            'editor-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=gopremium&utm_content=logo',
+            'dashboard-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=gopremium&utm_content=logo',
         ];
 
         return $utm;
