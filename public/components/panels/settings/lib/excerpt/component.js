@@ -28,7 +28,7 @@ export default class Excerpt extends React.Component {
 
   render () {
     const settingName = localizations ? localizations.excerpt : 'Excerpt'
-    const excerptsAreOptional = localizations ? localizations.excerptsAreOptional : 'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. Learn more about manual excerpts.'
+    const excerptsAreOptional = localizations ? localizations.excerptsAreOptional : 'Excerpts are optional hand-crafted summaries of your content.'
 
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>

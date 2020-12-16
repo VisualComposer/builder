@@ -308,7 +308,7 @@ export default class TemplateLayoutIcons extends React.Component {
       return null
     }
 
-    const checked = current.stretchedContent
+    const checked = current.stretchedContent || false
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <div className='vcv-ui-form-switch-container'>
