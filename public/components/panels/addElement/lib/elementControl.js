@@ -25,7 +25,8 @@ export default class ElementControl extends React.Component {
     thirdParty: PropTypes.bool,
     addElement: PropTypes.func,
     setFocusedElement: PropTypes.func,
-    applyFirstElement: PropTypes.func
+    applyFirstElement: PropTypes.func,
+    isRemoveStateActive: PropTypes.bool
   }
 
   helper = null
@@ -545,12 +546,13 @@ export default class ElementControl extends React.Component {
         </figure>
       )
     }
+
+    const removeClasses = classNames({
+      'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
+      'vcv-ui-state--hidden': this.state.showSpinner
+    })
     let removeControl = null
     if (elementPresetId) {
-      const removeClasses = classNames({
-        'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
-        'vcv-ui-state--hidden': this.state.showSpinner
-      })
       removeControl = (
         <span
           className={removeClasses}
@@ -560,10 +562,6 @@ export default class ElementControl extends React.Component {
         />
       )
     } else if (this.isElementRemovable(element)) {
-      const removeClasses = classNames({
-        'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
-        'vcv-ui-state--hidden': this.state.showSpinner
-      })
       removeControl = (
         <span
           className={removeClasses}
@@ -586,8 +584,32 @@ export default class ElementControl extends React.Component {
 
     const overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': this.state.showSpinner
+      'vcv-ui-item-overlay--visible': this.state.showSpinner,
+      'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
+
+    const itemProps = {}
+    if (!this.props.isRemoveStateActive) {
+      itemProps.onMouseDown = this.handleMouseDown
+      itemProps.onMouseUp = this.handleMouseUp
+      itemProps.onKeyPress = this.handleKeyPress
+    }
+
+    let itemButton = null
+    let titleText = null
+    if (!this.state.showSpinner) {
+      if (this.props.isRemoveStateActive) {
+        itemButton = removeControl
+        if (!removeControl) {
+          titleText = localizations ? localizations.thisElementCantBeDeleted : 'This element can’t be deleted'
+          itemProps.style = {
+            cursor: 'not-allowed'
+          }
+        }
+      } else {
+        itemButton = <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} />
+      }
+    }
 
     return (
       <div className={listItemClasses}>
@@ -595,11 +617,10 @@ export default class ElementControl extends React.Component {
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? this.handleMouseEnterShowPreview : null}
           onMouseLeave={!disablePreview ? this.handleMouseLeaveHidePreview : null}
-          onMouseDown={this.handleMouseDown}
-          onMouseUp={this.handleMouseUp}
           onFocus={this.handleFocus}
-          onKeyPress={this.handleKeyPress}
           tabIndex={0}
+          title={titleText}
+          {...itemProps}
         >
           <span className='vcv-ui-item-element-content'>
             <img
@@ -607,8 +628,7 @@ export default class ElementControl extends React.Component {
               alt={name}
             />
             <span className={overlayClasses}>
-              {!this.state.showSpinner ? <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} /> : null}
-              {!this.state.showSpinner ? removeControl : null}
+              {itemButton}
               {removeControl ? <span className={spinnerClasses} /> : null}
             </span>
           </span>
