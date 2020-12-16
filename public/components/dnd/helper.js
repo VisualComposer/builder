@@ -1,4 +1,8 @@
 import _ from 'lodash'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspace')
+
 export default class Helper {
   constructor (element, options) {
     Object.defineProperty(this, 'element', {
@@ -69,11 +73,16 @@ export default class Helper {
   }
 
   show () {
-    window.setTimeout(() => {
-      if (this && this.control) {
-        this.control.style.display = 'flex'
-      }
-    }, 50)
+    const workspaceState = workspaceStorage.state('drag').get()
+    if (workspaceState && workspaceState.active && workspaceState.addPanel) {
+      this.control.style.display = 'flex'
+    } else {
+      window.setTimeout(() => {
+        if (this && this.control) {
+          this.control.style.display = 'flex'
+        }
+      }, 50)
+    }
   }
 
   remove () {
