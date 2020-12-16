@@ -166,7 +166,7 @@ class Controller extends Container implements Module
 
         return [
             'status' => false,
-            'message' => __('You don\'t have an access to remove this template.', 'visualcomposer'),
+            'message' => __('You are not allowed to delete templates.', 'visualcomposer'),
         ];
     }
 
