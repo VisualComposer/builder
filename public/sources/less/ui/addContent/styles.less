@@ -1,0 +1,54 @@
+.vcv-ui-add-content-panel-heading {
+  margin: 12px 0 12px 20px;
+  display: flex;
+  align-items: center;
+
+  .vcv-ui-editor-search-container {
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .vcv-ui-edit-form-back-button {
+
+  }
+}
+
+.vcv-ui-add-content-panel-heading-controls {
+  margin: 0 10px;
+}
+
+.rtl .vcv-ui-add-content-panel-heading {
+  margin: 12px 20px 12px 0;
+}
+
+.vcv-ui-editor-panel-settings-control,
+.vcv-ui-editor-panel-hide-control,
+.vcv-ui-editor-panel-back-control {
+  line-height: 16px;
+  font-size: 16px;
+  padding: 6px;
+  margin: 0 2px;
+  cursor: pointer;
+  display: inline-block;
+
+  .vcv-ui-icon::before {
+    transition: opacity .2s;
+  }
+
+  &.vcv-ui-editor-panel-control--active,
+  &:hover .vcv-ui-icon::before {
+    opacity: 0.5;
+  }
+
+  &.vcv-ui-editor-panel-control--active:hover .vcv-ui-icon::before {
+    opacity: 1;
+  }
+}
+
+.vcv-ui-editor-panel-back-control {
+  margin: 0 7px 0 0;
+}
+
+.rtl .vcv-ui-editor-panel-back-control {
+  margin: 0 0 0 7px;
+}

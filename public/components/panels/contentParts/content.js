@@ -129,7 +129,7 @@ export default class Content extends React.Component {
     })
 
     let closeButton = null
-    if (content !== 'treeView' && content !== 'editElement') {
+    if (content !== 'treeView' && content !== 'editElement' && content !== 'addElement' && content !== 'addTemplate') {
       closeButton = (
         <span className={closeBtnClasses} title={closeTitle} onClick={this.handleClickCloseContent}>
           <i className='vcv-layout-bar-content-hide-icon vcv-ui-icon vcv-ui-icon-close-thin' />
