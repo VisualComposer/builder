@@ -9,6 +9,8 @@ import classNames from 'classnames'
 
 const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
+const hubElementsStorage = vcCake.getStorage('hubElements')
+const hubTemplatesStorage = vcCake.getStorage('hubTemplates')
 const workspaceSettings = workspaceStorage.state('settings')
 
 export default class AddContentPanel extends React.Component {
@@ -143,6 +145,15 @@ export default class AddContentPanel extends React.Component {
       'vcv-ui-editor-panel-control--active': this.state.isRemoveStateActive
     })
 
+    let settingsControl
+    if (dataManager.get('vcvManageOptions') || hubElementsStorage.state('elementPresets').get().length || Object.keys(hubTemplatesStorage.state('templates').get()).length) {
+      settingsControl = (
+        <span className={settingsClasses} title={settingsTitle} onClick={this.handleSettingsClick}>
+          <i className='vcv-ui-icon vcv-ui-icon-cog' />
+        </span>
+      )
+    }
+
     return (
       <div className={addContentPanelClasses}>
         <div className='vcv-ui-add-content-panel-heading'>
@@ -159,9 +170,7 @@ export default class AddContentPanel extends React.Component {
             autoFocus={this.props.visible}
           />
           <div className='vcv-ui-add-content-panel-heading-controls'>
-            <span className={settingsClasses} title={settingsTitle} onClick={this.handleSettingsClick}>
-              <i className='vcv-ui-icon vcv-ui-icon-cog' />
-            </span>
+            {settingsControl}
             <span className='vcv-ui-editor-panel-hide-control' title={closeTitleWithShortcut} onClick={this.handleClickCloseContent}>
               <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
             </span>
