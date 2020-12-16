@@ -246,11 +246,11 @@ class Localizations extends Container implements Helper
             ),
             'pageTitleDisableDescription' => __('Disable the page title', 'visualcomposer'),
             'successElementDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library.',
                 'visualcomposer'
             ),
             'successAddonDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library. To finish the installation process reload the page.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.',
                 'visualcomposer'
             ),
             'copyElementWithId' => __(
