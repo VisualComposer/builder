@@ -25,7 +25,7 @@
     "npm": ">=5.8"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "2.7.0",
+    "vc-webpack-vendors": "2.8.1",
     "standard": "14.3.4",
     "color-blend": "git://github.com/wpbakery/color-blend.git#5dd059a6dbdc6754f53f4eca09800953534d8322",
     "combokeys": "3.0.1",
@@ -96,9 +96,9 @@
   "resolutions": {
     "core-js": "3.2.1",
     "postcss": "7.0.32",
-    "css-loader": "4.0.0",
+    "css-loader": "4.2.2",
     "color-name": "1.1.4",
-    "eslint": "7.5.0",
+    "eslint": "7.7.0",
     "less": "3.12.2",
     "raw-loader": "1.0.0"
   },
