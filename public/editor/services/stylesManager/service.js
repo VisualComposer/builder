@@ -11,7 +11,6 @@ import postcssMedia from 'postcss-custom-media'
 import postcssEach from 'postcss-each'
 import colorBlend from 'color-blend'
 import functions from 'postcss-functions'
-import autoprefixer from 'autoprefixer'
 import objectHash from 'node-object-hash'
 
 const cssHashes = {}
@@ -57,14 +56,6 @@ mainPlugins.push(functions({
 mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
 mainPlugins.push(postcssClean)
-mainPlugins.push(autoprefixer({
-  overrideBrowserslist: [
-    '>1%',
-    'ios_saf 8',
-    'ie 10',
-    'ie 11'
-  ]
-}))
 
 class StylesManager {
   constructor (styles = []) {
