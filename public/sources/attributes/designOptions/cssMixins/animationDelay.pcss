@@ -1,6 +1,7 @@
 @media (--$(device)-only) {
   [data-vce-animate-delay*="$selector"] {
-    animation-delay: $(animationDelay)s;
+    -webkit-animation-delay: $(animationDelay)s;
+            animation-delay: $(animationDelay)s;
   }
 }
 

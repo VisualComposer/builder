@@ -43,8 +43,6 @@
   font-weight: normal;
   text-align: left;
   -webkit-tap-highlight-color: transparent;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   direction: ltr;
   max-width: none
@@ -130,7 +128,8 @@ figure.image figcaption {
   -webkit-user-modify: read-only;
   -moz-user-select: all;
   -moz-user-modify: read-only;
-  user-select: all;
+  -ms-user-select: all;
+      user-select: all;
   user-modify: read-only;
   width: 9px !important;
   height: 9px !important;
