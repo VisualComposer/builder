@@ -20,29 +20,24 @@
   line-height: normal;
   font-weight: normal;
   text-align: left;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   direction: ltr;
   max-width: none
 }
 
 .mce-widget button {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box
 }
 
 .mce-container *[unselectable] {
-  -moz-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
-  user-select: none
+  -ms-user-select: none;
+      user-select: none
 }
 
 .mce-fade {
   opacity: 0;
-  -webkit-transition: opacity .15s linear;
   transition: opacity .15s linear
 }
 
@@ -85,7 +80,8 @@ div.mce-fullscreen {
 
 div.mce-edit-area {
   background: #fff;
-  filter: none
+  -webkit-filter: none;
+          filter: none
 }
 
 .mce-statusbar {
@@ -539,12 +535,16 @@ div.mce-fullscreen {
   top: 0;
   left: 0;
   opacity: 0;
-  transform: scale(.1);
-  transition: transform 100ms ease-in, opacity 150ms ease-in
+  -webkit-transform: scale(.1);
+          transform: scale(.1);
+  transition: opacity 150ms ease-in, -webkit-transform 100ms ease-in;
+  transition: transform 100ms ease-in, opacity 150ms ease-in;
+  transition: transform 100ms ease-in, opacity 150ms ease-in, -webkit-transform 100ms ease-in
 }
 
 .mce-window.mce-in {
-  transform: scale(1);
+  -webkit-transform: scale(1);
+          transform: scale(1);
   opacity: 1
 }
 
@@ -775,7 +775,6 @@ div.mce-fullscreen {
   width: 0;
   height: 100%;
   background-color: #d7d7d7;
-  -webkit-transition: width .2s ease;
   transition: width .2s ease
 }
 
@@ -787,14 +786,18 @@ div.mce-fullscreen {
   border-width: 1px;
   border-style: solid;
   border-color: #ccc;
-  transform: scale(.1);
+  -webkit-transform: scale(.1);
+          transform: scale(.1);
+  transition: opacity 150ms ease-in, -webkit-transform 100ms ease-in;
   transition: transform 100ms ease-in, opacity 150ms ease-in;
+  transition: transform 100ms ease-in, opacity 150ms ease-in, -webkit-transform 100ms ease-in;
   opacity: 0
 }
 
 .mce-notification.mce-in {
   opacity: 1;
-  transform: scale(1)
+  -webkit-transform: scale(1);
+          transform: scale(1)
 }
 
 .mce-notification-success {
@@ -1084,13 +1087,15 @@ body .mce-abs-layout-item, .mce-abs-end {
 .mce-btn-flat {
   border: 0;
   background: transparent;
-  filter: none
+  -webkit-filter: none;
+          filter: none
 }
 
 .mce-btn-flat:hover, .mce-btn-flat.mce-active, .mce-btn-flat:focus, .mce-btn-flat:active {
   border: 0;
   background: #e6e6e6;
-  filter: none
+  -webkit-filter: none;
+          filter: none
 }
 
 .mce-btn-has-text .mce-ico {
@@ -1587,7 +1592,8 @@ i.mce-i-checkbox {
 .mce-menubar .mce-menubtn {
   border-color: transparent;
   background: transparent;
-  filter: none
+  -webkit-filter: none;
+          filter: none
 }
 
 .mce-menubar .mce-menubtn button {
@@ -1609,7 +1615,8 @@ i.mce-i-checkbox {
 .mce-menubar .mce-menubtn:hover, .mce-menubar .mce-menubtn.mce-active, .mce-menubar .mce-menubtn:focus {
   border-color: #ccc;
   background: #fff;
-  filter: none
+  -webkit-filter: none;
+          filter: none
 }
 
 .mce-menubtn button {
@@ -1751,7 +1758,8 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
   background: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   cursor: default;
-  filter: none
+  -webkit-filter: none;
+          filter: none
 }
 
 .mce-menu.mce-rtl {
@@ -2020,7 +2028,6 @@ i.mce-i-resize {
   background: #fff;
   border: 1px solid #c5c5c5;
   display: inline-block;
-  -webkit-transition: border linear .2s, box-shadow linear .2s;
   transition: border linear .2s, box-shadow linear .2s;
   height: 28px;
   resize: none;
