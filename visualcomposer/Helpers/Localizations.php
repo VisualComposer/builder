@@ -246,11 +246,11 @@ class Localizations extends Container implements Helper
             ),
             'pageTitleDisableDescription' => __('Disable the page title', 'visualcomposer'),
             'successElementDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library.',
                 'visualcomposer'
             ),
             'successAddonDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library. To finish the installation process reload the page.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.',
                 'visualcomposer'
             ),
             'copyElementWithId' => __(
@@ -392,6 +392,9 @@ class Localizations extends Container implements Helper
             'backToImport' => __('Back to import', 'visualcomposer'),
             'startingImportProcess' => __('Starting import process...', 'visualcomposer'),
             'backToParent' => __('Back to parent', 'visualcomposer'),
+            'back' => __('Back', 'visualcomposer'),
+            'manageContentInYourLibrary' => __('Manage content in your library', 'visualcomposer'),
+            'thisElementCantBeDeleted' => __('This element can’t be deleted', 'visualcomposer'),
             'editorSettings' => __('Editor Settings', 'visualcomposer'),
             'clickToEditColumnValue' => __('Click to edit column value', 'visualcomposer'),
             'addOn' => __('Addon', 'visualcomposer'),
