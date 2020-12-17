@@ -45,6 +45,9 @@ class Iconpicker extends Attribute {
     let { iconSet } = value
     let icons = []
     const iconsIds = []
+    if (!Object.prototype.hasOwnProperty.call(iconSetList[iconSet], 'iconData')) {
+      return icons
+    }
 
     if (!iconSetList[iconSet]) {
       const keys = Object.keys(iconSetList)
@@ -151,109 +154,29 @@ class Iconpicker extends Attribute {
       )
     }
 
-    const innerSetContent = []
+    const downloadPremiumIconLibraries = Iconpicker.localizations ? Iconpicker.localizations.downloadPremiumIconLibraries : 'Download Premium Icon Libraries'
+    const availableInPremiumText = Iconpicker.localizations ? Iconpicker.localizations.availableInPremiumText : 'Available in Premium'
+
+    let iconsSetContent = ''
     if (iconSetLength > 1) {
+      const innerSetContent = []
       const sortedIconSetList = Object.keys(iconSetList).filter(item => item !== 'fontawesome').sort()
       sortedIconSetList.unshift('fontawesome')
-      sortedIconSetList.forEach((iconSet) => {
-        const name = iconSet.charAt(0).toUpperCase() + iconSet.slice(1)
-        innerSetContent.push(<option key={'inner' + iconSet} value={iconSet}>{name}</option>)
-      })
-    } else {
-      const downloadPremiumIconLibraries = Iconpicker.localizations ? Iconpicker.localizations.downloadPremiumIconLibraries : 'Download Premium Icon Libraries'
-      const availableInPremiumText = Iconpicker.localizations ? Iconpicker.localizations.availableInPremiumText : 'Available in Premium'
-
-      const labelPostFix = dataManager.get('isPremiumActivated') ? `(${downloadPremiumIconLibraries})` : `(${availableInPremiumText})`
-      const premiumOptions = [
-        {
-          label: 'Fontawesome',
-          value: 'fontawesome',
-          disabled: false
-        },
-        {
-          label: `Batch ${labelPostFix}`,
-          value: 'batch',
-          disabled: true
-        },
-        {
-          label: `Dripicons ${labelPostFix}`,
-          value: 'dripicons',
-          disabled: true
-        },
-        {
-          label: `Entypo ${labelPostFix}`,
-          value: 'entypo',
-          disabled: true
-        },
-        {
-          label: `Evil ${labelPostFix}`,
-          value: 'evil',
-          disabled: true
-        },
-        {
-          label: `Feater ${labelPostFix}`,
-          value: 'feather',
-          disabled: true
-        },
-        {
-          label: `Jam ${labelPostFix}`,
-          value: 'jam',
-          disabled: true
-        },
-        {
-          label: `Linearicons ${labelPostFix}`,
-          value: 'linearicons',
-          disabled: true
-        },
-        {
-          label: `Lineicons ${labelPostFix}`,
-          value: 'lineicons',
-          disabled: true
-        },
-        {
-          label: `Material ${labelPostFix}`,
-          value: 'material',
-          disabled: true
-        },
-        {
-          label: `Metrize ${labelPostFix}`,
-          value: 'metrize',
-          disabled: true
-        },
-        {
-          label: `Mfglabs ${labelPostFix}`,
-          value: 'mfglabs',
-          disabled: true
-        },
-        {
-          label: `Monosocial ${labelPostFix}`,
-          value: 'monosocial',
-          disabled: true
-        },
-        {
-          label: `Openiconic ${labelPostFix}`,
-          value: 'openiconic',
-          disabled: true
-        },
-        {
-          label: `Socialicons ${labelPostFix}`,
-          value: 'socialicons',
-          disabled: true
-        },
-        {
-          label: `Typicons ${labelPostFix}`,
-          value: 'typicons',
-          disabled: true
-        },
-        {
-          label: `Zondicons ${labelPostFix}`,
-          value: 'zondicons',
-          disabled: true
+      sortedIconSetList.forEach((i) => {
+        let name = i.charAt(0).toUpperCase() + i.slice(1)
+        let disabled = false
+        if (iconSetList[i].premium) {
+          dataManager.get('isPremiumActivated') ? name += ` (${downloadPremiumIconLibraries})` : name += ` (${availableInPremiumText})`
+          disabled = true
         }
-      ]
-      premiumOptions.forEach((iconSet) => {
-        innerSetContent.push(<option key={iconSet.value} value={iconSet.value} disabled={!!iconSet.disabled}>{iconSet.label}</option>)
+        const optionText = name
+        innerSetContent.push(<option disabled={disabled} key={'inner' + i} value={i}>{optionText}</option>)
       })
+      iconsSetContent = (
+        <select onChange={this.handleIconSetChange} value={iconSet} className='vcv-ui-form-dropdown'>
+          {innerSetContent}
+        </select>
+      )
     }
 
     let renderSearch = null
@@ -274,9 +197,7 @@ class Iconpicker extends Attribute {
     return (
       <div className={popupClasses}>
         <div className='vcv-ui-form-iconpicker-content-heading'>
-          <select onChange={this.handleIconSetChange} value={iconSet} className='vcv-ui-form-dropdown'>
-            {innerSetContent}
-          </select>
+          {iconsSetContent}
           {renderSearch}
           {categoriesContent}
         </div>
