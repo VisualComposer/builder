@@ -160,8 +160,15 @@ class Iconpicker extends Attribute {
     let iconsSetContent = ''
     if (iconSetLength > 1) {
       const innerSetContent = []
-      const sortedIconSetList = Object.keys(iconSetList).filter(item => item !== 'fontawesome').sort()
-      sortedIconSetList.unshift('fontawesome')
+
+      let defaultSet = ''
+      Object.keys(iconSetList).forEach((i) => {
+        if (iconSetList[i].default) {
+          defaultSet = i
+        }
+      })
+      const sortedIconSetList = Object.keys(iconSetList).filter(item => item !== defaultSet).sort()
+      sortedIconSetList.unshift(defaultSet)
       sortedIconSetList.forEach((i) => {
         let name = i.charAt(0).toUpperCase() + i.slice(1)
         let disabled = false

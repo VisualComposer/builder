@@ -15,7 +15,7 @@ addStorage('attributes', (storage) => {
   storage.on('start', () => {
     const iconSet = storage.state('iconpicker:iconSet').get()
     // v5.10.2 https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself
-    iconSet.icons.fontawesome = { iconData: fontawesome }
+    iconSet.icons.fontawesome = { iconData: fontawesome, default: true }
     premiumIconSets.forEach((libName) => {
       if (!Object.prototype.hasOwnProperty.call(iconSet.icons, libName)) {
         iconSet.icons[libName] = { premium: true }
