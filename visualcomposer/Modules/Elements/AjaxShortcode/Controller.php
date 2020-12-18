@@ -91,6 +91,7 @@ class Controller extends Container implements Module
             ); // The_content fixes wp [embed] shortcode case. cannot use do_shortcode() in this case
             $shortcodeContents = ob_get_clean();
             ob_start();
+            vcevent('vcv:shortcode:deregister:script');
             wp_footer();
             $footerContents = ob_get_clean();
             $response = [
