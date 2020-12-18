@@ -3,6 +3,8 @@ import fontawesome from './lib/fontawesome-5.10.2'
 import socials from './lib/socials'
 import cart from './lib/cart'
 
+const premiumIconSets = ['lineicons', 'entypo', 'monosocial', 'typicons', 'openiconic', 'material', 'batch', 'mfglabs', 'metrize', 'dripicons', 'feather', 'linearicons', 'jam', 'evil', 'zondicons', 'socialicons']
+
 addStorage('attributes', (storage) => {
   // Icon picker default state
   storage.state('iconpicker:iconSet').set({ icons: {}, socials: {}, cart: {} })
@@ -13,7 +15,12 @@ addStorage('attributes', (storage) => {
   storage.on('start', () => {
     const iconSet = storage.state('iconpicker:iconSet').get()
     // v5.10.2 https://fontawesome.com/how-to-use/on-the-web/setup/hosting-font-awesome-yourself
-    iconSet.icons.fontawesome = { iconData: fontawesome }
+    iconSet.icons.fontawesome = { iconData: fontawesome, default: true }
+    premiumIconSets.forEach((libName) => {
+      if (!Object.prototype.hasOwnProperty.call(iconSet.icons, libName)) {
+        iconSet.icons[libName] = { premium: true }
+      }
+    })
     iconSet.socials.socials = { iconData: socials }
     iconSet.cart.cart = { iconData: cart }
 
