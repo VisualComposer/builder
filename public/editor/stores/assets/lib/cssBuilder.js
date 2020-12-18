@@ -290,14 +290,11 @@ export default class CssBuilder {
         const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
         if (elementEditorCss.length) {
           this.addedEditorStylesTagList.push(tag)
-          const styles = this.stylesManager.create()
-          styles.add(elementEditorCss)
-          this.addJob(styles.compile().then((result) => {
-            const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
-            if (file) {
-              file.innerHTML = result
-            }
-          }))
+
+          const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
+          if (file) {
+            file.innerHTML = elementEditorCss[0].src
+          }
         }
       }
     })
@@ -365,15 +362,11 @@ export default class CssBuilder {
         const elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
         if (elementCssBase.length) {
           this.addedBaseStylesTagList.push(tag)
-          const styles = this.stylesManager.create()
-          styles.add(elementCssBase)
-          const css = styles.compile().then((result) => {
-            const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
-            if (style) {
-              style.innerHTML = result
-            }
-          })
-          this.addJob(css)
+
+          const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
+          if (style) {
+            style.innerHTML = elementCssBase[ 0 ].src
+          }
         }
       }
     })
