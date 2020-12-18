@@ -16,7 +16,6 @@
   display: block;
   content: '';
   box-sizing: content-box;
-  border-width: 1px;
   border-top-style: solid;
   width: 100%;
 }
