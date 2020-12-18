@@ -1486,6 +1486,14 @@ class Localizations extends Container implements Helper
                 'Manage post categories or add a new category.',
                 'visualcomposer'
             ),
+            'downloadPremiumIconLibraries' => __(
+                'Download Premium Icon Libraries',
+                'visualcomposer'
+            ),
+            'downloadPremiumDesignOptions' => __(
+                'Download Premium Design Options',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
