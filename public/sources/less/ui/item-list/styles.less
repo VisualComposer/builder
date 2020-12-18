@@ -115,6 +115,16 @@
   }
 }
 
+.vcv-ui-state--remove-mode-active {
+  .vcv-ui-item-element {
+    cursor: default;
+
+    .vcv-ui-icon {
+      cursor: pointer;
+    }
+  }
+}
+
 .vcv-ui-item-element-content {
   position: relative;
   display: block;
@@ -192,6 +202,10 @@
   left: 0;
   top: 0;
   z-index: 3;
+
+  &.vcv-ui-item-control--visible {
+    opacity: 1;
+  }
 }
 
 .vcv-ui-item-downloading {

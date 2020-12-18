@@ -60,6 +60,12 @@
     }
   }
 
+  .vcv-ui-item-control--visible {
+    .vcv-ui-item-control {
+      visibility: visible;
+    }
+  }
+
   .vcv-ui-item-overlay {
     display: flex;
     justify-content: center;
@@ -69,7 +75,6 @@
 
   .vcv-ui-item-control {
     padding: @add-template-item-control-padding;
-    font-size: @add-template-item-control-font-size;
     cursor: pointer;
     transition: color @transition-duration @transition-timing-function, visibility 0s 0s;
     visibility: hidden;

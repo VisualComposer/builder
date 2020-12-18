@@ -38,11 +38,11 @@ export default class HtmlLayout extends React.Component {
    * @param data {object}
    */
   handleDragStateChage (data) {
-    if (data && data.addPanel && !this.layout.getAttribute('data-vcv-dnd-element')) {
+    if (data && data.addPanel && this.layout.getAttribute('data-vcv-dnd-element')) {
       const body = this.layout.closest('.vcwb')
       body.addEventListener('mouseup', this.handleBodyMouseUp)
     }
-    if (data && !data.active && !this.layout.getAttribute('data-vcv-dnd-element')) {
+    if (data && !data.active && this.layout.getAttribute('data-vcv-dnd-element')) {
       const body = this.layout.closest('.vcwb')
       body.removeEventListener('mouseup', this.handleBodyMouseUp)
     }
@@ -50,10 +50,13 @@ export default class HtmlLayout extends React.Component {
 
   /**
    * On body mouseup event end drag event
-   * by setting workspaceStorage drag state to false
+   * by setting workspaceStorage drag state to false.
+   * setTimeout added to end drag after element is added and the Edit Form is opened.
    */
   handleBodyMouseUp () {
-    workspaceStorage.state('drag').set({ active: false })
+    setTimeout(() => {
+      workspaceStorage.state('drag').set({ active: false })
+    }, 0)
   }
 
   getBlankRowPlaceholder (iconColor) {

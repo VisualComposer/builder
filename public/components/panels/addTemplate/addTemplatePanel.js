@@ -12,7 +12,8 @@ const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const myTemplatesService = getService('myTemplates')
 const documentManager = getService('document')
 const elementsStorage = getStorage('elements')
-const workspaceSettings = getStorage('workspace').state('settings')
+const workspaceStorage = getStorage('workspace')
+const workspaceSettings = workspaceStorage.state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
 const notificationsStorage = getStorage('notifications')
@@ -41,7 +42,8 @@ export default class AddTemplatePanel extends React.Component {
       showSpinner: false,
       categories: this.templatesCategories,
       showLoading: false,
-      removing: false
+      removing: false,
+      isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
     this.handleChangeTemplateName = this.handleChangeTemplateName.bind(this)
@@ -56,6 +58,9 @@ export default class AddTemplatePanel extends React.Component {
     this.onRemoveFailed = this.onRemoveFailed.bind(this)
     this.handleTemplateStorageStateChange = this.handleTemplateStorageStateChange.bind(this)
     this.setCategoryArray = this.setCategoryArray.bind(this)
+    this.handleRemoveStateChange = this.handleRemoveStateChange.bind(this)
+
+    workspaceStorage.state('isRemoveStateActive').onChange(this.handleRemoveStateChange)
   }
 
   componentDidMount () {
@@ -68,8 +73,13 @@ export default class AddTemplatePanel extends React.Component {
       window.clearTimeout(this.errorTimeout)
       this.errorTimeout = 0
     }
+    workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
     getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
     notificationsStorage.trigger('portalChange', null)
+  }
+
+  handleRemoveStateChange (newState) {
+    this.setState({ isRemoveStateActive: newState })
   }
 
   setCategoryArray (data) {
@@ -143,6 +153,7 @@ export default class AddTemplatePanel extends React.Component {
       key: 'vcv-element-control-' + template.id,
       applyTemplate: this.handleApplyTemplate,
       removeTemplate: this.handleRemoveTemplate,
+      isRemoveStateActive: this.state.isRemoveStateActive,
       ...template
     }
   }
@@ -460,6 +471,39 @@ export default class AddTemplatePanel extends React.Component {
       transparentOverlay = <TransparentOverlayComponent disableNavBar parent='.vcv-layout' />
     }
 
+    const saveTemplate = this.state.isRemoveStateActive ? null : (
+      <div className='vcv-ui-form-dependency'>
+        <div className='vcv-ui-form-group'>
+          <div className='vcv-ui-form-group-heading-wrapper'>
+            <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
+            <Tooltip>
+              {nameYourLayoutToSaveItAsATemplate}
+            </Tooltip>
+          </div>
+          <form
+            className='vcv-ui-save-template-form'
+            onSubmit={this.handleSaveTemplate}
+            disabled={!!this.state.showSpinner}
+          >
+            <input
+              className='vcv-ui-form-input'
+              type='text'
+              value={this.state.templateName}
+              onChange={this.handleChangeTemplateName}
+              disabled={!!this.state.showSpinner}
+            />
+            <button
+              className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
+              type='submit'
+              title={saveTemplateText}
+              disabled={!!this.state.showSpinner}
+            >{saveTemplateText}
+            </button>
+          </form>
+        </div>
+      </div>
+    )
+
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         {transparentOverlay}
@@ -471,36 +515,7 @@ export default class AddTemplatePanel extends React.Component {
             </div>
             <Scrollbar>
               <div className={innerSectionClasses}>
-                <div className='vcv-ui-form-dependency'>
-                  <div className='vcv-ui-form-group'>
-                    <div className='vcv-ui-form-group-heading-wrapper'>
-                      <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
-                      <Tooltip>
-                        {nameYourLayoutToSaveItAsATemplate}
-                      </Tooltip>
-                    </div>
-                    <form
-                      className='vcv-ui-save-template-form'
-                      onSubmit={this.handleSaveTemplate}
-                      disabled={!!this.state.showSpinner}
-                    >
-                      <input
-                        className='vcv-ui-form-input'
-                        type='text'
-                        value={this.state.templateName}
-                        onChange={this.handleChangeTemplateName}
-                        disabled={!!this.state.showSpinner}
-                      />
-                      <button
-                        className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
-                        type='submit'
-                        title={saveTemplateText}
-                        disabled={!!this.state.showSpinner}
-                      >{saveTemplateText}
-                      </button>
-                    </form>
-                  </div>
-                </div>
+                {saveTemplate}
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
                     <div className='vcv-ui-editor-plate vcv-ui-state--active'>

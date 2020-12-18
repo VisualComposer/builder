@@ -48,8 +48,28 @@ export default class CustomTemplateControl extends React.Component {
 
     const overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': spinner
+      'vcv-ui-item-overlay--visible': spinner,
+      'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
+
+    let itemButton = null
+    if (this.props.isRemoveStateActive) {
+      itemButton = (
+        <span
+          className={removeClasses}
+          onClick={handleRemoveTemplate}
+          title={localizations.removePlaceholder.replace('%', name)}
+        />
+      )
+    } else {
+      itemButton = (
+        <span
+          className={applyClasses}
+          onClick={handleApplyTemplate}
+          title={localizations.addPlaceholder.replace('%', name)}
+        />
+      )
+    }
 
     return (
       <div className='vcv-ui-item-list-item'>
@@ -64,16 +84,7 @@ export default class CustomTemplateControl extends React.Component {
               alt={name}
             />
             <span className={overlayClasses}>
-              <span
-                className={applyClasses}
-                onClick={handleApplyTemplate}
-                title={localizations.addPlaceholder.replace('%', name)}
-              />
-              <span
-                className={removeClasses}
-                onClick={handleRemoveTemplate}
-                title={localizations.removePlaceholder.replace('%', name)}
-              />
+              {itemButton}
               <span className={spinnerClasses} />
             </span>
           </span>

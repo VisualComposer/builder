@@ -32,7 +32,8 @@ export default class Groups extends React.Component {
     super(props)
 
     this.state = {
-      focusedElement: null
+      focusedElement: null,
+      isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
     this.handleGoToHub = this.handleGoToHub.bind(this)
@@ -42,13 +43,17 @@ export default class Groups extends React.Component {
     this.setFocusedElement = this.setFocusedElement.bind(this)
     this.reset = this.reset.bind(this)
     this.handleGroupToggle = this.handleGroupToggle.bind(this)
+    this.handleRemoveStateChange = this.handleRemoveStateChange.bind(this)
     hubElementsStorage.on('loaded', this.reset)
     hubElementsStorage.state('elementPresets').onChange(this.reset)
     hubElementsStorage.state('elements').onChange(this.reset)
+    workspaceStorage.state('isRemoveStateActive').onChange(this.handleRemoveStateChange)
   }
 
   componentWillUnmount () {
     this.isComponentMounted = false
+
+    workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
   }
 
   componentDidMount () {
@@ -59,6 +64,10 @@ export default class Groups extends React.Component {
     if (this.props.applyFirstElement && (prevProps.applyFirstElement !== this.props.applyFirstElement)) {
       this.applyFirstElement()
     }
+  }
+
+  handleRemoveStateChange (newState) {
+    this.setState({ isRemoveStateActive: newState })
   }
 
   reset () {
@@ -271,6 +280,7 @@ export default class Groups extends React.Component {
         addElement={this.addElement}
         setFocusedElement={this.setFocusedElement}
         applyFirstElement={this.applyFirstElement}
+        isRemoveStateActive={this.state.isRemoveStateActive}
       />
     )
   }
@@ -397,7 +407,8 @@ export default class Groups extends React.Component {
     const itemsOutput = this.props.searchValue ? this.getFoundElements() : this.getElementsByGroups()
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
-      'vcv-ui-state--centered-content': !itemsOutput.length
+      'vcv-ui-state--centered-content': !itemsOutput.length,
+      'vcv-ui-state--remove-mode-active': this.state.isRemoveStateActive
     })
     let moreButton = null
     if (itemsOutput.length) {
