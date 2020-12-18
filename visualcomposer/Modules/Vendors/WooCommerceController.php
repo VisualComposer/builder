@@ -33,7 +33,7 @@ class WooCommerceController extends Container implements Module
         $this->addFilter('vcv:themeEditor:layoutController:getTemplatePartId', 'getTemplatePartId');
         $this->addFilter('vcv:editors:editPostLinks:adminRowLinks', 'isShop');
         $this->addFilter('vcv:themeEditor:layoutController:getOtherPageTemplatePartData:isArchive', 'isCategory');
-        $this->addEvent('vcv:shortcode:deregister:script', 'removeGeoLocation');
+        $this->addFilter('vcv:ajax:elements:ajaxShortcode:adminNonce', 'removeGeoLocation', -1);
     }
 
     /**
@@ -575,10 +575,21 @@ class WooCommerceController extends Container implements Module
     }
 
     /**
-     * Deregister WooCommerce geolocation script
+     * Deregister WooCommerce GeoLocation Script
+     * @param $response
+     *
+     * @return mixed
      */
-    protected function removeGeoLocation()
+    protected function removeGeoLocation($response)
     {
-        wp_deregister_script('wc-geolocation');
+        $this->wpAddAction(
+            'wp_footer',
+            function () {
+                wp_deregister_script('wc-geolocation');
+            },
+            1
+        );
+
+        return $response;
     }
 }
