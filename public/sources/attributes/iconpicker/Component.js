@@ -1,14 +1,17 @@
 import React from 'react'
 import Attribute from '../attribute'
 import classNames from 'classnames'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const attributesStorage = getStorage('attributes')
+const dataManager = getService('dataManager')
 
 class Iconpicker extends Attribute {
   static defaultProps = {
     fieldType: 'iconpicker'
   }
+
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -42,6 +45,9 @@ class Iconpicker extends Attribute {
     let { iconSet } = value
     let icons = []
     const iconsIds = []
+    if (!Object.prototype.hasOwnProperty.call(iconSetList[iconSet], 'iconData')) {
+      return icons
+    }
 
     if (!iconSetList[iconSet]) {
       const keys = Object.keys(iconSetList)
@@ -148,13 +154,24 @@ class Iconpicker extends Attribute {
       )
     }
 
+    const downloadPremiumIconLibraries = Iconpicker.localizations ? Iconpicker.localizations.downloadPremiumIconLibraries : 'Download Premium Icon Libraries'
+    const availableInPremiumText = Iconpicker.localizations ? Iconpicker.localizations.availableInPremiumText : 'Available in Premium'
+
     let iconsSetContent = ''
     if (iconSetLength > 1) {
       const innerSetContent = []
-      Object.keys(iconSetList).forEach((i) => {
-        const name = i.charAt(0).toUpperCase() + i.slice(1)
-        const optionText = iconSetList[i].disabled ? name + ' (Premium)' : name
-        innerSetContent.push(<option key={'inner' + i} value={i}>{optionText}</option>)
+      const defaultSet = Object.keys(iconSetList).filter((key) => iconSetList[key].default) // icon sets with value "default" is not sorted
+      let sortedIconSetList = Object.keys(iconSetList).filter(key => !iconSetList[key].default).sort() // sorted list
+      sortedIconSetList = defaultSet.concat(sortedIconSetList)
+      sortedIconSetList.forEach((i) => {
+        let name = i.charAt(0).toUpperCase() + i.slice(1)
+        let disabled = false
+        if (iconSetList[i].premium) {
+          dataManager.get('isPremiumActivated') ? name += ` (${downloadPremiumIconLibraries})` : name += ` (${availableInPremiumText})`
+          disabled = true
+        }
+        const optionText = name
+        innerSetContent.push(<option disabled={disabled} key={'inner' + i} value={i}>{optionText}</option>)
       })
       iconsSetContent = (
         <select onChange={this.handleIconSetChange} value={iconSet} className='vcv-ui-form-dropdown'>
@@ -164,7 +181,6 @@ class Iconpicker extends Attribute {
     }
 
     let renderSearch = null
-
     if (showSearch) {
       renderSearch = (
         <div className='vcv-ui-input-search'>

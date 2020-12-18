@@ -162,6 +162,38 @@ export default class Parallax extends Attribute {
         }
       ]
     }
+    const downloadPremiumDesignOptions = Parallax.localizations ? Parallax.localizations.downloadPremiumDesignOptions : 'Download Premium Design Options'
+    const availableInPremiumText = Parallax.localizations ? Parallax.localizations.availableInPremiumText : 'Available in Premium'
+
+    const labelPostFix = dataManager.get('isPremiumActivated') ? `(${downloadPremiumDesignOptions})` : `(${availableInPremiumText})`
+    const premiumOptions = [
+      {
+        label: `Tilt ${labelPostFix}`,
+        value: 'tilt',
+        disabled: true
+      },
+      {
+        label: `Tilt glare ${labelPostFix}`,
+        value: 'tilt-glare',
+        disabled: true
+      },
+      {
+        label: `Tilt reverse ${labelPostFix}`,
+        value: 'tilt-reverse',
+        disabled: true
+      },
+      {
+        label: `Tilt reset ${labelPostFix}`,
+        value: 'tilt-reset',
+        disabled: true
+      },
+      {
+        label: `Mouse follow animation ${labelPostFix}`,
+        value: 'backgroundAnimation',
+        disabled: true
+      }
+    ]
+    options.values = options.values.concat(premiumOptions)
 
     const storage = getStorage('fieldOptions')
     storage.state('currentAttribute:settings').set(options)
