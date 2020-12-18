@@ -365,7 +365,7 @@ export default class CssBuilder {
 
           const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
           if (style) {
-            style.innerHTML = elementCssBase[ 0 ].src
+            style.innerHTML = elementCssBase[0].src
           }
         }
       }
