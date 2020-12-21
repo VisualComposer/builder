@@ -626,7 +626,7 @@
       }
 
       // Clear the hash in the site URL (address bar)
-      window.history.pushState('', document.title, window.location.pathname)
+      history.replaceState('', document.title, window.location.pathname)
     }
 
     /**
