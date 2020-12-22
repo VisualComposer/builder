@@ -195,6 +195,7 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
 = 32.0 =
 *Release Date - 2020-12-22*
 ### Free:
