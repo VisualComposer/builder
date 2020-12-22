@@ -343,12 +343,8 @@
       if ($target.length) {
         id = $target.attr('id')
       }
-      if (id) {
-        if (history.pushState) {
-          history.pushState(null, null, '#' + id)
-        } else {
-          location.hash = '#' + id
-        }
+      if (id && !(history.state && history.state.stateId)) {
+        history.pushState({ stateId: 'removeHash' }, '', '#' + id)
       }
     }
 
@@ -625,8 +621,12 @@
         Plugin.call($this, 'show', opt)
       }
 
-      // Clear the hash in the site URL (address bar)
-      history.replaceState('', document.title, window.location.pathname)
+      if (!isCurrentPanel) {
+        // ignore the last record of the history
+        history.back()
+        // Clear the hash in the site URL (address bar)
+        history.replaceState({ stateId: 'removeHash' }, '', window.location.pathname)
+      }
     }
 
     /**
