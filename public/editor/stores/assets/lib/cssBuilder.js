@@ -250,11 +250,9 @@ export default class CssBuilder {
   }
 
   updateStyleDomNodes (data) {
-    const id = data.id
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data)
     const baseStylesDom = this.window.document.getElementById('vcv-element-css-styles--base')
     const editorStylesDom = this.window.document.getElementById('vcv-element-css-styles--editor')
-    const mixinsStylesDom = this.window.document.getElementById('vcv-element-css-styles--mixins')
     elementTags.forEach((tag) => {
       if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
         const baseStyleElement = this.window.document.createElement('style')
@@ -267,7 +265,7 @@ export default class CssBuilder {
         this.window.document.body.insertBefore(editorStyleElement, editorStylesDom)
       }
     })
-/*
+    /*
     if (!this.window.document.getElementById(`vcv-css-styles-${id}`)) {
       const styleElement = this.window.document.createElement('style')
       styleElement.id = `vcv-css-styles-${id}`
