@@ -106,7 +106,10 @@ export default class CssBuilder {
     }
 
     // TODO: Build only on update? [see git history]
+    this.updateStyleDomNodes(data)
     this.addElementStyles(data)
+    this.addCssElementBaseByElement(data)
+    this.addElementEditorFiles(data)
     this.addElementFiles(data, force)
 
     this.doJobs(data).then((result) => {
@@ -135,6 +138,8 @@ export default class CssBuilder {
       this.addElementEditorFiles(data)
     } else {
       this.addElementStyles(data)
+      this.addCssElementBaseByElement(data)
+      this.addElementEditorFiles(data)
       this.addElementFiles(data)
     }
     this.doJobs(data).then(() => {
@@ -193,20 +198,21 @@ export default class CssBuilder {
       style.innerHTML = this.getCachedCSS(id)
     }
 
-    const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     let elementCSS = []
-    elementTags.forEach((tag) => {
-      // Add Base CSS
-      const elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
-      if (elementCssBase.length) {
-        elementCSS = elementCSS.concat(elementCssBase)
-      }
-      // Add Editor files
-      const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
-      if (elementEditorCss.length) {
-        elementCSS = elementCSS.concat(elementEditorCss)
-      }
-    })
+    // const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
+    // let elementCSS = []
+    // elementTags.forEach((tag) => {
+    //   // Add Base CSS
+    //   const elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
+    //   if (elementCssBase.length) {
+    //     elementCSS = elementCSS.concat(elementCssBase)
+    //   }
+    //   // Add Editor files
+    //   const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
+    //   if (elementEditorCss.length) {
+    //     elementCSS = elementCSS.concat(elementEditorCss)
+    //   }
+    // })
     // Global Attributes CSS mixins
     const elementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(data)
     if (elementGlobalAttributesCssMixins.length) {
@@ -261,7 +267,7 @@ export default class CssBuilder {
         this.window.document.body.insertBefore(editorStyleElement, editorStylesDom)
       }
     })
-
+/*
     if (!this.window.document.getElementById(`vcv-css-styles-${id}`)) {
       const styleElement = this.window.document.createElement('style')
       styleElement.id = `vcv-css-styles-${id}`
@@ -294,6 +300,7 @@ export default class CssBuilder {
         }
       }
     }
+    */
   }
 
   addElementFiles (data, force) {
@@ -358,7 +365,6 @@ export default class CssBuilder {
   }
 
   addElementEditorFiles (data) {
-    console.log('addElementEditorFiles ', data)
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedEditorStylesTagList.indexOf(tag) === -1) {
@@ -400,7 +406,6 @@ export default class CssBuilder {
   }
 
   addElementLocalAttributesCssMixins (data) {
-    console.log('addElementLocalAttributesCssMixins ', data)
     const styles = this.stylesManager.create()
     const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
     if (this.getCachedCSS(data.id)) {
@@ -455,7 +460,6 @@ export default class CssBuilder {
   }
 
   addCssElementBaseByElement (data) {
-    console.log('addCssElementBaseByElement ', data)
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedBaseStylesTagList.indexOf(tag) === -1) {
@@ -485,7 +489,6 @@ export default class CssBuilder {
   }
 
   addElementGlobalAttributesCssMixins (data) {
-    console.log('addElementGlobalAttributesCssMixins', data)
     const styles = this.stylesManager.create()
     if (this.getCachedCSS(`do-style-${data.id}`)) {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
