@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website builder, site-builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.5.3
-Stable tag: 31.1
+Tested up to: 5.6
+Stable tag: 32.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -195,6 +195,39 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 32.0 =
+*Release Date - 2020-12-22*
+### Free:
+- New: Double click option added to open element edit form or activate the inline editor
+- New: WordPress page and post settings added to the On-Page Settings for quick access (author, featured image, categories, tags, excerpts, discussions)
+- New: Option to delete downloaded elements and templates added to the Add Content window
+- New: Option to share editor usage data anonymously added to help plugin developers
+- Update: Auto-complete attribute improved for better performance and UX
+- Update: Device mockups are added to the responsive device preview
+- Update: Information about available shortcut added on mouse hover for the editor controls
+- Update: Tree View mode improved for better performance
+- Update: Plugin path check added to the System Status page
+- Update: Messages updated on the element, template, and add-on downloads
+- Fix: Line height works properly in the TinyMCE editor
+- Fix: Drag and Drop works properly for columns
+- Fix: Version notification is displayed properly in the Getting Started screen
+- Fix: Visual Composer Hub search works properly
+- Fix: Twitter element works properly on the published pages
+- Fix: Empty rows work properly in responsive view
+- Fix: Assets are replaced properly after initial reset
+- Fix: Templates with hidden rows work properly
+- Fix: YouTube background works properly in Design Options
+
+### Premium:
+- Update: Notification mechanism improved for the add-ons that require the editor reload to be activated after download
+- Update: Header and Footer settings UX improved in the Visual Composer Dashboard
+- Fix: Sandwich menu works properly in the Basic Menu element
+- Fix: Layout icons are displayed properly in the Archive page editor for Twenty Twenty theme
+- Fix: Image Gallery with Icons element works properly
+- Fix: Timeline with Icon elements' inline editor works properly
+- Fix: Mailchimp element works properly
+- Fix: Maintenance mode page creation works properly
 
 = 31.1 =
 *Release Date - 2020-11-25*
