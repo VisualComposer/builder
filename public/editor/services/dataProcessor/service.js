@@ -1,4 +1,4 @@
-import { addService, env } from 'vc-cake'
+import { getService, addService, env } from 'vc-cake'
 import { deflate } from 'pako/lib/deflate'
 import base64 from 'base-64'
 
@@ -69,10 +69,11 @@ const Service = {
     }
   },
   appServerRequest (args) {
-    const url = window.vcvAjaxUrl
+    const dataManager = getService('dataManager')
+    const url = dataManager.get('ajaxUrl')
     args = Object.assign({
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
@@ -86,10 +87,11 @@ const Service = {
     return this.http(url).post(args)
   },
   appAdminServerRequest (args) {
-    const url = window.vcvAdminAjaxUrl
+    const dataManager = getService('dataManager')
+    const url = dataManager.get('adminAjaxUrl')
     args = Object.assign({
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {

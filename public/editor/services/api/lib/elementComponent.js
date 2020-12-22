@@ -21,6 +21,7 @@ const { getBlockRegexp } = getService('utils')
 const { getDynamicFieldsData } = getService('cook').dynamicFields
 const blockRegexp = getBlockRegexp()
 const elementsSettingsStorage = getStorage('elementsSettings')
+const dataManager = getService('dataManager')
 
 export default class ElementComponent extends React.Component {
   static propTypes = {
@@ -83,7 +84,8 @@ export default class ElementComponent extends React.Component {
         window.setTimeout(() => {
           const spinner = ref.querySelector('.vcv-ui-wp-spinner')
           spinner && spinner.remove()
-          window.vcvFreezeReady && window.vcvFreezeReady(id, false)
+          const freezeReady = dataManager.get('freezeReady')
+          freezeReady && freezeReady(id, false)
           window.vcv && window.vcv.trigger('ready', 'update', id)
         }, 500)
       })(env('iframe')))

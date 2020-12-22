@@ -1,6 +1,8 @@
 import vcCake from 'vc-cake'
 
-const addons = window.VCV_HUB_GET_ADDONS ? window.VCV_HUB_GET_ADDONS() : {}
+const dataManager = vcCake.getService('dataManager')
+
+const addons = dataManager.get('hubGetAddons')
 
 const API = {
   all: () => {
