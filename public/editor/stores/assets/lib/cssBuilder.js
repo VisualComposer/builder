@@ -303,7 +303,6 @@ export default class CssBuilder {
     }
     const cookElement = cook.get(data)
     const elementAssetsFiles = this.elementAssetsLibrary.getAssetsFilesByElement(cookElement)
-    console.log(elementAssetsFiles)
     const doc = this.window.document
     elementAssetsFiles.cssBundles.forEach((file) => {
       const slug = this.slugify(file)
