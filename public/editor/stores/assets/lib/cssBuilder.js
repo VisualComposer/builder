@@ -1,10 +1,9 @@
 import { getService, getStorage, env } from 'vc-cake'
 
 const cook = getService('cook')
-const dataManager = getService('dataManager')
 const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
-
+const cacheStorage = getStorage('cache')
 export default class CssBuilder {
   constructor (globalAssetsStorageService, elementAssetsLibrary, stylesManager, windowObject, slugify) {
     Object.defineProperties(this, {
@@ -104,12 +103,13 @@ export default class CssBuilder {
     if (!data) {
       return
     }
-
+    const useCache = true
     // TODO: Build only on update? [see git history]
     this.updateStyleDomNodes(data)
-    this.addElementStyles(data)
-    this.addCssElementBaseByElement(data)
+    this.addCssElementBaseByElement(data, useCache)
     this.addElementEditorFiles(data)
+    this.addElementGlobalAttributesCssMixins(data, useCache) // designOptions!
+    this.addElementLocalAttributesCssMixins(data, useCache) // local element cssMixins folder
     this.addElementFiles(data, force)
 
     this.doJobs(data).then((result) => {
@@ -137,9 +137,10 @@ export default class CssBuilder {
     if (dataStorageState === 'loadSuccess' && env('VCV_FT_INITIAL_CSS_LOAD')) {
       this.addElementEditorFiles(data)
     } else {
-      this.addElementStyles(data)
       this.addCssElementBaseByElement(data)
       this.addElementEditorFiles(data)
+      this.addElementGlobalAttributesCssMixins(data) // designOptions!
+      this.addElementLocalAttributesCssMixins(data) // local element cssMixins folder
       this.addElementFiles(data)
     }
     this.doJobs(data).then(() => {
@@ -186,73 +187,12 @@ export default class CssBuilder {
     assetsStorage.state('jobs').set({ elements: storageElements })
   }
 
-  addElementStyles (data) {
-    const id = data.id
-    const baseStylesDom = this.window.document.getElementById('vcv-element-css-styles--base')
-    if (!this.window.document.getElementById(`vcv-element-styles-${id}`)) {
-      const styleElement = this.window.document.createElement('style')
-      styleElement.id = `vcv-element-styles-${id}`
-      this.window.document.body.insertBefore(styleElement, baseStylesDom)
-    } else if (this.getCachedCSS(id)) {
-      const style = this.window.document.getElementById(`vcv-element-styles-${id}`)
-      style.innerHTML = this.getCachedCSS(id)
-    }
-
-    let elementCSS = []
-    // const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
-    // let elementCSS = []
-    // elementTags.forEach((tag) => {
-    //   // Add Base CSS
-    //   const elementCssBase = this.globalAssetsStorageService.elementCssBase(tag)
-    //   if (elementCssBase.length) {
-    //     elementCSS = elementCSS.concat(elementCssBase)
-    //   }
-    //   // Add Editor files
-    //   const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
-    //   if (elementEditorCss.length) {
-    //     elementCSS = elementCSS.concat(elementEditorCss)
-    //   }
-    // })
-    // Global Attributes CSS mixins
-    const elementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(data)
-    if (elementGlobalAttributesCssMixins.length) {
-      elementCSS = elementCSS.concat(elementGlobalAttributesCssMixins)
-    }
-    const elementObject = cook.get(data)
-    const settings = elementObject.get('settings')
-    for (const key in settings) {
-      // If found element than get actual tags form element
-      if (settings[key].type === 'element') {
-        // we can get globalAttributesCssMixins for inner element
-        const innerData = elementObject.get(key)
-        const innerElementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(innerData)
-        if (innerElementGlobalAttributesCssMixins.length) {
-          elementCSS = elementCSS.concat(innerElementGlobalAttributesCssMixins)
-        }
-      }
-    }
-    // Element local attributes CSS mixins
-    const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
-    if (localElementStyles.length) {
-      elementCSS = elementCSS.concat(localElementStyles)
-    }
-    // Add job
-    const styles = this.stylesManager.create()
-    styles.add(elementCSS)
-    const css = styles.compile().then((result) => {
-      const file = this.window.document.getElementById(`vcv-element-styles-${data.id}`)
-      if (file) {
-        file.innerHTML = result
-        this.setCachedCSS(id, result)
-      }
-    })
-    this.addJob(css)
-  }
-
   updateStyleDomNodes (data) {
+    const id = data.id
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data)
     const baseStylesDom = this.window.document.getElementById('vcv-element-css-styles--base')
     const editorStylesDom = this.window.document.getElementById('vcv-element-css-styles--editor')
+    const mixinsStylesDom = this.window.document.getElementById('vcv-element-css-styles--mixins')
     elementTags.forEach((tag) => {
       if (!this.window.document.getElementById(`vcv-base-css-styles-${tag}`)) {
         const baseStyleElement = this.window.document.createElement('style')
@@ -265,7 +205,7 @@ export default class CssBuilder {
         this.window.document.body.insertBefore(editorStyleElement, editorStylesDom)
       }
     })
-    /*
+
     if (!this.window.document.getElementById(`vcv-css-styles-${id}`)) {
       const styleElement = this.window.document.createElement('style')
       styleElement.id = `vcv-css-styles-${id}`
@@ -298,7 +238,6 @@ export default class CssBuilder {
         }
       }
     }
-    */
   }
 
   addElementFiles (data, force) {
@@ -344,33 +283,15 @@ export default class CssBuilder {
     )
   }
 
-  getCachedCSS (id) {
-    if (env('FT_ENABLE_EDITOR_ELEMENT_CSS_CACHE')) {
-      const sourceID = dataManager.get('sourceID')
-      const cache = JSON.parse(window.localStorage.getItem(`vcv-style-cache-${sourceID}`) || '{}')
-      return cache[id] || false
-    }
-    return false
-  }
-
-  setCachedCSS (id, data) {
-    if (env('FT_ENABLE_EDITOR_ELEMENT_CSS_CACHE')) {
-      const sourceID = dataManager.get('sourceID')
-      const cache = JSON.parse(window.localStorage.getItem(`vcv-style-cache-${sourceID}`) || '{}')
-      cache[id] = data
-      window.localStorage.setItem(`vcv-style-cache-${sourceID}`, JSON.stringify(cache))
-    }
+  getCachedCSS (id, type) {
+    const cache = cacheStorage.state('elementsCssCache').get() || {}
+    return cache[id] && cache[id][type] ? cache[id][type] : false
   }
 
   addElementEditorFiles (data) {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedEditorStylesTagList.indexOf(tag) === -1) {
-        if (this.getCachedCSS(tag)) {
-          const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
-          file.innerHTML = this.getCachedCSS(tag)
-          return
-        }
         const elementEditorCss = this.globalAssetsStorageService.elementCssEditor(tag)
         if (elementEditorCss.length) {
           this.addedEditorStylesTagList.push(tag)
@@ -380,7 +301,6 @@ export default class CssBuilder {
             const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
             if (file) {
               file.innerHTML = elementEditorCss[0].src
-              this.setCachedCSS(tag, elementEditorCss[0].src)
             }
           }))
         }
@@ -403,12 +323,16 @@ export default class CssBuilder {
     return (chk & 0xffffffff).toString(16)
   }
 
-  addElementLocalAttributesCssMixins (data) {
+  addElementLocalAttributesCssMixins (data, cache = false) {
     const styles = this.stylesManager.create()
-    const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
-    if (this.getCachedCSS(data.id)) {
+    if (cache) {
       const file = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
-      file.innerHTML = this.getCachedCSS(data.id)
+      file.innerHTML = this.getCachedCSS(data.id, 'attributesCss')
+      return
+    }
+    const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
+
+    if (!localElementStyles.length) {
       return
     }
     styles.add(localElementStyles)
@@ -417,7 +341,6 @@ export default class CssBuilder {
       const style = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
       if (style) {
         style.innerHTML = result
-        this.setCachedCSS(data.id, result)
       }
     })
     this.addJob(attributesStylesPromise)
@@ -430,13 +353,6 @@ export default class CssBuilder {
         // we can get localCss for inner element
         const innerData = elementObject.get(key)
         const checksum = this.checksum(JSON.stringify(innerData))
-        if (this.getCachedCSS(`${data.id}-${checksum}`)) {
-          const style = this.window.document.getElementById(`vcv-css-styles-${data.id}-${checksum}`)
-          if (style) {
-            style.innerHTML = this.getCachedCSS(`${data.id}-${checksum}`)
-          }
-          return
-        }
         const innerElementLocalAttributesCssMixins = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(innerData)
         const innerStyles = this.stylesManager.create()
         innerStyles.add(innerElementLocalAttributesCssMixins)
@@ -444,7 +360,6 @@ export default class CssBuilder {
           const style = this.window.document.getElementById(`vcv-css-styles-${data.id}-${checksum}`)
           if (style) {
             style.innerHTML = result
-            this.setCachedCSS(`${data.id}-${checksum}`, result)
           }
         })
         this.addJob(innerStylesPromise)
@@ -457,14 +372,14 @@ export default class CssBuilder {
     node && node.remove()
   }
 
-  addCssElementBaseByElement (data) {
+  addCssElementBaseByElement (data, cache = false) {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedBaseStylesTagList.indexOf(tag) === -1) {
-        if (this.getCachedCSS(`base-${tag}`)) {
+        if (cache && this.getCachedCSS(data.id, 'baseCss')) {
           const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
           if (style) {
-            style.innerHTML = this.getCachedCSS(`base-${tag}`)
+            style.innerHTML = this.getCachedCSS(data.id, 'baseCss')
           }
           return
         }
@@ -477,7 +392,6 @@ export default class CssBuilder {
             const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
             if (style) {
               style.innerHTML = elementCssBase[0].src
-              this.setCachedCSS(`base-${tag}`, elementCssBase[0].src)
             }
           })
           this.addJob(css)
@@ -486,23 +400,21 @@ export default class CssBuilder {
     })
   }
 
-  addElementGlobalAttributesCssMixins (data) {
+  addElementGlobalAttributesCssMixins (data, cache = false) {
     const styles = this.stylesManager.create()
-    if (this.getCachedCSS(`do-style-${data.id}`)) {
+    if (cache) {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
-        style.innerHTML = this.getCachedCSS(`do-style-${data.id}`)
+        style.innerHTML = this.getCachedCSS(data.id, 'mixinsCss')
       }
       return
     }
     const elementGlobalAttributesCssMixins = this.globalAssetsStorageService.getElementGlobalAttributesCssMixins(data)
-
     styles.add(elementGlobalAttributesCssMixins)
     const stylesPromise = styles.compile().then((result) => {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
         style.innerHTML = result
-        this.setCachedCSS(`do-style-${data.id}`, result)
       }
     })
     this.addJob(stylesPromise)
