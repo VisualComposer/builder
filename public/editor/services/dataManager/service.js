@@ -83,7 +83,10 @@ const dataManager = {
       categories: () => { return window.VCV_CATEGORIES },
       pluginVersion: () => { return window.VCV_PLUGIN_VERSION && window.VCV_PLUGIN_VERSION() },
       frontEndError: () => { return window.vcvFeError || 'default' },
-      pageEditableNonce: () => { return window.vcvPageEditableNonce }
+      pageEditableNonce: () => { return window.vcvPageEditableNonce },
+      freezeReady: () => { return window.vcvFreezeReady },
+      ajaxUrl: () => { return window.vcvAjaxUrl },
+      pluginSourceUrl: () => { return window.vcvPluginSourceUrl }
     }
   }
 }

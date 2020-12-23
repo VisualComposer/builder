@@ -12,6 +12,7 @@ import ContentEditableComponent from 'public/components/layoutHelpers/contentEdi
 const DocumentData = getService('document')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
+const dataManager = getService('dataManager')
 
 const hubElementsStorage = getStorage('hubElements')
 const settingsStorage = getStorage('settings')
@@ -67,10 +68,10 @@ const API = {
 
       const key = blockAtts.value.replace('::', ':')
       let result = null
-      let sourceId = blockAtts.sourceId || window.vcvSourceID
+      let sourceId = blockAtts.sourceId || dataManager.get('sourceID')
       sourceId = parseInt(sourceId)
 
-      if (window.vcvSourceID !== sourceId) {
+      if (dataManager.get('sourceID') !== sourceId) {
         postData = postData[sourceId]
       }
       if (blockAtts && blockAtts.value && postData && typeof postData[key] !== 'undefined') {
@@ -91,7 +92,7 @@ const API = {
             value: blockAtts.value,
             currentValue: result
           }
-          if (window.vcvSourceID !== sourceId || blockAtts.sourceId) {
+          if (dataManager.get('sourceID') !== sourceId || blockAtts.sourceId) {
             dynamicProps.sourceId = sourceId
           }
           return React.createElement(attribute.fieldType === 'htmleditor' ? 'div' : 'span', {
@@ -297,7 +298,7 @@ const API = {
     },
     getDynamicValue: (dynamicFieldKey, sourceId = null, attribute = null, options = {}) => {
       if (!sourceId) {
-        sourceId = window.vcvSourceID
+        sourceId = dataManager.get('sourceID')
       }
       const { dynamicTemplateProps, forceSaveSourceId } = options
       let newValue = null
@@ -305,7 +306,7 @@ const API = {
       if (dynamicTemplateProps) {
         const dynamicProps = Object.assign({}, dynamicTemplateProps)
         dynamicProps.value = dynamicFieldKey
-        if (!forceSaveSourceId && (window.vcvSourceID === sourceId)) {
+        if (!forceSaveSourceId && (dataManager.get('sourceID') === sourceId)) {
           delete dynamicProps.sourceId
         } else {
           dynamicProps.sourceId = sourceId
@@ -326,7 +327,7 @@ const API = {
           value: dynamicFieldKey,
           currentValue: currentValue
         }
-        if (window.vcvSourceID !== sourceId || forceSaveSourceId) {
+        if (dataManager.get('sourceID') !== sourceId || forceSaveSourceId) {
           dynamicProps.sourceId = sourceId
         }
         newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
@@ -536,7 +537,7 @@ const API = {
           layoutAtts[fieldKey] = dynamicFieldsData
         }
       } else if (!isNested && options && options.inline) {
-        if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !window.vcvManageOptions) {
+        if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !dataManager.get('vcvManageOptions')) {
           allowInline = false
         }
         const paramGroupProps = {}
