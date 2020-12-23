@@ -99,6 +99,10 @@ class Controller extends Container implements Module
         }
         $response['data'] = $data;
 
+        $elementsCssData = get_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', true);
+        $response['elementsCssData'] = $elementsCssData;
+
+
         return $response;
     }
 
