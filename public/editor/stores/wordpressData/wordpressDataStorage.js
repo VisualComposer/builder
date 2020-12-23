@@ -15,6 +15,7 @@ addStorage('wordpressData', (storage) => {
   const wordpressDataStorage = getStorage('wordpressData')
   const popupStorage = getStorage('popup')
   const notificationsStorage = getStorage('notifications')
+  const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
 
   storage.on('start', () => {
@@ -116,6 +117,9 @@ addStorage('wordpressData', (storage) => {
       } else {
         elementsStorage.trigger('reset', {})
         empty = true
+      }
+      if (responseData.elementsCssData) {
+        cacheStorage.state('elementsCssCache').set(responseData.elementsCssData)
       }
       // fix for post update on empty templates
       if (empty) {
