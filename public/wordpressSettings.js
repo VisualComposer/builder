@@ -11,12 +11,24 @@ import { dashboard } from './components/wpVcSettings/dashboard'
 
 (() => {
   // TODO: Refactor this, and call this methods only on required pages
-  checkStatus()
-  hoverTooltip()
-  initEditors()
-  hfSectionToggle()
-  dropdownEditLink()
-  themeTemplatesToggle()
-  deactivationFeedbackPopup()
-  dashboard()
+  const settingsPages = ['vcv-settings', 'vcv-headers-footers', 'vcv-custom-page-templates', 'vcv-maintenance-mode', 'vcv-custom-site-popups', 'vcv-system-status', 'vcv-license']
+  const currentUrl = new URL(document.url)
+  const paths = currentUrl.pathname.split('/')
+  const urlParams = new URLSearchParams(window.location.search)
+  const current = urlParams.get('page')
+
+  if (current === 'vcv-global-css-js') {
+    initEditors()
+  }
+  if (settingsPages.includes(current)) {
+    hoverTooltip()
+    checkStatus()
+    hfSectionToggle()
+    dropdownEditLink()
+    themeTemplatesToggle()
+    dashboard()
+  }
+  if (paths.includes('plugins.php')) {
+    deactivationFeedbackPopup()
+  }
 })(window.jQuery)
