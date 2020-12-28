@@ -7,6 +7,7 @@ import TransparentOverlayComponent from '../../overlays/transparentOverlay/trans
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
 import Tooltip from '../../tooltip/tooltip'
+
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const myTemplatesService = getService('myTemplates')
@@ -128,6 +129,16 @@ export default class AddTemplatePanel extends React.Component {
     this.setState({
       templateName: e.currentTarget.value,
       error: false
+    })
+  }
+
+  displaySuccess (successText) {
+    notificationsStorage.trigger('add', {
+      position: 'bottom',
+      transparent: true,
+      rounded: true,
+      text: successText,
+      time: 5000
     })
   }
 
@@ -422,6 +433,9 @@ export default class AddTemplatePanel extends React.Component {
 
   onRemoveSuccess () {
     const index = !this.state.categories[this.state.activeCategoryIndex].templates.length ? 0 : this.state.activeCategoryIndex
+    const templateRemovedSuccessfullyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoved : 'The template has been successfully removed.'
+    this.displaySuccess(templateRemovedSuccessfullyText)
+
     this.setState({
       activeCategoryIndex: index,
       showSpinner: false,
