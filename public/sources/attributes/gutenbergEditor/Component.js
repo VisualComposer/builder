@@ -3,6 +3,10 @@ import React from 'react'
 import Attribute from '../attribute'
 import GutenbergModal from './lib/gutenbergModal'
 import { iframeControlStyles } from './lib/iframeControlStyles'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
+
 /* Working prototype */
 export default class GutenbergEditorComponent extends Attribute {
   static defaultProps = {
@@ -49,7 +53,7 @@ export default class GutenbergEditorComponent extends Attribute {
     const window = this.iframe.contentWindow
     const wpData = window.wp ? window.wp.data : false
     if (!wpData) {
-      const localizations = window.VCV_I18N && window.VCV_I18N()
+      const localizations = dataManager.get('localizations')
 
       const alertNotice = localizations ? localizations.gutenbergDoesntWorkProperly : "Gutenberg plugin doesn't work properly. Check the Gutenberg plugin."
       window.alert(alertNotice)
@@ -102,7 +106,7 @@ export default class GutenbergEditorComponent extends Attribute {
   }
 
   getControlsHTML () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const gutenbergEditorUpdateButton = localizations.gutenbergEditorUpdateButton ? localizations.gutenbergEditorUpdateButton : 'Update'
     return `
       <div class="vcv-gutenberg-controls-container">
@@ -152,7 +156,7 @@ export default class GutenbergEditorComponent extends Attribute {
 
     const editor = () => {
       if (showEditor) {
-        const iframeURL = window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' // change with vcv action
+        const iframeURL = dataManager.get('gutenbergEditorUrl') // change with vcv action
         return (
           <GutenbergModal>
             {loadingOverlay}

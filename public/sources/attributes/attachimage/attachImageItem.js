@@ -1,6 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class AttachImageItem extends React.Component {
   static propTypes = {
@@ -54,7 +57,7 @@ export default class AttachImageItem extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const removeImage = localizations ? localizations.removeImage : 'Remove the image'
     let { className, url, oneMoreControl, indexValue, imgUrl } = this.props
 

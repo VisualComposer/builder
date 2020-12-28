@@ -4,6 +4,8 @@ import { getService } from 'vc-cake'
 import serialize from 'form-serialize'
 import { getResponse } from 'public/tools/response'
 
+const dataManager = getService('dataManager')
+
 export default class AjaxForm extends Attribute {
   static defaultProps = {
     fieldType: 'ajaxForm'
@@ -97,8 +99,8 @@ export default class AjaxForm extends Attribute {
       'vcv-form-action': action,
       'vcv-form-element': this.props.elementAccessPoint.cook().toJS(),
       'vcv-form-value': value,
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }, (result) => {
       const response = getResponse(result.response)
       if (response && response.status) {

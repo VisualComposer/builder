@@ -5,9 +5,10 @@ import DynamicPopup from './dynamicPopup'
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const settingsStorage = getStorage('settings')
+const dataManager = getService('dataManager')
 
 export default class DynamicAttribute extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   constructor (props) {
     super(props)
@@ -161,7 +162,7 @@ export default class DynamicAttribute extends React.Component {
       return postField.split('::')[1] // Return other value from input
     }
 
-    if (sourceId && (window.vcvSourceID !== sourceId)) {
+    if (sourceId && (dataManager.get('sourceID') !== sourceId)) {
       if (Object.prototype.hasOwnProperty.call(currentIdFields, sourceId)) {
         currentIdFields = currentIdFields[sourceId]
       } else {

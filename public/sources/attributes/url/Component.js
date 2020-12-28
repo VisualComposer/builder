@@ -11,6 +11,7 @@ import { getResponse } from 'public/tools/response'
 import { getService, getStorage, env } from 'vc-cake'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import Tooltip from '../../../components/tooltip/tooltip'
+
 const dataManager = getService('dataManager')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -93,7 +94,7 @@ export default class Url extends Attribute {
       unsavedValue: value,
       isWindowOpen: (this.state && this.state.isWindowOpen) || false,
       updateState: false,
-      shouldRenderExistingPosts: !!window.vcvAjaxUrl,
+      shouldRenderExistingPosts: !!dataManager.get('ajaxUrl'),
       isRequestInProcess: false
     }
   }
@@ -103,7 +104,7 @@ export default class Url extends Attribute {
       this.postRequest.abort()
     }
     const request = new window.XMLHttpRequest()
-    request.open('POST', window.vcvAjaxUrl, true)
+    request.open('POST', dataManager.get('ajaxUrl'), true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = function () {
       if (request.status >= 200 && request.status < 400) {
@@ -125,8 +126,8 @@ export default class Url extends Attribute {
     this.ajaxPost({
       'vcv-action': action,
       'vcv-search': search,
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }, (request) => {
       const posts = getResponse(request.response)
       this.postRequest = null
@@ -343,7 +344,7 @@ export default class Url extends Attribute {
     const dropdownValue = this.state.unsavedValue.type ? this.state.unsavedValue.type : 'url'
 
     if (env('VCV_POPUP_BUILDER')) {
-      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+      const editorType = dataManager.get('editorType')
       optionDropdown = (
         <div className='vcv-ui-form-group'>
           <span className='vcv-ui-form-group-heading'>

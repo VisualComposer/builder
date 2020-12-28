@@ -86,7 +86,9 @@ const dataManager = {
       pageEditableNonce: () => { return window.vcvPageEditableNonce },
       freezeReady: () => { return window.vcvFreezeReady },
       ajaxUrl: () => { return window.vcvAjaxUrl },
-      pluginSourceUrl: () => { return window.vcvPluginSourceUrl }
+      pluginSourceUrl: () => { return window.vcvPluginSourceUrl },
+      gutenbergEditorUrl: () => { return window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' },
+      hubGetTemplates: () => { return window.VCV_HUB_GET_TEMPLATES && window.VCV_HUB_GET_TEMPLATES() }
     }
   }
 }

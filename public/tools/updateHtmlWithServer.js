@@ -2,6 +2,7 @@ import { getResponse } from 'public/tools/response'
 import { getService, getStorage, env } from 'vc-cake'
 import { spinnerHtml } from 'public/tools/spinnerHtml'
 
+const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const shortcodeAssetsStorage = getStorage('shortcodeAssets')
 const { getShortcodesRegexp } = getService('utils')
@@ -14,7 +15,8 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
     ((function (window, document) {
       const { headerContent, shortcodeContent, footerContent } = jsonData
       ref && (ref.innerHTML = '')
-      window.vcvFreezeReady && window.vcvFreezeReady(id, true)
+      const freezeReady = dataManager.get('freezeReady')
+      freezeReady && freezeReady(id, true)
       const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
       headerDom.context = document
       shortcodeAssetsStorage.trigger('add', { type: 'header', ref: ref, shadowDom: headerDom }, () => {
@@ -42,14 +44,15 @@ export function updateHtmlWithServer (content, ref, id, cb) {
     requests[id] = dataProcessor.appServerRequest({
       'vcv-action': 'elements:ajaxShortcode:adminNonce',
       'vcv-shortcode-string': content,
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }).then((data) => {
       const iframe = env('iframe')
       const finishCallback = () => {
         ((function (window) {
           window.setTimeout(() => {
-            window.vcvFreezeReady && window.vcvFreezeReady(id, false)
+            const freezeReady = dataManager.get('freezeReady')
+            freezeReady && freezeReady(id, false)
             window.vcv && window.vcv.trigger('ready', 'update', id)
             requests[id] = null
             cb && cb.constructor === Function && cb()

@@ -8,6 +8,7 @@ import { SortableContainer, SortableElement, SortableHandle, arrayMove } from 'r
 const workspaceStorage = getStorage('workspace')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
+const dataManager = getService('dataManager')
 
 export default class ParamsGroupAttribute extends Attribute {
   static defaultProps = {
@@ -257,7 +258,7 @@ export default class ParamsGroupAttribute extends Attribute {
       minimum = true
     }
 
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const cloneText = localizations ? localizations.clone : 'Clone'
     const removeText = localizations ? localizations.remove : 'Remove'
     const editText = localizations ? localizations.edit : 'Edit'
@@ -300,7 +301,7 @@ export default class ParamsGroupAttribute extends Attribute {
       maximum = true
     }
 
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const addText = localizations ? localizations.add : 'Add'
     let addContent = null
     if (!maximum) {

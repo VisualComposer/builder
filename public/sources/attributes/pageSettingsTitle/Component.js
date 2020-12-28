@@ -1,10 +1,11 @@
 import React from 'react'
-import { getStorage, env } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
 
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
+const dataManager = getService('dataManager')
 
 export default class PageSettingsTitle extends Attribute {
   static defaultProps = {
@@ -45,11 +46,13 @@ export default class PageSettingsTitle extends Attribute {
   }
 
   getShowToggle () {
-    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type === 'theme') || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type === 'theme')
+    const currentLayout = dataManager.get('pageTemplatesLayoutsCurrent')
+    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type === 'theme') || (currentLayout && currentLayout.type === 'theme')
   }
 
   getThemeType () {
-    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type) || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT().type)
+    const currentLayout = dataManager.get('pageTemplatesLayoutsCurrent')
+    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type) || (currentLayout && currentLayout.type)
   }
 
   updateShowToggle (themeType) {
@@ -107,7 +110,7 @@ export default class PageSettingsTitle extends Attribute {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const settingName = localizations ? localizations.title : 'Title'
     const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable the page title'
     const checked = (this.state.disabled) ? 'checked' : ''
