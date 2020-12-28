@@ -12,13 +12,14 @@ const elementAccessPointService = vcCake.getService('elementAccessPoint')
 const hubElementsService = vcCake.getService('hubElements')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const workspaceStorage = vcCake.getStorage('workspace')
+const dataManager = vcCake.getService('dataManager')
 
 export default class ElementAttribute extends Attribute {
   static defaultProps = {
     fieldType: 'element'
   }
 
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   static propTypes = {
     updater: PropTypes.func.isRequired,

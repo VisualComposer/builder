@@ -1,6 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class UrlDropdownInput extends React.Component {
   static propTypes = {
@@ -149,7 +152,7 @@ export default class UrlDropdownInput extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const enterDestinationUrl = localizations ? localizations.enterDestinationUrl : 'Enter the destination URL'
     const dropdownContainerClasses = classNames({
       'vcv-ui-editor-dropdown-input-dropdown-container': true,
