@@ -628,6 +628,10 @@ class Localizations extends Container implements Helper
                 'The template has been successfully saved.',
                 'visualcomposer'
             ),
+            'templateRemoved' => __(
+                'The template has been successfully removed.',
+                'visualcomposer'
+            ),
             'templateHelperText' => __(
                 'Change the default parameters of the section to save it as a unique block template. The new block template will be added to your library.',
                 'visualcomposer'
