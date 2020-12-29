@@ -114,10 +114,13 @@ export default class PageSettings extends React.Component {
 
     if (typeof dataManager.get('excerpt') !== 'undefined') {
       const settingName = localizations ? localizations.excerpt : 'Excerpt'
+      const excerptsAreOptional = localizations ? localizations.excerptsAreOptional : 'Excerpts are optional hand-crafted summaries of your content.'
+
       wordpressSettings.push(
         <AccordionPanel
           key='excerpt'
           sectionTitle={settingName}
+          tooltipText={excerptsAreOptional}
         >
           <Excerpt />
         </AccordionPanel>
