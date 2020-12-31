@@ -34,6 +34,8 @@ export default class TemplateLayoutIcons extends React.Component {
     this.handleTemplateChange = this.handleTemplateChange.bind(this)
     this.handleChangeUpdateStretchedContentState = this.handleChangeUpdateStretchedContentState.bind(this)
     this.getLayoutDropdown = this.getLayoutDropdown.bind(this)
+    this.handleLockIconHover = this.handleLockIconHover.bind(this)
+    this.handleLockIconHoverLeave = this.handleLockIconHoverLeave.bind(this)
   }
 
   componentDidMount () {
@@ -129,8 +131,8 @@ export default class TemplateLayoutIcons extends React.Component {
       <span
         className='vcv-ui-layout-lock-control'
         title={lockIconTitle}
-        onMouseEnter={() => this.onLockIconHover()}
-        onMouseLeave={() => this.onLockIconHoverLeave()}
+        onMouseEnter={this.handleLockIconHover}
+        onMouseLeave={this.handleLockIconHoverLeave}
       >
         <i className='vcv-ui-icon vcv-ui-icon-lock-fill' />
       </span>
@@ -324,14 +326,14 @@ export default class TemplateLayoutIcons extends React.Component {
     )
   }
 
-  onLockIconHover () {
-    const icon = event.toElement.children[0]
+  handleLockIconHover (event) {
+    const icon = event.currentTarget.children[0]
     icon.classList.toggle('vcv-ui-icon-unlock-fill')
     icon.classList.toggle('vcv-ui-icon-lock-fill')
   }
 
-  onLockIconHoverLeave () {
-    const icon = event.fromElement.children[0]
+  handleLockIconHoverLeave (event) {
+    const icon = event.currentTarget.children[0]
     icon.classList.toggle('vcv-ui-icon-unlock-fill')
     icon.classList.toggle('vcv-ui-icon-lock-fill')
   }
