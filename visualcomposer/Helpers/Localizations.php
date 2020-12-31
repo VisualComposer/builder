@@ -1498,6 +1498,22 @@ class Localizations extends Container implements Helper
                 'Download Premium Design Options',
                 'visualcomposer'
             ),
+            'downloadTheAddon' => __(
+                'Download The Add-On',
+                'visualcomposer'
+            ),
+            'premiumPopupBuilder' => __(
+                'Premium Popup Builder. Do More.',
+                'visualcomposer'
+            ),
+            'createEngagingPopups' => __(
+                'Create engaging popups to boost your conversion rate with Visual Composer Premium Popup Builder.',
+                'visualcomposer'
+            ),
+            'layoutsAvailableInPremium' => __(
+                'All layouts are available in the Premium version.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

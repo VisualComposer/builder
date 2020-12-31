@@ -20,6 +20,8 @@ addStorage('editorPopup', (storage) => {
     return activePopup
   }
 
+  const isFullPage = (popupData, popupName) => popupData && popupData[popupName] ? popupData[popupName].popupOnFullPage : false
+
   const initialPopupData = {
     votePopup: {
       visible: dataManager.get('showFeedbackForm'),
@@ -36,14 +38,21 @@ addStorage('editorPopup', (storage) => {
     premiumPromoPopup: {
       visible: dataManager.get('showPremiumPromoPopup'),
       priority: 4
+    },
+    premiumPopup: {
+      visible: false,
+      popupOnFullPage: true,
+      priority: 5
     }
   }
 
   storage.state('popups').onChange((popupData) => {
     const activePopup = getActivePopup(popupData)
+    const isPopupFull = isFullPage(popupData, activePopup)
     const oldActivePopup = storage.state('activePopup').get()
     if (activePopup !== oldActivePopup) {
       // Set initial active popup
+      storage.state('popupOnFullPage').set(isPopupFull)
       storage.state('activePopup').set(activePopup)
     }
   })
