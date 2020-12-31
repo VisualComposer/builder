@@ -6,9 +6,11 @@ import CustomLayoutDropdown from './customLayoutDropdown'
 
 const settingsStorage = getStorage('settings')
 const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+const vcLayoutsAll = window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL && window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL()
 const themeTemplates = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME()
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
+const editorPopupStorage = getStorage('editorPopup')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
@@ -50,7 +52,11 @@ export default class TemplateLayoutIcons extends React.Component {
     }
   }
 
-  handleTemplateChange (selectedTemplate) {
+  handleTemplateChange (selectedTemplate, isLocked = false) {
+    if (isLocked) {
+      editorPopupStorage.trigger('showPopup', 'premiumPopup')
+      return
+    }
     const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
     let value = layoutData[1]
     if (value !== 'none' && value !== 'default' && parseInt(value)) {
@@ -116,6 +122,21 @@ export default class TemplateLayoutIcons extends React.Component {
     settingsStorage.state('skipBlank').set(true)
   }
 
+  getLockControl () {
+    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const lockIconTitle = localizations ? localizations.layoutsAvailableInPremium : 'All layouts are available in the Premium version.'
+    return (
+      <span
+        className='vcv-ui-layout-lock-control'
+        title={lockIconTitle}
+        onMouseEnter={() => this.onLockIconHover()}
+        onMouseLeave={() => this.onLockIconHoverLeave()}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-lock-fill' />
+      </span>
+    )
+  }
+
   getTemplateLayoutIcons () {
     const icons = []
     const iconProps = {
@@ -144,14 +165,21 @@ export default class TemplateLayoutIcons extends React.Component {
       )
     }
 
-    if (vcLayouts && vcLayouts.length) {
-      vcLayouts.forEach((templateList, index) => {
-        if (this.allowedTypes.indexOf(templateList.type) < 0) {
-          return
+    if (vcLayouts && vcLayoutsAll && vcLayouts.length && vcLayoutsAll.length) {
+      vcLayoutsAll.forEach((templateList, index) => {
+        let isLocked = false
+        let lockControl = null
+        const isLayoutAllowed = vcLayouts.find(item => item.type === templateList.type)
+        if (!isLayoutAllowed) {
+          lockControl = this.getLockControl()
+          isLocked = true
         }
         templateList.values.forEach((template, tIndex) => {
           const templateName = `${templateList.type}__${template.value}`
           let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
+          if (isLocked) {
+            classes += ' vcv-ui-item-template-inactive--locked'
+          }
           const Icon = LayoutIcons[templateName] && LayoutIcons[templateName].icon.default
           if (Icon) {
             if (this.state.current.type === templateList.type && this.state.current.value === template.value) {
@@ -162,8 +190,9 @@ export default class TemplateLayoutIcons extends React.Component {
                 className={classes}
                 title={template.label}
                 key={`settings-layout-${index}-${tIndex}`}
-                onClick={() => { this.handleTemplateChange(templateName) }}
+                onClick={() => { this.handleTemplateChange(templateName, isLocked) }}
               >
+                {lockControl}
                 <Icon {...iconProps} />
               </span>
             )
@@ -293,6 +322,18 @@ export default class TemplateLayoutIcons extends React.Component {
         </select>
       </div>
     )
+  }
+
+  onLockIconHover () {
+    const icon = event.toElement.children[0]
+    icon.classList.toggle('vcv-ui-icon-unlock-fill')
+    icon.classList.toggle('vcv-ui-icon-lock-fill')
+  }
+
+  onLockIconHoverLeave () {
+    const icon = event.fromElement.children[0]
+    icon.classList.toggle('vcv-ui-icon-unlock-fill')
+    icon.classList.toggle('vcv-ui-icon-lock-fill')
   }
 
   handleChangeUpdateStretchedContentState (event) {

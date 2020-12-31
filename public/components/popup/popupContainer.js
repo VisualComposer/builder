@@ -5,6 +5,7 @@ import VotePopup from './popups/votePopup'
 import ReviewPopup from './popups/reviewPopup'
 import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
+import PremiumPopup from './popups/premiumPopup'
 
 const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
@@ -75,8 +76,10 @@ export default class PopupContainer extends React.Component {
 
   render () {
     const { activePopup, actionClicked, popupVisible } = this.state
+    const popupOnFullPage = editorPopupStorage.state('popupOnFullPage').get()
     const popupClasses = classNames({
       'vcv-layout-popup': true,
+      'vcv-layout-popup--full-page': popupOnFullPage,
       'vcv-layout-popup--visible': popupVisible,
       'vcv-layout-popup--action-clicked': actionClicked
     })
@@ -95,6 +98,8 @@ export default class PopupContainer extends React.Component {
       activePopupHtml = <DataCollectionPopup {...popupProps} />
     } else if (activePopup === 'premiumPromoPopup') {
       activePopupHtml = <PremiumPromoPopup {...popupProps} />
+    } else if (activePopup === 'premiumPopup') {
+      activePopupHtml = <PremiumPopup {...popupProps} />
     }
 
     return (
