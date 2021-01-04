@@ -146,27 +146,29 @@
     color: @vcui-attach-image-remove-color-hover;
   }
 }
-
-.vcv-ui-form-attach-image-control {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: @vcui-attach-image-size;
-  width: @vcui-attach-image-size;
-  border: 1px dashed;
-  line-height: 1;
-  font-size: @vcui-attach-image-control-size;
-  color: @vcui-attach-image-control-color;
-  transition-duration: @vcui-form-transition-duration;
-  transition-property: color;
-  transition-timing-function: ease-in-out;
-  cursor: pointer;
-  background: #fff;
-  &:hover,
-  &:focus {
-    color: @vcui-attach-image-control-color-hover;
+.vcv-ui-form-attach-image-item {
+  .vcv-ui-form-attach-image-control {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: @vcui-attach-image-size;
+    width: @vcui-attach-image-size;
+    border: 1px dashed;
+    line-height: 1;
+    font-size: @vcui-attach-image-control-size;
+    color: @vcui-attach-image-control-color;
+    transition-duration: @vcui-form-transition-duration;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+    background: #fff;
+    &:hover,
+    &:focus {
+      color: @vcui-attach-image-control-color-hover;
+      text-decoration: none;
+    }
   }
 }
 
