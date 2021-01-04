@@ -40,7 +40,7 @@ export default class PopupInner extends React.Component {
     const closeButtonText = localizations ? localizations.close : 'Close'
     const popupButtonText = buttonText || (localizations ? localizations.submit : 'Submit')
     const ButtonTag = customButtonTag || 'a'
-    const popupBadge = this.getPopupBadgeHtml() || null
+    const popupBadge = this.getPopupBadgeHtml()
 
     return (
       <div className='vcv-layout-popup-inner'>
