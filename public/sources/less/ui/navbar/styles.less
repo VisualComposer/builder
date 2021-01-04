@@ -51,7 +51,8 @@
   transition-duration: @transition-duration;
   transition-property: color, background-color;
   position: relative;
-  &:hover {
+  &:hover,
+  &.vcv-ui-navbar-control--active {
     background-color: @navbar-bg-base-hover;
   }
   &[disabled] {
@@ -191,7 +192,6 @@
   &.vcv-ui-pull-end {
     .vcv-ui-navbar-dropdown-content {
       left: auto;
-      right: 0;
     }
   }
 }
@@ -238,6 +238,7 @@
     visibility: visible;
     opacity: 1;
     max-height: none;
+    overflow: initial;
 
     .vcv-ui-navbar-control:last-child {
       border-top: 1px solid #374763;

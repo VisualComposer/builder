@@ -16,7 +16,9 @@ export default class Item extends React.Component {
 
   handleClick = (index, e) => {
     e && e.preventDefault()
-    this.props.onChange(index)
+    if (!e.target.classList.contains('vcv-tooltip-button')) {
+      this.props.onChange(index)
+    }
   }
 
   render () {
