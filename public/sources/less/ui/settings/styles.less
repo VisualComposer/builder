@@ -293,18 +293,20 @@
   }
 }
 
-a {
-  text-decoration: none;
-  color: #586dc6;
-  transition: @transition-duration;
+.vcv-ui-form-group {
+  a {
+    text-decoration: none;
+    color: @vcv-blue-link;
+    transition: @transition-duration;
 
-  &:hover {
-    color: #515162;
-    text-decoration: underline;
-  }
+    &:hover {
+      color: @vcv-blue-link--hover;
+      text-decoration: underline;
+    }
 
-  &:focus {
-    outline: none;
-    box-shadow: none;
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
 }
