@@ -97,7 +97,13 @@
   flex-direction: row;
   flex-wrap: wrap;
   flex: 0 0 auto;
-  background: @modal-action-bg-base;
+  background: @vcv-blue-button;
+  transition: background @transition-duration;
+
+  &:hover {
+    background-color: @vcv-blue-button--hover;
+  }
+
   .vcv-ui-modal-action-content {
     span {
       margin-left: @modal-gold-value;
@@ -133,9 +139,6 @@
   border-style: solid;
   border-color: @modal-action-separator-color;
 
-  &:hover {
-    background-color: @modal-action-bg-base-hover;
-  }
   &[disabled] {
     background-color: transparent;
     opacity: .5;
