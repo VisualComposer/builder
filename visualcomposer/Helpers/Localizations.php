@@ -1514,6 +1514,14 @@ class Localizations extends Container implements Helper
                 'All layouts are available in the Premium version.',
                 'visualcomposer'
             ),
+            'width' => __(
+                'Width',
+                'visualcomposer'
+            ),
+            'pixelsUnit' => __(
+                'px',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

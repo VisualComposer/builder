@@ -10,15 +10,6 @@ export default class LayoutButtonControl extends React.Component {
   static localizations = dataManager.get('localizations')
   static devices = [
     {
-      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
-      className: 'multiple-devices',
-      viewport: {
-        width: null,
-        min: null,
-        max: null
-      }
-    },
-    {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.desktop : 'Desktop',
       className: 'desktop',
       viewport: {
@@ -67,13 +58,23 @@ export default class LayoutButtonControl extends React.Component {
         min: '0',
         max: '553'
       }
+    },
+    {
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
+      className: 'multiple-devices',
+      viewport: {
+        width: null,
+        min: null,
+        max: null
+      }
     }
   ]
 
   constructor (props) {
     super(props)
     this.state = {
-      activeDevice: 0
+      activeDevice: 0,
+      isContentVisible: false
     }
 
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -86,6 +87,7 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
+    this.handleControlClick = this.handleControlClick.bind(this)
   }
 
   handleClickSetSelectedLayout (index) {
@@ -94,6 +96,10 @@ export default class LayoutButtonControl extends React.Component {
     this.setState({
       activeDevice: index
     })
+  }
+
+  handleControlClick () {
+    this.setState({ isContentVisible: !this.state.isContentVisible })
   }
 
   setViewport (width, height, device) {
@@ -124,6 +130,10 @@ export default class LayoutButtonControl extends React.Component {
       'vcv-ui-navbar-dropdown-linear': true,
       'vcv-ui-pull-end': true
     })
+    const navbarContentClasses = classNames({
+      'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-dropdown-content--visible': this.state.isContentVisible
+    })
 
     const layoutItems = []
     LayoutButtonControl.devices.forEach((item, index) => {
@@ -137,14 +147,19 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     return (
-      <dl className={navbarControlClasses} tabIndex='0' data-vcv-guide-helper='layout-control'>
+      <dl
+        className={navbarControlClasses}
+        tabIndex='0'
+        data-vcv-guide-helper='layout-control'
+        onClick={this.handleControlClick}
+      >
         <dt
           className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
           title={LayoutButtonControl.devices[this.state.activeDevice].type}
         >
           {activeDevice}
         </dt>
-        <dd className='vcv-ui-navbar-dropdown-content'>
+        <dd className={navbarContentClasses}>
           {layoutItems}
         </dd>
       </dl>

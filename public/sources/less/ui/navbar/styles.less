@@ -161,7 +161,6 @@
   .vcv-ui-navbar-controls-group {
     flex-direction: column;
   }
-  &:not(.vcv-ui-navbar-sandwich):hover,
   &.vcv-ui-navbar-dropdown--active {
     .vcv-ui-navbar-dropdown-content {
       visibility: visible;
@@ -211,7 +210,6 @@
 .vcv-ui-navbar-dropdown-content {
   background-color: @navbar-bg-dropdown;
   min-width: @navbar-dropdown-size;
-  //max-height: @navbar-dropdown-max-height;
   max-height: 0;
   overflow: hidden;
   margin: 0;
@@ -223,7 +221,6 @@
   visibility: hidden;
   opacity: 0;
   box-shadow: @navbar-dropdown-shadow;
-  //transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
   .vcv-ui-navbar-control {
     text-align: left;
     &:hover,
@@ -234,6 +231,32 @@
       background-color: transparent;
       opacity: .5;
       cursor: not-allowed;
+    }
+  }
+
+  &.vcv-ui-navbar-dropdown-content--visible {
+    visibility: visible;
+    opacity: 1;
+    max-height: none;
+
+    .vcv-ui-navbar-control:last-child {
+      border-top: 1px solid #374763;
+    }
+
+    .vcv-ui-navbar-control-content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .vcv-ui-navbar-control-content em {
+      font-size: 12px;
+      color: #ACB4C3;
+      margin-left: 5px;
+    }
+
+    .vcv-ui-navbar-control-content > span {
+      display: initial;
     }
   }
 }
