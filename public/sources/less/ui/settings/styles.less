@@ -222,13 +222,17 @@
   .vcv-ui-form-link {
     display: inline;
     text-decoration: none;
-    color: #2A4B80;
-    border-bottom: 1px solid transparent;
-    transition: color .2s, border-color .2s;
+    color: #586dc6;
+    transition: @transition-duration;
 
-    &:hover, &:focus {
-      color: #176286;
-      border-bottom-color: #176286;
+    &:hover {
+      color: #515162;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
     }
   }
 }
@@ -286,5 +290,21 @@
       pointer-events: none;
       cursor: not-allowed;
     }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #586dc6;
+  transition: @transition-duration;
+
+  &:hover {
+    color: #515162;
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
   }
 }
