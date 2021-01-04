@@ -26,6 +26,7 @@ export default class PopupContainer extends React.Component {
     this.handlePrimaryButtonClick = this.handlePrimaryButtonClick.bind(this)
     this.handleDocumentChange = this.handleDocumentChange.bind(this)
     this.handlePopupChange = this.handlePopupChange.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
   }
 
   componentDidMount () {
@@ -74,6 +75,12 @@ export default class PopupContainer extends React.Component {
     }, 1000)
   }
 
+  handleOutsideClick (event) {
+    if (event.target.classList.contains('vcv-layout-popup--full-page')) {
+      this.handleCloseClick()
+    }
+  }
+
   render () {
     const { activePopup, actionClicked, popupVisible } = this.state
     const popupOnFullPage = editorPopupStorage.state('popupOnFullPage').get()
@@ -103,7 +110,7 @@ export default class PopupContainer extends React.Component {
     }
 
     return (
-      <div className={popupClasses}>
+      <div className={popupClasses} onClick={this.handleOutsideClick}>
         <div className='vcv-layout-popup-container'>
           {activePopupHtml}
         </div>
