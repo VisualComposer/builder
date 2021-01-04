@@ -211,9 +211,16 @@
   a {
     text-decoration: none;
     color: @vcv-dashboard-link-color;
+    transition: @transition-duration;
 
     &:hover {
       color: @vcv-dashboard-link-color--hover;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
     }
   }
 
@@ -327,6 +334,7 @@
     &:active {
       color: @text-color-base;
       background-color: @vcv-dashboard-refresh-btn-bg-color--hover;
+      text-decoration: none;
     }
   }
 
