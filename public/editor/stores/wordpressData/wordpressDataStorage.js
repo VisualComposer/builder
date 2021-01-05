@@ -182,6 +182,9 @@ addStorage('wordpressData', (storage) => {
       if (categoriesData && categoriesData.length) {
         settingsStorage.state('categories').set(categoriesData)
       }
+      if (Object.prototype.hasOwnProperty.call(responseData, 'outputEditorLayoutDesktop')) {
+        settingsStorage.state('outputEditorLayoutDesktop').set(responseData.outputEditorLayoutDesktop)
+      }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
         postData = responseData.postData

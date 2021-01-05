@@ -2,9 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
 import MobileDetect from 'mobile-detect'
-import { env, getService } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 
 const dataManager = getService('dataManager')
+const settingsStorage = getStorage('settings')
 
 export default class LayoutButtonControl extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -90,6 +91,23 @@ export default class LayoutButtonControl extends React.Component {
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
     this.handleControlClick = this.handleControlClick.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
+    this.handleLayoutChange = this.handleLayoutChange.bind(this)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('outputEditorLayoutDesktop').onChange(this.handleLayoutChange)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('outputEditorLayoutDesktop').ignoreChange(this.handleLayoutChange)
+  }
+
+  handleLayoutChange (data) {
+    let deviceViewIndex = 0
+    if (!data) {
+      deviceViewIndex = LayoutButtonControl.devices.findIndex(device => device.className === 'multiple-devices')
+    }
+    this.handleClickSetSelectedLayout(deviceViewIndex)
   }
 
   handleClickSetSelectedLayout (index) {
@@ -131,9 +149,9 @@ export default class LayoutButtonControl extends React.Component {
   setViewport (width, height, device) {
     const layoutContent = window.document.querySelector('.vcv-layout-content')
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    layoutContent.style.padding = width ? '30px' : ''
+    layoutContent.style.padding = width && device !== 'desktop' ? '30px' : ''
     iframeContainer.style.width = width ? width + 'px' : ''
-    iframeContainer.style.minHeight = height ? height + 'px' : ''
+    iframeContainer.style.minHeight = height && device !== 'desktop' ? height + 'px' : ''
     iframeContainer.setAttribute('data-vcv-device', device)
   }
 
