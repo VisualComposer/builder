@@ -37,18 +37,6 @@ addStorage('editorPopup', (storage) => {
     premiumPromoPopup: {
       visible: dataManager.get('showPremiumPromoPopup'),
       priority: 4
-    },
-    premiumPopup: {
-      visible: false,
-      fullPopup: true,
-      priority: 5
-    }
-  }
-
-  const initialFullPagePopupData = {
-    premiumPopup: {
-      visible: false,
-      priority: 1
     }
   }
 
@@ -61,18 +49,8 @@ addStorage('editorPopup', (storage) => {
     }
   })
 
-  storage.state('fullPopups').onChange((popupData) => {
-    const activeFullPopup = getActivePopup(popupData)
-    const oldActiveFullPopup = storage.state('activeFullPopup').get()
-    if (activeFullPopup !== oldActiveFullPopup) {
-      // Set initial active full popup
-      storage.state('activeFullPopup').set(activeFullPopup)
-    }
-  })
-
   // Set initial data from popups
   storage.state('popups').set(initialPopupData)
-  storage.state('fullPopups').set(initialFullPagePopupData)
 
   storage.on('showPopup', (popupName) => {
     const popupState = storage.state('popups').get()
@@ -96,37 +74,21 @@ addStorage('editorPopup', (storage) => {
 
   storage.on('hideAll', () => {
     const popupState = storage.state('popups').get()
-    const fullPagePopupState = storage.state('fullPopups').get()
 
     Object.keys(popupState).forEach((popupName) => {
       popupState[popupName].visible = false
     })
-    Object.keys(fullPagePopupState).forEach((popupName) => {
-      popupState[popupName].visible = false
-    })
 
     storage.state('popups').set(popupState)
-    storage.state('fullPopups').set(fullPagePopupState)
+    storage.state('activeFullPopup').set(false)
   })
 
   // Full page popup actions
-  storage.on('showFullPagePopup', (popupName) => {
-    const popupState = storage.state('fullPopups').get()
-
-    if (popupName && popupState[popupName]) {
-      popupState[popupName].visible = true
-    }
-
-    storage.state('fullPopups').set(popupState)
+  storage.on('showFullPagePopup', () => {
+    storage.state('activeFullPopup').set(true)
   })
 
-  storage.on('hideFullPagePopup', (popupName) => {
-    const popupState = storage.state('fullPopups').get()
-
-    if (popupName && popupState[popupName]) {
-      popupState[popupName].visible = false
-    }
-
-    storage.state('fullPopups').set(popupState)
+  storage.on('hideFullPagePopup', () => {
+    storage.state('activeFullPopup').set(false)
   })
 })
