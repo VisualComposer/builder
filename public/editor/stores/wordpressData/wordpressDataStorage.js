@@ -89,7 +89,13 @@ addStorage('wordpressData', (storage) => {
       const pageTemplateData = dataManager.get('pageTemplates')
       const initialContent = responseData.post_content
       const featuredImageData = dataManager.get('featuredImage')
-      const categoriesData = dataManager.get('categories')
+      const categoriesData = dataManager.get('categories') || []
+      const authorData = dataManager.get('authorList') || 'none'
+      const commentStatusData = dataManager.get('commentStatus') || 'closed'
+      const pingStatusData = dataManager.get('pingStatus') || 'closed'
+      const excerptData = dataManager.get('excerpt') || ''
+      const parentPageData = dataManager.get('pageList') || 'none'
+      let tagsData = dataManager.get('tags') || []
       let empty = false
       if (featuredImageData) {
         featuredImageData.initialSet = true
@@ -181,6 +187,26 @@ addStorage('wordpressData', (storage) => {
       }
       if (categoriesData && categoriesData.length) {
         settingsStorage.state('categories').set(categoriesData)
+      }
+      if (authorData && authorData.current) {
+        settingsStorage.state('author').set(authorData.current)
+      }
+      if (commentStatusData) {
+        settingsStorage.state('commentStatus').set(commentStatusData)
+      }
+      if (pingStatusData) {
+        settingsStorage.state('pingStatus').set(pingStatusData)
+      }
+      if (excerptData) {
+        settingsStorage.state('excerpt').set(excerptData)
+      }
+      if (parentPageData && parentPageData.current) {
+        settingsStorage.state('parentPage').set(parentPageData.current)
+      }
+      if (tagsData && tagsData.length) {
+        tagsData = tagsData.map(tag => tag.name)
+        const parsedCurrentTags = settingsStorage.state('tags').get() || tagsData
+        settingsStorage.state('tags').set(parsedCurrentTags)
       }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
