@@ -111,7 +111,7 @@ export const dashboard = () => {
     window.vcvIsCodeEditorsTouched = false
     const action = e.target.getAttribute('action')
     const submitButtonContainer = e.target.querySelector('.vcv-submit-button-container')
-    const submitButton = e.target.querySelector('#submit_btn')
+    const submitButton = e.target.querySelector('.vcv-dashboard-button--save')
     // this will get all form fields and encode it as a string
     const data = Array.from(
       new window.FormData(e.target),
