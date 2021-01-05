@@ -56,7 +56,7 @@ export default class PopupContainer extends React.Component {
   handleCloseClick () {
     this.setState({ popupVisible: false })
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hidePopup', this.state.activePopup)
+      editorPopupStorage.trigger('hideFullPagePopup', this.state.activePopup)
     }, 500)
   }
 
@@ -67,7 +67,7 @@ export default class PopupContainer extends React.Component {
         actionClicked: false,
         popupVisible: false
       })
-      editorPopupStorage.trigger('hidePopup', this.state.activePopup)
+      editorPopupStorage.trigger('hideFullPagePopup', this.state.activePopup)
     }, 500)
   }
 

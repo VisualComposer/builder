@@ -67,7 +67,7 @@ export default class TemplateLayoutIcons extends React.Component {
         popupDesc: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.'
       }
       editorPopupStorage.state('popupText').set(popupText)
-      editorPopupStorage.trigger('showPopup', 'premiumPopup')
+      editorPopupStorage.trigger('showFullPagePopup', 'premiumPopup')
       return
     }
     const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
