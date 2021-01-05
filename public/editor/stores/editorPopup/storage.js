@@ -3,12 +3,15 @@ import { addStorage, getService } from 'vc-cake'
 addStorage('editorPopup', (storage) => {
   const dataManager = getService('dataManager')
 
-  const getActivePopup = (popupData) => {
-    const popupDataByPriority = []
+  const getActivePopup = (popupData, isFullPopup = false) => {
+    let popupDataByPriority = []
     for (const popupName in popupData) {
       if (Object.prototype.hasOwnProperty.call(popupData, popupName)) {
         popupDataByPriority.push({ popupName: popupName, popupData: popupData[popupName] })
       }
+    }
+    if (isFullPopup) {
+      popupDataByPriority = popupDataByPriority.filter(popup => popup.popupData.fullPopup)
     }
     popupDataByPriority.sort((a, b) => a.priority - b.priority)
     const firstVisible = popupDataByPriority.findIndex((item) => item.popupData.visible)
@@ -19,8 +22,6 @@ addStorage('editorPopup', (storage) => {
     }
     return activePopup
   }
-
-  const isFullPage = (popupData, popupName) => popupData && popupData[popupName] ? popupData[popupName].popupOnFullPage : false
 
   const initialPopupData = {
     votePopup: {
@@ -41,19 +42,23 @@ addStorage('editorPopup', (storage) => {
     },
     premiumPopup: {
       visible: false,
-      popupOnFullPage: true,
+      fullPopup: true,
       priority: 5
     }
   }
 
   storage.state('popups').onChange((popupData) => {
     const activePopup = getActivePopup(popupData)
-    const isPopupFull = isFullPage(popupData, activePopup)
     const oldActivePopup = storage.state('activePopup').get()
+    const activeFullPopup = getActivePopup(popupData, 'fullPopup')
+    const oldActiveFullPopup = storage.state('activeFullPopup').get()
     if (activePopup !== oldActivePopup) {
       // Set initial active popup
-      storage.state('popupOnFullPage').set(isPopupFull)
       storage.state('activePopup').set(activePopup)
+    }
+    if (activeFullPopup !== oldActiveFullPopup) {
+      // Set initial active full popup
+      storage.state('activeFullPopup').set(activeFullPopup)
     }
   })
 

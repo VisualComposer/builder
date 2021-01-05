@@ -1,5 +1,5 @@
 import React from 'react'
-import { getStorage, env } from 'vc-cake'
+import { getStorage, getService, env } from 'vc-cake'
 import LayoutIcons from 'public/components/startBlank/lib/layoutIcons'
 import lodash from 'lodash'
 import CustomLayoutDropdown from './customLayoutDropdown'
@@ -11,6 +11,7 @@ const themeTemplates = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAG
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
+const dataManager = getService('dataManager')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
@@ -56,6 +57,16 @@ export default class TemplateLayoutIcons extends React.Component {
 
   handleTemplateChange (selectedTemplate, isLocked = false) {
     if (isLocked) {
+      const localizations = window.VCV_I18N && window.VCV_I18N()
+      const isPremiumActivated = dataManager.get('isPremiumActivated')
+      const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
+      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADD-ON'
+      const popupText = {
+        headingText: localizations ? localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
+        buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
+        popupDesc: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.'
+      }
+      editorPopupStorage.state('popupText').set(popupText)
       editorPopupStorage.trigger('showPopup', 'premiumPopup')
       return
     }
