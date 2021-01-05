@@ -56,7 +56,11 @@ class DiscussionController extends Container implements Module
             )->get()) {
             // @codingStandardsIgnoreEnd
             $discussionVariables = [];
-            if (post_type_supports($currentPostType, 'trackbacks')) {
+            if (
+                comments_open($currentPost) ||
+                pings_open($currentPost) ||
+                post_type_supports($currentPostType, 'comments')
+            ) {
                 $discussionVariables[] = vcview(
                     'partials/variableTypes/variable',
                     [
@@ -64,8 +68,6 @@ class DiscussionController extends Container implements Module
                         'value' => $pingStatus,
                     ]
                 );
-            }
-            if (post_type_supports($currentPostType, 'comments')) {
                 $discussionVariables[] = vcview(
                     'partials/variableTypes/variable',
                     [
