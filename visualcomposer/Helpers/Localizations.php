@@ -1522,6 +1522,10 @@ class Localizations extends Container implements Helper
                 'px',
                 'visualcomposer'
             ),
+            'responsiveViewTooltip' => __(
+                'You can instantly check your layout on the most popular device types.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

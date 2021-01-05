@@ -33,7 +33,7 @@ export default class Item extends React.Component {
     const widthLabel = `(${widthText}: ${device.viewport.width} ${pixelsUnit})`
     let helper = <em>{widthLabel}</em>
     if (device.className === 'multiple-devices') {
-      const responsiveView = localizations.responsiveView || 'Responsive View'
+      const responsiveView = localizations.responsiveViewTooltip || 'You can instantly check your layout on the most popular device types.'
       helper = <Tooltip>{responsiveView}</Tooltip>
     }
     return (
