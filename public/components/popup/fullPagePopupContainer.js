@@ -56,7 +56,7 @@ export default class PopupContainer extends React.Component {
   handleCloseClick () {
     this.setState({ popupVisible: false })
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hideFullPagePopup', this.state.activePopup)
+      editorPopupStorage.trigger('hideFullPagePopup')
     }, 500)
   }
 
@@ -67,7 +67,7 @@ export default class PopupContainer extends React.Component {
         actionClicked: false,
         popupVisible: false
       })
-      editorPopupStorage.trigger('hideFullPagePopup', this.state.activePopup)
+      editorPopupStorage.trigger('hideFullPagePopup')
     }, 500)
   }
 
@@ -94,7 +94,7 @@ export default class PopupContainer extends React.Component {
     }
     let activePopupHtml = null
 
-    if (activePopup === 'premiumPopup') {
+    if (activePopup) {
       activePopupHtml = <PremiumPopup {...popupProps} />
     }
 
