@@ -136,8 +136,9 @@ class AuthorController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $authorId = $requestHelper->input('vcv-settings-author', '');
-        wp_update_post(['ID' => $currentPageId, 'post_author' => $authorId]);
+        if ($requestHelper->input('vcv-settings-author')) {
+            wp_update_post(['ID' => $currentPageId, 'post_author' => $requestHelper->input('vcv-settings-author')]);
+        }
 
         return $response;
     }

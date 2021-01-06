@@ -11,7 +11,7 @@ export default class ParentPage extends React.Component {
   constructor (props) {
     super(props)
     const data = dataManager.get('pageList')
-    const currentParentPage = settingsStorage.state('parentPage').get() || data.current || 'none'
+    const currentParentPage = settingsStorage.state('parentPage').get() || data.current || '0'
 
     this.state = {
       data: data,

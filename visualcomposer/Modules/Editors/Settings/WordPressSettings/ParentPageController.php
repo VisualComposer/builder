@@ -49,7 +49,7 @@ class ParentPageController extends Container implements Module
         $currentPost = $postTypeHelper->get();
 
         $currentParentPage = 'none';
-        $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
+        $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => '0'];
         // @codingStandardsIgnoreLine
         $postQuery = ['post_type' => $currentPost->post_type, 'posts_per_page' => -1];
 
@@ -137,8 +137,11 @@ class ParentPageController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $parentPageId = $requestHelper->input('vcv-settings-parent-page', '');
-        wp_update_post(['ID' => $currentPageId, 'post_parent' => $parentPageId]);
+        if ($requestHelper->input('vcv-settings-parent-page')) {
+            wp_update_post(
+                ['ID' => $currentPageId, 'post_parent' => $requestHelper->input('vcv-settings-parent-page')]
+            );
+        }
 
         return $response;
     }
