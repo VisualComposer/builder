@@ -71,9 +71,19 @@
   margin: 10px 0;
   color: #999999;
   a {
-    color: #294A82;
-    transition: color 0.2s;
     text-decoration: none;
+    color: @vcv-blue-link;
+    transition: @transition-duration;
+
+    &:hover {
+      color: @vcv-blue-link--hover;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
 }
 
@@ -99,7 +109,7 @@
     border: 0;
     padding: 18px 38px;
     border-radius: 0;
-    background: #294a82;
+    background: @vcv-color-lucky-point;
     text-transform: uppercase;
     min-width: 250px;
     margin: 10px 20px;
@@ -110,7 +120,7 @@
 
     &:hover,
     &:focus {
-      background: #1f3152;
+      background: @vcv-color-juicy-yellow;
     }
 
     &--dark {
@@ -826,15 +836,16 @@ input.vcv-basic-input {
   }
 
   a.vcv-activation-input-field-forgot-license-link {
-    color: #294A82;
+    color: @vcv-blue-link;
     transition: color 0.2s;
     text-decoration: none;
   }
 
   a.vcv-activation-input-field-forgot-license-link:hover,
   a.vcv-activation-input-field-forgot-license-link:focus {
-    color: #515162;
+    color: @vcv-blue-link--hover;
     outline: none;
+    text-decoration: underline;
   }
 }
 
@@ -902,13 +913,13 @@ input.vcv-basic-input {
         right: 0;
         bottom: 0;
         left: 0;
-        background: #294A82;
+        background: @vcv-color-mango-tango;
       }
 
       &:hover,
       &:focus {
         &::before {
-          background: #1f3152;
+          background: @vcv-color-mango-tango;
         }
       }
 
@@ -930,7 +941,7 @@ input.vcv-basic-input {
   }
 
   .vcv-activation-input-button {
-    background: #294A82;
+    background: @vcv-color-lucky-point;
     border: none;
     border-radius: 0;
     box-shadow: none;
@@ -947,7 +958,7 @@ input.vcv-basic-input {
 
     &:hover,
     &:focus {
-      background: #1f3152;
+      background: @vcv-color-juicy-yellow;
     }
   }
 
