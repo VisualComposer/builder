@@ -90,11 +90,11 @@ addStorage('wordpressData', (storage) => {
       const initialContent = responseData.post_content
       const featuredImageData = dataManager.get('featuredImage')
       const categoriesData = dataManager.get('categories') || []
-      const authorData = dataManager.get('authorList') || 'none'
+      const authorData = dataManager.get('authorList')
       const commentStatusData = dataManager.get('commentStatus') || 'closed'
       const pingStatusData = dataManager.get('pingStatus') || 'closed'
       const excerptData = dataManager.get('excerpt') || ''
-      const parentPageData = dataManager.get('pageList') || 'none'
+      const parentPageData = dataManager.get('pageList')
       let tagsData = dataManager.get('tags') || []
       let empty = false
       if (featuredImageData) {
