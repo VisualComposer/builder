@@ -34,7 +34,8 @@ export default class Item extends React.Component {
     let helper = <em>{widthLabel}</em>
     if (device.className === 'multiple-devices') {
       const responsiveView = localizations.responsiveViewTooltip || 'You can instantly check your layout on the most popular device types.'
-      helper = <Tooltip>{responsiveView}</Tooltip>
+      const isLightHover = true
+      helper = <Tooltip isLightHover={isLightHover}>{responsiveView}</Tooltip>
     }
     return (
       <span
