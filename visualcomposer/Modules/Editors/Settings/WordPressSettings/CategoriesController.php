@@ -120,22 +120,24 @@ class CategoriesController extends Container implements Module
 
     protected function addNewCategory($response, $payload, Request $requestHelper)
     {
-        $categoryName = $requestHelper->input('vcv-category', '');
-        $parentId = $requestHelper->input('vcv-parent-category', '');
-        $createCategory = wp_create_category($categoryName, $parentId);
-        if ($createCategory) {
-            $categoryData = get_term_by('term_id', $createCategory, 'category');
+        if ($requestHelper->exists('vcv-category')) {
+            $categoryName = $requestHelper->input('vcv-category');
+            $parentId = $requestHelper->input('vcv-parent-category', 0);
+            $createCategory = wp_create_category($categoryName, $parentId);
+            if ($createCategory) {
+                $categoryData = get_term_by('term_id', $createCategory, 'category');
 
-            // @codingStandardsIgnoreLine
-            return [
-                'status' => true,
-                'label' => $categoryData->name,
                 // @codingStandardsIgnoreLine
-                'value' => $categoryData->term_id,
-                // @codingStandardsIgnoreLine
-                'id' => $categoryData->term_id,
-                'parent' => $categoryData->parent,
-            ];
+                return [
+                    'status' => true,
+                    'label' => $categoryData->name,
+                    // @codingStandardsIgnoreLine
+                    'value' => $categoryData->term_id,
+                    // @codingStandardsIgnoreLine
+                    'id' => $categoryData->term_id,
+                    'parent' => $categoryData->parent,
+                ];
+            }
         }
 
         return ['status' => false];

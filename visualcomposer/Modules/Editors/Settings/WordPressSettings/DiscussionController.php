@@ -92,14 +92,19 @@ class DiscussionController extends Container implements Module
      */
     protected function setData($response, $payload, Request $requestHelper)
     {
-        $postTypeHelper = vchelper('PostType');
         $currentPageId = $payload['sourceId'];
-        $currentPost = $postTypeHelper->get($currentPageId);
-        // @codingStandardsIgnoreStart
-        $postCommentStatus = $requestHelper->input('vcv-settings-comment-status', $currentPost->comment_status);
-        $postPingStatus = $requestHelper->input('vcv-settings-ping-status', $currentPost->ping_status);
-        // @codingStandardsIgnoreEnd
-        wp_update_post(['ID' => $currentPageId, 'comment_status' => $postCommentStatus, 'ping_status' => $postPingStatus]);
+        if (
+            $requestHelper->exists('vcv-settings-comment-status')
+            && $requestHelper->exists('vcv-settings-ping-status')
+        ) {
+            // @codingStandardsIgnoreStart
+            $postCommentStatus = $requestHelper->input('vcv-settings-comment-status');
+            $postPingStatus = $requestHelper->input('vcv-settings-ping-status');
+            // @codingStandardsIgnoreEnd
+            wp_update_post(
+                ['ID' => $currentPageId, 'comment_status' => $postCommentStatus, 'ping_status' => $postPingStatus]
+            );
+        }
 
         return $response;
     }
