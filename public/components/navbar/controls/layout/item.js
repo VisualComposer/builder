@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
-import Tooltip from '../../../tooltip/tooltip'
+import Tooltip from 'public/components/tooltip/tooltip'
 
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
