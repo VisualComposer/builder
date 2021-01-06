@@ -77,8 +77,10 @@ class ExcerptController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $postExcerpt = $requestHelper->input('vcv-settings-excerpt', '');
-        wp_update_post(['ID' => $currentPageId, 'post_excerpt' => $postExcerpt]);
+        if ($requestHelper->exists('vcv-settings-excerpt')) {
+            $postExcerpt = $requestHelper->input('vcv-settings-excerpt', '');
+            wp_update_post(['ID' => $currentPageId, 'post_excerpt' => $postExcerpt]);
+        }
 
         return $response;
     }

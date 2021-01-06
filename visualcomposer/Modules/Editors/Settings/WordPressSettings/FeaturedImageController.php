@@ -115,8 +115,8 @@ class FeaturedImageController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         // Get selected image id
-        $imageId = $requestHelper->input('vcv-settings-featured-image', '');
-        if ($imageId) {
+        if ($requestHelper->exists('vcv-settings-featured-image')) {
+            $imageId = $requestHelper->input('vcv-settings-featured-image');
             $currentPageId = $payload['sourceId'];
             if ($imageId === 'empty') {
                 delete_post_meta($currentPageId, '_thumbnail_id');
