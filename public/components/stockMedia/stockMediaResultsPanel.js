@@ -8,6 +8,7 @@ const dataProcessor = getService('dataProcessor')
 const notificationsStorage = getStorage('notifications')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const dataManager = getService('dataManager')
+const editorPopupStorage = getStorage('editorPopup')
 
 export default class StockMediaResultsPanel extends React.Component {
   static propTypes = {
@@ -42,6 +43,7 @@ export default class StockMediaResultsPanel extends React.Component {
     this.setColumnCount = this.setColumnCount.bind(this)
     this.handleClickShowDownloadOptions = this.handleClickShowDownloadOptions.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
+    this.handleLockClick = this.handleLockClick.bind(this)
   }
 
   componentDidMount () {
@@ -384,6 +386,27 @@ export default class StockMediaResultsPanel extends React.Component {
     })
   }
 
+  handleLockClick () {
+    const goPremiumText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
+    let descriptionText = ''
+    if (this.props.apiUrlKey === 'giphy') {
+      descriptionText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.accessToGiphy : 'Access the whole GIPHY library with Visual Composer Premium.'
+    } else if (this.props.apiUrlKey === 'unsplash') {
+      descriptionText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.accessToUnsplash : 'Access the whole Unsplash stock image library with Visual Composer Premium.'
+    }
+
+    const fullScreenPopupData = {
+      headingText: StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
+      buttonText: goPremiumText,
+      popupDesc: descriptionText,
+      primaryButtonClick: () => {
+        this.props.onClickGoPremium()
+      }
+    }
+    editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
+    editorPopupStorage.trigger('showFullPagePopup')
+  }
+
   getItems () {
     const { columnData, columnCount, activeItem, downloadingItems } = this.state
     const { stockMediaLocalizations, previewImageSize } = this.props
@@ -414,7 +437,7 @@ export default class StockMediaResultsPanel extends React.Component {
           )
         } else {
           iconsControls = (
-            <div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText} onClick={this.props.onClickGoPremium}>
+            <div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText} onClick={this.handleLockClick}>
               <span className='vcv-ui-icon vcv-ui-icon-lock' />
             </div>
           )

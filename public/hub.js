@@ -10,6 +10,7 @@ import 'public/sources/less/bootstrap/init.less'
 import 'public/sources/css/wordpress.less'
 
 import HubContainer from './components/panels/hub/hubContainer'
+import FullPopup from 'public/components/popup/fullPagePopupContainer'
 
 const dataManager = vcCake.getService('dataManager')
 
@@ -34,6 +35,7 @@ export const setupCake = () => {
     require('./editor/stores/notifications/storage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
     require('./editor/stores/elements/elementSettings')
+    require('./editor/stores/editorPopup/storage')
     // require('./editor/stores/popup/storage')
     // require('./editor/stores/elementsLoader/elementsLoaderStorage')
     const hubElementsStorage = vcCake.getStorage('hubElements')
@@ -62,6 +64,14 @@ export const setupCake = () => {
       ReactDOM.render(
         <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vc-dashboard' />,
         document.querySelector('#vcv-hub')
+      )
+
+      const popupWrapper = document.createElement('div')
+      document.body.appendChild(popupWrapper)
+
+      ReactDOM.render(
+        <FullPopup />,
+        popupWrapper
       )
     })
   })
