@@ -45,19 +45,16 @@ export default class PremiumPopup extends React.Component {
   }
 
   render () {
-    const localizations = dataManager.get('localizations')
-    const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const headingText = localizations ? localizations.premiumPopupBuilder : 'PREMIUM POPUP BUILDER. DO MORE.'
-    const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
-    const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADD-ON'
-    const popupText = localizations ? localizations.createEngagingPopups : 'Create engaging popups to boost your conversion rate with Visual Composer Premium Popup Builder.'
+    const headingText = this.props.text ? this.props.text.headingText : 'PREMIUM POPUP BUILDER. DO MORE.'
+    const buttonText = this.props.text ? this.props.text.buttonText : 'GO PREMIUM'
+    const popupText = this.props.text ? this.props.text.popupDesc : 'Create engaging popups to boost your conversion rate with Visual Composer Premium Popup Builder.'
 
     return (
       <PopupInner
         {...this.props}
         headingText={headingText}
         popupName='premiumPopup'
-        buttonText={isPremiumActivated ? downloadAddonText : goPremiumText}
+        buttonText={buttonText}
         onPrimaryButtonClick={this.handlePrimaryButtonClick}
         popupBadgeHtml={this.getPopupBadge()}
         onClose={this.handleCloseClick}

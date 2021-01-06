@@ -1514,6 +1514,14 @@ class Localizations extends Container implements Helper
                 'All layouts are available in the Premium version.',
                 'visualcomposer'
             ),
+            'doMoreWithPremium' => __(
+                'Do More With Premium',
+                'visualcomposer'
+            ),
+            'applyLayoutWithHFS' => __(
+                'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
+                'visualcomposer'
+            ),
             'width' => __(
                 'Width',
                 'visualcomposer'

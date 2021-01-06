@@ -10,6 +10,7 @@ addStorage('editorPopup', (storage) => {
         popupDataByPriority.push({ popupName: popupName, popupData: popupData[popupName] })
       }
     }
+
     popupDataByPriority.sort((a, b) => a.priority - b.priority)
     const firstVisible = popupDataByPriority.findIndex((item) => item.popupData.visible)
 
@@ -19,8 +20,6 @@ addStorage('editorPopup', (storage) => {
     }
     return activePopup
   }
-
-  const isFullPage = (popupData, popupName) => popupData && popupData[popupName] ? popupData[popupName].popupOnFullPage : false
 
   const initialPopupData = {
     votePopup: {
@@ -38,21 +37,14 @@ addStorage('editorPopup', (storage) => {
     premiumPromoPopup: {
       visible: dataManager.get('showPremiumPromoPopup'),
       priority: 4
-    },
-    premiumPopup: {
-      visible: false,
-      popupOnFullPage: true,
-      priority: 5
     }
   }
 
   storage.state('popups').onChange((popupData) => {
     const activePopup = getActivePopup(popupData)
-    const isPopupFull = isFullPage(popupData, activePopup)
     const oldActivePopup = storage.state('activePopup').get()
     if (activePopup !== oldActivePopup) {
       // Set initial active popup
-      storage.state('popupOnFullPage').set(isPopupFull)
       storage.state('activePopup').set(activePopup)
     }
   })
@@ -88,5 +80,15 @@ addStorage('editorPopup', (storage) => {
     })
 
     storage.state('popups').set(popupState)
+    storage.state('activeFullPopup').set(false)
+  })
+
+  // Full page popup actions
+  storage.on('showFullPagePopup', () => {
+    storage.state('activeFullPopup').set(true)
+  })
+
+  storage.on('hideFullPagePopup', () => {
+    storage.state('activeFullPopup').set(false)
   })
 })

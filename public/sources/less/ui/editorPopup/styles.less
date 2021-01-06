@@ -17,10 +17,11 @@
   height: 100%;
   justify-content: center;
   align-items: center;
-  transition: .2s ease;
-  pointer-events: unset;
+  transition: opacity .5s ease;
+  transform: translate(0, 0%);
 
   &.vcv-layout-popup--visible {
+    pointer-events: unset;
     background: rgba(47, 47, 47, .7);
   }
   .vcv-layout-popup-inner {
@@ -80,11 +81,17 @@
   .vcv-layout-popup-container {
     margin-right: calc(@vcv-navbar-width + @vcv-popup-margin);
   }
+  .vcv-layout-popup--full-page .vcv-layout-popup-container {
+    margin-right: 30px;
+  }
 }
 
 .vcv-layout-dock--left {
   .vcv-layout-popup-container {
     margin-left: calc(@vcv-navbar-width + @vcv-popup-margin);
+  }
+  .vcv-layout-popup--full-page .vcv-layout-popup-container {
+    margin-left: 30px;
   }
 }
 
