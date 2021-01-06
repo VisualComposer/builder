@@ -61,7 +61,7 @@ export default class TemplateLayoutIcons extends React.Component {
       const localizations = dataManager.get('localizations')
       const isPremiumActivated = dataManager.get('isPremiumActivated')
       const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
-      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADD-ON'
+      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADDON'
       const fullScreenPopupData = {
         headingText: localizations ? localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
@@ -78,7 +78,10 @@ export default class TemplateLayoutIcons extends React.Component {
             }
             workspaceSettings.set(settings)
           } else {
-            const goPremiumUrl = dataManager.get('goPremiumUrl')
+            const utm = dataManager.get('utm')
+            const utmMedium = 'editor'
+            const utmLink = utm['editor-layout-go-premium']
+            const goPremiumUrl = utmLink.replace('{medium}', utmMedium)
             window.open(goPremiumUrl, '_blank')
           }
         }

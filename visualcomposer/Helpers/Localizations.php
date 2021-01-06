@@ -1499,7 +1499,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'downloadTheAddon' => __(
-                'Download The Add-On',
+                'Download The Addon',
                 'visualcomposer'
             ),
             'premiumPopupBuilder' => __(
