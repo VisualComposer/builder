@@ -84,14 +84,14 @@ export default class HubElementControl extends ElementControl {
       'vcv-ui-icon': true,
       'vcv-ui-icon-download': elementState === 'inactive',
       'vcv-ui-wp-spinner-light': elementState === 'downloading',
-      'vcv-ui-icon-lock': lockIcon,
+      'vcv-ui-icon-lock-fill': lockIcon,
       'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
     })
 
     let action = this.isHubInWpDashboard ? null : this.addElement
     if (elementState !== 'success') {
       if (lockIcon) {
-        action = this.props.onClickGoPremium
+        action = this.props.onClickGoPremium.bind(this, 'element')
       } else {
         action = this.downloadElement
       }
@@ -100,10 +100,15 @@ export default class HubElementControl extends ElementControl {
     const overlayOutput = <span className={iconClasses} onClick={action} />
     let previewOutput = null
     let newBadge = null
+    let premiumBadge = null
 
     if (isNew) {
       const newText = localizations.new || 'New'
       newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
+    }
+    if (!isNew && lockIcon) {
+      const premiumText = localizations ? localizations.premium : 'Premium'
+      premiumBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{premiumText}</span>
     }
 
     if (previewVisible) {
@@ -114,10 +119,15 @@ export default class HubElementControl extends ElementControl {
             <div className='vcv-ui-item-preview-text'>
               {element.description || element.metaDescription}
             </div>
-            {newBadge}
+            {newBadge || premiumBadge}
           </figcaption>
         </figure>
       )
+    }
+
+    const itemProps = {}
+    if (lockIcon) {
+      itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element')
     }
 
     return (
@@ -127,6 +137,7 @@ export default class HubElementControl extends ElementControl {
           onMouseEnter={this.handleMouseEnterShowPreview}
           onMouseLeave={this.handleMouseLeaveHidePreview}
           title={name}
+          {...itemProps}
         >
           {newBadge}
           <span className='vcv-ui-item-element-content'>

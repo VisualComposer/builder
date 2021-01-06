@@ -21,6 +21,7 @@ const hubAddonsStorage = vcCake.getStorage('hubAddons')
 const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
+const editorPopupStorage = vcCake.getStorage('editorPopup')
 
 export default class HubContainer extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -48,6 +49,8 @@ export default class HubContainer extends React.Component {
     this.handleScroll = this.handleScroll.bind(this)
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
+    this.handleGoPremium = this.handleGoPremium.bind(this)
+    this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
 
@@ -222,7 +225,7 @@ export default class HubContainer extends React.Component {
         name={elementData.name}
         isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
-        onClickGoPremium={this.handleClickGoPremium}
+        onClickGoPremium={this.handleLockClick}
       />
     )
   }
@@ -411,6 +414,38 @@ export default class HubContainer extends React.Component {
     return <HubMenu {...this.getTypeControlProps()} />
   }
 
+  handleLockClick (type) {
+    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
+    let descriptionText = ''
+    if (type === 'template') {
+      descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToTemplates : 'Get access to more than 200 content elements with Visual Composer Premium.'
+    } else if (type === 'element') {
+      descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToContentElements : 'Get access to more than 200 content elements with Visual Composer Premium.'
+    }
+
+    const fullScreenPopupData = {
+      headingText: HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
+      buttonText: goPremiumText,
+      popupDesc: descriptionText,
+      primaryButtonClick: () => {
+        this.handleGoPremium()
+      }
+    }
+    editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
+    editorPopupStorage.trigger('showFullPagePopup')
+  }
+
+  handleGoPremium (clickedType) {
+    const utm = dataManager.get('utm')
+    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
+    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+    const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
+    const teaserUrl = utmLink.replace('{medium}', utmMedium)
+
+    window.open(teaserUrl)
+  }
+
   handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
 
@@ -478,7 +513,8 @@ export default class HubContainer extends React.Component {
         <UnsplashContainer
           scrolledToBottom={this.state.scrolledToBottom}
           scrollTop={this.state.scrollTop}
-          onClickGoPremium={this.handleClickGoPremium}
+          onClickGoPremium={this.handleGoPremium}
+
         />
       )
     } else if (filterType === 'giphy') {
@@ -486,7 +522,7 @@ export default class HubContainer extends React.Component {
         <GiphyContainer
           scrolledToBottom={this.state.scrolledToBottom}
           scrollTop={this.state.scrollTop}
-          onClickGoPremium={this.handleClickGoPremium}
+          onClickGoPremium={this.handleGoPremium}
         />
       )
     } else {

@@ -80,7 +80,6 @@ addStorage('editorPopup', (storage) => {
     })
 
     storage.state('popups').set(popupState)
-    storage.state('activeFullPopup').set(false)
   })
 
   // Full page popup actions
