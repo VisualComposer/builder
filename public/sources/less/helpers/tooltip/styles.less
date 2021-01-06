@@ -19,7 +19,7 @@
   z-index: 99999;
   width: 234px;
   padding: 10px 15px;
-  background-color: #203251;
+  background-color: @vcv-color-big-stone;
   border-radius: 5px;
   top: 25px;
   left: 7px;
@@ -60,11 +60,11 @@
 
   &:hover,
   &.vcv-ui-icon--active {
-    color: #203251;
+    color: @vcv-color-big-stone;
   }
 
   &.vcv-ui-icon--light-hover:hover,
-  &.vcv-ui-icon--light-hover.vcv-ui-icon--active{
+  &.vcv-ui-icon--light-hover.vcv-ui-icon--active {
     color: #e3e3e3;
   }
 
@@ -73,7 +73,7 @@
     display: block;
     position: absolute;
     border: 5px solid;
-    border-color: transparent transparent #203251 transparent;
+    border-color: transparent transparent @vcv-color-big-stone transparent;
     left: 2px;
     top: 15px;
     z-index: 999999;
@@ -89,7 +89,7 @@
   .vcv-ui-icon-question.vcv-ui-icon--active:after {
     top: -1px;
     transform: translateY(-100%);
-    border-color: #203251 transparent transparent transparent;
+    border-color: @vcv-color-big-stone transparent transparent transparent;
   }
 }
 

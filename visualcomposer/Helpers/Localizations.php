@@ -1522,6 +1522,26 @@ class Localizations extends Container implements Helper
                 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
                 'visualcomposer'
             ),
+            'getAccessToContentElements' => __(
+                'Get access to more than 200 content elements with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'getAccessToTemplates' => __(
+                'Get access to more than 150 beautiful multipurpose templates and template blocks with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'accessToGiphy' => __(
+                'Access the whole GIPHY library with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'accessToUnsplash' => __(
+                'Access the whole Unsplash stock image library with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'unlockAllFeatures' => __(
+                'Unlock All Features',
+                'visualcomposer'
+            ),
             'width' => __(
                 'Width',
                 'visualcomposer'

@@ -12,6 +12,7 @@ const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
+const workspaceSettings = workspaceStorage.state('settings')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
@@ -57,16 +58,32 @@ export default class TemplateLayoutIcons extends React.Component {
 
   handleTemplateChange (selectedTemplate, isLocked = false) {
     if (isLocked) {
-      const localizations = window.VCV_I18N && window.VCV_I18N()
+      const localizations = dataManager.get('localizations')
       const isPremiumActivated = dataManager.get('isPremiumActivated')
       const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
       const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADD-ON'
-      const popupText = {
+      const fullScreenPopupData = {
         headingText: localizations ? localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
-        popupDesc: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.'
+        popupDesc: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
+        primaryButtonClick: () => {
+          if (isPremiumActivated) {
+            const settings = {
+              action: 'addHub',
+              options: {
+                filterType: 'addon',
+                id: '4',
+                bundleType: undefined
+              }
+            }
+            workspaceSettings.set(settings)
+          } else {
+            const goPremiumUrl = dataManager.get('goPremiumUrl')
+            window.open(goPremiumUrl, '_blank')
+          }
+        }
       }
-      editorPopupStorage.state('popupText').set(popupText)
+      editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
       editorPopupStorage.trigger('showFullPagePopup')
       return
     }

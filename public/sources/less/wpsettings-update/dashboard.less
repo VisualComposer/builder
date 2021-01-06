@@ -211,9 +211,16 @@
   a {
     text-decoration: none;
     color: @vcv-dashboard-link-color;
+    transition: @transition-duration;
 
     &:hover {
       color: @vcv-dashboard-link-color--hover;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
     }
   }
 
@@ -318,7 +325,7 @@
     border-radius: 3px;
     text-transform: none;
     color: @text-color-base;
-    background-color: @vcv-dashboard-refresh-btn-bg-color;
+    background-color: @vcv-blue-button;
     font: normal 500 @vcv-dashboard-text-font-size/@vcv-dashboard-text-line-height @vcv-dashboard-font-family;
     letter-spacing: initial;
 
@@ -326,7 +333,8 @@
     &:focus,
     &:active {
       color: @text-color-base;
-      background-color: @vcv-dashboard-refresh-btn-bg-color--hover;
+      background-color: @vcv-blue-button--hover;
+      text-decoration: none;
     }
   }
 
