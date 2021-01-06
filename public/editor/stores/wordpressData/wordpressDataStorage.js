@@ -208,6 +208,9 @@ addStorage('wordpressData', (storage) => {
         const parsedCurrentTags = settingsStorage.state('tags').get() || tagsData
         settingsStorage.state('tags').set(parsedCurrentTags)
       }
+      if (Object.prototype.hasOwnProperty.call(responseData, 'outputEditorLayoutDesktop')) {
+        settingsStorage.state('outputEditorLayoutDesktop').set(responseData.outputEditorLayoutDesktop)
+      }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
         postData = responseData.postData

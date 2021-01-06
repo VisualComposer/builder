@@ -23,7 +23,7 @@ export default class Tooltip extends React.Component {
 
   componentDidMount () {
     const relativeElementSelector = this.props.relativeElementSelector || '.vcv-ui-scroll'
-    this.overflowContainer = this.tooltipRef.current.closest(relativeElementSelector) || document.body
+    this.overflowContainer = (this.tooltipRef.current && this.tooltipRef.current.closest(relativeElementSelector)) || document.body
   }
 
   componentWillUnmount () {
@@ -104,7 +104,8 @@ export default class Tooltip extends React.Component {
       'vcv-tooltip-button': true,
       'vcv-ui-icon': true,
       'vcv-ui-icon-question': true,
-      'vcv-ui-icon--active': isVisible || isHovered
+      'vcv-ui-icon--active': isVisible || isHovered,
+      'vcv-ui-icon--light-hover': this.props.isLightHover
     })
 
     const tooltipClasses = classNames({

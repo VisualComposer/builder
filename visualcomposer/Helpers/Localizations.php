@@ -1542,6 +1542,18 @@ class Localizations extends Container implements Helper
                 'Unlock All Features',
                 'visualcomposer'
             ),
+            'width' => __(
+                'Width',
+                'visualcomposer'
+            ),
+            'pixelsUnit' => __(
+                'px',
+                'visualcomposer'
+            ),
+            'responsiveViewTooltip' => __(
+                'You can instantly check your layout on the most popular device types.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -2,22 +2,14 @@ import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
 import MobileDetect from 'mobile-detect'
-import { env, getService } from 'vc-cake'
+import { env, getService, getStorage } from 'vc-cake'
 
 const dataManager = getService('dataManager')
+const settingsStorage = getStorage('settings')
 
 export default class LayoutButtonControl extends React.Component {
   static localizations = dataManager.get('localizations')
   static devices = [
-    {
-      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
-      className: 'multiple-devices',
-      viewport: {
-        width: null,
-        min: null,
-        max: null
-      }
-    },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.desktop : 'Desktop',
       className: 'desktop',
@@ -67,14 +59,25 @@ export default class LayoutButtonControl extends React.Component {
         min: '0',
         max: '553'
       }
+    },
+    {
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
+      className: 'multiple-devices',
+      viewport: {
+        width: null,
+        min: null,
+        max: null
+      }
     }
   ]
 
   constructor (props) {
     super(props)
     this.state = {
-      activeDevice: 0
+      activeDevice: 0,
+      isControlActive: false
     }
+    this.contentRef = React.createRef()
 
     const mobileDetect = new MobileDetect(window.navigator.userAgent)
     if (mobileDetect.mobile()) {
@@ -86,6 +89,25 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
+    this.handleControlClick = this.handleControlClick.bind(this)
+    this.handleWindowResize = this.handleWindowResize.bind(this)
+    this.handleLayoutChange = this.handleLayoutChange.bind(this)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('outputEditorLayoutDesktop').onChange(this.handleLayoutChange)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('outputEditorLayoutDesktop').ignoreChange(this.handleLayoutChange)
+  }
+
+  handleLayoutChange (data) {
+    let deviceViewIndex = 0
+    if (!data) {
+      deviceViewIndex = LayoutButtonControl.devices.findIndex(device => device.className === 'multiple-devices')
+    }
+    this.handleClickSetSelectedLayout(deviceViewIndex)
   }
 
   handleClickSetSelectedLayout (index) {
@@ -96,12 +118,40 @@ export default class LayoutButtonControl extends React.Component {
     })
   }
 
+  handleWindowResize () {
+    const bodyClasses = document.body.classList
+    const contentRect = this.contentRef.current.getBoundingClientRect()
+    if (!this.state.isVerticalPositioned && (bodyClasses.contains('vcv-layout-dock--left') || bodyClasses.contains('vcv-layout-dock--right'))) {
+      if (contentRect.bottom > window.innerHeight) {
+        this.setState({ isVerticalPositioned: true })
+      }
+    } else if (!this.state.isHorizontalPositioned && (bodyClasses.contains('vcv-layout-dock--top') || bodyClasses.contains('vcv-layout-dock--bottom'))) {
+      if (contentRect.right > window.innerWidth) {
+        this.setState({ isHorizontalPositioned: true })
+      }
+    }
+  }
+
+  handleControlClick () {
+    this.setState({ isControlActive: !this.state.isControlActive })
+    if (!this.state.isControlActive) {
+      window.addEventListener('resize', this.handleWindowResize)
+      setTimeout(this.handleWindowResize, 1)
+    } else {
+      window.removeEventListener('resize', this.handleWindowResize)
+      this.setState({
+        isVerticalPositioned: false,
+        isHorizontalPositioned: false
+      })
+    }
+  }
+
   setViewport (width, height, device) {
     const layoutContent = window.document.querySelector('.vcv-layout-content')
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    layoutContent.style.padding = width ? '30px' : ''
+    layoutContent.style.padding = width && device !== 'desktop' ? '30px' : ''
     iframeContainer.style.width = width ? width + 'px' : ''
-    iframeContainer.style.minHeight = height ? height + 'px' : ''
+    iframeContainer.style.minHeight = height && device !== 'desktop' ? height + 'px' : ''
     iframeContainer.setAttribute('data-vcv-device', device)
   }
 
@@ -121,8 +171,15 @@ export default class LayoutButtonControl extends React.Component {
 
     const navbarControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-navbar-dropdown--active': this.state.isControlActive,
       'vcv-ui-navbar-dropdown-linear': true,
       'vcv-ui-pull-end': true
+    })
+    const navbarContentClasses = classNames({
+      'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-dropdown-content--visible': this.state.isControlActive,
+      'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned,
+      'vcv-ui-navbar-dropdown-content--horizontal': this.state.isHorizontalPositioned
     })
 
     const layoutItems = []
@@ -137,14 +194,19 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     return (
-      <dl className={navbarControlClasses} tabIndex='0' data-vcv-guide-helper='layout-control'>
+      <dl
+        className={navbarControlClasses}
+        tabIndex='0'
+        data-vcv-guide-helper='layout-control'
+      >
         <dt
           className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
           title={LayoutButtonControl.devices[this.state.activeDevice].type}
+          onClick={this.handleControlClick}
         >
           {activeDevice}
         </dt>
-        <dd className='vcv-ui-navbar-dropdown-content'>
+        <dd className={navbarContentClasses} ref={this.contentRef}>
           {layoutItems}
         </dd>
       </dl>

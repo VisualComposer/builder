@@ -25,7 +25,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
         </div>
         <a
           className="vcv-ui-navbar-logo"
-          href="undefined&vcv-ref=editor"
+          href="undefined"
           rel="noopener noreferrer"
           target="_blank"
           title="Visual Composer Website Builder"
@@ -40,7 +40,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
           className="vcv-ui-navbar-control"
           data-vcv-guide-helper="plus-control"
           onClick={[Function]}
-          title="Add Content"
+          title="undefined (Shift + A)"
         >
           <span
             className="vcv-ui-navbar-control-content"
@@ -48,15 +48,13 @@ exports[`Tests editor navbar Navbar render 1`] = `
             <i
               className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-add"
             />
-            <span>
-              Add Content
-            </span>
+            <span />
           </span>
         </span>
         <span
           className="vcv-ui-navbar-control"
           onClick={[Function]}
-          title="Tree View"
+          title="undefined (Shift + T)"
         >
           <span
             className="vcv-ui-navbar-control-content"
@@ -64,9 +62,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
             <i
               className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-layers"
             />
-            <span>
-              Tree View
-            </span>
+            <span />
           </span>
         </span>
         <div
@@ -76,7 +72,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
             className="vcv-ui-navbar-control"
             disabled={true}
             onClick={[Function]}
-            title="Undo"
+            title="undefined (Ctrl + Z)"
           >
             <span
               className="vcv-ui-navbar-control-content"
@@ -84,16 +80,14 @@ exports[`Tests editor navbar Navbar render 1`] = `
               <i
                 className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo"
               />
-              <span>
-                Undo
-              </span>
+              <span />
             </span>
           </span>
           <span
             className="vcv-ui-navbar-control"
             disabled={true}
             onClick={[Function]}
-            title="Redo"
+            title="undefined (Ctrl + Shift + Z)"
           >
             <span
               className="vcv-ui-navbar-control-content"
@@ -101,9 +95,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
               <i
                 className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo"
               />
-              <span>
-                Redo
-              </span>
+              <span />
             </span>
           </span>
         </div>
@@ -114,17 +106,15 @@ exports[`Tests editor navbar Navbar render 1`] = `
         >
           <dt
             className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control"
-            title="Responsive View"
+            onClick={[Function]}
           >
             <span
               className="vcv-ui-navbar-control-content"
             >
               <i
-                className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-multiple-devices"
+                className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-desktop"
               />
-              <span>
-                Responsive View
-              </span>
+              <span />
             </span>
           </dt>
           <dd
@@ -133,23 +123,6 @@ exports[`Tests editor navbar Navbar render 1`] = `
             <span
               className="vcv-ui-navbar-control"
               onClick={[Function]}
-              title="Responsive View"
-            >
-              <span
-                className="vcv-ui-navbar-control-content"
-              >
-                <i
-                  className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-multiple-devices"
-                />
-                <span>
-                  Responsive View
-                </span>
-              </span>
-            </span>
-            <span
-              className="vcv-ui-navbar-control"
-              onClick={[Function]}
-              title="Desktop"
             >
               <span
                 className="vcv-ui-navbar-control-content"
@@ -158,14 +131,15 @@ exports[`Tests editor navbar Navbar render 1`] = `
                   className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-desktop"
                 />
                 <span>
-                  Desktop
+                  <em>
+                    (Width: 1200 px)
+                  </em>
                 </span>
               </span>
             </span>
             <span
               className="vcv-ui-navbar-control"
               onClick={[Function]}
-              title="Tablet Landscape"
             >
               <span
                 className="vcv-ui-navbar-control-content"
@@ -174,14 +148,15 @@ exports[`Tests editor navbar Navbar render 1`] = `
                   className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-tablet-landscape"
                 />
                 <span>
-                  Tablet Landscape
+                  <em>
+                    (Width: 1220 px)
+                  </em>
                 </span>
               </span>
             </span>
             <span
               className="vcv-ui-navbar-control"
               onClick={[Function]}
-              title="Tablet Portrait"
             >
               <span
                 className="vcv-ui-navbar-control-content"
@@ -190,14 +165,15 @@ exports[`Tests editor navbar Navbar render 1`] = `
                   className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-tablet-portrait"
                 />
                 <span>
-                  Tablet Portrait
+                  <em>
+                    (Width: 818 px)
+                  </em>
                 </span>
               </span>
             </span>
             <span
               className="vcv-ui-navbar-control"
               onClick={[Function]}
-              title="Mobile Landscape"
             >
               <span
                 className="vcv-ui-navbar-control-content"
@@ -206,14 +182,15 @@ exports[`Tests editor navbar Navbar render 1`] = `
                   className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-landscape"
                 />
                 <span>
-                  Mobile Landscape
+                  <em>
+                    (Width: 664 px)
+                  </em>
                 </span>
               </span>
             </span>
             <span
               className="vcv-ui-navbar-control"
               onClick={[Function]}
-              title="Mobile Portrait"
             >
               <span
                 className="vcv-ui-navbar-control-content"
@@ -222,7 +199,33 @@ exports[`Tests editor navbar Navbar render 1`] = `
                   className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-portrait"
                 />
                 <span>
-                  Mobile Portrait
+                  <em>
+                    (Width: 340 px)
+                  </em>
+                </span>
+              </span>
+            </span>
+            <span
+              className="vcv-ui-navbar-control"
+              onClick={[Function]}
+            >
+              <span
+                className="vcv-ui-navbar-control-content"
+              >
+                <i
+                  className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-multiple-devices"
+                />
+                <span>
+                  <div
+                    className="vcv-tooltip-container"
+                  >
+                    <i
+                      className="vcv-tooltip-button vcv-ui-icon vcv-ui-icon-question"
+                      onClick={[Function]}
+                      onMouseEnter={[Function]}
+                      onMouseLeave={[Function]}
+                    />
+                  </div>
                 </span>
               </span>
             </span>
@@ -232,7 +235,6 @@ exports[`Tests editor navbar Navbar render 1`] = `
           className="vcv-ui-navbar-control vcv-ui-pull-end"
           data-vcv-guide-helper="hub-control"
           onClick={[Function]}
-          title="Visual Composer Hub"
         >
           <span
             className="vcv-ui-navbar-control-content"
@@ -240,16 +242,14 @@ exports[`Tests editor navbar Navbar render 1`] = `
             <i
               className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-hub-shop"
             />
-            <span>
-              Visual Composer Hub
-            </span>
+            <span />
           </span>
         </span>
         <span
           className="vcv-ui-navbar-control vcv-ui-pull-end"
           data-vcv-guide-helper="settings-control"
           onClick={[Function]}
-          title="Settings"
+          title="undefined (Shift + S)"
         >
           <span
             className="vcv-ui-navbar-control-content"
@@ -257,9 +257,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
             <i
               className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-cog"
             />
-            <span>
-              Settings
-            </span>
+            <span />
           </span>
         </span>
         <span
@@ -272,6 +270,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
           <span
             className="vcv-ui-navbar-control"
             onClick={[Function]}
+            title="undefined (Ctrl + S)"
           >
             <span
               className="vcv-ui-navbar-control-content"
@@ -289,7 +288,6 @@ exports[`Tests editor navbar Navbar render 1`] = `
           <dt
             className="vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control"
             onClick={[Function]}
-            title="Menu"
           >
             <span
               className="vcv-ui-navbar-control-content"
@@ -297,9 +295,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
               <i
                 className="vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu"
               />
-              <span>
-                Menu
-              </span>
+              <span />
             </span>
           </dt>
           <dd
@@ -342,6 +338,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
                     <span
                       className="vcv-ui-navbar-control"
                       onClick={[Function]}
+                      title="undefined (Ctrl + Shift + P)"
                     >
                       <span
                         className="vcv-ui-navbar-control-content"
