@@ -79,9 +79,7 @@ export default class TemplateLayoutIcons extends React.Component {
             workspaceSettings.set(settings)
           } else {
             const utm = dataManager.get('utm')
-            const utmMedium = 'editor'
-            const utmLink = utm['editor-layout-go-premium']
-            const goPremiumUrl = utmLink.replace('{medium}', utmMedium)
+            const goPremiumUrl = utm['editor-layout-go-premium']
             window.open(goPremiumUrl, '_blank')
           }
         }
