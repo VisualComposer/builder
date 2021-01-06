@@ -246,11 +246,11 @@ class Localizations extends Container implements Helper
             ),
             'pageTitleDisableDescription' => __('Disable the page title', 'visualcomposer'),
             'successElementDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library.',
                 'visualcomposer'
             ),
             'successAddonDownload' => __(
-                '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library. To finish the installation process reload the page.',
+                '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.',
                 'visualcomposer'
             ),
             'copyElementWithId' => __(
@@ -392,6 +392,9 @@ class Localizations extends Container implements Helper
             'backToImport' => __('Back to import', 'visualcomposer'),
             'startingImportProcess' => __('Starting import process...', 'visualcomposer'),
             'backToParent' => __('Back to parent', 'visualcomposer'),
+            'back' => __('Back', 'visualcomposer'),
+            'manageContentInYourLibrary' => __('Manage content in your library', 'visualcomposer'),
+            'thisElementCantBeDeleted' => __('This element can’t be deleted', 'visualcomposer'),
             'editorSettings' => __('Editor Settings', 'visualcomposer'),
             'clickToEditColumnValue' => __('Click to edit column value', 'visualcomposer'),
             'addOn' => __('Addon', 'visualcomposer'),
@@ -623,6 +626,10 @@ class Localizations extends Container implements Helper
             ),
             'templateSaved' => __(
                 'The template has been successfully saved.',
+                'visualcomposer'
+            ),
+            'templateRemoved' => __(
+                'The template has been successfully removed.',
                 'visualcomposer'
             ),
             'templateHelperText' => __(
@@ -1340,7 +1347,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'excerptsAreOptional' => __(
-                'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. Learn more about manual excerpts.',
+                'Excerpts are optional hand-crafted summaries of your content.',
                 'visualcomposer'
             ),
             'insertCustomJSCodeSnippets' => __(
@@ -1481,6 +1488,38 @@ class Localizations extends Container implements Helper
             'addPlaceholder' => __('Add `%`', 'visualcomposer'),
             'categoriesDescription' => __(
                 'Manage post categories or add a new category.',
+                'visualcomposer'
+            ),
+            'downloadPremiumIconLibraries' => __(
+                'Download Premium Icon Libraries',
+                'visualcomposer'
+            ),
+            'downloadPremiumDesignOptions' => __(
+                'Download Premium Design Options',
+                'visualcomposer'
+            ),
+            'downloadTheAddon' => __(
+                'Download The Add-On',
+                'visualcomposer'
+            ),
+            'premiumPopupBuilder' => __(
+                'Premium Popup Builder. Do More.',
+                'visualcomposer'
+            ),
+            'createEngagingPopups' => __(
+                'Create engaging popups to boost your conversion rate with Visual Composer Premium Popup Builder.',
+                'visualcomposer'
+            ),
+            'layoutsAvailableInPremium' => __(
+                'All layouts are available in the Premium version.',
+                'visualcomposer'
+            ),
+            'doMoreWithPremium' => __(
+                'Do More With Premium',
+                'visualcomposer'
+            ),
+            'applyLayoutWithHFS' => __(
+                'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
                 'visualcomposer'
             ),
         ];

@@ -4,8 +4,9 @@ const elementsStorage = getStorage('elements')
 const notificationsStorage = getStorage('notifications')
 const documentManager = getService('document')
 const cook = getService('cook')
+const dataManager = getService('dataManager')
 
-const localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+const localizations = dataManager.get('localizations')
 const limitTexts = {
   elementLimit1: localizations.onlyOneElementCanBeAddedToPage || 'Only one %element element can be added to the page.',
   elementLimit2: localizations.onlyTwoElementsCanBeAddedToPage || 'Only two %element elements can be added to the page.',

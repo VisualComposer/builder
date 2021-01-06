@@ -4,9 +4,12 @@
 import React from 'react'
 import ResponsivenessSettings from '../../responsivenessSettings/Component'
 import TokenizationList from './tokenizationList'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 export default class LayoutResponsiveness extends React.Component {
-  static localizations = window.VCV_I18N && window.VCV_I18N()
+  static localizations = dataManager.get('localizations')
 
   getSettings () {
     const { devices, layoutData, defaultLayoutData } = this.props

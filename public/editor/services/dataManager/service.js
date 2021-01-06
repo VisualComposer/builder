@@ -68,7 +68,7 @@ const dataManager = {
       pluginUrl: () => { return window.VCV_PLUGIN_URL && window.VCV_PLUGIN_URL() },
       licenseUnsplashAuthorApiKey: () => { return window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY && window.VCV_LICENSE_UNSPLASH_AUTHOR_API_KEY() },
       createMenuUrl: () => { return window.vcvCreateMenuUrl },
-      utm: () => { return window.VCV_UTM && window.VCV_UTM() },
+      utm: () => { return window.VCV_UTM ? window.VCV_UTM() : {} },
       hubServerTime: () => { return window.VCV_HUB_SERVER_TIME && window.VCV_HUB_SERVER_TIME() },
       pageList: () => { return window.VCV_PAGE_LIST },
       excerpt: () => { return window.VCV_EXCERPT },
@@ -80,7 +80,15 @@ const dataManager = {
       postData: () => { return window.vcvPostData || {} },
       hubTeaserShowBadge: () => { return window.vcvHubTeaserShowBadge },
       tags: () => { return window.VCV_TAGS },
-      categories: () => { return window.VCV_CATEGORIES }
+      categories: () => { return window.VCV_CATEGORIES },
+      pluginVersion: () => { return window.VCV_PLUGIN_VERSION && window.VCV_PLUGIN_VERSION() },
+      frontEndError: () => { return window.vcvFeError || 'default' },
+      pageEditableNonce: () => { return window.vcvPageEditableNonce },
+      freezeReady: () => { return window.vcvFreezeReady },
+      ajaxUrl: () => { return window.vcvAjaxUrl },
+      pluginSourceUrl: () => { return window.vcvPluginSourceUrl },
+      gutenbergEditorUrl: () => { return window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' },
+      hubGetTemplates: () => { return window.VCV_HUB_GET_TEMPLATES && window.VCV_HUB_GET_TEMPLATES() }
     }
   }
 }

@@ -80,7 +80,7 @@ addStorage('hubElements', (storage) => {
       // already exists -> skip
       return
     }
-    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to the Element Library.'
+    const successMessage = localizations.successElementDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library.'
     const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (downloadingItems.includes(tag)) {
       return

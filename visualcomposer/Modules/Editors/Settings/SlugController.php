@@ -91,13 +91,6 @@ class SlugController extends Container implements Module
                 $response['permalinkHtml'] = get_sample_permalink_html($sourceId, $postTitle, $postName);
 
                 wp_update_post($post);
-
-                $response['postData']['previewUrl'] = $previewUrl;
-                $permalink = get_permalink($sourceId);
-                if (!$permalink) {
-                    $permalink = '';
-                }
-                $response['postData']['permalink'] = $permalink;
             }
         }
 

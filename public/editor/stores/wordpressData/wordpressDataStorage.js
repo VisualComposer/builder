@@ -15,6 +15,7 @@ addStorage('wordpressData', (storage) => {
   const wordpressDataStorage = getStorage('wordpressData')
   const popupStorage = getStorage('popup')
   const notificationsStorage = getStorage('notifications')
+  const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
 
   storage.on('start', () => {
@@ -88,8 +89,17 @@ addStorage('wordpressData', (storage) => {
       const pageTemplateData = dataManager.get('pageTemplates')
       const initialContent = responseData.post_content
       const featuredImageData = dataManager.get('featuredImage')
-      const categoriesData = dataManager.get('categories')
+      const categoriesData = dataManager.get('categories') || []
+      const authorData = dataManager.get('authorList') || 'none'
+      const commentStatusData = dataManager.get('commentStatus') || 'closed'
+      const pingStatusData = dataManager.get('pingStatus') || 'closed'
+      const excerptData = dataManager.get('excerpt') || ''
+      const parentPageData = dataManager.get('pageList') || 'none'
+      let tagsData = dataManager.get('tags') || []
       let empty = false
+      if (featuredImageData) {
+        featuredImageData.initialSet = true
+      }
       if ((!responseData.data || !responseData.data.length) && initialContent && initialContent.length) {
         elementsStorage.trigger('reset', {})
         empty = true
@@ -113,6 +123,9 @@ addStorage('wordpressData', (storage) => {
       } else {
         elementsStorage.trigger('reset', {})
         empty = true
+      }
+      if (responseData.elementsCssData) {
+        cacheStorage.state('elementsCssCache').set(responseData.elementsCssData)
       }
       // fix for post update on empty templates
       if (empty) {
@@ -174,6 +187,26 @@ addStorage('wordpressData', (storage) => {
       }
       if (categoriesData && categoriesData.length) {
         settingsStorage.state('categories').set(categoriesData)
+      }
+      if (authorData && authorData.current) {
+        settingsStorage.state('author').set(authorData.current)
+      }
+      if (commentStatusData) {
+        settingsStorage.state('commentStatus').set(commentStatusData)
+      }
+      if (pingStatusData) {
+        settingsStorage.state('pingStatus').set(pingStatusData)
+      }
+      if (excerptData) {
+        settingsStorage.state('excerpt').set(excerptData)
+      }
+      if (parentPageData && parentPageData.current) {
+        settingsStorage.state('parentPage').set(parentPageData.current)
+      }
+      if (tagsData && tagsData.length) {
+        tagsData = tagsData.map(tag => tag.name)
+        const parsedCurrentTags = settingsStorage.state('tags').get() || tagsData
+        settingsStorage.state('tags').set(parsedCurrentTags)
       }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
@@ -282,7 +315,7 @@ addStorage('wordpressData', (storage) => {
   function setFeaturedImage () {
     const current = settingsStorage.state('featuredImage').get()
     if (!featuredImage) {
-      if (!featuredImageNotification && current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
+      if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
         featuredImageNotification = true
         notificationsStorage.trigger('add', {
           position: 'bottom',

@@ -47,6 +47,8 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::templatesEditorBlankTemplate */
         $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
 
+        $this->wpAddFilter('wp_untrash_post_status', 'untrashTemplate', 30);
+
         // In case if Trashed template removed
         $this->wpAddAction('before_delete_post', 'deleteTemplateData');
     }
@@ -147,7 +149,11 @@ class Controller extends Container implements Module
         PostType $postTypeHelper,
         CurrentUser $currentUserAccessHelper
     ) {
-        if ($currentUserAccessHelper->wpAll('delete_published_posts')->get()) {
+        /**
+         * Note: `ss` at the end is not a typo!
+         * @see visualcomposer/Modules/Editors/Templates/PostType.php:62
+         */
+        if ($currentUserAccessHelper->wpAll('delete_published_vcv_templatess')->get()) {
             $id = $requestHelper->input('vcv-template-id');
             $template = $postTypeHelper->get($id, 'vcv_templates');
             $status = false;
@@ -160,7 +166,10 @@ class Controller extends Container implements Module
             ];
         }
 
-        return ['status' => false];
+        return [
+            'status' => false,
+            'message' => __('You are not allowed to delete templates.', 'visualcomposer'),
+        ];
     }
 
     protected function deleteTemplateData(
@@ -181,6 +190,16 @@ class Controller extends Container implements Module
                 }
             }
         }
+    }
+
+    protected function untrashTemplate($status, $sourceId, PostType $postTypeHelper)
+    {
+        $template = $postTypeHelper->get($sourceId, 'vcv_templates');
+        if ($template) {
+            return 'publish';
+        }
+
+        return $status;
     }
 
     /**

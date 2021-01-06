@@ -17,7 +17,9 @@
 }
 
 .vce-asset-parallax-mouse-move {
+  transition: -webkit-transform 2s cubic-bezier(0, 0, 0.25, 0.96);
   transition: transform 2s cubic-bezier(0, 0, 0.25, 0.96);
+  transition: transform 2s cubic-bezier(0, 0, 0.25, 0.96), -webkit-transform 2s cubic-bezier(0, 0, 0.25, 0.96);
 }
 
 .vce-asset-parallax-container.vce-visible-all-only {

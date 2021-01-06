@@ -11,6 +11,8 @@ import 'public/sources/css/wordpress.less'
 
 import HubContainer from './components/panels/hub/hubContainer'
 
+const dataManager = vcCake.getService('dataManager')
+
 export const setupCake = () => {
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
@@ -41,8 +43,8 @@ export const setupCake = () => {
     const hubAddonsStorage = vcCake.getStorage('hubAddons')
     hubAddonsStorage.trigger('start')
 
-    if (window.VCV_HUB_GET_TEMPLATES) {
-      hubTemplatesStorage.state('templates').set(window.VCV_HUB_GET_TEMPLATES())
+    if (dataManager.get('hubGetTemplates')) {
+      hubTemplatesStorage.state('templates').set(dataManager.get('hubGetTemplates'))
     }
 
     // const sharedAssetsStorage = vcCake.getStorage('sharedAssets')

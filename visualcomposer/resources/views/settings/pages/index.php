@@ -70,7 +70,9 @@ if (!defined('ABSPATH')) {
         $viewsHelper->doNestedSection($section, $slug);
     }
 
-    $submitButtonAttributes = [];
+    $submitButtonAttributes = [
+        'id' => 'submit_btn-' . $slug,
+    ];
     $submitButtonAttributes = apply_filters(
         'vcv:template:settings:settings-tab-submit-button-attributes',
         $submitButtonAttributes,

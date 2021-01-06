@@ -8,6 +8,7 @@ import Modal from 'public/components/modal/modal'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import Tooltip from '../../../components/tooltip/tooltip'
+
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
@@ -54,7 +55,7 @@ export default class DynamicPopup extends React.Component {
           // If sourceId explicitly set, then we expect that custom toggle is ON
           state.showAutocomplete = true
         }
-        sourceId = blockInfo.blockAtts.sourceId || window.vcvSourceID
+        sourceId = blockInfo.blockAtts.sourceId || dataManager.get('sourceID')
         state.currentPostField = blockInfo.blockAtts.value
       }
     }
@@ -184,9 +185,9 @@ export default class DynamicPopup extends React.Component {
   }
 
   autocompleteToggleChange (_, value) {
-    if (!value && (this.state.sourceId !== window.vcvSourceID)) {
+    if (!value && (this.state.sourceId !== dataManager.get('sourceID'))) {
       // Return back current source ID
-      this.sourceIdChange(_, window.vcvSourceID + '') // force string + change id
+      this.sourceIdChange(_, dataManager.get('sourceID') + '') // force string + change id
     }
     this.setState({
       showAutocomplete: value

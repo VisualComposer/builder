@@ -38,6 +38,10 @@ export default class WorkspaceCont extends React.Component {
       treeViewId: treeViewId || '',
       settings: workspace.state('settings').get() || {}
     })
+
+    if (content !== 'addElement' && content !== 'addTemplate') {
+      workspace.state('isRemoveStateActive').set(false)
+    }
   }
 
   getNavbarPosition (position) {

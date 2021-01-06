@@ -10,6 +10,8 @@ import Token from './token'
 import { getResponse } from 'public/tools/response'
 import Tooltip from '../../../../components/tooltip/tooltip'
 
+const dataManager = vcCake.getService('dataManager')
+
 export default class TokenizationList extends React.Component {
   static propTypes = {
     validator: PropTypes.func.isRequired,
@@ -252,12 +254,12 @@ export default class TokenizationList extends React.Component {
     this.serverRequest = ajax({
       'vcv-action': 'autocomplete:findString:adminNonce',
       'vcv-search': search.trim(),
-      'vcv-nonce': window.vcvNonce,
+      'vcv-nonce': dataManager.get('nonce'),
       'vcv-tag': this.props.elementAccessPoint.tag,
       'vcv-param': this.props.fieldKey,
       'vcv-autocomplete-action': this.props.action,
       'vcv-element': this.props.elementAccessPoint.cook().toJS(),
-      'vcv-source-id': window.vcvSourceID,
+      'vcv-source-id': dataManager.get('sourceID'),
       'vcv-return-value': this.props.returnValue
     }, (request) => {
       const response = getResponse(request.response)
@@ -339,8 +341,8 @@ export default class TokenizationList extends React.Component {
     this.serverRequestLabels = ajax({
       'vcv-action': 'autocomplete:getTokenLabels:adminNonce',
       'vcv-tokens': value,
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID,
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID'),
       'vcv-label-action': this.props.labelAction,
       'vcv-return-value': this.props.returnValue,
       'vcv-element': this.props.elementAccessPoint.cook().toJS()

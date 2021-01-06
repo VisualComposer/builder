@@ -1,11 +1,12 @@
 import vcCake from 'vc-cake'
-import DndDataSet from '../../../../components/dnd/dndDataSet'
+import DndDataSet from 'public/components/dnd/dndDataSet'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManager = vcCake.getService('document')
+const dataManager = vcCake.getService('dataManager')
 
 export default class DndManager {
   constructor (api) {
@@ -59,7 +60,7 @@ export default class DndManager {
       if (container) {
         const DndConstructor = DndDataSet
         let ignoreHandling = null
-        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !window.vcvManageOptions) {
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions')) {
           ignoreHandling = '[data-vcv-element-locked]'
         }
         this.items = new DndConstructor(container, {
@@ -199,7 +200,7 @@ export default class DndManager {
     } else { // Drop existing element
       const parentWrapper = cook.get(elementSettings).get('parentWrapper')
       const wrapperTag = parentWrapper === undefined ? 'column' : parentWrapper
-      const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+      const editorType = dataManager.get('editorType')
 
       if (editorType === 'popup' && !wrapperTag) { // Append dragging element after last root element without wrapper
         const rootElements = documentManager.children(false)

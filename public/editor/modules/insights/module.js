@@ -8,15 +8,16 @@ const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const cookService = getService('cook')
 const utils = getService('utils')
+const dataManager = getService('dataManager')
 
 add('insights', () => {
   // VC: Insights
   class InsightsChecks {
     isImagesSizeLarge = false
-    localizations = window.VCV_I18N ? window.VCV_I18N() : {}
+    localizations = dataManager.get('localizations')
 
     checkTitleLength () {
-      if (window.VCV_EDITOR_TYPE) {
+      if (dataManager.get('editorType') !== 'default') {
         return
       }
 
@@ -126,7 +127,7 @@ add('insights', () => {
     }
 
     checkForHeadings () {
-      if (window.VCV_EDITOR_TYPE) {
+      if (dataManager.get('editorType') !== 'default') {
         return
       }
       const headings = env('iframe').document.body.querySelectorAll('h1')

@@ -54,6 +54,20 @@ class PageTemplatesVariablesController extends Container implements Module
                 'value' => 'blank',
             ],
         ];
+        $themeValue = [
+            [
+                'label' => __('Header and Footer', 'visualcomposer'),
+                'value' => 'header-footer-layout',
+            ],
+            [
+                'label' => __('Right Sidebar', 'visualcomposer'),
+                'value' => 'header-footer-sidebar-layout',
+            ],
+            [
+                'label' => __('Left Sidebar', 'visualcomposer'),
+                'value' => 'header-footer-sidebar-left-layout',
+            ],
+        ];
 
         $variables[] = [
             'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS',
@@ -67,6 +81,23 @@ class PageTemplatesVariablesController extends Container implements Module
                     ],
                 ]
             ),
+            'type' => 'constant',
+        ];
+
+        $variables[] = [
+            'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_ALL',
+            'value' => [
+                [
+                    'type' => 'vc',
+                    'title' => __('Visual Composer', 'visualcomposer'),
+                    'values' => $value,
+                ],
+                [
+                    'type' => 'vc-theme',
+                    'title' => __('Visual Composer Premium', 'visualcomposer'),
+                    'values' => $themeValue,
+                ],
+            ],
             'type' => 'constant',
         ];
 

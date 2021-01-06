@@ -49,7 +49,8 @@ const API = {
    * @returns {*}
    */
   getSourcePath: (file = null) => {
-    let path = window.vcvPluginSourceUrl
+    const dataManager = vcCake.getService('dataManager')
+    let path = dataManager.get('pluginSourceUrl')
     if (file && file.match('^(https?:)?\\/\\/?')) {
       return file
     }

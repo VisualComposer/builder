@@ -10,6 +10,7 @@ import MobileDetect from 'mobile-detect'
 import OopsScreen from 'public/components/account/oopsScreen'
 import Notifications from 'public/components/notifications/notifications'
 import Popup from 'public/components/popup/popupContainer'
+import FullPopup from 'public/components/popup/fullPagePopupContainer'
 import Helpers from 'public/components/helpers/helpers'
 
 const notificationsStorage = vcCake.getStorage('notifications')
@@ -25,7 +26,7 @@ vcCake.add('contentLayout', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const dnd = new DndManager(api)
   const controls = new ControlsManager(api)
-  const localizations = window.VCV_I18N && window.VCV_I18N()
+  const localizations = dataManager.get('localizations')
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
   }
@@ -37,6 +38,7 @@ vcCake.add('contentLayout', (api) => {
       <>
         <Notifications />
         <Popup />
+        <FullPopup />
         {dataManager.get('showInitialHelpers') && <Helpers />}
       </>,
       layoutOverlay
@@ -115,7 +117,7 @@ vcCake.add('contentLayout', (api) => {
       if (oopsContainer) {
         ReactDOM.render(
           <div className='vcv-screen-section'>
-            <OopsScreen errorName={window.vcvFeError || 'default'} />
+            <OopsScreen errorName={dataManager.get('frontEndError')} />
           </div>,
           oopsContainer
         )
@@ -197,7 +199,7 @@ vcCake.add('contentLayout', (api) => {
         write && arr.push(item)
         return arr
       }, [])
-      params.push(`vcv-nonce=${window.vcvPageEditableNonce}`)
+      params.push(`vcv-nonce=${dataManager.get('pageEditableNonce')}`)
       if (template) {
         params.push(`vcv-template=${template.value}`)
         params.push(`vcv-template-type=${template.type}`)
@@ -206,7 +208,8 @@ vcCake.add('contentLayout', (api) => {
         let hasHeader = false
         let hasSidebar = false
         let hasFooter = false
-        const currentLayoutType = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() && window.VCV_PAGE_TEMPLATES_LAYOUTS().find(item => item.type === template.type)
+        const layouts = dataManager.get('pageTemplatesLayouts')
+        const currentLayoutType = layouts && layouts.find(item => item.type === template.type)
         if (currentLayoutType && currentLayoutType.values) {
           const currentTemplate = currentLayoutType.values.find(item => item.value === template.value)
           if (currentTemplate) {

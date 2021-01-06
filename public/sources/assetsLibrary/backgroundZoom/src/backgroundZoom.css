@@ -16,7 +16,9 @@
   right: 0;
   bottom: 0;
   left: 0;
+  transition-property: -webkit-transform;
   transition-property: transform;
+  transition-property: transform, -webkit-transform;
   transition-timing-function: linear;
 }
 

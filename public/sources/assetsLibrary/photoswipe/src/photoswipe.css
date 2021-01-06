@@ -21,7 +21,6 @@
 }
 
 .pswp * {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -35,7 +34,6 @@
   opacity: 0.001;
   will-change: opacity;
   /* for open/close transition */
-  -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
   transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
 }
 
@@ -106,7 +104,6 @@
 .pswp__container,
 .pswp__img {
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -117,23 +114,21 @@
   position: absolute;
   width: 100%;
   -webkit-transform-origin: left top;
-  -ms-transform-origin: left top;
   transform-origin: left top;
   /* for open/close transition */
-  -webkit-transition: -webkit-transform 333ms cubic-bezier(0.4, 0, 0.22, 1);
+  transition: -webkit-transform 333ms cubic-bezier(0.4, 0, 0.22, 1);
   transition: transform 333ms cubic-bezier(0.4, 0, 0.22, 1);
+  transition: transform 333ms cubic-bezier(0.4, 0, 0.22, 1), -webkit-transform 333ms cubic-bezier(0.4, 0, 0.22, 1);
 }
 
 .pswp__bg {
   will-change: opacity;
   /* for open/close transition */
-  -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
   transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
 }
 
 .pswp--animated-in .pswp__bg,
 .pswp--animated-in .pswp__zoom-wrap {
-  -webkit-transition: none;
   transition: none;
 }
 
@@ -236,9 +231,7 @@
   margin: 0;
   float: right;
   opacity: 0.75;
-  -webkit-transition: opacity 0.2s;
   transition: opacity 0.2s;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -373,7 +366,6 @@
 .pswp__counter,
 .pswp__share-modal {
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
@@ -389,7 +381,6 @@
   position: absolute;
   z-index: 1600;
   opacity: 0;
-  -webkit-transition: opacity 0.25s ease-out;
   transition: opacity 0.25s ease-out;
   -webkit-backface-visibility: hidden;
   will-change: opacity;
@@ -408,13 +399,12 @@
   display: block;
   width: auto;
   right: 44px;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   -webkit-transform: translateY(6px);
-  -ms-transform: translateY(6px);
   transform: translateY(6px);
-  -webkit-transition: -webkit-transform 0.25s;
+  transition: -webkit-transform 0.25s;
   transition: transform 0.25s;
+  transition: transform 0.25s, -webkit-transform 0.25s;
   -webkit-backface-visibility: hidden;
   will-change: transform;
 }
@@ -448,7 +438,6 @@
 
 .pswp__share-modal--fade-in .pswp__share-tooltip {
   -webkit-transform: translateY(0);
-  -ms-transform: translateY(0);
   transform: translateY(0);
 }
 
@@ -564,7 +553,6 @@ a.pswp__share--download:hover {
   left: 50%;
   margin-left: -22px;
   opacity: 0;
-  -webkit-transition: opacity 0.25s ease-out;
   transition: opacity 0.25s ease-out;
   will-change: opacity;
   direction: ltr;
@@ -622,7 +610,6 @@ a.pswp__share--download:hover {
 }
 
 .pswp--css_animation .pswp__preloader__donut {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   width: 14px;
   height: 14px;
@@ -727,7 +714,6 @@ a.pswp__share--download:hover {
 .pswp--has_mouse .pswp__button--arrow--right {
   -webkit-backface-visibility: hidden;
   will-change: opacity;
-  -webkit-transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
   transition: opacity 333ms cubic-bezier(0.4, 0, 0.22, 1);
 }
 

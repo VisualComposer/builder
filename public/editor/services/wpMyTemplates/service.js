@@ -3,16 +3,17 @@ import { getResponse } from 'public/tools/response'
 import ReactDOM from 'react-dom'
 
 const utils = getService('utils')
+const dataManager = getService('dataManager')
 const getType = {}.toString
-const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+const editorType = dataManager.get('editorType')
 
 const processRequest = (action, key, data, successCallback, errorCallback) => {
   const ajax = getService('utils').ajax
 
   return ajax({
     'vcv-action': `editorTemplates:${action}:adminNonce`,
-    'vcv-nonce': window.vcvNonce,
-    'vcv-source-id': window.vcvSourceID,
+    'vcv-nonce': dataManager.get('nonce'),
+    'vcv-source-id': dataManager.get('sourceID'),
     [key]: data
   }, (result) => {
     const response = getResponse(result.response)

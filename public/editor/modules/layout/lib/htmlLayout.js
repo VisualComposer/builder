@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Element from './element'
 import BlankRowPlaceholder from 'public/components/layoutHelpers/blankRowPlaceholder/component'
 
 const workspaceStorage = getStorage('workspace')
+const dataManager = getService('dataManager')
 
 export default class HtmlLayout extends React.Component {
   layout = null
@@ -37,11 +38,11 @@ export default class HtmlLayout extends React.Component {
    * @param data {object}
    */
   handleDragStateChage (data) {
-    if (data && data.addPanel && !this.layout.getAttribute('data-vcv-dnd-element')) {
+    if (data && data.addPanel && this.layout.getAttribute('data-vcv-dnd-element')) {
       const body = this.layout.closest('.vcwb')
       body.addEventListener('mouseup', this.handleBodyMouseUp)
     }
-    if (data && !data.active && !this.layout.getAttribute('data-vcv-dnd-element')) {
+    if (data && !data.active && this.layout.getAttribute('data-vcv-dnd-element')) {
       const body = this.layout.closest('.vcwb')
       body.removeEventListener('mouseup', this.handleBodyMouseUp)
     }
@@ -49,10 +50,13 @@ export default class HtmlLayout extends React.Component {
 
   /**
    * On body mouseup event end drag event
-   * by setting workspaceStorage drag state to false
+   * by setting workspaceStorage drag state to false.
+   * setTimeout added to end drag after element is added and the Edit Form is opened.
    */
   handleBodyMouseUp () {
-    workspaceStorage.state('drag').set({ active: false })
+    setTimeout(() => {
+      workspaceStorage.state('drag').set({ active: false })
+    }, 0)
   }
 
   getBlankRowPlaceholder (iconColor) {
@@ -60,7 +64,7 @@ export default class HtmlLayout extends React.Component {
   }
 
   render () {
-    const editorType = window.VCV_EDITOR_TYPE ? window.VCV_EDITOR_TYPE() : 'default'
+    const editorType = dataManager.get('editorType')
     const layoutsContent = []
     let elementsList
     if (this.props.data.length) {

@@ -86,8 +86,9 @@ const API = {
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   },
   ajax: (data, successCallback, failureCallback) => {
+    const dataManager = getService('dataManager')
     const request = new window.XMLHttpRequest()
-    request.open('POST', window.vcvAdminAjaxUrl, true)
+    request.open('POST', dataManager.get('adminAjaxUrl'), true)
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     request.onload = (response) => {
       if (request.status >= 200 && request.status < 400) {

@@ -51,7 +51,8 @@ export default class HubTemplateControl extends React.Component {
 
     const overlayClasses = classNames({
       'vcv-ui-item-overlay': true,
-      'vcv-ui-item-overlay--visible': spinner
+      'vcv-ui-item-overlay--visible': spinner,
+      'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
 
     const previewClasses = classNames({
@@ -78,6 +79,25 @@ export default class HubTemplateControl extends React.Component {
       )
     }
 
+    let itemButton = null
+    if (this.props.isRemoveStateActive) {
+      itemButton = (
+        <span
+          className={removeClasses}
+          onClick={handleRemoveTemplate}
+          title={localizations.removePlaceholder.replace('%', name)}
+        />
+      )
+    } else {
+      itemButton = (
+        <span
+          className={applyClasses}
+          onClick={handleApplyTemplate}
+          title={localizations.addPlaceholder.replace('%', name)}
+        />
+      )
+    }
+
     return (
       <div className='vcv-ui-item-list-item'>
         <span
@@ -92,16 +112,7 @@ export default class HubTemplateControl extends React.Component {
               alt={name}
             />
             <span className={overlayClasses}>
-              <span
-                className={applyClasses}
-                onClick={handleApplyTemplate}
-                title={localizations.addPlaceholder.replace('%s', name)}
-              />
-              <span
-                className={removeClasses}
-                onClick={handleRemoveTemplate}
-                title={localizations.removePlaceholder.replace('%s', name)}
-              />
+              {itemButton}
               <span className={spinnerClasses} />
             </span>
           </span>

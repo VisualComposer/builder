@@ -99,6 +99,10 @@ class Controller extends Container implements Module
         }
         $response['data'] = $data;
 
+        $elementsCssData = get_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', true);
+        $response['elementsCssData'] = $elementsCssData;
+
+
         return $response;
     }
 
@@ -288,8 +292,7 @@ class Controller extends Container implements Module
         $responseExtra = $filterHelper->fire(
             'vcv:dataAjax:setData',
             [
-                'status' => true,
-                'postData' => $postTypeHelper->getPostData(),
+                'status' => true
             ],
             [
                 'sourceId' => $sourceId,
@@ -299,6 +302,9 @@ class Controller extends Container implements Module
         );
         // Clearing wp cache
         wp_cache_flush();
+        // Flush global $post cache
+        $postTypeHelper->setupPost($sourceId);
+        $responseExtra['postData'] = $postTypeHelper->getPostData();
         ob_get_clean();
 
         return array_merge($response, $responseExtra);

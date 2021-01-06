@@ -2,6 +2,9 @@ import React from 'react'
 import AttachImageItem from './attachImageItem'
 import { SortableElement, SortableHandle } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
+import { getService } from 'vc-cake'
+
+const dataManager = getService('dataManager')
 
 const SortableHandler = SortableHandle(({ title }) => {
   return (
@@ -41,7 +44,7 @@ export default class AttachImageList extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const addImage = localizations ? localizations.addImage : 'Add an image'
     const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or replace the image'
     const moveImage = localizations ? localizations.moveImage : 'Move the image'

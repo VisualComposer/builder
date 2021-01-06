@@ -6,8 +6,8 @@ import { getResponse } from 'public/tools/response'
 const Utils = getService('utils')
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-
 const settingsStorage = getStorage('settings')
+const dataManager = getService('dataManager')
 
 export default class LayoutDropdown extends React.Component {
   static propTypes = {
@@ -55,7 +55,7 @@ export default class LayoutDropdown extends React.Component {
 
     this.serverRequest = ajax({
       'vcv-action': 'layoutDropdown:' + layoutName + ':updateList:adminNonce',
-      'vcv-nonce': window.vcvNonce
+      'vcv-nonce': dataManager.get('nonce')
     }, (request) => {
       const response = getResponse(request.response)
       if (response && response.status) {
@@ -81,7 +81,8 @@ export default class LayoutDropdown extends React.Component {
       if (env('VCV_JS_THEME_LAYOUTS')) {
         settingsStorage.state(`${layoutName}Template`).set(value)
       }
-      if (typeof window.VCV_EDITOR_TYPE !== 'undefined' && window.VCV_EDITOR_TYPE() === 'vcv_layouts') {
+      const editorType = dataManager.get('editorType')
+      if (editorType === 'vcv_layouts') {
         return
       }
       const lastSavedTemplate = settingsStorage.state(`${layoutName}Template`).get()
@@ -136,9 +137,9 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getDefaultOptions () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     let selectHFSText = localizations ? localizations.selectHFS : 'Default'
-    const templateStorageData = settingsStorage.state('pageTemplate').get() || (window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT()) || {
+    const templateStorageData = settingsStorage.state('pageTemplate').get() || (dataManager.get('pageTemplatesLayoutsCurrent')) || {
       type: 'vc', value: 'blank'
     }
 
@@ -156,7 +157,7 @@ export default class LayoutDropdown extends React.Component {
   }
 
   render () {
-    const localizations = window.VCV_I18N && window.VCV_I18N()
+    const localizations = dataManager.get('localizations')
     const chooseHFSText = localizations ? localizations.chooseHFS : 'Choose a {name} template from the list or <a href="{link}" target="_blank">create a new one</a>.'
     const noneText = localizations ? localizations.none : 'None'
     const globalUrl = `vcvCreate${this.props.layoutName}`

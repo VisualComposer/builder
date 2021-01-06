@@ -6,6 +6,7 @@ import { getResponse } from '../../../tools/response'
 import { getService } from 'vc-cake'
 import { cloneDeep } from 'lodash'
 
+const dataManager = getService('dataManager')
 const Utils = getService('utils')
 
 export default class Dropdown extends Attribute {
@@ -156,8 +157,8 @@ export default class Dropdown extends Attribute {
 
     this.serverRequest = ajax({
       'vcv-action': `dropdown:${this.props.options.reloadAction}:updateList:adminNonce`,
-      'vcv-nonce': window.vcvNonce,
-      'vcv-source-id': window.vcvSourceID
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-source-id': dataManager.get('sourceID')
     }, (request) => {
       const response = getResponse(request.response)
       this.props.setLoadingState(false)
