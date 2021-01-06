@@ -438,7 +438,7 @@ export default class StockMediaResultsPanel extends React.Component {
         } else {
           iconsControls = (
             <div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText} onClick={this.handleLockClick}>
-              <span className='vcv-ui-icon vcv-ui-icon-lock' />
+              <span className='vcv-ui-icon vcv-ui-icon-lock-fill' />
             </div>
           )
         }
