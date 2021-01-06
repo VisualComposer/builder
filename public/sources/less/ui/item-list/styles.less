@@ -113,12 +113,14 @@
       }
     }
 
-    .vcv-ui-icon {
-      font-size: 16px;
-
-      &:hover::before {
+    .vcv-ui-item-overlay:hover {
+      .vcv-ui-icon::before {
         content: @vcv-ui-icon-unlock-fill;
       }
+    }
+
+    .vcv-ui-icon {
+      font-size: 16px;
     }
   }
 }
