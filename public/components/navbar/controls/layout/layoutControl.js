@@ -6,6 +6,9 @@ import { env, getService, getStorage } from 'vc-cake'
 
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
+const workspaceStorage = getStorage('workspace')
+const workspaceSettings = workspaceStorage.state('settings')
+const workspaceContentState = workspaceStorage.state('content')
 
 export default class LayoutButtonControl extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -92,14 +95,17 @@ export default class LayoutButtonControl extends React.Component {
     this.handleControlClick = this.handleControlClick.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.handleLayoutChange = this.handleLayoutChange.bind(this)
+    this.setActiveState = this.setActiveState.bind(this)
   }
 
   componentDidMount () {
     settingsStorage.state('outputEditorLayoutDesktop').onChange(this.handleLayoutChange)
+    workspaceSettings.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
     settingsStorage.state('outputEditorLayoutDesktop').ignoreChange(this.handleLayoutChange)
+    workspaceSettings.ignoreChange(this.setActiveState)
   }
 
   handleLayoutChange (data) {
@@ -133,7 +139,12 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   handleControlClick () {
-    this.setState({ isControlActive: !this.state.isControlActive })
+    workspaceContentState.set(false)
+    workspaceSettings.set(this.state.isControlActive ? false : { action: 'devices' })
+  }
+
+  setActiveState (state) {
+    this.setState({ isControlActive: (state && state.action) === 'devices' })
     if (!this.state.isControlActive) {
       window.addEventListener('resize', this.handleWindowResize)
       setTimeout(this.handleWindowResize, 1)
