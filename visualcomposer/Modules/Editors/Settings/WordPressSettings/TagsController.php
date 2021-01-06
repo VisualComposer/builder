@@ -92,9 +92,10 @@ class TagsController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $tags = $requestHelper->input('vcv-settings-tags', '');
-
-        wp_set_post_tags($currentPageId, $tags);
+        if ($requestHelper->exists('vcv-settings-tags')) {
+            $tags = $requestHelper->input('vcv-settings-tags', '');
+            wp_set_post_tags($currentPageId, $tags);
+        }
 
         return $response;
     }

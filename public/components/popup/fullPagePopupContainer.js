@@ -1,10 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { getStorage } from 'vc-cake'
-import VotePopup from './popups/votePopup'
-import ReviewPopup from './popups/reviewPopup'
-import DataCollectionPopup from './popups/dataCollectionPopup'
-import PremiumPromoPopup from './popups/premiumPromoPopup'
+import PremiumPopup from './popups/premiumPopup'
 
 const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
@@ -13,7 +10,7 @@ export default class PopupContainer extends React.Component {
   constructor (props) {
     super(props)
 
-    const activePopup = editorPopupStorage.state('activePopup').get()
+    const activePopup = editorPopupStorage.state('activeFullPopup').get()
 
     this.state = {
       actionClicked: false,
@@ -25,16 +22,17 @@ export default class PopupContainer extends React.Component {
     this.handlePrimaryButtonClick = this.handlePrimaryButtonClick.bind(this)
     this.handleDocumentChange = this.handleDocumentChange.bind(this)
     this.handlePopupChange = this.handlePopupChange.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
   }
 
   componentDidMount () {
     elementsStorage.state('document').onChange(this.handleDocumentChange)
-    editorPopupStorage.state('activePopup').onChange(this.handlePopupChange)
+    editorPopupStorage.state('activeFullPopup').onChange(this.handlePopupChange)
   }
 
   componentWillUnmount () {
     elementsStorage.state('document').ignoreChange(this.handleDocumentChange)
-    editorPopupStorage.state('activePopup').onChange(this.handlePopupChange)
+    editorPopupStorage.state('activeFullPopup').onChange(this.handlePopupChange)
   }
 
   handleDocumentChange (data) {
@@ -58,7 +56,7 @@ export default class PopupContainer extends React.Component {
   handleCloseClick () {
     this.setState({ popupVisible: false })
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hideAll')
+      editorPopupStorage.trigger('hideFullPagePopup')
     }, 500)
   }
 
@@ -69,36 +67,39 @@ export default class PopupContainer extends React.Component {
         actionClicked: false,
         popupVisible: false
       })
-      editorPopupStorage.trigger('hideAll')
+      editorPopupStorage.trigger('hideFullPagePopup')
     }, 500)
+  }
+
+  handleOutsideClick (event) {
+    if (event.target.classList.contains('vcv-layout-popup--full-page')) {
+      this.handleCloseClick()
+    }
   }
 
   render () {
     const { activePopup, actionClicked, popupVisible } = this.state
+    const popupText = editorPopupStorage.state('popupText').get()
     const popupClasses = classNames({
       'vcv-layout-popup': true,
+      'vcv-layout-popup--full-page': true,
       'vcv-layout-popup--visible': popupVisible,
       'vcv-layout-popup--action-clicked': actionClicked
     })
 
     const popupProps = {
       onClose: this.handleCloseClick,
-      onPrimaryButtonClick: this.handlePrimaryButtonClick
+      onPrimaryButtonClick: this.handlePrimaryButtonClick,
+      text: popupText
     }
     let activePopupHtml = null
 
-    if (activePopup === 'votePopup') {
-      activePopupHtml = <VotePopup {...popupProps} />
-    } else if (activePopup === 'reviewPopup') {
-      activePopupHtml = <ReviewPopup {...popupProps} />
-    } else if (activePopup === 'dataCollectionPopup') {
-      activePopupHtml = <DataCollectionPopup {...popupProps} />
-    } else if (activePopup === 'premiumPromoPopup') {
-      activePopupHtml = <PremiumPromoPopup {...popupProps} />
+    if (activePopup) {
+      activePopupHtml = <PremiumPopup {...popupProps} />
     }
 
     return (
-      <div className={popupClasses}>
+      <div className={popupClasses} onClick={this.handleOutsideClick}>
         <div className='vcv-layout-popup-container'>
           {activePopupHtml}
         </div>

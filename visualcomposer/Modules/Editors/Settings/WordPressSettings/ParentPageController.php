@@ -50,7 +50,8 @@ class ParentPageController extends Container implements Module
 
         $currentParentPage = 'none';
         $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
-        $postQuery = ['post_type' => 'page', 'posts_per_page' => -1];
+        // @codingStandardsIgnoreLine
+        $postQuery = ['post_type' => $currentPost->post_type, 'posts_per_page' => -1];
 
         // Set source id for ajax requests
         if (!$currentPost && $requestHelper->exists('vcv-source-id')) {
@@ -98,7 +99,7 @@ class ParentPageController extends Container implements Module
     ) {
         $currentPost = $postTypeHelper->get();
         // @codingStandardsIgnoreLine
-        if (isset($currentPost->post_type) && $currentPost->post_type === 'page') {
+        if (isset($currentPost->post_type) && post_type_supports( $currentPost->post_type, 'page-attributes' )) {
             $response = array_merge(
                 $response,
                 [
@@ -136,8 +137,11 @@ class ParentPageController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $parentPageId = $requestHelper->input('vcv-settings-parent-page', '');
-        wp_update_post(['ID' => $currentPageId, 'post_parent' => $parentPageId]);
+        if ($requestHelper->exists('vcv-settings-parent-page')) {
+            wp_update_post(
+                ['ID' => $currentPageId, 'post_parent' => $requestHelper->input('vcv-settings-parent-page')]
+            );
+        }
 
         return $response;
     }

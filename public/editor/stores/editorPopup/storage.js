@@ -10,6 +10,7 @@ addStorage('editorPopup', (storage) => {
         popupDataByPriority.push({ popupName: popupName, popupData: popupData[popupName] })
       }
     }
+
     popupDataByPriority.sort((a, b) => a.priority - b.priority)
     const firstVisible = popupDataByPriority.findIndex((item) => item.popupData.visible)
 
@@ -79,5 +80,15 @@ addStorage('editorPopup', (storage) => {
     })
 
     storage.state('popups').set(popupState)
+    storage.state('activeFullPopup').set(false)
+  })
+
+  // Full page popup actions
+  storage.on('showFullPagePopup', () => {
+    storage.state('activeFullPopup').set(true)
+  })
+
+  storage.on('hideFullPagePopup', () => {
+    storage.state('activeFullPopup').set(false)
   })
 })

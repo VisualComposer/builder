@@ -205,6 +205,30 @@
       vertical-align: top;
     }
   }
+  .vcv-ui-item-template-inactive--locked {
+    position: relative;
+    opacity: .8;
+    transition: all .2s ease;
+
+    i {
+      font-size: 20px;
+    }
+    &:hover {
+      opacity: 1;
+
+      .vcv-ui-start-layout-list-item-icon-stroke {
+        stroke: #d1d1d1;
+      }
+    }
+    .vcv-ui-layout-lock-control {
+      position: absolute;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }
 
 .vcv-ui-form-group--wp-menu,
