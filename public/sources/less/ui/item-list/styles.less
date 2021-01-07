@@ -102,12 +102,6 @@
     }
   }
 
-  &:not(.vcv-ui-item-element-inactive) {
-    .vcv-ui-icon-lock-fill {
-      display: none;
-    }
-  }
-
   &.vcv-ui-item-element-inactive.vcv-ui-item-element-inactive--locked {
     .vcv-ui-item-overlay {
       cursor: pointer;
@@ -128,6 +122,14 @@
 
     .vcv-ui-icon {
       font-size: 16px;
+    }
+  }
+}
+
+.vcv-dashboards-section-content {
+  .vcv-ui-item-element:not(.vcv-ui-item-element-inactive) {
+    .vcv-ui-icon-lock-fill {
+      display: none;
     }
   }
 }
