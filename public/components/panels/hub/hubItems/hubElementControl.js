@@ -84,7 +84,7 @@ export default class HubElementControl extends ElementControl {
       'vcv-ui-icon': true,
       'vcv-ui-icon-download': elementState === 'inactive',
       'vcv-ui-wp-spinner-light': elementState === 'downloading',
-      'vcv-ui-icon-lock-fill': lockIcon,
+      'vcv-ui-icon-lock-fill': lockIcon && elementState !== 'success',
       'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
     })
 
