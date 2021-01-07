@@ -9,6 +9,8 @@ const workspace = getStorage('workspace')
 const workspaceSettings = workspace.state('settings')
 
 export default class WorkspaceCont extends React.Component {
+  vcvLayout = document.getElementById('vcv-layout')
+
   constructor (props) {
     super(props)
     this.state = {
@@ -41,6 +43,12 @@ export default class WorkspaceCont extends React.Component {
 
     if (content !== 'addElement' && content !== 'addTemplate') {
       workspace.state('isRemoveStateActive').set(false)
+    }
+
+    if (content === 'addHubElement') {
+      this.vcvLayout.classList.add('vcv-content-full-size')
+    } else if (this.vcvLayout.classList.contains('vcv-content-full-size')) {
+      this.vcvLayout.classList.remove('vcv-content-full-size')
     }
   }
 

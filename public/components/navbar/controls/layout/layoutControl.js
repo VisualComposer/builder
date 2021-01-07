@@ -142,8 +142,6 @@ export default class LayoutButtonControl extends React.Component {
   closeDropdown (e) {
     if (e && e.target.closest('.vcv-ui-navbar-sandwich')) {
       this.setActiveState({ action: 'sandwich' })
-      workspaceContentState.set(false)
-      workspaceSettings.set(false)
     }
   }
 
