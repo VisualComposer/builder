@@ -96,6 +96,7 @@ export default class LayoutButtonControl extends React.Component {
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.handleLayoutChange = this.handleLayoutChange.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
+    this.closeDropdown = this.closeDropdown.bind(this)
   }
 
   componentDidMount () {
@@ -138,6 +139,14 @@ export default class LayoutButtonControl extends React.Component {
     }
   }
 
+  closeDropdown (e) {
+    if (e && e.target.closest('.vcv-ui-navbar-sandwich')) {
+      this.setActiveState({ action: 'sandwich' })
+      workspaceContentState.set(false)
+      workspaceSettings.set(false)
+    }
+  }
+
   handleControlClick () {
     workspaceContentState.set(false)
     workspaceSettings.set(this.state.isControlActive ? false : { action: 'devices' })
@@ -148,8 +157,12 @@ export default class LayoutButtonControl extends React.Component {
     if (!this.state.isControlActive) {
       window.addEventListener('resize', this.handleWindowResize)
       setTimeout(this.handleWindowResize, 1)
+      document.getElementById('vcv-editor-iframe').contentWindow.document.body.addEventListener('click', this.closeDropdown)
+      document.body.addEventListener('click', this.closeDropdown)
     } else {
       window.removeEventListener('resize', this.handleWindowResize)
+      document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
+      document.body.removeEventListener('click', this.closeDropdown)
       this.setState({
         isVerticalPositioned: false,
         isHorizontalPositioned: false
@@ -182,12 +195,14 @@ export default class LayoutButtonControl extends React.Component {
 
     const navbarControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-navbar-dropdown--layout': true,
       'vcv-ui-navbar-dropdown--active': this.state.isControlActive,
       'vcv-ui-navbar-dropdown-linear': true,
       'vcv-ui-pull-end': true
     })
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-dropdown-content--layout': true,
       'vcv-ui-navbar-dropdown-content--visible': this.state.isControlActive,
       'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned,
       'vcv-ui-navbar-dropdown-content--horizontal': this.state.isHorizontalPositioned
