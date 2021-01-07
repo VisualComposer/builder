@@ -10,10 +10,11 @@
 //== position top and bottom (flip if doesn't fit in to viewport)
 .vcv-layout-dock--top,
 .vcv-layout-dock--bottom {
-  .vcv-ui-navbar-dropdown-content {
-    &.vcv-ui-navbar-dropdown-content--horizontal {
-      right: 0;
-    }
+  .vcv-ui-navbar-dropdown-content.vcv-ui-navbar-dropdown-content--layout.vcv-ui-navbar-dropdown-content--horizontal {
+    right: 0;
+  }
+  .vcv-ui-navbar-dropdown-content.vcv-ui-navbar-dropdown-content--layout {
+    right: auto;
   }
 }
 
@@ -32,10 +33,14 @@
     }
   }
   .vcv-ui-navbar-dropdown-content {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: 0;
     left: 100%;
     right: auto;
+    &.vcv-ui-navbar-dropdown-content--layout {
+      top: 0;
+      bottom: auto;
+    }
   }
   .vcv-ui-navbar-dropdown {
     &.vcv-ui-pull-end {
@@ -78,10 +83,14 @@
     }
   }
   .vcv-ui-navbar-dropdown-content {
-    top: 0;
-    bottom: auto;
+    top: auto;
+    bottom: 0;
     left: auto;
     right: 100%;
+    &.vcv-ui-navbar-dropdown-content--layout {
+      top: 0;
+      bottom: auto;
+    }
   }
   .vcv-ui-navbar-dropdown {
     &.vcv-ui-pull-end {

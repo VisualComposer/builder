@@ -188,6 +188,7 @@ export default class LayoutButtonControl extends React.Component {
     })
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-dropdown-content--layout': true,
       'vcv-ui-navbar-dropdown-content--visible': this.state.isControlActive,
       'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned,
       'vcv-ui-navbar-dropdown-content--horizontal': this.state.isHorizontalPositioned
