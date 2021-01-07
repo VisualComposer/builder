@@ -102,6 +102,12 @@
     }
   }
 
+  &:not(.vcv-ui-item-element-inactive) {
+    .vcv-ui-icon-lock-fill {
+      display: none;
+    }
+  }
+
   &.vcv-ui-item-element-inactive.vcv-ui-item-element-inactive--locked {
     .vcv-ui-item-overlay {
       opacity: 0.8;
@@ -114,7 +120,7 @@
     }
 
     .vcv-ui-item-overlay:hover {
-      .vcv-ui-icon::before {
+      .vcv-ui-icon-lock-fill::before {
         content: @vcv-ui-icon-unlock-fill;
       }
     }
