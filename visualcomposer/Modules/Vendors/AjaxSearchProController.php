@@ -41,10 +41,12 @@ class AjaxSearchProController extends Container implements Module
             isset($payload['atts']['source']['tag'])
             && $payload['atts']['source']['tag'] === 'postsGridDataSourceArchive'
         ) {
+            // @codingStandardsIgnoreStart
             global $wp_the_query;
             $wpQuery = $wp_the_query;
             $queriedPage = isset($wpQuery->query['queriedPage']) ? $wpQuery->query['queriedPage'] : false;
             if (isset($queriedPage->is_search) && $queriedPage->is_search !== false) {
+                // @codingStandardsIgnoreEnd
                 $this->aspFilter = $this->wpAddFilter('asp_query_is_search', 'fixAspSearchQuery');
             }
         }

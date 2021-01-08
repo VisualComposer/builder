@@ -135,8 +135,6 @@ class ContainerCustomModule extends \VisualComposer\Framework\Container
 
     private $test;
 
-    use \VisualComposer\Framework\Illuminate\Support\Traits\Container;
-
     public function __construct(\VisualComposer\Helpers\Options $options, $data, $test = [])
     {
         if (is_null($data)) {

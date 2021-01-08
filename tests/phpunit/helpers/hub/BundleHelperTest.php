@@ -153,7 +153,7 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertFileExists($helper->getTempBundleFolder());
         $removeResult = $helper->removeTempBundleFolder();
         $this->assertTrue($removeResult);
-        $this->assertFileNotExists($helper->getTempBundleFolder());
+        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
     }
 
     public function testAddonActionBundle()
@@ -202,7 +202,7 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertFileExists($helper->getTempBundleFolder());
         $removeResult = $helper->removeTempBundleFolder();
         $this->assertTrue($removeResult);
-        $this->assertFileNotExists($helper->getTempBundleFolder());
+        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
     }
 
     public function testTemplateActionBundle()
@@ -262,7 +262,7 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertFileExists($helper->getTempBundleFolder());
         $removeResult = $helper->removeTempBundleFolder();
         $this->assertTrue($removeResult);
-        $this->assertFileNotExists($helper->getTempBundleFolder());
+        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
     }
 
     public function testFreeAssetDownload()
@@ -299,7 +299,7 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertFileExists($helper->getTempBundleFolder());
         $removeResult = $helper->removeTempBundleFolder();
         $this->assertTrue($removeResult);
-        $this->assertFileNotExists($helper->getTempBundleFolder());
+        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
     }
 }
 
