@@ -1295,8 +1295,8 @@ class Localizations extends Container implements Helper
                 'Preview, save, and publish your content.',
                 'visualcomposer'
             ),
-            'nameYourLayoutToSaveItAsATemplate' => __(
-                'Name your layout to save it as a template.',
+            'saveYourLayoutAsATemplate' => __(
+                'Save your layout as a template to reuse it in other locations faster.',
                 'visualcomposer'
             ),
             'insightsIsAContentAnalysisTool' => __(

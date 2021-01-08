@@ -454,7 +454,7 @@ export default class AddTemplatePanel extends React.Component {
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
-    const nameYourLayoutToSaveItAsATemplate = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nameYourLayoutToSaveItAsATemplate : 'Name your layout to save it as a template.'
+    const saveYourLayoutAsATemplate = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveYourLayoutAsATemplate : 'Save your layout as a template to reuse it in other locations faster.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {
@@ -495,7 +495,7 @@ export default class AddTemplatePanel extends React.Component {
           <div className='vcv-ui-form-group-heading-wrapper'>
             <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
             <Tooltip>
-              {nameYourLayoutToSaveItAsATemplate}
+              {saveYourLayoutAsATemplate}
             </Tooltip>
           </div>
           <form
