@@ -111,6 +111,9 @@ class CategoriesController extends Container implements Module
     {
         $currentPageId = $payload['sourceId'];
         $savedCategories = $requestHelper->input('vcv-settings-categories', []);
+        if (!empty($savedCategories)) {
+            $savedCategories = json_decode($savedCategories, true);
+        }
         if (isset($currentPageId) && isset($savedCategories['used']) && $this->isCategoryTaxonomyExist($currentPageId)) {
             wp_set_post_categories($currentPageId, $savedCategories['used']);
         }
