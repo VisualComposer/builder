@@ -66,11 +66,15 @@ class WpmlController extends Container implements Module
     protected function disableGutenberg(Request $requestHelper)
     {
         global $pagenow;
-        if (!empty($pagenow) && $pagenow === 'post-new.php' && $requestHelper->exists('trid')
+        if (
+            !empty($pagenow)
+            && $pagenow === 'post-new.php'
+            && $requestHelper->exists('trid')
             && $requestHelper->exists(
                 'source_lang'
             )
-            && !$requestHelper->exists('vcv-set-editor')) {
+            && !$requestHelper->exists('vcv-set-editor')
+        ) {
             $trid = intval($requestHelper->input('trid'));
             $sourceElementId = \SitePress::get_original_element_id_by_trid($trid);
             if ($sourceElementId) {
@@ -82,9 +86,13 @@ class WpmlController extends Container implements Module
                         $this->wpAddFilter('gutenberg_can_edit_post_type', '__return_false');
                     }
                     $screen = get_current_screen();
-                    if (!$requestHelper->exists('classic-editor')
-                        && !(method_exists($screen, 'is_block_editor')
-                            && $screen->is_block_editor())) {
+                    if (
+                        !$requestHelper->exists('classic-editor')
+                        && !(
+                            method_exists($screen, 'is_block_editor')
+                            && $screen->is_block_editor()
+                        )
+                    ) {
                         // Not Block editor, apply only in classic-mode
                         add_filter('user_can_richedit', '__return_false', 50);
                         // $this->addFilter('vcv:helpers:gutenberg:isAvailable', '__return_false');
@@ -112,7 +120,10 @@ class WpmlController extends Container implements Module
             }
 
             if ($sitepress->get_current_language() !== 'all' && $postTypeSupported) {
-                if (isset($payload['query'], $payload['query']['vcv-action']) && $payload['query']['vcv-action'] === 'frontend') {
+                if (
+                    isset($payload['query'], $payload['query']['vcv-action'])
+                    && $payload['query']['vcv-action'] === 'frontend'
+                ) {
                     return add_query_arg(['lang' => $sitepress->get_current_language()], $url);
                 } else {
                     return apply_filters('wpml_permalink', $url, $sitepress->get_current_language());

@@ -274,9 +274,13 @@ class Autoload extends Container
      * @param $data
      *
      * @return mixed
+     * @phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
      */
     protected function checkKey($key, $value, $data)
     {
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0 && $key === T_NAME_QUALIFIED && $data['start']['namespace']) {
+            $data['namespace'] = $value;
+        }
         switch ($key) {
             case T_WHITESPACE:
                 if (
