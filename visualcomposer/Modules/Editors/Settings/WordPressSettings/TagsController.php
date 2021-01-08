@@ -94,6 +94,9 @@ class TagsController extends Container implements Module
         $currentPageId = $payload['sourceId'];
         if ($requestHelper->exists('vcv-settings-tags')) {
             $tags = $requestHelper->input('vcv-settings-tags', '');
+            if (!empty($tags)) {
+                $tags = json_decode($tags, true);
+            }
             wp_set_post_tags($currentPageId, $tags);
         }
 
