@@ -45,7 +45,6 @@ class ExcerptController extends Container implements Module
         $payload,
         PostType $postTypeHelper
     ) {
-        $excerpt = get_the_excerpt();
         $currentPost = $postTypeHelper->get();
         // @codingStandardsIgnoreLine
         if (isset($currentPost->post_type) && post_type_supports($currentPost->post_type, 'excerpt')) {
@@ -56,7 +55,8 @@ class ExcerptController extends Container implements Module
                         'partials/variableTypes/variable',
                         [
                             'key' => 'VCV_EXCERPT',
-                            'value' => $excerpt,
+                            // @codingStandardsIgnoreLine
+                            'value' => $currentPost->post_excerpt,
                         ]
                     ),
                 ]
@@ -77,8 +77,10 @@ class ExcerptController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $postExcerpt = $requestHelper->input('vcv-settings-excerpt', '');
-        wp_update_post(['ID' => $currentPageId, 'post_excerpt' => $postExcerpt]);
+        if ($requestHelper->exists('vcv-settings-excerpt')) {
+            $postExcerpt = $requestHelper->input('vcv-settings-excerpt', '');
+            wp_update_post(['ID' => $currentPageId, 'post_excerpt' => $postExcerpt]);
+        }
 
         return $response;
     }

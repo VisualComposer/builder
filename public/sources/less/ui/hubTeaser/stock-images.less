@@ -110,15 +110,10 @@
 
 .vcv-ui-editor-plate--stock-images .vcv-stock-images-button {
   display: inline-block;
-  background: #2a4b80;
   margin-top: 6px;
   width: auto;
   padding-left: 40px;
   padding-right: 40px;
-
-  &:hover {
-    background: #1a4080;
-  }
 }
 
 .vcv-stock-images-results-container {
@@ -223,6 +218,10 @@
       display: flex;
     }
   }
+}
+
+.vcv-stock-image-hover-lock .vcv-ui-icon:hover::before {
+  content: @vcv-ui-icon-unlock-fill;
 }
 
 .vcv-stock-image {
@@ -348,8 +347,9 @@
     color: #fff;
   }
 
-  .vcv-ui-icon-lock {
-    font-size: 18px;
+  .vcv-ui-icon-lock-fill {
+    font-size: 16px;
+    padding: 4px;
     color: #fff;
   }
 }

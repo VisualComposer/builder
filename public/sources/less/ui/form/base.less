@@ -38,14 +38,20 @@
 }
 
 .vcv-ui-form-helper--action {
-  color: #0073aa;
-  text-decoration: underline;
-  transition: border .05s ease-in-out, color .05s ease-in-out;
+  color: @vcv-blue-link;
+  text-decoration: none;
+  transition: @transition-duration;
   cursor: pointer;
-}
 
-.vcv-ui-form-helper--action:hover {
-  color: #00a0d2;
+  &:hover {
+    color: @vcv-blue-link--hover;
+    text-decoration: underline;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 
 .vcv-ui-form-message {

@@ -104,6 +104,7 @@
 
   &.vcv-ui-item-element-inactive.vcv-ui-item-element-inactive--locked {
     .vcv-ui-item-overlay {
+      cursor: pointer;
       opacity: 0.8;
     }
 
@@ -111,6 +112,24 @@
       .vcv-ui-item-overlay {
         opacity: 1;
       }
+    }
+
+    .vcv-ui-item-overlay:hover {
+      .vcv-ui-icon-lock-fill::before {
+        content: @vcv-ui-icon-unlock-fill;
+      }
+    }
+
+    .vcv-ui-icon {
+      font-size: 16px;
+    }
+  }
+}
+
+.vcv-dashboards-section-content {
+  .vcv-ui-item-element:not(.vcv-ui-item-element-inactive) {
+    .vcv-ui-icon-lock-fill {
+      display: none;
     }
   }
 }
@@ -414,7 +433,7 @@
   margin-top: auto; // to stick last item to the bottom of flex container
   border: none;
   border-radius: 3px;
-  background: @vcv-color-dark-sky;
+  background: @vcv-blue-button;
   color: @vcv-color-white;
   width: 180px;
   height: 40px;
@@ -422,7 +441,7 @@
   transition: background @transition-duration @transition-timing-function;
 
   &:hover {
-    background: @vcv-color-juicy-yellow;
+    background: @vcv-blue-button--hover;
   }
 }
 

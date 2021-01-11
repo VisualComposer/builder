@@ -1295,8 +1295,8 @@ class Localizations extends Container implements Helper
                 'Preview, save, and publish your content.',
                 'visualcomposer'
             ),
-            'nameYourLayoutToSaveItAsATemplate' => __(
-                'Name your layout to save it as a template.',
+            'saveYourLayoutAsATemplate' => __(
+                'Save your layout as a template to reuse it in other locations faster.',
                 'visualcomposer'
             ),
             'insightsIsAContentAnalysisTool' => __(
@@ -1499,7 +1499,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'downloadTheAddon' => __(
-                'Download The Add-On',
+                'Download The Addon',
                 'visualcomposer'
             ),
             'premiumPopupBuilder' => __(
@@ -1520,6 +1520,38 @@ class Localizations extends Container implements Helper
             ),
             'applyLayoutWithHFS' => __(
                 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'getAccessToContentElements' => __(
+                'Get access to more than 200 content elements with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'getAccessToTemplates' => __(
+                'Get access to more than 150 beautiful multipurpose templates and template blocks with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'accessToGiphy' => __(
+                'Access the whole GIPHY library with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'accessToUnsplash' => __(
+                'Access the whole Unsplash stock image library with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'unlockAllFeatures' => __(
+                'Unlock All Features',
+                'visualcomposer'
+            ),
+            'width' => __(
+                'Width',
+                'visualcomposer'
+            ),
+            'pixelsUnit' => __(
+                'px',
+                'visualcomposer'
+            ),
+            'responsiveViewTooltip' => __(
+                'You can instantly check your layout on the most popular device types.',
                 'visualcomposer'
             ),
         ];

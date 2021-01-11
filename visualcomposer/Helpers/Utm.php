@@ -83,6 +83,15 @@ class Utm implements Helper
                 . '/licenses/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=info&utm_content=my-visual-composer-text',
             'editor-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=gopremium&utm_content=logo',
             'dashboard-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=gopremium&utm_content=logo',
+
+            // Editor popup teasers
+            'editor-hub-popup-teaser' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+
+            // Editor popup teasers
+            'editor-hub-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=go-premium-button',
+
+            // Editor layout teasers
+            'editor-layout-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=page-settings-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
         ];
 
         return $utm;

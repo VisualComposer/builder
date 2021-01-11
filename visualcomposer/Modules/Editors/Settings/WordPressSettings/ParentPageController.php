@@ -137,8 +137,11 @@ class ParentPageController extends Container implements Module
     protected function setData($response, $payload, Request $requestHelper)
     {
         $currentPageId = $payload['sourceId'];
-        $parentPageId = $requestHelper->input('vcv-settings-parent-page', '');
-        wp_update_post(['ID' => $currentPageId, 'post_parent' => $parentPageId]);
+        if ($requestHelper->exists('vcv-settings-parent-page')) {
+            wp_update_post(
+                ['ID' => $currentPageId, 'post_parent' => $requestHelper->input('vcv-settings-parent-page')]
+            );
+        }
 
         return $response;
     }

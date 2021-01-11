@@ -44,12 +44,13 @@ export default class StockMediaTab extends React.Component {
     })
   }
 
-  handleClickGoPremium (e) {
-    e && e.preventDefault && e.preventDefault()
+  handleClickGoPremium (clickedType) {
+    const utm = dataManager.get('utm')
+    const utmMedium = 'unsplash-add-media-editor'
+    const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
+    const teaserUrl = utmLink.replace('{medium}', utmMedium)
 
-    const refRoot = '&vcv-ref=unsplash-add-media-editor'
-    const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    window.open(utmUrlRef)
+    window.open(teaserUrl)
   }
 
   render () {

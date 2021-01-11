@@ -116,57 +116,62 @@
   &:focus {
     opacity: 1;
   }
-}
 
-.vcv-ui-form-attach-image-item-control {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  outline: none;
-  line-height: 1;
-  text-decoration: none;
-  color: @vcui-attach-image-icon-color;
-  font-size: @vcui-attach-image-icon-size;
-  height: 2em;
-  width: 2em;
-  transition-duration: @vcui-form-transition-duration;
-  transition-property: color;
-  transition-timing-function: ease-in-out;
-  cursor: pointer;
+  .vcv-ui-form-attach-image-item-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    outline: none;
+    line-height: 1;
+    text-decoration: none;
+    color: @vcui-attach-image-icon-color;
+    font-size: @vcui-attach-image-icon-size;
+    height: 2em;
+    width: 2em;
+    transition-duration: @vcui-form-transition-duration;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
 
-  &:hover {
-    color: @vcui-attach-image-icon-color-hover;
+    &:hover {
+      color: @vcui-attach-image-icon-color-hover;
+      text-decoration: none;
+    }
+  }
+
+  .vcv-ui-form-attach-image-item-control-state--danger {
+    color: @vcui-attach-image-remove-color;
+    &:hover {
+      color: @vcui-attach-image-remove-color-hover;
+      text-decoration: none;
+    }
   }
 }
 
-.vcv-ui-form-attach-image-item-control-state--danger {
-  color: @vcui-attach-image-remove-color;
-  &:hover {
-    color: @vcui-attach-image-remove-color-hover;
-  }
-}
-
-.vcv-ui-form-attach-image-control {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  height: @vcui-attach-image-size;
-  width: @vcui-attach-image-size;
-  border: 1px dashed;
-  line-height: 1;
-  font-size: @vcui-attach-image-control-size;
-  color: @vcui-attach-image-control-color;
-  transition-duration: @vcui-form-transition-duration;
-  transition-property: color;
-  transition-timing-function: ease-in-out;
-  cursor: pointer;
-  background: #fff;
-  &:hover,
-  &:focus {
-    color: @vcui-attach-image-control-color-hover;
+.vcv-ui-form-attach-image-item {
+  .vcv-ui-form-attach-image-control {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: @vcui-attach-image-size;
+    width: @vcui-attach-image-size;
+    border: 1px dashed;
+    line-height: 1;
+    font-size: @vcui-attach-image-control-size;
+    color: @vcui-attach-image-control-color;
+    transition-duration: @vcui-form-transition-duration;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+    background: #fff;
+    &:hover,
+    &:focus {
+      color: @vcui-attach-image-control-color-hover;
+      text-decoration: none;
+    }
   }
 }
 

@@ -146,7 +146,7 @@ class HubDownloadActions extends WP_UnitTestCase
                             'preview' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                                 . '/templates/TP11000008/1556191390.weddingpage-preview.png',
                             'type' => 'predefined',
-                            'description' => 'An ideal one-page layout for your wedding or other events, including meetups and networking parties.',
+                            'description' => 'An ideal one-page layout for a wedding, engagements, meetups, and networking parties.',
                         ],
                     ],
                 ],
