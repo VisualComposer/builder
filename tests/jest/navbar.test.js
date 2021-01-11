@@ -14,27 +14,38 @@ import '../../public/config/wp-attributes'
 import '../../public/editor/stores/elements/elementsStorage'
 import '../../public/editor/stores/elements/elementSettings'
 import '../../public/editor/modules/elementLimit/module'
+
+// React and Enzyme
 import React from 'react'
 import renderer from 'react-test-renderer'
-// import {cleanup, fireEvent, render} from '@testing-library/react'
-import { setupCake } from '../../public/components/editorInit/setupCake'
+import { configure, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16'
+
+// Navbar Component
 import NavbarContainer from '../../public/components/navbar/navbarContainer'
-// import Editor from '../../public/editor/modules/layout/lib/editor'
+
+configure({ adapter: new Adapter() });
 
 describe('Tests editor navbar', () => {
-  // const navbarContainer = render(
-  //   <NavbarContainer wrapperRef={(navbar) => { this.navbar = navbar }} getNavbarPosition={() => { return true}} />
-  // )
-  test('Navbar render', () => {
-    // setupCake()
-    vcCake.env('platform', 'wordpress').start(()=>{})
-    vcCake.add('contentLayout', (api) => {
+  vcCake.env('platform', 'wordpress').start(() => {
+    test('Create navbar component snapshot', () => {
+      vcCake.add('contentLayout', (api) => {
+        let navbarRef
+        const navbar = renderer.create(
+          <NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />
+        )
+        let tree = navbar.toJSON()
+        expect(tree).toMatchSnapshot()
+      })
+    })
+    test('Render navbar component', () => {
       let navbarRef
-      const navbar = renderer.create(
-        <NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />
-      )
-      let tree = navbar.toJSON()
-      expect(tree).toMatchSnapshot()
+      const navbarContainer = mount(<NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />)
+      expect(navbarContainer.exists()).toBe(true)
+      const navbar = navbarContainer.find('.vcv-ui-navbar')
+      expect(navbar.exists()).toBe(true)
+      const addElementControl = navbar.find('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"]')
+      expect(addElementControl.exists()).toBe(true)
     })
   })
 })

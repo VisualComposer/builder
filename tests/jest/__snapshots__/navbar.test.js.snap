@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tests editor navbar Navbar render 1`] = `
+exports[`Tests editor navbar Create navbar component snapshot 1`] = `
 <div
   className="vcv-layout-bar-header vcv-layout-bar-header--loading"
   id="vcv-editor-header"
@@ -100,7 +100,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
           </span>
         </div>
         <dl
-          className="vcv-ui-navbar-dropdown vcv-ui-navbar-dropdown-linear vcv-ui-pull-end"
+          className="vcv-ui-navbar-dropdown vcv-ui-navbar-dropdown--layout vcv-ui-navbar-dropdown-linear vcv-ui-pull-end"
           data-vcv-guide-helper="layout-control"
           tabIndex="0"
         >
@@ -118,7 +118,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
             </span>
           </dt>
           <dd
-            className="vcv-ui-navbar-dropdown-content"
+            className="vcv-ui-navbar-dropdown-content vcv-ui-navbar-dropdown-content--layout"
           >
             <span
               className="vcv-ui-navbar-control"
@@ -220,7 +220,7 @@ exports[`Tests editor navbar Navbar render 1`] = `
                     className="vcv-tooltip-container"
                   >
                     <i
-                      className="vcv-tooltip-button vcv-ui-icon vcv-ui-icon-question"
+                      className="vcv-tooltip-button vcv-ui-icon vcv-ui-icon-question vcv-ui-icon--light-hover"
                       onClick={[Function]}
                       onMouseEnter={[Function]}
                       onMouseLeave={[Function]}
