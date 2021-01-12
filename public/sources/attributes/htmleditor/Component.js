@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import classNames from 'classnames'
-import { env, getService, getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 
@@ -29,7 +29,7 @@ export default class HtmlEditorWrapper extends Attribute {
     this.setEditorLoaded = this.setEditorLoaded.bind(this)
     this.handleBodyClick = this.handleBodyClick.bind(this)
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && props.options && props.options.dynamicField
+    const isDynamic = props.options && props.options.dynamicField
     const isDynamicSet = isDynamic && typeof this.state.value === 'string' && this.state.value.match(blockRegexp)
     this.state.dynamicFieldOpened = isDynamicSet
     this.state.isDynamicSet = isDynamicSet
@@ -209,7 +209,7 @@ export default class HtmlEditorWrapper extends Attribute {
   }
 
   render () {
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
+    const isDynamic = this.props.options && this.props.options.dynamicField
 
     const cssClasses = classNames({
       'vcv-ui-form-wp-tinymce': true,

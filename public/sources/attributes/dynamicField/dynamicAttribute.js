@@ -6,6 +6,9 @@ const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
+const editorPopupStorage = getStorage('editorPopup')
+const workspaceStorage = getStorage('workspace')
+const workspaceSettings = workspaceStorage.state('settings')
 
 export default class DynamicAttribute extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -18,8 +21,9 @@ export default class DynamicAttribute extends React.Component {
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleHide = this.handleHide.bind(this)
+    this.handleGoPremium = this.handleGoPremium.bind(this)
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && this.props.options && this.props.options.dynamicField
+    const isDynamic = this.props.options && this.props.options.dynamicField
     let state = {
       isDynamic: isDynamic,
       dynamicFieldOpened: false,
@@ -253,11 +257,47 @@ export default class DynamicAttribute extends React.Component {
 
   handleOpen (e) {
     e && e.preventDefault()
-    this.props.onOpenClick && this.props.onOpenClick()
 
-    this.setState({
-      isWindowOpen: true
-    })
+    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+      this.props.onOpenClick && this.props.onOpenClick()
+      this.setState({
+        isWindowOpen: true
+      })
+    } else {
+      const popupData = {
+        headingText: DynamicAttribute.localizations ? DynamicAttribute.localizations.dynamicContentIsAPremiumFeature : 'Dynamic content is a premium feature'
+      }
+
+      if (dataManager.get('isPremiumActivated')) {
+        popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.downloadAddonText : 'Download Addon'
+        popupData.popupDesc = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremiumAddon : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium Addon.'
+        popupData.primaryButtonClick = () => {
+          const settings = {
+            action: 'addHub',
+            options: {
+              filterType: 'addon',
+              id: '4',
+              bundleType: undefined
+            }
+          }
+          workspaceSettings.set(settings)
+        }
+      } else {
+        popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.goPremium : 'Go Premium'
+        popupData.popupDesc = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremium : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.'
+        popupData.primaryButtonClick = this.handleGoPremium
+      }
+
+      editorPopupStorage.state('fullScreenPopupData').set(popupData)
+      editorPopupStorage.trigger('showFullPagePopup')
+    }
+  }
+
+  handleGoPremium () {
+    const utm = dataManager.get('utm')
+    const utmLink = utm['editor-hub-popup-teaser']
+    const teaserUrl = utmLink.replace('{medium}', 'dynamic-content-editor')
+    window.open(teaserUrl)
   }
 
   handleHide () {
