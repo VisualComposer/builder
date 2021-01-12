@@ -12,7 +12,7 @@ import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
-import { env, getService, getStorage } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -540,7 +540,7 @@ export default class AttachImage extends Attribute {
       filterList = ''
     }
 
-    const isDynamic = env('VCV_JS_FT_DYNAMIC_FIELDS') && options && options.dynamicField
+    const isDynamic = options && options.dynamicField
     const fieldClassNames = classNames({
       'vcv-ui-form-attach-image': true,
       'vcv-ui-form-field-dynamic': isDynamic

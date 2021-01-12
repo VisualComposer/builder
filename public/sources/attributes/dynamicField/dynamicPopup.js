@@ -259,11 +259,13 @@ export default class DynamicPopup extends React.Component {
         <div className='vcv-ui-modal'>
           <header className='vcv-ui-modal-header'>
             <h1 className='vcv-ui-modal-header-title'>{popupTitle}</h1>
-            <Tooltip
-              relativeElementSelector='.vcv-ui-modal-content'
-            >
-              {replaceStaticContentWithDynamicContent}
-            </Tooltip>
+            <div className='vcv-ui-modal-header-tooltip'>
+              <Tooltip
+                relativeElementSelector='.vcv-ui-modal-content'
+              >
+                {replaceStaticContentWithDynamicContent}
+              </Tooltip>
+            </div>
             <span className='vcv-ui-modal-close' onClick={this.handleCloseClick} title={closeText}>
               <i className='vcv-ui-modal-close-icon vcv-ui-icon vcv-ui-icon-close' />
             </span>
