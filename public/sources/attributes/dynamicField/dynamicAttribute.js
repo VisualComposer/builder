@@ -1,6 +1,7 @@
 import React from 'react'
 import { env, getService, getStorage } from 'vc-cake'
 import DynamicPopup from './dynamicPopup'
+import classNames from 'classnames'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -148,7 +149,14 @@ export default class DynamicAttribute extends React.Component {
   }
 
   renderOpenButton () {
-    return <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleOpen} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Insert dynamic content'} />
+    const classes = classNames({
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-plug': true,
+      'vcv-ui-dynamic-field-control': true,
+      'vcv-ui-dynamic-field-control--inactive': !env('VCV_JS_FT_DYNAMIC_FIELDS')
+    })
+
+    return <span className={classes} onClick={this.handleOpen} title={DynamicAttribute.localizations.dynamicFieldsOpenText || 'Insert dynamic content'} />
   }
 
   renderCloseButton () {
