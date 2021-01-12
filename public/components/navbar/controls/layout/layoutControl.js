@@ -142,6 +142,8 @@ export default class LayoutButtonControl extends React.Component {
   closeDropdown (e) {
     if (e && e.target.closest('.vcv-ui-navbar-sandwich')) {
       this.setActiveState({ action: 'sandwich' })
+    } else {
+      this.setActiveState({ action: 'devices' })
     }
   }
 
@@ -162,6 +164,7 @@ export default class LayoutButtonControl extends React.Component {
       document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
       document.body.removeEventListener('click', this.closeDropdown)
       this.setState({
+        isControlActive: !this.state.isControlActive,
         isVerticalPositioned: false,
         isHorizontalPositioned: false
       })
