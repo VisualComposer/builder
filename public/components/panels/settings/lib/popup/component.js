@@ -1,10 +1,13 @@
 import React from 'react'
 import { getStorage, getService } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
-import Tooltip from '../../../../tooltip/tooltip'
+import Tooltip from 'public/components/tooltip/tooltip'
+import PremiumTeaser from 'public/components/premiumTeasers/component'
 
 const settingsStorage = getStorage('settings')
+const hubStorage = getStorage('hubAddons')
 const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
 
 export default class Popup extends React.Component {
   constructor (props) {
@@ -115,7 +118,7 @@ export default class Popup extends React.Component {
   }
 
   renderExistingPosts (type) {
-    const none = this.localizations ? this.localizations.none : 'None'
+    const none = localizations ? localizations.none : 'None'
     const items = []
     let globalOption = null
     if (type !== 'popupOnElementId') {
@@ -147,7 +150,7 @@ export default class Popup extends React.Component {
   }
 
   getDelayHtml (type) {
-    const delayInSeconds = this.localizations ? this.localizations.delayInSeconds : 'Delay (seconds)'
+    const delayInSeconds = localizations ? localizations.delayInSeconds : 'Delay (seconds)'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -166,7 +169,7 @@ export default class Popup extends React.Component {
   }
 
   getShowEveryHtml (type) {
-    const showEveryDays = this.localizations ? this.localizations.showEveryDays : 'Show every (days)'
+    const showEveryDays = localizations ? localizations.showEveryDays : 'Show every (days)'
 
     return (
       <div className='vcv-ui-form-group'>
@@ -184,15 +187,15 @@ export default class Popup extends React.Component {
     )
   }
 
-  render () {
+  getPopupSettings () {
     let popupSelect = null
     let elementIdSelectorHtml = null
-    const popupOpenOnPageLoad = this.localizations ? this.localizations.popupOpenOnPageLoad : 'The popup will open once the page is loaded.'
-    const popupOpenOnExitIntent = this.localizations ? this.localizations.popupOpenOnExitIntent : 'The popup will load if a user tries to exit the page.'
-    const popupOpenOnElementId = this.localizations ? this.localizations.popupOpenOnElementId : 'The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.'
-    const onPageLoad = this.localizations ? this.localizations.onPageLoad : 'Popup on every page load'
-    const onExitIntent = this.localizations ? this.localizations.onExitIntent : 'Popup on exit-intent'
-    const onElementId = this.localizations ? this.localizations.onElementId : 'Popup on element ID'
+    const popupOpenOnPageLoad = localizations ? localizations.popupOpenOnPageLoad : 'The popup will open once the page is loaded.'
+    const popupOpenOnExitIntent = localizations ? localizations.popupOpenOnExitIntent : 'The popup will load if a user tries to exit the page.'
+    const popupOpenOnElementId = localizations ? localizations.popupOpenOnElementId : 'The popup will appear when an element with a unique Element ID will be displayed (scrolled to) on the page.'
+    const onPageLoad = localizations ? localizations.onPageLoad : 'Popup on every page load'
+    const onExitIntent = localizations ? localizations.onExitIntent : 'Popup on exit-intent'
+    const onElementId = localizations ? localizations.onElementId : 'Popup on element ID'
 
     if (this.state.popupOnElementId && this.state.popupOnElementId.id && this.state.popupOnElementId.id !== 'none') {
       elementIdSelectorHtml = (
@@ -260,5 +263,31 @@ export default class Popup extends React.Component {
         {popupSelect}
       </div>
     )
+  }
+
+  getPremiumTeaser () {
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
+    const goPremiumText = localizations.goPremium.toUpperCase() || 'GO PREMIUM'
+    const downloadAddonText = localizations.downloadTheAddon.toUpperCase() || 'DOWNLOAD THE ADDON'
+    const headingText = isPremiumActivated ? '' : localizations.popupBuilderPremiumFeatureHeading.toUpperCase() || 'POPUP BUILDER IS A PREMIUM FEATURE'
+    const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
+    const descriptionFree = localizations.popupBuilderPremiumFeatureText || 'Build custom popups with the Visual Composer Popup Builder that is available with the premium version of the plugin.'
+    const descriptionPremium = localizations.popupBuilderFeatureActivateAddonText || 'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.'
+    const description = isPremiumActivated ? descriptionPremium : descriptionFree
+    const url = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=popup-settings-editor&utm_campaign=gopremium&utm_content=go-premium-button'
+
+    return <PremiumTeaser
+      headingText={headingText}
+      buttonText={buttonText}
+      description={description}
+      url={url}
+      isPremiumActivated={isPremiumActivated}
+    />
+  }
+
+  render () {
+    const editorType = dataManager.get('editorType')
+    let isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().popupBuilder
+    return editorType === 'premium' && isAddonAvailable ? this.getPopupSettings() : this.getPremiumTeaser()
   }
 }

@@ -1554,6 +1554,34 @@ class Localizations extends Container implements Helper
                 'You can instantly check your layout on the most popular device types.',
                 'visualcomposer'
             ),
+            'elementLockPremiumFeatureHeading' => __(
+                'Element Lock is a Premium feature',
+                'visualcomposer'
+            ),
+            'elementLockPremiumFeatureText' => __(
+                'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.',
+                'visualcomposer'
+            ),
+            'elementLockFeatureActivateAddonText' => __(
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. \\n' .
+                'You can lock/unlock specific elements under the element Edit window. \\n' .
+                'To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
+                ,
+                'visualcomposer'
+            ),
+            'popupBuilderPremiumFeatureHeading' => __(
+                'Popup Builder is a Premium Feature',
+                'visualcomposer'
+            ),
+            'popupBuilderPremiumFeatureText' => __(
+                'Build custom popups with the Visual Composer Popup Builder that is available with the premium version of the plugin.',
+                'visualcomposer'
+            ),
+            'popupBuilderFeatureActivateAddonText' => __(
+                'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.'
+                ,
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

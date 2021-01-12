@@ -40,19 +40,17 @@ const controls = {
 }
 
 const editorType = dataManager.get('editorType')
-if (env('VCV_POPUP_BUILDER')) {
-  const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
-  if (allowedPostTypes.indexOf(editorType) > -1) {
-    controls.popup = {
-      index: 3,
-      type: 'popup',
-      title: popupText,
-      content: <Popup />
-    }
+const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
+if (allowedPostTypes.indexOf(editorType) > -1) {
+  controls.popup = {
+    index: 3,
+    type: 'popup',
+    title: popupText,
+    content: <Popup />
   }
 }
 
-if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && dataManager.get('vcvManageOptions')) {
+if (dataManager.get('vcvManageOptions')) {
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
