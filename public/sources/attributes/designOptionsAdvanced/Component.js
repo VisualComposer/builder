@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import lodash from 'lodash'
-import { getStorage, getService, env } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
 import Toggle from '../toggle/Component'
@@ -1126,21 +1126,14 @@ export default class DesignOptionsAdvanced extends Attribute {
     const value = this.state.devices[this.state.currentDevice].images || ''
 
     const fieldKey = 'attachImage'
-    let fieldComponent = (
-      <AttachImage
-        api={this.props.api}
-        fieldKey={fieldKey}
-        options={{
-          multiple: true
-        }}
-        updater={this.attachImageChangeHandler}
-        value={value}
-        elementAccessPoint={this.props.elementAccessPoint}
-      />
-    )
 
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      fieldComponent = (
+    return (
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            Background images
+          </span>
+        </div>
         <AttachImage
           api={this.props.api}
           fieldKey={fieldKey}
@@ -1157,17 +1150,6 @@ export default class DesignOptionsAdvanced extends Attribute {
           onDynamicFieldChange={this.props.onDynamicFieldChange}
           onDynamicFieldClose={this.props.onDynamicFieldClose}
         />
-      )
-    }
-
-    return (
-      <div className='vcv-ui-form-group'>
-        <div className='vcv-ui-form-group-heading-wrapper'>
-          <span className='vcv-ui-form-group-heading'>
-            Background images
-          </span>
-        </div>
-        {fieldComponent}
       </div>
     )
   }

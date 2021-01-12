@@ -1554,6 +1554,18 @@ class Localizations extends Container implements Helper
                 'You can instantly check your layout on the most popular device types.',
                 'visualcomposer'
             ),
+            'dynamicContentIsAPremiumFeature' => __(
+                'Dynamic content is a premium feature',
+                'visualcomposer'
+            ),
+            'replaceStaticContentWithPremium' => __(
+                'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'replaceStaticContentWithPremiumAddon' => __(
+                'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium Addon.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
