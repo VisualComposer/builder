@@ -57,12 +57,10 @@ export default class ElementsLock extends React.Component {
     const headingText = localizations.elementLockPremiumFeatureHeading.toUpperCase() || 'ELEMENT LOCK IS A PREMIUM FEATURE'
     const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
     const descriptionFree = localizations.elementLockPremiumFeatureText || 'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.'
-    const descriptionPremium = localizations.elementLockFeatureActivateAddonText || 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. \n You can lock/unlock specific elements under the element Edit window. \n To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
+    const descriptionPremium = localizations.elementLockFeatureActivateAddonText || 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br> You can lock/unlock specific elements under the element Edit window. <br> To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
     const description = isPremiumActivated ? descriptionPremium : descriptionFree
     const url = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=element-lock-settings-editor&utm_campaign=gopremium&utm_content=go-premium-button'
 
-    // TODO: add newlines for description
-    console.log('TODO: add newlines for description')
     return <PremiumTeaser
       headingText={headingText}
       buttonText={buttonText}

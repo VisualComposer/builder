@@ -1563,8 +1563,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'elementLockFeatureActivateAddonText' => __(
-                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. \\n' .
-                'You can lock/unlock specific elements under the element Edit window. \\n' .
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br>' .
+                'You can lock/unlock specific elements under the element Edit window. <br>' .
                 'To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
                 ,
                 'visualcomposer'
@@ -1578,8 +1578,11 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'popupBuilderFeatureActivateAddonText' => __(
-                'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.'
-                ,
+                'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.',
+                'visualcomposer'
+            ),
+            'downloadPopupBuilder' => __(
+                'Download Popup Builder',
                 'visualcomposer'
             ),
         ];
