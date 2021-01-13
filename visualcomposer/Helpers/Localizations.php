@@ -1566,6 +1566,10 @@ class Localizations extends Container implements Helper
                 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium Addon.',
                 'visualcomposer'
             ),
+            'dynamicView' => __(
+                'Dynamic View',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -47,51 +47,49 @@ class EditorLayoutController extends Container implements Module
             echo sprintf(
                 '<p class="description">%s</p>',
                 esc_html__(
-                    'Display the editor window above the content ',
+                    'Specify the default state for the "Responsive View" control.',
                     'visualcomposer'
                 )
             );
         };
         $this->addSection(
             [
-                'title' => __('Editor Window Position', 'visualcomposer'),
+                'title' => __('Default Responsive View', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
         );
 
-        $fieldCallback = function () {
-            /** @see \VisualComposer\Modules\Editors\Settings\EditorLayoutController::renderToggle */
-            echo $this->call('renderToggle', ['value' => 'dynamic']);
+        $dropdownFieldCallback = function () {
+            echo $this->call('renderAboveContentDropdown');
         };
 
         $this->addField(
             [
                 'page' => $this->slug,
-                'title' => __('Above Content', 'visualcomposer'),
                 'name' => 'settings-editor-layout-desktop',
                 'id' => $this->optionSlug,
-                'fieldCallback' => $fieldCallback,
+                'fieldCallback' => $dropdownFieldCallback,
+                'args' => [
+                    'class' => 'vcv-no-title',
+                ],
             ]
         );
     }
 
-    /**
-     * @param $value
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return mixed|string
-     */
-    protected function renderToggle($value, Options $optionsHelper)
+    protected function renderAboveContentDropdown(Options $optionsHelper)
     {
-        $isEnabled = (bool)$optionsHelper->get('settings-editor-layout-desktop', true);
+        $selectedAboveContentValue = $optionsHelper->get('settings-editor-layout-desktop');
 
         return vcview(
-            'settings/fields/toggle',
+            'settings/fields/dropdown',
             [
-                'name' => $this->optionSlug,
-                'value' => $value,
-                'isEnabled' => $isEnabled,
+                'name' => 'vcv-settings-editor-layout-desktop',
+                'value' => $selectedAboveContentValue,
+                'enabledOptions' => [
+                    ['id' => 'desktop', 'title' => 'Desktop'],
+                    ['id' => 'dynamic', 'title' => 'Dynamic View'],
+                ],
             ]
         );
     }
