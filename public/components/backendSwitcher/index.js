@@ -20,7 +20,7 @@ export default () => {
   } else if (gutenbergEditor) {
     const isWpml = window.VCV_WPML ? window.VCV_WPML() : false
     const timeout = (isWpml) ? 2500 : 1
-    wp.data.subscribe(function () {
+    window.wp.data.subscribe(function () {
       setTimeout(function () {
         const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
         if (gutenbergEditorHeader && !gutenbergEditorHeader.querySelector('.vcv-wpbackend-switcher-container')) {
