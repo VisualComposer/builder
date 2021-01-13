@@ -312,10 +312,10 @@ export default class Navbar extends React.Component {
 
   handleDropdown () {
     if (this.state.isActiveSandwich) {
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
+      document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
       document.body.removeEventListener('click', this.closeDropdown)
     } else {
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.addEventListener('click', this.closeDropdown)
+      document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
       document.body.addEventListener('click', this.closeDropdown)
     }
     this.setState({

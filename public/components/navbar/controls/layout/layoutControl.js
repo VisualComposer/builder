@@ -140,7 +140,7 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   closeDropdown (e) {
-    if (e && e.target.closest('.vcv-ui-navbar-dropdown-content--visible')) {
+    if (e && e.target.closest('.vcv-ui-navbar-dropdown--layout.vcv-ui-navbar-dropdown--active')) {
       return
     }
 
@@ -161,11 +161,11 @@ export default class LayoutButtonControl extends React.Component {
     if (!this.state.isControlActive) {
       window.addEventListener('resize', this.handleWindowResize)
       setTimeout(this.handleWindowResize, 1)
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.addEventListener('click', this.closeDropdown)
+      document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
       document.body.addEventListener('click', this.closeDropdown)
     } else {
       window.removeEventListener('resize', this.handleWindowResize)
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
+      document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
       document.body.removeEventListener('click', this.closeDropdown)
       this.setState({
         isControlActive: !this.state.isControlActive,
