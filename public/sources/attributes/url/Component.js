@@ -16,6 +16,7 @@ const dataManager = getService('dataManager')
 const { getBlockRegexp } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const popupStorage = getStorage('popup')
+const hubStorage = getStorage('hubAddons')
 
 const pagePosts = {
   data: [],
@@ -335,33 +336,42 @@ export default class Url extends Attribute {
     const save = this.localizations ? this.localizations.save : 'Save'
     const close = this.localizations ? this.localizations.close : 'Close'
     const urlText = this.localizations ? this.localizations.url : 'URL'
-    const openPopupText = this.localizations ? this.localizations.openPopup : 'Open Popup'
+    let openPopupText = this.localizations ? this.localizations.openPopup : 'Open Popup'
     const closePopupText = this.localizations ? this.localizations.closePopup : 'Close Popup'
     const closingThePopupDescription = this.localizations ? this.localizations.closingThePopupDescription : 'Closing the popup option will close the current popup.'
+    const downloadPopupBuilder = this.localizations ? this.localizations.downloadPopupBuilder : 'Download Popup Builder'
+    const availableInPremiumText = this.localizations ? this.localizations.availableInPremiumText : 'Available in Premium'
 
     let optionDropdown = null
     let modalContent = null
     const dropdownValue = this.state.unsavedValue.type ? this.state.unsavedValue.type : 'url'
 
-    if (env('VCV_POPUP_BUILDER')) {
-      const editorType = dataManager.get('editorType')
-      optionDropdown = (
-        <div className='vcv-ui-form-group'>
+    const editorType = dataManager.get('editorType')
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
+    const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().popupBuilder
+    if (isPremiumActivated) {
+      if (!isAddonAvailable) {
+        openPopupText = `${openPopupText} (${downloadPopupBuilder})`
+      }
+    } else {
+      openPopupText = `${openPopupText} (${availableInPremiumText})`
+    }
+    optionDropdown = (
+      <div className='vcv-ui-form-group'>
           <span className='vcv-ui-form-group-heading'>
             {onClickAction}
           </span>
-          <select
-            className='vcv-ui-form-dropdown'
-            onChange={this.handleContentChange}
-            value={dropdownValue}
-          >
-            <option value='url'>{urlText}</option>
-            <option value='popup'>{openPopupText}</option>
-            {editorType === 'popup' ? <option value='close-popup'>{closePopupText}</option> : null}
-          </select>
-        </div>
-      )
-    }
+        <select
+          className='vcv-ui-form-dropdown'
+          onChange={this.handleContentChange}
+          value={dropdownValue}
+        >
+          <option value='url'>{urlText}</option>
+          <option value='popup' disabled={!isPremiumActivated || (isPremiumActivated && !isAddonAvailable)}>{openPopupText}</option>
+          {editorType === 'popup' ? <option value='close-popup'>{closePopupText}</option> : null}
+        </select>
+      </div>
+    )
 
     if (this.state.unsavedValue.type === 'close-popup') {
       modalContent = (
