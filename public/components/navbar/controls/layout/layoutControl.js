@@ -21,47 +21,52 @@ export default class LayoutButtonControl extends React.Component {
         height: '880',
         min: '1200',
         max: Infinity
-      }
+      },
+      width: '1200'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletLandscape : 'Tablet Landscape',
       className: 'tablet-landscape',
       viewport: {
         width: '1220',
-        height: '818',
+        height: '830',
         min: '992',
         max: '1199'
-      }
+      },
+      width: '1080'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletPortrait : 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
-        width: '818',
+        width: '830',
         height: '1220',
         min: '768',
         max: '991'
-      }
+      },
+      width: '780'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
-        width: '664',
+        width: '680',
         height: '340',
         min: '554',
         max: '767'
-      }
+      },
+      width: '560'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobilePortrait : 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
         width: '340',
-        height: '664',
+        height: '680',
         min: '0',
         max: '553'
-      }
+      },
+      width: '320'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
