@@ -64,7 +64,7 @@ export default class LayoutButtonControl extends React.Component {
       }
     },
     {
-      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.dynamicView : 'Dynamic View',
       className: 'multiple-devices',
       viewport: {
         width: null,
@@ -111,7 +111,7 @@ export default class LayoutButtonControl extends React.Component {
 
   handleLayoutChange (data) {
     let deviceViewIndex = 0
-    if (!data) {
+    if (data === 'dynamic') {
       deviceViewIndex = LayoutButtonControl.devices.findIndex(device => device.className === 'multiple-devices')
     }
     this.handleClickSetSelectedLayout(deviceViewIndex)
