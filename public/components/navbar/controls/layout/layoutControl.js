@@ -69,7 +69,7 @@ export default class LayoutButtonControl extends React.Component {
       width: '320'
     },
     {
-      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.dynamicView : 'Dynamic View',
       className: 'multiple-devices',
       viewport: {
         width: null,
@@ -116,7 +116,7 @@ export default class LayoutButtonControl extends React.Component {
 
   handleLayoutChange (data) {
     let deviceViewIndex = 0
-    if (!data) {
+    if (data === 'dynamic') {
       deviceViewIndex = LayoutButtonControl.devices.findIndex(device => device.className === 'multiple-devices')
     }
     this.handleClickSetSelectedLayout(deviceViewIndex)
@@ -145,8 +145,14 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   closeDropdown (e) {
+    if (e && e.target.closest('.vcv-ui-navbar-dropdown-content--visible')) {
+      return
+    }
+
     if (e && e.target.closest('.vcv-ui-navbar-sandwich')) {
       this.setActiveState({ action: 'sandwich' })
+    } else {
+      this.setActiveState({ action: 'devices' })
     }
   }
 
@@ -167,6 +173,7 @@ export default class LayoutButtonControl extends React.Component {
       document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
       document.body.removeEventListener('click', this.closeDropdown)
       this.setState({
+        isControlActive: !this.state.isControlActive,
         isVerticalPositioned: false,
         isHorizontalPositioned: false
       })

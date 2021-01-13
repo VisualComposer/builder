@@ -11,7 +11,7 @@ import AttachImage from '../attachimage/Component'
 import Color from '../color/Component'
 import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
-import { getStorage, getService, env } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import Number from '../number/Component'
 import Tooltip from '../../../components/tooltip/tooltip'
 
@@ -909,27 +909,20 @@ export default class DesignOptions extends Attribute {
 
     const fieldKey = 'attachImage'
     const value = this.state.devices[this.state.currentDevice].image || ''
-    let fieldComponent = (
-      <AttachImage
-        api={this.props.api}
-        fieldKey={fieldKey}
-        key={`${this.state.currentDevice}-${fieldKey}`}
-        options={{
-          multiple: true
-        }}
-        updater={this.attachImageChangeHandler}
-        value={value}
-        elementAccessPoint={this.props.elementAccessPoint}
-      />
-    )
 
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-      const dynamicTemplateProps = {
-        value: '$dynamicFieldKey',
-        type: 'backgroundImage',
-        sourceId: '$sourceId'
-      }
-      fieldComponent = (
+    const dynamicTemplateProps = {
+      value: '$dynamicFieldKey',
+      type: 'backgroundImage',
+      sourceId: '$sourceId'
+    }
+
+    return (
+      <div className='vcv-ui-form-group'>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            Background images
+          </span>
+        </div>
         <AttachImage
           api={this.props.api}
           fieldKey={fieldKey}
@@ -952,17 +945,6 @@ export default class DesignOptions extends Attribute {
           }}
           onDynamicFieldClose={this.props.onDynamicFieldClose}
         />
-      )
-    }
-
-    return (
-      <div className='vcv-ui-form-group'>
-        <div className='vcv-ui-form-group-heading-wrapper'>
-          <span className='vcv-ui-form-group-heading'>
-            Background images
-          </span>
-        </div>
-        {fieldComponent}
       </div>
     )
   }
