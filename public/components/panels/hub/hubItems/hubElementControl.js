@@ -106,7 +106,7 @@ export default class HubElementControl extends ElementControl {
       const newText = localizations.new || 'New'
       newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
     }
-    if (!isNew && lockIcon) {
+    if (!isNew && lockIcon && elementState === 'inactive') {
       const premiumText = localizations ? localizations.premium : 'Premium'
       premiumBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{premiumText}</span>
     }
