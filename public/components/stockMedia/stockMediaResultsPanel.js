@@ -398,7 +398,7 @@ export default class StockMediaResultsPanel extends React.Component {
     const fullScreenPopupData = {
       headingText: StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
       buttonText: goPremiumText,
-      popupDesc: descriptionText,
+      description: descriptionText,
       primaryButtonClick: () => {
         this.props.onClickGoPremium()
       }

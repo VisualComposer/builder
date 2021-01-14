@@ -28,8 +28,9 @@
     pointer-events: unset;
     background: rgba(47, 47, 47, .7);
   }
-  .vcv-layout-popup-inner {
-    background: #FFFFFF;
+  .vcv-layout-popup-inner,
+  .vcv-premium-teaser {
+    background: @vcv-color-white;
     padding: 40px;
     max-width: 360px;
   }
@@ -53,7 +54,8 @@
       line-height: 26px;
     }
   }
-  .vcv-layout-popup-close {
+  .vcv-layout-popup-close,
+  .vcv-premium-teaser-close {
     top: 2px;
     right: 2px;
     color: #D2D2D2;
@@ -76,6 +78,10 @@
     font-weight: 600;
     letter-spacing: 1px;
     border: none;
+  }
+
+  .vcv-premium-teaser {
+    border-radius: 5px;
   }
 }
 

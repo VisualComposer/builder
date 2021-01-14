@@ -426,7 +426,7 @@ export default class HubContainer extends React.Component {
     const fullScreenPopupData = {
       headingText: HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
       buttonText: goPremiumText,
-      popupDesc: descriptionText,
+      description: descriptionText,
       primaryButtonClick: () => {
         this.handleGoPremium()
       }

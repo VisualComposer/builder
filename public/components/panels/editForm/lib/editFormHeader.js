@@ -184,7 +184,8 @@ export default class EditFormHeader extends React.Component {
       const fullScreenPopupData = {
         headingText: localizations.elementLockPremiumFeatureHeading.toUpperCase() || 'ELEMENT LOCK IS A PREMIUM FEATURE',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
-        popupDesc: description,
+        description: description,
+        addonName: 'roleManager',
         primaryButtonClick: () => {
           if (isPremiumActivated) {
             const settings = {

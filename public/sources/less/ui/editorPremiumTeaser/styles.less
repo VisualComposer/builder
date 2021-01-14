@@ -1,7 +1,5 @@
 .vcv-premium-teaser {
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
   max-width: 500px;
   height: 100%;
   display: flex;
@@ -21,7 +19,6 @@
   }
 
 .vcv-premium-teaser-header {
-  position: relative;
   margin: 0 0 16px;
 }
 
@@ -34,10 +31,6 @@
   color: #363636;
   text-align: center;
   line-height: 26px;
-}
-
-.vcv-premium-teaser-content {
-  margin-bottom: 16px;
 }
 
 .vcv-premium-teaser-btn {
@@ -81,4 +74,22 @@
   color: #999999;
   text-align: center;
   line-height: 22px;
+}
+
+.vcv-premium-teaser-close {
+  position: absolute;
+  margin-top: 1px;
+  top: -10px;
+  right: -10px;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    opacity: .5;
+  }
 }

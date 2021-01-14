@@ -65,7 +65,8 @@ export default class TemplateLayoutIcons extends React.Component {
       const fullScreenPopupData = {
         headingText: localizations ? localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
-        popupDesc: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
+        description: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
+        addonName: 'themeBuilder',
         primaryButtonClick: () => {
           if (isPremiumActivated) {
             const settings = {

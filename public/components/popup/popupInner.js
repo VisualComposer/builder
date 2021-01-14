@@ -8,7 +8,6 @@ export default class PopupInner extends React.Component {
     headingText: PropTypes.string.isRequired,
     buttonText: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    popupBadgeHtml: PropTypes.object,
     onPrimaryButtonClick: PropTypes.func.isRequired,
     popupName: PropTypes.string.isRequired,
     customButtonProps: PropTypes.object,
@@ -26,25 +25,15 @@ export default class PopupInner extends React.Component {
     this.props.onClose()
   }
 
-  getPopupBadgeHtml () {
-    let popupBadge = null
-    if (this.props.popupBadgeHtml) {
-      popupBadge = this.props.popupBadgeHtml
-    }
-    return popupBadge
-  }
-
   render () {
     const { children, headingText, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag } = this.props
     const localizations = dataManager.get('localizations')
     const closeButtonText = localizations ? localizations.close : 'Close'
     const popupButtonText = buttonText || (localizations ? localizations.submit : 'Submit')
     const ButtonTag = customButtonTag || 'a'
-    const popupBadge = this.getPopupBadgeHtml()
 
     return (
       <div className='vcv-layout-popup-inner'>
-        {popupBadge}
         <header className='vcv-layout-popup-header'>
           <h2 className='vcv-layout-popup-heading'>{headingText}</h2>
           <button
