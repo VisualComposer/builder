@@ -41,6 +41,8 @@ class MenuController extends Container implements Module
             'network_admin_menu',
             'addMenuPage'
         );
+
+        $this->wpAddAction('admin_head', 'addMenuCss');
     }
 
     /**
@@ -80,5 +82,16 @@ class MenuController extends Container implements Module
         if (!$hasAccess && !is_network_admin()) {
             remove_submenu_page($mainPageSlug, $mainPageSlug);
         }
+    }
+
+    protected function addMenuCss()
+    {
+        echo <<<CSS
+    <style>
+        #toplevel_page_vcv-settings .wp-submenu .vcv-ui-state--hidden {
+            display: none;
+        }
+    </style>
+CSS;
     }
 }
