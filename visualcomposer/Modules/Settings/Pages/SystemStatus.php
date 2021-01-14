@@ -58,11 +58,6 @@ class SystemStatus extends Container implements Module
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
 
-        $this->wpAddAction(
-            'admin_head',
-            'addCss'
-        );
-
         $this->addFilter('vcv:ajax:vcv:settings:systemStatus:refresh:adminNonce', 'refreshStatusPage');
 
         $this->statusHelper = $statusHelper;
@@ -322,6 +317,7 @@ class SystemStatus extends Container implements Module
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'isDashboardPage' => true,
+            'hideInWpMenu' => true,
         ];
         $this->addSubmenuPage($page);
     }
@@ -358,11 +354,6 @@ class SystemStatus extends Container implements Module
         } else {
             $noticeHelper->removeNotice('systemCheckStatus');
         }
-    }
-
-    protected function addCss()
-    {
-        evcview('settings/partials/system-status-css');
     }
 
     protected function refreshStatusPage(Status $statusHelper)
