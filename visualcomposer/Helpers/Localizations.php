@@ -1570,6 +1570,14 @@ class Localizations extends Container implements Helper
                 'Dynamic View',
                 'visualcomposer'
             ),
+            'thisIsAFreeFeature' => __(
+                'This is a free feature',
+                'visualcomposer'
+            ),
+            'getFreeLicenseToActivateVCHub' => __(
+                'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
