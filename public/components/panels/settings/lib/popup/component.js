@@ -275,14 +275,16 @@ export default class Popup extends React.Component {
     const description = isPremiumActivated ? descriptionPremium : descriptionFree
     const url = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=popup-settings-editor&utm_campaign=gopremium&utm_content=go-premium-button'
 
-    return <PremiumTeaser
-      headingText={headingText}
-      buttonText={buttonText}
-      description={description}
-      url={url}
-      isPremiumActivated={isPremiumActivated}
-      addonName='popupBuilder'
-    />
+    return (
+      <PremiumTeaser
+        headingText={headingText}
+        buttonText={buttonText}
+        description={description}
+        url={url}
+        isPremiumActivated={isPremiumActivated}
+        addonName='popupBuilder'
+      />
+    )
   }
 
   render () {

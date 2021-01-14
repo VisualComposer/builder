@@ -24,11 +24,11 @@ export default function PremiumTeaser (props) {
   if (props.onClose) {
     const closeButtonText = localizations.close || 'Close'
     closeButton = (
-    <button
-      className='vcv-premium-teaser-close vcv-ui-icon vcv-ui-icon-close-thin'
-      aria-label={closeButtonText}
-      onClick={props.onClose}
-    />)
+      <button
+        className='vcv-premium-teaser-close vcv-ui-icon vcv-ui-icon-close-thin'
+        aria-label={closeButtonText}
+        onClick={props.onClose}
+      />)
   }
 
   return (
@@ -39,7 +39,7 @@ export default function PremiumTeaser (props) {
         {closeButton}
       </header>
       <div className='vcv-premium-teaser-content'>
-        <p className='vcv-premium-teaser-text' dangerouslySetInnerHTML={{ __html: props.description }}/>
+        <p className='vcv-premium-teaser-text' dangerouslySetInnerHTML={{ __html: props.description }} />
       </div>
       {button}
     </div>

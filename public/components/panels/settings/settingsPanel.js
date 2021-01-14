@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { env, getService } from 'vc-cake'
+import { getService } from 'vc-cake'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'

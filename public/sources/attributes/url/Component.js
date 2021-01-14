@@ -358,9 +358,9 @@ export default class Url extends Attribute {
     }
     optionDropdown = (
       <div className='vcv-ui-form-group'>
-          <span className='vcv-ui-form-group-heading'>
-            {onClickAction}
-          </span>
+        <span className='vcv-ui-form-group-heading'>
+          {onClickAction}
+        </span>
         <select
           className='vcv-ui-form-dropdown'
           onChange={this.handleContentChange}

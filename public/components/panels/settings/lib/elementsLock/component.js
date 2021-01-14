@@ -61,14 +61,16 @@ export default class ElementsLock extends React.Component {
     const description = isPremiumActivated ? descriptionPremium : descriptionFree
     const url = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=element-lock-settings-editor&utm_campaign=gopremium&utm_content=go-premium-button'
 
-    return <PremiumTeaser
-      headingText={headingText}
-      buttonText={buttonText}
-      description={description}
-      url={url}
-      isPremiumActivated={isPremiumActivated}
-      addonName='roleManager'
-    />
+    return (
+      <PremiumTeaser
+        headingText={headingText}
+        buttonText={buttonText}
+        description={description}
+        url={url}
+        isPremiumActivated={isPremiumActivated}
+        addonName='roleManager'
+      />
+    )
   }
 
   render () {
