@@ -414,8 +414,13 @@ export default class HubContainer extends React.Component {
     return <HubMenu {...this.getTypeControlProps()} />
   }
 
-  handleLockClick (type) {
+  handleLockClick (type, isFree) {
+    console.log(isFree)
+    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub.toUpperCase() : 'ACTIVATE HUB'
     const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
+    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM'
+    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature.toUpperCase() : 'THIS IS A FREE FEATURE'
+    const freeText = HubContainer.localizations ? HubContainer.localizations.getFreeLicenseToActivateVCHub : 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.'
     let descriptionText = ''
     if (type === 'template') {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToTemplates : 'Get access to more than 200 content elements with Visual Composer Premium.'
@@ -424,23 +429,23 @@ export default class HubContainer extends React.Component {
     }
 
     const fullScreenPopupData = {
-      headingText: HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
-      buttonText: goPremiumText,
-      popupDesc: descriptionText,
+      headingText: isFree ? headingFreeText : headingPremiumText,
+      buttonText: isFree ? activateHubText : goPremiumText,
+      popupDesc: isFree ? freeText : descriptionText,
       primaryButtonClick: () => {
-        this.handleGoPremium()
+        this.handleGoPremium('popup', isFree)
       }
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
     editorPopupStorage.trigger('showFullPagePopup')
   }
 
-  handleGoPremium (clickedType) {
+  handleGoPremium (clickedType, isFree) {
     const utm = dataManager.get('utm')
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
     const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-    const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
+    const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : (isFree ? utm['editor-hub-popup-activate-free'] : utm['editor-hub-popup-teaser'])
     const teaserUrl = utmLink.replace('{medium}', utmMedium)
 
     window.open(teaserUrl)
