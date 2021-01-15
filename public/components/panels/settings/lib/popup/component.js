@@ -273,14 +273,15 @@ export default class Popup extends React.Component {
     const descriptionFree = localizations.popupBuilderPremiumFeatureText || 'Build custom popups with the Visual Composer Popup Builder that is available with the premium version of the plugin.'
     const descriptionPremium = localizations.popupBuilderFeatureActivateAddonText || 'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.'
     const description = isPremiumActivated ? descriptionPremium : descriptionFree
-    const url = 'https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=popup-settings-editor&utm_campaign=gopremium&utm_content=go-premium-button'
+    const utm = dataManager.get('utm')
+    const utmUrl = utm['editor-popup-settings-go-premium']
 
     return (
       <PremiumTeaser
         headingText={headingText}
         buttonText={buttonText}
         description={description}
-        url={url}
+        url={utmUrl}
         isPremiumActivated={isPremiumActivated}
         addonName='popupBuilder'
       />
