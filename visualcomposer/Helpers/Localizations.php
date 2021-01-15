@@ -1578,7 +1578,7 @@ class Localizations extends Container implements Helper
                 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.',
                 'visualcomposer'
             ),
-          'elementLockPremiumFeatureHeading' => __(
+            'elementLockPremiumFeatureHeading' => __(
                 'Element Lock is a Premium feature',
                 'visualcomposer'
             ),
