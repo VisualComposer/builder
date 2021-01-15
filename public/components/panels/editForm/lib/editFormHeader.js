@@ -164,7 +164,7 @@ export default class EditFormHeader extends React.Component {
 
   handleLockElementToggle () {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
+    const isAddonAvailable = env('VCV_ADDON_ROLE_MANAGER_ENABLED')
     if (isPremiumActivated && isAddonAvailable) {
       const { elementAccessPoint } = this.props
       const options = {}
