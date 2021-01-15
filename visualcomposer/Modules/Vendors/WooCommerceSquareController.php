@@ -16,7 +16,7 @@ class WooCommerceSquareController extends Container implements Module
 {
     use EventsFilters;
 
-    protected bool $callbackCalled = false;
+    protected $callbackCalled = false;
 
     public function __construct()
     {
