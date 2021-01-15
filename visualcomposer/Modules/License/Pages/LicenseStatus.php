@@ -54,10 +54,6 @@ class LicenseStatus extends Container implements Module
 
                 $this->call('addPage');
                 $this->wpAddFilter('submenu_file', 'subMenuHighlight');
-                $this->wpAddAction(
-                    'admin_head',
-                    'addCss'
-                );
             },
             70
         );
@@ -74,6 +70,7 @@ class LicenseStatus extends Container implements Module
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'isDashboardPage' => true,
+            'hideInWpMenu' => true,
         ];
         $this->addSubmenuPage($page);
     }
@@ -125,19 +122,5 @@ class LicenseStatus extends Container implements Module
         wp_enqueue_script('vcv:wpVcSettings:script');
         wp_enqueue_style('vcv:wpVcSettings:style');
         wp_enqueue_script('vcv:assets:runtime:script');
-    }
-
-    /**
-     *
-     */
-    protected function addCss()
-    {
-        echo <<<CSS
-<style>
-    #adminmenu .wp-submenu a[href*='page=vcv-license'] {
-        display: none;
-    }
-</style>
-CSS;
     }
 }
