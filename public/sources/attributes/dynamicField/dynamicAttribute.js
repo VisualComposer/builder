@@ -277,8 +277,9 @@ export default class DynamicAttribute extends React.Component {
       }
 
       if (dataManager.get('isPremiumActivated')) {
-        popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.downloadAddonText : 'Download Addon'
-        popupData.popupDesc = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremiumAddon : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium Addon.'
+        popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.downloadAddonText.toUpperCase() : 'DOWNLOAD ADDON'
+        popupData.description = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremiumAddon : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium Addon.'
+        popupData.addonName = 'dynamicFields'
         popupData.primaryButtonClick = () => {
           const settings = {
             action: 'addHub',
@@ -291,8 +292,8 @@ export default class DynamicAttribute extends React.Component {
           workspaceSettings.set(settings)
         }
       } else {
-        popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.goPremium : 'Go Premium'
-        popupData.popupDesc = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremium : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.'
+        popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.goPremium.toUpperCase() : 'GO PREMIUM'
+        popupData.description = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremium : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.'
         popupData.primaryButtonClick = this.handleGoPremium
       }
 
