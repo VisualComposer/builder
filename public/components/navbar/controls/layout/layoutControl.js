@@ -21,50 +21,55 @@ export default class LayoutButtonControl extends React.Component {
         height: '880',
         min: '1200',
         max: Infinity
-      }
+      },
+      width: '1200'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletLandscape : 'Tablet Landscape',
       className: 'tablet-landscape',
       viewport: {
         width: '1220',
-        height: '818',
+        height: '830',
         min: '992',
         max: '1199'
-      }
+      },
+      width: '1080'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletPortrait : 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
-        width: '818',
+        width: '830',
         height: '1220',
         min: '768',
         max: '991'
-      }
+      },
+      width: '780'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobileLandscape : 'Mobile Landscape',
       className: 'mobile-landscape',
       viewport: {
-        width: '664',
+        width: '680',
         height: '340',
         min: '554',
         max: '767'
-      }
+      },
+      width: '560'
     },
     {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.mobilePortrait : 'Mobile Portrait',
       className: 'mobile-portrait',
       viewport: {
         width: '340',
-        height: '664',
+        height: '680',
         min: '0',
         max: '553'
-      }
+      },
+      width: '320'
     },
     {
-      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.responsiveView : 'Responsive View',
+      type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.dynamicView : 'Dynamic View',
       className: 'multiple-devices',
       viewport: {
         width: null,
@@ -111,7 +116,7 @@ export default class LayoutButtonControl extends React.Component {
 
   handleLayoutChange (data) {
     let deviceViewIndex = 0
-    if (!data) {
+    if (data === 'dynamic') {
       deviceViewIndex = LayoutButtonControl.devices.findIndex(device => device.className === 'multiple-devices')
     }
     this.handleClickSetSelectedLayout(deviceViewIndex)
@@ -140,8 +145,14 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   closeDropdown (e) {
+    if (e && e.target.closest('.vcv-ui-navbar-dropdown--layout.vcv-ui-navbar-dropdown--active')) {
+      return
+    }
+
     if (e && e.target.closest('.vcv-ui-navbar-sandwich')) {
       this.setActiveState({ action: 'sandwich' })
+    } else {
+      this.setActiveState({ action: 'devices' })
     }
   }
 
@@ -155,13 +166,14 @@ export default class LayoutButtonControl extends React.Component {
     if (!this.state.isControlActive) {
       window.addEventListener('resize', this.handleWindowResize)
       setTimeout(this.handleWindowResize, 1)
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.addEventListener('click', this.closeDropdown)
+      document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
       document.body.addEventListener('click', this.closeDropdown)
     } else {
       window.removeEventListener('resize', this.handleWindowResize)
-      document.getElementById('vcv-editor-iframe').contentWindow.document.body.removeEventListener('click', this.closeDropdown)
+      document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
       document.body.removeEventListener('click', this.closeDropdown)
       this.setState({
+        isControlActive: !this.state.isControlActive,
         isVerticalPositioned: false,
         isHorizontalPositioned: false
       })

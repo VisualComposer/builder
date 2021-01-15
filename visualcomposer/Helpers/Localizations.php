@@ -1554,7 +1554,31 @@ class Localizations extends Container implements Helper
                 'You can instantly check your layout on the most popular device types.',
                 'visualcomposer'
             ),
-            'elementLockPremiumFeatureHeading' => __(
+            'dynamicContentIsAPremiumFeature' => __(
+                'Dynamic content is a premium feature',
+                'visualcomposer'
+            ),
+            'replaceStaticContentWithPremium' => __(
+                'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.',
+                'visualcomposer'
+            ),
+            'replaceStaticContentWithPremiumAddon' => __(
+                'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium Addon.',
+                'visualcomposer'
+            ),
+            'dynamicView' => __(
+                'Dynamic View',
+                'visualcomposer'
+            ),
+            'thisIsAFreeFeature' => __(
+                'This is a free feature',
+                'visualcomposer'
+            ),
+            'getFreeLicenseToActivateVCHub' => __(
+                'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.',
+                'visualcomposer'
+            ),
+          'elementLockPremiumFeatureHeading' => __(
                 'Element Lock is a Premium feature',
                 'visualcomposer'
             ),
