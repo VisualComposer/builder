@@ -23,7 +23,7 @@ class PremiumTeasers extends Container implements Module
     use EventsFilters;
 
     /**
-     * UpdateBePage constructor.
+     * PremiumTeasers constructor.
      */
     public function __construct()
     {
