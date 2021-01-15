@@ -33,10 +33,10 @@ export default function PremiumTeaser (props) {
 
   return (
     <div className='vcv-premium-teaser'>
+      {closeButton}
       <div className='vcv-premium-teaser-badge' />
       <header className='vcv-premium-teaser-header'>
         <h2 className='vcv-premium-teaser-heading'>{props.headingText}</h2>
-        {closeButton}
       </header>
       <div className='vcv-premium-teaser-content'>
         <p className='vcv-premium-teaser-text' dangerouslySetInnerHTML={{ __html: props.description }} />
