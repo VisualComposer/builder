@@ -48,7 +48,7 @@ class PremiumTeasers extends Container implements Module
                     'visualcomposer'
                 ),
                 str_replace('{medium}', 'headers-footers-vc-dashboard', $utmTemplate),
-                'addom/themeEditor',
+                'themeEditor',
             ],
             [
                 __('Theme Templates', 'visualcomposer'),
@@ -59,7 +59,7 @@ class PremiumTeasers extends Container implements Module
                     'visualcomposer'
                 ),
                 str_replace('{medium}', 'custom-page-templates-vc-dashboard', $utmTemplate),
-                'addom/themeBuilder',
+                'themeBuilder',
             ],
             [
                 __('Maintenance Mode', 'visualcomposer'),
@@ -70,7 +70,7 @@ class PremiumTeasers extends Container implements Module
                     'visualcomposer'
                 ),
                 str_replace('{medium}', 'maintenance-mode-vc-dashboard', $utmTemplate),
-                'addom/maintenanceMode',
+                'maintenanceMode',
             ],
             [
                 __('Popup Settings', 'visualcomposer'),
@@ -81,7 +81,7 @@ class PremiumTeasers extends Container implements Module
                     'visualcomposer'
                 ),
                 str_replace('{medium}', 'custom-site-popups-vc-dashboard', $utmTemplate),
-                'addom/popupBuilder',
+                'popupBuilder',
             ],
         ];
         $columnsData = array_column($submenu['vcv-settings'], 2);
@@ -108,7 +108,7 @@ class PremiumTeasers extends Container implements Module
                 'premiumTitle' => $teaser[2],
                 'premiumDescription' => $teaser[3],
                 'premiumUrl' => $teaser[4],
-                'premiumAction' => $teaser[5],
+                'premiumActionBundle' => $teaser[5],
             ];
             $this->addSubmenuPage($page);
         }

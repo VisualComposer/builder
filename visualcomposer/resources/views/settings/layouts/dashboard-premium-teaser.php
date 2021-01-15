@@ -30,7 +30,7 @@ $pageTitle = empty($page['subTitle']) ? $page['title'] : $page['subTitle'];
             <p class="vcv-premium-teaser-text"><?php echo $page['premiumDescription']; ?></p>
         </div>
         <?php if (vchelper('License')->isPremiumActivated()) : ?>
-            <a class="vcv-premium-teaser-btn" data-vcv-action="download" data-vcv-action-name="<?php echo $page['premiumAction']; ?>">Download Addon</a>
+            <a class="vcv-premium-teaser-btn" data-vcv-action="download" data-vcv-action-bundle="<?php echo $page['premiumActionBundle']; ?>">Download Addon</a>
         <?php else : ?>
             <a class="vcv-premium-teaser-btn" href="<?php echo $page['premiumUrl']; ?>" target="_blank" rel="noopener">Go Premium</a>
         <?php endif; ?>
