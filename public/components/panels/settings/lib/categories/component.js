@@ -33,7 +33,8 @@ export default class Categories extends React.Component {
       isNewCategoryVisible: false,
       isSaving: false,
       topDots: false,
-      bottomDots: true
+      bottomDots: false,
+      itemLimit: 10
     }
 
     settingsStorage.state('categories').set(categoriesData)
@@ -48,6 +49,10 @@ export default class Categories extends React.Component {
 
   componentDidMount () {
     settingsStorage.state('categories').onChange(this.updateCategories)
+    const { options, itemLimit } = this.state
+    if (options.length > itemLimit) {
+      this.setState({ bottomDots: true })
+    }
   }
 
   componentWillUnmount () {
@@ -227,7 +232,7 @@ export default class Categories extends React.Component {
             fieldKey='category'
             options={{
               listView: true,
-              itemLimit: 10,
+              itemLimit: this.state.itemLimit,
               nesting: true,
               values: this.state.options
             }}

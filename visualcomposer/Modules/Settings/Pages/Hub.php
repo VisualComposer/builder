@@ -45,11 +45,6 @@ class Hub extends Container implements Module
             3
         );
 
-        $this->wpAddAction(
-            'admin_head',
-            'addCss'
-        );
-
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
     }
 
@@ -113,6 +108,7 @@ class Hub extends Container implements Module
             'iconClass' => 'vcv-ui-icon-dashboard-hub-shop',
             'isDashboardPage' => true,
             'hideTitle' => true,
+            'hideInWpMenu' => true,
         ];
         $this->addSubmenuPage($page, false);
     }
@@ -144,13 +140,5 @@ class Hub extends Container implements Module
         }
         $hubContent = ob_get_clean();
         return $response . implode('', vcfilter('vcv:update:extraOutput', [])) . $hubContent . '<div id="vcv-hub" class="vcv-hub"></div>';
-    }
-
-    /**
-     * Hide hub in admin menu
-     */
-    protected function addCss()
-    {
-        evcview('settings/partials/dashboard-hub');
     }
 }

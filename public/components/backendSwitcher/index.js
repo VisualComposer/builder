@@ -20,13 +20,15 @@ export default () => {
   } else if (gutenbergEditor) {
     const isWpml = window.VCV_WPML ? window.VCV_WPML() : false
     const timeout = (isWpml) ? 2500 : 1
-    setTimeout(() => {
-      const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
-      if (gutenbergEditorHeader) {
-        gutenbergEditorHeader.appendChild(switcherContainer)
-        renderSwitcher(switcherContainer)
-      }
-    }, timeout)
+    window.wp.data.subscribe(function () {
+      setTimeout(function () {
+        const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
+        if (gutenbergEditorHeader && !gutenbergEditorHeader.querySelector('.vcv-wpbackend-switcher-container')) {
+          gutenbergEditorHeader.querySelector('.edit-post-header-toolbar__left').after(switcherContainer)
+          renderSwitcher(switcherContainer)
+        }
+      }, timeout)
+    })
   } else {
     const postBodyContent = document.getElementById('post-body-content')
     if (postBodyContent) {

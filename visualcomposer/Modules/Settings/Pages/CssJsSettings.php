@@ -47,11 +47,6 @@ class CssJsSettings extends Container implements Module
         );
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
-
-        $this->wpAddAction(
-            'admin_head',
-            'addCss'
-        );
     }
 
     protected function subMenuHighlight($submenuFile)
@@ -101,12 +96,8 @@ class CssJsSettings extends Container implements Module
             'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-css',
             'isDashboardPage' => true,
+            'hideInWpMenu' => true,
         ];
         $this->addSubmenuPage($page, false);
-    }
-
-    protected function addCss()
-    {
-        evcview('settings/partials/global-css-js-settings-css');
     }
 }
