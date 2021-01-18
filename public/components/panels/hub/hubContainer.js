@@ -490,6 +490,10 @@ export default class HubContainer extends React.Component {
 
   handleScroll (e) {
     let el = e.currentTarget
+    const { filterType } = this.state
+    if (filterType !== 'unsplash' && filterType !== 'giphy') {
+      return
+    }
     if (this.props.hideScrollbar) {
       el = e.currentTarget.document.documentElement
     }
@@ -522,7 +526,6 @@ export default class HubContainer extends React.Component {
           scrolledToBottom={this.state.scrolledToBottom}
           scrollTop={this.state.scrollTop}
           onClickGoPremium={this.handleGoPremium}
-
         />
       )
     } else if (filterType === 'giphy') {
