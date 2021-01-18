@@ -92,6 +92,9 @@ class Utm implements Helper
 
             // Editor layout teasers
             'editor-layout-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=page-settings-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+
+            // Hub element/template free activate
+            'editor-hub-popup-activate-free' => rtrim(vcvenv('VCV_HUB_PUBLIC_URL'), '\//') . '/free-license/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=get-free-license&utm_content=teaser-activate-hub-button',
         ];
 
         return $utm;

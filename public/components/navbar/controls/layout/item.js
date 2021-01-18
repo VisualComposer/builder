@@ -30,7 +30,7 @@ export default class Item extends React.Component {
       'vcv-ui-icon',
       'vcv-ui-icon-' + device.className
     )
-    const widthLabel = `(${widthText}: ${device.viewport.width} ${pixelsUnit})`
+    const widthLabel = `(${widthText}: ${device.width} ${pixelsUnit})`
     let helper = <em>{widthLabel}</em>
     if (device.className === 'multiple-devices') {
       const responsiveView = localizations.responsiveViewTooltip || 'You can instantly check your layout on the most popular device types.'
