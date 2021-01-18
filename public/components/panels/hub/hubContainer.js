@@ -440,14 +440,18 @@ export default class HubContainer extends React.Component {
   }
 
   handleGoPremium (clickedType, isFree) {
-    const utm = dataManager.get('utm')
-    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-    const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : (isFree ? utm['editor-hub-popup-activate-free'] : utm['editor-hub-popup-teaser'])
-    const teaserUrl = utmLink.replace('{medium}', utmMedium)
+    if (isFree && clickedType === 'popup') {
+      this.handleClickGoPremium()
+    } else {
+      const utm = dataManager.get('utm')
+      const activeFilterType = categories[this.state.filterType].title.toLowerCase()
+      const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+      const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : (isFree ? utm['editor-hub-popup-activate-free'] : utm['editor-hub-popup-teaser'])
+      const teaserUrl = utmLink.replace('{medium}', utmMedium)
 
-    window.open(teaserUrl)
+      window.open(teaserUrl)
+    }
   }
 
   handleClickGoPremium (e) {
