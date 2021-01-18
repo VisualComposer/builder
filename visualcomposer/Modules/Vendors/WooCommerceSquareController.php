@@ -16,8 +16,6 @@ class WooCommerceSquareController extends Container implements Module
 {
     use EventsFilters;
 
-    protected $callbackCalled = false;
-
     public function __construct()
     {
         $this->addFilter(
@@ -26,14 +24,6 @@ class WooCommerceSquareController extends Container implements Module
                 $closureInfo = $payload['closureInfo'];
                 if ($closureInfo instanceof \ReflectionMethod) {
                     if (strpos($closureInfo->getDeclaringClass(), 'SV_WC_Payment_Gateway') !== false) {
-                        if (did_action('wp_head') && !$this->callbackCalled) {
-                            // Allow to call Enqueue Script for SV_WC_Payment_Gateway only after wp_head is done.
-                            // Also, make it call only ONCE
-                            $this->callbackCalled = true;
-
-                            return false;
-                        }
-
                         return true;
                     }
                 }
