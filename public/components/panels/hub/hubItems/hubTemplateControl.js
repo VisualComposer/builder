@@ -102,10 +102,14 @@ export default class HubTemplateControl extends ElementControl {
       'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
     })
 
+    const itemProps = {}
+
     let action = this.isHubInWpDashboard ? null : this.addTemplate
     if (elementState !== 'success') {
       if (lockIcon) {
-        action = this.props.onClickGoPremium.bind(this, 'template', (element.bundleType && element.bundleType.indexOf('free') > -1))
+        action = null
+        // Add action on whole item
+        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template', (element.bundleType && element.bundleType.indexOf('free') > -1))
       } else {
         action = this.downloadTemplate
       }
@@ -138,11 +142,6 @@ export default class HubTemplateControl extends ElementControl {
           </figcaption>
         </figure>
       )
-    }
-
-    const itemProps = {}
-    if (lockIcon) {
-      itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template', (element.bundleType && element.bundleType.indexOf('free') > -1))
     }
 
     return (
