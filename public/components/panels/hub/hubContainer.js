@@ -447,7 +447,7 @@ export default class HubContainer extends React.Component {
       const activeFilterType = categories[this.state.filterType].title.toLowerCase()
       const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
       const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : (isFree ? utm['editor-hub-popup-activate-free'] : utm['editor-hub-popup-teaser'])
+      const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
       const teaserUrl = utmLink.replace('{medium}', utmMedium)
 
       window.open(teaserUrl)
