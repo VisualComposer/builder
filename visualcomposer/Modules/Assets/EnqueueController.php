@@ -141,6 +141,17 @@ class EnqueueController extends Container implements Module
             // Run over callbacks
             foreach ($callbacks as $callback) {
                 $closureInfo = $this->getCallReflector($callback['function']);
+                // This filter can be used to prevent callback() call in Header/Footer or other parts like global templates
+                if (vcfilter(
+                    'vcv:assets:enqueue:callback:skip',
+                    false,
+                    [
+                        'closureInfo' => $closureInfo,
+                        'callback' => $callback,
+                    ]
+                )) {
+                    continue;
+                }
                 $fileName = $closureInfo->getFileName();
 
                 if (strpos($fileName, WPINC) !== false || strpos($fileName, 'wp-admin') !== false) {

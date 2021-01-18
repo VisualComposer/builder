@@ -102,10 +102,14 @@ export default class HubTemplateControl extends ElementControl {
       'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
     })
 
+    const itemProps = {}
+
     let action = this.isHubInWpDashboard ? null : this.addTemplate
     if (elementState !== 'success') {
       if (lockIcon) {
-        action = this.props.onClickGoPremium.bind(this, 'template')
+        action = null
+        // Add action on whole item
+        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template', (element.bundleType && element.bundleType.indexOf('free') > -1))
       } else {
         action = this.downloadTemplate
       }
@@ -121,7 +125,7 @@ export default class HubTemplateControl extends ElementControl {
       newBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{newText}</span>
     }
 
-    if (!isNew && lockIcon) {
+    if (!isNew && element.bundleType && element.bundleType.indexOf('free') < 0) {
       const premiumText = localizations ? localizations.premium : 'Premium'
       premiumBadge = <span className='vcv-ui-hub-item-badge vcv-ui-hub-item-badge--new'>{premiumText}</span>
     }
@@ -138,11 +142,6 @@ export default class HubTemplateControl extends ElementControl {
           </figcaption>
         </figure>
       )
-    }
-
-    const itemProps = {}
-    if (lockIcon) {
-      itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template')
     }
 
     return (
