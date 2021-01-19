@@ -6,6 +6,8 @@ const localizations = dataManager.get('localizations')
 
 export default function PremiumTeaser (props) {
   const handleClick = (e) => {
+    console.log(e);
+    console.log(props);
     // TODO: check if addon name exists
     // TODO: handle pop-up click from props?
     // props.onPrimaryButtonClick()
