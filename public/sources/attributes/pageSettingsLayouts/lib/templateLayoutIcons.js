@@ -12,7 +12,6 @@ const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
-const workspaceSettings = workspaceStorage.state('settings')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
