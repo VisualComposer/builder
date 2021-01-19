@@ -1,11 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getStorage } from 'vc-cake'
-import PremiumPopup from './popups/premiumPopup'
+import { getStorage, getService } from 'vc-cake'
+import PremiumTeaser from 'public/components/premiumTeasers/component'
 
 const editorPopupStorage = getStorage('editorPopup')
+const dataManager = getService('dataManager')
 
-export default class PopupContainer extends React.Component {
+export default class FullPagePopupContainer extends React.Component {
   constructor (props) {
     super(props)
 
@@ -64,16 +65,18 @@ export default class PopupContainer extends React.Component {
       'vcv-layout-popup--full-page': true,
       'vcv-layout-popup--visible': popupVisible
     })
+    const popupData = editorPopupStorage.state('fullScreenPopupData').get() || {}
 
     const popupProps = {
       onClose: this.handleCloseClick,
       onPrimaryButtonClick: this.handlePrimaryButtonClick,
-      popupData: editorPopupStorage.state('fullScreenPopupData').get() || {}
+      isPremiumActivated: dataManager.get('isPremiumActivated'),
+      ...popupData
     }
     let activePopupHtml = null
 
     if (activePopup) {
-      activePopupHtml = <PremiumPopup {...popupProps} />
+      activePopupHtml = <PremiumTeaser {...popupProps} />
     }
 
     return (
