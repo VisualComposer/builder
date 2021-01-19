@@ -49,7 +49,7 @@ export default class HubContainer extends React.Component {
     this.handleScroll = this.handleScroll.bind(this)
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
-    this.handleGoPremium = this.handleGoPremium.bind(this)
+    this.handleMediaGoPremium = this.handleMediaGoPremium.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
@@ -414,7 +414,13 @@ export default class HubContainer extends React.Component {
     return <HubMenu {...this.getTypeControlProps()} />
   }
 
+  /**
+   * Click handler for Hub item (elements, templates) Lock icon
+   * @param type {string}
+   * @param isFree {boolean}
+   */
   handleLockClick (type, isFree) {
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
     const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub.toUpperCase() : 'ACTIVATE HUB'
     const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
     const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM'
@@ -427,19 +433,29 @@ export default class HubContainer extends React.Component {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToContentElements : 'Get access to more than 200 content elements with Visual Composer Premium.'
     }
 
+    const utm = dataManager.get('utm')
+    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
+    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+    const utmLink = utm['editor-hub-go-premium']
+
     const fullScreenPopupData = {
       headingText: isFree ? headingFreeText : headingPremiumText,
       buttonText: isFree ? activateHubText : goPremiumText,
       description: isFree ? freeText : descriptionText,
-      primaryButtonClick: () => {
-        this.handleGoPremium('popup', isFree)
-      }
+      isPremiumActivated: isPremiumActivated,
+      url: utmLink.replace('{medium}', utmMedium)
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
     editorPopupStorage.trigger('showFullPagePopup')
   }
 
-  handleGoPremium (clickedType, isFree) {
+  /**
+   * Click handler for Hub window Stock Media header button (Unsplash, Giphy)
+   * @param clickedType {string}
+   * @param isFree {boolean}
+   */
+  handleMediaGoPremium (clickedType, isFree) {
     if (isFree && clickedType === 'popup') {
       this.handleClickGoPremium()
     } else {
@@ -454,6 +470,10 @@ export default class HubContainer extends React.Component {
     }
   }
 
+  /**
+   * Click handler for Hub window header button
+   * @param e
+   */
   handleClickGoPremium (e) {
     e && e.preventDefault && e.preventDefault()
 
@@ -525,7 +545,9 @@ export default class HubContainer extends React.Component {
         <UnsplashContainer
           scrolledToBottom={this.state.scrolledToBottom}
           scrollTop={this.state.scrollTop}
-          onClickGoPremium={this.handleGoPremium}
+          namespace={this.props.namespace}
+          filterType={filterType}
+          onClickGoPremium={this.handleMediaGoPremium}
         />
       )
     } else if (filterType === 'giphy') {
@@ -533,7 +555,9 @@ export default class HubContainer extends React.Component {
         <GiphyContainer
           scrolledToBottom={this.state.scrolledToBottom}
           scrollTop={this.state.scrollTop}
-          onClickGoPremium={this.handleGoPremium}
+          namespace={this.props.namespace}
+          filterType={filterType}
+          onClickGoPremium={this.handleMediaGoPremium}
         />
       )
     } else {

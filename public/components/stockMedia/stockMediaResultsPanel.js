@@ -15,7 +15,9 @@ export default class StockMediaResultsPanel extends React.Component {
     searchValue: PropTypes.string,
     scrolledToBottom: PropTypes.bool,
     scrollTop: PropTypes.number,
-    isSearchUsed: PropTypes.bool
+    isSearchUsed: PropTypes.bool,
+    namespace: PropTypes.string,
+    filterType: PropTypes.string
   }
 
   static localizations = dataManager.get('localizations')
@@ -387,6 +389,7 @@ export default class StockMediaResultsPanel extends React.Component {
   }
 
   handleLockClick () {
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
     const goPremiumText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
     let descriptionText = ''
     if (this.props.apiUrlKey === 'giphy') {
@@ -395,13 +398,16 @@ export default class StockMediaResultsPanel extends React.Component {
       descriptionText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.accessToUnsplash : 'Access the whole Unsplash stock image library with Visual Composer Premium.'
     }
 
+    const utm = dataManager.get('utm')
+    const utmMedium = `${this.props.filterType}-hub-${this.props.namespace}`
+    const utmLink = utm['editor-hub-popup-teaser']
+
     const fullScreenPopupData = {
       headingText: StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
       buttonText: goPremiumText,
       description: descriptionText,
-      primaryButtonClick: () => {
-        this.props.onClickGoPremium()
-      }
+      isPremiumActivated: isPremiumActivated,
+      url: utmLink.replace('{medium}', utmMedium)
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
     editorPopupStorage.trigger('showFullPagePopup')

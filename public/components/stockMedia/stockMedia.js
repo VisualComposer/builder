@@ -11,7 +11,10 @@ export default class StockMedia extends React.Component {
   static propTypes = {
     scrolledToBottom: PropTypes.bool,
     scrollTop: PropTypes.number,
-    backgroundImage: PropTypes.string
+    backgroundImage: PropTypes.string,
+    namespace: PropTypes.string,
+    filterType: PropTypes.string,
+    onClickGoPremium: PropTypes.func
   }
 
   inputTimeout = 0
@@ -175,7 +178,8 @@ export default class StockMedia extends React.Component {
           apiUrlKey={apiUrlKey}
           sizes={sizes}
           previewImageSize={previewImageSize}
-          onClickGoPremium={this.props.onClickGoPremium}
+          namespace={this.props.namespace}
+          filterType={this.props.filterType}
         />
       </>
     )
