@@ -415,7 +415,7 @@
     Accordion.prototype.show = function (opt) {
       const that = this
       const $target = that.getTarget()
-      const $targetContent = that.getTargetContent()
+      const $targetContent = that.getTargetContent().eq(0)
       const $container = that.getContainer()[ 0 ]
       const $elementId = that.$element.attr('href')
 
@@ -525,7 +525,8 @@
     Accordion.prototype.hide = function (opt) {
       const that = this
       const $target = that.getTarget()
-      const $targetContent = that.getTargetContent()
+      const $targetContent = that.getTargetContent().eq(0)
+      let $targetContentHeight = 0
 
       // if hidden no need to do anything
       if (!that.isActive()) {
@@ -545,14 +546,14 @@
             next()
           })
           .queue(function (next) {
+            $targetContentHeight = $targetContent.height()
             $target.attr(that.animatingAttribute, true)
             $target.removeAttr(that.activeAttribute)
             that.triggerEvent(settings.hideAccordionSelector, opt)
             next()
           })
           .queue(function (next) {
-            const height = $targetContent.height()
-            $targetContent.height(height)
+            $targetContent.height($targetContentHeight)
             next()
           })
           .queue(function (next) {
