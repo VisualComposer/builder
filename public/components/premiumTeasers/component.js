@@ -7,18 +7,17 @@ const localizations = dataManager.get('localizations')
 export default function PremiumTeaser (props) {
   const handleClick = (e) => {
     // TODO: check if addon name exists
-    console.log('Download addon, addon name', props.addonName)
-    // TODO: handle pop-up click from props
+    // TODO: handle pop-up click from props?
     // props.onPrimaryButtonClick()
   }
 
-  let button = null
+  let control = null
   let closeButton = null
 
-  if (props.isPremiumActivated) {
-    button = <button className='vcv-premium-teaser-btn' onClick={handleClick}>{props.buttonText}</button>
+  if (props.url && !props.isPremiumActivated) {
+    control = <a className='vcv-premium-teaser-btn' href={props.url} target='_blank' rel='noopener noreferrer'>{props.buttonText}</a>
   } else {
-    button = <a className='vcv-premium-teaser-btn' href={props.url} target='_blank' rel='noopener noreferrer'>{props.buttonText}</a>
+    control = <button className='vcv-premium-teaser-btn' onClick={handleClick}>{props.buttonText}</button>
   }
 
   if (props.onClose) {
@@ -41,7 +40,7 @@ export default function PremiumTeaser (props) {
       <div className='vcv-premium-teaser-content'>
         <p className='vcv-premium-teaser-text' dangerouslySetInnerHTML={{ __html: props.description }} />
       </div>
-      {button}
+      {control}
     </div>
   )
 }
