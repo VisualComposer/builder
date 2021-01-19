@@ -15,8 +15,8 @@ $pageTitle = empty($page['subTitle']) ? $page['title'] : $page['subTitle'];
 ?>
 <div class="vcv-dashboards-section-content <?php echo $activeClass ?>" data-section="<?php echo $slug ?>">
     <?php
-    if ($pageTitle && (!isset($page['hideTitle']) || !$page['hideTitle'])) {
-        echo '<h1>' . $pageTitle . '</h1>';
+    if ($pageTitle) {
+        echo '<h1 style="' . (isset($page['hideTitle']) && $page['hideTitle'] ? 'display:none;' : '') . '">' . $pageTitle . '</h1>';
     }
     echo $content;
     ?>
