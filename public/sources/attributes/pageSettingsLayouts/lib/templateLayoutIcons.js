@@ -67,23 +67,20 @@ export default class TemplateLayoutIcons extends React.Component {
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
         description: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
         addonName: 'themeBuilder',
-        primaryButtonClick: () => {
-          if (isPremiumActivated) {
-            const settings = {
-              action: 'addHub',
-              options: {
-                filterType: 'addon',
-                id: '4',
-                bundleType: undefined
-              }
-            }
-            workspaceSettings.set(settings)
-          } else {
-            const utm = dataManager.get('utm')
-            const goPremiumUrl = utm['editor-layout-go-premium']
-            window.open(goPremiumUrl, '_blank')
+        isPremiumActivated: isPremiumActivated
+      }
+      if (isPremiumActivated) {
+        fullScreenPopupData.clickSettings = {
+          action: 'addHub',
+          options: {
+            filterType: 'addon',
+            id: '4',
+            bundleType: undefined
           }
         }
+      } else {
+        const utm = dataManager.get('utm')
+        fullScreenPopupData.url = utm['editor-layout-go-premium']
       }
       editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
       editorPopupStorage.trigger('showFullPagePopup')

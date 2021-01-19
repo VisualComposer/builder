@@ -186,23 +186,20 @@ export default class EditFormHeader extends React.Component {
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
         description: description,
         addonName: 'roleManager',
-        primaryButtonClick: () => {
-          if (isPremiumActivated) {
-            const settings = {
-              action: 'addHub',
-              options: {
-                filterType: 'addon',
-                id: '4',
-                bundleType: undefined
-              }
-            }
-            workspaceSettings.set(settings)
-          } else {
-            const utm = dataManager.get('utm')
-            const goPremiumUrl = utm['editor-gopremium-popup-button']
-            window.open(goPremiumUrl, '_blank')
+        isPremiumActivated: isPremiumActivated
+      }
+      if (isPremiumActivated) {
+        fullScreenPopupData.clickSettings = {
+          action: 'addHub',
+          options: {
+            filterType: 'addon',
+            id: '4',
+            bundleType: undefined
           }
         }
+      } else {
+        const utm = dataManager.get('utm')
+        fullScreenPopupData.url = utm['editor-gopremium-popup-button']
       }
       editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
       editorPopupStorage.trigger('showFullPagePopup')
