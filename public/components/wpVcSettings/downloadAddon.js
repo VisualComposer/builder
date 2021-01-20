@@ -28,7 +28,7 @@ export const downloadAddon = () => {
           const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             utils.buildVariables(jsonResponse.variables || [])
-            location.reload()
+            window.location.reload()
           } else {
             tries++
             console.warn('failed to download addon status is false', jsonResponse, response)
