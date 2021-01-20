@@ -37,7 +37,7 @@ export default class PremiumTeaser extends React.Component {
 
     const allAddons = hubAddonsStorage.state('addonTeasers').get()
     const addonIndex = allAddons.findIndex(addon => addon.tag === this.props.addonName)
-    let addonData = allAddons[addonIndex]
+    const addonData = allAddons[addonIndex]
 
     hubAddonsStorage.trigger('downloadAddon', addonData)
 
@@ -80,7 +80,7 @@ export default class PremiumTeaser extends React.Component {
         <div className='vcv-premium-teaser-content'>
           <p className='vcv-premium-teaser-text' dangerouslySetInnerHTML={{ __html: this.props.description }} />
         </div>
-        <div className="vcv-premium-teaser-action-container">
+        <div className='vcv-premium-teaser-action-container'>
           {control}
         </div>
       </div>
