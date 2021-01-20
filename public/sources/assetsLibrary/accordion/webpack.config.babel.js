@@ -1,7 +1,8 @@
 import path from 'path'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import webpack from 'webpack'
-import TerserPlugin from 'terser-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TerserWebpackPlugin from 'terser-webpack-plugin'
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 
 module.exports = {
   mode: 'production',
@@ -22,16 +23,16 @@ module.exports = {
     runtimeChunk: false,
     namedChunks: true, // MUST BE true even for production
     namedModules: true, // MUST BE true even for production
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          safari10: true
-        }
-      })
-    ]
+    minimizer: [new TerserWebpackPlugin({
+      terserOptions: {
+        safari10: true
+      }
+    }), new OptimizeCSSAssetsPlugin()]
   },
   plugins: [
-    new ExtractTextPlugin('[name].bundle.css'),
+    new MiniCssExtractPlugin({
+      filename: '[name].bundle.css'
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
@@ -48,28 +49,23 @@ module.exports = {
         type: 'javascript/auto'
       },
       {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', {
+        test: /\.css|\.less$/,
+        exclude: [/styles\.css/, /editor\.css/],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          {
             loader: 'postcss-loader',
             options: {
-              plugins: () => [require('autoprefixer')()]
+              plugins: function plugins () {
+                return [require('autoprefixer')()];
+              }
             }
-          }, 'less-loader']
-        })
-      },
-      {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [require('autoprefixer')()]
-            }
-          }, 'less-loader']
-        })
+          },
+          'less-loader'
+        ]
       },
       // use ! to chain loaders./
       { test: /\.(png|jpe?g|gif)$/, use: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]' }, // inline base64 URLs for <=8k images, direct URLs for the rest.
