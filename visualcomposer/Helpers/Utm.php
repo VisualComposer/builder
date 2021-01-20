@@ -101,6 +101,9 @@ class Utm implements Helper
 
             // Editor Element Lock(Role Manager) addon settings teaser
             'editor-element-lock-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=element-lock-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+
+            // Editor Element Settings(Element Presets) addon teaser
+            'editor-element-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=element-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
         ];
 
         return $utm;
