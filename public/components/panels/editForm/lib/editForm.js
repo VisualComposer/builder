@@ -248,10 +248,6 @@ export default class EditForm extends React.Component {
     const { activeTabIndex, isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
     const activeTab = this.allTabs[activeTabIndex]
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
-    const plateClass = classNames({
-      'vcv-ui-editor-plate': true,
-      'vcv-ui-state--active': true
-    }, `vcv-ui-editor-plate-${activeTab.key}`)
 
     let content = null
     if (isEditFormSettingsOpened) {
@@ -265,6 +261,12 @@ export default class EditForm extends React.Component {
     } else {
       content = this.getAccordionSections()
     }
+
+    const plateClass = classNames({
+      'vcv-ui-editor-plate': true,
+      'vcv-ui-state--centered': !isAddonEnabled,
+      'vcv-ui-state--active': true
+    }, `vcv-ui-editor-plate-${activeTab.key}`)
 
     const editFormClasses = classNames({
       'vcv-ui-tree-view-content': true,
