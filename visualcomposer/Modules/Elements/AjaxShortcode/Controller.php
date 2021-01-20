@@ -85,10 +85,13 @@ class Controller extends Container implements Module
             wp_head();
             $headContents = ob_get_clean();
             ob_start();
-            echo apply_filters(
-                'the_content',
-                $content
-            ); // The_content fixes wp [embed] shortcode case. cannot use do_shortcode() in this case
+            // @codingStandardsIgnoreStart
+            global $wp_embed;
+            $content = $wp_embed->run_shortcode( $post->post_content );
+            $content = $wp_embed->autoembed( $content ); // Render embed shortcodes
+            // @codingStandardsIgnoreEnd
+            $content = do_shortcode($content);
+            echo $content;
             $shortcodeContents = ob_get_clean();
             ob_start();
             wp_footer();
