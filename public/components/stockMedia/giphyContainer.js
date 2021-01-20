@@ -8,7 +8,9 @@ const dataManager = getService('dataManager')
 export default class GiphyContainer extends React.Component {
   static propTypes = {
     scrolledToBottom: PropTypes.bool,
-    scrollTop: PropTypes.number
+    scrollTop: PropTypes.number,
+    namespace: PropTypes.string,
+    filterType: PropTypes.string
   }
 
   render () {

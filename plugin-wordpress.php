@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Visual Composer
  * Plugin URI: https://visualcomposer.com/premium/?utm_source=vcwb&utm_medium=wp-plugins&utm_campaign=vcbrand&utm_content=text
