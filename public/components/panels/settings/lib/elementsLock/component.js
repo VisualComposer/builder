@@ -1,8 +1,11 @@
 import React from 'react'
 import { getStorage, getService } from 'vc-cake'
+import PremiumTeaser from 'public/components/premiumTeasers/component'
 
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
+const hubStorage = getStorage('hubAddons')
+const localizations = dataManager.get('localizations')
 
 export default class ElementsLock extends React.Component {
   constructor (props) {
@@ -14,8 +17,7 @@ export default class ElementsLock extends React.Component {
     workspaceStorage.trigger(e.target.dataset.action)
   }
 
-  render () {
-    const localizations = dataManager.get('localizations')
+  getElementLockSetting () {
     const elementsLock = localizations ? localizations.elementsLock : 'Element Lock'
     const lockAllText = localizations ? localizations.lockAllText : 'Lock All Elements'
     const unlockAllText = localizations ? localizations.unlockAllText : 'Unlock All Elements'
@@ -47,5 +49,34 @@ export default class ElementsLock extends React.Component {
         </div>
       </div>
     )
+  }
+
+  getPremiumTeaser (isPremiumActivated) {
+    const goPremiumText = localizations.goPremium.toUpperCase() || 'GO PREMIUM'
+    const downloadAddonText = localizations.downloadTheAddon.toUpperCase() || 'DOWNLOAD THE ADDON'
+    const headingText = localizations.elementLockPremiumFeatureHeading.toUpperCase() || 'ELEMENT LOCK IS A PREMIUM FEATURE'
+    const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
+    const descriptionFree = localizations.elementLockPremiumFeatureText || 'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.'
+    const descriptionPremium = localizations.elementLockFeatureActivateAddonText || 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br> You can lock/unlock specific elements under the element Edit window. <br> To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
+    const description = isPremiumActivated ? descriptionPremium : descriptionFree
+    const utm = dataManager.get('utm')
+    const utmUrl = utm['editor-element-lock-settings-go-premium']
+
+    return (
+      <PremiumTeaser
+        headingText={headingText}
+        buttonText={buttonText}
+        description={description}
+        url={utmUrl}
+        isPremiumActivated={isPremiumActivated}
+        addonName='roleManager'
+      />
+    )
+  }
+
+  render () {
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
+    const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
+    return isPremiumActivated && isAddonAvailable ? this.getElementLockSetting() : this.getPremiumTeaser(isPremiumActivated)
   }
 }
