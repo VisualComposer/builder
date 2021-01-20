@@ -71,12 +71,14 @@ class Differ extends Container implements Helper, Immutable
             if (!empty($this->updateCallback)) {
                 $mergedValue = call_user_func_array(
                     $this->updateCallback,
-                    [
-                        'key' => $key,
-                        'oldValue' => array_key_exists($key, $this->data) ? $this->data[ $key ] : [],
-                        'newValue' => $newValue[ $key ],
-                        'mergedValue' => $mergedValue,
-                    ]
+                    array_values(
+                        [
+                            'key' => $key,
+                            'oldValue' => array_key_exists($key, $this->data) ? $this->data[ $key ] : [],
+                            'newValue' => $newValue[ $key ],
+                            'mergedValue' => $mergedValue,
+                        ]
+                    )
                 );
             }
             if (!empty($mergedValue)) {
