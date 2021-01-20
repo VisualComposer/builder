@@ -33,6 +33,18 @@
   overflow: auto;
 }
 
+.vcv-layout-content--devices {
+  padding: 30px 0;
+  flex-direction: row;
+
+  &::before,
+  &::after {
+    content: '';
+    position: relative;
+    min-width: 30px;
+  }
+}
+
 .vcv-content-full-size .vcv-layout-content {
   position: absolute;
   height: 0;
