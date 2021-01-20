@@ -4,7 +4,7 @@ Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.6
-Stable tag: 32.0
+Stable tag: 33.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,8 +196,33 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 33.0 =
+*Release Date - 2021-01-13*
+
+### Free:
+- New: Option to set "Desktop" as the default state for the "Responsive View" control.
+- New: Settings for default Responsive View device added to the Dashboard Settings
+- New: Interface updated with new branding colors
+- New: Information about Premium layouts added
+- New: Information about Premium Hub content added
+- Fix: WordPress parent categories work properly
+- Fix: WordPress excerpt field works properly
+- Fix: WordPress excerpt description converted into the tooltip
+- Fix: Notification added for template removal notice
+- Fix: WordPress categories and tags can be removed
+- Fix: Separator element thickness works properly
+- Fix: Editor and device menus do not conflict
+- Fix: Permalink for posts and pages works properly
+- Fix: Visual Composer Dashboard buttons have proper IDs
+
+### Premium:
+- Fix: Woo Commerce Product Category element works properly
+- Fix: Dynamic content author description is correct
+- Fix: Popup export and import works properly
+
 = 32.0 =
 *Release Date - 2020-12-22*
+
 ### Free:
 - New: Double click option added to open element edit form or activate the inline editor
 - New: WordPress page and post settings added to the On-Page Settings for quick access (author, featured image, categories, tags, excerpts, discussions)
@@ -231,12 +256,14 @@ Yes, we have an awesome online community that you can join to share your experti
 
 = 31.1 =
 *Release Date - 2020-11-25*
+
 #### Free:
 - Fix: The stretching option works properly for rows and inner rows
 - Fix: Custom elements are displayed properly in the Add Content window
 
 = 31.0 =
 *Release Date - 2020-11-17*
+
 #### Free:
 - New: A tutorial template has been added for beginners to learn Visual Composer
 - New: Add Element and Add Template windows are merged into one window for a cleaner and better user interface
@@ -292,6 +319,7 @@ Yes, we have an awesome online community that you can join to share your experti
 
 = 30.1 =
 *Release Date - 2020-09-16*
+
 #### Free:
 - Fix: Animation Delay works properly
 
