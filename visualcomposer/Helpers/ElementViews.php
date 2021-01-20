@@ -35,7 +35,7 @@ class ElementViews implements Helper
         }
 
         ob_start();
-        
+
         /**
          * @var $element
          */
