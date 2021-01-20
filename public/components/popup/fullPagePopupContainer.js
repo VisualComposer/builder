@@ -48,8 +48,6 @@ export default class FullPagePopupContainer extends React.Component {
   handlePrimaryButtonClick () {
     const popupData = editorPopupStorage.state('fullScreenPopupData').get() || {}
     popupData.primaryButtonClick && popupData.primaryButtonClick()
-
-    this.handleCloseClick()
   }
 
   handleOutsideClick (event) {
