@@ -295,7 +295,7 @@ export default class EditFormHeader extends React.Component {
     const cookElement = elementAccessPoint.cook()
     const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
 
-    if (env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') && isGeneral) {
+    if (isGeneral) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span

@@ -4,8 +4,9 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import EditFormSection from './editFormSection'
 import EditFormReplaceElement from './editFormReplaceElement'
+import PremiumTeaser from 'public/components/premiumTeasers/component'
 import Scrollbar from 'public/components/scrollbar/scrollbar.js'
-import { getService, getStorage } from 'vc-cake'
+import { getService, getStorage, env } from 'vc-cake'
 
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
@@ -31,6 +32,7 @@ export default class EditForm extends React.Component {
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.toggleEditFormSettings = this.toggleEditFormSettings.bind(this)
     this.toggleShowReplace = this.toggleShowReplace.bind(this)
+    this.getPremiumTeaser = this.getPremiumTeaser.bind(this)
   }
 
   scrollBarMounted (scrollbar) {
@@ -154,6 +156,31 @@ export default class EditForm extends React.Component {
     })
   }
 
+  getPremiumTeaser () {
+    const localizations = dataManager.get('localizations')
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
+    const goPremiumText = localizations.goPremium.toUpperCase() || 'GO PREMIUM'
+    const downloadAddonText = localizations.downloadTheAddon.toUpperCase() || 'DOWNLOAD THE ADDON'
+    const headingText = localizations.elementSettingsPremiumFeatureHeading.toUpperCase() || 'ELEMENT SETTINGS IS A PREMIUM FEATURE'
+    const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
+    const descriptionFree = localizations.elementSettingsPremiumFeatureText || 'With Visual Composer Premium, you can change the default parameters to create a unique element and save it to your Content Library.'
+    const descriptionPremium = localizations.elementPresetsActivateAddonText || 'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.'
+    const description = isPremiumActivated ? descriptionPremium : descriptionFree
+    const utm = dataManager.get('utm')
+    const utmUrl = utm['editor-element-settings-go-premium']
+
+    return (
+      <PremiumTeaser
+        headingText={headingText}
+        buttonText={buttonText}
+        description={description}
+        url={utmUrl}
+        isPremiumActivated={isPremiumActivated}
+        addonName='elementPresets'
+      />
+    )
+  }
+
   getEditFormSettingsSections () {
     const isRootElement = this.props.elementAccessPoint.cook().relatedTo('RootElements')
     const localizations = dataManager.get('localizations')
@@ -220,19 +247,26 @@ export default class EditForm extends React.Component {
   render () {
     const { activeTabIndex, isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
     const activeTab = this.allTabs[activeTabIndex]
-    const plateClass = classNames({
-      'vcv-ui-editor-plate': true,
-      'vcv-ui-state--active': true
-    }, `vcv-ui-editor-plate-${activeTab.key}`)
+    const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
 
     let content = null
     if (isEditFormSettingsOpened) {
-      content = this.getEditFormSettingsSections()
+      if (isAddonEnabled) {
+        content = this.getEditFormSettingsSections()
+      } else {
+        content = this.getPremiumTeaser()
+      }
     } else if (isElementReplaceOpened) {
       content = this.getReplaceElementBlock()
     } else {
       content = this.getAccordionSections()
     }
+
+    const plateClass = classNames({
+      'vcv-ui-editor-plate': true,
+      'vcv-ui-state--centered': !isAddonEnabled,
+      'vcv-ui-state--active': true
+    }, `vcv-ui-editor-plate-${activeTab.key}`)
 
     const editFormClasses = classNames({
       'vcv-ui-tree-view-content': true,
