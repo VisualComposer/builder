@@ -1,0 +1,14 @@
+.spinner {
+  content: '';
+  display: block;
+  height: @wp-spinner-base-size;
+  width: @wp-spinner-base-size;
+  background: transparent url('../../../images/loaders/spinner-light.svg') 50% 50% no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: vcv-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
+  z-index: 1;
+}
