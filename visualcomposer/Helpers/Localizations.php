@@ -1608,6 +1608,18 @@ class Localizations extends Container implements Helper
                 'Download Popup Builder',
                 'visualcomposer'
             ),
+            'elementSettingsPremiumFeatureHeading' => __(
+                'Element Settings is a Premium Feature',
+                'visualcomposer'
+            ),
+            'elementSettingsPremiumFeatureText' => __(
+                'With Visual Composer Premium, you can change the default parameters to create a unique element and save it to your Content Library.',
+                'visualcomposer'
+            ),
+            'elementPresetsActivateAddonText' => __(
+                'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
