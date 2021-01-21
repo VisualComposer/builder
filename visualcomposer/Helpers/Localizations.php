@@ -1555,7 +1555,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'dynamicContentIsAPremiumFeature' => __(
-                'Dynamic content is a premium feature',
+                'Dynamic Content is a Premium Feature',
                 'visualcomposer'
             ),
             'replaceStaticContentWithPremium' => __(

@@ -271,7 +271,7 @@ export default class DynamicAttribute extends React.Component {
     } else {
       const popupData = {
         isPremiumActivated: dataManager.get('isPremiumActivated'),
-        headingText: DynamicAttribute.localizations ? DynamicAttribute.localizations.dynamicContentIsAPremiumFeature : 'Dynamic content is a premium feature'
+        headingText: DynamicAttribute.localizations ? DynamicAttribute.localizations.dynamicContentIsAPremiumFeature.toUpperCase() : 'DYNAMIC CONTENT IS A PREMIUM FEATURE'
       }
 
       if (dataManager.get('isPremiumActivated')) {
