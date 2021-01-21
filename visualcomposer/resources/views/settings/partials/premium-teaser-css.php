@@ -29,7 +29,7 @@ if (!defined('ABSPATH')) {
         font-family: Montserrat, sans-serif;
         letter-spacing: 1px;
         font-size: 22px;
-        color: #363636;
+        color: #515262;
         text-align: center;
         line-height: 26px;
         margin: 0;
@@ -39,18 +39,22 @@ if (!defined('ABSPATH')) {
 
     .vcv-premium-teaser-content .vcv-premium-teaser-text {
         font-family: Roboto, sans-serif;
-        font-size: 14px;
-        color: #999999;
+        font-size: 15px;
+        color: #9494A3;
         text-align: center;
         line-height: 22px;
         margin: 0 0 25px;
-        font-style: italic;
-        letter-spacing: 1px;
+        letter-spacing: 0;
+        font-weight: 500;
+    }
+
+    .vcv-download-addon-button-container {
+        text-align: center;
     }
 
     .vcv-premium-teaser-inner .vcv-premium-teaser-btn {
         font-family: Montserrat, sans-serif;
-        display: block;
+        display: inline-block;
         border-radius: 0;
         background: #F7B332;
         font-size: 12px;
@@ -67,11 +71,13 @@ if (!defined('ABSPATH')) {
         line-height: normal;
         box-shadow: none;
         outline: none;
+        width: 280px;
+        max-width: 100%;
     }
 
     .vcv-premium-teaser-inner .vcv-premium-teaser-btn:hover {
         color: #fff;
-        background: #FFAE27;
+        background: #d98800;
         border: none;
         box-shadow: none;
         text-decoration: none;
