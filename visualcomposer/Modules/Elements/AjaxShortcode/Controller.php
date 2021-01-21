@@ -85,10 +85,27 @@ class Controller extends Container implements Module
             wp_head();
             $headContents = ob_get_clean();
             ob_start();
-            echo apply_filters(
-                'the_content',
-                $content
-            ); // The_content fixes wp [embed] shortcode case. cannot use do_shortcode() in this case
+            // Render shortcode content
+            // @codingStandardsIgnoreLine
+            $content = $post->post_content;
+            if (function_exists('do_blocks')) {
+                $content = do_blocks($content);
+            }
+            $content = shortcode_unautop($content);
+            $content = prepend_attachment($content);
+            if (function_exists('wp_filter_content_tags')) {
+                $content = wp_filter_content_tags($content);
+            } else {
+                $content = wp_make_content_images_responsive($content);
+            }
+            // @codingStandardsIgnoreStart
+            global $wp_embed;
+            $content = $wp_embed->run_shortcode( $content );
+            $content = $wp_embed->autoembed( $content ); // Render embed shortcodes
+            // @codingStandardsIgnoreEnd
+            $content = do_shortcode($content);
+            $content = convert_smilies($content);
+            echo $content;
             $shortcodeContents = ob_get_clean();
             ob_start();
             wp_footer();

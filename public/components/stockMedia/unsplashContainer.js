@@ -9,7 +9,9 @@ const unsplashImages = ['https://cdn.hub.visualcomposer.com/plugin-assets/unspla
 export default class UnsplashContainer extends React.Component {
   static propTypes = {
     scrolledToBottom: PropTypes.bool,
-    scrollTop: PropTypes.number
+    scrollTop: PropTypes.number,
+    namespace: PropTypes.string,
+    filterType: PropTypes.string
   }
 
   randomImage = this.getRandomImage()

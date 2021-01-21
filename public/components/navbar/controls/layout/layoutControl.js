@@ -183,8 +183,13 @@ export default class LayoutButtonControl extends React.Component {
   setViewport (width, height, device) {
     const layoutContent = window.document.querySelector('.vcv-layout-content')
     const iframeContainer = window.document.querySelector('.vcv-layout-iframe-container')
-    layoutContent.style.padding = width && device !== 'desktop' ? '30px' : ''
+    if (device.includes('mobile') || device.includes('tablet')) {
+      layoutContent.classList.add('vcv-layout-content--devices')
+    } else {
+      layoutContent.classList.remove('vcv-layout-content--devices')
+    }
     iframeContainer.style.width = width ? width + 'px' : ''
+    iframeContainer.style.minWidth = width && device !== 'desktop' ? width + 'px' : ''
     iframeContainer.style.minHeight = height && device !== 'desktop' ? height + 'px' : ''
     iframeContainer.setAttribute('data-vcv-device', device)
   }

@@ -1578,6 +1578,48 @@ class Localizations extends Container implements Helper
                 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.',
                 'visualcomposer'
             ),
+            'elementLockPremiumFeatureHeading' => __(
+                'Element Lock is a Premium feature',
+                'visualcomposer'
+            ),
+            'elementLockPremiumFeatureText' => __(
+                'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.',
+                'visualcomposer'
+            ),
+            'elementLockFeatureActivateAddonText' => __(
+                'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br>' .
+                'You can lock/unlock specific elements under the element Edit window. <br>' .
+                'To get access to this feature, download the Role Manager addon from the Visual Composer Hub.',
+                'visualcomposer'
+            ),
+            'popupBuilderPremiumFeatureHeading' => __(
+                'Popup Builder is a Premium Feature',
+                'visualcomposer'
+            ),
+            'popupBuilderPremiumFeatureText' => __(
+                'Build custom popups with the Visual Composer Popup Builder that is available with the premium version of the plugin.',
+                'visualcomposer'
+            ),
+            'popupBuilderFeatureActivateAddonText' => __(
+                'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.',
+                'visualcomposer'
+            ),
+            'downloadPopupBuilder' => __(
+                'Download Popup Builder',
+                'visualcomposer'
+            ),
+            'elementSettingsPremiumFeatureHeading' => __(
+                'Element Settings is a Premium Feature',
+                'visualcomposer'
+            ),
+            'elementSettingsPremiumFeatureText' => __(
+                'With Visual Composer Premium, you can change the default parameters to create a unique element and save it to your Content Library.',
+                'visualcomposer'
+            ),
+            'elementPresetsActivateAddonText' => __(
+                'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

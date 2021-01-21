@@ -8,6 +8,8 @@ const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const documentManager = getService('document')
+const hubStorage = getStorage('hubAddons')
+const editorPopupStorage = getStorage('editorPopup')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -161,14 +163,47 @@ export default class EditFormHeader extends React.Component {
   }
 
   handleLockElementToggle () {
-    const { elementAccessPoint } = this.props
-    const options = {}
-    const cookElement = elementAccessPoint.cook()
-    if (cookElement.containerFor().length > 0) {
-      options.lockInnerElements = true
-      options.action = !documentManager.get(elementAccessPoint.id).metaIsElementLocked ? 'lock' : 'unlock'
+    const isPremiumActivated = dataManager.get('isPremiumActivated')
+    const isAddonAvailable = env('VCV_ADDON_ROLE_MANAGER_ENABLED')
+    if (isPremiumActivated && isAddonAvailable) {
+      const { elementAccessPoint } = this.props
+      const options = {}
+      const cookElement = elementAccessPoint.cook()
+      if (cookElement.containerFor().length > 0) {
+        options.lockInnerElements = true
+        options.action = !documentManager.get(elementAccessPoint.id).metaIsElementLocked ? 'lock' : 'unlock'
+      }
+      workspaceStorage.trigger('lock', elementAccessPoint.id, options)
+    } else {
+      const localizations = dataManager.get('localizations')
+      const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
+      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADDON'
+      const descriptionFree = localizations.elementLockPremiumFeatureText || 'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.'
+      const descriptionPremium = localizations.elementLockFeatureActivateAddonText || 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br> You can lock/unlock specific elements under the element Edit window. <br> To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
+      const description = isPremiumActivated ? descriptionPremium : descriptionFree
+      const fullScreenPopupData = {
+        headingText: localizations.elementLockPremiumFeatureHeading.toUpperCase() || 'ELEMENT LOCK IS A PREMIUM FEATURE',
+        buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
+        description: description,
+        addonName: 'roleManager',
+        isPremiumActivated: isPremiumActivated
+      }
+      if (isPremiumActivated) {
+        fullScreenPopupData.clickSettings = {
+          action: 'addHub',
+          options: {
+            filterType: 'addon',
+            id: '4',
+            bundleType: undefined
+          }
+        }
+      } else {
+        const utm = dataManager.get('utm')
+        fullScreenPopupData.url = utm['editor-gopremium-popup-button']
+      }
+      editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
+      editorPopupStorage.trigger('showFullPagePopup')
     }
-    workspaceStorage.trigger('lock', elementAccessPoint.id, options)
   }
 
   render () {
@@ -260,7 +295,7 @@ export default class EditFormHeader extends React.Component {
     const cookElement = elementAccessPoint.cook()
     const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
 
-    if (env('VCV_ADDON_ELEMENT_PRESETS_ENABLED') && isGeneral) {
+    if (isGeneral) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span
@@ -281,11 +316,17 @@ export default class EditFormHeader extends React.Component {
 
     let lockControl = null
     const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
-    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin && isGeneral) {
+    if (vcvIsUserAdmin && isGeneral) {
+      const isPremiumActivated = dataManager.get('isPremiumActivated')
+      const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
+      const lockClasses = classNames({
+        'vcv-ui-edit-form-header-control': true,
+        'vcv-ui-edit-form-header-control--disabled': !isPremiumActivated || (isPremiumActivated && !isAddonAvailable)
+      })
       lockControl = (
         <span
-          className='vcv-ui-edit-form-header-control'
+          className={lockClasses}
           title={lockElementText}
           onClick={this.handleLockElementToggle}
         >

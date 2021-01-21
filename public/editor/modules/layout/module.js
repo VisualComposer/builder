@@ -10,7 +10,7 @@ import MobileDetect from 'mobile-detect'
 import OopsScreen from 'public/components/account/oopsScreen'
 import Notifications from 'public/components/notifications/notifications'
 import Popup from 'public/components/popup/popupContainer'
-import FullPopup from 'public/components/popup/fullPagePopupContainer'
+import FullPagePopupContainer from 'public/components/popup/fullPagePopupContainer'
 import Helpers from 'public/components/helpers/helpers'
 
 const notificationsStorage = vcCake.getStorage('notifications')
@@ -38,7 +38,7 @@ vcCake.add('contentLayout', (api) => {
       <>
         <Notifications />
         <Popup />
-        <FullPopup />
+        <FullPagePopupContainer />
         {dataManager.get('showInitialHelpers') && <Helpers />}
       </>,
       layoutOverlay
