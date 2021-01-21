@@ -189,7 +189,7 @@ export default class LayoutButtonControl extends React.Component {
       layoutContent.classList.remove('vcv-layout-content--devices')
     }
     iframeContainer.style.width = width ? width + 'px' : ''
-    iframeContainer.style.minWidth = width ? width + 'px' : ''
+    iframeContainer.style.minWidth = width && device !== 'desktop' ? width + 'px' : ''
     iframeContainer.style.minHeight = height && device !== 'desktop' ? height + 'px' : ''
     iframeContainer.setAttribute('data-vcv-device', device)
   }
