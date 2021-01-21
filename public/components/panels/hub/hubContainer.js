@@ -433,18 +433,26 @@ export default class HubContainer extends React.Component {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToContentElements : 'Get access to more than 200 content elements with Visual Composer Premium.'
     }
 
-    const utm = dataManager.get('utm')
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-    const utmLink = utm['editor-hub-go-premium']
+
+    let url
+    if (isFree) {
+      const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+      url = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    } else {
+      const utm = dataManager.get('utm')
+      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+      const utmLink = utm['editor-hub-go-premium']
+      url = utmLink.replace('{medium}', utmMedium)
+    }
 
     const fullScreenPopupData = {
       headingText: isFree ? headingFreeText : headingPremiumText,
       buttonText: isFree ? activateHubText : goPremiumText,
       description: isFree ? freeText : descriptionText,
       isPremiumActivated: isPremiumActivated,
-      url: utmLink.replace('{medium}', utmMedium)
+      url: url
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
     editorPopupStorage.trigger('showFullPagePopup')
