@@ -420,7 +420,6 @@ export default class HubContainer extends React.Component {
    * @param isFree {boolean}
    */
   handleLockClick (type, isFree) {
-    console.log('type, isFree', type, isFree)
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub.toUpperCase() : 'ACTIVATE HUB'
     const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
