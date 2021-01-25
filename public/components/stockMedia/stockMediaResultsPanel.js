@@ -390,7 +390,7 @@ export default class StockMediaResultsPanel extends React.Component {
 
   handleLockClick () {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const goPremiumText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
+    const goPremiumText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.unlockAllFeatures : 'Unlock All Features'
     let descriptionText = ''
     if (this.props.apiUrlKey === 'giphy') {
       descriptionText = StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.accessToGiphy : 'Access the whole GIPHY library with Visual Composer Premium.'
@@ -403,7 +403,7 @@ export default class StockMediaResultsPanel extends React.Component {
     const utmLink = utm['editor-hub-popup-teaser']
 
     const fullScreenPopupData = {
-      headingText: StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
+      headingText: StockMediaResultsPanel.localizations ? StockMediaResultsPanel.localizations.doMoreWithPremium : 'Do More With Premium',
       buttonText: goPremiumText,
       description: descriptionText,
       isPremiumActivated: isPremiumActivated,
