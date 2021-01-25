@@ -13,14 +13,42 @@ import { dashboard } from './components/wpVcSettings/dashboard'
 import { downloadAddon } from './components/wpVcSettings/downloadAddon'
 
 (() => {
-  // TODO: Refactor this, and call this methods only on required pages
-  checkStatus()
-  hoverTooltip()
-  initEditors()
-  hfSectionToggle()
-  dropdownEditLink()
-  themeTemplatesToggle()
-  deactivationFeedbackPopup()
-  dashboard()
-  downloadAddon()
+  const urlParams = new URLSearchParams(window.location.search)
+  const current = urlParams.get('page')
+  const currentUrl = new URL(document.URL)
+  const paths = currentUrl.pathname.split('/')
+  importJS(current)
+
+  if (paths.includes('plugins.php')) {
+    deactivationFeedbackPopup()
+  }
+  if (isSettingsPage(current)) {
+    dashboard()
+    downloadAddon()
+  }
 })(window.jQuery)
+
+function isSettingsPage (current) {
+  const settingsPages = ['vcv-settings', 'vcv-headers-footers', 'vcv-custom-page-templates', 'vcv-maintenance-mode', 'vcv-custom-site-popups', 'vcv-system-status', 'vcv-license']
+
+  return settingsPages.includes(current)
+}
+
+export default function importJS (currentSection) {
+  if (currentSection === 'vcv-global-css-js') {
+    initEditors()
+  } else if (currentSection === 'vcv-system-status') {
+    checkStatus()
+    hoverTooltip()
+  } else if (currentSection === 'vcv-global-css-js') {
+    initEditors()
+  } else if (currentSection === 'vcv-headers-footers') {
+    hfSectionToggle()
+    dropdownEditLink()
+  } else if (currentSection === 'vcv-custom-page-templates') {
+    dropdownEditLink()
+    themeTemplatesToggle()
+  } else if (currentSection === 'vcv-headers-footers' || currentSection === 'vcv-custom-site-popups' || currentSection === 'vcv-maintenance-mode') {
+    dropdownEditLink()
+  }
+}
