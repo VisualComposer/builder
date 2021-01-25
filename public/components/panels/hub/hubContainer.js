@@ -421,10 +421,10 @@ export default class HubContainer extends React.Component {
    */
   handleLockClick (type, isFree) {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub.toUpperCase() : 'ACTIVATE HUB'
-    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
-    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM'
-    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature.toUpperCase() : 'THIS IS A FREE FEATURE'
+    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub : 'Activate Hub'
+    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures : 'Unlock All Features'
+    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium : 'Do More With Premium'
+    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature : 'This is a free feature'
     const freeText = HubContainer.localizations ? HubContainer.localizations.getFreeLicenseToActivateVCHub : 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.'
     let descriptionText = ''
     if (type === 'template') {
@@ -433,18 +433,26 @@ export default class HubContainer extends React.Component {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToContentElements : 'Get access to more than 200 content elements with Visual Composer Premium.'
     }
 
-    const utm = dataManager.get('utm')
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-    const utmLink = utm['editor-hub-go-premium']
+
+    let url
+    if (isFree) {
+      const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+      url = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    } else {
+      const utm = dataManager.get('utm')
+      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+      const utmLink = utm['editor-hub-go-premium']
+      url = utmLink.replace('{medium}', utmMedium)
+    }
 
     const fullScreenPopupData = {
       headingText: isFree ? headingFreeText : headingPremiumText,
       buttonText: isFree ? activateHubText : goPremiumText,
       description: isFree ? freeText : descriptionText,
       isPremiumActivated: isPremiumActivated,
-      url: utmLink.replace('{medium}', utmMedium)
+      url: url
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
     editorPopupStorage.trigger('showFullPagePopup')
