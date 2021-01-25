@@ -95,28 +95,13 @@ export default class ActivateLicenseScreen extends React.Component {
 
   getFeatureList () {
     const iWantToGoPremiumText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.goPremium : 'Go Premium'
-    const getFreeLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.getFreeLicense : 'Get Free License'
-    const freeLicenseActivatedText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activated : 'Activated'
-    const freeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.freeLicense : 'Free License'
+    const freeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.freeLicense : 'Free License (Your plan)'
     const limitedText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.limitedAccessToExtensions : 'Limited access to the Visual Composer Hub of elements, templates, and addons'
     const themeBuilderWithHFSText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.themeBuilderWithHFS : 'A theme builder with Header, Footer, and Sidebar editor'
     const wooCommerceCompatibilityText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.wooCommerceCompatibility : 'WooCommerce compatibility'
     const premiumSupportAndUpdatesText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumSupportAndUpdates : 'Premium support and updates'
     const premiumLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.premiumLicense : 'Premium License'
     const unlimitedAccessToExtensionsText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.unlimitedAccessToExtensions : 'Unlimited access to the Visual Composer Hub of elements, templates, and addons'
-
-    let getFreeButton = (
-      <a href={dataManager.get('goFreeUrlWithRef')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
-        {getFreeLicenseText}
-      </a>
-    )
-    if (dataManager.get('isFreeActivated')) {
-      getFreeButton = (
-        <button className='vcv-activation-button vcv-activation-button--dark vcv-activation-button--free-activated' disabled>
-          {freeLicenseActivatedText}
-        </button>
-      )
-    }
 
     const goPremiumButton = (
       <a href={dataManager.get('goPremiumUrlWithRef')} target='_blank' rel='noopener noreferrer' className='vcv-activation-button vcv-activation-button--dark'>
@@ -134,9 +119,6 @@ export default class ActivateLicenseScreen extends React.Component {
             <li className='vcv-basic-list-item vcv-basic-list-item--not-included'>{wooCommerceCompatibilityText}</li>
             <li className='vcv-basic-list-item vcv-basic-list-item--not-included'>{premiumSupportAndUpdatesText}</li>
           </ul>
-          <div className='vcv-activation-button-container'>
-            {getFreeButton}
-          </div>
         </div>
         <div className='vcv-activation-box'>
           <h3 className='vcv-activation-box-heading'>{premiumLicenseText}</h3>
