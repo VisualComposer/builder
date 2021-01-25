@@ -52,9 +52,9 @@ export default class ElementsLock extends React.Component {
   }
 
   getPremiumTeaser (isPremiumActivated) {
-    const goPremiumText = localizations.goPremium.toUpperCase() || 'GO PREMIUM'
-    const downloadAddonText = localizations.downloadTheAddon.toUpperCase() || 'DOWNLOAD THE ADDON'
-    const headingText = localizations.elementLockPremiumFeatureHeading.toUpperCase() || 'ELEMENT LOCK IS A PREMIUM FEATURE'
+    const goPremiumText = localizations.goPremium || 'Go Premium'
+    const downloadAddonText = localizations.downloadTheAddon || 'Download The Addon'
+    const headingText = localizations.elementLockPremiumFeatureHeading || 'Element Lock is a Premium feature'
     const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
     const descriptionFree = localizations.elementLockPremiumFeatureText || 'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.'
     const descriptionPremium = localizations.elementLockFeatureActivateAddonText || 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br> You can lock/unlock specific elements under the element Edit window. <br> To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'

@@ -421,10 +421,10 @@ export default class HubContainer extends React.Component {
    */
   handleLockClick (type, isFree) {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub.toUpperCase() : 'ACTIVATE HUB'
-    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
-    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM'
-    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature.toUpperCase() : 'THIS IS A FREE FEATURE'
+    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub : 'Activate Hub'
+    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures : 'Unlock All Features'
+    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium : 'Do More With Premium'
+    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature : 'This is a free feature'
     const freeText = HubContainer.localizations ? HubContainer.localizations.getFreeLicenseToActivateVCHub : 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.'
     let descriptionText = ''
     if (type === 'template') {

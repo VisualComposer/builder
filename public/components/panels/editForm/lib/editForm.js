@@ -159,9 +159,9 @@ export default class EditForm extends React.Component {
   getPremiumTeaser () {
     const localizations = dataManager.get('localizations')
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const goPremiumText = localizations.goPremium.toUpperCase() || 'GO PREMIUM'
-    const downloadAddonText = localizations.downloadTheAddon.toUpperCase() || 'DOWNLOAD THE ADDON'
-    const headingText = localizations.elementSettingsPremiumFeatureHeading.toUpperCase() || 'ELEMENT SETTINGS IS A PREMIUM FEATURE'
+    const goPremiumText = localizations.goPremium || 'Go Premium'
+    const downloadAddonText = localizations.downloadTheAddon || 'Download The Addon'
+    const headingText = localizations.elementSettingsPremiumFeatureHeading || 'Element Settings is a Premium Feature'
     const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
     const descriptionFree = localizations.elementSettingsPremiumFeatureText || 'With Visual Composer Premium, you can change the default parameters to create a unique element and save it to your Content Library.'
     const descriptionPremium = localizations.elementPresetsActivateAddonText || 'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.'

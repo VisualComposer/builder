@@ -59,10 +59,10 @@ export default class TemplateLayoutIcons extends React.Component {
     if (isLocked) {
       const localizations = dataManager.get('localizations')
       const isPremiumActivated = dataManager.get('isPremiumActivated')
-      const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
-      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADDON'
+      const goPremiumText = localizations ? localizations.goPremium : 'Go Premium'
+      const downloadAddonText = localizations ? localizations.downloadTheAddon : 'Download The Addon'
       const fullScreenPopupData = {
-        headingText: localizations ? localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
+        headingText: localizations ? localizations.doMoreWithPremium : 'Do More With Premium',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
         description: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
         addonName: 'themeBuilder',
