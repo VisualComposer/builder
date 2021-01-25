@@ -11,7 +11,7 @@ describe('Settings Panel', function () {
         cy.route('POST', window.vcvAdminAjaxUrl).as('setPostPermalink')
       })
 
-      cy.get('.vcv-ui-navbar-control[title="Settings"]').click()
+      cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()
       cy.get('.vcv-ui-panel-heading-text').contains('Settings')
 
       cy.setInput('Title', settings.pageTitle)
@@ -27,10 +27,8 @@ describe('Settings Panel', function () {
 
       cy.wait('@setPostPermalink')
 
-      cy.get('.vcv-ui-form-button')
-        .contains('Custom CSS')
-        .click()
-
+      cy.get('.vcv-ui-panel-navigation-container .vcv-ui-form-dropdown')
+        .select('customCss_1')
 
       cy.get('.vcv-ui-style-editor.vcv-ui-state--active .CodeMirror-code')
         .clear()
@@ -43,9 +41,8 @@ describe('Settings Panel', function () {
         .clear()
         .type(settings.globalCSSString, {parseSpecialCharSequences: false})
 
-      cy.get('.vcv-ui-form-button')
-        .contains('Custom JavaScript')
-        .click()
+      cy.get('.vcv-ui-panel-navigation-container .vcv-ui-form-dropdown')
+        .select('customJs_2')
 
       cy.get('.vcv-ui-script-editor-tag')
         .contains('<footer>')
