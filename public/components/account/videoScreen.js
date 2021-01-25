@@ -28,21 +28,17 @@ export default class VideoScreen extends React.Component {
   }
 
   getDoMoreText () {
-    const doMoreWithVcText = VideoScreen.localizations ? VideoScreen.localizations.doMoreWithVcText : 'Do more with the Visual Composer Hub'
-    const hasManageOptions = dataManager.get('manageOptions')
-    let result = null
+    if (!dataManager.get('isPremiumActivated') && dataManager.get('manageOptions')) {
+      let alreadyHaveLicenseText = VideoScreen.localizations ? VideoScreen.localizations.alreadyHaveLicenseText : 'Already have a Premium license? %1s or %2s.'
+      const activateHereText = VideoScreen.localizations ? VideoScreen.localizations.activateHere : 'Activate here'
+      const goPremiumText = VideoScreen.localizations ? VideoScreen.localizations.goPremiumLcFirst : 'go Premium'
 
-    if (!dataManager.get('isAnyActivated')) {
-      result = `${doMoreWithVcText} - <a href="${dataManager.get('goPremiumUrl')}&vcv-ref=getting-started">free and premium</a>.`
-    }
+      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%1s', `<a href="${dataManager.get('goPremiumUrl')}&vcv-ref=getting-started">${activateHereText}</a>`)
+      // TODO: URL&UTM
+      alreadyHaveLicenseText = alreadyHaveLicenseText.replace('%2s', `<a href="" target="_blank" rel="noopener noreferrer">${goPremiumText}</a>`)
 
-    if (dataManager.get('isFreeActivated')) {
-      result = `${doMoreWithVcText} - <a href="${dataManager.get('goPremiumUrl')}&vcv-ref=getting-started">premium</a>.`
-    }
-
-    if (!dataManager.get('isPremiumActivated') && hasManageOptions) {
       return (
-        <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: result }} />
+        <p className='vcv-activation-description' dangerouslySetInnerHTML={{ __html: alreadyHaveLicenseText }} />
       )
     }
   }
@@ -71,9 +67,9 @@ export default class VideoScreen extends React.Component {
   }
 
   render () {
-    const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website.'
-    const anyLayoutFastAndEasy = VideoScreen.localizations ? VideoScreen.localizations.anyLayoutFastAndEasy : 'Any Layout. Fast and Easy.'
-    const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of the drag and drop builder straight from the frontend editor - it\'s that easy.'
+    const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website Today.'
+    const startEasyBuildFast = VideoScreen.localizations ? VideoScreen.localizations.startEasyBuildFast : 'Start Easy. Build Fast.'
+    const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.'
     const createNewText = VideoScreen.localizations ? VideoScreen.localizations.createNewPage : 'Create a new page'
     const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Try The Tutorial Template'
 
@@ -105,7 +101,7 @@ export default class VideoScreen extends React.Component {
         <p className='vcv-activation-heading'>
           {createYourWordpressWebsite}
           <br />
-          {anyLayoutFastAndEasy}
+          {startEasyBuildFast}
         </p>
         <p className='vcv-activation-description'>
           {buildYourSiteWithDragAndDropText}
