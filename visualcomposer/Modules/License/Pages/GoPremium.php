@@ -98,7 +98,11 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug) && !strpos($screen->id, 'vcv-getting-started')) {
+        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug)
+            && !strpos(
+                $screen->id,
+                'vcv-getting-started'
+            )) {
             if (!isset($notices['hubActivationNotice'])) {
                 $noticeHelper->addNotice(
                     'hubActivationNotice',
@@ -124,7 +128,7 @@ class GoPremium extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('Activate License', 'visualcomposer'),
+            'title' => $this->buttonTitle(),
             'layout' => 'standalone',
             'showTab' => false,
             'capability' => 'manage_options',
@@ -153,6 +157,17 @@ class GoPremium extends Container implements Module
         wp_enqueue_script('vcv:wpUpdate:script');
         wp_enqueue_style('vcv:wpVcSettings:style');
         wp_enqueue_script('vcv:assets:runtime:script');
+    }
+
+    /**
+     * @return string
+     */
+    protected function buttonTitle()
+    {
+        return sprintf(
+            '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
+            __('Activate License', 'visualcomposer')
+        );
     }
 
     /**
