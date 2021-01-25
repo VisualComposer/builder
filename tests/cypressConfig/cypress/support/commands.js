@@ -304,6 +304,7 @@ Cypress.Commands.add('setSelect', (title, value) => {
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
+        .parent()
         .next()
         .select(value)
     })
