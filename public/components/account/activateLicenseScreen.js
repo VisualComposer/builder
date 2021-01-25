@@ -157,8 +157,8 @@ export default class ActivateLicenseScreen extends React.Component {
   render () {
     const { hasError, errorText, loading } = this.state
     const enterYourLicenseKey = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.enterYourLicenseKey : 'Enter your license key'
-    const makeTheFinalStepText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.makeTheFinalStep : 'Make the final step! Enter your license key to activate Visual Composer Hub and start creating the website right away.'
-    const activateVisualComposerHubText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateVisualComposerHub : 'Activate Visual Composer Hub'
+    const makeTheFinalStepText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.makeTheFinalStep : 'Make the final step! Enter your license key to activate Visual Composer Premium and get full access to the Visual Composer Hub.'
+    const activateYourPremiumLicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activateYourPremiumLicenseText : 'Activate Your Premium License'
     const activateText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.activate : 'Activate'
     const bundledInAThemeText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.bundledInAThemeText : 'It seems that your copy of Visual Composer was bundled in a theme - use your Envato purchase key to activate Visual Composer Premium. You can also activate Visual Composer with a free or premium license.'
     const alreadyHaveALicenseText = ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.alreadyHaveALicenseText : 'Already have a license? Log in to My Visual Composer(link) to find it.'
@@ -204,7 +204,7 @@ export default class ActivateLicenseScreen extends React.Component {
         <Timeline />
 
         <p className='vcv-activation-heading'>
-          {activateVisualComposerHubText}
+          {activateYourPremiumLicenseText}
         </p>
         <p className='vcv-activation-description'>
           {makeTheFinalStepText}

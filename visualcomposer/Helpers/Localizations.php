@@ -402,8 +402,8 @@ class Localizations extends Container implements Helper
                 'Don\'t close this window while the download is in progress.',
                 'visualcomposer'
             ),
-            'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
-            'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'visualcomposer'),
+            'createYourWordpressWebsite' => __('Create Your WordPress Website Today.', 'visualcomposer'),
+            'startEasyBuildFast' => __('Start Easy. Build Fast.', 'visualcomposer'),
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),
             'getMoreText' => __('Connect to Visual Composer Hub.', 'visualcomposer'),
             'getMoreTextSubText' => __('Do More.', 'visualcomposer'),
@@ -774,7 +774,19 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'buildYourSiteWithDragAndDrop' => __(
-                'Build your site with the help of the drag and drop builder straight from the frontend editor - it\'s that easy.',
+                'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.',
+                'visualcomposer'
+            ),
+            'alreadyHaveLicenseText' => __(
+                'Already have a Premium license? %1s or %2s.',
+                'visualcomposer'
+            ),
+            'activateHere' => __(
+                'Activate here',
+                'visualcomposer'
+            ),
+            'goPremiumLcFirst' => __(
+                'go Premium',
                 'visualcomposer'
             ),
             'bundledInAThemeText' => __(
@@ -1085,12 +1097,12 @@ class Localizations extends Container implements Helper
                 'Activate Hub',
                 'visualcomposer'
             ),
-            'activateVisualComposerHub' => __(
-                'Activate Visual Composer Hub',
+            'activateYourPremiumLicenseText' => __(
+                'Activate Your Premium License',
                 'visualcomposer'
             ),
             'makeTheFinalStep' => __(
-                'Make the final step! Enter your license key to activate Visual Composer Hub and start creating the website right away.',
+                'Make the final step! Enter your license key to activate Visual Composer Premium and get full access to the Visual Composer Hub.',
                 'visualcomposer'
             ),
             'commentsAreaPlaceholderText' => __(
