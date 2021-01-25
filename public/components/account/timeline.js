@@ -17,7 +17,7 @@ export default class Timeline extends React.Component {
       return null
     }
 
-    let timelineClasses = 'vcv-timeline vcv-timeline--four-steps'
+    let timelineClasses = 'vcv-timeline vcv-timeline--three-steps'
     let goPremiumStepClasses = 'vcv-timeline-item'
     if (licenseType === 'premium' || licenseType === 'theme') {
       goPremiumStepClasses += ' vcv-step-done'
@@ -29,11 +29,6 @@ export default class Timeline extends React.Component {
         <span className='vcv-timeline-item-text'>{goPremiumText}</span>
       </li>
     )
-
-
-    if (!licenseType) {
-      timelineClasses = 'vcv-timeline vcv-timeline--three-steps'
-    }
 
     return (
       <ul className={timelineClasses}>

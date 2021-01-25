@@ -545,7 +545,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'freeLicense' => __(
-                'Free License',
+                'Free License (Your plan)',
                 'visualcomposer'
             ),
             'themeBuilderWithHFS' => __(
