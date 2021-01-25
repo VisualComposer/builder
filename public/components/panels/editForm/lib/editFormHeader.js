@@ -176,13 +176,13 @@ export default class EditFormHeader extends React.Component {
       workspaceStorage.trigger('lock', elementAccessPoint.id, options)
     } else {
       const localizations = dataManager.get('localizations')
-      const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
-      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADDON'
+      const goPremiumText = localizations ? localizations.goPremium : 'Go Premium'
+      const downloadAddonText = localizations ? localizations.downloadTheAddon : 'Download The Addon'
       const descriptionFree = localizations.elementLockPremiumFeatureText || 'With Visual Composer Premium, you can lock or unlock elements to manage who will be able to edit them.'
       const descriptionPremium = localizations.elementLockFeatureActivateAddonText || 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements. <br> You can lock/unlock specific elements under the element Edit window. <br> To get access to this feature, download the Role Manager addon from the Visual Composer Hub.'
       const description = isPremiumActivated ? descriptionPremium : descriptionFree
       const fullScreenPopupData = {
-        headingText: localizations.elementLockPremiumFeatureHeading.toUpperCase() || 'ELEMENT LOCK IS A PREMIUM FEATURE',
+        headingText: localizations.elementLockPremiumFeatureHeading || 'Element Lock is a Premium feature',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
         description: description,
         addonName: 'roleManager',
