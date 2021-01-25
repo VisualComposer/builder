@@ -124,25 +124,12 @@ class GoPremium extends Container implements Module
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => $this->buttonTitle(),
+            'title' => __('Activate License', 'visualcomposer'),
             'layout' => 'standalone',
             'showTab' => false,
             'capability' => 'manage_options',
         ];
         $this->addSubmenuPage($page);
-    }
-
-    /**
-     * @return string
-     */
-    protected function buttonTitle()
-    {
-        $licenseHelper = vchelper('License');
-
-        return sprintf(
-            '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
-            $licenseHelper->activationButtonTitle()
-        );
     }
 
     /**
