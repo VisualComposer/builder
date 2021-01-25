@@ -55,12 +55,10 @@ describe('Inisghts Panel', function () {
     })
 
     // Active tabs count
-    cy.get('.vcv-ui-form-button-group-item')
+    cy.get('.vcv-ui-tree-view-content:not(.vcv-ui-state--hidden) .vcv-ui-form-button-group-item')
       .its('length')
       .should('be.eq', 3) // This might change in the future
 
-    cy.addElement('Google Fonts Heading')
-    cy.setSelect('Element tag', 'h1')
     cy.addElement('Text Block')
     cy.addElement('Text Block')
     cy.addElement('Text Block')
@@ -84,7 +82,7 @@ describe('Inisghts Panel', function () {
     })
 
     // Active tabs count
-    cy.get('.vcv-ui-form-button-group-item')
+    cy.get('.vcv-ui-tree-view-content:not(.vcv-ui-state--hidden) .vcv-ui-form-button-group-item')
       .its('length')
       .should('be.eq', 4) // This might change in the future
 
