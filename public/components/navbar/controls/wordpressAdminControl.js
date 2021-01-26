@@ -22,7 +22,6 @@ export default class WordPressAdminControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
     this.handleClickSavePreview = this.handleClickSavePreview.bind(this)
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
     this.updateButtons = this.updateButtons.bind(this)
@@ -52,12 +51,6 @@ export default class WordPressAdminControl extends NavbarContent {
       target.dataset.href,
       target.dataset.target ? target.dataset.target : '_self'
     )
-  }
-
-  handleClickSaveDraft (e) {
-    e && e.preventDefault && e.preventDefault()
-    wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
-    // this.props.api.request('wordpress:data:saving', { draft: true })
   }
 
   handleClickSavePreview (e) {
@@ -251,21 +244,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const { backToWordpress, saveDraft, wordPressDashboard, preview, previewChanges, reset } = localizations
-
-    let saveDraftButton = ''
-    if (PostData.isDraft()) {
-      saveDraftButton = (
-        <span
-          className='vcv-ui-navbar-control'
-          title={saveDraft}
-          onClick={this.handleClickSaveDraft}
-          data-href={PostData.permalink()}
-        >
-          <span className='vcv-ui-navbar-control-content'>{saveDraft}</span>
-        </span>
-      )
-    }
+    const { backToWordpress, wordPressDashboard, preview, previewChanges, reset } = localizations
 
     let viewButton = ''
     if (PostData.isViewable() && PostData.isPublished()) {
@@ -339,14 +318,12 @@ export default class WordPressAdminControl extends NavbarContent {
     return (
       PostData.vcvCustomPostType() ? (
         <div className='vcv-ui-navbar-controls-set'>
-          {saveDraftButton}
           {resetButton}
           {wordpressDashboardButton}
         </div>
       ) : (
         <div className='vcv-ui-navbar-controls-set'>
           {previewButton}
-          {saveDraftButton}
           {viewButton}
           {backendEditorButton}
           {wordpressDashboardButton}
