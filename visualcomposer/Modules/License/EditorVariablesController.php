@@ -41,6 +41,14 @@ class EditorVariablesController extends Container implements Module
             'type' => 'variable',
         ];
 
+        if (!$isPremiumActivated) {
+            $variables[] = [
+                'key' => 'vcvAgreeHubTerms',
+                'value' => $licenseHelper->agreeHubTerms(),
+                'type' => 'variable',
+            ];
+        }
+
         return $variables;
     }
 }

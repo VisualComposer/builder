@@ -34,6 +34,7 @@ addStorage('settings', (storage) => {
       const footerTemplates = dataManager.get('footerTemplates')
       storage.state('footerTemplate').set(footerTemplates && footerTemplates.current)
     }
+    storage.state('agreeHubTerms').set(dataManager.get('agreeHubTerms'))
   })
 
   const dataProcessor = getService('dataProcessor')

@@ -202,7 +202,7 @@ export default class EditFormHeader extends React.Component {
         fullScreenPopupData.url = utm['editor-gopremium-popup-button']
       }
       editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-      editorPopupStorage.trigger('showFullPagePopup')
+      editorPopupStorage.state('activeFullPopup').set('premium-teaser')
     }
   }
 
