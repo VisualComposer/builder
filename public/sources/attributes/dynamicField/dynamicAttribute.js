@@ -295,7 +295,7 @@ export default class DynamicAttribute extends React.Component {
       }
 
       editorPopupStorage.state('fullScreenPopupData').set(popupData)
-      editorPopupStorage.trigger('showFullPagePopup')
+      editorPopupStorage.state('activeFullPopup').set('premium-teaser')
     }
   }
 

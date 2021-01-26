@@ -1620,6 +1620,18 @@ class Localizations extends Container implements Helper
                 'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.',
                 'visualcomposer'
             ),
+            'visualComposerHubAccessTerms' => __(
+                'Visual Composer Hub Access terms',
+                'visualcomposer'
+            ),
+            'agreeHubAccessTerms' => __(
+                'To download content from the Visual Composer Hub, read and accept our <a href="https://visualcomposer.com/terms-of-use/" target="_blank" rel="noopener noreferrer">cloud access terms</a> and <a href="https://visualcomposer.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>',
+                'visualcomposer'
+            ),
+            'yesIAgree' => __(
+                'Yes, I agree',
+                'visualcomposer'
+            )
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

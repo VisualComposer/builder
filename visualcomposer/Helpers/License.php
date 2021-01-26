@@ -254,4 +254,18 @@ class License extends Container implements Helper
 
         return $description;
     }
+
+    /**
+     * Hub terms agreement for free users
+     *
+     * @return string|void
+     */
+    public function agreeHubTerms()
+    {
+        $optionHelper = vchelper('Options');
+
+        $agreeHubTerms = $optionHelper->get('agreeHubTerms', false);
+
+        return $agreeHubTerms ? true : false;
+    }
 }
