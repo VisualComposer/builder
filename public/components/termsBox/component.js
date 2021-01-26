@@ -12,19 +12,19 @@ export default class TermsBox extends React.Component {
     super(props)
 
     this.state = {
-      isDownloading: false
+      isLoading: false
     }
 
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick () {
-    this.setState({ isDownloading: true })
+    this.setState({ isLoading: true })
     settingsStorage.state('agreeHubTerms').set(true)
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'editors:agreeHubTerms:enable:adminNonce'
     }).then(() => {
-      this.setState({ isDownloading: false })
+      this.setState({ isLoading: false })
       this.props.onClose()
     })
   }
@@ -32,7 +32,7 @@ export default class TermsBox extends React.Component {
   render () {
     const buttonClasses = classNames({
       'vcv-premium-teaser-btn': true,
-      'vcv-premium-teaser-btn--loading': this.state.isDownloading
+      'vcv-premium-teaser-btn--loading': this.state.isLoading
     })
 
     let closeButton = null
