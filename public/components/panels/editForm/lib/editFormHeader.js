@@ -10,6 +10,8 @@ const workspaceSettings = workspaceStorage.state('settings')
 const documentManager = getService('document')
 const hubStorage = getStorage('hubAddons')
 const editorPopupStorage = getStorage('editorPopup')
+const hubAddonsStorage = getStorage('hubAddons')
+const notificationsStorage = getStorage('notifications')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -201,8 +203,21 @@ export default class EditFormHeader extends React.Component {
         const utm = dataManager.get('utm')
         fullScreenPopupData.url = utm['editor-gopremium-popup-button']
       }
-      editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-      editorPopupStorage.trigger('showFullPagePopup')
+      const allAddons = hubAddonsStorage.state('addons').get()
+      if (allAddons['roleManager']) {
+        const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
+        notificationsStorage.trigger('add', {
+          position: 'top',
+          transparent: false,
+          rounded: false,
+          type: 'warning',
+          text: successMessage.replace('{name}', 'Role Manager'),
+          time: 8000
+        })
+      } else {
+        editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
+        editorPopupStorage.trigger('showFullPagePopup')
+      }
     }
   }
 
