@@ -266,6 +266,6 @@ class License extends Container implements Helper
 
         $agreeHubTerms = $optionHelper->get('agreeHubTerms', false);
 
-        return $agreeHubTerms ? true : false;
+        return $agreeHubTerms || $this->getType() === 'free' ? true : false;
     }
 }
