@@ -84,7 +84,7 @@ export default class TemplateLayoutIcons extends React.Component {
         fullScreenPopupData.url = utm['editor-layout-go-premium']
       }
       const allAddons = hubAddonsStorage.state('addons').get()
-      if (allAddons['themeEditor'] && allAddons['themeBuilder']) {
+      if (allAddons.themeEditor && allAddons.themeBuilder) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
         notificationsStorage.trigger('add', {
           position: 'top',

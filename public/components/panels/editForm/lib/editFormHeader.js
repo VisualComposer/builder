@@ -204,7 +204,7 @@ export default class EditFormHeader extends React.Component {
         fullScreenPopupData.url = utm['editor-gopremium-popup-button']
       }
       const allAddons = hubAddonsStorage.state('addons').get()
-      if (allAddons['roleManager']) {
+      if (allAddons.roleManager) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
         notificationsStorage.trigger('add', {
           position: 'top',
