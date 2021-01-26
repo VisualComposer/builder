@@ -135,14 +135,16 @@ export default class WordPressPostSaveControl extends NavbarContent {
 
   handleToggleOptions (e) {
     if (PostData.isDraft()) {
-      if (this.state.isOptionsActive) {
-        document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
-        document.body.removeEventListener('click', this.closeDropdown)
-      } else {
-        document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
-        document.body.addEventListener('click', this.closeDropdown)
+      if (this.state.status !== 'saving') {
+        if (this.state.isOptionsActive) {
+          document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
+          document.body.removeEventListener('click', this.closeDropdown)
+        } else {
+          document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
+          document.body.addEventListener('click', this.closeDropdown)
+        }
+        this.setState({ isOptionsActive: !this.state.isOptionsActive })
       }
-      this.setState({ isOptionsActive: !this.state.isOptionsActive })
     } else {
       this.handleClickSaveData(e)
     }
