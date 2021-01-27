@@ -455,7 +455,7 @@ export default class HubContainer extends React.Component {
       url: url
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-    editorPopupStorage.trigger('showFullPagePopup')
+    editorPopupStorage.state('activeFullPopup').set('premium-teaser')
   }
 
   /**

@@ -410,7 +410,7 @@ export default class StockMediaResultsPanel extends React.Component {
       url: utmLink.replace('{medium}', utmMedium)
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-    editorPopupStorage.trigger('showFullPagePopup')
+    editorPopupStorage.state('activeFullPopup').set('premium-teaser')
   }
 
   getItems () {

@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Filters;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
 class DownloadController extends Container implements Module
@@ -27,6 +28,8 @@ class DownloadController extends Container implements Module
             // templates
             $this->addFilter('vcv:hub:process:action:predefinedTemplate/*', 'processAction');
             $this->addFilter('vcv:hub:process:action:template/*', 'processAction');
+
+            $this->addFilter('vcv:ajax:editors:agreeHubTerms:enable:adminNonce', 'sendAgreeHubTerms');
         }
     }
 
@@ -99,5 +102,19 @@ If the problem still occurs, visit %smy.visualcomposer.com/support%s for technic
         }
 
         return $hubHelper->readBundleJson($hubHelper->getTempBundleFolder('bundle.json'));
+    }
+
+    /**
+     * Agree to the hub terms
+     *
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return array
+     */
+    protected function sendAgreeHubTerms(Options $optionsHelper)
+    {
+        $optionsHelper->set('agreeHubTerms', time());
+
+        return ['status' => true];
     }
 }
