@@ -19,9 +19,11 @@ class WordpressController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:frontend:content:encode', 'fixWpEmbedShortcode');
+
+        $requestHelper = vchelper('Request');
         if (
-            (isset($_GET['page']) && in_array('vcv', explode('-', $_GET['page']))) ||
-            (isset($_GET['post_type']) && in_array('vcv', explode('_', $_GET['post_type'])))
+            ($requestHelper->exists('page') && strpos($requestHelper->input('page'), 'vcv') !== false) ||
+            ($requestHelper->exists('post_type') && strpos($requestHelper->input('post_type'), 'vcv') !== false)
         ) {
             add_filter('admin_footer_text', array($this, 'adminFooterText'), 100000, 1);
         }
