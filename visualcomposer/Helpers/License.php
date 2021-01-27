@@ -127,10 +127,10 @@ class License extends Container implements Helper
     {
         $token = vchelper('Token')->getToken();
         $optionsHelper = vchelper('Options');
-        $optionsHelper->deleteTransient('lastBundleUpdate');
 
         if ($token !== 'free-token') {
             // License is upgraded: fire check for update
+            $optionsHelper->deleteTransient('lastBundleUpdate');
             vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
             wp_redirect(admin_url('admin.php?page=' . $redirectTo));
             exit;

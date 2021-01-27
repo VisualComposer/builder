@@ -91,7 +91,7 @@ class LicenseController extends Container implements Module
 
         if (!vcIsBadResponse($resultBody)) {
             $licenseType = $resultBody['license_type'];
-            if($licenseType !== 'free') {
+            if ($licenseType !== 'free') {
                 $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
                 $licenseHelper->setType($licenseType);
                 $licenseHelper->setExpirationDate(
@@ -138,11 +138,7 @@ class LicenseController extends Container implements Module
         $optionsHelper->deleteTransient('lastBundleUpdate');
         $licenseHelper->refresh('vcv-license');
 
-        if ($licenseHelper->isAnyActivated()) {
-            wp_redirect(admin_url('admin.php?page=vcv-license'));
-        } else {
-            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-        }
+        wp_redirect(admin_url('admin.php?page=vcv-license'));
         exit;
     }
 
