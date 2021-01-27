@@ -225,7 +225,7 @@ export default class HubContainer extends React.Component {
         name={elementData.name}
         isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
-        onClickGoPremium={this.handleLockClick}
+        onClickGoPremium={elementData.type === 'addon' ? this.handleClickGoPremium : this.handleLockClick}
       />
     )
   }
