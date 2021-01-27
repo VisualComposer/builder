@@ -82,7 +82,7 @@ export default class TemplateLayoutIcons extends React.Component {
         fullScreenPopupData.url = utm['editor-layout-go-premium']
       }
       editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-      editorPopupStorage.trigger('showFullPagePopup')
+      editorPopupStorage.state('activeFullPopup').set('premium-teaser')
       return
     }
     const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')
