@@ -18,7 +18,6 @@ export default class PopupInner extends React.Component {
     super(props)
 
     this.handleCloseClick = this.handleCloseClick.bind(this)
-    this.getPopupBadgeHtml = this.getPopupBadgeHtml.bind(this)
   }
 
   handleCloseClick () {
