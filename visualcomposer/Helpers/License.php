@@ -125,18 +125,12 @@ class License extends Container implements Helper
      */
     public function refresh($redirectTo = 'vcv-update')
     {
-        $token = vchelper('Token')->getToken(true);
+        $token = vchelper('Token')->getToken();
+        $optionsHelper = vchelper('Options');
+        $optionsHelper->deleteTransient('lastBundleUpdate');
+
         if ($token !== 'free-token') {
             // License is upgraded: fire check for update
-            $optionsHelper = vchelper('Options');
-            $optionsHelper->deleteTransient('lastBundleUpdate');
-            $noticeHelper = vchelper('Notice');
-            $noticeHelper->addNotice(
-                'license-refresh',
-                __('License data have been refreshed successfully.', 'visualcomposer'),
-                'success',
-                true
-            );
             vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
             wp_redirect(admin_url('admin.php?page=' . $redirectTo));
             exit;
@@ -209,7 +203,10 @@ class License extends Container implements Helper
                 $message = __('The license key has reached the activation limit.', 'visualcomposer');
                 break;
             case 'purchase_key_already_exist':
-                $message = __('The purchase code is already used, deactivate the previous site, and try again.', 'visualcomposer'); // theme activation
+                $message = __(
+                    'The purchase code is already used, deactivate the previous site, and try again.',
+                    'visualcomposer'
+                ); // theme activation
                 break;
             default:
                 $message = __('An error occurred, try again.', 'visualcomposer');
