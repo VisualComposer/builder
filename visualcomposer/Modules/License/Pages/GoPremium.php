@@ -98,7 +98,7 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug)
+        if (!$licenseHelper->isPremiumActivated() && !strpos($screen->id, $this->slug)
             && !strpos(
                 $screen->id,
                 'vcv-getting-started'
@@ -108,7 +108,7 @@ class GoPremium extends Container implements Module
                     'hubActivationNotice',
                     sprintf(
                         __(
-                            '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with a free or premium license to get more content elements, templates, and addons.',
+                            '<strong>Visual Composer:</strong> <a href="%s">Activate Premium</a> license to get full access to Visual Composer Hub. A place to download more content elements, templates, and addons.',
                             'visualcomposer'
                         ),
                         admin_url('admin.php?page=vcv-activate-license&vcv-ref=wp-dashboard')
@@ -166,7 +166,7 @@ class GoPremium extends Container implements Module
     {
         return sprintf(
             '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
-            __('Activate License', 'visualcomposer')
+            __('Activate Premium', 'visualcomposer')
         );
     }
 
@@ -175,6 +175,7 @@ class GoPremium extends Container implements Module
      */
     protected function addJs()
     {
+        // TODO: This is not working anymore
         evcview('license/get-premium-js');
     }
 

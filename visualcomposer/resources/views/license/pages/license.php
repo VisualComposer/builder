@@ -19,18 +19,23 @@ $activateHubUrl = esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref
 $upgradeLicenseUrl = esc_url(vcvenv('VCV_HUB_LICENSES_URL'));
 
 $expirationDate = vchelper('License')->getExpirationDate();
-if (!vchelper('License')->isAnyActivated()) {
+if (!vchelper('License')->isPremiumActivated()) {
     echo sprintf(
         '<div class="vcv-description vcv-description--no-flex"><p class="description">%s</p>',
         __(
-            'It seems you haven’t activated your access to Visual Composer Hub to access elements, templates, and add-ons.',
+            'It seems you haven’t activated your Premium license to access elements, templates, and addons in the Visual Composer Hub.',
             'visualcomposer'
         )
     );
     echo sprintf(
         '<a href="%s" class="button vcv-license-btn-activate-hub">%s</a>',
         $activateHubUrl,
-        __('Activate Visual Composer Hub', 'visualcomposer')
+        __('Activate Premium', 'visualcomposer')
+    );
+    echo sprintf(
+        '<a href="%s" class="button vcv-license-btn-activate-hub vcv-license-btn-go-premium">%s</a>',
+        $activateHubUrl,
+        __('Go Premium', 'visualcomposer')
     );
     echo '</div>';
 
