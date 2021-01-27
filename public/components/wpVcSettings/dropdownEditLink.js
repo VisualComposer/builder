@@ -5,7 +5,6 @@ const editLinkText = localizations && localizations.editThemeTemplate ? localiza
 const createLinkText = localizations && localizations.editThemeTemplate ? localizations.createThemeTemplate : '<a href="{createLink}" target="_blank">Create</a> a new {linkTitle}.'
 
 const changeEditLink = (item) => {
-  const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
   const createNewPageUrl = item.getAttribute('data-create-url')
   const linkTitle = item.closest('.vcv-ui-form-group').getAttribute('data-title')
   const actionsContainer = item.closest('.vcv-ui-form-group').closest('td').querySelector('.vcv-custom-page-templates-edit-link')
@@ -13,6 +12,7 @@ const changeEditLink = (item) => {
   actionsContainer.innerHTML = null
 
   if (item.value) {
+    const selectedPageUrl = item.querySelector('option:checked').getAttribute('data-url')
     actionsContainer.insertAdjacentHTML('beforeend', editLinkText.replace('{editLink}', selectedPageUrl).replace('{linkTitle}', linkTitle).replace('{createLink}', createNewPageUrl))
   } else {
     actionsContainer.insertAdjacentHTML('beforeend', createLinkText.replace('{createLink}', createNewPageUrl).replace('{linkTitle}', linkTitle))

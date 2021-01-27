@@ -134,6 +134,16 @@ if (is_array($variables)) {
     margin-right: auto;
   }
 
+  .vcv-thanks-message {
+      position: absolute;
+      bottom: 30px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 22px;
+      color: #8E8F9F;
+  }
+
   @-webkit-keyframes vcv-ui-wp-spinner-animation {
     from {
       -webkit-transform: translate(-50%, -50%) rotate(0deg);
@@ -270,6 +280,19 @@ if (is_array($variables)) {
                 } else {
                     $activeTabData['callback']();
                 }
+                ?>
+            </div>
+            <div class="vcv-thanks-message">
+                <?php
+                echo sprintf(
+                    __(
+                        'Thank you for choosing Visual Composer Website Builder. <br>' .
+                        'Like the plugin? %sRate us on WordPress.org%s',
+                        'visualcomposer'
+                    ),
+                    '<a href="https://wordpress.org/support/plugin/visualcomposer/reviews/?filter=5" target="_blank" rel="noopener noreferrer">',
+                    '</a>'
+                )
                 ?>
             </div>
         </main>
