@@ -102,7 +102,7 @@ export default class HubElementControl extends ElementControl {
       if (lockIcon) {
         action = null
         // Add action on whole item
-        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element', (element.bundleType && element.bundleType.indexOf('free') > -1))
+        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element')
       } else {
         action = this.downloadElement
       }

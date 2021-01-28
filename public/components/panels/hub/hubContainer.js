@@ -416,15 +416,11 @@ export default class HubContainer extends React.Component {
   /**
    * Click handler for Hub item (elements, templates) Lock icon
    * @param type {string}
-   * @param isFree {boolean}
    */
-  handleLockClick (type, isFree) {
+  handleLockClick (type) {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub : 'Activate Hub'
     const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures : 'Unlock All Features'
     const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium : 'Do More With Premium'
-    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature : 'This is a free feature'
-    const freeText = HubContainer.localizations ? HubContainer.localizations.getFreeLicenseToActivateVCHub : 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.'
     let descriptionText = ''
     if (type === 'template') {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToTemplates : 'Get access to more than 200 content elements with Visual Composer Premium.'
@@ -435,21 +431,16 @@ export default class HubContainer extends React.Component {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
 
-    let url
-    if (isFree) {
-      const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      url = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    } else {
-      const utm = dataManager.get('utm')
-      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      const utmLink = utm['editor-hub-go-premium']
-      url = utmLink.replace('{medium}', utmMedium)
-    }
+    const utm = dataManager.get('utm')
+    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+    const utmLink = utm['editor-hub-popup-teaser']
+
+    const url = utmLink.replace('{medium}', utmMedium)
 
     const fullScreenPopupData = {
-      headingText: isFree ? headingFreeText : headingPremiumText,
-      buttonText: isFree ? activateHubText : goPremiumText,
-      description: isFree ? freeText : descriptionText,
+      headingText: headingPremiumText,
+      buttonText: goPremiumText,
+      description: descriptionText,
       isPremiumActivated: isPremiumActivated,
       url: url
     }
