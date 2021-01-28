@@ -471,6 +471,9 @@ export default class HubContainer extends React.Component {
     if (this.props.namespace !== 'vc-dashboard') {
       linkProps.target = '_blank'
     }
+    let alreadyHaveLicenseText = HubContainer.localizations ? HubContainer.localizations.alreadyHaveLicenseTextOneAction : 'Already have a Premium license?'
+    const activateHereText = HubContainer.localizations ? HubContainer.localizations.activateHere : 'Activate here'
+
     return (
       <div className='vcv-hub-banner'>
         <div className='vcv-hub-banner-content'>
@@ -481,7 +484,7 @@ export default class HubContainer extends React.Component {
             {buttonText}
           </a>
           <p className='vcv-hub-banner-subtitle'>
-            Already have a Premium license? <a {...linkProps}>Activate here</a>.
+            {alreadyHaveLicenseText} <a {...linkProps}>{activateHereText}</a>.
           </p>
         </div>
       </div>

@@ -43,6 +43,9 @@ class Utm implements Helper
             'wp-dashboard-news-blog-post' => '?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=post-title-text',
             'wp-dashboard-news-gopremium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=gopremium&utm_content=go-premium-text',
 
+            // Getting Started
+            'getting-started' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=getting-started&utm_campaign=gopremium&utm_content=go-premium-text',
+
             // VC Dashboard Direct URLs
             'vc-dashboard-help' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=help-menu',
             'vc-dashboard-myvc' => rtrim($myVc, '\//')
