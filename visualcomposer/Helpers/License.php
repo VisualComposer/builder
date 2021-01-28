@@ -120,14 +120,6 @@ class License extends Container implements Helper
     /**
      * @return bool
      */
-    public function isAnyActivated()
-    {
-        return (bool)$this->getKey() && $this->getType();
-    }
-
-    /**
-     * @return bool
-     */
     public function isPremiumActivated()
     {
         return (bool)$this->getKey() && $this->getType() !== 'free';
