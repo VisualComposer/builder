@@ -106,7 +106,6 @@ export default class ElementComponent extends React.Component {
     script.text = `try{ 
       eval(unescape('${escapedString}'))
     } catch(e) {console.warn(e);}`
-    // TODO: add catched error message to console..
     helper.appendChild(script)
     elementWrapper.appendChild(helper)
   }
