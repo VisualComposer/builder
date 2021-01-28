@@ -113,14 +113,6 @@ class License extends Container implements Helper
     }
 
     /**
-     * @return bool
-     */
-    public function isFreeActivated()
-    {
-        return (bool)$this->getKey() && $this->getType() === 'free';
-    }
-
-    /**
      * @param string $redirectTo
      */
     public function refresh($redirectTo = 'vcv-update')
@@ -218,25 +210,6 @@ class License extends Container implements Helper
     }
 
     /**
-     * Hub description text
-     *
-     * @return string|void
-     */
-    public function hubActivationText()
-    {
-        $description = __(
-            'Activate your free or premium license to get access to the Visual Composer Hub',
-            'visualcomposer'
-        );
-
-        if ($this->isFreeActivated() || $this->isThemeActivated()) {
-            $description = __('Go premium to get unlimited access to the Visual Composer Hub', 'visualcomposer');
-        }
-
-        return $description;
-    }
-
-    /**
      * Hub terms agreement for free users
      *
      * @return string|void
@@ -247,6 +220,6 @@ class License extends Container implements Helper
 
         $agreeHubTerms = $optionHelper->get('agreeHubTerms', false);
 
-        return $agreeHubTerms || $this->getType() === 'free' ? true : false;
+        return $agreeHubTerms || $this->getType() === 'free';
     }
 }

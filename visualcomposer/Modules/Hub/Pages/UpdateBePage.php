@@ -43,6 +43,7 @@ class UpdateBePage extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             function (License $licenseHelper, Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
+                // TODO: update cloud consent
                 if ($licenseHelper->isAnyActivated() && $optionsHelper->get('bundleUpdateRequired')) {
                     $actions = $updateHelper->getRequiredActions();
                     if (!empty($actions['actions']) || !empty($actions['posts'])) {

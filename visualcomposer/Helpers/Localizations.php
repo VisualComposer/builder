@@ -404,9 +404,9 @@ class Localizations extends Container implements Helper
             'createYourWordpressWebsite' => __('Create Your WordPress Website Today.', 'visualcomposer'),
             'startEasyBuildFast' => __('Start Easy. Build Fast.', 'visualcomposer'),
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),
-            'getMoreText' => __('Connect to Visual Composer Hub.', 'visualcomposer'),
-            'getMoreTextSubText' => __('Do More.', 'visualcomposer'),
-            'downloadFromHubText' => vchelper('License')->hubActivationText(),
+            'getMoreText' => __('Do More With Visual Composer', 'visualcomposer'),
+            'getMoreTextSubText' => __('Premium', 'visualcomposer'),
+            'downloadFromHubText' => __('Get unlimited access to the Visual Composer Hub. 500+ elements, templates, addons, and integrations', 'visualcomposer'),
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(
@@ -1579,14 +1579,6 @@ class Localizations extends Container implements Helper
             ),
             'dynamicView' => __(
                 'Dynamic View',
-                'visualcomposer'
-            ),
-            'thisIsAFreeFeature' => __(
-                'This is a free feature',
-                'visualcomposer'
-            ),
-            'getFreeLicenseToActivateVCHub' => __(
-                'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.',
                 'visualcomposer'
             ),
             'elementLockPremiumFeatureHeading' => __(
