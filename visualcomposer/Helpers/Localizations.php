@@ -163,7 +163,7 @@ class Localizations extends Container implements Helper
             ),
             'activationFailed' => __(
                 'An error occurred during the Visual Composer extension download process.
-<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://aws.amazon.com/ru/premiumsupport/knowledge-center/s3-find-ip-address-ranges/" target="_blank" rel="noopener noreferrer">Amazon AWS Region: `us-west-2` IP</a></li></ul>',
+<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://my.visualcomposer.com</li><li>- Check if your server has access to the <a href="https://aws.amazon.com/ru/premiumsupport/knowledge-center/s3-find-ip-address-ranges/" target="_blank" rel="noopener noreferrer">Amazon AWS Region: `us-west-2` IP</a></li></ul>',
                 'visualcomposer'
             ),
             'alreadyHaveALicenseText' => __(
