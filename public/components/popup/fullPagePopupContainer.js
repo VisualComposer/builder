@@ -29,7 +29,7 @@ export default class FullPagePopupContainer extends React.Component {
   }
 
   componentWillUnmount () {
-    editorPopupStorage.state('activeFullPopup').onChange(this.handlePopupChange)
+    editorPopupStorage.state('activeFullPopup').ignoreChange(this.handlePopupChange)
   }
 
   handlePopupChange (activePopup) {
