@@ -455,13 +455,22 @@ export default class HubContainer extends React.Component {
   }
 
   getHubBanner () {
-    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Connect to Visual Composer Hub.'
-    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
-    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
+    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Do More With Visual Composer'
+    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Premium'
+    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Get unlimited access to the Visual Composer Hub. 500+ elements, templates, addons, and integrations'
     const buttonText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
     const utm = dataManager.get('utm')
     const bannerButtonUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
-
+    const refRoot = `&vcv-ref=${this.getUtmMedium()}`
+    const activateUrl = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    const linkProps = {
+      rel: 'noopener noreferrer',
+      href: activateUrl,
+      className: 'vcv-hub-banner-link'
+    }
+    if (this.props.namespace !== 'vc-dashboard') {
+      linkProps.target = '_blank'
+    }
     return (
       <div className='vcv-hub-banner'>
         <div className='vcv-hub-banner-content'>
@@ -471,6 +480,9 @@ export default class HubContainer extends React.Component {
           <a className='vcv-hub-banner-button' href={bannerButtonUrl} target='_blank' rel='noopener noreferrer'>
             {buttonText}
           </a>
+          <p className='vcv-hub-banner-subtitle'>
+            Already have a Premium license? <a {...linkProps}>Activate here.</a>
+          </p>
         </div>
       </div>
     )

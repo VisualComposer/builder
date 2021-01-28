@@ -90,12 +90,6 @@ class UpdateVariablesController extends Container implements Module
                     ],
                     'type' => 'constant',
                 ];
-
-                $variables[] = [
-                    'key' => 'VCV_IS_FREE_ACTIVATED',
-                    'value' => $licenseHelper->isFreeActivated(),
-                    'type' => 'constant',
-                ];
             }
         }
 
