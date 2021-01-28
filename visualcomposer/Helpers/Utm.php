@@ -50,6 +50,7 @@ class Utm implements Helper
             'vc-dashboard-help' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=help-menu',
             'vc-dashboard-myvc' => rtrim($myVc, '\//')
                 . '/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=my-visual-composer-menu',
+            'vc-dashboard-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=gopremium&utm_content=go-premium-menu',
 
             // WP-Plugins
             'wp-plugins' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=gopremium&utm_content=go-premium-text',
