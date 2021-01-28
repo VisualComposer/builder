@@ -159,7 +159,7 @@ export default class ActivateLicenseScreen extends React.Component {
     }
 
     const authorApiKey = dataManager.get('authorApiKey')
-    const myVcLicenseUrl = dataManager.get('utm')['activate-license-myvc-license-url'].replace('{medium}', dataManager.get('isFreeActivated') ? 'go-premium' : 'activate-hub')
+    const myVcLicenseUrl = dataManager.get('utm')['activate-license-myvc-license-url'].replace('{medium}', 'go-premium')
     let forgotYourLicense = (
       <p className='vcv-activation-input-field-forgot-license' dangerouslySetInnerHTML={{ __html: alreadyHaveALicenseText.replace('{link}', myVcLicenseUrl) }} />
     )
