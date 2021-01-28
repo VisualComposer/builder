@@ -52,7 +52,7 @@ export default class HubItemController extends ElementControl {
 
   handleDownloadItem (errorMessage) {
     const { element } = this.props
-    if (!element.allowDownload || !dataManager.get('isAnyActivated')) {
+    if (!element.allowDownload) {
       return false
     }
 

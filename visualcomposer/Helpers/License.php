@@ -218,22 +218,6 @@ class License extends Container implements Helper
     }
 
     /**
-     * Show button title depending on activation type
-     *
-     * @return string|void
-     */
-    public function activationButtonTitle()
-    {
-        $title = __('Activate Hub', 'visualcomposer');
-
-        if ($this->isAnyActivated()) {
-            $title = __('Go Premium', 'visualcomposer');
-        }
-
-        return $title;
-    }
-
-    /**
      * Hub description text
      *
      * @return string|void
