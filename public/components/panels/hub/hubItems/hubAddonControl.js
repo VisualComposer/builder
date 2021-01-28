@@ -51,7 +51,7 @@ export default class HubAddonControl extends React.Component {
       elementState = hubAddonsStorage.state('addons').get()[tag] ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
+    const lockIcon = (!element.allowDownload && elementState === 'inactive')
     const downloadAddonText = localizations.downloadAddonText || 'Download Addon'
     const addonInstalledText = localizations.installedText || 'Installed'
     const availableInPremiumText = localizations.availableInPremiumText || 'Available in Premium'
