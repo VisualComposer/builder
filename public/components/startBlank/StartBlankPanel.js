@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import HfsPanelContent from './lib/hsfPanelContent'
-import PagePanelContent from './lib/pagePanelContent'
 import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -68,26 +67,15 @@ export default class startBlank extends React.Component {
     const localizations = dataManager.get('localizations')
     const editorType = dataManager.get('editorType')
     let type = editorType.replace('vcv_', '')
-    let startBlankContent
-    let headingPart1
-    let headingPart2
-    if (editorType === 'vcv_archives') {
-      headingPart1 = localizations ? localizations.blankPageHeadingSelect : 'Name Your page, Select'
-      headingPart2 = localizations ? localizations.blankPageHeadingPart2 : 'Layout and Start Building'
-      startBlankContent = (
-        <PagePanelContent />
-      )
-    } else {
-      type = type.charAt(0).toUpperCase() + type.slice(1)
-      headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
-      headingPart2 = localizations ? localizations.blankPageTitleHeadingPart2 : 'and Start Building'
-      startBlankContent = (
-        <HfsPanelContent
-          type={type}
-          onClick={this.handleStartClick}
-        />
-      )
-    }
+    type = editorType === 'vcv_archives' ? 'Archive Page' : type.charAt(0).toUpperCase() + type.slice(1)
+    const headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
+    const headingPart2 = localizations ? localizations.blankPageTitleHeadingPart2 : 'and Start Building'
+    const startBlankContent = (
+      <HfsPanelContent
+        type={type}
+        onClick={this.handleStartClick}
+      />
+    )
 
     return (
       <div className='vcv-start-blank-container' onMouseUp={this.handleMouseUp}>

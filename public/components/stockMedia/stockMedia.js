@@ -109,7 +109,8 @@ export default class StockMedia extends React.Component {
       scrolledToBottom,
       sizes,
       previewImageSize,
-      customContainerClass
+      customContainerClass,
+      goPremiumLink
     } = this.props
     const getMediaWithPremiumText = (stockMediaLocalizations && stockMediaLocalizations.getMediaWithPremiumText) || ''
     const getMediaText = (stockMediaLocalizations && stockMediaLocalizations.getMediaText) || ''
@@ -121,9 +122,9 @@ export default class StockMedia extends React.Component {
         <>
           <span className='vcv-stock-images-unsplash-logo' dangerouslySetInnerHTML={{ __html: stockMediaLogo }} />
           <p className='vcv-stock-images-subtitle'>{getMediaWithPremiumText}</p>
-          <span className='vcv-stock-images-button' onClick={() => { this.props.onClickGoPremium('button') }}>
+          <a className='vcv-stock-images-button' href={goPremiumLink} target='_blank' rel='noopener noreferrer'>
             {goPremiumText}
-          </span>
+          </a>
         </>
       )
     } else {

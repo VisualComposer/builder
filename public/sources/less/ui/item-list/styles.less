@@ -439,9 +439,14 @@
   height: 40px;
   cursor: pointer;
   transition: background @transition-duration @transition-timing-function;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background: @vcv-blue-button--hover;
+    color: @vcv-color-white;
   }
 }
 
