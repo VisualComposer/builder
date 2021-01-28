@@ -109,7 +109,7 @@ class Utm implements Helper
             'editor-navbar-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=navbar-editor&utm_campaign=gopremium&utm_content=go-premium-button',
 
             // Editor Addon Item Button
-            'editor-available-in-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=${medium}&utm_campaign=gopremium&utm_content=available-in-premium-button',
+            'editor-available-in-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=available-in-premium-button',
         ];
 
         return $utm;
