@@ -114,6 +114,7 @@ If the problem still occurs, visit %smy.visualcomposer.com/support%s for technic
     protected function sendAgreeHubTerms(Options $optionsHelper)
     {
         $optionsHelper->set('agreeHubTerms', time());
+        $optionsHelper->deleteTransient('lastBundleUpdate');
 
         return ['status' => true];
     }
