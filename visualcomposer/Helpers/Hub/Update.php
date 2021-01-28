@@ -32,8 +32,6 @@ class Update implements Helper
                     // Everything is ok need to parse $requiredActions['actions']
                     $json = $savedJson['json'];
                 } else {
-                    // TODO: Errors
-                    // Logger::add error
                     $loggerHelper->log('Failed to update required actions list #10012');
                 }
             }
@@ -202,12 +200,6 @@ class Update implements Helper
         $variables[] = [
             'key' => 'vcvGoPremiumUrlWithRef',
             'value' => $utmHelper->premiumBtnUtm($vcvRef),
-            'type' => 'variable',
-        ];
-        // TODO: CHECK
-        $variables[] = [
-            'key' => 'vcvGoFreeUrlWithRef',
-            'value' => $utmHelper->freeBtnUtm($vcvRef),
             'type' => 'variable',
         ];
 

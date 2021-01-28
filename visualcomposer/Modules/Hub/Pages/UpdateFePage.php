@@ -48,12 +48,10 @@ class UpdateFePage extends Container implements Module
         Update $updateHelper,
         License $licenseHelper
     ) {
-        if (!$licenseHelper->isAnyActivated()) {
-            $optionsHelper->set('bundleUpdateRequired', false);
-
-            return $response;
-        }
-        if ($optionsHelper->get('bundleUpdateRequired')) {
+        if (
+            ($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms'))
+            && $optionsHelper->get('bundleUpdateRequired')
+        ) {
             $requiredActions = $updateHelper->getRequiredActions();
             if (!empty($requiredActions['actions']) || !empty($requiredActions['posts'])) {
                 $content = implode('', vcfilter('vcv:update:extraOutput', []));

@@ -49,7 +49,6 @@ const dataManager = {
       goPremiumUrlWithRef: () => { return window.vcvGoPremiumUrlWithRef }, // used only in wp-admin/ license pages components
       goPremiumUrl: () => { return window.vcvGoPremiumUrl },
       gettingStartedUrl: () => { return window.vcvGettingStartedUrl },
-      goFreeUrlWithRef: () => { return window.vcvGoFreeUrlWithRef },
       authorApiKey: () => { return window.VCV_AUTHOR_API_KEY && window.VCV_AUTHOR_API_KEY() },
       updateActions: () => { return window.VCV_UPDATE_ACTIONS && window.VCV_UPDATE_ACTIONS() },
       slug: () => { return window.VCV_SLUG && window.VCV_SLUG() },

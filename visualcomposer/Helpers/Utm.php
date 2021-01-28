@@ -24,23 +24,6 @@ class Utm implements Helper
         return str_replace('{medium}', esc_attr($medium), $premiumLicenseUtmTemplate);
     }
 
-    public function freeBtnUtm($medium)
-    {
-        $myVc = vcvenv('VCV_HUB_PUBLIC_URL');
-        $source = 'vcwb';
-        if (defined('VCV_AUTHOR_API_KEY')) {
-            $source = 'theme-author-vcwb';
-        }
-
-        $freeLicenseUtmTemplate = sprintf(
-            '%s/free-license/?utm_source=%s&utm_medium={medium}&utm_campaign=get-free-license&utm_content=get-free-license-button',
-            rtrim($myVc, '\//'),
-            $source
-        );
-
-        return str_replace('{medium}', esc_attr($medium), $freeLicenseUtmTemplate);
-    }
-
     /**
      * @return array
      */
