@@ -1250,7 +1250,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'thisIsYourContentLibrary' => __(
-                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source='
+                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content/?utm_source='
                 . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source='
                 . $source
@@ -1265,7 +1265,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'useQuickActions' => __(
-                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source='
+                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content/?utm_source='
                 . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
                 'visualcomposer'
