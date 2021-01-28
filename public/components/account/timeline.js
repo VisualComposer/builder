@@ -17,7 +17,7 @@ export default class Timeline extends React.Component {
       return null
     }
 
-    let timelineClasses = 'vcv-timeline vcv-timeline--three-steps'
+    const timelineClasses = 'vcv-timeline vcv-timeline--three-steps'
     let goPremiumStepClasses = 'vcv-timeline-item'
     if (licenseType === 'premium' || licenseType === 'theme') {
       goPremiumStepClasses += ' vcv-step-done'
