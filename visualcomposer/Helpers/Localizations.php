@@ -780,6 +780,10 @@ class Localizations extends Container implements Helper
                 'Already have a Premium license? %1s or %2s.',
                 'visualcomposer'
             ),
+            'alreadyHaveLicenseTextOneAction' => __(
+                'Already have a Premium license?',
+                'visualcomposer'
+            ),
             'activateHere' => __(
                 'Activate here',
                 'visualcomposer'
