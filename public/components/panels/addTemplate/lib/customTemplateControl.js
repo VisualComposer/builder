@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { getService } from 'vc-cake'
 
-const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const dataManager = getService('dataManager')
 
 export default class CustomTemplateControl extends React.Component {
@@ -75,14 +74,9 @@ export default class CustomTemplateControl extends React.Component {
       <div className='vcv-ui-item-list-item'>
         <span className='vcv-ui-item-element'>
           <span
-            className='vcv-ui-item-element-content'
+            className='vcv-ui-item-element-content vcv-ui-item-element-constant-bg'
             data-letter={letter}
           >
-            <img
-              className='vcv-ui-item-element-image'
-              src={sharedAssetsLibraryService.getSourcePath('images/template-thumbnail.png')}
-              alt={name}
-            />
             <span className={overlayClasses}>
               {itemButton}
               <span className={spinnerClasses} />
