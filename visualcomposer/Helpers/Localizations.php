@@ -49,7 +49,6 @@ class Localizations extends Container implements Helper
             'publish' => __('Publish', 'visualcomposer'),
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
             'saveDraft' => __('Save Draft', 'visualcomposer'),
-            'activationButtonTitle' => vchelper('License')->activationButtonTitle(),
             'goPremium' => __('Go Premium', 'visualcomposer'),
             'getFreeLicense' => __('Get Free License', 'visualcomposer'),
             'activated' => __('Activated', 'visualcomposer'),

@@ -134,9 +134,6 @@ class TestPostUpdate extends WP_UnitTestCase
         preg_match_all('/window\.vcvIsPremiumActivated/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'vcvIsPremiumActivated');
 
-        preg_match_all('/window\.vcvIsFreeActivated/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'vcvIsFreeActivated');
-
         preg_match_all('/window\.vcvGoPremiumUrlWithRef/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'vcvGoPremiumUrlWithRef');
 

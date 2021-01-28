@@ -8,7 +8,6 @@ class TokenTest extends WP_UnitTestCase
     {
         $licenseHelper = vchelper('License');
         $this->assertFalse($licenseHelper->isPremiumActivated());
-        $this->assertFalse($licenseHelper->isFreeActivated());
         $this->assertFalse($licenseHelper->isAnyActivated());
 
         $tokenHelper = vchelper('Token');
