@@ -6,6 +6,7 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const settingsStorage = getStorage('settings')
 const dataProcessor = getService('dataProcessor')
+const editorPopupStorage = getStorage('editorPopup')
 
 export default class TermsBox extends React.Component {
   constructor (props) {
@@ -24,6 +25,9 @@ export default class TermsBox extends React.Component {
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'editors:agreeHubTerms:enable:adminNonce'
     }).then(() => {
+      const popupData = editorPopupStorage.state('fullScreenPopupData').get() || {}
+      popupData && popupData.onPrimaryButtonClick && popupData.onPrimaryButtonClick()
+
       this.setState({ isLoading: false })
       this.props.onClose()
     })
