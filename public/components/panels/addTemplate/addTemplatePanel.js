@@ -216,10 +216,17 @@ export default class AddTemplatePanel extends React.Component {
 
   getSearchResults () {
     const { searchValue } = this.props
+
     return this.state.categories[0].templates.filter((template) => {
-      const name = template.name.toLowerCase()
-      return Object.prototype.hasOwnProperty.call(template, 'name') && name.indexOf(searchValue.toLowerCase().trim()) !== -1
-    }).map((template) => {
+      const name = template.name && template.name.toLowerCase()
+      if (name && name.indexOf(searchValue) !== -1) {
+        return true
+      } else {
+        const description = template.description && template.description.toLowerCase()
+        return description && description.indexOf(searchValue) !== -1
+      }
+    }).sort((a, b) => b.name.indexOf(searchValue) - a.name.indexOf(searchValue))
+      .map((template) => {
       return this.getTemplateControl(template)
     })
   }
