@@ -245,12 +245,12 @@ if (is_array($variables)) {
                         <?php
                         $utmHelper = vchelper('Utm');
                         echo sprintf(
-                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener">%s</a></li>',
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener noreferrer">%s</a></li>',
                             esc_url($utmHelper->get('vc-dashboard-help')),
                             __('Help', 'visualcomposer')
                         );
                         echo sprintf(
-                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener">%s</a></li>',
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener noreferrer">%s</a></li>',
                             esc_url($utmHelper->get('vc-dashboard-myvc')),
                             __('My Visual Composer', 'visualcomposer')
                         );
