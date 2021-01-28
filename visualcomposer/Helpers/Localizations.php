@@ -406,7 +406,7 @@ class Localizations extends Container implements Helper
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),
             'getMoreText' => __('Do More With Visual Composer', 'visualcomposer'),
             'getMoreTextSubText' => __('Premium', 'visualcomposer'),
-            'downloadFromHubText' => __('Get unlimited access to the Visual Composer Hub. 500+ elements, templates, addons, and integrations', 'visualcomposer'),
+            'downloadFromHubText' => __('Get unlimited access to the Visual Composer Hub with 500+ elements, templates, addons, and integrations.', 'visualcomposer'),
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(

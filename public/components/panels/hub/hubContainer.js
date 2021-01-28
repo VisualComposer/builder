@@ -457,7 +457,7 @@ export default class HubContainer extends React.Component {
   getHubBanner () {
     const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Do More With Visual Composer'
     const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Premium'
-    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Get unlimited access to the Visual Composer Hub. 500+ elements, templates, addons, and integrations'
+    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Get unlimited access to the Visual Composer Hub with 500+ elements, templates, addons, and integrations.'
     const buttonText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
     const utm = dataManager.get('utm')
     const bannerButtonUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
@@ -481,7 +481,7 @@ export default class HubContainer extends React.Component {
             {buttonText}
           </a>
           <p className='vcv-hub-banner-subtitle'>
-            Already have a Premium license? <a {...linkProps}>Activate here.</a>
+            Already have a Premium license? <a {...linkProps}>Activate here</a>.
           </p>
         </div>
       </div>
