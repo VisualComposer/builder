@@ -51,6 +51,8 @@ class Utm implements Helper
             'vc-dashboard-myvc' => rtrim($myVc, '\//')
                 . '/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=my-visual-composer-menu',
 
+            // WP-Plugins
+            'wp-plugins' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=gopremium&utm_content=go-premium-text',
             // Plugin Row Meta (changelog/more details) Direct URLS
             'wp-plugins-meta-help-center' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=help-center-text',
             'wp-plugins-meta-api' => 'https://visualcomposer.com/help/api/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=api-text',

@@ -33,7 +33,7 @@ $pageTitle = empty($page['subTitle']) ? $page['title'] : $page['subTitle'];
             <?php if (vchelper('License')->isPremiumActivated()) : ?>
                 <a class="vcv-premium-teaser-btn vcv-premium-teaser-download-addon-btn" data-vcv-action="download" data-vcv-action-bundle="<?php echo $page['premiumActionBundle']; ?>"><?php esc_html_e('Download Addon', 'visualcomposer'); ?></a>
             <?php else : ?>
-                <a class="vcv-premium-teaser-btn" href="<?php echo $page['premiumUrl']; ?>" target="_blank" rel="noopener"><?php esc_html_e('Go Premium', 'visualcomposer'); ?></a>
+                <a class="vcv-premium-teaser-btn" href="<?php echo $page['premiumUrl']; ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Go Premium', 'visualcomposer'); ?></a>
             <?php endif; ?>
         </div>
     </div>
