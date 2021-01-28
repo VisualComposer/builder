@@ -12,19 +12,19 @@ const API = {
   getElementName: (elementData) => {
     let elName = ''
     if (elementData.name) {
-      elName = elementData.name.toLowerCase()
+      elName = elementData.name
     } else if (typeof elementData.get === 'function') {
       if (elementData.get('name')) {
-        elName = elementData.get('name').toLowerCase()
+        elName = elementData.get('name')
       }
     } else if (elementData.tag) {
       const element = cook.get(elementData)
       if (element.get('name')) {
-        elName = element.get('name').toLowerCase()
+        elName = element.get('name')
       }
     }
 
-    return elName
+    return elName.toLowerCase()
   },
   getElementDescription: (elementData) => {
     let elDescription = ''

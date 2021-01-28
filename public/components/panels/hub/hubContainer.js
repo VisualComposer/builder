@@ -22,6 +22,7 @@ const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
 const editorPopupStorage = vcCake.getStorage('editorPopup')
+const hubElementsService = vcCake.getService('hubElements')
 
 export default class HubContainer extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -309,45 +310,15 @@ export default class HubContainer extends React.Component {
       return val.title === 'All' || val.title === 'All Elements'
     })
 
-    function getElementName (elementData) {
-      let elName = ''
-      if (elementData.name) {
-        elName = elementData.name
-      } else if (elementData.tag) {
-        const element = cook.get(elementData)
-        const cookElementName = element.get('name')
-        if (cookElementName) {
-          elName = cookElementName
-        }
-      }
-      return elName.toLowerCase()
-    }
-
-    function getElementDescription (elementData) {
-      let elDescription = ''
-      if (elementData.description) {
-        elDescription = elementData.description
-      } else if (elementData.metaDescription) {
-        elDescription = elementData.metaDescription
-      } else if (elementData.tag) {
-        const element = cook.get(elementData)
-        const cookElementDescription = element.get('metaDescription')
-        if (cookElementDescription) {
-          elDescription = cookElementDescription
-        }
-      }
-      return elDescription.toLowerCase()
-    }
-
     return allCategories[getIndex].elements.filter((elementData) => {
-      const elName = getElementName(elementData)
+      const elName = hubElementsService.getElementName(elementData)
       if (elName.indexOf(value) !== -1) {
         return true
       } else {
-        const elDescription = getElementDescription(elementData)
+        const elDescription = hubElementsService.getElementDescription(elementData)
         return elDescription.indexOf(value) !== -1
       }
-    }).sort((a, b) => getElementName(b).indexOf(value) - getElementName(a).indexOf(value))
+    }).sort((a, b) => hubElementsService.getElementName(b).indexOf(value) - hubElementsService.getElementName(a).indexOf(value))
   }
 
   getSearchElement () {
