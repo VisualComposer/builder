@@ -167,7 +167,6 @@ function vcvadmininit()
 function vcLogWpHttpCodes($code)
 {
     $message = '';
-    
     switch ($code) {
         case 'http_no_url':
             $message = __(
