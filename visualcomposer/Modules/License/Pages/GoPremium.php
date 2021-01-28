@@ -94,11 +94,14 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (!$licenseHelper->isPremiumActivated() && !strpos($screen->id, $this->slug)
+        if (
+            !$licenseHelper->isPremiumActivated()
+            && !strpos($screen->id, $this->slug)
             && !strpos(
                 $screen->id,
                 'vcv-getting-started'
-            )) {
+            )
+        ) {
             if (!isset($notices['hubActivationNotice'])) {
                 $noticeHelper->addNotice(
                     'hubActivationNotice',
