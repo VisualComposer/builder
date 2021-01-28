@@ -467,7 +467,7 @@ export default class HubContainer extends React.Component {
     const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Connect to Visual Composer Hub.'
     const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
     const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
-    const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : 'Go Premium'
+    const buttonText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
     const utm = dataManager.get('utm')
     const bannerButtonUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
 

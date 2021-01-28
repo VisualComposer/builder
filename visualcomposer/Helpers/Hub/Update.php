@@ -195,7 +195,7 @@ class Update implements Helper
         $vcvRef = $requestHelper->input('vcv-ref');
         if (!$vcvRef) {
             // default UTMs if page opened directly without vcv-ref
-            $vcvRef = $licenseHelper->isFreeActivated() ? 'go-premium' : 'activate-hub';
+            $vcvRef = 'go-premium';
         }
 
         // Used in vcv-activate-license page
@@ -204,6 +204,7 @@ class Update implements Helper
             'value' => $utmHelper->premiumBtnUtm($vcvRef),
             'type' => 'variable',
         ];
+        // TODO: CHECK
         $variables[] = [
             'key' => 'vcvGoFreeUrlWithRef',
             'value' => $utmHelper->freeBtnUtm($vcvRef),

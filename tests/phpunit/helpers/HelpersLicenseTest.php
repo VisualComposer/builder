@@ -23,12 +23,9 @@ class HelpersLicenseTest extends WP_UnitTestCase
         $optionsHelper = vchelper('Options');
         $helper->setKey(false, $optionsHelper);
 
-        $this->assertFalse($helper->isFreeActivated());
-
         $helper->setKey('foo-bar', $optionsHelper);
         $helper->setType('free', $optionsHelper);
 
-        $this->assertTrue($helper->isFreeActivated());
         $this->assertTrue($helper->isAnyActivated());
         $this->assertFalse($helper->isPremiumActivated());
 
