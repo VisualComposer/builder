@@ -27,7 +27,6 @@ class ElementDownloadController extends Container implements Module
 
     protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper, License $licenseHelper)
     {
-        // TODO: Fix default
         if (empty($response)) {
             $response = [
                 'status' => true,

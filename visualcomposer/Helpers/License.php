@@ -90,18 +90,6 @@ class License extends Container implements Helper
         }
     }
 
-    public function isActivelyUsed($days = 30)
-    {
-        $optionsHelper = vchelper('Options');
-        $usage = $optionsHelper->get('license-usage');
-        if (!empty($usage) && ((int)$usage + ($days * DAY_IN_SECONDS)) < time()) {
-            // More than 1 month used current license-type
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * @return mixed
      */
