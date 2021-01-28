@@ -259,8 +259,8 @@ if (is_array($variables)) {
                         $licenseHelper = vchelper('License');
                         if (!$licenseHelper->isPremiumActivated()) {
                             echo sprintf(
-                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star">%s</a></li>',
-                                esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=vc-dashboard')),
+                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                                esc_url(vchelper('Utm')->get('vc-dashboard-go-premium')),
                                 __('Go Premium', 'visualcomposer')
                             );
                         }
