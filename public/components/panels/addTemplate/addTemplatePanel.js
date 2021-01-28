@@ -227,8 +227,8 @@ export default class AddTemplatePanel extends React.Component {
       }
     }).sort((a, b) => b.name.indexOf(searchValue) - a.name.indexOf(searchValue))
       .map((template) => {
-      return this.getTemplateControl(template)
-    })
+        return this.getTemplateControl(template)
+      })
   }
 
   getTemplatesByCategory () {
