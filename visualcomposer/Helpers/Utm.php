@@ -104,6 +104,12 @@ class Utm implements Helper
 
             // Editor Element Settings(Element Presets) addon teaser
             'editor-element-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=element-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+
+            // Editor VC Navbar Dropdown
+            'editor-navbar-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=navbar-editor&utm_campaign=gopremium&utm_content=go-premium-button',
+
+            // Editor Addon Item Button
+            'editor-available-in-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=${medium}&utm_campaign=gopremium&utm_content=available-in-premium-button',
         ];
 
         return $utm;

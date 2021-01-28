@@ -48,8 +48,6 @@ export default class HubContainer extends React.Component {
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
     this.changeActiveCategory = this.changeActiveCategory.bind(this)
-    this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
-    this.handleMediaGoPremium = this.handleMediaGoPremium.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
@@ -225,7 +223,8 @@ export default class HubContainer extends React.Component {
         name={elementData.name}
         isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
-        onClickGoPremium={elementData.type === 'addon' ? this.handleClickGoPremium : this.handleLockClick}
+        onClickGoPremium={this.handleLockClick}
+        utmMedium={this.getUtmMedium()}
       />
     )
   }
@@ -458,42 +457,10 @@ export default class HubContainer extends React.Component {
     editorPopupStorage.state('activeFullPopup').set('premium-teaser')
   }
 
-  /**
-   * Click handler for Hub window Stock Media header button (Unsplash, Giphy)
-   * @param clickedType {string}
-   * @param isFree {boolean}
-   */
-  handleMediaGoPremium (clickedType, isFree) {
-    if (isFree && clickedType === 'popup') {
-      this.handleClickGoPremium()
-    } else {
-      const utm = dataManager.get('utm')
-      const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-      const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
-      const teaserUrl = utmLink.replace('{medium}', utmMedium)
-
-      window.open(teaserUrl)
-    }
-  }
-
-  /**
-   * Click handler for Hub window header button
-   * @param e
-   */
-  handleClickGoPremium (e) {
-    e && e.preventDefault && e.preventDefault()
-
+  getUtmMedium () {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-    const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-    const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    if (this.props.namespace === 'vc-dashboard') {
-      window.location.href = utmUrlRef // open in same window
-    } else {
-      window.open(utmUrlRef)
-    }
+    return `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
   }
 
   getHubBanner () {
@@ -501,6 +468,8 @@ export default class HubContainer extends React.Component {
     const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
     const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
     const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : dataManager.get('isFreeActivated') ? 'Go Premium' : 'Activate Visual Composer Hub'
+    const utm = dataManager.get('utm')
+    const bannerButtonUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
 
     return (
       <div className='vcv-hub-banner'>
@@ -508,9 +477,9 @@ export default class HubContainer extends React.Component {
           <p className='vcv-hub-banner-title'>{titleText}</p>
           <p className='vcv-hub-banner-title'>{titleSubText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-          <span className='vcv-hub-banner-button' onClick={this.handleClickGoPremium}>
+          <a className='vcv-hub-banner-button' href={bannerButtonUrl} target='_blank' rel='noopener noreferrer'>
             {buttonText}
-          </span>
+          </a>
         </div>
       </div>
     )
@@ -547,6 +516,9 @@ export default class HubContainer extends React.Component {
       'vcv-ui-editor-plate--addon': filterType === 'addon'
     })
 
+    const utm = dataManager.get('utm')
+    const teaserUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
+
     let panelContent = ''
     if (filterType === 'unsplash') {
       panelContent = (
@@ -555,7 +527,7 @@ export default class HubContainer extends React.Component {
           scrollTop={this.state.scrollTop}
           namespace={this.props.namespace}
           filterType={filterType}
-          onClickGoPremium={this.handleMediaGoPremium}
+          goPremiumLink={teaserUrl}
         />
       )
     } else if (filterType === 'giphy') {
@@ -565,7 +537,7 @@ export default class HubContainer extends React.Component {
           scrollTop={this.state.scrollTop}
           namespace={this.props.namespace}
           filterType={filterType}
-          onClickGoPremium={this.handleMediaGoPremium}
+          goPremiumLink={teaserUrl}
         />
       )
     } else {
