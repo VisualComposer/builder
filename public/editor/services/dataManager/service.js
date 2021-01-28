@@ -34,7 +34,6 @@ const dataManager = {
       hubGetTeaser: () => { return window.VCV_HUB_GET_TEASER ? window.VCV_HUB_GET_TEASER() : {} },
       hubGetTemplatesTeaser: () => { return window.VCV_HUB_GET_TEMPLATES_TEASER ? window.VCV_HUB_GET_TEMPLATES_TEASER() : {} },
       getSharedAssets: () => { return window.VCV_GET_SHARED_ASSETS ? window.VCV_GET_SHARED_ASSETS() : {} },
-      isAnyActivated: () => { return window.vcvIsAnyActivated },
       isPremiumActivated: () => { return window.vcvIsPremiumActivated },
       pageTemplatesLayoutsCurrent: () => { return window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT && window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() },
       pageTemplatesLayouts: () => { return window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS() },
