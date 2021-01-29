@@ -28,7 +28,6 @@ class FrontendControllerTest extends WP_UnitTestCase
             'window\.vcvAjaxUrl = ".+[\?|\&]vcv-ajax=1";',
             'window\.vcvNonce = ".+";',
             'window\.vcvIsPremiumActivated',
-            'window\.vcvIsFreeActivated',
             '<iframe class="vcv-layout-iframe"',
             'src=".+vcv-editable=1&vcv-source-id=' . $postId . '&vcv-nonce=.+" id="vcv-editor-iframe"',
             '\<title\>Frontend editor:',

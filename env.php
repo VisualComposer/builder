@@ -30,7 +30,7 @@ if (!VcvEnv::has('VCV_HUB_PUBLIC_URL')) {
 if (!VcvEnv::has('VCV_HUB_LICENSES_URL')) {
     VcvEnv::set(
         'VCV_HUB_LICENSES_URL',
-        'https://my.visualcomposer.com/licenses/?utm_source=' . $source . '&utm_medium=license-vc-dashboard&utm_campaign=upgrade&utm_content=text'
+        'https://my.visualcomposer.com/licenses/?utm_source=' . $source . '&utm_medium=license-vcdashboard&utm_campaign=upgrade&utm_content=text'
     );
 }
 

@@ -114,7 +114,6 @@ addStorage('wordpressData', (storage) => {
         } catch (e) {
           console.warn('Failed to parse page elements', e)
           data = { elements: {} }
-          // TODO: Maybe attempt to repair truncated js (like loose but not all?)
         }
         elementsStorage.trigger('reset', data.elements || {})
         if (!data.elements) {

@@ -91,15 +91,27 @@ class LicenseController extends Container implements Module
 
         if (!vcIsBadResponse($resultBody)) {
             $licenseType = $resultBody['license_type'];
-            $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
-            $licenseHelper->setType($licenseType);
-            $licenseHelper->setExpirationDate(
-                $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
-            );
-            $licenseHelper->updateUsageDate(true);
-            $optionsHelper->deleteTransient('lastBundleUpdate');
+            if ($licenseType !== 'free') {
+                $licenseHelper->setKey($requestHelper->input('vcv-license-key'));
+                $licenseHelper->setType($licenseType);
+                $licenseHelper->setExpirationDate(
+                    $resultBody['expires'] !== 'lifetime' ? strtotime($resultBody['expires']) : 'lifetime'
+                );
+                $licenseHelper->updateUsageDate(true);
+                $optionsHelper->deleteTransient('lastBundleUpdate');
 
-            return ['status' => true];
+                return ['status' => true];
+            }
+
+            $message = $licenseHelper->licenseErrorCodes('item_name_mismatch');
+            $loggerHelper->log(
+                $message,
+                [
+                    'result' => $body,
+                ]
+            );
+
+            return ['status' => false, 'response' => $resultBody];
         }
 
         $loggerHelper->log(
@@ -126,11 +138,7 @@ class LicenseController extends Container implements Module
         $optionsHelper->deleteTransient('lastBundleUpdate');
         $licenseHelper->refresh('vcv-license');
 
-        if ($licenseHelper->isAnyActivated()) {
-            wp_redirect(admin_url('admin.php?page=vcv-license'));
-        } else {
-            wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-        }
+        wp_redirect(admin_url('admin.php?page=vcv-license'));
         exit;
     }
 

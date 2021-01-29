@@ -424,7 +424,7 @@ class WooCommerceController extends Container implements Module
         if ($fileData) {
             $fileLinks = [];
             foreach ($fileData as $file) {
-                $fileLinks[] = '<a href="' . esc_url($file['file']) . '" target="_blank">' . esc_html($file['name'])
+                $fileLinks[] = '<a href="' . esc_url($file['file']) . '" target="_blank" rel="noopener noreferrer">' . esc_html($file['name'])
                     . '</a>';
             }
 

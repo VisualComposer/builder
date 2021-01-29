@@ -44,9 +44,6 @@ class GoPremium extends Container implements Module
         $this->wpAddAction('current_screen', 'hubActivationNotice');
 
         if (!$licenseHelper->isPremiumActivated()) {
-            /** @see \VisualComposer\Modules\License\Pages\GoPremium::addJs */
-            $this->wpAddAction('in_admin_footer', 'addJs');
-
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::addCss */
             $this->wpAddAction('admin_head', 'addCss');
         }
@@ -62,14 +59,13 @@ class GoPremium extends Container implements Module
                     $this->call('addPage');
                 }
 
-                if ($requestHelper->input('page') === $this->getSlug()) {
-                    if ($licenseHelper->isFreeActivated()) {
-                        // Check is license is upgraded?
-                        $licenseHelper->refresh();
-                    } elseif ($licenseHelper->isPremiumActivated() && !$licenseHelper->isThemeActivated()) {
-                        wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
-                        exit;
-                    }
+                if (
+                    $requestHelper->input('page') === $this->getSlug()
+                    && $licenseHelper->isPremiumActivated()
+                    && !$licenseHelper->isThemeActivated()
+                ) {
+                    wp_redirect(admin_url('admin.php?page=vcv-getting-started'));
+                    exit;
                 }
             },
             70
@@ -98,16 +94,23 @@ class GoPremium extends Container implements Module
     {
         $notices = $noticeHelper->all();
         $screen = get_current_screen();
-        if (!$licenseHelper->isAnyActivated() && !strpos($screen->id, $this->slug) && !strpos($screen->id, 'vcv-getting-started')) {
+        if (
+            !$licenseHelper->isPremiumActivated()
+            && !strpos($screen->id, $this->slug)
+            && !strpos(
+                $screen->id,
+                'vcv-getting-started'
+            )
+        ) {
             if (!isset($notices['hubActivationNotice'])) {
                 $noticeHelper->addNotice(
                     'hubActivationNotice',
                     sprintf(
                         __(
-                            '<strong>Visual Composer:</strong> <a href="%s">Activate Visual Composer Hub</a> with a free or premium license to get more content elements, templates, and addons.',
+                            '<strong>Visual Composer:</strong> <a href="%s">Activate Premium</a> license to get full access to Visual Composer Hub. A place to download more content elements, templates, and addons.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=vcv-activate-license&vcv-ref=wp-dashboard')
+                        admin_url('admin.php?page=vcv-activate-license&vcv-ref=wpdashboard')
                     ),
                     'info'
                 );
@@ -130,19 +133,6 @@ class GoPremium extends Container implements Module
             'capability' => 'manage_options',
         ];
         $this->addSubmenuPage($page);
-    }
-
-    /**
-     * @return string
-     */
-    protected function buttonTitle()
-    {
-        $licenseHelper = vchelper('License');
-
-        return sprintf(
-            '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
-            $licenseHelper->activationButtonTitle()
-        );
     }
 
     /**
@@ -169,11 +159,14 @@ class GoPremium extends Container implements Module
     }
 
     /**
-     * Add target _blank to external "Go Premium" link in sidebar
+     * @return string
      */
-    protected function addJs()
+    protected function buttonTitle()
     {
-        evcview('license/get-premium-js');
+        return sprintf(
+            '<strong style="vertical-align: middle;font-weight:500;">&#9733; %s</strong>',
+            __('Activate Premium', 'visualcomposer')
+        );
     }
 
     /**

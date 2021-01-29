@@ -167,7 +167,7 @@ export default class EditForm extends React.Component {
     const descriptionPremium = localizations.elementPresetsActivateAddonText || 'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.'
     const description = isPremiumActivated ? descriptionPremium : descriptionFree
     const utm = dataManager.get('utm')
-    const utmUrl = utm['editor-element-settings-go-premium']
+    const utmUrl = utm['editor-editform-go-premium']
 
     return (
       <PremiumTeaser

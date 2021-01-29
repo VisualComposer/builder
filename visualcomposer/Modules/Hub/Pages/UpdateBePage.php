@@ -43,15 +43,18 @@ class UpdateBePage extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             function (License $licenseHelper, Options $optionsHelper, Request $requestHelper, Update $updateHelper) {
-                if ($licenseHelper->isAnyActivated() && $optionsHelper->get('bundleUpdateRequired')) {
+                if (
+                    ($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms'))
+                    && $optionsHelper->get('bundleUpdateRequired')
+                ) {
                     $actions = $updateHelper->getRequiredActions();
                     if (!empty($actions['actions']) || !empty($actions['posts'])) {
                         $this->call('addPage');
 
                         return;
-                    } else {
-                        $optionsHelper->set('bundleUpdateRequired', false);
                     }
+
+                    $optionsHelper->set('bundleUpdateRequired', false);
                 }
 
                 // Bundle Update not required, or Actions was empty
