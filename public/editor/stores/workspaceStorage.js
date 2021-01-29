@@ -299,7 +299,7 @@ addStorage('workspace', (storage) => {
     }
   })
 
-  async function updateLockChunk(allElements, elementIds, locked) {
+  async function updateLockChunk (allElements, elementIds, locked) {
     return new Promise(resolve => {
       setTimeout(() => {
         elementIds.forEach((id) => {
@@ -308,14 +308,14 @@ addStorage('workspace', (storage) => {
         })
         resolve()
       }, 60)
-    });
+    })
   }
 
   const updateDocumentLockState = (locked) => {
     const allElements = documentManager.all()
     const elementIds = Object.keys(allElements)
-    let perChunk = 20 // items per chunk
-    let elementIdChunks = elementIds.reduce((resultArray, item, index) => {
+    const perChunk = 20 // items per chunk
+    const elementIdChunks = elementIds.reduce((resultArray, item, index) => {
       const chunkIndex = Math.floor(index / perChunk)
       if (!resultArray[chunkIndex]) {
         resultArray[chunkIndex] = [] // start a new chunk
@@ -341,7 +341,7 @@ addStorage('workspace', (storage) => {
         time: 5000
       })
       storage.state('lockUnlockDone').set(true)
-    },  2000)
+    }, 2000)
   }
   storage.on('lockAll', () => {
     updateDocumentLockState(true)
