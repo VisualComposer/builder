@@ -113,17 +113,17 @@ class PluginsController extends Container implements Module
             $rowMeta = [
                 'helpCenter' => sprintf(
                     '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                    $utmHelper->get('wp-plugins-meta-help-center'),
+                    $utmHelper->get('wpplugins-meta-help-center'),
                     __('Help Center', 'visualcomposer')
                 ),
                 'api' => sprintf(
                     '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                    $utmHelper->get('wp-plugins-meta-api'),
+                    $utmHelper->get('wpplugins-meta-api'),
                     __('API', 'visualcomposer')
                 ),
                 'premiumSupport' => sprintf(
                     '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-                    $utmHelper->get('wp-plugins-meta-premium-support'),
+                    $utmHelper->get('wpplugins-meta-premium-support'),
                     __('Premium Support', 'visualcomposer')
                 ),
             ];
@@ -146,7 +146,7 @@ class PluginsController extends Container implements Module
         /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
             '<a href="%s" class="vcv-plugins-go-premium" target="_blank" rel="noopener noreferrer">%s</a>',
-            esc_url(vchelper('Utm')->get('wp-plugins')),
+            esc_url(vchelper('Utm')->get('wpplugins')),
             __('Go Premium', 'visualcomposer')
         );
 

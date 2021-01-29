@@ -15,7 +15,7 @@ $deactivateUrl = $urlHelper->adminAjax(
     ['vcv-action' => 'license:deactivate:adminNonce', 'vcv-nonce' => $nonceHelper->admin()]
 );
 
-$activateHubUrl = esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=license-vc-dashboard'));
+$activateHubUrl = esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=license-vcdashboard'));
 $upgradeLicenseUrl = esc_url(vcvenv('VCV_HUB_LICENSES_URL'));
 
 $expirationDate = vchelper('License')->getExpirationDate();
@@ -33,8 +33,8 @@ if (!vchelper('License')->isPremiumActivated()) {
         __('Activate Premium', 'visualcomposer')
     );
     echo sprintf(
-        '<a href="%s" class="button vcv-license-btn-activate-hub vcv-license-btn-go-premium">%s</a>',
-        $activateHubUrl,
+        '<a href="%s" class="button vcv-license-btn-activate-hub vcv-license-btn-go-premium" target="_blank" rel="noopener noreferrer">%s</a>',
+        esc_url(vchelper('Utm')->get('vcdashboard-license-go-premium')),
         __('Go Premium', 'visualcomposer')
     );
     echo '</div>';

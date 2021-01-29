@@ -450,7 +450,7 @@ export default class HubContainer extends React.Component {
 
   getUtmMedium () {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add' + this.props.options.filterType : ''
     return `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
   }
 
@@ -468,7 +468,7 @@ export default class HubContainer extends React.Component {
       href: activateUrl,
       className: 'vcv-hub-banner-link'
     }
-    if (this.props.namespace !== 'vc-dashboard') {
+    if (this.props.namespace !== 'vcdashboard') {
       linkProps.target = '_blank'
     }
     const alreadyHaveLicenseText = HubContainer.localizations ? HubContainer.localizations.alreadyHaveLicenseTextOneAction : 'Already have a Premium license?'
