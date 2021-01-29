@@ -110,7 +110,7 @@ class GoPremium extends Container implements Module
                             '<strong>Visual Composer:</strong> <a href="%s">Activate Premium</a> license to get full access to Visual Composer Hub. A place to download more content elements, templates, and addons.',
                             'visualcomposer'
                         ),
-                        admin_url('admin.php?page=vcv-activate-license&vcv-ref=wp-dashboard')
+                        admin_url('admin.php?page=vcv-activate-license&vcv-ref=wpdashboard')
                     ),
                     'info'
                 );
