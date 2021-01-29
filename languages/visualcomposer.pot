@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-28 15:38+0300\n"
+"POT-Creation-Date: 2021-01-29 13:10+0300\n"
 "PO-Revision-Date: 2017-03-20 21:48+0200\n"
 "Last-Translator: WPBakery <hello@wpbakery.com>\n"
 "Language-Team: WPBakery <hello@wpbakery.com>\n"
@@ -37,14 +37,14 @@ msgid ""
 "WP_TEMP_DIR exists and is writable."
 msgstr ""
 
-#: Framework/helpers.php:185 Helpers/Localizations.php:163
+#: Framework/helpers.php:185
 msgid ""
 "An error occurred during the Visual Composer extension download process.\n"
 "<ul><li>- Check if your server has a connection to the Internet.</li><li>- "
 "Check if your server proxy has proper configuration settings.</li><li>- "
-"Check your server firewall settings and access to https://account."
-"visualcomposer.io</li><li>- Check if your server has access to the <a href="
-"\"https://cdn.hub.visualcomposer.com/vcwb-teasers/"
+"Check your server firewall settings and access to https://my."
+"visualcomposer.com</li><li>- Check if your server has access to the <a "
+"href=\"https://cdn.hub.visualcomposer.com/vcwb-teasers/"
 "youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target="
 "\"_blank\">Amazon AWS</a></li></ul>"
 msgstr ""
@@ -54,12 +54,11 @@ msgid ""
 "An HTTP requests failed during the download process of the plugin.\n"
 "<ul><li>- Check if your server has a connection to the Internet.</li><li>- "
 "Check if your server proxy has proper configuration settings.</li><li>- "
-"Check your server firewall settings and access to <a href=\"https://"
-"account.visualcomposer.io\" target=\"_blank\">https://account."
-"visualcomposer.io</a></li><li>- Check if your server has access to the <a "
-"href=\"https://cdn.hub.visualcomposer.com/vcwb-teasers/"
-"youtubePlayer.3307569.1518529200.youtube-player-preview.jpg\" target="
-"\"_blank\">Amazon AWS</a></li></ul>"
+"Check your server firewall settings and access to <a href=\"https://my."
+"visualcomposer.com\" target=\"_blank\">https://my.visualcomposer.com</a></"
+"li><li>- Check if your server has access to the <a href=\"https://cdn.hub."
+"visualcomposer.com/vcwb-teasers/youtubePlayer.3307569.1518529200.youtube-"
+"player-preview.jpg\" target=\"_blank\">Amazon AWS</a></li></ul>"
 msgstr ""
 
 #: Framework/helpers.php:216
@@ -100,25 +99,25 @@ msgid ""
 "check if your server has write permissions for wp-content/uploads."
 msgstr ""
 
-#: Framework/helpers.php:257
+#: Framework/helpers.php:261
 #, php-format
 msgid "WordPress Error: %s"
 msgstr ""
 
-#: Framework/helpers.php:304
+#: Framework/helpers.php:308
 msgid "A wrong response body was received."
 msgstr ""
 
-#: Framework/helpers.php:318
+#: Framework/helpers.php:322
 msgid "Bad status code was received."
 msgstr ""
 
-#: Framework/helpers.php:334
+#: Framework/helpers.php:338
 #, php-format
 msgid "A bad response status code %d was received."
 msgstr ""
 
-#: Framework/helpers.php:350
+#: Framework/helpers.php:354
 msgid "Failed to process the action."
 msgstr ""
 
@@ -154,7 +153,7 @@ msgstr ""
 msgid "Templates library"
 msgstr ""
 
-#: Helpers/Hub/Update.php:175 Helpers/Localizations.php:763
+#: Helpers/Hub/Update.php:175 Helpers/Localizations.php:773
 msgid "Create a new page"
 msgstr ""
 
@@ -208,13 +207,14 @@ msgstr ""
 msgid "An error occurred, try again."
 msgstr ""
 
-#: Helpers/License.php:230 Helpers/Localizations.php:1075
+#: Helpers/License.php:230 Helpers/Localizations.php:1085
 msgid "Activate Hub"
 msgstr ""
 
-#: Helpers/License.php:233 Helpers/Localizations.php:49
-#: Modules/License/Pages/GoPremium.php:149
-#: Modules/Vendors/PluginsController.php:147
+#: Helpers/License.php:233 Helpers/Localizations.php:53
+#: Modules/Vendors/PluginsController.php:150
+#: resources/views/settings/layouts/dashboard-premium-teaser.php:36
+#: resources/views/vendors/dashboard.php:68
 msgid "Go Premium"
 msgstr ""
 
@@ -228,360 +228,348 @@ msgstr ""
 msgid "Go premium to get unlimited access to the Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:25
+#: Helpers/Localizations.php:30
 msgid "Add Element"
 msgstr ""
 
-#: Helpers/Localizations.php:26
+#: Helpers/Localizations.php:31
 msgid "Add Content"
 msgstr ""
 
-#: Helpers/Localizations.php:27 Modules/Settings/Pages/Hub.php:110
+#: Helpers/Localizations.php:32 Modules/Settings/Pages/Hub.php:105
 msgid "Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:28
+#: Helpers/Localizations.php:33
 msgid "Add Template"
 msgstr ""
 
-#: Helpers/Localizations.php:29
+#: Helpers/Localizations.php:34
 msgid "Tree View"
 msgstr ""
 
-#: Helpers/Localizations.php:30
+#: Helpers/Localizations.php:35
 msgid "Undo"
 msgstr ""
 
-#: Helpers/Localizations.php:31
+#: Helpers/Localizations.php:36
 msgid "Redo"
 msgstr ""
 
-#: Helpers/Localizations.php:32
+#: Helpers/Localizations.php:37
 msgid "Responsive View"
 msgstr ""
 
-#: Helpers/Localizations.php:33
+#: Helpers/Localizations.php:38
 msgid "Desktop"
 msgstr ""
 
-#: Helpers/Localizations.php:34
+#: Helpers/Localizations.php:39
 msgid "Tablet Landscape"
 msgstr ""
 
-#: Helpers/Localizations.php:35
+#: Helpers/Localizations.php:40
 msgid "Tablet Portrait"
 msgstr ""
 
-#: Helpers/Localizations.php:36
+#: Helpers/Localizations.php:41
 msgid "Mobile Landscape"
 msgstr ""
 
-#: Helpers/Localizations.php:37
+#: Helpers/Localizations.php:42
 msgid "Mobile Portrait"
 msgstr ""
 
-#: Helpers/Localizations.php:38 Modules/Settings/Pages/Settings.php:75
+#: Helpers/Localizations.php:43 Modules/Settings/Pages/Settings.php:75
 msgid "Settings"
 msgstr ""
 
-#: Helpers/Localizations.php:39
-msgid "Layout"
-msgstr ""
-
-#: Helpers/Localizations.php:40 Modules/Hub/Pages/UpdateBePage.php:98
+#: Helpers/Localizations.php:44 Modules/Hub/Pages/UpdateBePage.php:98
 msgid "Update"
 msgstr ""
 
-#: Helpers/Localizations.php:41
+#: Helpers/Localizations.php:45
 msgid "Menu"
 msgstr ""
 
-#: Helpers/Localizations.php:42
+#: Helpers/Localizations.php:46
 msgid "View Page"
 msgstr ""
 
-#: Helpers/Localizations.php:43
+#: Helpers/Localizations.php:47
 msgid "Back to WordPress"
 msgstr ""
 
-#: Helpers/Localizations.php:44
+#: Helpers/Localizations.php:48
 msgid "WordPress Dashboard"
 msgstr ""
 
-#: Helpers/Localizations.php:45
+#: Helpers/Localizations.php:49
 msgid "Publish"
 msgstr ""
 
-#: Helpers/Localizations.php:46
+#: Helpers/Localizations.php:50
 msgid "Submit for Review"
 msgstr ""
 
-#: Helpers/Localizations.php:47
+#: Helpers/Localizations.php:51
 msgid "Save Draft"
 msgstr ""
 
-#: Helpers/Localizations.php:50
+#: Helpers/Localizations.php:54
 msgid "Get Free License"
 msgstr ""
 
-#: Helpers/Localizations.php:51
+#: Helpers/Localizations.php:55
 msgid "Activated"
 msgstr ""
 
-#: Helpers/Localizations.php:52
+#: Helpers/Localizations.php:56
 msgid "Close"
 msgstr ""
 
-#: Helpers/Localizations.php:54
+#: Helpers/Localizations.php:58
 msgid ""
 "There is no content on the page - start by adding an element or template."
 msgstr ""
 
-#: Helpers/Localizations.php:57 Modules/Settings/Fields/CssEditor.php:59
+#: Helpers/Localizations.php:61 Modules/Settings/Fields/CssEditor.php:59
 msgid "Custom CSS"
 msgstr ""
 
-#: Helpers/Localizations.php:58
+#: Helpers/Localizations.php:62
 msgid "Local CSS"
 msgstr ""
 
-#: Helpers/Localizations.php:59
-msgid "Local CSS will be applied to this particular page only."
-msgstr ""
-
-#: Helpers/Localizations.php:60
+#: Helpers/Localizations.php:63
 msgid "Global CSS"
 msgstr ""
 
-#: Helpers/Localizations.php:61 Modules/Settings/Fields/CssEditor.php:53
-msgid "Global CSS will be applied sitewide."
-msgstr ""
-
-#: Helpers/Localizations.php:62
+#: Helpers/Localizations.php:64
 msgid "Custom JavaScript"
 msgstr ""
 
-#: Helpers/Localizations.php:63
+#: Helpers/Localizations.php:65
 msgid "Local JavaScript"
 msgstr ""
 
-#: Helpers/Localizations.php:64
+#: Helpers/Localizations.php:66
 msgid "Local JavaScript will be applied to this particular page only."
 msgstr ""
 
-#: Helpers/Localizations.php:65
+#: Helpers/Localizations.php:67
 msgid "Global JavaScript"
 msgstr ""
 
-#: Helpers/Localizations.php:66
+#: Helpers/Localizations.php:68
 msgid "Apply custom Global Javascript code sitewide."
 msgstr ""
 
-#: Helpers/Localizations.php:67
+#: Helpers/Localizations.php:69
 msgid "Save"
 msgstr ""
 
-#: Helpers/Localizations.php:68
+#: Helpers/Localizations.php:70
 msgid "Template Name"
 msgstr ""
 
-#: Helpers/Localizations.php:69
+#: Helpers/Localizations.php:71
 msgid "Save Template"
 msgstr ""
 
-#: Helpers/Localizations.php:70
+#: Helpers/Localizations.php:72
 msgid "Remove Template"
 msgstr ""
 
-#: Helpers/Localizations.php:71
+#: Helpers/Localizations.php:73
 msgid "Failed to save the template."
 msgstr ""
 
-#: Helpers/Localizations.php:72
+#: Helpers/Localizations.php:74
 msgid "Download More Templates"
 msgstr ""
 
-#: Helpers/Localizations.php:73
+#: Helpers/Localizations.php:75
 msgid "Get More Elements"
 msgstr ""
 
-#: Helpers/Localizations.php:74
+#: Helpers/Localizations.php:76
 msgid "Get More Templates"
 msgstr ""
 
-#: Helpers/Localizations.php:77
+#: Helpers/Localizations.php:79
 msgid ""
 "There are no templates yet. Save the current layout as a template or "
 "download templates from Visual Composer Hub."
 msgstr ""
 
-#: Helpers/Localizations.php:81
+#: Helpers/Localizations.php:83
 msgid ""
 "Didn't find the right template? Check out Visual Composer Hub for more "
 "templates."
 msgstr ""
 
-#: Helpers/Localizations.php:85 Helpers/Localizations.php:419
+#: Helpers/Localizations.php:87 Helpers/Localizations.php:419
 msgid ""
 "Access the Visual Composer Hub - download additional elements, blocks, "
 "templates, and addons."
 msgstr ""
 
-#: Helpers/Localizations.php:88
-msgid "Do you want to delete this template?"
-msgstr ""
-
-#: Helpers/Localizations.php:89
-msgid "Do you want to delete this element preset?"
-msgstr ""
-
 #: Helpers/Localizations.php:90
-msgid "Failed to remove the template"
+msgid "Do you want to remove this template?"
 msgstr ""
 
 #: Helpers/Localizations.php:91
-msgid "Name Your Page, Select"
+msgid "Do you want to remove this element preset?"
 msgstr ""
 
 #: Helpers/Localizations.php:92
-msgid "Name The Page"
+msgid "Failed to remove the template"
 msgstr ""
 
 #: Helpers/Localizations.php:93
-msgid "Layout and Start Building"
+msgid "Name Your Page, Select"
 msgstr ""
 
 #: Helpers/Localizations.php:94
-msgid "Name Your "
+msgid "Name The Page"
 msgstr ""
 
 #: Helpers/Localizations.php:95
+msgid "Layout and Start Building"
+msgstr ""
+
+#: Helpers/Localizations.php:96
+msgid "Name Your "
+msgstr ""
+
+#: Helpers/Localizations.php:97
 msgid "and Start Building"
 msgstr ""
 
-#: Helpers/Localizations.php:98
+#: Helpers/Localizations.php:100
 msgid ""
 "Start by adding an element to the layout or select one of the pre-defined "
 "templates."
 msgstr ""
 
-#: Helpers/Localizations.php:101
+#: Helpers/Localizations.php:103
 msgid "Page title"
 msgstr ""
 
-#: Helpers/Localizations.php:104
+#: Helpers/Localizations.php:106
 msgid ""
 "Didn't find a perfect template? Get a premium license to download "
 "templates from the Visual Composer Hub."
 msgstr ""
 
-#: Helpers/Localizations.php:109
+#: Helpers/Localizations.php:111
 msgid ""
 "Didn't find an element? Get a premium license to download elements from "
 "the Visual Composer Hub."
 msgstr ""
 
-#: Helpers/Localizations.php:114
+#: Helpers/Localizations.php:116
 msgid ""
 "Get a premium license to access Visual Composer Hub. Download "
 "professionally designed templates, more content elements, extensions, and "
 "more."
 msgstr ""
 
-#: Helpers/Localizations.php:117
+#: Helpers/Localizations.php:119
 msgid "Add"
 msgstr ""
 
-#: Helpers/Localizations.php:118
+#: Helpers/Localizations.php:120
 msgid "Row Layout"
 msgstr ""
 
-#: Helpers/Localizations.php:119 Modules/Editors/Tutorial/PostType.php:72
+#: Helpers/Localizations.php:121 Modules/Editors/Tutorial/PostType.php:72
 msgid "Edit"
 msgstr ""
 
-#: Helpers/Localizations.php:120
+#: Helpers/Localizations.php:122
 msgid "Design Options"
 msgstr ""
 
-#: Helpers/Localizations.php:121
+#: Helpers/Localizations.php:123
 msgid "Clone"
 msgstr ""
 
-#: Helpers/Localizations.php:122
+#: Helpers/Localizations.php:124
 msgid "Copy"
 msgstr ""
 
-#: Helpers/Localizations.php:123
+#: Helpers/Localizations.php:125
 msgid "Paste"
 msgstr ""
 
-#: Helpers/Localizations.php:124
+#: Helpers/Localizations.php:126
 msgid "Paste After"
 msgstr ""
 
-#: Helpers/Localizations.php:125
+#: Helpers/Localizations.php:127
 msgid "Remove"
 msgstr ""
 
-#: Helpers/Localizations.php:126
+#: Helpers/Localizations.php:128
 msgid "Move"
 msgstr ""
 
-#: Helpers/Localizations.php:127
+#: Helpers/Localizations.php:129
 msgid "Search for content elements"
 msgstr ""
 
-#: Helpers/Localizations.php:128
+#: Helpers/Localizations.php:130
 msgid "Search for content elements and templates"
 msgstr ""
 
-#: Helpers/Localizations.php:129
-msgid "Search templates"
+#: Helpers/Localizations.php:131
+msgid "Search for templates"
 msgstr ""
 
-#: Helpers/Localizations.php:131
+#: Helpers/Localizations.php:133
 msgid ""
 "A template with this name already exists. Choose a different template name."
 msgstr ""
 
-#: Helpers/Localizations.php:134
+#: Helpers/Localizations.php:136
 msgid "There is no content on the page to be saved."
 msgstr ""
 
-#: Helpers/Localizations.php:135
+#: Helpers/Localizations.php:137
 msgid "Enter the template name to save this page as a template."
 msgstr ""
 
-#: Helpers/Localizations.php:136
+#: Helpers/Localizations.php:138
 msgid "Add one column"
 msgstr ""
 
-#: Helpers/Localizations.php:137
+#: Helpers/Localizations.php:139
 msgid "Add two columns"
 msgstr ""
 
-#: Helpers/Localizations.php:138
+#: Helpers/Localizations.php:140
 msgid "Add three columns"
 msgstr ""
 
-#: Helpers/Localizations.php:139
+#: Helpers/Localizations.php:141
 msgid "Add four columns"
 msgstr ""
 
-#: Helpers/Localizations.php:140
+#: Helpers/Localizations.php:142
 msgid "Add five columns"
 msgstr ""
 
-#: Helpers/Localizations.php:141
+#: Helpers/Localizations.php:143
 msgid "Add custom row layout"
 msgstr ""
 
-#: Helpers/Localizations.php:142
+#: Helpers/Localizations.php:144
 msgid "Add a text block"
 msgstr ""
 
-#: Helpers/Localizations.php:143
+#: Helpers/Localizations.php:145
 #: Modules/Editors/EditPostLinks/Controller.php:92
 #: Modules/Editors/EditPostLinks/Controller.php:128
 #: Modules/Editors/EditPostLinks/Controller.php:129
@@ -589,17 +577,17 @@ msgstr ""
 msgid "Edit with Visual Composer"
 msgstr ""
 
-#: Helpers/Localizations.php:144
+#: Helpers/Localizations.php:146
 msgid "Classic Editor"
 msgstr ""
 
-#: Helpers/Localizations.php:147
+#: Helpers/Localizations.php:149
 msgid ""
 "You are switching to Visual Composer. Visual Composer will load the latest "
 "version of the content created with the website builder."
 msgstr ""
 
-#: Helpers/Localizations.php:152
+#: Helpers/Localizations.php:154
 msgid ""
 "You are switching to the Classic Editor. The content created with Visual "
 "Composer will be copied to Classic Editor (style changes may apply). Any "
@@ -607,454 +595,473 @@ msgid ""
 "Composer layout. Do you want to proceed?"
 msgstr ""
 
-#: Helpers/Localizations.php:155
+#: Helpers/Localizations.php:157
 msgid "Blank Page"
 msgstr ""
 
-#: Helpers/Localizations.php:156
+#: Helpers/Localizations.php:158
 msgid "Search for templates by name and description"
 msgstr ""
 
-#: Helpers/Localizations.php:157
+#: Helpers/Localizations.php:159
 msgid "Open Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:159
+#: Helpers/Localizations.php:161
 msgid ""
 "Didn't find an element? Check the Visual Composer Hub for more elements."
 msgstr ""
 
-#: Helpers/Localizations.php:168
+#: Helpers/Localizations.php:165
 msgid ""
-"Forgot your license? Retrieve it in <a href=\"https://my.visualcomposer."
-"com/licenses/?utm_medium=wp-dashboard&utm_source=activation-"
-"page&utm_campaign=get-license\" class=\"vcv-activation-input-field-forgot-"
-"license-link\" target=\"_blank\">My Visual Composer</a> under Licenses "
-"section"
+"An error occurred during the Visual Composer extension download process.\n"
+"<ul><li>- Check if your server has a connection to the Internet.</li><li>- "
+"Check if your server proxy has proper configuration settings.</li><li>- "
+"Check your server firewall settings and access to https://my."
+"visualcomposer.com</li><li>- Check if your server has access to the <a "
+"href=\"https://aws.amazon.com/ru/premiumsupport/knowledge-center/s3-find-"
+"ip-address-ranges/\" target=\"_blank\" rel=\"noopener noreferrer\">Amazon "
+"AWS Region: `us-west-2` IP</a></li></ul>"
 msgstr ""
 
-#: Helpers/Localizations.php:172
+#: Helpers/Localizations.php:170
 msgid ""
-"Already have a license? Log in to <a href=\"https://my.visualcomposer.com/"
-"licenses/?utm_medium=wp-dashboard&utm_source=activation-"
-"page&utm_campaign=get-license\" class=\"vcv-activation-input-field-forgot-"
-"license-link\" target=\"_blank\">My Visual Composer</a> to find it."
+"Already have a license? Log in to <a href=\"{link}\" class=\"vcv-"
+"activation-input-field-forgot-license-link\" target=\"_blank\" rel="
+"\"noopener noreferrer\">My Visual Composer</a> to find it."
 msgstr ""
 
-#: Helpers/Localizations.php:176
+#: Helpers/Localizations.php:174
 msgid "Do more with the Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:179 Helpers/Localizations.php:205
+#: Helpers/Localizations.php:177 Helpers/Localizations.php:201
 msgid "Nothing found"
 msgstr ""
 
-#: Helpers/Localizations.php:180
+#: Helpers/Localizations.php:178
 msgid "Add an image"
 msgstr ""
 
-#: Helpers/Localizations.php:181
+#: Helpers/Localizations.php:179
 msgid "Remove the image"
 msgstr ""
 
-#: Helpers/Localizations.php:182
+#: Helpers/Localizations.php:180
 msgid "Move the image"
 msgstr ""
 
-#: Helpers/Localizations.php:183
+#: Helpers/Localizations.php:181
 msgid "Edit or replace the image"
 msgstr ""
 
-#: Helpers/Localizations.php:184
+#: Helpers/Localizations.php:182
 msgid "Add a link"
 msgstr ""
 
-#: Helpers/Localizations.php:185
+#: Helpers/Localizations.php:183
 msgid "Select a URL"
 msgstr ""
 
-#: Helpers/Localizations.php:186
+#: Helpers/Localizations.php:184
 msgid "Insert or edit a link"
 msgstr ""
 
-#: Helpers/Localizations.php:187 Helpers/Localizations.php:208
-msgid "Enter the destination URL"
-msgstr ""
-
-#: Helpers/Localizations.php:188
+#: Helpers/Localizations.php:185
 msgid "Or link to an existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:189
+#: Helpers/Localizations.php:186
 msgid "Search existing content"
 msgstr ""
 
-#: Helpers/Localizations.php:190
+#: Helpers/Localizations.php:187
 msgid "Popup"
 msgstr ""
 
-#: Helpers/Localizations.php:191 Helpers/Localizations.php:195
+#: Helpers/Localizations.php:188
 msgid "Select a popup template"
 msgstr ""
 
-#: Helpers/Localizations.php:192
+#: Helpers/Localizations.php:189
 msgid "Popup on every page load"
 msgstr ""
 
-#: Helpers/Localizations.php:193
+#: Helpers/Localizations.php:190
 msgid "Popup on exit-intent"
 msgstr ""
 
-#: Helpers/Localizations.php:194
+#: Helpers/Localizations.php:191
 msgid "Popup on element ID"
 msgstr ""
 
-#: Helpers/Localizations.php:196
+#: Helpers/Localizations.php:192
 msgid "Delay (seconds)"
 msgstr ""
 
-#: Helpers/Localizations.php:197
+#: Helpers/Localizations.php:193
 msgid "Show every (days)"
 msgstr ""
 
-#: Helpers/Localizations.php:198
+#: Helpers/Localizations.php:194
 msgid "The popup will open once the page is loaded."
 msgstr ""
 
-#: Helpers/Localizations.php:199
+#: Helpers/Localizations.php:195
 msgid "The popup will load if a user tries to exit the page."
 msgstr ""
 
-#: Helpers/Localizations.php:201
+#: Helpers/Localizations.php:197
 msgid ""
 "The popup will appear when an element with a unique Element ID will be "
 "displayed (scrolled to) on the page."
 msgstr ""
 
-#: Helpers/Localizations.php:204
+#: Helpers/Localizations.php:200
 msgid "OnClick action"
 msgstr ""
 
-#: Helpers/Localizations.php:206
+#: Helpers/Localizations.php:202
 msgid "Open the link in a new tab"
 msgstr ""
 
-#: Helpers/Localizations.php:207
+#: Helpers/Localizations.php:203
 msgid "Add \"nofollow\" option to the link"
 msgstr ""
 
-#: Helpers/Localizations.php:209
+#: Helpers/Localizations.php:204
+msgid "Enter the destination URL"
+msgstr ""
+
+#: Helpers/Localizations.php:205
 msgid "The title attribute will be displayed on the link hover."
 msgstr ""
 
-#: Helpers/Localizations.php:210
+#: Helpers/Localizations.php:206
 msgid "Title"
 msgstr ""
 
-#: Helpers/Localizations.php:211
+#: Helpers/Localizations.php:207
+msgid "Excerpt"
+msgstr ""
+
+#: Helpers/Localizations.php:208
 msgid "Visual Composer Hub update failed, try again."
 msgstr ""
 
-#: Helpers/Localizations.php:212
+#: Helpers/Localizations.php:209
 #: Modules/Editors/Settings/ItemPreviewController.php:71
 msgid "Preview"
 msgstr ""
 
-#: Helpers/Localizations.php:213
+#: Helpers/Localizations.php:210
 msgid "Preview Changes"
 msgstr ""
 
-#: Helpers/Localizations.php:214
+#: Helpers/Localizations.php:211
 msgid "Saving Results"
 msgstr ""
 
-#: Helpers/Localizations.php:215
+#: Helpers/Localizations.php:212
 msgid "Hide Element"
 msgstr ""
 
-#: Helpers/Localizations.php:216
+#: Helpers/Localizations.php:213
 msgid "Show Element"
 msgstr ""
 
-#: Helpers/Localizations.php:217
+#: Helpers/Localizations.php:214
 msgid "Element is Hidden"
 msgstr ""
 
-#: Helpers/Localizations.php:218
+#: Helpers/Localizations.php:215
 msgid "Element Settings"
 msgstr ""
 
-#: Helpers/Localizations.php:220
+#: Helpers/Localizations.php:217
 msgid ""
-"Change default parameters to create a unique element. The new element will "
-"be added to the Element Library."
+"Change the default parameters to create a unique element. The new element "
+"will be added to your library."
 msgstr ""
 
-#: Helpers/Localizations.php:223
+#: Helpers/Localizations.php:220
 msgid "Save as a Preset"
 msgstr ""
 
-#: Helpers/Localizations.php:224
+#: Helpers/Localizations.php:221
 msgid "Save as a Template"
 msgstr ""
 
-#: Helpers/Localizations.php:225
+#: Helpers/Localizations.php:222
 msgid "Downloading initial extensions"
 msgstr ""
 
-#: Helpers/Localizations.php:226
+#: Helpers/Localizations.php:223
 msgid "Downloading assets {i} of {cnt}: {name}"
 msgstr ""
 
-#: Helpers/Localizations.php:227
+#: Helpers/Localizations.php:224
 msgid "Downloading"
 msgstr ""
 
-#: Helpers/Localizations.php:228
+#: Helpers/Localizations.php:225
 msgid "Updating posts {i} in {cnt}: {name}"
 msgstr ""
 
-#: Helpers/Localizations.php:229
+#: Helpers/Localizations.php:226
 msgid "Failed to load: {file}"
 msgstr ""
 
-#: Helpers/Localizations.php:230
+#: Helpers/Localizations.php:227
+#: Modules/Editors/Settings/WordPressSettings/ParentPageController.php:52
 msgid "None"
 msgstr ""
 
-#: Helpers/Localizations.php:233
+#: Helpers/Localizations.php:230
 msgid ""
 "Double-tap on an element to open the edit window. Tap and hold to initiate "
 "drag and drop."
 msgstr ""
 
-#: Helpers/Localizations.php:236
+#: Helpers/Localizations.php:233
 msgid "Template"
 msgstr ""
 
-#: Helpers/Localizations.php:237
+#: Helpers/Localizations.php:234
 msgid "Theme Default"
 msgstr ""
 
-#: Helpers/Localizations.php:239
+#: Helpers/Localizations.php:236
 msgid "To apply a template save changes and reload the page."
 msgstr ""
 
-#: Helpers/Localizations.php:243
+#: Helpers/Localizations.php:240
 msgid "To apply title, save changes, and reload the page."
 msgstr ""
 
-#: Helpers/Localizations.php:247
+#: Helpers/Localizations.php:244
 msgid "To apply title changes save changes and reload the page"
 msgstr ""
 
-#: Helpers/Localizations.php:250
+#: Helpers/Localizations.php:247
 msgid "Disable the page title"
 msgstr ""
 
-#: Helpers/Localizations.php:252
+#: Helpers/Localizations.php:249
 msgid ""
 "{name} has been successfully downloaded from the Visual Composer Hub and "
-"added to the Element Library."
+"added to your content library."
 msgstr ""
 
-#: Helpers/Localizations.php:256
+#: Helpers/Localizations.php:253
 msgid ""
 "{name} has been successfully downloaded from the Visual Composer Hub and "
-"added to the Element Library. To finish the installation process reload "
+"added to your content library. To finish the installation process reload "
 "the page."
 msgstr ""
 
-#: Helpers/Localizations.php:260
+#: Helpers/Localizations.php:257
 msgid ""
 "The element was copied without a unique Element ID. Adjust the Element ID "
 "by editing the element."
 msgstr ""
 
-#: Helpers/Localizations.php:264
+#: Helpers/Localizations.php:261
 msgid ""
 "The element was cloned without a unique Element ID. Adjust the Element ID "
 "by editing the element."
 msgstr ""
 
-#: Helpers/Localizations.php:268
+#: Helpers/Localizations.php:265
 msgid "Failed to download the element (license expired or request timed out)"
 msgstr ""
 
-#: Helpers/Localizations.php:271
+#: Helpers/Localizations.php:268
 msgid "Failed to download the element"
 msgstr ""
 
-#: Helpers/Localizations.php:274
+#: Helpers/Localizations.php:271
 msgid ""
 "It seems that something went wrong with loading the content. Make sure you "
 "are loading the correct content and try again."
 msgstr ""
 
-#: Helpers/Localizations.php:277 Helpers/Localizations.php:285
-#: Helpers/Localizations.php:299
+#: Helpers/Localizations.php:274 Helpers/Localizations.php:282
+#: Helpers/Localizations.php:296
 msgid "Return to WordPress dashboard"
 msgstr ""
 
-#: Helpers/Localizations.php:278
+#: Helpers/Localizations.php:275
 msgid "Try Again"
 msgstr ""
 
-#: Helpers/Localizations.php:279
+#: Helpers/Localizations.php:276
 msgid "Report an Issue"
 msgstr ""
 
-#: Helpers/Localizations.php:282
+#: Helpers/Localizations.php:279
 msgid ""
 "It seems you are trying to edit the archive page which displays post "
 "archives instead of content. Before the edit, make sure to convert it to a "
 "static page via your WordPress admin."
 msgstr ""
 
-#: Helpers/Localizations.php:287
+#: Helpers/Localizations.php:284
 msgid ""
 "Replace the {elementLabel} within this element with another {elementLabel} "
 "from the Element Library."
 msgstr ""
 
-#: Helpers/Localizations.php:291
+#: Helpers/Localizations.php:288
 msgid "Replace the element with a different element from the same category."
 msgstr ""
 
-#: Helpers/Localizations.php:295
+#: Helpers/Localizations.php:292
 msgid ""
 "We have received your request - the ticket has been created. Our support "
 "representative will contact you shortly."
 msgstr ""
 
-#: Helpers/Localizations.php:303
+#: Helpers/Localizations.php:300
 msgid "Thank You!"
 msgstr ""
 
-#: Helpers/Localizations.php:308
+#: Helpers/Localizations.php:305
 #, php-format
 msgid ""
 "There is a new version of Visual Composer Website Builder available. <a "
 "href=\"%s\">Update now</a> to version %s."
 msgstr ""
 
-#: Helpers/Localizations.php:316
+#: Helpers/Localizations.php:313
 #, php-format
 msgid "Select a %s or %screate a new one%s."
 msgstr ""
 
-#: Helpers/Localizations.php:324
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:81
+#: Helpers/Localizations.php:321
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:112
 msgid "Default"
 msgstr ""
 
-#: Helpers/Localizations.php:328
+#: Helpers/Localizations.php:325
 msgid "Global Default"
 msgstr ""
 
-#: Helpers/Localizations.php:332
+#: Helpers/Localizations.php:329
 msgid "Layout Default"
 msgstr ""
 
-#: Helpers/Localizations.php:336
+#: Helpers/Localizations.php:333
 msgid ""
 "Update Visual Composer plugin to the most recent version to download this "
 "content element."
 msgstr ""
 
-#: Helpers/Localizations.php:340
+#: Helpers/Localizations.php:337
 msgid ""
 "Update Visual Composer plugin to the most recent version to download this "
 "template."
 msgstr ""
 
-#: Helpers/Localizations.php:344
+#: Helpers/Localizations.php:341
 msgid ""
 "Update Visual Composer plugin to the most recent version to download this "
 "addon."
 msgstr ""
 
-#: Helpers/Localizations.php:347
+#: Helpers/Localizations.php:344
 msgid "Start Building"
 msgstr ""
 
-#: Helpers/Localizations.php:350
+#: Helpers/Localizations.php:347
 #, php-format
 msgid "%s Name"
 msgstr ""
 
-#: Helpers/Localizations.php:356
+#: Helpers/Localizations.php:353
 msgid ""
 "WordPress theme defined layout for a specific page, post, or custom post "
 "type."
 msgstr ""
 
-#: Helpers/Localizations.php:360
+#: Helpers/Localizations.php:357
 msgid ""
 "A blank page layout with a boxed content area in the middle of the page "
 "without header, footer, or sidebar."
 msgstr ""
 
-#: Helpers/Localizations.php:364
+#: Helpers/Localizations.php:361
 msgid "A full-width blank page without header, footer, or sidebar."
 msgstr ""
 
-#: Helpers/Localizations.php:368
+#: Helpers/Localizations.php:365
 msgid ""
 "A default layout for the post type created in the Visual Composer Theme "
 "Builder."
 msgstr ""
 
-#: Helpers/Localizations.php:372
+#: Helpers/Localizations.php:369
 msgid "A default layout with custom header, content, and footer area."
 msgstr ""
 
-#: Helpers/Localizations.php:376
+#: Helpers/Localizations.php:373
 msgid ""
 "A default layout with custom header, content, footer, and sidebar area on "
 "the right."
 msgstr ""
 
-#: Helpers/Localizations.php:380
+#: Helpers/Localizations.php:377
 msgid ""
 "A default layout with custom header, content, footer, and sidebar area on "
 "the left."
 msgstr ""
 
-#: Helpers/Localizations.php:384
+#: Helpers/Localizations.php:381
 msgid "Available in the Premium version."
 msgstr ""
 
-#: Helpers/Localizations.php:388
+#: Helpers/Localizations.php:385
 msgid "Gutenberg plugin doesn't work properly. Check the Gutenberg plugin."
 msgstr ""
 
-#: Helpers/Localizations.php:391
+#: Helpers/Localizations.php:388
 msgid "Free"
 msgstr ""
 
-#: Helpers/Localizations.php:392
+#: Helpers/Localizations.php:389
 msgid "Premium"
 msgstr ""
 
-#: Helpers/Localizations.php:393
+#: Helpers/Localizations.php:390
 msgid "Remove All"
 msgstr ""
 
-#: Helpers/Localizations.php:394
+#: Helpers/Localizations.php:391
 msgid "Continue importing"
 msgstr ""
 
-#: Helpers/Localizations.php:395
+#: Helpers/Localizations.php:392
 msgid "Back to import"
 msgstr ""
 
-#: Helpers/Localizations.php:396
+#: Helpers/Localizations.php:393
 msgid "Starting import process..."
 msgstr ""
 
-#: Helpers/Localizations.php:397
+#: Helpers/Localizations.php:394
 msgid "Back to parent"
+msgstr ""
+
+#: Helpers/Localizations.php:395
+msgid "Back"
+msgstr ""
+
+#: Helpers/Localizations.php:396
+msgid "Manage content in your library"
+msgstr ""
+
+#: Helpers/Localizations.php:397
+msgid "This element can’t be deleted"
 msgstr ""
 
 #: Helpers/Localizations.php:398
@@ -1221,7 +1228,8 @@ msgid "Remove dynamic content"
 msgstr ""
 
 #: Helpers/Localizations.php:516
-msgid "Select page, post, or custom post type."
+msgid ""
+"Select a page, post, or custom post type as the dynamic content source."
 msgstr ""
 
 #: Helpers/Localizations.php:520
@@ -1302,783 +1310,1187 @@ msgstr ""
 
 #: Helpers/Localizations.php:593
 #, php-format
-msgid "%sEdit%s this %s.%s"
+msgid "%sEdit%s this %s or %screate%s a new one."
 msgstr ""
 
-#: Helpers/Localizations.php:602
+#: Helpers/Localizations.php:604
+#, php-format
+msgid "%sCreate%s a new %s."
+msgstr ""
+
+#: Helpers/Localizations.php:612
 msgid "Enter your license key"
 msgstr ""
 
-#: Helpers/Localizations.php:606
+#: Helpers/Localizations.php:616
 msgid "The element has been successfully saved."
 msgstr ""
 
-#: Helpers/Localizations.php:610
+#: Helpers/Localizations.php:620
 msgid "The element with such a name already exists!"
 msgstr ""
 
-#: Helpers/Localizations.php:614
+#: Helpers/Localizations.php:624
 msgid "Enter a preset name to save the element as a preset!"
 msgstr ""
 
-#: Helpers/Localizations.php:618
+#: Helpers/Localizations.php:628
 msgid "The template has been successfully saved."
 msgstr ""
 
-#: Helpers/Localizations.php:622
-msgid ""
-"Change the default parameters of sections and their content to create a "
-"unique block template. The new block template will be added to your "
-"library."
+#: Helpers/Localizations.php:632
+msgid "The template has been successfully removed."
 msgstr ""
 
-#: Helpers/Localizations.php:626
+#: Helpers/Localizations.php:636
+msgid ""
+"Change the default parameters of the section to save it as a unique block "
+"template. The new block template will be added to your library."
+msgstr ""
+
+#: Helpers/Localizations.php:640
 msgid "Element preset has been removed."
 msgstr ""
 
-#: Helpers/Localizations.php:630
+#: Helpers/Localizations.php:644
 msgid ""
 "How disappointed would you be if this product no longer existed tomorrow?"
 msgstr ""
 
-#: Helpers/Localizations.php:634
+#: Helpers/Localizations.php:648
 msgid "Very disappointed"
 msgstr ""
 
-#: Helpers/Localizations.php:638
+#: Helpers/Localizations.php:652
 msgid "Somewhat disappointed"
 msgstr ""
 
-#: Helpers/Localizations.php:642
+#: Helpers/Localizations.php:656
 msgid "Not disappointed (it really isn’t that useful)"
 msgstr ""
 
-#: Helpers/Localizations.php:646
+#: Helpers/Localizations.php:660
 msgid "Submit Your Feedback"
 msgstr ""
 
-#: Helpers/Localizations.php:650
+#: Helpers/Localizations.php:664
 msgid "How can we become better?"
 msgstr ""
 
-#: Helpers/Localizations.php:654
+#: Helpers/Localizations.php:668
 msgid ""
 "Thanks for your feedback. Please rate us on WordPress.org and help others "
 "to discover Visual Composer."
 msgstr ""
 
-#: Helpers/Localizations.php:658
+#: Helpers/Localizations.php:672
 msgid "Your opinion matters. Help us to improve by taking a quick survey."
 msgstr ""
 
-#: Helpers/Localizations.php:662
+#: Helpers/Localizations.php:676
 msgid "Write Your Review"
 msgstr ""
 
-#: Helpers/Localizations.php:666
+#: Helpers/Localizations.php:680
 msgid "Leave Your Feedback"
 msgstr ""
 
-#: Helpers/Localizations.php:670
+#: Helpers/Localizations.php:684
 msgid "Like"
 msgstr ""
 
-#: Helpers/Localizations.php:674
+#: Helpers/Localizations.php:688
 msgid "Dislike"
 msgstr ""
 
-#: Helpers/Localizations.php:678
+#: Helpers/Localizations.php:692
 msgid "The current popup will be replaced with the popup template."
 msgstr ""
 
-#: Helpers/Localizations.php:683
+#: Helpers/Localizations.php:697
 msgid "QUICK FEEDBACK"
 msgstr ""
 
-#: Helpers/Localizations.php:687
+#: Helpers/Localizations.php:701
 msgid ""
 "If you have a moment, please share why you are deactivating Visual "
 "Composer:"
 msgstr ""
 
-#: Helpers/Localizations.php:691
+#: Helpers/Localizations.php:705
 msgid "I no longer need the plugin"
 msgstr ""
 
-#: Helpers/Localizations.php:695
+#: Helpers/Localizations.php:709
 msgid "I found a better plugin"
 msgstr ""
 
-#: Helpers/Localizations.php:699
+#: Helpers/Localizations.php:713
 msgid "Please share which plugin"
 msgstr ""
 
-#: Helpers/Localizations.php:703
+#: Helpers/Localizations.php:717
 msgid "I couldn't get the plugin to work"
 msgstr ""
 
-#: Helpers/Localizations.php:707
+#: Helpers/Localizations.php:721
 msgid "It's a temporary deactivation"
 msgstr ""
 
-#: Helpers/Localizations.php:711 Helpers/LoginCategory.php:37
+#: Helpers/Localizations.php:725 Helpers/LoginCategory.php:37
 msgid "Other"
 msgstr ""
 
-#: Helpers/Localizations.php:715
+#: Helpers/Localizations.php:729
 msgid "Please share the reason"
 msgstr ""
 
-#: Helpers/Localizations.php:719
+#: Helpers/Localizations.php:733
 msgid "Submit &amp; Deactivate"
 msgstr ""
 
-#: Helpers/Localizations.php:723
+#: Helpers/Localizations.php:737
 msgid "Skip &amp; Deactivate"
 msgstr ""
 
-#: Helpers/Localizations.php:727
+#: Helpers/Localizations.php:741
+#: resources/views/settings/layouts/dashboard-premium-teaser.php:34
 msgid "Download Addon"
 msgstr ""
 
-#: Helpers/Localizations.php:731
+#: Helpers/Localizations.php:745
 msgid "Installed"
 msgstr ""
 
-#: Helpers/Localizations.php:735
+#: Helpers/Localizations.php:749
 msgid "Available in Premium"
 msgstr ""
 
-#: Helpers/Localizations.php:739
+#: Helpers/Localizations.php:753
 msgid "Don't forget to tweet about Visual Composer Website Builder. Thanks!"
 msgstr ""
 
-#: Helpers/Localizations.php:743
+#: Helpers/Localizations.php:757
 msgid "Download"
 msgstr ""
 
-#: Helpers/Localizations.php:747
+#: Helpers/Localizations.php:761
 msgid "Install"
 msgstr ""
 
-#: Helpers/Localizations.php:751
+#: Helpers/Localizations.php:765
 msgid "Activate"
 msgstr ""
 
-#: Helpers/Localizations.php:755
-msgid "Upgrade To Premium"
-msgstr ""
-
-#: Helpers/Localizations.php:759
+#: Helpers/Localizations.php:769
 msgid "Try The Tutorial Template"
 msgstr ""
 
-#: Helpers/Localizations.php:767
+#: Helpers/Localizations.php:777
 #: Modules/License/UpdateVariablesController.php:59
 msgid ""
 "Build your site with the help of the drag and drop builder straight from "
 "the frontend editor - it's that easy."
 msgstr ""
 
-#: Helpers/Localizations.php:771
+#: Helpers/Localizations.php:781
 msgid ""
 "It seems that your copy of Visual Composer was bundled in a theme - use "
 "your Envato purchase key to activate Visual Composer Premium. You can also "
 "activate Visual Composer with a free or premium license."
 msgstr ""
 
-#: Helpers/Localizations.php:775
+#: Helpers/Localizations.php:785
 msgid "Lock Element"
 msgstr ""
 
-#: Helpers/Localizations.php:779
+#: Helpers/Localizations.php:789
 msgid "URL"
 msgstr ""
 
-#: Helpers/Localizations.php:783
+#: Helpers/Localizations.php:793
 msgid "Open Popup"
 msgstr ""
 
-#: Helpers/Localizations.php:787
+#: Helpers/Localizations.php:797
 msgid "Close Popup"
 msgstr ""
 
-#: Helpers/Localizations.php:791
+#: Helpers/Localizations.php:801
 msgid "Closing the popup option will close the current popup."
 msgstr ""
 
-#: Helpers/Localizations.php:795
+#: Helpers/Localizations.php:805
 msgid "The element has been locked by your site Administrator."
 msgstr ""
 
-#: Helpers/Localizations.php:799
+#: Helpers/Localizations.php:809
 msgid "Element lock"
 msgstr ""
 
-#: Helpers/Localizations.php:803
+#: Helpers/Localizations.php:813
 msgid "Lock All Elements"
 msgstr ""
 
-#: Helpers/Localizations.php:807
+#: Helpers/Localizations.php:817
 msgid "Unlock All Elements"
 msgstr ""
 
-#: Helpers/Localizations.php:811
+#: Helpers/Localizations.php:821
 msgid ""
-"Lock or unlock all elements on the page. Users with Administrator role "
-"access will be able to edit elements."
+"Lock or unlock all elements on your page. Your user roles with "
+"Administrator access will be able to edit elements."
 msgstr ""
 
-#: Helpers/Localizations.php:815
-msgid "Lock or unlock specific elements under the element edit window."
+#: Helpers/Localizations.php:825
+msgid "You can lock/unlock specific elements under the element Edit window."
 msgstr ""
 
-#: Helpers/Localizations.php:819
+#: Helpers/Localizations.php:829
 msgid ""
 "All elements on the page have been locked. Only the Administrator role can "
 "edit the content."
 msgstr ""
 
-#: Helpers/Localizations.php:823
+#: Helpers/Localizations.php:833
 msgid ""
 "All elements on the page have been unlocked. All users with the edit "
 "option can edit the content."
 msgstr ""
 
-#: Helpers/Localizations.php:827
+#: Helpers/Localizations.php:837
 msgid ""
 "The element has been locked and can be edited only by the Administrator "
 "role."
 msgstr ""
 
-#: Helpers/Localizations.php:831
+#: Helpers/Localizations.php:841
 msgid ""
 "The element has been unlocked and can be edited by all roles with the edit "
 "option."
 msgstr ""
 
-#: Helpers/Localizations.php:835
+#: Helpers/Localizations.php:845
 msgid ""
 "The element and all inner elements have been locked and can be edited only "
 "by the Administrator role."
 msgstr ""
 
-#: Helpers/Localizations.php:839
+#: Helpers/Localizations.php:849
 msgid ""
 "The element and all inner elements have been unlocked and can be edited by "
 "all roles with the edit option."
 msgstr ""
 
-#: Helpers/Localizations.php:843
+#: Helpers/Localizations.php:853
 msgid "Changes may not be saved."
 msgstr ""
 
-#: Helpers/Localizations.php:847
+#: Helpers/Localizations.php:857
 msgid "Visual Composer Insights"
 msgstr ""
 
-#: Helpers/Localizations.php:851 Helpers/PostsGridSourcePosts.php:38
+#: Helpers/Localizations.php:861 Helpers/PostsGridSourcePosts.php:38
 msgid "All"
 msgstr ""
 
-#: Helpers/Localizations.php:855
+#: Helpers/Localizations.php:865
 msgid "Critical"
 msgstr ""
 
-#: Helpers/Localizations.php:859
+#: Helpers/Localizations.php:869
 msgid "Warnings"
 msgstr ""
 
-#: Helpers/Localizations.php:863 Modules/Settings/Pages/SystemStatus.php:244
-#: Modules/Settings/Pages/SystemStatus.php:252
+#: Helpers/Localizations.php:873 Modules/Settings/Pages/SystemStatus.php:239
+#: Modules/Settings/Pages/SystemStatus.php:247
 msgid "Success"
 msgstr ""
 
-#: Helpers/Localizations.php:867
+#: Helpers/Localizations.php:877
 msgid "Image size exceeded"
 msgstr ""
 
-#: Helpers/Localizations.php:871
+#: Helpers/Localizations.php:881
 msgid "Background Image size exceeded"
 msgstr ""
 
-#: Helpers/Localizations.php:875
+#: Helpers/Localizations.php:885
 #, php-format
 msgid ""
 "The image size exceeds %s. This may impact the page's performance and SEO "
 "ranking."
 msgstr ""
 
-#: Helpers/Localizations.php:879
+#: Helpers/Localizations.php:889
 msgid "The image ALT attribute is missing"
 msgstr ""
 
-#: Helpers/Localizations.php:883
+#: Helpers/Localizations.php:893
 msgid ""
 "Missing the ALT attribute for the image. This may impact the SEO ranking "
 "of the page."
 msgstr ""
 
-#: Helpers/Localizations.php:887
+#: Helpers/Localizations.php:897
 msgid "H1 title missing on the page"
 msgstr ""
 
-#: Helpers/Localizations.php:891
+#: Helpers/Localizations.php:901
 msgid ""
 "The page is missing the H1 tag. This may impact the SEO ranking of the "
 "page."
 msgstr ""
 
-#: Helpers/Localizations.php:895
+#: Helpers/Localizations.php:905
 msgid "H1 title exists on the page"
 msgstr ""
 
-#: Helpers/Localizations.php:899
+#: Helpers/Localizations.php:909
 msgid "The page has an H1 tag. Great job!"
 msgstr ""
 
-#: Helpers/Localizations.php:903
+#: Helpers/Localizations.php:913
 msgid "More than one H1 tag found"
 msgstr ""
 
-#: Helpers/Localizations.php:907
+#: Helpers/Localizations.php:917
 msgid ""
 "You have more than one H1 tag on your page which is bad for SEO ranking. "
 "Make sure to keep only one H1 and use lower-level headings (H2, H3, etc.) "
 "to structure your content."
 msgstr ""
 
-#: Helpers/Localizations.php:911
+#: Helpers/Localizations.php:921
 msgid "All images have ALT attributes"
 msgstr ""
 
-#: Helpers/Localizations.php:915
+#: Helpers/Localizations.php:925
 msgid "All images have ALT attributes. Great Job!"
 msgstr ""
 
-#: Helpers/Localizations.php:919
+#: Helpers/Localizations.php:929
 msgid "All images have optimal sizes"
 msgstr ""
 
-#: Helpers/Localizations.php:923
+#: Helpers/Localizations.php:933
 msgid "All images have optimal sizes. Awesome!"
 msgstr ""
 
-#: Helpers/Localizations.php:927
+#: Helpers/Localizations.php:937
 msgid "No content found"
 msgstr ""
 
-#: Helpers/Localizations.php:931
+#: Helpers/Localizations.php:941
 msgid ""
 "It seems this page has no content. Make sure to add elements or templates."
 msgstr ""
 
-#: Helpers/Localizations.php:935
+#: Helpers/Localizations.php:945
 msgid "No Critical Issues Found"
 msgstr ""
 
-#: Helpers/Localizations.php:939
+#: Helpers/Localizations.php:949
 msgid ""
 "There are no critical issues on the page. Congratulations and keep up the "
 "good work!"
 msgstr ""
 
-#: Helpers/Localizations.php:943
+#: Helpers/Localizations.php:953
 msgid "No Warnings Found"
 msgstr ""
 
-#: Helpers/Localizations.php:947
+#: Helpers/Localizations.php:957
 msgid ""
 "There are no warnings on the page. Congratulations and keep up the good "
 "work!"
 msgstr ""
 
-#: Helpers/Localizations.php:951
+#: Helpers/Localizations.php:961
 msgid "Paragraph length"
 msgstr ""
 
-#: Helpers/Localizations.php:955
+#: Helpers/Localizations.php:965
 msgid "Paragraph word count is"
 msgstr ""
 
-#: Helpers/Localizations.php:959
+#: Helpers/Localizations.php:969
 msgid "You set a proper length for the paragraphs. Great job!"
 msgstr ""
 
-#: Helpers/Localizations.php:963
+#: Helpers/Localizations.php:973
 msgid ""
 "The paragraph contains more than 150 words. This may affect readability."
 msgstr ""
 
-#: Helpers/Localizations.php:967
+#: Helpers/Localizations.php:977
 msgid ""
 "The paragraph contains more than 200 words. This may affect readability."
 msgstr ""
 
-#: Helpers/Localizations.php:971
+#: Helpers/Localizations.php:981
 msgid "The page title is too long."
 msgstr ""
 
-#: Helpers/Localizations.php:975
+#: Helpers/Localizations.php:985
 msgid ""
 "The page title exceeds 60 characters which are considered too long. Make "
 "sure to adjust it between 10 to 60 characters."
 msgstr ""
 
-#: Helpers/Localizations.php:979
+#: Helpers/Localizations.php:989
 msgid ""
 "The page title contains more than 100 characters and will be cut off by "
 "search engines. Shorten your page title!"
 msgstr ""
 
-#: Helpers/Localizations.php:983
+#: Helpers/Localizations.php:993
 msgid "The page title is too short."
 msgstr ""
 
-#: Helpers/Localizations.php:987
+#: Helpers/Localizations.php:997
 msgid ""
 "The page title is too short. Make sure to adjust the title between 10 to "
 "60 characters."
 msgstr ""
 
-#: Helpers/Localizations.php:991
+#: Helpers/Localizations.php:1001
 msgid "The page title length is optimal."
 msgstr ""
 
-#: Helpers/Localizations.php:995
+#: Helpers/Localizations.php:1005
 msgid "It seems that this page is set to \"noindex\" directive."
 msgstr ""
 
-#: Helpers/Localizations.php:999
+#: Helpers/Localizations.php:1009
 msgid ""
 "Using \"noindex\" will exclude this page from search results. If you have "
 "set \"noindex\" on purpose, ignore this warning."
 msgstr ""
 
-#: Helpers/Localizations.php:1003
+#: Helpers/Localizations.php:1013
 msgid "Google Analytics Tag is missing."
 msgstr ""
 
-#: Helpers/Localizations.php:1007
+#: Helpers/Localizations.php:1017
 msgid "Google Analytics Tag is added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1011
+#: Helpers/Localizations.php:1021
 msgid "It seems Google Analytics Tags is not added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1015
+#: Helpers/Localizations.php:1025
 msgid "Google Analytics Tag is added to the page. Great job!"
 msgstr ""
 
-#: Helpers/Localizations.php:1019
+#: Helpers/Localizations.php:1029
 msgid "Text length"
 msgstr ""
 
-#: Helpers/Localizations.php:1023
+#: Helpers/Localizations.php:1033
 #, php-format
 msgid ""
 "The text contains %length words. This is far below the recommended minimum "
 "of 300 words."
 msgstr ""
 
-#: Helpers/Localizations.php:1027
+#: Helpers/Localizations.php:1037
 #, php-format
 msgid "The text contains %length words. Good job!"
 msgstr ""
 
-#: Helpers/Localizations.php:1031
+#: Helpers/Localizations.php:1041
 msgid "No internal links appear on the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1035
+#: Helpers/Localizations.php:1045
 msgid "There are no internal links on the page. Add some!"
 msgstr ""
 
-#: Helpers/Localizations.php:1039
+#: Helpers/Localizations.php:1049
 msgid "No external links appear on the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1043
+#: Helpers/Localizations.php:1053
 msgid "There are no external links to the page. Add some!"
 msgstr ""
 
-#: Helpers/Localizations.php:1047
+#: Helpers/Localizations.php:1057
 #, php-format
 msgid "Only one %element element can be added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1051
+#: Helpers/Localizations.php:1061
 #, php-format
 msgid "Only two %element elements can be added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1055
+#: Helpers/Localizations.php:1065
 #, php-format
 msgid "Only three %element elements can be added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1059
+#: Helpers/Localizations.php:1069
 #, php-format
 msgid "Only four %element elements can be added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1063
+#: Helpers/Localizations.php:1073
 #, php-format
 msgid "Only five %element elements can be added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1067
+#: Helpers/Localizations.php:1077
 #, php-format
 msgid "Only %count %element elements can be added to the page."
 msgstr ""
 
-#: Helpers/Localizations.php:1071
+#: Helpers/Localizations.php:1081
 msgid ""
 "This is a default WordPress content area where the post or page content "
 "will be displayed."
 msgstr ""
 
-#: Helpers/Localizations.php:1079
+#: Helpers/Localizations.php:1089
 #: resources/views/license/pages/license.php:33
 msgid "Activate Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:1083
+#: Helpers/Localizations.php:1093
 msgid ""
 "Make the final step! Enter your license key to activate Visual Composer "
 "Hub and start creating the website right away."
 msgstr ""
 
-#: Helpers/Localizations.php:1087
+#: Helpers/Localizations.php:1097
 msgid "Define a comments area for a post or page layout."
 msgstr ""
 
-#: Helpers/Localizations.php:1091
+#: Helpers/Localizations.php:1101
 msgid ""
 "The content area is missing for your layout. Make sure to add the Content "
 "Area element to specify the place in your layout where the page or post "
 "content will be displayed."
 msgstr ""
 
-#: Helpers/Localizations.php:1095
+#: Helpers/Localizations.php:1105
 #, php-format
 msgid ""
 "The template you want to add contains %element element. You already have "
 "%element element added - remove it before adding the template."
 msgstr ""
 
-#: Helpers/Localizations.php:1099
+#: Helpers/Localizations.php:1109
 msgid ""
 "Download and Add Free Animated GIFs to Your Site With Visual Composer "
 "Premium"
 msgstr ""
 
-#: Helpers/Localizations.php:1103
+#: Helpers/Localizations.php:1113
 msgid "Download and Add Free Animated GIFs to Your Site"
 msgstr ""
 
-#: Helpers/Localizations.php:1107
+#: Helpers/Localizations.php:1117
 msgid "Could not connect to Giphy Server!"
 msgstr ""
 
-#: Helpers/Localizations.php:1111
+#: Helpers/Localizations.php:1121
 msgid "Discover the best GIF animations from Giphy."
 msgstr ""
 
-#: Helpers/Localizations.php:1115
+#: Helpers/Localizations.php:1125
 msgid "Download animations from Giphy to your Media Library"
 msgstr ""
 
-#: Helpers/Localizations.php:1119
+#: Helpers/Localizations.php:1129
 msgid "Activate Premium to Unlock Giphy Integration"
 msgstr ""
 
-#: Helpers/Localizations.php:1123
+#: Helpers/Localizations.php:1133
 msgid "GIF animations"
 msgstr ""
 
-#: Helpers/Localizations.php:1127
+#: Helpers/Localizations.php:1137
 msgid "GIF animation has been downloaded to your Media Library."
 msgstr ""
 
-#: Helpers/Localizations.php:1131
+#: Helpers/Localizations.php:1141
 msgid "Regular"
 msgstr ""
 
-#: Helpers/Localizations.php:1135
+#: Helpers/Localizations.php:1145
 msgid "Full"
 msgstr ""
 
-#: Helpers/Localizations.php:1139
+#: Helpers/Localizations.php:1149
 msgid "Powered by"
 msgstr ""
 
-#: Helpers/Localizations.php:1143
+#: Helpers/Localizations.php:1153
 msgid "Substitute Element"
 msgstr ""
 
-#: Helpers/Localizations.php:1147
+#: Helpers/Localizations.php:1157
 msgid "Manage your site menus"
 msgstr ""
 
-#: Helpers/Localizations.php:1151
+#: Helpers/Localizations.php:1161
 msgid "in the WordPress dashboard."
 msgstr ""
 
-#: Helpers/Localizations.php:1155
-msgid "Help us make Visual Composer better"
+#: Helpers/Localizations.php:1165
+#: Modules/Editors/Settings/ItemDataCollectionController.php:57
+msgid "Share Usage Data"
 msgstr ""
 
-#: Helpers/Localizations.php:1159
-#: Modules/Editors/Settings/ItemDataCollectionController.php:49
+#: Helpers/Localizations.php:1169
+#: Modules/Editors/Settings/ItemDataCollectionController.php:50
 msgid ""
-"Help us to improve the plugin by sharing anonymous data about Visual "
-"Composer usage. We appreciate your help!"
+"Help to make Visual Composer better by sharing anonymous usage data. We "
+"appreciate your help."
 msgstr ""
 
-#: Helpers/Localizations.php:1163
+#: Helpers/Localizations.php:1173
 msgid "Read more"
 msgstr ""
 
-#: Helpers/Localizations.php:1167
-#: Modules/Editors/Settings/ItemDataCollectionController.php:70
-msgid "Yes, I would like to help"
+#: Helpers/Localizations.php:1177
+#: Modules/Editors/Settings/ItemDataCollectionController.php:74
+msgid "Share anonymous data"
 msgstr ""
 
-#: Helpers/Localizations.php:1171
+#: Helpers/Localizations.php:1181
 msgid "Submit"
 msgstr ""
 
-#: Helpers/Localizations.php:1175
+#: Helpers/Localizations.php:1185
 msgid "New"
 msgstr ""
 
-#: Helpers/Localizations.php:1179
+#: Helpers/Localizations.php:1189
+#: resources/views/settings/fields/dataCollectionTable.php:21
 msgid "Elements"
 msgstr ""
 
-#: Helpers/Localizations.php:1183
+#: Helpers/Localizations.php:1193
+#: resources/views/settings/fields/dataCollectionTable.php:25
 msgid "Templates"
 msgstr ""
 
-#: Helpers/Localizations.php:1187
+#: Helpers/Localizations.php:1197
 msgid "Get full access to the Visual Composer Hub"
 msgstr ""
 
-#: Helpers/Localizations.php:1191
+#: Helpers/Localizations.php:1201
 msgid ""
 "Download all exclusive elements, templates, and extensions with Visual "
 "Composer Premium."
 msgstr ""
 
-#: Helpers/Localizations.php:1195
+#: Helpers/Localizations.php:1205
 msgid ""
 "This page can not be saved, because it is made for the demo purposes only."
 msgstr ""
 
-#: Helpers/Localizations.php:1199
+#: Helpers/Localizations.php:1209
 #: Modules/Settings/Fields/FactoryResetController.php:90
 msgid "Reset"
 msgstr ""
 
-#: Helpers/Localizations.php:1203
+#: Helpers/Localizations.php:1213
 msgid "welcome"
 msgstr ""
 
-#: Helpers/Localizations.php:1207
+#: Helpers/Localizations.php:1217
 msgid ""
 "Discover visual editor that gives everything to create a website you are "
 "proud of."
 msgstr ""
 
-#: Helpers/Localizations.php:1211
+#: Helpers/Localizations.php:1221
 msgid "Done"
 msgstr ""
 
-#: Helpers/Localizations.php:1215
+#: Helpers/Localizations.php:1225
 msgid "Next Tip"
 msgstr ""
 
-#: Helpers/Localizations.php:1219
+#: Helpers/Localizations.php:1229
 msgid "Click here to skip"
 msgstr ""
 
-#: Helpers/Localizations.php:1223
+#: Helpers/Localizations.php:1233
 msgid "Element Controls"
 msgstr ""
 
-#: Helpers/Localizations.php:1227
+#: Helpers/Localizations.php:1237
 msgid "Quick Actions"
 msgstr ""
 
-#: Helpers/Localizations.php:1231
+#: Helpers/Localizations.php:1241
 msgid "Insights"
 msgstr ""
 
-#: Helpers/Localizations.php:1235
+#: Helpers/Localizations.php:1245
 msgid "On-Page Settings"
 msgstr ""
 
-#: Helpers/Localizations.php:1239
+#: Helpers/Localizations.php:1249
 msgid "Publishing Options"
 msgstr ""
 
-#: Helpers/Localizations.php:1243
+#: Helpers/Localizations.php:1253
 msgid ""
 "This is your content library. <a href=\"https://visualcomposer.com/help/"
-"content-elements-structure/add-content-element/\" target=\"blank\">Add an "
-"element</a> by dragging or clicking on it and find templates you have "
-"created or downloaded from the <a href=\"https://visualcomposer.com/help/"
-"visual-composer-hub/\" target=\"blank\">Hub</a>."
+"content-elements-structure/add-content/?utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1247
+#: Helpers/Localizations.php:1261
 msgid ""
-"Use <a href=\"https://visualcomposer.com/help/interface/element-controls/"
-"\" target=\"blank\">element controls</a> to see your <a href=\"https://"
-"visualcomposer.com/help/content-elements-structure/grid-layout-row-column/"
-"\" target=\"blank\">layout structure</a> or modify the particular row, "
-"column, or content element."
+"Use <a href=\"https://visualcomposer.com/help/interface/element-controls/?"
+"utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1251
+#: Helpers/Localizations.php:1268
 msgid ""
 "Use <a href=\"https://visualcomposer.com/help/content-elements-structure/"
-"add-content-element/\" target=\"blank\">quick actions</a> at the bottom of "
-"the page to add the most popular row/column layouts and elements."
+"add-content/?utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1255
+#: Helpers/Localizations.php:1274
 msgid ""
 "<a href=\"https://visualcomposer.com/help/visual-composer-insights-"
-"assistant/\" target=\"blank\">Validate your page</a> for SEO and "
-"performance to speed up your site and rank higher."
+"assistant/?utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1259
+#: Helpers/Localizations.php:1279
 msgid ""
 "Check how your page looks on different devices. Select the device type to "
-"<a href=\"https://visualcomposer.com/help/responsive-design/\" target="
-"\"blank\">preview your layout responsiveness</a>."
+"<a href=\"https://visualcomposer.com/help/responsive-design/?utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1263
+#: Helpers/Localizations.php:1285
 msgid ""
-"Access <a href=\"https://visualcomposer.com/help/visual-composer-hub/\" "
-"target=\"blank\">Visual Composer Hub</a> in-built cloud library to "
-"download additional elements, templates, add-ons, stock images, and more."
+"Access <a href=\"https://visualcomposer.com/help/visual-composer-hub/?"
+"utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1267
+#: Helpers/Localizations.php:1290
 msgid ""
-"Change <a href=\"https://visualcomposer.com/help/settings/\" target=\"blank"
-"\">settings of your page or post</a>, modify the layout, control popups, "
-"add custom CSS, and Javascript."
+"Change <a href=\"https://visualcomposer.com/help/settings/?utm_source="
 msgstr ""
 
-#: Helpers/Localizations.php:1271
+#: Helpers/Localizations.php:1295
 msgid "Preview, save, and publish your content."
+msgstr ""
+
+#: Helpers/Localizations.php:1299
+msgid "Save your layout as a template to reuse it in other locations faster."
+msgstr ""
+
+#: Helpers/Localizations.php:1303
+msgid ""
+"Insights is a content analysis tool that helps to improve the quality, "
+"performance, and SEO ranking of the page."
+msgstr ""
+
+#: Helpers/Localizations.php:1307
+msgid ""
+"<a href=\"https://visualcomposer.com/help/visual-composer-hub/?utm_source="
+msgstr ""
+
+#: Helpers/Localizations.php:1312
+msgid ""
+"Use the toggle to switch between light and dark background while editing "
+"the text."
+msgstr ""
+
+#: Helpers/Localizations.php:1316
+msgid ""
+"Replace static content with <a href=\"https://visualcomposer.com/help/"
+"theme-builder/dynamic-content/?utm_source="
+msgstr ""
+
+#: Helpers/Localizations.php:1322
+msgid ""
+"Use Reverse stacking toggle to stack columns from right to left on mobile "
+"devices."
+msgstr ""
+
+#: Helpers/Localizations.php:1326
+msgid ""
+"Enable custom responsiveness to control column width on different devices."
+msgstr ""
+
+#: Helpers/Localizations.php:1330
+msgid ""
+"Use the Show element toggle to hide or show elements on all or custom "
+"devices."
+msgstr ""
+
+#: Helpers/Localizations.php:1334
+msgid "Manage if the element appears on a particular device."
+msgstr ""
+
+#: Helpers/Localizations.php:1338
+msgid "Choose an event performed when clicking on the image."
+msgstr ""
+
+#: Helpers/Localizations.php:1342
+msgid ""
+"Modify the destination link to the page. Make sure to enable the option to "
+"set a custom permalink in WordPress Settings."
+msgstr ""
+
+#: Helpers/Localizations.php:1346
+msgid "Select or change the layout of the page, post, or custom post type."
+msgstr ""
+
+#: Helpers/Localizations.php:1350
+msgid "Excerpts are optional hand-crafted summaries of your content."
+msgstr ""
+
+#: Helpers/Localizations.php:1354
+msgid ""
+"Add custom JavaScript code to insert it locally or globally on every page "
+"in header or footer. Insert Google Analytics, Tag Manager, Kissmetrics, or "
+"other JavaScript code snippets."
+msgstr ""
+
+#: Helpers/Localizations.php:1358
+msgid ""
+"Apply custom CSS code to the whole site or to this particular page only."
+msgstr ""
+
+#: Helpers/Localizations.php:1362
+msgid ""
+"To preview the changes, use the Responsive View in the navigation bar."
+msgstr ""
+
+#: Helpers/Localizations.php:1366
+msgid "Parent Page"
+msgstr ""
+
+#: Helpers/Localizations.php:1370
+msgid ""
+"A popup container element allows to style the overall look of your popup."
+msgstr ""
+
+#: Helpers/Localizations.php:1374
+msgid "Margin top"
+msgstr ""
+
+#: Helpers/Localizations.php:1378
+msgid ""
+"Specify space (in pixels) from the screen top where element should stick."
+msgstr ""
+
+#: Helpers/Localizations.php:1382
+msgid "Z-index"
+msgstr ""
+
+#: Helpers/Localizations.php:1386
+msgid "Relate to parent"
+msgstr ""
+
+#: Helpers/Localizations.php:1390
+msgid "Limit stickiness to work only in the parent container."
+msgstr ""
+
+#: Helpers/Localizations.php:1394
+msgid "Show on sticky"
+msgstr ""
+
+#: Helpers/Localizations.php:1398
+msgid "Show only when it becomes sticky."
+msgstr ""
+
+#: Helpers/Localizations.php:1402
+#: Modules/Editors/DataAjax/PostFieldsController.php:77
+#: Modules/Editors/DataAjax/PostFieldsController.php:97
+#: Modules/Editors/DataAjax/PostFieldsController.php:117
+#: Modules/Editors/DataAjax/PostFieldsController.php:137
+#: Modules/Editors/DataAjax/PostFieldsController.php:163
+#: Modules/Editors/DataAjax/PostFieldsController.php:189
+msgid "Author"
+msgstr ""
+
+#: Helpers/Localizations.php:1406
+msgid "Page Settings"
+msgstr ""
+
+#: Helpers/Localizations.php:1410
+msgid "Featured Image"
+msgstr ""
+
+#: Helpers/Localizations.php:1414
+msgid "Discussion"
+msgstr ""
+
+#: Helpers/Localizations.php:1418
+msgid "Allow comments"
+msgstr ""
+
+#: Helpers/Localizations.php:1422
+msgid "Allow trackbacks and pingbacks on this page"
+msgstr ""
+
+#: Helpers/Localizations.php:1426
+msgid "Parallax effect"
+msgstr ""
+
+#: Helpers/Localizations.php:1430
+msgid "Featured image is set. Save page and reload editor to see changes."
+msgstr ""
+
+#: Helpers/Localizations.php:1434
+msgid ""
+"Featured image is removed. Save page and reload editor to see changes."
+msgstr ""
+
+#: Helpers/Localizations.php:1438
+msgid "Tags"
+msgstr ""
+
+#: Helpers/Localizations.php:1442
+msgid "Manage tags associated with the post."
+msgstr ""
+
+#: Helpers/Localizations.php:1446 Modules/Settings/Pages/Settings.php:76
+msgid "General"
+msgstr ""
+
+#: Helpers/Localizations.php:1449
+msgid "Do you want to remove this element?"
+msgstr ""
+
+#: Helpers/Localizations.php:1450
+msgid ""
+"The element is in use on current page. Remove all element copies from your "
+"site before deleting it."
+msgstr ""
+
+#: Helpers/Localizations.php:1452
+msgid "Element has been removed."
+msgstr ""
+
+#: Helpers/Localizations.php:1456
+msgid "Add new"
+msgstr ""
+
+#: Helpers/Localizations.php:1460
+msgid "Categories"
+msgstr ""
+
+#: Helpers/Localizations.php:1464
+msgid "Category"
+msgstr ""
+
+#: Helpers/Localizations.php:1468
+msgid "Parent Category"
+msgstr ""
+
+#: Helpers/Localizations.php:1472
+msgid "Add New Category"
+msgstr ""
+
+#: Helpers/Localizations.php:1476
+msgid "Select categories for the post or "
+msgstr ""
+
+#: Helpers/Localizations.php:1480
+msgid "add a new category"
+msgstr ""
+
+#: Helpers/Localizations.php:1484
+msgid "Select Parent Category"
+msgstr ""
+
+#: Helpers/Localizations.php:1487
+msgid "Remove `%`"
+msgstr ""
+
+#: Helpers/Localizations.php:1488
+msgid "Add `%`"
+msgstr ""
+
+#: Helpers/Localizations.php:1490
+msgid "Manage post categories or add a new category."
+msgstr ""
+
+#: Helpers/Localizations.php:1494
+msgid "Download Premium Icon Libraries"
+msgstr ""
+
+#: Helpers/Localizations.php:1498
+msgid "Download Premium Design Options"
+msgstr ""
+
+#: Helpers/Localizations.php:1502
+msgid "Download The Addon"
+msgstr ""
+
+#: Helpers/Localizations.php:1506
+msgid "Premium Popup Builder. Do More."
+msgstr ""
+
+#: Helpers/Localizations.php:1510
+msgid ""
+"Create engaging popups to boost your conversion rate with Visual Composer "
+"Premium Popup Builder."
+msgstr ""
+
+#: Helpers/Localizations.php:1514
+msgid "All layouts are available in the Premium version."
+msgstr ""
+
+#: Helpers/Localizations.php:1518
+msgid "Do More With Premium"
+msgstr ""
+
+#: Helpers/Localizations.php:1522
+msgid ""
+"Apply a layout with a header, footer, and sidebar with Visual Composer "
+"Premium."
+msgstr ""
+
+#: Helpers/Localizations.php:1526
+msgid ""
+"Get access to more than 200 content elements with Visual Composer Premium."
+msgstr ""
+
+#: Helpers/Localizations.php:1530
+msgid ""
+"Get access to more than 150 beautiful multipurpose templates and template "
+"blocks with Visual Composer Premium."
+msgstr ""
+
+#: Helpers/Localizations.php:1534
+msgid "Access the whole GIPHY library with Visual Composer Premium."
+msgstr ""
+
+#: Helpers/Localizations.php:1538
+msgid ""
+"Access the whole Unsplash stock image library with Visual Composer Premium."
+msgstr ""
+
+#: Helpers/Localizations.php:1542
+msgid "Unlock All Features"
+msgstr ""
+
+#: Helpers/Localizations.php:1546
+msgid "Width"
+msgstr ""
+
+#: Helpers/Localizations.php:1550
+msgid "px"
+msgstr ""
+
+#: Helpers/Localizations.php:1554
+msgid "You can instantly check your layout on the most popular device types."
+msgstr ""
+
+#: Helpers/Localizations.php:1558
+msgid "Dynamic Content is a Premium Feature"
+msgstr ""
+
+#: Helpers/Localizations.php:1562
+msgid ""
+"Replace static content with dynamic content from WordPress default and "
+"custom meta fields with Visual Composer Premium."
+msgstr ""
+
+#: Helpers/Localizations.php:1566
+msgid ""
+"Replace static content with dynamic content from WordPress default and "
+"custom meta fields with Visual Composer Premium Addon."
+msgstr ""
+
+#: Helpers/Localizations.php:1570
+msgid "Dynamic View"
+msgstr ""
+
+#: Helpers/Localizations.php:1574
+msgid "This is a free feature"
+msgstr ""
+
+#: Helpers/Localizations.php:1578
+msgid ""
+"Get a free license to activate the Visual Composer Hub and get access to "
+"more free elements and templates."
+msgstr ""
+
+#: Helpers/Localizations.php:1582
+msgid "Element Lock is a Premium feature"
+msgstr ""
+
+#: Helpers/Localizations.php:1586
+msgid ""
+"With Visual Composer Premium, you can lock or unlock elements to manage "
+"who will be able to edit them."
+msgstr ""
+
+#: Helpers/Localizations.php:1590
+msgid ""
+"Lock or unlock all elements on your page. Your user roles with "
+"Administrator access will be able to edit elements. <br>You can lock/"
+"unlock specific elements under the element Edit window. <br>To get access "
+"to this feature, download the Role Manager addon from the Visual Composer "
+"Hub."
+msgstr ""
+
+#: Helpers/Localizations.php:1596
+msgid "Popup Builder is a Premium Feature"
+msgstr ""
+
+#: Helpers/Localizations.php:1600
+msgid ""
+"Build custom popups with the Visual Composer Popup Builder that is "
+"available with the premium version of the plugin."
+msgstr ""
+
+#: Helpers/Localizations.php:1604
+msgid ""
+"Build custom popups with the Visual Composer Popup Builder. It's available "
+"in the Visual Composer Hub."
+msgstr ""
+
+#: Helpers/Localizations.php:1608
+msgid "Download Popup Builder"
+msgstr ""
+
+#: Helpers/Localizations.php:1612
+msgid "Element Settings is a Premium Feature"
+msgstr ""
+
+#: Helpers/Localizations.php:1616
+msgid ""
+"With Visual Composer Premium, you can change the default parameters to "
+"create a unique element and save it to your Content Library."
+msgstr ""
+
+#: Helpers/Localizations.php:1620
+msgid ""
+"With the Element Presets addon, you can change the default parameters to "
+"create a unique element and save it to your Content Library."
+msgstr ""
+
+#: Helpers/Localizations.php:1624
+msgid "Visual Composer Hub Access terms"
+msgstr ""
+
+#: Helpers/Localizations.php:1628
+msgid ""
+"To download content from the Visual Composer Hub, read and accept our <a "
+"href=\"https://visualcomposer.com/terms-of-use/\" target=\"_blank\" rel="
+"\"noopener noreferrer\">cloud access terms</a> and <a href=\"https://"
+"visualcomposer.com/privacy-policy/\" target=\"_blank\" rel=\"noopener "
+"noreferrer\">privacy policy</a>"
+msgstr ""
+
+#: Helpers/Localizations.php:1632
+msgid "Yes, I agree"
 msgstr ""
 
 #: Helpers/LoginCategory.php:21
@@ -2145,7 +2557,7 @@ msgstr ""
 msgid "Travel & Accommodation"
 msgstr ""
 
-#: Helpers/PostType.php:249 Modules/Editors/Tutorial/PostType.php:75
+#: Helpers/PostType.php:277 Modules/Editors/Tutorial/PostType.php:75
 #: Modules/Editors/Tutorial/PostType.php:76
 #, php-format
 msgid "View %s"
@@ -2176,15 +2588,6 @@ msgstr ""
 msgid "Site"
 msgstr ""
 
-#: Modules/Editors/DataAjax/PostFieldsController.php:77
-#: Modules/Editors/DataAjax/PostFieldsController.php:97
-#: Modules/Editors/DataAjax/PostFieldsController.php:117
-#: Modules/Editors/DataAjax/PostFieldsController.php:137
-#: Modules/Editors/DataAjax/PostFieldsController.php:163
-#: Modules/Editors/DataAjax/PostFieldsController.php:189
-msgid "Author"
-msgstr ""
-
 #: Modules/Editors/DataAjax/PostFieldsController.php:143
 #: Modules/Editors/DataAjax/PostFieldsController.php:169
 #: Modules/Editors/DataAjax/PostFieldsController.php:195
@@ -2195,6 +2598,20 @@ msgstr ""
 #: Modules/Editors/EditPostLinks/Controller.php:153
 #: Modules/Editors/Frontend/MenuController.php:87
 msgid "Add New with Visual Composer"
+msgstr ""
+
+#: Modules/Editors/Elements/Controller.php:45
+msgid "You are not allowed to delete elements."
+msgstr ""
+
+#: Modules/Editors/Elements/Controller.php:53
+msgid "The default element cannot be removed"
+msgstr ""
+
+#: Modules/Editors/Elements/Controller.php:60
+msgid ""
+"The element is in use on one of your pages or templates. Remove all "
+"element copies from your site before deleting it."
 msgstr ""
 
 #: Modules/Editors/Frontend/Controller.php:98
@@ -2213,8 +2630,12 @@ msgstr ""
 msgid "Select your menu"
 msgstr ""
 
-#: Modules/Editors/Settings/ItemDataCollectionController.php:56
-msgid "Help Us Make Visual Composer Better"
+#: Modules/Editors/Settings/EditorLayoutController.php:50
+msgid "Specify the default state for the \"Responsive View\" control."
+msgstr ""
+
+#: Modules/Editors/Settings/EditorLayoutController.php:57
+msgid "Default Responsive View"
 msgstr ""
 
 #: Modules/Editors/Settings/ItemInitialHelpersController.php:48
@@ -2246,13 +2667,40 @@ msgstr ""
 msgid "Blank Layout"
 msgstr ""
 
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:65
-#: Modules/Settings/MenuController.php:60
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:59
+msgid "Header and Footer"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:63
+msgid "Right Sidebar"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:67
+msgid "Left Sidebar"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:79
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:92
+#: Modules/Settings/MenuController.php:62
 msgid "Visual Composer"
 msgstr ""
 
-#: Modules/Editors/Settings/PageTemplatesVariablesController.php:101
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:97
+msgid "Visual Composer Premium"
+msgstr ""
+
+#: Modules/Editors/Settings/PageTemplatesVariablesController.php:132
+#: Modules/Hub/Pages/PremiumTeasers.php:54
 msgid "Theme Templates"
+msgstr ""
+
+#: Modules/Editors/Settings/WordPressSettings/AuthorController.php:63
+#, php-format
+msgid "%1$s (%2$s)"
+msgstr ""
+
+#: Modules/Editors/Templates/Controller.php:171
+msgid "You are not allowed to delete templates."
 msgstr ""
 
 #: Modules/Editors/Templates/PostType.php:38
@@ -2332,15 +2780,69 @@ msgstr ""
 msgid "Failed to update shared libraries"
 msgstr ""
 
-#: Modules/Hub/DownloadController.php:83
+#: Modules/Hub/DownloadController.php:86 Modules/Hub/Traits/Action.php:73
 #, php-format
 msgid ""
 "A .zip file of the Visual Composer is broken - the checksum check failed. "
 "Check your Internet connection, initiate reset under Visual Composer "
 "Settings, and try again.\n"
 "\n"
-"If the problem still occurs, visit %ssupport.visualcomposer.io%s for "
+"If the problem still occurs, visit %smy.visualcomposer.com/support%s for "
 "technical assistance.\n"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:43
+msgid "Headers and Footers"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:45
+msgid "HEADERS AND FOOTERS ARE A PREMIUM FEATURE"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:47
+msgid ""
+"Visual Composer Premium allows replacing the theme default header and "
+"footer with your header and footer templates created with Visual Composer."
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:56
+msgid "THEME TEMPLATES ARE A PREMIUM FEATURE"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:58
+msgid ""
+"Visual Composer Premium allows replacing the theme default theme templates "
+"like 404 page, search page, author page, post archive with your templates "
+"created with Visual Composer."
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:65
+msgid "Maintenance Mode"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:67
+msgid "MAINTENANCE MODE IS A PREMIUM FEATURE"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:69
+msgid ""
+"Visual Composer Premium allows enabling maintenance mode and selecting the "
+"page that will be displayed to the website visitors. Users with access to "
+"the admin panel will still be able to preview and edit the website."
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:76
+msgid "Popup Settings"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:78
+msgid "POPUP BUILDER IS A PREMIUM FEATURE"
+msgstr ""
+
+#: Modules/Hub/Pages/PremiumTeasers.php:80
+msgid ""
+"Visual Composer Premium allows specifying site-wide popups for specific "
+"events like First Page Load, Every Page Load, or Exit Intent."
 msgstr ""
 
 #: Modules/Hub/StockMedia/StockMediaDownloadController.php:85
@@ -2371,26 +2873,15 @@ msgstr ""
 msgid "Unknown image provider."
 msgstr ""
 
-#: Modules/Hub/Traits/Action.php:73
-#, php-format
-msgid ""
-"A .zip file of the Visual Composer is broken - the checksum check failed. "
-"Check your Internet connection, initiate reset under Visual Composer "
-"Settings, and try again.\n"
-"\n"
-"If the problem still occurs, visit %smy.visualcomposer.com/support%s for "
-"technical assistance.\n"
-msgstr ""
-
 #: Modules/License/LicenseController.php:106
 msgid "Failed to activate the license, try again."
 msgstr ""
 
-#: Modules/License/Pages/GettingStarted.php:101
+#: Modules/License/Pages/GettingStarted.php:125
 msgid "Getting Started"
 msgstr ""
 
-#: Modules/License/Pages/GoPremium.php:95
+#: Modules/License/Pages/GoPremium.php:107
 #, php-format
 msgid ""
 "<strong>Visual Composer:</strong> <a href=\"%s\">Activate Visual Composer "
@@ -2398,23 +2889,8 @@ msgid ""
 "templates, and addons."
 msgstr ""
 
-#: Modules/License/Pages/GoPremium.php:181
-#: Modules/Vendors/PluginsController.php:114
-msgid "Help Center"
-msgstr ""
-
-#: Modules/License/Pages/GoPremium.php:186
-#: Modules/Vendors/PluginsController.php:119
-msgid "API"
-msgstr ""
-
-#: Modules/License/Pages/GoPremium.php:191
-#: Modules/Vendors/PluginsController.php:124
-msgid "Premium Support"
-msgstr ""
-
-#: Modules/License/Pages/LicenseStatus.php:73
-#: Modules/License/Pages/LicenseStatus.php:103
+#: Modules/License/Pages/LicenseStatus.php:69
+#: Modules/License/Pages/LicenseStatus.php:100
 msgid "License"
 msgstr ""
 
@@ -2432,6 +2908,10 @@ msgstr ""
 msgid ""
 "Control every detail of your website with flexible design options and "
 "customization tools."
+msgstr ""
+
+#: Modules/Settings/Fields/CssEditor.php:53
+msgid "Global CSS will be applied sitewide."
 msgstr ""
 
 #: Modules/Settings/Fields/FactoryResetController.php:67
@@ -2486,11 +2966,7 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
-#: Modules/Settings/Pages/About.php:82
-msgid "About"
-msgstr ""
-
-#: Modules/Settings/Pages/CssJsSettings.php:99
+#: Modules/Settings/Pages/CssJsSettings.php:94
 msgid "CSS, HTML & JavaScript"
 msgstr ""
 
@@ -2498,110 +2974,113 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: Modules/Settings/Pages/Settings.php:76
-msgid "General"
-msgstr ""
-
-#: Modules/Settings/Pages/SystemStatus.php:105
+#: Modules/Settings/Pages/SystemStatus.php:100
 #, php-format
 msgid "PHP version %s or greater (recommended 7 or greater)"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:113
+#: Modules/Settings/Pages/SystemStatus.php:108
 #, php-format
 msgid "WordPress version %s or greater"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:122
+#: Modules/Settings/Pages/SystemStatus.php:117
 msgid "WP_DEBUG, false"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:122
+#: Modules/Settings/Pages/SystemStatus.php:117
 msgid "WP_DEBUG, true"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:133
-#: Modules/Settings/Pages/SystemStatus.php:147
-#: Modules/Settings/Pages/SystemStatus.php:161
+#: Modules/Settings/Pages/SystemStatus.php:128
+#: Modules/Settings/Pages/SystemStatus.php:142
+#: Modules/Settings/Pages/SystemStatus.php:156
 msgid "Unlimited"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:136
+#: Modules/Settings/Pages/SystemStatus.php:131
 #, php-format
 msgid "Post max size should be %sM, currently it is %s"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:150
+#: Modules/Settings/Pages/SystemStatus.php:145
 #, php-format
 msgid "Memory limit should be %sM, currently it is %s"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:164
+#: Modules/Settings/Pages/SystemStatus.php:159
 #, php-format
 msgid "post_max_size limit should be %sM, currently it is %s"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:175
+#: Modules/Settings/Pages/SystemStatus.php:170
 #, php-format
 msgid "max_input_nesting_level should be %s, currently it is %s"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:186
+#: Modules/Settings/Pages/SystemStatus.php:181
 #, php-format
 msgid "max_input_vars should be %s, currently it is %s"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:195
+#: Modules/Settings/Pages/SystemStatus.php:190
 #, php-format
 msgid "Max execution time should be %sS, currently it is %sS"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:204
+#: Modules/Settings/Pages/SystemStatus.php:199
 #, php-format
 msgid "File max upload size should be %sM, currently it is %s"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:212
+#: Modules/Settings/Pages/SystemStatus.php:207
 msgid "Writable"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:212
+#: Modules/Settings/Pages/SystemStatus.php:207
 msgid "Uploads directory is not writable"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:220
+#: Modules/Settings/Pages/SystemStatus.php:215
 msgid "Direct"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:220
+#: Modules/Settings/Pages/SystemStatus.php:215
 msgid "FS_METHOD should be direct"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:228
+#: Modules/Settings/Pages/SystemStatus.php:223
 msgid "Enabled"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:228
+#: Modules/Settings/Pages/SystemStatus.php:223
 msgid "The Zip extension is not installed."
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:236
+#: Modules/Settings/Pages/SystemStatus.php:231
 msgid "Curl extension is not installed"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:244
+#: Modules/Settings/Pages/SystemStatus.php:239
 msgid "Connection with AWS was unsuccessful"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:252
+#: Modules/Settings/Pages/SystemStatus.php:247
 msgid "Connection with Account was unsuccessful"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:312
+#: Modules/Settings/Pages/SystemStatus.php:255
+#, php-format
+msgid ""
+"Incorrect plugin folder name: %s. Plugin folder name must be "
+"‘visualcomposer’"
+msgstr ""
+
+#: Modules/Settings/Pages/SystemStatus.php:316
 msgid "System Status"
 msgstr ""
 
-#: Modules/Settings/Pages/SystemStatus.php:340
+#: Modules/Settings/Pages/SystemStatus.php:345
 #, php-format
 msgid ""
 "It seems that there is a problem with your server configuration that might "
@@ -2617,93 +3096,93 @@ msgstr ""
 msgid "Visual Composer News"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:82
-#: Modules/Vendors/Gutenberg/AttributeController.php:84
+#: Modules/Vendors/Gutenberg/AttributeController.php:86
+#: Modules/Vendors/Gutenberg/AttributeController.php:88
 msgid "Gutenberg attrs"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:83
-#: Modules/Vendors/Gutenberg/AttributeController.php:85
+#: Modules/Vendors/Gutenberg/AttributeController.php:87
+#: Modules/Vendors/Gutenberg/AttributeController.php:89
 msgid "Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:86
+#: Modules/Vendors/Gutenberg/AttributeController.php:90
 msgid "Add New"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:87
+#: Modules/Vendors/Gutenberg/AttributeController.php:91
 msgid "Add New Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:88
+#: Modules/Vendors/Gutenberg/AttributeController.php:92
 msgid "New Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:89
+#: Modules/Vendors/Gutenberg/AttributeController.php:93
 msgid "Edit Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:90
+#: Modules/Vendors/Gutenberg/AttributeController.php:94
 msgid "View Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:91
+#: Modules/Vendors/Gutenberg/AttributeController.php:95
 msgid "All Gutenberg attrs"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:92
+#: Modules/Vendors/Gutenberg/AttributeController.php:96
 msgid "Search Gutenberg attrs"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:93
+#: Modules/Vendors/Gutenberg/AttributeController.php:97
 msgid "Parent Gutenberg attrs:"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:94
+#: Modules/Vendors/Gutenberg/AttributeController.php:98
 msgid "No Gutenberg attrs found."
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:95
+#: Modules/Vendors/Gutenberg/AttributeController.php:99
 msgid "No Gutenberg attrs found in Trash."
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:97
+#: Modules/Vendors/Gutenberg/AttributeController.php:101
 msgid "Gutenberg attr Cover Image"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:102
+#: Modules/Vendors/Gutenberg/AttributeController.php:106
 msgid "Set cover image"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:107
+#: Modules/Vendors/Gutenberg/AttributeController.php:111
 msgid "Remove cover image"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:112
+#: Modules/Vendors/Gutenberg/AttributeController.php:116
 msgid "Use as a cover image"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:117
+#: Modules/Vendors/Gutenberg/AttributeController.php:121
 msgid "Gutenberg attr archives"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:122
+#: Modules/Vendors/Gutenberg/AttributeController.php:126
 msgid "Add into Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:127
+#: Modules/Vendors/Gutenberg/AttributeController.php:131
 msgid "Uploaded to this Gutenberg attr"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:132
+#: Modules/Vendors/Gutenberg/AttributeController.php:136
 msgid "Filter Gutenberg attrs list"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:137
+#: Modules/Vendors/Gutenberg/AttributeController.php:141
 msgid "Gutenberg attrs list navigation"
 msgstr ""
 
-#: Modules/Vendors/Gutenberg/AttributeController.php:142
+#: Modules/Vendors/Gutenberg/AttributeController.php:146
 msgid "Gutenberg attrs list"
 msgstr ""
 
@@ -2722,40 +3201,60 @@ msgstr ""
 msgid "Gutenberg"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:46
+#: Modules/Vendors/PluginsController.php:117
+msgid "Help Center"
+msgstr ""
+
+#: Modules/Vendors/PluginsController.php:122
+msgid "API"
+msgstr ""
+
+#: Modules/Vendors/PluginsController.php:127
+msgid "Premium Support"
+msgstr ""
+
+#: Modules/Vendors/WooCommerceController.php:47
 msgid "Woocommerce Shop"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:50
+#: Modules/Vendors/WooCommerceController.php:51
 msgid "Woocommerce Cart"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:54
+#: Modules/Vendors/WooCommerceController.php:55
 msgid "Woocommerce Checkout"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:58
+#: Modules/Vendors/WooCommerceController.php:59
 msgid "Woocommerce My Account"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:62
+#: Modules/Vendors/WooCommerceController.php:63
 msgid "Woocommerce Product Category"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:66
+#: Modules/Vendors/WooCommerceController.php:67
 msgid "Woocommerce Terms"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:320
+#: Modules/Vendors/WooCommerceController.php:323
 msgid "Length:"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:324
+#: Modules/Vendors/WooCommerceController.php:327
 msgid "Width:"
 msgstr ""
 
-#: Modules/Vendors/WooCommerceController.php:327
+#: Modules/Vendors/WooCommerceController.php:330
 msgid "Height:"
+msgstr ""
+
+#: Modules/Vendors/WordpressController.php:48
+#: resources/views/settings/layouts/dashboard-main-layout.php:289
+#, php-format
+msgid ""
+"Thank you for choosing Visual Composer Website Builder. <br>Like the "
+"plugin? %sRate us on WordPress.org%s"
 msgstr ""
 
 #: resources/views/editor/frontend/frontend.php:33
@@ -2767,11 +3266,11 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: resources/views/elements/widgets/variables.php:19
+#: resources/views/elements/widgets/variables.php:20
 msgid "No custom widgets found."
 msgstr ""
 
-#: resources/views/elements/widgets/variables.php:36
+#: resources/views/elements/widgets/variables.php:37
 msgid "No widgets found."
 msgstr ""
 
@@ -2792,7 +3291,7 @@ msgid ""
 msgstr ""
 
 #: resources/views/license/pages/license.php:51
-#: resources/views/settings/pages/system-status.php:27
+#: resources/views/settings/pages/system-status.php:28
 msgid "Refresh"
 msgstr ""
 
@@ -2820,6 +3319,36 @@ msgstr ""
 msgid "License expiration date"
 msgstr ""
 
+#: resources/views/settings/fields/dataCollectionTable.php:11
+msgid "What kind of data will I share?"
+msgstr ""
+
+#: resources/views/settings/fields/dataCollectionTable.php:17
+msgid "Editor"
+msgstr ""
+
+#: resources/views/settings/fields/dataCollectionTable.php:18
+msgid ""
+"License type, site and page ids (de-identified),  how long the editor has "
+"been used"
+msgstr ""
+
+#: resources/views/settings/fields/dataCollectionTable.php:22
+msgid ""
+"Which elements are used and downloaded, site and page ids (de-identified)"
+msgstr ""
+
+#: resources/views/settings/fields/dataCollectionTable.php:26
+msgid ""
+"Which templates are used and downloaded, site and page ids (de-identified)"
+msgstr ""
+
+#: resources/views/settings/fields/dataCollectionTable.php:31
+msgid ""
+"We will never collect any sensivite or private data such as IP addresses, "
+"email, usernames, or passwords."
+msgstr ""
+
 #: resources/views/settings/fields/post-types/post-types-toggle.php:22
 #: resources/views/settings/fields/toggle.php:18
 msgid "on"
@@ -2838,183 +3367,191 @@ msgstr ""
 msgid "no"
 msgstr ""
 
-#: resources/views/settings/layouts/dashboard-main-layout.php:193
+#: resources/views/settings/layouts/dashboard-main-layout.php:250
 msgid "Help"
 msgstr ""
 
-#: resources/views/settings/layouts/dashboard-main-layout.php:198
+#: resources/views/settings/layouts/dashboard-main-layout.php:255
 msgid "My Visual Composer"
 msgstr ""
 
-#: resources/views/settings/pages/index.php:88
+#: resources/views/settings/pages/index.php:90
 msgid "Save Changes"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:26
+#: resources/views/settings/pages/system-status.php:27
 msgid ""
 "Check system status and WordPress configuration for compliance with Visual "
 "Composer requirements."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:74
+#: resources/views/settings/pages/system-status.php:75
 msgid "WordPress environment"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:79
+#: resources/views/settings/pages/system-status.php:80
 msgid "WordPress version"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:83
+#: resources/views/settings/pages/system-status.php:84
 msgid "WordPress version currently installed on your site."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:89
+#: resources/views/settings/pages/system-status.php:90
 msgid "PHP version"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:93
+#: resources/views/settings/pages/system-status.php:94
 msgid "PHP version currently installed on your site."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:99
+#: resources/views/settings/pages/system-status.php:100
 msgid "WP_DEBUG"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:103
+#: resources/views/settings/pages/system-status.php:104
 msgid "Displays whether of not WordPress is in Debug Mode"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:109
+#: resources/views/settings/pages/system-status.php:110
 msgid "Visual Composer version"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:112
+#: resources/views/settings/pages/system-status.php:113
 msgid "Visual Composer version installed on your site."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:125
+#: resources/views/settings/pages/system-status.php:126
 msgid "There is a new version of Visual Composer Website Builder available."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:140
+#: resources/views/settings/pages/system-status.php:141
 msgid "Configurations"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:145
+#: resources/views/settings/pages/system-status.php:146
+msgid "Plugin folder"
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:151
+msgid "Plugin folder must be `visualcomposer`."
+msgstr ""
+
+#: resources/views/settings/pages/system-status.php:159
 msgid "Memory limit"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:150
+#: resources/views/settings/pages/system-status.php:164
 msgid ""
 "The maximum amount of memory (RAM) that your site can use at one time."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:158
+#: resources/views/settings/pages/system-status.php:172
 msgid "Post max size"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:163
+#: resources/views/settings/pages/system-status.php:177
 msgid ""
 "The maximum size of the post data allowed that also affects file upload."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:171
+#: resources/views/settings/pages/system-status.php:185
 msgid "Max input nesting level"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:176
+#: resources/views/settings/pages/system-status.php:190
 msgid "The maximum nesting depth of input variables (i.e. $_GET, $_POST.). "
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:184
+#: resources/views/settings/pages/system-status.php:198
 msgid "PHP Max Input Vars"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:189
+#: resources/views/settings/pages/system-status.php:203
 msgid ""
 "The number of input variables that may be accepted (limit is applied to "
 "$_GET, $_POST, and $_COOKIE superglobal separately)."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:197
+#: resources/views/settings/pages/system-status.php:211
 msgid "Timeout"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:201
+#: resources/views/settings/pages/system-status.php:215
 msgid "The maximum execution time for PHP scripts."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:207
+#: resources/views/settings/pages/system-status.php:221
 msgid "Max upload file size"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:212
+#: resources/views/settings/pages/system-status.php:226
 msgid "The largest file size that can be uploaded to your WordPress site."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:220
-msgid "Access to the upload directory"
+#: resources/views/settings/pages/system-status.php:234
+msgid "Access to the upload folder"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:225
+#: resources/views/settings/pages/system-status.php:239
 msgid ""
-"Visual Composer stores assets in the WordPress uploads directory. The "
-"directory must be writable for this to happen."
+"Visual Composer stores assets in the WordPress uploads folder. The folder "
+"must be writable for this to happen."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:233
+#: resources/views/settings/pages/system-status.php:247
 msgid "File system method"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:237
+#: resources/views/settings/pages/system-status.php:251
 msgid "The file system method should be direct."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:248
+#: resources/views/settings/pages/system-status.php:262
 msgid "Extensions"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:253
+#: resources/views/settings/pages/system-status.php:267
 msgid ".zip extension"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:257
+#: resources/views/settings/pages/system-status.php:271
 msgid "The Zip Extension should be enabled on your server"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:263
+#: resources/views/settings/pages/system-status.php:277
 msgid "cURL extension"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:267
+#: resources/views/settings/pages/system-status.php:281
 msgid "The version of cURL installed on your server."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:278
+#: resources/views/settings/pages/system-status.php:292
 msgid "Connections"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:283
+#: resources/views/settings/pages/system-status.php:297
 msgid "Account"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:287
+#: resources/views/settings/pages/system-status.php:301
 msgid "Connection with your account."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:293
+#: resources/views/settings/pages/system-status.php:307
 msgid "AWS"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:297
+#: resources/views/settings/pages/system-status.php:311
 msgid "The connection with the AWS."
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:303
+#: resources/views/settings/pages/system-status.php:317
 msgid "Large data transfer"
 msgstr ""
 
-#: resources/views/settings/pages/system-status.php:308
+#: resources/views/settings/pages/system-status.php:322
 msgid ""
 "Ability to send large data. In case if failed - adjust your php.ini file "
 "to increase memory_limit, post_max_size and execution time."
