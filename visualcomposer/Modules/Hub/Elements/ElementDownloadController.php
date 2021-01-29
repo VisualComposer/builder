@@ -33,7 +33,10 @@ class ElementDownloadController extends Container implements Module
             ];
         }
 
-        if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->agreeHubTerms()) {
+        if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->agreeHubTerms()
+            && $requestHelper->input(
+                'vcv-bundle'
+            ) !== 'template/tutorial') {
             return false;
         }
 
