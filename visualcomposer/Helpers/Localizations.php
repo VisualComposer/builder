@@ -1638,6 +1638,10 @@ class Localizations extends Container implements Helper
             'yesIAgree' => __(
                 'Yes, I agree',
                 'visualcomposer'
+            ),
+            'hidingPlayerControls' => __(
+                'Hiding player controls available only for Vimeo PRO users.',
+                'visualcomposer'
             )
         ];
 
