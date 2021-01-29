@@ -20,7 +20,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.state = {
       saving: false,
       loading: false,
-      status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : '',
+      status: !PostData.canPublish() ? 'disabled' : '',
       isOptionsActive: false
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)

@@ -1,5 +1,7 @@
 import Combokeys from 'combokeys'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
+
+const PostData = getService('wordpress-post-data')
 
 export function bindEditorKeys (document) {
   const workspaceStorage = getStorage('workspace')
@@ -37,9 +39,11 @@ export function bindEditorKeys (document) {
   })
   combokeysInstance.bind([ 'command+s', 'ctrl+s' ], (e) => {
     e.preventDefault()
-    wordpressDataStorage.trigger('save', {
-      options: {}
-    }, 'postSaveControl')
+    if (PostData.canPublish()) {
+      wordpressDataStorage.trigger('save', {
+        options: {}
+      }, 'postSaveControl')
+    }
     return false
   })
   combokeysInstance.bind([ 'command+shift+p', 'ctrl+shift+p' ], () => {
