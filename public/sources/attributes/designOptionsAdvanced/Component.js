@@ -1899,11 +1899,17 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     const value = this.state.devices[this.state.currentDevice].videoVimeo || ''
+    const hidingPlayerControls = DesignOptionsAdvanced.localizations ? DesignOptionsAdvanced.localizations.hidingPlayerControls : 'Hiding player controls available only for Vimeo PRO users.'
     return (
       <div className='vcv-ui-form-group'>
-        <span className='vcv-ui-form-group-heading'>
-          Vimeo video link
-        </span>
+        <div className='vcv-ui-form-group-heading-wrapper'>
+          <span className='vcv-ui-form-group-heading'>
+            Vimeo video link
+          </span>
+          <Tooltip>
+            {hidingPlayerControls}
+          </Tooltip>
+        </div>
         <String
           api={this.props.api}
           fieldKey='videoVimeo'
