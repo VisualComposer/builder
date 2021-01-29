@@ -3,6 +3,7 @@ import { sortingTool } from './lib/tools'
 import lodash from 'lodash'
 
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const cook = vcCake.getService('cook')
 
 const API = {
   get: (key) => {
@@ -11,19 +12,32 @@ const API = {
   getElementName: (elementData) => {
     let elName = ''
     if (elementData.name) {
-      elName = elementData.name.toLowerCase()
+      elName = elementData.name
     } else if (typeof elementData.get === 'function') {
       if (elementData.get('name')) {
-        elName = elementData.get('name').toLowerCase()
+        elName = elementData.get('name')
       }
     } else if (elementData.tag) {
-      const element = vcCake.getService('cook').get(elementData)
+      const element = cook.get(elementData)
       if (element.get('name')) {
-        elName = element.get('name').toLowerCase()
+        elName = element.get('name')
       }
     }
 
-    return elName
+    return elName.toLowerCase()
+  },
+  getElementDescription: (elementData) => {
+    let elDescription = ''
+    if (elementData.metaDescription) {
+      elDescription = elementData.metaDescription
+    } else if (elementData.tag) {
+      const element = cook.get(elementData)
+      const cookElementDescription = element.get('metaDescription')
+      if (cookElementDescription) {
+        elDescription = cookElementDescription
+      }
+    }
+    return elDescription.toLowerCase()
   },
   getSortedElements: lodash.memoize((elementTags = []) => {
     const cookElements = []
@@ -34,7 +48,6 @@ const API = {
     }
     elementTags.forEach(tag => {
       if (hubElements[tag] && !hubElements[tag].metaIsElementRemoved) {
-        const cook = vcCake.getService('cook')
         const cookElement = cook.get({ tag: tag })
         const elementObject = cookElement.toJS(true, false)
         const element = hubElements[tag]
