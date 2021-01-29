@@ -38,6 +38,7 @@ class PostType extends Container implements Module
         $this->addFilter('vcv:helpers:access:editorPostType', 'addPostType');
         $this->wpAddFilter('bulk_actions-edit-' . $this->postType, 'removePostActions', 10, 1);
         $this->wpAddFilter('post_row_actions', 'updatePostEditBarLinks');
+        $this->wpAddFilter('user_has_cap', 'removeCapabilites');
         $this->addEvent('vcv:inited', 'coreCapabilities');
 
         // Load Env Variables
@@ -115,6 +116,24 @@ class PostType extends Container implements Module
                 'show_in_nav_menus' => false,
             ]
         );
+    }
+
+    /**
+     * Disable publish and create capabilities for tutorials
+     *
+     * @param $allcaps
+     * @param $caps
+     * @param $args
+     * @param $user
+     *
+     * @return mixed
+     */
+    protected function removeCapabilites($allcaps, $caps, $args, $user)
+    {
+        $allcaps[ 'publish_' . $this->postType . 's' ] = false;
+        $allcaps[ 'create_' . $this->postType . 's' ] = false;
+
+        return $allcaps;
     }
 
     /**
@@ -259,7 +278,6 @@ class PostType extends Container implements Module
                     $capabilities,
                     [
                         "delete_published_{$this->postType}s",
-                        "publish_{$this->postType}s",
                         "edit_published_{$this->postType}s",
                     ]
                 );
@@ -275,7 +293,6 @@ class PostType extends Container implements Module
                         "delete_others_{$this->postType}s",
                         "delete_{$this->postType}",
                         "edit_others_{$this->postType}s",
-                        "create_{$this->postType}s",
                     ]
                 );
             }
