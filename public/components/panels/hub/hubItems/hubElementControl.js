@@ -25,6 +25,7 @@ export default class HubElementControl extends ElementControl {
 
   downloadElement () {
     if (settingsStorage.state('agreeHubTerms').get() === false) {
+      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadElement })
       editorPopupStorage.state('activeFullPopup').set('terms-box')
       return
     }

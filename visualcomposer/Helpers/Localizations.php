@@ -163,7 +163,7 @@ class Localizations extends Container implements Helper
             ),
             'activationFailed' => __(
                 'An error occurred during the Visual Composer extension download process.
-<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://account.visualcomposer.io</li><li>- Check if your server has access to the <a href="https://aws.amazon.com/ru/premiumsupport/knowledge-center/s3-find-ip-address-ranges/" target="_blank" rel="noopener noreferrer">Amazon AWS Region: `us-west-2` IP</a></li></ul>',
+<ul><li>- Check if your server has a connection to the Internet.</li><li>- Check if your server proxy has proper configuration settings.</li><li>- Check your server firewall settings and access to https://my.visualcomposer.com</li><li>- Check if your server has access to the <a href="https://aws.amazon.com/ru/premiumsupport/knowledge-center/s3-find-ip-address-ranges/" target="_blank" rel="noopener noreferrer">Amazon AWS Region: `us-west-2` IP</a></li></ul>',
                 'visualcomposer'
             ),
             'alreadyHaveALicenseText' => __(
@@ -1250,7 +1250,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'thisIsYourContentLibrary' => __(
-                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source='
+                'This is your content library. <a href="https://visualcomposer.com/help/content-elements-structure/add-content/?utm_source='
                 . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">Add an element</a> by dragging or clicking on it and find templates you have created or downloaded from the <a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source='
                 . $source
@@ -1265,7 +1265,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'useQuickActions' => __(
-                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content-element/?utm_source='
+                'Use <a href="https://visualcomposer.com/help/content-elements-structure/add-content/?utm_source='
                 . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=help-guide" target="_blank" rel="noopener noreferrer">quick actions</a> at the bottom of the page to add the most popular row/column layouts and elements.',
                 'visualcomposer'
