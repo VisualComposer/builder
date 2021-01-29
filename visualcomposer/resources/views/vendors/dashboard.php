@@ -23,7 +23,7 @@ $utmHelper = vchelper('Utm');
             max-width: 100%;
         }
     </style>
-    <a href="<?php echo $utmHelper->get('wp-dashboard-news-logo'); ?>" target="_blank" rel="noopener" class="vcwb-logo">
+    <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
         <?php evcview('vendors/images/vc-logo'); ?>
     </a>
     <ul>
@@ -42,7 +42,7 @@ $utmHelper = vchelper('Utm');
                 $categories = implode(', ', $categoryArray);
                 ?>
                 <li>
-                    <a href="<?php echo $permalink . $utmHelper->get('wp-dashboard-news-blog-post'); ?>" class="rsswidget" rel="noopener" title=" <?php echo $title; ?>"
+                    <a href="<?php echo $permalink . $utmHelper->get('wpdashboard-news-blog-post'); ?>" class="rsswidget" rel="noopener noreferrer" title=" <?php echo $title; ?>"
                        target="_blank">
                         <?php echo $title; ?>
                     </a>
@@ -56,14 +56,14 @@ $utmHelper = vchelper('Utm');
         <?php endif; ?>
     </ul>
     <p class="vcwb-rss-widget-bottom community-events-footer">
-        <a href="<?php echo $utmHelper->get('wp-dashboard-news-blog'); ?>" target="_blank" rel="noopener"
+        <a href="<?php echo $utmHelper->get('wpdashboard-news-blog'); ?>" target="_blank" rel="noopener noreferrer"
            class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
             <?php echo esc_html__('Blog', 'visualcomposer'); ?>
             <span aria-hidden="true" class="dashicons dashicons-external"></span>
         </a>
         <?php if (!vchelper('License')->isPremiumActivated()) : ?>
             |
-            <a href="<?php echo $utmHelper->get('wp-dashboard-news-gopremium'); ?>" target="_blank" rel="noopener"
+            <a href="<?php echo $utmHelper->get('wpdashboard-news-gopremium'); ?>" target="_blank"  rel="noopener noreferrer"
                class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
                 <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
                 <span aria-hidden="true" class="dashicons dashicons-external"></span>

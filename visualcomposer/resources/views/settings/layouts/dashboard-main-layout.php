@@ -183,7 +183,7 @@ if (is_array($variables)) {
         <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
                 <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-                    <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get('dashboard-logo-url') ?>" target="_blank" rel="noopener noreferrer">
+                    <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get('vcdashboard-logo-url') ?>" target="_blank" rel="noopener noreferrer">
                         <?php evcview('settings/partials/dashboard-logo'); ?>
                     </a>
                 <?php else : ?>
@@ -245,13 +245,13 @@ if (is_array($variables)) {
                         <?php
                         $utmHelper = vchelper('Utm');
                         echo sprintf(
-                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener">%s</a></li>',
-                            esc_url($utmHelper->get('vc-dashboard-help')),
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                            esc_url($utmHelper->get('vcdashboard-help')),
                             __('Help', 'visualcomposer')
                         );
                         echo sprintf(
-                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener">%s</a></li>',
-                            esc_url($utmHelper->get('vc-dashboard-myvc')),
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                            esc_url($utmHelper->get('vcdashboard-myvc')),
                             __('My Visual Composer', 'visualcomposer')
                         );
                         ?>
@@ -259,9 +259,9 @@ if (is_array($variables)) {
                         $licenseHelper = vchelper('License');
                         if (!$licenseHelper->isPremiumActivated()) {
                             echo sprintf(
-                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star">%s</a></li>',
-                                esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=vc-dashboard')),
-                                $licenseHelper->activationButtonTitle()
+                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                                esc_url(vchelper('Utm')->get('vcdashboard-go-premium')),
+                                __('Go Premium', 'visualcomposer')
                             );
                         }
                         ?>

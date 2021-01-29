@@ -17,8 +17,6 @@ import GoPremiumControl from './controls/goPremiumControl'
 
 export default class NavbarContainer extends React.Component {
   render () {
-    // TODO: Check Locked=locked will be never called due to "contentEnd"
-
     return (
       <NavbarWrapper wrapperRef={this.props.wrapperRef}>
         <Navbar draggable getNavbarPosition={this.props.getNavbarPosition}>

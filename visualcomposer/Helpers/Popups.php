@@ -26,12 +26,11 @@ class Popups implements Helper
         }
 
         $optionsHelper = vchelper('Options');
-        $licenseHelper = vchelper('License');
         $result = false;
         // do only if feedback not sent previously
         if (!$optionsHelper->get('feedback-sent')) {
             // Actively used for more then 1 month
-            $isActivelyUsed = $licenseHelper->isAnyActivated() && $licenseHelper->isActivelyUsed();
+            $isActivelyUsed = vchelper('Plugin')->isActivelyUsed();
             // System check is OK
             $systemStatusFailing = $optionsHelper->get('systemCheckFailing', false);
             // Have at least 3 posts with VCWB
@@ -61,10 +60,9 @@ class Popups implements Helper
         }
 
         $result = false;
-        $licenseHelper = vchelper('License');
         $optionsHelper = vchelper('Options');
         // Only if Free license activated and popup never shown before (never closed actually)
-        if (empty($optionsHelper->get('premium-promo-popup-closed')) && $licenseHelper->isFreeActivated()) {
+        if (empty($optionsHelper->get('premium-promo-popup-closed'))) {
             // 3 days delay if feedback popup is closed
             // 14 days delay after free license activated
             $showFeedbackPopup = $this->showFeedbackPopup();
@@ -82,7 +80,7 @@ class Popups implements Helper
 
             if ($result) {
                 // Show only if current license-type (free) used for at least 14 days
-                $result = $licenseHelper->isActivelyUsed(14);
+                $result = vchelper('Plugin')->isActivelyUsed(14);
             }
         }
         self::$showPremiumPromoPopupCache = $result;

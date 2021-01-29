@@ -8,7 +8,7 @@ const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
+const SAVED_TIMEOUT = 3000
 
 export default class WordPressPostSaveControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)

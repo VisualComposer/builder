@@ -160,12 +160,7 @@ export default class SaveController {
       }
 
       if (dataManager.get('dataCollectionEnabled')) {
-        let licenseType
-        if (!dataManager.get('isAnyActivated')) {
-          licenseType = 'Not Activated'
-        } else {
-          licenseType = dataManager.get('isPremiumActivated') ? 'Premium' : 'Free'
-        }
+        const licenseType = dataManager.get('isPremiumActivated') ? 'Premium' : 'Free'
         const elementTeaser = dataManager.get('hubGetTeaser')
         let allElements = elementTeaser[0].elements
         const defaultElements = [
