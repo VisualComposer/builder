@@ -25,15 +25,25 @@ class ElementDownloadController extends Container implements Module
         $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
     }
 
-    protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper, License $licenseHelper)
-    {
+    protected function ajaxDownloadElement(
+        $response,
+        $payload,
+        Request $requestHelper,
+        Token $tokenHelper,
+        License $licenseHelper
+    ) {
         if (empty($response)) {
             $response = [
                 'status' => true,
             ];
         }
 
-        if (!$licenseHelper->isPremiumActivated() && !$licenseHelper->agreeHubTerms()) {
+        if (
+            !$licenseHelper->isPremiumActivated() && !$licenseHelper->agreeHubTerms()
+            && $requestHelper->input(
+                'vcv-bundle'
+            ) !== 'template/tutorial'
+        ) {
             return false;
         }
 

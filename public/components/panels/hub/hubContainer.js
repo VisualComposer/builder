@@ -22,6 +22,7 @@ const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
 const editorPopupStorage = vcCake.getStorage('editorPopup')
+const hubElementsService = vcCake.getService('hubElements')
 
 export default class HubContainer extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -309,24 +310,15 @@ export default class HubContainer extends React.Component {
       return val.title === 'All' || val.title === 'All Elements'
     })
 
-    function getElementName (elementData) {
-      let elName = ''
-      if (elementData.name) {
-        elName = elementData.name.toLowerCase()
-      } else if (elementData.tag) {
-        const element = cook.get(elementData)
-        if (element.get('name')) {
-          elName = element.get('name').toLowerCase()
-        }
-      }
-
-      return elName
-    }
-
     return allCategories[getIndex].elements.filter((elementData) => {
-      const elName = getElementName(elementData)
-      return elName.indexOf(value) !== -1
-    }).sort((a, b) => getElementName(a).indexOf(value) - getElementName(b).indexOf(value))
+      const elName = hubElementsService.getElementName(elementData)
+      if (elName.indexOf(value) !== -1) {
+        return true
+      } else {
+        const elDescription = hubElementsService.getElementDescription(elementData)
+        return elDescription.indexOf(value) !== -1
+      }
+    }).sort((a, b) => hubElementsService.getElementName(b).indexOf(value) - hubElementsService.getElementName(a).indexOf(value))
   }
 
   getSearchElement () {
