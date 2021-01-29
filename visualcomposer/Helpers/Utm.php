@@ -38,27 +38,29 @@ class Utm implements Helper
 
         $utm = [
             // Dashboard News Feed Direct URLs
-            'wp-dashboard-news-logo' => 'https://visualcomposer.com/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=logo',
-            'wp-dashboard-news-blog' => 'https://visualcomposer.com/blog/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=blog-text',
-            'wp-dashboard-news-blog-post' => '?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=info&utm_content=post-title-text',
-            'wp-dashboard-news-gopremium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wp-dashboard&utm_campaign=gopremium&utm_content=go-premium-text',
+            'wpdashboard-news-logo' => 'https://visualcomposer.com/?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=info&utm_content=logo',
+            'wpdashboard-news-blog' => 'https://visualcomposer.com/blog/?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=info&utm_content=blog-text',
+            'wpdashboard-news-blog-post' => '?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=info&utm_content=post-title-text',
+            'wpdashboard-news-gopremium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wpdashboard&utm_campaign=gopremium&utm_content=go-premium-text',
 
             // Getting Started
-            'getting-started' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=getting-started&utm_campaign=gopremium&utm_content=go-premium-text',
+            'gettingstarted' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=gettingstarted&utm_campaign=gopremium&utm_content=go-premium-text',
 
             // VC Dashboard Direct URLs
-            'vc-dashboard-help' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=help-menu',
-            'vc-dashboard-myvc' => rtrim($myVc, '\//')
-                . '/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=info&utm_content=my-visual-composer-menu',
-            'vc-dashboard-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=gopremium&utm_content=go-premium-menu',
+            'vcdashboard-help' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=info&utm_content=help-menu',
+            'vcdashboard-myvc' => rtrim($myVc, '\//')
+                . '/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=info&utm_content=my-visual-composer-menu',
+            'vcdashboard-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=gopremium&utm_content=go-premium-menu',
+            'vcdashboard-license-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=license-vcdashboard&utm_campaign=gopremium&utm_content=go-premium-button',
+            'vcdashboard-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=gopremium&utm_content=logo',
 
-            // WP-Plugins
-            'wp-plugins' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=gopremium&utm_content=go-premium-text',
+            // wpplugins
+            'wpplugins' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=gopremium&utm_content=go-premium-text',
             // Plugin Row Meta (changelog/more details) Direct URLS
-            'wp-plugins-meta-help-center' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=help-center-text',
-            'wp-plugins-meta-api' => 'https://visualcomposer.com/help/api/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=api-text',
-            'wp-plugins-meta-premium-support' => rtrim($myVc, '\//')
-                . '/support/?utm_source=' . $source . '&utm_medium=wp-plugins&utm_campaign=info&utm_content=premium-support-text',
+            'wpplugins-meta-help-center' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=help-center-text',
+            'wpplugins-meta-api' => 'https://visualcomposer.com/help/api/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=api-text',
+            'wpplugins-meta-premium-support' => rtrim($myVc, '\//')
+                . '/support/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=premium-support-text',
 
             // Premium Promo Popup direct URL
             'editor-gopremium-popup-button' => 'https://visualcomposer.com/premium/?utm_source=' . $source
@@ -71,7 +73,6 @@ class Utm implements Helper
             'activate-license-myvc-license-url' => rtrim($myVc, '\//')
                 . '/licenses/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=info&utm_content=my-visual-composer-text',
             'editor-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=navbar-editor&utm_campaign=gopremium&utm_content=logo',
-            'dashboard-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vc-dashboard&utm_campaign=gopremium&utm_content=logo',
 
             // Editor popup teasers
             'editor-hub-popup-teaser' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
@@ -80,7 +81,7 @@ class Utm implements Helper
             'editor-hub-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=go-premium-button',
 
             // Editor layout teasers
-            'editor-layout-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=page-settings-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+            'editor-layout-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=pagesettings-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
 
             // Hub element/template free activate
             'editor-hub-popup-activate-free' => rtrim(vcvenv('VCV_HUB_PUBLIC_URL'), '\//') . '/free-license/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=get-free-license&utm_content=teaser-activate-hub-button',
@@ -88,14 +89,14 @@ class Utm implements Helper
             // Editor Popup Builder addon settings teaser
             'editor-popup-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=popup-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
 
-            // Editor Element Lock(Role Manager) addon settings teaser
-            'editor-element-lock-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=element-lock-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+            // Editor form page-settings Element Lock(Role Manager) addon settings teaser
+            'editor-element-lock-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=elementlock-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
 
-            // Editor Element Settings(Element Presets) addon teaser
-            'editor-element-settings-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=element-settings-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
+            // Editor Editform Element Settings(Element Presets) addon teaser
+            'editor-editform-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=editform-editor&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
 
             // Editor VC Navbar Dropdown
-            'editor-navbar-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=navbar-editor&utm_campaign=gopremium&utm_content=go-premium-button',
+            'editor-navbar-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=navbar-editor&utm_campaign=gopremium&utm_content=go-premium-menu',
 
             // Editor Addon Item Button
             'editor-available-in-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=available-in-premium-button',

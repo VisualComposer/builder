@@ -193,7 +193,7 @@ class Update implements Helper
         $vcvRef = $requestHelper->input('vcv-ref');
         if (!$vcvRef) {
             // default UTMs if page opened directly without vcv-ref
-            $vcvRef = 'go-premium';
+            $vcvRef = 'gopremium';
         }
 
         // Used in vcv-activate-license page
