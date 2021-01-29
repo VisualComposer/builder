@@ -152,7 +152,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    const html = `<iframe class='vce-yt-video-player-iframe' src='${source}' width='640' height='390' frameBorder='0' allowFullScreen='true' />`
+    const html = `<iframe class='vce-yt-video-player-iframe' src='${source}' width='640' height='390' allowFullScreen />`
 
     if (vcCake.env('editor') === 'backend') {
       source = `https://www.youtube.com/embed/${videoId}?autoplay=false&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
@@ -170,7 +170,6 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
                 src={source}
                 width='640'
                 height='390'
-                frameBorder='0'
                 allowFullScreen
               />
             </div>

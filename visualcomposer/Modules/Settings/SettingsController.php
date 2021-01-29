@@ -11,6 +11,8 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Settings\TabsRegistry;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -97,9 +99,15 @@ class SettingsController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Settings\TabsRegistry $tabsRegistry
+     * @param \VisualComposer\Helpers\License $licenseHelper
+     * @param \VisualComposer\Helpers\Options $optionsHelper
      */
-    protected function beforeRenderRedirect(Request $requestHelper, TabsRegistry $tabsRegistry)
-    {
+    protected function beforeRenderRedirect(
+        Request $requestHelper,
+        TabsRegistry $tabsRegistry,
+        License $licenseHelper,
+        Options $optionsHelper
+    ) {
         $page = $requestHelper->input('page');
         if (
             $page
@@ -107,7 +115,7 @@ class SettingsController extends Container implements Module
             && strpos($page, 'vcv-') !== false
         ) {
             $updateRequired = vchelper('Options')->get('bundleUpdateRequired');
-            if ($updateRequired) {
+            if (($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms')) && $updateRequired) {
                 $tabs = vcfilter('vcv:settings:tabs', $tabsRegistry->all());
                 // Redirect only if requested page is settings tab page
                 if (array_key_exists($page, $tabs)) {

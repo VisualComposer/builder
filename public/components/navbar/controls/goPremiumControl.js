@@ -9,7 +9,7 @@ export default class GoPremiumControl extends NavbarContent {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     if (typeof isPremiumActivated !== 'undefined' && !isPremiumActivated) {
       const localizations = dataManager.get('localizations')
-      const goPremium = localizations ? localizations.activationButtonTitle : dataManager.get('isFreeActivated') ? 'Go Premium' : 'Activate Hub'
+      const goPremium = localizations ? localizations.goPremium : 'Go Premium'
       const utm = dataManager.get('utm')
       const goPremiumUrl = utm['editor-navbar-go-premium']
       return (

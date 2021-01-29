@@ -408,15 +408,11 @@ export default class HubContainer extends React.Component {
   /**
    * Click handler for Hub item (elements, templates) Lock icon
    * @param type {string}
-   * @param isFree {boolean}
    */
-  handleLockClick (type, isFree) {
+  handleLockClick (type) {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub : 'Activate Hub'
     const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures : 'Unlock All Features'
     const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium : 'Do More With Premium'
-    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature : 'This is a free feature'
-    const freeText = HubContainer.localizations ? HubContainer.localizations.getFreeLicenseToActivateVCHub : 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.'
     let descriptionText = ''
     if (type === 'template') {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToTemplates : 'Get access to more than 200 content elements with Visual Composer Premium.'
@@ -427,21 +423,16 @@ export default class HubContainer extends React.Component {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
 
-    let url
-    if (isFree) {
-      const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      url = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    } else {
-      const utm = dataManager.get('utm')
-      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      const utmLink = utm['editor-hub-go-premium']
-      url = utmLink.replace('{medium}', utmMedium)
-    }
+    const utm = dataManager.get('utm')
+    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+    const utmLink = utm['editor-hub-popup-teaser']
+
+    const url = utmLink.replace('{medium}', utmMedium)
 
     const fullScreenPopupData = {
-      headingText: isFree ? headingFreeText : headingPremiumText,
-      buttonText: isFree ? activateHubText : goPremiumText,
-      description: isFree ? freeText : descriptionText,
+      headingText: headingPremiumText,
+      buttonText: goPremiumText,
+      description: descriptionText,
       isPremiumActivated: isPremiumActivated,
       url: url
     }
@@ -451,17 +442,29 @@ export default class HubContainer extends React.Component {
 
   getUtmMedium () {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add' + this.props.options.filterType : ''
     return `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
   }
 
   getHubBanner () {
-    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Connect to Visual Composer Hub.'
-    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
-    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
-    const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : dataManager.get('isFreeActivated') ? 'Go Premium' : 'Activate Visual Composer Hub'
+    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Do More With Visual Composer'
+    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Premium'
+    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Get unlimited access to the Visual Composer Hub with 500+ elements, templates, addons, and integrations.'
+    const buttonText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
     const utm = dataManager.get('utm')
     const bannerButtonUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
+    const refRoot = `&vcv-ref=${this.getUtmMedium()}`
+    const activateUrl = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    const linkProps = {
+      rel: 'noopener noreferrer',
+      href: activateUrl,
+      className: 'vcv-hub-banner-link'
+    }
+    if (this.props.namespace !== 'vcdashboard') {
+      linkProps.target = '_blank'
+    }
+    const alreadyHaveLicenseText = HubContainer.localizations ? HubContainer.localizations.alreadyHaveLicenseTextOneAction : 'Already have a Premium license?'
+    const activateHereText = HubContainer.localizations ? HubContainer.localizations.activateHere : 'Activate here'
 
     return (
       <div className='vcv-hub-banner'>
@@ -472,6 +475,9 @@ export default class HubContainer extends React.Component {
           <a className='vcv-hub-banner-button' href={bannerButtonUrl} target='_blank' rel='noopener noreferrer'>
             {buttonText}
           </a>
+          <p className='vcv-hub-banner-subtitle'>
+            {alreadyHaveLicenseText} <a {...linkProps}>{activateHereText}</a>.
+          </p>
         </div>
       </div>
     )

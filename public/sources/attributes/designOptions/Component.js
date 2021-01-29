@@ -673,7 +673,6 @@ export default class DesignOptions extends Attribute {
 
     if (this.state.currentDevice === 'all') {
       const id = this.props.elementAccessPoint.id
-      // TODO: Maybe COOK.get() correct here?
       const element = documentService.get(id)
       const checked = !element.hidden
 
