@@ -59,7 +59,7 @@ export default class TermsBox extends React.Component {
         <div className='vcv-agree-hub-terms-badge' />
         <header className='vcv-premium-teaser-header'>
           <h2 className='vcv-premium-teaser-heading'>
-            {localizations ? localizations.visualComposerHubAccessTerms : 'Visual Composer Hub Access terms'}
+            {localizations ? localizations.addPremiumElement : 'Visual Composer Hub'}
           </h2>
         </header>
         <div className='vcv-premium-teaser-content'>
