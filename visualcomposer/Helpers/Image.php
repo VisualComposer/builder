@@ -32,7 +32,6 @@ class Image implements Helper
 
             $dynamic = false;
             if (vcvenv('VCV_JS_FT_DYNAMIC_FIELDS')) {
-                // TODO: Change key featured to more specific like featured_image
                 $isMatches = preg_match('(\sdata-dynamic=["|\'](.*?)["|\'])', $matches[1], $matchesDynamic);
                 if ($isMatches) {
                     $dynamic = $matchesDynamic[1];

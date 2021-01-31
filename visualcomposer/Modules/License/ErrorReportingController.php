@@ -90,7 +90,6 @@ class ErrorReportingController extends Container implements Module
     protected function getDetails(License $licenseHelper)
     {
         $data = [];
-        $data['isFreeActivated'] = $licenseHelper->isFreeActivated();
         $data['isPremiumActivated'] = $licenseHelper->isPremiumActivated();
         $data['license-key'] = $licenseHelper->getKey();
         $data['license-type'] = $licenseHelper->getType();

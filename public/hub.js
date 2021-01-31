@@ -30,7 +30,7 @@ export const setupCake = () => {
     require('./editor/stores/hub/hubAddonsStorage')
     // require('./editor/stores/sharedAssets/storage')
     // require('./editor/stores/history/historyStorage')
-    // require('./editor/stores/settingsStorage')
+    require('./editor/stores/settingsStorage')
     // require('./editor/stores/attributes/attributesStorage')
     require('./editor/stores/notifications/storage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
@@ -44,6 +44,8 @@ export const setupCake = () => {
     hubTemplatesStorage.trigger('start')
     const hubAddonsStorage = vcCake.getStorage('hubAddons')
     hubAddonsStorage.trigger('start')
+    const settingsStorage = vcCake.getStorage('settings')
+    settingsStorage.trigger('start')
 
     if (dataManager.get('hubGetTemplates')) {
       hubTemplatesStorage.state('templates').set(dataManager.get('hubGetTemplates'))
@@ -62,7 +64,7 @@ export const setupCake = () => {
     const addNotifications = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vc-dashboard' />,
+        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vcdashboard' />,
         document.querySelector('#vcv-hub')
       )
 
