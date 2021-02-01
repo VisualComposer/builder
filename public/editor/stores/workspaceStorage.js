@@ -341,7 +341,7 @@ addStorage('workspace', (storage) => {
         time: 5000
       })
       storage.state('lockUnlockDone').set(true)
-    }, 2000)
+    }, 1000)
   }
   storage.on('lockAll', () => {
     updateDocumentLockState(true)
