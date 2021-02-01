@@ -32,7 +32,7 @@ export default class HubContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      filterType: 'all',
+      filterType: 'element',
       activeCategoryIndex: 0
     }
     if (props && props.options && props.options.filterType) {
@@ -103,24 +103,10 @@ export default class HubContainer extends React.Component {
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup(categories.all, [elementGroup, templateGroup, blockGroup, headerGroup, footerGroup, sidebarGroup])
 
-      this.allCategories = [allGroup, elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
+      this.allCategories = [elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
     }
     return this.allCategories
-  }
-
-  getAllGroup (category, otherGroups) {
-    const { title, index } = category
-    const elements = []
-
-    otherGroups.forEach((group) => {
-      const groupAllElements = group.categories && group.categories[0] ? group.categories[0].elements : group.elements
-      if (groupAllElements) {
-        elements.push(...groupAllElements)
-      }
-    })
-    return { elements: lodash.orderBy(elements, this.isItemNew, ['desc']), id: `${title}${index}`, index: index, title: title }
   }
 
   getAddonsGroup (category) {
@@ -143,19 +129,33 @@ export default class HubContainer extends React.Component {
   getElementGroup (category) {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
-    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
-    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, this.isItemNew, ['desc'])
 
-    return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
+    let freeElements = elementCategories[0].elements.filter(element => element.bundleType.includes('free'))
+    let premiumElements = elementCategories[0].elements.filter(element => element.bundleType.includes('premium') && !element.bundleType.includes('free'))
+
+    freeElements = lodash.sortBy(freeElements, ['name'])
+    freeElements = lodash.orderBy(freeElements, this.isItemNew, ['desc'])
+
+    premiumElements = lodash.sortBy(premiumElements, ['name'])
+    premiumElements = lodash.orderBy(premiumElements, this.isItemNew, ['desc'])
+
+    const sortedElements = freeElements.concat(premiumElements)
+
+    return { elements: sortedElements, id: `${title}${index}`, index: index, title: title }
   }
 
   getTemplateGroup (category) {
     const { title, index } = category
-    const templateTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((template) => {
-      return template.templateType === 'hub' || template.templateType === 'predefined'
-    }), this.isItemNew, ['desc'])
+    const allTemplates = hubTemplateStorage.state('templateTeasers').get()
+    let freeTemplates = allTemplates.filter(template => template.templateType === 'predefined')
+    let premiumTemplates = allTemplates.filter(template => template.templateType === 'hub')
 
-    return { elements: templateTeasers, id: `${title}${index}`, index: index, title: title }
+    freeTemplates = lodash.orderBy(freeTemplates, this.isItemNew, ['desc'])
+    premiumTemplates = lodash.orderBy(premiumTemplates, this.isItemNew, ['desc'])
+
+    const orderedTemplates = freeTemplates.concat(premiumTemplates)
+
+    return { elements: orderedTemplates, id: `${title}${index}`, index: index, title: title }
   }
 
   getBlockGroup (category) {
