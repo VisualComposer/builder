@@ -48,7 +48,6 @@ export default class HubContainer extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
-    this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
@@ -253,12 +252,6 @@ export default class HubContainer extends React.Component {
     )
   }
 
-  changeActiveCategory (catIndex) {
-    this.setState({
-      activeCategoryIndex: catIndex
-    })
-  }
-
   getElementsByCategory () {
     const { activeCategoryIndex } = this.state
     const allCategories = this.getAllCategories()
@@ -281,15 +274,8 @@ export default class HubContainer extends React.Component {
     return {
       changeInput: this.changeInput,
       inputValue: this.state.inputValue || '',
-      inputPlaceholder: 'elements and templates',
       autoFocus: this.props.visible,
-      selectEvent: (active) => {
-        const activeId = active && active.constructor === String && active.split('-')[0]
-        const result = this.state
-        const foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
-        result.filterType = foundCategory.type
-        this.setState(result)
-      }
+      filterType: this.state.filterType
     }
   }
 
@@ -297,20 +283,15 @@ export default class HubContainer extends React.Component {
     this.setState({
       inputValue: value,
       searchResults: this.getSearchResults(value),
-      bundleType: null,
-      filterType: 'all',
-      activeCategoryIndex: 0
+      bundleType: null
     })
   }
 
   getSearchResults (value) {
     value = value.toLowerCase().trim()
     const allCategories = this.getAllCategories()
-    const getIndex = allCategories.findIndex((val) => {
-      return val.title === 'All' || val.title === 'All Elements'
-    })
 
-    return allCategories[getIndex].elements.filter((elementData) => {
+    return allCategories[this.state.activeCategoryIndex].elements.filter((elementData) => {
       const elName = hubElementsService.getElementName(elementData)
       if (elName.indexOf(value) !== -1) {
         return true
@@ -330,7 +311,8 @@ export default class HubContainer extends React.Component {
     this.setState({
       filterType: value,
       activeCategoryIndex: id,
-      bundleType: bundleType
+      bundleType: bundleType,
+      inputValue: ''
     })
   }
 
@@ -360,14 +342,11 @@ export default class HubContainer extends React.Component {
     result = result.filter((item) => {
       let isClean = false
 
-      if (filterType === 'all') {
-        isClean = true
+
+      if (categories[filterType].templateType) {
+        isClean = item.props.type === 'template' && item.props.element.templateType === filterType
       } else {
-        if (categories[filterType].templateType) {
-          isClean = item.props.type === 'template' && item.props.element.templateType === filterType
-        } else {
-          isClean = item.props.type === filterType
-        }
+        isClean = item.props.type === filterType
       }
 
       // filter for bundle type
