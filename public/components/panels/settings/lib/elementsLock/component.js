@@ -21,9 +21,9 @@ export default class ElementsLock extends React.Component {
     this.setState({
       showSpinner: true
     })
-    workspaceStorage.trigger(e.target.dataset.action)
     workspaceStorage.state('lockUnlockDone').set(false)
     workspaceStorage.state('lockUnlockDone').onChange(this.lockUnlockStateChange)
+    workspaceStorage.trigger(e.target.dataset.action)
   }
 
   lockUnlockStateChange (isDone) {
