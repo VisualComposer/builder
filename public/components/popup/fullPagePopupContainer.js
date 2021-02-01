@@ -29,7 +29,7 @@ export default class FullPagePopupContainer extends React.Component {
   }
 
   componentWillUnmount () {
-    editorPopupStorage.state('activeFullPopup').onChange(this.handlePopupChange)
+    editorPopupStorage.state('activeFullPopup').ignoreChange(this.handlePopupChange)
   }
 
   handlePopupChange (activePopup) {
@@ -42,7 +42,7 @@ export default class FullPagePopupContainer extends React.Component {
   handleCloseClick () {
     this.setState({ popupVisible: false })
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hideFullPagePopup')
+      editorPopupStorage.state('activeFullPopup').set(false)
     }, 350)
   }
 

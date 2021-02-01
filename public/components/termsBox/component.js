@@ -6,6 +6,7 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const settingsStorage = getStorage('settings')
 const dataProcessor = getService('dataProcessor')
+const editorPopupStorage = getStorage('editorPopup')
 
 export default class TermsBox extends React.Component {
   constructor (props) {
@@ -24,6 +25,9 @@ export default class TermsBox extends React.Component {
     dataProcessor.appAdminServerRequest({
       'vcv-action': 'editors:agreeHubTerms:enable:adminNonce'
     }).then(() => {
+      const popupData = editorPopupStorage.state('fullScreenPopupData').get() || {}
+      popupData && popupData.onPrimaryButtonClick && popupData.onPrimaryButtonClick()
+
       this.setState({ isLoading: false })
       this.props.onClose()
     })
@@ -55,7 +59,7 @@ export default class TermsBox extends React.Component {
         <div className='vcv-agree-hub-terms-badge' />
         <header className='vcv-premium-teaser-header'>
           <h2 className='vcv-premium-teaser-heading'>
-            {localizations ? localizations.visualComposerHubAccessTerms : 'Visual Composer Hub Access terms'}
+            {localizations ? localizations.addPremiumElement : 'Visual Composer Hub'}
           </h2>
         </header>
         <div className='vcv-premium-teaser-content'>

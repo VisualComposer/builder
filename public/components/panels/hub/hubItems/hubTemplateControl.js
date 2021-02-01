@@ -29,6 +29,7 @@ export default class HubTemplateControl extends ElementControl {
 
   downloadTemplate () {
     if (settingsStorage.state('agreeHubTerms').get() === false) {
+      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadTemplate })
       editorPopupStorage.state('activeFullPopup').set('terms-box')
       return
     }
@@ -69,7 +70,7 @@ export default class HubTemplateControl extends ElementControl {
       elementState = myTemplatesService.findTemplateByBundle(element.bundle) ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
+    const lockIcon = (!element.allowDownload && elementState === 'inactive')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',
@@ -115,7 +116,7 @@ export default class HubTemplateControl extends ElementControl {
       if (lockIcon) {
         action = null
         // Add action on whole item
-        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template', (element.bundleType && element.bundleType.indexOf('free') > -1))
+        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template')
       } else {
         action = this.downloadTemplate
       }

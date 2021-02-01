@@ -17,20 +17,12 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 class Token extends Container implements Helper
 {
     /**
-     * @param boolean $force
-     *
      * @return bool|string|array
      */
-    public function getToken($force = false)
+    public function getToken()
     {
         $licenseHelper = vchelper('License');
-        if ($licenseHelper->isAnyActivated()) {
-            if (!$force && $licenseHelper->isFreeActivated()) {
-                $token = 'free-token';
-
-                return $token;
-            }
-
+        if ($licenseHelper->isPremiumActivated()) {
             $body = [
                 'hoster_id' => 'account',
                 'id' => VCV_PLUGIN_URL,
@@ -127,7 +119,7 @@ class Token extends Container implements Helper
     {
         if (isset($data['expiration'])) {
             // if soon (<7 days) then show warning
-            if ($data['expiration'] !== 'lifetime' && intval($data['expiration']) < (time() + WEEK_IN_SECONDS)) {
+            if ($data['expiration'] !== 'lifetime' && (int)$data['expiration'] < (time() + WEEK_IN_SECONDS)) {
                 $message = sprintf(
                     __('Your Visual Composer Website Builder License will expire soon - %s', 'visualcomposer'),
                     date(

@@ -83,7 +83,6 @@ class JsonActionsController extends Container implements Module
         }
         if (!$newActionData) {
             sleep(5);
-            // TODO: How?!
             $loggerHelper->log('The update action does not exists #10057');
 
             return $response;
