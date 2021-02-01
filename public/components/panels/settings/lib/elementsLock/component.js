@@ -10,11 +10,29 @@ const localizations = dataManager.get('localizations')
 export default class ElementsLock extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      showSpinner: false
+    }
     this.handleClick = this.handleClick.bind(this)
+    this.lockUnlockStateChange = this.lockUnlockStateChange.bind(this)
   }
 
   handleClick (e) {
+    this.setState({
+      showSpinner: true
+    })
+    workspaceStorage.state('lockUnlockDone').set(false)
+    workspaceStorage.state('lockUnlockDone').onChange(this.lockUnlockStateChange)
     workspaceStorage.trigger(e.target.dataset.action)
+  }
+
+  lockUnlockStateChange (isDone) {
+    if (isDone) {
+      this.setState({
+        showSpinner: false
+      })
+    }
+    workspaceStorage.state('lockUnlockDone').ignoreChange(this.lockUnlockStateChange)
   }
 
   getElementLockSetting () {
@@ -24,6 +42,29 @@ export default class ElementsLock extends React.Component {
     const lockAllDescriptionText = localizations ? localizations.lockAllDescriptionText : 'Lock or unlock all elements on your page. Your user roles with Administrator access will be able to edit elements.'
     const lockSpecificDescriptionText = localizations ? localizations.lockSpecificDescriptionText : 'You can lock/unlock specific elements under the element Edit window.'
 
+    let buttons = (
+      <>
+        <button
+          className='vcv-ui-form-button vcv-ui-form-button--action'
+          data-action='lockAll'
+          onClick={this.handleClick}
+        >
+          {lockAllText}
+        </button>
+        <button
+          className='vcv-ui-form-button vcv-ui-form-button--default'
+          data-action='unlockAll'
+          onClick={this.handleClick}
+        >
+          {unlockAllText}
+        </button>
+      </>
+    )
+
+    if (this.state.showSpinner) {
+      buttons = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
+    }
+
     return (
       <div className='vcv-ui-tree-content-section-inner'>
         <div className='vcv-ui-element-lock-container'>
@@ -31,20 +72,7 @@ export default class ElementsLock extends React.Component {
           <p className='vcv-ui-section-description'>{lockAllDescriptionText}</p>
           <p className='vcv-ui-section-description'>{lockSpecificDescriptionText}</p>
           <div className='vcv-ui-lock-control-container'>
-            <button
-              className='vcv-ui-form-button vcv-ui-form-button--action'
-              data-action='lockAll'
-              onClick={this.handleClick}
-            >
-              {lockAllText}
-            </button>
-            <button
-              className='vcv-ui-form-button vcv-ui-form-button--default'
-              data-action='unlockAll'
-              onClick={this.handleClick}
-            >
-              {unlockAllText}
-            </button>
+            {buttons}
           </div>
         </div>
       </div>

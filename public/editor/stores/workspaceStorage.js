@@ -298,26 +298,50 @@ addStorage('workspace', (storage) => {
       })
     }
   })
+
+  async function updateLockChunk (allElements, elementIds, locked) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        elementIds.forEach((id) => {
+          allElements[id].metaIsElementLocked = locked
+          documentManager.update(id, allElements[id])
+        })
+        resolve()
+      }, 60)
+    })
+  }
+
   const updateDocumentLockState = (locked) => {
     const allElements = documentManager.all()
-    Object.keys(allElements).forEach((id) => {
-      allElements[id].metaIsElementLocked = locked
-    })
-    // more performance efficient way to update all elements
-    documentManager.reset(allElements)
-    elementsStorage.state('document').set(documentManager.children(false))
-    elementsStorage.trigger('updateTimeMachine') // save undo/redo
+    const elementIds = Object.keys(allElements)
+    const perChunk = 20 // items per chunk
+    const elementIdChunks = elementIds.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / perChunk)
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = [] // start a new chunk
+      }
+      resultArray[chunkIndex].push(item)
 
-    const localizations = dataManager.get('localizations')
-    const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
-    const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
-    notificationsStorage.trigger('add', {
-      position: 'bottom',
-      transparent: true,
-      rounded: true,
-      text: locked ? lockAllMessage : unlockAllMessage,
-      time: 5000
+      return resultArray
+    }, [])
+    elementIdChunks.forEach(async (elementIds) => {
+      await updateLockChunk(allElements, elementIds, locked)
     })
+
+    window.setTimeout(() => {
+      elementsStorage.trigger('updateTimeMachine') // save undo/redo
+      const localizations = dataManager.get('localizations')
+      const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
+      const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
+      notificationsStorage.trigger('add', {
+        position: 'bottom',
+        transparent: true,
+        rounded: true,
+        text: locked ? lockAllMessage : unlockAllMessage,
+        time: 5000
+      })
+      storage.state('lockUnlockDone').set(true)
+    }, 1000)
   }
   storage.on('lockAll', () => {
     updateDocumentLockState(true)

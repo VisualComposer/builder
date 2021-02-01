@@ -90,18 +90,6 @@ class License extends Container implements Helper
         }
     }
 
-    public function isActivelyUsed($days = 30)
-    {
-        $optionsHelper = vchelper('Options');
-        $usage = $optionsHelper->get('license-usage');
-        if (!empty($usage) && ((int)$usage + ($days * DAY_IN_SECONDS)) < time()) {
-            // More than 1 month used current license-type
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * @return mixed
      */
@@ -113,42 +101,20 @@ class License extends Container implements Helper
     }
 
     /**
-     * @return bool
-     */
-    public function isFreeActivated()
-    {
-        return (bool)$this->getKey() && $this->getType() === 'free';
-    }
-
-    /**
      * @param string $redirectTo
      */
     public function refresh($redirectTo = 'vcv-update')
     {
-        $token = vchelper('Token')->getToken(true);
+        $token = vchelper('Token')->getToken();
+        $optionsHelper = vchelper('Options');
+
         if ($token !== 'free-token') {
             // License is upgraded: fire check for update
-            $optionsHelper = vchelper('Options');
             $optionsHelper->deleteTransient('lastBundleUpdate');
-            $noticeHelper = vchelper('Notice');
-            $noticeHelper->addNotice(
-                'license-refresh',
-                __('License data have been refreshed successfully.', 'visualcomposer'),
-                'success',
-                true
-            );
             vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
             wp_redirect(admin_url('admin.php?page=' . $redirectTo));
             exit;
         }
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAnyActivated()
-    {
-        return (bool)$this->getKey() && $this->getType();
     }
 
     /**
@@ -209,7 +175,10 @@ class License extends Container implements Helper
                 $message = __('The license key has reached the activation limit.', 'visualcomposer');
                 break;
             case 'purchase_key_already_exist':
-                $message = __('The purchase code is already used, deactivate the previous site, and try again.', 'visualcomposer'); // theme activation
+                $message = __(
+                    'The purchase code is already used, deactivate the previous site, and try again.',
+                    'visualcomposer'
+                ); // theme activation
                 break;
             default:
                 $message = __('An error occurred, try again.', 'visualcomposer');
@@ -218,41 +187,6 @@ class License extends Container implements Helper
 
         // @codingStandardsIgnoreEnd
         return $message;
-    }
-
-    /**
-     * Show button title depending on activation type
-     *
-     * @return string|void
-     */
-    public function activationButtonTitle()
-    {
-        $title = __('Activate Hub', 'visualcomposer');
-
-        if ($this->isAnyActivated()) {
-            $title = __('Go Premium', 'visualcomposer');
-        }
-
-        return $title;
-    }
-
-    /**
-     * Hub description text
-     *
-     * @return string|void
-     */
-    public function hubActivationText()
-    {
-        $description = __(
-            'Activate your free or premium license to get access to the Visual Composer Hub',
-            'visualcomposer'
-        );
-
-        if ($this->isFreeActivated() || $this->isThemeActivated()) {
-            $description = __('Go premium to get unlimited access to the Visual Composer Hub', 'visualcomposer');
-        }
-
-        return $description;
     }
 
     /**
@@ -266,6 +200,6 @@ class License extends Container implements Helper
 
         $agreeHubTerms = $optionHelper->get('agreeHubTerms', false);
 
-        return $agreeHubTerms || $this->getType() === 'free' ? true : false;
+        return $agreeHubTerms || $this->getType() === 'free';
     }
 }

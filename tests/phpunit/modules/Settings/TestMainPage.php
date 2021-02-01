@@ -25,7 +25,6 @@ class TestMainPage extends WP_UnitTestCase
         // Activated free license
         $licenseHelper->setKey('test');
         $licenseHelper->setType('free');
-        $this->assertTrue($licenseHelper->isFreeActivated(), 'isFreeActivated');
         $this->assertEquals(
             'vcv-getting-started',
             vcapp(\VisualComposer\Modules\Settings\Pages\Settings::class)->getMainPageSlug()
@@ -34,7 +33,6 @@ class TestMainPage extends WP_UnitTestCase
         // Activated premium license
         $licenseHelper->setKey('test');
         $licenseHelper->setType('premium');
-        $this->assertFalse($licenseHelper->isFreeActivated(), 'isFreeActivated');
         $this->assertTrue($licenseHelper->isPremiumActivated(), 'isPremiumActivated');
         $this->assertTrue($licenseHelper->isAnyActivated(), 'isAnyActivated');
 

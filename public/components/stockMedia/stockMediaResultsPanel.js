@@ -399,7 +399,8 @@ export default class StockMediaResultsPanel extends React.Component {
     }
 
     const utm = dataManager.get('utm')
-    const utmMedium = `${this.props.filterType}-hub-${this.props.namespace}`
+    const renderPlace = this.props.renderPlace ? this.props.renderPlace : 'hub'
+    const utmMedium = `${this.props.filterType}-${renderPlace}-${this.props.namespace}`
     const utmLink = utm['editor-hub-popup-teaser']
 
     const fullScreenPopupData = {

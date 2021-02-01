@@ -49,7 +49,6 @@ class Localizations extends Container implements Helper
             'publish' => __('Publish', 'visualcomposer'),
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
             'saveDraft' => __('Save Draft', 'visualcomposer'),
-            'activationButtonTitle' => vchelper('License')->activationButtonTitle(),
             'goPremium' => __('Go Premium', 'visualcomposer'),
             'getFreeLicense' => __('Get Free License', 'visualcomposer'),
             'activated' => __('Activated', 'visualcomposer'),
@@ -402,12 +401,12 @@ class Localizations extends Container implements Helper
                 'Don\'t close this window while the download is in progress.',
                 'visualcomposer'
             ),
-            'createYourWordpressWebsite' => __('Create Your WordPress Website.', 'visualcomposer'),
-            'anyLayoutFastAndEasy' => __('Any Layout. Fast and Easy.', 'visualcomposer'),
+            'createYourWordpressWebsite' => __('Create Your WordPress Website Today.', 'visualcomposer'),
+            'startEasyBuildFast' => __('Start Easy. Build Fast.', 'visualcomposer'),
             'skipThisPostText' => __('Skip this post', 'visualcomposer'),
-            'getMoreText' => __('Connect to Visual Composer Hub.', 'visualcomposer'),
-            'getMoreTextSubText' => __('Do More.', 'visualcomposer'),
-            'downloadFromHubText' => vchelper('License')->hubActivationText(),
+            'getMoreText' => __('Do More With Visual Composer', 'visualcomposer'),
+            'getMoreTextSubText' => __('Premium', 'visualcomposer'),
+            'downloadFromHubText' => __('Get unlimited access to the Visual Composer Hub with 500+ elements, templates, addons, and integrations.', 'visualcomposer'),
             'getStartedText' => __('Get Started', 'visualcomposer'),
             'sendingErrorReport' => __('Sending Error Report', 'visualcomposer'),
             'doNotCloseWhileSendingErrorReportText' => __(
@@ -545,7 +544,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'freeLicense' => __(
-                'Free License',
+                'Free License (Your plan)',
                 'visualcomposer'
             ),
             'themeBuilderWithHFS' => __(
@@ -774,7 +773,23 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'buildYourSiteWithDragAndDrop' => __(
-                'Build your site with the help of the drag and drop builder straight from the frontend editor - it\'s that easy.',
+                'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.',
+                'visualcomposer'
+            ),
+            'alreadyHaveLicenseText' => __(
+                'Already have a Premium license? %1s or %2s.',
+                'visualcomposer'
+            ),
+            'alreadyHaveLicenseTextOneAction' => __(
+                'Already have a Premium license?',
+                'visualcomposer'
+            ),
+            'activateHere' => __(
+                'Activate here',
+                'visualcomposer'
+            ),
+            'goPremiumLcFirst' => __(
+                'go Premium',
                 'visualcomposer'
             ),
             'bundledInAThemeText' => __(
@@ -1085,12 +1100,12 @@ class Localizations extends Container implements Helper
                 'Activate Hub',
                 'visualcomposer'
             ),
-            'activateVisualComposerHub' => __(
-                'Activate Visual Composer Hub',
+            'activateYourPremiumLicenseText' => __(
+                'Activate Your Premium License',
                 'visualcomposer'
             ),
             'makeTheFinalStep' => __(
-                'Make the final step! Enter your license key to activate Visual Composer Hub and start creating the website right away.',
+                'Make the final step! Enter your license key to activate Visual Composer Premium and get full access to the Visual Composer Hub.',
                 'visualcomposer'
             ),
             'commentsAreaPlaceholderText' => __(
@@ -1570,14 +1585,6 @@ class Localizations extends Container implements Helper
                 'Dynamic View',
                 'visualcomposer'
             ),
-            'thisIsAFreeFeature' => __(
-                'This is a free feature',
-                'visualcomposer'
-            ),
-            'getFreeLicenseToActivateVCHub' => __(
-                'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.',
-                'visualcomposer'
-            ),
             'elementLockPremiumFeatureHeading' => __(
                 'Element Lock is a Premium feature',
                 'visualcomposer'
@@ -1620,16 +1627,20 @@ class Localizations extends Container implements Helper
                 'With the Element Presets addon, you can change the default parameters to create a unique element and save it to your Content Library.',
                 'visualcomposer'
             ),
-            'visualComposerHubAccessTerms' => __(
-                'Visual Composer Hub Access terms',
-                'visualcomposer'
-            ),
             'agreeHubAccessTerms' => __(
-                'To download content from the Visual Composer Hub, read and accept our <a href="https://visualcomposer.com/terms-of-use/" target="_blank" rel="noopener noreferrer">cloud access terms</a> and <a href="https://visualcomposer.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>',
+                'To download content from the Visual Composer Hub, read and accept our <a href="https://visualcomposer.com/terms-of-use/" target="_blank" rel="noopener noreferrer">cloud access terms</a> and <a href="https://visualcomposer.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.',
                 'visualcomposer'
             ),
             'yesIAgree' => __(
                 'Yes, I agree',
+                'visualcomposer'
+            ),
+            'hidingPlayerControls' => __(
+                'Hiding player controls available only for Vimeo PRO users.',
+                'visualcomposer'
+            ),
+            'vimeoVideoLink' => __(
+                'Vimeo video link',
                 'visualcomposer'
             )
         ];

@@ -14,6 +14,7 @@ export default class StockMedia extends React.Component {
     backgroundImage: PropTypes.string,
     namespace: PropTypes.string,
     filterType: PropTypes.string,
+    renderPlace: PropTypes.string,
     onClickGoPremium: PropTypes.func
   }
 
@@ -181,6 +182,7 @@ export default class StockMedia extends React.Component {
           previewImageSize={previewImageSize}
           namespace={this.props.namespace}
           filterType={this.props.filterType}
+          renderPlace={this.props.renderPlace}
         />
       </>
     )
