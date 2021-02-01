@@ -1642,6 +1642,10 @@ class Localizations extends Container implements Helper
             'hidingPlayerControls' => __(
                 'Hiding player controls available only for Vimeo PRO users.',
                 'visualcomposer'
+            ),
+            'vimeoVideoLink' => __(
+                'Vimeo video link',
+                'visualcomposer'
             )
         ];
 
