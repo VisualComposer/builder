@@ -342,7 +342,6 @@ export default class HubContainer extends React.Component {
     result = result.filter((item) => {
       let isClean = false
 
-
       if (categories[filterType].templateType) {
         isClean = item.props.type === 'template' && item.props.element.templateType === filterType
       } else {
