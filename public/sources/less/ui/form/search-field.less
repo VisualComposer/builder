@@ -1,7 +1,5 @@
 .vcv-ui-editor-search-container {
   display: flex;
-  background: @vcui-form-input-background;
-  border-radius: @vcui-form-border-radius;
   margin: @vcui-form-search-container-margin;
   position: relative;
 
@@ -56,6 +54,9 @@
 .vcv-ui-editor-search-field-container {
   display: flex;
   flex: 1 0 auto;
+  background: @vcui-form-input-background;
+  border-radius: @vcui-form-border-radius;
+  overflow: hidden;
 
   .vcv-ui-editor-search-field {
     width: 0;
@@ -69,10 +70,16 @@
   align-items: center;
   justify-content: center;
   flex: @vcui-form-search-addon-icon-container-flex;
+  transition: background @vcui-form-transition-duration @vcui-form-transition-timing-function;
 
   .vcv-ui-icon-search {
     color: @vcui-form-input-placeholder-color;
     font-size: @vcui-form-search-addon-icon-font-size;
+  }
+
+  &--disabled {
+    background: @vcui-form-input-disabled-background;
+    cursor: not-allowed;
   }
 }
 
