@@ -30,7 +30,7 @@ class PremiumTeasers extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'outputDashboardMenu',
-            3
+            60
         );
     }
 
@@ -90,7 +90,8 @@ class PremiumTeasers extends Container implements Module
                 continue;
             }
 
-            $submenu['vcv-settings'][] = $teaser;
+            $offset = 1;
+            array_splice($submenu['vcv-settings'], $offset, 0, [$teaser]);
             $this->slug = $teaser[1];
             $this->templatePath = 'settings/pages/index';
 
