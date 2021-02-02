@@ -311,7 +311,7 @@ addStorage('workspace', (storage) => {
     })
   }
 
-  const updateDocumentLockState = (locked) => {
+  const updateDocumentLockState = async (locked) => {
     const allElements = documentManager.all()
     const elementIds = Object.keys(allElements)
     const perChunk = 20 // items per chunk
@@ -324,9 +324,9 @@ addStorage('workspace', (storage) => {
 
       return resultArray
     }, [])
-    elementIdChunks.forEach(async (elementIds) => {
+    for (const elementIds of elementIdChunks) {
       await updateLockChunk(allElements, elementIds, locked)
-    })
+    }
 
     window.setTimeout(() => {
       elementsStorage.trigger('updateTimeMachine') // save undo/redo
