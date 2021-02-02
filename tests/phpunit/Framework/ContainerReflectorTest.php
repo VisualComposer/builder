@@ -22,6 +22,7 @@ class ContainerReflectorTest extends WP_UnitTestCase
 class ContainerReflectorModule extends \VisualComposer\Framework\Container
 {
     use \VisualComposer\Helpers\Traits\EventsFilters;
+
     protected $good = 1;
 
     public function __construct()
@@ -68,6 +69,7 @@ class ContainerReflectorModule extends \VisualComposer\Framework\Container
 class ContainerReflectorModuleAnother extends \VisualComposer\Framework\Container
 {
     use \VisualComposer\Helpers\Traits\EventsFilters;
+
     protected $good = 2;
 
     public function __construct()

@@ -82,12 +82,15 @@ class DisableController extends Container implements Module
         $savedEditor = get_post_meta($sourceId, VCV_PREFIX . 'be-editor', true);
         $isEnabled = (bool)$optionsHelper->get('settings-gutenberg-editor-enabled', true);
 
-        if (($savedEditor === 'gutenberg' && $isEnabled)
+        if (
+            ($savedEditor === 'gutenberg' && $isEnabled)
             || $requestHelper->exists('classic-editor__forget')
-            || ($isEnabled && $requestHelper->input('vcv-set-editor') === 'gutenberg'
+            || (
+                $isEnabled && $requestHelper->input('vcv-set-editor') === 'gutenberg'
                 && !$requestHelper->exists(
                     'classic-editor'
-                ))
+                )
+            )
             || (
                 $isEnabled && !$requestHelper->exists('classic-editor')
                 && !$gutenbergHelper->isVisualComposerPage($sourceId)

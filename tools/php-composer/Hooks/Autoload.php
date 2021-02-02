@@ -206,6 +206,15 @@ DATA;
      */
     protected static function checkKey($key, $value, $data)
     {
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            switch ($key) {
+                case T_NAME_QUALIFIED;
+                    if ($data['start']['namespace']) {
+                        $data['namespace'] = $value;
+                    }
+                    break;
+            }
+        }
         switch ($key) {
             case T_WHITESPACE:
                 if ($data['start']['class'] & self::CLASS_START

@@ -1,6 +1,6 @@
 <?php
 
-class HubDownloadActions extends WP_UnitTestCase
+class HubDownloadActionsTest extends WP_UnitTestCase
 {
     public function testAvailableVariables()
     {

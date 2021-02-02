@@ -1,6 +1,6 @@
 <?php
 
-class WpAutopTests extends \WP_UnitTestCase
+class WpAutopTest extends \WP_UnitTestCase
 {
     public function testAnimatedOutlineButtonSpans()
     {

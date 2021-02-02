@@ -5,21 +5,17 @@ define('VCV_LAZY_LOAD', true);
 define('VCV_DIE_EXCEPTION', true);
 define('VCV_DEBUG', true);
 
-$testsDir = getenv('WP_TESTS_DIR');
-if (!$testsDir) {
-    $testsDir = '/tmp/wordpress-tests-lib';
-}
-require_once $testsDir . '/phpunit/includes/functions.php';
+require_once dirname(__DIR__, 2) . '/ci/wp-tests-9.0.0/wp-tests/phpunit/includes/functions.php';
 
 tests_add_filter(
     'muplugins_loaded',
     function () {
-        require_once dirname(__FILE__) . '/../../plugin-wordpress.php';
+        require_once dirname(__DIR__, 2) . '/plugin-wordpress.php';
         do_action('vcv:bootstrap:lazyload');
     }
 );
 
-require $testsDir . '/phpunit/includes/bootstrap.php';
+require dirname(__DIR__, 2) . '/ci/wp-tests-9.0.0/wp-tests/phpunit/includes/bootstrap.php';
 
 /**
  * @param $mockableClass

@@ -260,7 +260,8 @@ class HelperFrontendTest extends WP_UnitTestCase
     public function testQueryResetInsideLoop()
     {
         wp_set_current_user(1);
-        $originalId = $this->createPost('[test-query-reset] first', 'post');
+        $originalContent = '[test-query-reset] first';
+        $originalId = $this->createPost($originalContent, 'post');
 
         // override global query!
         global $wp_the_query, $wp_query;
@@ -299,7 +300,7 @@ class HelperFrontendTest extends WP_UnitTestCase
             the_content();
         }
         $content = ob_get_clean();
-        $this->assertEquals('<p>title:random titledf1406ce9b185e79057909d2ddcac534 first</p>', trim($content));
+        $this->assertEquals('<p>title:random title' . md5($originalContent) . ' first</p>', trim($content));
 
         wp_reset_query();
     }

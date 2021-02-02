@@ -35,7 +35,7 @@ class AddonViews implements Helper
         }
 
         ob_start();
-        
+
         /**
          * @var $addon
          */
