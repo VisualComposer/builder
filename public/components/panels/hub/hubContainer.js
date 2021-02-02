@@ -32,7 +32,7 @@ export default class HubContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      filterType: 'all',
+      filterType: 'element',
       activeCategoryIndex: 0
     }
     if (props && props.options && props.options.filterType) {
@@ -48,7 +48,6 @@ export default class HubContainer extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
-    this.changeActiveCategory = this.changeActiveCategory.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
@@ -103,24 +102,10 @@ export default class HubContainer extends React.Component {
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup(categories.all, [elementGroup, templateGroup, blockGroup, headerGroup, footerGroup, sidebarGroup])
 
-      this.allCategories = [allGroup, elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
+      this.allCategories = [elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
     }
     return this.allCategories
-  }
-
-  getAllGroup (category, otherGroups) {
-    const { title, index } = category
-    const elements = []
-
-    otherGroups.forEach((group) => {
-      const groupAllElements = group.categories && group.categories[0] ? group.categories[0].elements : group.elements
-      if (groupAllElements) {
-        elements.push(...groupAllElements)
-      }
-    })
-    return { elements: lodash.orderBy(elements, this.isItemNew, ['desc']), id: `${title}${index}`, index: index, title: title }
   }
 
   getAddonsGroup (category) {
@@ -143,19 +128,33 @@ export default class HubContainer extends React.Component {
   getElementGroup (category) {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
-    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
-    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, this.isItemNew, ['desc'])
 
-    return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
+    let freeElements = elementCategories[0].elements.filter(element => element.bundleType.includes('free'))
+    let premiumElements = elementCategories[0].elements.filter(element => element.bundleType.includes('premium') && !element.bundleType.includes('free'))
+
+    freeElements = lodash.sortBy(freeElements, ['name'])
+    freeElements = lodash.orderBy(freeElements, this.isItemNew, ['desc'])
+
+    premiumElements = lodash.sortBy(premiumElements, ['name'])
+    premiumElements = lodash.orderBy(premiumElements, this.isItemNew, ['desc'])
+
+    const sortedElements = freeElements.concat(premiumElements)
+
+    return { elements: sortedElements, id: `${title}${index}`, index: index, title: title }
   }
 
   getTemplateGroup (category) {
     const { title, index } = category
-    const templateTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((template) => {
-      return template.templateType === 'hub' || template.templateType === 'predefined'
-    }), this.isItemNew, ['desc'])
+    const allTemplates = hubTemplateStorage.state('templateTeasers').get()
+    let freeTemplates = allTemplates.filter(template => template.templateType === 'predefined')
+    let premiumTemplates = allTemplates.filter(template => template.templateType === 'hub')
 
-    return { elements: templateTeasers, id: `${title}${index}`, index: index, title: title }
+    freeTemplates = lodash.orderBy(freeTemplates, this.isItemNew, ['desc'])
+    premiumTemplates = lodash.orderBy(premiumTemplates, this.isItemNew, ['desc'])
+
+    const orderedTemplates = freeTemplates.concat(premiumTemplates)
+
+    return { elements: orderedTemplates, id: `${title}${index}`, index: index, title: title }
   }
 
   getBlockGroup (category) {
@@ -253,12 +252,6 @@ export default class HubContainer extends React.Component {
     )
   }
 
-  changeActiveCategory (catIndex) {
-    this.setState({
-      activeCategoryIndex: catIndex
-    })
-  }
-
   getElementsByCategory () {
     const { activeCategoryIndex } = this.state
     const allCategories = this.getAllCategories()
@@ -281,15 +274,8 @@ export default class HubContainer extends React.Component {
     return {
       changeInput: this.changeInput,
       inputValue: this.state.inputValue || '',
-      inputPlaceholder: 'elements and templates',
       autoFocus: this.props.visible,
-      selectEvent: (active) => {
-        const activeId = active && active.constructor === String && active.split('-')[0]
-        const result = this.state
-        const foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
-        result.filterType = foundCategory.type
-        this.setState(result)
-      }
+      filterType: this.state.filterType
     }
   }
 
@@ -297,20 +283,15 @@ export default class HubContainer extends React.Component {
     this.setState({
       inputValue: value,
       searchResults: this.getSearchResults(value),
-      bundleType: null,
-      filterType: 'all',
-      activeCategoryIndex: 0
+      bundleType: null
     })
   }
 
   getSearchResults (value) {
     value = value.toLowerCase().trim()
     const allCategories = this.getAllCategories()
-    const getIndex = allCategories.findIndex((val) => {
-      return val.title === 'All' || val.title === 'All Elements'
-    })
 
-    return allCategories[getIndex].elements.filter((elementData) => {
+    return allCategories[this.state.activeCategoryIndex].elements.filter((elementData) => {
       const elName = hubElementsService.getElementName(elementData)
       if (elName.indexOf(value) !== -1) {
         return true
@@ -330,7 +311,8 @@ export default class HubContainer extends React.Component {
     this.setState({
       filterType: value,
       activeCategoryIndex: id,
-      bundleType: bundleType
+      bundleType: bundleType,
+      inputValue: ''
     })
   }
 
@@ -360,14 +342,10 @@ export default class HubContainer extends React.Component {
     result = result.filter((item) => {
       let isClean = false
 
-      if (filterType === 'all') {
-        isClean = true
+      if (categories[filterType].templateType) {
+        isClean = item.props.type === 'template' && item.props.element.templateType === filterType
       } else {
-        if (categories[filterType].templateType) {
-          isClean = item.props.type === 'template' && item.props.element.templateType === filterType
-        } else {
-          isClean = item.props.type === filterType
-        }
+        isClean = item.props.type === filterType
       }
 
       // filter for bundle type
