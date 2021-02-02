@@ -15,8 +15,14 @@ export default class Notifications extends React.Component {
     }
 
     this.changePortalContainer = this.changePortalContainer.bind(this)
+  }
 
+  componentDidMount () {
     notificationsPortalState.onChange(this.changePortalContainer)
+  }
+
+  componentWillUnmount () {
+    notificationsPortalState.ignoreChange(this.changePortalContainer)
   }
 
   getVisibleContainer (selector) {
