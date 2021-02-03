@@ -64,7 +64,7 @@ export default class ElementAttribute extends Attribute {
       tag: '',
       options: {
         filterType: 'element',
-        id: '1-0',
+        id: 0,
         bundleType: undefined
       }
     }

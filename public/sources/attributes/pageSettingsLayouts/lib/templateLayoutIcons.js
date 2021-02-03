@@ -75,7 +75,7 @@ export default class TemplateLayoutIcons extends React.Component {
           action: 'addHub',
           options: {
             filterType: 'addon',
-            id: '4',
+            id: 3,
             bundleType: undefined
           }
         }
