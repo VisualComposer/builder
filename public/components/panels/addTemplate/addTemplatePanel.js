@@ -315,7 +315,7 @@ export default class AddTemplatePanel extends React.Component {
       tag: '',
       options: {
         filterType: 'template',
-        id: '2',
+        id: 1,
         bundleType: undefined
       }
     }
