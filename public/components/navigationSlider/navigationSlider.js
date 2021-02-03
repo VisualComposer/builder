@@ -26,7 +26,7 @@ export default class NavigationSlider extends React.Component {
 
     this.handleResize = this.handleResize.bind(this)
     this.getDropdownItems = this.getDropdownItems.bind(this)
-    this.listenForScroll = this.listenForScroll.bind(this)
+    this.handleSliderScroll = this.handleSliderScroll.bind(this)
     this.handleItemMouseEnter = this.handleItemMouseEnter.bind(this)
 
     this.resizeObserver = new window.ResizeObserver(this.handleResize)
@@ -34,16 +34,16 @@ export default class NavigationSlider extends React.Component {
 
   componentDidMount () {
     this.resizeObserver.observe(this.navigationContainerRef.current)
-    this.navigationSliderRef.current.addEventListener('scroll', this.listenForScroll)
+    this.navigationSliderRef.current.addEventListener('scroll', this.handleSliderScroll)
     this.handleResize()
   }
 
   componentWillUnmount () {
     this.resizeObserver.unobserve(this.navigationContainerRef.current)
-    this.navigationSliderRef.current.remove('scroll', this.listenForScroll)
+    this.navigationSliderRef.current.remove('scroll', this.handleSliderScroll)
   }
 
-  listenForScroll () {
+  handleSliderScroll () {
     const sliderRect = this.navigationSliderRef.current.getBoundingClientRect()
     const firstItem = this.navigationSliderRef.current.firstChild
     const firstItemRect = firstItem.getBoundingClientRect()
@@ -64,7 +64,7 @@ export default class NavigationSlider extends React.Component {
 
     this.setState({ showControls: isControlsVisible })
 
-    this.listenForScroll()
+    this.handleSliderScroll()
   }
 
   handleClick (data, event) {
