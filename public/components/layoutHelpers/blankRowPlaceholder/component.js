@@ -284,7 +284,7 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   render () {
-    const isIconDark = this.props.iconColor === 'dark' ? true : ['default', 'template', 'vcv_archives'].indexOf(BlankRowPlaceholder.editorType) >= 0
+    const isIconDark = this.props.iconColor === 'dark' ? true : ['default', 'template', 'vcv_archives', 'vcv_tutorials'].indexOf(BlankRowPlaceholder.editorType) >= 0
     const elementControls = this.getElementControls(isIconDark)
     const containerWidth = {}
     if (this.state.containerWidth) {
