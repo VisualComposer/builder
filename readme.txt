@@ -1,31 +1,34 @@
 === Visual Composer Website Builder ===
 Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cagdasdag,alperbulut,cozmoslabs
-Tags: Visual Composer, page builder, drag-and-drop editor, landing page, website builder, site-builder, front-end builder
+Tags: visual composer, page builder, drag-and-drop editor, website builder, site-builder, front-end builder, editor, visual editor, wysiwyg, design, landing page builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.6
-Stable tag: 33.0
+Stable tag: 34.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 
-All-in-one page builder for WordPress comes with 500+ elements, templates, addons, and design options: All you need to create a business website for free!
+Website builder for WordPress comes with 500+ elements, templates, addons, and design options: All you need to create a beautiful website!
 
 == Description ==
 
-**Visual Composer Website Builder** is an intuitive **drag and drop editor** that gives you powerful tools and assets to create a responsive WordPress website. No coding!
+**Visual Composer Website Builder** is an intuitive **drag and drop Frontend editor** that gives you powerful tools and assets to create a WordPress website. No coding!
 
 **It's a brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Instead, you get a fast, powerful, and easy-to-use website builder that gives you tools to create any kind of website.
 
-**[Visual Composer DEMO](https://demo.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-demo-text-link)**: Try Visual Composer in action, make a page while playing and get an idea of the easy-to-use interface.
+**[Visual Composer Free](https://visualcomposer.com/download/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-free-text-link)** contains everything that you need to create a simple website. It is the most powerful free version page builder on the market with 40+ ready-made elements and templates, as well as mighty design options.
 
-Create pixel-perfect websites easily with a help of [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-hub-text-link): A rich library of **500+ Elements**, **Templates**, **Addons**, and powerful **Design Options**.
+https://youtu.be/T4c--KVXXbg
 
-https://www.youtube.com/watch?v=SJMIvMXyPHs
+**[Visual Composer Premium](https://visualcomposer.com/pricing/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=gopremium&utm_content=visual-composer-premium-text-link)** unlocks even more tools and functionality stored in the [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-hub-text-link) - a cloud library that makes sure your website stays lightweight and clean.
 
-Discover Visual Composer [free website builder for WordPress](https://visualcomposer.com/download/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=free-website-builder-for-wordpress-text-link), backed by the latest technology (*ReactJS*) and an experienced team of developers.
+Premium gives you a **500+ Elements**, **Templates**, **Addons**, **Integrations**, and powerful **Design Options**.
+
+See it for yourself! Try **[Visual Composer DEMO](https://demo.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-demo-text-link)**, make a page while playing, and get an idea of the easy-to-use interface.
 
 **TRUE DRAG & DROP WEBSITE BUILDER**
+
 
 With a drag and drop editor, you can build new layouts or customize existing ones. There is no limit to the variety of layouts. You have complete freedom in creating the most complex website designs.
 
@@ -33,21 +36,21 @@ With a drag and drop editor, you can build new layouts or customize existing one
 
 **Instant Content Update**: The live design and inline editing allow you to instantly see all the changes you make to your page. A true *What You See Is What You Get* experience! You can play with the page design until you find the perfect one. Change colors, customize options, and see the result instantly.
 
-**Works With Any WordPress Theme**: Visual Composer works with any WordPress theme. You can change the themes to your liking, it will not affect your content. What's more, the built-in [Theme Builder](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=theme-builder-text-link) gives you total freedom to override your theme's default settings.
+**Works With Any WordPress Theme**: Visual Composer works with any WordPress theme. You can change the themes to your liking, it will not affect your content. What's more, the built-in **[Theme Builder](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=theme-builder-text-link)** gives you total freedom to override your theme's default settings.
 
-**VISUAL COMPOSER HUB: 350+ TEMPLATES, ELEMENTS & ADDONS**
+**VISUAL COMPOSER HUB: 500+ TEMPLATES, ELEMENTS & ADDONS**
 
 Visual Composer Hub, a cloud-based marketplace allows you to download elements, templates, and addons on demand. Visual Composer team ads new content to the library weekly making it an evergreen assets repository. You can add all these assets to your page without leaving the editor.
 
 Discover what's inside the **Visual Composer Hub**:
 
-* **[Content Elements](https://visualcomposer.com/features/content-elements/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=content-elements-text-link)**: Slideshows, Tabs, Video, Testimonials, Buttons, Menu, WooCommerce compatibility, and many more elements can be found in the Visual Composer Hub for free downloading to use anywhere on your page. The appearance, styles, and attributes of the elements can be changed as you wish.
+* **[Content Elements](https://visualcomposer.com/features/content-elements/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=content-elements-text-link)**: Slideshows, Tabs, Video, Testimonials, Buttons, Menu, WooCommerce compatibility, and many more elements. The appearance, styles, and attributes of the elements can be changed as you wish.
 
 
 * **[Templates](https://visualcomposer.com/features/wordpress-templates/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=templates-text-link)**: There are different category templates available for any web project. Templates for a portfolio and business website, online store, landing page, and others. Simply download ready-made templates, content blocks, sidebars, footers, headers, or sections and replace them with your unique content.
 
 
-* **Add-ons**: Extensions allow you to enhance your Visual Composer experience with advanced add-ons. Global Templates, Import/Export, Gutenberg Block template, **[Popup Builder](https://visualcomposer.com/features/popup-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=popup-builder-text-link)** and others.
+* **Addons**: Extensions allow you to enhance your Visual Composer experience with advanced addons. Global Templates, Import/Export, Gutenberg Block template, **[Popup Builder](https://visualcomposer.com/features/popup-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=popup-builder-text-link)** and others.
 
 
 * **Integrations**: Stock images from **[Unsplash](https://visualcomposer.com/blog/unsplash-in-wordpress/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=unsplash-text-link)** and GIFs from **[GIPHY](https://visualcomposer.com/blog/add-gifs-from-giphy-in-wordpress/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=giphy-text-link)** are available straight from the Visual Composer editor. The graphics can be used for both personal and commercial projects.
@@ -63,9 +66,9 @@ Visual Composer is an all-in-one plugin that lets you make beautiful websites fr
 
 **VISUAL COMPOSER INSIGHTS**
 
-Build better websites by using an in-built qualitative analysis of your site content with Visual Composer Insights.
+Build better websites by using an in-built qualitative analysis of your page content with Visual Composer Insights - an in-built SEO tool.
 
-[Visual Composer Insights](https://visualcomposer.com/blog/wordpress-content-analysis-tool-insights/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-insights-text-link) is a free extension that analyzes your site content according to multiple scenarios to improve the quality, performance, and SEO of your site. Finally, you don't have to be a developer, designer, or marketer to create a website that boosts your business.
+[Visual Composer Insights](https://visualcomposer.com/blog/wordpress-content-analysis-tool-insights/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-insights-text-link) is a free extension that analyzes your page content according to multiple scenarios to improve the quality, performance, and SEO of your site. Finally, you don't have to be a developer, designer, or marketer to create a website that boosts your business.
 
 **POPUP BUILDER FOR WORDPRESS**
 
@@ -86,6 +89,7 @@ Visual Composer is compatible with other popular plugins, offering compatibility
 * MailChimp for WordPress
 * WP Forms
 * wpDataTables
+* TranslatePress
 * and many more.
 
 **DEVELOPERS API**
@@ -129,25 +133,12 @@ Visual Composer can be installed like any other regular WordPress plugin either 
 Once installed, click 'Activate Plugin' to finish the installation.
 
 **You can now use Visual Composer Website Builder on your site:**
+(two ways how to can get started)
 
-* Go to Pages or Posts
-* Choose Add New with Visual Composer
+* From the Visual Composer Getting Started tab, click 'Create a New Page'
+* Go to Pages or Posts - choose Add New with Visual Composer
 
-To receive additional elements, templates, and extensions it is recommended to **activate Visual Composer Hub**. It's a cloud marketplace (*free and premium*) for downloading additional elements, templates, and extensions.
-
-**Visual Composer Hub Activation**
-
-Once you have installed and activated the Visual Composer plugin, do the following:
-
-* Open your WordPress admin panel
-* Hover over Visual Composer in the left side menu and choose **Getting Started**
-* To activate the free license, click in **Activate Free**
-* Provide your email address and click on **Get License**
-* Copy your unique license key and head back to your WordPress admin panel
-* Enter your license key and click **Activate**
-* Select **Create New Page** and you are all set to start building your website
-
-More information and tutorial videos on [how to activate Visual Composer Hub](https://visualcomposer.com/help/visual-composer-hub/free-activation/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=how-to-activate-visual-composer-hub-text-link).
+Some elements and templates are already loaded in your library. To download more free elements, click on 'Get More Elements' from the Add Content window and you will be taken to the Visual Composer Hub.
 
 
 == Frequently Asked Questions ==
@@ -170,11 +161,11 @@ Yes! Visual Composer Website Builder includes a shortcode element that allows yo
 
 = Do you have a Premium version available? =
 
-Yes! Premium version comes with world-class support and access to Visual Composer Hub. Where you can download additional elements and templates free of charge.
+Yes! The Premium version comes with world-class support and access to Visual Composer Hub where you can download additional elements, templates, addons, and integrations.
 
 = What is the difference between the Free and Premium versions? =
 
-Visual Composer free version is an ultimate page builder to get your web design project started. Visual Composer Premium unlocks a full website builder experience and gives you unlimited access to the Visual Composer Hub (a cloud marketplace of elements, templates, and extensions).
+Visual Composer Free version is the ultimate page builder to get your web design project started. Visual Composer Premium unlocks a full website builder experience and gives you unlimited access to the Visual Composer Hub (a cloud marketplace of elements, templates, extensions, and integrations).
 
 = Can I edit the Header, Footer, and Sidebar? =
 
@@ -196,8 +187,32 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 34.0 =
+*Release Date - 2021-02-05*
+
+### Free:
+- Update: Free license activation removed to instantly access Visual Composer Hub
+- Update: Premium information popups removed for addons
+- Update: Information about premium features added to the Visual Composer Dashboard
+- Update: Information about the premium feature “Element Presets“ added
+- Fix: Premium information is displayed properly for dynamic content
+- Fix: Edit option with Visual Composer is displayed properly in Gutenberg
+- Fix: Categories are displayed properly in the On-Page Settings
+- Fix: Featured image works properly in the On-Page Settings
+- Fix: Featured image background color displayed properly
+- Fix: Visual Composer Hub search field works properly
+- Fix: Visual Composer menu in WordPress admin is displayed properly
+- Fix: Device previews have proper margins
+- Compatibility: Woocommerce Square works properly with Visual Composer
+- Compatibility: Visual Composer works properly with PHP8
+
+### Premium:
+- Fix: Premium information popup not triggered after addon downloads
+- Fix: Accordion elements work properly
+- Fix: “On first page load“ popup option works properly
+
 = 33.0 =
-*Release Date - 2021-01-13*
+*Release Date - 2021-01-19*
 
 ### Free:
 - New: Option to set "Desktop" as the default state for the "Responsive View" control.
