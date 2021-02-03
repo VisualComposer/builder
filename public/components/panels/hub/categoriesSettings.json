@@ -3,18 +3,30 @@
     "index": 0,
     "type": "element",
     "title": "Elements",
-    "bundleTypes": [
-      "free",
-      "premium"
+    "subControls": [
+      {
+        "title": "Free",
+        "type": "free"
+      },
+      {
+        "title": "Premium",
+        "type": "premium"
+      }
     ]
   },
   "template": {
     "index": 1,
     "type": "template",
     "title": "Templates",
-    "bundleTypes": [
-      "free",
-      "premium"
+    "subControls": [
+      {
+        "title": "Free",
+        "type": "free"
+      },
+      {
+        "title": "Premium",
+        "type": "premium"
+      }
     ]
   },
   "block": {
