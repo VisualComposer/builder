@@ -232,7 +232,7 @@ export default class Groups extends React.Component {
       tag: '',
       options: {
         filterType: 'element',
-        id: '1-0',
+        id: 0,
         bundleType: undefined
       }
     }

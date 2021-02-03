@@ -195,7 +195,7 @@ export default class EditFormHeader extends React.Component {
           action: 'addHub',
           options: {
             filterType: 'addon',
-            id: '4',
+            id: 3,
             bundleType: undefined
           }
         }
