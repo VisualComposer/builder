@@ -35,12 +35,22 @@ export default class NavigationSlider extends React.Component {
   componentDidMount () {
     this.resizeObserver.observe(this.navigationContainerRef.current)
     this.navigationSliderRef.current.addEventListener('scroll', this.handleSliderScroll)
+    this.navigationSliderRef.current.addEventListener('wheel', this.handleHorizontalScroll)
+
     this.handleResize()
   }
 
   componentWillUnmount () {
     this.resizeObserver.unobserve(this.navigationContainerRef.current)
-    this.navigationSliderRef.current.remove('scroll', this.handleSliderScroll)
+    this.navigationSliderRef.current.removeEventListener('scroll', this.handleSliderScroll)
+    this.navigationSliderRef.current.removeEventListener('wheel', this.handleHorizontalScroll)
+  }
+
+  handleHorizontalScroll (event) {
+    if (event.deltaY !== 0) {
+      event.preventDefault()
+      this.scrollLeft -= (event.deltaY)
+    }
   }
 
   handleSliderScroll () {
