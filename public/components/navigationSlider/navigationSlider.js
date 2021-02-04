@@ -167,9 +167,23 @@ export default class NavigationSlider extends React.Component {
 
   handleSlideMove (direction) {
     const slider = this.navigationSliderRef.current
-    const sliderWidth = slider.getBoundingClientRect().width
+    const sliderRect = slider.getBoundingClientRect()
+    const sliderWidth = sliderRect.width
+    let scrollLength = sliderWidth
 
-    smoothScroll(slider, slider.scrollLeft + (direction === 'left' ? -sliderWidth : sliderWidth))
+    slider.childNodes.forEach((item) => {
+      const itemRect = item.getBoundingClientRect()
+      const offsetLeft = itemRect.left - sliderRect.left
+      const offsetRight = offsetLeft + itemRect.width
+      if (sliderWidth > offsetLeft && sliderWidth < offsetRight) {
+        const newScrollLength = itemRect.left - sliderRect.left
+        if (newScrollLength > sliderWidth / 2) {
+          scrollLength = itemRect.left - sliderRect.left
+        }
+      }
+    })
+
+    smoothScroll(slider, slider.scrollLeft + (direction === 'left' ? -scrollLength : scrollLength))
   }
 
   getControls () {
