@@ -243,8 +243,12 @@ export default class NavigationSlider extends React.Component {
   }
 
   render () {
+    const { scrolledToLeft, scrolledToRight } = this.state
+
     const sliderClasses = classNames({
-      'vcv-ui-navigation-slider-container': true
+      'vcv-ui-navigation-slider-container': true,
+      'vcv-ui-navigation-slider-container--shadow-left': !scrolledToLeft,
+      'vcv-ui-navigation-slider-container--shadow-right': !scrolledToRight
     })
 
     return (
