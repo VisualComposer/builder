@@ -289,7 +289,7 @@ export default class DynamicAttribute extends React.Component {
       } else {
         const utm = dataManager.get('utm')
         const utmLink = utm['editor-hub-popup-teaser']
-        popupData.url = utmLink.replace('{medium}', 'dynamic-content-editor')
+        popupData.url = utmLink.replace('{medium}', 'dynamiccontent-editform-editor')
         popupData.buttonText = DynamicAttribute.localizations ? DynamicAttribute.localizations.goPremium : 'Go Premium'
         popupData.description = DynamicAttribute.localizations ? DynamicAttribute.localizations.replaceStaticContentWithPremium : 'Replace static content with dynamic content from WordPress default and custom meta fields with Visual Composer Premium.'
       }

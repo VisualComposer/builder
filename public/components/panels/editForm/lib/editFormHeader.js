@@ -201,7 +201,7 @@ export default class EditFormHeader extends React.Component {
         }
       } else {
         const utm = dataManager.get('utm')
-        fullScreenPopupData.url = utm['editor-editform-go-premium']
+        fullScreenPopupData.url = utm['editor-hub-popup-teaser'].replace('{medium}', 'elementlock-editform-editor')
       }
       const allAddons = hubAddonsStorage.state('addons').get()
       if (allAddons.roleManager) {
