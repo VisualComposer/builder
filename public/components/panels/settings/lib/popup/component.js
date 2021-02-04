@@ -291,6 +291,7 @@ export default class Popup extends React.Component {
   render () {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().popupBuilder
-    return isPremiumActivated && isAddonAvailable ? this.getPopupSettings() : this.getPremiumTeaser(isPremiumActivated)
+
+    return isAddonAvailable ? this.getPopupSettings() : this.getPremiumTeaser(isPremiumActivated)
   }
 }
