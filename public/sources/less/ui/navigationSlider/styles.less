@@ -3,6 +3,38 @@
   justify-content: space-between;
   position: relative;
   direction: ltr;
+
+  &.vcv-ui-navigation-slider-container--shadow-left:before {
+    content: '';
+  }
+
+  &.vcv-ui-navigation-slider-container--shadow-right:after  {
+    content: '';
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 9px;
+  }
+
+  &:before {
+    left: 0;
+    background: linear-gradient(to right, rgba(20, 37, 65, .5), transparent);
+  }
+
+  &:after {
+    right: @navigation-slider-control-width;
+    background: linear-gradient(to left, rgba(20, 37, 65, .5), transparent);
+  }
+
+  &:not(.vcv-ui-navigation-slider-container--shadow-right) {
+    .vcv-ui-navigation-slider-controls {
+      border-left: 1px solid rgba(76, 95, 128, .2);
+    }
+  }
 }
 
 .vcv-ui-navigation-slider {
