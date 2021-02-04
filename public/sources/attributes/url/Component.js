@@ -349,13 +349,14 @@ export default class Url extends Attribute {
     const editorType = dataManager.get('editorType')
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().popupBuilder
-    if (isPremiumActivated) {
-      if (!isAddonAvailable) {
+    if (!isAddonAvailable) {
+      if (isPremiumActivated) {
         openPopupText = `${openPopupText} (${downloadPopupBuilder})`
+      } else {
+        openPopupText = `${openPopupText} (${availableInPremiumText})`
       }
-    } else {
-      openPopupText = `${openPopupText} (${availableInPremiumText})`
     }
+
     optionDropdown = (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
@@ -367,7 +368,7 @@ export default class Url extends Attribute {
           value={dropdownValue}
         >
           <option value='url'>{urlText}</option>
-          <option value='popup' disabled={!isPremiumActivated || (isPremiumActivated && !isAddonAvailable)}>{openPopupText}</option>
+          <option value='popup' disabled={!isAddonAvailable}>{openPopupText}</option>
           {editorType === 'popup' ? <option value='close-popup'>{closePopupText}</option> : null}
         </select>
       </div>

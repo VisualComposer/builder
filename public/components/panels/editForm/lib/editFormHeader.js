@@ -167,7 +167,7 @@ export default class EditFormHeader extends React.Component {
   handleLockElementToggle () {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     const isAddonAvailable = env('VCV_ADDON_ROLE_MANAGER_ENABLED')
-    if (isPremiumActivated && isAddonAvailable) {
+    if (isAddonAvailable) {
       const { elementAccessPoint } = this.props
       const options = {}
       const cookElement = elementAccessPoint.cook()
@@ -332,12 +332,11 @@ export default class EditFormHeader extends React.Component {
     let lockControl = null
     const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
     if (vcvIsUserAdmin && isGeneral) {
-      const isPremiumActivated = dataManager.get('isPremiumActivated')
       const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       const lockClasses = classNames({
         'vcv-ui-edit-form-header-control': true,
-        'vcv-ui-edit-form-header-control--disabled': !isPremiumActivated || (isPremiumActivated && !isAddonAvailable)
+        'vcv-ui-edit-form-header-control--disabled': !isAddonAvailable
       })
       lockControl = (
         <span
