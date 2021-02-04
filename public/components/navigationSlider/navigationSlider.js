@@ -49,7 +49,7 @@ export default class NavigationSlider extends React.Component {
   handleHorizontalScroll (event) {
     if (event.deltaY !== 0) {
       event.preventDefault()
-      this.scrollLeft -= (event.deltaY)
+      this.scrollLeft += (event.deltaY)
     }
   }
 
