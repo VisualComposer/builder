@@ -77,6 +77,7 @@ export default class ElementsLock extends React.Component {
   render () {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
-    return isPremiumActivated && isAddonAvailable ? this.getElementLockSetting() : this.getPremiumTeaser(isPremiumActivated)
+
+    return isAddonAvailable ? this.getElementLockSetting() : this.getPremiumTeaser(isPremiumActivated)
   }
 }
