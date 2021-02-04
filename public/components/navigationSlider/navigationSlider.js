@@ -169,21 +169,31 @@ export default class NavigationSlider extends React.Component {
     const slider = this.navigationSliderRef.current
     const sliderRect = slider.getBoundingClientRect()
     const sliderWidth = sliderRect.width
-    let scrollLength = sliderWidth
+    let scrollLength = direction === 'left' ? -sliderWidth : sliderWidth
 
     slider.childNodes.forEach((item) => {
       const itemRect = item.getBoundingClientRect()
       const offsetLeft = itemRect.left - sliderRect.left
       const offsetRight = offsetLeft + itemRect.width
-      if (sliderWidth > offsetLeft && sliderWidth < offsetRight) {
-        const newScrollLength = itemRect.left - sliderRect.left
-        if (newScrollLength > sliderWidth / 2) {
-          scrollLength = itemRect.left - sliderRect.left
+      // Get the half visible item
+      if (direction === 'left') {
+        if (offsetLeft - sliderRect.left < 0 && offsetLeft + itemRect.width - sliderRect.left > 0) {
+          const newScrollLength = offsetLeft + itemRect.width - sliderRect.width
+          if (-newScrollLength > sliderWidth / 2) {
+            scrollLength = newScrollLength
+          }
+        }
+      } else {
+        if (sliderWidth > offsetLeft && sliderWidth < offsetRight) {
+          const newScrollLength = itemRect.left - sliderRect.left
+          if (newScrollLength > sliderWidth / 2) {
+            scrollLength = newScrollLength
+          }
         }
       }
     })
 
-    smoothScroll(slider, slider.scrollLeft + (direction === 'left' ? -scrollLength : scrollLength))
+    smoothScroll(slider, slider.scrollLeft + scrollLength)
   }
 
   getControls () {
