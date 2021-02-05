@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\License;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Token;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -24,14 +25,28 @@ class ElementDownloadController extends Container implements Module
         $this->addFilter('vcv:ajax:hub:download:element:adminNonce', 'ajaxDownloadElement');
     }
 
-    protected function ajaxDownloadElement($response, $payload, Request $requestHelper, Token $tokenHelper)
-    {
-        // TODO: Fix default
+    protected function ajaxDownloadElement(
+        $response,
+        $payload,
+        Request $requestHelper,
+        Token $tokenHelper,
+        License $licenseHelper
+    ) {
         if (empty($response)) {
             $response = [
                 'status' => true,
             ];
         }
+
+        if (
+            !$licenseHelper->isPremiumActivated() && !$licenseHelper->agreeHubTerms()
+            && $requestHelper->input(
+                'vcv-bundle'
+            ) !== 'template/tutorial'
+        ) {
+            return false;
+        }
+
         if (!vcIsBadResponse($response)) {
             $bundle = $requestHelper->input('vcv-bundle');
             $token = $tokenHelper->getToken();

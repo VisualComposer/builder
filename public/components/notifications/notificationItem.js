@@ -28,6 +28,7 @@ export default class NotificationItem extends React.Component {
 
   componentWillUnmount () {
     window.clearTimeout(this.timer)
+    notificationsStorage.trigger('remove', this.props.data.id)
   }
 
   handleRemoveNotification () {

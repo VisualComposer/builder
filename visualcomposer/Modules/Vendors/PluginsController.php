@@ -112,18 +112,18 @@ class PluginsController extends Container implements Module
         if (VCV_PLUGIN_BASE_NAME === $pluginFile) {
             $rowMeta = [
                 'helpCenter' => sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    $utmHelper->get('wp-plugins-meta-help-center'),
+                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    $utmHelper->get('wpplugins-meta-help-center'),
                     __('Help Center', 'visualcomposer')
                 ),
                 'api' => sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    $utmHelper->get('wp-plugins-meta-api'),
+                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    $utmHelper->get('wpplugins-meta-api'),
                     __('API', 'visualcomposer')
                 ),
                 'premiumSupport' => sprintf(
-                    '<a href="%s" target="_blank">%s</a>',
-                    $utmHelper->get('wp-plugins-meta-premium-support'),
+                    '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    $utmHelper->get('wpplugins-meta-premium-support'),
                     __('Premium Support', 'visualcomposer')
                 ),
             ];
@@ -145,8 +145,8 @@ class PluginsController extends Container implements Module
     {
         /** @noinspection HtmlUnknownTarget */
         $goPremiumLink = sprintf(
-            '<a href="%s" class="vcv-plugins-go-premium">%s</a>',
-            esc_url(admin_url('admin.php?page=vcv-activate-license&vcv-ref=wp-plugins')),
+            '<a href="%s" class="vcv-plugins-go-premium" target="_blank" rel="noopener noreferrer">%s</a>',
+            esc_url(vchelper('Utm')->get('wpplugins')),
             __('Go Premium', 'visualcomposer')
         );
 

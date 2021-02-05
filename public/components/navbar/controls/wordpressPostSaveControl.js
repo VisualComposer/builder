@@ -8,7 +8,7 @@ const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-const SAVED_TIMEOUT = 3000 // TODO: Check magic timeout variable(3s)
+const SAVED_TIMEOUT = 3000
 
 export default class WordPressPostSaveControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
@@ -20,11 +20,15 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.state = {
       saving: false,
       loading: false,
-      status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : ''
+      status: !PostData.canPublish() ? 'disabled' : '',
+      isOptionsActive: false
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
     this.handleIframeChange = this.handleIframeChange.bind(this)
+    this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
+    this.handleToggleOptions = this.handleToggleOptions.bind(this)
+    this.closeDropdown = this.closeDropdown.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
@@ -124,10 +128,41 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }, 1)
   }
 
+  handleClickSaveDraft (e) {
+    e && e.preventDefault && e.preventDefault()
+    wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
+  }
+
+  handleToggleOptions (e) {
+    if (PostData.isDraft()) {
+      if (this.state.status !== 'saving') {
+        if (this.state.isOptionsActive) {
+          document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
+          document.body.removeEventListener('click', this.closeDropdown)
+        } else {
+          document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
+          document.body.addEventListener('click', this.closeDropdown)
+        }
+        this.setState({ isOptionsActive: !this.state.isOptionsActive })
+      }
+    } else {
+      this.handleClickSaveData(e)
+    }
+  }
+
+  closeDropdown (e) {
+    if (e && e.target.closest('.vcv-ui-navbar-dropdown-trigger') && e.target.closest('.vcv-ui-navbar-save')) {
+      return false
+    } else {
+      this.handleToggleOptions()
+    }
+  }
+
   render () {
     const localizations = dataManager.get('localizations')
     const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
+      'vcv-ui-navbar-dropdown-trigger': true,
       'vcv-ui-state--success': this.state.status === 'success',
       'vcv-ui-state--error': this.state.status === 'error',
       'vcv-ui-state--disabled': this.state.status === 'disabled'
@@ -138,6 +173,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
       'vcv-ui-icon': this.state.status !== 'saving',
       'vcv-ui-icon-save': this.state.status !== 'saving'
     })
+    const saveControlClasses = classNames({
+      'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-navbar-save': true,
+      'vcv-ui-pull-end': true,
+      'vcv-ui-navbar-dropdown--active': this.state.isOptionsActive
+    })
+    const publishingOptions = localizations.publishingOptions
     let saveText = localizations.publish
     if (!PostData.canPublish()) {
       saveText = localizations.submitForReview
@@ -147,20 +189,47 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
 
     const titleText = WordPressPostSaveControl.isMacLike ? saveText + ' (⌘S)' : saveText + ' (Ctrl + S)'
+    let controlTitle = titleText
+
+    let saveDraftOptions = null
+    if (PostData.isDraft()) {
+      controlTitle = publishingOptions
+      saveDraftOptions = (
+        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
+          <span
+            className='vcv-ui-navbar-control'
+            title={localizations.saveDraft}
+            onClick={this.handleClickSaveDraft}
+            data-href={PostData.permalink()}
+          >
+            <span className='vcv-ui-navbar-control-content'>{localizations.saveDraft}</span>
+          </span>
+          <span
+            className='vcv-ui-navbar-control'
+            title={titleText}
+            onClick={this.handleClickSaveData}
+            data-href={PostData.permalink()}
+          >
+            <span className='vcv-ui-navbar-control-content'>{saveText}</span>
+          </span>
+        </dd>
+      )
+    }
 
     return (
-      <div className='vcv-ui-navbar-controls-group vcv-ui-pull-end' data-vcv-guide-helper='save-control'>
-        <span
+      <dl className={saveControlClasses} data-vcv-guide-helper='save-control'>
+        <dt
           className={saveButtonClasses}
-          title={titleText}
-          onClick={this.handleClickSaveData}
+          title={controlTitle}
+          onClick={this.handleToggleOptions}
         >
           <span className='vcv-ui-navbar-control-content'>
             <i className={saveIconClasses} />
-            <span>{saveText}</span>
+            <span>{controlTitle}</span>
           </span>
-        </span>
-      </div>
+        </dt>
+        {saveDraftOptions}
+      </dl>
     )
   }
 }

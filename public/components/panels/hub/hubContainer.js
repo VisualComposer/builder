@@ -1,8 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import HubItemController from './hubItemController'
-import HubMenu from './hubMenu'
-import HubDropdown from './hubDropdown'
+import NavigationSlider from 'public/components/navigationSlider/navigationSlider'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
@@ -22,6 +21,7 @@ const hubTemplateStorage = vcCake.getStorage('hubTemplates')
 const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
 const editorPopupStorage = vcCake.getStorage('editorPopup')
+const hubElementsService = vcCake.getService('hubElements')
 
 export default class HubContainer extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -31,7 +31,7 @@ export default class HubContainer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      filterType: 'all',
+      filterType: 'element',
       activeCategoryIndex: 0
     }
     if (props && props.options && props.options.filterType) {
@@ -47,9 +47,6 @@ export default class HubContainer extends React.Component {
     this.openEditForm = this.openEditForm.bind(this)
     this.setFilterType = this.setFilterType.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
-    this.changeActiveCategory = this.changeActiveCategory.bind(this)
-    this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
-    this.handleMediaGoPremium = this.handleMediaGoPremium.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
   }
@@ -104,24 +101,10 @@ export default class HubContainer extends React.Component {
       const headerGroup = this.getHFSGroup(categories.hubHeader)
       const footerGroup = this.getHFSGroup(categories.hubFooter)
       const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
-      const allGroup = this.getAllGroup(categories.all, [elementGroup, templateGroup, blockGroup, headerGroup, footerGroup, sidebarGroup])
 
-      this.allCategories = [allGroup, elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
+      this.allCategories = [elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
     }
     return this.allCategories
-  }
-
-  getAllGroup (category, otherGroups) {
-    const { title, index } = category
-    const elements = []
-
-    otherGroups.forEach((group) => {
-      const groupAllElements = group.categories && group.categories[0] ? group.categories[0].elements : group.elements
-      if (groupAllElements) {
-        elements.push(...groupAllElements)
-      }
-    })
-    return { elements: lodash.orderBy(elements, this.isItemNew, ['desc']), id: `${title}${index}`, index: index, title: title }
   }
 
   getAddonsGroup (category) {
@@ -144,19 +127,33 @@ export default class HubContainer extends React.Component {
   getElementGroup (category) {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
-    elementCategories[0].elements = lodash.sortBy(elementCategories[0].elements, ['name'])
-    elementCategories[0].elements = lodash.orderBy(elementCategories[0].elements, this.isItemNew, ['desc'])
 
-    return { categories: elementCategories, id: `${title}${index}`, index: index, title: title }
+    let freeElements = elementCategories[0].elements.filter(element => element.bundleType.includes('free'))
+    let premiumElements = elementCategories[0].elements.filter(element => element.bundleType.includes('premium') && !element.bundleType.includes('free'))
+
+    freeElements = lodash.sortBy(freeElements, ['name'])
+    freeElements = lodash.orderBy(freeElements, this.isItemNew, ['desc'])
+
+    premiumElements = lodash.sortBy(premiumElements, ['name'])
+    premiumElements = lodash.orderBy(premiumElements, this.isItemNew, ['desc'])
+
+    const sortedElements = freeElements.concat(premiumElements)
+
+    return { elements: sortedElements, id: `${title}${index}`, index: index, title: title }
   }
 
   getTemplateGroup (category) {
     const { title, index } = category
-    const templateTeasers = lodash.orderBy(hubTemplateStorage.state('templateTeasers').get().filter((template) => {
-      return template.templateType === 'hub' || template.templateType === 'predefined'
-    }), this.isItemNew, ['desc'])
+    const allTemplates = hubTemplateStorage.state('templateTeasers').get()
+    let freeTemplates = allTemplates.filter(template => template.templateType === 'predefined')
+    let premiumTemplates = allTemplates.filter(template => template.templateType === 'hub')
 
-    return { elements: templateTeasers, id: `${title}${index}`, index: index, title: title }
+    freeTemplates = lodash.orderBy(freeTemplates, this.isItemNew, ['desc'])
+    premiumTemplates = lodash.orderBy(premiumTemplates, this.isItemNew, ['desc'])
+
+    const orderedTemplates = freeTemplates.concat(premiumTemplates)
+
+    return { elements: orderedTemplates, id: `${title}${index}`, index: index, title: title }
   }
 
   getBlockGroup (category) {
@@ -226,6 +223,7 @@ export default class HubContainer extends React.Component {
         isNew={typeof elementData.isNew === 'number' ? elementData.isNew > HubContainer.minusThreeDayTimeStamp : !!elementData.isNew} // check if CurrentTimestamp(seconds form 1970) - 3*86400 < isNewDate()
         addElement={this.addElement}
         onClickGoPremium={this.handleLockClick}
+        utmMedium={this.getUtmMedium()}
       />
     )
   }
@@ -253,12 +251,6 @@ export default class HubContainer extends React.Component {
     )
   }
 
-  changeActiveCategory (catIndex) {
-    this.setState({
-      activeCategoryIndex: catIndex
-    })
-  }
-
   getElementsByCategory () {
     const { activeCategoryIndex } = this.state
     const allCategories = this.getAllCategories()
@@ -281,15 +273,8 @@ export default class HubContainer extends React.Component {
     return {
       changeInput: this.changeInput,
       inputValue: this.state.inputValue || '',
-      inputPlaceholder: 'elements and templates',
       autoFocus: this.props.visible,
-      selectEvent: (active) => {
-        const activeId = active && active.constructor === String && active.split('-')[0]
-        const result = this.state
-        const foundCategory = Object.values(categories).find(category => parseInt(activeId) === category.index)
-        result.filterType = foundCategory.type
-        this.setState(result)
-      }
+      filterType: this.state.filterType
     }
   }
 
@@ -297,37 +282,23 @@ export default class HubContainer extends React.Component {
     this.setState({
       inputValue: value,
       searchResults: this.getSearchResults(value),
-      bundleType: null,
-      filterType: 'all',
-      activeCategoryIndex: 0
+      bundleType: null
     })
   }
 
   getSearchResults (value) {
     value = value.toLowerCase().trim()
     const allCategories = this.getAllCategories()
-    const getIndex = allCategories.findIndex((val) => {
-      return val.title === 'All' || val.title === 'All Elements'
-    })
 
-    function getElementName (elementData) {
-      let elName = ''
-      if (elementData.name) {
-        elName = elementData.name.toLowerCase()
-      } else if (elementData.tag) {
-        const element = cook.get(elementData)
-        if (element.get('name')) {
-          elName = element.get('name').toLowerCase()
-        }
+    return allCategories[this.state.activeCategoryIndex].elements.filter((elementData) => {
+      const elName = hubElementsService.getElementName(elementData)
+      if (elName.indexOf(value) !== -1) {
+        return true
+      } else {
+        const elDescription = hubElementsService.getElementDescription(elementData)
+        return elDescription.indexOf(value) !== -1
       }
-
-      return elName
-    }
-
-    return allCategories[getIndex].elements.filter((elementData) => {
-      const elName = getElementName(elementData)
-      return elName.indexOf(value) !== -1
-    }).sort((a, b) => getElementName(a).indexOf(value) - getElementName(b).indexOf(value))
+    }).sort((a, b) => hubElementsService.getElementName(b).indexOf(value) - hubElementsService.getElementName(a).indexOf(value))
   }
 
   getSearchElement () {
@@ -339,7 +310,8 @@ export default class HubContainer extends React.Component {
     this.setState({
       filterType: value,
       activeCategoryIndex: id,
-      bundleType: bundleType
+      bundleType: bundleType,
+      inputValue: ''
     })
   }
 
@@ -369,14 +341,10 @@ export default class HubContainer extends React.Component {
     result = result.filter((item) => {
       let isClean = false
 
-      if (filterType === 'all') {
-        isClean = true
+      if (categories[filterType].templateType) {
+        isClean = item.props.type === 'template' && item.props.element.templateType === filterType
       } else {
-        if (categories[filterType].templateType) {
-          isClean = item.props.type === 'template' && item.props.element.templateType === filterType
-        } else {
-          isClean = item.props.type === filterType
-        }
+        isClean = item.props.type === filterType
       }
 
       // filter for bundle type
@@ -401,31 +369,25 @@ export default class HubContainer extends React.Component {
     return result
   }
 
-  getTypeControlProps () {
-    return {
-      categories: categories,
-      filterType: this.state.filterType,
-      bundleType: this.state.bundleType,
-      setFilterType: this.setFilterType
-    }
-  }
-
   getHubPanelControls () {
-    return <HubMenu {...this.getTypeControlProps()} />
+    const props = {
+      controls: categories,
+      activeSection: this.state.filterType,
+      activeSubControl: this.state.bundleType,
+      setActiveSection: this.setFilterType
+    }
+
+    return <NavigationSlider {...props} />
   }
 
   /**
    * Click handler for Hub item (elements, templates) Lock icon
    * @param type {string}
-   * @param isFree {boolean}
    */
-  handleLockClick (type, isFree) {
+  handleLockClick (type) {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const activateHubText = HubContainer.localizations ? HubContainer.localizations.activateHub.toUpperCase() : 'ACTIVATE HUB'
-    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures.toUpperCase() : 'UNLOCK All FEATURES'
-    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM'
-    const headingFreeText = HubContainer.localizations ? HubContainer.localizations.thisIsAFreeFeature.toUpperCase() : 'THIS IS A FREE FEATURE'
-    const freeText = HubContainer.localizations ? HubContainer.localizations.getFreeLicenseToActivateVCHub : 'Get a free license to activate the Visual Composer Hub and get access to more free elements and templates.'
+    const goPremiumText = HubContainer.localizations ? HubContainer.localizations.unlockAllFeatures : 'Unlock All Features'
+    const headingPremiumText = HubContainer.localizations ? HubContainer.localizations.doMoreWithPremium : 'Do More With Premium'
     let descriptionText = ''
     if (type === 'template') {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToTemplates : 'Get access to more than 200 content elements with Visual Composer Premium.'
@@ -436,71 +398,48 @@ export default class HubContainer extends React.Component {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
 
-    let url
-    if (isFree) {
-      const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      url = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    } else {
-      const utm = dataManager.get('utm')
-      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      const utmLink = utm['editor-hub-go-premium']
-      url = utmLink.replace('{medium}', utmMedium)
-    }
+    const utm = dataManager.get('utm')
+    const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
+    const utmLink = utm['editor-hub-popup-teaser']
+
+    const url = utmLink.replace('{medium}', utmMedium)
 
     const fullScreenPopupData = {
-      headingText: isFree ? headingFreeText : headingPremiumText,
-      buttonText: isFree ? activateHubText : goPremiumText,
-      description: isFree ? freeText : descriptionText,
+      headingText: headingPremiumText,
+      buttonText: goPremiumText,
+      description: descriptionText,
       isPremiumActivated: isPremiumActivated,
       url: url
     }
     editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-    editorPopupStorage.trigger('showFullPagePopup')
+    editorPopupStorage.state('activeFullPopup').set('premium-teaser')
   }
 
-  /**
-   * Click handler for Hub window Stock Media header button (Unsplash, Giphy)
-   * @param clickedType {string}
-   * @param isFree {boolean}
-   */
-  handleMediaGoPremium (clickedType, isFree) {
-    if (isFree && clickedType === 'popup') {
-      this.handleClickGoPremium()
-    } else {
-      const utm = dataManager.get('utm')
-      const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-      const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-      const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-      const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
-      const teaserUrl = utmLink.replace('{medium}', utmMedium)
-
-      window.open(teaserUrl)
-    }
-  }
-
-  /**
-   * Click handler for Hub window header button
-   * @param e
-   */
-  handleClickGoPremium (e) {
-    e && e.preventDefault && e.preventDefault()
-
+  getUtmMedium () {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
-    const refRoot = `&vcv-ref=${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
-    const utmUrlRef = `${dataManager.get('goPremiumUrl')}${refRoot}`
-    if (this.props.namespace === 'vc-dashboard') {
-      window.location.href = utmUrlRef // open in same window
-    } else {
-      window.open(utmUrlRef)
-    }
+    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add' + this.props.options.filterType : ''
+    return `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
   }
 
   getHubBanner () {
-    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Connect to Visual Composer Hub.'
-    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Do More.'
-    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Activate your free or premium license to get access to the Visual Composer Hub'
-    const buttonText = HubContainer.localizations ? HubContainer.localizations.activationButtonTitle : dataManager.get('isFreeActivated') ? 'Go Premium' : 'Activate Visual Composer Hub'
+    const titleText = HubContainer.localizations ? HubContainer.localizations.getMoreText : 'Do More With Visual Composer'
+    const titleSubText = HubContainer.localizations ? HubContainer.localizations.getMoreTextSubText : 'Premium'
+    const subtitleText = HubContainer.localizations ? HubContainer.localizations.downloadFromHubText : 'Get unlimited access to the Visual Composer Hub with 500+ elements, templates, addons, and integrations.'
+    const buttonText = HubContainer.localizations ? HubContainer.localizations.goPremium : 'Go Premium'
+    const utm = dataManager.get('utm')
+    const bannerButtonUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
+    const refRoot = `&vcv-ref=${this.getUtmMedium()}`
+    const activateUrl = `${dataManager.get('goPremiumUrl')}${refRoot}`
+    const linkProps = {
+      rel: 'noopener noreferrer',
+      href: activateUrl,
+      className: 'vcv-hub-banner-link'
+    }
+    if (this.props.namespace !== 'vcdashboard') {
+      linkProps.target = '_blank'
+    }
+    const alreadyHaveLicenseText = HubContainer.localizations ? HubContainer.localizations.alreadyHaveLicenseTextOneAction : 'Already have a Premium license?'
+    const activateHereText = HubContainer.localizations ? HubContainer.localizations.activateHere : 'Activate here'
 
     return (
       <div className='vcv-hub-banner'>
@@ -508,9 +447,12 @@ export default class HubContainer extends React.Component {
           <p className='vcv-hub-banner-title'>{titleText}</p>
           <p className='vcv-hub-banner-title'>{titleSubText}</p>
           <p className='vcv-hub-banner-subtitle'>{subtitleText}</p>
-          <span className='vcv-hub-banner-button' onClick={this.handleClickGoPremium}>
+          <a className='vcv-hub-banner-button' href={bannerButtonUrl} target='_blank' rel='noopener noreferrer'>
             {buttonText}
-          </span>
+          </a>
+          <p className='vcv-hub-banner-subtitle'>
+            {alreadyHaveLicenseText} <a {...linkProps}>{activateHereText}</a>.
+          </p>
         </div>
       </div>
     )
@@ -547,6 +489,9 @@ export default class HubContainer extends React.Component {
       'vcv-ui-editor-plate--addon': filterType === 'addon'
     })
 
+    const utm = dataManager.get('utm')
+    const teaserUrl = utm['editor-hub-go-premium'].replace('{medium}', this.getUtmMedium())
+
     let panelContent = ''
     if (filterType === 'unsplash') {
       panelContent = (
@@ -555,7 +500,7 @@ export default class HubContainer extends React.Component {
           scrollTop={this.state.scrollTop}
           namespace={this.props.namespace}
           filterType={filterType}
-          onClickGoPremium={this.handleMediaGoPremium}
+          goPremiumLink={teaserUrl}
         />
       )
     } else if (filterType === 'giphy') {
@@ -565,7 +510,7 @@ export default class HubContainer extends React.Component {
           scrollTop={this.state.scrollTop}
           namespace={this.props.namespace}
           filterType={filterType}
-          onClickGoPremium={this.handleMediaGoPremium}
+          goPremiumLink={teaserUrl}
         />
       )
     } else {
@@ -609,9 +554,8 @@ export default class HubContainer extends React.Component {
       <div className={hubContainerClasses}>
         <div className='vcv-ui-tree-content'>
           {this.getSearchElement()}
-          {this.getHubPanelControls()}
-          <div className='vcv-ui-hub-dropdown-container'>
-            <HubDropdown {...this.getTypeControlProps()} />
+          <div className='vcv-ui-hub-control-container'>
+            {this.getHubPanelControls()}
           </div>
           <div className='vcv-ui-tree-content-section'>
             {notifications}

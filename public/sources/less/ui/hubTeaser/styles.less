@@ -30,25 +30,6 @@
         background: #1F3AA0;
       }
     }
-
-    .vcv-ui-form-button-group-dropdown {
-      border: 0;
-      z-index: 5;
-    }
-
-    .vcv-ui-form-button-group-dropdown-item {
-      border: 0;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-      background: #1F3AA0;
-      padding: 15px 24px;
-      letter-spacing: .5px;
-
-      &:hover {
-        background: #693bc5;
-      }
-    }
   }
 }
 
@@ -128,7 +109,7 @@
 }
 
 .vcv-hub-banner {
-  height: 300px;
+  min-height: 300px;
   padding: 20px;
   margin-bottom: 20px;
   position: relative;
@@ -195,7 +176,26 @@
   cursor: pointer;
 
   &:hover {
-    background: #bb8c3d
+    background: #bb8c3d;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &:focus {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.vcv-hub-banner .vcv-hub-banner-link {
+  color: #fff;
+  text-decoration: underline;
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
   }
 }
 

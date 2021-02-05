@@ -30,16 +30,14 @@ class EditorVariablesController extends Container implements Module
             'value' => $isPremiumActivated,
             'type' => 'variable',
         ];
-        $variables[] = [
-            'key' => 'vcvIsFreeActivated',
-            'value' => $licenseHelper->isFreeActivated(),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvIsAnyActivated',
-            'value' => $licenseHelper->isAnyActivated(),
-            'type' => 'variable',
-        ];
+
+        if (!$isPremiumActivated) {
+            $variables[] = [
+                'key' => 'vcvAgreeHubTerms',
+                'value' => $licenseHelper->agreeHubTerms(),
+                'type' => 'variable',
+            ];
+        }
 
         return $variables;
     }

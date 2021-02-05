@@ -32,8 +32,6 @@ class Update implements Helper
                     // Everything is ok need to parse $requiredActions['actions']
                     $json = $savedJson['json'];
                 } else {
-                    // TODO: Errors
-                    // Logger::add error
                     $loggerHelper->log('Failed to update required actions list #10012');
                 }
             }
@@ -195,18 +193,13 @@ class Update implements Helper
         $vcvRef = $requestHelper->input('vcv-ref');
         if (!$vcvRef) {
             // default UTMs if page opened directly without vcv-ref
-            $vcvRef = $licenseHelper->isFreeActivated() ? 'go-premium' : 'activate-hub';
+            $vcvRef = 'activatepremium';
         }
 
         // Used in vcv-activate-license page
         $variables[] = [
             'key' => 'vcvGoPremiumUrlWithRef',
             'value' => $utmHelper->premiumBtnUtm($vcvRef),
-            'type' => 'variable',
-        ];
-        $variables[] = [
-            'key' => 'vcvGoFreeUrlWithRef',
-            'value' => $utmHelper->freeBtnUtm($vcvRef),
             'type' => 'variable',
         ];
 

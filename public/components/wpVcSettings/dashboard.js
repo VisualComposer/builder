@@ -1,4 +1,5 @@
 import { getService } from 'vc-cake'
+import importJS from '../../wordpressSettings'
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes may not be saved.'
@@ -62,6 +63,8 @@ export const dashboard = () => {
     }
     e.preventDefault()
     const sectionValue = e.target.dataset.value
+
+    importJS(sectionValue)
 
     submenuLinks.forEach(link => {
       if (link.classList.contains('vcv-dashboard-sidebar-navigation-link--active')) {

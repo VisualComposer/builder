@@ -823,7 +823,7 @@
             $elem.attr(settings.positionToActive, 'before')
           } else if (i === activeTabIndex) {
             $elem.attr(settings.activeAttribute, true)
-            $elem.find(settings.tabPanelBodySelector).css('height', '')
+            $elem.find(settings.tabPanelBodySelector).get(0).style.height = ''
             activeId = $elem.attr('data-model-id')
           } else if (i > activeTabIndex) {
             $elem.attr(settings.positionToActive, 'after')

@@ -30,7 +30,7 @@ class PremiumTeasers extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'outputDashboardMenu',
-            6
+            60
         );
     }
 
@@ -47,7 +47,7 @@ class PremiumTeasers extends Container implements Module
                     'Visual Composer Premium allows replacing the theme default header and footer with your header and footer templates created with Visual Composer.',
                     'visualcomposer'
                 ),
-                str_replace('{medium}', 'headers-footers-vc-dashboard', $utmTemplate),
+                str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
                 'themeEditor',
             ],
             [
@@ -58,7 +58,7 @@ class PremiumTeasers extends Container implements Module
                     'Visual Composer Premium allows replacing the theme default theme templates like 404 page, search page, author page, post archive with your templates created with Visual Composer.',
                     'visualcomposer'
                 ),
-                str_replace('{medium}', 'custom-page-templates-vc-dashboard', $utmTemplate),
+                str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
                 'themeBuilder',
             ],
             [
@@ -69,7 +69,7 @@ class PremiumTeasers extends Container implements Module
                     'Visual Composer Premium allows enabling maintenance mode and selecting the page that will be displayed to the website visitors. Users with access to the admin panel will still be able to preview and edit the website.',
                     'visualcomposer'
                 ),
-                str_replace('{medium}', 'maintenance-mode-vc-dashboard', $utmTemplate),
+                str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
                 'maintenanceMode',
             ],
             [
@@ -80,7 +80,7 @@ class PremiumTeasers extends Container implements Module
                     'Visual Composer Premium allows specifying site-wide popups for specific events like First Page Load, Every Page Load, or Exit Intent.',
                     'visualcomposer'
                 ),
-                str_replace('{medium}', 'custom-site-popups-vc-dashboard', $utmTemplate),
+                str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
                 'popupBuilder',
             ],
         ];
@@ -89,9 +89,8 @@ class PremiumTeasers extends Container implements Module
             if (in_array($teaser[1], $columnsData, true)) {
                 continue;
             }
-            // last two should be activate-license and getting-started
-            $offset = count($submenu['vcv-settings']) - 3;
 
+            $offset = 1;
             array_splice($submenu['vcv-settings'], $offset, 0, [$teaser]);
             $this->slug = $teaser[1];
             $this->templatePath = 'settings/pages/index';

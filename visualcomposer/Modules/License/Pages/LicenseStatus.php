@@ -55,7 +55,7 @@ class LicenseStatus extends Container implements Module
                 $this->call('addPage');
                 $this->wpAddFilter('submenu_file', 'subMenuHighlight');
             },
-            70
+            90
         );
     }
 

@@ -14,7 +14,6 @@ export default class StockMediaTab extends React.Component {
     }
 
     this.handleMediaScroll = this.handleMediaScroll.bind(this)
-    this.handleClickGoPremium = this.handleClickGoPremium.bind(this)
   }
 
   componentDidMount () {
@@ -44,21 +43,20 @@ export default class StockMediaTab extends React.Component {
     })
   }
 
-  handleClickGoPremium (clickedType) {
+  render () {
     const utm = dataManager.get('utm')
-    const utmMedium = 'unsplash-add-media-editor'
-    const utmLink = clickedType === 'button' ? utm['editor-hub-go-premium'] : utm['editor-hub-popup-teaser']
+    const utmMedium = 'unsplash-addmedia-editor'
+    const utmLink = utm['editor-hub-go-premium']
     const teaserUrl = utmLink.replace('{medium}', utmMedium)
 
-    window.open(teaserUrl)
-  }
-
-  render () {
     return (
       <UnsplashContainer
         scrolledToBottom={this.state.scrolledToBottom}
         scrollTop={this.state.scrollTop}
-        onClickGoPremium={this.handleClickGoPremium}
+        goPremiumLink={teaserUrl}
+        namespace='editor'
+        filterType='unsplash'
+        renderPlace='addmedia'
       />
     )
   }

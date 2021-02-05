@@ -10,7 +10,8 @@ const dataManager = vcCake.getService('dataManager')
 export default class SearchElement extends React.Component {
   static propTypes = {
     changeInput: PropTypes.func.isRequired,
-    applyFirstElement: PropTypes.func
+    applyFirstElement: PropTypes.func,
+    filterType: PropTypes.string
   }
 
   inputTimeout = 0
@@ -24,7 +25,6 @@ export default class SearchElement extends React.Component {
     }
     this.handleSearch = this.handleSearch.bind(this)
     this.handleInputFocus = this.handleInputFocus.bind(this)
-    this.getPlaceholder = this.getPlaceholder.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
 
     this.mobileDetect = new MobileDetect(window.navigator.userAgent)
@@ -73,7 +73,6 @@ export default class SearchElement extends React.Component {
 
   handleSearch (e) {
     const inputVal = e.currentTarget.value
-    this.props.selectEvent && this.props.selectEvent.constructor === Function && this.props.selectEvent('0')
     this.setState({
       inputValue: inputVal
     })
@@ -88,41 +87,26 @@ export default class SearchElement extends React.Component {
     }, 400)
   }
 
-  getPlaceholder () {
-    let result = ''
-    const localizations = dataManager.get('localizations')
-
-    switch (this.props.inputPlaceholder) {
-      case 'elements':
-        result = localizations ? localizations.searchContentElements : 'Search for content elements'
-        break
-      case 'elements and templates':
-        result = localizations ? localizations.searchContentElementsAndTemplates : 'Search for content elements and templates'
-        break
-      case 'templates':
-        result = localizations ? localizations.searchContentTemplates : 'Search for templates'
-        break
-      default:
-        result = localizations ? localizations.searchContentElements : 'Search for content elements'
-    }
-
-    return result
-  }
-
   render () {
     const localizations = dataManager.get('localizations')
     const VCHubIsAnOnlineLibrary = localizations ? localizations.VCHubIsAnOnlineLibrary : '<a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.'
+    const placeholder = localizations ? localizations.searchWithinCategory : 'Search within this category'
+    const isDisabled = this.props.filterType === 'giphy' || this.props.filterType === 'unsplash'
 
     const inputContainerClasses = classNames({
       'vcv-ui-editor-search-field-container': true,
       'vcv-ui-editor-field-highlight': this.state.input
+    })
+    const labelClasses = classNames({
+      'vcv-ui-editor-search-icon-container': true,
+      'vcv-ui-editor-search-icon-container--disabled': isDisabled
     })
     const autofocus = !this.mobileDetect.mobile()
 
     return (
       <div className='vcv-ui-editor-search-container'>
         <div className={inputContainerClasses}>
-          <label className='vcv-ui-editor-search-icon-container' htmlFor='add-element-search'>
+          <label className={labelClasses} htmlFor='add-element-search'>
             <i className='vcv-ui-icon vcv-ui-icon-search' />
           </label>
           <input
@@ -132,10 +116,11 @@ export default class SearchElement extends React.Component {
             onFocus={this.handleInputFocus}
             type='text'
             ref={this.autoFocusInputRef}
-            placeholder={this.getPlaceholder()}
+            placeholder={placeholder}
             value={this.state.inputValue}
             autoFocus={typeof this.props.autoFocus !== 'undefined' ? this.props.autoFocus && autofocus : autofocus}
             onKeyPress={this.handleKeyPress}
+            disabled={isDisabled}
           />
         </div>
         <Tooltip>

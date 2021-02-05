@@ -10,6 +10,8 @@ const workspaceSettings = workspaceStorage.state('settings')
 const hubTemplateStorage = getStorage('hubTemplates')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
+const editorPopupStorage = getStorage('editorPopup')
+const settingsStorage = getStorage('settings')
 
 export default class HubTemplateControl extends ElementControl {
   constructor (props) {
@@ -26,6 +28,11 @@ export default class HubTemplateControl extends ElementControl {
   }
 
   downloadTemplate () {
+    if (settingsStorage.state('agreeHubTerms').get() === false) {
+      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadTemplate })
+      editorPopupStorage.state('activeFullPopup').set('terms-box')
+      return
+    }
     const { element, onDownloadItem } = this.props
     const errorMessage = localizations.templateDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this template.'
 
@@ -63,7 +70,7 @@ export default class HubTemplateControl extends ElementControl {
       elementState = myTemplatesService.findTemplateByBundle(element.bundle) ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
+    const lockIcon = (!element.allowDownload && elementState === 'inactive')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',
@@ -109,7 +116,7 @@ export default class HubTemplateControl extends ElementControl {
       if (lockIcon) {
         action = null
         // Add action on whole item
-        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template', (element.bundleType && element.bundleType.indexOf('free') > -1))
+        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template')
       } else {
         action = this.downloadTemplate
       }

@@ -266,9 +266,9 @@ export default class Popup extends React.Component {
   }
 
   getPremiumTeaser (isPremiumActivated) {
-    const goPremiumText = localizations.goPremium.toUpperCase() || 'GO PREMIUM'
-    const downloadAddonText = localizations.downloadTheAddon.toUpperCase() || 'DOWNLOAD THE ADDON'
-    const headingText = localizations.popupBuilderPremiumFeatureHeading.toUpperCase() || 'POPUP BUILDER IS A PREMIUM FEATURE'
+    const goPremiumText = localizations.goPremium || 'Go Premium'
+    const downloadAddonText = localizations.downloadTheAddon || 'Download Addon'
+    const headingText = localizations.popupBuilderPremiumFeatureHeading || 'Popup Builder is a Premium Feature'
     const buttonText = isPremiumActivated ? downloadAddonText : goPremiumText
     const descriptionFree = localizations.popupBuilderPremiumFeatureText || 'Build custom popups with the Visual Composer Popup Builder that is available with the premium version of the plugin.'
     const descriptionPremium = localizations.popupBuilderFeatureActivateAddonText || 'Build custom popups with the Visual Composer Popup Builder. It\'s available in the Visual Composer Hub.'
@@ -291,6 +291,7 @@ export default class Popup extends React.Component {
   render () {
     const isPremiumActivated = dataManager.get('isPremiumActivated')
     const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().popupBuilder
-    return isPremiumActivated && isAddonAvailable ? this.getPopupSettings() : this.getPremiumTeaser(isPremiumActivated)
+
+    return isAddonAvailable ? this.getPopupSettings() : this.getPremiumTeaser(isPremiumActivated)
   }
 }

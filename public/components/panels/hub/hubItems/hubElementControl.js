@@ -8,6 +8,8 @@ const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const hubElementsState = hubElementsStorage.state('elements')
+const editorPopupStorage = getStorage('editorPopup')
+const settingsStorage = getStorage('settings')
 
 export default class HubElementControl extends ElementControl {
   constructor (props) {
@@ -22,6 +24,11 @@ export default class HubElementControl extends ElementControl {
   }
 
   downloadElement () {
+    if (settingsStorage.state('agreeHubTerms').get() === false) {
+      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadElement })
+      editorPopupStorage.state('activeFullPopup').set('terms-box')
+      return
+    }
     const { element, onDownloadItem } = this.props
     const errorMessage = localizations.elementDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this content element.'
 
@@ -49,7 +56,7 @@ export default class HubElementControl extends ElementControl {
       }
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
+    const lockIcon = (!element.allowDownload && elementState === 'inactive')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',
@@ -95,7 +102,7 @@ export default class HubElementControl extends ElementControl {
       if (lockIcon) {
         action = null
         // Add action on whole item
-        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element', (element.bundleType && element.bundleType.indexOf('free') > -1))
+        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element')
       } else {
         action = this.downloadElement
       }

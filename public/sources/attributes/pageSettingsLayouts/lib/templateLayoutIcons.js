@@ -12,6 +12,8 @@ const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
+const hubAddonsStorage = getStorage('hubAddons')
+const notificationsStorage = getStorage('notifications')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
@@ -59,10 +61,10 @@ export default class TemplateLayoutIcons extends React.Component {
     if (isLocked) {
       const localizations = dataManager.get('localizations')
       const isPremiumActivated = dataManager.get('isPremiumActivated')
-      const goPremiumText = localizations ? localizations.goPremium.toUpperCase() : 'GO PREMIUM'
-      const downloadAddonText = localizations ? localizations.downloadTheAddon.toUpperCase() : 'DOWNLOAD THE ADDON'
+      const goPremiumText = localizations ? localizations.goPremium : 'Go Premium'
+      const downloadAddonText = localizations ? localizations.downloadTheAddon : 'Download The Addon'
       const fullScreenPopupData = {
-        headingText: localizations ? localizations.doMoreWithPremium.toUpperCase() : 'DO MORE WITH PREMIUM',
+        headingText: localizations ? localizations.doMoreWithPremium : 'Do More With Premium',
         buttonText: isPremiumActivated ? downloadAddonText : goPremiumText,
         description: localizations ? localizations.applyLayoutWithHFS : 'Apply a layout with a header, footer, and sidebar with Visual Composer Premium.',
         addonName: 'themeBuilder',
@@ -73,7 +75,7 @@ export default class TemplateLayoutIcons extends React.Component {
           action: 'addHub',
           options: {
             filterType: 'addon',
-            id: '4',
+            id: 3,
             bundleType: undefined
           }
         }
@@ -81,8 +83,21 @@ export default class TemplateLayoutIcons extends React.Component {
         const utm = dataManager.get('utm')
         fullScreenPopupData.url = utm['editor-layout-go-premium']
       }
-      editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
-      editorPopupStorage.trigger('showFullPagePopup')
+      const allAddons = hubAddonsStorage.state('addons').get()
+      if (allAddons.themeEditor && allAddons.themeBuilder) {
+        const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
+        notificationsStorage.trigger('add', {
+          position: 'top',
+          transparent: false,
+          rounded: false,
+          type: 'warning',
+          text: successMessage.replace('{name}', 'Theme Builder'),
+          time: 8000
+        })
+      } else {
+        editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
+        editorPopupStorage.state('activeFullPopup').set('premium-teaser')
+      }
       return
     }
     const layoutData = selectedTemplate.constructor === String ? selectedTemplate.split('__') : selectedTemplate.target && selectedTemplate.target.value && selectedTemplate.target.value.split('__')

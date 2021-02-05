@@ -5,6 +5,7 @@ import classNames from 'classnames'
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
 const workspaceStorage = getStorage('workspace')
+const notificationsStorage = getStorage('notifications')
 const localizations = dataManager.get('localizations')
 
 export default class PremiumTeaser extends React.Component {
@@ -33,16 +34,27 @@ export default class PremiumTeaser extends React.Component {
   }
 
   handleClick () {
-    this.setState({ isDownloading: true })
-
     const allAddons = hubAddonsStorage.state('addonTeasers').get()
     const addonIndex = allAddons.findIndex(addon => addon.tag === this.props.addonName)
     const addonData = allAddons[addonIndex]
+    const downloadedAddons = hubAddonsStorage.state('addons').get()
 
-    hubAddonsStorage.trigger('downloadAddon', addonData)
-
-    workspaceStorage.state('downloadingItems').onChange(this.checkDownloading)
-    this.props.onPrimaryButtonClick && this.props.onPrimaryButtonClick()
+    if (downloadedAddons[addonData.tag]) {
+      const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
+      notificationsStorage.trigger('add', {
+        position: 'top',
+        transparent: false,
+        rounded: false,
+        type: 'warning',
+        text: successMessage.replace('{name}', addonData.name),
+        time: 8000
+      })
+    } else {
+      this.setState({ isDownloading: true })
+      hubAddonsStorage.trigger('downloadAddon', addonData)
+      workspaceStorage.state('downloadingItems').onChange(this.checkDownloading)
+      this.props.onPrimaryButtonClick && this.props.onPrimaryButtonClick()
+    }
   }
 
   render () {

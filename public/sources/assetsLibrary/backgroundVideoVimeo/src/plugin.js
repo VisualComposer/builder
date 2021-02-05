@@ -55,13 +55,13 @@
           title: false,
           autoplay: true,
           loop: true,
-          muted: true
+          muted: true,
+          controls: false
         });
         this.vimeoPlayer.setVolume(0);
         this.vimeoPlayer.on('loaded', function () {
           // get player size
           var promises = [ _this.vimeoPlayer.getVideoWidth(), _this.vimeoPlayer.getVideoHeight() ];
-          // TODO: Polyfill that!
           Promise.all(promises).then(function (size) {
             _this.resizer.setAttribute('width', size[ 0 ]);
             _this.resizer.setAttribute('height', size[ 1 ]);

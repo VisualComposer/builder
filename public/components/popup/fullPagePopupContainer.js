@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import PremiumTeaser from 'public/components/premiumTeasers/component'
+import TermsBox from 'public/components/termsBox/component'
 
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
@@ -28,7 +29,7 @@ export default class FullPagePopupContainer extends React.Component {
   }
 
   componentWillUnmount () {
-    editorPopupStorage.state('activeFullPopup').onChange(this.handlePopupChange)
+    editorPopupStorage.state('activeFullPopup').ignoreChange(this.handlePopupChange)
   }
 
   handlePopupChange (activePopup) {
@@ -41,7 +42,7 @@ export default class FullPagePopupContainer extends React.Component {
   handleCloseClick () {
     this.setState({ popupVisible: false })
     window.setTimeout(() => {
-      editorPopupStorage.trigger('hideFullPagePopup')
+      editorPopupStorage.state('activeFullPopup').set(false)
     }, 350)
   }
 
@@ -73,8 +74,10 @@ export default class FullPagePopupContainer extends React.Component {
     }
     let activePopupHtml = null
 
-    if (activePopup) {
+    if (activePopup === 'premium-teaser') {
       activePopupHtml = <PremiumTeaser {...popupProps} />
+    } else if (activePopup === 'terms-box') {
+      activePopupHtml = <TermsBox onClose={this.handleCloseClick} />
     }
 
     return (

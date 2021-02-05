@@ -6,6 +6,8 @@ const hubAddonsStorage = getStorage('hubAddons')
 const eventsStorage = getStorage('events')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
+const editorPopupStorage = getStorage('editorPopup')
+const settingsStorage = getStorage('settings')
 
 export default class HubAddonControl extends React.Component {
   constructor (props) {
@@ -19,6 +21,12 @@ export default class HubAddonControl extends React.Component {
   }
 
   downloadAddon () {
+    if (settingsStorage.state('agreeHubTerms').get() === false) {
+      editorPopupStorage.state('fullScreenPopupData').set({ onPrimaryButtonClick: this.downloadAddon })
+      editorPopupStorage.state('activeFullPopup').set('terms-box')
+      return
+    }
+
     const { element, onDownloadItem } = this.props
     const errorMessage = localizations.addonDownloadRequiresUpdate || 'Update Visual Composer plugin to the most recent version to download this addon.'
 
@@ -43,25 +51,22 @@ export default class HubAddonControl extends React.Component {
       elementState = hubAddonsStorage.state('addons').get()[tag] ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
+    const lockIcon = (!element.allowDownload && elementState === 'inactive')
     const downloadAddonText = localizations.downloadAddonText || 'Download Addon'
     const addonInstalledText = localizations.installedText || 'Installed'
     const availableInPremiumText = localizations.availableInPremiumText || 'Available in Premium'
-    const isAddonLocked = (!element.allowDownload && elementState === 'inactive') || !dataManager.get('isAnyActivated')
     let buttonText
 
     let action = this.handleAddonClick
     if (elementState !== 'success') {
-      if (lockIcon) {
-        action = this.props.onClickGoPremium
-      } else {
+      if (!lockIcon) {
         action = this.downloadAddon
       }
     }
 
     if (elementState === 'success') {
       buttonText = addonInstalledText
-    } else if (isAddonLocked) {
+    } else if (lockIcon) {
       buttonText = availableInPremiumText
     } else if (elementState === 'inactive') {
       buttonText = downloadAddonText
@@ -73,6 +78,11 @@ export default class HubAddonControl extends React.Component {
     })
 
     let addonControl = <button className={buttonClasses} onClick={action}>{buttonText}</button>
+    if (elementState !== 'success' && lockIcon) {
+      const utm = dataManager.get('utm')
+      const buttonUrl = utm['editor-available-in-premium'].replace('{medium}', this.props.utmMedium)
+      addonControl = <a className={buttonClasses} href={buttonUrl} target='_blank' rel='noopener noreferrer'>{buttonText}</a>
+    }
 
     if (elementState === 'downloading') {
       addonControl = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
