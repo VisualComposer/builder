@@ -13,7 +13,7 @@ describe('Template Panel', function () {
 
       // 2. Create and save two templates
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
-      cy.contains('.vcv-ui-form-button', 'Templates').click()
+      cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
       cy.window().then((window) => {
         cy.route('POST', window.vcvAdminAjaxUrl).as('saveTemplate')
       })
@@ -58,10 +58,10 @@ describe('Template Panel', function () {
 
       // 6. Search for the saved template
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
-      cy.contains('.vcv-ui-form-button', 'Templates').click()
+      cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
       cy.get('#add-content-search[placeholder="Search for templates"]')
         .clear()
-        .type(settings.templateOneName)
+        .type(settings.templateOneName.toLowerCase())
 
       // 7. Add a template to the page
       cy.contains('.vcv-ui-item-element-name', settings.templateOneName)
@@ -84,7 +84,7 @@ describe('Template Panel', function () {
 
       // 10. Check template panel, template thumbnail should not exist
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
-      cy.contains('.vcv-ui-form-button', 'Templates').click()
+      cy.contains('.vcv-ui-navigation-slider-button', 'Templates').click()
       cy.get('.vcv-ui-item-element-name')
         .find('span')
         .contains(settings.templateOneName)

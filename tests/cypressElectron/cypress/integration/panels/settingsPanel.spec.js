@@ -27,8 +27,7 @@ describe('Settings Panel', function () {
 
       cy.wait('@setPostPermalink')
 
-      cy.get('.vcv-ui-panel-navigation-container .vcv-ui-form-dropdown')
-        .select('customCss_1')
+      cy.contains('.vcv-ui-panel-navigation-container .vcv-ui-navigation-slider-button', 'Custom CSS').click()
 
       cy.get('.vcv-ui-style-editor.vcv-ui-state--active .CodeMirror-code')
         .clear()
@@ -41,8 +40,8 @@ describe('Settings Panel', function () {
         .clear()
         .type(settings.globalCSSString, {parseSpecialCharSequences: false})
 
-      cy.get('.vcv-ui-panel-navigation-container .vcv-ui-form-dropdown')
-        .select('customJs_2')
+      cy.contains('.vcv-ui-panel-navigation-container .vcv-ui-navigation-slider-button', 'Custom JavaScript').click()
+
 
       cy.get('.vcv-ui-script-editor-tag')
         .contains('<footer>')

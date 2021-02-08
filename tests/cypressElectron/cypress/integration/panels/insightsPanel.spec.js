@@ -55,7 +55,7 @@ describe('Inisghts Panel', function () {
     })
 
     // Active tabs count
-    cy.get('.vcv-ui-tree-view-content:not(.vcv-ui-state--hidden) .vcv-ui-form-button-group-item')
+    cy.get('.vcv-ui-tree-view-content:not(.vcv-ui-state--hidden) .vcv-ui-navigation-slider-button')
       .its('length')
       .should('be.eq', 3) // This might change in the future
 
@@ -82,11 +82,11 @@ describe('Inisghts Panel', function () {
     })
 
     // Active tabs count
-    cy.get('.vcv-ui-tree-view-content:not(.vcv-ui-state--hidden) .vcv-ui-form-button-group-item')
+    cy.get('.vcv-ui-tree-view-content:not(.vcv-ui-state--hidden) .vcv-ui-navigation-slider-button')
       .its('length')
       .should('be.eq', 4) // This might change in the future
 
-    cy.contains('.vcv-ui-form-button', 'Critical')
+    cy.contains('.vcv-ui-navigation-slider-button', 'Critical')
       .click()
 
     cy.contains('.vcv-no-issues-heading', 'No Critical Issues Found')
