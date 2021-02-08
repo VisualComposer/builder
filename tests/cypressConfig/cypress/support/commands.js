@@ -93,7 +93,11 @@ Cypress.Commands.add('savePage', () => {
   cy.window().then((win) => {
     cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
   })
-  cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control').click()
+  cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
+  cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
+    .parent()
+    .click()
+
   cy.wait('@saveRequest')
 })
 
