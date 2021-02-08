@@ -188,7 +188,7 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 34.0 =
-*Release Date - 2021-02-05*
+*Release Date - 2021-02-08*
 
 ### Free:
 - Update: Free license activation removed to instantly access Visual Composer Hub
