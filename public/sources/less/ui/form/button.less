@@ -113,10 +113,15 @@
     padding: 11px 24px;
   }
 
-  .vcv-ui-wp-spinner,
+  .vcv-ui-wp-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
   .vcv-ui-wp-spinner::before {
-    height: 32px;
-    width: 32px;
+    height: 27px;
+    width: 27px;
+    opacity: 0.5;
   }
 }
 
@@ -142,6 +147,7 @@
   }
 }
 
+.vcv-ui-form-group.vcv-ui-form-button-group--attribute,
 .vcv-ui-form-button-group--attribute {
   border: @vcui-button-group-attribute-border;
   direction: ltr;
@@ -213,45 +219,6 @@
       .vcv-ui-form-button {
         border-left: none;
       }
-    }
-
-    &:hover,
-    &:focus {
-      .vcv-ui-form-button-group-dropdown {
-        display: flex;
-      }
-    }
-  }
-
-  .vcv-ui-form-button-group-dropdown {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    flex-direction: column;
-    border: @control-border;
-  }
-
-  .vcv-ui-form-button-group-dropdown-item {
-    border: none;
-    background: @control-background-color;
-    text-align: left;
-    border-radius: 0;
-    cursor: pointer;
-    border-bottom: @control-border;
-    color: @control-dropdown-color;
-    font-size: 12px;
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
-    min-width: 150px;
-    padding: 10px 15px;
-
-    &:last-child {
-      border-bottom: 0;
-    }
-
-    &.vcv-ui-form-button-group-dropdown-item--active,
-    &:hover {
-      background: @vcui-button-group-attribute-background-active;
     }
   }
 }

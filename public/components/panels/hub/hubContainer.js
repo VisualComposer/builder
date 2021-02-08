@@ -1,8 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import HubItemController from './hubItemController'
-import HubMenu from './hubMenu'
-import HubDropdown from './hubDropdown'
+import NavigationSlider from 'public/components/navigationSlider/navigationSlider'
 import Scrollbar from '../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
@@ -370,17 +369,15 @@ export default class HubContainer extends React.Component {
     return result
   }
 
-  getTypeControlProps () {
-    return {
-      categories: categories,
-      filterType: this.state.filterType,
-      bundleType: this.state.bundleType,
-      setFilterType: this.setFilterType
-    }
-  }
-
   getHubPanelControls () {
-    return <HubMenu {...this.getTypeControlProps()} />
+    const props = {
+      controls: categories,
+      activeSection: this.state.filterType,
+      activeSubControl: this.state.bundleType,
+      setActiveSection: this.setFilterType
+    }
+
+    return <NavigationSlider {...props} />
   }
 
   /**
@@ -557,9 +554,8 @@ export default class HubContainer extends React.Component {
       <div className={hubContainerClasses}>
         <div className='vcv-ui-tree-content'>
           {this.getSearchElement()}
-          {this.getHubPanelControls()}
-          <div className='vcv-ui-hub-dropdown-container'>
-            <HubDropdown {...this.getTypeControlProps()} />
+          <div className='vcv-ui-hub-control-container'>
+            {this.getHubPanelControls()}
           </div>
           <div className='vcv-ui-tree-content-section'>
             {notifications}
