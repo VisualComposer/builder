@@ -40,11 +40,14 @@ class DashboardController extends Container implements Module
 
         // @codingStandardsIgnoreLine
         global $wp_meta_boxes;
+
         // @codingStandardsIgnoreLine
         $dashboardWidgets = $wp_meta_boxes['dashboard']['normal']['core'];
         $visualcomposerBlogDashboard = ['visualcomposer-blog-dashboard' => $dashboardWidgets['visualcomposer-blog-dashboard']];
+
         unset($dashboardWidgets['visualcomposer-blog-dashboard']);
         $sortedDashboardWidgets = array_merge( $visualcomposerBlogDashboard, $dashboardWidgets );
+
         // @codingStandardsIgnoreLine
         $wp_meta_boxes['dashboard']['normal']['core'] = $sortedDashboardWidgets;
     }
