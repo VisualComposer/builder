@@ -20,12 +20,12 @@ class DashboardController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('wp_dashboard_setup', 'createNewsWidget');
-        $this->wpAddAction('wp_network_dashboard_setup', 'createNewsWidget');
+        $this->wpAddAction('wp_dashboard_setup', 'createNewsWidget', 1000);
+        $this->wpAddAction('wp_network_dashboard_setup', 'createNewsWidget', 1000);
     }
 
     /**
-     * Create Visual Composer News Widget in WordPress Dashboard
+     * Create Visual Composer News Widget in WordPress Dashboard, and place it at top
      */
     protected function createNewsWidget()
     {
@@ -37,6 +37,16 @@ class DashboardController extends Container implements Module
                 evcview('vendors/dashboard', ['rssItems' => $rssItems]);
             }
         );
+
+        // @codingStandardsIgnoreLine
+        global $wp_meta_boxes;
+        // @codingStandardsIgnoreLine
+        $dashboardWidgets = $wp_meta_boxes['dashboard']['normal']['core'];
+        $visualcomposerBlogDashboard = ['visualcomposer-blog-dashboard' => $dashboardWidgets['visualcomposer-blog-dashboard']];
+        unset($dashboardWidgets['visualcomposer-blog-dashboard']);
+        $sortedDashboardWidgets = array_merge( $visualcomposerBlogDashboard, $dashboardWidgets );
+        // @codingStandardsIgnoreLine
+        $wp_meta_boxes['dashboard']['normal']['core'] = $sortedDashboardWidgets;
     }
 
     /**
