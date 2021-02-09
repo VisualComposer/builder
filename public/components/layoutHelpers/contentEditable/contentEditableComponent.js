@@ -324,8 +324,8 @@ export default class ContentEditableComponent extends React.Component {
           this.iframeDocument.body.removeAttribute('vcv-tinymce-active')
         })
         editor.addButton('dotButton', {
-          icon: 'vcv-ui-icon-more-dots',
-          tooltip: 'Open Element in Edit Form',
+          icon: 'vcv-ui-icon-edit',
+          tooltip: 'Open Edit Form',
           onclick: this.handleMoreButtonClick
         })
       }
