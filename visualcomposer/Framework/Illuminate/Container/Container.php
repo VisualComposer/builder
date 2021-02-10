@@ -115,7 +115,7 @@ class Container implements ContainerContract
         // defined and will grab this "real" abstract class name and register this
         // alias with the container so that it can be used as a shortcut for it.
         if (is_array($abstract)) {
-            [$abstract, $alias] = $this->extractAlias($abstract);
+            list($abstract, $alias) = $this->extractAlias($abstract);
 
             $this->alias($abstract, $alias);
         }
@@ -194,7 +194,7 @@ class Container implements ContainerContract
         // are using the correct name when binding the type. If we get an alias it
         // will be registered with the container so we can resolve it out later.
         if (is_array($abstract)) {
-            [$abstract, $alias] = $this->extractAlias($abstract);
+            list($abstract, $alias) = $this->extractAlias($abstract);
 
             $this->alias($abstract, $alias);
         }
