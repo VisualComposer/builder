@@ -29,7 +29,13 @@ class Utm implements Helper
      */
     public function all()
     {
+        $licenseHelper = vchelper('License');
         $myVc = vcvenv('VCV_HUB_PUBLIC_URL');
+
+        $supportLinkSlug = 'no-account';
+        if ($licenseHelper->isPremiumActivated()) {
+            $supportLinkSlug = 'support';
+        }
 
         $source = 'vcwb';
         if (defined('VCV_AUTHOR_API_KEY')) {
@@ -59,8 +65,7 @@ class Utm implements Helper
             // Plugin Row Meta (changelog/more details) Direct URLS
             'wpplugins-meta-help-center' => 'https://visualcomposer.com/help/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=help-center-text',
             'wpplugins-meta-api' => 'https://visualcomposer.com/help/api/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=api-text',
-            'wpplugins-meta-premium-support' => rtrim($myVc, '\//')
-                . '/support/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=premium-support-text',
+            'wpplugins-meta-premium-support' => rtrim($myVc, '\//') . '/' . $supportLinkSlug . '/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=info&utm_content=premium-support-text',
 
             // Premium Promo Popup direct URL
             'editor-gopremium-popup-button' => 'https://visualcomposer.com/premium/?utm_source=' . $source
