@@ -42,8 +42,11 @@ export default class TreeViewLayout extends React.Component {
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.getScrollbarContent = this.getScrollbarContent.bind(this)
     this.dnd = new TreeViewDndManager()
+
+    const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+
     this.state = {
-      data: [],
+      data: data,
       selectedItem: null,
       outlineElementId: false
     }
@@ -78,14 +81,11 @@ export default class TreeViewLayout extends React.Component {
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateElementsData)
     layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
-    const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+
     if (this.props.isAttribute) {
       elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
     }
-    this.setState({
-      header: document.querySelector('.vcv-ui-navbar-container'),
-      data: data
-    })
+
     this.scrollTimeout = setTimeout(() => {
       this.handleScrollToElement(this.props.treeViewId)
     }, 1)
