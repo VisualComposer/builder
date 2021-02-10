@@ -166,6 +166,12 @@ export default class HFSDropdowns extends React.Component {
 
     if (layoutSettings.length) {
       layoutSettings.forEach((item, index) => {
+        const { type, value } = this.state.currentLayout
+        if (type === 'vc-custom-layout') {
+          item.data.customLayout = {
+            value: value
+          }
+        }
         layoutDropdowns.push(
           <LayoutDropdown layoutName={item.layoutName} data={item.data} key={`layout-settings-dropdown-${item.layoutName}-${index}`} />)
       })

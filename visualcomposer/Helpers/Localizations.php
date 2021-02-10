@@ -1344,6 +1344,10 @@ class Localizations extends Container implements Helper
                 'Preview, save, and publish your content.',
                 'visualcomposer'
             ),
+            'saveYourLayoutAsATemplate' => __(
+                'Save your layout as a template to reuse it in other locations faster.',
+                'visualcomposer'
+            ),
             'insightsIsAContentAnalysisTool' => __(
                 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.',
                 'visualcomposer'
@@ -1673,6 +1677,26 @@ class Localizations extends Container implements Helper
                 'Vimeo video link',
                 'visualcomposer'
             ),
+            'createHFS' => sprintf(
+                __(
+                    '%sCreate%s a new %s template.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}'
+            ),
+            'editHFSTemplate' => sprintf(
+                __(
+                    '%sEdit%s this %s template or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            )
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
