@@ -6,6 +6,7 @@ import { setupCake } from './setupCake'
 import '../polyfills/index'
 import 'public/sources/less/bootstrap/init.less'
 import 'public/sources/css/wordpress.less'
+import 'public/sources/css/editor.less'
 
 import 'public/variables'
 import 'public/config/wp-services'
