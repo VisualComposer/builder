@@ -24,11 +24,5 @@ export default {
   },
   mount (point, callback) {
     return innerAPI.mount(point, callback)
-  },
-  subscribe (event, callback) {
-    return innerAPI.subscribe(event, callback)
-  },
-  filter (name, callback) {
-    return innerAPI.filter(name, callback)
   }
 }
