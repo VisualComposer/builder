@@ -1,15 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import Content from './contentParts/content'
-import HubContainer from './hub/hubContainer'
-import TreeViewLayout from './treeView/treeViewLayout'
-import SettingsPanel from './settings/settingsPanel'
-import InsightsPanel from './insights/insightsPanel'
 import EditFormPanel from './editForm/lib/activitiesManager'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
-import AddContentPanel from './addContent/addContentPanel'
+import innerAPI from 'public/components/api/innerAPI'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 
@@ -42,6 +38,8 @@ export default class PanelsContainer extends React.Component {
     if (this.isMobile) {
       window.addEventListener('resize', this.updateOnResize)
     }
+
+    innerAPI.mount('panel:editElement', (props) => { return <EditFormPanel key={`panels-container-editElement-${props.elementAccessPoint.id}`} {...props} /> })
   }
 
   componentWillUnmount () {
@@ -59,70 +57,45 @@ export default class PanelsContainer extends React.Component {
   getContent () {
     const { content, settings, treeViewId } = this.props
     PanelsContainer.openedPanels[content] = true
-
+    const props = {}
     const response = []
     if (PanelsContainer.openedPanels.treeView) {
-      response.push(
-        <TreeViewLayout
-          key='panels-container-treeView'
-          treeViewId={treeViewId}
-          visible={content === 'treeView'}
-        />
-      )
+      props.visible = content === 'treeView'
+      props.treeViewId = treeViewId
+      response.push(innerAPI.pick('panel:treeView', null, props))
     }
     if (PanelsContainer.openedPanels.addElement) {
-      response.push(
-        <AddContentPanel
-          key='panels-container-addElement'
-          options={settings || { parent: {} }}
-          activeTab='addElement'
-          visible={content === 'addElement'}
-        />
-      )
+      props.visible = content === 'addElement'
+      props.options = settings || { parent: {} }
+      response.push(innerAPI.pick('panel:addElement', null, props))
     }
     if (PanelsContainer.openedPanels.addTemplate) {
-      response.push(
-        <AddContentPanel
-          key='panels-container-addTemplate'
-          options={settings || { parent: {} }}
-          activeTab='addTemplate'
-          visible={content === 'addTemplate'}
-        />
-      )
+      props.visible = content === 'addTemplate'
+      props.options = settings || { parent: {} }
+      response.push(innerAPI.pick('panel:addTemplate', null, props))
     }
     if (PanelsContainer.openedPanels.addHubElement) {
       const workspaceState = workspaceStorage.state('settings').get()
-      let options = {}
       if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
-        options = workspaceState.options
+        props.options = workspaceState.options
       }
-      response.push(
-        <HubContainer
-          key='panels-container-addHubElement'
-          parent={{}}
-          options={options}
-          namespace='editor'
-          visible={content === 'addHubElement'}
-        />
-      )
+      props.visible = content === 'addHubElement'
+      response.push(innerAPI.pick('panel:addHubElement', null, props))
     }
     if (PanelsContainer.openedPanels.insights) {
-      response.push(<InsightsPanel key='panels-container-insights' visible={content === 'insights'} />)
+      props.visible = content === 'insights'
+      response.push(innerAPI.pick('panel:insights', null, props))
     }
     if (PanelsContainer.openedPanels.settings) {
-      response.push(<SettingsPanel key='panels-container-settings' visible={content === 'settings'} />)
+      props.visible = content === 'settings'
+      response.push(innerAPI.pick('panel:settings', null, props))
     }
     if (PanelsContainer.openedPanels.editElement && settings && settings.elementAccessPoint) {
-      const activeTabId = settings.activeTab || ''
-      response.push(
-        <EditFormPanel
-          key={`panels-container-editElement-${settings.elementAccessPoint.id}`}
-          elementAccessPoint={settings.elementAccessPoint}
-          activeTabId={activeTabId}
-          options={settings.options || {}}
-          visible={content === 'editElement'}
-        />
-      )
+      props.visible = content === 'editElement'
+      props.options = settings.options || {}
+      props.activeTabId = settings.activeTab || ''
+      props.elementAccessPoint = settings.elementAccessPoint
+      response.push(innerAPI.pick('panel:editElement', null, props))
     }
 
     return response

@@ -2,6 +2,7 @@
 import vcCake from 'vc-cake'
 
 import 'public/tools/jqueryCaret' // used in tokenizationList.js
+import publicAPI from './components/api/publicAPI'
 
 import { start } from './components/editorInit/start'
 import heartbeat from './components/heartbeat/index'
@@ -33,3 +34,4 @@ import { rebuildPosts } from './components/editorInit/rebuildPosts'
 if (vcCake.env('VCV_DEBUG') === true) {
   window.app = vcCake
 }
+window.vc = publicAPI

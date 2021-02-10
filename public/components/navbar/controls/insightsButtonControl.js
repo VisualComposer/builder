@@ -2,6 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
+import innerAPI from 'public/components/api/innerAPI'
+import InsightsPanel from 'public/components/panels/insights/insightsPanel'
 
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
@@ -30,6 +32,8 @@ export default class InsightsButtonControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
+
+    innerAPI.mount('panel:insights', (props) => { return <InsightsPanel {...props} key='panels-container-insights' /> })
   }
 
   componentWillUnmount () {

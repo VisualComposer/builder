@@ -2,6 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
+import innerAPI from 'public/components/api/innerAPI'
+import SettingsPanel from 'public/components/panels/settings/settingsPanel'
 
 const settingsStorage = getStorage('settings')
 const workspaceContentState = getStorage('workspace').state('content')
@@ -36,6 +38,8 @@ export default class SettingsButtonControl extends NavbarContent {
     workspaceContentState.onChange(this.setActiveState)
     settingsStorage.state('customCss').onChange(this.checkSettings)
     settingsStorage.state('globalCss').onChange(this.checkSettings)
+
+    innerAPI.mount('panel:settings', (props) => { return <SettingsPanel key='panels-container-settings' {...props} /> })
   }
 
   componentWillUnmount () {
