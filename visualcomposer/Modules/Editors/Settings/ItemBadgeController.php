@@ -8,6 +8,7 @@ use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
+use VisualComposer\Helpers\Utm;
 use VisualComposer\Modules\Settings\Traits\Fields;
 
 if (!defined('ABSPATH')) {
@@ -100,16 +101,17 @@ class ItemBadgeController extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
+     * @param \VisualComposer\Helpers\Utm $utmHelper
      *
      * @return mixed|string
      */
-    protected function addBadgeHtml(Options $optionsHelper, Url $urlHelper)
+    protected function addBadgeHtml(Options $optionsHelper, Url $urlHelper, Utm $utmHelper)
     {
         $isEnabled = (bool)$optionsHelper->get('settings-item-badge-enabled', false);
         $badgeUrl = $urlHelper->assetUrl('images/created-with-badge.png');
 
         if ($isEnabled) {
-            echo '<div class="vcv-settings-badge"><img src="' . $badgeUrl . '" alt="" /></div>';
+            echo '<a class="vcv-settings-badge" target="_blank" href=' . esc_url($utmHelper->get('created-with-badge-button')) . '><img src="' . esc_url($badgeUrl) . '" alt="Created with Visual Composer" /></a>';
         }
     }
 }
