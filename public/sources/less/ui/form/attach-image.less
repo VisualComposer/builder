@@ -1,8 +1,6 @@
 @import '../../../assetsLibrary/imageFilter/src/imageFilter';
 
 .vcv-ui-form-attach-image {
-  margin: 0 -@vcui-attach-image-gap/2;
-
   .vcv-ui-form-link .vcv-ui-form-link-button-group {
     width: 100%;
   }
@@ -20,41 +18,96 @@
 }
 
 .vcv-ui-form-attach-image-item {
-  margin: @vcui-attach-image-gap/2;
-  overflow: hidden;
-  float: left;
   list-style: none;
+  margin-bottom: 10px;
 
   &.vcv-ui-form-attach-image-item--dragging {
     z-index: 9999999;
   }
 }
 
-.rtl .vcv-ui-form-attach-image-item {
-  float: right;
-}
-
-.vcv-ui-form-attach-image-item-wrapper {
-  display: flex;
-  align-items: center;
-}
-
 .vcv-ui-form-attach-image-item-inner {
   position: relative;
+  display: flex;
+  background: @vcv-color-white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .15);
+
+  .vcv-ui-form-attach-image-item-control,
+  .vcv-ui-dynamic-field-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 0;
+    outline: none;
+    line-height: 1;
+    text-decoration: none;
+    color: @vcui-attach-image-icon-color;
+    font-size: @vcui-attach-image-icon-font-size;
+    height: @vcui-attach-image-icon-size;
+    width: @vcui-attach-image-icon-size;
+    transition-duration: @vcui-form-transition-duration;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      color: @vcui-attach-image-icon-color-hover;
+      text-decoration: none;
+    }
+  }
+
+  .vcv-ui-form-attach-image-item-control--drag {
+    width: auto;
+    height: auto;
+    margin-left: -9px;
+    cursor: move;
+  }
 }
 
-.vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-item-inner {
-  margin-right: 5px;
-}
-
-.rtl .vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-item-inner {
-  margin-right: 0;
-  margin-left: 5px;
+.rtl .vcv-ui-form-attach-image-item-inner {
+  flex-direction: row-reverse;
 }
 
 .vcv-ui-form-attach-image-item-add-control {
   display: flex;
-  align-items: center;
+  .vcv-ui-form-attach-image-control,
+  .vcv-ui-dynamic-field-control {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    flex: 1 0 auto;
+    position: relative;
+    height: 50px;
+    padding: 0;
+    border: 2px dashed @vcui-attach-image-icon-color;
+    border-radius: 5px;
+    line-height: 1;
+    font-size: @vcui-attach-image-control-size;
+    color: @vcui-attach-image-icon-color;
+    transition-duration: @vcui-form-transition-duration;
+    transition-property: color;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: @vcui-attach-image-control-color-hover;
+      text-decoration: none;
+    }
+  }
+
+  &.vcv-ui-form-attach-image-item-has-dynamic {
+    .vcv-ui-form-attach-image-control {
+      margin-right: 4px;
+    }
+    .vcv-ui-dynamic-field-control {
+      margin-left: 4px;
+    }
+  }
 }
 
 .vcv-ui-form-attach-image-item-add-control.vcv-ui-form-attach-image-item-has-dynamic .vcv-ui-form-attach-image-control {
@@ -69,8 +122,8 @@
 .vcv-ui-form-attach-image-thumbnail {
   overflow: hidden;
   position: relative;
-  height: @vcui-attach-image-size;
-  width: @vcui-attach-image-size;
+  min-height: @vcui-attach-image-size;
+  min-width: @vcui-attach-image-size;
   margin: 0;
   padding: 0;
   #make-vcv-ui-form > .make-chess-background(@vcui-attach-image-grid-main-color, @vcui-attach-image-grid-secondary-color, @vcui-attach-image-grid-size);
@@ -97,81 +150,32 @@
 }
 
 .vcv-ui-form-attach-image-item-controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: @vcui-attach-image-hover-bg;
-  transition-duration: @vcui-form-transition-duration;
-  transition-property: opacity;
-  transition-timing-function: ease-in-out;
-  opacity: 0;
   display: flex;
-  flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
-
-  &:hover,
-  &:focus {
-    opacity: 1;
-  }
-
-  .vcv-ui-form-attach-image-item-control {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    outline: none;
-    line-height: 1;
-    text-decoration: none;
-    color: @vcui-attach-image-icon-color;
-    font-size: @vcui-attach-image-icon-size;
-    height: 2em;
-    width: 2em;
-    transition-duration: @vcui-form-transition-duration;
-    transition-property: color;
-    transition-timing-function: ease-in-out;
-    cursor: pointer;
-
-    &:hover {
-      color: @vcui-attach-image-icon-color-hover;
-      text-decoration: none;
-    }
-  }
-
-  .vcv-ui-form-attach-image-item-control-state--danger {
-    color: @vcui-attach-image-remove-color;
-    &:hover {
-      color: @vcui-attach-image-remove-color-hover;
-      text-decoration: none;
-    }
-  }
+  justify-content: flex-end;
+  flex: 1 0 auto;
 }
 
-.vcv-ui-form-attach-image-item {
-  .vcv-ui-form-attach-image-control {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    height: @vcui-attach-image-size;
-    width: @vcui-attach-image-size;
-    border: 1px dashed;
-    line-height: 1;
-    font-size: @vcui-attach-image-control-size;
-    color: @vcui-attach-image-control-color;
-    transition-duration: @vcui-form-transition-duration;
-    transition-property: color;
-    transition-timing-function: ease-in-out;
-    cursor: pointer;
-    background: #fff;
-    &:hover,
-    &:focus {
-      color: @vcui-attach-image-control-color-hover;
-      text-decoration: none;
-    }
+.rtl .vcv-ui-form-attach-image-item-controls {
+  flex-direction: row-reverse;
+}
+
+.vcv-ui-form-attach-image-description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 15px;
+  overflow: hidden;
+
+  b {
+    color: #363636;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: .3px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
