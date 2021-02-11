@@ -640,6 +640,26 @@ export default class Url extends Attribute {
           {this.drawModal()}
         </div>
       )
+    } else if (type && type === 'dynamic-content') {
+      linkDataHtml = (
+        <div className='vcv-ui-form-link-data'>
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Title: '
+            title={title}
+          >
+            {title}
+          </span>
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Url: '
+            title={`dynamic ${this.state.currentPostField}`}
+          >
+            {`dynamic ${this.state.currentPostField}`}
+          </span>
+          {this.drawModal()}
+        </div>
+      )
     } else {
       linkDataHtml = (
         <div className='vcv-ui-form-link-data'>
