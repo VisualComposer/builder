@@ -8,8 +8,8 @@ const dataManager = getService('dataManager')
 
 const SortableHandler = SortableHandle(({ title }) => {
   return (
-    <a className='vcv-ui-form-attach-image-item-control' title={title}>
-      <i className='vcv-ui-icon vcv-ui-icon-move' />
+    <a className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control--drag' title={title}>
+      <i className='vcv-ui-icon vcv-ui-icon-drag-dots' />
     </a>
   )
 })
@@ -51,21 +51,20 @@ export default class AttachImageList extends React.Component {
     const { fieldKey, value } = this.props
     const images = []
 
-    let oneMoreControl = ''
+    let sortableControl = ''
     if (this.props.options.multiple) {
-      oneMoreControl = (
+      sortableControl = (
         <SortableHandler title={moveImage} />
       )
-    } else {
-      oneMoreControl = (
-        <a
-          className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
-          title={editReplaceImage}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-edit' />
-        </a>
-      )
     }
+    const editControl = (
+      <a
+        className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
+        title={editReplaceImage}
+      >
+        <i className='vcv-ui-icon vcv-ui-icon-pencil-modern' />
+      </a>
+    )
 
     value && value.urls && value.urls.forEach((url, index) => {
       let imgUrl = ''
@@ -78,7 +77,8 @@ export default class AttachImageList extends React.Component {
       const childProps = {
         url: url,
         imgUrl: imgUrl,
-        oneMoreControl: oneMoreControl,
+        sortableControl: sortableControl,
+        editControl: editControl,
         onRemove: this.props.onRemove,
         getUrlHtml: this.props.getUrlHtml,
         imgId: value.ids[index],

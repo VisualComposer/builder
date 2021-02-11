@@ -59,7 +59,7 @@ export default class AttachImageItem extends React.Component {
   render () {
     const localizations = dataManager.get('localizations')
     const removeImage = localizations ? localizations.removeImage : 'Remove the image'
-    let { className, url, oneMoreControl, indexValue, imgUrl } = this.props
+    let { className, url, editControl, sortableControl, indexValue, imgUrl } = this.props
 
     className = classNames(className, {
       'vcv-ui-form-attach-image-item': true,
@@ -70,30 +70,35 @@ export default class AttachImageItem extends React.Component {
 
     let dynamicControl = null
     if (this.props.dynamicApi) {
-      dynamicControl = this.props.dynamicApi.renderOpenButton()
+      dynamicControl = this.props.dynamicApi.renderOpenButton(true)
     }
+    const fileName = imgUrl.split('/').pop()
 
     return (
       <li className={className}>
         <div className='vcv-ui-form-attach-image-item-wrapper'>
           <div className='vcv-ui-form-attach-image-item-inner'>
+            {sortableControl}
             <figure className='vcv-ui-form-attach-image-thumbnail'>
               <img src={imgUrl} />
             </figure>
+            <div className='vcv-ui-form-attach-image-description'>
+              <b title={fileName}>{fileName}</b>
+            </div>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
-              {oneMoreControl}
+              {dynamicControl}
+              {this.getLinkHtml(indexValue)}
+              {editControl}
               <a
                 className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
                 onClick={this.handleRemove.bind(this, indexValue)}
                 title={removeImage}
               >
-                <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
+                <i className='vcv-ui-icon vcv-ui-icon-close-modern' />
               </a>
             </div>
           </div>
-          {dynamicControl}
         </div>
-        {this.getLinkHtml(indexValue)}
       </li>
     )
   }
