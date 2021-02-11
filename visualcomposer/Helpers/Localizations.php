@@ -1314,10 +1314,6 @@ class Localizations extends Container implements Helper
                 'Preview, save, and publish your content.',
                 'visualcomposer'
             ),
-            'saveYourLayoutAsATemplate' => __(
-                'Save your layout as a template to reuse it in other locations faster.',
-                'visualcomposer'
-            ),
             'insightsIsAContentAnalysisTool' => __(
                 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.',
                 'visualcomposer'

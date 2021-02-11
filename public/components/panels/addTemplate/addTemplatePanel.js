@@ -461,7 +461,6 @@ export default class AddTemplatePanel extends React.Component {
     const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
-    const saveYourLayoutAsATemplate = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveYourLayoutAsATemplate : 'Save your layout as a template to reuse it in other locations faster.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {
@@ -499,12 +498,6 @@ export default class AddTemplatePanel extends React.Component {
     const saveTemplate = this.state.isRemoveStateActive ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
-          <div className='vcv-ui-form-group-heading-wrapper'>
-            <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
-            <Tooltip>
-              {saveYourLayoutAsATemplate}
-            </Tooltip>
-          </div>
           <form
             className='vcv-ui-save-template-form'
             onSubmit={this.handleSaveTemplate}
@@ -516,6 +509,7 @@ export default class AddTemplatePanel extends React.Component {
               value={this.state.templateName}
               onChange={this.handleChangeTemplateName}
               disabled={!!this.state.showSpinner}
+              placeholder={templateNameText}
             />
             <button
               className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
