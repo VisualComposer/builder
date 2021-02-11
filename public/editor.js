@@ -2,7 +2,6 @@
 import vcCake from 'vc-cake'
 
 import 'public/tools/jqueryCaret' // used in tokenizationList.js
-import publicAPI from './components/api/publicAPI'
 
 import { start } from './components/editorInit/start'
 import heartbeat from './components/heartbeat/index'
