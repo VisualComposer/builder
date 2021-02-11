@@ -25,6 +25,10 @@ if (!defined('ABSPATH')) {
                     <td><?php echo esc_html__('Templates', 'visualcomposer') ?>:</td>
                     <td><?php echo esc_html__('Which templates are used and downloaded, site and page ids (de-identified)', 'visualcomposer') ?></td>
                 </tr>
+                <tr>
+                    <td><?php echo esc_html__('System', 'visualcomposer') ?>:</td>
+                    <td><?php echo esc_html__('Plugin version, WordPress version, Active WordPress theme, PHP version', 'visualcomposer') ?></td>
+                </tr>
             </tbody>
         </table>
         <div class="vcv-description">

@@ -63,6 +63,8 @@ class Controller extends Container implements Module
     // NOTE: If you change anything in the data, you also need to change the information table here visualcomposer/resources/views/settings/fields/dataCollectionTable.php
     protected function sendUsageData()
     {
+        // @codingStandardsIgnoreLine
+        global $wp_version;
         $optionsHelper = vchelper('Options');
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         // Send usage data once in a day
@@ -82,7 +84,17 @@ class Controller extends Container implements Module
                     $templateUsage = get_post_meta($postId, '_' . VCV_PREFIX . 'templates', true);
 
                     if (unserialize($editorUsage)) {
-                        $usageStats[$hashedId]['editorUsage'] = unserialize($editorUsage);
+                        $activeTheme = wp_get_theme();
+                        $editorUsageData = unserialize($editorUsage);
+                        foreach ($editorUsageData as $key => $value) {
+                            $editorUsageData[$key]['phpVersion'] = phpversion();
+                            // @codingStandardsIgnoreLine
+                            $editorUsageData[$key]['wpVersion'] = $wp_version;
+                            $editorUsageData[$key]['vcvVersion'] = VCV_VERSION;
+                            $editorUsageData[$key]['activeTheme'] = $activeTheme->get('Name');
+                        }
+
+                        $usageStats[$hashedId]['editorUsage'] = $editorUsageData;
                     }
                     if (unserialize($elementUsage)) {
                         $usageStats[$hashedId]['elementUsage'] = unserialize($elementUsage);
