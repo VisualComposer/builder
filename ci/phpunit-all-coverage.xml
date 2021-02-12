@@ -20,7 +20,7 @@
   </php>
   <testsuites>
     <testsuite name="Whole project">
-      <directory prefix="test-" suffix=".php">../tests/phpunit</directory>
+      <directory suffix=".php">../tests/phpunit</directory>
     </testsuite>
   </testsuites>
   <logging/>
