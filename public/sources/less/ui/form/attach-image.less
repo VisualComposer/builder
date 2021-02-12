@@ -1,8 +1,26 @@
 @import '../../../assetsLibrary/imageFilter/src/imageFilter';
 
-.vcv-ui-form-attach-image {
-  .vcv-ui-form-link .vcv-ui-form-link-button-group {
-    width: 100%;
+.vcv-ui-form-attach-image .vcv-ui-form-attach-image-item-controls .vcv-ui-form-link {
+  .vcv-ui-dynamic-field-control {
+    display: none;
+  }
+
+  .vcv-ui-form-link-button {
+    border: none;
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    span {
+      display: none;
+    }
+  }
+
+  .vcv-ui-form-link-button .vcv-ui-icon-link {
+    &::before {
+      content: "\e919"; // updated icon from public/sources/fonts/VC-Icons/variables.less
+    }
   }
 }
 
@@ -35,7 +53,8 @@
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, .15);
 
   .vcv-ui-form-attach-image-item-control,
-  .vcv-ui-dynamic-field-control {
+  .vcv-ui-dynamic-field-control,
+  .vcv-ui-form-link .vcv-ui-form-link-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -179,99 +198,6 @@
   }
 }
 
-// url button styling
-
-.vcv-ui-form-attach-image-item .vcv-ui-form-link .vcv-ui-form-link-button {
-  padding: @vcui-attach-image-url-button-padding 0;
-  width: 100%;
-  font-size: @vcui-attach-image-url-button-font-size;
-}
-
-.vcv-ui-form-attach-image-url-dynamic,
-.vcv-ui-form-attach-image {
-  .vcv-ui-form-link {
-    max-width: 80px;
-    justify-content: center;
-
-    .vcv-ui-form-link-button-group {
-      justify-content: center;
-    }
-
-    .vcv-ui-dynamic-field-container {
-      flex-basis: auto;
-      background: transparent;
-      padding: 0;
-      border: none;
-    }
-
-    .vcv-ui-dynamic-field-controls {
-      direction: ltr;
-      flex-flow: row wrap;
-
-      .vcv-ui-icon {
-        background: #fff;
-        font-size: 12px;
-        padding: 6px;
-        color: #6f747b;
-        transition: background .2s;
-        border: 1px solid #d0d0d0;
-        border-radius: 0;
-        border-left: none;
-
-        &:hover {
-          background: #ddd;
-        }
-
-        &:first-child {
-          border-top-left-radius: 3px;
-          border-bottom-left-radius: 3px;
-          border-left: 1px solid #d0d0d0;
-        }
-
-        &:last-child {
-          border-top-right-radius: 3px;
-          border-bottom-right-radius: 3px;
-        }
-      }
-
-      .vcv-ui-icon-close {
-        font-size: 13px;
-      }
-    }
-  }
-}
-
-.vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link .vcv-ui-form-link-button-group,
-.vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link {
-  justify-content: flex-start;
-}
-
-
-.vcv-ui-form-group .vcv-ui-form-attach-image-url-dynamic .vcv-ui-form-link-button,
-.vcv-ui-form-attach-image-item .vcv-ui-form-link-button-group .vcv-ui-form-link-button {
-  width: auto;
-  padding: 6px 8px;
-  line-height: 13px;
-
-  .vcv-ui-icon {
-    vertical-align: middle;
-    font-size: 9px;
-  }
-}
-
-.vcv-ui-form-attach-image-url-dynamic.vcv-ui-form-attach-image-item-has-link-value,
-.vcv-ui-form-attach-image-item.vcv-ui-form-attach-image-item-has-link-value {
-  .vcv-ui-form-link .vcv-ui-form-link-button {
-    &.vcv-ui-form-button--default {
-      background-color: @vcui-button-default-background-hover;
-      &.vcv-ui-state--active,
-      &:hover {
-        background-color: @vcui-button-default-background;
-      }
-    }
-  }
-}
-
 .vcv-ui-form-attach-image-item .vcv-ui-form-button .vcv-ui-icon + * {
   margin-left: .6em;
 }
@@ -284,15 +210,6 @@
 .vcv-ui-form-attach-image-item .vcv-ui-form-button .vcv-ui-icon {
   font-size: @vcui-attach-image-url-button-icon-size;
   vertical-align: initial;
-}
-
-.vcv-ui-form-attach-image-item .vcv-ui-form-link {
-  margin-top: @vcui-attach-image-url-button-padding;
-  margin-bottom: @vcui-attach-image-url-button-padding;
-
-  .vcv-ui-form-link-title {
-    display: none;
-  }
 }
 
 .vcv-ui-form-attach-image-filter {

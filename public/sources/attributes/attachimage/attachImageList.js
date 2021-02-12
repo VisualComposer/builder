@@ -95,7 +95,6 @@ export default class AttachImageList extends React.Component {
           />
         )
       } else {
-        childProps.dynamicApi = this.props.dynamicApi
         images.push(
           <AttachImageItem
             key={index}
