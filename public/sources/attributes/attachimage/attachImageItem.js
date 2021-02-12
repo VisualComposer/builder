@@ -64,14 +64,9 @@ export default class AttachImageItem extends React.Component {
     className = classNames(className, {
       'vcv-ui-form-attach-image-item': true,
       'vcv-ui-form-attach-image-item-has-link-value': url.link && url.link.url,
-      'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait,
-      'vcv-ui-form-attach-image-item-has-dynamic': !!this.props.dynamicApi
+      'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait
     })
 
-    let dynamicControl = null
-    if (this.props.dynamicApi) {
-      dynamicControl = this.props.dynamicApi.renderOpenButton(true)
-    }
     const fileName = imgUrl.split('/').pop()
 
     return (
@@ -86,7 +81,6 @@ export default class AttachImageItem extends React.Component {
               <b title={fileName}>{fileName}</b>
             </div>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
-              {dynamicControl}
               {this.getLinkHtml(indexValue)}
               {editControl}
               <a
