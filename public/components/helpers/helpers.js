@@ -29,7 +29,12 @@ export default class Helpers extends React.Component {
     'plus-control': {
       heading: addContent,
       description: thisIsYourContentLibrary,
-      step: 1
+      step: 1,
+      icons: [{
+        icon: 'add',
+        left: -48,
+        top: -5
+      }]
     },
     'element-controls': {
       heading: elementControls,
@@ -46,22 +51,42 @@ export default class Helpers extends React.Component {
     'insights-control': {
       heading: insights,
       description: validateYourPage,
-      step: 4
+      step: 4,
+      icons: [{
+        icon: 'lamp',
+        left: -48,
+        top: -5
+      }]
     },
     'layout-control': {
       heading: responsiveView,
       description: checkHowYourPageLooksOnDifferentDevices,
-      step: 5
+      step: 5,
+      icons: [{
+        icon: 'desktop',
+        left: -48,
+        top: -5
+      }]
     },
     'hub-control': {
       heading: addPremiumElement,
       description: accessVisualComposerHub,
-      step: 6
+      step: 6,
+      icons: [{
+        icon: 'hub-shop',
+        left: -48,
+        top: -5
+      }]
     },
     'settings-control': {
       heading: onPageSettings,
       description: changeSettingsOfYourPageOrPost,
-      step: 7
+      step: 7,
+      icons: [{
+        icon: 'cog',
+        left: -48,
+        top: -5
+      }]
     },
     'save-control': {
       heading: publishingOptions,
@@ -69,7 +94,16 @@ export default class Helpers extends React.Component {
       step: 8,
       position: {
         vertical: 'bottom'
-      }
+      },
+      icons: [{
+        icon: 'save',
+        left: -48,
+        top: -34
+      }, {
+        icon: 'mobile-menu',
+        left: -66,
+        top: 25
+      }]
     }
   }
 
@@ -80,7 +114,8 @@ export default class Helpers extends React.Component {
     this.state = {
       activeStep: 1,
       isGuideVisible: true,
-      loaded: false
+      loaded: false,
+      defaultView: 'desktop'
     }
 
     this.iframeContentWindow = null
