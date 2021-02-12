@@ -75,8 +75,7 @@ export default class HelperContainer extends React.Component {
       )
     }
 
-    let helperIcons = []
-
+    const helperIcons = []
     if (this.props.helperData.icons) {
       this.props.helperData.icons.forEach((icon) => {
         const helperIconClasses = classNames({
