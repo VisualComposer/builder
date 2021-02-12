@@ -512,6 +512,10 @@ class Localizations extends Container implements Helper
                 'Remove dynamic content',
                 'visualcomposer'
             ),
+            'downloadDynamicContent' => __(
+                'Download Dynamic Content Addon',
+                'visualcomposer'
+            ),
             'dynamicAutocompleteDescription' => __(
                 'Select a page, post, or custom post type as the dynamic content source.',
                 'visualcomposer'
