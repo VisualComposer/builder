@@ -16,12 +16,19 @@ export default class AttachImageItem extends React.Component {
     super(props)
     this.getLinkHtml = this.getLinkHtml.bind(this)
     this.setImageClass = this.setImageClass.bind(this)
+    this.setSizeTitle = this.setSizeTitle.bind(this)
 
-    this.state = { imgPortrait: true }
+    this.state = {
+      imgPortrait: true,
+      imageSize: {}
+    }
+    this.imageRef = React.createRef()
   }
 
   componentDidMount () {
     this.checkImageSize(this.props.imgUrl, this.setImageClass)
+    const imgUrl = this.props.url.full.split('/').length > 1 ? this.props.url.full : this.props.imgUrl
+    this.checkImageSize(imgUrl, this.setSizeTitle)
   }
 
   /* eslint-disable */
@@ -56,6 +63,10 @@ export default class AttachImageItem extends React.Component {
     })
   }
 
+  setSizeTitle (size) {
+    this.setState({ imageSize: size })
+  }
+
   render () {
     const localizations = dataManager.get('localizations')
     const removeImage = localizations ? localizations.removeImage : 'Remove the image'
@@ -67,7 +78,8 @@ export default class AttachImageItem extends React.Component {
       'vcv-ui-form-attach-image-item-view--portrait': this.state.imgPortrait
     })
 
-    const fileName = imgUrl.split('/').pop()
+    const fileName = url && url.full ? url.full.split('/').pop() : imgUrl.split('/').pop()
+    const imageSize = this.state.imageSize.width ? `${this.state.imageSize.width}x${this.state.imageSize.height}` : ''
 
     return (
       <li className={className}>
@@ -79,6 +91,7 @@ export default class AttachImageItem extends React.Component {
             </figure>
             <div className='vcv-ui-form-attach-image-description'>
               <b title={fileName}>{fileName}</b>
+              <i>{imageSize}</i>
             </div>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
               {this.getLinkHtml(indexValue)}
