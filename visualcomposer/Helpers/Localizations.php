@@ -67,7 +67,7 @@ class Localizations extends Container implements Helper
             'globalJSLabel' => __('Apply custom Global Javascript code sitewide.', 'visualcomposer'),
             'save' => __('Save', 'visualcomposer'),
             'templateName' => __('Template Name', 'visualcomposer'),
-            'saveTemplate' => __('Save Template', 'visualcomposer'),
+            'savePreset' => __('Save Preset', 'visualcomposer'),
             'removeTemplate' => __('Remove Template', 'visualcomposer'),
             'templateSaveFailed' => __('Failed to save the template.', 'visualcomposer'),
             'downloadMoreTemplates' => __('Download More Templates', 'visualcomposer'),
