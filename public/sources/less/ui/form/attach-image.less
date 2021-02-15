@@ -181,13 +181,14 @@
 
 .vcv-ui-form-attach-image-description {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
   margin: 0 15px;
   overflow: hidden;
 
   b {
+    flex: 1 0 100%;
     color: #363636;
     font-size: 14px;
     line-height: 19px;
@@ -196,7 +197,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-bottom: 2px;
+    margin-bottom: -15px;
   }
 
   i {

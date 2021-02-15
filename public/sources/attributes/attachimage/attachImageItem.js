@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
+import { memoize } from 'lodash'
 
 const dataManager = getService('dataManager')
 
@@ -26,14 +27,21 @@ export default class AttachImageItem extends React.Component {
   }
 
   componentDidMount () {
-    this.checkImageSize(this.props.imgUrl, this.setImageClass)
+    this.checkImageDimensions(this.props.imgUrl, this.setImageClass)
     const imgUrl = this.props.url.full.split('/').length > 1 ? this.props.url.full : this.props.imgUrl
-    this.checkImageSize(imgUrl, this.setSizeTitle)
+    this.checkImageDimensions(imgUrl, this.setSizeTitle)
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.imgUrl !== this.props.imgUrl) {
+      const imgUrl = this.props.url.full.split('/').length > 1 ? this.props.url.full : this.props.imgUrl
+      this.checkImageDimensions(imgUrl, this.setSizeTitle)
+    }
   }
 
   /* eslint-disable */
   UNSAFE_componentWillReceiveProps (nextProps) {
-    this.checkImageSize(nextProps.imgUrl, this.setImageClass)
+    this.checkImageDimensions(nextProps.imgUrl, this.setImageClass)
   }
   /* eslint-enable */
 
@@ -45,7 +53,7 @@ export default class AttachImageItem extends React.Component {
     return this.props.getUrlHtml(key)
   }
 
-  checkImageSize (url, callback) {
+  checkImageDimensions (url, callback) {
     const img = new window.Image()
     img.onload = () => {
       const size = {
