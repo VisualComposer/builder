@@ -26,7 +26,6 @@ class HelpersLicenseTest extends WP_UnitTestCase
         $helper->setKey('foo-bar', $optionsHelper);
         $helper->setType('free', $optionsHelper);
 
-        $this->assertTrue($helper->isAnyActivated());
         $this->assertFalse($helper->isPremiumActivated());
 
         //reset

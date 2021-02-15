@@ -31,6 +31,9 @@ class Data implements Helper
             return false;
         }
         foreach ($array as $key => $innerArray) {
+            if (is_object($innerArray)) {
+                $innerArray = (array)$innerArray;
+            }
             $exists = isset($innerArray[ $column ]) && $innerArray[ $column ] === $value;
             if ($exists) {
                 if ($returnKey) {
@@ -128,6 +131,21 @@ class Data implements Helper
 
             unset($array[ array_shift($parts) ]);
         }
+    }
+
+    public function set(&$array, $keys, $value)
+    {
+        $items = &$array;
+
+        foreach (explode('.', $keys) as $key) {
+            if (!isset($items[ $key ]) || !is_array($items[ $key ])) {
+                $items[ $key ] = [];
+            }
+
+            $items = &$items[ $key ];
+        }
+        // Set the actual value (reference)
+        $items = $value;
     }
 
     /**
