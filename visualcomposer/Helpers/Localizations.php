@@ -1673,6 +1673,26 @@ class Localizations extends Container implements Helper
                 'Vimeo video link',
                 'visualcomposer'
             ),
+            'createHFS' => sprintf(
+                __(
+                    '%sCreate%s a new %s template.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}'
+            ),
+            'editHFSTemplate' => sprintf(
+                __(
+                    '%sEdit%s this %s template or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            )
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
