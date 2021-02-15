@@ -19,13 +19,14 @@ class WordpressController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:frontend:content:encode', 'fixWpEmbedShortcode');
+        $this->addFilter('vcv:frontend:content:encode', 'runNativeContentFilters');
 
         $requestHelper = vchelper('Request');
         if (
             ($requestHelper->exists('page') && strpos($requestHelper->input('page'), 'vcv') !== false) ||
             ($requestHelper->exists('post_type') && strpos($requestHelper->input('post_type'), 'vcv') !== false)
         ) {
-            add_filter('admin_footer_text', array($this, 'adminFooterText'), 100000, 1);
+            add_filter('admin_footer_text', [$this, 'adminFooterText'], 100000, 1);
         }
     }
 
@@ -35,10 +36,28 @@ class WordpressController extends Container implements Module
         global $wp_embed;
         $embedContent = $wp_embed->run_shortcode($content);
         $embedContent = $wp_embed->autoembed($embedContent);
-
         // @codingStandardsIgnoreEnd
 
         return $embedContent;
+    }
+
+    protected function runNativeContentFilters($content)
+    {
+        if (function_exists('wptexturize') && has_filter('the_content', 'wptexturize')) {
+            $content = wptexturize($content);
+        }
+
+        if (function_exists('prepend_attachment') && has_filter('the_content', 'prepend_attachment')) {
+            $content = prepend_attachment($content);
+        }
+        if (function_exists('wp_filter_content_tags') && has_filter('the_content', 'wp_filter_content_tags')) {
+            $content = wp_filter_content_tags($content);
+        }
+        if (function_exists('convert_smilies') && has_filter('the_content', 'convert_smilies')) {
+            $content = convert_smilies($content);
+        }
+
+        return $content;
     }
 
     public function adminFooterText($current)

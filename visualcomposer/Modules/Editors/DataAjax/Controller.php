@@ -122,17 +122,12 @@ class Controller extends Container implements Module
         Request $requestHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
-        global $post;
         if (!isset($payload['sourceId'])) {
             return ['status' => false]; // sourceId must be provided
         }
-
         $sourceId = $payload['sourceId'];
         if (!is_numeric($sourceId)) {
             $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
-        }
-        if (!empty($post)) {
-            $sourceId = $post->ID;
         }
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;

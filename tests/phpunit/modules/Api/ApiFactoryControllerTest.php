@@ -1,6 +1,6 @@
 <?php
 
-class TestApiFactoryController extends WP_UnitTestCase
+class ApiFactoryControllerTest extends WP_UnitTestCase
 {
     public function testRegister()
     {

@@ -6,7 +6,6 @@ class LicenseActivationTest extends WP_UnitTestCase
     {
         vchelper('Options')->setTransient('lastBundleUpdate', time());
         $this->assertNotEmpty(vcvenv('VCV_ACTIVATE_LICENSE_URL'));
-        $this->assertFalse(vchelper('License')->isAnyActivated());
         $loggerHelper = vchelper('Logger');
         $loggerHelper->reset();
 
