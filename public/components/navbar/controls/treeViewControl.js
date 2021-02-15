@@ -30,11 +30,7 @@ export default class TreeViewControl extends NavbarContent {
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    innerAPI.mount('panel:treeView', (props) => {
-      return (
-        <TreeViewLayout key='panels-container-treeView' {...props} />
-      )
-    })
+    innerAPI.mount('panel:treeView', () => <TreeViewLayout key='panels-container-treeView' />)
   }
 
   componentWillUnmount () {

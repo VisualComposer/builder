@@ -12,6 +12,7 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const hubTemplatesStorage = vcCake.getStorage('hubTemplates')
 const workspaceSettings = workspaceStorage.state('settings')
+const workspaceContentState = workspaceStorage.state('content')
 
 export default class AddContentPanel extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -23,7 +24,8 @@ export default class AddContentPanel extends React.Component {
 
     this.state = {
       searchValue: '',
-      isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
+      isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false,
+      isVisible: workspaceContentState.get() === props.activeTab
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
@@ -32,32 +34,34 @@ export default class AddContentPanel extends React.Component {
     this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
     this.handleSettingsClick = this.handleSettingsClick.bind(this)
     this.handleRemoveStateChange = this.handleRemoveStateChange.bind(this)
+    this.setVisibility = this.setVisibility.bind(this)
 
     workspaceStorage.state('isRemoveStateActive').onChange(this.handleRemoveStateChange)
   }
 
-  componentWillUnmount () {
-    workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
+  componentDidMount () {
+    workspaceContentState.onChange(this.setVisibility)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (nextProps && nextProps.visible !== this.props.visible) {
-      // Reset Search on re-open
-      this.setState({
-        searchValue: ''
-      })
-    }
+  componentWillUnmount () {
+    workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
+    workspaceContentState.ignoreChange(this.setVisibility)
+  }
+
+  setVisibility (activePanel) {
+    this.setState({
+      isVisible: activePanel === this.props.activeTab,
+      searchValue: ''
+    })
   }
 
   handleRemoveStateChange (newState) {
     this.setState({ isRemoveStateActive: newState })
   }
 
-  /* eslint-enable */
   setActiveSection (type) {
     const action = type === 'addTemplate' ? 'addTemplate' : 'add'
-    workspaceStorage.state('settings').set({
+    workspaceSettings.set({
       action: action,
       element: {},
       tag: '',
@@ -119,7 +123,7 @@ export default class AddContentPanel extends React.Component {
     let content = null
     if (this.props.activeTab === 'addElement') {
       content = (
-        <AddElementPanel key='addElementPanel' options={this.props.options} searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
+        <AddElementPanel key='addElementPanel' searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
       )
     } else if (this.props.activeTab === 'addTemplate') {
       content = (
@@ -130,7 +134,7 @@ export default class AddContentPanel extends React.Component {
     const addContentPanelClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-tree-view-content--full-width': true,
-      'vcv-ui-state--hidden': !this.props.visible
+      'vcv-ui-state--hidden': !this.state.isVisible
     })
 
     const closeTitle = AddContentPanel.localizations ? AddContentPanel.localizations.close : 'Close'
@@ -167,7 +171,7 @@ export default class AddContentPanel extends React.Component {
             searchValue={this.state.searchValue}
             searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
             setFirstElement={this.setFirstElement}
-            autoFocus={this.props.visible}
+            autoFocus={this.state.isVisible}
           />
           <div className='vcv-ui-add-content-panel-heading-controls'>
             {settingsControl}

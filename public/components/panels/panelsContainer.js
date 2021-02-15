@@ -1,22 +1,17 @@
 import React from 'react'
 import classNames from 'classnames'
 import Content from './contentParts/content'
-import EditFormPanel from './editForm/lib/activitiesManager'
+import EditFormPanel from './editForm/lib/editFormPanel'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
-import vcCake from 'vc-cake'
 import innerAPI from 'public/components/api/innerAPI'
-
-const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
     content: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node
-    ]),
-    settings: PropTypes.object,
-    treeViewId: PropTypes.string
+    ])
   }
 
   static openedPanels = {}
@@ -39,7 +34,7 @@ export default class PanelsContainer extends React.Component {
       window.addEventListener('resize', this.updateOnResize)
     }
 
-    innerAPI.mount('panel:editElement', (props) => { return <EditFormPanel key={`panels-container-editElement-${props.elementAccessPoint.id}`} {...props} /> })
+    innerAPI.mount('panel:editElement', () => <EditFormPanel key='panels-container-editElement' />)
   }
 
   componentWillUnmount () {
@@ -55,47 +50,28 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
-    const { content, settings, treeViewId } = this.props
-    PanelsContainer.openedPanels[content] = true
-    const props = {}
+    PanelsContainer.openedPanels[this.props.content] = true
     const response = []
     if (PanelsContainer.openedPanels.treeView) {
-      props.visible = content === 'treeView'
-      props.treeViewId = treeViewId
-      response.push(innerAPI.pick('panel:treeView', null, props))
+      response.push(innerAPI.pick('panel:treeView', null))
     }
     if (PanelsContainer.openedPanels.addElement) {
-      props.visible = content === 'addElement'
-      props.options = settings || { parent: {} }
-      response.push(innerAPI.pick('panel:addElement', null, props))
+      response.push(innerAPI.pick('panel:addElement', null))
     }
     if (PanelsContainer.openedPanels.addTemplate) {
-      props.visible = content === 'addTemplate'
-      props.options = settings || { parent: {} }
-      response.push(innerAPI.pick('panel:addTemplate', null, props))
+      response.push(innerAPI.pick('panel:addTemplate', null))
     }
     if (PanelsContainer.openedPanels.addHubElement) {
-      const workspaceState = workspaceStorage.state('settings').get()
-      if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
-        props.options = workspaceState.options
-      }
-      props.visible = content === 'addHubElement'
-      response.push(innerAPI.pick('panel:addHubElement', null, props))
+      response.push(innerAPI.pick('panel:addHubElement', null))
     }
     if (PanelsContainer.openedPanels.insights) {
-      props.visible = content === 'insights'
-      response.push(innerAPI.pick('panel:insights', null, props))
+      response.push(innerAPI.pick('panel:insights', null))
     }
     if (PanelsContainer.openedPanels.settings) {
-      props.visible = content === 'settings'
-      response.push(innerAPI.pick('panel:settings', null, props))
+      response.push(innerAPI.pick('panel:settings', null))
     }
-    if (PanelsContainer.openedPanels.editElement && settings && settings.elementAccessPoint) {
-      props.visible = content === 'editElement'
-      props.options = settings.options || {}
-      props.activeTabId = settings.activeTab || ''
-      props.elementAccessPoint = settings.elementAccessPoint
-      response.push(innerAPI.pick('panel:editElement', null, props))
+    if (PanelsContainer.openedPanels.editElement) {
+      response.push(innerAPI.pick('panel:editElement', null))
     }
 
     return response
@@ -107,7 +83,7 @@ export default class PanelsContainer extends React.Component {
       'vcv-layout-bar-content': true,
       'vcv-ui-state--visible': !!content,
       'vcv-layout-bar-content-mobile': this.isMobile,
-      'vcv-content-full-size': this.props.content === 'addHubElement'
+      'vcv-content-full-size': content === 'addHubElement'
     })
     const layoutStyle = {}
 
