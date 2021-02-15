@@ -1,0 +1,32 @@
+.vcv-settings-badge {
+  display: none;
+  position: fixed;
+  left: -3px;
+  padding: 8px 12px;
+  bottom: 80px;
+  border-radius: 0 6px 6px 0;
+  transition: all .2s;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+  animation: vcvSlideOnLoad 1s 1;
+  z-index: 99999;
+  background: #fff;
+
+  img {
+    width: 20px;
+  }
+  &:hover {
+    left: 0;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.6);
+  }
+}
+@keyframes vcvSlideOnLoad
+{
+  0% {left:-30px;}
+  100% {left:-3px;}
+}
+@media screen and (min-width: 768px) {
+  .vcv-settings-badge {
+    display: block;
+  }
+}

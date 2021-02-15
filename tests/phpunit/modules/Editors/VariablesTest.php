@@ -1,6 +1,6 @@
 <?php
 
-class TestVariables extends WP_UnitTestCase
+class VariablesTest extends WP_UnitTestCase
 {
     public function testVariablesTypes()
     {
@@ -38,7 +38,7 @@ class TestVariables extends WP_UnitTestCase
         $this->assertIsNumeric($keyEnv);
         $this->assertTrue(isset($variables[ $keyEnv ]));
         $this->assertTrue(isset($variables[ $keyEnv ]['value']));
-        $this->assertContains('VCV_HUB_URL', $variables[ $keyEnv ]['value']);
+        $this->arrayHasKey('VCV_HUB_URL', $variables[ $keyEnv ]['value']);
         $this->assertEquals(\VcvEnv::all(), $variables[ $keyEnv ]['value']);
     }
 
@@ -159,7 +159,6 @@ class TestVariables extends WP_UnitTestCase
         $this->assertContains('vcvGoPremiumUrl', $variableKeys, 'vcvGoPremiumUrl');
         $this->assertContains('vcvGettingStartedUrl', $variableKeys, 'vcvGettingStartedUrl');
         $this->assertContains('vcvGutenbergEditorUrl', $variableKeys, 'vcvGutenbergEditorUrl');
-        $this->assertContains('vcvIsAnyActivated', $variableKeys, 'vcvIsAnyActivated');
     }
 
     public function testJsonVariables()

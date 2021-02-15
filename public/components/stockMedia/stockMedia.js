@@ -50,7 +50,7 @@ export default class StockMedia extends React.Component {
 
   handleSearch () {
     const newState = {
-      searchValue: this.state.inputValue
+      searchValue: this.state.inputValue !== '' ? this.state.inputValue : this.state.searchValue
     }
     if (this.state.inputValue) {
       newState.isSearchUsed = true
