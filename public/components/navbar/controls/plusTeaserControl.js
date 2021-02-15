@@ -28,16 +28,7 @@ export default class PlusTeaserControl extends NavbarContent {
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    innerAPI.mount('panel:addHubElement', (props) => {
-      return (
-        <HubContainer
-          key='panels-container-addHubElement'
-          namespace='editor'
-          parent={{}}
-          {...props}
-        />
-      )
-    })
+    innerAPI.mount('panel:addHubElement', () => <HubContainer key='panels-container-addHubElement' namespace='editor' />)
   }
 
   componentWillUnmount () {

@@ -33,7 +33,7 @@ export default class InsightsButtonControl extends NavbarContent {
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    innerAPI.mount('panel:insights', (props) => { return <InsightsPanel {...props} key='panels-container-insights' /> })
+    innerAPI.mount('panel:insights', () => <InsightsPanel key='panels-container-insights' />)
   }
 
   componentWillUnmount () {

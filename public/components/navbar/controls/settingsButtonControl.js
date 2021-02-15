@@ -39,7 +39,7 @@ export default class SettingsButtonControl extends NavbarContent {
     settingsStorage.state('customCss').onChange(this.checkSettings)
     settingsStorage.state('globalCss').onChange(this.checkSettings)
 
-    innerAPI.mount('panel:settings', (props) => { return <SettingsPanel key='panels-container-settings' {...props} /> })
+    innerAPI.mount('panel:settings', () => <SettingsPanel key='panels-container-settings' />)
   }
 
   componentWillUnmount () {

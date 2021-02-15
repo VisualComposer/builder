@@ -30,25 +30,9 @@ export default class PlusControl extends NavbarContent {
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    innerAPI.mount('panel:addElement', (props) => {
-      return (
-        <AddContentPanel
-          key='panels-container-addElement'
-          activeTab='addElement'
-          {...props}
-        />
-      )
-    })
+    innerAPI.mount('panel:addElement', () => <AddContentPanel key='panels-container-addElement' activeTab='addElement' />)
 
-    innerAPI.mount('panel:addTemplate', (props) => {
-      return (
-        <AddContentPanel
-          key='panels-container-addTemplate'
-          activeTab='addTemplate'
-          {...props}
-        />
-      )
-    })
+    innerAPI.mount('panel:addTemplate', () => <AddContentPanel key='panels-container-addTemplate' activeTab='addTemplate' />)
   }
 
   componentWillUnmount () {
