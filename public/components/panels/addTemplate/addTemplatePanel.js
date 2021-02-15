@@ -503,7 +503,7 @@ export default class AddTemplatePanel extends React.Component {
             disabled={!!this.state.showSpinner}
           >
             <input
-              className='vcv-ui-form-input'
+              className='vcv-ui-form-input vcv-ui-editor-save-template-field'
               type='text'
               value={this.state.templateName}
               onChange={this.handleChangeTemplateName}
