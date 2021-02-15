@@ -17,7 +17,7 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
       <p className='vcv-ui-section-description'>{isRootElement ? templateHelperText : presetsHelperText}</p>
       <div className='vcv-ui-form-input-group'>
         <input
-          className='vcv-ui-form-input'
+          className='vcv-ui-form-input vcv-ui-editor-save-preset-field'
           type='text'
           onChange={handleNameChange}
           value={nameValue}
