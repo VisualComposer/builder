@@ -134,6 +134,10 @@ if (is_array($variables)) {
     margin-right: auto;
   }
 
+  #wpfooter #footer-left {
+      display: none;
+  }
+
   .vcv-thanks-message {
       position: absolute;
       bottom: 30px;
