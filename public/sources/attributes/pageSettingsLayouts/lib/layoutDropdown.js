@@ -18,14 +18,17 @@ export default class LayoutDropdown extends React.Component {
   constructor (props) {
     super(props)
     const layoutName = props.layoutName.toLowerCase()
-    const currentLayout = settingsStorage.state(`${layoutName}Template`).get() || props.data.current || 'default'
+    const currentLayout = settingsStorage.state(`${layoutName}Template`).get() || props.data.current || (this.getDefaultOptions() ? 'default' : 'none')
 
     this.state = {
       data: props.data,
       isListLoading: false,
-      current: currentLayout
+      isHelperLoading: true,
+      current: currentLayout,
+      editLink: null
     }
 
+    this.setEditLink(currentLayout)
     settingsStorage.state(`${layoutName}Template`).set(currentLayout)
 
     this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
@@ -73,6 +76,7 @@ export default class LayoutDropdown extends React.Component {
     if (value !== 'none' && !defaultValues.includes(value)) {
       value = parseInt(value)
     }
+    this.setEditLink(value)
     this.setState({
       current: value
     })
@@ -137,6 +141,9 @@ export default class LayoutDropdown extends React.Component {
   }
 
   getDefaultOptions () {
+    if (this.props.layoutName === 'Sidebar') {
+      return null
+    }
     const localizations = dataManager.get('localizations')
     let selectHFSText = localizations ? localizations.selectHFS : 'Default'
     const templateStorageData = settingsStorage.state('pageTemplate').get() || (dataManager.get('pageTemplatesLayoutsCurrent')) || {
@@ -156,18 +163,65 @@ export default class LayoutDropdown extends React.Component {
     }
   }
 
-  render () {
+  setEditLink (selectedValue) {
+    if (!this.state.isHelperLoading) {
+      this.setState({ isHelperLoading: true })
+    }
+    const layoutName = this.props.layoutName.toLowerCase()
+    const ajax = Utils.ajax
+    if (this.serverRequest) {
+      this.serverRequest.abort()
+    }
+
+    const { data } = this.props
+
+    this.serverRequest = ajax({
+      'vcv-action': 'layoutDropdown:' + layoutName + ':editLink:adminNonce',
+      'vcv-nonce': dataManager.get('nonce'),
+      'vcv-selected': selectedValue,
+      'vcv-custom-layout': data.customLayout && data.customLayout.value ? data.customLayout.value : null
+    }, (request) => {
+      const response = getResponse(request.response)
+      if (response && response.status) {
+        this.setState({ editLink: response.data, isListLoading: false, isHelperLoading: false })
+      }
+    })
+  }
+
+  getHFSText () {
+    const selectedValue = this.getSelectedValue()
+    const layoutName = this.props.layoutName
     const localizations = dataManager.get('localizations')
-    const chooseHFSText = localizations ? localizations.chooseHFS : 'Choose a {name} template from the list or <a href="{link}" target="_blank">create a new one</a>.'
-    const noneText = localizations ? localizations.none : 'None'
     const globalUrl = `vcvCreate${this.props.layoutName}`
     const createNewUrl = window[globalUrl] ? window[globalUrl] : ''
+    const noneText = localizations ? localizations.createHFS : '<a href="{link}" target="_blank">Create</a> a new {name} template.'
+    const chooseHFSText = localizations ? localizations.editHFSTemplate : '<a href="{editLink}" target="_blank">Edit</a> this {name} template or <a href="{createLink}" target="_blank">create</a> a new one.'
+    let text = ''
+
+    if (selectedValue === 'none' || !this.state.editLink) {
+      text = noneText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl)
+    } else {
+      text = chooseHFSText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{editLink}', this.state.editLink).replace('{createLink}', createNewUrl)
+    }
+
+    return text
+  }
+
+  render () {
+    const localizations = dataManager.get('localizations')
+    const chooseHFSText = this.getHFSText()
+    const noneText = localizations ? localizations.none : 'None'
+    let helperClasses = 'vcv-ui-form-helper'
 
     let spinnerHtml = null
     if (this.state.isListLoading) {
       spinnerHtml = (
         <span className='vcv-ui-wp-spinner' />
       )
+    }
+
+    if (this.state.isHelperLoading) {
+      helperClasses += ' vcv-ui-form-helper-loading'
     }
 
     return (
@@ -177,11 +231,11 @@ export default class LayoutDropdown extends React.Component {
           {spinnerHtml}
         </span>
         <select className='vcv-ui-form-dropdown' value={this.getSelectedValue()} onChange={this.handleChangeUpdateLayout} onClick={this.handleUpdateList}>
-          {this.props.layoutName !== 'Sidebar' ? this.getDefaultOptions() : null}
+          {this.getDefaultOptions()}
           <option value='none'>{noneText}</option>
           {this.getTemplateOptions()}
         </select>
-        <p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: chooseHFSText.replace('{name}', this.props.layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl) }} />
+        <p className={helperClasses} dangerouslySetInnerHTML={{ __html: chooseHFSText }} />
       </div>
     )
   }
