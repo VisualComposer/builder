@@ -120,6 +120,7 @@ class HelperFrontendTest extends WP_UnitTestCase
         wp_set_current_user(1);
         $originalContent = '[test-query-reset] first';
         $originalId = $this->createPost($originalContent, 'post');
+        $originalIdClone = $this->createPost($originalContent . 'clone', 'post');
         wp_reset_query();
         // override global query!
         global $wp_the_query, $wp_query, $post;
@@ -133,23 +134,24 @@ class HelperFrontendTest extends WP_UnitTestCase
         $wp_query = $generalQuery;
         $post = get_post($originalId);
         wp_reset_query();
+        $second = $this->createPost('second testQueryResetInsideLoop', 'post');
+        $third = $this->createPost('third testQueryResetInsideLoop', 'post');
+
         add_shortcode(
             'test-query-reset',
             function () {
                 ob_start();
-                $loop = new WP_Query('post_type=post&posts_per_page=1&order=DESC');
+                $loop = new WP_Query('post_type=post&posts_per_page=1&orderby=post_date&order=ASC');
                 while ($loop->have_posts()) {
                     $loop->the_post();
 
-                    echo 'title:' . get_the_title();
+                    echo 'title:' . get_the_title() . ':';
                 }
                 wp_reset_query();
 
-                return ob_get_clean();
+                return 'inside-shortcode' . ob_get_clean();
             }
         );
-
-        $second = $this->createPost('second testQueryResetInsideLoop', 'post');
 
         // This previously broke wp_the_query reference
         $secondContent = vchelper('Frontend')->renderContent($second);
@@ -159,7 +161,10 @@ class HelperFrontendTest extends WP_UnitTestCase
             the_content();
         }
         $content = ob_get_clean();
-        $this->assertEquals('<p>title:random title' . rawurlencode($originalContent) . ' first</p>', trim($content));
+        $this->assertEquals(
+            '<p>inside-shortcodetitle:random title%5Btest-query-reset%5D%20first: first</p>',
+            trim($content)
+        );
 
         wp_reset_query();
     }
@@ -178,6 +183,7 @@ class HelperFrontendTest extends WP_UnitTestCase
         );
         $this->assertTrue(is_numeric($postId));
         $this->assertTrue($postId > 0);
+        sleep(1); // this makes test stable in pipelines... maybe because of database instert timeout
 
         return $postId;
     }
