@@ -50,29 +50,15 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
+    if (!this.props.content) {
+      return null
+    }
     PanelsContainer.openedPanels[this.props.content] = true
     const response = []
-    if (PanelsContainer.openedPanels.treeView) {
-      response.push(innerAPI.pick('panel:treeView', null))
-    }
-    if (PanelsContainer.openedPanels.addElement) {
-      response.push(innerAPI.pick('panel:addElement', null))
-    }
-    if (PanelsContainer.openedPanels.addTemplate) {
-      response.push(innerAPI.pick('panel:addTemplate', null))
-    }
-    if (PanelsContainer.openedPanels.addHubElement) {
-      response.push(innerAPI.pick('panel:addHubElement', null))
-    }
-    if (PanelsContainer.openedPanels.insights) {
-      response.push(innerAPI.pick('panel:insights', null))
-    }
-    if (PanelsContainer.openedPanels.settings) {
-      response.push(innerAPI.pick('panel:settings', null))
-    }
-    if (PanelsContainer.openedPanels.editElement) {
-      response.push(innerAPI.pick('panel:editElement', null))
-    }
+    // Panel optimisation -> when panel first time rendered, we don't unmount panel, hiding panels with CSS
+    Object.keys(PanelsContainer.openedPanels).forEach((panelName) => {
+      response.push(innerAPI.pick(`panel:${panelName}`, null))
+    })
 
     return response
   }
