@@ -145,10 +145,11 @@ export default class DynamicAttribute extends React.Component {
     this.props.onClose && this.props.onClose(this)
   }
 
-  renderOpenButton () {
+  renderOpenButton (icon = false) {
     const classes = classNames({
       'vcv-ui-icon': true,
-      'vcv-ui-icon-plug': true,
+      'vcv-ui-icon-plug': !icon,
+      'vcv-ui-icon-plug-modern': icon,
       'vcv-ui-dynamic-field-control': true,
       'vcv-ui-dynamic-field-control--inactive': !env('VCV_JS_FT_DYNAMIC_FIELDS')
     })

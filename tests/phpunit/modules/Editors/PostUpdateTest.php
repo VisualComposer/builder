@@ -1,6 +1,6 @@
 <?php
 
-class TestPostUpdate extends WP_UnitTestCase
+class PostUpdateTest extends WP_UnitTestCase
 {
     public function testGetUpdateablePost()
     {
@@ -42,14 +42,13 @@ class TestPostUpdate extends WP_UnitTestCase
         // Previous test have Post Update action.
         $optionsHelper = vchelper('Options');
         $licenseHelper = vchelper('License');
-        $licenseHelper->setType('free');
-        $licenseHelper->setKey('test');
         $this->assertFalse($optionsHelper->get('bundleUpdateRequired'));
         $optionsHelper = vchelper('Options');
         $postId = $this->createPost('megaTest3');
         vchelper('PostType')->setupPost($postId);
         $optionsHelper->set('hubAction:updatePosts', [$postId]);
         $optionsHelper->set('bundleUpdateRequired', 1);
+        $optionsHelper->set('agreeHubTerms', time());
         $actions = vcapp(\VisualComposer\Helpers\Hub\Update::class)->getRequiredActions();
         $this->assertNotEmpty($actions);
         $exceptionCalled = false;
@@ -71,7 +70,7 @@ class TestPostUpdate extends WP_UnitTestCase
             $this->assertEquals(1, count($matches[0]), 'Visual Composer Post Update');
         }
 
-        $this->assertTrue($exceptionCalled);
+        $this->assertTrue($exceptionCalled, 'exception called successfully');
         $licenseHelper->setType('');
         $licenseHelper->setKey('');
     }
@@ -142,9 +141,6 @@ class TestPostUpdate extends WP_UnitTestCase
 
         preg_match_all('/window\.vcvGettingStartedUrl/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'vcvGettingStartedUrl');
-
-        preg_match_all('/window\.vcvIsAnyActivated/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'vcvIsAnyActivated');
 
         preg_match_all('/Object\.defineProperty\(window, \'VCV_LICENSE_KEY\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_LICENSE_KEY');
