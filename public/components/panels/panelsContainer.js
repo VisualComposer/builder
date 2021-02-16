@@ -50,10 +50,9 @@ export default class PanelsContainer extends React.Component {
   }
 
   getContent () {
-    if (!this.props.content) {
-      return null
+    if (this.props.content) {
+      PanelsContainer.openedPanels[this.props.content] = true
     }
-    PanelsContainer.openedPanels[this.props.content] = true
     const response = []
     // Panel optimisation -> when panel first time rendered, we don't unmount panel, hiding panels with CSS
     Object.keys(PanelsContainer.openedPanels).forEach((panelName) => {
