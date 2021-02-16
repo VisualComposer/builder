@@ -35,14 +35,9 @@ export default class AttachImageItem extends React.Component {
     if (prevProps.imgUrl !== this.props.imgUrl) {
       const imgUrl = this.props.url.full.split('/').length > 1 ? this.props.url.full : this.props.imgUrl
       this.checkImageDimensions(imgUrl, this.setSizeTitle)
+      this.checkImageDimensions(this.props.imgUrl, this.setImageClass)
     }
   }
-
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.checkImageDimensions(nextProps.imgUrl, this.setImageClass)
-  }
-  /* eslint-enable */
 
   handleRemove (key) {
     this.props.onRemove(key)
