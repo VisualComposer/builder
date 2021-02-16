@@ -23,12 +23,9 @@ export default class LayoutDropdown extends React.Component {
     this.state = {
       data: props.data,
       isListLoading: false,
-      isHelperLoading: true,
-      current: currentLayout,
-      editLink: null
+      current: currentLayout
     }
 
-    this.setEditLink(currentLayout)
     settingsStorage.state(`${layoutName}Template`).set(currentLayout)
 
     this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
@@ -76,7 +73,6 @@ export default class LayoutDropdown extends React.Component {
     if (value !== 'none' && !defaultValues.includes(value)) {
       value = parseInt(value)
     }
-    this.setEditLink(value)
     this.setState({
       current: value
     })
@@ -163,31 +159,6 @@ export default class LayoutDropdown extends React.Component {
     }
   }
 
-  setEditLink (selectedValue) {
-    if (!this.state.isHelperLoading) {
-      this.setState({ isHelperLoading: true })
-    }
-    const layoutName = this.props.layoutName.toLowerCase()
-    const ajax = Utils.ajax
-    if (this.serverRequest) {
-      this.serverRequest.abort()
-    }
-
-    const { data } = this.props
-
-    this.serverRequest = ajax({
-      'vcv-action': 'layoutDropdown:' + layoutName + ':editLink:adminNonce',
-      'vcv-nonce': dataManager.get('nonce'),
-      'vcv-selected': selectedValue,
-      'vcv-custom-layout': data.customLayout && data.customLayout.value ? data.customLayout.value : null
-    }, (request) => {
-      const response = getResponse(request.response)
-      if (response && response.status) {
-        this.setState({ editLink: response.data, isListLoading: false, isHelperLoading: false })
-      }
-    })
-  }
-
   getHFSText () {
     const selectedValue = this.getSelectedValue()
     const layoutName = this.props.layoutName
@@ -198,10 +169,12 @@ export default class LayoutDropdown extends React.Component {
     const chooseHFSText = localizations ? localizations.editHFSTemplate : '<a href="{editLink}" target="_blank">Edit</a> this {name} template or <a href="{createLink}" target="_blank">create</a> a new one.'
     let text = ''
 
-    if (selectedValue === 'none' || !this.state.editLink) {
+    if (typeof selectedValue !== 'number') {
       text = noneText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl)
     } else {
-      text = chooseHFSText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{editLink}', this.state.editLink).replace('{createLink}', createNewUrl)
+      let editLink = new URL(window.location.href).origin
+      editLink += `/wp-admin/post.php?post=${selectedValue}&action=edit`
+      text = chooseHFSText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{editLink}', editLink).replace('{createLink}', createNewUrl)
     }
 
     return text
@@ -211,17 +184,12 @@ export default class LayoutDropdown extends React.Component {
     const localizations = dataManager.get('localizations')
     const chooseHFSText = this.getHFSText()
     const noneText = localizations ? localizations.none : 'None'
-    let helperClasses = 'vcv-ui-form-helper'
 
     let spinnerHtml = null
     if (this.state.isListLoading) {
       spinnerHtml = (
         <span className='vcv-ui-wp-spinner' />
       )
-    }
-
-    if (this.state.isHelperLoading) {
-      helperClasses += ' vcv-ui-form-helper-loading'
     }
 
     return (
@@ -235,7 +203,7 @@ export default class LayoutDropdown extends React.Component {
           <option value='none'>{noneText}</option>
           {this.getTemplateOptions()}
         </select>
-        <p className={helperClasses} dangerouslySetInnerHTML={{ __html: chooseHFSText }} />
+        <p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: chooseHFSText }} />
       </div>
     )
   }
