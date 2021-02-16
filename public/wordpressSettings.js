@@ -40,8 +40,6 @@ export default function importJS (currentSection) {
   } else if (currentSection === 'vcv-system-status') {
     checkStatus()
     hoverTooltip()
-  } else if (currentSection === 'vcv-global-css-js') {
-    initEditors()
   } else if (currentSection === 'vcv-headers-footers') {
     hfSectionToggle()
     dropdownEditLink()

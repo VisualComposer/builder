@@ -5,7 +5,7 @@ import codeEditor from 'public/components/codeEditor/codeEditor'
 export const initEditors = () => {
   window.vcvIsCodeEditorsTouched = false
   // CSS PART
-  const submitBtn = document.querySelector('#submit_btn[name=submit_btn]')
+  const submitBtn = document.querySelector('#submit_btn-vcv-global-css-js')
   const setStatus = (status) => {
     if (!window.vcvIsCodeEditorsTouched) {
       window.vcvIsCodeEditorsTouched = true
