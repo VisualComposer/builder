@@ -1,3 +1,5 @@
+import React from 'react'
+import { env } from 'vc-cake'
 const components = {}
 export default {
   pick (point, component, options) {
@@ -9,9 +11,18 @@ export default {
         component = components[eventSplit].call(component, options)
       }
     })
-    return component
+    if (React.isValidElement(component)) {
+      return component
+    } else {
+      env('debug') && console.warn('Not a react element', point)
+    }
+    return null
   },
   mount (point, callback) {
-    components[point] = callback
+    if (typeof callback === 'function') {
+      components[point] = callback
+    } else {
+      env('debug') && console.warn('Not a correct callback', point)
+    }
   }
 }
