@@ -1,6 +1,6 @@
 <?php
 
-class TestMainPage extends WP_UnitTestCase
+class MainPageTest extends WP_UnitTestCase
 {
     public function testMainPageSlug()
     {
@@ -34,7 +34,6 @@ class TestMainPage extends WP_UnitTestCase
         $licenseHelper->setKey('test');
         $licenseHelper->setType('premium');
         $this->assertTrue($licenseHelper->isPremiumActivated(), 'isPremiumActivated');
-        $this->assertTrue($licenseHelper->isAnyActivated(), 'isAnyActivated');
 
         $this->assertEquals(
             'vcv-getting-started',

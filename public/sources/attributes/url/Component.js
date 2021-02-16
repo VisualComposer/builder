@@ -9,14 +9,15 @@ import PostsBlock from './PostsBlock'
 import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
 import { getService, getStorage, env } from 'vc-cake'
-import DynamicAttribute from '../dynamicField/dynamicAttribute'
-import Tooltip from '../../../components/tooltip/tooltip'
+import Tooltip from 'public/components/tooltip/tooltip'
+import DynamicPopupContent from 'public/sources/attributes/dynamicField/dynamicPopupContent'
 
 const dataManager = getService('dataManager')
-const { getBlockRegexp } = getService('utils')
+const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const popupStorage = getStorage('popup')
 const hubStorage = getStorage('hubAddons')
+const settingsStorage = getStorage('settings')
 
 const pagePosts = {
   data: [],
@@ -66,6 +67,9 @@ export default class Url extends Attribute {
     this.setPagePosts = this.setPagePosts.bind(this)
     this.setPopupPosts = this.setPopupPosts.bind(this)
     this.handlePopupHtmlLoad = this.handlePopupHtmlLoad.bind(this)
+    this.onCurrentPostFieldChange = this.onCurrentPostFieldChange.bind(this)
+    this.onSourceIdChange = this.onSourceIdChange.bind(this)
+    this.onShowAutocompleteChange = this.onShowAutocompleteChange.bind(this)
   }
 
   componentWillUnmount () {
@@ -90,14 +94,52 @@ export default class Url extends Attribute {
     }
 
     pagePosts.clear()
+
+    let showAutocomplete = false
+    let currentPostField = null
+    const postData = settingsStorage.state('postData').get()
+    let sourceId = postData.post_id
+    if (props.value.url && typeof props.value.url === 'string' && props.value.url.match(blockRegexp)) {
+      const blockInfo = parseDynamicBlock(props.value.url)
+      if (blockInfo && blockInfo.blockAtts) {
+        if (blockInfo.blockAtts.sourceId) {
+          // If sourceId explicitly set, then we expect that custom toggle is ON
+          showAutocomplete = true
+        }
+        sourceId = blockInfo.blockAtts.sourceId || dataManager.get('sourceID')
+        currentPostField = blockInfo.blockAtts.value
+      }
+      value.type = 'dynamic-content'
+    }
+    sourceId = parseInt(sourceId, 10)
+
     return {
       value: value,
       unsavedValue: value,
       isWindowOpen: (this.state && this.state.isWindowOpen) || false,
       updateState: false,
       shouldRenderExistingPosts: !!dataManager.get('ajaxUrl'),
-      isRequestInProcess: false
+      isRequestInProcess: false,
+      currentPostField: currentPostField,
+      showAutocomplete: showAutocomplete,
+      sourceId: sourceId
     }
+  }
+
+  onCurrentPostFieldChange (currentPostField) {
+    this.setState({ currentPostField: currentPostField })
+  }
+
+  onSourceIdChange (sourceId) {
+    this.setState({ sourceId: sourceId })
+  }
+
+  onShowAutocompleteChange (showAutocomplete, callback) {
+    this.setState({ showAutocomplete: showAutocomplete }, () => {
+      if (callback) {
+        callback()
+      }
+    })
   }
 
   ajaxPost (data, successCallback, failureCallback) {
@@ -194,6 +236,15 @@ export default class Url extends Attribute {
   handleSaveClick = (e) => {
     e.preventDefault()
     const valueToSave = Object.assign({}, this.state.unsavedValue)
+    if (valueToSave.type === 'dynamic-content') {
+      const { currentPostField, sourceId, showAutocomplete } = this.state
+      const newValue = this.props.onDynamicFieldChange(currentPostField, sourceId, showAutocomplete)
+      let fieldValue = newValue
+      if (newValue.fieldValue && newValue.dynamicValue) {
+        fieldValue = newValue.fieldValue
+      }
+      valueToSave.url = fieldValue
+    }
     this.setFieldValue(valueToSave)
 
     if (valueToSave.type === 'popup' && valueToSave.url) {
@@ -322,6 +373,8 @@ export default class Url extends Attribute {
     } else if (e.target.value === 'close-popup') {
       unsavedValue.type = 'close-popup'
       unsavedValue.url = '#close-popup'
+    } else if (e.target.value === 'dynamic-content') {
+      unsavedValue.type = 'dynamic-content'
     } else {
       this.loadPosts('', this.postAction, this.setPagePosts)
     }
@@ -341,23 +394,32 @@ export default class Url extends Attribute {
     const closingThePopupDescription = this.localizations ? this.localizations.closingThePopupDescription : 'Closing the popup option will close the current popup.'
     const downloadPopupBuilder = this.localizations ? this.localizations.downloadPopupBuilder : 'Download Popup Builder'
     const availableInPremiumText = this.localizations ? this.localizations.availableInPremiumText : 'Available in Premium'
+    let dynamicContent = this.localizations ? this.localizations.dynamicContent : 'Dynamic Content'
+    const downloadDynamicContent = this.localizations ? this.localizations.downloadDynamicContent : 'Download Dynamic Content Addon'
 
-    let optionDropdown = null
     let modalContent = null
     const dropdownValue = this.state.unsavedValue.type ? this.state.unsavedValue.type : 'url'
 
     const editorType = dataManager.get('editorType')
     const isPremiumActivated = dataManager.get('isPremiumActivated')
-    const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().popupBuilder
-    if (!isAddonAvailable) {
+    const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get()
+
+    if (!isAddonAvailable.popupBuilder) {
       if (isPremiumActivated) {
         openPopupText = `${openPopupText} (${downloadPopupBuilder})`
       } else {
         openPopupText = `${openPopupText} (${availableInPremiumText})`
       }
     }
+    if (!isAddonAvailable.dynamicFields) {
+      if (isPremiumActivated) {
+        dynamicContent = `${dynamicContent} (${downloadDynamicContent})`
+      } else {
+        dynamicContent = `${dynamicContent} (${availableInPremiumText})`
+      }
+    }
 
-    optionDropdown = (
+    const optionDropdown = (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>
           {onClickAction}
@@ -368,13 +430,29 @@ export default class Url extends Attribute {
           value={dropdownValue}
         >
           <option value='url'>{urlText}</option>
-          <option value='popup' disabled={!isAddonAvailable}>{openPopupText}</option>
+          <option value='dynamic-content' disabled={!isAddonAvailable.dynamicFields}>{dynamicContent}</option>
+          <option value='popup' disabled={!isAddonAvailable.popupBuilder}>{openPopupText}</option>
           {editorType === 'popup' ? <option value='close-popup'>{closePopupText}</option> : null}
         </select>
       </div>
     )
 
-    if (this.state.unsavedValue.type === 'close-popup') {
+    if (this.state.unsavedValue.type === 'dynamic-content') {
+      modalContent = (
+        <DynamicPopupContent
+          fieldType={this.props.fieldType}
+          value={this.state.value.url}
+          elementAccessPoint={this.props.elementAccessPoint}
+          renderExtraOptions={this.renderExtraDynamicOptions}
+          handleCurrentPostFieldChange={this.onCurrentPostFieldChange}
+          handleSourceIdChange={this.onSourceIdChange}
+          handleShowAutocompleteChange={this.onShowAutocompleteChange}
+          sourceId={this.state.sourceId}
+          currentPostField={this.state.currentPostField}
+          showAutocomplete={this.state.showAutocomplete}
+        />
+      )
+    } else if (this.state.unsavedValue.type === 'close-popup') {
       modalContent = (
         <div>
           <p className='vcv-ui-form-helper'>
@@ -562,6 +640,26 @@ export default class Url extends Attribute {
           {this.drawModal()}
         </div>
       )
+    } else if (type && type === 'dynamic-content') {
+      linkDataHtml = (
+        <div className='vcv-ui-form-link-data'>
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Title: '
+            title={title}
+          >
+            {title}
+          </span>
+          <span
+            className='vcv-ui-form-link-title'
+            data-vc-link-title='Url: '
+            title={`dynamic ${this.state.currentPostField}`}
+          >
+            {`dynamic ${this.state.currentPostField}`}
+          </span>
+          {this.drawModal()}
+        </div>
+      )
     } else {
       linkDataHtml = (
         <div className='vcv-ui-form-link-data'>
@@ -601,19 +699,8 @@ export default class Url extends Attribute {
 
     return (
       <div className='vcv-ui-form-link'>
-        <DynamicAttribute
-          {...this.props}
-          setFieldValue={this.dynamicAttributeChange}
-          value={url}
-          renderExtraOptions={this.renderExtraDynamicOptions}
-          onOpenClick={this.handleDynamicOpen}
-          render={this.customDynamicRender.bind(this)}
-          linkDataComponent={linkDataHtml}
-          linkButton={linkButton}
-        >
-          {linkButton}
-          {linkDataHtml}
-        </DynamicAttribute>
+        {linkButton}
+        {linkDataHtml}
       </div>
     )
   }

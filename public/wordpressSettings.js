@@ -29,7 +29,7 @@ import { downloadAddon } from './components/wpVcSettings/downloadAddon'
 })(window.jQuery)
 
 function isSettingsPage (current) {
-  const settingsPages = ['vcv-settings', 'vcv-headers-footers', 'vcv-custom-page-templates', 'vcv-maintenance-mode', 'vcv-custom-site-popups', 'vcv-system-status', 'vcv-license']
+  const settingsPages = ['vcv-settings', 'vcv-headers-footers', 'vcv-custom-page-templates', 'vcv-maintenance-mode', 'vcv-custom-site-popups', 'vcv-system-status', 'vcv-license', 'vcv-hub']
 
   return settingsPages.includes(current)
 }
