@@ -172,8 +172,8 @@ export default class LayoutDropdown extends React.Component {
     if (typeof selectedValue !== 'number') {
       text = noneText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{link}', createNewUrl)
     } else {
-      let editLink = new URL(window.location.href).origin
-      editLink += `/wp-admin/post.php?post=${selectedValue}&action=edit`
+      let editLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
+      editLink += `post.php?post=${selectedValue}&action=edit`
       text = chooseHFSText.replace('{name}', layoutName.toLocaleLowerCase()).replace('{editLink}', editLink).replace('{createLink}', createNewUrl)
     }
 
