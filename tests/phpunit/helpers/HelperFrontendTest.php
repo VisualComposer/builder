@@ -114,155 +114,13 @@ class HelperFrontendTest extends WP_UnitTestCase
         }
         wp_reset_query();
     }
-//
-//    public function testRenderContentWpQuery()
-//    {
-//        // render content must set global wp_query state
-//        $additionalPostId = $this->createPost(
-//            'additional content',
-//            'post'
-//        );
-//
-//        $testRenderContentWpQueryInsideLoop = false;
-//        $enteredToFilter = false;
-//        $theContentCallbackWithReset = function ($content) use (
-//            $additionalPostId,
-//            &$testRenderContentWpQueryInsideLoop,
-//            &$enteredToFilter
-//        ) {
-//            if ($testRenderContentWpQueryInsideLoop) {
-//                return $content;
-//            }
-//            $enteredToFilter = true;
-//            global $wp_query;
-//            $backup = clone $wp_query;
-//
-//            $wp_query = new \WP_Query(['post_type' => 'post', 'p' => $additionalPostId]);
-//            $additionalContent = '';
-//            $this->assertEquals(1, $wp_query->post_count);
-//            while ($wp_query->have_posts()) {
-//                $testRenderContentWpQueryInsideLoop = true;
-//                $wp_query->the_post();
-//                $this->assertEquals($additionalPostId, get_the_ID());
-//                ob_start();
-//                echo vchelper('Frontend')->renderContent(get_the_ID());
-//                $additionalContent .= ob_get_clean();
-//            }
-//            $wp_query = $backup;
-//            wp_reset_query();
-//
-//            return '<>' . $additionalContent . 'XXXXX:' . $content . '</>';
-//        };
-//
-//        $mainPostId = $this->createPost('<!--vcv no format-->must encode global content<!--vcv no format-->');
-//        update_post_meta($mainPostId, VCV_PREFIX . 'be-editor', 'be'); // needed for encode/decode functions
-//        add_filter(
-//            'the_content',
-//            $theContentCallbackWithReset,
-//            9
-//        ); // notice that priority 10 is default, encode is on 1, decode is on 10
-//        $this->createGlobalQuery();
-//        // problem is inside \VisualComposer\Modules\FrontView\FrontViewController::encode
-//        // when encode starts get_the_ID() is one
-//        // when decode start get_the_ID() is different
-//        // this caused because of wp_reset_query()
-//
-//        $frontView = vcapp(\VisualComposer\Modules\FrontView\FrontViewController::class);
-//        $frontView->encodePosts = [];
-//        $frontView->decodePosts = [];
-//        ob_start();
-//        echo vchelper('Frontend')->renderContent($mainPostId);
-//        $content = ob_get_clean(); // must not be encoded!!!
-//        $this->assertTrue($enteredToFilter);
-//        $this->assertEquals(
-//            '<p><></p>
-//<p>additional content</p>
-//<p>XXXXX:</p>
-//must encode global content
-//<p></></p>' . PHP_EOL,
-//            $content
-//        );
-//        $this->assertTrue($testRenderContentWpQueryInsideLoop);
-//
-//        remove_filter('the_content', $theContentCallbackWithReset);
-//    }
-//
-//    public function testRenderContentWpQueryRegular()
-//    {
-//        // render content must set global wp_query state
-//        $additionalPostId = $this->createPost(
-//            'additional content',
-//            'post'
-//        );
-//
-//        $testRenderContentWpQueryInsideLoop = false;
-//        $enteredToFilter = false;
-//        $theContentCallbackWithReset = function ($content) use (
-//            $additionalPostId,
-//            &$testRenderContentWpQueryInsideLoop,
-//            &$enteredToFilter
-//        ) {
-//            if ($testRenderContentWpQueryInsideLoop) {
-//                return $content;
-//            }
-//            $enteredToFilter = true;
-//
-//            query_posts(['post_type' => 'post', 'p' => $additionalPostId]);
-//            $additionalContent = '';
-//            global $wp_query;
-//            $this->assertEquals(1, $wp_query->post_count);
-//            while (have_posts()) {
-//                $testRenderContentWpQueryInsideLoop = true;
-//                the_post();
-//                $this->assertEquals($additionalPostId, get_the_ID());
-//                ob_start();
-//                echo vchelper('Frontend')->renderContent(get_the_ID());
-//                $additionalContent .= ob_get_clean();
-//            }
-//            wp_reset_query();
-//
-//            return '<>' . $additionalContent . 'XXXXX:' . $content . '</>';
-//        };
-//
-//        $mainPostId = $this->createPost('<!--vcv no format-->must encode global content<!--vcv no format-->');
-//        update_post_meta($mainPostId, VCV_PREFIX . 'be-editor', 'be'); // needed for encode/decode functions
-//        vchelper('Filters')->listen(
-//            'vcv:frontend:content',
-//            $theContentCallbackWithReset,
-//            9
-//        ); // notice that priority 10 is default, encode is on 1, decode is on 10
-//        $this->createGlobalQuery();
-//        // problem is inside \VisualComposer\Modules\FrontView\FrontViewController::encode
-//        // when encode starts get_the_ID() is one
-//        // when decode start get_the_ID() is different
-//        // this caused because of wp_reset_query()
-//
-//        $frontView = vcapp(\VisualComposer\Modules\FrontView\FrontViewController::class);
-//        $frontView->encodePosts = [];
-//        $frontView->decodePosts = [];
-//        ob_start();
-//        echo vchelper('Frontend')->renderContent($mainPostId);
-//        $content = ob_get_clean(); // must not be encoded!!!
-//        $this->assertTrue($enteredToFilter);
-//        $this->assertEquals(
-//            '<p><></p>
-//<p>additional content</p>
-//<p>XXXXX:</p>
-//must encode global content
-//<p></></p>' . PHP_EOL,
-//            $content
-//        );
-//        $this->assertTrue($testRenderContentWpQueryInsideLoop);
-//
-//        vchelper('Filters')->forget('vcv:frontend:content', $theContentCallbackWithReset);
-//    }
 
     public function testQueryResetInsideLoop()
     {
         wp_set_current_user(1);
         $originalContent = '[test-query-reset] first';
         $originalId = $this->createPost($originalContent, 'post');
-
+        wp_reset_query();
         // override global query!
         global $wp_the_query, $wp_query, $post;
         $generalQuery = new \WP_Query(
@@ -274,7 +132,7 @@ class HelperFrontendTest extends WP_UnitTestCase
         $wp_the_query = $generalQuery;
         $wp_query = $generalQuery;
         $post = get_post($originalId);
-
+        wp_reset_query();
         add_shortcode(
             'test-query-reset',
             function () {
