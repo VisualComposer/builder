@@ -75,12 +75,29 @@ export default class HelperContainer extends React.Component {
       )
     }
 
+    const helperIcons = []
+    if (this.props.helperData.icons) {
+      this.props.helperData.icons.forEach((icon) => {
+        const helperIconClasses = classNames({
+          'vcv-ui-navbar-control-icon': true,
+          'vcv-ui-icon': true,
+          [`vcv-ui-icon-${icon.icon}`]: true
+        })
+        const helperIconStyles = {
+          left: icon.left,
+          top: icon.top
+        }
+        helperIcons.push(<i className={helperIconClasses} style={helperIconStyles} key={icon.icon} />)
+      })
+    }
+
     return (
       <div className='vcv-helper' style={containerStyleProps}>
         <i
           className={iconClasses}
           onClick={handleActiveChange.bind(this, this.props.helperData.step)}
         />
+        {helperIcons}
         {helperContent}
         {helperImage}
       </div>

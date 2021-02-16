@@ -1,6 +1,6 @@
 <?php
 
-class TestElementsApiController extends WP_UnitTestCase
+class ElementsApiControllerTest extends WP_UnitTestCase
 {
     public function testElementsApi()
     {

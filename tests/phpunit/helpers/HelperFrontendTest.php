@@ -264,7 +264,7 @@ class HelperFrontendTest extends WP_UnitTestCase
         $originalId = $this->createPost($originalContent, 'post');
 
         // override global query!
-        global $wp_the_query, $wp_query;
+        global $wp_the_query, $wp_query, $post;
         $generalQuery = new \WP_Query(
             [
                 'post_type' => 'post',
@@ -273,6 +273,7 @@ class HelperFrontendTest extends WP_UnitTestCase
         );
         $wp_the_query = $generalQuery;
         $wp_query = $generalQuery;
+        $post = get_post($originalId);
 
         add_shortcode(
             'test-query-reset',
@@ -300,7 +301,7 @@ class HelperFrontendTest extends WP_UnitTestCase
             the_content();
         }
         $content = ob_get_clean();
-        $this->assertEquals('<p>title:random title' . md5($originalContent) . ' first</p>', trim($content));
+        $this->assertEquals('<p>title:random title' . rawurlencode($originalContent) . ' first</p>', trim($content));
 
         wp_reset_query();
     }
@@ -314,7 +315,7 @@ class HelperFrontendTest extends WP_UnitTestCase
                 'post_type' => $postType,
                 'post_content' => $content,
                 'post_status' => 'publish',
-                'post_title' => 'random title' . md5($content),
+                'post_title' => 'random title' . rawurlencode($content),
             ]
         );
         $this->assertTrue(is_numeric($postId));

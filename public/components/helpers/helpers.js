@@ -6,6 +6,7 @@ import lodash from 'lodash'
 
 const dataManager = vcCake.getService('dataManager')
 const elementsStorage = vcCake.getStorage('elements')
+const settingsStorage = vcCake.getStorage('settings')
 const localizations = dataManager.get('localizations')
 const addContent = localizations ? localizations.addContent : 'Add Content'
 const elementControls = localizations ? localizations.elementControls : 'Element Controls'
@@ -25,54 +26,6 @@ const changeSettingsOfYourPageOrPost = localizations.changeSettingsOfYourPageOrP
 const previewSaveAndPublish = localizations ? localizations.previewSaveAndPublish : 'Preview, save, and publish your content.'
 
 export default class Helpers extends React.Component {
-  helpers = {
-    'plus-control': {
-      heading: addContent,
-      description: thisIsYourContentLibrary,
-      step: 1
-    },
-    'element-controls': {
-      heading: elementControls,
-      description: useElementControls,
-      step: 2,
-      helperImage: 'vcv-helper-box-image element-controls'
-    },
-    'quick-actions': {
-      heading: quickActions,
-      description: useQuickActions,
-      step: 3,
-      helperImage: 'vcv-helper-box-image bottom-menu'
-    },
-    'insights-control': {
-      heading: insights,
-      description: validateYourPage,
-      step: 4
-    },
-    'layout-control': {
-      heading: responsiveView,
-      description: checkHowYourPageLooksOnDifferentDevices,
-      step: 5
-    },
-    'hub-control': {
-      heading: addPremiumElement,
-      description: accessVisualComposerHub,
-      step: 6
-    },
-    'settings-control': {
-      heading: onPageSettings,
-      description: changeSettingsOfYourPageOrPost,
-      step: 7
-    },
-    'save-control': {
-      heading: publishingOptions,
-      description: previewSaveAndPublish,
-      step: 8,
-      position: {
-        vertical: 'bottom'
-      }
-    }
-  }
-
   visibleItems = []
 
   constructor (props) {
@@ -80,7 +33,9 @@ export default class Helpers extends React.Component {
     this.state = {
       activeStep: 1,
       isGuideVisible: true,
-      loaded: false
+      loaded: false,
+      defaultView: 'desktop',
+      helpers: this.getHelperData()
     }
 
     this.iframeContentWindow = null
@@ -89,9 +44,15 @@ export default class Helpers extends React.Component {
     this.setNextActiveStep = this.setNextActiveStep.bind(this)
     this.closeGuide = this.closeGuide.bind(this)
     this.handleEditorLoaded = this.handleEditorLoaded.bind(this)
+    this.resetHelpersData = this.resetHelpersData.bind(this)
     this.resizeListener = lodash.debounce(this.resizeListener.bind(this), 50)
 
     elementsStorage.state('document').onChange(this.handleEditorLoaded)
+    settingsStorage.state('outputEditorLayoutDesktop').onChange(this.resetHelpersData)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('outputEditorLayoutDesktop').ignoreChange(this.resetHelpersData)
   }
 
   handleEditorLoaded () {
@@ -99,6 +60,94 @@ export default class Helpers extends React.Component {
     this.iframeContentWindow = window.document.querySelector('.vcv-layout-iframe').contentWindow
     this.iframeContentWindow.addEventListener('resize', this.resizeListener)
     elementsStorage.state('document').ignoreChange(this.handleEditorLoaded)
+  }
+
+  resetHelpersData () {
+    this.setState({ helpers: this.getHelperData() })
+  }
+
+  getHelperData () {
+    return {
+      'plus-control': {
+        heading: addContent,
+        description: thisIsYourContentLibrary,
+        step: 1,
+        icons: [{
+          icon: 'add',
+          left: -48,
+          top: -5
+        }]
+      },
+      'element-controls': {
+        heading: elementControls,
+        description: useElementControls,
+        step: 2,
+        helperImage: 'vcv-helper-box-image element-controls'
+      },
+      'quick-actions': {
+        heading: quickActions,
+        description: useQuickActions,
+        step: 3,
+        helperImage: 'vcv-helper-box-image bottom-menu'
+      },
+      'insights-control': {
+        heading: insights,
+        description: validateYourPage,
+        step: 4,
+        icons: [{
+          icon: 'lamp',
+          left: -48,
+          top: -5
+        }]
+      },
+      'layout-control': {
+        heading: responsiveView,
+        description: checkHowYourPageLooksOnDifferentDevices,
+        step: 5,
+        icons: [{
+          icon: settingsStorage.state('outputEditorLayoutDesktop').get() === 'dynamic' ? 'multiple-devices' : 'desktop',
+          left: -48,
+          top: -5
+        }]
+      },
+      'hub-control': {
+        heading: addPremiumElement,
+        description: accessVisualComposerHub,
+        step: 6,
+        icons: [{
+          icon: 'hub-shop',
+          left: -48,
+          top: -5
+        }]
+      },
+      'settings-control': {
+        heading: onPageSettings,
+        description: changeSettingsOfYourPageOrPost,
+        step: 7,
+        icons: [{
+          icon: 'cog',
+          left: -48,
+          top: -5
+        }]
+      },
+      'save-control': {
+        heading: publishingOptions,
+        description: previewSaveAndPublish,
+        step: 8,
+        position: {
+          vertical: 'bottom'
+        },
+        icons: [{
+          icon: 'save',
+          left: -48,
+          top: -34
+        }, {
+          icon: 'mobile-menu',
+          left: -66,
+          top: 25
+        }]
+      }
+    }
   }
 
   resizeListener () {
@@ -156,7 +205,7 @@ export default class Helpers extends React.Component {
       const width = boundingRect.width
       const height = boundingRect.height
       const helperId = item.getAttribute('data-vcv-guide-helper')
-      const helperData = this.helpers[helperId]
+      const helperData = this.state.helpers[helperId]
 
       if (this.isInViewPort(item)) {
         helperData.left = left + width

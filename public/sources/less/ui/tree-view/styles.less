@@ -206,6 +206,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
   > * {
     flex-grow: 0;
     flex-shrink: 0;
@@ -221,6 +222,22 @@
   text-overflow: ellipsis;
   padding-left: @tree-gold-value / 2 + 5;
   padding-right: @tree-gold-value / 2;
+
+  span {
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 1px 10px;
+    margin-left: 5px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: inherit;
+
+    &:hover,
+    &:focus {
+      border: 2px solid rgba(73, 109, 163, 0.5);
+    }
+  }
 }
 
 .vcv-ui-tree-layout-control-mobile {
