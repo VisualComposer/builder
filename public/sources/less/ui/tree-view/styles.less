@@ -215,7 +215,7 @@
 }
 
 .vcv-ui-tree-layout-control-label {
-  flex-grow: 1;
+  flex-grow: 0;
   flex-shrink: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -226,7 +226,7 @@
   span {
     border: 2px solid transparent;
     border-radius: 12px;
-    padding: 1px 10px;
+    padding: 5px 10px;
     margin-left: 5px;
     display: block;
     overflow: hidden;
@@ -275,6 +275,8 @@
 
 //== control actions
 .vcv-ui-tree-layout-control-actions {
+  flex-grow: 1;
+  text-align: right;
   opacity: 1;
   transition: opacity @transition-duration @transition-timing-function;
 }
