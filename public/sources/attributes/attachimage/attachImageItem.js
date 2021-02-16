@@ -2,7 +2,6 @@ import React from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
-import { memoize } from 'lodash'
 
 const dataManager = getService('dataManager')
 
@@ -89,6 +88,11 @@ export default class AttachImageItem extends React.Component {
     const fileName = url && url.full ? url.full.split('/').pop() : imgUrl.split('/').pop()
     const imageSize = this.state.imageSize.width ? `${this.state.imageSize.width}x${this.state.imageSize.height}` : ''
 
+    let dynamicControl = null
+    if (this.props.dynamicApi) {
+      dynamicControl = this.props.dynamicApi.renderOpenButton(true)
+    }
+
     return (
       <li className={className}>
         <div className='vcv-ui-form-attach-image-item-wrapper'>
@@ -102,6 +106,7 @@ export default class AttachImageItem extends React.Component {
               <i>{imageSize}</i>
             </div>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
+              {dynamicControl}
               {this.getLinkHtml(indexValue)}
               {editControl}
               <a
