@@ -1,4 +1,5 @@
 /* global describe, it, cy */
+const treeViewSelector = '.vcv-ui-navbar-control[title="Tree View (⇧T)"]'
 
 describe('Tree View', function () {
   it('Adds element to the page, check Tree View panel functionality', function () {
@@ -33,11 +34,12 @@ describe('Tree View', function () {
         })
       }
 
-      settings.elements.forEach((element) => {
-        cy.addElement(element)
+      settings.elements.forEach((element, i) => {
+        const isInitial = i === 0
+        cy.addElement(element, isInitial)
       })
 
-      cy.get('.vcv-ui-navbar-control[title="Tree View"]').click()
+      cy.get(treeViewSelector).click()
 
       cy.get('.vcv-ui-tree-layout .vcv-ui-tree-layout-node-child')
         .its('length')
@@ -55,7 +57,7 @@ describe('Tree View', function () {
         cy.addElement(element)
       })
 
-      cy.get('.vcv-ui-navbar-control[title="Tree View"]').click()
+      cy.get(treeViewSelector).click()
 
       cy.get('.vcv-ui-tree-layout-control')
         .first()
@@ -65,7 +67,7 @@ describe('Tree View', function () {
       cy.get('.vcv-ui-form-group-heading')
         .contains('Row')
 
-      cy.get('.vcv-ui-navbar-control[title="Tree View"]').click()
+      cy.get(treeViewSelector).click()
 
       cy.get('.vcv-ui-tree-layout-control')
         .first()
