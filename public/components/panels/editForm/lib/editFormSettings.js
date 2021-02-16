@@ -8,7 +8,7 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
   const templateHelperText = localizations ? localizations.templateHelperText : 'Change the default parameters of the section to save it as a unique block template. The new block template will be added to your library.'
   const saveAsPreset = localizations ? localizations.saveAsPreset : 'Save as a Preset'
   const saveAsTemplate = localizations ? localizations.saveAsTemplate : 'Save as a Template'
-  const presetNameText = localizations ? localizations.presetName : 'Preset Name'
+  const enterPresetNameText = localizations ? localizations.enterPresetName : 'Enter preset name'
   const buttonText = isRootElement ? saveAsTemplate : saveAsPreset
 
   return (
@@ -22,7 +22,7 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
           onChange={handleNameChange}
           value={nameValue}
           disabled={!!showSpinner}
-          placeholder={presetNameText}
+          placeholder={enterPresetNameText}
         />
         <button className='vcv-ui-form-button vcv-ui-form-button--action' disabled={!!showSpinner}>
           {buttonText}
