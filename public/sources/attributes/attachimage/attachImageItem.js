@@ -97,7 +97,7 @@ export default class AttachImageItem extends React.Component {
               <img src={imgUrl} />
             </figure>
             <div className='vcv-ui-form-attach-image-description'>
-              <b title={fileName}>{fileName}</b>
+              <span title={fileName}>{fileName}</span>
               <i>{imageSize}</i>
             </div>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
