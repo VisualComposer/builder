@@ -4,7 +4,6 @@
     "access": "public",
     "value": "single-image.jpg",
     "options": {
-      "label": "Image",
       "multiple": false,
       "dynamicField": true,
       "defaultValue": "single-image.jpg",
