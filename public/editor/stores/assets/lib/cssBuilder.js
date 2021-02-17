@@ -116,7 +116,9 @@ export default class CssBuilder {
       this.addElementJobsToStorage(data, false)
       const jobsElements = (assetsStorage.state('jobs').get() && assetsStorage.state('jobs').get().elements) || []
       elementsStorage.trigger(`element:${data.id}:assets`, { elements: jobsElements })
-      this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
+      window.setTimeout(() => {
+        this.window.vcv.trigger('ready', 'add', data.id, {}, data.tag)
+      }, 1)
     })
   }
 
