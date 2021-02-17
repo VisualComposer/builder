@@ -108,7 +108,7 @@ class ItemBadgeController extends Container implements Module
     protected function addBadgeHtml(Options $optionsHelper, Url $urlHelper, Utm $utmHelper)
     {
         $isEnabled = (bool)$optionsHelper->get('settings-item-badge-enabled', false);
-        $badgeUrl = $urlHelper->assetUrl('images/created-with-badge.png');
+        $badgeUrl = $urlHelper->assetUrl('images/created-with-badge.svg');
 
         if ($isEnabled) {
             echo '<a class="vcv-settings-badge" target="_blank" href=' . esc_url($utmHelper->get('created-with-badge-button')) . '><img src="' . esc_url($badgeUrl) . '" alt="Created with Visual Composer" /></a>';

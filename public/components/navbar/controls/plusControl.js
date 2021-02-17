@@ -2,9 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
+import innerAPI from 'public/components/api/innerAPI'
+import AddContentPanel from 'public/components/panels/addContent/addContentPanel'
 
-const workspaceSettings = getStorage('workspace').state('settings')
-const workspaceContentState = getStorage('workspace').state('content')
+const workspace = getStorage('workspace')
+const workspaceSettings = workspace.state('settings')
+const workspaceContentState = workspace.state('content')
 const dataManager = getService('dataManager')
 
 export default class PlusControl extends NavbarContent {
@@ -26,6 +29,10 @@ export default class PlusControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
+
+    innerAPI.mount('panel:addElement', () => <AddContentPanel key='panels-container-addElement' activeTab='addElement' />)
+
+    innerAPI.mount('panel:addTemplate', () => <AddContentPanel key='panels-container-addTemplate' activeTab='addTemplate' />)
   }
 
   componentWillUnmount () {
