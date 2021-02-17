@@ -457,7 +457,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
-    const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
+    const enterTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.enterTemplateName : 'Enter template name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
@@ -508,7 +508,7 @@ export default class AddTemplatePanel extends React.Component {
               value={this.state.templateName}
               onChange={this.handleChangeTemplateName}
               disabled={!!this.state.showSpinner}
-              placeholder={templateNameText}
+              placeholder={enterTemplateNameText}
             />
             <button
               className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'

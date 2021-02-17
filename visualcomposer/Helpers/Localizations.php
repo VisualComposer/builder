@@ -95,8 +95,8 @@ class Localizations extends Container implements Helper
             'globalJS' => __('Global JavaScript', 'visualcomposer'),
             'globalJSLabel' => __('Apply custom Global Javascript code sitewide.', 'visualcomposer'),
             'save' => __('Save', 'visualcomposer'),
-            'templateName' => __('Template Name', 'visualcomposer'),
-            'presetName' => __('Preset Name', 'visualcomposer'),
+            'enterTemplateName' => __('Enter template name', 'visualcomposer'),
+            'enterPresetName' => __('Enter preset name', 'visualcomposer'),
             'saveTemplate' => __('Save Template', 'visualcomposer'),
             'removeTemplate' => __('Remove Template', 'visualcomposer'),
             'templateSaveFailed' => __('Failed to save the template.', 'visualcomposer'),
@@ -1673,6 +1673,26 @@ class Localizations extends Container implements Helper
                 'Vimeo video link',
                 'visualcomposer'
             ),
+            'createHFS' => sprintf(
+                __(
+                    '%sCreate%s a new %s template.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}'
+            ),
+            'editHFSTemplate' => sprintf(
+                __(
+                    '%sEdit%s this %s template or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            )
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
