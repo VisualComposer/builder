@@ -24,7 +24,11 @@ export default () => {
       setTimeout(function () {
         const gutenbergEditorHeader = gutenbergEditor ? gutenbergEditor.querySelector('.edit-post-header-toolbar') : null
         if (gutenbergEditorHeader && !gutenbergEditorHeader.querySelector('.vcv-wpbackend-switcher-container')) {
-          gutenbergEditorHeader.querySelector('.edit-post-header-toolbar__left').after(switcherContainer)
+          if (gutenbergEditorHeader.querySelector('.edit-post-header-toolbar__left')) {
+            gutenbergEditorHeader.querySelector('.edit-post-header-toolbar__left').after(switcherContainer)
+          } else {
+            gutenbergEditorHeader.append(switcherContainer)
+          }
           renderSwitcher(switcherContainer)
         }
       }, timeout)
