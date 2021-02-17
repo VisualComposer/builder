@@ -457,7 +457,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
-    const enterTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.enterTemplateName : 'Enter template Name'
+    const enterTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.enterTemplateName : 'Enter template name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
