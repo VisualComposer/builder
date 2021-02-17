@@ -10,6 +10,8 @@ import Tooltip from '../../tooltip/tooltip'
 const insightsStorage = getStorage('insights')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
+const workspaceStorage = getStorage('workspace')
+const workspaceContentState = workspaceStorage.state('content')
 const controls = {
   all: {
     index: 0,
@@ -40,22 +42,35 @@ export default class InsightsPanel extends React.Component {
     this.state = {
       activeSection: 'all',
       insightData: insightsStorage.state('insights').get() || {},
-      currentControls: this.getCurrentControls(insightsStorage.state('insights').get())
+      currentControls: this.getCurrentControls(insightsStorage.state('insights').get()),
+      isVisible: workspaceContentState.get() === 'insights'
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
     this.handleInsightsChange = this.handleInsightsChange.bind(this)
+    this.setVisibility = this.setVisibility.bind(this)
 
     insightsStorage.state('insights').onChange(this.handleInsightsChange)
   }
 
+  componentDidMount () {
+    workspaceContentState.onChange(this.setVisibility)
+  }
+
   componentWillUnmount () {
     insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
+    workspaceContentState.ignoreChange(this.setVisibility)
   }
 
   setActiveSection (type) {
     const currentControl = Object.keys(this.state.currentControls).find(control => control === type)
     this.setState({ activeSection: currentControl || 'all' })
+  }
+
+  setVisibility (activePanel) {
+    this.setState({
+      isVisible: activePanel === 'insights'
+    })
   }
 
   handleInsightsChange (data) {
@@ -132,7 +147,7 @@ export default class InsightsPanel extends React.Component {
 
     const insightsPanelClasses = classNames({
       'vcv-ui-tree-view-content': true,
-      'vcv-ui-state--hidden': !this.props.visible
+      'vcv-ui-state--hidden': !this.state.isVisible
     })
 
     return (
