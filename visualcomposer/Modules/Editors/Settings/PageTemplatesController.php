@@ -105,7 +105,7 @@ class PageTemplatesController extends Container implements Module
                     } else {
                         $output = [
                             'type' => 'theme',
-                            'value' => 'default',
+                            'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
                         ];
                     }
                 } else {
