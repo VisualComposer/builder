@@ -1,13 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Groups from './lib/groups'
+import vcCake from 'vc-cake'
+
+const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceSettings = workspaceStorage.state('settings')
 
 export default class AddElementPanel extends React.Component {
   static propTypes = {
-    options: PropTypes.object,
     searchValue: PropTypes.string,
     applyFirstElement: PropTypes.string,
     handleScrollToElement: PropTypes.func
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      options: workspaceSettings.get() || {}
+    }
+
+    this.handleWorkspaceSettingsChange = this.handleWorkspaceSettingsChange.bind(this)
+  }
+
+  componentDidMount () {
+    workspaceSettings.onChange(this.handleWorkspaceSettingsChange)
+  }
+
+  componentWillUnmount () {
+    workspaceSettings.ignoreChange(this.handleWorkspaceSettingsChange)
+  }
+
+  handleWorkspaceSettingsChange (value) {
+    this.setState({ options: value })
   }
 
   render () {
@@ -16,7 +41,7 @@ export default class AddElementPanel extends React.Component {
       childrenOutput = (
         <Groups
           key='addElementGroups'
-          parent={this.props.options.element ? this.props.options.element : {}}
+          parent={this.state.options.element ? this.state.options.element : {}}
           searchValue={this.props.searchValue}
           applyFirstElement={this.props.applyFirstElement}
           onScrollToElement={this.props.handleScrollToElement}

@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import { getService } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import CustomStyles from './lib/customStyles/component'
 import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
@@ -17,6 +17,8 @@ const settingsText = localizations ? localizations.pageSettings : 'Page Settings
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 const popupText = localizations ? localizations.popup : 'Popup'
 const elementsLockText = localizations ? localizations.elementsLock : 'Element lock'
+const workspaceStorage = getStorage('workspace')
+const workspaceContentState = workspaceStorage.state('content')
 
 const controls = {
   pageSettings: {
@@ -64,10 +66,26 @@ export default class SettingsPanel extends React.Component {
     super(props)
 
     this.state = {
-      activeSection: 'pageSettings'
+      activeSection: 'pageSettings',
+      isVisible: workspaceContentState.get() === 'settings'
     }
 
     this.setActiveSection = this.setActiveSection.bind(this)
+    this.setVisibility = this.setVisibility.bind(this)
+  }
+
+  componentDidMount () {
+    workspaceContentState.onChange(this.setVisibility)
+  }
+
+  componentWillUnmount () {
+    workspaceContentState.ignoreChange(this.setVisibility)
+  }
+
+  setVisibility (activePanel) {
+    this.setState({
+      isVisible: activePanel === 'settings'
+    })
   }
 
   setActiveSection (type) {
@@ -80,7 +98,7 @@ export default class SettingsPanel extends React.Component {
     const settingsPanelClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-tree-view-content--full-width': true,
-      'vcv-ui-state--hidden': !this.props.visible
+      'vcv-ui-state--hidden': !this.state.isVisible
     })
 
     return (
