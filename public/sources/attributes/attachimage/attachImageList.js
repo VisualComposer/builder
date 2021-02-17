@@ -110,7 +110,7 @@ export default class AttachImageList extends React.Component {
     let dynamicControl = null
     if (this.props.dynamicApi) {
       controlClasses += ' vcv-ui-form-attach-image-item-has-dynamic'
-      dynamicControl = this.props.dynamicApi.renderOpenButton()
+      dynamicControl = this.props.dynamicApi.renderOpenButton(true)
     }
 
     let addControl = (
