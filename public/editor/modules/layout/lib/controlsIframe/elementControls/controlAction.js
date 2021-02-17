@@ -3,6 +3,7 @@ import { getStorage, setData } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
+const workspaceTreeViewId = workspaceStorage.state('treeViewId')
 const layoutStorage = getStorage('layout')
 
 export function ControlAction (props) {
@@ -21,7 +22,8 @@ export function ControlAction (props) {
       return
     }
     if (event === 'treeView') {
-      workspaceContentState.set('treeView', id)
+      workspaceTreeViewId.set(id)
+      workspaceContentState.set('treeView')
     } else {
       if (event === 'edit') {
         workspaceContentState.set(false)

@@ -106,7 +106,7 @@ class Utm implements Helper
             'editor-available-in-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=gopremium&utm_content=available-in-premium-button',
 
             // Created with badge button
-            'created-with-badge-button' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vcbadge&utm_campaign=info&utm_content=createdwith-text&utm_term="' . $activeTheme . '"',
+            'created-with-badge-button' => 'https://visualcomposer.com/?utm_source=' . $source . '&utm_medium=vcbadge&utm_campaign=info&utm_content=createdwith-text&utm_term="' . $activeTheme . '"',
         ];
 
         return $utm;
