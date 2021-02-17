@@ -11,6 +11,8 @@ import { getService, getStorage, env } from 'vc-cake'
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
 const hubElementsStorage = getStorage('hubElements')
+const workspace = getStorage('workspace')
+const workspaceContentState = workspace.state('content')
 
 export default class EditForm extends React.Component {
   static propTypes = {
@@ -23,16 +25,30 @@ export default class EditForm extends React.Component {
 
   constructor (props) {
     super(props)
-    this.allTabs = this.updateTabs(this.props)
     this.state = {
-      activeTabIndex: this.getActiveTabIndex(this.props.activeTabId),
       isEditFormSettingsOpened: false,
-      isElementReplaceOpened: props.options && props.options.isReplaceOpened ? props.options.isReplaceOpened : false
+      isElementReplaceOpened: props.options && props.options.isReplaceOpened ? props.options.isReplaceOpened : false,
+      isVisible: workspaceContentState.get() === 'editElement'
     }
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.toggleEditFormSettings = this.toggleEditFormSettings.bind(this)
     this.toggleShowReplace = this.toggleShowReplace.bind(this)
     this.getPremiumTeaser = this.getPremiumTeaser.bind(this)
+    this.setVisibility = this.setVisibility.bind(this)
+  }
+
+  componentDidMount () {
+    workspaceContentState.onChange(this.setVisibility)
+  }
+
+  componentWillUnmount () {
+    workspaceContentState.ignoreChange(this.setVisibility)
+  }
+
+  setVisibility (activePanel) {
+    this.setState({
+      isVisible: activePanel === 'editElement'
+    })
   }
 
   scrollBarMounted (scrollbar) {
@@ -46,16 +62,6 @@ export default class EditForm extends React.Component {
     return activeTab > -1 ? activeTab : 0
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.allTabs = this.updateTabs(nextProps)
-    this.setState({
-      activeTabIndex: this.getActiveTabIndex(nextProps.activeTabId)
-    })
-  }
-
-  /* eslint-enable */
-
   updateTabs (props) {
     return this.editFormTabs(props).map((tab, index) => {
       return {
@@ -66,7 +72,6 @@ export default class EditForm extends React.Component {
         pinned: tab.data.settings && tab.data.settings.options && tab.data.settings.options.pinned ? tab.data.settings.options.pinned : false,
         params: this.editFormTabParams(props, tab),
         key: `edit-form-tab-${props.elementAccessPoint.id}-${index}-${tab.key}`,
-        changeTab: this.onChangeActiveTab.bind(this, index),
         ref: (ref) => {
           if (this.allTabs[index]) {
             this.allTabs[index].realRef = ref
@@ -133,14 +138,7 @@ export default class EditForm extends React.Component {
     return [tab]
   }
 
-  onChangeActiveTab (tabIndex) {
-    this.setState({
-      activeTabIndex: tabIndex
-    })
-  }
-
-  getAccordionSections () {
-    const { activeTabIndex } = this.state
+  getAccordionSections (activeTabIndex) {
     return this.allTabs.map((tab, index) => {
       return (
         <EditFormSection
@@ -245,7 +243,9 @@ export default class EditForm extends React.Component {
   }
 
   render () {
-    const { activeTabIndex, isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
+    this.allTabs = this.updateTabs(this.props)
+    const { isEditFormSettingsOpened, showElementReplaceIcon, isElementReplaceOpened } = this.state
+    const activeTabIndex = this.getActiveTabIndex(this.props.activeTabId)
     const activeTab = this.allTabs[activeTabIndex]
     const isAddonEnabled = env('VCV_ADDON_ELEMENT_PRESETS_ENABLED')
 
@@ -259,7 +259,7 @@ export default class EditForm extends React.Component {
     } else if (isElementReplaceOpened) {
       content = this.getReplaceElementBlock()
     } else {
-      content = this.getAccordionSections()
+      content = this.getAccordionSections(activeTabIndex)
     }
 
     const plateClass = classNames({
@@ -271,7 +271,7 @@ export default class EditForm extends React.Component {
     const editFormClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-tree-view-content-accordion': true,
-      'vcv-ui-state--hidden': !this.props.visible
+      'vcv-ui-state--hidden': !this.state.isVisible
     })
 
     return (

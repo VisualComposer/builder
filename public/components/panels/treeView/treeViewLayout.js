@@ -11,6 +11,8 @@ const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
 const workspaceSettings = getStorage('workspace').state('settings')
+const workspaceContentState = getStorage('workspace').state('content')
+const workspaceTreeViewId = workspaceStorage.state('treeViewId')
 
 const documentManager = getService('document')
 const cook = getService('cook')
@@ -19,8 +21,6 @@ const dataManager = getService('dataManager')
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
     scrollValue: PropTypes.any,
-    treeViewId: PropTypes.string,
-    visible: PropTypes.bool,
     isAttribute: PropTypes.bool,
     element: PropTypes.object
   }
@@ -41,21 +41,57 @@ export default class TreeViewLayout extends React.Component {
     this.handleElementUnmount = this.handleElementUnmount.bind(this)
     this.scrollBarMounted = this.scrollBarMounted.bind(this)
     this.getScrollbarContent = this.getScrollbarContent.bind(this)
+    this.setVisibility = this.setVisibility.bind(this)
     this.dnd = new TreeViewDndManager()
+
+    const data = props.isAttribute ? documentManager.children(props.element.get('id')) : documentManager.children(false)
+
     this.state = {
-      data: [],
+      data: data,
       selectedItem: null,
-      outlineElementId: false
+      outlineElementId: false,
+      isVisible: props.isAttribute || workspaceContentState.get() === 'treeView'
     }
   }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.visible !== prevProps.visible) {
-      const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
-      this.setState({
-        data: data
-      })
+  componentDidMount () {
+    elementsStorage.state('document').onChange(this.updateElementsData)
+    layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
+
+    if (this.props.isAttribute) {
+      elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
+    } else {
+      workspaceContentState.onChange(this.setVisibility)
     }
+
+    this.scrollTimeout = setTimeout(() => {
+      this.handleScrollToElement(workspaceTreeViewId.get())
+    }, 1)
+    workspaceTreeViewId.onChange(this.onContentChangeHandleScroll)
+  }
+
+  componentWillUnmount () {
+    this.updateElementsData.cancel()
+    elementsStorage.state('document').ignoreChange(this.updateElementsData)
+    layoutStorage.state('userInteractWith').ignoreChange(this.interactWithContent)
+    workspaceTreeViewId.ignoreChange(this.onContentChangeHandleScroll)
+    if (this.scrollTimeout) {
+      window.clearTimeout(this.scrollTimeout)
+      this.scrollTimeout = 0
+    }
+    if (this.props.isAttribute) {
+      elementsStorage.off(`element:${this.props.element.get('id')}`, this.updateElementsData)
+    } else {
+      workspaceContentState.ignoreChange(this.setVisibility)
+    }
+  }
+
+  setVisibility (activePanel) {
+    const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
+    this.setState({
+      isVisible: activePanel === 'treeView',
+      data: data
+    })
   }
 
   updateElementsData (data, singleElement = false) {
@@ -75,42 +111,11 @@ export default class TreeViewLayout extends React.Component {
     this.setState({ data: newData })
   }
 
-  componentDidMount () {
-    elementsStorage.state('document').onChange(this.updateElementsData)
-    layoutStorage.state('userInteractWith').onChange(this.interactWithContent)
-    const data = this.props.isAttribute ? documentManager.children(this.props.element.get('id')) : documentManager.children(false)
-    if (this.props.isAttribute) {
-      elementsStorage.on(`element:${this.props.element.get('id')}`, this.updateElementsData)
-    }
-    this.setState({
-      header: document.querySelector('.vcv-ui-navbar-container'),
-      data: data
-    })
-    this.scrollTimeout = setTimeout(() => {
-      this.handleScrollToElement(this.props.treeViewId)
-    }, 1)
-    workspaceStorage.state('content').onChange(this.onContentChangeHandleScroll)
-  }
-
-  onContentChangeHandleScroll = (value, treeViewId) => {
+  onContentChangeHandleScroll = (treeViewId) => {
     const timeout = setTimeout(() => {
       treeViewId && this.handleScrollToElement(treeViewId)
       clearTimeout(timeout)
     }, 1)
-  }
-
-  componentWillUnmount () {
-    this.updateElementsData.cancel()
-    elementsStorage.state('document').ignoreChange(this.updateElementsData)
-    layoutStorage.state('userInteractWith').ignoreChange(this.interactWithContent)
-    workspaceStorage.state('content').ignoreChange(this.onContentChangeHandleScroll)
-    if (this.scrollTimeout) {
-      window.clearTimeout(this.scrollTimeout)
-      this.scrollTimeout = 0
-    }
-    if (this.props.isAttribute) {
-      elementsStorage.off(`element:${this.props.element.get('id')}`, this.updateElementsData)
-    }
   }
 
   interactWithContent (id = false) {
@@ -139,7 +144,7 @@ export default class TreeViewLayout extends React.Component {
 
   scrollBarMounted (scrollbar) {
     this.scrollbar = scrollbar
-    this.handleScrollToElement(this.props.treeViewId)
+    this.handleScrollToElement(workspaceTreeViewId.get())
   }
 
   handleScrollToElement (scrollToElement) {
@@ -155,6 +160,7 @@ export default class TreeViewLayout extends React.Component {
       const offset = targetTop - container.top
       this.interactWithContent(scrollToElement)
       this.scrollbar.scrollTop(offset)
+      workspaceTreeViewId.set(null)
     }
   }
 
@@ -290,7 +296,7 @@ export default class TreeViewLayout extends React.Component {
   render () {
     const treeLayoutClasses = classNames({
       'vcv-ui-tree-layout-container': true,
-      'vcv-ui-state--hidden': !this.props.visible
+      'vcv-ui-state--hidden': !this.state.isVisible
     })
 
     let treeViewContent = ''
