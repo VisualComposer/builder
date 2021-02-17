@@ -75,9 +75,11 @@ Cypress.Commands.add('createPage', () => {
  *
  * @param elementName [string]
  */
-Cypress.Commands.add('addElement', (elementName) => {
-  cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
-  cy.get(`.vcv-ui-item-element[title="${elementName}"]`).click()
+Cypress.Commands.add('addElement', (elementName, isInitial = false) => {
+  if (!isInitial) {
+    cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
+  }
+  cy.contains('.vcv-ui-item-element', elementName).click({ force: true })
   cy.wait(200)
   cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
 })
@@ -91,7 +93,11 @@ Cypress.Commands.add('savePage', () => {
   cy.window().then((win) => {
     cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
   })
-  cy.get('.vcv-ui-navbar-control[title="Publish"]').click()
+  cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
+  cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
+    .parent()
+    .click()
+
   cy.wait('@saveRequest')
 })
 
@@ -302,6 +308,7 @@ Cypress.Commands.add('setSelect', (title, value) => {
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
+        .parent()
         .next()
         .select(value)
     })

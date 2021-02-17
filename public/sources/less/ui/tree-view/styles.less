@@ -206,6 +206,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
   > * {
     flex-grow: 0;
     flex-shrink: 0;
@@ -214,13 +215,29 @@
 }
 
 .vcv-ui-tree-layout-control-label {
-  flex-grow: 1;
+  flex-grow: 0;
   flex-shrink: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding-left: @tree-gold-value / 2 + 5;
   padding-right: @tree-gold-value / 2;
+
+  span {
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 5px 10px;
+    margin-left: 5px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: inherit;
+
+    &:hover,
+    &:focus {
+      border: 2px solid rgba(73, 109, 163, 0.5);
+    }
+  }
 }
 
 .vcv-ui-tree-layout-control-mobile {
@@ -258,6 +275,8 @@
 
 //== control actions
 .vcv-ui-tree-layout-control-actions {
+  flex-grow: 1;
+  text-align: right;
   opacity: 1;
   transition: opacity @transition-duration @transition-timing-function;
 }
