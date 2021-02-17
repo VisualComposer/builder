@@ -2,9 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
+import innerAPI from 'public/components/api/innerAPI'
+import TreeViewLayout from 'public/components/panels/treeView/treeViewLayout'
 
-const workspaceContentState = getStorage('workspace').state('content')
-const workspaceSettings = getStorage('workspace').state('settings')
+const workspace = getStorage('workspace')
+const workspaceContentState = workspace.state('content')
+const workspaceSettings = workspace.state('settings')
 const dataManager = getService('dataManager')
 
 export default class TreeViewControl extends NavbarContent {
@@ -26,6 +29,8 @@ export default class TreeViewControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
+
+    innerAPI.mount('panel:treeView', () => <TreeViewLayout key='panels-container-treeView' />)
   }
 
   componentWillUnmount () {

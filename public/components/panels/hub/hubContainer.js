@@ -22,6 +22,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
 const editorPopupStorage = vcCake.getStorage('editorPopup')
 const hubElementsService = vcCake.getService('hubElements')
+const workspaceContentState = workspaceStorage.state('content')
 
 export default class HubContainer extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -32,15 +33,16 @@ export default class HubContainer extends React.Component {
     super(props)
     this.state = {
       filterType: 'element',
-      activeCategoryIndex: 0
+      activeCategoryIndex: 0,
+      isVisible: workspaceContentState.get() === 'addHubElement'
     }
-    if (props && props.options && props.options.filterType) {
-      const { filterType, id, bundleType } = props.options
-      this.state = {
-        filterType: filterType,
-        activeCategoryIndex: id,
-        bundleType: bundleType
-      }
+
+    const workspaceState = workspaceStorage.state('settings').get()
+    if (workspaceState && workspaceState.options && workspaceState.options.filterType) {
+      const { filterType, id, bundleType } = workspaceState.options
+      this.state.filterType = filterType
+      this.state.activeCategoryIndex = id
+      this.state.bundleType = bundleType
     }
     this.changeInput = this.changeInput.bind(this)
     this.addElement = this.addElement.bind(this)
@@ -49,25 +51,9 @@ export default class HubContainer extends React.Component {
     this.handleScroll = this.handleScroll.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
+    this.handleWorkspaceSettingsChange = this.handleWorkspaceSettingsChange.bind(this)
+    this.setVisibility = this.setVisibility.bind(this)
   }
-
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (nextProps && nextProps.options && nextProps.options.filterType && nextProps.options.filterType !== this.state.filterType) {
-      this.setState({
-        filterType: nextProps.options.filterType,
-        activeCategoryIndex: nextProps.options.id
-      })
-    }
-    if (nextProps && nextProps.visible !== this.props.visible) {
-      // Reset Search on re-open
-      this.setState({
-        inputValue: ''
-      })
-    }
-  }
-
-  /* eslint-enable */
 
   componentDidMount () {
     if (this.props.hideScrollbar) {
@@ -76,6 +62,8 @@ export default class HubContainer extends React.Component {
     hubElementsStorage.state('elementTeasers').onChange(this.handleForceUpdateCategories)
     hubAddonsStorage.state('addonTeasers').onChange(this.handleForceUpdateCategories)
     hubTemplateStorage.state('templateTeasers').onChange(this.handleForceUpdateCategories)
+    workspaceStorage.state('settings').onChange(this.handleWorkspaceSettingsChange)
+    workspaceContentState.onChange(this.setVisibility)
   }
 
   componentWillUnmount () {
@@ -85,6 +73,31 @@ export default class HubContainer extends React.Component {
     hubElementsStorage.state('elementTeasers').ignoreChange(this.handleForceUpdateCategories)
     hubAddonsStorage.state('addonTeasers').ignoreChange(this.handleForceUpdateCategories)
     hubTemplateStorage.state('templateTeasers').ignoreChange(this.handleForceUpdateCategories)
+    workspaceStorage.state('settings').ignoreChange(this.handleWorkspaceSettingsChange)
+    workspaceContentState.ignoreChange(this.setVisibility)
+  }
+
+  setVisibility (activePanel) {
+    const workspaceState = workspaceStorage.state('settings').get()
+    if (workspaceState && workspaceState.options) {
+      this.handleWorkspaceSettingsChange(workspaceState.options)
+    }
+
+    this.setState({
+      isVisible: activePanel === 'addHubElement',
+      inputValue: ''
+    })
+  }
+
+  handleWorkspaceSettingsChange (options) {
+    if (options.filterType) {
+      const { filterType, id, bundleType } = options
+      this.setState({
+        filterType: filterType,
+        activeCategoryIndex: id,
+        bundleType: bundleType
+      })
+    }
   }
 
   handleForceUpdateCategories () {
@@ -273,7 +286,7 @@ export default class HubContainer extends React.Component {
     return {
       changeInput: this.changeInput,
       inputValue: this.state.inputValue || '',
-      autoFocus: this.props.visible,
+      autoFocus: this.state.isVisible,
       filterType: this.state.filterType
     }
   }
@@ -396,7 +409,8 @@ export default class HubContainer extends React.Component {
     }
 
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add-' + this.props.options.filterType : ''
+    const workspaceState = workspaceStorage.state('settings').get()
+    const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add-' + workspaceState.options.filterType : ''
 
     const utm = dataManager.get('utm')
     const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
@@ -417,7 +431,8 @@ export default class HubContainer extends React.Component {
 
   getUtmMedium () {
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
-    const initialFilterType = this.props && this.props.options && this.props.options.filterType ? '-add' + this.props.options.filterType : ''
+    const workspaceState = workspaceStorage.state('settings').get()
+    const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add' + workspaceState.options.filterType : ''
     return `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
   }
 
@@ -547,7 +562,7 @@ export default class HubContainer extends React.Component {
     const hubContainerClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-teaser-add-element-content': true,
-      'vcv-ui-state--hidden': !this.props.visible
+      'vcv-ui-state--hidden': !this.state.isVisible
     })
 
     return (

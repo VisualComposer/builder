@@ -14,9 +14,7 @@ export default class WorkspaceCont extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      content: false,
-      treeViewId: '',
-      settings: {}
+      content: false
     }
     this.setContent = this.setContent.bind(this)
     this.getNavbarPosition = this.getNavbarPosition.bind(this)
@@ -33,12 +31,10 @@ export default class WorkspaceCont extends React.Component {
     workspace.state('content').ignoreChange(this.setContent)
   }
 
-  setContent (value, treeViewId) {
+  setContent (value) {
     const content = value || false
     this.setState({
-      content: content,
-      treeViewId: treeViewId || '',
-      settings: workspace.state('settings').get() || {}
+      content: content
     })
 
     if (content !== 'addElement' && content !== 'addTemplate') {
@@ -94,7 +90,7 @@ export default class WorkspaceCont extends React.Component {
   }
 
   render () {
-    const { content, treeViewId, settings } = this.state
+    const { content } = this.state
     this.updatePanel()
 
     return (
@@ -102,8 +98,6 @@ export default class WorkspaceCont extends React.Component {
         <NavbarContainer getNavbarPosition={this.getNavbarPosition} wrapperRef={(navbar) => { this.navbar = navbar }} />
         <PanelsContainer
           content={content}
-          settings={settings}
-          treeViewId={treeViewId}
           wrapperRef={(panel) => {
             this.panel = panel
           }}
