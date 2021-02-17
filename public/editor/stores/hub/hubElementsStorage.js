@@ -43,10 +43,17 @@ addStorage('hubElements', (storage) => {
   const dataManager = getService('dataManager')
 
   storage.on('start', () => {
-    storage.state('elements').set(dataManager.get('hubGetElements'))
-    const presets = dataManager.get('addonElementPresets')
-    const parsedPresets = parseData(presets)
-    storage.state('elementPresets').set(parsedPresets)
+    const elements = storage.state('elements').get() || {}
+    if (!Object.keys(elements).length) {
+      storage.state('elements').set(dataManager.get('hubGetElements'))
+    }
+
+    const elementPresets = storage.state('elementPresets').get() || []
+    if (!elementPresets.length) {
+      const presets = dataManager.get('addonElementPresets')
+      const parsedPresets = parseData(presets)
+      storage.state('elementPresets').set(parsedPresets)
+    }
     storage.state('categories').set(dataManager.get('hubGetCategories'))
     storage.state('elementTeasers').set(dataManager.get('hubGetTeaser'))
   })
