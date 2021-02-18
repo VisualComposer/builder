@@ -23,7 +23,7 @@ addStorage('editorPopup', (storage) => {
 
   const initialPopupData = {
     votePopup: {
-      visible: true,
+      visible: dataManager.get('showFeedbackForm'),
       priority: 1
     },
     reviewPopup: {
