@@ -5,6 +5,9 @@ import EditFormPanel from './editForm/lib/editFormPanel'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import innerAPI from 'public/components/api/innerAPI'
+import { getStorage } from 'vc-cake'
+
+const workspace = getStorage('workspace')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
@@ -34,7 +37,11 @@ export default class PanelsContainer extends React.Component {
       window.addEventListener('resize', this.updateOnResize)
     }
 
-    innerAPI.mount('panel:editElement', () => <EditFormPanel key='panels-container-editElement' />)
+    innerAPI.mount('panel:editElement', () => {
+      const settings = workspace.state('settings').get() || {}
+      const id = settings.elementAccessPoint && settings.elementAccessPoint.id
+      return <EditFormPanel key={`panels-container-editElement-${id}`} />
+    })
   }
 
   componentWillUnmount () {
