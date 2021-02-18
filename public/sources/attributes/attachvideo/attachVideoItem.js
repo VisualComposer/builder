@@ -11,6 +11,7 @@ export default class AttachVideoItem extends React.Component {
     childProps: PropTypes.object.isRequired,
     className: PropTypes.string
   }
+
   static displayName = 'vcv-ui-form-sortable-attach-image-item-inner'
 
   constructor (props) {
@@ -26,8 +27,6 @@ export default class AttachVideoItem extends React.Component {
       this.getVideoDimensionsOf(this.props.childProps.url.url)
         .then((size) => {
           this.setState({ videoSize: size })
-          console.log("Did Mount Video width: " + size.width)
-          console.log("Did Mount Video height: " + size.height)
         })
     }
   }
@@ -43,7 +42,6 @@ export default class AttachVideoItem extends React.Component {
     }
   }
 
-
   handleRemove (key) {
     this.props.childProps.handleRemove(key)
   }
@@ -57,25 +55,25 @@ export default class AttachVideoItem extends React.Component {
    @param {String} url Url of the video to get dimensions from.
    @return {Promise} Promise which returns the dimensions of the video in 'width' and 'height' properties.
    */
-  getVideoDimensionsOf (url){
-    return new Promise(function(resolve){
+  getVideoDimensionsOf (url) {
+    return new Promise(function (resolve) {
       const video = document.createElement('video')
 
       // place a listener on it
-      video.addEventListener('loadedmetadata', function() {
+      video.addEventListener('loadedmetadata', function () {
         // retrieve dimensions
         const height = this.videoHeight
         const width = this.videoWidth
         // send back result
         resolve({
-          height : height,
-          width : width
+          height: height,
+          width: width
         })
       }, false)
 
       // start download meta-datas
       video.src = url
-    });
+    })
   }
 
   render () {
