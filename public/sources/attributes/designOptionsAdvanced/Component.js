@@ -813,6 +813,9 @@ export default class DesignOptionsAdvanced extends Attribute {
     if (this.state.currentDevice === 'all') {
       const id = this.props.elementAccessPoint.id
       const element = documentService.get(id)
+      if (!element) {
+        return null
+      }
 
       // TODO: Check maybe elementAccessPoint.cook().get will be correct here, not the documentManager
       if (element.tag === 'column') {
