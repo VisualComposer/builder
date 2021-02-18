@@ -47,7 +47,6 @@ export default class EditFormPanel extends React.Component {
         elementAccessPoint={elementAccessPoint}
         activeTabId={activeTabId}
         options={options}
-        key={`panels-container-editElement-${elementAccessPoint.id}`}
       />
     )
   }
