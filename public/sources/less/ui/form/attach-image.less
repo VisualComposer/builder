@@ -50,7 +50,11 @@
   background: @vcv-color-white;
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .15);
+  transition: box-shadow @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1)
+  }
 
   .vcv-ui-form-attach-image-item-control,
   .vcv-ui-dynamic-field-control,
