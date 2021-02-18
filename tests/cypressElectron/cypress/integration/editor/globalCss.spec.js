@@ -7,9 +7,9 @@ describe('Global CSS', function () {
       cy.viewport(1200, 800)
       cy.addElement('Text Block')
 
-      cy.get('.vcv-ui-navbar-control[title="Settings"]').click()
+      cy.get('[data-vcv-guide-helper="settings-control"]').click()
 
-      cy.get('.vcv-ui-form-button')
+      cy.get('.vcv-ui-navigation-slider-button')
         .contains('Custom CSS')
         .click()
 
@@ -43,7 +43,10 @@ describe('Global CSS', function () {
       cy.window().then((win) => {
         cy.route('POST', win.vcvAdminAjaxUrl).as('secondPagePermalink')
       })
-      cy.get('.vcv-ui-navbar-control[title="Publish"]').click()
+      cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
+      cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
+        .parent()
+        .click()
       cy.wait('@secondPagePermalink')
       cy.viewPage()
 
@@ -55,9 +58,9 @@ describe('Global CSS', function () {
 
       cy.addElement('Text Block')
 
-      cy.get('.vcv-ui-navbar-control[title="Settings"]').click()
+      cy.get('[data-vcv-guide-helper="settings-control"]').click()
 
-      cy.get('.vcv-ui-form-button')
+      cy.get('.vcv-ui-navigation-slider-button')
         .contains('Custom CSS')
         .click()
 
