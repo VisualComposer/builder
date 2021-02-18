@@ -83,12 +83,7 @@ class PreviewEnqueueController extends Container implements Module
             return;
         }
 
-        if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
-            foreach ($assetsFiles['cssBundles'] as $asset) {
-                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset, [], VCV_VERSION);
-            }
-            unset($asset);
-        }
+        vchelper('AssetsEnqueue')->enqueueAssets($sourceId);
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
