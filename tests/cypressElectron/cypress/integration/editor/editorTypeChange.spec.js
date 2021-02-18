@@ -9,7 +9,10 @@ describe('Editor Type Change', function () {
       cy.window().then((win) => {
         cy.route('POST', win.vcvAdminAjaxUrl).as('firstPageEdit')
       })
-      cy.get('.vcv-ui-navbar-control[title="Publish"]').click()
+      cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
+      cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
+        .parent()
+        .click()
       cy.wait('@firstPageEdit')
 
       // Check visual composer editor
@@ -30,7 +33,7 @@ describe('Editor Type Change', function () {
         cy.route('POST', actionURL).as('settingSaving')
       })
       cy.get('input[name="vcv-settings-gutenberg-editor-enabled"]').check({force: true})
-      cy.get('.vcv-dashboards-section-content--active #submit_btn').click()
+      cy.get('#submit_btn-vcv-settings').click()
       cy.wait('@settingSaving')
 
       cy.get('@firstPageEdit').should(() => {
@@ -41,10 +44,11 @@ describe('Editor Type Change', function () {
       cy.get('input[name="vcv-be-editor"]')
         .should('have.value', 'gutenberg')
 
-      cy.get('#post-title-0')
+      cy.get('#title')
+        .clear()
         .type('Test', {force: true})
 
-      cy.get('.editor-post-publish-button')
+      cy.get('#publish')
         .click()
 
       cy.get('@firstPageEdit').should((response) => {
@@ -58,7 +62,7 @@ describe('Editor Type Change', function () {
       // Disable Gutenberg Editor
       cy.visit('/wp-admin/admin.php?page=vcv-settings')
       cy.get('input[name="vcv-settings-gutenberg-editor-enabled"]').uncheck({force: true})
-      cy.get('.vcv-dashboards-section-content--active #submit_btn').click()
+      cy.get('#submit_btn-vcv-settings').click()
       cy.wait('@settingSaving')
 
       // Check classic editor
@@ -66,6 +70,7 @@ describe('Editor Type Change', function () {
         cy.visit(backendEditorUrlLink + '&classic-editor')
       })
 
+      // TODO: check for possible bug.
       cy.get('input[name="vcv-be-editor"]')
         .should('have.value', 'classic')
 
