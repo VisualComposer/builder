@@ -674,7 +674,7 @@ export default class DesignOptions extends Attribute {
     if (this.state.currentDevice === 'all') {
       const id = this.props.elementAccessPoint.id
       const element = documentService.get(id)
-      const checked = !element.hidden
+      const checked = element ? !element.hidden : true
 
       // TODO: Use correct localization here
       return (
