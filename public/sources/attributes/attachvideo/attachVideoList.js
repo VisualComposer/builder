@@ -3,6 +3,7 @@ import AttachVideoItem from './attachVideoItem'
 import { SortableElement, SortableHandle } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
+import lodash from 'lodash'
 
 const dataManager = getService('dataManager')
 
@@ -38,13 +39,13 @@ export default class AttachVideoList extends React.Component {
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.setState({
-      ...nextProps
-    })
+  componentDidUpdate (prevProps) {
+    if (!lodash.isEqual(prevProps, this.props)) {
+      this.setState({
+        ...this.props
+      })
+    }
   }
-  /* eslint-enable */
 
   handleAttachmentData (index, data) {
     const icons = this.state.value.icons || []
@@ -63,24 +64,24 @@ export default class AttachVideoList extends React.Component {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const addImage = localizations ? localizations.addImage : 'Add an image'
-    const editReplaceImage = localizations ? localizations.editReplaceImage : 'Edit or replace the image'
-    const moveImage = localizations ? localizations.moveImage : 'Move the image'
+    const addVideo = localizations && localizations.addVideo ? localizations.addVideo : 'Add an image'
+    const editReplaceVideo = localizations && localizations.editReplaceVideo ? localizations.editReplaceVideo : 'Edit or replace the video'
+    const moveVideo = localizations && localizations.moveVideo ? localizations.moveVideo : 'Move the video'
     const { fieldKey, value } = this.state
-    const images = []
+    const videos = []
 
     let oneMoreControl = ''
     if (this.props.options.multiple) {
       oneMoreControl = (
-        <SortableHandler title={moveImage} />
+        <SortableHandler title={moveVideo} />
       )
     } else {
       oneMoreControl = (
         <a
           className='vcv-ui-form-attach-image-item-control' onClick={this.handleOpenLibrary.bind(this)}
-          title={editReplaceImage}
+          title={editReplaceVideo}
         >
-          <i className='vcv-ui-icon vcv-ui-icon-edit' />
+          <i className='vcv-ui-icon vcv-ui-icon-pencil-modern' />
         </a>
       )
     }
@@ -100,12 +101,12 @@ export default class AttachVideoList extends React.Component {
         url: url,
         icon: value.icons && value.icons[index],
         oneMoreControl: oneMoreControl,
-        onRemove: this.props.onRemove,
+        handleRemove: this.props.onRemove,
         getUrlHtml: this.props.getUrlHtml
       }
 
       if (this.props.options.multiple) {
-        value.ids[index] && images.push(
+        value.ids[index] && videos.push(
           <SortableItem
             key={`sortable-attach-image-item-${fieldKey}-${index}`}
             childProps={childProps}
@@ -113,7 +114,7 @@ export default class AttachVideoList extends React.Component {
           />
         )
       } else {
-        value.ids[index] && images.push(
+        value.ids[index] && videos.push(
           <AttachVideoItem
             key={index}
             childProps={childProps}
@@ -123,8 +124,8 @@ export default class AttachVideoList extends React.Component {
     })
 
     let addControl = (
-      <li className='vcv-ui-form-attach-image-item'>
-        <a className='vcv-ui-form-attach-image-control' onClick={this.handleOpenLibrary.bind(this)} title={addImage}>
+      <li className='vcv-ui-form-attach-image-item vcv-ui-form-attach-image-item-add-control'>
+        <a className='vcv-ui-form-attach-image-control' onClick={this.handleOpenLibrary.bind(this)} title={addVideo}>
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
       </li>
@@ -136,7 +137,7 @@ export default class AttachVideoList extends React.Component {
 
     return (
       <ul className='vcv-ui-form-attach-image-items'>
-        {images}
+        {videos}
         {addControl}
       </ul>
     )

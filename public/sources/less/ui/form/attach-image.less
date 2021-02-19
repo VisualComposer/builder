@@ -46,11 +46,16 @@
 
 .vcv-ui-form-attach-image-item-inner {
   position: relative;
+  width: 100%;
   display: flex;
   background: @vcv-color-white;
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .15);
+  transition: box-shadow @vcv-transition-duration @vcv-transition-timing-function;
+
+  &:hover {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1)
+  }
 
   .vcv-ui-form-attach-image-item-control,
   .vcv-ui-dynamic-field-control,
@@ -117,6 +122,10 @@
       color: @vcui-attach-image-control-color-hover;
       text-decoration: none;
     }
+  }
+
+  .vcv-ui-form-attach-image-control {
+    background: #fff;
   }
 
   .vcv-ui-dynamic-field-control {
@@ -190,19 +199,19 @@
 
   span {
     flex: 1 0 100%;
-    color: #999;
-    font-size: 12px;
-    line-height: 20px;
-    letter-spacing: 0.92px;
-    font-style: italic;
-    font-family: inherit;
+    color: #5c5b5b;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: .3px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-bottom: -15px;
   }
 
   i {
+    margin-top: -15px;
     font-size: 12px;
     line-height: 20px;
     letter-spacing: 0.92px;
