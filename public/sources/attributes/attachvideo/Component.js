@@ -12,9 +12,14 @@ const SortableList = SortableContainer((props) => {
   )
 })
 
-class AttachVideo extends Attribute {
+export default class AttachVideo extends Attribute {
   static defaultProps = {
     fieldType: 'attachvideo'
+  }
+
+  static propTypes = {
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
+    fieldKey: PropTypes.string.isRequired
   }
 
   constructor (props) {
@@ -29,15 +34,14 @@ class AttachVideo extends Attribute {
     this.handleSortEnd = this.handleSortEnd.bind(this)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
+  componentDidMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
     }
     this.mediaUploader = window.wp.media({
       title: 'Add video',
-      // Tell the modal to show only images.
+      // Tell the modal to show only videos.
       library: {
         type: 'video',
         query: false
@@ -51,8 +55,6 @@ class AttachVideo extends Attribute {
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
   }
-
-  /* eslint-enable */
 
   updateState (props) {
     let value = props.value
@@ -223,10 +225,3 @@ class AttachVideo extends Attribute {
     )
   }
 }
-
-AttachVideo.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
-  fieldKey: PropTypes.string.isRequired
-}
-
-export default AttachVideo
