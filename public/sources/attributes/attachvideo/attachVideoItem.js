@@ -88,7 +88,10 @@ export default class AttachVideoItem extends React.Component {
       'vcv-ui-form-attach-image-item-has-link-value': url && url.url
     })
     const fileName = url && url.url ? url.url.split('/').pop() : ''
-    const videoSize = this.state.videoSize.width ? `${this.state.videoSize.width}x${this.state.videoSize.height}` : ''
+    let videoSize = null
+    if (this.state.videoSize.width) {
+      videoSize = <i>{`${this.state.videoSize.width}x${this.state.videoSize.height}`}</i>
+    }
 
     return (
       <li {...rest} className={className}>
@@ -98,7 +101,7 @@ export default class AttachVideoItem extends React.Component {
           </figure>
           <div className='vcv-ui-form-attach-image-description'>
             <span title={fileName}>{fileName}</span>
-            <i>{videoSize}</i>
+            {videoSize}
           </div>
           <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
             {oneMoreControl}

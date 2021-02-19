@@ -23,7 +23,7 @@ class PreviewEnqueueController extends Container implements Module
         $actionPriority = 50;
         if ($frontendHelper->isPreview()) {
             $this->wpAddAction('wp_head', 'enqueuePreviewGlobalCss', $actionPriority);
-            $this->wpAddAction('wp_head', 'enqueuePreviewAssets', $actionPriority);
+            $this->wpAddAction('wp_head', 'enqueuePreviewAssets', 1);
         }
     }
 
