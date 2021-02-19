@@ -23,7 +23,7 @@ class PreviewEnqueueController extends Container implements Module
         $actionPriority = 50;
         if ($frontendHelper->isPreview()) {
             $this->wpAddAction('wp_head', 'enqueuePreviewGlobalCss', $actionPriority);
-            $this->wpAddAction('wp_head', 'enqueuePreviewAssets', $actionPriority);
+            $this->wpAddAction('wp_head', 'enqueuePreviewAssets', 1);
         }
     }
 
@@ -83,7 +83,12 @@ class PreviewEnqueueController extends Container implements Module
             return;
         }
 
-        vchelper('AssetsEnqueue')->enqueueAssets($sourceId);
+        if (isset($assetsFiles['cssBundles']) && is_array($assetsFiles['cssBundles'])) {
+            foreach ($assetsFiles['cssBundles'] as $asset) {
+                wp_enqueue_style('vcv:assets:source:styles:' . $strHelper->slugify($asset), $asset, [], VCV_VERSION);
+            }
+            unset($asset);
+        }
 
         if (isset($assetsFiles['jsBundles']) && is_array($assetsFiles['jsBundles'])) {
             foreach ($assetsFiles['jsBundles'] as $asset) {
