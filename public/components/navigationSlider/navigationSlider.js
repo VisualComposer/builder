@@ -18,7 +18,6 @@ export default class NavigationSlider extends React.Component {
       scrolledToLeft: true,
       scrolledToRight: false
     }
-    this.controlsWidth = 70
 
     this.navigationContainerRef = React.createRef()
     this.navigationSliderRef = React.createRef()
@@ -37,7 +36,15 @@ export default class NavigationSlider extends React.Component {
     this.navigationSliderRef.current.addEventListener('scroll', this.handleSliderScroll)
     this.navigationSliderRef.current.addEventListener('wheel', this.handleHorizontalScroll)
 
-    this.handleResize()
+    const sliderItems = this.navigationSliderRef.current && this.navigationSliderRef.current.childNodes
+    let sliderWidth = 0
+    sliderItems.forEach((item) => {
+      sliderWidth += item.getBoundingClientRect().width
+    })
+
+    this.setState({
+      itemTotalWidth: sliderWidth
+    }, this.handleResize)
   }
 
   componentWillUnmount () {
@@ -69,8 +76,7 @@ export default class NavigationSlider extends React.Component {
 
   handleResize () {
     const containerWidth = this.navigationContainerRef.current.getBoundingClientRect().width
-    const sliderWidth = this.navigationSliderRef.current.getBoundingClientRect().width
-    const isControlsVisible = containerWidth <= sliderWidth + this.controlsWidth
+    const isControlsVisible = containerWidth <= this.state.itemTotalWidth
 
     this.setState({ showControls: isControlsVisible })
 
