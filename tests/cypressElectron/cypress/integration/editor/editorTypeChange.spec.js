@@ -82,7 +82,7 @@ describe('Editor Type Change', function () {
       })
 
       cy.get('input[name="vcv-be-editor"]')
-        .should('have.value', 'classic')
+        .should('have.value', 'gutenberg')
     })
   })
 })
