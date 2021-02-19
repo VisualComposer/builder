@@ -34,7 +34,7 @@ export default class HubContainer extends React.Component {
     this.state = {
       filterType: 'element',
       activeCategoryIndex: 0,
-      isVisible: workspaceContentState.get() === 'addHubElement'
+      isVisible: props.visible || workspaceContentState.get() === 'addHubElement'
     }
 
     const workspaceState = workspaceStorage.state('settings').get()
