@@ -9,57 +9,12 @@ describe(ELEMENT_NAME, function () {
       cy.addElement(ELEMENT_NAME)
 
       cy.get('.vcv-ui-form-button[data-value="stretchedRowAndColumn"]').click()
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Column gap')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .clear()
-            .type(settings.columnGap)
-        })
 
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Full height')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-switch-container')
-            .find('.vcv-ui-form-switch')
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Column position')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.columnPosition}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Content position')
-        .then(($field) => {
-          cy.wrap($field)
-            .next('.vcv-ui-form-buttons-group')
-            .find(`.vcv-ui-form-button[data-value="${settings.contentPosition}"]`)
-            .click()
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Element ID')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.rowCustomId)
-        })
-
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Extra class name')
-        .then(($field) => {
-          cy.wrap($field)
-            .next()
-            .type(settings.rowCustomClass)
-        })
+      cy.setInput('Column gap', settings.columnGap)
+      cy.setSwitch('Full height')
+      cy.setButtonGroup('Column position', settings.columnPosition)
+      cy.setButtonGroup('Content position', settings.contentPosition)
+      cy.setClassAndId(settings.rowCustomId, settings.rowCustomClass)
 
       cy.get(`.vcv-ui-form-layout-layouts-col[data-index="${settings.rowLayoutControlIndex}"]`).click()
 
