@@ -13,8 +13,11 @@ addStorage('hubAddons', (storage) => {
   const dataManager = getService('dataManager')
 
   storage.on('start', () => {
+    const addons = storage.state('addons').get() || {}
+    if (!Object.keys(addons).length) {
+      storage.state('addons').set(dataManager.get('hubGetAddons'))
+    }
     storage.state('addonTeasers').set(dataManager.get('hubGetAddonTeaser'))
-    storage.state('addons').set(dataManager.get('hubGetAddons'))
   })
 
   storage.on('add', (addonsData, addBundle) => {

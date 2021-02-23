@@ -75,9 +75,13 @@ Cypress.Commands.add('createPage', () => {
  *
  * @param elementName [string]
  */
-Cypress.Commands.add('addElement', (elementName) => {
-  cy.get('.vcv-ui-navbar-control[title="Add Element"]').click()
-  cy.get(`.vcv-ui-item-element[title="${elementName}"]`).click()
+Cypress.Commands.add('addElement', (elementName, isInitial = false) => {
+  if (!isInitial) {
+    cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="plus-control"').click()
+  }
+  cy.get(`.vcv-ui-item-element-image[alt="${elementName}"]`)
+    .first()
+    .closest('.vcv-ui-item-element').click({ force: true })
   cy.wait(200)
   cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
 })
@@ -91,7 +95,11 @@ Cypress.Commands.add('savePage', () => {
   cy.window().then((win) => {
     cy.route('POST', win.vcvAdminAjaxUrl).as('saveRequest')
   })
-  cy.get('.vcv-ui-navbar-control[title="Publish"]').click()
+  cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
+  cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
+    .parent()
+    .click()
+
   cy.wait('@saveRequest')
 })
 
@@ -221,7 +229,7 @@ Cypress.Commands.add('setClassAndId', (id, className) => {
  */
 Cypress.Commands.add('setInput', (title, value) => {
   const titleRegex = new RegExp(`^${title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -239,7 +247,7 @@ Cypress.Commands.add('setInput', (title, value) => {
  */
 Cypress.Commands.add('setDate', (title, value) => {
   const titleRegex = new RegExp(`^${title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -280,7 +288,7 @@ Cypress.Commands.add('setDoInput', (title, value) => {
  */
 Cypress.Commands.add('setSwitch', (title) => {
   const titleRegex = new RegExp(`^${title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -298,7 +306,7 @@ Cypress.Commands.add('setSwitch', (title) => {
  */
 Cypress.Commands.add('setSelect', (title, value) => {
   const titleRegex = new RegExp(`^${title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -315,7 +323,7 @@ Cypress.Commands.add('setSelect', (title, value) => {
  */
 Cypress.Commands.add('setButtonGroup', (title, value) => {
   const titleRegex = new RegExp(`^${title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -334,7 +342,7 @@ Cypress.Commands.add('setButtonGroup', (title, value) => {
  */
 Cypress.Commands.add('setColor', (settings) => {
   const titleRegex = new RegExp(`^${settings.title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -389,7 +397,7 @@ Cypress.Commands.add('setDoColor', (title, settings) => {
  */
 Cypress.Commands.add('setURL', (title, settings) => {
   const titleRegex = new RegExp(`^${title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -450,7 +458,7 @@ Cypress.Commands.add('setIcon', (title, settings) => {
  */
 Cypress.Commands.add('setTinyMce', (settings) => {
   const titleRegex = new RegExp(`^${settings.title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)
@@ -505,7 +513,7 @@ Cypress.Commands.add('setTinyMce', (settings) => {
  */
 Cypress.Commands.add('setCodeMirror', (settings) => {
   const titleRegex = new RegExp(`^${settings.title}$`, 'gi')
-  cy.get('.vcv-ui-form-group-heading')
+  cy.get('.vcv-ui-form-group-heading-wrapper')
     .contains(titleRegex)
     .then(($field) => {
       cy.wrap($field)

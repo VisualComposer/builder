@@ -95,6 +95,11 @@ class VariablesController extends Container implements Module
             'value' => set_url_scheme(admin_url('nav-menus.php')),
             'type' => 'variable',
         ];
+        $variables[] = [
+            'key' => 'vcvWpAdminUrl',
+            'value' => set_url_scheme(admin_url()),
+            'type' => 'variable',
+        ];
 
         return $variables;
     }

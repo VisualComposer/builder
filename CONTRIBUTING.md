@@ -100,7 +100,7 @@ All javascript is build with webpack module builder. Install the plugin and chec
 ### Requirements
 * PHP >= 5.6.0 (PHP 7+ is recommended)
 * WordPress >= 5.0.0
-* PHP `gd2/imagick`, `php-curl` and `php-zip` extensions to be loaded
+* PHP `gd2/imagick`, `php-curl`, `php-zip` and ` php-exif` extensions to be loaded
 * Node >= 10.16.0
 * npm >= 6.9.0
 * yarn >= 1.17.3

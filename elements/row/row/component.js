@@ -442,11 +442,13 @@ export default class RowElement extends vcvAPI.elementComponent {
       customRowProps.style.minHeight = ''
     }
 
-    if (equalHeight && columnPosition !== 'stretch') {
+    // Don't add equal height class if columns are already stretched
+    if (equalHeight && (!fullHeight || columnPosition !== 'stretch')) {
       classes.push('vce-row-equal-height')
     }
 
-    if (columnPosition) {
+    // Add column position class only if full height enabled
+    if (columnPosition && fullHeight) {
       classes.push(`vce-row-columns--${columnPosition}`)
     }
 

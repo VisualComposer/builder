@@ -2,6 +2,8 @@ import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
+import innerAPI from 'public/components/api/innerAPI'
+import HubContainer from 'public/components/panels/hub/hubContainer'
 
 const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
@@ -25,6 +27,8 @@ export default class PlusTeaserControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
+
+    innerAPI.mount('panel:addHubElement', () => <HubContainer key='panels-container-addHubElement' namespace='editor' />)
   }
 
   componentWillUnmount () {

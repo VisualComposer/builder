@@ -6,7 +6,6 @@ import TemplateControl from './lib/templateControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
-import Tooltip from '../../tooltip/tooltip'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -458,10 +457,9 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   render () {
-    const templateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateName : 'Template Name'
+    const enterTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.enterTemplateName : 'Enter template name'
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
-    const saveYourLayoutAsATemplate = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveYourLayoutAsATemplate : 'Save your layout as a template to reuse it in other locations faster.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
     if (this.state.showSpinner && !this.state.removing) {
@@ -499,23 +497,18 @@ export default class AddTemplatePanel extends React.Component {
     const saveTemplate = this.state.isRemoveStateActive ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
-          <div className='vcv-ui-form-group-heading-wrapper'>
-            <span className='vcv-ui-form-group-heading'>{templateNameText}</span>
-            <Tooltip>
-              {saveYourLayoutAsATemplate}
-            </Tooltip>
-          </div>
           <form
             className='vcv-ui-save-template-form'
             onSubmit={this.handleSaveTemplate}
             disabled={!!this.state.showSpinner}
           >
             <input
-              className='vcv-ui-form-input'
+              className='vcv-ui-form-input vcv-ui-editor-save-template-field'
               type='text'
               value={this.state.templateName}
               onChange={this.handleChangeTemplateName}
               disabled={!!this.state.showSpinner}
+              placeholder={enterTemplateNameText}
             />
             <button
               className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'

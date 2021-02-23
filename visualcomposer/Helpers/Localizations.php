@@ -13,6 +13,35 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Localizations extends Container implements Helper
 {
+    protected $translatableElementAttributes = [
+        'classicTab' => ['tabTitle'],
+        'classicAccordionSection' => ['sectionTitle'],
+        'copyright' => ['prefix', 'postfix'],
+        'faqToggle' => ['titleText', 'textBlock'],
+        'flipBox' => ['text', 'hoverText', 'hoverDescription'],
+        'doubleTextButton' => ['buttonText', 'buttonHoverText'],
+        'doubleTitle' => ['frontTitle', 'backgroundTitle'],
+        'counterUp' => ['suffix', 'prefix'],
+        'typewriterHeading' => [
+            'text1',
+            'text2',
+            'text3',
+            'text4',
+            'text5',
+            'text6',
+        ],
+        'countdownTimer' => [
+            'dayTitle',
+            'daysTitle',
+            'hourTitle',
+            'hoursTitle',
+            'minuteTitle',
+            'minutesTitle',
+            'secondTitle',
+            'secondsTitle',
+        ],
+    ];
+
     /**
      * @param $locale array
      *
@@ -66,7 +95,8 @@ class Localizations extends Container implements Helper
             'globalJS' => __('Global JavaScript', 'visualcomposer'),
             'globalJSLabel' => __('Apply custom Global Javascript code sitewide.', 'visualcomposer'),
             'save' => __('Save', 'visualcomposer'),
-            'templateName' => __('Template Name', 'visualcomposer'),
+            'enterTemplateName' => __('Enter template name', 'visualcomposer'),
+            'enterPresetName' => __('Enter preset name', 'visualcomposer'),
             'saveTemplate' => __('Save Template', 'visualcomposer'),
             'removeTemplate' => __('Remove Template', 'visualcomposer'),
             'templateSaveFailed' => __('Failed to save the template.', 'visualcomposer'),
@@ -178,6 +208,10 @@ class Localizations extends Container implements Helper
             'removeImage' => __('Remove the image', 'visualcomposer'),
             'moveImage' => __('Move the image', 'visualcomposer'),
             'editReplaceImage' => __('Edit or replace the image', 'visualcomposer'),
+            'addVideo' => __('Add a video', 'visualcomposer'),
+            'removeVideo' => __('Remove the video', 'visualcomposer'),
+            'moveVideo' => __('Move the video', 'visualcomposer'),
+            'editReplaceVideo' => __('Edit or replace the video', 'visualcomposer'),
             'addLink' => __('Add a link', 'visualcomposer'),
             'selectUrl' => __('Select a URL', 'visualcomposer'),
             'insertEditLink' => __('Insert or edit a link', 'visualcomposer'),
@@ -509,6 +543,10 @@ class Localizations extends Container implements Helper
             ),
             'dynamicFieldsCloseText' => __(
                 'Remove dynamic content',
+                'visualcomposer'
+            ),
+            'downloadDynamicContent' => __(
+                'Download Dynamic Content Addon',
                 'visualcomposer'
             ),
             'dynamicAutocompleteDescription' => __(
@@ -1310,10 +1348,6 @@ class Localizations extends Container implements Helper
                 'Preview, save, and publish your content.',
                 'visualcomposer'
             ),
-            'saveYourLayoutAsATemplate' => __(
-                'Save your layout as a template to reuse it in other locations faster.',
-                'visualcomposer'
-            ),
             'insightsIsAContentAnalysisTool' => __(
                 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.',
                 'visualcomposer'
@@ -1642,9 +1676,57 @@ class Localizations extends Container implements Helper
             'vimeoVideoLink' => __(
                 'Vimeo video link',
                 'visualcomposer'
+            ),
+            'createHFS' => sprintf(
+                __(
+                    '%sCreate%s a new %s template.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}'
+            ),
+            'editHFSTemplate' => sprintf(
+                __(
+                    '%sEdit%s this %s template or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>',
+                '{name}',
+                '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             )
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
+    }
+
+    public function getTranslatableAttributes($element)
+    {
+        $genericAttributeKeys = [
+            'output',
+            'title',
+            'subtitle',
+            'text',
+            'messageText',
+            'description',
+            'buttonText',
+        ];
+        if (!isset($element['tag'])) {
+            return $genericAttributeKeys; // inner elements or multi-value arrays values
+        }
+
+        if (array_key_exists($element['tag'], $this->translatableElementAttributes)) {
+            return $this->translatableElementAttributes[ $element['tag'] ];
+        }
+        $keys = vcfilter(
+            'vcv:helpers:localizations:i18n:element:attributes:' . $element['tag'],
+            $genericAttributeKeys,
+            ['element' => $element]
+        );
+        $this->translatableElementAttributes[ $element['tag'] ] = $keys;
+
+        return $this->translatableElementAttributes[ $element['tag'] ];
     }
 }
