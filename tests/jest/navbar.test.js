@@ -19,7 +19,7 @@ import '../../public/editor/modules/elementLimit/module'
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 
 // Navbar Component
 import NavbarContainer from '../../public/components/navbar/navbarContainer'
