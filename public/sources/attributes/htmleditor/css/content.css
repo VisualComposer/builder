@@ -11,9 +11,8 @@
 }
 
 .vcv-ui-form-wp-tinymce .vcv-ui-form-switch-small-container {
-  margin-top: 8px;
-  position: absolute;
-  right: 0;
+  margin: 8px 0;
+  float: right;
 }
 
 .rtl .vcv-ui-form-wp-tinymce .vcv-ui-form-switch-small-container {

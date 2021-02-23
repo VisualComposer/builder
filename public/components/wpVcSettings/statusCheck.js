@@ -1,8 +1,7 @@
-import { deflate } from 'pako/lib/deflate'
-import base64 from 'base-64'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
+const utils = getService('utils')
 const $ = window.jQuery
 const $checkContainer = $('#vcv-large-content-status')
 
@@ -50,14 +49,11 @@ export const checkStatus = () => {
   if (!$checkContainer.length) {
     return
   }
-
-  const binaryString = deflate(JSON.stringify({
+  const encodedString = utils.compressData({
     'vcv-action': 'settings:systemStatus:checkPayloadProcessing:adminNonce',
     'vcv-nonce': dataManager.get('nonce'),
     'vcv-check-payload': generateFakeData()
-  }), { to: 'string' })
-
-  const encodedString = base64.encode(binaryString)
+  })
   const data = {
     'vcv-zip': encodedString
   }
