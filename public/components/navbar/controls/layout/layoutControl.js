@@ -1,7 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
-import MobileDetect from 'mobile-detect'
 import { env, getService, getStorage } from 'vc-cake'
 
 const dataManager = getService('dataManager')
@@ -86,11 +85,6 @@ export default class LayoutButtonControl extends React.Component {
       isControlActive: false
     }
     this.contentRef = React.createRef()
-
-    const mobileDetect = new MobileDetect(window.navigator.userAgent)
-    if (mobileDetect.mobile()) {
-      this.isMobile = true
-    }
 
     if (env('VCV_JS_THEME_EDITOR')) {
       this.editorType = dataManager.get('editorType')
@@ -230,7 +224,7 @@ export default class LayoutButtonControl extends React.Component {
       )
     })
 
-    if (this.isMobile || (env('VCV_JS_THEME_EDITOR') && this.editorType === 'sidebar')) {
+    if (env('VCV_JS_THEME_EDITOR') && this.editorType === 'sidebar') {
       return null
     }
 
