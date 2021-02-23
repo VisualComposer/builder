@@ -14,6 +14,7 @@ export default class PageSettingsTitle extends Attribute {
 
   constructor (props) {
     super(props)
+    this.titleInputRef = React.createRef()
     const pageTitle = settingsStorage.state('pageTitle').get()
     const pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     this.state = {
@@ -29,11 +30,13 @@ export default class PageSettingsTitle extends Attribute {
     this.checkShowToggle = this.checkShowToggle.bind(this)
     this.updateShowToggle = this.updateShowToggle.bind(this)
     this.updatePageTitle = this.updatePageTitle.bind(this)
+    this.toggleFocusTitle = this.toggleFocusTitle.bind(this)
     workspaceIFrame.onChange(this.onIframeChange)
   }
 
   componentDidMount () {
     settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
+    settingsStorage.state('isTitleFocused').onChange(this.toggleFocusTitle)
   }
 
   componentWillUnmount () {
@@ -100,6 +103,12 @@ export default class PageSettingsTitle extends Attribute {
     }
   }
 
+  toggleFocusTitle (isFocused) {
+    if (isFocused) {
+      this.titleInputRef.current.focus()
+    }
+  }
+
   handleChangeUpdateTitleToggle (event) {
     const checked = event.target.checked
     this.setState({
@@ -141,7 +150,7 @@ export default class PageSettingsTitle extends Attribute {
       <>
         <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
           <span className='vcv-ui-form-group-heading'>{settingName}</span>
-          <input type='text' className='vcv-ui-form-input' value={this.state.current} onChange={this.handleChangeTitle} onBlur={this.handleBlur} />
+          <input type='text' className='vcv-ui-form-input' ref={this.titleInputRef} value={this.state.current} onChange={this.handleChangeTitle} onBlur={this.handleBlur} />
         </div>
         {disableTitleToggleControl}
       </>

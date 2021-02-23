@@ -310,6 +310,7 @@ addStorage('wordpressData', (storage) => {
       title.style.display = disabled ? 'none' : ''
       title.onclick = () => {
         workspaceContentState.set('settings')
+        settingsStorage.state('isTitleFocused').set(true)
       }
     })
   }
