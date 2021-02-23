@@ -1,7 +1,7 @@
 import './sources/less/wpsettings-update/init.less'
 import 'public/editor/services/dataManager/service'
-import 'public/editor/services/dataProcessor/service'
 import 'public/editor/services/utils/service'
+import 'public/editor/services/dataProcessor/service'
 import { hoverTooltip } from './components/wpVcSettings/helpTooltips'
 import { checkStatus } from './components/wpVcSettings/statusCheck'
 import { initEditors } from './components/wpVcSettings/editors'
