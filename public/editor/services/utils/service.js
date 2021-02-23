@@ -85,6 +85,24 @@ const API = {
     element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn.bind(this, element, options))
     element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   },
+  compressData (data) {
+    const binaryStringBuffer = deflate(JSON.stringify(data))
+
+    function _arrayBufferToBase64 (buffer) {
+      let binary = ''
+      const bytes = new Uint8Array(buffer)
+      const len = bytes.byteLength
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i])
+      }
+
+      return base64.encode(binary)
+    }
+
+    const encodedString = _arrayBufferToBase64(binaryStringBuffer)
+
+    return encodedString
+  },
   ajax: (data, successCallback, failureCallback) => {
     const dataManager = getService('dataManager')
     const request = new window.XMLHttpRequest()
@@ -106,8 +124,7 @@ const API = {
     }
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      const binaryString = deflate(JSON.stringify(data), { to: 'string' })
-      const encodedString = base64.encode(binaryString)
+      const encodedString = API.compressData(data)
       data = {
         'vcv-zip': encodedString
       }
