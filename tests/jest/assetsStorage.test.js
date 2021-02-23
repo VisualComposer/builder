@@ -23,7 +23,7 @@ import '../../elements/basicButton/basicButton/index'
 // EnzymeJS
 import React from 'react'
 import { shallow, configure, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import ButtonElement from '../../elements/basicButton/basicButton/component'
 
 configure({ adapter: new Adapter() });
