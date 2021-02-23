@@ -2,6 +2,7 @@ import { addStorage, getStorage, getService, getData } from 'vc-cake'
 import SaveController from './lib/saveController'
 import { getResponse } from 'public/tools/response'
 import Permalink from 'public/components/permalink/permalink'
+import MobileDetect from 'mobile-detect'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -208,7 +209,8 @@ addStorage('wordpressData', (storage) => {
         settingsStorage.state('tags').set(parsedCurrentTags)
       }
       if (Object.prototype.hasOwnProperty.call(responseData, 'outputEditorLayoutDesktop')) {
-        settingsStorage.state('outputEditorLayoutDesktop').set(responseData.outputEditorLayoutDesktop)
+        const mobileDetect = new MobileDetect(window.navigator.userAgent)
+        settingsStorage.state('outputEditorLayoutDesktop').set(mobileDetect.mobile() ? 'dynamic' : responseData.outputEditorLayoutDesktop)
       }
       let postData = {}
       if (Object.prototype.hasOwnProperty.call(responseData, 'postData')) {
