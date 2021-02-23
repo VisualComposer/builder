@@ -12,6 +12,14 @@ class Color extends Attribute {
     return 'rgba(186, 218, 85, 0)'
   }
 
+  constructor (props) {
+    super(props)
+
+    this.handleDefaultColor = this.handleDefaultColor.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.closeIfNotInside = this.closeIfNotInside.bind(this)
+  }
+
   componentWillUnmount () {
     document.body.removeEventListener('click', this.closeIfNotInside)
   }
