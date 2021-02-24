@@ -39,7 +39,8 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
     if (status === 'success') {
       this.setState({
-        status: 'success'
+        status: 'success',
+        isOptionsActive: false
       })
       this.clearTimer()
       // Show success at least for 3 secs
@@ -102,7 +103,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleClickSaveData (e, _, __, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
 
-    if (this.state.status === 'saving' || this.state.status === 'disabled') {
+    if (this.state.status === 'saving' || this.state.status === 'disabled' || !e) {
       return
     }
     this.clearTimer()
