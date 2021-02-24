@@ -41,7 +41,7 @@
     "react-textarea-autosize": "8.3.1",
     "reactcss": "1.2.3",
     "standard": "14.3.4",
-    "vc-webpack-vendors": "2.9.2",
+    "vc-webpack-vendors": "2.9.3",
     "webfontloader": "1.6.28"
   },
   "babel": {
