@@ -3,7 +3,7 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 import shallowCompare from 'react-addons-shallow-compare'
-import { ColorWrap, Saturation, Hue, Alpha, Checkboard } from 'react-color/lib/components/common'
+import { ColorWrap, Saturation, Hue, Alpha, Checkboard } from 'react-color/es/components/common'
 import SketchFields from './SketchFields'
 import SketchPresetColors from './SketchPresetColors'
 import UsedStack from './UsedStack'
