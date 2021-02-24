@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 import { getPopupDataFromElement } from 'public/tools/popup'
+import innerAPI from 'public/components/api/innerAPI'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
@@ -222,8 +223,9 @@ export default class SaveController {
       if (editorType !== 'default') {
         requestData['vcv-editor-type'] = editorType
       }
+      const saveRequestData = innerAPI.applyFilter('saveRequestData', {})
       this.ajax(
-        requestData,
+        Object.assign(saveRequestData, requestData),
         options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),
         options && options.errorCallback ? options.errorCallback : this.saveFailed.bind(this, status)
       )
