@@ -28,7 +28,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.handleIframeChange = this.handleIframeChange.bind(this)
     this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
     this.handleToggleOptions = this.handleToggleOptions.bind(this)
-    this.closeDropdown = this.closeDropdown.bind(this)
+    this.handleSave = this.handleSave.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
@@ -39,7 +39,8 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
     if (status === 'success') {
       this.setState({
-        status: 'success'
+        status: 'success',
+        isOptionsActive: false
       })
       this.clearTimer()
       // Show success at least for 3 secs
@@ -102,7 +103,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleClickSaveData (e, _, __, noStorageRequest = false) {
     e && e.preventDefault && e.preventDefault()
 
-    if (this.state.status === 'saving' || this.state.status === 'disabled') {
+    if (this.state.status === 'saving' || this.state.status === 'disabled' || !e) {
       return
     }
     this.clearTimer()
@@ -136,25 +137,14 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleToggleOptions (e) {
     if (PostData.isDraft()) {
       if (this.state.status !== 'saving') {
-        if (this.state.isOptionsActive) {
-          document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
-          document.body.removeEventListener('click', this.closeDropdown)
-        } else {
-          document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
-          document.body.addEventListener('click', this.closeDropdown)
-        }
         this.setState({ isOptionsActive: !this.state.isOptionsActive })
       }
-    } else {
-      this.handleClickSaveData(e)
     }
   }
 
-  closeDropdown (e) {
-    if (e && e.target.closest('.vcv-ui-navbar-dropdown-trigger') && e.target.closest('.vcv-ui-navbar-save')) {
-      return false
-    } else {
-      this.handleToggleOptions()
+  handleSave (e) {
+    if (!PostData.isDraft()) {
+      this.handleClickSaveData(e)
     }
   }
 
@@ -217,11 +207,16 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
 
     return (
-      <dl className={saveControlClasses} data-vcv-guide-helper='save-control'>
+      <dl
+        className={saveControlClasses}
+        data-vcv-guide-helper='save-control'
+        onMouseEnter={this.handleToggleOptions}
+        onMouseLeave={this.handleToggleOptions}
+      >
         <dt
           className={saveButtonClasses}
           title={controlTitle}
-          onClick={this.handleToggleOptions}
+          onClick={this.handleSave}
         >
           <span className='vcv-ui-navbar-control-content'>
             <i className={saveIconClasses} />
