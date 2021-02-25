@@ -14,7 +14,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist/'), // Assets dist path
     publicPath: '.', // Used to generate URL's
-    filename: '[name].bundle.css', // Main bundle file
+    filename: '[name].bundle.js', // Main bundle file
     chunkFilename: '[id].js'
   },
   node: {
