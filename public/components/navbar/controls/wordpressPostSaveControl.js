@@ -137,7 +137,10 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleToggleOptions (e) {
     if (PostData.isDraft()) {
       if (this.state.status !== 'saving') {
-        this.setState({ isOptionsActive: !this.state.isOptionsActive })
+        this.setState({
+          isOptionsActive: !this.state.isOptionsActive,
+          isVerticalPositioned: false
+        })
       }
     }
   }
@@ -183,9 +186,15 @@ export default class WordPressPostSaveControl extends NavbarContent {
 
     let saveDraftOptions = null
     if (PostData.isDraft()) {
+      const navbarContentClasses = classNames({
+        'vcv-ui-navbar-dropdown-content': true,
+        'vcv-ui-navbar-show-labels': true,
+        'vcv-ui-navbar-dropdown-content--save': true,
+        'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned
+      })
       controlTitle = publishingOptions
       saveDraftOptions = (
-        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
+        <dd className={navbarContentClasses}>
           <span
             className='vcv-ui-navbar-control'
             title={localizations.saveDraft}
