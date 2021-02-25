@@ -38,15 +38,17 @@ export default class InputSelect extends Attribute {
     }
   }
 
-  handleSelectToggle () {
+  handleSelectToggle (e) {
     if (this.state.openedSelect) {
       document.body.removeEventListener('click', this.handleClick)
     } else {
       document.body.addEventListener('click', this.handleClick)
     }
-    this.setState({
-      openedSelect: !this.state.openedSelect
-    })
+    if (e && e.target) {
+      this.setState({
+        openedSelect: !this.state.openedSelect
+      })
+    }
   }
 
   createGroup (key, groupObject, fieldKey) {
