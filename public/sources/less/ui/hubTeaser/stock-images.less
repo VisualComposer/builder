@@ -192,26 +192,16 @@
   transition: opacity .2s;
 
   &:hover {
-    .vcv-stock-image-hover-download,
-    .vcv-stock-image-author {
-      opacity: 1;
-    }
-  }
-
-  &.vcv-stock-image-inner--active {
+    .vcv-stock-image-hover-lock,
     .vcv-stock-image-download-container {
-      display: flex;
-    }
-    .vcv-stock-image-hover-download,
-    .vcv-stock-image-author {
-      display: none;
+      opacity: 1;
+      box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
     }
   }
 
   &.vcv-stock-image--downloading {
-    .vcv-stock-image-hover-download,
-    .vcv-stock-image-download-container,
-    .vcv-stock-image-author {
+    .vcv-stock-image-hover-lock,
+    .vcv-stock-image-download-container {
       display: none;
     }
     .vcv-stock-image-loading {
@@ -249,12 +239,13 @@
 
 .vcv-stock-image-download-container {
   position: absolute;
+  opacity: 0;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   background-color: rgba(38, 37, 37, 0.6);
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   transition: opacity .2s;
@@ -300,6 +291,11 @@
     transition: color .2s;
   }
 
+  .vcv-ui-icon-download {
+    margin-left: 10px;
+    opacity: 0;
+  }
+
   &:hover {
     background-color: #2a4c80;
     color: #fff;
@@ -307,6 +303,9 @@
 
     span {
       color: #fff;
+    }
+    .vcv-ui-icon-download {
+      opacity: 1;
     }
   }
 }
@@ -328,7 +327,7 @@
   }
 }
 
-.vcv-stock-image-hover-download {
+.vcv-stock-image-hover-lock {
   position: absolute;
   top: 0;
   right: 0;
@@ -355,21 +354,16 @@
 }
 
 a.vcv-stock-image-author {
-  position: absolute;
-  bottom: 13px;
-  left: 13px;
   display: flex;
   font-family: 'Nunito Sans', sans-serif;
   justify-content: center;
   align-items: center;
-  color: #fff;
   text-decoration: none;
   font-size: 14px;
   font-weight: 800;
   -webkit-font-smoothing: antialiased;
-  transition: color .2s, opacity .2s;
+  transition: color .2s;
   box-shadow: none;
-  opacity: 0;
 
   &:hover {
     color: #e6e6e6;
