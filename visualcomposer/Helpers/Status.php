@@ -24,16 +24,6 @@ class Status implements Helper
 
     protected $defaultMaxInputNestingLevel = 64;
 
-    protected $updateVersionUrl;
-
-    public function __construct()
-    {
-        $this->updateVersionUrl = vcvenv(
-            'VCV_ENV_PLUGIN_UPDATE_VERSION_URL',
-            'http://cdn.hub.visualcomposer.com/vcwb-bundles/status.json'
-        );
-    }
-
     /**
      * @return int
      */
@@ -262,7 +252,7 @@ class Status implements Helper
     public function getAwsConnection()
     {
         $request = wp_remote_get(
-            $this->updateVersionUrl,
+            'https://s3.us-west-2.amazonaws.com/cdn.hub.visualcomposer.com/vcwb-bundles/status.json',
             [
                 'timeout' => 30,
             ]
@@ -280,7 +270,7 @@ class Status implements Helper
     public function getAccountConnection()
     {
         $body = [
-            'type' => 'ping'
+            'type' => 'ping',
         ];
         $url = vcvenv('VCV_HUB_URL');
         $url = vchelper('Url')->query($url, $body);
@@ -300,7 +290,12 @@ class Status implements Helper
 
     public function getSystemStatus()
     {
-        if (function_exists('current_user_can') && function_exists('wp_raise_memory_limit') && current_user_can('manage_options')) {
+        if (
+            function_exists('current_user_can') && function_exists('wp_raise_memory_limit')
+            && current_user_can(
+                'manage_options'
+            )
+        ) {
             wp_raise_memory_limit('admin');
         }
         $results = [
