@@ -301,9 +301,9 @@ export default class Navbar extends React.Component {
   }
   /* eslint-enable */
 
-  handleDropdown () {
+  handleDropdown (e) {
     this.setState({
-      isActiveSandwich: !this.state.isActiveSandwich
+      isActiveSandwich: e.type === 'mouseenter'
     })
   }
 

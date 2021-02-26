@@ -138,7 +138,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     if (PostData.isDraft()) {
       if (this.state.status !== 'saving') {
         this.setState({
-          isOptionsActive: !this.state.isOptionsActive,
+          isOptionsActive: e.type === 'mouseenter',
           isVerticalPositioned: false
         })
       }

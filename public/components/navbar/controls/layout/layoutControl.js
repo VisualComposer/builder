@@ -149,8 +149,8 @@ export default class LayoutButtonControl extends React.Component {
     }
   }
 
-  handleControlHover () {
-    workspaceSettings.set(this.state.isControlActive ? { action: 'closeHover' } : { action: 'devices' })
+  handleControlHover (e) {
+    workspaceSettings.set(e.type === 'mouseenter' ? { action: 'devices' } : { action: 'closeHover' })
   }
 
   setActiveState (state) {
