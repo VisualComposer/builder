@@ -7,7 +7,6 @@ const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 const workspaceStorage = getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
-const workspaceContentState = workspaceStorage.state('content')
 
 export default class LayoutButtonControl extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -91,7 +90,7 @@ export default class LayoutButtonControl extends React.Component {
     }
 
     this.handleClickSetSelectedLayout = this.handleClickSetSelectedLayout.bind(this)
-    this.handleControlClick = this.handleControlClick.bind(this)
+    this.handleControlHover = this.handleControlHover.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.handleLayoutChange = this.handleLayoutChange.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
@@ -150,9 +149,8 @@ export default class LayoutButtonControl extends React.Component {
     }
   }
 
-  handleControlClick () {
-    workspaceContentState.set(false)
-    workspaceSettings.set(this.state.isControlActive ? false : { action: 'devices' })
+  handleControlHover () {
+    workspaceSettings.set(this.state.isControlActive ? { action: 'closeHover' } : { action: 'devices' })
   }
 
   setActiveState (state) {
@@ -233,11 +231,12 @@ export default class LayoutButtonControl extends React.Component {
         className={navbarControlClasses}
         tabIndex='0'
         data-vcv-guide-helper='layout-control'
+        onMouseEnter={this.handleControlHover}
+        onMouseLeave={this.handleControlHover}
       >
         <dt
           className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
           title={LayoutButtonControl.devices[this.state.activeDevice].type}
-          onClick={this.handleControlClick}
         >
           {activeDevice}
         </dt>
