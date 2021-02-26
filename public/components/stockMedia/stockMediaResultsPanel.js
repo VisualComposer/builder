@@ -365,9 +365,13 @@ export default class StockMediaResultsPanel extends React.Component {
   getAuthorButton (user) {
     if (user && user.url) {
       return (
-        <a href={user && user.url} target='_blank' rel='noopener noreferrer'
-           className='vcv-stock-image-download-button vcv-stock-image-author'>
-          <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image'/>
+        <a
+          href={user && user.url}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='vcv-stock-image-download-button vcv-stock-image-author'
+        >
+          <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
           {user && user.name}
         </a>
       )
