@@ -84,6 +84,7 @@ export default class LayoutButtonControl extends React.Component {
       isControlActive: false
     }
     this.contentRef = React.createRef()
+    this.layoutButtonRef = React.createRef()
 
     if (env('VCV_JS_THEME_EDITOR')) {
       this.editorType = dataManager.get('editorType')
@@ -150,6 +151,11 @@ export default class LayoutButtonControl extends React.Component {
   }
 
   handleControlHover (e) {
+    if (e.type === 'mouseenter') {
+      this.layoutButtonRef.current.classList.remove('vcv-ui-navbar-control-no-hover')
+    } else {
+      this.layoutButtonRef.current.classList.add('vcv-ui-navbar-control-no-hover')
+    }
     workspaceSettings.set(e.type === 'mouseenter' ? { action: 'devices' } : { action: 'closeHover' })
   }
 
@@ -235,7 +241,8 @@ export default class LayoutButtonControl extends React.Component {
         onMouseLeave={this.handleControlHover}
       >
         <dt
-          className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
+          className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control vcv-ui-navbar-control-no-hover'
+          ref={this.layoutButtonRef}
           title={LayoutButtonControl.devices[this.state.activeDevice].type}
         >
           {activeDevice}

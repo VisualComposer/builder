@@ -62,6 +62,8 @@ export default class Navbar extends React.Component {
       isActiveSandwich: false
     }
 
+    this.menuButtonRef = React.createRef()
+
     if (this.isMobile && vcCake.env('editor') === 'frontend') {
       let isScrolling = 0
 
@@ -302,6 +304,11 @@ export default class Navbar extends React.Component {
   /* eslint-enable */
 
   handleDropdown (e) {
+    if (e.type === 'mouseenter') {
+      this.menuButtonRef.current.classList.remove('vcv-ui-navbar-control-no-hover')
+    } else {
+      this.menuButtonRef.current.classList.add('vcv-ui-navbar-control-no-hover')
+    }
     this.setState({
       isActiveSandwich: e.type === 'mouseenter'
     })
@@ -330,7 +337,7 @@ export default class Navbar extends React.Component {
 
     return (
       <dl className={sandwichClasses} onMouseEnter={this.handleDropdown} onMouseLeave={this.handleDropdown}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control vcv-ui-navbar-control-no-hover' ref={this.menuButtonRef} title={menuTitle}>
           <span className='vcv-ui-navbar-control-content'>
             <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />
             <span>{menuTitle}</span>

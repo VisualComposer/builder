@@ -23,6 +23,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       status: !PostData.canPublish() ? 'disabled' : '',
       isOptionsActive: false
     }
+    this.saveButtonRef = React.createRef()
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
     this.handleIframeChange = this.handleIframeChange.bind(this)
@@ -137,6 +138,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
   handleToggleOptions (e) {
     if (PostData.isDraft()) {
       if (this.state.status !== 'saving') {
+        if (e.type === 'mouseenter') {
+          this.saveButtonRef.current.classList.remove('vcv-ui-navbar-control-no-hover')
+        } else {
+          this.saveButtonRef.current.classList.add('vcv-ui-navbar-control-no-hover')
+        }
         this.setState({
           isOptionsActive: e.type === 'mouseenter',
           isVerticalPositioned: false
@@ -156,6 +162,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-navbar-dropdown-trigger': true,
+      'vcv-ui-navbar-control-no-hover': true,
       'vcv-ui-state--success': this.state.status === 'success',
       'vcv-ui-state--error': this.state.status === 'error',
       'vcv-ui-state--disabled': this.state.status === 'disabled'
@@ -223,6 +230,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         onMouseLeave={this.handleToggleOptions}
       >
         <dt
+          ref={this.saveButtonRef}
           className={saveButtonClasses}
           title={controlTitle}
           onClick={this.handleSave}
