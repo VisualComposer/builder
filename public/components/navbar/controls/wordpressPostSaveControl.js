@@ -136,13 +136,14 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   handleToggleOptions (e) {
+    if (e.type === 'mouseenter') {
+      this.saveButtonRef.current.classList.remove('vcv-ui-navbar-control-no-hover')
+    } else {
+      this.saveButtonRef.current.classList.add('vcv-ui-navbar-control-no-hover')
+    }
+
     if (PostData.isDraft()) {
       if (this.state.status !== 'saving') {
-        if (e.type === 'mouseenter') {
-          this.saveButtonRef.current.classList.remove('vcv-ui-navbar-control-no-hover')
-        } else {
-          this.saveButtonRef.current.classList.add('vcv-ui-navbar-control-no-hover')
-        }
         this.setState({
           isOptionsActive: e.type === 'mouseenter',
           isVerticalPositioned: false
