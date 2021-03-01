@@ -168,6 +168,11 @@
       "name": "accordionAutoplay",
       "dependencies": [],
       "jsBundle": "[publicPath]/dist/accordionAutoplay.bundle.js"
+    },
+    {
+      "name": "lazyLoad",
+      "dependencies": [],
+      "jsBundle": "[publicPath]/dist/lazyLoad.bundle.js"
     }
   ]
 }
