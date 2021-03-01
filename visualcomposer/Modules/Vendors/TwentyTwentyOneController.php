@@ -22,13 +22,13 @@ class TwentyTwentyOneController extends Container implements Module
             return;
         }
 
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueTwentyTwentyOneStyles');
+        $this->wpAddAction('wp_head', 'enqueueTwentyTwentyOneStyles');
     }
 
     protected function enqueueTwentyTwentyOneStyles()
     {
         $urlHelper = vchelper('Url');
-        wp_register_style( 'vcv:twentyTwentyOne:styles', $urlHelper->to('visualcomposer/Modules/Vendors/VendorStyles/twentyTwentyOne.css'));
-        wp_enqueue_style( 'vcv:twentyTwentyOne:styles' );
+        wp_register_style('vcv:twentyTwentyOne:styles', $urlHelper->to('visualcomposer/Modules/Vendors/VendorStyles/twentyTwentyOne.css'));
+        wp_enqueue_style('vcv:twentyTwentyOne:styles');
     }
 }
