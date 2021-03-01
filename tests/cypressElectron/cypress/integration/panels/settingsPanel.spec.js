@@ -14,7 +14,13 @@ describe('Settings Panel', function () {
       cy.get('.vcv-ui-navbar-control[data-vcv-guide-helper="settings-control"]').click()
       cy.get('.vcv-ui-panel-heading-text').contains('Settings')
 
-      cy.setInput('Title', settings.pageTitle)
+      cy.contains('.vcv-ui-form-group-heading', 'Title')
+        .then(($field) => {
+          cy.wrap($field)
+            .next()
+            .clear()
+            .type(settings.pageTitle)
+        })
 
       cy.get('.vcv-permalink-editable')
         .then(($field) => {
