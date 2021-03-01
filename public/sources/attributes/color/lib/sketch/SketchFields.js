@@ -2,7 +2,7 @@
 
 import React from 'react'
 import reactCSS from 'reactcss'
-import color from 'react-color/lib/helpers/color'
+import { isValidHex } from 'react-color/lib/helpers/color'
 import shallowCompare from 'react-addons-shallow-compare'
 import { EditableInput } from 'react-color/lib/components/common'
 
@@ -13,7 +13,7 @@ export class SketchFields extends React.Component {
 
   handleChange = (data) => {
     if (data.hex) {
-      color.isValidHex(data.hex) && this.props.onChange({
+      isValidHex(data.hex) && this.props.onChange({
         hex: data.hex,
         source: 'hex'
       })

@@ -10,10 +10,10 @@
   "scripts": {
     "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest --env=jsdom",
     "standard": "standard --version && standard",
-    "build": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors",
+    "build": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --color",
     "build-production": "webpack --version && webpack --config webpack.config.production.4x.babel.js -p",
     "build-production-silent": "webpack --version && webpack --config webpack.config.production.4x.babel.js -p --silent",
-    "watch": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --colors --watch",
+    "watch": "webpack --version && webpack --config webpack.config.4x.babel.js --progress --color --watch",
     "build-settings": "echo 'nothing';exit 0",
     "build-settings-production": "echo 'nothing';exit 0",
     "watch-settings": "echo 'nothing';exit 0"
@@ -31,17 +31,17 @@
     "form-serialize": "0.7.2",
     "immutable": "4.0.0-rc.12",
     "mobile-detect": "1.4.4",
-    "node-object-hash": "2.0.0",
+    "node-object-hash": "2.1.2",
     "react-addons-shallow-compare": "15.6.2",
-    "react-color": "2.18.1",
+    "react-color": "2.19.3",
     "react-custom-scrollbars": "4.2.1",
-    "react-datepicker": "3.1.3",
-    "react-slick": "0.27.1",
+    "react-datepicker": "3.5.0",
+    "react-slick": "0.28.0",
     "react-sortable-hoc": "1.11.0",
-    "react-textarea-autosize": "8.2.0",
+    "react-textarea-autosize": "8.3.1",
     "reactcss": "1.2.3",
     "standard": "14.3.4",
-    "vc-webpack-vendors": "2.8.1",
+    "vc-webpack-vendors": "2.9.3",
     "webfontloader": "1.6.28"
   },
   "babel": {
@@ -99,7 +99,7 @@
     "postcss": "7.0.32",
     "css-loader": "4.2.2",
     "color-name": "1.1.4",
-    "eslint": "7.7.0",
+    "eslint": "7.20.0",
     "less": "3.12.2",
     "raw-loader": "1.0.0"
   },
@@ -110,8 +110,8 @@
     "ie 11"
   ],
   "dependencies": {
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
-    "enzyme-to-json": "^3.6.1"
+    "enzyme": "3.11.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "0.4.1",
+    "enzyme-to-json": "3.6.1"
   }
 }
