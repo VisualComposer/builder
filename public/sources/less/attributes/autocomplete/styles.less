@@ -61,16 +61,16 @@
   display: inline-block;
   box-sizing: border-box;
   margin: 0 6px 6px 0;
-  padding: 4px 6px 4px 9px;
-  border: none;
+  padding: 1px 3px 1px 6px;
   border-radius: 2em;
   background: #283AA4;
   color: #fff;
   font-weight: 700;
   font-size: inherit;
   line-height: inherit;
-  transition: background .2s;
+  transition: all .2s;
   -webkit-font-smoothing: antialiased;
+  border: 3px solid #283AA4;
 
   .vcv-ui-icon {
     cursor: pointer;
@@ -83,12 +83,36 @@
   }
 }
 
-.vc-tags--selected-tag-name {
-  vertical-align: middle;
-}
-
 .vc-tags--selected-tag:hover {
   background: #203251;
+  border-color: #203251;
+}
+
+.vc-tags--selected-tag.vc-tags--selected-tag--editable {
+  background: transparent;
+  border-color: #C6CBD4;
+  color: #C6CBD4;
+}
+
+.vc-tags--selected-tag.vc-tags--selected-tag--editable:hover {
+  background: transparent;
+  border-color: #a0a1a3;
+  color: #a0a1a3;
+}
+
+.vc-tags--selected-tag-name {
+  vertical-align: middle;
+  outline: none;
+}
+
+.vc-tags--tag-not-valid {
+  background-color: @background-error;
+  border-color: @background-error;
+}
+
+.vc-tags--tag-not-valid:hover {
+  background-color: @background-error-hover;
+  border-color: @background-error-hover;
 }
 
 .vc-tags--search {
@@ -121,6 +145,8 @@
   left: 0;
   width: 100%;
   z-index: 99999;
+  height: 120px;
+  overflow: scroll;
 }
 
 .vc-tags--suggestions--top {
