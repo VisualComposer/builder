@@ -9,8 +9,12 @@
   flex-direction: column;
   flex-wrap: nowrap;
 
+  // Need to preserve rendered state for item text ellipsize to work properly
   &.vcv-ui-state--hidden {
-    display: none;
+    position: absolute;
+    visibility: hidden;
+    z-index: -9999;
+    left: -99999px;
   }
 }
 
