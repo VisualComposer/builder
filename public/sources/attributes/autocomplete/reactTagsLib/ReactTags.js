@@ -260,7 +260,7 @@ class ReactTags extends React.Component {
     this.state.focused && classNames.push(this.props.classNames.rootFocused)
 
     let suggestionComponent = null
-    if (expanded && this.state.options.length && !this.props.isSuggestionsLoading) {
+    if (expanded && this.state.options.length && !this.props.isSuggestionsLoading || this.state.focused && this.props.suggestionsOnFocus) {
       suggestionComponent = (
         <Suggestions
           {...this.state}
@@ -288,6 +288,9 @@ class ReactTags extends React.Component {
               removeButtonText={this.props.removeButtonText}
               classNames={this.props.classNames}
               onDelete={this.onDeleteTag.bind(this, i)}
+              onTagChange={this.props.onTagChange.bind(this, i)}
+              isTagEditable={this.props.isTagEditable}
+              valid={this.props.validator ? this.props.validator(tag.name) : true}
             />
           ))}
         </div>

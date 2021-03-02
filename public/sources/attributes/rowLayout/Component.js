@@ -7,10 +7,10 @@ import lodash from 'lodash'
 
 import Attribute from '../attribute'
 import DefaultLayouts from './lib/defaultLayouts'
-import TokenizationList from './lib/tokenizationList'
 import Toggle from '../toggle/Component'
 import LayoutResponsiveness from './lib/layoutResponsiveness'
 import Tooltip from '../../../components/tooltip/tooltip'
+import AutoComplete from "../autocomplete/Component";
 
 const dataManager = vcCake.getService('dataManager')
 
@@ -29,20 +29,49 @@ export default class Layout extends Attribute {
       ['16.66%', '66.66%', '16.66%']
     ],
     suggestions: [
-      '100%',
-      '50%',
-      '33.33%',
-      '25%',
-      '20%',
-      '16.66%',
-      '66.66%',
-      '75%',
-      'auto',
-      'hide'
+      {
+        name: '100%',
+        columnWidth: '100%'
+      },
+      {
+        name: '50%',
+        columnWidth: '50%'
+      },
+      {
+        name: '33.33%',
+        columnWidth: '33.33%'
+      },
+      {
+        name: '25%',
+        columnWidth: '25%'
+      },
+      {
+        name: '20%',
+        columnWidth: '20%'
+      },
+      {
+        name: '16.66%',
+        columnWidth: '16.66%'
+      },
+      {
+        name: '66.66%',
+        columnWidth: '66.66%'
+      },
+      {
+        name: '75%',
+        columnWidth: '75%'
+      },
+      {
+        name: 'auto',
+        columnWidth: 'auto'
+      },
+      {
+        name: 'hide',
+        columnWidth: 'hide'
+      }
     ],
     fieldType: 'rowLayout'
   }
-
   static attributeMixins = {
     columnStyleMixin: {
       src: require('raw-loader!./cssMixins/columnStyles.pcss'),
@@ -80,7 +109,6 @@ export default class Layout extends Attribute {
       }
     }
   }
-
   static devices = ['xs', 'sm', 'md', 'lg', 'xl']
   static localizations = dataManager.get('localizations')
   static deviceData = [
@@ -243,6 +271,7 @@ export default class Layout extends Attribute {
     this.validateSize = this.validateSize.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleColumnHover = this.handleColumnHover.bind(this)
+    this.handleAutocompleteChange = this.handleAutocompleteChange.bind(this)
   }
 
   updateState (props) {
@@ -412,6 +441,15 @@ export default class Layout extends Attribute {
       newState.disableStacking = false
     }
     this.setFieldValue(newState)
+    this.handleActiveLayoutChange(value)
+  }
+
+  handleAutocompleteChange (fieldKey, value) {
+    const parsedValue = value.map((item) => {
+      return item.name
+    })
+
+    this.valueChangeHandler(fieldKey, parsedValue)
   }
 
   getStackingToggle () {
@@ -465,6 +503,11 @@ export default class Layout extends Attribute {
 
   render () {
     const { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
+
+    const LayoutData = defaultLayoutData.map((item) => {
+      return { name: item }
+    })
+
     let responsivenessContent = null
     if (responsivenessSettings) {
       responsivenessContent = (
@@ -500,14 +543,16 @@ export default class Layout extends Attribute {
               <div className='vcv-ui-form-layout-custom-layout-columns'>
                 <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
                   <div className='vcv-ui-form-layout-custom-layout-input'>
-                    <TokenizationList
-                      layouts={this.props.layouts}
-                      value={defaultLayoutData.join(' + ')}
-                      onChange={this.handleActiveLayoutChange}
-                      validator={this.validateSize}
+                    <AutoComplete
+                      fieldKey='rowLayout'
+                      updater={this.handleAutocompleteChange}
+                      value={LayoutData}
                       suggestions={this.props.suggestions}
-                      onColumnHover={this.handleColumnHover}
-                      activeToken={this.state.activeToken}
+                      suggestionsOnFocus={true}
+                      options={{}}
+                      isNewAutocomplete={true}
+                      isTagEditable={true}
+                      validator={this.validateSize}
                     />
                   </div>
                 </div>
