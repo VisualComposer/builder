@@ -47,7 +47,7 @@ export default class ReactTagContainer extends React.Component {
         ref={this.reactTags}
         tags={this.props.value}
         suggestions={this.props.suggestions}
-        suggestionsOnFocus={this.props.suggestionsOnFocus}
+        showSuggestionsOnFocus={this.props.showSuggestionsOnFocus}
         onDelete={this.handleDelete}
         onAddition={this.handleAddition}
         onTagChange={this.handleTagChange}

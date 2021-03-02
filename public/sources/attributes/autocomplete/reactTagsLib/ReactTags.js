@@ -260,7 +260,7 @@ class ReactTags extends React.Component {
     this.state.focused && classNames.push(this.props.classNames.rootFocused)
 
     let suggestionComponent = null
-    if (expanded && this.state.options.length && !this.props.isSuggestionsLoading || this.state.focused && this.props.suggestionsOnFocus) {
+    if ((expanded && this.state.options.length && !this.props.isSuggestionsLoading) || (this.state.focused && this.props.showSuggestionsOnFocus)) {
       suggestionComponent = (
         <Suggestions
           {...this.state}
