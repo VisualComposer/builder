@@ -1,6 +1,7 @@
 import React from 'react'
 import { env } from 'vc-cake'
 const components = {}
+const filters = {}
 export default {
   pick (point, component, options) {
     const pointSplit = point.split(':')
@@ -24,5 +25,24 @@ export default {
     } else {
       env('debug') && console.warn('Not a correct callback', point)
     }
+  },
+  applyFilter (name, value, options) {
+    if (filters[name] && filters[name].length) {
+      filters[name].forEach((callback) => {
+        const newValue = callback.call(this, Object.assign({}, value), options)
+        if ((Array.isArray(value) && !Array.isArray(newValue)) || (Array.isArray(newValue) && !Array.isArray(value)) || (typeof value !== typeof newValue)) {
+          env('debug') && console.warn(`Returned value must be ${typeof value}`, newValue)
+        } else {
+          value = newValue
+        }
+      })
+    }
+    return value
+  },
+  addFilter (name, callback) {
+    if (!filters[name]) {
+      filters[name] = []
+    }
+    filters[name].push(callback)
   }
 }
