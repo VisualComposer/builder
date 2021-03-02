@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import Suggestions from './Suggestions'
 
 export default class Tag extends React.Component {
   constructor (props) {
@@ -43,6 +44,21 @@ export default class Tag extends React.Component {
       'vc-tags--tag-not-valid': !this.props.valid
     })
 
+    let suggestionComponent = null
+    if (this.state.isTagEditable) {
+      suggestionComponent = (
+        <Suggestions
+          {...this.props.tagsState}
+          id={this.props.id}
+          ref={this.props.suggestions}
+          classNames={this.props.classNames}
+          // addTag={this.props.onTagChange('10%')}
+          disableMarkIt={this.props.disableMarkIt}
+          suggestionComponent={this.props.suggestionComponent}
+        />
+      )
+    }
+
     return (
       <>
         <div
@@ -63,6 +79,7 @@ export default class Tag extends React.Component {
             onClick={this.props.onDelete}
             title={this.props.removeButtonText}
           />
+          {suggestionComponent}
         </div>
       </>
     )
