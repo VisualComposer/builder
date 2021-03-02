@@ -291,6 +291,12 @@ class ReactTags extends React.Component {
               onTagChange={this.props.onTagChange.bind(this, i)}
               isTagEditable={this.props.isTagEditable}
               valid={this.props.validator ? this.props.validator(tag.name) : true}
+              tagsState={this.state}
+              id={this.props.id}
+              suggestions={this.suggestions}
+              handleAddTag={this.addTag.bind(this)}
+              disableMarkIt={this.props.disableMarkIt}
+              suggestionComponent={this.props.suggestionComponent}
             />
           ))}
         </div>
