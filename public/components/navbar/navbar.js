@@ -13,6 +13,7 @@ const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRe
 const positionState = vcCake.getStorage('workspace').state('navbarPosition')
 const wordpressBackendDataStorage = vcCake.getStorage('wordpressData')
 const workspaceSettings = vcCake.getStorage('workspace').state('settings')
+const workspaceNavbarState = vcCake.getStorage('workspace').state('isNavbarDisabled')
 const dataManager = vcCake.getService('dataManager')
 
 export default class Navbar extends React.Component {
@@ -62,8 +63,6 @@ export default class Navbar extends React.Component {
       isActiveSandwich: false
     }
 
-    this.menuButtonRef = React.createRef()
-
     if (this.isMobile && vcCake.env('editor') === 'frontend') {
       let isScrolling = 0
 
@@ -86,6 +85,7 @@ export default class Navbar extends React.Component {
     this.setHiddenControlsReference = this.setHiddenControlsReference.bind(this)
     this.updateNavbarBounding = this.updateNavbarBounding.bind(this)
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
+    this.handleNavbarStateChange = this.handleNavbarStateChange.bind(this)
   }
 
   setVisibleControls () {
@@ -144,6 +144,7 @@ export default class Navbar extends React.Component {
   /* eslint-enable */
 
   componentDidMount () {
+    workspaceNavbarState.onChange(this.handleNavbarStateChange)
     boundingRectState.onChange(this.updateNavbarBounding)
     const currentDOMElement = window.document.querySelector('.vcv-ui-navbar-controls-spacer')
     if (currentDOMElement) {
@@ -304,14 +305,23 @@ export default class Navbar extends React.Component {
   /* eslint-enable */
 
   handleDropdown (e) {
-    if (e.type === 'mouseenter') {
-      this.menuButtonRef.current.classList.remove('vcv-ui-navbar-control-no-hover')
-    } else {
-      this.menuButtonRef.current.classList.add('vcv-ui-navbar-control-no-hover')
+    this.handleActivateSandwich(e.type === 'mouseenter')
+  }
+
+  handleNavbarStateChange (navbarDisableState) {
+    window.setTimeout(function () {
+      const cursorPosition = document.querySelectorAll(':hover')
+      const isCursorOnSandwichButton = Array.from(cursorPosition).some(({ classList }) => classList.contains('vcv-ui-navbar-sandwich'))
+      this.handleActivateSandwich(isCursorOnSandwichButton, navbarDisableState)
+    }.bind(this), 100)
+  }
+
+  handleActivateSandwich (isActive, navbarDisableState = false) {
+    if (!navbarDisableState) {
+      this.setState({
+        isActiveSandwich: isActive
+      })
     }
-    this.setState({
-      isActiveSandwich: e.type === 'mouseenter'
-    })
   }
 
   setHiddenControlsReference (ref) {
@@ -337,7 +347,7 @@ export default class Navbar extends React.Component {
 
     return (
       <dl className={sandwichClasses} onMouseEnter={this.handleDropdown} onMouseLeave={this.handleDropdown}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control vcv-ui-navbar-control-no-hover' ref={this.menuButtonRef} title={menuTitle}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
           <span className='vcv-ui-navbar-control-content'>
             <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />
             <span>{menuTitle}</span>

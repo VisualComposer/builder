@@ -2,6 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspace')
 
 export default class TransparentOverlayComponent extends React.Component {
   static propTypes = {
@@ -22,6 +25,7 @@ export default class TransparentOverlayComponent extends React.Component {
     if (this.props.disableNavBar) {
       const layoutHeader = document.getElementById('vcv-layout-header')
       layoutHeader.style.pointerEvents = 'none'
+      workspaceStorage.state('isNavbarDisabled').set(true)
     }
     if (this.props.hideLayoutBar) {
       document.body.classList.add('vcv-overlay--enabled')
@@ -34,6 +38,7 @@ export default class TransparentOverlayComponent extends React.Component {
     if (this.props.disableNavBar) {
       const layoutHeader = document.getElementById('vcv-layout-header')
       layoutHeader.style.pointerEvents = ''
+      workspaceStorage.state('isNavbarDisabled').set(false)
     }
     if (this.props.hideLayoutBar) {
       document.body.classList.remove('vcv-overlay--enabled')
