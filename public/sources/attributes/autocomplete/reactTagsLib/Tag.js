@@ -40,7 +40,7 @@ export default class Tag extends React.Component {
     const tagClasses = classNames({
       [this.props.classNames.selectedTag]: true,
       'vc-tags--selected-tag--editable': this.state.isTagEditable,
-      'vc-tags--tag-not-valid': !this.props.valid,
+      'vc-tags--tag-not-valid': !this.props.valid
     })
 
     return (
@@ -48,14 +48,16 @@ export default class Tag extends React.Component {
         <div
           className={tagClasses}
         >
-        <span
-          contentEditable={this.props.isTagEditable && this.state.isTagEditable}
-          suppressContentEditableWarning
-          className={this.props.classNames.selectedTagName}
-          onClick={this.props.isTagEditable && this.handleTagClick}
-          onBlur={this.props.isTagEditable && this.handleBlur}
-          onKeyDown={this.props.isTagEditable && this.handleKeyDownPreventNewLine}
-        >{this.props.tag.name}</span>
+          <span
+            contentEditable={this.props.isTagEditable && this.state.isTagEditable}
+            suppressContentEditableWarning
+            className={this.props.classNames.selectedTagName}
+            onClick={this.props.isTagEditable && this.handleTagClick}
+            onBlur={this.props.isTagEditable && this.handleBlur}
+            onKeyDown={this.props.isTagEditable && this.handleKeyDownPreventNewLine}
+          >
+            {this.props.tag.name}
+          </span>
           <i
             className='vcv-ui-icon vcv-ui-icon-close-thin'
             onClick={this.props.onDelete}

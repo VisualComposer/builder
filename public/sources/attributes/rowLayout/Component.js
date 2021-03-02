@@ -10,7 +10,7 @@ import DefaultLayouts from './lib/defaultLayouts'
 import Toggle from '../toggle/Component'
 import LayoutResponsiveness from './lib/layoutResponsiveness'
 import Tooltip from '../../../components/tooltip/tooltip'
-import AutoComplete from "../autocomplete/Component";
+import AutoComplete from '../autocomplete/Component'
 
 const dataManager = vcCake.getService('dataManager')
 
@@ -30,48 +30,39 @@ export default class Layout extends Attribute {
     ],
     suggestions: [
       {
-        name: '100%',
-        columnWidth: '100%'
+        name: '100%'
       },
       {
-        name: '50%',
-        columnWidth: '50%'
+        name: '50%'
       },
       {
-        name: '33.33%',
-        columnWidth: '33.33%'
+        name: '33.33%'
       },
       {
-        name: '25%',
-        columnWidth: '25%'
+        name: '25%'
       },
       {
-        name: '20%',
-        columnWidth: '20%'
+        name: '20%'
       },
       {
-        name: '16.66%',
-        columnWidth: '16.66%'
+        name: '16.66%'
       },
       {
-        name: '66.66%',
-        columnWidth: '66.66%'
+        name: '66.66%'
       },
       {
-        name: '75%',
-        columnWidth: '75%'
+        name: '75%'
       },
       {
-        name: 'auto',
-        columnWidth: 'auto'
+        name: 'auto'
       },
       {
-        name: 'hide',
-        columnWidth: 'hide'
+        name: 'hide'
       }
     ],
     fieldType: 'rowLayout'
   }
+
   static attributeMixins = {
     columnStyleMixin: {
       src: require('raw-loader!./cssMixins/columnStyles.pcss'),
@@ -109,6 +100,7 @@ export default class Layout extends Attribute {
       }
     }
   }
+
   static devices = ['xs', 'sm', 'md', 'lg', 'xl']
   static localizations = dataManager.get('localizations')
   static deviceData = [
@@ -271,7 +263,7 @@ export default class Layout extends Attribute {
     this.validateSize = this.validateSize.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleColumnHover = this.handleColumnHover.bind(this)
-    this.handleAutocompleteChange = this.handleAutocompleteChange.bind(this)
+    this.onHandleAutocompleteChange = this.onHandleAutocompleteChange.bind(this)
   }
 
   updateState (props) {
@@ -444,7 +436,7 @@ export default class Layout extends Attribute {
     this.handleActiveLayoutChange(value)
   }
 
-  handleAutocompleteChange (fieldKey, value) {
+  onHandleAutocompleteChange (fieldKey, value) {
     const parsedValue = value.map((item) => {
       return item.name
     })
@@ -525,6 +517,10 @@ export default class Layout extends Attribute {
       )
     }
 
+    const showSuggestionsOnFocus = true
+    const isNewAutocomplete = true
+    const isTagEditable = true
+
     return (
       <div className='vcv-ui-form-layout'>
         <DefaultLayouts
@@ -545,13 +541,13 @@ export default class Layout extends Attribute {
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <AutoComplete
                       fieldKey='rowLayout'
-                      updater={this.handleAutocompleteChange}
+                      updater={this.onHandleAutocompleteChange}
                       value={LayoutData}
                       suggestions={this.props.suggestions}
-                      suggestionsOnFocus={true}
+                      showSuggestionsOnFocus={showSuggestionsOnFocus}
                       options={{}}
-                      isNewAutocomplete={true}
-                      isTagEditable={true}
+                      isNewAutocomplete={isNewAutocomplete}
+                      isTagEditable={isTagEditable}
                       validator={this.validateSize}
                     />
                   </div>
