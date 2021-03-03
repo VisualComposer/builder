@@ -90,11 +90,12 @@
 
 .vcv-premium-teaser-text a {
   text-decoration: none;
-  color: #2A4B81;
-  transition: color .2s;
+  color: @vcv-blue-link;
+  transition: color @transition-duration;
 
   &:hover {
-    color: #586dc6;
+    color: @vcv-blue-link--hover;
+    text-decoration: underline;
   }
 }
 
