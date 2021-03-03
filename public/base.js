@@ -2,6 +2,7 @@
 import vcCake from 'vc-cake'
 import './variables'
 import './editor/services/dataManager/service'
+import './editor/services/utils/service'
 import './editor/services/dataProcessor/service'
 
 // const $ = require('expose-loader?$!jquery')

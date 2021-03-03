@@ -623,8 +623,6 @@
       }
 
       if (!isCurrentPanel) {
-        // ignore the last record of the history
-        history.back()
         // Clear the hash in the site URL (address bar)
         history.replaceState({ stateId: 'removeHash' }, '', window.location.pathname)
       }
