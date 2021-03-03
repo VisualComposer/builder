@@ -29,6 +29,7 @@ class CapabilityMigration extends MigrationsController implements Module
             'vcv_footers',
             'vcv_sidebars',
             'vcv_templates',
+            'vcv_tutorials',
             'vcv_archives',
             'vcv_popups',
             'vcv_layouts',

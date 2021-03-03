@@ -81,7 +81,7 @@ export default class VideoScreen extends React.Component {
       )
     }
 
-    if (dataManager.get('manageOptions')) {
+    if (dataManager.get('tutorialPageCapability')) {
       const takeTutorialButtonClasses = classNames({
         'vcv-activation-button': true,
         'vcv-activation-button--dark': true,
