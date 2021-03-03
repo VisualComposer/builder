@@ -322,14 +322,13 @@ export default class Navbar extends React.Component {
     const sandwichClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-pull-end': true,
-      'vcv-ui-navbar-sandwich': true,
-      'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
+      'vcv-ui-navbar-sandwich': true
     })
 
     const hideTracksWhenNotNeeded = true
 
     return (
-      <dl className={sandwichClasses} onMouseEnter={this.handleDropdown} onMouseLeave={this.handleDropdown}>
+      <dl className={sandwichClasses}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
           <span className='vcv-ui-navbar-control-content'>
             <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />

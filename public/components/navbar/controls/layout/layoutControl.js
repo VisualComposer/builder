@@ -5,8 +5,6 @@ import { env, getService, getStorage } from 'vc-cake'
 
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
-const workspaceStorage = getStorage('workspace')
-const workspaceSettings = workspaceStorage.state('settings')
 
 export default class LayoutButtonControl extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -81,7 +79,9 @@ export default class LayoutButtonControl extends React.Component {
     super(props)
     this.state = {
       activeDevice: 0,
-      isControlActive: false
+      isControlActive: false,
+      isVerticalPositioned: false,
+      isHorizontalPositioned: false
     }
     this.contentRef = React.createRef()
 
@@ -93,18 +93,14 @@ export default class LayoutButtonControl extends React.Component {
     this.handleControlHover = this.handleControlHover.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.handleLayoutChange = this.handleLayoutChange.bind(this)
-    this.setActiveState = this.setActiveState.bind(this)
-    this.closeDropdown = this.closeDropdown.bind(this)
   }
 
   componentDidMount () {
     settingsStorage.state('outputEditorLayoutDesktop').onChange(this.handleLayoutChange)
-    workspaceSettings.onChange(this.setActiveState)
   }
 
   componentWillUnmount () {
     settingsStorage.state('outputEditorLayoutDesktop').ignoreChange(this.handleLayoutChange)
-    workspaceSettings.ignoreChange(this.setActiveState)
   }
 
   handleLayoutChange (data) {
@@ -137,39 +133,15 @@ export default class LayoutButtonControl extends React.Component {
     }
   }
 
-  closeDropdown (e) {
-    if (e && e.target.closest('.vcv-ui-navbar-dropdown--layout.vcv-ui-navbar-dropdown--active')) {
-      return
-    }
-
-    if (e && e.target.closest('.vcv-ui-navbar-sandwich')) {
-      this.setActiveState({ action: 'sandwich' })
-    } else {
-      this.setActiveState({ action: 'devices' })
-    }
-  }
-
   handleControlHover () {
-    workspaceSettings.set(this.state.isControlActive ? { action: 'closeHover' } : { action: 'devices' })
-  }
-
-  setActiveState (state) {
-    this.setState({ isControlActive: (state && state.action) === 'devices' })
-    if (!this.state.isControlActive) {
-      window.addEventListener('resize', this.handleWindowResize)
-      setTimeout(this.handleWindowResize, 1)
-      document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
-      document.body.addEventListener('click', this.closeDropdown)
-    } else {
-      window.removeEventListener('resize', this.handleWindowResize)
-      document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
-      document.body.removeEventListener('click', this.closeDropdown)
-      this.setState({
-        isControlActive: !this.state.isControlActive,
-        isVerticalPositioned: false,
-        isHorizontalPositioned: false
-      })
-    }
+    this.setState({
+      isHorizontalPositioned: false,
+      isVerticalPositioned: false
+    }, () => {
+      window.setTimeout(() => {
+        this.handleWindowResize()
+      }, 1)
+    })
   }
 
   setViewport (width, height, device) {
@@ -203,14 +175,12 @@ export default class LayoutButtonControl extends React.Component {
     const navbarControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-navbar-dropdown--layout': true,
-      'vcv-ui-navbar-dropdown--active': this.state.isControlActive,
       'vcv-ui-navbar-dropdown-linear': true,
       'vcv-ui-pull-end': true
     })
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
       'vcv-ui-navbar-dropdown-content--layout': true,
-      'vcv-ui-navbar-dropdown-content--visible': this.state.isControlActive,
       'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned,
       'vcv-ui-navbar-dropdown-content--horizontal': this.state.isHorizontalPositioned
     })
@@ -232,7 +202,6 @@ export default class LayoutButtonControl extends React.Component {
         tabIndex='0'
         data-vcv-guide-helper='layout-control'
         onMouseEnter={this.handleControlHover}
-        onMouseLeave={this.handleControlHover}
       >
         <dt
           className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
