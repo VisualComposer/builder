@@ -1,5 +1,6 @@
 import React from 'react'
 import { matchAny } from './concerns/matchers'
+import Scrollbar from "../../../../components/scrollbar/scrollbar";
 
 function markIt (name, query) {
   const regexp = matchAny(query)
@@ -18,6 +19,8 @@ class Suggestions extends React.Component {
       showAtTop: false
     }
     this.suggestionBox = React.createRef()
+    this.scrollBarMounted = this.scrollBarMounted.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
   componentDidMount () {
@@ -37,12 +40,20 @@ class Suggestions extends React.Component {
     this.props.addTag(item)
   }
 
+  scrollBarMounted (scrollbar) {
+    this.scrollbar = scrollbar
+  }
+
+  handleScroll () {
+    this.props.onScroll && this.props.onScroll(this.scrollbar.scrollbars)
+  }
+
   render () {
     const SuggestionComponent = this.props.suggestionComponent || DefaultSuggestionComponent
 
     const options = this.props.options.map((item, index) => {
       const key = `${this.props.id}-${index}`
-      const classNames = []
+      const classNames = ['vc-tags--suggestion']
 
       if (this.props.index === index) {
         classNames.push(this.props.classNames.suggestionActive)
@@ -53,7 +64,7 @@ class Suggestions extends React.Component {
       }
 
       return (
-        <li
+        <div
           id={key}
           key={key}
           role='option'
@@ -64,7 +75,7 @@ class Suggestions extends React.Component {
           {item.prefix ? <span className={this.props.classNames.suggestionPrefix}>{item.prefix}</span> : null}
           {(item.disableMarkIt || this.props.disableMarkIt) ? item.name
             : <SuggestionComponent item={item} query={this.props.query} />}
-        </li>
+        </div>
       )
     })
 
@@ -75,7 +86,7 @@ class Suggestions extends React.Component {
 
     return (
       <div className={classes} ref={this.suggestionBox}>
-        <ul role='listbox' id={this.props.id}>{options}</ul>
+        <Scrollbar id={this.props.id} ref={this.scrollBarMounted} onScroll={this.handleScroll}>{options}</Scrollbar>
       </div>
     )
   }
