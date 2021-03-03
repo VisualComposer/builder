@@ -18,7 +18,9 @@ class CapabilityMigration extends MigrationsController implements Module
 
     protected function run()
     {
+        // @codingStandardsIgnoreLine
         global $wp_roles;
+        // @codingStandardsIgnoreLine
         $wpRoles = $wp_roles;
         $optionsHelper = vchelper('Options');
 
