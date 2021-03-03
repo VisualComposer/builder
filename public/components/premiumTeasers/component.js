@@ -25,6 +25,10 @@ export default class PremiumTeaser extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
+  componentWillUnmount () {
+    workspaceStorage.state('downloadingItems').ignoreChange(this.checkDownloading)
+  }
+
   checkDownloading () {
     const downloadingItems = workspaceStorage.state('downloadingItems').get() || []
     if (!downloadingItems.includes(this.props.addonName)) {
