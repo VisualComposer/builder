@@ -32,6 +32,9 @@ const CLASS_NAMES = {
 }
 
 function findMatchIndex (options, query) {
+  if (query === '') {
+    return false
+  }
   return options.findIndex((option) => {
     return matchExact(query).test(option.name)
   })
