@@ -25,28 +25,6 @@ export default class ReplaceElement extends React.Component {
     this.handleGoToHub = this.handleGoToHub.bind(this)
   }
 
-  componentDidMount () {
-    this.ellipsize('.vcv-ui-item-element-name')
-  }
-
-  ellipsize (selector) {
-    const elements = this.elementListRef.current.querySelectorAll(selector)
-    if (!elements || !elements.length) {
-      return
-    }
-    elements.forEach((element) => {
-      const wordArray = element.innerHTML.split(' ')
-
-      // Check if difference is within a 3px threshold
-      // 3px is a safe value to cover the differences between the browsers
-      while (((element.scrollHeight - element.offsetHeight) > 3) && wordArray.length > 0) {
-        wordArray.pop()
-        element.innerHTML = wordArray.join(' ') + '...'
-      }
-    })
-    return this
-  }
-
   handleReplace (newElementTag, cookElement) {
     this.props.onReplace(newElementTag, cookElement)
   }
