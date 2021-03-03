@@ -33,11 +33,6 @@ export default class TemplateControl extends React.Component {
     this.hidePreview = this.hidePreview.bind(this)
   }
 
-  componentDidMount () {
-    this.ellipsize('.vcv-ui-item-element-name')
-    // this.ellipsize('.vcv-ui-item-preview-text')
-  }
-
   showPreview () {
     this.setState({
       previewVisible: true
@@ -151,19 +146,6 @@ export default class TemplateControl extends React.Component {
 
   handleRemoveTemplate () {
     this.props.removeTemplate(this.props.id, this.props.type)
-  }
-
-  ellipsize (selector) {
-    const element = ReactDOM.findDOMNode(this).querySelector(selector)
-    const wordArray = element.innerHTML.split(' ')
-
-    // Check if difference is within a 3px threshold
-    // 3px is a safe value to cover the differences between the browsers
-    while (((element.scrollHeight - element.offsetHeight) > 3) && wordArray.length > 0) {
-      wordArray.pop()
-      element.innerHTML = wordArray.join(' ') + '...'
-    }
-    return this
   }
 
   getCustomTemplateProps () {
