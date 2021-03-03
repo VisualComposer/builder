@@ -1,7 +1,5 @@
 import { getService, addService, env } from 'vc-cake'
-import { deflate } from 'pako/lib/deflate'
-import base64 from 'base-64'
-
+const utils = getService('utils')
 let processes = []
 let id = 1
 const Service = {
@@ -77,8 +75,7 @@ const Service = {
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      const binaryString = deflate(JSON.stringify(args), { to: 'string' })
-      const encodedString = base64.encode(binaryString)
+      const encodedString = utils.compressData(args)
       args = {
         'vcv-zip': encodedString
       }
@@ -95,8 +92,7 @@ const Service = {
     }, args)
 
     if (env('VCV_JS_SAVE_ZIP')) {
-      const binaryString = deflate(JSON.stringify(args), { to: 'string' })
-      const encodedString = base64.encode(binaryString)
+      const encodedString = utils.compressData(args)
       args = {
         'vcv-zip': encodedString
       }

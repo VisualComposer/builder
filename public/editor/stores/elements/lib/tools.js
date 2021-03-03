@@ -88,6 +88,12 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
       if (columns[i] !== undefined) {
         lastColumnObject = columns[i]
         lastColumnObject.size[device] = size
+        if (lastColumnObject.lastInRow === false) {
+          lastColumnObject.lastInRow = {}
+        }
+        if (lastColumnObject.firstInRow === false) {
+          lastColumnObject.firstInRow = {}
+        }
         if (device !== 'defaultSize') {
           lastColumnObject.lastInRow[device] = lastInRow
           lastColumnObject.firstInRow[device] = firstInRow
@@ -107,6 +113,12 @@ export const rebuildRawLayout = (id, data = {}, documentManager, options) => {
         if (!createdColumns[createdColCount]) {
           const createdColumnData = lodash.defaultsDeep({}, defaultColumnData)
           createdColumnData.size[device] = size
+          if (createdColumnData.lastInRow === false) {
+            createdColumnData.lastInRow = {}
+          }
+          if (createdColumnData.firstInRow === false) {
+            createdColumnData.firstInRow = {}
+          }
           if (device !== 'defaultSize') {
             createdColumnData.lastInRow[device] = lastInRow
             createdColumnData.firstInRow[device] = firstInRow

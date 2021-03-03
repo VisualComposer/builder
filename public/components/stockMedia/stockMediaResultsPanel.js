@@ -37,14 +37,11 @@ export default class StockMediaResultsPanel extends React.Component {
       totalPages: 0,
       requestInProgress: false,
       hasError: false,
-      activeItem: null,
       downloadingItems: []
     }
     this.handleImageLoad = this.handleImageLoad.bind(this)
     this.handleClickDownloadImage = this.handleClickDownloadImage.bind(this)
     this.setColumnCount = this.setColumnCount.bind(this)
-    this.handleClickShowDownloadOptions = this.handleClickShowDownloadOptions.bind(this)
-    this.handleClickOutside = this.handleClickOutside.bind(this)
     this.handleLockClick = this.handleLockClick.bind(this)
   }
 
@@ -54,7 +51,6 @@ export default class StockMediaResultsPanel extends React.Component {
   }
 
   componentWillUnmount () {
-    document.removeEventListener('click', this.handleClickOutside)
     window.removeEventListener('resize', this.setColumnCount)
     this.componentUnmounted = true
     this.abortController.abort()
@@ -335,35 +331,12 @@ export default class StockMediaResultsPanel extends React.Component {
         if (this.componentUnmounted) {
           return
         }
-        if (this.state.activeItem === imageId) {
-          this.setState({ activeItem: null })
-        }
         const downloadingItems1 = this.state.downloadingItems
         delete downloadingItems1[imageId]
         this.setState({
           downloadingItems: downloadingItems1
         })
       })
-    }
-  }
-
-  handleClickShowDownloadOptions (e) {
-    const clickedElement = e.currentTarget
-    const id = clickedElement && clickedElement.parentElement.id
-
-    if (id) {
-      window.setTimeout(() => {
-        this.setState({ activeItem: id })
-        document.addEventListener('click', this.handleClickOutside)
-      }, 1)
-    }
-  }
-
-  handleClickOutside (e) {
-    const clickedElement = e.target
-    if (!clickedElement.closest('.vcv-stock-image-download-button')) {
-      this.setState({ activeItem: null })
-      document.removeEventListener('click', this.handleClickOutside)
     }
   }
 
@@ -383,9 +356,26 @@ export default class StockMediaResultsPanel extends React.Component {
         >
           {sizesData.title}
           {description}
+          <span className='vcv-ui-icon vcv-ui-icon-download' />
         </button>
       )
     })
+  }
+
+  getAuthorButton (user) {
+    if (user && user.url) {
+      return (
+        <a
+          href={user && user.url}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='vcv-stock-image-download-button vcv-stock-image-author'
+        >
+          <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
+          {user && user.name}
+        </a>
+      )
+    }
   }
 
   handleLockClick () {
@@ -415,7 +405,7 @@ export default class StockMediaResultsPanel extends React.Component {
   }
 
   getItems () {
-    const { columnData, columnCount, activeItem, downloadingItems } = this.state
+    const { columnData, columnCount, downloadingItems } = this.state
     const { stockMediaLocalizations, previewImageSize } = this.props
     const allowDownload = this.allowDownload && this.vcvLicenseKey !== 'free'
     const unlockText = stockMediaLocalizations && stockMediaLocalizations.unlockText
@@ -431,38 +421,29 @@ export default class StockMediaResultsPanel extends React.Component {
         }
         const innerItemClasses = classNames({
           'vcv-stock-image-inner': true,
-          'vcv-stock-image-inner--active': image.id === activeItem,
           'vcv-stock-image--downloading': downloadingItems[image.id]
         })
         const imageProportions = image.height / image.width
-        let iconsControls
+        let hoverControls
         if (allowDownload) {
-          iconsControls = (
-            <div className='vcv-stock-image-hover-download' onClick={this.handleClickShowDownloadOptions}>
-              <span className='vcv-ui-icon vcv-ui-icon-download' />
-            </div>
-          )
-        } else {
-          iconsControls = (
-            <div className='vcv-stock-image-hover-download vcv-stock-image-hover-lock' title={unlockText} onClick={this.handleLockClick}>
-              <span className='vcv-ui-icon vcv-ui-icon-lock-fill' />
-            </div>
-          )
-        }
-
-        let allowDownloadContent = null
-        if (allowDownload) {
-          allowDownloadContent = (
+          hoverControls = (
             <>
               <div className='vcv-stock-image-download-container'>
                 <div className='vcv-stock-image-download-options'>
                   {this.getSizeButtons(imageProportions)}
+                  {this.getAuthorButton(user)}
                 </div>
               </div>
               <div className='vcv-stock-image-loading'>
                 <span className='vcv-ui-icon vcv-ui-wp-spinner-light' />
               </div>
             </>
+          )
+        } else {
+          hoverControls = (
+            <div className='vcv-stock-image-hover-lock' title={unlockText} onClick={this.handleLockClick}>
+              <span className='vcv-ui-icon vcv-ui-icon-lock-fill' />
+            </div>
           )
         }
 
@@ -477,13 +458,7 @@ export default class StockMediaResultsPanel extends React.Component {
               id={image.id}
             >
               <img {...props} />
-              {iconsControls}
-
-              <a href={user && user.url} target='_blank' rel='noopener noreferrer' className='vcv-stock-image-author'>
-                <img src={user && user.image} alt={user && user.name} className='vcv-stock-image-author-image' />
-                {user && user.name}
-              </a>
-              {allowDownloadContent}
+              {hoverControls}
             </div>
           </div>
         )
