@@ -1,0 +1,103 @@
+name: New version (tag) of plugin to WordPress.org
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  build-plugin:
+    name: Build the latest version of the Visual Composer plugin
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Setup PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Get the branch
+        id: get_branch
+        run: echo ::set-output name=BRANCH::$(echo ${GITHUB_REF/refs\/tags\//} | sed 's/[.].*$/.x/')
+      - name: Checkout code
+        run: |
+          GIT_SSL_NO_VERIFY=true git clone -b ${{ steps.get_branch.outputs.BRANCH }} --single-branch https://github.com/VisualComposer/builder.git --depth 1 
+      - name: Build project
+        run: |
+          yarn --cwd ./builder install
+          node ./builder/_infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }}  -p ./
+      - name: Upload plugin zip
+        uses: actions/upload-artifact@v1
+        with:
+          name: visualcomposer.zip
+          path: visualcomposer.zip
+  build-dev-plugin:
+    name: Build the latest version of the Visual Composer plugin dev version
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Setup PHP version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+      - name: Checkout code
+        run: |
+          GIT_SSL_NO_VERIFY=true git clone https://github.com/VisualComposer/builder.git --depth 1
+      - name: Build project
+        run: |
+          yarn --cwd ./builder install
+          node ./builder/_infrastructure/vcwb-builder/builder plugin -b dev -p ./
+      - name: Upload plugin zip
+        uses: actions/upload-artifact@v1
+        with:
+          name: visualcomposer-dev.zip
+          path: visualcomposer.zip
+  deploy:
+    name: Add new version to WordPress.org svn repository
+    runs-on: ubuntu-latest
+    needs: [build-plugin]
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: visualcomposer.zip
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Checkout Wordpress.org svn repository
+        run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
+      - name: Unzip visualcomposer
+        run: unzip $GITHUB_WORKSPACE/visualcomposer.zip/visualcomposer.zip -d ./
+      - name: Create new directory
+        run: mkdir -p ./visualcomposer-wordpress-org/tags/${{ steps.get_version.outputs.VERSION }}
+      - name: Copy files to trunk directory
+        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/tags/${{ steps.get_version.outputs.VERSION }} --delete
+      - name: Update svn repository
+        env:
+          WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
+          WP_PASSWORD: ${{ secrets.wordpressOrgPassword }}
+        run: |
+          cd ./visualcomposer-wordpress-org
+          svn add --force ./tags/${{ steps.get_version.outputs.VERSION }} > /dev/null
+          svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm % > /dev/null
+          svn ci -m "Plugin ${{ steps.get_version.outputs.VERSION }} version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
+  deploy-trunk:
+    name: Update trunk on WordPress.org
+    needs: [build-dev-plugin, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: visualcomposer-dev.zip
+      - name: Checkout Wordpress.org svn repository
+        run: svn co https://plugins.svn.wordpress.org/visualcomposer visualcomposer-wordpress-org
+      - name: Unzip visualcomposer
+        run: unzip $GITHUB_WORKSPACE/visualcomposer-dev.zip/visualcomposer.zip -d ./
+      - name: Copy files to trunk directory
+        run: rsync -rc visualcomposer/ ./visualcomposer-wordpress-org/trunk/ --delete
+      - name: Update svn repository
+        env:
+          WP_USERNAME: ${{ secrets.wordpressOrgUsername }}
+          WP_PASSWORD: ${{ secrets.wordpressOrgPassword }}
+        run: |
+          cd ./visualcomposer-wordpress-org
+          svn add --force ./trunk/* > /dev/null
+          svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm % > /dev/null
+          svn ci -m "Trunk update with the latest version" --username "$WP_USERNAME" --password "$WP_PASSWORD"
