@@ -1,6 +1,6 @@
 import React from 'react'
 import { matchAny } from './concerns/matchers'
-import Scrollbar from "../../../../components/scrollbar/scrollbar";
+import Scrollbar from '../../../../components/scrollbar/scrollbar'
 
 function markIt (name, query) {
   const regexp = matchAny(query)
