@@ -42,6 +42,7 @@ const dataManager = {
       footerTemplates: () => { return window.VCV_FOOTER_TEMPLATES && window.VCV_FOOTER_TEMPLATES() },
       showPremiumPromoPopup: () => { return window.VCV_SHOW_PREMIUM_PROMO_POPUP && window.VCV_SHOW_PREMIUM_PROMO_POPUP() },
       tutorialPageUrl: () => { return window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL() },
+      tutorialPageCapability: () => { return window.VCV_TUTORIAL_PAGE_CAPABILITY && window.VCV_TUTORIAL_PAGE_CAPABILITY() },
       createNewUrl: () => { return window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL() },
       manageOptions: () => { return window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS() },
       vcvManageOptions: () => { return window.vcvManageOptions }, // vcv prefix added to avoid duplicating

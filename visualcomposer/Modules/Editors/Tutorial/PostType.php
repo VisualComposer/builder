@@ -273,6 +273,14 @@ class PostType extends Container implements Module
                 "delete_{$this->postType}s",
             ];
 
+            if ($role === 'contributor') {
+                $capabilities = [
+                    "read_{$this->postType}",
+                    "edit_{$this->postType}s",
+                    "delete_{$this->postType}s",
+                ];
+            }
+
             if (in_array($role, ['administrator', 'editor', 'author'])) {
                 $capabilities = array_merge(
                     $capabilities,

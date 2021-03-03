@@ -54,6 +54,13 @@ class Controller extends Container implements Module
             ];
         }
 
+        $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        $variables[] = [
+            'type' => 'constant',
+            'key' => 'VCV_TUTORIAL_PAGE_CAPABILITY',
+            'value' => $currentUserAccessHelper->wpAll('edit_' . $this->postType)->get(),
+        ];
+
         return $variables;
     }
 
