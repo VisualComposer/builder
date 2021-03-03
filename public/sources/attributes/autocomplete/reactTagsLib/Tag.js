@@ -52,7 +52,9 @@ export default class Tag extends React.Component {
           id={this.props.id}
           ref={this.props.suggestions}
           classNames={this.props.classNames}
-          // addTag={this.props.onTagChange('10%')}
+          addTag={(tag) => {
+            this.props.onTagChange(tag.name)
+          }}
           disableMarkIt={this.props.disableMarkIt}
           suggestionComponent={this.props.suggestionComponent}
         />
