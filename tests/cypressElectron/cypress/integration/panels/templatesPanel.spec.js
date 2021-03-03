@@ -47,7 +47,7 @@ describe('Template Panel', function () {
         .contains(settings.templateOneName)
 
       // 5. Remove all elements from the page
-      cy.get('.vcv-ui-navbar-control[title="Tree View (⇧T)"]').click()
+      cy.contains('.vcv-ui-navbar-control', 'Tree View').click()
       cy.get('.vcv-ui-tree-layout-action[title="Remove All"]').click()
 
       // 6. Search for the saved template
