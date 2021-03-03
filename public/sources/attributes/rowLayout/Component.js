@@ -29,36 +29,16 @@ export default class Layout extends Attribute {
       ['16.66%', '66.66%', '16.66%']
     ],
     suggestions: [
-      {
-        name: '100%'
-      },
-      {
-        name: '50%'
-      },
-      {
-        name: '33.33%'
-      },
-      {
-        name: '25%'
-      },
-      {
-        name: '20%'
-      },
-      {
-        name: '16.66%'
-      },
-      {
-        name: '66.66%'
-      },
-      {
-        name: '75%'
-      },
-      {
-        name: 'auto'
-      },
-      {
-        name: 'hide'
-      }
+      { name: '100%' },
+      { name: '50%' },
+      { name: '33.33%' },
+      { name: '25%' },
+      { name: '20%' },
+      { name: '16.66%' },
+      { name: '66.66%' },
+      { name: '75%' },
+      { name: 'auto' },
+      { name: 'hide' }
     ],
     fieldType: 'rowLayout'
   }
