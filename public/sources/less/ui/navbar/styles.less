@@ -163,7 +163,7 @@
   .vcv-ui-navbar-controls-group {
     flex-direction: column;
   }
-  &.vcv-ui-navbar-dropdown--active {
+  &:hover {
     .vcv-ui-navbar-dropdown-content {
       visibility: visible;
       opacity: 1;
@@ -172,10 +172,15 @@
     .vcv-ui-navbar-dropdown-trigger {
       background-color: @navbar-bg-dropdown;
     }
-  }
-  &:hover {
     .vcv-ui-navbar-dropdown-content {
       z-index: @navbar-dropdown-z-index-hover;
+    }
+
+    .vcv-ui-navbar-dropdown-content {
+      visibility: visible;
+      opacity: 1;
+      max-height: none;
+      overflow: initial;
     }
   }
   &[disabled] {
@@ -236,12 +241,7 @@
     }
   }
 
-  &.vcv-ui-navbar-dropdown-content--visible {
-    visibility: visible;
-    opacity: 1;
-    max-height: none;
-    overflow: initial;
-
+  &.vcv-ui-navbar-dropdown-content--layout {
     .vcv-ui-navbar-control:last-child {
       border-top: 1px solid #374763;
     }
