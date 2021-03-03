@@ -179,6 +179,9 @@ class ReactTags extends React.Component {
   }
 
   onClick (e) {
+    if (e.target !== e.currentTarget) {
+      return
+    }
     if (document.activeElement !== e.target) {
       this.input.current.input.current.focus()
     }
