@@ -74,18 +74,37 @@ class Nonce implements Helper
      */
     public function verifyPageEditable($nonce)
     {
-        return !empty($nonce) && vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()
-            && $nonce === $this->createPageEditableNonce();
+        if (empty($nonce)) {
+            return false;
+        }
+
+        // Nonce generated 0-12 hours ago.
+        $firstTick = wp_nonce_tick();
+        if ($nonce === $this->createPageEditableNonce($firstTick)) {
+            return true;
+        }
+
+        // Nonce generated 12-24 hours ago.
+        $secondTick = $firstTick - 1;
+        if ($nonce === $this->createPageEditableNonce($secondTick)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Create nonce string for pageEditable
      *
+     * @param bool $i
+     *
      * @return string
      */
-    protected function createPageEditableNonce()
+    protected function createPageEditableNonce($i = false)
     {
-        $i = wp_nonce_tick();
+        if (!$i) {
+            $i = wp_nonce_tick();
+        }
         $nonceKey = get_option('nonce_key', '');
         $nonceSalt = get_option('nonce_salt', '');
 
