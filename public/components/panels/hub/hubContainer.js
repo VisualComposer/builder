@@ -312,19 +312,28 @@ export default class HubContainer extends React.Component {
     })
   }
 
-  getSearchResults (value) {
-    value = value.toLowerCase().trim()
+  getSearchResults (searchValue) {
+    searchValue = searchValue.toLowerCase().trim()
     const allCategories = this.getAllCategories()
 
     return allCategories[this.state.activeCategoryIndex].elements.filter((elementData) => {
       const elName = hubElementsService.getElementName(elementData)
-      if (elName.indexOf(value) !== -1) {
+      if (elName.indexOf(searchValue) !== -1) {
         return true
       } else {
         const elDescription = hubElementsService.getElementDescription(elementData)
-        return elDescription.indexOf(value) !== -1
+        return elDescription.indexOf(searchValue) !== -1
       }
-    }).sort((a, b) => hubElementsService.getElementName(b).indexOf(value) - hubElementsService.getElementName(a).indexOf(value))
+    }).sort((a, b) => {
+      let firstIndex = hubElementsService.getElementName(a).indexOf(searchValue)
+      let secondIndex = hubElementsService.getElementName(b).indexOf(searchValue)
+
+      // In case if found by description it goes last
+      firstIndex = firstIndex === -1 ? 100 : firstIndex
+      secondIndex = secondIndex === -1 ? 100 : secondIndex
+
+      return firstIndex - secondIndex
+    })
   }
 
   getSearchElement () {
