@@ -150,9 +150,7 @@
   left: 0;
   width: 100%;
   z-index: 99999;
-  height: 120px;
   margin: 4px 0;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 }
 
 .vc-tags--suggestions--top {
@@ -161,7 +159,7 @@
 }
 
 .vc-tags--suggestions .vcv-ui-scroll {
-  border-radius: 5px;
+  position: initial !important;
 }
 
 .vc-tags--suggestions .vcv-ui-scroll .vcv-ui-scroll-content {
@@ -172,7 +170,10 @@
   border: none;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  inset: initial !important;
+  max-height: 120px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 }
 
 .vc-tags--suggestions .vcv-ui-scroll .vcv-ui-scroll-content::-webkit-scrollbar {
