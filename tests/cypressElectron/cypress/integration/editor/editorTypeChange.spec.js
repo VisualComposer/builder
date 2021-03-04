@@ -9,10 +9,9 @@ describe('Editor Type Change', function () {
       cy.window().then((win) => {
         cy.route('POST', win.vcvAdminAjaxUrl).as('firstPageEdit')
       })
-      cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
       cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
         .parent()
-        .click()
+        .click({ force: true })
       cy.wait('@firstPageEdit')
 
       // Check visual composer editor
