@@ -1,6 +1,6 @@
 import React from 'react'
 import { matchAny } from './concerns/matchers'
-import Scrollbar from '../../../../components/scrollbar/scrollbar'
+import Scrollbar from 'public/components/scrollbar/scrollbar'
 
 function markIt (name, query) {
   const regexp = matchAny(query)
@@ -19,8 +19,6 @@ class Suggestions extends React.Component {
       showAtTop: false
     }
     this.suggestionBox = React.createRef()
-    this.scrollBarMounted = this.scrollBarMounted.bind(this)
-    this.handleScroll = this.handleScroll.bind(this)
   }
 
   componentDidMount () {
@@ -34,18 +32,28 @@ class Suggestions extends React.Component {
     }
   }
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (prevProps.index !== this.props.index) {
+      const activeItem = this.suggestionBox.current.querySelector('.vc-tags--suggestion.is-active')
+      const scrollContainer = this.suggestionBox.current.querySelector('.vcv-ui-scroll-content')
+      if (!activeItem || !scrollContainer) {
+        return
+      }
+      const activeItemRect = activeItem.getBoundingClientRect()
+      const scrollContainerRect = scrollContainer.getBoundingClientRect()
+
+      if (scrollContainer.scrollTop + scrollContainerRect.height < activeItem.offsetTop + activeItemRect.height) {
+        scrollContainer.scrollTop -= (scrollContainer.scrollTop + scrollContainerRect.height) - (activeItem.offsetTop + activeItemRect.height)
+      } else if (scrollContainer.scrollTop > activeItem.offsetTop) {
+        scrollContainer.scrollTop -= scrollContainer.scrollTop - activeItem.offsetTop
+      }
+    }
+  }
+
   onMouseDown (item, e) {
     // focus is shifted on mouse down but calling preventDefault prevents this
     e.preventDefault()
     this.props.addTag(item)
-  }
-
-  scrollBarMounted (scrollbar) {
-    this.scrollbar = scrollbar
-  }
-
-  handleScroll () {
-    this.props.onScroll && this.props.onScroll(this.scrollbar.scrollbars)
   }
 
   render () {
@@ -86,7 +94,7 @@ class Suggestions extends React.Component {
 
     return (
       <div className={classes} ref={this.suggestionBox}>
-        <Scrollbar id={this.props.id} ref={this.scrollBarMounted} onScroll={this.handleScroll}>{options}</Scrollbar>
+        <Scrollbar id={this.props.id}>{options}</Scrollbar>
       </div>
     )
   }
