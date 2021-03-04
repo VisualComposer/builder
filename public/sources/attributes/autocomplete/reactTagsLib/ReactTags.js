@@ -102,6 +102,10 @@ function getOptions (props, state) {
     options.push({ id: 0, name: state.query, prefix: props.newTagPrefix })
   }
 
+  if (state.query !== '') {
+    options = options.filter(option => option.name.includes(state.query))
+  }
+
   return options
 }
 
