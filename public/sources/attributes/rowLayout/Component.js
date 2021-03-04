@@ -243,7 +243,7 @@ export default class Layout extends Attribute {
     this.validateSize = this.validateSize.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleColumnHover = this.handleColumnHover.bind(this)
-    this.onHandleAutocompleteChange = this.onHandleAutocompleteChange.bind(this)
+    this.onAutocompleteChange = this.onAutocompleteChange.bind(this)
   }
 
   updateState (props) {
@@ -416,7 +416,7 @@ export default class Layout extends Attribute {
     this.handleActiveLayoutChange(value)
   }
 
-  onHandleAutocompleteChange (fieldKey, value) {
+  onAutocompleteChange (fieldKey, value) {
     const parsedValue = value.map((item) => {
       return item.name
     })
@@ -521,7 +521,7 @@ export default class Layout extends Attribute {
                   <div className='vcv-ui-form-layout-custom-layout-input'>
                     <AutoComplete
                       fieldKey='rowLayout'
-                      updater={this.onHandleAutocompleteChange}
+                      updater={this.onAutocompleteChange}
                       value={LayoutData}
                       suggestions={this.props.suggestions}
                       showSuggestionsOnFocus={showSuggestionsOnFocus}

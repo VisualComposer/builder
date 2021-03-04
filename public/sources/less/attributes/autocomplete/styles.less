@@ -151,8 +151,6 @@
   width: 100%;
   z-index: 99999;
   height: 120px;
-  overflow: scroll;
-  border-radius: 5px;
   margin: 4px 0;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 }
@@ -162,7 +160,11 @@
   transform: translateY(-100%);
 }
 
-.vc-tags--suggestions .vcv-ui-scroll-content {
+.vc-tags--suggestions .vcv-ui-scroll {
+  border-radius: 5px;
+}
+
+.vc-tags--suggestions .vcv-ui-scroll .vcv-ui-scroll-content {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -170,6 +172,10 @@
   border: none;
   overflow: hidden;
   width: 100%;
+}
+
+.vc-tags--suggestions .vcv-ui-scroll .vcv-ui-scroll-content::-webkit-scrollbar {
+  display: none;
 }
 
 .vc-tags--suggestions .vc-tags--suggestion {
