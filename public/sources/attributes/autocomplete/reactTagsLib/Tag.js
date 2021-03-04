@@ -11,6 +11,7 @@ export default class Tag extends React.Component {
     }
 
     this.handleKeyDownPreventNewLine = this.handleKeyDownPreventNewLine.bind(this)
+    this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
     this.handleTagClick = this.handleTagClick.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
   }
@@ -38,6 +39,10 @@ export default class Tag extends React.Component {
     }
   }
 
+  handleSuggestionClick (suggestion) {
+    this.props.onTagChange(suggestion.name)
+  }
+
   render () {
     const tagClasses = classNames({
       [this.props.classNames.selectedTag]: true,
@@ -53,9 +58,7 @@ export default class Tag extends React.Component {
           id={this.props.id}
           ref={this.props.suggestions}
           classNames={this.props.classNames}
-          addTag={(tag) => {
-            this.props.onTagChange(tag.name)
-          }}
+          addTag={this.handleSuggestionClick}
           disableMarkIt={this.props.disableMarkIt}
           suggestionComponent={this.props.suggestionComponent}
         />
