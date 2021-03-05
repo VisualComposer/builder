@@ -470,7 +470,7 @@ export default class AttachImage extends Attribute {
     )
   }
 
-  handleDynamicFieldClose() {
+  handleDynamicFieldClose () {
     this.setFieldValue({})
     this.props.onDynamicFieldClose()
   }
