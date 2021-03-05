@@ -42,7 +42,7 @@ export default class AddTemplatePanel extends React.Component {
       showSpinner: false,
       categories: this.templatesCategories,
       showLoading: false,
-      removing: false,
+      removing: [],
       isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
@@ -155,7 +155,7 @@ export default class AddTemplatePanel extends React.Component {
     template = Object.assign({}, template)
     if (
       (env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) ||
-      (this.state.removing && template.id === this.state.showSpinner)
+      (this.state.removing.indexOf(template.id) > -1)
     ) {
       template.spinner = true
     }
@@ -429,23 +429,28 @@ export default class AddTemplatePanel extends React.Component {
   handleRemoveTemplate (id, type) {
     const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to delete this template?'
     if (window.confirm(removeTemplateWarning)) {
+      const newRemovingState = this.state.removing
+      newRemovingState.push(id)
       this.setState({
         showSpinner: id,
-        removing: true
+        removing: newRemovingState
       })
-      myTemplatesService.remove(id, type, this.onRemoveSuccess, this.onRemoveFailed)
+
+      myTemplatesService.remove(id, type, this.onRemoveSuccess.bind(this, id), this.onRemoveFailed)
     }
   }
 
-  onRemoveSuccess () {
+  onRemoveSuccess (id) {
     const index = !this.state.categories[this.state.activeCategoryIndex].templates.length ? 0 : this.state.activeCategoryIndex
     const templateRemovedSuccessfullyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoved : 'The template has been successfully removed.'
     this.displaySuccess(templateRemovedSuccessfullyText)
+    const newRemoveState = this.state.removing
+    newRemoveState.splice(newRemoveState.indexOf(id), 1)
 
     this.setState({
       activeCategoryIndex: index,
       showSpinner: false,
-      removing: false
+      removing: newRemoveState
     })
   }
 
@@ -462,7 +467,7 @@ export default class AddTemplatePanel extends React.Component {
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
-    if (this.state.showSpinner && !this.state.removing) {
+    if (this.state.showSpinner && !this.state.removing.length) {
       itemsOutput.push(this.getTemplateControl({
         name: this.state.templateName,
         data: {},

@@ -53,6 +53,7 @@ export default class HubContainer extends React.Component {
     this.handleForceUpdateCategories = this.handleForceUpdateCategories.bind(this)
     this.handleWorkspaceSettingsChange = this.handleWorkspaceSettingsChange.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
+    this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
   }
 
   componentDidMount () {
@@ -205,6 +206,7 @@ export default class HubContainer extends React.Component {
     })
 
     const iframe = document.getElementById('vcv-editor-iframe')
+    this.iframeDocument = iframe && iframe.contentWindow && iframe.contentWindow.document
     this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
     this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
   }
@@ -212,8 +214,19 @@ export default class HubContainer extends React.Component {
   openEditForm (action, id) {
     if (action === 'add' && id === this.addedId) {
       workspaceStorage.trigger('edit', this.addedId, '')
+      this.scrollToElementInsideFrame && this.scrollToElementInsideFrame(this.addedId)
       this.iframeWindow.vcv.off('ready', this.openEditForm)
     }
+  }
+
+  scrollToElementInsideFrame (id) {
+    const editorEl = this.iframeDocument.querySelector(`#el-${id}`)
+    if (!editorEl) {
+      return
+    }
+    window.setTimeout(() => {
+      editorEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 500)
   }
 
   getElementControl (elementData) {

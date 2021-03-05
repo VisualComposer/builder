@@ -1,6 +1,7 @@
 import vcCake from 'vc-cake'
 import { getResponse } from 'public/tools/response'
 import { getPopupDataFromElement } from 'public/tools/popup'
+import innerAPI from 'public/components/api/innerAPI'
 
 const dataProcessor = vcCake.getService('dataProcessor')
 const elementAssetsLibrary = vcCake.getService('elementAssetsLibrary')
@@ -127,9 +128,7 @@ export default class SaveController {
       const iframe = document.getElementById('vcv-editor-iframe')
       const contentLayout = iframe ? iframe.contentWindow.document.querySelector('[data-vcv-module="content-layout"]') : false
       const content = contentLayout ? utils.normalizeHtml(contentLayout.innerHTML) : ''
-      const featuredImageState = settingsStorage.state('featuredImage').get()
-      // if storage state is empty, need to explicitly send a string, otherwise it won't be sent in a request
-      const featuredImageDataValue = featuredImageState && featuredImageState.urls && featuredImageState.urls.length ? featuredImageState : 'empty'
+
       const requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id,
@@ -140,20 +139,6 @@ export default class SaveController {
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css-compiled': pageStylesCompiled,
-        'vcv-settings-source-custom-css': customCss,
-        'vcv-settings-global-css': globalCss,
-        'vcv-settings-source-local-head-js': settingsStorage.state('localJsHead').get() || '',
-        'vcv-settings-source-local-footer-js': settingsStorage.state('localJsFooter').get() || '',
-        'vcv-settings-global-head-js': settingsStorage.state('globalJsHead').get() || '',
-        'vcv-settings-global-footer-js': settingsStorage.state('globalJsFooter').get() || '',
-        'vcv-settings-parent-page': settingsStorage.state('parentPage').get() || '',
-        'vcv-settings-tags': JSON.stringify(settingsStorage.state('tags').get() || ''),
-        'vcv-settings-excerpt': settingsStorage.state('excerpt').get() || '',
-        'vcv-settings-comment-status': settingsStorage.state('commentStatus').get() || 'closed',
-        'vcv-settings-ping-status': settingsStorage.state('pingStatus').get() || 'closed',
-        'vcv-settings-author': settingsStorage.state('author').get() || '',
-        'vcv-settings-featured-image': featuredImageDataValue,
-        'vcv-settings-categories': JSON.stringify(settingsStorage.state('categories').get() || ''),
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
@@ -197,33 +182,20 @@ export default class SaveController {
         requestData['vcv-license-type'] = licenseType
       }
 
-      const pageTemplateData = settingsStorage.state('pageTemplate').get()
-      if (pageTemplateData) {
-        if (pageTemplateData.stretchedContent) {
-          // Due to browsers converts Boolean TRUE to string "true"
-          pageTemplateData.stretchedContent = 1
-        } else {
-          pageTemplateData.stretchedContent = 0
-        }
-        requestData['vcv-page-template'] = pageTemplateData
+      if (options && options.title) {
+        requestData['vcv-page-title'] = options.title
       }
-      const title = options && options.title ? options.title : settingsStorage.state('pageTitle').get() || ''
-      requestData['vcv-page-title'] = title
-      requestData['vcv-page-title-disabled'] = settingsStorage.state('pageTitleDisabled').get() || ''
-      requestData['vcv-post-name'] = settingsStorage.state('postName').get() || ''
 
       const extraRequestData = settingsStorage.state('saveExtraArgs').get() || {}
       requestData['vcv-extra'] = Object.assign(extraArgs, extraRequestData)
-
-      const itemPreviewDisabled = settingsStorage.state('itemPreviewDisabled').get() || ''
-      requestData['vcv-item-preview-disabled'] = itemPreviewDisabled
 
       const editorType = dataManager.get('editorType')
       if (editorType !== 'default') {
         requestData['vcv-editor-type'] = editorType
       }
+      const saveRequestData = innerAPI.applyFilter('saveRequestData', {})
       this.ajax(
-        requestData,
+        Object.assign(saveRequestData, requestData),
         options && options.successCallback ? options.successCallback : this.saveSuccess.bind(this, status),
         options && options.errorCallback ? options.errorCallback : this.saveFailed.bind(this, status)
       )

@@ -17,29 +17,23 @@ describe('Template Panel', function () {
       cy.window().then((window) => {
         cy.route('POST', window.vcvAdminAjaxUrl).as('saveTemplate')
       })
-      cy.get('.vcv-ui-form-group-heading')
-        .contains('Template Name')
+
+      cy.get('.vcv-ui-editor-save-template-field')
         .then(($field) => {
-          let form = cy.wrap($field).parent().next()
-          form.find('.vcv-ui-form-input')
-              // .clear()
-              .type(settings.templateOneName)
+          let input = cy.wrap($field)
+          input.type(settings.templateOneName)
               .next()
               .click()
           cy.wait('@saveTemplate')
 
-          form = cy.wrap($field).parent().next()
-          form.find('.vcv-ui-form-input')
-            // .clear()
-            .type(settings.templateTwoName)
+          input = cy.wrap($field)
+          input.type(settings.templateTwoName)
             .next()
             .click()
           cy.wait('@saveTemplate')
 
-          form = cy.wrap($field).parent().next()
-          form.find('.vcv-ui-form-input')
-            // .clear()
-            .type(settings.templateTwoName)
+          input = cy.wrap($field)
+          input.type(settings.templateTwoName)
         })
 
       // 3. Save a template twice to check error message
@@ -53,7 +47,7 @@ describe('Template Panel', function () {
         .contains(settings.templateOneName)
 
       // 5. Remove all elements from the page
-      cy.get('.vcv-ui-navbar-control[title="Tree View (⇧T)"]').click()
+      cy.contains('.vcv-ui-navbar-control', 'Tree View').click()
       cy.get('.vcv-ui-tree-layout-action[title="Remove All"]').click()
 
       // 6. Search for the saved template

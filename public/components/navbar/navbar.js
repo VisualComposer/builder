@@ -75,7 +75,6 @@ export default class Navbar extends React.Component {
 
     this.hiddenControlsIndex = []
     this.handleDropdown = this.handleDropdown.bind(this)
-    this.closeDropdown = this.closeDropdown.bind(this)
     this.handleElementResize = this.handleElementResize.bind(this)
     this.handleWindowResize = this.handleWindowResize.bind(this)
     this.refreshControls = this.refreshControls.bind(this)
@@ -300,24 +299,9 @@ export default class Navbar extends React.Component {
       }, 1)
     }
   }
-
   /* eslint-enable */
 
-  closeDropdown (e) {
-    if (e && (e.target.closest('.vcv-ui-navbar-dropdown-trigger') || e.target.closest('.vcv-ui-navbar-sandwich--stop-close')) && e.target.closest('.vcv-ui-navbar-sandwich')) {
-      return
-    }
-    this.handleDropdown()
-  }
-
   handleDropdown () {
-    if (this.state.isActiveSandwich) {
-      document.getElementById('vcv-editor-iframe').contentWindow.removeEventListener('click', this.closeDropdown)
-      document.body.removeEventListener('click', this.closeDropdown)
-    } else {
-      document.getElementById('vcv-editor-iframe').contentWindow.addEventListener('click', this.closeDropdown)
-      document.body.addEventListener('click', this.closeDropdown)
-    }
     this.setState({
       isActiveSandwich: !this.state.isActiveSandwich
     })
@@ -338,15 +322,14 @@ export default class Navbar extends React.Component {
     const sandwichClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-pull-end': true,
-      'vcv-ui-navbar-sandwich': true,
-      'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
+      'vcv-ui-navbar-sandwich': true
     })
 
     const hideTracksWhenNotNeeded = true
 
     return (
       <dl className={sandwichClasses}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle} onClick={this.handleDropdown}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
           <span className='vcv-ui-navbar-control-content'>
             <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />
             <span>{menuTitle}</span>
