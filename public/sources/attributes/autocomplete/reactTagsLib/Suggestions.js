@@ -75,7 +75,6 @@ class Suggestions extends React.Component {
         <div
           id={key}
           key={key}
-          role='option'
           className={classNames.join(' ')}
           aria-disabled={item.disabled === true}
           onMouseDown={this.onMouseDown.bind(this, item)}

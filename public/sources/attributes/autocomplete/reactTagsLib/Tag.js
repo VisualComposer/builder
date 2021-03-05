@@ -50,6 +50,13 @@ export default class Tag extends React.Component {
       'vc-tags--tag-not-valid': !this.props.valid
     })
 
+    const tagProps = {}
+    if (this.props.isTagEditable) {
+      tagProps.onClick = this.handleTagClick
+      tagProps.onBlur = this.handleBlur
+      tagProps.onKeyDown = this.handleKeyDownPreventNewLine
+    }
+
     let suggestionComponent = null
     if (this.state.isTagEditable) {
       suggestionComponent = (
@@ -71,10 +78,8 @@ export default class Tag extends React.Component {
           contentEditable={this.props.isTagEditable && this.state.isTagEditable}
           suppressContentEditableWarning
           className={this.props.classNames.selectedTagName}
-          onClick={this.props.isTagEditable && this.handleTagClick}
-          onBlur={this.props.isTagEditable && this.handleBlur}
-          onKeyDown={this.props.isTagEditable && this.handleKeyDownPreventNewLine}
           ref={span => { this.span = span }}
+          {...tagProps}
         >
           {this.props.tag.name}
         </span>
