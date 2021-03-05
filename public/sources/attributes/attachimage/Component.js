@@ -56,6 +56,7 @@ export default class AttachImage extends Attribute {
     this.handleFilterChange = this.handleFilterChange.bind(this)
     this.toggleFilter = this.toggleFilter.bind(this)
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
+    this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
     this.customDynamicRender = this.customDynamicRender.bind(this)
 
     this.state.extraAttributes = {
@@ -469,6 +470,11 @@ export default class AttachImage extends Attribute {
     )
   }
 
+  handleDynamicFieldClose () {
+    this.setFieldValue({})
+    this.props.onDynamicFieldClose()
+  }
+
   getDynamicButtonHtml (dynamicApi) {
     return dynamicApi.renderOpenButton()
   }
@@ -563,7 +569,7 @@ export default class AttachImage extends Attribute {
           render={this.customDynamicRender.bind(this)}
           onDynamicFieldChange={this.handleDynamicFieldChange}
           onOpen={this.props.onDynamicFieldOpen}
-          onClose={this.props.onDynamicFieldClose}
+          onClose={this.handleDynamicFieldClose}
         >
           <div className={fieldClassNames}>
             {this.getAttachImageComponent(false)}
