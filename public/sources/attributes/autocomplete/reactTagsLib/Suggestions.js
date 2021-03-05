@@ -1,5 +1,6 @@
 import React from 'react'
 import { matchAny } from './concerns/matchers'
+import Scrollbar from 'public/components/scrollbar/scrollbar'
 
 function markIt (name, query) {
   const regexp = matchAny(query)
@@ -31,6 +32,24 @@ class Suggestions extends React.Component {
     }
   }
 
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (prevProps.index !== this.props.index) {
+      const activeItem = this.suggestionBox.current.querySelector('.vc-tags--suggestion.is-active')
+      const scrollContainer = this.suggestionBox.current.querySelector('.vcv-ui-scroll-content')
+      if (!activeItem || !scrollContainer) {
+        return
+      }
+      const activeItemRect = activeItem.getBoundingClientRect()
+      const scrollContainerRect = scrollContainer.getBoundingClientRect()
+
+      if (scrollContainer.scrollTop + scrollContainerRect.height < activeItem.offsetTop + activeItemRect.height) {
+        scrollContainer.scrollTop -= (scrollContainer.scrollTop + scrollContainerRect.height) - (activeItem.offsetTop + activeItemRect.height)
+      } else if (scrollContainer.scrollTop > activeItem.offsetTop) {
+        scrollContainer.scrollTop -= scrollContainer.scrollTop - activeItem.offsetTop
+      }
+    }
+  }
+
   onMouseDown (item, e) {
     // focus is shifted on mouse down but calling preventDefault prevents this
     e.preventDefault()
@@ -42,7 +61,7 @@ class Suggestions extends React.Component {
 
     const options = this.props.options.map((item, index) => {
       const key = `${this.props.id}-${index}`
-      const classNames = []
+      const classNames = ['vc-tags--suggestion']
 
       if (this.props.index === index) {
         classNames.push(this.props.classNames.suggestionActive)
@@ -53,10 +72,9 @@ class Suggestions extends React.Component {
       }
 
       return (
-        <li
+        <div
           id={key}
           key={key}
-          role='option'
           className={classNames.join(' ')}
           aria-disabled={item.disabled === true}
           onMouseDown={this.onMouseDown.bind(this, item)}
@@ -64,7 +82,7 @@ class Suggestions extends React.Component {
           {item.prefix ? <span className={this.props.classNames.suggestionPrefix}>{item.prefix}</span> : null}
           {(item.disableMarkIt || this.props.disableMarkIt) ? item.name
             : <SuggestionComponent item={item} query={this.props.query} />}
-        </li>
+        </div>
       )
     })
 
@@ -75,7 +93,7 @@ class Suggestions extends React.Component {
 
     return (
       <div className={classes} ref={this.suggestionBox}>
-        <ul role='listbox' id={this.props.id}>{options}</ul>
+        <Scrollbar id={this.props.id}>{options}</Scrollbar>
       </div>
     )
   }
