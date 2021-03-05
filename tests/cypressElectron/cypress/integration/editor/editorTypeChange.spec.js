@@ -43,7 +43,7 @@ describe('Editor Type Change', function () {
       cy.get('input[name="vcv-be-editor"]')
         .should('have.value', 'gutenberg')
 
-      cy.get('#post-title-0')
+      cy.get('.editor-post-title__input')
         .clear({force: true})
         .type('Test', {force: true})
 
