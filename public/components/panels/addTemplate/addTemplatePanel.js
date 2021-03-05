@@ -224,7 +224,16 @@ export default class AddTemplatePanel extends React.Component {
         const description = template.description && template.description.toLowerCase()
         return description && description.indexOf(searchValue) !== -1
       }
-    }).sort((a, b) => b.name.indexOf(searchValue) - a.name.indexOf(searchValue))
+    }).sort((a, b) => {
+      let firstIndex = a.name.indexOf(searchValue)
+      let secondIndex = b.name.indexOf(searchValue)
+
+      // In case if found by description it goes last
+      firstIndex = firstIndex === -1 ? 100 : firstIndex
+      secondIndex = secondIndex === -1 ? 100 : secondIndex
+
+      return firstIndex - secondIndex
+    })
       .map((template) => {
         return this.getTemplateControl(template)
       })

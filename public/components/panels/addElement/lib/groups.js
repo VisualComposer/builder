@@ -304,7 +304,16 @@ export default class Groups extends React.Component {
         const elDescription = hubElementsService.getElementDescription(elementData)
         return elDescription.indexOf(searchValue) !== -1
       }
-    }).sort((a, b) => hubElementsService.getElementName(b).indexOf(searchValue) - hubElementsService.getElementName(a).indexOf(searchValue))
+    }).sort((a, b) => {
+      let firstIndex = hubElementsService.getElementName(a).indexOf(searchValue)
+      let secondIndex = hubElementsService.getElementName(b).indexOf(searchValue)
+
+      // In case if found by description it goes last
+      firstIndex = firstIndex === -1 ? 100 : firstIndex
+      secondIndex = secondIndex === -1 ? 100 : secondIndex
+
+      return firstIndex - secondIndex
+    })
   }
 
   getElementsByGroups () {
