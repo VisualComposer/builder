@@ -32,6 +32,9 @@ const CLASS_NAMES = {
 }
 
 function findMatchIndex (options, query) {
+  if (query === '') {
+    return false
+  }
   return options.findIndex((option) => {
     return matchExact(query).test(option.name)
   })
@@ -97,6 +100,10 @@ function getOptions (props, state) {
 
   if (props.allowNew && props.newTagPrefix && findMatchIndex(options, state.query) < 0) {
     options.push({ id: 0, name: state.query, prefix: props.newTagPrefix })
+  }
+
+  if (state.query !== '') {
+    options = options.filter(option => option.name.includes(state.query))
   }
 
   return options
@@ -179,6 +186,9 @@ class ReactTags extends React.Component {
   }
 
   onClick (e) {
+    if (e.target !== e.currentTarget) {
+      return
+    }
     if (document.activeElement !== e.target) {
       this.input.current.input.current.focus()
     }
@@ -260,7 +270,7 @@ class ReactTags extends React.Component {
     this.state.focused && classNames.push(this.props.classNames.rootFocused)
 
     let suggestionComponent = null
-    if (expanded && this.state.options.length && !this.props.isSuggestionsLoading) {
+    if ((expanded && this.state.options.length && !this.props.isSuggestionsLoading) || (this.state.focused && this.props.showSuggestionsOnFocus)) {
       suggestionComponent = (
         <Suggestions
           {...this.state}
@@ -288,6 +298,15 @@ class ReactTags extends React.Component {
               removeButtonText={this.props.removeButtonText}
               classNames={this.props.classNames}
               onDelete={this.onDeleteTag.bind(this, i)}
+              onTagChange={this.props.onTagChange.bind(this, i)}
+              isTagEditable={this.props.isTagEditable}
+              valid={this.props.validator ? this.props.validator(tag.name) : true}
+              tagsState={this.state}
+              id={this.props.id}
+              suggestions={this.suggestions}
+              handleAddTag={this.addTag.bind(this)}
+              disableMarkIt={this.props.disableMarkIt}
+              suggestionComponent={this.props.suggestionComponent}
             />
           ))}
         </div>

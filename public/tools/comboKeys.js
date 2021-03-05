@@ -2,6 +2,7 @@ import Combokeys from 'combokeys'
 import { getStorage, getService } from 'vc-cake'
 
 const PostData = getService('wordpress-post-data')
+const dataManager = getService('dataManager')
 
 export function bindEditorKeys (document) {
   const workspaceStorage = getStorage('workspace')
@@ -39,7 +40,7 @@ export function bindEditorKeys (document) {
   })
   combokeysInstance.bind([ 'command+s', 'ctrl+s' ], (e) => {
     e.preventDefault()
-    if (PostData.canPublish()) {
+    if (dataManager.get('editorType') !== 'vcv_tutorials') {
       wordpressDataStorage.trigger('save', {
         options: {}
       }, 'postSaveControl')
