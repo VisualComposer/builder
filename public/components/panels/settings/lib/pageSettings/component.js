@@ -50,14 +50,16 @@ export default class PageSettings extends React.Component {
       />
     )
 
-    content.push(
-      <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu' key={content.length}>
-        <span className='vcv-ui-form-group-heading'>{menuText}</span>
-        <p className='vcv-ui-form-helper'>
-          <a className='vcv-ui-form-link' href={dataManager.get('manageMenuUrl')} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
-        </p>
-      </div>
-    )
+    if (dataManager.get('editorType') === 'default') {
+      content.push(
+        <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu' key={content.length}>
+          <span className='vcv-ui-form-group-heading'>{menuText}</span>
+          <p className='vcv-ui-form-helper'>
+            <a className='vcv-ui-form-link' href={dataManager.get('manageMenuUrl')} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
+          </p>
+        </div>
+      )
+    }
 
     if (dataManager.get('categories')) {
       const categoriesTitle = localizations ? localizations.categories : 'Categories'
