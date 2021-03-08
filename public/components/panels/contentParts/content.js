@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import ReactDOM from 'react-dom'
 import { getService, getStorage } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
 import PropTypes from 'prop-types'
+import { debounce } from 'lodash'
 const dataManager = getService('dataManager')
 const workspaceSettings = getStorage('workspace').state('settings')
 
@@ -26,7 +26,7 @@ export default class Content extends React.Component {
     }
     this.contentRef = React.createRef()
 
-    this.handleElementResize = this.handleElementResize.bind(this)
+    this.handleElementResize = debounce(this.handleElementResize.bind(this), 50)
     this.handleClickCloseContent = this.handleClickCloseContent.bind(this)
 
     this.resizeObserver = new window.ResizeObserver(this.handleElementResize)
