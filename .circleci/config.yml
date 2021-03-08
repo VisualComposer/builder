@@ -245,14 +245,4 @@ workflows:
     jobs:
       - php-tests
       - js-stores-tests
-  e2e:
-    triggers:
-      - schedule:
-          cron: "0 10 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - end-2-end-tests-electron
 
