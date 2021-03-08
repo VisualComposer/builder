@@ -71,6 +71,13 @@ class PostType extends Container implements Module
     protected function coreCapabilities()
     {
         $optionsHelper = vchelper('Options');
+        $userCapabilitiesHelper = vchelper('UserCapabilities');
+
+        // Capability migration for custom VC post types
+        if (!$optionsHelper->get($this->postType . '-capability-migration')) {
+            $userCapabilitiesHelper->resetCapabilities($this->postType);
+        }
+
         if ($optionsHelper->get($this->postType . '-capabilities-set')) {
             return;
         }
