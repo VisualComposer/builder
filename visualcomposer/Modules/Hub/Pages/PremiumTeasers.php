@@ -84,32 +84,34 @@ class PremiumTeasers extends Container implements Module
                 'popupBuilder',
             ],
         ];
-        $columnsData = array_column($submenu['vcv-settings'], 2);
-        foreach ($teasers as $index => $teaser) {
-            if (in_array($teaser[1], $columnsData, true)) {
-                continue;
+        if (isset($submenu['vcv-settings'])) {
+            $columnsData = array_column($submenu['vcv-settings'], 2);
+            foreach ($teasers as $index => $teaser) {
+                if (in_array($teaser[1], $columnsData, true)) {
+                    continue;
+                }
+
+                $offset = 1;
+                array_splice($submenu['vcv-settings'], $offset, 0, [$teaser]);
+                $this->slug = $teaser[1];
+                $this->templatePath = 'settings/pages/index';
+
+                $page = [
+                    'slug' => $teaser[1],
+                    'title' => $teaser[0],
+                    'layout' => 'dashboard-tab-content-standalone',
+                    'capability' => 'manage_options',
+                    'isDashboardPage' => true,
+                    'isPremiumTeaser' => true,
+                    'hideInWpMenu' => true,
+                    'hideTitle' => true,
+                    'premiumTitle' => $teaser[2],
+                    'premiumDescription' => $teaser[3],
+                    'premiumUrl' => $teaser[4],
+                    'premiumActionBundle' => $teaser[5],
+                ];
+                $this->addSubmenuPage($page);
             }
-
-            $offset = 1;
-            array_splice($submenu['vcv-settings'], $offset, 0, [$teaser]);
-            $this->slug = $teaser[1];
-            $this->templatePath = 'settings/pages/index';
-
-            $page = [
-                'slug' => $teaser[1],
-                'title' => $teaser[0],
-                'layout' => 'dashboard-tab-content-standalone',
-                'capability' => 'manage_options',
-                'isDashboardPage' => true,
-                'isPremiumTeaser' => true,
-                'hideInWpMenu' => true,
-                'hideTitle' => true,
-                'premiumTitle' => $teaser[2],
-                'premiumDescription' => $teaser[3],
-                'premiumUrl' => $teaser[4],
-                'premiumActionBundle' => $teaser[5],
-            ];
-            $this->addSubmenuPage($page);
         }
     }
 
