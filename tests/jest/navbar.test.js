@@ -23,6 +23,7 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 
 // Navbar Component
 import NavbarContainer from '../../public/components/navbar/navbarContainer'
+import ResizeObserverMock from './__mocks__/resizeObserverMock'
 
 configure({ adapter: new Adapter() });
 
@@ -31,6 +32,7 @@ describe('Tests editor navbar', () => {
     test('Create navbar component snapshot', () => {
       vcCake.add('contentLayout', (api) => {
         let navbarRef
+        window.ResizeObserver = ResizeObserverMock
         const navbar = renderer.create(
           <NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />
         )
