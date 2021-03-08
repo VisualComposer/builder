@@ -37,54 +37,55 @@ class PremiumTeasers extends Container implements Module
     protected function outputDashboardMenu()
     {
         global $submenu;
-        $utmTemplate = vchelper('Utm')->get('editor-hub-popup-teaser');
-        $teasers = [
-            [
-                __('Headers and Footers', 'visualcomposer'),
-                'vcv-headers-footers',
-                __('HEADERS AND FOOTERS ARE A PREMIUM FEATURE', 'visualcomposer'),
-                __(
-                    'Visual Composer Premium allows replacing the theme default header and footer with your header and footer templates created with Visual Composer.',
-                    'visualcomposer'
-                ),
-                str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
-                'themeEditor',
-            ],
-            [
-                __('Theme Templates', 'visualcomposer'),
-                'vcv-custom-page-templates',
-                __('THEME TEMPLATES ARE A PREMIUM FEATURE', 'visualcomposer'),
-                __(
-                    'Visual Composer Premium allows replacing the theme default theme templates like 404 page, search page, author page, post archive with your templates created with Visual Composer.',
-                    'visualcomposer'
-                ),
-                str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
-                'themeBuilder',
-            ],
-            [
-                __('Maintenance Mode', 'visualcomposer'),
-                'vcv-maintenance-mode',
-                __('MAINTENANCE MODE IS A PREMIUM FEATURE', 'visualcomposer'),
-                __(
-                    'Visual Composer Premium allows enabling maintenance mode and selecting the page that will be displayed to the website visitors. Users with access to the admin panel will still be able to preview and edit the website.',
-                    'visualcomposer'
-                ),
-                str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
-                'maintenanceMode',
-            ],
-            [
-                __('Popup Settings', 'visualcomposer'),
-                'vcv-custom-site-popups',
-                __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-                __(
-                    'Visual Composer Premium allows specifying site-wide popups for specific events like First Page Load, Every Page Load, or Exit Intent.',
-                    'visualcomposer'
-                ),
-                str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
-                'popupBuilder',
-            ],
-        ];
-        if (isset($submenu['vcv-settings'])) {
+        if (is_array($submenu['vcv-settings'])) {
+            $utmTemplate = vchelper('Utm')->get('editor-hub-popup-teaser');
+            $teasers = [
+                [
+                    __('Headers and Footers', 'visualcomposer'),
+                    'vcv-headers-footers',
+                    __('HEADERS AND FOOTERS ARE A PREMIUM FEATURE', 'visualcomposer'),
+                    __(
+                        'Visual Composer Premium allows replacing the theme default header and footer with your header and footer templates created with Visual Composer.',
+                        'visualcomposer'
+                    ),
+                    str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
+                    'themeEditor',
+                ],
+                [
+                    __('Theme Templates', 'visualcomposer'),
+                    'vcv-custom-page-templates',
+                    __('THEME TEMPLATES ARE A PREMIUM FEATURE', 'visualcomposer'),
+                    __(
+                        'Visual Composer Premium allows replacing the theme default theme templates like 404 page, search page, author page, post archive with your templates created with Visual Composer.',
+                        'visualcomposer'
+                    ),
+                    str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
+                    'themeBuilder',
+                ],
+                [
+                    __('Maintenance Mode', 'visualcomposer'),
+                    'vcv-maintenance-mode',
+                    __('MAINTENANCE MODE IS A PREMIUM FEATURE', 'visualcomposer'),
+                    __(
+                        'Visual Composer Premium allows enabling maintenance mode and selecting the page that will be displayed to the website visitors. Users with access to the admin panel will still be able to preview and edit the website.',
+                        'visualcomposer'
+                    ),
+                    str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
+                    'maintenanceMode',
+                ],
+                [
+                    __('Popup Settings', 'visualcomposer'),
+                    'vcv-custom-site-popups',
+                    __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+                    __(
+                        'Visual Composer Premium allows specifying site-wide popups for specific events like First Page Load, Every Page Load, or Exit Intent.',
+                        'visualcomposer'
+                    ),
+                    str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
+                    'popupBuilder',
+                ],
+            ];
+            
             $columnsData = array_column($submenu['vcv-settings'], 2);
             foreach ($teasers as $index => $teaser) {
                 if (in_array($teaser[1], $columnsData, true)) {
