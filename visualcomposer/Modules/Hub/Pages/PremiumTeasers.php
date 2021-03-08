@@ -85,7 +85,6 @@ class PremiumTeasers extends Container implements Module
                     'popupBuilder',
                 ],
             ];
-            
             $columnsData = array_column($submenu['vcv-settings'], 2);
             foreach ($teasers as $index => $teaser) {
                 if (in_array($teaser[1], $columnsData, true)) {
