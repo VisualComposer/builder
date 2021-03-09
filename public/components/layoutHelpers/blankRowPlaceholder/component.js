@@ -2,6 +2,7 @@ import React from 'react'
 import ElementControl from './lib/elementControl'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
+import { debounce } from 'lodash'
 
 import oneColumnIcon from 'public/sources/images/blankRowPlaceholderIcons/oneColumn.raw'
 import twoColumnsIcon from 'public/sources/images/blankRowPlaceholderIcons/twoColumns.raw'
@@ -24,7 +25,6 @@ import addElementIconLight from 'public/sources/images/blankRowPlaceholderIcons/
 import pasteIconLight from 'public/sources/images/blankRowPlaceholderIcons/pasteIconLight.raw'
 
 const cook = vcCake.getService('cook')
-const utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 const dataManager = vcCake.getService('dataManager')
@@ -58,13 +58,15 @@ export default class BlankRowPlaceholder extends React.Component {
       copyData
     }
     this.handleClick = this.handleClick.bind(this)
-    this.setControlsLayout = this.setControlsLayout.bind(this)
+    this.setControlsLayout = debounce(this.setControlsLayout.bind(this), 50)
     this.openEditForm = this.openEditForm.bind(this)
     this.getControls = this.getControls.bind(this)
+
+    this.resizeObserver = new window.ResizeObserver(this.setControlsLayout)
   }
 
   componentDidMount () {
-    utils.addResizeListener(this.rowContainer.current, {}, this.setControlsLayout)
+    this.resizeObserver.observe(this.rowContainer.current)
   }
 
   componentDidUpdate () {
@@ -77,7 +79,7 @@ export default class BlankRowPlaceholder extends React.Component {
   }
 
   componentWillUnmount () {
-    utils.removeResizeListener(this.rowContainer.current, {}, this.setControlsLayout)
+    this.resizeObserver.unobserve(this.rowContainer.current)
   }
 
   getControls (isIconDark) {

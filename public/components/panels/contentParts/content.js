@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import ReactDOM from 'react-dom'
 import { getService, getStorage } from 'vc-cake'
 import Resizer from '../../resizer/resizer'
 import PropTypes from 'prop-types'
+import { debounce } from 'lodash'
 const dataManager = getService('dataManager')
 const workspaceSettings = getStorage('workspace').state('settings')
 
@@ -22,75 +22,31 @@ export default class Content extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentComponent: null,
-      contentProps: {},
-      showContent: false,
       realWidth: 0
     }
+    this.contentRef = React.createRef()
 
-    this.handleElementResize = this.handleElementResize.bind(this)
+    this.handleElementResize = debounce(this.handleElementResize.bind(this), 50)
     this.handleClickCloseContent = this.handleClickCloseContent.bind(this)
-    this.showContent = this.showContent.bind(this)
-    this.hideContent = this.hideContent.bind(this)
+
+    this.resizeObserver = new window.ResizeObserver(this.handleElementResize)
   }
 
   componentDidMount () {
-    this.addResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
+    this.resizeObserver.observe(this.contentRef.current)
   }
 
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this), this.handleElementResize)
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (this.state.showContent && !prevState.showContent) {
-      setTimeout(this.handleElementResize, 20) // TODO: fix this on global refactor
-    }
-  }
-
-  showContent () {
-    this.setState({ showContent: true })
-  }
-
-  hideContent () {
-    this.setState({
-      showContent: false,
-      contentComponent: null,
-      contentProps: {}
-    })
+    this.resizeObserver.unobserve(this.contentRef.current)
   }
 
   handleElementResize () {
-    const element = ReactDOM.findDOMNode(this)
-    this.setState({
-      realWidth: element.offsetWidth
-    })
-  }
-
-  addResizeListener (element, fn) {
-    const isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
+    const element = this.contentRef && this.contentRef.current
+    if (element) {
+      this.setState({
+        realWidth: element.offsetWidth
+      })
     }
-    const obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function () {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
   }
 
   handleClickCloseContent (e) {
@@ -138,7 +94,7 @@ export default class Content extends React.Component {
     }
 
     return (
-      <div className={contentClasses} id='vcv-editor-end'>
+      <div className={contentClasses} id='vcv-editor-end' ref={this.contentRef}>
         {closeButton}
         {children}
         <Resizer params={{
