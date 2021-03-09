@@ -44,21 +44,4 @@ class UserCapabilities implements Helper
         // @codingStandardsIgnoreEnd
         return false;
     }
-
-    public function resetCapabilities($postType)
-    {
-        // @codingStandardsIgnoreLine
-        global $wp_roles;
-        // @codingStandardsIgnoreLine
-        $wpRoles = $wp_roles;
-        $optionsHelper = vchelper('Options');
-
-        $optionsHelper->delete($postType . '-capabilities-set');
-        $wpRoles->remove_cap('contributor', 'read_' . $postType);
-        $wpRoles->remove_cap('contributor', 'edit_' . $postType);
-        $wpRoles->remove_cap('contributor', 'delete_' . $postType);
-        $wpRoles->remove_cap('contributor', 'edit_' . $postType . 's');
-        $wpRoles->remove_cap('contributor', 'delete_' . $postType . 's');
-        $optionsHelper->set($postType . '-capability-migration', 1);
-    }
 }

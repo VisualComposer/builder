@@ -257,7 +257,17 @@ class PostType extends Container implements Module
 
         // Capability migration for custom VC post types
         if (!$optionsHelper->get($this->postType . '-capability-migration')) {
-            $userCapabilitiesHelper->resetCapabilities($this->postType);
+            // @codingStandardsIgnoreStart
+            global $wp_roles;
+            $optionsHelper = vchelper('Options');
+            $optionsHelper->delete($this->postType . '-capabilities-set');
+            $wp_roles->remove_cap('contributor', 'read_' . $this->postType);
+            $wp_roles->remove_cap('contributor', 'edit_' . $this->postType);
+            $wp_roles->remove_cap('contributor', 'delete_' . $this->postType);
+            $wp_roles->remove_cap('contributor', 'edit_' . $this->postType . 's');
+            $wp_roles->remove_cap('contributor', 'delete_' . $this->postType . 's');
+            $optionsHelper->set($this->postType . '-capability-migration', 1);
+            // @codingStandardsIgnoreEnd
         }
 
         if ($optionsHelper->get($this->postType . '-capabilities-set')) {
