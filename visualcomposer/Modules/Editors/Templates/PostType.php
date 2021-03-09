@@ -71,6 +71,21 @@ class PostType extends Container implements Module
     protected function coreCapabilities()
     {
         $optionsHelper = vchelper('Options');
+
+        // Capability migration for custom VC post types
+        if (!$optionsHelper->get($this->postType . '-capability-migration')) {
+            // @codingStandardsIgnoreStart
+            global $wp_roles;
+            $optionsHelper->delete($this->postType . '-capabilities-set');
+            $wp_roles->remove_cap('contributor', 'read_' . $this->postType);
+            $wp_roles->remove_cap('contributor', 'edit_' . $this->postType);
+            $wp_roles->remove_cap('contributor', 'delete_' . $this->postType);
+            $wp_roles->remove_cap('contributor', 'edit_' . $this->postType . 's');
+            $wp_roles->remove_cap('contributor', 'delete_' . $this->postType . 's');
+            $optionsHelper->set($this->postType . '-capability-migration', 1);
+            // @codingStandardsIgnoreEnd
+        }
+
         if ($optionsHelper->get($this->postType . '-capabilities-set')) {
             return;
         }
@@ -90,6 +105,14 @@ class PostType extends Container implements Module
                 "edit_{$this->postType}s",
                 "delete_{$this->postType}s",
             ];
+
+            if ($role === 'contributor') {
+                $capabilities = [
+                    "read_{$this->postType}",
+                    "edit_{$this->postType}s",
+                    "delete_{$this->postType}s",
+                ];
+            }
 
             if (in_array($role, ['administrator', 'editor', 'author'])) {
                 $capabilities = array_merge(

@@ -63,8 +63,6 @@ export default class ElementControl extends React.Component {
   }
 
   componentDidMount () {
-    this.ellipsize('.vcv-ui-item-element-name')
-    this.ellipsize('.vcv-ui-item-preview-text')
     workspaceStorage.state('drag').onChange(this.handleDragStateChange)
   }
 
@@ -189,22 +187,6 @@ export default class ElementControl extends React.Component {
       }
     })
     return true
-  }
-
-  ellipsize (selector) {
-    const element = ReactDOM.findDOMNode(this).querySelector(selector)
-    if (!element) {
-      return
-    }
-    const wordArray = element.innerHTML.split(' ')
-
-    // Check if difference is within a 3px threshold
-    // 3px is a safe value to cover the differences between the browsers
-    while (((element.scrollHeight - element.offsetHeight) > 3) && wordArray.length > 0) {
-      wordArray.pop()
-      element.innerHTML = wordArray.join(' ') + '...'
-    }
-    return this
   }
 
   /**

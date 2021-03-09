@@ -20,14 +20,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.state = {
       saving: false,
       loading: false,
-      status: !PostData.canPublish() ? 'disabled' : '',
+      status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : '',
       isOptionsActive: false
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
     this.handleIframeChange = this.handleIframeChange.bind(this)
     this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
-    this.handleToggleOptions = this.handleToggleOptions.bind(this)
     this.handleSave = this.handleSave.bind(this)
   }
 
@@ -134,17 +133,6 @@ export default class WordPressPostSaveControl extends NavbarContent {
     wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
   }
 
-  handleToggleOptions (e) {
-    if (PostData.isDraft()) {
-      if (this.state.status !== 'saving') {
-        this.setState({
-          isOptionsActive: !this.state.isOptionsActive,
-          isVerticalPositioned: false
-        })
-      }
-    }
-  }
-
   handleSave (e) {
     if (!PostData.isDraft()) {
       this.handleClickSaveData(e)
@@ -189,8 +177,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       const navbarContentClasses = classNames({
         'vcv-ui-navbar-dropdown-content': true,
         'vcv-ui-navbar-show-labels': true,
-        'vcv-ui-navbar-dropdown-content--save': true,
-        'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned
+        'vcv-ui-navbar-dropdown-content--save': true
       })
       controlTitle = publishingOptions
       saveDraftOptions = (
@@ -219,8 +206,6 @@ export default class WordPressPostSaveControl extends NavbarContent {
       <dl
         className={saveControlClasses}
         data-vcv-guide-helper='save-control'
-        onMouseEnter={this.handleToggleOptions}
-        onMouseLeave={this.handleToggleOptions}
       >
         <dt
           className={saveButtonClasses}

@@ -9,10 +9,9 @@ describe('Editor Type Change', function () {
       cy.window().then((win) => {
         cy.route('POST', win.vcvAdminAjaxUrl).as('firstPageEdit')
       })
-      cy.get('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-control[title="Publishing Options"]').click()
       cy.contains('[data-vcv-guide-helper="save-control"] .vcv-ui-navbar-dropdown-content .vcv-ui-navbar-control-content', 'Publish')
         .parent()
-        .click()
+        .click({ force: true })
       cy.wait('@firstPageEdit')
 
       // Check visual composer editor
@@ -44,11 +43,11 @@ describe('Editor Type Change', function () {
       cy.get('input[name="vcv-be-editor"]')
         .should('have.value', 'gutenberg')
 
-      cy.get('#title')
-        .clear()
+      cy.get('.editor-post-title__input')
+        .clear({force: true})
         .type('Test', {force: true})
 
-      cy.get('#publish')
+      cy.get('.editor-post-publish-button')
         .click()
 
       cy.get('@firstPageEdit').should((response) => {

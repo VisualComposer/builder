@@ -7,12 +7,13 @@ import lodash from 'lodash'
 
 import Attribute from '../attribute'
 import DefaultLayouts from './lib/defaultLayouts'
-import TokenizationList from './lib/tokenizationList'
 import Toggle from '../toggle/Component'
 import LayoutResponsiveness from './lib/layoutResponsiveness'
 import Tooltip from '../../../components/tooltip/tooltip'
+import AutoComplete from '../autocomplete/Component'
 
 const dataManager = vcCake.getService('dataManager')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class Layout extends Attribute {
   static defaultProps = {
@@ -29,16 +30,16 @@ export default class Layout extends Attribute {
       ['16.66%', '66.66%', '16.66%']
     ],
     suggestions: [
-      '100%',
-      '50%',
-      '33.33%',
-      '25%',
-      '20%',
-      '16.66%',
-      '66.66%',
-      '75%',
-      'auto',
-      'hide'
+      { name: '100%' },
+      { name: '50%' },
+      { name: '33.33%' },
+      { name: '25%' },
+      { name: '20%' },
+      { name: '16.66%' },
+      { name: '66.66%' },
+      { name: '75%' },
+      { name: 'auto' },
+      { name: 'hide' }
     ],
     fieldType: 'rowLayout'
   }
@@ -243,6 +244,29 @@ export default class Layout extends Attribute {
     this.validateSize = this.validateSize.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleColumnHover = this.handleColumnHover.bind(this)
+    this.onAutocompleteChange = this.onAutocompleteChange.bind(this)
+    this.dataUpdate = lodash.debounce(this.dataUpdate.bind(this), 50)
+  }
+
+  componentDidMount () {
+    elementsStorage.on(`element:${this.props.elementAccessPoint.id}`, this.dataUpdate)
+  }
+
+  componentWillUnmount () {
+    elementsStorage.off(`element:${this.props.elementAccessPoint.id}`, this.dataUpdate)
+  }
+
+  dataUpdate (data, source, options) {
+    if (options && options.changedAttributeType && options.changedAttributeType === 'rowLayout') {
+      const deviceLayoutData = Layout.getLayoutData(this.props.elementAccessPoint.id, true)
+      const currentValue = this.state.value
+      const defaultLayoutData = deviceLayoutData.defaultSize ? deviceLayoutData.defaultSize : []
+      currentValue.layoutData = deviceLayoutData
+      currentValue.defaultLayoutData = defaultLayoutData
+      this.setState({
+        value: currentValue
+      })
+    }
   }
 
   updateState (props) {
@@ -412,6 +436,18 @@ export default class Layout extends Attribute {
       newState.disableStacking = false
     }
     this.setFieldValue(newState)
+    if (fieldKey === 'rowLayout') {
+      // From autocomplete
+      this.handleActiveLayoutChange(value)
+    }
+  }
+
+  onAutocompleteChange (fieldKey, value) {
+    const parsedValue = value.map((item) => {
+      return item.name
+    })
+
+    this.valueChangeHandler(fieldKey, parsedValue)
   }
 
   getStackingToggle () {
@@ -465,6 +501,11 @@ export default class Layout extends Attribute {
 
   render () {
     const { layoutData, responsivenessSettings, defaultLayoutData } = this.state.value
+
+    const LayoutData = defaultLayoutData.map((item) => {
+      return { name: item }
+    })
+
     let responsivenessContent = null
     if (responsivenessSettings) {
       responsivenessContent = (
@@ -481,6 +522,10 @@ export default class Layout extends Attribute {
         />
       )
     }
+
+    const showSuggestionsOnFocus = true
+    const isNewAutocomplete = true
+    const isTagEditable = true
 
     return (
       <div className='vcv-ui-form-layout'>
@@ -500,14 +545,16 @@ export default class Layout extends Attribute {
               <div className='vcv-ui-form-layout-custom-layout-columns'>
                 <div className='vcv-ui-form-layout-custom-layout-col vcv-ui-form-layout-custom-layout-input-wrapper'>
                   <div className='vcv-ui-form-layout-custom-layout-input'>
-                    <TokenizationList
-                      layouts={this.props.layouts}
-                      value={defaultLayoutData.join(' + ')}
-                      onChange={this.handleActiveLayoutChange}
-                      validator={this.validateSize}
+                    <AutoComplete
+                      fieldKey='rowLayout'
+                      updater={this.onAutocompleteChange}
+                      value={LayoutData}
                       suggestions={this.props.suggestions}
-                      onColumnHover={this.handleColumnHover}
-                      activeToken={this.state.activeToken}
+                      showSuggestionsOnFocus={showSuggestionsOnFocus}
+                      options={{}}
+                      isNewAutocomplete={isNewAutocomplete}
+                      isTagEditable={isTagEditable}
+                      validator={this.validateSize}
                     />
                   </div>
                 </div>

@@ -27,12 +27,7 @@ export default class HubItemController extends ElementControl {
   }
 
   componentDidMount () {
-    if (this.state.isDownloading) {
-      workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
-    }
-
-    this.ellipsize('.vcv-ui-item-element-name')
-    this.ellipsize('.vcv-ui-item-preview-text')
+    workspaceStorage.state('downloadingItems').onChange(this.downloadingItemOnChange)
   }
 
   componentWillUnmount () {
@@ -41,11 +36,11 @@ export default class HubItemController extends ElementControl {
 
   downloadingItemOnChange (data) {
     const { tag } = this.props
-    let isDownloading = true
-    if (!data.includes(tag)) {
-      isDownloading = tag && false
-      this.setState({ isDownloading })
+    if (this.state.isDownloading && !data.includes(tag)) {
+      this.setState({ isDownloading: false })
       workspaceStorage.state('downloadingItems').ignoreChange(this.downloadingItemOnChange)
+    } else if (!this.state.isDownloading && data.includes(tag)) {
+      this.setState({ isDownloading: true })
     }
   }
 

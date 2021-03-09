@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
@@ -73,6 +72,9 @@ export default class Navbar extends React.Component {
       }, false)
     }
 
+    this.spacerRef = React.createRef()
+    this.navbarContainer = React.createRef()
+
     this.hiddenControlsIndex = []
     this.handleDropdown = this.handleDropdown.bind(this)
     this.handleElementResize = this.handleElementResize.bind(this)
@@ -84,6 +86,8 @@ export default class Navbar extends React.Component {
     this.setHiddenControlsReference = this.setHiddenControlsReference.bind(this)
     this.updateNavbarBounding = this.updateNavbarBounding.bind(this)
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
+
+    this.resizeObserver = new window.ResizeObserver(this.handleElementResize)
   }
 
   setVisibleControls () {
@@ -143,9 +147,9 @@ export default class Navbar extends React.Component {
 
   componentDidMount () {
     boundingRectState.onChange(this.updateNavbarBounding)
-    const currentDOMElement = window.document.querySelector('.vcv-ui-navbar-controls-spacer')
-    if (currentDOMElement) {
-      this.addResizeListener(currentDOMElement, this.handleElementResize)
+    const spacerElement = this.spacerRef && this.spacerRef.current
+    if (spacerElement) {
+      this.resizeObserver.observe(spacerElement)
       window.addEventListener('resize', lodash.debounce(this.handleWindowResize, 300))
       wordpressBackendDataStorage.state('activeEditor').onChange(this.handleVisibilityChange)
       this.handleElementResize()
@@ -230,34 +234,8 @@ export default class Navbar extends React.Component {
     })
   }
 
-  addResizeListener (element, fn) {
-    const isIE = !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/))
-    if (window.getComputedStyle(element).position === 'static') {
-      element.style.position = 'relative'
-    }
-    const obj = element.__resizeTrigger__ = document.createElement('object')
-    obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
-    obj.__resizeElement__ = element
-    obj.onload = function () {
-      this.contentDocument.defaultView.addEventListener('resize', fn)
-    }
-    obj.type = 'text/html'
-    if (isIE) {
-      element.appendChild(obj)
-    }
-    obj.data = 'about:blank'
-    if (!isIE) {
-      element.appendChild(obj)
-    }
-  }
-
-  removeResizeListener (element, fn) {
-    element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', fn)
-    element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__)
-  }
-
   componentWillUnmount () {
-    this.removeResizeListener(ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer'), this.handleElementResize)
+    this.resizeObserver.unobserve(this.spacerRef.current)
     window.removeEventListener('resize', this.handleWindowResize)
     wordpressBackendDataStorage.state('activeEditor').ignoreChange(this.handleVisibilityChange)
     boundingRectState.ignoreChange(this.updateNavbarBounding)
@@ -322,14 +300,13 @@ export default class Navbar extends React.Component {
     const sandwichClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-pull-end': true,
-      'vcv-ui-navbar-sandwich': true,
-      'vcv-ui-navbar-dropdown--active': this.state.isActiveSandwich
+      'vcv-ui-navbar-sandwich': true
     })
 
     const hideTracksWhenNotNeeded = true
 
     return (
-      <dl className={sandwichClasses} onMouseEnter={this.handleDropdown} onMouseLeave={this.handleDropdown}>
+      <dl className={sandwichClasses}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
           <span className='vcv-ui-navbar-control-content'>
             <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />
@@ -393,12 +370,12 @@ export default class Navbar extends React.Component {
 
     const metabox = document.getElementById('vcwb_visual_composer')
     // Condition for collapsed initial metabox
-    if (refreshMetaBox || (metabox && ReactDOM.findDOMNode(this).getBoundingClientRect().width === 0)) {
+    if (refreshMetaBox || (metabox && this.navbarContainer.current.getBoundingClientRect().width === 0)) {
       this.setMetaboxInlineStyles(metabox)
     }
 
     // get free space
-    const freeSpaceEl = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-controls-spacer')
+    const freeSpaceEl = this.spacerRef.current
     let freeSpace = isSideNavbar() ? freeSpaceEl.offsetHeight : freeSpaceEl.offsetWidth
     // hide control if there is no space
     const visibleAndUnpinnedControls = this.getVisibleControls(visibleControls).filter((control) => {
@@ -424,7 +401,7 @@ export default class Navbar extends React.Component {
     if (hiddenAndUnpinnedControls.length) {
       // if it is last hidden element then add dropdown width to free space
       if (this.getHiddenControls(visibleControls).length === 1) {
-        const sandwich = ReactDOM.findDOMNode(this).querySelector('.vcv-ui-navbar-sandwich')
+        const sandwich = this.navbarContainer.current.querySelector('.vcv-ui-navbar-sandwich')
         freeSpace += isSideNavbar() ? sandwich.offsetHeight : sandwich.offsetWidth
       }
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
@@ -461,7 +438,7 @@ export default class Navbar extends React.Component {
       return
     }
 
-    const navbarPosition = ReactDOM.findDOMNode(this).getBoundingClientRect()
+    const navbarPosition = this.navbarContainer.current.getBoundingClientRect()
     this.setState({
       isDragging: true,
       navbarPositionFix: {
@@ -591,12 +568,16 @@ export default class Navbar extends React.Component {
     }
 
     return (
-      <div className={navbarContainerClasses}>
+      <div className={navbarContainerClasses} ref={this.navbarContainer}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>
           {this.renderDragHandler()}
           {this.getVisibleControls(this.state.visibleControls)}
           {this.buildHiddenControls(this.state.visibleControls)}
-          <div className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer' onMouseDown={(e) => this.handleDragStart(e, false)} />
+          <div
+            className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
+            onMouseDown={(e) => this.handleDragStart(e, false)}
+            ref={this.spacerRef}
+          />
         </nav>
       </div>
     )
