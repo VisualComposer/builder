@@ -82,7 +82,7 @@ Cypress.Commands.add('addElement', (elementName, isInitial = false) => {
   cy.get(`.vcv-ui-item-element-image[alt="${elementName}"]`)
     .first()
     .closest('.vcv-ui-item-element').click({ force: true })
-  cy.wait(200)
+  cy.wait(300)
   cy.get('.vcv-ui-edit-form-header-title').contains(elementName)
 })
 
