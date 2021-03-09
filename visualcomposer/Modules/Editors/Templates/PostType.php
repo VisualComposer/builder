@@ -71,13 +71,11 @@ class PostType extends Container implements Module
     protected function coreCapabilities()
     {
         $optionsHelper = vchelper('Options');
-        $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
 
         // Capability migration for custom VC post types
         if (!$optionsHelper->get($this->postType . '-capability-migration')) {
             // @codingStandardsIgnoreStart
             global $wp_roles;
-            $optionsHelper = vchelper('Options');
             $optionsHelper->delete($this->postType . '-capabilities-set');
             $wp_roles->remove_cap('contributor', 'read_' . $this->postType);
             $wp_roles->remove_cap('contributor', 'edit_' . $this->postType);
