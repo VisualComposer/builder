@@ -44,8 +44,8 @@ class Controller extends Container implements Module
         /** @see \VisualComposer\Modules\Editors\Templates\Controller::saveTemplateId */
         $this->addFilter('vcv:dataAjax:setData', 'setDataResponse');
 
-        /** @see \VisualComposer\Modules\Editors\Templates\Controller::templatesEditorBlankTemplate */
-        $this->wpAddFilter('template_include', 'templatesEditorBlankTemplate', 30);
+        /** @see \VisualComposer\Modules\Editors\Templates\Controller::setCurrentTemplateLayoutBlank */
+        $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'setCurrentTemplateLayoutBlank', 30);
 
         $this->wpAddFilter('wp_untrash_post_status', 'untrashTemplate', 30);
 
@@ -59,22 +59,24 @@ class Controller extends Container implements Module
      * @param $originalTemplate
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
+     * @param \VisualComposer\Helpers\Request $requestHelper
      *
-     * @return string
-     * @throws \VisualComposer\Framework\Illuminate\Container\BindingResolutionException
+     * @return array
      */
-    protected function templatesEditorBlankTemplate(
+    protected function setCurrentTemplateLayoutBlank(
         $originalTemplate,
         PostType $postTypeHelper,
-        Frontend $frontendHelper
+        Frontend $frontendHelper,
+        Request $requestHelper
     ) {
         if (
-            $frontendHelper->isPageEditable()
-            && $postTypeHelper->get()->post_type === 'vcv_templates'
+            ($requestHelper->input('vcv-editor-type') === 'vcv_templates' && $frontendHelper->isFrontend())
+            || $frontendHelper->isPageEditable()
         ) {
-            $template = 'blank-stretched-template.php';
-
-            return vcapp()->path('visualcomposer/resources/views/editor/templates/') . $template;
+            $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
+            if ($postTypeHelper->get($postId)->post_type === 'vcv_templates') {
+                return ['type' => 'vc', 'value' => 'blank', 'stretchedContent' => 1];
+            }
         }
 
         return $originalTemplate;
