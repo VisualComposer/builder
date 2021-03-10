@@ -84,6 +84,9 @@ tests/cypressChrome/cypress/videos/
 tests/cypressElectron/cypress.env.json
 tests/cypressElectron/cypress/screenshots/
 tests/cypressElectron/cypress/videos/
+tests/cypressPipeline/cypress.env.json
+tests/cypressPipeline/cypress/screenshots/
+tests/cypressPipeline/cypress/videos/
 
 # languages, auto-downloadable
 languages/vcwb-*
