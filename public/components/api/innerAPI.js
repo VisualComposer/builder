@@ -1,5 +1,11 @@
 import React from 'react'
 import { env } from 'vc-cake'
+import ee from 'event-emitter'
+
+const InnerAPIEmitter = function () {}
+ee(InnerAPIEmitter.prototype)
+const apiEventEmitter = new InnerAPIEmitter()
+
 const components = {}
 const filters = {}
 export default {
@@ -44,5 +50,18 @@ export default {
       filters[name] = []
     }
     filters[name].push(callback)
+  },
+  dispatch (event, options) {
+    apiEventEmitter.emit.apply(apiEventEmitter, [`vcv:inner:api:${event}`].concat(options))
+  },
+  subscribe (event, callback, once = false) {
+    if (once) {
+      apiEventEmitter.once(`vcv:inner:api:${event}`, callback)
+    } else {
+      apiEventEmitter.on(`vcv:inner:api:${event}`, callback)
+    }
+  },
+  unsubscribe (event, callback) {
+    apiEventEmitter.off('vcv:inner:api:' + event, callback)
   }
 }
