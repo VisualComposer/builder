@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: visual composer, page builder, drag-and-drop editor, website builder, site-builder, front-end builder, editor, visual editor, wysiwyg, design, landing page builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.6.2
-Stable tag: 35.0
+Tested up to: 5.7
+Stable tag: 35.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -187,61 +187,46 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
-= 35.0 =
-*Release Date - 2021-03-01*
+= 35.1 =
+*Release Date - 2021-03-12*
 
 ### Free:
-- New: Save as Draft and Published now available under one Publish option in the navigation bar
-- New: Plugin review option added to the Visual Composer related section in the WordPress Admin Dashboard
-- New: Image selector attribute updated for better UI/UX
-- New: Video selector attribute updated for better UI/UX
-- New: WPML Translation Management compatibility added
-- New: Option to add public badge “Created with Visual Composer“ added to the Visual Composer Dashboard Settings
-- New: Element name change functionality added to the Tree View
-- Update: Visual Composer API now has a UI component
-- Update: Inline editor icon for opening element edit form updated for consistency
-- Update: Major icons are highlighted in the initial help screen
-- Update: Instagram element improved to work properly after Instagram changes in their API
-- Update: Tabs in the Visual Composer On-Page Settings updated for better UI/UX
-- Update: Element and template search in the Visual Composer Hub extended to check element and template description
-- Update: YouTube element updated by removing deprecated code
-- Update: Data sharing offers to share your PHP version, WP version, and active theme
-- Update: Templates and presets saving titles are replaced with placeholders
-- Update: Editor button colors updated for consistency
-- Update: Visual Composer Hub download options work clicking on the whole thumbnail instead of the icon only
-- Fix: Data sharing popup consent checkbox works properly
-- Fix: Input Select attribute works properly
-- Fix: Color picker accepts HEX values
-- Fix: Auto-save works properly
-- Fix: Demo template can not be saved
-- Fix: Layout change does not affect recently downloaded elements
-- Fix: Vimeo video controls not displayed when a video is added as a background (not applicable for non-pro videos)
-- Fix: Input height is displayed properly across different devices
-- Fix: Saving page does not remove a custom page template
-- Fix: Popup radio buttons displayed properly in the Blocksy theme
-- Fix: Visual Composer Dashboard menu stretched full height
-- Fix: Demo template images are displayed properly
-- Fix: Disabling the full height option for the row removes unneeded CSS classed
-- Fix: Global CSS works properly
-- Fix: Element removal option works properly
+- New: Visual Composer API improvements
+- Update: Clicking on a page title opens On-page Settings with a focus on the title
+- Update: Row layout input controls updated for better UX and performance
+- Update: Layout switcher improved for better UI/UX
+- Update: Dynamic view is set as default for mobile devices
+- Fix: Backlog strings are translatable
+- Fix: Add Element items are ellipsized on the theme TwentyTwentyOne
+- Fix: Template removing process displayed with the loading spinner
+- Fix: Scrollbar does not overlap on Chrome (Windows)
+- Fix: Elements added to the page from the Visual Composer Hub are automatically scrolled to in the layout
+- Fix: New installation works properly for all users
+- Fix: Image Selector does not overlap TinyMCE controls
+- Fix: Editor button colors adjusted for consistency
+- Fix: PageEditable nonce verification works properly
+- Fix: Visual Composer Hub section in Dashboard is responsive
+- Fix: Row margins in Design Options work properly in the theme TwentyTwentyOne
+- Fix: Row layout controls and editor row manipulations are synchronized
+- Fix: Sorting works properly in the element search
+- Fix: Link styles in the editor updated for consistency
+- Fix: The tutorial template is available for Authors and Editors
+- Fix: Publish button is not disabled for Contributors
+- Fix: Mobile views have the same behavior for consistency
 
 ### Premium:
-- Update: Locking all element progress is displayed with the help of loading spinner
-- Update: Dynamic link moved to the Link Selector
-- Update: Element preset icon color adjusted to fit the UI guidelines
-- Update: Option to create a new header added to the On-Page Settings
-- Update: Premium support link icon updated in the WordPress Plugin section
-- Fix: Saving element as a preset does not trigger multiple notifications
-- Fix: Archive page editor has proper blank page when started
-- Fix: Maintenance mode add-on works properly when no templates are available
-- Fix: WooCommerce Product Feed Manager is fully compatible with Visual Composer
-- Fix: Links to My Visual Composer adjusted
-- Fix: Tabs work properly on Safari
-- Fix: Gravity Forms element works properly
-- Fix: Post Slider Block works properly
-- Fix: Popup Builder editor works properly with Blocksy theme
-- Fix: Unsplash and Giphy search works properly with no search term provided
-- Fix: Banner element works properly
+- New: Lazy load option introduced for the video element to improve performance
+- Update: The download option for Unsplash and Giphy improved by removing extra click to download the image
+- Fix: MailChimp element has a correct PHP filename
+- Fix: Background image not removed after applying Dynamic Content
+- Fix: Links on the image is not removed after disabling Dynamic Content
+- Fix: Global template Settings work properly
+- Fix: The autoplay option works properly in Tabs
+- Fix: Tab slider styles updated
+- Fix: Visual Composer Hub addons section has a proper button states
+- Fix: Visual Composer custom post types have edit option for Contributors
+- Fix: Double Title element has proper styling
+- Fix: Link Dropdown Element has only one arrow
 
 = 34.1 =
 *Release Date - 2021-02-15*
