@@ -1,6 +1,8 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
 import { rebuildRawLayout } from './lib/tools'
 
+import innerAPI from 'public/components/api/innerAPI'
+
 addStorage('elements', (storage) => {
   const documentManager = getService('document')
   const dataManager = getService('dataManager')
@@ -81,6 +83,9 @@ addStorage('elements', (storage) => {
       documentManager.appendTo(child.id, cookElement.get('id'))
     })
   }
+  storage.state('document').onChange((layoutData) => {
+    innerAPI.dispatch('layoutChange', layoutData)
+  })
   storage.on('add', (elementData, wrap = true, options = {}) => {
     const createdElements = []
     const cookElement = cook.get(elementData)
