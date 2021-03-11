@@ -228,6 +228,62 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Double Title element has proper styling
 - Fix: Link Dropdown Element has only one arrow
 
+= 35.0 =
+*Release Date - 2021-03-01*
+
+### Free:
+- New: Save as Draft and Published now available under one Publish option in the navigation bar
+- New: Plugin review option added to the Visual Composer related section in the WordPress Admin Dashboard
+- New: Image selector attribute updated for better UI/UX
+- New: Video selector attribute updated for better UI/UX
+- New: WPML Translation Management compatibility added
+- New: Option to add public badge “Created with Visual Composer“ added to the Visual Composer Dashboard Settings
+- New: Element name change functionality added to the Tree View
+- Update: Visual Composer API now has a UI component
+- Update: Inline editor icon for opening element edit form updated for consistency
+- Update: Major icons are highlighted in the initial help screen
+- Update: Instagram element improved to work properly after Instagram changes in their API
+- Update: Tabs in the Visual Composer On-Page Settings updated for better UI/UX
+- Update: Element and template search in the Visual Composer Hub extended to check element and template description
+- Update: YouTube element updated by removing deprecated code
+- Update: Data sharing offers to share your PHP version, WP version, and active theme
+- Update: Templates and presets saving titles are replaced with placeholders
+- Update: Editor button colors updated for consistency
+- Update: Visual Composer Hub download options work clicking on the whole thumbnail instead of the icon only
+- Fix: Data sharing popup consent checkbox works properly
+- Fix: Input Select attribute works properly
+- Fix: Color picker accepts HEX values
+- Fix: Auto-save works properly
+- Fix: Demo template can not be saved
+- Fix: Layout change does not affect recently downloaded elements
+- Fix: Vimeo video controls not displayed when a video is added as a background (not applicable for non-pro videos)
+- Fix: Input height is displayed properly across different devices
+- Fix: Saving page does not remove a custom page template
+- Fix: Popup radio buttons displayed properly in the Blocksy theme
+- Fix: Visual Composer Dashboard menu stretched full height
+- Fix: Demo template images are displayed properly
+- Fix: Disabling the full height option for the row removes unneeded CSS classed
+- Fix: Global CSS works properly
+- Fix: Element removal option works properly
+
+### Premium:
+- Update: Locking all element progress is displayed with the help of loading spinner
+- Update: Dynamic link moved to the Link Selector
+- Update: Element preset icon color adjusted to fit the UI guidelines
+- Update: Option to create a new header added to the On-Page Settings
+- Update: Premium support link icon updated in the WordPress Plugin section
+- Fix: Saving element as a preset does not trigger multiple notifications
+- Fix: Archive page editor has proper blank page when started
+- Fix: Maintenance mode add-on works properly when no templates are available
+- Fix: WooCommerce Product Feed Manager is fully compatible with Visual Composer
+- Fix: Links to My Visual Composer adjusted
+- Fix: Tabs work properly on Safari
+- Fix: Gravity Forms element works properly
+- Fix: Post Slider Block works properly
+- Fix: Popup Builder editor works properly with Blocksy theme
+- Fix: Unsplash and Giphy search works properly with no search term provided
+- Fix: Banner element works properly
+
 = 34.1 =
 *Release Date - 2021-02-15*
 
