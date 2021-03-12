@@ -87,7 +87,7 @@
 }
 
 .vcv-insight-go-to-action:hover {
-  color: #2039A0;
+  color: @vcui-attach-image-icon-color-hover;
 }
 
 .vcv-insight-items {
@@ -121,9 +121,13 @@
   bottom: 0;
   border: 0;
   background-color: transparent;
-  color: #D8D8D8;
+  color: #C6CBD4;
   font-size: 18px;
   cursor: pointer;
+
+  &:hover {
+    color: @vcui-attach-image-icon-color-hover;
+  }
 }
 
 .vcv-ui-insights-spinner,
