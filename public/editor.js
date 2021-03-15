@@ -6,6 +6,7 @@ import 'public/tools/jqueryCaret' // used in tokenizationList.js
 import { start } from './components/editorInit/start'
 import heartbeat from './components/heartbeat/index'
 import { rebuildPosts } from './components/editorInit/rebuildPosts'
+import editorAPI from './components/api/editorAPI'
 
 (() => {
   if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
@@ -32,4 +33,13 @@ import { rebuildPosts } from './components/editorInit/rebuildPosts'
 
 if (vcCake.env('VCV_DEBUG') === true) {
   window.app = vcCake
+}
+
+if (!Object.prototype.hasOwnProperty.call(window, 'vcwbAPI')) {
+  Object.defineProperty(window, 'vcwbAPI', {
+    value: editorAPI,
+    writable: false,
+    configurable: false,
+    enumerable: false
+  })
 }
