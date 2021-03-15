@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 // Get Active Tab
 $activeTab = esc_attr(vchelper('Request')->input('page', ''));
 $activeClass = $activeTab === $slug ? 'vcv-dashboards-section-content--active' : '';
-$pageTitle = empty($page['subTitle']) ? $page['title'] : $page['subTitle'];
+$pageTitle = empty($page['subTitle']) ? $page['name'] : $page['subTitle'];
 ?>
 <div class="vcv-dashboards-section-content <?php echo $activeClass; ?>" data-section="<?php echo $slug; ?>">
     <?php
