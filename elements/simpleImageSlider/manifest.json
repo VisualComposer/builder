@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "simpleImageSlider": {
+      "settings": {
+        "name": "Simple Image Slider",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-simple-image-slider.jpg",
+        "metaPreviewUrl": "[publicPath]/preview-simple-image-slider.jpg",
+        "metaDescription": "Media Library Image slider with dot controls and swipe option for better mobile experience."
+      }
+    }
+  },
+  "categories": {
+    "Image Slider": {
+      "elements": [
+        "simpleImageSlider"
+      ]
+    }
+  }
+}

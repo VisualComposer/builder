@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "rawHtml": {
+      "settings": {
+        "name": "Raw HTML",
+        "metaThumbnailUrl": "[publicPath]/raw-html-thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]/raw-html-preview.jpg",
+        "metaDescription": "Add a custom HTML code to the WordPress website via a raw code block that accepts HTML."
+      }
+    }
+  },
+  "categories": {
+    "Misc": {
+      "elements": [
+        "rawHtml"
+      ]
+    }
+  }
+}

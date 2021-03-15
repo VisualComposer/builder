@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "featureSection": {
+      "settings": {
+        "name": "Feature Section",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-feature-section.jpg",
+        "metaPreviewUrl": "[publicPath]/preview-feature-section.jpg",
+        "metaDescription": "Feature section divided into image and content columns. Great for representing product features or company services."
+      }
+    }
+  },
+  "categories": {
+    "Feature section": {
+      "elements": [
+        "featureSection"
+      ]
+    }
+  }
+}

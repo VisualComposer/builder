@@ -1,0 +1,10 @@
+.vce-faq-toggle {
+  min-height: 1em;
+}
+.vce-faq-toggle .vce-faq-toggle-text-block > vcvhelper > *:last-child, .vce-faq-toggle .vce-faq-toggle-text-block > .vcvhelper > *:last-child {
+  margin-bottom: 0;
+}
+
+.vce-faq-toggle .vce-faq-toggle-text-block > vcvhelper > *:first-child, .vce-faq-toggle .vce-faq-toggle-text-block > .vcvhelper > *:first-child {
+  margin-top: 0;
+}

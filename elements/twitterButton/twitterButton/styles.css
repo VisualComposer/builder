@@ -1,0 +1,29 @@
+.vce-tweet-button {
+  line-height: 1;
+}
+
+.vce-tweet-button-wrapper {
+  display: inline-block;
+}
+
+.vce-tweet-button iframe {
+  display: block;
+  vertical-align: top;
+}
+
+.vce-tweet-button--align-center {
+  text-align: center;
+}
+
+.vce-tweet-button--align-right {
+  text-align: right;
+}
+
+.vce-tweet-button--align-left {
+  text-align: left;
+}
+
+.vce-tweet-button-inner {
+  vertical-align: top;
+  display: inline-block;
+}
