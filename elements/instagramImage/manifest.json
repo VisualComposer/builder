@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "instagramImage": {
+      "settings": {
+        "name": "Instagram Image",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-instagram.jpg",
+        "metaPreviewUrl": "[publicPath]/preview-instagram.jpg",
+        "metaDescription": "Embed Instagram image directly to your WordPress website."
+      }
+    }
+  },
+  "categories": {
+    "Social": {
+      "elements": [
+        "instagramImage"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+.vce-facebook-like {
+  line-height: 1;
+}
+
+.vce-facebook-like iframe {
+  display: block;
+  vertical-align: top;
+  max-width: 100%;
+}
+
+.vce-facebook-like--align-center {
+  text-align: center;
+}
+
+.vce-facebook-like--align-right {
+  text-align: right;
+}
+
+.vce-facebook-like--align-left {
+  text-align: left;
+}
+
+.vce-facebook-like-inner {
+  vertical-align: top;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.vce-facebook-like-inner div {
+  max-width: 100%;
+}
+
+.vce-facebook-like-inner > * {
+  margin: 0;
+}

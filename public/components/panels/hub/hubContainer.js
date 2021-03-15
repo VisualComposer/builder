@@ -142,16 +142,32 @@ export default class HubContainer extends React.Component {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
 
-    let freeElements = elementCategories[0].elements.filter(element => element.bundleType.includes('free'))
+    let defaultElementTags = []
+
+    // Get list of loaded elements and filter exactly default elements
+    let defaultElements = Object.values(dataManager.get('hubGetElements')).filter(el => el.key !== 'column' && el.metaIsDefaultElement).map(el => {
+      defaultElementTags.push(el.key)
+      return {
+        bundleType: ["free"],
+        description: el.settings.metaDescription,
+        name: el.settings.name,
+        previewUrl: el.settings.metaPreviewUrl,
+        tag: el.key,
+        thumbnailUrl: el.settings.metaThumbnailUrl
+      }
+    })
+
+    let freeElements = elementCategories[0].elements.filter(element => defaultElementTags.indexOf(element.tag) === -1 && element.bundleType.includes('free'))
     let premiumElements = elementCategories[0].elements.filter(element => element.bundleType.includes('premium') && !element.bundleType.includes('free'))
 
+    defaultElements = lodash.sortBy(defaultElements, ['name'])
     freeElements = lodash.sortBy(freeElements, ['name'])
     freeElements = lodash.orderBy(freeElements, this.isItemNew, ['desc'])
 
     premiumElements = lodash.sortBy(premiumElements, ['name'])
     premiumElements = lodash.orderBy(premiumElements, this.isItemNew, ['desc'])
 
-    const sortedElements = freeElements.concat(premiumElements)
+    const sortedElements = defaultElements.concat(freeElements.concat(premiumElements))
 
     return { elements: sortedElements, id: `${title}${index}`, index: index, title: title }
   }

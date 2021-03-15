@@ -1,0 +1,84 @@
+.vce-faq-toggle .vce-faq-toggle-text-block > *:last-child {
+  margin-bottom: 0;
+}
+
+.vce-faq-toggle .vce-faq-toggle-text-block > *:first-child {
+  margin-top: 0;
+}
+
+.vce-faq-toggle-title {
+  padding-left: 33px;
+  position: relative;
+  cursor: pointer;
+}
+
+.rtl .vce-faq-toggle-title ,
+[dir="rlt"] .vce-faq-toggle-title  {
+  padding-left: initial;
+  padding-right: 33px;
+}
+
+.vce-faq-toggle-title-text {
+  position: relative;
+}
+
+.vce-faq-toggle-icon {
+  position: absolute;
+  left: -33px;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  height: 22px;
+  width: 22px;
+  transition: background-color .2s ease-in-out;
+}
+
+.rtl .vce-faq-toggle-icon ,
+[dir="rlt"] .vce-faq-toggle-icon  {
+  left: auto;
+  right: -33px;
+}
+
+.vce-faq-toggle-icon::before,
+.vce-faq-toggle-icon::after {
+  content: '';
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  transition: background-color .2s ease-in-out, opacity .2s ease-in-out;
+}
+
+.vce-faq-toggle-icon::before {
+  height: 2px;
+  width: 10px;
+}
+
+.vce-faq-toggle-icon::after {
+  height: 10px;
+  width: 2px;
+  opacity: 1;
+}
+
+.vce-faq-toggle-state--opened .vce-faq-toggle-icon::after {
+  opacity: 0;
+}
+
+.vce-faq-toggle-text-block {
+  padding-left: 33px;
+}
+
+.vce-faq-toggle-shape--rounded .vce-faq-toggle-icon {
+  border-radius: 5px;
+}
+
+.vce-faq-toggle-shape--round .vce-faq-toggle-icon {
+  border-radius: 50%;
+}
+
+.vce-faq-toggle-inner > :nth-child(even) {
+  display: none;
+}

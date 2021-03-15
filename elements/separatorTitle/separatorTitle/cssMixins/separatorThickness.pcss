@@ -1,0 +1,18 @@
+.vce-separator-with-title-line--thickness-$selector {
+  &::before {
+    border-width: $(thickness)px;
+  }
+  &.vce-separator-shadow {
+    height: calc($(thickness)px * 2.5);
+  }
+  &.vce-separator-shadow-left {
+    &::before {
+      box-shadow: 10px 10px 10px $(thickness)px;
+    }
+  }
+  &.vce-separator-shadow-right {
+    &::before {
+      box-shadow: -10px 10px 10px $(thickness)px;
+    }
+  }
+}

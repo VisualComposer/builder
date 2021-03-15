@@ -1,0 +1,1 @@
+{"elements":{"twitterTweet":{"settings":{"name":"Twitter Tweet","metaThumbnailUrl":"[publicPath]/twitter-tweet-thumbnail.png","metaPreviewUrl":"[publicPath]/twitter-tweet-preview.jpg","metaDescription":"Embedded Tweet to display an individual Tweet off of Twitter by picking tweet URL."}}},"categories":{"Social":{"elements":["twitterTweet"]}}}

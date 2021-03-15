@@ -1,0 +1,20 @@
+.vce-pinterest-pinit {
+  line-height: 1;
+}
+
+.vce-pinterest-pinit--align-center {
+  text-align: center;
+}
+
+.vce-pinterest-pinit--align-right {
+  text-align: right;
+}
+
+.vce-pinterest-pinit--align-left {
+  text-align: left;
+}
+
+.vce-pinterest-pinit-inner {
+  vertical-align: top;
+  display: inline-block;
+}
