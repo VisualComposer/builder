@@ -252,7 +252,7 @@ class Status implements Helper
     public function getAwsConnection()
     {
         $request = wp_remote_get(
-            'https://s3.us-west-2.amazonaws.com/cdn.hub.visualcomposer.com/vcwb-bundles/status.json',
+            'https://cdn.hub.visualcomposer.com/vcwb-bundles/status.json',
             [
                 'timeout' => 30,
             ]
