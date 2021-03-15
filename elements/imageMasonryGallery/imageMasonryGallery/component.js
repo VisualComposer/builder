@@ -31,9 +31,9 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
   /* eslint-enable */
 
   prepareImages (atts, clearColumns = false) {
-    let { image } = atts
-    let imgSources = this.getImageUrl(image)
-    let columnCount = atts.columns <= 0 ? 1 : atts.columns
+    const { image } = atts
+    const imgSources = this.getImageUrl(image)
+    const columnCount = atts.columns <= 0 ? 1 : atts.columns
     let cols = []
     for (let i = 0; i < columnCount; i++) {
       cols.push(0)
@@ -56,18 +56,18 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
       })
       return
     }
-    let img = new window.Image()
+    const img = new window.Image()
     img.loadingIndex = this.loadingIndex
     img.onload = this.imgLoadHandler.bind(this, imgSources, cols, img)
-    img.src = imgSources[ this.currentImg ]
+    img.src = imgSources[this.currentImg]
   }
 
   imgLoadHandler (imgSources, cols, img) {
     if (img.loadingIndex === this.loadingIndex) {
-      let height = this.getImageHeight(img.width, img.height)
-      let smallestCol = this.getSmallestFromArray(cols)
-      cols[ smallestCol ] += height
-      this.data[ smallestCol ].push(this.props.atts.image[ this.currentImg ])
+      const height = this.getImageHeight(img.width, img.height)
+      const smallestCol = this.getSmallestFromArray(cols)
+      cols[smallestCol] += height
+      this.data[smallestCol].push(this.props.atts.image[this.currentImg])
       this.currentImg++
       if (this.currentImg < imgSources.length) {
         this.loadImage(imgSources, cols)
@@ -80,17 +80,17 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
   }
 
   getImageHeight (width, height) {
-    let newWidth = 50
-    let proportion = width / newWidth
+    const newWidth = 50
+    const proportion = width / newWidth
     return height / proportion
   }
 
   getSmallestFromArray (arr) {
     let smallestIndex = 0
-    let smallest = arr[ 0 ]
+    let smallest = arr[0]
     arr.forEach((height, index) => {
       if (height < smallest) {
-        smallest = arr[ index ]
+        smallest = arr[index]
         smallestIndex = index
       }
     })
@@ -98,53 +98,53 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { image, shape, customClass, metaCustomId, clickableOptions, showCaption } = atts
-    let containerClasses = [ 'vce-image-masonry-gallery' ]
-    let wrapperClasses = [ 'vce-image-masonry-gallery-wrapper vce' ]
-    let containerProps = {}
+    const { id, atts, editor } = this.props
+    const { image, shape, customClass, metaCustomId, clickableOptions, showCaption } = atts
+    const containerClasses = ['vce-image-masonry-gallery']
+    const wrapperClasses = ['vce-image-masonry-gallery-wrapper vce']
+    const containerProps = {}
 
     let CustomTag = 'div'
-    let columnData = this.state && this.state.columnData
-    let columnHtml = []
+    const columnData = this.state && this.state.columnData
+    const columnHtml = []
     if (columnData) {
       let imageIndex = 0
       columnData.forEach((col, colIndex) => {
-        let galleryItems = []
+        const galleryItems = []
         col && col.forEach((src, index) => {
-          let imgSrc = this.getImageUrl(src)
+          const imgSrc = this.getImageUrl(src)
           let customProps = {}
           let classes = 'vce-image-masonry-gallery-item'
-          let imgClasses = 'vce-image-masonry-gallery-img'
-          let customImageProps = {
-            'alt': src && src.alt ? src.alt : ''
+          const imgClasses = 'vce-image-masonry-gallery-img'
+          const customImageProps = {
+            alt: src && src.alt ? src.alt : ''
           }
 
           if (clickableOptions === 'url' && src.link && src.link.url) {
             CustomTag = 'a'
-            let { url, title, targetBlank, relNofollow } = src.link
+            const { url, title, targetBlank, relNofollow } = src.link
             customProps = {
-              'href': url,
-              'title': title,
-              'target': targetBlank ? '_blank' : undefined,
-              'rel': relNofollow ? 'nofollow' : undefined
+              href: url,
+              title: title,
+              target: targetBlank ? '_blank' : undefined,
+              rel: relNofollow ? 'nofollow' : undefined
             }
           } else if (clickableOptions === 'imageNewTab') {
             CustomTag = 'a'
             customProps = {
-              'href': imgSrc,
-              'target': '_blank'
+              href: imgSrc,
+              target: '_blank'
             }
           } else if (clickableOptions === 'lightbox') {
             CustomTag = 'a'
             customProps = {
-              'href': imgSrc,
+              href: imgSrc,
               'data-lightbox': `lightbox-${id}`
             }
           } else if (clickableOptions === 'photoswipe') {
             CustomTag = 'a'
             customProps = {
-              'href': imgSrc,
+              href: imgSrc,
               'data-photoswipe-image': id,
               'data-photoswipe-index': imageIndex,
               'data-photoswipe-item': `photoswipe-${id}`
@@ -196,7 +196,7 @@ export default class ImageMasonryGallery extends vcvAPI.elementComponent {
       containerProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
     return (
       <div className={containerClasses.join(' ')} {...editor} {...containerProps}>

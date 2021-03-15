@@ -6,32 +6,32 @@ const vcvAPI = vcCake.getService('api')
 export default class IconElement extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features'
-    let { atts, editor, id } = this.props
-    let { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId } = atts
+    const { atts, editor, id } = this.props
+    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId } = atts
     let customProps = {}
-    let containerProps = {}
+    const containerProps = {}
     let customIconProps = {}
     let CustomTag = 'div'
     let CustomIconTag = 'span'
-    let { url, title, targetBlank, relNofollow } = iconUrl
-    let iconClasses = `vce-icon-container ${iconPicker.icon}`
+    const { url, title, targetBlank, relNofollow } = iconUrl
+    const iconClasses = `vce-icon-container ${iconPicker.icon}`
 
     if (url) {
       if (shape !== 'none') {
         CustomTag = 'a'
         customProps = {
-          'href': url,
-          'title': title,
-          'target': targetBlank ? '_blank' : undefined,
-          'rel': relNofollow ? 'nofollow' : undefined
+          href: url,
+          title: title,
+          target: targetBlank ? '_blank' : undefined,
+          rel: relNofollow ? 'nofollow' : undefined
         }
       } else {
         CustomIconTag = 'a'
         customIconProps = {
-          'href': url,
-          'title': title,
-          'target': targetBlank ? '_blank' : undefined,
-          'rel': relNofollow ? 'nofollow' : undefined
+          href: url,
+          title: title,
+          target: targetBlank ? '_blank' : undefined,
+          rel: relNofollow ? 'nofollow' : undefined
         }
       }
     } else {
@@ -82,17 +82,19 @@ export default class IconElement extends vcvAPI.elementComponent {
       containerProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div className={classes} {...editor} {...containerProps}>
-      <div id={'el-' + id} className='vce vce-features-icon-wrapper' {...doAll}>
-        <CustomTag className='vce-features--icon vce-icon' {...customProps}>
-          <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
-            <path strokeWidth='25' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
-          </svg>
-          <CustomIconTag className={iconClasses} {...customIconProps} />
-        </CustomTag>
+    return (
+      <div className={classes} {...editor} {...containerProps}>
+        <div id={'el-' + id} className='vce vce-features-icon-wrapper' {...doAll}>
+          <CustomTag className='vce-features--icon vce-icon' {...customProps}>
+            <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
+              <path strokeWidth='25' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
+            </svg>
+            <CustomIconTag className={iconClasses} {...customIconProps} />
+          </CustomTag>
+        </div>
       </div>
-    </div>
+    )
   }
 }

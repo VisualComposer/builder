@@ -1,15 +1,16 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 const Cook = vcCake.getService('cook')
 
 export default class Feature extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { description, align, icon, customClass, metaCustomId } = atts
-    let classNames = require('classnames')
-    let customProps = {}
-    let customContainerProps = {}
+    const { id, atts, editor } = this.props
+    const { description, align, icon, customClass, metaCustomId } = atts
+    const classNames = require('classnames')
+    const customProps = {}
+    const customContainerProps = {}
 
     let containerClasses = classNames({
       'vce-feature': true,
@@ -29,16 +30,18 @@ export default class Feature extends vcvAPI.elementComponent {
       customContainerProps.id = metaCustomId
     }
 
-    let Icon = Cook.get(icon)
-    let iconOutput = Icon.render(null, false)
+    const Icon = Cook.get(icon)
+    const iconOutput = Icon.render(null, false)
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <section className={containerClasses} {...editor} {...customContainerProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...customProps} {...doAll}>
-        {iconOutput}
-        {description}
-      </div>
-    </section>
+    return (
+      <section className={containerClasses} {...editor} {...customContainerProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...customProps} {...doAll}>
+          {iconOutput}
+          {description}
+        </div>
+      </section>
+    )
   }
 }

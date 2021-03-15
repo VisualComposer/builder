@@ -8,25 +8,27 @@ export default class FaqToggle extends vcvAPI.elementComponent {
   getContent () {
     const { atts } = this.props
     const { textBlock, titleText, elementTag } = atts
-    let CustomTag = elementTag
+    const CustomTag = elementTag
 
-    return <div className='vce-faq-toggle-inner'>
-      <div className='vce-faq-toggle-title'>
-        <CustomTag className='vce-faq-toggle-title-text'>
-          <i className='vce-faq-toggle-icon' />
-          {titleText}
-        </CustomTag>
+    return (
+      <div className='vce-faq-toggle-inner'>
+        <div className='vce-faq-toggle-title'>
+          <CustomTag className='vce-faq-toggle-title-text'>
+            <i className='vce-faq-toggle-icon' />
+            {titleText}
+          </CustomTag>
+        </div>
+        <div className='vce-faq-toggle-text-block'>{textBlock}</div>
       </div>
-      <div className='vce-faq-toggle-text-block'>{textBlock}</div>
-    </div>
+    )
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { shape, customHoverColors, metaCustomId, customClass } = atts
+    const { id, atts, editor } = this.props
+    const { shape, customHoverColors, metaCustomId, customClass } = atts
 
     let containerClasses = 'vce-faq-toggle'
-    let customProps = {}
+    const customProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       containerClasses += ' ' + customClass
@@ -75,12 +77,14 @@ export default class FaqToggle extends vcvAPI.elementComponent {
     const content = this.getContent()
     const stringContent = renderToStaticMarkup(content)
 
-    return <div className={containerClasses} {...editor} {...customProps}>
-      <div className='vce-faq-toggle-wrapper vce' id={'el-' + id} {...doAll}>
-        <div className='vcvhelper' data-vcvs-html={stringContent}>
-          {content}
+    return (
+      <div className={containerClasses} {...editor} {...customProps}>
+        <div className='vce-faq-toggle-wrapper vce' id={'el-' + id} {...doAll}>
+          <div className='vcvhelper' data-vcvs-html={stringContent}>
+            {content}
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
 }

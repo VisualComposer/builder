@@ -11,6 +11,6 @@ vcvAddElement(
     component.add(ImageMasonryGallery)
   },
   // css settings // css for element
-  { 'css': require('raw-loader!./styles.css'), 'editorCss': require('raw-loader!./editor.css'), 'mixins': { 'imageGalleryColumns': { 'mixin': require('raw-loader!./cssMixins/imageGalleryColumns.pcss') }, 'imageGalleryGap': { 'mixin': require('raw-loader!./cssMixins/imageGalleryGap.pcss') } } },
+  { css: require('raw-loader!./styles.css'), editorCss: require('raw-loader!./editor.css'), mixins: { imageGalleryColumns: { mixin: require('raw-loader!./cssMixins/imageGalleryColumns.pcss') }, imageGalleryGap: { mixin: require('raw-loader!./cssMixins/imageGalleryGap.pcss') } } },
   ''
 )

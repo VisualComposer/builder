@@ -1,19 +1,20 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class SeparatorTitle extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { separatorAlignment, separatorStyle, title, customClass, metaCustomId } = atts
-    let customProps = {}
-    let separatorContainerClasses = [ 'vce', 'vce-separator-with-title-container' ]
-    let separatorClasses = [ 'vce-separator-with-title' ]
-    let lineClasses = [ 'vce-separator-with-title--line' ]
+    const { id, atts, editor } = this.props
+    const { separatorAlignment, separatorStyle, title, customClass, metaCustomId } = atts
+    const customProps = {}
+    let separatorContainerClasses = ['vce', 'vce-separator-with-title-container']
+    let separatorClasses = ['vce-separator-with-title']
+    const lineClasses = ['vce-separator-with-title--line']
     let leftLineClasses = []
     let rightLineClasses = []
-    let titleClasses = [ 'vce-separator-with-title--title' ]
+    let titleClasses = ['vce-separator-with-title--title']
 
     if (typeof customClass === 'string' && customClass) {
       separatorContainerClasses.push(customClass)
@@ -73,15 +74,17 @@ export default class SeparatorTitle extends vcvAPI.elementComponent {
     leftLineClasses = classNames(leftLineClasses)
     rightLineClasses = classNames(rightLineClasses)
 
-    let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('border padding background animation')
+    const doMargin = this.applyDO('margin')
+    const doRest = this.applyDO('border padding background animation')
 
-    return <div className={separatorContainerClasses} id={'el-' + id} {...editor} {...doMargin}>
-      <div className={separatorClasses} {...customProps} {...doRest}>
-        <div className={leftLineClasses} />
-        <h3 className={titleClasses}>{title}</h3>
-        <div className={rightLineClasses} />
+    return (
+      <div className={separatorContainerClasses} id={'el-' + id} {...editor} {...doMargin}>
+        <div className={separatorClasses} {...customProps} {...doRest}>
+          <div className={leftLineClasses} />
+          <h3 className={titleClasses}>{title}</h3>
+          <div className={rightLineClasses} />
+        </div>
       </div>
-    </div>
+    )
   }
 }
