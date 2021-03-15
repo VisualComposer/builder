@@ -42,25 +42,21 @@ trait SubMenu
                 if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
                     $tabsHelper = vchelper('SettingsTabsRegistry');
                     $tabsHelper->set(
-                        $page['slug'],
-                        [
-                            'name' => isset($page['innerTitle']) ? $page['innerTitle'] : $page['title'],
-                            'subTitle' => isset($page['subTitle']) ? $page['subTitle'] : '',
-                            'capability' => $capability,
-                            'parent' => $parentSlug,
-                            'layout' => $page['layout'],
-                            'isDashboardPage' => true,
-                            'hideTitle' => (isset($page['hideTitle']) && $page['hideTitle']),
-                            'iconClass' => isset($page['iconClass']) && $page['iconClass'] ? $page['iconClass'] : '',
-                            'callback' => function () use ($page) {
-                                if (isset($page['isPremiumTeaser']) && $page['isPremiumTeaser']) {
-                                    $page['layout'] = 'dashboard-premium-teaser';
-                                }
-
-                                /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
-                                echo $this->call('renderPage', ['page' => $page]);
-                            },
-                        ]
+                        array_merge(
+                            [
+                                'name' => isset($page['innerTitle']) ? $page['innerTitle'] : $page['title'],
+                                'capability' => $capability,
+                                'parent' => $parentSlug,
+                                'isDashboardPage' => true,
+                                'hideTitle' => '',
+                                'iconClass' => '',
+                                'callback' => function () use ($page) {
+                                    /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
+                                    echo $this->call('renderPage', ['page' => $page]);
+                                },
+                            ],
+                            $page
+                        )
                     );
                 }
 
@@ -105,6 +101,10 @@ trait SubMenu
         }
 
         if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
+            wp_enqueue_style('vcv:wpVcSettings:style');
+            wp_enqueue_script('vcv:wpVcSettings:script');
+            wp_enqueue_script('vcv:assets:runtime:script');
+
             add_action(
                 'admin_head',
                 function () {

@@ -11,8 +11,6 @@ export const dashboard = () => {
     return
   }
   let httpRequest = false
-  let tabletMinHeight = ''
-  let desktopMinHeight = ''
   let formTouched = false
   const urlHash = new URL(document.URL).hash
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
@@ -23,32 +21,6 @@ export const dashboard = () => {
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
   const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
   const dataCollectionTableButton = document.querySelector('#vcv-data-collection-table-button')
-  const adminMenuBack = document.querySelector('#adminmenuback')
-  const adminMenuWrap = document.querySelector('#adminmenuwrap')
-  const dashboardStylesContainer = document.querySelector('#vcv-dashboard-styles')
-  const initialDashboardStyles = dashboardStylesContainer.innerHTML
-
-  const setDashboardMinHeight = () => {
-    if (window.innerWidth < 783) {
-      return
-    }
-    let minHeightStyle
-    const adminMenuWrapHeight = window.getComputedStyle(adminMenuWrap).height
-    const adminMenuBackHeight = window.getComputedStyle(adminMenuBack).height
-    const wpSidebarHeight = window.innerHeight > parseInt(adminMenuWrapHeight) ? adminMenuBackHeight : adminMenuWrapHeight
-
-    if (window.innerWidth > 782 && window.innerWidth < 961) {
-      minHeightStyle = `@media screen and (min-width: 783px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
-      tabletMinHeight = minHeightStyle
-      dashboardStylesContainer.innerHTML = initialDashboardStyles + minHeightStyle + desktopMinHeight
-    }
-
-    if (window.innerWidth > 960) {
-      minHeightStyle = `@media screen and (min-width: 961px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
-      desktopMinHeight = minHeightStyle
-      dashboardStylesContainer.innerHTML = initialDashboardStyles + tabletMinHeight + minHeightStyle
-    }
-  }
 
   const handleNavigationToggle = () => {
     navigationMenu.classList.toggle('vcv-is-navigation-visible')
@@ -58,7 +30,7 @@ export const dashboard = () => {
   }
 
   const handleSubmenuLinkClick = (e) => {
-    if (e.target.getAttribute('href') !== 'javascript:void(0)') {
+    if (!e.target.classList.contains('vcv-dashboard-sidebar-navigation-link--same-parent')) {
       return
     }
     e.preventDefault()
@@ -132,6 +104,10 @@ export const dashboard = () => {
   }
 
   const handleMenuLinkClick = (e) => {
+    if (e.target.classList.contains('vcv-dashboard-sidebar-navigation-menu-item-parent-link')) {
+      e.target.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent').classList.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
+      e.preventDefault()
+    }
     if (formTouched) {
       const userResponse = window.confirm(unsavedChangesText)
       if (!userResponse) {
@@ -153,28 +129,12 @@ export const dashboard = () => {
     formTouched = true
   }
 
-  // Implement throttle on window resize
-  const handleWindowResize = (func, duration) => {
-    let shouldWait = false
-    return function (...args) {
-      if (!shouldWait) {
-        func.apply(this, args)
-        shouldWait = true
-        setTimeout(function () {
-          shouldWait = false
-        }, duration)
-      }
-    }
-  }
-
   const handleDataCollectionTableToggle = () => {
     if (!dataCollectionTableWrapper) {
       return
     }
     window.jQuery(dataCollectionTableWrapper).slideToggle()
   }
-
-  setDashboardMinHeight()
 
   if (dataCollectionTableWrapper) {
     if (urlHash.indexOf(dataCollectionTableWrapper.id) !== -1) {
@@ -188,12 +148,6 @@ export const dashboard = () => {
     form.addEventListener('change', handleContentFormChange)
   })
   navigationToggle.addEventListener('click', handleNavigationToggle)
-  window.addEventListener(
-    'resize',
-    handleWindowResize(() => {
-      setDashboardMinHeight()
-    }, 250)
-  )
   window.onbeforeunload = () => {
     const isCodeEditorsTouched = dataManager.get('isCodeEditorsTouched')
     if (formTouched || isCodeEditorsTouched) {

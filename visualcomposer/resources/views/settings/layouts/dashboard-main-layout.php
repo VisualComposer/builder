@@ -13,21 +13,14 @@ if (isset($_GET['page'])) {
 
 $tabsHelper = vchelper('SettingsTabsRegistry');
 $utmHelper = vchelper('Utm');
-$allTabs = $tabsHelper->getHierarchy();
+$allTabs = $tabsHelper->getHierarchy($tabsHelper->all());
 $activeTabData = $tabsHelper->get($activeTab);
-
+if (empty($activeTabData)) {
+    wp_die('Wrong request');
+    exit; // page not exists..
+}
 // Get Parent Tab
 $parentSlug = $activeTabData['parent'] === false ? $activeTab : $activeTabData['parent'];
-
-// Make hub first item
-if (vcvenv('VCV_FT_DASHBOARD_HUB') && isset($allTabs['vcv-hub'])) {
-    $hubArray = [
-        'vcv-hub' => $allTabs['vcv-hub'],
-    ];
-    unset($allTabs['vcv-hub']);
-    $allTabs = array_merge($hubArray, $allTabs);
-}
-
 // Get Variables
 $variables = vcfilter(
     'vcv:wp:dashboard:variables',
@@ -48,6 +41,33 @@ if (is_array($variables)) {
         }
     }
     unset($variable);
+}
+evcview('settings/partials/premium-teaser-css');
+$hubAddons = vchelper('HubAddons')->getAddons();
+$hideMenu = true;
+foreach (
+    [
+        'exportImport',
+        'globalTemplate',
+        'maintenanceMode' .
+        'popupBuilder',
+        'themeBuilder',
+        'themeEditor',
+    ] as $addonKey
+) {
+    if (array_key_exists($addonKey, $hubAddons) && !vcvenv('VCV_HUB_ADDON_DASHBOARD_' . strtoupper($addonKey), false)) {
+        $hideMenu = false;
+        break;
+    }
+}
+if ($hideMenu) {
+    echo <<<STYLE
+<style>
+#toplevel_page_vcv-settings ul {
+  display:none;
+}
+</style>
+STYLE;
 }
 
 ?>
@@ -135,17 +155,17 @@ if (is_array($variables)) {
   }
 
   #wpfooter #footer-left {
-      display: none;
+    display: none;
   }
 
   .vcv-thanks-message {
-      position: absolute;
-      bottom: 30px;
-      font-family: 'Roboto', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      line-height: 22px;
-      color: #8E8F9F;
+    position: absolute;
+    bottom: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 22px;
+    color: #8E8F9F;
   }
 
   @-webkit-keyframes vcv-ui-wp-spinner-animation {
@@ -187,7 +207,7 @@ if (is_array($variables)) {
         <aside class="vcv-dashboard-sidebar">
             <header class="vcv-dashboard-sidebar-header">
                 <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-                    <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get('vcdashboard-logo-url') ?>" target="_blank" rel="noopener noreferrer">
+                    <a class="vcv-dashboard-logo" href="<?php echo $utmHelper->get('vcdashboard-logo-url'); ?>" target="_blank" rel="noopener noreferrer">
                         <?php evcview('settings/partials/dashboard-logo'); ?>
                     </a>
                 <?php else : ?>
@@ -208,17 +228,25 @@ if (is_array($variables)) {
                             if ($menuKey === $parentSlug) {
                                 $activeClass = ' vcv-dashboard-sidebar-navigation-link--active';
                             }
+                            $subTabs = [];
+                            if (isset($menuValue['children'])) {
+                                $subTabs = $menuValue['children'];
+                            }
+                            $activeClassMenuItem = array_key_exists($activeTab, $subTabs) ? ' vcv-dashboard-sidebar-navigation-menu-item--active' : '';
+                            $haveChilds = !empty($subTabs) ? ' vcv-dashboard-sidebar-navigation-menu-item-parent' : '';
+                            $haveChildsLinkClass = !empty($subTabs) ? ' vcv-dashboard-sidebar-navigation-menu-item-parent-link' : '';
                             ?>
-                            <li class="vcv-dashboard-sidebar-navigation-menu-item">
+                            <li class="vcv-dashboard-sidebar-navigation-menu-item<?php echo esc_attr($activeClassMenuItem . $haveChilds); ?>">
                                 <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard
-                                <?php echo esc_attr($menuValue['iconClass']) . esc_attr($activeClass); ?>"
+                                <?php echo esc_attr($menuValue['iconClass']) . esc_attr($activeClass) . esc_attr($haveChildsLinkClass); ?>"
                                         href="?page=<?php echo esc_attr($menuKey) ?>">
-                                    <?php echo esc_html($menuValue['name']); ?>
+                                    <?php echo esc_html(
+                                        empty($menuValue['dashboardName']) ? $menuValue['name'] : $menuValue['dashboardName']
+                                    ); ?>
                                 </a>
                                 <?php
                                 // Render sub menu items
-                                if (isset($menuValue['children'])) :
-                                    $subTabs = $menuValue['children'];
+                                if (!empty($subTabs)) :
                                     ?>
                                     <ul class="vcv-dashboard-sidebar-navigation-menu vcv-dashboard-sidebar-navigation-menu--submenu">
                                         <?php
@@ -228,17 +256,17 @@ if (is_array($variables)) {
                                                 $activeClass = ' vcv-dashboard-sidebar-navigation-link--active';
                                             }
                                             $tabTitle = empty($tab['subTitle']) ? $tab['name'] : $tab['subTitle'];
+                                            $subMenuLink = '?page=' . esc_attr($tabKey);
+
                                             if ($menuKey === $parentSlug) {
-                                                $subMenuLink = 'javascript:void(0)';
-                                            } else {
-                                                $subMenuLink = '?page=' . esc_attr($tabKey);
+                                                $activeClass .= ' vcv-dashboard-sidebar-navigation-link--same-parent';
                                             }
                                             ?>
                                             <li class="vcv-dashboard-sidebar-navigation-menu-item">
                                                 <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard <?php echo esc_attr($activeClass); ?>"
                                                         href="<?php echo $subMenuLink ?>"
                                                         data-value="<?php echo esc_attr($tabKey) ?>">
-                                                    <?php echo esc_html__($tabTitle, 'visualcomposer'); ?>
+                                                    <?php echo $tabTitle; ?>
                                                 </a>
                                             </li>
                                         <?php endforeach; ?>
@@ -246,15 +274,17 @@ if (is_array($variables)) {
                                 <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
+                    </ul>
+                    <ul class="vcv-dashboard-sidebar-navigation-bottom-menu">
                         <?php
                         $utmHelper = vchelper('Utm');
                         echo sprintf(
-                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-information" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                             esc_url($utmHelper->get('vcdashboard-help')),
                             __('Help', 'visualcomposer')
                         );
                         echo sprintf(
-                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                            '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-profile" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                             esc_url($utmHelper->get('vcdashboard-myvc')),
                             __('My Visual Composer', 'visualcomposer')
                         );
@@ -263,7 +293,7 @@ if (is_array($variables)) {
                         $licenseHelper = vchelper('License');
                         if (!$licenseHelper->isPremiumActivated()) {
                             echo sprintf(
-                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" target="_blank" rel="noopener noreferrer">%s</a></li>',
+                                '<li class="vcv-dashboard-sidebar-navigation-menu-item"><a href="%s" class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star" target="_blank" rel="noopener noreferrer">%s<span aria-hidden="true" class="dashicons dashicons-external vcv-ui-icon-dashboard-external"></span></a></li>',
                                 esc_url(vchelper('Utm')->get('vcdashboard-go-premium')),
                                 __('Go Premium', 'visualcomposer')
                             );
@@ -274,7 +304,7 @@ if (is_array($variables)) {
             </div>
         </aside>
         <main class="vcv-dashboard-main">
-            <div>
+            <div class="vcv-dashboard-content">
                 <?php
                 if (isset($allTabs[ $parentSlug ]['children'])) {
                     $renderedTabs = $allTabs[ $parentSlug ]['children'];

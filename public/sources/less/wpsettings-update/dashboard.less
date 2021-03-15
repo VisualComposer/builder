@@ -46,6 +46,10 @@
     box-shadow: none;
   }
 }
+.vcv-dashboard-sidebar-navigation-menu-item.vcv-dashboard-sidebar-navigation-menu-item-parent {
+  font-family: 'VC-Icons';
+  position: relative;
+}
 
 .vcv-dashboard-logo-img {
   max-width: 100%;
@@ -55,6 +59,7 @@
 .vcv-dashboard-sidebar-navigation {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .vcv-dashboard-sidebar-navigation--main {
@@ -62,13 +67,19 @@
 }
 
 .vcv-dashboard-sidebar-navigation-menu,
+.vcv-dashboard-sidebar-navigation-bottom-menu,
 .vcv-dashboard-sidebar-navigation-menu-item {
   margin: 0;
   padding: 0;
   list-style-type: none;
+  cursor: pointer;
+}
+.vcv-dashboard-sidebar-navigation-menu :not(.vcv-dashboard-sidebar-navigation-menu-item--active) ul {
+  display: none;
 }
 
 .vcv-dashboard-sidebar-navigation-link {
+  cursor: pointer;
   &:hover,
   &:focus,
   &.vcv-dashboard-sidebar-navigation-link--active {
@@ -84,7 +95,24 @@
     box-shadow: none;
   }
 }
+.vcv-dashboard-sidebar-navigation-menu-item.vcv-dashboard-sidebar-navigation-menu-item-parent {
+  font-family: 'VC-Icons';
+  position: relative;
 
+  &::after {
+    position: absolute;
+    right: -5px;
+    top: 17px;
+    font-size: 24px;
+    color: #fff;
+    content: "\25be";
+    pointer-events: none;
+  }
+
+  &.vcv-dashboard-sidebar-navigation-menu-item--active::after {
+    content: "\25b4";
+  }
+}
 .vcv-dashboard-sidebar-navigation-menu--submenu {
   padding: 0 0 0 50px;
 
@@ -97,7 +125,6 @@
   .vcv-dashboard-sidebar-navigation-link--active {
     color: rgba(255, 255, 255, 0.6);
   }
-
   .vcv-dashboard-sidebar-navigation-menu-item:only-child {
     display: none;
   }
@@ -117,6 +144,11 @@
   font-size: 20px;
   border-radius: 50%;
   transition: background @transition-duration @transition-timing-function;
+}
+.vcv-ui-icon-dashboard-external {
+  color: #6476BD;
+  margin-left: 5px;
+  margin-top: -1px;
 }
 
 .vcv-dashboard-nav-toggle {
@@ -442,6 +474,15 @@
   flex-direction: column;
 }
 
+.vcv-dashboard-content,
+.vcv-dashboards-section-content {
+  height: 100%;
+}
+
+.vcv-dashboard-section-custom-post-type-iframe {
+  flex-grow: 1;
+}
+
 .vcv-dashboard-loader {
   display: none;
 }
@@ -534,6 +575,11 @@
     max-width: 310px;
     flex: 0 0 310px;
     background-image: linear-gradient(to bottom, @vcv-navbar-gradient-start, @vcv-navbar-gradient-end);
+    position: sticky;
+    top: 32px;
+    bottom: 0;
+    height: 100%;
+    min-height: calc(100vh - 32px);
   }
 
   .vcv-dashboard-main {
@@ -584,6 +630,7 @@
     .vcv-ui-settings-data-collection-table td {
       padding: 15px 10px;
     }
+
     th, td {
       padding: 20px 10px 20px 0;
     }

@@ -8,5 +8,5 @@ import ActivationSection from './components/account/activationSection'
 
 ReactDOM.render(
   <ActivationSection />,
-  document.querySelector('.vcv-settings')
+  document.querySelector('[data-section=vcv-getting-started],[data-section=vcv-activate-license],[data-section=vcv-update]')
 )

@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Settings\Pages;
+namespace VisualComposer\Modules\Hub\Pages;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -35,49 +35,29 @@ class Hub extends Container implements Module
      */
     public function __construct()
     {
-        if (!vcvenv('VCV_FT_DASHBOARD_HUB')) {
-            return;
-        }
-
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            3
+            11
         );
 
-        $this->wpAddFilter('submenu_file', 'subMenuHighlight');
+//        $this->wpAddFilter('submenu_file', 'subMenuHighlight');
     }
 
-    protected function subMenuHighlight($submenuFile)
-    {
-        $screen = get_current_screen();
-        if (strpos($screen->id, $this->slug)) {
-            $submenuFile = 'vcv-settings';
-        }
-
-        return $submenuFile;
-    }
+//    protected function subMenuHighlight($submenuFile)
+//    {
+//        $screen = get_current_screen();
+//        if (strpos($screen->id, $this->slug)) {
+//            $submenuFile = 'vcv-settings';
+//        }
+//
+//        return $submenuFile;
+//    }
 
     protected function beforeRender()
     {
         $urlHelper = vchelper('Url');
 
-        // Get dashboard styles
-        wp_register_style(
-            'vcv:wpVcSettings:style',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_style('vcv:wpVcSettings:style');
-
-        // Get hub style and scripts
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
-            ['vcv:assets:vendor:script'],
-            VCV_VERSION
-        );
         wp_register_script(
             'vcv:hub:script',
             $urlHelper->to('public/dist/hub.bundle.js'),
@@ -90,7 +70,6 @@ class Hub extends Container implements Module
             [],
             VCV_VERSION
         );
-        wp_enqueue_script('vcv:wpVcSettings:script');
         wp_enqueue_script('vcv:hub:script');
         wp_enqueue_style('vcv:hub:style');
     }
@@ -108,7 +87,7 @@ class Hub extends Container implements Module
             'iconClass' => 'vcv-ui-icon-dashboard-hub-shop',
             'isDashboardPage' => true,
             'hideTitle' => true,
-            'hideInWpMenu' => true,
+            'hideInWpMenu' => false,
         ];
         $this->addSubmenuPage($page, false);
     }
