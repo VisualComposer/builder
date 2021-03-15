@@ -57,7 +57,7 @@ export default class ContentEditableComponent extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.updateElementData = this.updateElementData.bind(this)
     this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this)
-    this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 500)
+    this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 1000)
   }
 
   componentDidMount () {
