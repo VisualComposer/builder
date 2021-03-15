@@ -1,0 +1,57 @@
+.vce-separator-with-icon--icon--style-shape-color-$selector {
+
+    &.vce-separator-with-icon--icon--style-shape {
+      &-filled {
+        &-circle, &-rounded, &-square, &-diamond {
+          @if $iconShapeColor != false {
+            background-color: $iconShapeColor;
+          }
+          a:hover {
+            background-color: color($iconShapeColor shade(10%));
+          }
+        }
+        &-hexagon {
+          @if $iconShapeColor != false {
+            fill: $iconShapeColor;
+            background-color: transparent;
+          }
+          a:hover {
+            fill: color($iconShapeColor shade(10%));
+          }
+        }
+      }
+
+      &-outlined {
+        &-circle, &-rounded, &-square, &-diamond {
+          @if $iconShapeColor != false {
+            border-color: $iconShapeColor;
+          }
+          a:hover {
+            border-color: color($iconShapeColor shade(10%));
+          }
+        }
+        &-hexagon {
+         @if $iconShapeColor != false {
+           stroke: $iconShapeColor;
+           fill: transparent;
+           background-color: transparent;
+         }
+          a:hover {
+            stroke: color($iconShapeColor shade(10%));
+          }
+        }
+        &-underlined {
+          &::after {
+            @if $iconShapeColor != false {
+              background-color: $iconShapeColor;
+            }
+          }
+          a:hover {
+            &::after {
+              background-color: color($iconShapeColor shade(10%));
+            }
+          }
+        }
+      }
+    }
+}

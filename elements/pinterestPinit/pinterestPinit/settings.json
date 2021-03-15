@@ -1,0 +1,128 @@
+{
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "type",
+      "alignment",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
+    }
+  },
+  "type": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "default",
+    "options": {
+      "label": "Type",
+      "values": [
+        {
+          "label": "Default",
+          "value": "default"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        },
+        {
+          "label": "Large",
+          "value": "large"
+        },
+        {
+          "label": "Tall Bubble",
+          "value": "tallBubble"
+        },
+        {
+          "label": "Tall Counter",
+          "value": "tallCounter"
+        }
+      ]
+    }
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "alignment": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "left",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left",
+          "icon": "vcv-ui-icon-attribute-alignment-left"
+        },
+        {
+          "label": "Center",
+          "value": "center",
+          "icon": "vcv-ui-icon-attribute-alignment-center"
+        },
+        {
+          "label": "Right",
+          "value": "right",
+          "icon": "vcv-ui-icon-attribute-alignment-right"
+        }
+      ]
+    }
+  },
+  "metaDisableInteractionInEditor": {
+    "type": "toggle",
+    "access": "protected",
+    "value": true
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "pinterestPinit"
+  }
+}

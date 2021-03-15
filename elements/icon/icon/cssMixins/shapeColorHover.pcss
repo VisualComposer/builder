@@ -1,0 +1,39 @@
+.vce-icon--style {
+  &--shape-color-hover-$selector {
+
+    &.vce-features--style {
+      &-filled {
+        &-circle, &-rounded, &-square, &-diamond {
+          .vce-features--icon:hover {
+            background-color: $shapeColorHover;
+          }
+        }
+        &-hexagon {
+          .vce-features--icon:hover {
+            fill: $shapeColorHover;
+          }
+        }
+      }
+
+      &-outlined {
+        &-circle, &-rounded, &-square, &-diamond {
+          .vce-features--icon:hover {
+            border-color: $shapeColorHover;
+          }
+        }
+        &-hexagon {
+          .vce-features--icon:hover {
+            stroke: $shapeColorHover;
+          }
+        }
+        &-underlined {
+          .vce-features--icon:hover {
+            &::after {
+              background-color: $shapeColorHover;
+            }
+          }
+        }
+      }
+    }
+  }
+}
