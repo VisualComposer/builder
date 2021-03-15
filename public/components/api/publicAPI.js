@@ -1,4 +1,5 @@
 import ee from 'event-emitter'
+import innerAPI from './innerAPI'
 
 const MyEventEmitter = function () {}
 ee(MyEventEmitter.prototype)
@@ -20,5 +21,23 @@ export default {
   },
   ready (callback) {
     this.once('ready', callback)
+  },
+  mount (point, callback) {
+    return innerAPI.mount(point, callback)
+  },
+  applyFilter (name, value, options) {
+    return innerAPI.applyFilter(name, value, options)
+  },
+  addFilter (name, callback) {
+    return innerAPI.addFilter(name, callback)
+  },
+  dispatch (event, options) {
+    return innerAPI.dispatch(event, options)
+  },
+  subscribe (event, callback, once = false) {
+    return innerAPI.subscribe(event, callback, once)
+  },
+  filter (name, callback) {
+    return innerAPI.filter(name, callback)
   }
 }
