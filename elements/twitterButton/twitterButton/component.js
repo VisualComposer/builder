@@ -20,10 +20,11 @@ export default class TwitterButton extends vcvAPI.elementComponent {
       this.insertTwitterJs(nextProps.atts)
     }
   }
+
   /* eslint-enable */
 
   insertTwitterJs (props) {
-    let tag = this.createElementTag(props)
+    const tag = this.createElementTag(props)
     let twitterScript = '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
     twitterScript = tag + twitterScript
 
@@ -44,10 +45,10 @@ export default class TwitterButton extends vcvAPI.elementComponent {
   }
 
   createElementTag (props) {
-    let element = document.createElement('a')
+    const element = document.createElement('a')
 
     let { shareText, tweetAccount, tweetButtonSize, buttonType, username, showUsername, hashtagTopic, tweetText } = props
-    let buttonClass = 'twitter-' + buttonType + '-button'
+    const buttonClass = 'twitter-' + buttonType + '-button'
 
     if (buttonType && buttonType === 'share' && shareText) {
       element.setAttribute('data-text', this.extractDynamicContent(shareText))
@@ -82,40 +83,40 @@ export default class TwitterButton extends vcvAPI.elementComponent {
       element.setAttribute('data-show-screen-name', showUsername.toString())
     }
 
-    let links = {
+    const links = {
       share: 'https://twitter.com/share',
       follow: 'https://twitter.com/' + username,
       mention: 'https://twitter.com/intent/tweet?screen_name=' + username,
       hashtag: 'https://twitter.com/intent/tweet?button_hashtag=' + hashtagTopic
     }
-    let buttonLink = links[ buttonType ]
+    const buttonLink = links[buttonType]
 
-    let defaultContent = {
+    const defaultContent = {
       share: 'Tweet',
       follow: showUsername ? 'Follow @' + username : 'Follow',
       mention: 'Tweet to @' + username,
       hashtag: 'Tweet #' + hashtagTopic ? hashtagTopic.split('#').pop() : hashtagTopic
     }
-    let buttonContent = defaultContent[ buttonType ]
+    const buttonContent = defaultContent[buttonType]
 
     element.setAttribute('href', buttonLink)
     element.setAttribute('data-show-count', 'false')
     element.className = buttonClass
     element.innerHTML = buttonContent
 
-    let elementWrapper = document.createElement('div')
+    const elementWrapper = document.createElement('div')
     elementWrapper.appendChild(element)
 
     return elementWrapper.innerHTML
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, alignment, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, alignment, metaCustomId } = atts
     let classes = 'vce-tweet-button'
-    let innerClasses = 'vce-tweet-button-inner'
-    let wrapperClasses = 'vce-tweet-button-wrapper vce'
-    let customProps = {}
+    const innerClasses = 'vce-tweet-button-inner'
+    const wrapperClasses = 'vce-tweet-button-wrapper vce'
+    const customProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
@@ -129,12 +130,14 @@ export default class TwitterButton extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-        <div className={innerClasses} />
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll}>
+          <div className={innerClasses} />
+        </div>
       </div>
-    </div>
+    )
   }
 }

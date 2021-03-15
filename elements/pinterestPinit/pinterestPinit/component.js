@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class PinterestPinit extends vcvAPI.elementComponent {
@@ -13,23 +14,24 @@ export default class PinterestPinit extends vcvAPI.elementComponent {
       this.insertHtml(nextProps.atts)
     }
   }
+
   /* eslint-enable */
 
   insertHtml (props) {
-    let button = this.createHtml(props)
-    let script = '<script type="text/javascript" async defer src="https://assets.pinterest.com/js/pinit.js"></script>'
-    let html = button + script
+    const button = this.createHtml(props)
+    const script = '<script type="text/javascript" async defer src="https://assets.pinterest.com/js/pinit.js"></script>'
+    const html = button + script
     const wrapper = this.refs.pinterestInner
     this.updateInlineHtml(wrapper, html)
 
-    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+    const iframe = document.querySelector('#vcv-editor-iframe').contentWindow
     if (iframe.PinUtils) {
       iframe.PinUtils.build(this.getDomNode())
     }
   }
 
   createHtml (props) {
-    let element = document.createElement('a')
+    const element = document.createElement('a')
     element.href = 'https://www.pinterest.com/pin/create/button/'
 
     if (props.type === 'default') {
@@ -48,17 +50,17 @@ export default class PinterestPinit extends vcvAPI.elementComponent {
       element.setAttribute('data-pin-config', 'beside')
     }
 
-    let elementWrapper = document.createElement('div')
+    const elementWrapper = document.createElement('div')
     elementWrapper.appendChild(element)
     return elementWrapper.innerHTML
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, alignment, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, alignment, metaCustomId } = atts
     let classes = 'vce-pinterest-pinit'
-    let innerClasses = 'vce-pinterest-pinit-inner vce'
-    let customProps = {}
+    const innerClasses = 'vce-pinterest-pinit-inner vce'
+    const customProps = {}
 
     if (customClass) {
       classes += ` ${customClass}`
@@ -72,10 +74,12 @@ export default class PinterestPinit extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div className={innerClasses} ref='pinterestInner' id={'el-' + id} {...doAll}>Google Plus Button</div>
-    </div>
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div className={innerClasses} ref='pinterestInner' id={'el-' + id} {...doAll}>Google Plus Button</div>
+      </div>
+    )
   }
 }

@@ -12,9 +12,9 @@ vcvAddElement(
   },
   // css settings // css for element
   {
-    'css': require('raw-loader!./styles.css'),
-    'editorCss': require('raw-loader!./editor.css'),
-    'mixins': {
+    css: require('raw-loader!./styles.css'),
+    editorCss: require('raw-loader!./editor.css'),
+    mixins: {
       pointerColor: {
         mixin: require('raw-loader!./cssMixins/pointerColor.pcss')
       },

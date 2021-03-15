@@ -6,31 +6,31 @@ const cook = getService('cook')
 
 export default class FeatureSection extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId } = atts
-    let classNames = require('classnames')
-    let containerProps = {}
+    const { id, atts, editor } = this.props
+    const { description, image, imageAlignment, reverseStacking, addButton, customClass, button, metaCustomId } = atts
+    const classNames = require('classnames')
+    const containerProps = {}
 
-    let containerClasses = classNames({
+    const containerClasses = classNames({
       'vce-feature-section-container': true,
       'vce-feature-section-media--xs': true
     })
 
     let wrapperClasses = classNames({
-      'vce': true,
+      vce: true,
       'vce-feature-section': true,
       'vce-feature-section--min-height': true,
       'vce-feature-section--reverse': reverseStacking
     })
 
-    let imageClasses = [ 'vce-feature-section-image' ]
-    let contentClasses = [ 'vce-feature-section-content' ]
+    let imageClasses = ['vce-feature-section-image']
+    let contentClasses = ['vce-feature-section-content']
 
     if (typeof customClass === 'string' && customClass) {
       wrapperClasses += ` ${customClass}`
     }
 
-    let imageStyles = {}
+    const imageStyles = {}
 
     if (image) {
       imageStyles.backgroundImage = `url(${this.getImageUrl(image)})`
@@ -53,7 +53,7 @@ export default class FeatureSection extends vcvAPI.elementComponent {
 
     let buttonOutput = ''
     if (addButton) {
-      let Button = cook.get(button)
+      const Button = cook.get(button)
       buttonOutput = Button.render(null, false)
     }
 
@@ -68,21 +68,23 @@ export default class FeatureSection extends vcvAPI.elementComponent {
     contentClasses = classNames(contentClasses)
     imageClasses = classNames(imageClasses)
 
-    let doPadding = this.applyDO('padding')
-    let doRest = this.applyDO('margin background border animation')
+    const doPadding = this.applyDO('padding')
+    const doRest = this.applyDO('margin background border animation')
 
-    return <section className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-        <div className={imageClasses} style={imageStyles} />
-        <div className={contentClasses}>
-          <div className='vce-feature-section-content-container' {...doPadding}>
-            <div className='vce-feature-section-description'>
-              {description}
+    return (
+      <section className={containerClasses} {...editor} {...containerProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...doRest}>
+          <div className={imageClasses} style={imageStyles} />
+          <div className={contentClasses}>
+            <div className='vce-feature-section-content-container' {...doPadding}>
+              <div className='vce-feature-section-description'>
+                {description}
+              </div>
+              {buttonOutput}
             </div>
-            {buttonOutput}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )
   }
 }

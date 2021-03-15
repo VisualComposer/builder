@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class GoogleMaps extends vcvAPI.elementComponent {
@@ -22,33 +23,34 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
       this.appendMap(nextProps.atts.embed)
     }
   }
+
   /* eslint-enable */
 
   getSizeFromEmbed (embed) {
-    let size = {}
+    const size = {}
 
     let widthAttr = embed.match(/width="\d+"/g)
-    widthAttr = widthAttr ? widthAttr[ 0 ] : ''
+    widthAttr = widthAttr ? widthAttr[0] : ''
 
     if (widthAttr) {
       let width = widthAttr.match(/\d+/g)
-      width = width ? width[ 0 ] : ''
+      width = width ? width[0] : ''
       size.width = width
     }
 
     let heightAttr = embed.match(/height="\d+"/g)
-    heightAttr = heightAttr ? heightAttr[ 0 ] : ''
+    heightAttr = heightAttr ? heightAttr[0] : ''
 
     if (heightAttr) {
       let height = heightAttr.match(/\d+/g)
-      height = height ? height[ 0 ] : ''
+      height = height ? height[0] : ''
       size.height = height
     }
     return size
   }
 
   getDefaultSize (embed) {
-    let size = embed ? this.getSizeFromEmbed(embed) : ''
+    const size = embed ? this.getSizeFromEmbed(embed) : ''
     return {
       width: size && size.width ? size.width : this.defaultSize.width,
       height: size && size.height ? size.height : this.defaultSize.height
@@ -62,7 +64,7 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
     width = /^\d+$/.test(width) ? `${width}px` : width
     height = /^\d+$/.test(height) ? `${height}px` : height
 
-    let customSize = {
+    const customSize = {
       width: width || `${defaultSize.width}px`,
       height: height || `${defaultSize.height}px`
     }
@@ -80,8 +82,8 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
   }
 
   validateSize (value) {
-    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
-    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
+    const re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
     if (value === '' || value.match(re)) {
       return value
     } else {
@@ -90,19 +92,19 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
   }
 
   appendMap (tagString = '') {
-    let component = this.refs.mapInner
+    const component = this.refs.mapInner
     component.innerHTML = tagString
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, alignment, width, height, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, alignment, width, height, metaCustomId } = atts
     let classes = 'vce-google-maps'
-    let innerClasses = 'vce-google-maps-inner'
+    const innerClasses = 'vce-google-maps-inner'
     let wrapperClasses = 'vce-google-maps-wrapper vce'
-    let customProps = {}
-    let innerProps = {}
-    let wrapperProps = {}
+    const customProps = {}
+    const innerProps = {}
+    const wrapperProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
@@ -137,12 +139,14 @@ export default class GoogleMaps extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
-        <div className={innerClasses} {...innerProps} ref='mapInner' />
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div className={wrapperClasses} {...wrapperProps} id={'el-' + id} {...doAll}>
+          <div className={innerClasses} {...innerProps} ref='mapInner' />
+        </div>
       </div>
-    </div>
+    )
   }
 }

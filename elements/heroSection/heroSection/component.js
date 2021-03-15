@@ -11,25 +11,25 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { description, backgroundImage, backgroundImagePosition, align, addButton, customClass, button, background, metaCustomId } = atts
-    let customProps = {}
-    let containerProps = {}
+    const { id, atts, editor } = this.props
+    const { description, backgroundImage, backgroundImagePosition, align, addButton, customClass, button, background, metaCustomId } = atts
+    const customProps = {}
+    const containerProps = {}
 
-    let containerClasses = classNames({
+    const containerClasses = classNames({
       'vce-hero-section-container': true,
       'vce-hero-section-media--xs': true
     })
 
     let wrapperClasses = classNames({
-      'vce': true,
+      vce: true,
       'vce-hero-section': true,
       'vce-hero-section--min-height': false,
       'vce-hero-section--alignment-start': align === 'start',
       'vce-hero-section--alignment-end': align === 'end'
     })
 
-    let rowClasses = [ 'vce-hero-section--wrap-row' ]
+    let rowClasses = ['vce-hero-section--wrap-row']
 
     let mixinData = this.getMixinData('backgroundColor')
 
@@ -37,7 +37,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
       wrapperClasses = wrapperClasses.concat(' ' + customClass)
     }
 
-    let rowStyles = {}
+    const rowStyles = {}
     if (background === 'image' && backgroundImage) {
       rowStyles.backgroundImage = `url(${this.getImageUrl(backgroundImage)})`
     } else if (background === 'color' && mixinData) {
@@ -51,7 +51,7 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
     let buttonOutput = ''
     if (addButton) {
-      let Button = Cook.get(button)
+      const Button = Cook.get(button)
       buttonOutput = Button ? Button.render(null, false) : null
     }
 
@@ -61,22 +61,24 @@ export default class HeroSectionElement extends vcvAPI.elementComponent {
 
     rowClasses = classNames(rowClasses)
 
-    let doRest = this.applyDO('margin background border animation')
-    let doPadding = this.applyDO('padding')
+    const doRest = this.applyDO('margin background border animation')
+    const doPadding = this.applyDO('padding')
 
-    return <section className={containerClasses} {...editor} {...containerProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doRest}>
-        <div className={rowClasses} style={rowStyles} {...customProps}>
-          <div className='vce-hero-section--wrap'>
-            <div className='vce-hero-section--content' {...doPadding}>
-              <div className='vce-hero-section--content-container'>
-                {description}
+    return (
+      <section className={containerClasses} {...editor} {...containerProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...doRest}>
+          <div className={rowClasses} style={rowStyles} {...customProps}>
+            <div className='vce-hero-section--wrap'>
+              <div className='vce-hero-section--content' {...doPadding}>
+                <div className='vce-hero-section--content-container'>
+                  {description}
+                </div>
+                {buttonOutput}
               </div>
-              {buttonOutput}
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )
   }
 }

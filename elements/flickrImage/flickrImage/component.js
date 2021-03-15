@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class FlickrImage extends vcvAPI.elementComponent {
@@ -31,6 +32,7 @@ export default class FlickrImage extends vcvAPI.elementComponent {
       this.insertFlickr(nextProps.atts.flickrUrl)
     }
   }
+
   /* eslint-enable */
 
   handleResize () {
@@ -38,7 +40,7 @@ export default class FlickrImage extends vcvAPI.elementComponent {
   }
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_flickrImage_' + FlickrImage.unique++
+    const name = '_jsonp_flickrImage_' + FlickrImage.unique++
     if (url.indexOf('?') >= 0) {
       url += '&jsoncallback=' + name + '&format=json'
     } else {
@@ -50,31 +52,31 @@ export default class FlickrImage extends vcvAPI.elementComponent {
     script.async = true
     script.src = url
 
-    let clearScript = () => {
+    const clearScript = () => {
       document.head.removeChild(script)
       script = null
-      delete window[ name ]
+      delete window[name]
     }
 
-    let timeout = 10 // 10 second by default
-    let timeoutTrigger = window.setTimeout(() => {
+    const timeout = 10 // 10 second by default
+    const timeoutTrigger = window.setTimeout(() => {
       clearScript()
     }, timeout * 1000)
 
-    window[ name ] = function (data) {
+    window[name] = function (data) {
       window.clearTimeout(timeoutTrigger)
       callback.call((context || window), data)
       clearScript()
     }
 
-    document.getElementsByTagName('head')[ 0 ].appendChild(script)
+    document.getElementsByTagName('head')[0].appendChild(script)
   }
 
   insertFlickr (url) {
     if (url.match('data-flickr-embed')) {
       this.appendFlickr(url)
     } else {
-      let createdUrl = 'https://www.flickr.com/services/oembed/?url=' + url
+      const createdUrl = 'https://www.flickr.com/services/oembed/?url=' + url
       this.loadJSONP(
         createdUrl,
         (data) => {
@@ -93,8 +95,8 @@ export default class FlickrImage extends vcvAPI.elementComponent {
   }
 
   validateSize (value) {
-    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
-    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
+    const re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
     if (value === '' || value.match(re)) {
       return value
     } else {
@@ -104,22 +106,22 @@ export default class FlickrImage extends vcvAPI.elementComponent {
 
   checkImageSize (size) {
     let relatedSize = ''
-    if (window.vcvImageSizes && window.vcvImageSizes[ size ]) {
-      relatedSize = window.vcvImageSizes[ size ].width
-    } else if (this.imageSizes[ size ]) {
-      relatedSize = this.imageSizes[ size ]
+    if (window.vcvImageSizes && window.vcvImageSizes[size]) {
+      relatedSize = window.vcvImageSizes[size].width
+    } else if (this.imageSizes[size]) {
+      relatedSize = this.imageSizes[size]
     }
     return relatedSize ? `${relatedSize}px` : ''
   }
 
   render () {
-    let { id, atts, editor } = this.props
+    const { id, atts, editor } = this.props
     let { customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-flickr-image'
-    let wrapperClasses = 'vce vce-flickr-image-wrapper'
-    let customProps = {}
-    let innerClasses = 'vce-flickr-image-inner'
-    let innerCustomProps = {}
+    const wrapperClasses = 'vce vce-flickr-image-wrapper'
+    const customProps = {}
+    const innerClasses = 'vce-flickr-image-inner'
+    const innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
@@ -146,15 +148,17 @@ export default class FlickrImage extends vcvAPI.elementComponent {
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
-    let content = null
+    const content = null
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div id={'el-' + id} className={wrapperClasses} {...doAll}>
-        <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
-        {content}
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div id={'el-' + id} className={wrapperClasses} {...doAll}>
+          <div className={innerClasses} {...innerCustomProps} ref='flickerInner' />
+          {content}
+        </div>
       </div>
-    </div>
+    )
   }
 }

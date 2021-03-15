@@ -142,13 +142,13 @@ export default class HubContainer extends React.Component {
     const { title, index } = category
     const elementCategories = hubElementsStorage.state('elementTeasers').get()
 
-    let defaultElementTags = []
+    const defaultElementTags = []
 
     // Get list of loaded elements and filter exactly default elements
     let defaultElements = Object.values(dataManager.get('hubGetElements')).filter(el => el.key !== 'column' && el.metaIsDefaultElement).map(el => {
       defaultElementTags.push(el.key)
       return {
-        bundleType: ["free"],
+        bundleType: ['free'],
         description: el.settings.metaDescription,
         name: el.settings.name,
         previewUrl: el.settings.metaPreviewUrl,

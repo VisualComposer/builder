@@ -14,19 +14,20 @@ export default class RawJs extends vcvAPI.elementComponent {
       this.props.editor && this.updateJsScript(nextProps.atts.rawJs)
     }
   }
+
   /* eslint-enable */
 
   updateJsScript (rawJs) {
-    let component = this.refs.rawJsWrapper
+    const component = this.refs.rawJsWrapper
     this.updateInlineScript(component, rawJs)
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    const { id, atts, editor } = this.props
+    const { customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-js-container'
-    let customProps = {}
-    let wrapperClasses = 'vce-raw-js-wrapper'
+    const customProps = {}
+    const wrapperClasses = 'vce-raw-js-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)
     }
@@ -35,10 +36,12 @@ export default class RawJs extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div className={classes} {...editor} {...customProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawJsWrapper' />
-    </div>
+    return (
+      <div className={classes} {...editor} {...customProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawJsWrapper' />
+      </div>
+    )
   }
 }
