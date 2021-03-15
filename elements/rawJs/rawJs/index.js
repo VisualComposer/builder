@@ -11,6 +11,6 @@ vcvAddElement(
     component.add(RawJs)
   },
   // css settings // css for element
-  { 'css': false, 'editorCss': require('raw-loader!./editor.css') },
+  { css: false, editorCss: require('raw-loader!./editor.css') },
   ''
 )

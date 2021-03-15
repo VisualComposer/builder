@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class RawHtmlElement extends vcvAPI.elementComponent {
@@ -13,19 +14,20 @@ export default class RawHtmlElement extends vcvAPI.elementComponent {
       this.props.editor && this.updateHtml(nextProps.atts.rawHtml)
     }
   }
+
   /* eslint-enable */
 
   updateHtml (rawJs) {
-    let component = this.refs.rawHtmlWrapper
+    const component = this.refs.rawHtmlWrapper
     this.updateInlineHtml(component, rawJs)
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
+    const { id, atts, editor } = this.props
+    const { customClass, metaCustomId } = atts // destructuring assignment for attributes from settings.json with access public
     let classes = 'vce-raw-html'
-    let customProps = {}
-    let wrapperClasses = 'vce-raw-html-wrapper'
+    const customProps = {}
+    const wrapperClasses = 'vce-raw-html-wrapper'
     if (typeof customClass === 'string' && customClass) {
       classes = classes.concat(' ' + customClass)
     }
@@ -33,10 +35,12 @@ export default class RawHtmlElement extends vcvAPI.elementComponent {
     if (metaCustomId) {
       customProps.id = metaCustomId
     }
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div className={classes} {...editor} {...customProps}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawHtmlWrapper' />
-    </div>
+    return (
+      <div className={classes} {...editor} {...customProps}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll} ref='rawHtmlWrapper' />
+      </div>
+    )
   }
 }

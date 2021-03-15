@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class TwitterGrid extends vcvAPI.elementComponent {
@@ -47,10 +48,11 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
       this.insertTwitter(nextAtts.gridUrl, nextAtts.tweetCount)
     }
   }
+
   /* eslint-enable */
 
   loadJSONP (url, callback, context) {
-    let name = '_jsonp_twitterGrid_' + TwitterGrid.unique++
+    const name = '_jsonp_twitterGrid_' + TwitterGrid.unique++
     if (url.indexOf('?') >= 0) {
       url += '&callback=' + name
     } else {
@@ -62,28 +64,28 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
     script.async = true
     script.src = url
 
-    let clearScript = () => {
-      document.getElementsByTagName('head')[ 0 ].removeChild(script)
+    const clearScript = () => {
+      document.getElementsByTagName('head')[0].removeChild(script)
       script = null
-      delete window[ name ]
+      delete window[name]
     }
 
-    let timeout = 10 // 10 second by default
-    let timeoutTrigger = window.setTimeout(() => {
+    const timeout = 10 // 10 second by default
+    const timeoutTrigger = window.setTimeout(() => {
       clearScript()
     }, timeout * 1000)
 
-    window[ name ] = function (data) {
+    window[name] = function (data) {
       window.clearTimeout(timeoutTrigger)
       callback.call((context || window), data)
       clearScript()
     }
 
-    document.getElementsByTagName('head')[ 0 ].appendChild(script)
+    document.getElementsByTagName('head')[0].appendChild(script)
   }
 
   insertTwitter (url, tweetCount) {
-    let createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&limit=' + tweetCount + '&widget_type=grid'
+    const createdUrl = 'https://publish.twitter.com/oembed.json?url=' + url + '&limit=' + tweetCount + '&widget_type=grid'
     this.loadJSONP(
       createdUrl,
       (data) => {
@@ -101,13 +103,13 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
   checkCustomSize (width) {
     width = this.validateSize(width)
     width = /^\d+$/.test(width) ? width + 'px' : width
-    let size = { width }
+    const size = { width }
     this.setSizeState(size)
   }
 
   validateSize (value) {
-    let units = [ 'px', 'em', 'rem', '%', 'vw', 'vh' ]
-    let re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
+    const units = ['px', 'em', 'rem', '%', 'vw', 'vh']
+    const re = new RegExp('^-?\\d*(\\.\\d{0,9})?(' + units.join('|') + ')?$')
     if (value === '' || value.match(re)) {
       return value
     } else {
@@ -120,13 +122,13 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, alignment, width, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, alignment, width, metaCustomId } = atts
     let classes = 'vce-twitter-grid'
-    let innerClasses = 'vce-twitter-grid-inner'
-    let wrapperClasses = 'vce-twitter-grid-wrapper vce'
-    let customProps = {}
-    let innerCustomProps = {}
+    const innerClasses = 'vce-twitter-grid-inner'
+    const wrapperClasses = 'vce-twitter-grid-wrapper vce'
+    const customProps = {}
+    const innerCustomProps = {}
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
@@ -146,12 +148,14 @@ export default class TwitterGrid extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div className={wrapperClasses} id={'el-' + id} {...doAll}>
-        <div className={innerClasses} {...innerCustomProps} />
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div className={wrapperClasses} id={'el-' + id} {...doAll}>
+          <div className={innerClasses} {...innerCustomProps} />
+        </div>
       </div>
-    </div>
+    )
   }
 }

@@ -13,17 +13,17 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
     let wrapperClasses = 'vce-simple-image-slider-wrapper vce'
     let aspectClasses = 'vce-simple-image-slider-helper'
     let dotsClasses = 'vce-simple-image-slider-dots'
-    let containerProps = {}
-    let aspectProps = {}
+    const containerProps = {}
+    const aspectProps = {}
     let aspectPercentage = 133
 
     if (aspectRatio.indexOf(':') >= 0) {
-      let [ aspectX, aspectY ] = aspectRatio.split(':')
+      const [aspectX, aspectY] = aspectRatio.split(':')
 
       aspectClasses += ` vce-simple-image-slider-aspect-ratio--${aspectX}-${aspectY}`
     } else if (aspectRatio === 'custom') {
       if (customAspectRatio.indexOf(':') >= 0) {
-        let [ aspectX, aspectY ] = customAspectRatio.split(':')
+        let [aspectX, aspectY] = customAspectRatio.split(':')
         aspectX = parseInt(aspectX)
         aspectY = parseInt(aspectY)
 
@@ -31,7 +31,7 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
           aspectPercentage = 100 / (aspectX / aspectY)
         }
 
-        aspectClasses += ` vce-simple-image-slider-aspect-ratio--custom`
+        aspectClasses += ' vce-simple-image-slider-aspect-ratio--custom'
         aspectProps.style = { paddingTop: `${aspectPercentage}%` }
       }
     }
@@ -48,56 +48,56 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
       containerProps.id = metaCustomId
     }
 
-    let Slides = images.map((image, index) => {
+    const Slides = images.map((image, index) => {
       let customProps = {}
       let CustomTag = 'div'
       let imgClasses = 'vce-simple-image-slider-img'
-      let imgTagClasses = ''
-      let imgSrc = this.getImageUrl(image)
-      let itemProps = {}
+      const imgTagClasses = ''
+      const imgSrc = this.getImageUrl(image)
+      const itemProps = {}
 
       if (scaleImage) {
         imgClasses += ' vce-simple-image-slider-img--scale'
       }
 
-      let mixinData = this.getMixinData('backgroundPosition')
+      const mixinData = this.getMixinData('backgroundPosition')
       if (mixinData) {
         imgClasses += ` vce-simple-image-slider-img--background-position-${mixinData.selector}`
       }
 
       if (clickableOptions === 'url' && image.link && image.link.url) {
         CustomTag = 'a'
-        let { url, title, targetBlank, relNofollow } = image.link
+        const { url, title, targetBlank, relNofollow } = image.link
         customProps = {
-          'href': url,
-          'title': title,
-          'target': targetBlank ? '_blank' : undefined,
-          'rel': relNofollow ? 'nofollow' : undefined
+          href: url,
+          title: title,
+          target: targetBlank ? '_blank' : undefined,
+          rel: relNofollow ? 'nofollow' : undefined
         }
       } else if (clickableOptions === 'imageNewTab') {
         CustomTag = 'a'
         customProps = {
-          'href': imgSrc,
-          'target': '_blank'
+          href: imgSrc,
+          target: '_blank'
         }
       } else if (clickableOptions === 'lightbox') {
         CustomTag = 'a'
         customProps = {
-          'href': imgSrc,
+          href: imgSrc,
           'data-lightbox': `lightbox-${id}`
         }
       } else if (clickableOptions === 'photoswipe') {
         CustomTag = 'a'
         customProps = {
-          'href': imgSrc,
+          href: imgSrc,
           'data-photoswipe-image': id,
           'data-photoswipe-index': index
         }
         if (showCaption) {
-          customProps[ 'data-photoswipe-caption' ] = image && image.caption
+          customProps['data-photoswipe-caption'] = image && image.caption
         }
-        containerProps[ 'data-photoswipe-gallery' ] = id
-        itemProps[ 'data-photoswipe-item' ] = `photoswipe-${id}`
+        containerProps['data-photoswipe-gallery'] = id
+        itemProps['data-photoswipe-item'] = `photoswipe-${id}`
       }
 
       customProps.style = { backgroundImage: `url(${imgSrc})` }
@@ -161,8 +161,9 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
       )
     }
 
-    let listHTML = (
-      <div className='vce-simple-image-slider-list'
+    const listHTML = (
+      <div
+        className='vce-simple-image-slider-list'
         data-slick-autoplay={autoplay ? 'on' : 'off'}
         data-slick-autoplay-delay={`${autoplayDelay}`}
         data-slick-effect={effect}
@@ -186,7 +187,8 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
         <div className={wrapperClasses} id={'el-' + id} {...doAll}>
           <div className={aspectClasses} {...aspectProps}>
             <div className='vcvhelper' data-vcvs-html={htmlString}>
-              <div className='vce-simple-image-slider-list'
+              <div
+                className='vce-simple-image-slider-list'
                 data-slick-autoplay={autoplay ? 'on' : 'off'}
                 data-slick-autoplay-delay={autoplayDelay}
                 data-slick-effect={effect}

@@ -1,5 +1,6 @@
 import React from 'react'
 import vcCake from 'vc-cake'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class FacebookLike extends vcvAPI.elementComponent {
@@ -24,6 +25,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
       this.insertHtml(nextProps.atts)
     }
   }
+
   /* eslint-enable */
 
   componentWillUnmount () {
@@ -32,7 +34,7 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   }
 
   insertHtml (atts) {
-    let html = this.createHtml(atts)
+    const html = this.createHtml(atts)
     const wrapper = this.refs.facebookLikeInner
     this.updateInlineHtml(wrapper, html)
     this.reloadScript()
@@ -40,11 +42,11 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   }
 
   setPlaceholder () {
-    let likeBtn = this.getDomNode().querySelector('.fb-like')
+    const likeBtn = this.getDomNode().querySelector('.fb-like')
     const helper = document.createElement('div')
     helper.className = 'vcvhelper vce-facebook-like-placeholder'
     this.refs.facebookLikeInner.appendChild(helper)
-    let helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
+    const helperSelector = this.getDomNode().querySelector('.vce-facebook-like-placeholder')
 
     likeBtn.style.position = 'absolute'
     likeBtn.style.opacity = '0'
@@ -53,11 +55,11 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   }
 
   checkIfRendered (helperSelector, likeBtn, firstTime) {
-    let state = likeBtn.getAttribute('fb-xfbml-state')
-    let likeBtnSpan = likeBtn.querySelector('span')
+    const state = likeBtn.getAttribute('fb-xfbml-state')
+    const likeBtnSpan = likeBtn.querySelector('span')
 
     if (state !== 'rendered') {
-      let timeout = firstTime ? 500 : 50
+      const timeout = firstTime ? 500 : 50
 
       if (this.state.status !== 'loading') {
         helperSelector.innerHTML = '<span class="vcv-ui-icon vcv-ui-wp-spinner"></span>'
@@ -72,10 +74,10 @@ export default class FacebookLike extends vcvAPI.elementComponent {
         this.setState({ status: 'rendered' })
         helperSelector.innerHTML = ''
 
-        let visible = this.checkIfVisible(likeBtnSpan)
+        const visible = this.checkIfVisible(likeBtnSpan)
 
         if (!visible) {
-          let imgSrc = this.getPublicImage('facebook-like-placeholder.png')
+          const imgSrc = this.getPublicImage('facebook-like-placeholder.png')
           helperSelector.innerHTML = `<img src="${imgSrc}" />`
 
           this.timerIndex = 0
@@ -114,17 +116,17 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   }
 
   reloadScript () {
-    let iframe = document.querySelector('#vcv-editor-iframe').contentWindow
+    const iframe = document.querySelector('#vcv-editor-iframe').contentWindow
     if (iframe.FB) {
       iframe.FB.init({ status: true, xfbml: true, version: 'v2.12' })
     }
   }
 
   createHtml (atts) {
-    let { layout, size } = atts
-    let url = window.vcvPostPermanentLink
+    const { layout, size } = atts
+    const url = window.vcvPostPermanentLink
 
-    let script = `<script>(function(d, s, id) {
+    const script = `<script>(function(d, s, id) {
   if(d.getElementById('fb-root')) return;
   var fbRoot = d.createElement('div');
   fbRoot.id = 'fb-root';
@@ -136,17 +138,17 @@ export default class FacebookLike extends vcvAPI.elementComponent {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>`
 
-    let html = `<div class="fb-like" data-href="${url}" data-layout="${layout}" data-action="like" data-size="${size}" data-show-faces="false" data-share="false"></div>`
+    const html = `<div class="fb-like" data-href="${url}" data-layout="${layout}" data-action="like" data-size="${size}" data-show-faces="false" data-share="false"></div>`
 
     return script + html
   }
 
   render () {
-    let { id, atts, editor } = this.props
-    let { customClass, alignment, metaCustomId } = atts
+    const { id, atts, editor } = this.props
+    const { customClass, alignment, metaCustomId } = atts
     let classes = 'vce-facebook-like'
-    let innerClasses = 'vce-facebook-like-inner vce'
-    let customProps = {}
+    const innerClasses = 'vce-facebook-like-inner vce'
+    const customProps = {}
 
     if (customClass) {
       classes += ` ${customClass}`
@@ -160,10 +162,12 @@ export default class FacebookLike extends vcvAPI.elementComponent {
       customProps.id = metaCustomId
     }
 
-    let doAll = this.applyDO('all')
+    const doAll = this.applyDO('all')
 
-    return <div {...customProps} className={classes} {...editor}>
-      <div className={innerClasses} ref='facebookLikeInner' id={'el-' + id} {...doAll}>Facebook Like</div>
-    </div>
+    return (
+      <div {...customProps} className={classes} {...editor}>
+        <div className={innerClasses} ref='facebookLikeInner' id={'el-' + id} {...doAll}>Facebook Like</div>
+      </div>
+    )
   }
 }

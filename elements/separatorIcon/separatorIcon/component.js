@@ -1,18 +1,19 @@
 import React from 'react'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
+
 const vcvAPI = vcCake.getService('api')
 
 export default class SeparatorIcon extends vcvAPI.elementComponent {
   render () {
-    let { id, atts, editor } = this.props
-    let { separatorAlignment, separatorStyle, iconPicker, iconShape, iconSize, customClass, metaCustomId } = atts
-    let customProps = {}
-    let iconClasses = [ `vce-icon-container ${iconPicker.icon}` ]
-    let iconWrapperClasses = [ 'vce-separator-with-icon--icon', 'vce-icon' ]
-    let separatorContainerClasses = [ 'vce', 'vce-separator-with-icon-container' ]
-    let separatorClasses = [ 'vce-separator-with-icon' ]
-    let lineClasses = [ 'vce-separator-with-icon--line' ]
+    const { id, atts, editor } = this.props
+    const { separatorAlignment, separatorStyle, iconPicker, iconShape, iconSize, customClass, metaCustomId } = atts
+    const customProps = {}
+    let iconClasses = [`vce-icon-container ${iconPicker.icon}`]
+    let iconWrapperClasses = ['vce-separator-with-icon--icon', 'vce-icon']
+    let separatorContainerClasses = ['vce', 'vce-separator-with-icon-container']
+    let separatorClasses = ['vce-separator-with-icon']
+    const lineClasses = ['vce-separator-with-icon--line']
     let leftLineClasses = []
     let rightLineClasses = []
 
@@ -89,20 +90,22 @@ export default class SeparatorIcon extends vcvAPI.elementComponent {
     leftLineClasses = classNames(leftLineClasses)
     rightLineClasses = classNames(rightLineClasses)
 
-    let doMargin = this.applyDO('margin')
-    let doRest = this.applyDO('border padding background animation')
+    const doMargin = this.applyDO('margin')
+    const doRest = this.applyDO('border padding background animation')
 
-    return <div className={separatorContainerClasses} id={'el-' + id} {...editor} {...doMargin}>
-      <div className={separatorClasses} {...customProps} {...doRest}>
-        <div className={leftLineClasses} />
-        <div className={iconWrapperClasses}>
-          <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
-            <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
-          </svg>
-          <span className={iconClasses} />
+    return (
+      <div className={separatorContainerClasses} id={'el-' + id} {...editor} {...doMargin}>
+        <div className={separatorClasses} {...customProps} {...doRest}>
+          <div className={leftLineClasses} />
+          <div className={iconWrapperClasses}>
+            <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
+              <path strokeWidth='40' d='M565.755 696.27h-360l-180-311.77 180-311.77h360l180 311.77z' />
+            </svg>
+            <span className={iconClasses} />
+          </div>
+          <div className={rightLineClasses} />
         </div>
-        <div className={rightLineClasses} />
       </div>
-    </div>
+    )
   }
 }
