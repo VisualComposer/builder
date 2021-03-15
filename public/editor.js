@@ -35,8 +35,8 @@ if (vcCake.env('VCV_DEBUG') === true) {
   window.app = vcCake
 }
 
-if (!Object.prototype.hasOwnProperty.call(window, 'vcwbAPI')) {
-  Object.defineProperty(window, 'vcwbAPI', {
+if (!Object.prototype.hasOwnProperty.call(window, 'vcv')) {
+  Object.defineProperty(window, 'vcv', {
     value: editorAPI,
     writable: false,
     configurable: false,
