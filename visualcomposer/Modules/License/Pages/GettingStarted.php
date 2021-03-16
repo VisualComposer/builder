@@ -137,32 +137,4 @@ class GettingStarted extends Container implements Module
     {
         return $response . implode('', vcfilter('vcv:update:extraOutput', []));
     }
-
-//    /**
-//     * @param array $page
-//     * @param array $pages
-//     *
-//     * @return string
-//     */
-//    protected function renderPage($page, $pages)
-//    {
-//        $layout = 'standalone';
-//
-//        if (vchelper('Request')->input('screen', '') === 'license-options') {
-//            $customGettingStartedSlug = 'vcv-license-options';
-//        } else {
-//            $customGettingStartedSlug = $page['slug'];
-//        }
-//
-//        return vcview(
-//            'settings/layouts/' . $layout,
-//            [
-//                'content' => $this->call('render', [$page]),
-//                'tabs' => $pages,
-//                'activeSlug' => $page['slug'],
-//                'slug' => $customGettingStartedSlug,
-//                'page' => $page,
-//            ]
-//        );
-//    }
 }

@@ -243,8 +243,8 @@ STYLE;
                                 $subTabs = $menuValue['children'];
                             }
                             $activeClassMenuItem = array_key_exists($activeTab, $subTabs) ? ' vcv-dashboard-sidebar-navigation-menu-item--active' : '';
-                            $haveChilds = !empty($subTabs) ? ' vcv-dashboard-sidebar-navigation-menu-item-parent' : '';
-                            $haveChildsLinkClass = !empty($subTabs) ? ' vcv-dashboard-sidebar-navigation-menu-item-parent-link' : '';
+                            $haveChilds = count($subTabs) > 1 ? ' vcv-dashboard-sidebar-navigation-menu-item-parent' : '';
+                            $haveChildsLinkClass = count($subTabs) > 1 ? ' vcv-dashboard-sidebar-navigation-menu-item-parent-link' : '';
                             ?>
                             <li class="vcv-dashboard-sidebar-navigation-menu-item<?php echo esc_attr($activeClassMenuItem . $haveChilds); ?>">
                                 <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard
@@ -256,7 +256,7 @@ STYLE;
                                 </a>
                                 <?php
                                 // Render sub menu items
-                                if (!empty($subTabs)) :
+                                if (count($subTabs) > 1) :
                                     ?>
                                     <ul class="vcv-dashboard-sidebar-navigation-menu vcv-dashboard-sidebar-navigation-menu--submenu">
                                         <?php
