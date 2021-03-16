@@ -78,9 +78,12 @@ trait SubMenu
 
                 // After add_submenu_page called last index of $submenu['vcv-settings'] will be recently added item
                 // So we can adjust it to add extra-class to hide
+                $extraClass = 'vcv-submenu--' . vchelper('Str')->slugify($page['slug']);
+                $extraClass .= $page['isDashboardPage'] ? ' vcv-submenu-dashboard-page' : '';
                 if (isset($page['hideInWpMenu']) && $page['hideInWpMenu']) {
-                    $submenu['vcv-settings'][ count($submenu['vcv-settings']) - 1 ][4] = 'vcv-ui-state--hidden';
+                    $extraClass .= ' vcv-ui-state--hidden';
                 }
+                $submenu['vcv-settings'][ count($submenu['vcv-settings']) - 1 ][4] = $extraClass;
             }
         }
     }

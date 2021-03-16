@@ -61,11 +61,21 @@ foreach (
     }
 }
 if ($hideMenu) {
+    // Hide only dashboard pages (skip for 3rd party)
+    // Hide only when existing addons where updated to dashboard menu updates version
     echo <<<STYLE
 <style>
-#toplevel_page_vcv-settings ul {
-  display:none;
-}
+  #toplevel_page_vcv-settings.wp-menu-open .vcv-submenu-dashboard-page {
+    display:none;
+  }
+  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap {
+    padding: 0;
+  }
+  /* add extra paddings for 3rd party */
+  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
 </style>
 STYLE;
 }
