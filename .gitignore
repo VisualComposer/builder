@@ -75,7 +75,7 @@ devAssets/*
 tools/vcwb-builder/temp/**/
 ci/CodeSniffer.conf
 tests/jest/devElements/**/
-elements/**/public/dist/*
+elements/*/public/dist/*
 
 # Cypress test
 tests/cypressChrome/cypress.env.json
