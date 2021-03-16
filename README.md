@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://visualcomposer.com">
-    <img alt="Visual Composer" src="http://s3.visualcomposer.com/assets/vc-logo.svg" width="540" />
+    <img alt="Visual Composer" src="https://cdn.hub.visualcomposer.com/assets/vc-logo.svg" width="540" />
   </a>
 </p>
 
@@ -20,8 +20,8 @@ Any Layout. Fast and Easy.</h1>
 Visual Composer Website Builder is a drag and drop editor for WordPress. With an easy-to-use interface, it allows you to design layouts you always wanted. Coupled with premium templates, blocks, elements, and extensions - Visual Composer is all you need to create a website.
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=SJMIvMXyPHs">
-    <img alt="Visual Composer Demo Video" src="http://s3.visualcomposer.com/assets/vc-demo-video-thumbnail.jpg" width="60%"/>
+  <a href="https://www.youtube.com/watch?v=T4c--KVXXbg">
+    <img alt="Visual Composer Demo Video" src="https://cdn.hub.visualcomposer.com/assets/vc-demo-video-thumbnail.jpg" width="60%"/>
   </a>
 </p>
 

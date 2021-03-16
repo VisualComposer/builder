@@ -859,7 +859,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'elementsLock' => __(
-                'Element lock',
+                'Element Lock',
                 'visualcomposer'
             ),
             'lockAllText' => __(
