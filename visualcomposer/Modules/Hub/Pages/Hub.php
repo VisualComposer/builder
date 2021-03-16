@@ -38,21 +38,9 @@ class Hub extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            11
+            20
         );
-
-//        $this->wpAddFilter('submenu_file', 'subMenuHighlight');
     }
-
-//    protected function subMenuHighlight($submenuFile)
-//    {
-//        $screen = get_current_screen();
-//        if (strpos($screen->id, $this->slug)) {
-//            $submenuFile = 'vcv-settings';
-//        }
-//
-//        return $submenuFile;
-//    }
 
     protected function beforeRender()
     {
@@ -83,7 +71,7 @@ class Hub extends Container implements Module
             'slug' => $this->getSlug(),
             'title' => __('Visual Composer Hub', 'visualcomposer'),
             'layout' => 'dashboard-hub',
-            'capability' => 'manage_options',
+            'capability' => 'edit_posts',
             'iconClass' => 'vcv-ui-icon-dashboard-hub-shop',
             'isDashboardPage' => true,
             'hideTitle' => true,
