@@ -122,7 +122,7 @@ export default class Layout extends Attribute {
     const newMixin = {}
 
     const columnGap = data.columnGap ? parseInt(data.columnGap) : 0
-    const selector = `vce-row--col-gap-${columnGap}#el-${data.id}`
+    const selector = `vce-row--col-gap-${columnGap}[data-vce-do-apply*='${data.id}']`
     const disableStacking = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'disableStacking') ? data.layout.disableStacking : false
     const responsivenessSettings = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'responsivenessSettings') ? data.layout.responsivenessSettings : false
 
