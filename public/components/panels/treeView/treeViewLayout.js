@@ -197,7 +197,7 @@ export default class TreeViewLayout extends React.Component {
       let containerSelector = ''
       const topParentId = documentManager.getTopParent(id)
       const isParentDraggable = cook.getById(topParentId).get('metaIsDraggable')
-      if (isParentDraggable !== undefined && !isParentDraggable) {
+      if (isParentDraggable !== undefined && !isParentDraggable && !this.props.isAttribute) {
         containerSelector = `[data-vcv-element="${topParentId}"]`
       }
 
