@@ -77,6 +77,10 @@ class PostUpdateTest extends WP_UnitTestCase
 
     public function testRenderUpdateBe()
     {
+        wp_set_current_user(1);
+        ob_start();
+        do_action('admin_menu');
+        ob_end_clean();
         // Previous test have Post Update action.
         $optionsHelper = vchelper('Options');
         $this->assertFalse($optionsHelper->get('bundleUpdateRequired'));
@@ -88,12 +92,20 @@ class PostUpdateTest extends WP_UnitTestCase
         $this->assertNotEmpty($actions);
 
         $controller = vc_create_module_mock(\VisualComposer\Modules\Hub\Pages\UpdateBePage::class);
+        $controller->call('addPage');
         $page = [
             'slug' => 'vcv-update',
             'title' => __('Update', 'visualcomposer'),
+            'layout' => 'dashboard-tab-content-standalone',
             'showTab' => false,
-            'layout' => 'standalone',
+            'isDashboardPage' => true,
+            'hideInWpMenu' => false,
+            'hideTitle' => true,
+            'iconClass' => 'vcv-ui-icon-dashboard-update',
         ];
+        $_GET['page'] = 'vcv-update';
+        // Since v36
+        $page['layout'] = 'dashboard-main-layout';
         $output = $controller->call(
             'renderPage',
             [

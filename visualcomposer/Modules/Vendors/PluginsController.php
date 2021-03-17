@@ -49,26 +49,6 @@ class PluginsController extends Container implements Module
         $urlHelper = vchelper('Url');
         $nonceHelper = vchelper('Nonce');
 
-        // Enqueue settings script
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
-            ['vcv:assets:vendor:script'],
-            VCV_VERSION,
-            true
-        );
-        wp_enqueue_script('vcv:wpVcSettings:script');
-        wp_enqueue_script('vcv:assets:runtime:script');
-
-        // Enqueue css
-        wp_register_style(
-            'vcv:wpVcSettings:style',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_style('vcv:wpVcSettings:style');
-
         // Enqeueue required variables
         $variables[] = [
             'key' => 'vcvAdminAjaxUrl',
