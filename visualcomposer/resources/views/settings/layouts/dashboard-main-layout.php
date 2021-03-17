@@ -248,7 +248,9 @@ STYLE;
                             ?>
                             <li class="vcv-dashboard-sidebar-navigation-menu-item<?php echo esc_attr($activeClassMenuItem . $haveChilds); ?>">
                                 <a class="vcv-dashboard-sidebar-navigation-link vcv-ui-icon-dashboard
-                                <?php echo esc_attr($menuValue['iconClass']) . esc_attr($activeClass) . esc_attr($haveChildsLinkClass); ?>"
+                                <?php
+                                $iconClass = isset($menuValue['iconClass']) ? $menuValue['iconClass'] : '';
+                                echo esc_attr($iconClass) . esc_attr($activeClass) . esc_attr($haveChildsLinkClass); ?>"
                                         href="?page=<?php echo esc_attr($menuKey) ?>">
                                     <?php echo esc_html(
                                         empty($menuValue['dashboardName']) ? $menuValue['name'] : $menuValue['dashboardName']
