@@ -35,7 +35,7 @@ class PremiumTeasers extends Container implements Module
             'subTitle' => '',
             'premiumTitle' => __('MAINTENANCE MODE IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows enabling maintenance mode and selecting the page that will be displayed to the website visitors. Users with access to the admin panel will still be able to preview and edit the website.',
+                'Enable a maintenance mode for site visitors with Visual Composer Premium when performing updates, changes in design layouts, or code releases.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
@@ -48,7 +48,7 @@ class PremiumTeasers extends Container implements Module
             'subTitle' => __('Popup Settings', 'visualcomposer'),
             'premiumTitle' => __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows specifying site-wide popups for specific events like First Page Load, Every Page Load, or Exit Intent.',
+                'Specify site-wide popups for specific events (First Page Load, Every Page Load, or Exit Intent) with Popup Builder addon available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
@@ -60,9 +60,9 @@ class PremiumTeasers extends Container implements Module
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_templates',
-            'premiumTitle' => __('GLOBAL TEMPLATES ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('GLOBAL TEMPLATES IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows creating global templates and editing them from one place. Save time on editing multiple pages of your site with the Global Templates addon.',
+                'Create global templates that will automatically update across all site upon changes. Save time on editing with the Global Templates addon available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'templates-vcdashboard', $utmTemplate),
@@ -79,9 +79,9 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Theme Builder', 'visualcomposer'),
             'subTitle' => __('Header and Footer Settings', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
-            'premiumTitle' => __('HEADERS AND FOOTERS ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows replacing the theme default header and footer with your header and footer templates created with Visual Composer.',
+                'Replace the theme default header and footer with custom header and footer templates using Visual Composer Header and Footer Builder.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
@@ -94,9 +94,9 @@ class PremiumTeasers extends Container implements Module
         $this->dashboardSections[] = [
             'slug' => 'vcv-custom-page-templates',
             'name' => __('Layout Settings', 'visualcomposer'),
-            'premiumTitle' => __('THEME TEMPLATES ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows replacing the theme default theme templates like 404 page, search page, author page, post archive with your templates created with Visual Composer.',
+                'Change the default theme\'s 404 page, search, author, and post archive pages with your custom templates created with Visual Composer Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
@@ -106,9 +106,9 @@ class PremiumTeasers extends Container implements Module
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_headers',
-            'premiumTitle' => __('CUSTOM HEADERS ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('HEADER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows creating header templates with a unique design or download ready-to-use templates from the Visual Composer Hub.',
+                'Create custom header templates or pick a ready-to-use template with the Header Builder available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'headers-vcdashboard', $utmTemplate),
@@ -119,9 +119,9 @@ class PremiumTeasers extends Container implements Module
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_footers',
-            'premiumTitle' => __('CUSTOM FOOTERS ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('FOOTER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows building your own website footer with the Footer editor or download ready-to-use templates from the Visual Composer Hub.',
+                'Build a custom website footer or pick a ready-to-use template with the Footer Builder available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'footers-vcdashboard', $utmTemplate),
@@ -132,9 +132,9 @@ class PremiumTeasers extends Container implements Module
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_sidebars',
-            'premiumTitle' => __('CUSTOM SIDEBARS ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('SIBEBAR BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows creating a custom WordPress sidebar with the Visual Composer Editor or download ready-made templates from the Hub.',
+                'Create a custom sidebar or pick a ready-made template with the Sidebar Builder available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'sidebars-vcdashboard', $utmTemplate),
@@ -145,9 +145,9 @@ class PremiumTeasers extends Container implements Module
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_archives',
-            'premiumTitle' => __('CUSTOM ARCHIVES ARE A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('ARCHIVE EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows designing custom archive pages for your blogs, news, portfolios, and more. Define templates for post archive, categories, tags, author, and search results.',
+                'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'archives-vcdashboard', $utmTemplate),
@@ -161,9 +161,9 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Import', 'visualcomposer'),
             'subTitle' => '',
             'parent' => 'vcv_templates',
-            'premiumTitle' => __('TEMPLATE IMPORT IS A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('TEMPLATE IMPORT AND EXPORT IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows migrating your templates from site to site with the Export/Import addon.',
+                'Migrate your templates from site to site with the Export/Import addon available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'templatesimport-vcdashboard', $utmTemplate),
@@ -176,7 +176,7 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Popups', 'visualcomposer'),
             'premiumTitle' => __('POPUP BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Visual Composer Premium allows building custom popups with the Popup Builder addon.',
+                'Build custom popups with the Popup Builder addon available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
