@@ -91,8 +91,12 @@ class PostUpdateTest extends WP_UnitTestCase
         $page = [
             'slug' => 'vcv-update',
             'title' => __('Update', 'visualcomposer'),
+            'layout' => 'dashboard-tab-content-standalone',
             'showTab' => false,
-            'layout' => 'standalone',
+            'isDashboardPage' => true,
+            'hideInWpMenu' => false,
+            'hideTitle' => true,
+            'iconClass' => 'vcv-ui-icon-dashboard-update',
         ];
         $output = $controller->call(
             'renderPage',
