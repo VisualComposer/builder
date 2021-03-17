@@ -80,11 +80,15 @@
 
 .vcv-dashboard-sidebar-navigation-link {
   cursor: pointer;
+
   &:hover,
   &:focus,
   &.vcv-dashboard-sidebar-navigation-link--active {
     color: @text-color-base;
+  }
 
+  &:hover,
+  &.vcv-dashboard-sidebar-navigation-link--active {
     &::before {
       background: rgba(255, 255, 255, .3);
     }
@@ -103,8 +107,9 @@
     position: absolute;
     right: -5px;
     top: 17px;
-    font-size: 24px;
+    font-size: 18px;
     color: #fff;
+    opacity: 0.5;
     content: "\25be";
     pointer-events: none;
   }
@@ -146,7 +151,8 @@
   transition: background @transition-duration @transition-timing-function;
 }
 .vcv-ui-icon-dashboard-external {
-  color: #6476BD;
+  color: #fff;
+  opacity: 0.5;
   margin-left: 5px;
   margin-top: -1px;
 }
