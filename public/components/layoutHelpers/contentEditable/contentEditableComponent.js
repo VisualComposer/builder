@@ -6,12 +6,13 @@ import lodash from 'lodash'
 import initializeTinymce from 'public/components/layoutHelpers/tinymce/tinymceVcvHtmleditorPlugin'
 import initializeJqueryPlugin from 'public/components/layoutHelpers/tinymce/fontFamily/tinymceFontsSelect.jquery'
 import getUsedFonts from 'public/components/layoutHelpers/tinymce/fontFamily/getUsedFonts.js'
-import { updateHtmlWithServer } from 'public/tools/updateHtmlWithServer'
+import { updateHtmlWithServerRequest } from 'public/tools/updateHtmlWithServer'
 
 const documentManager = vcCake.getService('document')
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
+const { getShortcodesRegexp } = vcCake.getService('utils')
 
 export default class ContentEditableComponent extends React.Component {
   static propTypes = {
@@ -57,11 +58,14 @@ export default class ContentEditableComponent extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.updateElementData = this.updateElementData.bind(this)
     this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this)
-    this.debouncedUpdateHtmlWithServer = lodash.debounce(this.updateHtmlWithServer, 1000)
+    this.debouncedUpdateHtml = lodash.debounce(this.debouncedUpdateHtml, 500)
+
+    // Request server only once in 3s
+    this.debouncedUpdateHtmlWithServerRequest = lodash.debounce(this.debouncedUpdateHtmlWithServerRequest, 3000)
   }
 
   componentDidMount () {
-    this.debouncedUpdateHtmlWithServer(this.props.children)
+    this.debouncedUpdateHtml(this.props.children)
   }
 
   componentWillUnmount () {
@@ -78,7 +82,7 @@ export default class ContentEditableComponent extends React.Component {
   UNSAFE_componentWillReceiveProps (nextProps) {
     if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
       this.setState({ realContent: nextProps.children })
-      this.debouncedUpdateHtmlWithServer(nextProps.children)
+      this.debouncedUpdateHtml(nextProps.children)
     }
     if (this.props.options.allowInline !== nextProps.options.allowInline) {
       this.setState({ allowInline: nextProps.options.allowInline })
@@ -353,13 +357,23 @@ export default class ContentEditableComponent extends React.Component {
         this.handleLayoutModeChange(null)
       }, 0)
     }
-    this.debouncedUpdateHtmlWithServer(this.state.realContent)
+    this.debouncedUpdateHtml(this.state.realContent)
 
     workspaceStorage.trigger('edit', this.props.id, '')
   }
 
-  updateHtmlWithServer (content) {
-    updateHtmlWithServer(content, this.ref, this.props.id)
+  debouncedUpdateHtml (content) {
+    if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
+      // Instantly update HTML but also request server for additional rendering in background
+      this.ref && (this.ref.innerHTML = content)
+      this.debouncedUpdateHtmlWithServerRequest(content)
+    } else {
+      this.ref && (this.ref.innerHTML = content)
+    }
+  }
+
+  debouncedUpdateHtmlWithServerRequest (content) {
+    updateHtmlWithServerRequest(content, this.ref, this.props.id)
   }
 
   updateElementData (content) {
@@ -378,7 +392,7 @@ export default class ContentEditableComponent extends React.Component {
           this.handleLayoutModeChange(null)
         }, 0)
       }
-      this.debouncedUpdateHtmlWithServer(this.state.realContent)
+      this.debouncedUpdateHtml(this.state.realContent)
     }
   }
 
