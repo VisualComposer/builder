@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,fi
 Tags: visual composer, page builder, drag-and-drop editor, website builder, site-builder, front-end builder, editor, visual editor, wysiwyg, design, landing page builder, front-end builder
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.6.2
-Stable tag: 35.0
+Tested up to: 5.7
+Stable tag: 35.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -186,6 +186,47 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 35.1 =
+*Release Date - 2021-03-12*
+
+### Free:
+- New: Visual Composer API improvements
+- Update: Clicking on a page title opens On-page Settings with a focus on the title
+- Update: Row layout input controls updated for better UX and performance
+- Update: Layout switcher improved for better UI/UX
+- Update: Dynamic view is set as default for mobile devices
+- Fix: Backlog strings are translatable
+- Fix: Add Element items are ellipsized on the theme TwentyTwentyOne
+- Fix: Template removing process displayed with the loading spinner
+- Fix: Scrollbar does not overlap on Chrome (Windows)
+- Fix: Elements added to the page from the Visual Composer Hub are automatically scrolled to in the layout
+- Fix: New installation works properly for all users
+- Fix: Image Selector does not overlap TinyMCE controls
+- Fix: Editor button colors adjusted for consistency
+- Fix: PageEditable nonce verification works properly
+- Fix: Visual Composer Hub section in Dashboard is responsive
+- Fix: Row margins in Design Options work properly in the theme TwentyTwentyOne
+- Fix: Row layout controls and editor row manipulations are synchronized
+- Fix: Sorting works properly in the element search
+- Fix: Link styles in the editor updated for consistency
+- Fix: The tutorial template is available for Authors and Editors
+- Fix: Publish button is not disabled for Contributors
+- Fix: Mobile views have the same behavior for consistency
+
+### Premium:
+- New: Lazy load option introduced for the video element to improve performance
+- Update: The download option for Unsplash and Giphy improved by removing extra click to download the image
+- Fix: MailChimp element has a correct PHP filename
+- Fix: Background image not removed after applying Dynamic Content
+- Fix: Links on the image is not removed after disabling Dynamic Content
+- Fix: Global template Settings work properly
+- Fix: The autoplay option works properly in Tabs
+- Fix: Tab slider styles updated
+- Fix: Visual Composer Hub addons section has a proper button states
+- Fix: Visual Composer custom post types have edit option for Contributors
+- Fix: Double Title element has proper styling
+- Fix: Link Dropdown Element has only one arrow
 
 = 35.0 =
 *Release Date - 2021-03-01*

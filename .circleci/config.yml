@@ -218,6 +218,81 @@ jobs:
           path: ./tests/cypressElectron/cypress/videos
       - store_artifacts:
           path: ./tests/cypressElectron/cypress/screenshots
+  end-2-end-tests-pipeline:
+    docker:
+      - image: visualcomposer/ci-wordpress:circleci-php-apache-chrome
+        environment:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DB: mate
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          WP_TESTS_DIR: /opt/wp-tests
+          WP_TESTS_DOMAIN: localhost
+          WP_TESTS_ABSPATH: /var/www/html/
+      - image: mariadb:10.3.13-bionic
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+        environment:
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+    steps:
+      - checkout
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Setup mysql and apache2
+          command: |
+            mysql -h 127.0.0.1 --user="root" --execute="CREATE DATABASE test;"
+            mysql -h 127.0.0.1 --user="root" --execute="CREATE USER 'wpuser'@'127.0.0.1'; GRANT ALL PRIVILEGES ON test.* TO 'wpuser'@'127.0.0.1';"
+            sudo apachectl start
+      - run:
+          name: Install Wordpress
+          command: |
+            wp core config --path=/var/www/html --dbhost=127.0.0.1 --dbname=test --dbuser=wpuser --allow-root
+            wp core install --url=http://localhost --title=Test --admin_user=admin --admin_password=12345 --admin_email=test@test.com --path=/var/www/html --skip-email --allow-root --debug
+      - run: php ci/composer.phar install
+      - run:
+          name: Link files and directories
+          command: |
+            echo "<?php VcvEnv::set('VCV_ENV_DEV_ELEMENTS', false); VcvEnv::set('VCV_ENV_DEV_ADDONS', false); VcvEnv::set('VCV_ENV_EXTENSION_DOWNLOAD', true); require_once(__DIR__ . '/env.php');" > env-dev.php
+            ln -s $(pwd) /var/www/html/wp-content/plugins/builder
+            sudo chmod 777 -R /var/www/html/wp-content
+      - restore_cache:
+          keys:
+            - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+            - v1.1-node-e2e-{{ arch }}-{{ .Branch }}-
+            - v1.1-node-e2e-{{ arch }}-
+      - run:
+          name: Install node modules
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          name: Cache node_modules
+          key: v1.1-node-e2e-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Build project
+          command: |
+            yarn build
+            yarn build-settings
+            bash tools/elements/buildScript.sh
+      - run:
+          name: Activate plugin
+          command: wp plugin activate --all --path=/var/www/html
+      - run:
+          name: Add free license to db
+          command: |
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-key', '0b147957-48d2-4c15-b50e-f9f755bd8749', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
+            mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
+      - run: yarn run cypress run --project ./tests/cypressPipeline
+      - store_artifacts:
+          path: ./tests/cypressPipeline/cypress/snapshots
+      - store_artifacts:
+          path: ./tests/cypressPipeline/cypress/videos
+      - store_artifacts:
+          path: ./tests/cypressPipeline/cypress/screenshots
   js-stores-tests:
     docker:
       - image: visualcomposer/ci-wordpress:php7.3
@@ -245,4 +320,4 @@ workflows:
     jobs:
       - php-tests
       - js-stores-tests
-
+      - end-2-end-tests-pipeline

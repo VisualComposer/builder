@@ -45,7 +45,7 @@ class PageEditableTemplatesController extends Container implements Module
                     [
                         'type' => $requestHelper->input('vcv-template-type'),
                         'value' => $requestHelper->input('vcv-template'),
-                        'stretchedContent' => intval($requestHelper->input('vcv-template-stretched')) === 1,
+                        'stretchedContent' => (int)$requestHelper->input('vcv-template-stretched') === 1,
                     ]
                 );
             }
@@ -54,13 +54,13 @@ class PageEditableTemplatesController extends Container implements Module
         return $originalTemplate;
     }
 
-    protected function viewThemeTemplate($originalTemplate, $data, File $fileHelper)
+    protected function viewThemeTemplate($originalTemplate, $payload, File $fileHelper)
     {
-        if ($data && $data['type'] === 'theme') {
+        if ($payload && $payload['type'] === 'theme') {
             $templateList = wp_get_theme()->get_page_templates();
-            if (isset($templateList[ $data['value'] ])) {
-                return locate_template($data['value']);
-            } elseif ($data['value'] === 'default') {
+            if (isset($templateList[ $payload['value'] ])) {
+                return locate_template($payload['value']);
+            } elseif ($payload['value'] === 'default') {
                 if ($fileHelper->isFile($originalTemplate)) {
                     return $originalTemplate;
                 }
@@ -72,11 +72,11 @@ class PageEditableTemplatesController extends Container implements Module
         return $originalTemplate;
     }
 
-    protected function viewVcTemplate($originalTemplate, $data)
+    protected function viewVcTemplate($originalTemplate, $payload)
     {
-        if ($data && $data['type'] === 'vc') {
-            if ($data['value'] === 'blank') {
-                $stretched = isset($data['stretchedContent']) ? $data['stretchedContent'] : 0;
+        if ($payload && $payload['type'] === 'vc') {
+            if ($payload['value'] === 'blank') {
+                $stretched = isset($payload['stretchedContent']) ? $payload['stretchedContent'] : 0;
                 $template = 'blank' . ($stretched ? '-stretched' : '') . '-template.php';
 
                 return vcapp()->path('visualcomposer/resources/views/editor/templates/' . $template);

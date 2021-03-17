@@ -136,15 +136,14 @@ class PageTemplatesController extends Container implements Module
         }
 
         /** @see \VisualComposer\Modules\Editors\Settings\PageTemplatesController::getCurrentTemplateLayout */
-        $current = $this->call(
-            'getCurrentTemplateLayout',
+        $current = vcfilter(
+            'vcv:editor:settings:pageTemplatesLayouts:current',
             [
-                'output' => [
-                    'type' => 'theme',
-                    'value' => $originalTemplate,
-                ],
+                'type' => 'theme',
+                'value' => $originalTemplate,
             ]
         );
+
         if (!empty($current)) {
             $result = $originalTemplate;
             if ($current['type'] !== 'theme') {

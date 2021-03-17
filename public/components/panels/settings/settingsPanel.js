@@ -16,7 +16,7 @@ const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
 const settingsText = localizations ? localizations.pageSettings : 'Page Settings'
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 const popupText = localizations ? localizations.popup : 'Popup'
-const elementsLockText = localizations ? localizations.elementsLock : 'Element lock'
+const elementsLockText = localizations ? localizations.elementsLock : 'Element Lock'
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 

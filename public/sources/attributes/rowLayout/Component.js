@@ -13,6 +13,7 @@ import Tooltip from '../../../components/tooltip/tooltip'
 import AutoComplete from '../autocomplete/Component'
 
 const dataManager = vcCake.getService('dataManager')
+const elementsStorage = vcCake.getStorage('elements')
 
 export default class Layout extends Attribute {
   static defaultProps = {
@@ -121,7 +122,7 @@ export default class Layout extends Attribute {
     const newMixin = {}
 
     const columnGap = data.columnGap ? parseInt(data.columnGap) : 0
-    const selector = `vce-row--col-gap-${columnGap}#el-${data.id}`
+    const selector = `vce-row--col-gap-${columnGap}[data-vce-do-apply*='${data.id}']`
     const disableStacking = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'disableStacking') ? data.layout.disableStacking : false
     const responsivenessSettings = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'responsivenessSettings') ? data.layout.responsivenessSettings : false
 
@@ -244,6 +245,28 @@ export default class Layout extends Attribute {
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleColumnHover = this.handleColumnHover.bind(this)
     this.onAutocompleteChange = this.onAutocompleteChange.bind(this)
+    this.dataUpdate = lodash.debounce(this.dataUpdate.bind(this), 50)
+  }
+
+  componentDidMount () {
+    elementsStorage.on(`element:${this.props.elementAccessPoint.id}`, this.dataUpdate)
+  }
+
+  componentWillUnmount () {
+    elementsStorage.off(`element:${this.props.elementAccessPoint.id}`, this.dataUpdate)
+  }
+
+  dataUpdate (data, source, options) {
+    if (options && options.changedAttributeType && options.changedAttributeType === 'rowLayout') {
+      const deviceLayoutData = Layout.getLayoutData(this.props.elementAccessPoint.id, true)
+      const currentValue = this.state.value
+      const defaultLayoutData = deviceLayoutData.defaultSize ? deviceLayoutData.defaultSize : []
+      currentValue.layoutData = deviceLayoutData
+      currentValue.defaultLayoutData = defaultLayoutData
+      this.setState({
+        value: currentValue
+      })
+    }
   }
 
   updateState (props) {
@@ -413,7 +436,10 @@ export default class Layout extends Attribute {
       newState.disableStacking = false
     }
     this.setFieldValue(newState)
-    this.handleActiveLayoutChange(value)
+    if (fieldKey === 'rowLayout') {
+      // From autocomplete
+      this.handleActiveLayoutChange(value)
+    }
   }
 
   onAutocompleteChange (fieldKey, value) {
