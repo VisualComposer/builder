@@ -96,7 +96,7 @@ trait SubMenu
      */
     protected function renderPage($page, $pages)
     {
-        $layout = 'standalone';
+        $layout = 'dashboard-main-layout';
 
         // pages can define different layout, by setting 'layout' key/value.
         if (isset($page['layout'])) {
@@ -135,7 +135,7 @@ trait SubMenu
      */
     protected function renderContent($page, $pages)
     {
-        $layout = 'standalone';
+        $layout = 'dashboard-tab-content-standalone';
 
         // pages can define different layout, by setting 'layout' key/value.
         if (isset($page['layout'])) {
