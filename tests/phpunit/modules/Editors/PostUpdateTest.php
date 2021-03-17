@@ -88,6 +88,7 @@ class PostUpdateTest extends WP_UnitTestCase
         $this->assertNotEmpty($actions);
 
         $controller = vc_create_module_mock(\VisualComposer\Modules\Hub\Pages\UpdateBePage::class);
+        $controller->call('addPage');
         $page = [
             'slug' => 'vcv-update',
             'title' => __('Update', 'visualcomposer'),
@@ -98,6 +99,9 @@ class PostUpdateTest extends WP_UnitTestCase
             'hideTitle' => true,
             'iconClass' => 'vcv-ui-icon-dashboard-update',
         ];
+        $_GET['page'] = 'vcv-update';
+        // Since v36
+        $page['layout'] = 'dashboard-main-layout';
         $output = $controller->call(
             'renderPage',
             [
