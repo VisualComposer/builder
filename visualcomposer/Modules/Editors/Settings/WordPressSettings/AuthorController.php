@@ -56,7 +56,7 @@ class AuthorController extends Container implements Module
 
         // @codingStandardsIgnoreLine
         $currentPostAuthor = $currentPost->post_author;
-        $users = get_users();
+        $users = get_users('who=authors');
         $authorList = [];
         foreach ($users as $user) {
             // @codingStandardsIgnoreLine
