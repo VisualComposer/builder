@@ -164,8 +164,17 @@ import './lightbox.css';
     var dataLightboxValue = $link.attr('data-lightbox');
     var $links;
 
+    // Check against closest .slick-slider parent, select only original images
+    var $isSlickSlider = $link.closest('.slick-slider');
+    var selector;
+    if ($isSlickSlider.length) {
+      selector = $isSlickSlider.find('.vc-slick-item:not(.slick-cloned) ' + $link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
+    } else {
+      selector = $link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]';
+    }
+
     if (dataLightboxValue) {
-      $links = window.jQuery($link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
+      $links = window.jQuery(selector);
       for (var i = 0; i < $links.length; i = ++i) {
         addToAlbum(window.jQuery($links[ i ]));
         if ($links[ i ] === $link[ 0 ]) {
@@ -178,7 +187,7 @@ import './lightbox.css';
         addToAlbum($link);
       } else {
         // If image is part of a set
-        $links = window.jQuery($link.prop('tagName') + '[rel="' + $link.attr('rel') + '"]');
+        $links = window.jQuery(selector);
         for (var j = 0; j < $links.length; j = ++j) {
           addToAlbum(window.jQuery($links[ j ]));
           if ($links[ j ] === $link[ 0 ]) {
