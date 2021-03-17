@@ -132,7 +132,7 @@ class PremiumTeasers extends Container implements Module
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_sidebars',
-            'premiumTitle' => __('SIBEBAR BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumTitle' => __('SIDEBAR BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
                 'Create a custom sidebar or pick a ready-made template with the Sidebar Builder available in Premium.',
                 'visualcomposer'
