@@ -43,10 +43,9 @@ class WordpressController extends Container implements Module
 
     protected function runNativeContentFilters($content)
     {
-        if (function_exists('wptexturize') && has_filter('the_content', 'wptexturize')) {
-            $content = wptexturize($content);
-        }
+        // Don't use wptexturize as it breaks rawHtml,rawJs,typewritter
 
+        // Call native callbacks on the_content content
         if (function_exists('prepend_attachment') && has_filter('the_content', 'prepend_attachment')) {
             $content = prepend_attachment($content);
         }
