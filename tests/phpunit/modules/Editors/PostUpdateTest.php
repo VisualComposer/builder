@@ -77,6 +77,7 @@ class PostUpdateTest extends WP_UnitTestCase
 
     public function testRenderUpdateBe()
     {
+        wp_set_current_user(1);
         // Previous test have Post Update action.
         $optionsHelper = vchelper('Options');
         $this->assertFalse($optionsHelper->get('bundleUpdateRequired'));
