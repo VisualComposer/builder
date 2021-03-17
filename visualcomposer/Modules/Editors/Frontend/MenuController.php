@@ -68,6 +68,9 @@ class MenuController extends Container implements Module
                 'vcv_headers',
                 'vcv_footers',
                 'vcv_sidebars',
+                'vcv_templates',
+                'vcv_popups',
+                'vcv_archives',
             ];
             if (
                 $editorPostTypeHelper->isEditorEnabled($postType)

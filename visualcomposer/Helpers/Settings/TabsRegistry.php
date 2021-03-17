@@ -15,34 +15,42 @@ class TabsRegistry extends Container implements Helper
 {
     private static $tabs = [];
 
-    public function set($key, $value)
+    protected $dataHelper;
+
+    public function __construct()
     {
-        self::$tabs[ $key ] = $value;
+        $this->dataHelper = vchelper('Data');
     }
 
-    public function get($key)
+    public function set($value)
     {
-        return isset(self::$tabs[ $key ]) ? self::$tabs[ $key ] : null;
+        self::$tabs[] = $value;
+    }
+
+    public function get($slug)
+    {
+        return $this->dataHelper->arraySearch($this->all(), 'slug', $slug);
     }
 
     public function all()
     {
-        return self::$tabs;
+        return vcfilter('vcv:helper:tabsRegistry:all', self::$tabs);
     }
 
-    public function getHierarchy()
+    public function getHierarchy($tabs)
     {
-        $allTabs = $this->all();
+        $allTabs = $tabs;
         $hierarchyArray = [];
         foreach ($allTabs as $key => $value) {
+            $slug = $value['slug'];
             if (isset($value['parent']) && $value['parent'] !== false) {
                 $parentSlug = $value['parent'];
-                if ($key === $parentSlug) {
-                    $hierarchyArray[$key] = $value;
+                if ($slug === $parentSlug) {
+                    $hierarchyArray[ $slug ] = $value;
                 }
-                $hierarchyArray[$parentSlug]['children'][$key] = $value;
+                $hierarchyArray[ $parentSlug ]['children'][ $slug ] = $value;
             } else {
-                $hierarchyArray[$key] = $value;
+                $hierarchyArray[ $slug ] = $value;
             }
         }
 

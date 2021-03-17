@@ -164,4 +164,38 @@ class Data implements Helper
 
         return array_key_exists($key, $array);
     }
+
+    /**
+     * Check if a given key or keys exists (dot notation)
+     *
+     * @param array|int|string $keys
+     *
+     * @return bool
+     */
+    public function has($array, $keys)
+    {
+        $keys = (array)$keys;
+
+        if (!$array || $keys === []) {
+            return false;
+        }
+
+        foreach ($keys as $key) {
+            $items = $array;
+
+            if ($this->exists($items, $key)) {
+                continue;
+            }
+
+            foreach (explode('.', $key) as $segment) {
+                if (!is_array($items) || !$this->exists($items, $segment)) {
+                    return false;
+                }
+
+                $items = $items[ $segment ];
+            }
+        }
+
+        return true;
+    }
 }

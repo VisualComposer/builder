@@ -128,6 +128,7 @@ class Frontend implements Helper
             $sourceId,
             get_post_type($sourceId)
         );
+        vcevent('vcv:frontend:renderContent', $sourceId); // Used in Reset check
 
         $previousDynamicContent = \VcvEnv::get('DYNAMIC_CONTENT_SOURCE_ID');
         \VcvEnv::set('DYNAMIC_CONTENT_SOURCE_ID', $sourceId);

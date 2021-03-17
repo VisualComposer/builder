@@ -51,18 +51,6 @@ class Settings extends Container implements Module
         );
     }
 
-    protected function beforeRender()
-    {
-        $urlHelper = vchelper('Url');
-        wp_register_style(
-            'vcv:wpVcSettings:style',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_style('vcv:wpVcSettings:style');
-    }
-
     /**
      * Register submenu page for vcv-settings
      * @throws \Exception
@@ -71,13 +59,15 @@ class Settings extends Container implements Module
     {
         $page = [
             'slug' => $this->slug,
-            'title' => __('Dashboard', 'visualcomposer'),
+            'title' => __('Settings', 'visualcomposer'),
             'innerTitle' => __('Settings', 'visualcomposer'),
             'subTitle' => __('General', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'edit_pages',
             'iconClass' => 'vcv-ui-icon-dashboard-settings',
             'isDashboardPage' => true,
+            'hideInWpMenu' => false,
+            'position' => -100,
         ];
         $this->addSubmenuPage($page);
     }
