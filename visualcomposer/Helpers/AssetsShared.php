@@ -13,6 +13,8 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class AssetsShared extends Container implements Helper
 {
+    protected static $assetsLibrariesCache = null;
+
     protected function renameLocalPath($name, $path)
     {
         return vchelper('Url')->to(str_replace('[publicPath]/', 'public/sources/assetsLibrary/' . $name . '/', $path));
@@ -20,15 +22,20 @@ class AssetsShared extends Container implements Helper
 
     public function getSharedAssets()
     {
-        $assetsLibraries = $this->parseJsonFile([]);
-        $assetsLibraries = $this->parseOptions($assetsLibraries);
+        if (empty(self::$assetsLibrariesCache)) {
+            $assetsLibraries = $this->parseJsonFile([]);
+            $assetsLibraries = $this->parseOptions($assetsLibraries);
 
-        return vcfilter('vcv:helper:assetsShared:getLibraries', $assetsLibraries);
+            self::$assetsLibrariesCache = vcfilter('vcv:helper:assetsShared:getLibraries', $assetsLibraries);
+        }
+
+        return self::$assetsLibrariesCache;
     }
 
     public function setSharedAssets($assets)
     {
         $optionsHelper = vchelper('Options');
+        self::$assetsLibrariesCache = null; // force update on next request
 
         return $optionsHelper->set('assetsLibrary', $assets);
     }
@@ -128,11 +135,11 @@ class AssetsShared extends Container implements Helper
             'elements/imageMasonryGalleryWithZoom/imageMasonryGalleryWithZoom/public/dist/photoswipe-init.min.js' => 'assetsLibrary/photoswipe/dist/photoswipe.bundle.js',
 
             'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' => [
-                'sharedLibraries/faqToggle/dist/faqToggle.bundle.js', // shared-library
+                'assetsLibrary/faqToggle/dist/faqToggle.bundle.js', // shared-library
                 'elements/faqToggle/faqToggle/public/dist/faqToggle.min.js' // initializator
             ],
             'elements/outlineFaqToggle/outlineFaqToggle/public/dist/faqToggle.min.js' => [
-                'sharedLibraries/faqToggle/dist/faqToggle.bundle.js', // shared-library
+                'assetsLibrary/faqToggle/dist/faqToggle.bundle.js', // shared-library
                 'elements/outlineFaqToggle/outlineFaqToggle/public/dist/outlineFaqToggle.min.js' // initializator
             ],
 
@@ -141,12 +148,12 @@ class AssetsShared extends Container implements Helper
 
             'elements/section/section/public/dist/fullWidthSection.min.js' => 'assetsLibrary/fullWidth/dist/fullWidth.bundle.js',
 
-            'elements/logoSlider/logoSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-            'elements/postsSlider/postsSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
-            'elements/simpleImageSlider/simpleImageSlider/public/dist/slick.custom.min.js' => 'sharedLibraries/slickSlider/dist/slickCustom.bundle.js',
+            'elements/logoSlider/logoSlider/public/dist/slick.custom.min.js' => 'assetsLibrary/slickSlider/dist/slickCustom.bundle.js',
+            'elements/postsSlider/postsSlider/public/dist/slick.custom.min.js' => 'assetsLibrary/slickSlider/dist/slickCustom.bundle.js',
+            'elements/simpleImageSlider/simpleImageSlider/public/dist/slick.custom.min.js' => 'assetsLibrary/slickSlider/dist/slickCustom.bundle.js',
 
             'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' => [
-                'sharedLibraries/menuToggle/dist/menuToggle.bundle.js', // shared-library
+                'assetsLibrary/menuToggle/dist/menuToggle.bundle.js', // shared-library
                 'elements/sandwichMenu/sandwichMenu/public/dist/sandwichMenu.min.js' // initializator
             ],
             'assetsLibrary/iconpicker/dist/iconpicker.bundle.css' => [
