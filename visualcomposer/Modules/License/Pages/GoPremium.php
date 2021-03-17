@@ -128,11 +128,16 @@ class GoPremium extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => $this->buttonTitle(),
-            'layout' => 'standalone',
+            'dashboardName' => __('Activate Premium', 'visualcomposer'),
+            'layout' => 'dashboard-tab-content-standalone',
             'showTab' => false,
             'capability' => 'manage_options',
+            'isDashboardPage' => true,
+            'hideInWpMenu' => false,
+            'hideTitle' => true,
+            'iconClass' => 'vcv-ui-icon-dashboard-star',
         ];
-        $this->addSubmenuPage($page);
+        $this->addSubmenuPage($page, false);
     }
 
     /**

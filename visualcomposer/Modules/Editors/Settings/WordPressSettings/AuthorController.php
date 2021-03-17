@@ -56,7 +56,7 @@ class AuthorController extends Container implements Module
 
         // @codingStandardsIgnoreLine
         $currentPostAuthor = $currentPost->post_author;
-        $users = get_users();
+        $users = get_users('who=authors');
         $authorList = [];
         foreach ($users as $user) {
             // @codingStandardsIgnoreLine
@@ -137,7 +137,12 @@ class AuthorController extends Container implements Module
     {
         $currentPageId = $payload['sourceId'];
         if ($requestHelper->exists('vcv-settings-author')) {
-            wp_update_post(['ID' => $currentPageId, 'post_author' => $requestHelper->input('vcv-settings-author')]);
+            $authorId = (int)$requestHelper->input('vcv-settings-author');
+            $authorData = get_userdata($authorId);
+
+            if (!$authorData) {
+                wp_update_post(['ID' => $currentPageId, 'post_author' => $requestHelper->input('vcv-settings-author')]);
+            }
         }
 
         return $response;

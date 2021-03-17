@@ -184,7 +184,7 @@ class Controller extends Container implements Module
         ) {
             $url = $frontendHelper->getFrontendUrl($sourceId);
             $actions['edit_vc5'] = sprintf(
-                '<a href="%s">%s</a>',
+                '<a href="%s" class="vcv-edit-with-vcwb">%s</a>',
                 $url,
                 __('Edit with Visual Composer', 'visualcomposer')
             );

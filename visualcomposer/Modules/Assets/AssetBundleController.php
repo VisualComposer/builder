@@ -67,5 +67,18 @@ class AssetBundleController extends Container implements Module
             VCV_VERSION,
             true
         );
+
+        wp_register_style(
+            'vcv:wpVcSettings:style',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_script(
+            'vcv:wpVcSettings:script',
+            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
+            ['vcv:assets:vendor:script'],
+            VCV_VERSION
+        );
     }
 }

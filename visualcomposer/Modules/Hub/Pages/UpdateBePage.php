@@ -99,11 +99,15 @@ class UpdateBePage extends Container implements Module
         $page = [
             'slug' => $this->getSlug(),
             'title' => __('Update', 'visualcomposer'),
-            'showTab' => false,
-            'layout' => 'standalone',
             'capability' => 'edit_posts',
+            'layout' => 'dashboard-tab-content-standalone',
+            'showTab' => false,
+            'isDashboardPage' => true,
+            'hideInWpMenu' => false,
+            'hideTitle' => true,
+            'iconClass' => 'vcv-ui-icon-dashboard-update',
         ];
-        $this->addSubmenuPage($page);
+        $this->addSubmenuPage($page, false);
     }
 
     /**

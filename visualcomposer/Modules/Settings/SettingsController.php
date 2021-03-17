@@ -116,9 +116,8 @@ class SettingsController extends Container implements Module
         ) {
             $updateRequired = vchelper('Options')->get('bundleUpdateRequired');
             if (($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms')) && $updateRequired) {
-                $tabs = vcfilter('vcv:settings:tabs', $tabsRegistry->all());
                 // Redirect only if requested page is settings tab page
-                if (array_key_exists($page, $tabs)) {
+                if ($tabsRegistry->get($page)) {
                     // Redirect if bundle update available
                     // Redirect only if slug !== vcv-settings (to allow reset)
                     wp_redirect(admin_url('admin.php?page=vcv-update'));

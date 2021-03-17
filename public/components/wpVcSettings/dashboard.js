@@ -1,5 +1,6 @@
 import { getService } from 'vc-cake'
 import importJS from '../../wordpressSettings'
+
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const unsavedChangesText = localizations && localizations.unsavedChangesText ? localizations.unsavedChangesText : 'Changes may not be saved.'
@@ -11,54 +12,39 @@ export const dashboard = () => {
     return
   }
   let httpRequest = false
-  let tabletMinHeight = ''
-  let desktopMinHeight = ''
   let formTouched = false
   const urlHash = new URL(document.URL).hash
+  const dashboardSidebar = document.querySelector('.vcv-dashboard-sidebar')
   const navigationToggle = document.querySelector('.vcv-dashboard-nav-toggle')
-  const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
+  const navigationMenuContainer = document.querySelector('.vcv-dashboard-sidebar-navigation-container')
+  const navigationMenu = document.querySelector('.vcv-dashboard-sidebar-navigation.vcv-dashboard-sidebar-navigation--main')
+  const navigationMenuTop = document.querySelector('.vcv-dashboard-sidebar-navigation-menu')
+  const navigationMenuBottom = document.querySelector('.vcv-dashboard-sidebar-navigation-bottom-menu')
   const submenuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-menu--submenu .vcv-dashboard-sidebar-navigation-link'))
   const menuLinks = Array.from(document.querySelectorAll('.vcv-dashboard-sidebar-navigation-link'))
   const sections = Array.from(document.querySelectorAll('.vcv-dashboards-section-content'))
   const contentForms = Array.from(document.querySelectorAll('.vcv-settings-tab-content'))
   const dataCollectionTableWrapper = document.querySelector('.vcv-ui-settings-data-collection-table-wrapper')
   const dataCollectionTableButton = document.querySelector('#vcv-data-collection-table-button')
-  const adminMenuBack = document.querySelector('#adminmenuback')
-  const adminMenuWrap = document.querySelector('#adminmenuwrap')
-  const dashboardStylesContainer = document.querySelector('#vcv-dashboard-styles')
-  const initialDashboardStyles = dashboardStylesContainer.innerHTML
-
-  const setDashboardMinHeight = () => {
-    if (window.innerWidth < 783) {
-      return
-    }
-    let minHeightStyle
-    const adminMenuWrapHeight = window.getComputedStyle(adminMenuWrap).height
-    const adminMenuBackHeight = window.getComputedStyle(adminMenuBack).height
-    const wpSidebarHeight = window.innerHeight > parseInt(adminMenuWrapHeight) ? adminMenuBackHeight : adminMenuWrapHeight
-
-    if (window.innerWidth > 782 && window.innerWidth < 961) {
-      minHeightStyle = `@media screen and (min-width: 783px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
-      tabletMinHeight = minHeightStyle
-      dashboardStylesContainer.innerHTML = initialDashboardStyles + minHeightStyle + desktopMinHeight
-    }
-
-    if (window.innerWidth > 960) {
-      minHeightStyle = `@media screen and (min-width: 961px) { .vcv-dashboard-container { min-height: ${wpSidebarHeight}; }}`
-      desktopMinHeight = minHeightStyle
-      dashboardStylesContainer.innerHTML = initialDashboardStyles + tabletMinHeight + minHeightStyle
+  const setDashboardMenuStyles = () => {
+    const innerHeight = window.innerHeight - 30 - 32 - 30 - 32 // 2x paddings(30px) and logo(title) (32px) and admin-bar(32px)
+    if ((parseInt(window.getComputedStyle(navigationMenuTop).height) + parseInt(window.getComputedStyle(navigationMenuBottom).height)) > innerHeight) {
+      dashboardSidebar.style.height = 'auto'
+      navigationMenu.style.justifyContent = 'flex-start'
+    } else {
+      dashboardSidebar.style.height = '100%'
+      navigationMenu.style.justifyContent = 'space-between'
     }
   }
-
   const handleNavigationToggle = () => {
-    navigationMenu.classList.toggle('vcv-is-navigation-visible')
+    navigationMenuContainer.classList.toggle('vcv-is-navigation-visible')
     const ariaExpandedAttr = navigationToggle.getAttribute('aria-expanded')
     const newAriaExpandedAttr = ariaExpandedAttr === 'true' ? 'false' : 'true'
     navigationToggle.setAttribute('aria-expanded', newAriaExpandedAttr)
   }
 
   const handleSubmenuLinkClick = (e) => {
-    if (e.target.getAttribute('href') !== 'javascript:void(0)') {
+    if (!e.target.classList.contains('vcv-dashboard-sidebar-navigation-link--same-parent')) {
       return
     }
     e.preventDefault()
@@ -132,6 +118,10 @@ export const dashboard = () => {
   }
 
   const handleMenuLinkClick = (e) => {
+    if (e.target.classList.contains('vcv-dashboard-sidebar-navigation-menu-item-parent-link')) {
+      e.target.closest('.vcv-dashboard-sidebar-navigation-menu-item-parent').classList.toggle('vcv-dashboard-sidebar-navigation-menu-item--active')
+      e.preventDefault()
+    }
     if (formTouched) {
       const userResponse = window.confirm(unsavedChangesText)
       if (!userResponse) {
@@ -147,12 +137,12 @@ export const dashboard = () => {
         handleSubmenuLinkClick(e)
       }
     }
+    setDashboardMenuStyles()
   }
 
   const handleContentFormChange = (e) => {
     formTouched = true
   }
-
   // Implement throttle on window resize
   const handleWindowResize = (func, duration) => {
     let shouldWait = false
@@ -166,15 +156,12 @@ export const dashboard = () => {
       }
     }
   }
-
   const handleDataCollectionTableToggle = () => {
     if (!dataCollectionTableWrapper) {
       return
     }
     window.jQuery(dataCollectionTableWrapper).slideToggle()
   }
-
-  setDashboardMinHeight()
 
   if (dataCollectionTableWrapper) {
     if (urlHash.indexOf(dataCollectionTableWrapper.id) !== -1) {
@@ -191,7 +178,7 @@ export const dashboard = () => {
   window.addEventListener(
     'resize',
     handleWindowResize(() => {
-      setDashboardMinHeight()
+      setDashboardMenuStyles()
     }, 250)
   )
   window.onbeforeunload = () => {
