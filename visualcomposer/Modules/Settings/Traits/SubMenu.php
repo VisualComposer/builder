@@ -52,7 +52,7 @@ trait SubMenu
                                 'iconClass' => '',
                                 'callback' => function () use ($page) {
                                     /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
-                                    echo $this->call('renderPage', ['page' => $page]);
+                                    echo $this->call('renderContent', ['page' => $page]);
                                 },
                             ],
                             $page
@@ -115,6 +115,31 @@ trait SubMenu
                 },
                 1
             );
+        }
+
+        $pageData = [
+            'tabs' => $pages,
+            'activeSlug' => $page['slug'],
+            'slug' => $page['slug'],
+            'page' => $page,
+        ];
+
+        return vcview('settings/layouts/' . $layout, $pageData);
+    }
+
+    /**
+     * @param array $page
+     * @param array $pages
+     *
+     * @return string
+     */
+    protected function renderContent($page, $pages)
+    {
+        $layout = 'standalone';
+
+        // pages can define different layout, by setting 'layout' key/value.
+        if (isset($page['layout'])) {
+            $layout = $page['layout'];
         }
 
         $pageData = [
