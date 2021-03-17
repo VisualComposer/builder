@@ -41,42 +41,46 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
 export function updateHtmlWithServer (content, ref, id, cb) {
   if (content && (content.match(getShortcodesRegexp()) || content.match(/https?:\/\//) || (content.indexOf('<!-- wp') !== -1 && content.indexOf('<!-- wp:vcv-gutenberg-blocks/dynamic-field-block') === -1))) {
     ref.innerHTML = spinnerHtml
-    requests[id] = dataProcessor.appServerRequest({
-      'vcv-action': 'elements:ajaxShortcode:adminNonce',
-      'vcv-shortcode-string': content,
-      'vcv-nonce': dataManager.get('nonce'),
-      'vcv-source-id': dataManager.get('sourceID')
-    }).then((data) => {
-      const iframe = env('iframe')
-      const finishCallback = () => {
-        ((function (window) {
-          window.setTimeout(() => {
-            const freezeReady = dataManager.get('freezeReady')
-            freezeReady && freezeReady(id, false)
-            window.vcv && window.vcv.trigger('ready', 'update', id)
-            requests[id] = null
-            cb && cb.constructor === Function && cb()
-          }, 500)
-        })(iframe))
-      }
-      try {
-        const jsonData = getResponse(data)
-        if (jsonData) {
-          renderInlineHtml(content, jsonData, ref, id, finishCallback)
-        } else {
-          console.warn('failed to parse data', data)
-          ref && (ref.innerHTML = content)
-          finishCallback()
-        }
-      } catch (e) {
-        console.warn('failed to parse json', e)
-        ref && (ref.innerHTML = content)
-        finishCallback()
-      }
-    })
+    updateHtmlWithServerRequest(content, ref, id, cb)
   } else {
     ref && (ref.innerHTML = content)
     requests[id] = null
     cb && cb.constructor === Function && cb()
   }
+}
+
+export function updateHtmlWithServerRequest (content, ref, id, cb) {
+  requests[id] = dataProcessor.appServerRequest({
+    'vcv-action': 'elements:ajaxShortcode:adminNonce',
+    'vcv-shortcode-string': content,
+    'vcv-nonce': dataManager.get('nonce'),
+    'vcv-source-id': dataManager.get('sourceID')
+  }).then((data) => {
+    const iframe = env('iframe')
+    const finishCallback = () => {
+      ((function (window) {
+        window.setTimeout(() => {
+          const freezeReady = dataManager.get('freezeReady')
+          freezeReady && freezeReady(id, false)
+          window.vcv && window.vcv.trigger('ready', 'update', id)
+          requests[id] = null
+          cb && cb.constructor === Function && cb()
+        }, 500)
+      })(iframe))
+    }
+    try {
+      const jsonData = getResponse(data)
+      if (jsonData) {
+        renderInlineHtml(content, jsonData, ref, id, finishCallback)
+      } else {
+        console.warn('failed to parse data', data)
+        ref && (ref.innerHTML = content)
+        finishCallback()
+      }
+    } catch (e) {
+      console.warn('failed to parse json', e)
+      ref && (ref.innerHTML = content)
+      finishCallback()
+    }
+  })
 }
