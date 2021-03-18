@@ -1,0 +1,107 @@
+/* ----------------------------------------------
+ * Separator With Title
+ * ---------------------------------------------- */
+.vce-separator-with-title {
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  -ms-flex-line-pack: center;
+      -webkit-align-content: center;
+          align-content: center;
+  -ms-flex-pack: center;
+      -webkit-justify-content: center;
+          justify-content: center;
+  -ms-flex-align: center;
+      -webkit-align-items: center;
+          align-items: center;
+}
+.vce-separator-with-title .vce-separator-with-title--title {
+  max-width: 90%;
+  margin: 0 7px;
+  padding: 0;
+  text-align: center;
+  transition: color .3s ease;
+}
+.vce-separator-with-title--line {
+  position: relative;
+  min-height: 1.2em;
+  line-height: 1;
+  -ms-flex: 1 0 auto;
+      -webkit-flex: 1 0 auto;
+          flex: 1 0 auto;
+  transition: color .3s ease;
+}
+.vce-separator-with-title--line::before {
+  position: absolute;
+  display: block;
+  content: '';
+  box-sizing: content-box;
+  height: 1px;
+  width: 100%;
+  top: 50%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+}
+.vce-separator-with-title--line-left::before {
+  right: 0;
+}
+.vce-separator-with-title--line-right::before {
+  left: 0;
+}
+.vce-separator-with-title--align-left {
+  text-align: left;
+}
+.vce-separator-with-title--align-center {
+  text-align: center;
+}
+.vce-separator-with-title--align-right {
+  text-align: right;
+}
+.vce-separator-with-title--line--style-solid::before {
+  border-top-style: solid;
+}
+.vce-separator-with-title--line--style-dotted::before {
+  border-top-style: dotted;
+}
+.vce-separator-with-title--line--style-dashed::before {
+  border-top-style: dashed;
+}
+.vce-separator-with-title--line--style-double::before {
+  border-top-style: double;
+}
+.vce-separator-with-title--line--style-shadow {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+}
+.vce-separator-with-title--line--style-shadow::before {
+  display: none;
+}
+.vce-separator-shadow {
+  position: relative;
+  min-height: 10px;
+  -ms-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+          flex: 1 1 auto;
+  min-width: 10%;
+  overflow: hidden;
+}
+.vce-separator-shadow::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: -20px;
+  right: 0;
+  width: initial;
+  height: 10px;
+  border-radius: 100%;
+}
+.vce-separator-shadow-left::before {
+  right: -100%;
+}
+.vce-separator-shadow-right::before {
+  left: -100%;
+}

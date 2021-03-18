@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "featureDescription": {
+      "settings": {
+        "name": "Feature Description",
+        "metaThumbnailUrl": "[publicPath]/thumbnail-feature-description.png",
+        "metaPreviewUrl": "[publicPath]/preview-feature-description.png",
+        "metaDescription": "Feature element with image and call to action button for further information."
+      }
+    }
+  },
+  "categories": {
+    "Feature Description": {
+      "elements": [
+        "featureDescription"
+      ]
+    }
+  }
+}

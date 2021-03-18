@@ -1,0 +1,303 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Buttons"
+  },
+  "titleText": {
+    "type": "string",
+    "access": "public",
+    "value": "What is frequently asked questions?",
+    "options": {
+      "label": "Title text",
+      "dynamicField": true
+    }
+  },
+  "elementTag": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "h3",
+    "options": {
+      "label": "Element tag",
+      "values": [
+        {
+          "label": "h1",
+          "value": "h1"
+        },
+        {
+          "label": "h2",
+          "value": "h2"
+        },
+        {
+          "label": "h3",
+          "value": "h3"
+        },
+        {
+          "label": "h4",
+          "value": "h4"
+        },
+        {
+          "label": "h5",
+          "value": "h5"
+        },
+        {
+          "label": "h6",
+          "value": "h6"
+        },
+        {
+          "label": "p",
+          "value": "p"
+        },
+        {
+          "label": "div",
+          "value": "div"
+        }
+      ]
+    }
+  },
+  "textBlock": {
+    "type": "htmleditor",
+    "access": "public",
+    "value": "<p>Frequently asked questions (FAQ) or Questions and Answers (Q&A), are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic.</p>",
+    "options": {
+      "label": "Text block",
+      "inline": true,
+      "dynamicField": true,
+      "skinToggle": "darkTextSkin"
+    }
+  },
+  "darkTextSkin": {
+    "type": "toggleSmall",
+    "access": "public",
+    "value": false
+  },
+  "iconColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#fff",
+    "options": {
+      "label": "Icon color",
+      "cssMixin": {
+        "mixin": "color",
+        "property": "color",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "shape": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "rounded",
+    "options": {
+      "label": "Style",
+      "values": [
+        {
+          "label": "None",
+          "value": "none"
+        },
+        {
+          "label": "Square",
+          "value": "square"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Round",
+          "value": "round"
+        }
+      ]
+    }
+  },
+  "shapeColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#1D64C5",
+    "options": {
+      "label": "Shape color",
+      "cssMixin": {
+        "mixin": "shapeColor",
+        "property": "shapeColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "shape": {
+            "rule": "valueIn",
+            "options": {
+              "values": [
+                "square",
+                "rounded",
+                "round"
+              ]
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "customHoverColors": {
+    "type": "toggle",
+    "access": "public",
+    "value": false,
+    "options": {
+      "label": "Custom hover colors"
+    }
+  },
+  "iconHoverColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#e6e6e6",
+    "options": {
+      "label": "Icon hover color",
+      "cssMixin": {
+        "mixin": "hoverColor",
+        "property": "hoverColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "customHoverColors": {
+            "rule": "toggle"
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "shapeHoverColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#164d99",
+    "options": {
+      "label": "Shape color",
+      "cssMixin": {
+        "mixin": "shapeHoverColor",
+        "property": "shapeHoverColor",
+        "namePattern": "[\\da-f]+"
+      },
+      "onChange": {
+        "rules": {
+          "customHoverColors": {
+            "rule": "toggle"
+          },
+          "shape": {
+            "rule": "valueIn",
+            "options": {
+              "values": [
+                "square",
+                "rounded",
+                "round"
+              ]
+            }
+          }
+        },
+        "actions": [
+          {
+            "action": "toggleVisibility"
+          }
+        ]
+      }
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "titleText",
+      "elementTag",
+      "textBlock",
+      "iconColor",
+      "shape",
+      "shapeColor",
+      "customHoverColors",
+      "iconHoverColor",
+      "shapeHoverColor",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
+    }
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "sharedAssetsLibrary": {
+    "access": "protected",
+    "type": "string",
+    "value": {
+      "libraries": [
+        {
+          "libsNames": [
+            "faqToggle"
+          ]
+        }
+      ]
+    }
+  },
+  "metaPublicJs": {
+    "access": "protected",
+    "type": "string",
+    "value": {
+      "libraries": [
+        {
+          "libPaths": "public/dist/faqToggle.min.js"
+        }
+      ]
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "faqToggle"
+  }
+}
