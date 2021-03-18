@@ -80,11 +80,15 @@
 
 .vcv-dashboard-sidebar-navigation-link {
   cursor: pointer;
+
   &:hover,
   &:focus,
   &.vcv-dashboard-sidebar-navigation-link--active {
     color: @text-color-base;
+  }
 
+  &:hover,
+  &.vcv-dashboard-sidebar-navigation-link--active {
     &::before {
       background: rgba(255, 255, 255, .3);
     }
@@ -98,15 +102,22 @@
 .vcv-dashboard-sidebar-navigation-menu-item.vcv-dashboard-sidebar-navigation-menu-item-parent {
   font-family: 'VC-Icons';
   position: relative;
-
   &::after {
     position: absolute;
     right: -5px;
-    top: 17px;
-    font-size: 24px;
+    top: 15px;
+    font-size: 18px;
     color: #fff;
+    opacity: 0.5;
     content: "\25be";
     pointer-events: none;
+  }
+
+  &.vcv-dashboard-sidebar-navigation-menu-item--active,
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
   }
 
   &.vcv-dashboard-sidebar-navigation-menu-item--active::after {
@@ -145,10 +156,20 @@
   border-radius: 50%;
   transition: background @transition-duration @transition-timing-function;
 }
-.vcv-ui-icon-dashboard-external {
-  color: #6476BD;
-  margin-left: 5px;
-  margin-top: -1px;
+
+.vcv-dashboard-sidebar-navigation-menu-item {
+  .vcv-ui-icon-dashboard-external {
+    color: #fff;
+    opacity: 0.5;
+    margin-left: 5px;
+    margin-top: -1px;
+  }
+
+  &:hover {
+    .vcv-ui-icon-dashboard-external {
+      opacity: 1;
+    }
+  }
 }
 
 .vcv-dashboard-nav-toggle {
@@ -214,7 +235,7 @@
 }
 
 .vcv-dashboard-main {
-  padding: 50px 50px 120px;
+  padding: 0 50px 120px;
   overflow: hidden;
 
   h1, h2, h3, h4, h5, h6, button, input[type="submit"] {
@@ -427,6 +448,12 @@
 }
 
 .vcv-dashboards-section-content {
+  padding-top: 50px;
+
+  &.vcv-dashboards-section--no-padding {
+    padding-top: 0;
+  }
+
   display: none;
 
   &:not([data-section="vcv-settings"]) {
