@@ -1,0 +1,10 @@
+.vce-faq-toggle-hover-color--$selector {
+  .vce-faq-toggle-title:hover {
+    .vce-faq-toggle-icon::before,
+    .vce-faq-toggle-icon::after {
+      @if $hoverColor != false {
+        background-color: $hoverColor;
+      }
+    }
+  }
+}

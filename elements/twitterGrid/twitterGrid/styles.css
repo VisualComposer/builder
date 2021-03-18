@@ -1,0 +1,29 @@
+.vce-twitter-grid iframe {
+  display: block;
+  vertical-align: top;
+}
+
+.vce-twitter-grid-wrapper {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.vce-twitter-grid--align-center {
+  text-align: center;
+}
+
+.vce-twitter-grid--align-right {
+  text-align: right;
+}
+
+.vce-twitter-grid--align-left {
+  text-align: left;
+}
+
+.vce-twitter-grid-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  min-width: 220px;
+  max-width: 100%;
+}

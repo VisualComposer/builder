@@ -1,0 +1,15 @@
+@media (min-width: 544px) {
+  .vce-image-gallery {
+	&--columns-$selector {
+	  .vce-image-gallery-item {
+	    @if $columns != false {
+	      -webkit-flex: 0 0 calc(100% / $columns);
+	          -ms-flex: 0 0 calc(100% / $columns);
+	              flex: 0 0 calc(100% / $columns);
+	      max-width: calc(100% / $columns);
+	    }
+	  }
+	}
+  }
+}
+

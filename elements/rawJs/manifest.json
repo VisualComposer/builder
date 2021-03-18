@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "rawJs": {
+      "settings": {
+        "name": "Raw JS",
+        "metaThumbnailUrl": "[publicPath]/raw-js-thumbnail.jpg",
+        "metaPreviewUrl": "[publicPath]/raw-js-preview.jpg",
+        "metaDescription": "Add a custom JavaScript code to the WordPress website to execute it on this particular page."
+      }
+    }
+  },
+  "categories": {
+    "Misc": {
+      "elements": [
+        "rawJs"
+      ]
+    }
+  }
+}
