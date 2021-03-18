@@ -267,9 +267,14 @@ class PremiumTeasers extends Container implements Module
                     },
                     1
                 );
+                // After add_submenu_page called last index of $submenu['vcv-settings'] will be recently added item
+                // So we can adjust it to add extra-class to hide
+                $extraClass = 'vcv-submenu--' . vchelper('Str')->slugify($teaser['slug']);
+                $extraClass .= $teaser['isDashboardPage'] ? ' vcv-submenu-dashboard-page' : '';
                 if (isset($teaser['hideInWpMenu']) && $teaser['hideInWpMenu']) {
-                    $submenu['vcv-settings'][1][4] = 'vcv-ui-state--hidden';
+                    $extraClass .= ' vcv-ui-state--hidden';
                 }
+                $submenu['vcv-settings'][1][4] = $extraClass;
             }
         }
     }
