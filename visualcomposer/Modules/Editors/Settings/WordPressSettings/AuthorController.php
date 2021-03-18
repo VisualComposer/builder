@@ -141,7 +141,7 @@ class AuthorController extends Container implements Module
             $authorData = get_userdata($authorId);
 
             if (!$authorData) {
-                wp_update_post(['ID' => $currentPageId, 'post_author' => $requestHelper->input('vcv-settings-author')]);
+                wp_update_post(['ID' => $currentPageId, 'post_author' => $authorId]);
             }
         }
 
