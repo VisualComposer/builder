@@ -50,6 +50,9 @@ html, #wpcontent, #wpbody, #wpbody-content {
 .wrap, #screen-meta, #screen-meta-links {
     margin: 0 !important;
 }
+.wrap {
+    margin-top: 50px !important;
+}
 .wp-heading-inline {
     padding-top: 0 !important;
 }

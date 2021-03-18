@@ -13,7 +13,7 @@ if (isset($_GET['page'])) {
 $activeClass = $activeTab === $slug ? 'vcv-dashboards-section-content--active' : '';
 $pageTitle = empty($page['subTitle']) ? $page['title'] : $page['subTitle'];
 ?>
-<div class="vcv-dashboards-section-content vcv-dashboards-section--standalone <?php echo $activeClass ?>" data-section="<?php echo $slug ?>">
+<div class="vcv-dashboards-section-content vcv-dashboards-section--no-padding <?php echo $activeClass ?>" data-section="<?php echo $slug ?>">
     <?php
     if ($pageTitle) {
         echo '<h1 style="' . (isset($page['hideTitle']) && $page['hideTitle'] ? 'display:none;' : '') . '">' . $pageTitle . '</h1>';
