@@ -66,7 +66,7 @@ class Plugin {
        * @name Builder#ignoreLibraries
        */
       ignoreLibraries: {
-        value: ['faqToggle', 'menuToggle', 'slickSlider'],
+        value: [],
         writable: false
       }
     })

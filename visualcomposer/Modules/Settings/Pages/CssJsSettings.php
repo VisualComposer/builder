@@ -43,7 +43,7 @@ class CssJsSettings extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            3
+            10
         );
 
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
@@ -60,43 +60,18 @@ class CssJsSettings extends Container implements Module
     }
 
     /**
-     *
-     */
-    protected function beforeRender()
-    {
-        $urlHelper = vchelper('Url');
-        wp_register_style(
-            'vcv:wpVcSettings:style',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-        wp_enqueue_style('vcv:wpVcSettings:style');
-
-        wp_register_script(
-            'vcv:wpVcSettings:script',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
-            ['vcv:assets:vendor:script'],
-            VCV_VERSION
-        );
-
-        wp_enqueue_script('vcv:wpVcSettings:script');
-        wp_enqueue_script('vcv:assets:runtime:script');
-    }
-
-    /**
      * @throws \Exception
      */
     protected function addPage()
     {
         $page = [
             'slug' => $this->getSlug(),
-            'title' => __('CSS, HTML & JavaScript', 'visualcomposer'),
+            'title' => __('CSS & JavaScript', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-css',
             'isDashboardPage' => true,
-            'hideInWpMenu' => true,
+            'hideInWpMenu' => false,
         ];
         $this->addSubmenuPage($page, false);
     }

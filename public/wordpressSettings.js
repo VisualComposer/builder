@@ -12,26 +12,27 @@ import { deactivationFeedbackPopup } from './components/deactivationFeedbackPopu
 import { dashboard } from './components/wpVcSettings/dashboard'
 import { downloadAddon } from './components/wpVcSettings/downloadAddon'
 
-(() => {
-  const urlParams = new URLSearchParams(window.location.search)
-  const current = urlParams.get('page')
-  const currentUrl = new URL(document.URL)
-  const paths = currentUrl.pathname.split('/')
-  importJS(current)
+(($) => {
+  $(() => {
+    // only when ready
+    const urlParams = new URLSearchParams(window.location.search)
+    const current = urlParams.get('page')
+    const currentUrl = new URL(document.URL)
+    const paths = currentUrl.pathname.split('/')
+    importJS(current)
 
-  if (paths.includes('plugins.php')) {
-    deactivationFeedbackPopup()
-  }
-  if (isSettingsPage(current)) {
-    dashboard()
-    downloadAddon()
-  }
+    if (paths.includes('plugins.php')) {
+      deactivationFeedbackPopup()
+    }
+    if (isSettingsPage(current)) {
+      dashboard()
+      downloadAddon()
+    }
+  })
 })(window.jQuery)
 
 function isSettingsPage (current) {
-  const settingsPages = ['vcv-settings', 'vcv-headers-footers', 'vcv-custom-page-templates', 'vcv-maintenance-mode', 'vcv-custom-site-popups', 'vcv-system-status', 'vcv-license', 'vcv-hub']
-
-  return settingsPages.includes(current)
+  return current.indexOf('vcv') === 0
 }
 
 export default function importJS (currentSection) {

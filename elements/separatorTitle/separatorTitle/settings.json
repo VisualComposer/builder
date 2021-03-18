@@ -1,0 +1,212 @@
+{
+  "groups": {
+    "type": "string",
+    "access": "protected",
+    "value": "Separators"
+  },
+  "title": {
+    "type": "string",
+    "access": "public",
+    "value": "A",
+    "options": {
+      "label": "Title",
+      "dynamicField": true
+    }
+  },
+  "titleColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#fae862",
+    "options": {
+      "label": "Title color",
+      "cssMixin": {
+        "mixin": "titleColor",
+        "property": "titleColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "separatorColor": {
+    "type": "color",
+    "access": "public",
+    "value": "#bfc0c1",
+    "options": {
+      "label": "Separator color",
+      "cssMixin": {
+        "mixin": "separatorColor",
+        "property": "separatorColor",
+        "namePattern": "[\\da-f]+"
+      }
+    }
+  },
+  "separatorAlignment": {
+    "type": "buttonGroup",
+    "access": "public",
+    "value": "center",
+    "options": {
+      "label": "Alignment",
+      "values": [
+        {
+          "label": "Left",
+          "value": "left",
+          "icon": "vcv-ui-icon-attribute-alignment-left"
+        },
+        {
+          "label": "Center",
+          "value": "center",
+          "icon": "vcv-ui-icon-attribute-alignment-center"
+        },
+        {
+          "label": "Right",
+          "value": "right",
+          "icon": "vcv-ui-icon-attribute-alignment-right"
+        }
+      ]
+    }
+  },
+  "separatorStyle": {
+    "type": "dropdown",
+    "access": "public",
+    "value": "solid",
+    "options": {
+      "label": "Style",
+      "values": [
+        {
+          "label": "Line",
+          "value": "solid"
+        },
+        {
+          "label": "Dashed",
+          "value": "dashed"
+        },
+        {
+          "label": "Dotted",
+          "value": "dotted"
+        },
+        {
+          "label": "Double",
+          "value": "double"
+        },
+        {
+          "label": "Shadow",
+          "value": "shadow"
+        }
+      ]
+    }
+  },
+  "separatorThickness": {
+    "type": "number",
+    "access": "public",
+    "value": "1",
+    "options": {
+      "label": "Thickness",
+      "description": "Enter a separator thickness in pixels.",
+      "cssMixin": {
+        "mixin": "separatorThickness",
+        "property": "thickness",
+        "namePattern": "[\\da-f]+"
+      },
+      "min": 1
+    }
+  },
+  "separatorWidth": {
+    "type": "range",
+    "access": "public",
+    "value": "60",
+    "options": {
+      "label": "Separator width",
+      "description": "Enter a separator width in percentage (example: 60).",
+      "cssMixin": {
+        "mixin": "separatorWidth",
+        "property": "width",
+        "namePattern": "[\\da-f]+"
+      },
+      "min": 1,
+      "max": 100,
+      "measurement": "%"
+    }
+  },
+  "customClass": {
+    "type": "string",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Extra class name",
+      "description": "Add an extra class name to the element and refer to it from the custom CSS option."
+    }
+  },
+  "designOptions": {
+    "type": "designOptions",
+    "access": "public",
+    "value": {},
+    "options": {
+      "label": "Design Options"
+    }
+  },
+  "editFormTab1": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "title",
+      "titleColor",
+      "separatorColor",
+      "separatorAlignment",
+      "separatorStyle",
+      "separatorThickness",
+      "separatorWidth",
+      "metaCustomId",
+      "customClass"
+    ],
+    "options": {
+      "label": "General"
+    }
+  },
+  "metaEditFormTabs": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "editFormTab1",
+      "designOptions"
+    ]
+  },
+  "relatedTo": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      "General"
+    ]
+  },
+  "assetsLibrary": {
+    "access": "public",
+    "type": "string",
+    "value": [
+      "animate"
+    ]
+  },
+  "metaBackendLabels": {
+    "type": "group",
+    "access": "protected",
+    "value": [
+      {
+        "value": [
+          "title",
+          "separatorColor"
+        ]
+      }
+    ]
+  },
+  "metaCustomId": {
+    "type": "customId",
+    "access": "public",
+    "value": "",
+    "options": {
+      "label": "Element ID",
+      "description": "Apply a unique ID to the element to link it directly by using #your_id (for element ID use lowercase input only)."
+    }
+  },
+  "tag": {
+    "access": "protected",
+    "type": "string",
+    "value": "separatorTitle"
+  }
+}

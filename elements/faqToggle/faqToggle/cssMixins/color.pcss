@@ -1,0 +1,8 @@
+.vce-faq-toggle-color--$selector {
+  .vce-faq-toggle-icon::before,
+  .vce-faq-toggle-icon::after {
+    @if $color != false {
+      background-color: $color;
+    }
+  }
+}

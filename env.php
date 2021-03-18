@@ -152,10 +152,6 @@ if (!VcvEnv::has('VCV_SUPPORT_URL')) {
     );
 }
 
-if (!VcvEnv::has('VCV_FT_DASHBOARD_HUB')) {
-    VcvEnv::set('VCV_FT_DASHBOARD_HUB', true);
-}
-
 if (!VcvEnv::has('VCV_FT_INSIGHTS')) {
     VcvEnv::set('VCV_FT_INSIGHTS', true);
 }

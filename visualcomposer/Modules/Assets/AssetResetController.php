@@ -13,11 +13,13 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\File;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Traits\EventsFilters;
-use WP_Query;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class AssetResetController extends Container implements Module
 {
+    use WpFiltersActions;
     use EventsFilters;
 
     protected $cache = [];
@@ -26,19 +28,61 @@ class AssetResetController extends Container implements Module
 
     protected $fileHelper = false;
 
-    public function __construct()
+    public function __construct(File $fileHelper)
     {
+        $this->fileHelper = $fileHelper;
+
+        // Run always on reset
         $this->addEvent(
             'vcv:system:factory:reset',
-            function (File $fileHelper) {
-                $this->fileHelper = $fileHelper;
+            function () {
                 /** @see \VisualComposer\Modules\Assets\AssetResetController::updateCssFiles */
                 $this->call('updateCssFiles');
-                /** @see \VisualComposer\Modules\Assets\AssetResetController::updatePosts */
-                $this->call('updatePosts');
             },
             100
         );
+
+        // Check on every page load
+        $this->wpAddAction(
+            'template_redirect',
+            function () {
+                $post = get_post();
+                if ($post) {
+                    $this->call('checkForReset', [$post]);
+                }
+            },
+            100
+        );
+
+        // For templates/inner content
+        $this->addEvent(
+            'vcv:frontend:renderContent',
+            function ($postId) {
+                $post = get_post($postId);
+                if ($post) {
+                    $this->call('checkForReset', [$post]);
+                }
+            }
+        );
+    }
+
+    protected function checkForReset($post, Options $optionsHelper)
+    {
+        $postSourceCssResetInitiated = get_post_meta(
+            $post->ID,
+            '_' . VCV_PREFIX . 'postAssetResetResetInitiated',
+            true
+        );
+        $settingsResetInitiated = $optionsHelper->get('settingsResetInitiated');
+        $isResetInitiated = $settingsResetInitiated
+            && $settingsResetInitiated >= $postSourceCssResetInitiated
+            //@codingStandardsIgnoreLine
+            && $settingsResetInitiated >= strtotime($post->post_date);
+        if ($isResetInitiated) {
+            /** @see \VisualComposer\Modules\Assets\AssetResetController::updatePosts */
+            $this->call('updatePosts', [$post->ID]);
+            update_post_meta($post->ID, '_' . VCV_PREFIX . 'postAssetResetResetInitiated', time());
+        }
     }
 
     protected function updateCssFiles(Assets $assetsHelper)
@@ -66,26 +110,11 @@ class AssetResetController extends Container implements Module
         return $status;
     }
 
-    protected function updatePosts()
+    protected function updatePosts($postId)
     {
-        $vcvPosts = new WP_Query(
-            [
-                'post_type' => 'any',
-                'post_status' => ['publish', 'pending', 'draft', 'auto-draft', 'future', 'private'],
-                'posts_per_page' => -1,
-                'meta_key' => VCV_PREFIX . 'pageContent',
-                'suppress_filters' => true,
-            ]
-        );
-
-        while ($vcvPosts->have_posts()) {
-            $vcvPosts->the_post();
-            $postId = get_the_ID();
-            $this->updatePageElementsCssData($postId);
-            $this->updatePageContent($postId);
-            $this->updatePostContent($postId);
-        }
-        wp_reset_postdata();
+        $this->updatePageElementsCssData($postId);
+        $this->updatePageContent($postId);
+        $this->updatePostContent($postId);
     }
 
     /**
@@ -105,7 +134,7 @@ class AssetResetController extends Container implements Module
             );
 
             $content = apply_filters(
-                'vc_migration_replace_content',
+                'vcv:api:migration:replaceContent',
                 $replacedContent ? $replacedContent : $content,
                 $this,
                 $sourceId
@@ -139,7 +168,7 @@ class AssetResetController extends Container implements Module
 
             return $updatedLink;
         }
-        $updatedLink = apply_filters('vc_migration_link', $link[0], $sourceId);
+        $updatedLink = apply_filters('vcv:api:migration:link', $link[0], $sourceId);
         $this->cache[ $link[0] ] = $updatedLink;
 
         return $updatedLink;

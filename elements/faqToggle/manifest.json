@@ -1,0 +1,19 @@
+{
+  "elements": {
+    "faqToggle": {
+      "settings": {
+        "name": "Faq Toggle",
+        "metaThumbnailUrl": "[publicPath]/faq-thumbnail.png",
+        "metaPreviewUrl": "[publicPath]/faq-preview.png",
+        "metaDescription": "Toggle element for frequently added questions (Faq) or similar structure for display of content per request."
+      }
+    }
+  },
+  "categories": {
+    "Toggle": {
+      "elements": [
+        "faqToggle"
+      ]
+    }
+  }
+}
