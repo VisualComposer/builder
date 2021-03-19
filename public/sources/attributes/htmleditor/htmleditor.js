@@ -162,8 +162,8 @@ export default class HtmlEditorComponent extends React.Component {
   }
 
   handleChangeQtagsEditor (e) {
-    const field = e.target
-    this.props.setFieldValue(field.value)
+    const value = e.target.value.replace(/\n/g, '<br>')
+    this.props.setFieldValue(value)
   }
 
   skinChange (fieldKey, isDark) {
@@ -412,6 +412,10 @@ export default class HtmlEditorComponent extends React.Component {
           .replace(/__VCVID__/g, id)
           .replace(/%%content%%/g, this.encodeHTML(this.state.value))
 
+        // console.log('document.getElementById(\'vcv-wpeditor-template\').innerHTML', document.getElementById('vcv-wpeditor-template').innerHTML)
+        // console.log('this.state.value', this.state.value)
+        // console.log('this.encodeHTML(this.state.value)', this.encodeHTML(this.state.value))
+        // console.log('template', template)
         return (
           <>
             {this.getFieldComponent(template)}
