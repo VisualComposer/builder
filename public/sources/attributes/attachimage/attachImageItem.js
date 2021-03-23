@@ -26,16 +26,24 @@ export default class AttachImageItem extends React.Component {
   }
 
   componentDidMount () {
-    this.checkImageDimensions(this.props.imgUrl, this.setImageClass)
-    const imgUrl = this.props.url.full.split('/').length > 1 ? this.props.url.full : this.props.imgUrl
-    this.checkImageDimensions(imgUrl, this.setSizeTitle)
+    if (this.props.imgUrl) {
+      this.checkImageDimensions(this.props.imgUrl, this.setImageClass)
+    }
+    const imgUrl = (this.props.url && this.props.url.full && this.props.url.full.split('/').length > 1) ? this.props.url.full : this.props.imgUrl
+    if (imgUrl) {
+      this.checkImageDimensions(imgUrl, this.setSizeTitle)
+    }
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.imgUrl !== this.props.imgUrl) {
-      const imgUrl = this.props.url.full.split('/').length > 1 ? this.props.url.full : this.props.imgUrl
-      this.checkImageDimensions(imgUrl, this.setSizeTitle)
-      this.checkImageDimensions(this.props.imgUrl, this.setImageClass)
+      const imgUrl = (this.props.url && this.props.url.full && this.props.url.full.split('/').length > 1) ? this.props.url.full : this.props.imgUrl
+      if (imgUrl) {
+        this.checkImageDimensions(imgUrl, this.setSizeTitle)
+      }
+      if (this.props.imgUrl) {
+        this.checkImageDimensions(this.props.imgUrl, this.setImageClass)
+      }
     }
   }
 
