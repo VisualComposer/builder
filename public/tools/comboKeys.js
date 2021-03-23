@@ -1,7 +1,6 @@
 import Combokeys from 'combokeys'
 import { getStorage, getService } from 'vc-cake'
 
-const PostData = getService('wordpress-post-data')
 const dataManager = getService('dataManager')
 
 export function bindEditorKeys (document) {
@@ -59,5 +58,9 @@ export function bindEditorKeys (document) {
     e.preventDefault()
     workspaceStorage.state('content').set('settings')
     workspaceStorage.state('settings').set({ action: 'settings' })
+  })
+  // Override Elementor combo
+  combokeysInstance.bind([ 'command+e', 'ctrl+e' ], (e) => {
+    e.preventDefault()
   })
 }
