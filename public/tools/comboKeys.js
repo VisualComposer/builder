@@ -43,7 +43,7 @@ export function bindEditorKeys (document) {
     if (dataManager.get('editorType') !== 'vcv_tutorials') {
       wordpressDataStorage.trigger('save', {
         options: {}
-      }, 'postSaveControl')
+      }, '')
     }
     return false
   })
