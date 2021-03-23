@@ -31,12 +31,13 @@ export default class TemplateControl extends React.Component {
     this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
     this.showPreview = this.showPreview.bind(this)
     this.hidePreview = this.hidePreview.bind(this)
+    this.handleUpdatePreviewPosition = this.handleUpdatePreviewPosition.bind(this)
   }
 
   showPreview () {
     this.setState({
       previewVisible: true
-    }, this.updatePreviewPosition)
+    }, this.handleUpdatePreviewPosition)
   }
 
   hidePreview () {
@@ -67,7 +68,7 @@ export default class TemplateControl extends React.Component {
     return null
   }
 
-  updatePreviewPosition () {
+  handleUpdatePreviewPosition () {
     const element = ReactDOM.findDOMNode(this)
 
     let container
@@ -164,7 +165,8 @@ export default class TemplateControl extends React.Component {
       showPreview: this.showPreview,
       hidePreview: this.hidePreview,
       previewStyle: this.state.previewStyle,
-      previewVisible: this.state.previewVisible
+      previewVisible: this.state.previewVisible,
+      handleUpdatePreviewPosition: this.handleUpdatePreviewPosition
     }
   }
 

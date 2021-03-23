@@ -27,7 +27,7 @@ export default class HubTemplateControl extends React.Component {
   }
 
   render () {
-    const { name, spinner, thumbnail, preview, description, handleApplyTemplate, handleRemoveTemplate, showPreview, hidePreview, previewVisible, previewStyle } = this.props
+    const { name, spinner, thumbnail, preview, description, handleApplyTemplate, handleRemoveTemplate, showPreview, hidePreview, previewVisible, previewStyle, handleUpdatePreviewPosition } = this.props
     const localizations = dataManager.get('localizations')
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -55,20 +55,16 @@ export default class HubTemplateControl extends React.Component {
       'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
 
-    const previewClasses = classNames({
-      'vcv-ui-item-preview-container': true,
-      'vcv-ui-state--visible': previewVisible
-    })
-
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
     if (!disablePreview && previewVisible) {
       previewBox = (
-        <figure className={previewClasses} style={previewStyle}>
+        <figure className='vcv-ui-item-preview-container' style={previewStyle}>
           <img
             className='vcv-ui-item-preview-image'
             src={preview}
             alt={name}
+            onLoad={handleUpdatePreviewPosition}
           />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>

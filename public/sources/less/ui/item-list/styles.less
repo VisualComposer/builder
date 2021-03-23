@@ -311,16 +311,9 @@
   display: block;
   width: 520px;
   margin: 0;
-  visibility: hidden;
-  opacity: 0;
+  opacity: 1;
   border-radius: @vcv-item-border-radius;
-  transition: visibility 0s @transition-duration, opacity @transition-duration @transition-timing-function;
-
-  &.vcv-ui-state--visible {
-    transition: visibility 0s, opacity @transition-duration @transition-timing-function;
-    visibility: visible;
-    opacity: 1;
-  }
+  transition: visibility 0s, opacity @transition-duration @transition-timing-function;
 }
 
 .vcv-ui-item-preview-addon-tag {
