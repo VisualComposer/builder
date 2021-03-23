@@ -45,6 +45,7 @@ export default class Helper {
   setInitStyle (domNode) {
     const rect = domNode.getBoundingClientRect()
     this.clone.style.position = 'fixed'
+    this.clone.style.zIndex = '1'
     this.clone.style.opacity = this.options.opacity
     this.clone.style.pointerEvents = 'none'
     let { height, width } = rect
