@@ -111,7 +111,7 @@ class ItemBadgeController extends Container implements Module
         $badgeUrl = $urlHelper->assetUrl('images/created-with-badge.svg');
 
         if ($isEnabled) {
-            echo '<a class="vcv-settings-badge" target="_blank" href=' . esc_url($utmHelper->get('created-with-badge-button')) . '><img src="' . esc_url($badgeUrl) . '" alt="Created with Visual Composer" /></a>';
+            echo '<a class="vcv-settings-badge" target="_blank" href=' . esc_url($utmHelper->get('created-with-badge-button')) . ' rel="noopener noreferrer"><img src="' . esc_url($badgeUrl) . '" alt="Created with Visual Composer" /></a>';
         }
     }
 }
