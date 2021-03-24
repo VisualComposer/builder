@@ -60,6 +60,7 @@ export default class ElementControl extends React.Component {
     this.handleRemoveElement = this.handleRemoveElement.bind(this)
     this.displayError = this.displayError.bind(this)
     this.displaySuccess = this.displaySuccess.bind(this)
+    this.handleUpdatePreviewPosition = this.handleUpdatePreviewPosition.bind(this)
   }
 
   componentDidMount () {
@@ -89,7 +90,7 @@ export default class ElementControl extends React.Component {
     if (!activeDragging) {
       this.setState({
         previewVisible: true
-      }, this.updatePreviewPosition)
+      }, this.handleUpdatePreviewPosition)
     }
   }
 
@@ -121,7 +122,7 @@ export default class ElementControl extends React.Component {
     return null
   }
 
-  updatePreviewPosition () {
+  handleUpdatePreviewPosition () {
     const element = ReactDOM.findDOMNode(this)
 
     let container
@@ -504,22 +505,17 @@ export default class ElementControl extends React.Component {
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
-    const previewClasses = classNames({
-      'vcv-ui-item-preview-container': true,
-      'vcv-ui-state--visible': previewVisible && !this.state.showSpinner
-    })
-
     const publicPathThumbnail = element.metaThumbnailUrl
     const publicPathPreview = element.metaPreviewUrl
 
     const disablePreview = settingsStorage.state('itemPreviewDisabled').get()
     let previewBox = ''
-    if (!disablePreview && previewVisible) {
+    if (!disablePreview && previewVisible && !this.state.showSpinner) {
       const addOnTitle = localizations ? localizations.addOn : 'Addon'
       previewBox = (
-        <figure className={previewClasses} style={previewStyle}>
+        <figure className='vcv-ui-item-preview-container' style={previewStyle}>
           {thirdParty ? <span className='vcv-ui-item-preview-addon-tag'>{addOnTitle}</span> : null}
-          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
+          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} onLoad={this.handleUpdatePreviewPosition} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
               {element.metaDescription}

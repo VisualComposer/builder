@@ -86,11 +86,6 @@ export default class HubTemplateControl extends ElementControl {
       'vcv-ui-item-badge vcv-ui-badge--warning': false
     })
 
-    const previewClasses = classNames({
-      'vcv-ui-item-preview-container': true,
-      'vcv-ui-state--visible': previewVisible
-    })
-
     const itemOverlayClasses = classNames({
       'vcv-ui-item-overlay': true,
       'vcv-ui-item-downloading': elementState === 'downloading'
@@ -139,8 +134,8 @@ export default class HubTemplateControl extends ElementControl {
 
     if (previewVisible) {
       previewOutput = (
-        <figure className={previewClasses} style={previewStyle}>
-          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} />
+        <figure className='vcv-ui-item-preview-container' style={previewStyle}>
+          <img className='vcv-ui-item-preview-image' src={publicPathPreview} alt={name} onLoad={this.handleUpdatePreviewPosition} />
           <figcaption className='vcv-ui-item-preview-caption'>
             <div className='vcv-ui-item-preview-text'>
               {element.metaDescription}
