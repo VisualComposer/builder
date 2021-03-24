@@ -75,8 +75,9 @@ export default class AddContentPanel extends React.Component {
     })
   }
 
-  setFirstElement () {
-    this.setState({ applyFirstElement: this.state.searchValue })
+  setFirstElement (isReset) {
+    const elementValue = isReset ? '' : this.state.searchValue
+    this.setState({ applyFirstElement: elementValue })
   }
 
   scrollToElementInsideFrame (id, isElement) {
@@ -123,7 +124,13 @@ export default class AddContentPanel extends React.Component {
     let content = null
     if (this.props.activeTab === 'addElement') {
       content = (
-        <AddElementPanel key='addElementPanel' searchValue={this.state.searchValue} applyFirstElement={this.state.applyFirstElement} handleScrollToElement={this.scrollToElementInsideFrame} />
+        <AddElementPanel
+          key='addElementPanel'
+          searchValue={this.state.searchValue}
+          applyFirstElement={this.state.applyFirstElement}
+          handleScrollToElement={this.scrollToElementInsideFrame}
+          setFirstElement={this.setFirstElement}
+        />
       )
     } else if (this.props.activeTab === 'addTemplate') {
       content = (
