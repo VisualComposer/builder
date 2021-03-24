@@ -10,7 +10,8 @@ export default class AddElementPanel extends React.Component {
   static propTypes = {
     searchValue: PropTypes.string,
     applyFirstElement: PropTypes.string,
-    handleScrollToElement: PropTypes.func
+    handleScrollToElement: PropTypes.func,
+    setFirstElement: PropTypes.func
   }
 
   constructor (props) {
@@ -45,6 +46,7 @@ export default class AddElementPanel extends React.Component {
           searchValue={this.props.searchValue}
           applyFirstElement={this.props.applyFirstElement}
           onScrollToElement={this.props.handleScrollToElement}
+          setFirstElement={this.props.setFirstElement}
         />
       )
     }
