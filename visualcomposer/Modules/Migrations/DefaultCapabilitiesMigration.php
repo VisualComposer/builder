@@ -35,6 +35,13 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
                 'editor_settings' => [
                     'page',
                     'popup',
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
+                    'user_templates_management',
+                    'hub_templates_management',
+                    'presets_management',
                 ]
             ],
             'author' => [
@@ -45,11 +52,19 @@ class DefaultCapabilitiesMigration extends MigrationsController implements Modul
                 'editor_settings' => [
                     'page',
                     'popup',
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
                 ]
             ],
             'contributor' => [
                 'editor_settings' => [
                     'page'
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
                 ]
             ]
         ];
