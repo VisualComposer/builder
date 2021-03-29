@@ -14,29 +14,13 @@ class EditorPostType implements Helper
 {
     public function isEditorEnabled($postType)
     {
-        global $post;
-        $backup = $post;
-        $requestHelper = vchelper('Request');
-        $postId = (int)$requestHelper->input('post', 0);
-        $postId = $postId ? $postId : $requestHelper->input('post_ID', 0);
-        $postId = $postId ? $postId : $requestHelper->input('vcv-source-id', 0);
-        $check = true;
-        if ($postId) {
-            $post = get_post($postId);
-        }
-        if ($post) {
-            $forPostsId = (int)get_option('page_for_posts');
-            if ($forPostsId && $post->ID === $forPostsId) {
-                $check = false;
-            }
-        }
-        $post = $backup;
-
-        return $check && in_array($postType, $this->getEnabledPostTypes(), true);
+//        _deprecated_function();
+        return in_array($postType, $this->getEnabledPostTypes(), true);
     }
 
     public function getEnabledPostTypes()
     {
+//        _deprecated_function();
         $optionsHelper = vchelper('Options');
         $postTypes = $optionsHelper->get('post-types', ['post', 'page']);
 

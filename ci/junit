@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/home/pavel/Data/visualcomposer/tests/phpunit" tests="336" assertions="1973" errors="2" warnings="0" failures="4" skipped="0" time="98.058457">
+    <testsuite name="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" tests="7" assertions="38" errors="0" warnings="0" failures="0" skipped="0" time="1.505328">
+      <testcase name="testBootstrap" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="5" assertions="2" time="0.012353"/>
+      <testcase name="testModuleEvents" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="11" assertions="2" time="0.002915"/>
+      <testcase name="testModuleEventsDependencyInjection" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="30" assertions="5" time="0.002837"/>
+      <testcase name="testAppDI" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="56" assertions="13" time="0.003202"/>
+      <testcase name="testInit" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="85" assertions="4" time="0.003092"/>
+      <testcase name="testAliases" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="111" assertions="7" time="0.002468"/>
+      <testcase name="testBindings" class="AppTest" classname="AppTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AppTest.php" line="126" assertions="5" time="1.478462"/>
+    </testsuite>
+    <testsuite name="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" tests="6" assertions="252" errors="0" warnings="0" failures="0" skipped="0" time="1.974251">
+      <testcase name="testGetComponents" class="AutoloadTest" classname="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" line="5" assertions="232" time="0.990886"/>
+      <testcase name="testInitComponents" class="AutoloadTest" classname="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" line="32" assertions="4" time="0.967847"/>
+      <testcase name="testInitCache" class="AutoloadTest" classname="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" line="47" assertions="1" time="0.005841"/>
+      <testcase name="testIsHelper" class="AutoloadTest" classname="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" line="58" assertions="5" time="0.003112"/>
+      <testcase name="testIsModule" class="AutoloadTest" classname="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" line="70" assertions="5" time="0.003341"/>
+      <testcase name="testGetName" class="AutoloadTest" classname="AutoloadTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/AutoloadTest.php" line="82" assertions="5" time="0.003224"/>
+    </testsuite>
+    <testsuite name="ContainerReflectorTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerReflectorTest.php" tests="1" assertions="11" errors="0" warnings="0" failures="0" skipped="0" time="0.016689">
+      <testcase name="testReflector" class="ContainerReflectorTest" classname="ContainerReflectorTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerReflectorTest.php" line="5" assertions="11" time="0.016689"/>
+    </testsuite>
+    <testsuite name="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" tests="12" assertions="37" errors="0" warnings="0" failures="0" skipped="0" time="0.057131">
+      <testcase name="testContainerMake" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="5" assertions="1" time="0.003614"/>
+      <testcase name="testContainerMakeCustomParam" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="12" assertions="1" time="0.003541"/>
+      <testcase name="testContainerMakeDefaultParam" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="19" assertions="1" time="0.003760"/>
+      <testcase name="testContainerCall" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="26" assertions="4" time="0.004291"/>
+      <testcase name="testContainerException" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="36" assertions="1" time="0.003776"/>
+      <testcase name="testContainerBindingException" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="44" assertions="1" time="0.003767"/>
+      <testcase name="testInstance" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="51" assertions="3" time="0.008530"/>
+      <testcase name="testSingleton" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="64" assertions="6" time="0.009533"/>
+      <testcase name="testSimpleMake" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="79" assertions="3" time="0.004329"/>
+      <testcase name="testCallReflector" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="94" assertions="2" time="0.003653"/>
+      <testcase name="testCustomContainerSlash" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="100" assertions="6" time="0.003495"/>
+      <testcase name="testCustomContainerHasKeys" class="ContainerTest" classname="ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ContainerTest.php" line="112" assertions="8" time="0.004842"/>
+    </testsuite>
+    <testsuite name="CoreTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/CoreTest.php" tests="1" assertions="11" errors="0" warnings="0" failures="0" skipped="0" time="0.003508">
+      <testcase name="testPluginConstants" class="CoreTest" classname="CoreTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/CoreTest.php" line="5" assertions="11" time="0.003508"/>
+    </testsuite>
+    <testsuite name="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" tests="34" assertions="130" errors="0" warnings="0" failures="0" skipped="0" time="0.137086">
+      <testcase name="testEmpty" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="5" assertions="2" time="0.003837"/>
+      <testcase name="testDefaults" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="16" assertions="2" time="0.003854"/>
+      <testcase name="testDefaultsWithValuesAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="27" assertions="2" time="0.003893"/>
+      <testcase name="testDefaultsWithValues" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="38" assertions="2" time="0.004825"/>
+      <testcase name="testWithoutInjection" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="49" assertions="3" time="0.004092"/>
+      <testcase name="testWithoutInjectionAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="64" assertions="3" time="0.003721"/>
+      <testcase name="testBasicInjection" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="79" assertions="2" time="0.004191"/>
+      <testcase name="testBasicInjectionWithParams" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="92" assertions="4" time="0.004031"/>
+      <testcase name="testBasicInjectionWithParamsAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="109" assertions="4" time="0.004086"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaults" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="126" assertions="4" time="0.004623"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="143" assertions="4" time="0.004772"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValue" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="160" assertions="4" time="0.005213"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValueAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="177" assertions="4" time="0.004058"/>
+      <testcase name="testBasicInjectionWithParamsObjectFirst" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="194" assertions="4" time="0.004088"/>
+      <testcase name="testBasicInjectionWithParamsObjectFirstAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="211" assertions="4" time="0.003738"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsObjectFirst" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="228" assertions="4" time="0.003752"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="245" assertions="4" time="0.003419"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="262" assertions="4" time="0.003724"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="279" assertions="4" time="0.006000"/>
+      <testcase name="testInjectionWithCustomObjects" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="296" assertions="5" time="0.003825"/>
+      <testcase name="testInjectionWithCustomObjectsDeclaration" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="315" assertions="5" time="0.003697"/>
+      <testcase name="testInjectionWithCustomObjectsWithAllValues" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="334" assertions="5" time="0.003678"/>
+      <testcase name="testInjectionWithCustomObjectsWithAllValuesAndDi" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="353" assertions="6" time="0.003518"/>
+      <testcase name="testDiDefaultParams" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="377" assertions="1" time="0.003610"/>
+      <testcase name="testDiDefaultParamsFilter" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="393" assertions="4" time="0.003889"/>
+      <testcase name="testDiDefaultParamsFilterLast" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="415" assertions="4" time="0.004585"/>
+      <testcase name="testDiDefaultParamsEvent" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="437" assertions="3" time="0.003787"/>
+      <testcase name="testDiDefaultParamsEventLast" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="458" assertions="3" time="0.003938"/>
+      <testcase name="testAllowDiDirectCall" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="479" assertions="5" time="0.003352"/>
+      <testcase name="testAllowDiArgumentSwap" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="500" assertions="5" time="0.003911"/>
+      <testcase name="testAllowDiArgumentSwapWithDefault" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="521" assertions="5" time="0.003336"/>
+      <testcase name="testAllowDiArgumentSwapObjects" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="542" assertions="5" time="0.004732"/>
+      <testcase name="testAllowDiArgumentSwapObjectsDefault" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="563" assertions="5" time="0.003371"/>
+      <testcase name="testAllowDiArgumentSwapObjectsNoDefault" class="DependencyInjectionTest" classname="DependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/DependencyInjectionTest.php" line="589" assertions="5" time="0.003939"/>
+    </testsuite>
+    <testsuite name="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" tests="9" assertions="19" errors="0" warnings="0" failures="0" skipped="0" time="0.035861">
+      <testcase name="testWildCardListener" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="5" assertions="2" time="0.003532"/>
+      <testcase name="testWildCardListenerExact" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="22" assertions="8" time="0.004592"/>
+      <testcase name="testEventsWeightMore" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="65" assertions="3" time="0.004201"/>
+      <testcase name="testEventsOrderingPriorityExact" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="122" assertions="1" time="0.003434"/>
+      <testcase name="testEventsOrderingPriorityExactReversed" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="146" assertions="1" time="0.003644"/>
+      <testcase name="testEventsOrderingPrioritySameWeight" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="170" assertions="1" time="0.004522"/>
+      <testcase name="testEmptyPayload" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="191" assertions="1" time="0.004335"/>
+      <testcase name="testEmptyPayloadDefault" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="210" assertions="1" time="0.003904"/>
+      <testcase name="testNoPayload" class="EventsTest" classname="EventsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/EventsTest.php" line="229" assertions="1" time="0.003698"/>
+    </testsuite>
+    <testsuite name="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" tests="17" assertions="60" errors="0" warnings="0" failures="0" skipped="0" time="0.072211">
+      <testcase name="testSimpleFiltering" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="5" assertions="6" time="0.004428"/>
+      <testcase name="testFiltersWeightMore" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="50" assertions="3" time="0.004421"/>
+      <testcase name="testFiltersWeight" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="101" assertions="6" time="0.004292"/>
+      <testcase name="testFiltersWeightRandom" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="151" assertions="6" time="0.004771"/>
+      <testcase name="testFiltersWeightShuffle" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="201" assertions="6" time="0.004649"/>
+      <testcase name="testFiltersValuePassing" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="251" assertions="1" time="0.004592"/>
+      <testcase name="testFilterOrderingPriorityExact" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="303" assertions="1" time="0.004472"/>
+      <testcase name="testFilterOrderingPriorityExactReversed" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="324" assertions="1" time="0.003979"/>
+      <testcase name="testFilterOrderingPrioritySameWeight" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="345" assertions="1" time="0.003858"/>
+      <testcase name="testWildCards" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="366" assertions="9" time="0.004887"/>
+      <testcase name="testNoPayload" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="405" assertions="2" time="0.004247"/>
+      <testcase name="testEmptyPayload" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="427" assertions="3" time="0.003922"/>
+      <testcase name="testEmptyPayloadDefault" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="453" assertions="3" time="0.004421"/>
+      <testcase name="testSwapResponsePayload" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="479" assertions="3" time="0.003943"/>
+      <testcase name="testSwapResponsePayloadDefault" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="505" assertions="3" time="0.003771"/>
+      <testcase name="testDifferentResponsePayload" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="532" assertions="3" time="0.003933"/>
+      <testcase name="testDifferentResponseSwappedPayload" class="FiltersTest" classname="FiltersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FiltersTest.php" line="558" assertions="3" time="0.003624"/>
+    </testsuite>
+    <testsuite name="FrameworkHelpersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FrameworkHelpersTest.php" tests="4" assertions="7" errors="0" warnings="0" failures="0" skipped="0" time="0.014744">
+      <testcase name="testVcApp" class="FrameworkHelpersTest" classname="FrameworkHelpersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FrameworkHelpersTest.php" line="5" assertions="3" time="0.003287"/>
+      <testcase name="testVcEvent" class="FrameworkHelpersTest" classname="FrameworkHelpersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FrameworkHelpersTest.php" line="12" assertions="1" time="0.003967"/>
+      <testcase name="testVcHelper" class="FrameworkHelpersTest" classname="FrameworkHelpersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FrameworkHelpersTest.php" line="29" assertions="1" time="0.003008"/>
+      <testcase name="testVcView" class="FrameworkHelpersTest" classname="FrameworkHelpersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/FrameworkHelpersTest.php" line="37" assertions="2" time="0.004482"/>
+    </testsuite>
+    <testsuite name="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" tests="25" assertions="103" errors="0" warnings="0" failures="0" skipped="0" time="0.097614">
+      <testcase name="testDIContainerCall" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="14" assertions="14" time="0.008894"/>
+      <testcase name="testDIContainerCallAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="39" assertions="4" time="0.004718"/>
+      <testcase name="testEmpty" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="51" assertions="2" time="0.003418"/>
+      <testcase name="testDefaults" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="62" assertions="2" time="0.003308"/>
+      <testcase name="testDefaultsWithValuesAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="73" assertions="2" time="0.003307"/>
+      <testcase name="testDefaultsWithValues" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="84" assertions="2" time="0.003396"/>
+      <testcase name="testWithoutInjection" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="95" assertions="3" time="0.004750"/>
+      <testcase name="testWithoutInjectionAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="110" assertions="3" time="0.003678"/>
+      <testcase name="testBasicInjection" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="125" assertions="2" time="0.003307"/>
+      <testcase name="testBasicInjectionWithParams" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="138" assertions="4" time="0.003554"/>
+      <testcase name="testBasicInjectionWithParamsAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="155" assertions="4" time="0.003343"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaults" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="172" assertions="4" time="0.003457"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="189" assertions="4" time="0.003546"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValue" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="206" assertions="4" time="0.004331"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValueAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="223" assertions="4" time="0.003510"/>
+      <testcase name="testBasicInjectionWithParamsObjectFirst" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="240" assertions="4" time="0.003374"/>
+      <testcase name="testBasicInjectionWithParamsObjectFirstAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="257" assertions="4" time="0.003575"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsObjectFirst" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="274" assertions="4" time="0.003403"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsObjectFirstAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="291" assertions="4" time="0.003484"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirst" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="308" assertions="4" time="0.004915"/>
+      <testcase name="testBasicInjectionWithParamsAndDefaultsWithValuesObjectFirstAssoc" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="325" assertions="4" time="0.003858"/>
+      <testcase name="testInjectionWithCustomObjects" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="342" assertions="5" time="0.003677"/>
+      <testcase name="testInjectionWithCustomObjectsDeclaration" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="361" assertions="5" time="0.003990"/>
+      <testcase name="testInjectionWithCustomObjectsWithAllValues" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="380" assertions="5" time="0.003427"/>
+      <testcase name="testInjectionWithCustomObjectsWithAllValuesAndDi" class="ModulesDependencyInjectionTest" classname="ModulesDependencyInjectionTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/ModulesDependencyInjectionTest.php" line="399" assertions="6" time="0.003395"/>
+    </testsuite>
+    <testsuite name="RequirementsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/RequirementsTest.php" tests="2" assertions="17" errors="0" warnings="0" failures="0" skipped="0" time="0.008929">
+      <testcase name="testPluginRequirementsConstants" class="RequirementsTest" classname="RequirementsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/RequirementsTest.php" line="5" assertions="12" time="0.004578"/>
+      <testcase name="testCheckVersion" class="RequirementsTest" classname="RequirementsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/Framework/RequirementsTest.php" line="24" assertions="5" time="0.004351"/>
+    </testsuite>
+    <testsuite name="DynamicFieldsAddonTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/addons/DynamicFieldsAddonTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.003166">
+      <testcase name="testAddons" class="DynamicFieldsAddonTest" classname="DynamicFieldsAddonTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/addons/DynamicFieldsAddonTest.php" line="7" assertions="1" time="0.003166"/>
+    </testsuite>
+    <testsuite name="HelperFrontendTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelperFrontendTest.php" tests="4" assertions="122" errors="0" warnings="0" failures="0" skipped="0" time="45.248275">
+      <testcase name="testRenderPost" class="HelperFrontendTest" classname="HelperFrontendTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelperFrontendTest.php" line="5" assertions="21" time="8.715063"/>
+      <testcase name="testWpQueryResets" class="HelperFrontendTest" classname="HelperFrontendTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelperFrontendTest.php" line="38" assertions="46" time="16.079408"/>
+      <testcase name="testWpQueryResetsRegularFunc" class="HelperFrontendTest" classname="HelperFrontendTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelperFrontendTest.php" line="80" assertions="46" time="16.167810"/>
+      <testcase name="testQueryResetInsideLoop" class="HelperFrontendTest" classname="HelperFrontendTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelperFrontendTest.php" line="118" assertions="9" time="4.285993"/>
+    </testsuite>
+    <testsuite name="HelpersAssetsEnqueueTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersAssetsEnqueueTest.php" tests="1" assertions="10" errors="0" warnings="0" failures="0" skipped="0" time="0.115757">
+      <testcase name="testAssetEnqueue" class="HelpersAssetsEnqueueTest" classname="HelpersAssetsEnqueueTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersAssetsEnqueueTest.php" line="37" assertions="10" time="0.115757"/>
+    </testsuite>
+    <testsuite name="HelpersAssetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersAssetsTest.php" tests="3" assertions="10" errors="0" warnings="0" failures="0" skipped="0" time="0.010565">
+      <testcase name="testAssetsHelper" class="HelpersAssetsTest" classname="HelpersAssetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersAssetsTest.php" line="5" assertions="1" time="0.003184"/>
+      <testcase name="testGetPath" class="HelpersAssetsTest" classname="HelpersAssetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersAssetsTest.php" line="15" assertions="5" time="0.003664"/>
+      <testcase name="testGetUrl" class="HelpersAssetsTest" classname="HelpersAssetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersAssetsTest.php" line="33" assertions="4" time="0.003717"/>
+    </testsuite>
+    <testsuite name="HelpersDataTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDataTest.php" tests="4" assertions="12" errors="0" warnings="0" failures="0" skipped="0" time="0.013968">
+      <testcase name="testDataHelper" class="HelpersDataTest" classname="HelpersDataTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDataTest.php" line="5" assertions="1" time="0.003431"/>
+      <testcase name="testArraySearch" class="HelpersDataTest" classname="HelpersDataTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDataTest.php" line="14" assertions="5" time="0.003350"/>
+      <testcase name="testArraySearchKey" class="HelpersDataTest" classname="HelpersDataTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDataTest.php" line="53" assertions="4" time="0.003498"/>
+      <testcase name="testArrayUnique" class="HelpersDataTest" classname="HelpersDataTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDataTest.php" line="81" assertions="2" time="0.003689"/>
+    </testsuite>
+    <testsuite name="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" tests="21" assertions="23" errors="0" warnings="0" failures="0" skipped="0" time="0.093816">
+      <testcase name="testDifferSet" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="5" assertions="1" time="0.003647"/>
+      <testcase name="testDifferSetMultiple" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="17" assertions="1" time="0.003767"/>
+      <testcase name="testDifferDoubleSet" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="32" assertions="1" time="0.003746"/>
+      <testcase name="testDifferDoubleSet2" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="44" assertions="1" time="0.003350"/>
+      <testcase name="testDifferDoubleSet3" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="56" assertions="1" time="0.003432"/>
+      <testcase name="testDifferDoubleSet4" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="68" assertions="1" time="0.003409"/>
+      <testcase name="testDifferSetMultipleTwice" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="80" assertions="1" time="0.004165"/>
+      <testcase name="testDifferSetMultipleUpdateCallbackOnEqual" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="103" assertions="1" time="0.003690"/>
+      <testcase name="testDifferSetMultipleUpdateCallback" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="133" assertions="1" time="0.003746"/>
+      <testcase name="testExceptEmptyAlwaysDifferSet" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="163" assertions="3" time="0.003504"/>
+      <testcase name="testUpdateCallbackFirst" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="170" assertions="1" time="0.003421"/>
+      <testcase name="testDifferUpdateCallbacks" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="183" assertions="1" time="0.006975"/>
+      <testcase name="testUpdateCallbacks" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="258" assertions="1" time="0.005355"/>
+      <testcase name="testUpdateCallbacksChangeKeys" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="307" assertions="1" time="0.005618"/>
+      <testcase name="testUpdateCallbacksUnset" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="357" assertions="1" time="0.006363"/>
+      <testcase name="testUpdateCallbacksUnsetAndChangeKeys" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="405" assertions="1" time="0.005538"/>
+      <testcase name="testDifferNonArrays" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="459" assertions="1" time="0.004027"/>
+      <testcase name="testDifferNonArrays2" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="466" assertions="1" time="0.005185"/>
+      <testcase name="testDifferAssoc" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="476" assertions="1" time="0.006386"/>
+      <testcase name="testDifferMergeByReplace" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="484" assertions="1" time="0.005000"/>
+      <testcase name="testDifferMergeByReplaceTrue" class="HelpersDifferTest" classname="HelpersDifferTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersDifferTest.php" line="493" assertions="1" time="0.003492"/>
+    </testsuite>
+    <testsuite name="HelpersEditorTemplatesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersEditorTemplatesTest.php" tests="2" assertions="11" errors="0" warnings="0" failures="1" skipped="0" time="0.218438">
+      <testcase name="testAll" class="HelpersEditorTemplatesTest" classname="HelpersEditorTemplatesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersEditorTemplatesTest.php" line="21" assertions="1" time="0.162516"/>
+      <testcase name="testCreate" class="HelpersEditorTemplatesTest" classname="HelpersEditorTemplatesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersEditorTemplatesTest.php" line="30" assertions="10" time="0.055922">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">HelpersEditorTemplatesTest::testCreate
+WP_Post Object (...) does not match expected type "boolean".</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="HelpersFileTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersFileTest.php" tests="3" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="0.011197">
+      <testcase name="testFileHelper" class="HelpersFileTest" classname="HelpersFileTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersFileTest.php" line="5" assertions="1" time="0.003371"/>
+      <testcase name="testGetSetContents" class="HelpersFileTest" classname="HelpersFileTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersFileTest.php" line="15" assertions="3" time="0.004580"/>
+      <testcase name="testCheckDir" class="HelpersFileTest" classname="HelpersFileTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersFileTest.php" line="34" assertions="1" time="0.003246"/>
+    </testsuite>
+    <testsuite name="HelpersLicenseTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersLicenseTest.php" tests="2" assertions="3" errors="0" warnings="0" failures="0" skipped="0" time="0.027779">
+      <testcase name="testKey" class="HelpersLicenseTest" classname="HelpersLicenseTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersLicenseTest.php" line="5" assertions="2" time="0.012116"/>
+      <testcase name="testIsActivated" class="HelpersLicenseTest" classname="HelpersLicenseTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersLicenseTest.php" line="17" assertions="1" time="0.015662"/>
+    </testsuite>
+    <testsuite name="HelpersNonceTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersNonceTest.php" tests="2" assertions="3" errors="0" warnings="0" failures="0" skipped="0" time="3.040532">
+      <testcase name="testNonceHelper" class="HelpersNonceTest" classname="HelpersNonceTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersNonceTest.php" line="5" assertions="1" time="0.003901"/>
+      <testcase name="testVerifyPageEditableNonce" class="HelpersNonceTest" classname="HelpersNonceTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersNonceTest.php" line="15" assertions="2" time="3.036631"/>
+    </testsuite>
+    <testsuite name="HelpersOptionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersOptionsTest.php" tests="3" assertions="10" errors="0" warnings="0" failures="0" skipped="0" time="0.029638">
+      <testcase name="testOptionsHelper" class="HelpersOptionsTest" classname="HelpersOptionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersOptionsTest.php" line="5" assertions="1" time="0.003485"/>
+      <testcase name="testGetSet" class="HelpersOptionsTest" classname="HelpersOptionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersOptionsTest.php" line="15" assertions="3" time="0.010218"/>
+      <testcase name="testUser" class="HelpersOptionsTest" classname="HelpersOptionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersOptionsTest.php" line="31" assertions="6" time="0.015935"/>
+    </testsuite>
+    <testsuite name="HelpersPostGridsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostGridsTest.php" tests="3" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="0.131677">
+      <testcase name="testParseTemplate" class="HelpersPostGridsTest" classname="HelpersPostGridsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostGridsTest.php" line="5" assertions="2" time="0.043661"/>
+      <testcase name="testParseTemplateArguments" class="HelpersPostGridsTest" classname="HelpersPostGridsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostGridsTest.php" line="29" assertions="2" time="0.044145"/>
+      <testcase name="testParseTemplateArgumentsAdvanced" class="HelpersPostGridsTest" classname="HelpersPostGridsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostGridsTest.php" line="56" assertions="2" time="0.043872"/>
+    </testsuite>
+    <testsuite name="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" tests="8" assertions="44" errors="0" warnings="0" failures="0" skipped="0" time="0.757490">
+      <testcase name="testCreate" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="5" assertions="5" time="0.097859"/>
+      <testcase name="testCreateNegative" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="28" assertions="6" time="0.127354"/>
+      <testcase name="testDeleteNegative" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="51" assertions="3" time="0.087846"/>
+      <testcase name="testQueryUnauthorized" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="70" assertions="9" time="0.115811"/>
+      <testcase name="testQueryTemplatesUnauthorized" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="126" assertions="9" time="0.080732"/>
+      <testcase name="testQueryTemplatesSearchUnauthorized" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="184" assertions="4" time="0.079578"/>
+      <testcase name="testWpQueryTemplatesSearchUnauthorized" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="232" assertions="4" time="0.079254"/>
+      <testcase name="testWpQueryTemplatesGetUnauthorized" class="HelpersPostTypesTest" classname="HelpersPostTypesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersPostTypesTest.php" line="273" assertions="4" time="0.089055"/>
+    </testsuite>
+    <testsuite name="HelpersRequestTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersRequestTest.php" tests="2" assertions="29" errors="0" warnings="0" failures="0" skipped="0" time="0.008130">
+      <testcase name="testRequestHelper" class="HelpersRequestTest" classname="HelpersRequestTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersRequestTest.php" line="14" assertions="23" time="0.004576"/>
+      <testcase name="testRequestHelperDependencyInjection" class="HelpersRequestTest" classname="HelpersRequestTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersRequestTest.php" line="67" assertions="6" time="0.003554"/>
+    </testsuite>
+    <testsuite name="HelpersStatusTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStatusTest.php" tests="3" assertions="10" errors="0" warnings="0" failures="0" skipped="0" time="0.012020">
+      <testcase name="testBasicVersions" class="HelpersStatusTest" classname="HelpersStatusTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStatusTest.php" line="8" assertions="3" time="0.003682"/>
+      <testcase name="testFileSystemStatus" class="HelpersStatusTest" classname="HelpersStatusTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStatusTest.php" line="18" assertions="2" time="0.003248"/>
+      <testcase name="testToBytesConversion" class="HelpersStatusTest" classname="HelpersStatusTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStatusTest.php" line="30" assertions="5" time="0.005090"/>
+    </testsuite>
+    <testsuite name="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" tests="15" assertions="83" errors="0" warnings="0" failures="0" skipped="0" time="0.058760">
+      <testcase name="testStrHelper" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="5" assertions="1" time="0.003339"/>
+      <testcase name="testCamel" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="15" assertions="10" time="0.004396"/>
+      <testcase name="testContains" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="35" assertions="9" time="0.003668"/>
+      <testcase name="testEndsWith" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="63" assertions="6" time="0.003535"/>
+      <testcase name="testFinish" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="85" assertions="5" time="0.003414"/>
+      <testcase name="testIs" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="105" assertions="9" time="0.003552"/>
+      <testcase name="testLength" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="131" assertions="4" time="0.003902"/>
+      <testcase name="testLimit" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="147" assertions="6" time="0.005080"/>
+      <testcase name="testLower" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="169" assertions="4" time="0.003656"/>
+      <testcase name="testQuickRandom" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="185" assertions="6" time="0.004932"/>
+      <testcase name="testUpper" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="205" assertions="4" time="0.003801"/>
+      <testcase name="testSnake" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="221" assertions="4" time="0.003800"/>
+      <testcase name="testStartsWith" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="239" assertions="6" time="0.003578"/>
+      <testcase name="testStudly" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="261" assertions="4" time="0.004090"/>
+      <testcase name="testbuildQueryString" class="HelpersStrTest" classname="HelpersStrTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersStrTest.php" line="279" assertions="5" time="0.004016"/>
+    </testsuite>
+    <testsuite name="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" tests="9" assertions="25" errors="0" warnings="0" failures="0" skipped="0" time="0.046812">
+      <testcase name="testUrlHelper" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="5" assertions="1" time="0.003350"/>
+      <testcase name="testAssetUrl" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="15" assertions="4" time="0.003576"/>
+      <testcase name="testTo" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="31" assertions="3" time="0.003977"/>
+      <testcase name="testAjax" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="45" assertions="3" time="0.004652"/>
+      <testcase name="testAjaxQuestion" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="63" assertions="1" time="0.004249"/>
+      <testcase name="testUrlHelperDependencyInjection" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="83" assertions="5" time="0.004911"/>
+      <testcase name="testCurrent" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="111" assertions="1" time="0.006105"/>
+      <testcase name="testRedirect" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="118" assertions="2" time="0.011981"/>
+      <testcase name="testUrlQuery" class="HelpersUrlTest" classname="HelpersUrlTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersUrlTest.php" line="144" assertions="5" time="0.004011"/>
+    </testsuite>
+    <testsuite name="HelpersViewsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersViewsTest.php" tests="2" assertions="12" errors="0" warnings="0" failures="0" skipped="0" time="0.010941">
+      <testcase name="testHelpersViews" class="HelpersViewsTest" classname="HelpersViewsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersViewsTest.php" line="5" assertions="8" time="0.007036"/>
+      <testcase name="testHelpersDependencyInjection" class="HelpersViewsTest" classname="HelpersViewsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersViewsTest.php" line="41" assertions="4" time="0.003905"/>
+    </testsuite>
+    <testsuite name="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" tests="6" assertions="63" errors="0" warnings="0" failures="0" skipped="0" time="0.023795">
+      <testcase name="testWpWidgetsHelper" class="HelpersWpWidgetsTest" classname="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" line="5" assertions="3" time="0.003483"/>
+      <testcase name="testDefaultWpWidgets" class="HelpersWpWidgetsTest" classname="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" line="14" assertions="52" time="0.004771"/>
+      <testcase name="testGetWidget" class="HelpersWpWidgetsTest" classname="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" line="44" assertions="2" time="0.003955"/>
+      <testcase name="testExistsWidget" class="HelpersWpWidgetsTest" classname="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" line="50" assertions="2" time="0.003775"/>
+      <testcase name="testIsDefault" class="HelpersWpWidgetsTest" classname="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" line="56" assertions="1" time="0.003998"/>
+      <testcase name="testGetAllGrouped" class="HelpersWpWidgetsTest" classname="HelpersWpWidgetsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpWidgetsTest.php" line="61" assertions="3" time="0.003813"/>
+    </testsuite>
+    <testsuite name="HelpersWpmediaTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpmediaTest.php" tests="3" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.010516">
+      <testcase name="testWpmediaHelper" class="HelpersWpmediaTest" classname="HelpersWpmediaTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpmediaTest.php" line="5" assertions="1" time="0.003403"/>
+      <testcase name="testGetImageBySize" class="HelpersWpmediaTest" classname="HelpersWpmediaTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpmediaTest.php" line="14" assertions="1" time="0.003381"/>
+      <testcase name="testGetThumbSize" class="HelpersWpmediaTest" classname="HelpersWpmediaTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/HelpersWpmediaTest.php" line="39" assertions="2" time="0.003733"/>
+    </testsuite>
+    <testsuite name="TokenTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/TokenTest.php" tests="1" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="0.981759">
+      <testcase name="testGetToken" class="TokenTest" classname="TokenTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/TokenTest.php" line="7" assertions="5" time="0.981759"/>
+    </testsuite>
+    <testsuite name="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" tests="15" assertions="128" errors="0" warnings="0" failures="0" skipped="0" time="2.238284">
+      <testcase name="testRoleAccess" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="106" assertions="5" time="0.154478"/>
+      <testcase name="testRoleAccessGet" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="115" assertions="6" time="0.148488"/>
+      <testcase name="testRoleAccessValidateDie" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="136" assertions="3" time="0.137751"/>
+      <testcase name="testCheckAdminNonce" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="162" assertions="5" time="0.149101"/>
+      <testcase name="testCheckPublicNonce" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="185" assertions="5" time="0.141307"/>
+      <testcase name="testCheckMethod" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="215" assertions="14" time="0.141419"/>
+      <testcase name="testCurrentRoleAccess" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="439" assertions="4" time="0.148245"/>
+      <testcase name="testStates" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="459" assertions="9" time="0.150091"/>
+      <testcase name="testPartCheckState" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="500" assertions="4" time="0.144078"/>
+      <testcase name="testPartCapabilities" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="525" assertions="4" time="0.158148"/>
+      <testcase name="testCustomRolePartCapabilities" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="550" assertions="9" time="0.143881"/>
+      <testcase name="testPartCapabilitiesForEmptyCanCananyCanall" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="599" assertions="12" time="0.147233"/>
+      <testcase name="testPartCapabilitiesForDisabledCanCananyCanall" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="680" assertions="12" time="0.151075"/>
+      <testcase name="testPartCapabilitiesForCustomCanCananyCanall" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="761" assertions="33" time="0.168545"/>
+      <testcase name="testPartValidation" class="VcAccessRolesTest" classname="VcAccessRolesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesTest.php" line="986" assertions="3" time="0.154441"/>
+    </testsuite>
+    <testsuite name="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" tests="9" assertions="70" errors="0" warnings="0" failures="0" skipped="0" time="1.355056">
+      <testcase name="testPartCapabilities" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="88" assertions="9" time="0.159821"/>
+      <testcase name="testPartCapabilitiesForEmptyCanCananyCanall" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="128" assertions="10" time="0.156201"/>
+      <testcase name="testPartCapabilitiesForDisabledCanCananyCanall" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="198" assertions="11" time="0.147568"/>
+      <testcase name="testSetStateTrue" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="273" assertions="3" time="0.134583"/>
+      <testcase name="testSetStateFalse" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="294" assertions="3" time="0.140714"/>
+      <testcase name="testPartCapabilitiesForCustomCanCananyCanallNull" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="315" assertions="8" time="0.149218"/>
+      <testcase name="testCustomStateRoleRule" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="386" assertions="10" time="0.153358"/>
+      <testcase name="testMultipleRolesParts" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="461" assertions="8" time="0.159599"/>
+      <testcase name="testMultipleRolesFalse" class="VcAccessRolesUsersTest" classname="VcAccessRolesUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessRolesUsersTest.php" line="516" assertions="8" time="0.153994"/>
+    </testsuite>
+    <testsuite name="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" tests="15" assertions="141" errors="0" warnings="0" failures="0" skipped="0" time="2.497247">
+      <testcase name="testUserAccessValidateDie" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="107" assertions="4" time="0.152609"/>
+      <testcase name="testUserAccessGet" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="137" assertions="6" time="0.146780"/>
+      <testcase name="testCheckAdminNonce" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="157" assertions="5" time="0.195675"/>
+      <testcase name="testCheckPublicNonce" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="183" assertions="5" time="0.152011"/>
+      <testcase name="testCheckMethod" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="215" assertions="14" time="0.163282"/>
+      <testcase name="testCurrentUserAccess" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="439" assertions="7" time="0.160280"/>
+      <testcase name="testStates" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="474" assertions="13" time="0.156563"/>
+      <testcase name="testWpAnyAll" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="520" assertions="8" time="0.157184"/>
+      <testcase name="testWpAnyAllInParts" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="567" assertions="8" time="0.155239"/>
+      <testcase name="testPartCheckState" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="626" assertions="3" time="0.148355"/>
+      <testcase name="testPartCapabilities" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="650" assertions="8" time="0.179787"/>
+      <testcase name="testPartCapabilitiesForEmptyCanCananyCanall" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="707" assertions="12" time="0.174695"/>
+      <testcase name="testPartCapabilitiesForDisabledCanCananyCanall" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="788" assertions="12" time="0.167198"/>
+      <testcase name="testPartCapabilitiesForCustomCanCananyCanall" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="899" assertions="34" time="0.223204"/>
+      <testcase name="testPartValidation" class="VcAccessUsersTest" classname="VcAccessUsersTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/access/VcAccessUsersTest.php" line="1222" assertions="2" time="0.164386"/>
+    </testsuite>
+    <testsuite name="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" tests="12" assertions="55" errors="0" warnings="0" failures="0" skipped="0" time="11.696115">
+      <testcase name="testReleaseJsonForLatestWpRelease" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="30" assertions="5" time="2.296599"/>
+      <testcase name="testFreeElementJson" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="45" assertions="3" time="0.888076"/>
+      <testcase name="testFreeTemplateJson" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="61" assertions="3" time="1.117683"/>
+      <testcase name="testFreeAddonJson" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="77" assertions="3" time="1.105388"/>
+      <testcase name="testFreeAssetJson" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="93" assertions="3" time="0.007990"/>
+      <testcase name="testElementActionBundle" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="102" assertions="1" time="0.004391"/>
+      <testcase name="testElementActionDownload" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="108" assertions="8" time="1.413319"/>
+      <testcase name="testAddonActionBundle" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="159" assertions="1" time="0.004497"/>
+      <testcase name="testAddonActionDownload" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="165" assertions="8" time="1.084528"/>
+      <testcase name="testTemplateActionBundle" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="208" assertions="1" time="0.004407"/>
+      <testcase name="testTemplateActionDownload" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="214" assertions="11" time="2.592914"/>
+      <testcase name="testFreeAssetDownload" class="BundleHelperTest" classname="BundleHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/BundleHelperTest.php" line="268" assertions="8" time="1.176322"/>
+    </testsuite>
+    <testsuite name="UpdateHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/UpdateHelperTest.php" tests="1" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="0.018600">
+      <testcase name="testGetVariables" class="UpdateHelperTest" classname="UpdateHelperTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/hub/UpdateHelperTest.php" line="5" assertions="2" time="0.018600"/>
+    </testsuite>
+    <testsuite name="HelpersSettingsSectionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsSectionsTest.php" tests="5" assertions="18" errors="0" warnings="0" failures="0" skipped="0" time="0.021789">
+      <testcase name="testSectionsRegistryHelper" class="HelpersSettingsSectionsTest" classname="HelpersSettingsSectionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsSectionsTest.php" line="5" assertions="6" time="0.003357"/>
+      <testcase name="testSectionsRegistryAdd" class="HelpersSettingsSectionsTest" classname="HelpersSettingsSectionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsSectionsTest.php" line="16" assertions="3" time="0.003679"/>
+      <testcase name="testSectionRegistryFind" class="HelpersSettingsSectionsTest" classname="HelpersSettingsSectionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsSectionsTest.php" line="42" assertions="3" time="0.004889"/>
+      <testcase name="testSectionRegistryFindDefault" class="HelpersSettingsSectionsTest" classname="HelpersSettingsSectionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsSectionsTest.php" line="61" assertions="5" time="0.004253"/>
+      <testcase name="testSectionRegistryHiearchy" class="HelpersSettingsSectionsTest" classname="HelpersSettingsSectionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsSectionsTest.php" line="82" assertions="1" time="0.005611"/>
+    </testsuite>
+    <testsuite name="HelpersSettingsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsTest.php" tests="4" assertions="13" errors="0" warnings="0" failures="0" skipped="0" time="0.016716">
+      <testcase name="testFieldsRegistryHelper" class="HelpersSettingsTest" classname="HelpersSettingsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsTest.php" line="5" assertions="5" time="0.004610"/>
+      <testcase name="testFieldsRegistryException" class="HelpersSettingsTest" classname="HelpersSettingsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsTest.php" line="19" assertions="2" time="0.004322"/>
+      <testcase name="testFieldsRegistryAdd" class="HelpersSettingsTest" classname="HelpersSettingsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsTest.php" line="35" assertions="3" time="0.003812"/>
+      <testcase name="testFieldRegistryFind" class="HelpersSettingsTest" classname="HelpersSettingsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/helpers/settings/HelpersSettingsTest.php" line="60" assertions="3" time="0.003972"/>
+    </testsuite>
+    <testsuite name="ApiFactoryControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Api/ApiFactoryControllerTest.php" tests="1" assertions="7" errors="0" warnings="0" failures="0" skipped="0" time="0.012638">
+      <testcase name="testRegister" class="ApiFactoryControllerTest" classname="ApiFactoryControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Api/ApiFactoryControllerTest.php" line="5" assertions="7" time="0.012638"/>
+    </testsuite>
+    <testsuite name="ElementsApiControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Api/ElementsApiControllerTest.php" tests="1" assertions="2" errors="0" warnings="0" failures="0" skipped="0" time="0.006649">
+      <testcase name="testElementsApi" class="ElementsApiControllerTest" classname="ElementsApiControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Api/ElementsApiControllerTest.php" line="5" assertions="2" time="0.006649"/>
+    </testsuite>
+    <testsuite name="UrlControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/Attributes/UrlControllerTest.php" tests="2" assertions="3" errors="0" warnings="0" failures="0" skipped="0" time="0.074967">
+      <testcase name="testPostFilter" class="UrlControllerTest" classname="UrlControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/Attributes/UrlControllerTest.php" line="5" assertions="1" time="0.005104"/>
+      <testcase name="testPostSearch" class="UrlControllerTest" classname="UrlControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/Attributes/UrlControllerTest.php" line="13" assertions="2" time="0.069863"/>
+    </testsuite>
+    <testsuite name="DataAjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/DataAjaxControllerTest.php" tests="4" assertions="9" errors="0" warnings="0" failures="0" skipped="0" time="0.407766">
+      <testcase name="testGetData" class="DataAjaxControllerTest" classname="DataAjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/DataAjaxControllerTest.php" line="5" assertions="2" time="0.119628"/>
+      <testcase name="testGetDataForMetaInput" class="DataAjaxControllerTest" classname="DataAjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/DataAjaxControllerTest.php" line="37" assertions="1" time="0.090302"/>
+      <testcase name="testSetData" class="DataAjaxControllerTest" classname="DataAjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/DataAjaxControllerTest.php" line="64" assertions="4" time="0.193101"/>
+      <testcase name="testSetDataFalse" class="DataAjaxControllerTest" classname="DataAjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/DataAjaxControllerTest.php" line="102" assertions="2" time="0.004735"/>
+    </testsuite>
+    <testsuite name="EditPostLinksControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/EditPostLinksControllerTest.php" tests="2" assertions="17" errors="0" warnings="0" failures="0" skipped="0" time="0.137635">
+      <testcase name="testAdminBarEditLink" class="EditPostLinksControllerTest" classname="EditPostLinksControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/EditPostLinksControllerTest.php" line="5" assertions="13" time="0.082538"/>
+      <testcase name="testAdminRowLinks" class="EditPostLinksControllerTest" classname="EditPostLinksControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/EditPostLinksControllerTest.php" line="63" assertions="4" time="0.055097"/>
+    </testsuite>
+    <testsuite name="FrontendControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/FrontendControllerTest.php" tests="3" assertions="30" errors="0" warnings="0" failures="1" skipped="0" time="2.128006">
+      <testcase name="testEditorCapabilities" class="FrontendControllerTest" classname="FrontendControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/FrontendControllerTest.php" line="21" assertions="1" time="0.085918">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">FrontendControllerTest::testEditorCapabilities
+Failed asserting that false is true.</failure>
+      </testcase>
+      <testcase name="testEditorCapabilitiesSetupPost" class="FrontendControllerTest" classname="FrontendControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/FrontendControllerTest.php" line="29" assertions="2" time="0.085565"/>
+      <testcase name="testRenderEditorBase" class="FrontendControllerTest" classname="FrontendControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/FrontendControllerTest.php" line="48" assertions="27" time="1.956522"/>
+    </testsuite>
+    <testsuite name="GlobalCssControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/GlobalCssControllerTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.097764">
+      <testcase name="testGlobalCss" class="GlobalCssControllerTest" classname="GlobalCssControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/GlobalCssControllerTest.php" line="5" assertions="1" time="0.097764"/>
+    </testsuite>
+    <testsuite name="PostUpdateTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/PostUpdateTest.php" tests="4" assertions="55" errors="0" warnings="0" failures="0" skipped="0" time="9.130452">
+      <testcase name="testGetUpdateablePost" class="PostUpdateTest" classname="PostUpdateTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/PostUpdateTest.php" line="5" assertions="3" time="0.073921"/>
+      <testcase name="testGetRequiredActions" class="PostUpdateTest" classname="PostUpdateTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/PostUpdateTest.php" line="16" assertions="2" time="1.482056"/>
+      <testcase name="testRenderUpdateFe" class="PostUpdateTest" classname="PostUpdateTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/PostUpdateTest.php" line="40" assertions="31" time="2.934168"/>
+      <testcase name="testRenderUpdateBe" class="PostUpdateTest" classname="PostUpdateTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/PostUpdateTest.php" line="78" assertions="19" time="4.640308"/>
+    </testsuite>
+    <testsuite name="TemplatesControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/TemplatesControllerTest.php" tests="2" assertions="1" errors="2" warnings="0" failures="0" skipped="0" time="0.109203">
+      <testcase name="testAsyncTemplateLoad" class="TemplatesControllerTest" classname="TemplatesControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/TemplatesControllerTest.php" line="5" assertions="1" time="0.064633">
+        <error type="PHPUnit\Framework\Error\Warning">TemplatesControllerTest::testAsyncTemplateLoad
+Attempt to read property "post_name" on null</error>
+      </testcase>
+      <testcase name="testTemplateSave" class="TemplatesControllerTest" classname="TemplatesControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/TemplatesControllerTest.php" line="36" assertions="0" time="0.044570">
+        <error type="PHPUnit\Framework\Error\Warning">TemplatesControllerTest::testTemplateSave
+Attempt to read property "post_type" on null</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" tests="9" assertions="147" errors="0" warnings="0" failures="0" skipped="0" time="0.835730">
+      <testcase name="testVariablesTypes" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="5" assertions="100" time="0.098093"/>
+      <testcase name="testEnvVariables" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="26" assertions="8" time="0.079740"/>
+      <testcase name="testAddonsVariables" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="45" assertions="5" time="0.081009"/>
+      <testcase name="testKeysVariables" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="61" assertions="7" time="0.077264"/>
+      <testcase name="testErrorReporingVariables" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="104" assertions="1" time="0.079922"/>
+      <testcase name="testUpdateVariablesAbout" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="113" assertions="5" time="0.082488"/>
+      <testcase name="testUpdateVariablesGettingStarted" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="128" assertions="1" time="0.101019"/>
+      <testcase name="testEditorVariables" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="137" assertions="16" time="0.119426"/>
+      <testcase name="testJsonVariables" class="VariablesTest" classname="VariablesTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Editors/VariablesTest.php" line="164" assertions="4" time="0.116768"/>
+    </testsuite>
+    <testsuite name="Tests\PhpUnit\Modules\Elements\EncodedShortcodeTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/EncodedShortcodeTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.004009">
+      <testcase name="testRender" class="Tests\PhpUnit\Modules\Elements\EncodedShortcodeTest" classname="Tests.PhpUnit.Modules.Elements.EncodedShortcodeTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/EncodedShortcodeTest.php" line="7" assertions="1" time="0.004009"/>
+    </testsuite>
+    <testsuite name="Tests\PhpUnit\Modules\Elements\GlobalVariablesControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/GlobalVariablesControllerTest.php" tests="1" assertions="8" errors="0" warnings="0" failures="0" skipped="0" time="0.091075">
+      <testcase name="testVariables" class="Tests\PhpUnit\Modules\Elements\GlobalVariablesControllerTest" classname="Tests.PhpUnit.Modules.Elements.GlobalVariablesControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/GlobalVariablesControllerTest.php" line="7" assertions="8" time="0.091075"/>
+    </testsuite>
+    <testsuite name="WpAutopTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/WpAutopTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.003773">
+      <testcase name="testAnimatedOutlineButtonSpans" class="WpAutopTest" classname="WpAutopTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/WpAutopTest.php" line="5" assertions="1" time="0.003773"/>
+    </testsuite>
+    <testsuite name="WpWidgetsShortcodeTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/WpWidgetsShortcodeTest.php" tests="1" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="0.053608">
+      <testcase name="testRender" class="WpWidgetsShortcodeTest" classname="WpWidgetsShortcodeTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Elements/WpWidgetsShortcodeTest.php" line="5" assertions="6" time="0.053608"/>
+    </testsuite>
+    <testsuite name="ContentUrlReplaceTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/FrontView/ContentUrlReplaceTest.php" tests="1" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="0.105424">
+      <testcase name="testSiteUrlRegister" class="ContentUrlReplaceTest" classname="ContentUrlReplaceTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/FrontView/ContentUrlReplaceTest.php" line="5" assertions="6" time="0.105424"/>
+    </testsuite>
+    <testsuite name="HubDownloadActionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Hub/HubDownloadActionsTest.php" tests="3" assertions="12" errors="0" warnings="0" failures="2" skipped="0" time="8.956561">
+      <testcase name="testAvailableVariables" class="HubDownloadActionsTest" classname="HubDownloadActionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Hub/HubDownloadActionsTest.php" line="5" assertions="4" time="0.003394"/>
+      <testcase name="testAddonDownloadAction" class="HubDownloadActionsTest" classname="HubDownloadActionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Hub/HubDownloadActionsTest.php" line="13" assertions="4" time="1.356447">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">HubDownloadActionsTest::testAddonDownloadAction
+Failed asserting that two arrays are equal.
+--- Expected
++++ Actual
+@@ @@
+ Array (
+     'settings' =&gt; Array (...)
+     'phpFiles' =&gt; Array (
+-        0 =&gt; '/var/www/html/wp-content/uploads/visualcomposer-assets/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php'
+-        1 =&gt; '/var/www/html/wp-content/uploads/visualcomposer-assets/addons/pluginVersionCheck/pluginVersionCheck/EnqueueController.php'
++        0 =&gt; '/home/pavel/Sites/wp-tests-local/wp-content/uploads/visualcomposer-assets/addons/pluginVersionCheck/pluginVersionCheck/SettingsController.php'
++        1 =&gt; '/home/pavel/Sites/wp-tests-local/wp-content/uploads/visualcomposer-assets/addons/pluginVersionCheck/pluginVersionCheck/EnqueueController.php'
+     )
+-    'addonRealPath' =&gt; '/var/www/html/wp-content/uploads/visualcomposer-assets/addons/pluginVersionCheck/pluginVersionCheck/'
++    'addonRealPath' =&gt; '/home/pavel/Sites/wp-tests-local/wp-content/uploads/visualcomposer-assets/addons/pluginVersionCheck/pluginVersionCheck/'
+ )</failure>
+      </testcase>
+      <testcase name="testTemplateDownloadAction" class="HubDownloadActionsTest" classname="HubDownloadActionsTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Hub/HubDownloadActionsTest.php" line="62" assertions="4" time="7.596720">
+        <failure type="PHPUnit\Framework\ExpectationFailedException">HubDownloadActionsTest::testTemplateDownloadAction
+Failed asserting that two arrays are equal.
+--- Expected
++++ Actual
+@@ @@
+ Array (
+-    'predefined' =&gt; Array (...)
+ )</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="TeasersControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Hub/TeasersControllerTest.php" tests="1" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.087080">
+      <testcase name="testVariablesEditor" class="TeasersControllerTest" classname="TeasersControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Hub/TeasersControllerTest.php" line="5" assertions="4" time="0.087080"/>
+    </testsuite>
+    <testsuite name="LicenseActivationTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseActivationTest.php" tests="1" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="2.025131">
+      <testcase name="testLicenseActivation" class="LicenseActivationTest" classname="LicenseActivationTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseActivationTest.php" line="5" assertions="5" time="2.025131"/>
+    </testsuite>
+    <testsuite name="LicenseDeactivationTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseDeactivationTest.php" tests="2" assertions="8" errors="0" warnings="0" failures="0" skipped="0" time="0.956385">
+      <testcase name="testLicenseDeactivation" class="LicenseDeactivationTest" classname="LicenseDeactivationTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseDeactivationTest.php" line="13" assertions="4" time="0.936820"/>
+      <testcase name="testLicenseDeactivationNotAuth" class="LicenseDeactivationTest" classname="LicenseDeactivationTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseDeactivationTest.php" line="51" assertions="4" time="0.019565"/>
+    </testsuite>
+    <testsuite name="LicenseEnvTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseEnvTest.php" tests="4" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.015084">
+      <testcase name="testHubDownload" class="LicenseEnvTest" classname="LicenseEnvTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseEnvTest.php" line="5" assertions="1" time="0.003429"/>
+      <testcase name="testHubUrl" class="LicenseEnvTest" classname="LicenseEnvTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseEnvTest.php" line="10" assertions="1" time="0.003874"/>
+      <testcase name="testTokenUrl" class="LicenseEnvTest" classname="LicenseEnvTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseEnvTest.php" line="15" assertions="1" time="0.003725"/>
+      <testcase name="testLicenseActivateUrl" class="LicenseEnvTest" classname="LicenseEnvTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/License/LicenseEnvTest.php" line="20" assertions="1" time="0.004056"/>
+    </testsuite>
+    <testsuite name="MainPageTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Settings/MainPageTest.php" tests="1" assertions="6" errors="0" warnings="0" failures="0" skipped="0" time="0.039278">
+      <testcase name="testMainPageSlug" class="MainPageTest" classname="MainPageTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Settings/MainPageTest.php" line="5" assertions="6" time="0.039278"/>
+    </testsuite>
+    <testsuite name="SiteControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Site/SiteControllerTest.php" tests="1" assertions="1" errors="0" warnings="0" failures="0" skipped="0" time="0.070714">
+      <testcase name="testEditPostLink" class="SiteControllerTest" classname="SiteControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/Site/SiteControllerTest.php" line="20" assertions="1" time="0.070714"/>
+    </testsuite>
+    <testsuite name="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" tests="9" assertions="28" errors="0" warnings="0" failures="0" skipped="0" time="0.070970">
+      <testcase name="testGetResponse" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="5" assertions="1" time="0.005985"/>
+      <testcase name="testParseResponse" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="22" assertions="1" time="0.005717"/>
+      <testcase name="testParseCyrilicResponse" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="38" assertions="1" time="0.005909"/>
+      <testcase name="testHtmlResponse" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="54" assertions="2" time="0.006123"/>
+      <testcase name="testValidateNonce" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="102" assertions="3" time="0.009505"/>
+      <testcase name="testValidateNonceAdmin" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="144" assertions="3" time="0.016004"/>
+      <testcase name="testValidateEmpty" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="187" assertions="1" time="0.006110"/>
+      <testcase name="testRenderResponse" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="201" assertions="10" time="0.009989"/>
+      <testcase name="testSetGlobals" class="AjaxControllerTest" classname="AjaxControllerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/modules/System/AjaxControllerTest.php" line="220" assertions="6" time="0.005627"/>
+    </testsuite>
+    <testsuite name="Php8ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/php8/Php8ContainerTest.php" tests="3" assertions="8" errors="0" warnings="0" failures="0" skipped="0" time="0.016369">
+      <testcase name="testVcAppMake" class="Php8ContainerTest" classname="Php8ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/php8/Php8ContainerTest.php" line="16" assertions="4" time="0.004881"/>
+      <testcase name="testContainerDIFunction" class="Php8ContainerTest" classname="Php8ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/php8/Php8ContainerTest.php" line="26" assertions="2" time="0.006319"/>
+      <testcase name="testContainerDIFunctionName" class="Php8ContainerTest" classname="Php8ContainerTest" file="/home/pavel/Data/visualcomposer/tests/phpunit/php8/Php8ContainerTest.php" line="34" assertions="2" time="0.005169"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

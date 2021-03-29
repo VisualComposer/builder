@@ -4,12 +4,22 @@ use VisualComposer\Helpers\Nonce;
 
 class VcAccessRolesTest extends WP_UnitTestCase
 {
+    protected $userId;
+
+    protected $roleKey;
+
+    protected $roleKey2;
+
+    protected $roleKey3;
+
+    protected $tempKey;
+
     public function setUp(): void
     {
         parent::setUp();
         foreach (get_editable_roles() as $roleKey => $roleData) {
             foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
-                if (strpos($capabilityKey, 'vcv:') !== false) {
+                if (strpos($capabilityKey, 'vcv_') !== false) {
                     get_role($roleKey)->remove_cap($capabilityKey);
                 }
             }
@@ -17,6 +27,80 @@ class VcAccessRolesTest extends WP_UnitTestCase
         $user = wp_set_current_user(1);
         $user->remove_all_caps();
         $user->set_role('administrator');
+
+        $time = time();
+        $this->userId = wp_create_user('vcwb-roles_temp-' . $time, 'admin', 'vcwb-temp' . $time . '@dev.local');
+        $user = wp_set_current_user($this->userId);
+        $user->remove_all_caps();
+        vcevent('vcv:migration:enabledPostTypesMigration');
+
+        $this->roleKey = 'custom_roles_vcwb_tests_' . time();
+        $this->tempKey = 'custom_roles_test' . time() . '_';
+
+        add_role(
+            $this->roleKey,
+            'Custom VCWB-tests_users' . $this->roleKey,
+            [
+                'read' => true,
+                'level_0' => true,
+
+                // Custom checks
+                $this->tempKey . 'custom_test_1' => true,
+                $this->tempKey . 'custom_test_2' => true,
+            ]
+        );
+
+        $this->roleKey2 = 'custom_roles_vcwb_tests2_' . time();
+        add_role(
+            $this->roleKey2,
+            'Custom VCWB-tests_users' . $this->roleKey2,
+            [
+                'read' => true,
+                'level_0' => true,
+
+                // Custom checks
+                $this->tempKey . 'custom_test_2' => false,
+                $this->tempKey . 'custom_test_3' => false,
+                $this->tempKey . 'custom_test_4' => true,
+            ]
+        );
+        $this->roleKey3 = 'custom_roles_vcwb_tests3_' . time();
+        add_role(
+            $this->roleKey3,
+            'Custom VCWB-tests_users' . $this->roleKey3,
+            [
+                'read' => true,
+                'level_0' => true,
+                'edit_posts' => true,
+                'edit_post' => true,
+                'edit_pages' => true,
+                'edit_page' => true,
+            ]
+        );
+
+        $user->add_role($this->roleKey);
+        $user->add_role($this->roleKey2);
+    }
+
+    public function tearDown(): void
+    {
+        remove_role($this->roleKey);
+        remove_role($this->roleKey2);
+        remove_role($this->roleKey3);
+
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv_') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+        vcevent('vcv:migration:enabledPostTypesMigration');
+
+        parent::tearDown();
     }
 
     public function testRoleAccess()
@@ -80,9 +164,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         wp_set_current_user(1);
         $this->assertTrue(vcapp('NonceHelper')->verifyAdmin(vcapp('NonceHelper')->admin()));
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())->get(
-                true
-            )
+            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())->get()
         );
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())->getValidAccess(
@@ -96,7 +178,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         //reset
         vcapp('VisualComposer\Helpers\Access\Role')->setValidAccess(true);
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce('abc')->get(true)
+            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce('abc')->get()
         );
     }
 
@@ -104,7 +186,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
     {
         $this->assertTrue(vcapp('NonceHelper')->verifyUser(vcapp('NonceHelper')->user()));
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->reset()->checkPublicNonce(
+            vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce(
                 vcapp('NonceHelper')->user()
             )->get()
         );
@@ -120,7 +202,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
         //reset
         vcapp('VisualComposer\Helpers\Access\Role')->setValidAccess(true);
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce('abc')->get(true)
+            vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce('abc')->get()
         );
     }
 
@@ -134,13 +216,13 @@ class VcAccessRolesTest extends WP_UnitTestCase
     {
         // custom validators:
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->reset()->check(
+            vcapp('VisualComposer\Helpers\Access\Role')->check(
                 [
                     $this,
                     '_check',
                 ],
                 true
-            )->get(true)
+            )->get()
         );
 
         $this->assertFalse(
@@ -150,7 +232,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     '_check',
                 ],
                 false
-            )->get(true)
+            )->get()
         );
 
         // checkAny
@@ -163,7 +245,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     true,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertFalse(
@@ -175,7 +257,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     false,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertTrue(
@@ -194,7 +276,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     true,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertTrue(
@@ -213,7 +295,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     false,
                 ]
-            )->get(true)
+            )->get()
         );
         $this->assertTrue(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAny(
@@ -231,7 +313,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     true,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertFalse(
@@ -250,7 +332,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     false,
                 ]
-            )->get(true)
+            )->get()
         );
 
         //checkAll
@@ -263,7 +345,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     false,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertFalse(
@@ -282,7 +364,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     false,
                 ]
-            )->get(true)
+            )->get()
         );
         $this->assertFalse(
             vcapp('VisualComposer\Helpers\Access\Role')->checkAll(
@@ -300,7 +382,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     false,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertFalse(
@@ -319,7 +401,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     true,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertTrue(
@@ -331,7 +413,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     true,
                 ]
-            )->get(true)
+            )->get()
         );
 
         $this->assertTrue(
@@ -350,7 +432,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     ],
                     true,
                 ]
-            )->get(true)
+            )->get()
         );
     }
 
@@ -366,201 +448,230 @@ class VcAccessRolesTest extends WP_UnitTestCase
         );
         $this->assertEquals(
             'administrator',
-            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any', true)->getRole()->name
+            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any')->getRole()->name
         );
         $this->assertEquals(
             'administrator',
-            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any', true)->getRoleName()
+            vcapp('VisualComposer\Helpers\Access\Role')->who('administrator')->part('any')->getRoleName()
         );
     }
 
     public function testStates()
     {
-        $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->getState()
-        );
-
-        // now assert "real" parts in "clean" vc-state should be null
-        wp_set_current_user(1);
-        $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('frontend_editor', true)->getState()
-        );
-        $this->assertNull(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('shortcodes', true)->getState()
-        );
-
-        // check can
+        wp_set_current_user(null);
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who('administrator');
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('frontend_editor', true)->can()->get(true)
+            $roleHelper->part('testStates_something_role')->getState()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('shortcodes')->can()->get(true)
+            $roleHelper->part('testStates_frontend_editor')->getState()
+        );
+        $this->assertTrue(
+            $roleHelper->part('testStates_shortcodes')->getState()
+        );
+
+        // check can (administrator always CAN)
+        $this->assertTrue(
+            $roleHelper->part('testStates_frontend_editor')->can()->get()
+        );
+        $this->assertTrue(
+            $roleHelper->part('testStates_shortcodes')->can()->get()
         );
 
         // check nonce falses
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce()// no nonce exists
-            ->part('shortcodes')->can()->get(true)
+            $roleHelper->checkAdminNonce()// no nonce exists
+            ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkPublicNonce()// no nonce exists
-            ->part('shortcodes')->can()->get(true)
+            $roleHelper->checkPublicNonce()// no nonce exists
+            ->part('shortcodes')->can()->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce()// no nonce exists
+            $roleHelper->checkAdminNonce()// no nonce exists
             ->checkPublicNonce()// no nonce exists
-            ->part('shortcodes')->can()->get(true)
+            ->part('shortcodes')->can()->get()
         );
 
-        $this->assertTrue(vcapp('VisualComposer\Helpers\Access\Role')->getValidAccess());
-
+        $this->assertTrue($roleHelper->getValidAccess());
     }
 
     public function testPartCheckState()
     {
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->checkState(null)->get(
-                true
-            )
-        );
-
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who('administrator');
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->checkState(true)->get(
-                true
-            )
+            $roleHelper->part('something_role')->checkState(null)->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->checkStateAny(
+            $roleHelper->part('something_role')->checkState(true)->get()
+        );
+
+        $this->assertTrue(
+            $roleHelper->part('something_role')->checkStateAny(
                 true,
-                'custom',
                 null
-            )->get(true)
+            )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->checkStateAny(
-                true,
-                'custom'
-            )->get(true)
+            $roleHelper->part('something_role')->checkStateAny(
+                null,
+            )->get()
         );
     }
 
     public function testPartCapabilities()
     {
-        wp_set_current_user(1);
-
         // un existed
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who('administrator');
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can()->get()
+            $roleHelper->part('testPartCapabilities_something_role')->can()->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can('something_role')->get()
+            $roleHelper->part('testPartCapabilities_something_role')->can('something_role')->get()
         );
 
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->setState(false);
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can()->get()
-        );
+        $roleHelper->part('testPartCapabilities_something_role')->setState(false);
 
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role')->can('something_role')->get(true)
-        );
-
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState('custom');
+        // For admins it always true anyway
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can()->get(true)
+            $roleHelper->part('testPartCapabilities_something_role')->can()->get()
+        );
+
+        $this->assertTrue(
+            $roleHelper->part('testPartCapabilities_something_role')->can('something_role')->get()
+        );
+    }
+
+    public function testCustomRolePartCapabilities()
+    {
+        // un existed
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who($this->roleKey);
+        $this->assertFalse(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role')->can()->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
-                'something_role'
-            )->get(
-                true
-            )
+            $roleHelper->part('testCustomRolePartCapabilities_something_role')->can('something_role')->get()
         );
 
-        // reset:
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState(null);
+        $roleHelper->part('testCustomRolePartCapabilities_something_role')->setState(false);
 
+        $this->assertFalse(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role')->can()->get()
+        );
+
+        $this->assertFalse(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role')->can('something_role')->get()
+        );
+
+        $roleHelper->part('testCustomRolePartCapabilities_something_role')->setState(true);
+
+        $this->assertTrue(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role')->can()->get()
+        );
+
+        $this->assertTrue(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role')->can('something_role')->get()
+        );
+
+        $roleHelper->part('testCustomRolePartCapabilities_something_role_no_state')->setCapRule('custom_cap', true);
+
+        $this->assertTrue(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role_no_state')->can('custom_cap')->get()
+        );
+
+        $this->assertTrue(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role_no_state')->can('custom_cap')->get()
+        );
+        $this->assertFalse(
+            $roleHelper->part('testCustomRolePartCapabilities_something_role_no_state')->can(
+                'custom_cap_not-exists'
+            )->get()
+        );
     }
 
     public function testPartCapabilitiesForEmptyCanCananyCanall()
     {
-        wp_set_current_user(1);
-
         // un existed
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can()->get()
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who($this->roleKey2);
+        $this->assertFalse(
+            $roleHelper->part('something_role')->can()->get()
         );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->can(
                 'something_role'
             )->get()
         );
 
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->canAny(
                 'something_role'
             )->get()
         );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->canAll(
                 'something_role'
             )->get()
         );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         // for state=null any cap is true
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('something_role')->setCapRule(
             'something_role',
             true
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('something_role')->can(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('something_role')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('something_role')->canAll(
                 'something_role'
             )->get()
         );
 
         // for state=null any cap is true
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('something_role')->setCapRule(
             'something_role',
             false
         );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->can(
                 'something_role'
             )->get()
         );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->canAny(
                 'something_role'
             )->get()
         );
-        $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+        $this->assertFalse(
+            $roleHelper->part('something_role')->canAll(
                 'something_role'
             )->get()
         );
@@ -568,80 +679,80 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
     public function testPartCapabilitiesForDisabledCanCananyCanall()
     {
-        wp_set_current_user(1);
-
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState(false);
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who($this->roleKey2);
+        $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->setState(false);
         // always false..
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can()->get()
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->can()->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->setCapRule(
             'something_role',
             true
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
 
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->setCapRule(
             'something_role',
             false
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForDisabledCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
@@ -649,239 +760,248 @@ class VcAccessRolesTest extends WP_UnitTestCase
 
     public function testPartCapabilitiesForCustomCanCananyCanall()
     {
-        wp_set_current_user(1);
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who($this->roleKey);
 
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState('custom');
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setState(true);
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can()->get()
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can()->get()
         );
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+        $this->assertTrue(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
 
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+        $this->assertTrue(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+        $this->assertTrue(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+        $this->assertTrue(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
-        $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+        $this->assertTrue(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setState(null);
         // what if I try to add capability to false state? It must be false anyway!- cannot set capability for false state
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setCapRule(
             'something_role',
             true
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         // For false
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setCapRule(
             'something_role',
             false
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role2'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         // For multiple
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setCapRule(
             'something_role',
             true
         );
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setCapRule(
             'something_role2',
             true
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role2'
             )->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role2'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role2'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         // For multiple false
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setCapRule(
             'something_role',
             false
         );
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setCapRule(
+        $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->setCapRule(
             'something_role2',
             true
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->can(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->can(
                 'something_role2'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role2'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAny(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAny(
                 'something_role',
                 'something_role2'
             )->get()
         );
 
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role'
             )->get()
         );
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role2'
             )->get()
         );
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->canAll(
+            $roleHelper->part('testPartCapabilitiesForCustomCanCananyCanall')->canAll(
                 'something_role',
                 'something_role2'
             )->get()
         );
-        //reset
-        vcapp('VisualComposer\Helpers\Access\Role')->part('something_role', true)->setState(null);
     }
 
     public function testPartValidation()
     {
-        wp_set_current_user(1);
-
+        $roleHelper = vcapp('VisualComposer\Helpers\Access\Role');
+        $roleHelper->who('administrator');
         $this->assertFalse(
-            vcapp('VisualComposer\Helpers\Access\Role')->setValidAccess(false)->part('something_role')->get(true)
+            $roleHelper->setValidAccess(false)->part('something_role')->get()
+        );
+        $roleHelper->who($this->roleKey3);
+
+        $roleHelper->part('testPartValidation')->setCapRule('something_role', true);
+        $roleHelper->part('testPartValidation')->setCapRule('something_role2', true);
+        wp_set_current_user($this->userId);
+        wp_get_current_user()->add_role($this->roleKey3);
+        $this->assertTrue(
+            $roleHelper->checkAdminNonce(vcapp('NonceHelper')->admin())->get()
         );
 
         $this->assertTrue(
-            vcapp('VisualComposer\Helpers\Access\Role')->checkAdminNonce(vcapp('NonceHelper')->admin())
+            $roleHelper->checkAdminNonce(vcapp('NonceHelper')->admin())
                 ->checkPublicNonce(
                     vcapp('NonceHelper')->user()
                 )->check(
@@ -890,7 +1010,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                         '_check',
                     ],
                     true
-                )->part('something_role')->can()->canAny('something_role')// in null it is always true
+                )->part('testPartValidation')->canAny('something_role')// in null it is always true
                 ->canAny(
                     'something_role',
                     'something_role2'
@@ -902,10 +1022,7 @@ class VcAccessRolesTest extends WP_UnitTestCase
                     'something_role',
                     'something_role2'
                 )// in null it is always true
-                ->checkState(null)->checkStateAny('custom', null)->get(
-                    true
-                )
+                ->checkState(null)->checkStateAny(true, null)->get()
         );
-
     }
 }

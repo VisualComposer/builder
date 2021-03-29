@@ -68,6 +68,7 @@ class Frontend implements Helper
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
+        // TODO: Update edit_posts to exact capability from role-manager
         if (
             ('post-new.php' === $pagenow && $currentUserAccessHelper->wpAll('edit_posts')->get())
             || ($requestHelper->exists('vcv-source-id')

@@ -13,6 +13,7 @@ const DocumentData = getService('document')
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 const hubElementsStorage = getStorage('hubElements')
 const settingsStorage = getStorage('settings')
@@ -537,7 +538,7 @@ const API = {
           layoutAtts[fieldKey] = dynamicFieldsData
         }
       } else if (!isNested && options && options.inline) {
-        if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !dataManager.get('vcvManageOptions')) {
+        if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
           allowInline = false
         }
         const paramGroupProps = {}

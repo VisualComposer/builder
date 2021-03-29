@@ -21,17 +21,22 @@ trait SubMenu
      */
     protected function addSubmenuPage($page, $parentSlug = 'vcv-settings')
     {
+        $capability = 'edit_posts';
+        $part = null;
         if (isset($page['capability'])) {
             $capability = $page['capability'];
-        } else {
-            $capability = 'edit_posts';
         }
 
-        $currentUserAccess = vchelper('AccessCurrentUser');
-        if (!$currentUserAccess->wpAll($capability)->get()) {
-            return;
+        if (isset($page['capabilityPart']) && vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+            $part = $page['capabilityPart'];
         }
-        $hasAccess = $currentUserAccess->part('settings')->can($page['slug'] . '-tab')->get();
+        $currentUserAccess = vchelper('AccessCurrentUser');
+        if (!empty($part)) {
+            $hasAccess = $currentUserAccess->part($part)->checkState(true)->get();
+        } else {
+            // Fallback to default logic
+            $hasAccess = $currentUserAccess->wpAll($capability)->get();
+        }
 
         if ($hasAccess) {
             global $submenu;
@@ -45,7 +50,6 @@ trait SubMenu
                         array_merge(
                             [
                                 'name' => isset($page['innerTitle']) ? $page['innerTitle'] : $page['title'],
-                                'capability' => $capability,
                                 'parent' => $parentSlug,
                                 'isDashboardPage' => true,
                                 'hideTitle' => '',
@@ -64,7 +68,7 @@ trait SubMenu
                     isset($page['isDashboardPage']) && $page['isDashboardPage'] ? 'vcv-settings' : $parentSlug,
                     $page['title'],
                     $page['title'],
-                    $capability,
+                    !empty($part) ? 'edit_posts' : $capability,
                     $page['slug'],
                     function () use ($page) {
                         /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage::renderPage */

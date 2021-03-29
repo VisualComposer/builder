@@ -10,8 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Framework\Container;
-use VisualComposer\Helpers\Access\CurrentUser;
-use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
@@ -60,34 +58,25 @@ class Controller extends Container implements Module
     /**
      * @param $link
      *
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      * @param \VisualComposer\Helpers\Request $requestHelper
-     *
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     *
-     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return string
-     * @throws \Exception
      */
     protected function addEditPostLink(
         $link,
-        CurrentUser $currentUserAccess,
         Request $requestHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper
+        UserCapabilities $userCapabilitiesHelper
     ) {
         if ($requestHelper->exists('vcv-editable')) {
             return '';
         }
-        if (
-            $currentUserAccess->part('frontend_editor', true)->can()->get()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
-        ) {
+        if ($userCapabilitiesHelper->canEdit(get_the_ID())) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
             $link .= sprintf(
                 ' <a href="%s">%s</a>',
-                // @codingStandardsIgnoreLine
                 $url,
                 __('Edit with Visual Composer', 'visualcomposer')
             );
@@ -99,14 +88,12 @@ class Controller extends Container implements Module
     /**
      * @param \WP_Admin_Bar $wpAdminBar
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
     protected function adminBarEditLink(
         $wpAdminBar,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper,
         UserCapabilities $userCapabilitiesHelper,
         Url $urlHelper
     ) {
@@ -119,7 +106,6 @@ class Controller extends Container implements Module
 
         if (
             is_singular()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
             && $userCapabilitiesHelper->canEdit(get_the_ID())
         ) {
             $url = $frontendHelper->getFrontendUrl(get_the_ID());
@@ -136,7 +122,8 @@ class Controller extends Container implements Module
         // Add any additional custom post types.
         $actions = [];
         foreach ($cpts as $cpt) {
-            if (!current_user_can($cpt->cap->create_posts) || !$editorPostTypeHelper->isEditorEnabled($cpt->name)) {
+            // TODO: Check caps
+            if (!current_user_can($cpt->cap->create_posts) || !$userCapabilitiesHelper->isEditorEnabled($cpt->name)) {
                 continue;
             }
             if (in_array($cpt->name, ['vcv_templates', 'vcv_headers', 'vcv_footers', 'vcv_sidebars'])) {
@@ -164,7 +151,6 @@ class Controller extends Container implements Module
     /**
      * @param $actions
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
      * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return mixed
@@ -172,14 +158,11 @@ class Controller extends Container implements Module
     protected function adminRowLinks(
         $actions,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper,
         UserCapabilities $userCapabilitiesHelper
     ) {
         $sourceId = get_the_ID();
         if (
-            intval(get_option('page_for_posts')) !== $sourceId
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
-            && $userCapabilitiesHelper->canEdit($sourceId)
+            $userCapabilitiesHelper->canEdit($sourceId)
             && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId])
         ) {
             $url = $frontendHelper->getFrontendUrl($sourceId);

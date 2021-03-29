@@ -44,15 +44,6 @@ interface Events
     public function forget($event);
 
     /**
-     * Remove a set of wildcard listeners from the dispatcher.
-     *
-     * @param  string $event
-     *
-     * @return void
-     */
-    public function forgetWildcard($event);
-
-    /**
      * Get all of the listeners for a given event name.
      *
      * @param  string $eventName

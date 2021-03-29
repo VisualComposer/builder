@@ -12,6 +12,7 @@ const cook = getService('cook')
 const hubElementsService = getService('hubElements')
 const documentManager = getService('document')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class TreeViewElement extends React.Component {
   static propTypes = {
@@ -439,7 +440,7 @@ export default class TreeViewElement extends React.Component {
     if (!element) {
       return null
     }
-    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !dataManager.get('vcvManageOptions')
+    const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())
     const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
@@ -592,7 +593,7 @@ export default class TreeViewElement extends React.Component {
     )
 
     let lockControl = null
-    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
+    const isAllowedToLockElement = roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())
     const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
     const isLocked = cookElement.get('metaIsElementLocked') && env('VCV_ADDON_ROLE_MANAGER_ENABLED')
 
@@ -610,7 +611,7 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    if (!this.props.isAttribute && env('VCV_ADDON_ROLE_MANAGER_ENABLED') && vcvIsUserAdmin && isGeneral) {
+    if (!this.props.isAttribute && env('VCV_ADDON_ROLE_MANAGER_ENABLED') && isAllowedToLockElement && isGeneral) {
       const lockElementClasses = classNames({
         'vcv-ui-icon': true,
         'vcv-ui-icon-lock-fill': isLocked,
@@ -707,7 +708,7 @@ export default class TreeViewElement extends React.Component {
     const controlPadding = (space * this.props.level + defaultSpace) + 'rem'
     const controlStyle = utils.isRTL() ? { paddingRight: controlPadding } : { paddingLeft: controlPadding }
 
-    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions') && cookElement && cookElement.get('metaIsElementLocked')) {
+    if (env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !isAllowedToLockElement && cookElement && cookElement.get('metaIsElementLocked')) {
       treeChildProps['data-vcv-element-locked'] = true
     }
 

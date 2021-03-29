@@ -36,6 +36,7 @@ class PostTypes extends Container implements Module
      */
     public function __construct()
     {
+        return; // TODO: Remove this
         $this->optionGroup = $this->slug;
         $this->optionSlug = 'vcv-post-types';
         /** @see \VisualComposer\Modules\Settings\Fields\PostTypes::buildPage */

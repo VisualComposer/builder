@@ -49,6 +49,10 @@ class Settings extends Container implements Module
             'addPage',
             2
         );
+        $this->addEvent(
+            'vcv:settings:save',
+            'addPage'
+        );
     }
 
     /**
@@ -63,7 +67,7 @@ class Settings extends Container implements Module
             'innerTitle' => __('Settings', 'visualcomposer'),
             'subTitle' => __('General', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
-            'capability' => 'edit_pages',
+            'capability' => 'edit_pages', // TODO: Check default cap
             'iconClass' => 'vcv-ui-icon-dashboard-settings',
             'isDashboardPage' => true,
             'hideInWpMenu' => false,
@@ -76,6 +80,7 @@ class Settings extends Container implements Module
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
         $gettingStartedController = vcapp('LicensePagesGettingStarted');
+        // TODO: Roles Changes
         $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
 
         if ($hasAccess) {

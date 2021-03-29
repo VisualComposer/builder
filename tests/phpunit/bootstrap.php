@@ -10,6 +10,14 @@ require_once dirname(__DIR__, 2) . '/ci/wp-tests-9.0.0/wp-tests/phpunit/includes
 tests_add_filter(
     'muplugins_loaded',
     function () {
+        global $wpdb;
+        $wpdb->query(
+            $wpdb->prepare(
+                'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "%s"',
+                '%vcv%'
+            )
+        );
+
         require_once dirname(__DIR__, 2) . '/plugin-wordpress.php';
         do_action('vcv:bootstrap:lazyload');
     }
