@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { getService } from 'vc-cake'
 
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class CustomTemplateControl extends React.Component {
   static propTypes = {
@@ -51,15 +52,23 @@ export default class CustomTemplateControl extends React.Component {
       'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
 
+    const overlayProps = {}
     let itemButton = null
     if (this.props.isRemoveStateActive) {
-      itemButton = (
-        <span
-          className={removeClasses}
-          onClick={handleRemoveTemplate}
-          title={localizations.removePlaceholder.replace('%', name)}
-        />
-      )
+      const isAbleToRemove = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
+      if (isAbleToRemove) {
+        itemButton = (
+          <span
+            className={removeClasses}
+            onClick={handleRemoveTemplate}
+            title={localizations.removePlaceholder.replace('%', name)}
+          />
+        )
+      } else {
+        overlayProps.style = {
+          cursor: 'not-allowed'
+        }
+      }
     } else {
       itemButton = (
         <span
@@ -77,7 +86,7 @@ export default class CustomTemplateControl extends React.Component {
             className='vcv-ui-item-element-content vcv-ui-item-element-constant-bg'
             data-letter={letter}
           >
-            <span className={overlayClasses}>
+            <span className={overlayClasses} {...overlayProps}>
               {itemButton}
               <span className={spinnerClasses} />
             </span>
