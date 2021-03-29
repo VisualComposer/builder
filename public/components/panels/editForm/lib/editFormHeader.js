@@ -12,6 +12,7 @@ const hubStorage = getStorage('hubAddons')
 const editorPopupStorage = getStorage('editorPopup')
 const hubAddonsStorage = getStorage('hubAddons')
 const notificationsStorage = getStorage('notifications')
+const roleManager = getService('roleManager')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -330,8 +331,7 @@ export default class EditFormHeader extends React.Component {
     })
 
     let lockControl = null
-    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
-    if (vcvIsUserAdmin && isGeneral) {
+    if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && isGeneral) {
       const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       const lockClasses = classNames({

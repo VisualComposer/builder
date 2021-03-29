@@ -11,7 +11,7 @@ const workspaceStorage = vcCake.getStorage('workspace')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManager = vcCake.getService('document')
 const cook = vcCake.getService('cook')
-const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 
 export default class ControlsManager {
   constructor (api) {
@@ -377,7 +377,7 @@ export default class ControlsManager {
             return isDraggable === undefined || isDraggable
           })
           data.vcvEditableElements = data.vcElementsPath.filter((id) => {
-            if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions')) {
+            if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
               const cookElement = cook.getById(id)
               const isLocked = cookElement.get('metaIsElementLocked')
               return !isLocked

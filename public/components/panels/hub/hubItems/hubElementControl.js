@@ -43,7 +43,7 @@ export default class HubElementControl extends ElementControl {
   }
 
   render () {
-    const { name, element, isDownloading, tag } = this.props
+    const { name, element, isDownloading, tag, isAllowedForThisRole } = this.props
     const { previewVisible, previewStyle, isNew } = this.state
 
     let elementState = 'downloading'
@@ -56,7 +56,7 @@ export default class HubElementControl extends ElementControl {
       }
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive')
+    const lockIcon = !isAllowedForThisRole || (!element.allowDownload && elementState === 'inactive')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',
@@ -91,13 +91,20 @@ export default class HubElementControl extends ElementControl {
     })
 
     const itemProps = {}
+    const overlayProps = {}
 
     let action = this.isHubInWpDashboard ? null : this.addElement
     if (elementState !== 'success') {
       if (lockIcon) {
         action = null
-        // Add action on whole item
-        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element')
+
+        if (!isAllowedForThisRole) {
+          overlayProps.style = {
+            cursor: 'not-allowed'
+          }
+        } else {
+          itemProps.onClick = this.props.onClickGoPremium.bind(this, 'element')
+        }
       } else {
         action = this.downloadElement
       }
@@ -143,7 +150,7 @@ export default class HubElementControl extends ElementControl {
           {newBadge}
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt={name} />
-            <span className={itemOverlayClasses}>
+            <span className={itemOverlayClasses} {...overlayProps}>
               {overlayOutput}
             </span>
           </span>

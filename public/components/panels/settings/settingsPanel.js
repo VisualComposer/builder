@@ -11,6 +11,7 @@ import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
 
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const localizations = dataManager.get('localizations')
 const customCSSText = localizations ? localizations.customCSS : 'Custom CSS'
 const settingsText = localizations ? localizations.pageSettings : 'Page Settings'
@@ -20,20 +21,25 @@ const elementsLockText = localizations ? localizations.elementsLock : 'Element L
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 
-const controls = {
-  pageSettings: {
+const controls = {}
+
+if(roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
+  controls.pageSettings = {
     index: 0,
     type: 'pageSettings',
     title: settingsText,
     content: <PageSettings />
-  },
-  customCss: {
+  }
+}
+
+if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
+  controls.customCss = {
     index: 1,
     type: 'customCss',
     title: customCSSText,
     content: <CustomStyles />
-  },
-  customJs: {
+  }
+  controls.customJs = {
     index: 2,
     type: 'customJs',
     title: customJSText,
@@ -43,7 +49,7 @@ const controls = {
 
 const editorType = dataManager.get('editorType')
 const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
-if (allowedPostTypes.indexOf(editorType) > -1) {
+if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
   controls.popup = {
     index: 3,
     type: 'popup',
@@ -52,7 +58,7 @@ if (allowedPostTypes.indexOf(editorType) > -1) {
   }
 }
 
-if (dataManager.get('vcvManageOptions')) {
+if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
@@ -65,8 +71,19 @@ export default class SettingsPanel extends React.Component {
   constructor (props) {
     super(props)
 
+    let activeSection = null
+    if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
+      activeSection = 'pageSettings'
+    } else if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
+      activeSection = 'customCss'
+    } else if (roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
+      activeSection = 'popup'
+    } else if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
+      activeSection = 'elementsLock'
+    }
+
     this.state = {
-      activeSection: 'pageSettings',
+      activeSection: activeSection,
       isVisible: workspaceContentState.get() === 'settings'
     }
 

@@ -46,6 +46,11 @@ class CssJsSettings extends Container implements Module
             10
         );
 
+        $this->addEvent(
+            'vcv:settings:save',
+            'addPage'
+        );
+
         $this->wpAddFilter('submenu_file', 'subMenuHighlight');
     }
 
@@ -69,6 +74,7 @@ class CssJsSettings extends Container implements Module
             'title' => __('CSS & JavaScript', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
+            'capabilityPart' => 'dashboard_settings_custom_html',
             'iconClass' => 'vcv-ui-icon-dashboard-css',
             'isDashboardPage' => true,
             'hideInWpMenu' => false,

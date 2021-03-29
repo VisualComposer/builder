@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import giphyLogo from 'public/sources/images/giphyLogo.raw'
 import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class GiphyContainer extends React.Component {
   static propTypes = {
@@ -50,6 +51,7 @@ export default class GiphyContainer extends React.Component {
         sizes={sizes}
         previewImageSize='regular'
         customContainerClass='vcv-stock-media-container--giphy'
+        isAllowedForThisRole={roleManager.can('hub_giphy', roleManager.defaultTrue())}
         {...this.props}
       />
     )

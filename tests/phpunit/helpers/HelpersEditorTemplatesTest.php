@@ -2,6 +2,22 @@
 
 class HelpersEditorTemplatesTest extends WP_UnitTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv_') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+        vcevent('vcv:migration:enabledPostTypesMigration');
+    }
+
     public function testAll()
     {
         $user = wp_set_current_user(1);
@@ -14,6 +30,7 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
     public function testCreate()
     {
         wp_set_current_user(1);
+        $this->assertContains('administrator', wp_get_current_user()->roles);
         $templatesHelper = vchelper('EditorTemplates');
         $postTypeHelper = vchelper('PostType');
         $postId = $postTypeHelper->create(

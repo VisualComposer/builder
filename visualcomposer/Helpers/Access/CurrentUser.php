@@ -9,36 +9,33 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Application;
+use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
-use VisualComposer\Helpers\Access\Role as AccessFactory;
+use VisualComposer\Helpers\Access\Traits\Access;
+use VisualComposer\Helpers\Access\Traits\Part;
 
 /**
  * Available by vchelper('AccessCurrentUser').
  * Provides API to check access for current logged in used.
  * Class Access.
  */
-class CurrentUser extends AccessFactory implements Helper
+class CurrentUser extends Container implements Helper
 {
+    use Access;
+    use Part;
+
     /**
-     * @param $part
-     *
-     * @param bool $reset
+     * @param string $part
      *
      * @return $this
      */
-    public function part($part, $reset = false)
+    public function part($part)
     {
-        if ($reset) {
-            $this->reset();
-        }
-        //!!!
         $this->part = $part;
         // we also check for user "logged_in" status.
         require_once ABSPATH . "wp-includes/pluggable.php";
         $isUserLoggedIn = is_user_logged_in();
         $this->setValidAccess($isUserLoggedIn && $this->getValidAccess()); // send current status to upper level.
-        // Init user role
-        $this->getRole();
 
         return $this;
     }
@@ -114,7 +111,7 @@ class CurrentUser extends AccessFactory implements Helper
      */
     public function getCapRule($rule)
     {
-        $roleRule = $this->getStateKey() . '/' . $rule;
+        $roleRule = $this->getStateKey() . '_' . $rule;
 
         return current_user_can($roleRule);
     }
@@ -129,7 +126,7 @@ class CurrentUser extends AccessFactory implements Helper
      */
     public function setCapRule($rule, $value = true)
     {
-        $roleRule = $this->getStateKey() . '/' . $rule;
+        $roleRule = $this->getStateKey() . '_' . $rule;
 
         wp_get_current_user()->add_cap($roleRule, $value);
 
@@ -137,18 +134,85 @@ class CurrentUser extends AccessFactory implements Helper
     }
 
     /**
-     * @return \WP_Role
+     * Can user do what he doo.
+     * Any rule has three types of state: true, false, string.
+     *
+     * @param string $rule
+     * @param bool|true $checkState
+     *
+     * @return $this
+     * @throws \Exception
      */
-    public function getRole()
+    public function can($rule = '', $checkState = true)
     {
-        if (!$this->roleName && function_exists('wp_get_current_user')) {
-            $user = wp_get_current_user();
-            require_once ABSPATH . "/wp-admin/includes/user.php";
-            $userRoles = array_intersect(array_values($user->roles), array_keys(get_editable_roles()));
-            $this->roleName = reset($userRoles);
-            $this->role = get_role($this->roleName);
+        $part = $this->getPart();
+        if (empty($part)) {
+            throw new \Exception('partName for User\Access is not set, please use ->part(partName) method to set!');
         }
 
-        return $this->role;
+        if (is_super_admin()) {
+            $this->setValidAccess(true);
+
+            return $this;
+        }
+
+        if ($this->getValidAccess()) {
+            //            // Administrators have all access always
+            //            if ('administrator') {
+            //                $this->setValidAccess(true);
+            //
+            //                return $this;
+            //            }
+            //            if ('subscriber') {
+            //                $this->setValidAccess(false);
+            //
+            //                return $this;
+            //            }
+            $rule = $this->updateMergedCaps($rule);
+
+            if (true === $checkState) {
+                $state = $this->getState();
+                $return = $state === true;
+                if (is_bool($state)) {
+                    $return = $state;
+                } elseif ('' !== $rule) {
+                    $return = $this->getCapRule($rule);
+                }
+            } else {
+                $return = $this->getCapRule($rule);
+            }
+            $this->setValidAccess($return);
+        }
+
+        return $this;
+    }
+
+    public function setState($value = true)
+    {
+        if (is_null($value)) {
+            wp_get_current_user()->remove_cap($this->getStateKey());
+        } else {
+            wp_get_current_user()->add_cap($this->getStateKey(), $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get state of the Vc access rules part.
+     *
+     * @return mixed;
+     * @throws \Exception
+     */
+    public function getState()
+    {
+        $allCaps = wp_get_current_user()->get_role_caps();
+        $capKey = $this->getStateKey();
+        $state = null;
+        if (array_key_exists($capKey, $allCaps)) {
+            $state = $allCaps[ $capKey ];
+        }
+
+        return vcfilter('vcv:access:currentUser:getState:accessWith:' . $this->getPart(), $state, $this->getPart());
     }
 }

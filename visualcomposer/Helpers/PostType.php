@@ -90,7 +90,6 @@ class PostType implements Helper
             }
         }
 
-
         $post = get_post($id);
         // @codingStandardsIgnoreLine
         if (!$post || ($postType && $post->post_type !== $postType)) {
@@ -108,8 +107,13 @@ class PostType implements Helper
     public function create($data)
     {
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        // @codingStandardsIgnoreLine
-        if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
+        $hasAccess = $currentUserAccessHelper->wpAll('edit_posts')->get();
+        // TODO: Check for vcv_templates, vcv_popups (&hfs)
+//        if (isset($data['post_status']) && $data['post_status'] === 'publish') {
+//            $hasAccess = $currentUserAccessHelper->wpAll('publish_posts')->get();
+//        }
+
+        if ($hasAccess) {
             return wp_insert_post($data);
         }
 
@@ -209,6 +213,7 @@ class PostType implements Helper
         $queryPost = get_post($sourceId);
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
+        // TODO: check caps
         if (isset($queryPost->post_type) && post_type_exists($queryPost->post_type)
             && $currentUserAccessHelper->wpAll(
                 [get_post_type_object($queryPost->post_type)->cap->read, $queryPost->ID]
