@@ -94,6 +94,8 @@ export default class HubTemplateControl extends ElementControl {
 
     const publicPathThumbnail = element.metaThumbnailUrl
     const publicPathPreview = element.metaPreviewUrl
+    const isAbleToAdd = false
+    // const isAbleToAdd = roleManager.can('editor_content_template_add', roleManager.defaultTrue())
 
     const iconClasses = classNames({
       'vcv-ui-item-add': true,
@@ -102,7 +104,7 @@ export default class HubTemplateControl extends ElementControl {
       'vcv-ui-icon-download': elementState === 'inactive',
       'vcv-ui-wp-spinner-light': elementState === 'downloading' || this.state.showLoading,
       'vcv-ui-icon-lock-fill': lockIcon,
-      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard && roleManager.can('editor_content_template_add', roleManager.defaultTrue())
+      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard && isAbleToAdd
     })
 
     const itemProps = {}
@@ -112,7 +114,13 @@ export default class HubTemplateControl extends ElementControl {
     if (this.isHubInWpDashboard) {
       action = null
     } else {
-      action = roleManager.can('editor_content_template_add', roleManager.defaultTrue()) ? this.addTemplate : null
+      if (isAbleToAdd) {
+        action = this.addTemplate
+      } else {
+        overlayProps.style = {
+          cursor: 'not-allowed'
+        }
+      }
     }
     if (elementState !== 'success') {
       if (lockIcon) {

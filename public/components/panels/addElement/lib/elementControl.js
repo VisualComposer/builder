@@ -530,9 +530,11 @@ export default class ElementControl extends React.Component {
       'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
       'vcv-ui-state--hidden': this.state.showSpinner
     })
+    const overlayProps = {}
+    const isAbleToRemove = roleManager.can('editor_content_presets_management', roleManager.defaultTrue())
     let removeControl = null
     if (elementPresetId) {
-      if (roleManager.can('editor_content_presets_management', roleManager.defaultTrue())) {
+      if (isAbleToRemove) {
         removeControl = (
           <span
             className={removeClasses}
@@ -586,6 +588,9 @@ export default class ElementControl extends React.Component {
           itemProps.style = {
             cursor: 'not-allowed'
           }
+          overlayProps.style = {
+            cursor: 'not-allowed'
+          }
         }
       } else {
         itemButton = <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} />
@@ -608,7 +613,7 @@ export default class ElementControl extends React.Component {
               className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt={name}
             />
-            <span className={overlayClasses}>
+            <span className={overlayClasses} {...overlayProps}>
               {itemButton}
               {removeControl ? <span className={spinnerClasses} /> : null}
             </span>
