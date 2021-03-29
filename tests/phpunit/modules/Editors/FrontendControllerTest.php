@@ -7,7 +7,7 @@ class FrontendControllerTest extends WP_UnitTestCase
         parent::setUp();
         foreach (get_editable_roles() as $roleKey => $roleData) {
             foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
-                if (strpos($capabilityKey, 'vcv_') !== false) {
+                if (strpos($capabilityKey, 'vcv_access_rules__') !== false) {
                     get_role($roleKey)->remove_cap($capabilityKey);
                 }
             }
@@ -25,7 +25,6 @@ class FrontendControllerTest extends WP_UnitTestCase
         $postId = $post->create(['post_title' => 'Test Post']);
         $this->assertTrue(current_user_can('edit_post', $postId), 'current_user_can');
         // TODO: use new user or fix tests
-        dd(wp_get_current_user()->allcaps);
         $this->assertTrue(vchelper('AccessUserCapabilities')->isEditorEnabled('post'), 'is editor enabled');
         $this->assertTrue(vchelper('AccessUserCapabilities')->canEdit($postId), 'canEdit');
     }

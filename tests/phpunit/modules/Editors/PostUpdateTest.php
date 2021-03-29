@@ -8,7 +8,6 @@ class PostUpdateTest extends WP_UnitTestCase
         $postId = $this->createPost('megaTest');
 
         $this->assertIsInt($postId);
-        //         dd(rawurldecode(get_post_meta($postId,  VCV_PREFIX . 'pageContent' , true)));
         $result = vcfilter('vcv:hub:findUpdatePosts:element/megaTest', [], ['action' => 'element/megaTest']);
         $this->assertEquals([$postId], $result);
     }

@@ -44,8 +44,6 @@ class RoleManager extends Container implements Module
 
         $this->addFilter('vcv:ajax:settings:roles:save:adminNonce', 'saveRoles');
 
-        $this->wpAddFilter('register_post_type_args', 'updateVcvPostTypes', 100, 2);
-
         // Default Fallback for rendering parts in role-manager page
         $this->addFilter(
             'vcv:render:settings:roleManager:part:*',
@@ -169,95 +167,5 @@ class RoleManager extends Container implements Module
         header('Status: 403 Forbidden');
         header('HTTP/1.1 403 Forbidden');
         exit;
-    }
-
-    protected function updateVcvPostTypes($args, $postType)
-    {
-        if (strpos($postType, 'vcv_') !== false && !in_array($postType, ['vcv_presets', 'vcv_tutorials'])) {
-
-            /// Only for vcv_headers, vcv_footer, vcv_sidebars
-            ///
-            if (in_array($postType, ['vcv_headers', 'vcv_footers', 'vcv_sidebars', 'vcv_archives', 'vcv_layouts'])) {
-                $args['capabilities'] = [
-                    'edit_post' => 'vcv_access_rules__post_type_' . $postType,
-                    'read_post' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'delete_post' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'edit_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'edit_others_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'publish_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'create_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'edit_published_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'delete_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'delete_published_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'delete_others_posts' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                    'read' => 'vcv_access_rules__dashboard_addon_theme_builder',
-                ];
-            }
-            if (in_array($postType, ['vcv_templates'])) {
-                $args['capabilities'] = [
-                    'edit_post' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'read_post' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'delete_post' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'edit_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'edit_others_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'publish_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'create_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'edit_published_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'delete_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'delete_published_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'delete_others_posts' => 'vcv_access_rules__dashboard_addon_global_templates',
-                    'read' => 'vcv_access_rules__dashboard_addon_global_templates',
-                ];
-            }
-            if (in_array($postType, ['vcv_popups'])) {
-                $args['capabilities'] = [
-                    'edit_post' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'read_post' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'delete_post' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'edit_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'edit_others_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'publish_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'create_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'edit_published_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'delete_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'delete_published_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'delete_others_posts' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                    'read' => 'vcv_access_rules__dashboard_addon_popup_builder',
-                ];
-            }
-
-            //            // Only for vcv_templates
-            //            $args['capabilities'] = [
-            //                'edit_post' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'read_post' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'delete_post' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'edit_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'edit_others_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'publish_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'create_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'edit_published_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'delete_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'delete_published_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'delete_others_posts' => 'vcv_access_rules__post_types_edit_global_templates',
-            //                'read' => 'vcv_access_rules__post_types_edit_global_templates',
-            //            ];
-            //            // Only for vcv_popups
-            //            $args['capabilities'] = [
-            //                'edit_post' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'read_post' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'delete_post' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'edit_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'edit_others_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'publish_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'create_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'edit_published_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'delete_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'delete_published_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'delete_others_posts' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //                'read' => 'vcv_access_rules__post_types_edit_popup_builder',
-            //            ];
-        }
-
-        return $args;
     }
 }

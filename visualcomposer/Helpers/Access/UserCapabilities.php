@@ -23,35 +23,33 @@ class UserCapabilities implements Helper
         if ($post->post_status === 'trash') {
             return false;
         }
-
-        // Check for postTypeObject->cap->edit_posts && post author & other capabilities
-        $hasAccess = current_user_can('edit_post', $sourceId);
-
-        $requestHelper = vchelper('Request');
-        $postId = (int)$requestHelper->input('post', 0);
-        $postId = $postId ? $postId : $requestHelper->input('post_ID', 0);
-        $postId = $postId ? $postId : $requestHelper->input('page_id', 0);
-        $postId = $postId ? $postId : $requestHelper->input('vcv-source-id', 0);
-        if ($postId) {
-            $post = get_post($postId);
-        }
-        if ($post) {
-            $forPostsId = (int)get_option('page_for_posts');
-            if ($forPostsId && $post->ID === $forPostsId) {
-                $hasAccess = false;
-            }
-        }
-
         $postType = $post->post_type;
         $postTypeObject = get_post_type_object($postType);
         if (!$postTypeObject) {
             return false;
         }
-
-        if ($hasAccess) {
-            // @codingStandardsIgnoreLine
-            $hasAccess = $this->isEditorEnabled($post->post_type);
+        $forPostsId = (int)get_option('page_for_posts');
+        $hasAccess = true;
+        if ($forPostsId && $post->ID === $forPostsId) {
+            $hasAccess = false;
         }
+        $hasAccess = $hasAccess && current_user_can('edit_post', $sourceId);
+        // @codingStandardsIgnoreLine
+        $hasAccess = $hasAccess && $this->isEditorEnabled($post->post_type);
+
+        //        $requestHelper = vchelper('Request');
+        //        $postId = (int)$requestHelper->input('post', 0);
+        //        $postId = $postId ? $postId : $requestHelper->input('post_ID', 0);
+        //        $postId = $postId ? $postId : $requestHelper->input('page_id', 0);
+        //        $postId = $postId ? $postId : $requestHelper->input('vcv-source-id', 0);
+        //        if ($postId) {
+        //            $post = get_post($postId);
+        //        }
+        //        if ($post) {
+        //
+        //        } else {
+        //            return false;
+        //        }
 
         return $hasAccess;
     }
