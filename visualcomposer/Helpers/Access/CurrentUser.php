@@ -206,7 +206,11 @@ class CurrentUser extends Container implements Helper
      */
     public function getState()
     {
-        $allCaps = wp_get_current_user()->get_role_caps();
+        $currentUser = wp_get_current_user();
+        $allCaps = $currentUser->get_role_caps();
+        if (in_array('administrator', $currentUser->roles)) {
+            return true;
+        }
         $capKey = $this->getStateKey();
         $state = null;
         if (array_key_exists($capKey, $allCaps)) {
