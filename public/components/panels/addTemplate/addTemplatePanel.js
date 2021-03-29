@@ -18,6 +18,7 @@ const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
 const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
+const roleManager = getService('roleManager')
 
 export default class AddTemplatePanel extends React.Component {
   static propTypes = {
@@ -285,6 +286,9 @@ export default class AddTemplatePanel extends React.Component {
         this.setState({ showSpinner: templateName })
         const templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
         if (!templateAddResult) {
+          this.setState({
+            showSpinner: false
+          })
           this.displayError(templateSaveFailedText)
         }
       }
@@ -508,7 +512,8 @@ export default class AddTemplatePanel extends React.Component {
       transparentOverlay = <TransparentOverlayComponent disableNavBar parent='.vcv-layout' />
     }
 
-    const saveTemplate = this.state.isRemoveStateActive ? null : (
+    const isAbleToSave = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
+    const saveTemplate = this.state.isRemoveStateActive || !isAbleToSave ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
           <form
