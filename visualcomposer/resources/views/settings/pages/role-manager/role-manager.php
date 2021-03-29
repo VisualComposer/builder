@@ -66,15 +66,8 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     flex-wrap: wrap;
     justify-content: space-between;
     box-shadow: none;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #ddd;
     border-radius: 0;
     margin: 0 0 8px;
-  }
-
-  .vcv-role-manager-capabilities-form .vcv-ui-settings-status-table:last-of-type {
-    padding-bottom: 0;
-    border: none;
   }
 
   .vcv-ui-settings-status-table-row {
@@ -82,6 +75,16 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     align-items: center;
     padding: 15px 0;
     flex: 0 0 48%;
+  }
+
+  .vcv-role-manager-capabilities-form--item .vcv-settings-section {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F1F1F1;
+  }
+
+  .vcv-role-manager-capabilities-form--item .vcv-settings-section:last-of-type {
+    border: none;
   }
 
   .vcv-settings-section .vcv-ui-settings-status-table .description {
