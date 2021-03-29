@@ -111,6 +111,11 @@ class CurrentUser extends Container implements Helper
      */
     public function getCapRule($rule)
     {
+        // Administrators have all access always
+        if (in_array('administrator', wp_get_current_user()->roles)) {
+            return true;
+        }
+
         $roleRule = $this->getStateKey() . '_' . $rule;
 
         return current_user_can($roleRule);
@@ -157,17 +162,12 @@ class CurrentUser extends Container implements Helper
         }
 
         if ($this->getValidAccess()) {
-            //            // Administrators have all access always
-            //            if ('administrator') {
-            //                $this->setValidAccess(true);
-            //
-            //                return $this;
-            //            }
-            //            if ('subscriber') {
-            //                $this->setValidAccess(false);
-            //
-            //                return $this;
-            //            }
+            // Administrators have all access always
+            if (in_array('administrator', wp_get_current_user()->roles)) {
+                $this->setValidAccess(true);
+
+                return $this;
+            }
             $rule = $this->updateMergedCaps($rule);
 
             if (true === $checkState) {

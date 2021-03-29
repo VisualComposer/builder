@@ -20,7 +20,6 @@ class Php8ContainerTest extends WP_UnitTestCase
         $this->assertEquals('Hello World!', $this->container->test());
         $this->assertEquals('Hello-World!', $this->container->testAB('Hello', 'World!'));
         $this->assertEquals('Hello-100', $this->container->testNamedAB('Hello', 100));
-        //        dd($this->container);
     }
 
     public function testContainerDIFunction()

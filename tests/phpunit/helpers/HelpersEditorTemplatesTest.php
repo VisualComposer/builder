@@ -7,7 +7,7 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
         parent::setUp();
         foreach (get_editable_roles() as $roleKey => $roleData) {
             foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
-                if (strpos($capabilityKey, 'vcv_') !== false) {
+                if (strpos($capabilityKey, 'vcv_access_rules__') !== false) {
                     get_role($roleKey)->remove_cap($capabilityKey);
                 }
             }
@@ -40,6 +40,8 @@ class HelpersEditorTemplatesTest extends WP_UnitTestCase
             ]
         );
         $this->assertTrue(is_numeric($postId));
+
+        vchelper('AccessCurrentUser')->part('dashboard')->setCapRule('addon_global_templates',true);
         $post = $postTypeHelper->setupPost($postId);
         $template = $templatesHelper->get($postId);
         if (vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {

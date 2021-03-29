@@ -215,9 +215,7 @@ class PostType implements Helper
 
         // TODO: check caps
         if (isset($queryPost->post_type) && post_type_exists($queryPost->post_type)
-            && $currentUserAccessHelper->wpAll(
-                [get_post_type_object($queryPost->post_type)->cap->read, $queryPost->ID]
-            )->get()) {
+            && $currentUserAccessHelper->wpAll(get_post_type_object($queryPost->post_type)->cap->read)->get()) {
             $post = $queryPost;
             setup_postdata($post);
             /** @var \WP_Query $wp_query */

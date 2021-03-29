@@ -17,7 +17,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
         parent::setUp();
         foreach (get_editable_roles() as $roleKey => $roleData) {
             foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
-                if (strpos($capabilityKey, 'vcv_') !== false) {
+                if (strpos($capabilityKey, 'vcv_access_rules__') !== false) {
                     get_role($roleKey)->remove_cap($capabilityKey);
                 }
             }
@@ -91,7 +91,7 @@ class VcAccessUsersTest extends WP_UnitTestCase
 
         foreach (get_editable_roles() as $roleKey => $roleData) {
             foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
-                if (strpos($capabilityKey, 'vcv_') !== false) {
+                if (strpos($capabilityKey, 'vcv_access_rules__') !== false) {
                     get_role($roleKey)->remove_cap($capabilityKey);
                 }
             }
