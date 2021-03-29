@@ -311,7 +311,7 @@ export default class EditFormHeader extends React.Component {
     const cookElement = elementAccessPoint.cook()
     const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
 
-    if (isGeneral) {
+    if (isGeneral && roleManager.can('editor_content_presets_management', roleManager.defaultTrue())) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span
