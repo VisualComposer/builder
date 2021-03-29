@@ -21,7 +21,7 @@ const RoleManager = {
   },
   defaultTrue () {
     return true
-  },
+  }
 }
 
 addService('roleManager', RoleManager)

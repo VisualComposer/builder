@@ -16,6 +16,7 @@ const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
 const documentService = vcCake.getService('document')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const roleManager = vcCake.getService('roleManager')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -531,14 +532,16 @@ export default class ElementControl extends React.Component {
     })
     let removeControl = null
     if (elementPresetId) {
-      removeControl = (
-        <span
-          className={removeClasses}
-          title={localizations.removePlaceholder.replace('%', name)}
-          onClick={this.handleRemovePreset}
-          data-action='deleteElementPreset'
-        />
-      )
+      if (roleManager.can('editor_content_presets_management', roleManager.defaultTrue())) {
+        removeControl = (
+          <span
+            className={removeClasses}
+            title={localizations.removePlaceholder.replace('%', name)}
+            onClick={this.handleRemovePreset}
+            data-action='deleteElementPreset'
+          />
+        )
+      }
     } else if (this.isElementRemovable(element)) {
       removeControl = (
         <span

@@ -23,7 +23,7 @@ const workspaceContentState = workspaceStorage.state('content')
 
 const controls = {}
 
-if(roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
+if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
   controls.pageSettings = {
     index: 0,
     type: 'pageSettings',
