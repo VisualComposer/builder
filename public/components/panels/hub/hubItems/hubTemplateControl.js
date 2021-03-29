@@ -9,6 +9,7 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubTemplateStorage = getStorage('hubTemplates')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const localizations = dataManager.get('localizations')
 const editorPopupStorage = getStorage('editorPopup')
 const settingsStorage = getStorage('settings')
@@ -101,13 +102,18 @@ export default class HubTemplateControl extends ElementControl {
       'vcv-ui-icon-download': elementState === 'inactive',
       'vcv-ui-wp-spinner-light': elementState === 'downloading' || this.state.showLoading,
       'vcv-ui-icon-lock-fill': lockIcon,
-      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
+      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard && roleManager.can('editor_content_template_add', roleManager.defaultTrue())
     })
 
     const itemProps = {}
     const overlayProps = {}
 
-    let action = this.isHubInWpDashboard ? null : this.addTemplate
+    let action
+    if (this.isHubInWpDashboard) {
+      action = null
+    } else {
+      action = roleManager.can('editor_content_template_add', roleManager.defaultTrue()) ? this.addTemplate : null
+    }
     if (elementState !== 'success') {
       if (lockIcon) {
         action = null

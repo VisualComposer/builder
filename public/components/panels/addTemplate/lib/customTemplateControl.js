@@ -70,13 +70,13 @@ export default class CustomTemplateControl extends React.Component {
         }
       }
     } else {
-      itemButton = (
+      itemButton = roleManager.can('editor_content_template_add', roleManager.defaultTrue()) ? (
         <span
           className={applyClasses}
           onClick={handleApplyTemplate}
           title={localizations.addPlaceholder.replace('%', name)}
         />
-      )
+      ) : null
     }
 
     return (
