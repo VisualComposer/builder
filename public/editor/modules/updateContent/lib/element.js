@@ -72,7 +72,8 @@ export default class Element extends React.Component {
       returnData = elementsList
     } else {
       if (currentElement.containerFor().length > 0) {
-        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && currentElement.get('metaIsElementLocked')) {
+        const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !isAbleToAdd && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && currentElement.get('metaIsElementLocked')) {
           returnData = null
         } else {
           returnData = <ContentControls api={this.props.api} id={currentElement.get('id')} />

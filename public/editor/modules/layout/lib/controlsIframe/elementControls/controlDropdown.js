@@ -6,6 +6,7 @@ import { ControlHelpers } from './controlHelpers'
 const cook = getService('cook')
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 const iframe = document.getElementById('vcv-editor-iframe')
 
@@ -104,6 +105,8 @@ function getControlDropdown (elementId, options) {
   const cookElement = options && cook.get(options)
   const elementCustomControls = cookElement.get('metaElementControls')
 
+  const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+
   // prepare actions
   const actions = []
 
@@ -117,7 +120,7 @@ function getControlDropdown (elementId, options) {
     }
   })
 
-  if (!elementCustomControls || elementCustomControls.clone !== false) {
+  if ((!elementCustomControls || elementCustomControls.clone !== false) && isAbleToAdd) {
     // clone control
     actions.push({
       label: cloneText,
@@ -129,7 +132,7 @@ function getControlDropdown (elementId, options) {
     })
   }
 
-  if (!elementCustomControls || elementCustomControls.copy !== false) {
+  if ((!elementCustomControls || elementCustomControls.copy !== false) && isAbleToAdd) {
     // copy action
     actions.push({
       label: copyText,
@@ -145,7 +148,7 @@ function getControlDropdown (elementId, options) {
   const pasteElContainerFor = cookElement && cookElement.get('containerFor')
   const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
-  if (isPasteAvailable) {
+  if (isPasteAvailable && isAbleToAdd) {
     const copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
     const pasteOptions = getPasteOptions(copyData, options)
 

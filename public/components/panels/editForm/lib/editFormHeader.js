@@ -237,6 +237,7 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       active: editable
     })
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const localizations = dataManager.get('localizations')
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
@@ -351,7 +352,7 @@ export default class EditFormHeader extends React.Component {
 
     let replaceElementIcon = null
     const isRootElement = cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')
-    if (!isRootElement) {
+    if (!isRootElement && isAbleToAdd) {
       const category = hubElementsService.getElementCategoryName(elementAccessPoint.tag) || ''
       const isReplaceShown = this.props.getReplaceShownStatus(category)
       if (isReplaceShown) {

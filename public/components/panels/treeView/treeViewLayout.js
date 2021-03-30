@@ -17,6 +17,7 @@ const workspaceTreeViewId = workspaceStorage.state('treeViewId')
 const documentManager = getService('document')
 const cook = getService('cook')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class TreeViewLayout extends React.Component {
   static propTypes = {
@@ -261,21 +262,28 @@ export default class TreeViewLayout extends React.Component {
     const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const removeAllText = localizations ? localizations.removeAll : 'Remove All'
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+    let addElementControl = null
+    if (isAbleToAdd) {
+      addElementControl = (
+        <span
+          className='vcv-ui-tree-layout-action'
+          title={addElementText}
+          onClick={this.handleAddElement}
+        >
+          <span className='vcv-ui-tree-layout-action-content'>
+            <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
+            <span>{addElementText}</span>
+          </span>
+        </span>
+      )
+    }
 
     return (
       <>
         {this.getElementsOutput()}
         <div className='vcv-ui-tree-layout-actions'>
-          <span
-            className='vcv-ui-tree-layout-action'
-            title={addElementText}
-            onClick={this.handleAddElement}
-          >
-            <span className='vcv-ui-tree-layout-action-content'>
-              <i className='vcv-ui-tree-layout-action-icon vcv-ui-icon vcv-ui-icon-add' />
-              <span>{addElementText}</span>
-            </span>
-          </span>
+          {addElementControl}
           {!this.props.isAttribute ? (
             <span
               className='vcv-ui-tree-layout-action'
