@@ -10,6 +10,7 @@ const localizations = dataManager.get('localizations')
 const hubElementsState = hubElementsStorage.state('elements')
 const editorPopupStorage = getStorage('editorPopup')
 const settingsStorage = getStorage('settings')
+const roleManager = getService('roleManager')
 
 export default class HubElementControl extends ElementControl {
   constructor (props) {
@@ -45,6 +46,7 @@ export default class HubElementControl extends ElementControl {
   render () {
     const { name, element, isDownloading, tag, isAllowedForThisRole } = this.props
     const { previewVisible, previewStyle, isNew } = this.state
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
 
     let elementState = 'downloading'
     if (!isDownloading) {
@@ -87,13 +89,20 @@ export default class HubElementControl extends ElementControl {
       'vcv-ui-icon-download': elementState === 'inactive',
       'vcv-ui-wp-spinner-light': elementState === 'downloading',
       'vcv-ui-icon-lock-fill': lockIcon,
-      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
+      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard && isAbleToAdd
     })
 
     const itemProps = {}
     const overlayProps = {}
 
-    let action = this.isHubInWpDashboard ? null : this.addElement
+    let action = this.isHubInWpDashboard || !isAbleToAdd ? null : this.addElement
+
+    if (!isAbleToAdd) {
+      overlayProps.style = {
+        cursor: 'not-allowed'
+      }
+    }
+
     if (elementState !== 'success') {
       if (lockIcon) {
         action = null

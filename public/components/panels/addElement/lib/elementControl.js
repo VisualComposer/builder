@@ -571,8 +571,9 @@ export default class ElementControl extends React.Component {
       'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
 
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const itemProps = {}
-    if (!this.props.isRemoveStateActive) {
+    if (!this.props.isRemoveStateActive && isAbleToAdd) {
       itemProps.onMouseDown = this.handleMouseDown
       itemProps.onMouseUp = this.handleMouseUp
       itemProps.onKeyPress = this.handleKeyPress
@@ -592,8 +593,12 @@ export default class ElementControl extends React.Component {
             cursor: 'not-allowed'
           }
         }
-      } else {
+      } else if (isAbleToAdd) {
         itemButton = <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} />
+      } else if (!isAbleToAdd) {
+        overlayProps.style = {
+          cursor: 'not-allowed'
+        }
       }
     }
 

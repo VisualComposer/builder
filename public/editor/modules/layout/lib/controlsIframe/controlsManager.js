@@ -103,19 +103,27 @@ export default class ControlsManager {
   createControlsWrapper () {
     this.controlsWrapper = document.createElement('div')
     this.controlsWrapper.classList.add('vcv-ui-outline-controls-wrapper')
-    this.appendControlsWrapper = document.createElement('div')
-    this.appendControlsWrapper.classList.add('vcv-ui-append-control-wrapper')
     this.iframeOverlay.appendChild(this.controlsWrapper)
-    this.iframeOverlay.appendChild(this.appendControlsWrapper)
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+    if (isAbleToAdd) {
+      this.appendControlsWrapper = document.createElement('div')
+      this.appendControlsWrapper.classList.add('vcv-ui-append-control-wrapper')
+      this.iframeOverlay.appendChild(this.appendControlsWrapper)
+    }
   }
 
   toggleControls (data) {
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (data && data.vcvEditableElements.length) {
       ReactDOM.render(<Controls data={data} />, this.controlsWrapper)
-      ReactDOM.render(<AppendControl data={data} />, this.appendControlsWrapper)
+      if (isAbleToAdd) {
+        ReactDOM.render(<AppendControl data={data} />, this.appendControlsWrapper)
+      }
     } else {
       ReactDOM.unmountComponentAtNode(this.controlsWrapper)
-      ReactDOM.unmountComponentAtNode(this.appendControlsWrapper)
+      if (isAbleToAdd) {
+        ReactDOM.unmountComponentAtNode(this.appendControlsWrapper)
+      }
     }
   }
 
