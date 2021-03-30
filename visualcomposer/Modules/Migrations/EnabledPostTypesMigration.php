@@ -15,6 +15,7 @@ use VisualComposer\Helpers\Traits\EventsFilters;
 class EnabledPostTypesMigration extends MigrationsController implements Module
 {
     use EventsFilters;
+
     protected $migrationId = 'enabledPostTypesMigrationv37';
 
     protected $migrationPriority = 1;

@@ -90,7 +90,7 @@ class Role implements Helper, Immutable
         $role = $this->getRole();
         if ($role->name === 'administrator') {
             $state = true;
-        } else if ($role->name === 'subscriber') {
+        } elseif ($role->name === 'subscriber') {
             $state = false;
         } else {
             $state = null;

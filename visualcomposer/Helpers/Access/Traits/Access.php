@@ -27,8 +27,6 @@ trait Access
     protected $mergedCaps = [
     ];
 
-    protected static $vcwbCapsCache = [];
-
     /**
      * @param $rule
      *
@@ -243,46 +241,5 @@ trait Access
         }
 
         return $this;
-    }
-
-    /**
-     * Get all capability for this part.
-     * @throws \Exception
-     */
-    public function getAllCaps($roleName)
-    {
-        if (isset(self::$vcwbCapsCache[ $roleName ])) {
-            return self::$vcwbCapsCache[ $roleName ];
-        }
-        $vcwbCaps = [];
-        $capabilities = $this->getRoleCapabilities(get_role($roleName));
-        foreach ($capabilities as $key => $value) {
-            if (preg_match('/^' . self::$partNamePrefix . '/', $key)) {
-                $rule = preg_replace('/^' . self::$partNamePrefix . '/', '', $key);
-                $vcwbCaps[ $rule ] = $value;
-            }
-        }
-
-        self::$vcwbCapsCache[ $roleName ] = $vcwbCaps;
-
-        return self::$vcwbCapsCache[ $roleName ];
-    }
-
-    protected function getRoleCapabilities($role)
-    {
-        $defaultAccess = [];
-        $defaultValue = false;
-        if ($role->name === 'administrator') {
-            // Mark all capabilities as enabled for administrator (used in FE)
-            $defaultAccess[ self::$partNamePrefix . '*' ] = true;
-            $defaultValue = true;
-        }
-
-        // Fill the "parts" with default values
-        foreach ($this->getAvailableParts() as $part) {
-            $defaultAccess[ self::$partNamePrefix . $part ] = $defaultValue;
-        }
-
-        return array_merge($defaultAccess, $role->capabilities);
     }
 }

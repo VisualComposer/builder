@@ -120,7 +120,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
 ); ?>"
         method="post"
         data-vcv-ui-element="settings-tab-<?php echo esc_attr($slug); ?>"
-        class="vcv-role-manager-capabilities-form">
+        class="vcv-role-manager-capabilities-form vcv-settings-tab-content">
     <?php
     $submitButtonAttributes = [
         'id' => 'submit_btn-' . $slug,
@@ -141,7 +141,6 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             continue;
         }
         $name = translate_user_role($details['name']);
-        $stateCapabilities = $roleAccessHelper->who($role)->getAllCaps($role);
 
         echo '<div class="vcv-role-manager-capabilities-form--item">
    <div class="vcv-role-manager-capabilities-form--item--heading">
@@ -157,7 +156,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                 [
                     'part' => $part,
                     'stateValue' => $stateValue,
-                    'stateCapabilities' => $stateCapabilities,
+                    'stateCapabilities' => $roleObject->capabilities,
                     'role' => $role,
                     'roleObject' => $roleObject,
                     'roleAccessHelper' => $roleAccessHelper,
@@ -175,7 +174,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                     [
                         'part' => $part,
                         'stateValue' => $stateValue,
-                        'stateCapabilities' => $stateCapabilities,
+                        'stateCapabilities' => $roleObject->capabilities,
                         'role' => $role,
                         'roleObject' => $roleObject,
                         'roleAccessHelper' => $roleAccessHelper,

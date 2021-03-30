@@ -8,6 +8,7 @@ import vcCake from 'vc-cake'
 import classNames from 'classnames'
 
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const hubTemplatesStorage = vcCake.getStorage('hubTemplates')
@@ -157,7 +158,7 @@ export default class AddContentPanel extends React.Component {
     })
 
     let settingsControl
-    if (dataManager.get('vcvManageOptions') || hubElementsStorage.state('elementPresets').get().length || Object.keys(hubTemplatesStorage.state('templates').get()).length) {
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) || hubElementsStorage.state('elementPresets').get().length || Object.keys(hubTemplatesStorage.state('templates').get()).length) {
       settingsControl = (
         <span className={settingsClasses} title={settingsTitle} onClick={this.handleSettingsClick}>
           <i className='vcv-ui-icon vcv-ui-icon-cog' />
