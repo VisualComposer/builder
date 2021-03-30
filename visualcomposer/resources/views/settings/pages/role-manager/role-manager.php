@@ -5,9 +5,10 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-
+/**
+ * @var array $page
+ */
 $editableRoles = get_editable_roles();
-//ksort($editableRoles);
 $roleAccessHelper = vchelper('AccessRole');
 $accessParts = $roleAccessHelper->getAvailableParts();
 ?>
@@ -193,20 +194,12 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             }
 
             if (!vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
-                ?>
-                    <div class="vcv-premium-teaser-inner">
-                        <div class="vcv-premium-teaser-image"></div>
-                        <header class="vcv-premium-teaser-header">
-                            <h2 class="vcv-premium-teaser-heading">PREMIUM ROLE MANAGER</h2>
-                        </header>
-                        <div class="vcv-premium-teaser-content">
-                            <p class="vcv-premium-teaser-text">Control feature access for certain user roles. Lock functionality, restrict elements, and more.</p>
-                        </div>
-                        <div class="vcv-download-addon-button-container">
-                            <a class="vcv-premium-teaser-btn" href="<?php echo vchelper('Utm')->get('vcdashboard-teaser-rolemanager'); ?>" target="_blank" rel="noopener noreferrer">Go Premium</a>
-                        </div>
-                    </div>
-                <?php
+                echo vcview(
+                    'partials/teaser',
+                    [
+                        'page' => $page,
+                    ]
+                );
             }
         }
         echo '

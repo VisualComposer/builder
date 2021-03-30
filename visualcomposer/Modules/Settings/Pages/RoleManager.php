@@ -88,6 +88,10 @@ class RoleManager extends Container implements Module
             'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-lock',
             'isDashboardPage' => true,
+            'premiumTitle' => __('PREMIUM ROLE MANAGER', 'visualcomposer'),
+            'premiumDescription' => __('Control feature access for certain user roles. Lock functionality, restrict elements, and more.', 'visualcomposer'),
+            'premiumUrl' => vchelper('Utm')->get('vcdashboard-teaser-rolemanager'),
+            'premiumActionBundle' => 'roleManager',
         ];
         $this->addSubmenuPage($page, false);
     }
