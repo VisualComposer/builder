@@ -193,7 +193,6 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             }
 
             if (!vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
-                // TODO: Show Teaser
                 ?>
                     <div class="vcv-premium-teaser-inner">
                         <div class="vcv-premium-teaser-image"></div>
@@ -204,7 +203,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                             <p class="vcv-premium-teaser-text">Control feature access for certain user roles. Lock functionality, restrict elements, and more.</p>
                         </div>
                         <div class="vcv-download-addon-button-container">
-                            <a class="vcv-premium-teaser-btn" href="" target="_blank" rel="noopener noreferrer">Go Premium</a>
+                            <a class="vcv-premium-teaser-btn" href="<?php echo vchelper('Utm')->get('vcdashboard-teaser-rolemanager'); ?>" target="_blank" rel="noopener noreferrer">Go Premium</a>
                         </div>
                     </div>
                 <?php
