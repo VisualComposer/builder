@@ -80,8 +80,7 @@ class Settings extends Container implements Module
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
         $gettingStartedController = vcapp('LicensePagesGettingStarted');
-        // TODO: Roles Changes
-        $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
+        $hasAccess = $currentUserAccess->wpAll('edit_pages')->get();
 
         if ($hasAccess) {
             $pageSlug = $this->getSlug();

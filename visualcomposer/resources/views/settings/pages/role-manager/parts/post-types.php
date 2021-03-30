@@ -26,7 +26,6 @@ if (!defined('ABSPATH')) {
                 if (!$postTypeObject) {
                     continue;
                 }
-                // TODO: Add this for role saving action as well (only for part post_types)
                 $hasAccess = $roleObject->has_cap($postTypeObject->cap->edit_posts);
                 if (!$hasAccess) {
                     continue;
@@ -34,11 +33,11 @@ if (!defined('ABSPATH')) {
                 ?>
                 <div class="vcv-ui-settings-status-table-row">
                     <div class="vcv-ui-settings-status-table-title description"><?php echo $postType['label']; ?></div>
-                    <div class="vcv-ui-settings-status-table-content"><?php
+                    <div class="vcv-ui-settings-status-table-content">
+                        <?php
                         $index = 'edit_' . $postType['value'];
-                        $capabilityKey = $part . '_' . $index;
-                        $isEnabled = isset($stateCapabilities[ $capabilityKey ])
-                            && $stateCapabilities[ $capabilityKey ];
+                        $capabilityKey = 'vcv_access_rules__' . $part . '_' . $index;
+                        $isEnabled = isset($stateCapabilities[ $capabilityKey ]) && $stateCapabilities[ $capabilityKey ];
                         echo vcview(
                             'settings/fields/toggle',
                             [
@@ -47,7 +46,9 @@ if (!defined('ABSPATH')) {
                                 'isEnabled' => $isEnabled,
                                 'title' => '',
                             ]
-                        ); ?></div>
+                        );
+                        ?>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </div>

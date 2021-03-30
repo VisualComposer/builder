@@ -122,7 +122,6 @@ class Controller extends Container implements Module
         // Add any additional custom post types.
         $actions = [];
         foreach ($cpts as $cpt) {
-            // TODO: Check caps
             if (!current_user_can($cpt->cap->create_posts) || !$userCapabilitiesHelper->isEditorEnabled($cpt->name)) {
                 continue;
             }

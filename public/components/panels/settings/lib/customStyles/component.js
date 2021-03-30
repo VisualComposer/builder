@@ -5,6 +5,7 @@ import { setData, getStorage, getService } from 'vc-cake'
 import Tooltip from '../../../../tooltip/tooltip'
 const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class CustomStyles extends React.Component {
   static localizations = dataManager.get('localizations')
@@ -19,7 +20,7 @@ export default class CustomStyles extends React.Component {
 
   constructor (props) {
     super(props)
-    if (dataManager.get('vcvManageOptions')) {
+    if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultAdmin())) {
       this.styleData.push(
         {
           buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',

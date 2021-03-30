@@ -58,7 +58,7 @@ class SettingsController extends Container implements Module
         $slug = $requestHelper->input('vcv-page-slug');
         $pageInfo = vchelper('SettingsTabsRegistry')->get($slug);
         $hasAccess = false;
-        if(!empty($pageInfo)) {
+        if (!empty($pageInfo)) {
             $capability = 'manage_options';
             $part = null;
             if (isset($pageInfo['capability'])) {
@@ -84,12 +84,14 @@ class SettingsController extends Container implements Module
             $updatedFields = $fieldsRegistry->findBySlug($slug, 'group');
             if (is_array($updatedFields)) {
                 foreach ($updatedFields as $field) {
-                    // TODO: sanitize
-                    $optionsHelper->set($field['name'], $requestHelper->input(VCV_PREFIX . $field['name'], ''));
+                    $optionsHelper->set(
+                        $field['name'],
+                        esc_sql($requestHelper->input(VCV_PREFIX . $field['name'], ''))
+                    );
                 }
             }
 
-            $response = ['status'=>true];
+            $response = ['status' => true];
             wp_send_json($response);
             exit;
         }

@@ -94,8 +94,7 @@ export default class HubTemplateControl extends ElementControl {
 
     const publicPathThumbnail = element.metaThumbnailUrl
     const publicPathPreview = element.metaPreviewUrl
-    const isAbleToAdd = false
-    // const isAbleToAdd = roleManager.can('editor_content_template_add', roleManager.defaultTrue())
+    const isAbleToAdd = roleManager.can('editor_content_template_add', roleManager.defaultTrue())
 
     const iconClasses = classNames({
       'vcv-ui-item-add': true,

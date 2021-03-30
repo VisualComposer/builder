@@ -111,11 +111,6 @@ class CurrentUser extends Container implements Helper
      */
     public function getCapRule($rule)
     {
-        // Administrators have all access always
-        if (in_array('administrator', wp_get_current_user()->roles)) {
-            return true;
-        }
-
         $roleRule = $this->getStateKey() . '_' . $rule;
 
         return current_user_can($roleRule);
@@ -163,7 +158,7 @@ class CurrentUser extends Container implements Helper
 
         if ($this->getValidAccess()) {
             // Administrators have all access always
-            if (in_array('administrator', wp_get_current_user()->roles)) {
+            if (current_user_can('administrator')) {
                 $this->setValidAccess(true);
 
                 return $this;
@@ -208,7 +203,7 @@ class CurrentUser extends Container implements Helper
     {
         $currentUser = wp_get_current_user();
         $allCaps = $currentUser->get_role_caps();
-        if (in_array('administrator', $currentUser->roles)) {
+        if (current_user_can('administrator')) {
             return true;
         }
         $capKey = $this->getStateKey();
@@ -218,5 +213,26 @@ class CurrentUser extends Container implements Helper
         }
 
         return vcfilter('vcv:access:currentUser:getState:accessWith:' . $this->getPart(), $state, $this->getPart());
+    }
+
+    public function getAllUserCaps()
+    {
+        $currentUser = wp_get_current_user();
+        $allCaps = $currentUser->get_role_caps();
+
+        $defaultValue = false;
+        $defaultAccess = [];
+        if (current_user_can('administrator')) {
+            // Mark all capabilities as enabled for administrator (used in FE)
+            $defaultAccess[ self::$partNamePrefix . '*' ] = true;
+            $defaultValue = true;
+        }
+
+        // Fill the "parts" with default values
+        foreach ($this->getAvailableParts() as $part) {
+            $defaultAccess[ self::$partNamePrefix . $part ] = $defaultValue;
+        }
+
+        return array_merge($defaultAccess, $allCaps);
     }
 }

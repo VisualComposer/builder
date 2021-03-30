@@ -50,7 +50,6 @@ class RoleManager extends Container implements Module
             function ($content, $payload) {
                 if (empty($content)) {
                     $part = $payload['part'];
-                    // TODO: Check if view exists to avoid warning
                     // Try to render from plugin
                     $content = vcview('settings/pages/role-manager/parts/' . str_replace('_', '-', $part), $payload);
                 }
@@ -59,6 +58,22 @@ class RoleManager extends Container implements Module
             },
             1000
         );
+
+        $this->wpAddFilter('user_has_cap', 'addRoleManagerCaps');
+    }
+
+    protected function addRoleManagerCaps($allcaps, $caps, $args, $user)
+    {
+        // Must have ALL requested caps.
+        if (array_key_exists('administrator', $allcaps)) {
+            foreach ((array)$caps as $cap) {
+                if (strpos($cap, 'vcv_access_rules__') !== false && strpos($cap, 'vcv_access_rules__post_types') === false && empty($allcaps[ $cap ])) {
+                    $allcaps[ $cap ] = true;
+                }
+            }
+        }
+
+        return $allcaps;
     }
 
     /**
@@ -82,16 +97,20 @@ class RoleManager extends Container implements Module
      */
     protected function getWpRoles()
     {
+        // @codingStandardsIgnoreLine
         global $wp_roles;
         if (function_exists('wp_roles')) {
+            // @codingStandardsIgnoreLine
             return $wp_roles;
-        } else {
-            if (!isset($wp_roles)) {
-                // @codingStandardsIgnoreLine
-                $wp_roles = new \WP_Roles();
-            }
         }
 
+        // @codingStandardsIgnoreLine
+        if (!isset($wp_roles)) {
+            // @codingStandardsIgnoreLine
+            $wp_roles = new \WP_Roles();
+        }
+
+        // @codingStandardsIgnoreLine
         return $wp_roles;
     }
 
@@ -121,8 +140,9 @@ class RoleManager extends Container implements Module
         //        }
         //        die('RESET OK!');
 
-        if ($currentUserAccess->can('manage_options')->get()) {
+        if ($currentUserAccess->wpAll('manage_options')->get()) {
             $roles = $this->getWpRoles();
+            // @codingStandardsIgnoreLine
             $roles->use_db = true;
             //            if (
             //                vchelper('Request')->input('vcv-submitter') === 'remove_all_btn'
@@ -147,18 +167,7 @@ class RoleManager extends Container implements Module
             $roleAccessHelper = vchelper('AccessRole');
             // Save new capabilities
             foreach ($roleCapabilities as $roleKey => $partData) {
-                foreach ($roleAccessHelper->getAvailableParts() as $part) {
-                    if (isset($partData[ $part ])) {
-                        if ($partData[ $part ] === 'on') {
-                            $roleAccessHelper->who($roleKey)->part($part)->setState(true);
-                        } elseif (is_array($partData[ $part ])) {
-                            // It is multi-value capability like posts_*
-                            foreach ($partData[ $part ] as $roleCap) {
-                                $roleAccessHelper->who($roleKey)->part($part)->setCapRule($roleCap, true);
-                            }
-                        }
-                    }
-                }
+                $this->updatePartsLoop($roleAccessHelper, $partData, $roleKey);
             }
             echo 'OK!';
             exit;
@@ -167,5 +176,37 @@ class RoleManager extends Container implements Module
         header('Status: 403 Forbidden');
         header('HTTP/1.1 403 Forbidden');
         exit;
+    }
+
+    /**
+     * @param mixed $partData
+     * @param mixed $part
+     * @param mixed $roleAccessHelper
+     * @param int|string $roleKey
+     */
+    protected function updatePart($partData, $part, $roleAccessHelper, $roleKey)
+    {
+        if ($partData === 'on') {
+            $roleAccessHelper->who($roleKey)->part($part)->setState(true);
+        } elseif (is_array($partData)) {
+            // It is multi-value capability like posts_*
+            foreach ($partData[$part] as $roleCap) {
+                $roleAccessHelper->who($roleKey)->part($part)->setCapRule($roleCap, true);
+            }
+        }
+    }
+
+    /**
+     * @param mixed $roleAccessHelper
+     * @param mixed $partData
+     * @param int|string $roleKey
+     */
+    protected function updatePartsLoop($roleAccessHelper, $partData, $roleKey)
+    {
+        foreach ($roleAccessHelper->getAvailableParts() as $part) {
+            if (isset($partData[ $part ])) {
+                $this->updatePart($partData, $part, $roleAccessHelper, $roleKey);
+            }
+        }
     }
 }

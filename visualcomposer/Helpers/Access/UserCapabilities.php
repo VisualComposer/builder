@@ -23,6 +23,7 @@ class UserCapabilities implements Helper
         if ($post->post_status === 'trash') {
             return false;
         }
+        // @codingStandardsIgnoreLine
         $postType = $post->post_type;
         $postTypeObject = get_post_type_object($postType);
         if (!$postTypeObject) {
@@ -71,8 +72,6 @@ class UserCapabilities implements Helper
         } elseif (in_array($postType, ['vcv_popups'])) {
             $hasAccess = $currentUserAccessHelper->part('dashboard')->can('addon_popup_builder', false)->get();
         }
-
-        // TODO: native wp checks for user roles
 
         return $hasAccess;
     }
