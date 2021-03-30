@@ -224,15 +224,23 @@ class CurrentUser extends Container implements Helper
         $defaultAccess = [];
         if (current_user_can('administrator')) {
             // Mark all capabilities as enabled for administrator (used in FE)
-            $defaultAccess[ self::$partNamePrefix . '*' ] = true;
+            $defaultAccess[ '*' ] = true;
             $defaultValue = true;
+        }
+
+        $vcwbCaps = [];
+        foreach ($allCaps as $key => $value) {
+            if (preg_match('/^' . self::$partNamePrefix . '/', $key)) {
+                $rule = preg_replace('/^' . self::$partNamePrefix . '/', '', $key);
+                $vcwbCaps[ $rule ] = $value;
+            }
         }
 
         // Fill the "parts" with default values
         foreach ($this->getAvailableParts() as $part) {
-            $defaultAccess[ self::$partNamePrefix . $part ] = $defaultValue;
+            $defaultAccess[ $part ] = $defaultValue;
         }
 
-        return array_merge($defaultAccess, $allCaps);
+        return array_merge($defaultAccess, $vcwbCaps);
     }
 }
