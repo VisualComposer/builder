@@ -84,6 +84,7 @@ class RoleManager extends Container implements Module
         $page = [
             'slug' => $this->slug,
             'title' => __('Role Manager', 'visualcomposer'),
+            'description' => __('Manage WordPress user role access rights for all Visual Composer features. Select predefined configurations or customize access rights for any user role.', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-lock',
