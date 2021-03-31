@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
     <h2>Post Types</h2>
     <div class="vcv-ui-settings-status-tables-wrapper">
         <div class="vcv-ui-settings-status-table">
-            <p class="description">Enable/disable Visual Composer.</p>
+            <p class="description">Enable or disable Visual Composer on these post types.</p>
         </div>
         <div class="vcv-ui-settings-status-table">
             <?php
