@@ -17,6 +17,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin-top: 20px;
   }
 
   .vcv-role-manager-capabilities-form .vcv-premium-teaser-inner {
@@ -41,7 +42,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     font-family: 'Montserrat', sans-serif;
     line-height: 22px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
     color: #515162;
     position: relative;
     cursor: pointer;
@@ -173,9 +174,9 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                     'roleAccessHelper' => $roleAccessHelper,
                 ]
             );
-            echo 'The rest options are enabled for Administrator user role';
+            echo '<p class="description">The rest options are enabled for Administrator user role</p>';
         } elseif ($role === 'subscriber') {
-            echo 'Select user role preset for Author or customize access rights.';
+            echo '<p class="description">Select user role preset for Author or customize access rights.</p>';
         } else {
             foreach ($accessParts as $part) {
                 $stateValue = $roleAccessHelper->who($role)->part($part)->getState();
