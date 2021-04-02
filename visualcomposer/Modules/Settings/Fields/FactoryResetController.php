@@ -123,12 +123,6 @@ class FactoryResetController extends Container implements Module
         $optionsHelper->set('settingsResetInitiated', time());
         vcevent('vcv:system:factory:reset');
         wp_cache_flush();
-        $noticeHelper->addNotice(
-            'vcv-reset-success',
-            __('Visual Composer asset reset was successful.', 'visualcomposer'),
-            'success',
-            true
-        );
         wp_redirect(admin_url('admin.php?page=vcv-settings'));
         exit;
     }
