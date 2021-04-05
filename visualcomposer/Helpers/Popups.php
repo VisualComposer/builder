@@ -61,8 +61,9 @@ class Popups implements Helper
 
         $result = false;
         $optionsHelper = vchelper('Options');
+        $licenseHelper = vchelper('License');
         // Only if Free license activated and popup never shown before (never closed actually)
-        if (empty($optionsHelper->get('premium-promo-popup-closed'))) {
+        if (!$licenseHelper->isPremiumActivated() && empty($optionsHelper->get('premium-promo-popup-closed'))) {
             // 3 days delay if feedback popup is closed
             // 14 days delay after free license activated
             $showFeedbackPopup = $this->showFeedbackPopup();
