@@ -126,7 +126,8 @@ class Frontend implements Helper
         $sourceId = apply_filters(
             'wpml_object_id',
             $sourceId,
-            get_post_type($sourceId)
+            get_post_type($sourceId),
+            true
         );
         vcevent('vcv:frontend:renderContent', $sourceId); // Used in Reset check
 
