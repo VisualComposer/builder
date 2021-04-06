@@ -50,12 +50,12 @@ class ParentPageController extends Container implements Module
 
         $currentParentPage = 'none';
         $pages[] = ['label' => __('None', 'visualcomposer'), 'value' => 'none'];
-        // @codingStandardsIgnoreLine
         $postQuery = [
+            // @codingStandardsIgnoreLine
             'post_type' => $currentPost->post_type,
             'posts_per_page' => -1,
             'orderby' => 'title',
-            'order'   => 'ASC'
+            'order' => 'ASC'
         ];
 
         // Set source id for ajax requests
@@ -73,13 +73,14 @@ class ParentPageController extends Container implements Module
         $posts = $postTypeHelper->query($postQuery);
         foreach ($posts as $post) {
             /** @var \WP_Post $post */
-            // @codingStandardsIgnoreLine
+            // @codingStandardsIgnoreStart
             $pages[] = [
                 'label' => $post->post_title,
                 'id' => $post->ID,
                 'value' => (string)$post->ID,
                 'parent' => $post->post_parent
             ];
+            // @codingStandardsIgnoreEnd
         }
 
         // @codingStandardsIgnoreLine
