@@ -70,7 +70,8 @@ export default class ParentPage extends React.Component {
             options={{
               values: data.all,
               reloadAction: 'parentPage',
-              global: 'VCV_PAGE_LIST'
+              global: 'VCV_PAGE_LIST',
+              nesting: true
             }}
             setLoadingState={this.changeLoadingState}
             updater={this.valueChangeHandler}
