@@ -55,6 +55,7 @@ export default class HubAddonControl extends React.Component {
     const downloadAddonText = localizations.downloadAddonText || 'Download Addon'
     const addonInstalledText = localizations.installedText || 'Installed'
     const availableInPremiumText = localizations.availableInPremiumText || 'Available in Premium'
+    const restrictedText = localizations.restrictedText || 'Restricted'
     let buttonText
 
     let action = this.handleAddonClick
@@ -74,7 +75,7 @@ export default class HubAddonControl extends React.Component {
     } else if (elementState === 'inactive') {
       buttonText = downloadAddonText
       if (!isAllowedForThisRole) {
-        buttonText = 'Restricted'
+        buttonText = restrictedText
       }
     }
 

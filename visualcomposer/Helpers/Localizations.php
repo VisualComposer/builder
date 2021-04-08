@@ -1696,6 +1696,10 @@ class Localizations extends Container implements Helper
                 '{name}',
                 '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
+            ),
+            'restrictedText' => __(
+                'Restricted',
+                'visualcomposer'
             )
         ];
 

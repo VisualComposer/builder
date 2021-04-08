@@ -14,13 +14,11 @@ class EditorPostType implements Helper
 {
     public function isEditorEnabled($postType)
     {
-//        _deprecated_function();
         return in_array($postType, $this->getEnabledPostTypes(), true);
     }
 
     public function getEnabledPostTypes()
     {
-//        _deprecated_function();
         $optionsHelper = vchelper('Options');
         $postTypes = $optionsHelper->get('post-types', ['post', 'page']);
 

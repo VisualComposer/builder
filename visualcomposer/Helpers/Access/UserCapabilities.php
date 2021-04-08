@@ -38,20 +38,6 @@ class UserCapabilities implements Helper
         // @codingStandardsIgnoreLine
         $hasAccess = $hasAccess && $this->isEditorEnabled($post->post_type);
 
-        //        $requestHelper = vchelper('Request');
-        //        $postId = (int)$requestHelper->input('post', 0);
-        //        $postId = $postId ? $postId : $requestHelper->input('post_ID', 0);
-        //        $postId = $postId ? $postId : $requestHelper->input('page_id', 0);
-        //        $postId = $postId ? $postId : $requestHelper->input('vcv-source-id', 0);
-        //        if ($postId) {
-        //            $post = get_post($postId);
-        //        }
-        //        if ($post) {
-        //
-        //        } else {
-        //            return false;
-        //        }
-
         return $hasAccess;
     }
 
