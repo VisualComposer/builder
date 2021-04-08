@@ -24,7 +24,13 @@ class FrontendControllerTest extends WP_UnitTestCase
         $post = new WP_UnitTest_Factory_For_Post($this);
         $postId = $post->create(['post_title' => 'Test Post']);
         $this->assertTrue(current_user_can('edit_post', $postId), 'current_user_can');
-        // TODO: use new user or fix tests
+        $this->assertFalse(vchelper('AccessUserCapabilities')->isEditorEnabled('any_post_type'), 'is editor enabled');
+
+        // Enable any post type
+        vchelper('AccessRole')->who('administrator')->part('post_types')->setCapRule('edit_' . 'any_post_type', true);
+        vchelper('AccessRole')->who('administrator')->part('post_types')->setCapRule('edit_' . 'post', true);
+
+        $this->assertTrue(vchelper('AccessUserCapabilities')->isEditorEnabled('any_post_type'), 'is editor enabled');
         $this->assertTrue(vchelper('AccessUserCapabilities')->isEditorEnabled('post'), 'is editor enabled');
         $this->assertTrue(vchelper('AccessUserCapabilities')->canEdit($postId), 'canEdit');
     }
