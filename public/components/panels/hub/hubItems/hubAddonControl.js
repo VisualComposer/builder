@@ -62,7 +62,7 @@ export default class HubAddonControl extends React.Component {
       if (!lockIcon) {
         action = this.downloadAddon
         if (!isAllowedForThisRole) {
-          action = () => {}
+          action = null
         }
       }
     }
