@@ -47,7 +47,7 @@ class Controller extends Container implements Module
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
         $response = '';
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             !defined('CONCATENATE_SCRIPTS') && define('CONCATENATE_SCRIPTS', false);
             $postTypeHelper->setupPost($sourceId);
             global $post;
