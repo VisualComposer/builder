@@ -23,8 +23,6 @@ class MenuController extends Container implements Module
         $this->wpAddAction('admin_menu', 'updateAddNewMenus');
 
         /** WordPress edit.php page */
-
-        // TODO: REMOVE THIS and use JS approach
         $this->wpAddAction(
             'in_admin_header',
             'startBuffer'
