@@ -70,8 +70,8 @@ class BundleController extends Container implements Module
         if (
             // @codingStandardsIgnoreLine
             $screen->post_type === get_post_type()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
             && !$frontendHelper->isFrontend()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
         ) {
             // Add CSS
             wp_enqueue_style(
