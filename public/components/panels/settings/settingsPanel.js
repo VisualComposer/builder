@@ -22,8 +22,10 @@ const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 
 const controls = {}
+let activeSection = null
 
 if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
+  activeSection = 'pageSettings'
   controls.pageSettings = {
     index: 0,
     type: 'pageSettings',
@@ -31,8 +33,11 @@ if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
     content: <PageSettings />
   }
 }
-
+  
 if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
+  if (!activeSection) {
+    activeSection = 'customCss'
+  }
   controls.customCss = {
     index: 1,
     type: 'customCss',
@@ -46,10 +51,13 @@ if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
     content: <CustomScripts />
   }
 }
-
+  
 const editorType = dataManager.get('editorType')
 const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
 if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
+  if (!activeSection) {
+    activeSection = 'popup'
+  }
   controls.popup = {
     index: 3,
     type: 'popup',
@@ -57,8 +65,11 @@ if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_setting
     content: <Popup />
   }
 }
-
+  
 if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
+  if (!activeSection) {
+    activeSection = 'elementsLock'
+  }
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
@@ -70,17 +81,6 @@ if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()))
 export default class SettingsPanel extends React.Component {
   constructor (props) {
     super(props)
-
-    let activeSection = null
-    if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
-      activeSection = 'pageSettings'
-    } else if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
-      activeSection = 'customCss'
-    } else if (roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
-      activeSection = 'popup'
-    } else if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
-      activeSection = 'elementsLock'
-    }
 
     this.state = {
       activeSection: activeSection,
