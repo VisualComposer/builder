@@ -117,7 +117,7 @@ export default class Navbar extends React.Component {
       return
     }
     // TODO: move all this logic to wrapper
-    let cookieState = {}
+    const cookieState = {}
     if (Utils.hasCookie('navPosition')) {
       cookieState.navbarPosition = Utils.getCookie('navPosition')
     }
