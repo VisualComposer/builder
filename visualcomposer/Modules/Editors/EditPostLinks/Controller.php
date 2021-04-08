@@ -125,9 +125,6 @@ class Controller extends Container implements Module
             if (!current_user_can($cpt->cap->create_posts) || !$userCapabilitiesHelper->isEditorEnabled($cpt->name)) {
                 continue;
             }
-            if (in_array($cpt->name, ['vcv_templates', 'vcv_headers', 'vcv_footers', 'vcv_sidebars'])) {
-                continue;
-            }
             $key = 'post-new.php?post_type=' . $cpt->name;
             $actions[ $key ] = ['id' => 'new-' . $cpt->name];
         }
