@@ -33,7 +33,7 @@ if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
     content: <PageSettings />
   }
 }
-  
+
 if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
   if (!activeSection) {
     activeSection = 'customCss'
@@ -51,7 +51,7 @@ if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
     content: <CustomScripts />
   }
 }
-  
+
 const editorType = dataManager.get('editorType')
 const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
 if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
@@ -65,7 +65,7 @@ if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_setting
     content: <Popup />
   }
 }
-  
+
 if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
   if (!activeSection) {
     activeSection = 'elementsLock'
