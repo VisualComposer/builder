@@ -129,32 +129,10 @@ class RoleManager extends Container implements Module
      */
     protected function saveRoles($response, $payload, Request $requestHelper, CurrentUser $currentUserAccess)
     {
-        //        $roles = $this->getWpRoles();
-        //        $roles->use_db = true;
-        //        // reset everything to default
-        //        // Remove all role capabilities with vcv_*
-        //        foreach ($roles->get_names() as $roleKey => $roleName) {
-        //            $role = $roles->get_role($roleKey);
-        //            if (!is_null($role)) {
-        //                foreach ($role->capabilities as $capabilityKey => $value) {
-        //                    if (strpos($capabilityKey, 'vcv_access_rules__') !== false) {
-        //                        $role->remove_cap($capabilityKey);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        die('RESET OK!');
-
         if ($currentUserAccess->wpAll('manage_options')->get()) {
             $roles = $this->getWpRoles();
             // @codingStandardsIgnoreLine
             $roles->use_db = true;
-            //            if (
-            //                vchelper('Request')->input('vcv-submitter') === 'remove_all_btn'
-            //                || vchelper('Request')->input('vcv-submitter') === 'reset_btn'
-            //            ) {
-            //
-            //            }
 
             // Remove all role capabilities with vcv_*
             foreach ($roles->get_names() as $roleKey => $roleName) {

@@ -174,9 +174,15 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                     'roleAccessHelper' => $roleAccessHelper,
                 ]
             );
-            echo '<p class="description">All other options are enabled for the Administrator user role</p>';
+            echo sprintf(
+                '<p class="description">%s</p>',
+                __('All other options are enabled for the Administrator user role.', 'visualcomposer')
+            );
         } elseif ($role === 'subscriber') {
-            echo '<p class="description">All options are disabled for the Subscriber user roel.</p>';
+            echo sprintf(
+                '<p class="description">%s</p>',
+                __('All options are disabled for the Subscriber user role.', 'visualcomposer')
+            );
         } else {
             foreach ($accessParts as $part) {
                 $stateValue = $roleAccessHelper->who($role)->part($part)->getState();

@@ -13,10 +13,10 @@ if (!defined('ABSPATH')) {
  */
 ?>
 <div class="vcv-settings-section vcv-settings_vcv-settings-gutenberg-editor-enabled">
-    <h2>Post Types</h2>
+    <h2><?php __('Post Types', 'visualcomposer') ?></h2>
     <div class="vcv-ui-settings-status-tables-wrapper">
         <div class="vcv-ui-settings-status-table">
-            <p class="description">Enable or disable Visual Composer on these post types.</p>
+            <p class="description"><?php __('Enable or disable Visual Composer on these post types.', 'visualcomposer') ?></p>
         </div>
         <div class="vcv-ui-settings-status-table">
             <?php
