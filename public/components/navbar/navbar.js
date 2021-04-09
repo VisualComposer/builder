@@ -106,8 +106,7 @@ export default class Navbar extends React.Component {
     })
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
+  componentDidMount () {
     const { draggable } = this.props
     if (!draggable) {
       this.setState({
@@ -118,7 +117,7 @@ export default class Navbar extends React.Component {
       return
     }
     // TODO: move all this logic to wrapper
-    let cookieState = {}
+    const cookieState = {}
     if (Utils.hasCookie('navPosition')) {
       cookieState.navbarPosition = Utils.getCookie('navPosition')
     }
@@ -141,11 +140,6 @@ export default class Navbar extends React.Component {
       }
     }
     this.setState(cookieState)
-  }
-
-  /* eslint-enable */
-
-  componentDidMount () {
     boundingRectState.onChange(this.updateNavbarBounding)
     const spacerElement = this.spacerRef && this.spacerRef.current
     if (spacerElement) {
@@ -246,6 +240,11 @@ export default class Navbar extends React.Component {
       positionState.set(this.state.navbarPosition)
       // this.props.api.request('ui:settingsUpdated', this.state.navbarPosition)
     }
+    if (prevState.visibleControls.length !== this.state.visibleControls.length) {
+      setTimeout(() => {
+        this.refreshControls(this.state.visibleControls)
+      }, 1)
+    }
   }
 
   getVisibleControls (visibleControls) {
@@ -268,16 +267,6 @@ export default class Navbar extends React.Component {
     controls.reverse()
     return controls
   }
-
-  /* eslint-disable */
-  UNSAFE_componentWillUpdate (nextProps, nextState) {
-    if (nextState.visibleControls.length !== this.state.visibleControls.length) {
-      setTimeout(() => {
-        this.refreshControls(nextState.visibleControls)
-      }, 1)
-    }
-  }
-  /* eslint-enable */
 
   handleDropdown () {
     this.setState({
