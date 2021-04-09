@@ -29,7 +29,7 @@ class HeartbeatController extends Container implements Module
     {
         if (isset($response['wp-refresh-post-nonces']) && isset($data['wp-refresh-post-nonces'])) {
             $sourceId = $data['wp-refresh-post-nonces']['post_id'];
-            if ($sourceId && $currentUser->wpAll(['edit_posts', $sourceId])->get()) {
+            if ($sourceId && $currentUser->wpAll(['edit_post', $sourceId])->get()) {
                 $response['wp-refresh-post-nonces']['vcvNonce'] = $nonceHelper->admin();
             }
         }

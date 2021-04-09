@@ -34,7 +34,7 @@ trait ShortcodesTrait
         CurrentUser $currentUserAccessHelper
     ) {
         $sourceId = (int)$request->input('vcv-source-id');
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             if (!is_array($response)) {
                 $response = [];
             }

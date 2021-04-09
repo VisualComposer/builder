@@ -16,6 +16,7 @@ const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
 const documentService = vcCake.getService('document')
 const hubElementsStorage = vcCake.getStorage('hubElements')
+const roleManager = vcCake.getService('roleManager')
 
 export default class ElementControl extends React.Component {
   static propTypes = {
@@ -484,7 +485,7 @@ export default class ElementControl extends React.Component {
       'layoutWpCommentsArea',
       'layoutWpContentArea'
     ]
-    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
+    const vcvIsUserAdmin = roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin())
 
     return vcvIsUserAdmin && !element.metaIsDefaultElement && !element.thirdParty && addonElements.indexOf(element.tag) === -1
   }
@@ -529,16 +530,20 @@ export default class ElementControl extends React.Component {
       'vcv-ui-icon vcv-ui-icon-close-thin vcv-ui-form-attach-image-item-control-state--danger': true,
       'vcv-ui-state--hidden': this.state.showSpinner
     })
+    const overlayProps = {}
+    const isAbleToRemove = roleManager.can('editor_content_presets_management', roleManager.defaultTrue())
     let removeControl = null
     if (elementPresetId) {
-      removeControl = (
-        <span
-          className={removeClasses}
-          title={localizations.removePlaceholder.replace('%', name)}
-          onClick={this.handleRemovePreset}
-          data-action='deleteElementPreset'
-        />
-      )
+      if (isAbleToRemove) {
+        removeControl = (
+          <span
+            className={removeClasses}
+            title={localizations.removePlaceholder.replace('%', name)}
+            onClick={this.handleRemovePreset}
+            data-action='deleteElementPreset'
+          />
+        )
+      }
     } else if (this.isElementRemovable(element)) {
       removeControl = (
         <span
@@ -566,8 +571,9 @@ export default class ElementControl extends React.Component {
       'vcv-ui-item-control--visible': this.props.isRemoveStateActive
     })
 
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const itemProps = {}
-    if (!this.props.isRemoveStateActive) {
+    if (!this.props.isRemoveStateActive && isAbleToAdd) {
       itemProps.onMouseDown = this.handleMouseDown
       itemProps.onMouseUp = this.handleMouseUp
       itemProps.onKeyPress = this.handleKeyPress
@@ -583,9 +589,16 @@ export default class ElementControl extends React.Component {
           itemProps.style = {
             cursor: 'not-allowed'
           }
+          overlayProps.style = {
+            cursor: 'not-allowed'
+          }
         }
-      } else {
+      } else if (isAbleToAdd) {
         itemButton = <span title={localizations.addPlaceholder.replace('%', name)} className={applyClasses} />
+      } else if (!isAbleToAdd) {
+        overlayProps.style = {
+          cursor: 'not-allowed'
+        }
       }
     }
 
@@ -605,7 +618,7 @@ export default class ElementControl extends React.Component {
               className='vcv-ui-item-element-image' src={publicPathThumbnail}
               alt={name}
             />
-            <span className={overlayClasses}>
+            <span className={overlayClasses} {...overlayProps}>
               {itemButton}
               {removeControl ? <span className={spinnerClasses} /> : null}
             </span>

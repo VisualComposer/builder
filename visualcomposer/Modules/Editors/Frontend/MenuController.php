@@ -4,7 +4,7 @@ namespace VisualComposer\Modules\Editors\Frontend;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Helpers\Url;
@@ -50,7 +50,7 @@ class MenuController extends Container implements Module
         }
     }
 
-    protected function endBuffer(EditorPostType $editorPostTypeHelper)
+    protected function endBuffer(UserCapabilities $userCapabilitiesHelper)
     {
         // @codingStandardsIgnoreLine
         global $parent_file, $post_type;
@@ -73,7 +73,7 @@ class MenuController extends Container implements Module
                 'vcv_archives',
             ];
             if (
-                $editorPostTypeHelper->isEditorEnabled($postType)
+                $userCapabilitiesHelper->isEditorEnabled($postType)
                 && !in_array($postType, $postTypesList)
             ) {
                 $content = preg_replace_callback(
@@ -129,20 +129,20 @@ class MenuController extends Container implements Module
 
     /**
      * @param $postType
-     * @param $linksData
      * @param $key
-     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostType
+     * @param $linksData
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      * @param \VisualComposer\Helpers\Url $urlHelper
      */
     protected function addLinkToSubmenu(
         $postType,
         $key,
         $linksData,
-        EditorPostType $editorPostType,
+        UserCapabilities $userCapabilitiesHelper,
         Url $urlHelper
     ) {
         global $submenu;
-        if ($editorPostType->isEditorEnabled($postType)) {
+        if ($userCapabilitiesHelper->isEditorEnabled($postType)) {
             foreach ($linksData as $linkIndex => $link) {
                 $linkMatch = preg_match('/post-new.php(.*)?/', $link[2]);
                 if ($linkMatch) {

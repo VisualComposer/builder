@@ -173,9 +173,9 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
+            \VisualComposer\Helpers\Views $templates,
             $param1,
-            $param2 = [],
-            \VisualComposer\Helpers\Views $templates
+            $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals([], $param2);
@@ -191,8 +191,8 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
         $called = false;
         $func = function (
             $param1,
-            $param2 = [],
-            \VisualComposer\Helpers\Views $templates
+            \VisualComposer\Helpers\Views $templates,
+            $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals([], $param2);
@@ -207,9 +207,9 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
     {
         $called = false;
         $func = function (
+            \VisualComposer\Helpers\Views $templates,
             $param1,
-            $param2 = [],
-            \VisualComposer\Helpers\Views $templates
+            $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['second param'], $param2);
@@ -225,8 +225,8 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
         $called = false;
         $func = function (
             $param1,
-            $param2 = [],
-            \VisualComposer\Helpers\Views $templates
+            \VisualComposer\Helpers\Views $templates,
+            $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['second param'], $param2);
@@ -383,8 +383,8 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $myObject,
             $param1,
-            $param2 = [],
-            \VisualComposer\Helpers\Views $templates
+            \VisualComposer\Helpers\Views $templates,
+            $param2 = []
         ) use (&$called) {
             $this->assertEquals('params one', $param1);
             $this->assertEquals(['my second param'], $param2);
@@ -403,8 +403,8 @@ class ModulesDependencyInjectionTest extends WP_UnitTestCase
         $func = function (
             $myObject,
             $param1,
-            $param2 = [],
-            \VisualComposer\Helpers\Views $templates
+            \VisualComposer\Helpers\Views $templates,
+            $param2 = []
         ) use (
             &$called,
             &$helper
@@ -427,7 +427,7 @@ class  MyTestModule extends \VisualComposer\Framework\Container
      * Call the given callback and inject its dependencies.
      *
      * @param  $method
-     * @param  array $parameters
+     * @param array $parameters
      *
      * @return mixed
      */

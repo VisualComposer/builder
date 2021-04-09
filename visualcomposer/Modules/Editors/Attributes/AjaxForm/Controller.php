@@ -38,7 +38,7 @@ class Controller extends Container implements Module
     protected function render($response, $payload, Request $requestHelper, CurrentUser $currentUserAccessHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             $action = $requestHelper->input('vcv-form-action');
             $element = $requestHelper->input('vcv-form-element');
             $value = $requestHelper->input('vcv-form-value');

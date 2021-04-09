@@ -219,7 +219,7 @@ class Controller extends Container implements Module
         CurrentUser $currentUserHelper
     ) {
         $id = $requestHelper->input('vcv-template-id');
-        if ($currentUserHelper->wpAll(['edit_posts', $id])) {
+        if ($currentUserHelper->wpAll(['edit_post', $id])) {
             $template = $editorTemplatesHelper->read($id);
             if ($template) {
                 $optionsHelper = vchelper('Options');

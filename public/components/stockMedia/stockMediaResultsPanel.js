@@ -411,7 +411,7 @@ export default class StockMediaResultsPanel extends React.Component {
 
   getItems () {
     const { columnData, columnCount, downloadingItems } = this.state
-    const { stockMediaLocalizations, previewImageSize } = this.props
+    const { stockMediaLocalizations, previewImageSize, isAllowedForThisRole } = this.props
     const allowDownload = this.allowDownload && this.vcvLicenseKey !== 'free'
     const unlockText = stockMediaLocalizations && stockMediaLocalizations.unlockText
     return columnData[columnCount].map((col, colIndex) => {
@@ -430,7 +430,7 @@ export default class StockMediaResultsPanel extends React.Component {
         })
         const imageProportions = image.height / image.width
         let hoverControls
-        if (allowDownload) {
+        if (allowDownload && isAllowedForThisRole) {
           hoverControls = (
             <>
               <div className='vcv-stock-image-download-container'>
@@ -445,8 +445,20 @@ export default class StockMediaResultsPanel extends React.Component {
             </>
           )
         } else {
+          const customProps = {}
+
+          if (!allowDownload) {
+            customProps.onClick = this.handleLockClick
+            customProps.title = unlockText
+          } else {
+            customProps.title = 'Restricted'
+            customProps.style = {
+              cursor: 'not-allowed'
+            }
+          }
+
           hoverControls = (
-            <div className='vcv-stock-image-hover-lock' title={unlockText} onClick={this.handleLockClick}>
+            <div className='vcv-stock-image-hover-lock' {...customProps}>
               <span className='vcv-ui-icon vcv-ui-icon-lock-fill' />
             </div>
           )

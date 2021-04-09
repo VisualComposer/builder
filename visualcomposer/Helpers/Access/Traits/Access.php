@@ -22,6 +22,34 @@ trait Access
     protected $validAccess = true;
 
     /**
+     * @var array
+     */
+    protected $mergedCaps = [
+    ];
+
+    /**
+     * @param $rule
+     *
+     * @return mixed
+     */
+    public function updateMergedCaps($rule)
+    {
+        if (isset($this->mergedCaps[ $rule ])) {
+            return $this->mergedCaps[ $rule ];
+        }
+
+        return $rule;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMergedCaps()
+    {
+        return $this->mergedCaps;
+    }
+
+    /**
      * @return bool
      */
     public function getValidAccess()
@@ -76,28 +104,14 @@ trait Access
     /**
      * Get current validation state and reset it to true. ( should be never called twice ).
      *
-     * @param bool $reset
-     *
      * @return bool
      */
-    public function get($reset = true)
+    public function get()
     {
         $result = $this->getValidAccess();
-        if ($reset) {
-            $this->reset();
-        }
+        $this->setValidAccess(true); // reset
 
         return $result;
-    }
-
-    /**
-     * @return $this
-     */
-    public function reset()
-    {
-        $this->setValidAccess(true);
-
-        return $this;
     }
 
     /**
@@ -197,5 +211,35 @@ trait Access
 
         /** @see \VisualComposer\Helpers\Nonce::verifyUser */
         return $this->check([$nonceHelper, 'verifyUser'], $nonce);
+    }
+
+    /**
+     * Can user do what he do.
+     * Any rule has three types of state: true,false, string.
+     *
+     * @return $this
+     */
+    public function canAny()
+    {
+        if ($this->getValidAccess()) {
+            $args = func_get_args();
+            $this->checkMulti([$this, 'can'], true, $args);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Can user do what he do.
+     * Any rule has three types of state: true,false, string.
+     */
+    public function canAll()
+    {
+        if ($this->getValidAccess()) {
+            $args = func_get_args();
+            $this->checkMulti([$this, 'can'], false, $args);
+        }
+
+        return $this;
     }
 }

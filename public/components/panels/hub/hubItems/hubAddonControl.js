@@ -44,7 +44,7 @@ export default class HubAddonControl extends React.Component {
   }
 
   render () {
-    const { name, element, isDownloading, tag } = this.props
+    const { name, element, isDownloading, tag, isAllowedForThisRole } = this.props
     const { isNew } = this.state
     let elementState = 'downloading'
     if (!isDownloading) {
@@ -55,12 +55,16 @@ export default class HubAddonControl extends React.Component {
     const downloadAddonText = localizations.downloadAddonText || 'Download Addon'
     const addonInstalledText = localizations.installedText || 'Installed'
     const availableInPremiumText = localizations.availableInPremiumText || 'Available in Premium'
+    const restrictedText = localizations.restrictedText || 'Restricted'
     let buttonText
 
     let action = this.handleAddonClick
     if (elementState !== 'success') {
       if (!lockIcon) {
         action = this.downloadAddon
+        if (!isAllowedForThisRole) {
+          action = null
+        }
       }
     }
 
@@ -70,11 +74,14 @@ export default class HubAddonControl extends React.Component {
       buttonText = availableInPremiumText
     } else if (elementState === 'inactive') {
       buttonText = downloadAddonText
+      if (!isAllowedForThisRole) {
+        buttonText = restrictedText
+      }
     }
 
     const buttonClasses = classNames({
       'vcv-hub-addon-control': true,
-      'vcv-hub-addon-control--locked': elementState === 'success'
+      'vcv-hub-addon-control--locked': elementState === 'success' || (!lockIcon && !isAllowedForThisRole)
     })
 
     let addonControl = <button className={buttonClasses} onClick={action}>{buttonText}</button>

@@ -46,35 +46,53 @@ class SettingsController extends Container implements Module
     /**
      * @param $response
      * @param $payload
+     * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
      *
      * @throws \Exception
      */
-    protected function saveSettings($response, $payload, CurrentUser $currentUserAccess)
+    protected function saveSettings($response, $payload, Request $requestHelper, CurrentUser $currentUserAccess)
     {
-        if ($currentUserAccess->can('manage_options')->get()) {
+        vcevent('vcv:settings:save');
+        $hasAccess = null;
+        $slug = $requestHelper->input('vcv-page-slug');
+        $pageInfo = vchelper('SettingsTabsRegistry')->get($slug);
+        $hasAccess = false;
+        if (!empty($pageInfo)) {
+            $capability = 'manage_options';
+            $part = null;
+            if (isset($pageInfo['capability'])) {
+                $capability = $pageInfo['capability'];
+            }
+
+            if (isset($pageInfo['capabilityPart']) && vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+                $part = $pageInfo['capabilityPart'];
+            }
+            $currentUserAccess = vchelper('AccessCurrentUser');
+            if (!empty($part)) {
+                $hasAccess = $currentUserAccess->part($part)->checkState(true)->get();
+            } else {
+                // Fallback to default logic
+                $hasAccess = $currentUserAccess->wpAll($capability)->get();
+            }
+        }
+
+        if ($hasAccess) {
             $fieldsRegistry = vchelper('SettingsFieldsRegistry');
             $requestHelper = vchelper('Request');
             $optionsHelper = vchelper('Options');
-            $updatedFields = $requestHelper->inputJson('vcv-settings-rendered-fields');
+            $updatedFields = $fieldsRegistry->findBySlug($slug, 'group');
             if (is_array($updatedFields)) {
-                foreach ($updatedFields as $fieldKey) {
-                    $fieldName = str_replace(VCV_PREFIX, '', $fieldKey);
-                    $fieldGroup = $fieldsRegistry->findBySlug($fieldName, 'name');
-                    if (count($fieldGroup) > 0) {
-                        $optionsHelper->set($fieldName, $requestHelper->input(VCV_PREFIX . $fieldName, ''));
-                    } else {
-                        header('Status: 403 Forbidden');
-                        header('HTTP/1.1 403 Forbidden');
-                        exit;
-                    }
+                foreach ($updatedFields as $field) {
+                    $optionsHelper->set(
+                        $field['name'],
+                        esc_sql($requestHelper->input(VCV_PREFIX . $field['name'], ''))
+                    );
                 }
             }
-            $referer = wp_get_raw_referer();
-            if (!$referer) {
-                $referer = admin_url('admin.php?page=vcv-settings');
-            }
-            wp_safe_redirect(vchelper('Url')->query($referer, ['message' => 'vcv-saved']));
+
+            $response = ['status' => true];
+            wp_send_json($response);
             exit;
         }
 
