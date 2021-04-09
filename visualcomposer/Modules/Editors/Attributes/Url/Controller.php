@@ -41,7 +41,7 @@ class Controller extends Container implements Module
     {
         $results = [];
         $sourceId = (int)$requestHelper->input('vcv-source-id');
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             $search = $request->input('vcv-search');
 
             $query = [

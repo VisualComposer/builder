@@ -9,7 +9,7 @@ const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
-const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 
 export default class Element extends React.Component {
   static propTypes = {
@@ -56,7 +56,7 @@ export default class Element extends React.Component {
     const elementsList = DocumentData.children(currentElement.get('id')).map((childElement) => {
       const elements = [<Element element={childElement} key={childElement.id} api={this.props.api} />]
       if (childElement.tag === 'column') {
-        if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || dataManager.get('vcvManageOptions') || !this.state.element.metaIsElementLocked) {
+        if (!vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') || roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) || !this.state.element.metaIsElementLocked) {
           elements.push(
             <ColumnResizer
               key={`columnResizer-${childElement.id}`}
@@ -72,7 +72,8 @@ export default class Element extends React.Component {
       returnData = elementsList
     } else {
       if (currentElement.containerFor().length > 0) {
-        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions') && currentElement.get('metaIsElementLocked')) {
+        const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !isAbleToAdd && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && currentElement.get('metaIsElementLocked')) {
           returnData = null
         } else {
           returnData = <ContentControls api={this.props.api} id={currentElement.get('id')} />

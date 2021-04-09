@@ -38,7 +38,7 @@ class Controller extends Container implements Module
         Elements $elementsHelper,
         CurrentUser $currentUserAccess
     ) {
-        if (!$currentUserAccess->can('manage_options')->get()) {
+        if (!$currentUserAccess->wpAll('manage_options')->get()) {
             return [
                 'status' => false,
                 'message' => __(

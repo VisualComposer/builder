@@ -4,6 +4,7 @@ import '../../public/variables'
 // Services & Storages
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/services/dataManager/service.js'
+import '../../public/editor/services/roleManager/service.js'
 import '../../public/editor/services/document/service.js'
 import '../../public/editor/services/hubElements/service.js'
 import '../../public/editor/services/cook/service.js'

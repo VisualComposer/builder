@@ -6,6 +6,7 @@ import BlankRowPlaceholder from 'public/components/layoutHelpers/blankRowPlaceho
 
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class HtmlLayout extends React.Component {
   layout = null
@@ -67,10 +68,11 @@ export default class HtmlLayout extends React.Component {
     const editorType = dataManager.get('editorType')
     const layoutsContent = []
     let elementsList
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (this.props.data.length) {
       elementsList = this.props.data.map((element, index) => {
         let getBlankRowPlaceholder = null
-        if (index === 0 && editorType === 'popup') {
+        if (index === 0 && editorType === 'popup' && isAbleToAdd) {
           getBlankRowPlaceholder = this.getBlankRowPlaceholder
         }
         return (
@@ -80,9 +82,9 @@ export default class HtmlLayout extends React.Component {
     }
 
     elementsList && layoutsContent.push(elementsList)
-    if (editorType === 'footer') {
+    if (editorType === 'footer' && isAbleToAdd) {
       layoutsContent.unshift(<BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />)
-    } else if (editorType !== 'popup') {
+    } else if (editorType !== 'popup' && isAbleToAdd) {
       layoutsContent.push(<BlankRowPlaceholder api={this.props.api} key='blank-row-placeholder' />)
     }
 

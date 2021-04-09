@@ -67,13 +67,29 @@ class Frontend implements Helper
         global $pagenow;
         $requestHelper = vchelper('Request');
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
+        if (!isset($_GET['post_type'])) {
+            $postType = 'post';
+        } elseif (in_array($_GET['post_type'], get_post_types(['show_ui' => true]), true)) {
+            $postType = $_GET['post_type'];
+        } else {
+            return false; // wrong or not post type at all (like index.php)
+        }
+        $postTypeObject = get_post_type_object($postType);
+
+        if (!$postTypeObject) {
+            return false;
+        }
 
         if (
-            ('post-new.php' === $pagenow && $currentUserAccessHelper->wpAll('edit_posts')->get())
-            || ($requestHelper->exists('vcv-source-id')
+            (
+                'post-new.php' === $pagenow && $currentUserAccessHelper->wpAll($postTypeObject->cap->edit_posts)->get()
+            )
+            || (
+                $requestHelper->exists('vcv-source-id')
                 && $currentUserAccessHelper->wpAll(
-                    ['edit_posts', $requestHelper->input('vcv-source-id')]
-                )->get())
+                    ['edit_post', $requestHelper->input('vcv-source-id')]
+                )->get()
+            )
         ) {
             if (is_admin() && $requestHelper->exists('vcv-action')) {
                 return $requestHelper->input('vcv-action') === 'frontend';
@@ -91,16 +107,14 @@ class Frontend implements Helper
         $requestHelper = vchelper('Request');
         $nonceHelper = vchelper('Nonce');
         $sourceId = vchelper('Request')->input('vcv-source-id');
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
-            if (
-                $requestHelper->exists('vcv-editable')
-                && $requestHelper->exists('vcv-nonce')
-                && $nonceHelper->verifyPageEditable($requestHelper->input('vcv-nonce'))
-            ) {
-                return true;
-            }
+        if (
+            $sourceId
+            && $requestHelper->exists('vcv-editable')
+            && $requestHelper->exists('vcv-nonce')
+            && $nonceHelper->verifyPageEditable($requestHelper->input('vcv-nonce'))
+        ) {
+            return true;
         }
 
         return false;
@@ -126,7 +140,8 @@ class Frontend implements Helper
         $sourceId = apply_filters(
             'wpml_object_id',
             $sourceId,
-            get_post_type($sourceId)
+            get_post_type($sourceId),
+            true
         );
         vcevent('vcv:frontend:renderContent', $sourceId); // Used in Reset check
 

@@ -57,6 +57,7 @@ class Controller extends Container implements Module
         $response = [
             'status' => true,
         ];
+        // TODO: use proper cap
         if ($currentUserAccessHelper->wpAll(['edit_posts'])->get()) {
             $response['vcvGlobals'] = vcfilter('vcv:editor:variables', []);
         }

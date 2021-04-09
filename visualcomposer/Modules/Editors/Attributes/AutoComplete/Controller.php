@@ -44,7 +44,7 @@ class Controller extends Container implements Module
     protected function render($response, $payload, Request $requestHelper, CurrentUser $currentUserAccessHelper)
     {
         $sourceId = (int)$requestHelper->input('vcv-source-id');
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             $searchValue = $requestHelper->input('vcv-search');
             $tag = $requestHelper->input('vcv-tag');
             $param = $requestHelper->input('vcv-param');
@@ -114,7 +114,7 @@ class Controller extends Container implements Module
 
         $tokenLabels = [];
 
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             $tokens = $requestHelper->input('vcv-tokens');
             if ($tokens && is_array($tokens)) {
                 $tokenLabels = $this->getLabels($tokens, $action, $returnValue, $requestHelper);
