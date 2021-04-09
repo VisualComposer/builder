@@ -3,7 +3,9 @@ import ScriptControl from './control'
 import HtmlEditor from './htmlEditor'
 import { getStorage, getService } from 'vc-cake'
 import Tooltip from '../../../../tooltip/tooltip'
+
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const settingsStorage = getStorage('settings')
 
 export default class CustomJavascript extends React.Component {
@@ -42,7 +44,7 @@ export default class CustomJavascript extends React.Component {
       />
     )
 
-    if (dataManager.get('vcvManageOptions')) {
+    if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultAdmin())) {
       allButtons.push(
         <ScriptControl
           key='vcv-settings-custom-js-global'

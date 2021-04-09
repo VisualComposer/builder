@@ -8,7 +8,6 @@ class PostUpdateTest extends WP_UnitTestCase
         $postId = $this->createPost('megaTest');
 
         $this->assertIsInt($postId);
-        //         dd(rawurldecode(get_post_meta($postId,  VCV_PREFIX . 'pageContent' , true)));
         $result = vcfilter('vcv:hub:findUpdatePosts:element/megaTest', [], ['action' => 'element/megaTest']);
         $this->assertEquals([$postId], $result);
     }
@@ -211,12 +210,6 @@ class PostUpdateTest extends WP_UnitTestCase
 
         preg_match_all('/Object\.defineProperty\(window, \'VCV_UPDATE_URL\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_UPDATE_URL');
-
-        preg_match_all('/Object\.defineProperty\(window, \'VCV_CREATE_NEW_URL\', {/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'VCV_CREATE_NEW_URL');
-
-        preg_match_all('/Object\.defineProperty\(window, \'VCV_CREATE_NEW_TEXT\', {/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'VCV_CREATE_NEW_TEXT');
 
         //        preg_match_all('/Object\.defineProperty\(window, \'VCV_PREMIUM_URL\', {/', $output, $matches);
         //        $this->assertEquals(1, count($matches[0]), 'VCV_PREMIUM_URL');

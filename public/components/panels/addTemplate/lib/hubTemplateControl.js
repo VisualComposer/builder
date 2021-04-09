@@ -5,6 +5,7 @@ import { getService, getStorage } from 'vc-cake'
 
 const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class HubTemplateControl extends React.Component {
   static propTypes = {
@@ -75,23 +76,31 @@ export default class HubTemplateControl extends React.Component {
       )
     }
 
+    const overlayProps = {}
     let itemButton = null
     if (this.props.isRemoveStateActive) {
-      itemButton = (
-        <span
-          className={removeClasses}
-          onClick={handleRemoveTemplate}
-          title={localizations.removePlaceholder.replace('%', name)}
-        />
-      )
+      const isAbleToRemove = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
+      if (isAbleToRemove) {
+        itemButton = (
+          <span
+            className={removeClasses}
+            onClick={handleRemoveTemplate}
+            title={localizations.removePlaceholder.replace('%', name)}
+          />
+        )
+      } else {
+        overlayProps.style = {
+          cursor: 'not-allowed'
+        }
+      }
     } else {
-      itemButton = (
+      itemButton = roleManager.can('editor_content_template_add', roleManager.defaultTrue()) ? (
         <span
           className={applyClasses}
           onClick={handleApplyTemplate}
           title={localizations.addPlaceholder.replace('%', name)}
         />
-      )
+      ) : null
     }
 
     return (
@@ -107,7 +116,7 @@ export default class HubTemplateControl extends React.Component {
               src={thumbnail}
               alt={name}
             />
-            <span className={overlayClasses}>
+            <span className={overlayClasses} {...overlayProps}>
               {itemButton}
               <span className={spinnerClasses} />
             </span>

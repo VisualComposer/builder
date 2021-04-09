@@ -318,7 +318,7 @@ class FiltersTest extends WP_UnitTestCase
             }
         );
 
-        $this->assertEquals(2, $helper->fire('test_filter_priority:exact'));
+        $this->assertEquals(1, $helper->fire('test_filter_priority:exact'));
     }
 
     public function testFilterOrderingPriorityExactReversed()
@@ -339,7 +339,7 @@ class FiltersTest extends WP_UnitTestCase
             }
         );
 
-        $this->assertEquals(2, $helper->fire('test_filter_priority:1:exact'));
+        $this->assertEquals(1, $helper->fire('test_filter_priority:1:exact'));
     }
 
     public function testFilterOrderingPrioritySameWeight()
@@ -455,11 +455,11 @@ class FiltersTest extends WP_UnitTestCase
         $pay = null;
         $res = null;
         $callback = function (
-            $response = '',
-            $payload = [],
             \VisualComposer\Application $app,
             \VisualComposer\Helpers\Request $requestHelper,
-            \VisualComposer\Helpers\Logger $loggerHelper
+            \VisualComposer\Helpers\Logger $loggerHelper,
+            $response = '',
+            $payload = []
         ) use (&$pay, &$res) {
             $pay = $payload;
             $res = $response;
@@ -507,11 +507,12 @@ class FiltersTest extends WP_UnitTestCase
         $pay = null;
         $res = null;
         $callback = function (
-            $payload = [],
-            $response = '',
             \VisualComposer\Application $app,
             \VisualComposer\Helpers\Request $requestHelper,
-            \VisualComposer\Helpers\Logger $loggerHelper
+            \VisualComposer\Helpers\Logger $loggerHelper,
+
+            $payload = [],
+            $response = ''
         ) use (&$pay, &$res) {
             $pay = $payload;
             $res = $response;

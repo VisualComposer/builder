@@ -60,6 +60,7 @@ export default {
         services: [
           'dataManager',
           'utils',
+          'roleManager',
           'document',
           'wordpress-post-data',
           'dataProcessor',
@@ -82,6 +83,7 @@ export default {
         services: [
           'dataManager',
           'utils',
+          'roleManager',
           'document',
           'wordpress-post-data',
           'dataProcessor',

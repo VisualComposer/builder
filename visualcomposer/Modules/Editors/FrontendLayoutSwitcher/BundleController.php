@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
@@ -31,12 +32,11 @@ class BundleController extends Container implements Module
 
     protected function addCurrentEditorField(
         $post,
-        EditorPostType $editorPostTypeHelper,
+        UserCapabilities $userCapabilitiesHelper,
         Options $optionsHelper,
         Request $requestHelper
     ) {
-        // @codingStandardsIgnoreLine
-        if ($editorPostTypeHelper->isEditorEnabled($post->post_type)) {
+        if ($userCapabilitiesHelper->canEdit($post->ID)) {
             $savedEditor = get_post_meta(get_the_ID(), VCV_PREFIX . 'be-editor', true);
             $isGutenbergEnabled = $optionsHelper->get('settings-gutenberg-editor-enabled', true);
 
@@ -70,8 +70,8 @@ class BundleController extends Container implements Module
         if (
             // @codingStandardsIgnoreLine
             $screen->post_type === get_post_type()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
             && !$frontendHelper->isFrontend()
+            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
         ) {
             // Add CSS
             wp_enqueue_style(

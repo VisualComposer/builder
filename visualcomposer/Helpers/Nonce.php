@@ -48,6 +48,7 @@ class Nonce implements Helper
      */
     public function verifyAdmin($nonce)
     {
+        // TODO: Use exact post type cap (if there is any)
         return !empty($nonce) && vchelper('AccessCurrentUser')->wpAll('edit_posts')->get()
             && wp_verify_nonce(
                 $nonce,
@@ -62,6 +63,7 @@ class Nonce implements Helper
      */
     public function pageEditable()
     {
+        // TODO: Use exact post type cap
         return vchelper('AccessCurrentUser')->wpAll('edit_posts')->get() ? $this->createPageEditableNonce() : false;
     }
 

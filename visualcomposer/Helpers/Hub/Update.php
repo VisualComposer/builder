@@ -108,8 +108,7 @@ class Update implements Helper
         $urlHelper = vchelper('Url');
         $utmHelper = vchelper('Utm');
         $licenseHelper = vchelper('License');
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        $editorPostTypeHelper = vchelper('AccessEditorPostType');
+        $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
         $requestHelper = vchelper('Request');
 
         if (vchelper('Options')->get('bundleUpdateRequired')) {
@@ -162,7 +161,7 @@ class Update implements Helper
             'value' => admin_url('admin.php?page=vcv-update'),
             'type' => 'constant',
         ];
-        if ($currentUserAccessHelper->wpAll('edit_pages')->get() && $editorPostTypeHelper->isEditorEnabled('page')) {
+        if ($userCapabilitiesHelper->isEditorEnabled('page')) {
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
                 'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?post_type=page&vcv-action=frontend'),
@@ -173,16 +172,12 @@ class Update implements Helper
                 'value' => __('Create a new page', 'visualcomposer'),
                 'type' => 'constant',
             ];
-        } elseif (
-            $currentUserAccessHelper->wpAll('edit_posts')->get()
-            && $editorPostTypeHelper->isEditorEnabled('post')
-        ) {
+        } elseif ($userCapabilitiesHelper->isEditorEnabled('post')) {
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_URL',
                 'value' => vcfilter('vcv:about:postNewUrl', 'post-new.php?vcv-action=frontend'),
                 'type' => 'constant',
             ];
-
             $variables[] = [
                 'key' => 'VCV_CREATE_NEW_TEXT',
                 'value' => __('Create a new post', 'visualcomposer'),
