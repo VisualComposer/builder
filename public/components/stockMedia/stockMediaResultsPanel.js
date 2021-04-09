@@ -32,13 +32,16 @@ export default class StockMediaResultsPanel extends React.Component {
     this.state = {
       columnData: lodash.defaultsDeep({}, this.createDefaultColumnData()),
       total: 0,
-      columnCount: this.getColumnCount(),
+      columnCount: 3,
       page: 1,
       totalPages: 0,
       requestInProgress: false,
       hasError: false,
       downloadingItems: []
     }
+
+    this.resultsWrapperRef = React.createRef()
+
     this.handleImageLoad = this.handleImageLoad.bind(this)
     this.handleClickDownloadImage = this.handleClickDownloadImage.bind(this)
     this.setColumnCount = this.setColumnCount.bind(this)
@@ -47,6 +50,7 @@ export default class StockMediaResultsPanel extends React.Component {
 
   componentDidMount () {
     window.addEventListener('resize', this.setColumnCount)
+    this.setColumnCount()
     this.getImagesFromServer('', 1, 'trending')
   }
 
@@ -228,7 +232,8 @@ export default class StockMediaResultsPanel extends React.Component {
   }
 
   getColumnCount () {
-    const windowWidth = window.innerWidth || document.documentElement.clientWidth
+    const resultsWrapperRect = this.resultsWrapperRef && this.resultsWrapperRef.current && this.resultsWrapperRef.current.getBoundingClientRect()
+    const windowWidth = resultsWrapperRect.width || window.innerWidth || document.documentElement.clientWidth
     const step = 250
     let size = 300
     for (let colCount = 1; colCount <= this.maxColumnCount; colCount++) {
@@ -537,7 +542,7 @@ export default class StockMediaResultsPanel extends React.Component {
     const searchResultKey = stockMediaLocalizations && stockMediaLocalizations.searchResultKey
 
     return (
-      <>
+      <div className='vcv-stock-image-results-wrapper' ref={this.resultsWrapperRef}>
         {searchValue && (
           <div className='vcv-stock-images-results-data'>
             <span>{total} {freeText || 'free'} {searchValue.toLowerCase()} {searchResultKey}</span>
@@ -546,7 +551,7 @@ export default class StockMediaResultsPanel extends React.Component {
         )}
         {results}
         {requestInProgress && (<div className='vcv-loading-wrapper'>{loadingHtml}</div>)}
-      </>
+      </div>
     )
   }
 }
