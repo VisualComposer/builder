@@ -61,6 +61,7 @@ class Utm implements Helper
             'vcdashboard-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=gopremium&utm_content=go-premium-menu',
             'vcdashboard-license-go-premium' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=license-vcdashboard&utm_campaign=gopremium&utm_content=go-premium-button',
             'vcdashboard-logo-url' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=gopremium&utm_content=logo',
+            'vcdashboard-teaser-rolemanager' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=rolemanager-vcdashboard&utm_campaign=gopremium&utm_content=teaser-go-premium-button',
 
             // wpplugins
             'wpplugins' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=wpplugins&utm_campaign=gopremium&utm_content=go-premium-text',

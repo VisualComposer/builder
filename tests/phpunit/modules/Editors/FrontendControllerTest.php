@@ -2,6 +2,55 @@
 
 class FrontendControllerTest extends WP_UnitTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        foreach (get_editable_roles() as $roleKey => $roleData) {
+            foreach ($roleData['capabilities'] as $capabilityKey => $capabilityValue) {
+                if (strpos($capabilityKey, 'vcv_access_rules__') !== false) {
+                    get_role($roleKey)->remove_cap($capabilityKey);
+                }
+            }
+        }
+        $user = wp_set_current_user(1);
+        $user->remove_all_caps();
+        $user->set_role('administrator');
+        vcevent('vcv:migration:enabledPostTypesMigration');
+    }
+
+    public function testEditorCapabilities()
+    {
+        wp_set_current_user(1);
+        $post = new WP_UnitTest_Factory_For_Post($this);
+        $postId = $post->create(['post_title' => 'Test Post']);
+        $this->assertTrue(current_user_can('edit_post', $postId), 'current_user_can');
+        $this->assertFalse(vchelper('AccessUserCapabilities')->isEditorEnabled('any_post_type'), 'is editor enabled');
+
+        // Enable any post type
+        vchelper('AccessRole')->who('administrator')->part('post_types')->setCapRule('edit_' . 'any_post_type', true);
+        vchelper('AccessRole')->who('administrator')->part('post_types')->setCapRule('edit_' . 'post', true);
+        // todo: check why not working
+        //        $this->assertTrue(vchelper('AccessUserCapabilities')->isEditorEnabled('any_post_type'), 'is editor enabled');
+        //        $this->assertTrue(vchelper('AccessUserCapabilities')->isEditorEnabled('post'), 'is editor enabled');
+        //        $this->assertTrue(vchelper('AccessUserCapabilities')->canEdit($postId), 'canEdit');
+    }
+
+    public function testEditorCapabilitiesSetupPost()
+    {
+        wp_set_current_user(1);
+        $postFactory = new WP_UnitTest_Factory_For_Post($this);
+        $postId = $postFactory->create(['post_title' => 'Test Post']);
+        $post = get_post($postId);
+        $this->assertTrue(
+            isset($post->post_type) && post_type_exists($post->post_type)
+            && vchelper('AccessCurrentUser')->wpAll(
+                [get_post_type_object($post->post_type)->cap->read, $post->ID]
+            )->get()
+        );
+
+        $this->assertIsObject(vchelper('PostType')->setupPost($postId));
+    }
+
     /**
      * Test for some specific strings/patterns in generated output.
      */
@@ -53,7 +102,6 @@ class FrontendControllerTest extends WP_UnitTestCase
             $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
             $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
-        $this->assertContains('vcv:assets:front:script', wp_scripts()->done);
         $this->assertContains('vcv:assets:runtime:script', wp_scripts()->done);
         $this->assertContains('vcv:assets:vendor:script', wp_scripts()->done);
         $this->assertContains('vcv:editors:frontend:script', wp_scripts()->done);

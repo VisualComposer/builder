@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 
 export default class ContentControls extends React.Component {
   static propTypes = {
@@ -59,16 +60,21 @@ export default class ContentControls extends React.Component {
   render () {
     const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     let classes = 'vcvhelper vcv-row-control-container vcv-row-control-container-hide-labels vcv-is-disabled-outline'
     if (this.isMobile) {
       classes += ' vcv-row-control-container-mobile-add'
     }
+    if (!isAbleToAdd) {
+      classes += ' vcv-row-control-container--add-disabled'
+    }
+    const action = isAbleToAdd ? this.handleClick : null
 
     return (
       <div
         className={classes}
         title={addElementText}
-        onClick={this.handleClick}
+        onClick={action}
         ref={this.container}
       >
         <RowControl />

@@ -44,6 +44,7 @@ const dataManager = {
       tutorialPageUrl: () => { return window.VCV_TUTORIAL_PAGE_URL && window.VCV_TUTORIAL_PAGE_URL() },
       tutorialPageCapability: () => { return window.VCV_TUTORIAL_PAGE_CAPABILITY && window.VCV_TUTORIAL_PAGE_CAPABILITY() },
       createNewUrl: () => { return window.VCV_CREATE_NEW_URL && window.VCV_CREATE_NEW_URL() },
+      createNewText: () => { return window.VCV_CREATE_NEW_TEXT && window.VCV_CREATE_NEW_TEXT() },
       manageOptions: () => { return window.VCV_MANAGE_OPTIONS && window.VCV_MANAGE_OPTIONS() },
       vcvManageOptions: () => { return window.vcvManageOptions }, // vcv prefix added to avoid duplicating
       updateUrl: () => { return window.VCV_UPDATE_URL && window.VCV_UPDATE_URL() },

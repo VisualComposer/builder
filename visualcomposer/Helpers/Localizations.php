@@ -806,10 +806,6 @@ class Localizations extends Container implements Helper
                 'Try The Tutorial Template',
                 'visualcomposer'
             ),
-            'createNewPage' => __(
-                'Create a new page',
-                'visualcomposer'
-            ),
             'buildYourSiteWithDragAndDrop' => __(
                 'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.',
                 'visualcomposer'
@@ -1696,6 +1692,10 @@ class Localizations extends Container implements Helper
                 '{name}',
                 '<a href="{createLink}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
+            ),
+            'restrictedText' => __(
+                'Restricted',
+                'visualcomposer'
             )
         ];
 

@@ -40,6 +40,13 @@ class Dispatcher implements DispatcherContract
     protected $wildcards = [];
 
     /**
+     * The wildcard listeners cache.
+     *
+     * @var array
+     */
+    protected $wildcardsCache = [];
+
+    /**
      * The sorted event listeners.
      *
      * @var array
@@ -53,32 +60,33 @@ class Dispatcher implements DispatcherContract
      */
     protected $firing = [];
 
+    protected $strHelper;
+
     /**
      * Create a new event dispatcher instance.
      *
-     * @param  \VisualComposer\Framework\Illuminate\Contracts\Container\Container $container
+     * @param \VisualComposer\Framework\Illuminate\Contracts\Container\Container $container
      */
     public function __construct(ContainerContract $container = null)
     {
+        $this->strHelper = vchelper('Str');
         $this->container = $container ?: new Container();
     }
 
     /**
      * Register an event listener with the dispatcher.
      *
-     * @param  string|array $events
-     * @param  mixed $listener
-     * @param  int $weight
+     * @param string|array $events
+     * @param mixed $listener
+     * @param int $weight
      */
     public function listen($events, $listener, $weight = 0)
     {
-        /** @var Str $strHelper */
-        $strHelper = vchelper('Str');
         if (is_string($events)) {
             $events = preg_split('/\,\s*|\s+/', $events);
         }
         foreach ((array)$events as $event) {
-            if ($strHelper->contains($event, '*')) {
+            if ($this->strHelper->contains($event, '*')) {
                 $this->setupWildcardListen($event, $listener);
             } else {
                 $this->listeners[ $event ][ $weight ][] = $listener;
@@ -91,19 +99,20 @@ class Dispatcher implements DispatcherContract
     /**
      * Setup a wildcard listener callback.
      *
-     * @param  string $event
-     * @param  mixed $listener
+     * @param string $event
+     * @param mixed $listener
      */
     protected function setupWildcardListen($event, $listener)
     {
         $this->wildcards[ $event ][] = $listener;
+        $this->wildcardsCache = [];
     }
 
     /**
      * Fire an event and call the listeners.
      *
-     * @param  string|object $event
-     * @param  mixed $payload
+     * @param string|object $event
+     * @param mixed $payload
      *
      * @return array|null
      */
@@ -139,7 +148,7 @@ class Dispatcher implements DispatcherContract
     /**
      * Get all of the listeners for a given event name.
      *
-     * @param  string $eventName
+     * @param string $eventName
      *
      * @return array
      */
@@ -151,18 +160,21 @@ class Dispatcher implements DispatcherContract
             $this->sortListeners($eventName);
         }
 
-        return array_merge($wildcards, $this->sorted[ $eventName ]);
+        return array_merge($this->sorted[ $eventName ], $wildcards);
     }
 
     /**
      * Get the wildcard listeners for the event.
      *
-     * @param  string $eventName
+     * @param string $eventName
      *
      * @return array
      */
     protected function getWildcardListeners($eventName)
     {
+        if (isset($this->wildcardsCache[ $eventName ])) {
+            return $this->wildcardsCache[ $eventName ];
+        }
         $wildcards = [];
         /** @var \VisualComposer\Helpers\Str $strHelper */
         $strHelper = vchelper('Str');
@@ -172,13 +184,15 @@ class Dispatcher implements DispatcherContract
             }
         }
 
-        return $wildcards;
+        $this->wildcardsCache[ $eventName ] = $wildcards;
+
+        return $this->wildcardsCache[ $eventName ];
     }
 
     /**
      * Sort the listeners for a given event by weight.
      *
-     * @param  string $eventName
+     * @param string $eventName
      *
      * @return array
      */
@@ -204,18 +218,23 @@ class Dispatcher implements DispatcherContract
     /**
      * Remove a set of listeners from the dispatcher.
      *
-     * @param  string $event
+     * @param string $event
      *
      * @return void
      */
     public function forget($event)
     {
-        unset($this->listeners[ $event ], $this->sorted[ $event ]);
-    }
+        if ($this->strHelper->contains($event, '*')) {
+            unset($this->wildcards[ $event ]);
+        } else {
+            unset($this->listeners[ $event ], $this->sorted[ $event ]);
+        }
 
-    public function forgetWildcard($event)
-    {
-        unset($this->wildcards[ $event ]);
+        foreach ($this->wildcardsCache as $key => $listeners) {
+            if ($this->strHelper->is($event, $key)) {
+                unset($this->wildcardsCache[ $key ]);
+            }
+        }
     }
 
     /**

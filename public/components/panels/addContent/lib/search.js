@@ -1,6 +1,9 @@
 import React from 'react'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import { getService } from 'vc-cake'
+
+const roleManager = getService('roleManager')
 
 export default class Search extends React.Component {
   static propTypes = {
@@ -41,7 +44,8 @@ export default class Search extends React.Component {
   }
 
   handleKeyPress (e) {
-    if (e.key === 'Enter') {
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+    if (e.key === 'Enter' && isAbleToAdd) {
       e.preventDefault()
       this.props.setFirstElement()
     }

@@ -84,8 +84,6 @@ if (!defined('ABSPATH')) {
         $slug
     );
     ?>
-
-    <?php $viewsHelper->renderedFieldsList(); ?>
     <div class="vcv-submit-button-container">
         <?php submit_button(__('Save Changes', 'visualcomposer'), 'vcv-dashboard-button vcv-dashboard-button--save', 'submit_btn', false, $submitButtonAttributes) ?>
     </div>
@@ -93,4 +91,6 @@ if (!defined('ABSPATH')) {
     <input type="hidden" name="vcv_action" value="vcv_action-<?php echo esc_attr(
         $slug
     ); ?>" id="vcv_settings-<?php echo esc_attr($slug); ?>-action" />
+
+    <input type="hidden" name="vcv-page-slug" value="<?php echo $slug; ?>" />
 </form>

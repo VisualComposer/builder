@@ -49,7 +49,7 @@ class Controller extends Container implements Module
         CurrentUser $currentUserAccessHelper
     ) {
         $sourceId = (int)$request->input('vcv-source-id');
-        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_posts', $sourceId])->get()) {
+        if ($sourceId && $currentUserAccessHelper->wpAll(['edit_post', $sourceId])->get()) {
             $id = (int)$request->input('vcv-image-id');
             $size = $request->input('vcv-size');
             $image = $mediaHelper->getImageBySize(['attach_id' => $id, 'thumb_size' => $size]);
