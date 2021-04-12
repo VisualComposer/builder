@@ -204,7 +204,7 @@ export default class ImageGallery extends vcvAPI.elementComponent {
         itemProps['data-photoswipe-item'] = `photoswipe-${id}`
       }
 
-      if (image[index].filter && image[index].filter !== 'normal') {
+      if (image[index] && image[index].filter && image[index].filter !== 'normal') {
         classes += ` vce-image-filter--${image[index].filter}`
       }
       let caption = ''
