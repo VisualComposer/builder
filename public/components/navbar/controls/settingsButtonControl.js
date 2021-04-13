@@ -24,6 +24,10 @@ export default class SettingsButtonControl extends NavbarContent {
     this.setActiveState = this.setActiveState.bind(this)
   }
 
+  componentDidUpdate() {
+    this.checkSettings()
+  }
+
   setActiveState (state) {
     this.setState({ isActive: state === 'settings' })
   }
@@ -34,8 +38,6 @@ export default class SettingsButtonControl extends NavbarContent {
     settingsStorage.state('globalCss').onChange(this.checkSettings)
 
     innerAPI.mount('panel:settings', () => <SettingsPanel key='panels-container-settings' />)
-
-    this.checkSettings()
   }
 
   componentWillUnmount () {
