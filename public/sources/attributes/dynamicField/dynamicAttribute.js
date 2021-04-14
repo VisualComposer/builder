@@ -208,7 +208,7 @@ export default class DynamicAttribute extends React.Component {
     return fieldLabel
   }
 
-  renderDynamicInputs () {
+  renderDynamicInputs (urlHtml) {
     const { blockInfo } = this.state
     const { dynamicFieldType } = this.props
     const noValueSetText = DynamicAttribute.localizations.noValueSet || 'No value set'
@@ -239,6 +239,7 @@ export default class DynamicAttribute extends React.Component {
         {placeholderTag}
         <span className='vcv-ui-dynamic-field-controls'>
           <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleOpen} title={plugIconTitle} />
+          {urlHtml || null}
           {this.renderCloseButton()}
         </span>
       </div>

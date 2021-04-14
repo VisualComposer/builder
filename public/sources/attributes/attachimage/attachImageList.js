@@ -3,6 +3,7 @@ import AttachImageItem from './attachImageItem'
 import { SortableElement, SortableHandle } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
+import classNames from 'classnames'
 
 const dataManager = getService('dataManager')
 
@@ -28,7 +29,12 @@ export default class AttachImageList extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      isDraggingOver: false
+    }
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
+    this.handleDragOver = this.handleDragOver.bind(this)
+    this.handleDragLeave = this.handleDragLeave.bind(this)
   }
 
   handleOpenLibrary () {
@@ -41,6 +47,23 @@ export default class AttachImageList extends React.Component {
       return ''
     }
     return filename.match('^(https?:)?\\/\\/?') ? filename : metaAssetsPath + filename
+  }
+
+  handleDragOver (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+    this.setState({
+      isDraggingOver: true
+    })
+  }
+
+  handleDragLeave (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
   }
 
   render () {
@@ -113,9 +136,21 @@ export default class AttachImageList extends React.Component {
       dynamicControl = this.props.dynamicApi.renderOpenButton(true)
     }
 
+    const addControlClasses = classNames({
+      'vcv-ui-form-attach-image-control': true,
+      'vcv-ui-form-attach-image-control--drag-over': this.state.isDraggingOver
+    })
+
     let addControl = (
       <li className={controlClasses}>
-        <a className='vcv-ui-form-attach-image-control' onClick={this.handleOpenLibrary.bind(this)} title={addImage}>
+        <a
+          className={addControlClasses}
+          onClick={this.handleOpenLibrary.bind(this)}
+          title={addImage}
+          onDragOver={this.handleDragOver}
+          onDragLeave={this.handleDragLeave}
+          onDrop={this.props.onHandleDrop}
+        >
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
         {dynamicControl}
