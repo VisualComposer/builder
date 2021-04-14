@@ -5,7 +5,6 @@ import { getStorage, getService } from 'vc-cake'
 import innerAPI from 'public/components/api/innerAPI'
 import SettingsPanel from 'public/components/panels/settings/settingsPanel'
 
-const settingsStorage = getStorage('settings')
 const workspaceContentState = getStorage('workspace').state('content')
 const workspaceSettings = getStorage('workspace').state('settings')
 const dataManager = getService('dataManager')
@@ -16,16 +15,10 @@ export default class SettingsButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: workspaceContentState.get() === 'settings',
-      showWarning: false // !!assetsStorage.getCustomCss()
+      isActive: workspaceContentState.get() === 'settings'
     }
     this.handleClickSettings = this.handleClickSettings.bind(this)
-    this.checkSettings = this.checkSettings.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
-  }
-
-  componentDidUpdate() {
-    this.checkSettings()
   }
 
   setActiveState (state) {
@@ -34,22 +27,12 @@ export default class SettingsButtonControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
-    settingsStorage.state('customCss').onChange(this.checkSettings)
-    settingsStorage.state('globalCss').onChange(this.checkSettings)
 
     innerAPI.mount('panel:settings', () => <SettingsPanel key='panels-container-settings' />)
   }
 
   componentWillUnmount () {
     workspaceContentState.ignoreChange(this.setActiveState)
-    settingsStorage.state('customCss').ignoreChange(this.checkSettings)
-    settingsStorage.state('globalCss').ignoreChange(this.checkSettings)
-  }
-
-  checkSettings () {
-    const customCss = settingsStorage.state('customCss').get() || ''
-    const globalCss = settingsStorage.state('globalCss').get() || ''
-    this.setState({ showWarning: customCss.length || globalCss.length })
   }
 
   handleClickSettings (e) {
