@@ -89,6 +89,31 @@
     margin-left: -9px;
     cursor: move;
   }
+
+  &.vcv-ui-form-attach-image-item-inner--dynamic {
+    height: 80px;
+
+    .vcv-ui-dynamic-field-container {
+      border: none;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .vcv-ui-dynamic-field-tag {
+      margin: 0;
+      padding: 5px 11px 4px;
+    }
+
+    .vcv-ui-form-link-button {
+      border: none;
+      background-color: transparent;
+    }
+
+    .vcv-ui-icon-link::before {
+      font-size: 16px;
+    }
+  }
 }
 
 .rtl .vcv-ui-form-attach-image-item-inner {
@@ -97,40 +122,51 @@
 
 .vcv-ui-form-attach-image-item-add-control {
   display: flex;
+  direction: ltr;
+
   .vcv-ui-form-attach-image-control,
   .vcv-ui-dynamic-field-control {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
-    flex: 1 0 auto;
     position: relative;
     height: 50px;
     padding: 0;
-    border: 2px solid @vcui-attach-image-icon-color;
-    border-radius: 5px;
     line-height: 1;
-    font-size: @vcui-attach-image-control-size;
-    color: @vcui-attach-image-icon-color;
-    transition-duration: @vcui-form-transition-duration;
-    transition-property: color;
-    transition-timing-function: ease-in-out;
+    transition: all @vcui-form-transition-duration;
     cursor: pointer;
+  }
+
+  .vcv-ui-form-attach-image-control {
+    flex: 1 0 auto;
+    border: 2px dashed @vcui-attach-image-icon-color;
+    border-radius: 5px;
+    color: @vcui-attach-image-icon-color;
+    font-size: @vcui-attach-image-control-size;
 
     &:hover,
     &:focus {
       color: @vcui-attach-image-control-color-hover;
       text-decoration: none;
     }
-  }
 
-  .vcv-ui-form-attach-image-control {
-    background: #fff;
+    &.vcv-ui-form-attach-image-control--drag-over {
+      background: white;
+      border-color: #6f747b;
+    }
   }
 
   .vcv-ui-dynamic-field-control {
-    border: none;
     flex: 0 0 auto;
+    color: #6f747b;
+    font-size: 16px;
+
+    &:hover,
+    &:focus {
+      color: #16243F;
+      text-decoration: none;
+    }
   }
 
   &.vcv-ui-form-attach-image-item-has-dynamic {
@@ -138,7 +174,7 @@
       margin-right: 5px;
     }
     .vcv-ui-dynamic-field-control {
-      padding: 0 10px;
+      padding-left: 10px;
     }
   }
 }
