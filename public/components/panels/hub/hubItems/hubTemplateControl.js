@@ -9,6 +9,7 @@ const elementsStorage = getStorage('elements')
 const workspaceSettings = workspaceStorage.state('settings')
 const hubTemplateStorage = getStorage('hubTemplates')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const localizations = dataManager.get('localizations')
 const editorPopupStorage = getStorage('editorPopup')
 const settingsStorage = getStorage('settings')
@@ -62,7 +63,7 @@ export default class HubTemplateControl extends ElementControl {
   }
 
   render () {
-    const { name, element, isDownloading } = this.props
+    const { name, element, isDownloading, isAllowedForThisRole } = this.props
     const { previewVisible, previewStyle, isNew } = this.state
 
     let elementState = 'downloading'
@@ -70,7 +71,7 @@ export default class HubTemplateControl extends ElementControl {
       elementState = myTemplatesService.findTemplateByBundle(element.bundle) ? 'success' : 'inactive'
     }
 
-    const lockIcon = (!element.allowDownload && elementState === 'inactive')
+    const lockIcon = !isAllowedForThisRole || (!element.allowDownload && elementState === 'inactive')
     const itemElementClasses = classNames({
       'vcv-ui-item-element': true,
       'vcv-ui-item-element-inactive': elementState !== 'success',
@@ -93,6 +94,7 @@ export default class HubTemplateControl extends ElementControl {
 
     const publicPathThumbnail = element.metaThumbnailUrl
     const publicPathPreview = element.metaPreviewUrl
+    const isAbleToAdd = roleManager.can('editor_content_template_add', roleManager.defaultTrue())
 
     const iconClasses = classNames({
       'vcv-ui-item-add': true,
@@ -101,17 +103,34 @@ export default class HubTemplateControl extends ElementControl {
       'vcv-ui-icon-download': elementState === 'inactive',
       'vcv-ui-wp-spinner-light': elementState === 'downloading' || this.state.showLoading,
       'vcv-ui-icon-lock-fill': lockIcon,
-      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard
+      'vcv-ui-icon-add': elementState === 'success' && !this.isHubInWpDashboard && isAbleToAdd
     })
 
     const itemProps = {}
+    const overlayProps = {}
 
-    let action = this.isHubInWpDashboard ? null : this.addTemplate
+    let action
+    if (this.isHubInWpDashboard) {
+      action = null
+    } else {
+      if (isAbleToAdd) {
+        action = this.addTemplate
+      } else {
+        overlayProps.style = {
+          cursor: 'not-allowed'
+        }
+      }
+    }
     if (elementState !== 'success') {
       if (lockIcon) {
         action = null
-        // Add action on whole item
-        itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template')
+        if (!isAllowedForThisRole) {
+          overlayProps.style = {
+            cursor: 'not-allowed'
+          }
+        } else {
+          itemProps.onClick = this.props.onClickGoPremium.bind(this, 'template')
+        }
       } else {
         action = this.downloadTemplate
       }
@@ -158,7 +177,7 @@ export default class HubTemplateControl extends ElementControl {
           {newBadge}
           <span className='vcv-ui-item-element-content'>
             <img className='vcv-ui-item-element-image' src={publicPathThumbnail} alt={name} />
-            <span className={itemOverlayClasses}>
+            <span className={itemOverlayClasses} {...overlayProps}>
               {overlayOutput}
             </span>
           </span>

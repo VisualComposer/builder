@@ -5,6 +5,7 @@ import unsplashLogo from 'public/sources/images/unsplashLogo.raw'
 import { getService } from 'vc-cake'
 const dataManager = getService('dataManager')
 const unsplashImages = ['https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-1.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-2.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-3.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-4.jpg', 'https://cdn.hub.visualcomposer.com/plugin-assets/unsplash-5.jpg']
+const roleManager = getService('roleManager')
 
 export default class UnsplashContainer extends React.Component {
   static propTypes = {
@@ -57,6 +58,7 @@ export default class UnsplashContainer extends React.Component {
         apiUrlKey='unsplash'
         sizes={sizes}
         previewImageSize='small'
+        isAllowedForThisRole={roleManager.can('hub_unsplash', roleManager.defaultTrue())}
         {...this.props}
       />
     )

@@ -12,6 +12,7 @@ const hubStorage = getStorage('hubAddons')
 const editorPopupStorage = getStorage('editorPopup')
 const hubAddonsStorage = getStorage('hubAddons')
 const notificationsStorage = getStorage('notifications')
+const roleManager = getService('roleManager')
 
 export default class EditFormHeader extends React.Component {
   static propTypes = {
@@ -236,6 +237,7 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       active: editable
     })
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const localizations = dataManager.get('localizations')
     const closeTitle = localizations ? localizations.close : 'Close'
     const backToParentTitle = localizations ? localizations.backToParent : 'Back to parent'
@@ -310,7 +312,7 @@ export default class EditFormHeader extends React.Component {
     const cookElement = elementAccessPoint.cook()
     const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
 
-    if (isGeneral) {
+    if (isGeneral && roleManager.can('editor_content_presets_management', roleManager.defaultTrue())) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span
@@ -330,8 +332,7 @@ export default class EditFormHeader extends React.Component {
     })
 
     let lockControl = null
-    const vcvIsUserAdmin = dataManager.get('vcvManageOptions')
-    if (vcvIsUserAdmin && isGeneral) {
+    if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && isGeneral) {
       const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       const lockClasses = classNames({
@@ -351,7 +352,7 @@ export default class EditFormHeader extends React.Component {
 
     let replaceElementIcon = null
     const isRootElement = cookElement.relatedTo('RootElements') || !cookElement.relatedTo('General')
-    if (!isRootElement) {
+    if (!isRootElement && isAbleToAdd) {
       const category = hubElementsService.getElementCategoryName(elementAccessPoint.tag) || ''
       const isReplaceShown = this.props.getReplaceShownStatus(category)
       if (isReplaceShown) {

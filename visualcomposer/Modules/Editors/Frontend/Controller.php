@@ -55,7 +55,7 @@ class Controller extends Container implements Module
      * @param \VisualComposer\Helpers\Url $urlHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Access\EditorPostType $editorPostTypeHelper
+     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return bool|void
      * @throws \Exception
@@ -65,7 +65,7 @@ class Controller extends Container implements Module
         Url $urlHelper,
         PostType $postTypeHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper
+        UserCapabilities $userCapabilitiesHelper
     ) {
         global $pagenow;
         // Require an action parameter.
@@ -75,6 +75,7 @@ class Controller extends Container implements Module
             if (!$sourceId) {
                 if ($pagenow === 'post-new.php') {
                     $postType = 'post';
+                    // TODO: Check default allowed post types
                     $allowedHiddenPosts = ['vcv_headers', 'vcv_footers', 'vcv_sidebars'];
                     if (
                         in_array($requestHelper->input('post_type'), $allowedHiddenPosts)
@@ -89,14 +90,12 @@ class Controller extends Container implements Module
                 }
             }
             $post = $postTypeHelper->setupPost($sourceId);
-            // @codingStandardsIgnoreLine
-            if (isset($post->post_type) && $editorPostTypeHelper->isEditorEnabled($post->post_type)) {
+            if ($userCapabilitiesHelper->canEdit($post->ID)) {
                 $content = vcfilter('vcv:editors:frontend:render', '');
-
                 if (empty($content)) {
                     wp_die(
-                        '<h1>' . __('Cheatin&#8217; uh?', 'visualcomposer') . '</h1>' .
-                        '<p>' . __('Sorry, you are not allowed to create posts.', 'visualcomposer')
+                        '<h1>' . __('You need a higher level of permission.', 'visualcomposer') . '</h1>' .
+                        '<p>' . __('Sorry, you are not allowed to edit posts as this user.', 'visualcomposer')
                         . '</p>',
                         403
                     );
@@ -104,6 +103,13 @@ class Controller extends Container implements Module
 
                 /** @noinspection PhpInconsistentReturnPointsInspection */
                 return $this->terminate($content);
+            } else {
+                wp_die(
+                    '<h1>' . __('You need a higher level of permission.', 'visualcomposer') . '</h1>' .
+                    '<p>' . __('Sorry, you are not allowed to edit posts as this user.', 'visualcomposer')
+                    . '</p>',
+                    403
+                );
             }
         }
 
@@ -123,14 +129,12 @@ class Controller extends Container implements Module
     /**
      * @param \VisualComposer\Helpers\Views $templates
      * @param \VisualComposer\Helpers\Frontend $frontendHelper
-     * @param \VisualComposer\Helpers\Access\UserCapabilities $userCapabilitiesHelper
      *
      * @return bool|string
      */
     protected function renderEditorBase(
         Views $templates,
-        Frontend $frontendHelper,
-        UserCapabilities $userCapabilitiesHelper
+        Frontend $frontendHelper
     ) {
         global $post;
         if (!isset($post, $post->ID)) {
@@ -138,7 +142,7 @@ class Controller extends Container implements Module
         }
 
         $sourceId = $post->ID;
-        if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
+        if (is_numeric($sourceId)) {
             return $templates->render(
                 'editor/frontend/frontend.php',
                 [

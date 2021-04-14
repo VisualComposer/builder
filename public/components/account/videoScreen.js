@@ -69,7 +69,7 @@ export default class VideoScreen extends React.Component {
     const createYourWordpressWebsite = VideoScreen.localizations ? VideoScreen.localizations.createYourWordpressWebsite : 'Create Your WordPress Website Today.'
     const startEasyBuildFast = VideoScreen.localizations ? VideoScreen.localizations.startEasyBuildFast : 'Start Easy. Build Fast.'
     const buildYourSiteWithDragAndDropText = VideoScreen.localizations ? VideoScreen.localizations.buildYourSiteWithDragAndDrop : 'Build your site with the help of the drag and drop builder and without coding - it\'s that easy.'
-    const createNewText = VideoScreen.localizations ? VideoScreen.localizations.createNewPage : 'Create a new page'
+    const createNewText = dataManager.get('createNewText')
     const takeTutorialText = VideoScreen.localizations ? VideoScreen.localizations.takeTutorialTemplate : 'Try The Tutorial Template'
 
     let createNewButton = null

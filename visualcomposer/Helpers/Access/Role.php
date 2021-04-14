@@ -9,7 +9,9 @@ if (!defined('ABSPATH')) {
 }
 
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Framework\Illuminate\Support\Immutable;
 use VisualComposer\Helpers\Access\Traits\Access as AccessFactory;
+use VisualComposer\Helpers\Access\Traits\Part;
 
 /**
  * Available by vchelper('AccessRole').
@@ -17,9 +19,11 @@ use VisualComposer\Helpers\Access\Traits\Access as AccessFactory;
  *
  * Class Access.
  */
-class Role implements Helper
+class Role implements Helper, Immutable
 {
     use AccessFactory;
+    use Part;
+
 
     /**
      * Current RoleName (administrator/contributor..).
@@ -34,35 +38,13 @@ class Role implements Helper
     protected $role;
 
     /**
-     * Current working part of access system.
-     * @var string
-     */
-    protected $part;
-
-    /**
-     * @var string
-     */
-    protected static $partNamePrefix = 'vcv:access:rules:';
-
-    /**
-     * @var array
-     */
-    protected $mergedCaps = [
-    ];
-
-    /**
-     * @param $part
-     *
-     * @param bool $reset
+     * @param string $part
      *
      * @return $this
      * @throws \Exception
      */
-    public function part($part, $reset = false)
+    public function part($part)
     {
-        if ($reset) {
-            $this->reset();
-        }
         $roleName = $this->getRoleName();
 
         if (!$roleName) {
@@ -98,26 +80,6 @@ class Role implements Helper
     }
 
     /**
-     * Set role name.
-     *
-     * @param $roleName
-     */
-    public function setRoleName($roleName)
-    {
-        $this->roleName = $roleName;
-    }
-
-    /**
-     * Get part for role.
-     *
-     * @return bool
-     */
-    public function getPart()
-    {
-        return $this->part;
-    }
-
-    /**
      * Get state of the Vc access rules part.
      *
      * @return mixed;
@@ -126,12 +88,18 @@ class Role implements Helper
     public function getState()
     {
         $role = $this->getRole();
-        $state = null;
-        if ($role && isset($role->capabilities, $role->capabilities[ $this->getStateKey() ])) {
-            $state = $role->capabilities[ $this->getStateKey() ];
+        if ($role->name === 'administrator') {
+            $state = true;
+        } elseif ($role->name === 'subscriber') {
+            $state = false;
+        } else {
+            $state = null;
+            if ($role && isset($role->capabilities[ $this->getStateKey() ])) {
+                $state = $role->capabilities[ $this->getStateKey() ];
+            }
         }
 
-        return apply_filters('vcv:role:getState:accessWith' . $this->getPart(), $state, $this->getRole());
+        return vcfilter('vcv:role:getState:accessWith:' . $this->getPart(), $state, $this->getRole(), $this->getPart());
     }
 
     /**
@@ -148,7 +116,15 @@ class Role implements Helper
      */
     public function setState($value = true)
     {
-        $this->getRole() && $this->getRole()->add_cap($this->getStateKey(), $value);
+        if ($this->getRole()) {
+            if (is_null($value)) {
+                $this->getRole()->remove_cap($this->getStateKey());
+            } else {
+                $this->getRole()->add_cap($this->getStateKey(), $value);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -170,23 +146,23 @@ class Role implements Helper
         if (null === $this->getRole()) {
             $this->setValidAccess(is_super_admin());
         } elseif ($this->getValidAccess()) {
-            //   // YES it is hard coded :)
-            //   if ('administrator' === $this->getRole()->name && 'settings' === $part
-            //       && ('vcv-roles-tab' === $rule
-            //           || 'vcv-license-tab' === $rule)
-            //   ) {
-            //       $this->setValidAccess(true);
-            //
-            //       return $this;
-            //  }
+            // Administrators have all access always
+            if ($this->getRole()->name === 'administrator') {
+                $this->setValidAccess(true);
+
+                return $this;
+            }
+            if ($this->getRole()->name === 'subscriber') {
+                $this->setValidAccess(false);
+
+                return $this;
+            }
             $rule = $this->updateMergedCaps($rule);
 
             if (true === $checkState) {
                 $state = $this->getState();
-                $return = false !== $state;
-                if (null === $state) {
-                    $return = true;
-                } elseif (is_bool($state)) {
+                $return = $state === true;
+                if (is_bool($state)) {
                     $return = $state;
                 } elseif ('' !== $rule) {
                     $return = $this->getCapRule($rule);
@@ -194,39 +170,7 @@ class Role implements Helper
             } else {
                 $return = $this->getCapRule($rule);
             }
-            //    $return = apply_filters('vcv:role:can:accessWith' . $part, $return, $this->getRole(), $rule);
-            //    $return = apply_filters('vcv:role:can:accessWith' . $part . ':' . $rule, $return, $this->getRole());
             $this->setValidAccess($return);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Can user do what he do.
-     * Any rule has three types of state: true,false, string.
-     *
-     * @return $this
-     */
-    public function canAny()
-    {
-        if ($this->getValidAccess()) {
-            $args = func_get_args();
-            $this->checkMulti([$this, 'can'], true, $args);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Can user do what he do.
-     * Any rule has three types of state: true,false, string.
-     */
-    public function canAll()
-    {
-        if ($this->getValidAccess()) {
-            $args = func_get_args();
-            $this->checkMulti([$this, 'can'], false, $args);
         }
 
         return $this;
@@ -242,7 +186,7 @@ class Role implements Helper
      */
     public function getCapRule($rule)
     {
-        $rule = $this->getStateKey() . '/' . $rule;
+        $rule = $this->getStateKey() . '_' . $rule;
 
         return $this->getRole() ? $this->getRole()->has_cap($rule) : false;
     }
@@ -258,33 +202,10 @@ class Role implements Helper
      */
     public function setCapRule($rule, $value = true)
     {
-        $roleRule = $this->getStateKey() . '/' . $rule;
+        $roleRule = $this->getStateKey() . '_' . $rule;
         $this->getRole() && $this->getRole()->add_cap($roleRule, $value);
 
         return $this;
-    }
-
-    /**
-     * Get all capability for this part.
-     * @throws \Exception
-     */
-    public function getAllCaps()
-    {
-        $role = $this->getRole();
-        $caps = [];
-        if ($role) {
-            $role = apply_filters('vcv:role:getAllCaps:role', $role);
-            if (isset($role->capabilities) && is_array($role->capabilities)) {
-                foreach ($role->capabilities as $key => $value) {
-                    if (preg_match('/^' . $this->getStateKey() . '\//', $key)) {
-                        $rule = preg_replace('/^' . $this->getStateKey() . '\//', '', $key);
-                        $caps[ $rule ] = $value;
-                    }
-                }
-            }
-        }
-
-        return $caps;
     }
 
     /**
@@ -293,80 +214,10 @@ class Role implements Helper
      */
     public function getRole()
     {
-        if (!$this->role) {
-            if (!$this->getRoleName()) {
-                throw new \Exception('roleName for role_manager is not set, please use ->who(roleName) method to set!');
-            }
-            $this->role = get_role($this->getRoleName());
+        if (!$this->getRoleName()) {
+            throw new \Exception('roleName for role_manager is not set, please use ->who(roleName) method to set!');
         }
 
-        return $this->role;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStateKey()
-    {
-        return self::$partNamePrefix . $this->getPart();
-    }
-
-    /**
-     * @param $data
-     *
-     * @return $this
-     */
-    public function checkState($data)
-    {
-        if ($this->getValidAccess()) {
-            $this->setValidAccess($this->getState() === $data);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function checkStateAny()
-    {
-        if ($this->getValidAccess()) {
-            $args = func_get_args();
-            $this->checkMulti([$this, 'checkState'], true, $args);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return access value.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string)$this->get(true);
-    }
-
-    /**
-     * @param $rule
-     *
-     * @return mixed
-     */
-    public function updateMergedCaps($rule)
-    {
-        if (isset($this->mergedCaps[ $rule ])) {
-            return $this->mergedCaps[ $rule ];
-        }
-
-        return $rule;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMergedCaps()
-    {
-        return $this->mergedCaps;
+        return get_role($this->getRoleName());
     }
 }

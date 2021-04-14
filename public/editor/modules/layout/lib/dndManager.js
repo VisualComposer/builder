@@ -7,6 +7,7 @@ const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
 const documentManager = vcCake.getService('document')
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 
 export default class DndManager {
   constructor (api) {
@@ -60,7 +61,7 @@ export default class DndManager {
       if (container) {
         const DndConstructor = DndDataSet
         let ignoreHandling = null
-        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !dataManager.get('vcvManageOptions')) {
+        if (vcCake.env('VCV_ADDON_ROLE_MANAGER_ENABLED') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
           ignoreHandling = '[data-vcv-element-locked]'
         }
         this.items = new DndConstructor(container, {

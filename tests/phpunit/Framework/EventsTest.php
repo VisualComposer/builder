@@ -16,7 +16,7 @@ class EventsTest extends WP_UnitTestCase
         $helper->fire('something::testWildCardListener', 'test');
         $this->assertTrue($called);
         $this->assertEquals('test', $arg);
-        $helper->forgetWildcard('*');
+        $helper->forget('*');
     }
 
     public function testWildCardListenerExact()
@@ -59,7 +59,7 @@ class EventsTest extends WP_UnitTestCase
         $helper->fire('*');
         $this->assertFalse($called);
 
-        $helper->forgetWildcard('different:*');
+        $helper->forget('different:*');
     }
 
     public function testEventsWeightMore()
@@ -125,16 +125,17 @@ class EventsTest extends WP_UnitTestCase
 
         $value = 0;
         $helper->listen(
-            'test_event_priority:1:*',
-            function () use (&$value) {
-                $value = 1;
-            }
-        );
-
-        $helper->listen(
             'test_event_priority:1:exact',
             function () use (&$value) {
                 $value = 2;
+            }
+        );
+        $helper->listen(
+            'test_event_priority:1:*',
+            function () use (&$value) {
+                if (empty($value)) {
+                    $value = 1;
+                }
             }
         );
 
@@ -157,7 +158,9 @@ class EventsTest extends WP_UnitTestCase
         $helper->listen(
             'test_event_priority:2:*',
             function () use (&$value) {
-                $value = 1;
+                if (empty($value)) {
+                    $value = 1;
+                }
             }
         );
         $helper->fire('test_event_priority:2:exact');
@@ -208,10 +211,10 @@ class EventsTest extends WP_UnitTestCase
     {
         $pay = null;
         $callback = function (
-            $payload = [],
             \VisualComposer\Application $app,
             \VisualComposer\Helpers\Request $requestHelper,
-            \VisualComposer\Helpers\Logger $loggerHelper
+            \VisualComposer\Helpers\Logger $loggerHelper,
+            $payload = []
         ) use (&$pay) {
             $pay = $payload;
         };

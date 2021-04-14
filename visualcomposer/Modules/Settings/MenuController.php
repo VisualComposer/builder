@@ -76,7 +76,7 @@ class MenuController extends Container implements Module
     protected function removeFirstMenuItem(Settings $settingsController)
     {
         $currentUserAccess = vchelper('AccessCurrentUser');
-        $hasAccess = $currentUserAccess->wpAll('edit_pages')->part('settings')->can('vcv-settings')->get();
+        $hasAccess = $currentUserAccess->wpAll('edit_pages')->get();
         $mainPageSlug = $settingsController->getMainPageSlug();
 
         if (!$hasAccess && !is_network_admin()) {

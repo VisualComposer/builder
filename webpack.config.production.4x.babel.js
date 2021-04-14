@@ -49,6 +49,7 @@ export default Object.assign({}, config, {
         services: [
           'dataManager',
           'utils',
+          'roleManager',
           'document',
           'wordpress-post-data',
           'dataProcessor',
@@ -71,6 +72,7 @@ export default Object.assign({}, config, {
         services: [
           'dataManager',
           'utils',
+          'roleManager',
           'document',
           'wordpress-post-data',
           'dataProcessor',
