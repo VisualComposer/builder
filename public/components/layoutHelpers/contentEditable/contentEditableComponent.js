@@ -431,7 +431,7 @@ export default class ContentEditableComponent extends React.Component {
   }
 
   handleMouseDown (e) {
-    if (this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
+    if (e.detail === 2 && this.state.trackMouse === false && this.state.contentEditable === false && this.state.allowInline) {
       const currentTarget = e.currentTarget
       this.setState({ temporaryEditable: true }, () => {
         window.setTimeout(() => {
