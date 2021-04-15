@@ -25,6 +25,7 @@ export default class AttachVideo extends Attribute {
   constructor (props) {
     super(props)
     this.mediaUploader = null
+    this.uploadFileList = []
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
@@ -32,6 +33,8 @@ export default class AttachVideo extends Attribute {
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
     this.handleSortEnd = this.handleSortEnd.bind(this)
+    this.handleDrop = this.handleDrop.bind(this)
+    this.handleUploadFiles = this.handleUploadFiles.bind(this)
   }
 
   componentDidMount () {
@@ -94,7 +97,7 @@ export default class AttachVideo extends Attribute {
     if (!this.mediaUploader) {
       throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
     }
-    this.mediaUploader.open()
+    this.mediaUploaderOpen = this.mediaUploader.open()
   }
 
   handleRemove (key) {
@@ -203,6 +206,24 @@ export default class AttachVideo extends Attribute {
     this.setFieldValue(sortedValue)
   }
 
+  handleDrop (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.uploadFileList = event.dataTransfer.files
+    this.mediaUploader.on('open', this.handleUploadFiles)
+    this.openLibrary()
+  }
+
+  handleUploadFiles () {
+    window.setTimeout(() => {
+      if (this.mediaUploaderOpen && this.mediaUploaderOpen.uploader && this.mediaUploaderOpen.uploader.uploader) {
+        this.mediaUploaderOpen.uploader.uploader.uploader.addFile(lodash.toArray(this.uploadFileList))
+      }
+      this.uploadFileList = []
+      this.mediaUploader.off('open', this.handleUploadFiles)
+    }, 200)
+  }
+
   render () {
     const useDragHandle = true
     const dragClass = 'vcv-ui-form-attach-image-item--dragging'
@@ -220,6 +241,7 @@ export default class AttachVideo extends Attribute {
           onRemove={this.handleRemove}
           getUrlHtml={this.getUrlHtml}
           mediaLibrary={this.mediaUploader}
+          onHandleDrop={this.handleDrop}
         />
       </div>
     )
