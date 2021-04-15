@@ -35,6 +35,7 @@ export default class AttachImageList extends React.Component {
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
     this.handleDragOver = this.handleDragOver.bind(this)
     this.handleDragLeave = this.handleDragLeave.bind(this)
+    this.handleDrop = this.handleDrop.bind(this)
   }
 
   handleOpenLibrary () {
@@ -61,6 +62,13 @@ export default class AttachImageList extends React.Component {
   handleDragLeave (event) {
     event.stopPropagation()
     event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
+  }
+
+  handleDrop (event) {
+    this.props.onHandleDrop(event)
     this.setState({
       isDraggingOver: false
     })
@@ -149,7 +157,7 @@ export default class AttachImageList extends React.Component {
           title={addImage}
           onDragOver={this.handleDragOver}
           onDragLeave={this.handleDragLeave}
-          onDrop={this.props.onHandleDrop}
+          onDrop={this.handleDrop}
         >
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
