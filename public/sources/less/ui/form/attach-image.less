@@ -144,16 +144,20 @@
     border-radius: 5px;
     color: @vcui-attach-image-icon-color;
     font-size: @vcui-attach-image-control-size;
+    transition: @vcv-transition-duration;
 
     &:hover,
     &:focus {
-      color: @vcui-attach-image-control-color-hover;
+      background: white;
+      border-color: #6f747b;
+      color: #6f747b;
       text-decoration: none;
     }
 
     &.vcv-ui-form-attach-image-control--drag-over {
       background: white;
       border-color: #6f747b;
+      color: #6f747b;
     }
   }
 
