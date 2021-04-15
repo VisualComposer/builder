@@ -45,6 +45,7 @@ export default class AttachImage extends Attribute {
     super(props)
     this.mediaUploader = null
     this.tabsContainer = null
+    this.uploadFileList = []
     this.handleRemove = this.handleRemove.bind(this)
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
@@ -58,6 +59,8 @@ export default class AttachImage extends Attribute {
     this.handleDynamicFieldChange = this.handleDynamicFieldChange.bind(this)
     this.handleDynamicFieldClose = this.handleDynamicFieldClose.bind(this)
     this.customDynamicRender = this.customDynamicRender.bind(this)
+    this.handleDrop = this.handleDrop.bind(this)
+    this.handleUploadFiles = this.handleUploadFiles.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
@@ -256,7 +259,7 @@ export default class AttachImage extends Attribute {
     if (!this.mediaUploader) {
       throw new Error('Media uploader not found. Make sure you are running this on WordPress.')
     }
-    this.mediaUploader.open()
+    this.mediaUploaderOpen = this.mediaUploader.open()
   }
 
   handleRemove (key) {
@@ -409,7 +412,6 @@ export default class AttachImage extends Attribute {
           elementAccessPoint={this.props.elementAccessPoint}
           onDynamicFieldChange={this.props.onDynamicFieldChange}
           defaultValue={defaultValue}
-          dynamicFieldType='imageUrl'
           imageLink={imageLink}
         />
       )
@@ -434,13 +436,15 @@ export default class AttachImage extends Attribute {
       if (value && value.urls && value.urls[0] && value.urls[0] && value.urls[0].link && value.urls[0].link.url) {
         urlClasses += ' vcv-ui-form-attach-image-item-has-link-value'
       }
+      const urlHtml = (
+        <div className={urlClasses}>
+          {this.getUrlHtml(0)}
+        </div>
+      )
       content = (
-        <>
-          {dynamicApi.renderDynamicInputs()}
-          <div className={urlClasses}>
-            {this.getUrlHtml(0)}
-          </div>
-        </>
+        <div className='vcv-ui-form-attach-image-item-inner vcv-ui-form-attach-image-item-inner--dynamic'>
+          {dynamicApi.renderDynamicInputs(urlHtml)}
+        </div>
       )
     }
 
@@ -471,7 +475,7 @@ export default class AttachImage extends Attribute {
   }
 
   handleDynamicFieldClose () {
-    this.setFieldValue({})
+    this.setFieldValue('')
     this.props.onDynamicFieldClose()
   }
 
@@ -490,6 +494,24 @@ export default class AttachImage extends Attribute {
     }
 
     return { fieldValue: newValue, dynamicValue: dynamicValue }
+  }
+
+  handleDrop (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.uploadFileList = event.dataTransfer.files
+    this.mediaUploader.on('open', this.handleUploadFiles)
+    this.openLibrary()
+  }
+
+  handleUploadFiles () {
+    window.setTimeout(() => {
+      if (this.mediaUploaderOpen && this.mediaUploaderOpen.uploader && this.mediaUploaderOpen.uploader.uploader) {
+        this.mediaUploaderOpen.uploader.uploader.uploader.addFile(lodash.toArray(this.uploadFileList))
+      }
+      this.uploadFileList = []
+      this.mediaUploader.off('open', this.handleUploadFiles)
+    }, 200)
   }
 
   getAttachImageComponent (dynamicApi) {
@@ -511,6 +533,7 @@ export default class AttachImage extends Attribute {
         onRemove={this.handleRemove}
         getUrlHtml={this.getUrlHtml}
         dynamicApi={dynamicApi}
+        onHandleDrop={this.handleDrop}
       />
     )
   }

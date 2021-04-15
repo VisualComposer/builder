@@ -4,6 +4,7 @@ import { SortableElement, SortableHandle } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
 import { getService } from 'vc-cake'
 import lodash from 'lodash'
+import classNames from 'classnames'
 
 const dataManager = getService('dataManager')
 
@@ -34,9 +35,12 @@ export default class AttachVideoList extends React.Component {
       value: {
         icons: [],
         ...props.value
-      }
+      },
+      isDraggingOver: false
     }
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this)
+    this.handleDragOver = this.handleDragOver.bind(this)
+    this.handleDragLeave = this.handleDragLeave.bind(this)
   }
 
   componentDidUpdate (prevProps) {
@@ -60,6 +64,23 @@ export default class AttachVideoList extends React.Component {
 
   handleOpenLibrary () {
     this.props.openLibrary()
+  }
+
+  handleDragOver (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+    this.setState({
+      isDraggingOver: true
+    })
+  }
+
+  handleDragLeave (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      isDraggingOver: false
+    })
   }
 
   render () {
@@ -123,9 +144,21 @@ export default class AttachVideoList extends React.Component {
       }
     })
 
+    const addControlClasses = classNames({
+      'vcv-ui-form-attach-image-control': true,
+      'vcv-ui-form-attach-image-control--drag-over': this.state.isDraggingOver
+    })
+
     let addControl = (
       <li className='vcv-ui-form-attach-image-item vcv-ui-form-attach-image-item-add-control'>
-        <a className='vcv-ui-form-attach-image-control' onClick={this.handleOpenLibrary.bind(this)} title={addVideo}>
+        <a
+          className={addControlClasses}
+          onClick={this.handleOpenLibrary.bind(this)}
+          title={addVideo}
+          onDragOver={this.handleDragOver}
+          onDragLeave={this.handleDragLeave}
+          onDrop={this.props.onHandleDrop}
+        >
           <i className='vcv-ui-icon vcv-ui-icon-add' />
         </a>
       </li>

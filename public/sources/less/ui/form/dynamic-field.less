@@ -48,7 +48,7 @@
 }
 
 .vcv-ui-dynamic-field-tag {
-  background: #2A4B80;
+  background-color: @vcv-color-lucky-point;
   color: #fff;
   margin: 1px 3px;
   border-radius: 2em;
@@ -56,6 +56,11 @@
   font-size: 12px;
   word-break: break-all;
   cursor: pointer;
+  transition: background-color @transition-duration;
+
+  &:hover {
+    background-color: @vcv-color-deep-space;
+  }
 
   &.vcv-ui-dynamic-field-tag--inactive {
     background: #ed5656;
