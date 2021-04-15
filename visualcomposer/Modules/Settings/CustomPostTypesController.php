@@ -89,7 +89,7 @@ class CustomPostTypesController extends Container implements Module
         $postNewFile = "post-new.php?post_type=$postType";
 
         $wpListsTable = vcapp()->make(
-            \VisualComposer\Modules\Settings\VcPostsListTable::class,
+            '\VisualComposer\Modules\Settings\VcPostsListTable',
             ['screen' => $screen]
         );
         $pagenum = $wpListsTable->get_pagenum();
