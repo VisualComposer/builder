@@ -21,6 +21,7 @@ class MostUsedItemsController extends Container implements Module
     public function __construct()
     {
         $this->addFilter('vcv:ajax:usageCount:updateUsage:adminNonce', 'updateItemUsage');
+        $this->addFilter('vcv:ajax:templateUsageCount:updateUsage:adminNonce', 'updateTemplateUsage');
     }
 
     protected function updateItemUsage(
@@ -37,6 +38,25 @@ class MostUsedItemsController extends Container implements Module
                 $usageCount[ $itemTag ] = 1;
             }
             $optionsHelper->set('usageCount', $usageCount);
+        }
+
+        return ['status' => true];
+    }
+
+    protected function updateTemplateUsage(
+        $response,
+        Request $requestHelper,
+        Options $optionsHelper
+    ) {
+        $templateId = $requestHelper->input('vcv-item-id');
+        if ($templateId) {
+            $usageCount = $optionsHelper->get('templateUsageCount', []);
+            if (isset($usageCount[ $templateId ])) {
+                $usageCount[ $templateId ] += 1;
+            } else {
+                $usageCount[ $templateId ] = 1;
+            }
+            $optionsHelper->set('templateUsageCount', $usageCount);
         }
 
         return ['status' => true];

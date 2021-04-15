@@ -6,6 +6,7 @@ import TemplateControl from './lib/templateControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
+import TemplatesGroup from './lib/templatesGroup'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -19,6 +20,7 @@ const assetsStorage = getStorage('assets')
 const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
+const dataProcessor = getService('dataProcessor')
 
 export default class AddTemplatePanel extends React.Component {
   static propTypes = {
@@ -60,6 +62,7 @@ export default class AddTemplatePanel extends React.Component {
     this.handleTemplateStorageStateChange = this.handleTemplateStorageStateChange.bind(this)
     this.setCategoryArray = this.setCategoryArray.bind(this)
     this.handleRemoveStateChange = this.handleRemoveStateChange.bind(this)
+    this.handleGroupToggle = this.handleGroupToggle.bind(this)
 
     workspaceStorage.state('isRemoveStateActive').onChange(this.handleRemoveStateChange)
   }
@@ -84,13 +87,14 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   setCategoryArray (data) {
+    const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
     this.templatesCategories = [
       {
         index: 0,
         title: AddTemplatePanel.localizations.all,
         id: 'all',
         visible: true,
-        templates: myTemplatesService.getAllTemplates(null, null, data)
+        templates: allTemplates
       }
     ]
 
@@ -99,16 +103,35 @@ export default class AddTemplatePanel extends React.Component {
       if (!data[group] || !data[group].templates || !data[group].templates.length) {
         return
       }
-      const groupData = {
-        index: index + 1,
-        id: group,
-        title: data[group].name,
-        visible: data[group] && data[group].templates && data[group].templates.length,
-        templates: data[group] && data[group].templates ? data[group].templates : []
+      // Merge hub and predefined groups together for BC
+      if (group === 'predefined') {
+        const predefinedTemplates = data[group] && data[group].templates ? data[group].templates : []
+        const hubTemplates = this.templatesCategories.find(category => category.id === 'hub').templates
+        this.templatesCategories.find(category => category.id === 'hub').templates = [...hubTemplates, ...predefinedTemplates]
+      } else {
+        const groupData = {
+          index: index + 1,
+          id: group,
+          title: data[group].name,
+          visible: data[group] && data[group].templates && data[group].templates.length,
+          templates: data[group] && data[group].templates ? data[group].templates : []
+        }
+        this.templatesCategories.push(groupData)
       }
-      this.templatesCategories.push(groupData)
+
       delete data[group]
     })
+
+    const mostUsedItems = allTemplates.filter(template => template.usageCount > 9).sort((templateA, templateB) => templateB.usageCount - templateA.usageCount).slice(0, 9)
+    // Most User Group
+    if (mostUsedItems.length > 0) {
+      const mostUsedTemplatesGroup = {
+        id: 'usageCount',
+        title: 'Most Used',
+        templates: mostUsedItems
+      }
+      this.templatesCategories.unshift(mostUsedTemplatesGroup)
+    }
   }
 
   handleTemplateStorageStateChange () {
@@ -240,17 +263,40 @@ export default class AddTemplatePanel extends React.Component {
       })
   }
 
-  getTemplatesByCategory () {
-    const { activeCategoryIndex } = this.state
+  getTemplatesByGroup () {
+    const allGroups = this.state.categories.filter(category => category.id !== 'all')
+    const allTemlates = []
 
-    if (this.state.categories[activeCategoryIndex].id === 'downloadMoreTemplates') {
-      this.handleGoToHub()
-      return []
-    }
-    const templates = this.state.categories[activeCategoryIndex].templates
-    return templates.map((template) => {
-      return this.getTemplateControl(template)
+    allGroups.forEach((groupData) => {
+      const groupTemplates = []
+      groupData.templates.forEach((template) => {
+        groupTemplates.push(this.getTemplateControl(template))
+      })
+      groupTemplates.sort((a, b) => {
+        const x = a.props.name
+        const y = b.props.name
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+      })
+      allTemlates.push(
+        <TemplatesGroup
+          key={`vcv-element-category-${groupData.id}`}
+          groupData={groupData}
+          isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
+          onGroupToggle={this.handleGroupToggle}
+        >
+          {groupTemplates}
+        </TemplatesGroup>
+      )
     })
+
+    return allTemlates
+  }
+
+  handleGroupToggle (groupID, isOpened) {
+    const groupIndex = this.templatesCategories.id === groupID
+    if (groupIndex > -1 && this.templatesCategories[groupIndex]) {
+      this.templatesCategories[groupIndex].isOpened = isOpened
+    }
   }
 
   getTemplateListContainer (itemsOutput) {
@@ -347,7 +393,7 @@ export default class AddTemplatePanel extends React.Component {
     return limitData
   }
 
-  handleApplyTemplate (data, templateType) {
+  handleApplyTemplate (id, templateType) {
     elementsStorage.state('elementAddList').set([])
     const editorType = dataManager.get('editorType')
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
@@ -376,6 +422,10 @@ export default class AddTemplatePanel extends React.Component {
           elementsStorage.state('elementAddList').set([])
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
+          dataProcessor.appAdminServerRequest({
+            'vcv-action': 'templateUsageCount:updateUsage:adminNonce',
+            'vcv-item-id': id
+          })
 
           window.setTimeout(() => {
             this.props.handleScrollToElement(addedElements[0])
@@ -384,7 +434,6 @@ export default class AddTemplatePanel extends React.Component {
       }
       assetsStorage.state('jobs').onChange(handleJobsChange)
     }
-    const id = data
     this.setState({ showLoading: id })
 
     if (env('VCV_FT_TEMPLATE_DATA_ASYNC')) {
@@ -434,8 +483,6 @@ export default class AddTemplatePanel extends React.Component {
         }
         next(response.data)
       })
-    } else {
-      next(data)
     }
   }
 
@@ -479,7 +526,7 @@ export default class AddTemplatePanel extends React.Component {
     const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
     const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
-    const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByCategory()
+    const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByGroup()
     if (this.state.showSpinner && !this.state.removing.length) {
       itemsOutput.push(this.getTemplateControl({
         name: this.state.templateName,

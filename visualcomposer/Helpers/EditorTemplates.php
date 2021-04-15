@@ -129,12 +129,15 @@ class EditorTemplates implements Helper
             $preview = get_post_meta($template->ID, '_' . VCV_PREFIX . 'preview', true);
             $bundle = get_post_meta($template->ID, '_' . VCV_PREFIX . 'bundle', true);
             $description = get_post_meta($template->ID, '_' . VCV_PREFIX . 'description', true);
+            $optionsHelper = vchelper('Options');
+            $usageCount = $optionsHelper->get('templateUsageCount', []);
 
             $data = [
                 // @codingStandardsIgnoreLine
                 'name' => $template->post_title,
                 'bundle' => $bundle,
                 'id' => (string)$template->ID,
+                'usageCount' => isset($usageCount[ $template->ID ]) ? $usageCount[ $template->ID ] : 0
             ];
             if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
                 $data['data'] = $templateElements;
