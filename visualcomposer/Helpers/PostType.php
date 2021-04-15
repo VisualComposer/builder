@@ -271,7 +271,7 @@ class PostType implements Helper
         )->get();
         $data['backendEditorUrl'] = str_replace('&classic-editor', '', get_edit_post_link($post->ID, 'url'));
         $data['adminDashboardUrl'] = self_admin_url('index.php');
-        $data['adminDashboardPostTypeListUrl'] = self_admin_url('edit.php?post_type=' . get_post_type());
+        $data['adminDashboardPostTypeListUrl'] = self_admin_url('admin.php?page=' . get_post_type());
         $data['vcvCustomPostType'] = 0;
         if (substr(get_post_type(), 0, 4) === 'vcv_') {
             $data['vcvCustomPostType'] = 1;

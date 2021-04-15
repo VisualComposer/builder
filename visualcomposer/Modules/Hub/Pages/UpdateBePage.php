@@ -73,19 +73,6 @@ class UpdateBePage extends Container implements Module
      */
     protected function beforeRender()
     {
-        $urlHelper = vchelper('Url');
-        wp_register_script(
-            'vcv:wpUpdate:script',
-            $urlHelper->to('public/dist/wpUpdate.bundle.js'),
-            ['vcv:assets:vendor:script'],
-            VCV_VERSION
-        );
-        wp_register_style(
-            'vcv:wpVcSettings:style',
-            $urlHelper->to('public/dist/wpVcSettings.bundle.css'),
-            [],
-            VCV_VERSION
-        );
         wp_enqueue_script('vcv:wpUpdate:script');
         wp_enqueue_style('vcv:wpVcSettings:style');
         wp_enqueue_script('vcv:assets:runtime:script');
