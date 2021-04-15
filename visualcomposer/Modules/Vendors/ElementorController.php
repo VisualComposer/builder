@@ -21,12 +21,12 @@ class ElementorController extends Container implements Module
         $this->wpAddAction('elementor/common/after_register_scripts', 'dequeueScripts');
     }
 
+    /**
+     * Dequeue scripts in the VC editor to prevent finder opening on CMD+E || Ctrl+E
+     */
     protected function dequeueScripts()
     {
         $frontendHelper = vchelper('Frontend');
-        /**
-         * Dequeue scripts in the VC editor to prevent finder opening on CMD+E || Ctrl+E
-         */
         if (defined('ELEMENTOR_VERSION') && constant('ELEMENTOR_VERSION') && ($frontendHelper->isFrontend() || $frontendHelper->isPageEditable())) {
             // Dequeue and deregister elementor-dialog
             wp_dequeue_script('elementor-dialog');
