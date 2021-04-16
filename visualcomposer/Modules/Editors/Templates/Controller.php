@@ -222,6 +222,7 @@ class Controller extends Container implements Module
         if ($currentUserHelper->wpAll(['edit_post', $id])) {
             $template = $editorTemplatesHelper->read($id);
             if ($template) {
+                $this->call('updateTemplateUsage', ['templateId' => $id]);
                 $optionsHelper = vchelper('Options');
                 $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
                 if ($isAllowed) {
@@ -237,6 +238,20 @@ class Controller extends Container implements Module
         }
 
         return ['status' => false];
+    }
+
+    protected function updateTemplateUsage($templateId)
+    {
+        if ($templateId) {
+            $optionsHelper = vchelper('Options');
+            $usageCount = $optionsHelper->get('templateUsageCount', []);
+            if (isset($usageCount[ $templateId ])) {
+                $usageCount[ $templateId ] += 1;
+            } else {
+                $usageCount[ $templateId ] = 1;
+            }
+            $optionsHelper->set('templateUsageCount', $usageCount);
+        }
     }
 
     /**
