@@ -422,10 +422,6 @@ export default class AddTemplatePanel extends React.Component {
           elementsStorage.state('elementAddList').set([])
           workspaceSettings.set(false)
           assetsStorage.state('jobs').ignoreChange(handleJobsChange)
-          dataProcessor.appAdminServerRequest({
-            'vcv-action': 'templateUsageCount:updateUsage:adminNonce',
-            'vcv-item-id': id
-          })
 
           window.setTimeout(() => {
             this.props.handleScrollToElement(addedElements[0])
