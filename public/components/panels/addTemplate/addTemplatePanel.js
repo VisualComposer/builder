@@ -20,7 +20,6 @@ const assetsStorage = getStorage('assets')
 const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
-const dataProcessor = getService('dataProcessor')
 
 export default class AddTemplatePanel extends React.Component {
   static propTypes = {
