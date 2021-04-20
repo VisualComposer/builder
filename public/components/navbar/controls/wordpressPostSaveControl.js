@@ -172,6 +172,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     const titleText = WordPressPostSaveControl.isMacLike ? saveText + ' (⌘S)' : saveText + ' (Ctrl + S)'
     let controlTitle = titleText
 
+    const disableInDemo = true
     let saveDraftOptions = null
     if (PostData.isDraft()) {
       const navbarContentClasses = classNames({
@@ -187,7 +188,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
             title={localizations.saveDraft}
             onClick={this.handleClickSaveDraft}
             data-href={PostData.permalink()}
-            data-vcv-disable-on-demo={true}
+            data-vcv-disable-on-demo={disableInDemo}
           >
             <span className='vcv-ui-navbar-control-content'>{localizations.saveDraft}</span>
           </span>
@@ -196,7 +197,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
             title={titleText}
             onClick={this.handleClickSaveData}
             data-href={PostData.permalink()}
-            data-vcv-disable-on-demo={true}
+            data-vcv-disable-on-demo={disableInDemo}
           >
             <span className='vcv-ui-navbar-control-content'>{saveText}</span>
           </span>
@@ -213,7 +214,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
           className={saveButtonClasses}
           title={controlTitle}
           onClick={this.handleSave}
-          data-vcv-disable-on-demo={true}
+          data-vcv-disable-on-demo={disableInDemo}
         >
           <span className='vcv-ui-navbar-control-content'>
             <i className={saveIconClasses} />
