@@ -270,7 +270,10 @@ STYLE;
                                             $tabTitle = empty($tab['subTitle']) ? $tab['name'] : $tab['subTitle'];
                                             $subMenuLink = '?page=' . esc_attr($tabKey);
 
-                                            if ($menuKey === $parentSlug) {
+                                            $sameParent = $menuKey === $parentSlug;
+                                            $forceReload = isset($tab['forceReloadOnOpen']) && $tab['forceReloadOnOpen'];
+
+                                            if ($sameParent && !$forceReload) {
                                                 $activeClass .= ' vcv-dashboard-sidebar-navigation-link--same-parent';
                                             }
                                             ?>
