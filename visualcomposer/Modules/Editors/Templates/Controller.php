@@ -223,13 +223,6 @@ class Controller extends Container implements Module
             $template = $editorTemplatesHelper->read($id);
             if ($template) {
                 $optionsHelper = vchelper('Options');
-                // Most used count updates
-                vcfilter(
-                    'vcv:ajax:usageCount:updateUsage:adminNonce',
-                    [],
-                    [ 'tag' => 'template/' . $id ]
-                );
-                // Data usage statistics
                 $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
                 if ($isAllowed) {
                     $sourceId = $requestHelper->input('vcv-source-id');
