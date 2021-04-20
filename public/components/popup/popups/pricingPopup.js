@@ -30,7 +30,7 @@ export default class PricingPopup extends React.Component {
       target: '_blank',
       rel: 'noopener noreferrer',
       href: dataManager.get('utm')['vc-demo-popup-button'],
-      class: 'vcv-layout-popup-btn vcv-pricing-popup-button'
+      className: 'vcv-layout-popup-btn vcv-pricing-popup-button'
     }
 
     const badge = (
