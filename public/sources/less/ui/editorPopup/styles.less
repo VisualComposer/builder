@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .vcv-layout-popup {
   position: fixed;
   display: flex;
@@ -137,16 +140,35 @@
   position: relative;
   margin: 0 0 16px;
   padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vcv-layout-popup-header-badge {
+  width: 66px;
+  height: 66px;
+  background-color: #0D267C;
+  border-radius: 50%;
+  align-self: center;
+  margin: 20px 0 50px 20px;
+  position: relative;
+
+  svg {
+    position: absolute;
+    left: -12px;
+    top: 11px;
+  }
 }
 
 .vcv-layout-popup-heading {
   margin: 0;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
-  line-height: 19px;
+  line-height: 22px;
   letter-spacing: 1px;
   color: inherit;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .vcv-layout-popup-close {
@@ -198,15 +220,26 @@
     background: transparent;
     border-color: @vcv-color-white;
   }
+
+  &.vcv-pricing-popup-button {
+    background: @vcv-color-juicy-yellow;
+    border-color: @vcv-color-juicy-yellow;
+
+    &:hover {
+      background: @vcv-color-mango-tango;
+      border-color: @vcv-color-mango-tango;
+    }
+  }
 }
 
 .vcv-layout-popup-text {
   margin: 0 0 17px;
   font-size: 13px;
-  font-style: italic;
   line-height: 24px;
   letter-spacing: 1px;
   color: inherit;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
 }
 
 .vcv-layout-popup-checkbox-option-wrapper {
