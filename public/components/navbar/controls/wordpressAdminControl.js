@@ -253,6 +253,7 @@ export default class WordPressAdminControl extends NavbarContent {
           className='vcv-ui-navbar-control'
           title={PostData.viewText()}
           onClick={this.handleViewPageClick}
+          data-vcv-disable-on-demo={true}
         >
           <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
         </span>
@@ -267,6 +268,7 @@ export default class WordPressAdminControl extends NavbarContent {
         title={previewTitleText}
         onClick={this.handleClickSavePreview}
         ref={(previewBtn) => { this.previewBtn = previewBtn }}
+        data-vcv-disable-on-demo={true}
       >
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>
       </span>
@@ -279,6 +281,7 @@ export default class WordPressAdminControl extends NavbarContent {
         title={backToWordpress}
         data-href={PostData.backendEditorUrl()}
         data-backend-editor='backendEditor'
+        data-vcv-disable-on-demo={true}
       >
         <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
       </span>
@@ -294,8 +297,9 @@ export default class WordPressAdminControl extends NavbarContent {
         onClick={this.handleClick}
         title={wordPressDashboard}
         data-href={dataHref}
+        data-vcv-disable-on-demo={true}
       >
-        <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
+        <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}111</span>
       </span>
     )
     if (!PostData.vcvCustomPostType()) {
