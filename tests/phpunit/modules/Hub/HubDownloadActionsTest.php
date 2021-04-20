@@ -83,7 +83,7 @@ class HubDownloadActionsTest extends WP_UnitTestCase
         );
         wp_set_current_user(1);
         $templates = vchelper('EditorTemplates')->all();
-        $usageCount = vchelper('Options')->get('templateUsageCount', []);
+        $usageCount = vchelper('Options')->get('usageCount', []);
         $templateId = (string)$result['templates'][0]['id'];
         $this->assertEquals(
             [
@@ -95,7 +95,7 @@ class HubDownloadActionsTest extends WP_UnitTestCase
                             'name' => 'Wedding Page',
                             'bundle' => 'predefinedTemplate/weddingPage',
                             'id' => $templateId,
-                            'usageCount' => isset($usageCount[ $templateId ]) ? $usageCount[ $templateId ] : 0,
+                            'usageCount' => isset($usageCount[ 'template/' . $templateId ]) ? $usageCount[ 'template/' . $templateId ] : 0,
                             'thumbnail' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                                 . '/templates/TP11000008/1556191390.weddingpage-thumbnail.png',
                             'preview' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
