@@ -9,6 +9,7 @@ const notificationsStorage = getStorage('notifications')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const dataManager = getService('dataManager')
 const editorPopupStorage = getStorage('editorPopup')
+const workspaceStorage = getStorage('workspace')
 
 export default class StockMediaResultsPanel extends React.Component {
   static propTypes = {
@@ -395,7 +396,9 @@ export default class StockMediaResultsPanel extends React.Component {
 
     const utm = dataManager.get('utm')
     const renderPlace = this.props.renderPlace ? this.props.renderPlace : 'hub'
-    const utmMedium = `${this.props.filterType}-${renderPlace}-${this.props.namespace}`
+    const workspaceState = workspaceStorage.state('settings').get()
+    const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add' + workspaceState.options.filterType : ''
+    const utmMedium = `${this.props.filterType}${initialFilterType}-${renderPlace}-${this.props.namespace}`
     const utmLink = utm['editor-hub-popup-teaser']
 
     const fullScreenPopupData = {

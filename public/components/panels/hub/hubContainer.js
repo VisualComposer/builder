@@ -448,7 +448,7 @@ export default class HubContainer extends React.Component {
 
     const activeFilterType = categories[this.state.filterType].title.toLowerCase()
     const workspaceState = workspaceStorage.state('settings').get()
-    const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add-' + workspaceState.options.filterType : ''
+    const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add' + workspaceState.options.filterType : ''
 
     const utm = dataManager.get('utm')
     const utmMedium = `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
