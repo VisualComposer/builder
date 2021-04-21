@@ -35,7 +35,7 @@ addStorage('editorPopup', (storage) => {
       priority: 3
     },
     pricingPopup: {
-      visible: !!window.vcvShowPricingPopup,
+      visible: !!dataManager.get('showPricingPopup'),
       priority: 4
     },
     premiumPromoPopup: {
