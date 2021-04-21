@@ -58,10 +58,8 @@ export default class SettingsButtonControl extends NavbarContent {
       'vcv-ui-badge--warning': false
     })
 
-    const disableInDemo = true
-
     return (
-      <span className={controlClass} title={title} onClick={this.handleClickSettings} data-vcv-guide-helper='settings-control' data-vcv-disable-on-demo={disableInDemo}>
+      <span className={controlClass} title={title} onClick={this.handleClickSettings} data-vcv-guide-helper='settings-control' data-vcv-disable-on-demo>
         <span className='vcv-ui-navbar-control-content'>
           <i className={iconClass} />
           <span>{name}</span>
