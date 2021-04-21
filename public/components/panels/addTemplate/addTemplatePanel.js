@@ -28,6 +28,19 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   static localizations = dataManager.get('localizations')
+  static categoriesOrder = [
+    'custom',
+    'customHeader',
+    'customFooter',
+    'customSidebar',
+    'popup',
+    'block',
+    'hubHeader',
+    'hubFooter',
+    'hubSidebar',
+    'hub',
+    'predefined'
+  ]
 
   errorTimeout = 0
 
@@ -98,6 +111,12 @@ export default class AddTemplatePanel extends React.Component {
     ]
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
+    // Sort categories according to predefined order in AddTemplatePanel.categoriesOrder
+    const sorter = (a, b) => {
+      return AddTemplatePanel.categoriesOrder.indexOf(a) - AddTemplatePanel.categoriesOrder.indexOf(b)
+    }
+    sortedGroups.sort(sorter)
+
     sortedGroups.forEach((group, index) => {
       if (!data[group] || !data[group].templates || !data[group].templates.length) {
         return
