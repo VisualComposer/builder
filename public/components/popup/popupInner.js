@@ -25,15 +25,26 @@ export default class PopupInner extends React.Component {
   }
 
   render () {
-    const { children, headingText, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag } = this.props
+    const { children, headingText, buttonText, onPrimaryButtonClick, customButtonProps, customButtonTag, badge } = this.props
     const localizations = dataManager.get('localizations')
     const closeButtonText = localizations ? localizations.close : 'Close'
     const popupButtonText = buttonText || (localizations ? localizations.submit : 'Submit')
     const ButtonTag = customButtonTag || 'a'
 
+    let badgeHtml = null
+
+    if (badge) {
+      badgeHtml = (
+        <div className='vcv-layout-popup-header-badge'>
+          {badge}
+        </div>
+      )
+    }
+
     return (
       <div className='vcv-layout-popup-inner'>
         <header className='vcv-layout-popup-header'>
+          {badgeHtml}
           <h2 className='vcv-layout-popup-heading'>{headingText}</h2>
           <button
             className='vcv-layout-popup-close vcv-ui-icon vcv-ui-icon-close-thin'
