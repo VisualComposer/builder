@@ -246,7 +246,6 @@ export default class WordPressAdminControl extends NavbarContent {
     const localizations = dataManager.get('localizations')
     const { backToWordpress, wordPressDashboard, preview, previewChanges, reset } = localizations
 
-    const disableInDemo = true
     let viewButton = ''
     if (PostData.isViewable() && PostData.isPublished()) {
       viewButton = (
@@ -254,7 +253,7 @@ export default class WordPressAdminControl extends NavbarContent {
           className='vcv-ui-navbar-control'
           title={PostData.viewText()}
           onClick={this.handleViewPageClick}
-          data-vcv-disable-on-demo={disableInDemo}
+          data-vcv-disable-on-demo
         >
           <span className='vcv-ui-navbar-control-content'>{PostData.viewText()}</span>
         </span>
@@ -269,7 +268,7 @@ export default class WordPressAdminControl extends NavbarContent {
         title={previewTitleText}
         onClick={this.handleClickSavePreview}
         ref={(previewBtn) => { this.previewBtn = previewBtn }}
-        data-vcv-disable-on-demo={disableInDemo}
+        data-vcv-disable-on-demo
       >
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>
       </span>
@@ -282,7 +281,7 @@ export default class WordPressAdminControl extends NavbarContent {
         title={backToWordpress}
         data-href={PostData.backendEditorUrl()}
         data-backend-editor='backendEditor'
-        data-vcv-disable-on-demo={disableInDemo}
+        data-vcv-disable-on-demo
       >
         <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
       </span>
@@ -298,7 +297,7 @@ export default class WordPressAdminControl extends NavbarContent {
         onClick={this.handleClick}
         title={wordPressDashboard}
         data-href={dataHref}
-        data-vcv-disable-on-demo={disableInDemo}
+        data-vcv-disable-on-demo
       >
         <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
       </span>
