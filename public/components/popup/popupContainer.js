@@ -5,7 +5,7 @@ import VotePopup from './popups/votePopup'
 import ReviewPopup from './popups/reviewPopup'
 import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
-import PricingPopup from './popups/PricingPopup'
+import PricingPopup from './popups/pricingPopup'
 
 const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
