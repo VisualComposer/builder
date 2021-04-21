@@ -34,9 +34,13 @@ addStorage('editorPopup', (storage) => {
       visible: dataManager.get('showDataCollectionPopup'),
       priority: 3
     },
+    pricingPopup: {
+      visible: !!dataManager.get('showPricingPopup'),
+      priority: 4
+    },
     premiumPromoPopup: {
       visible: dataManager.get('showPremiumPromoPopup'),
-      priority: 4
+      priority: 5
     }
   }
 

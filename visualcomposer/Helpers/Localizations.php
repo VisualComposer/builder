@@ -1696,6 +1696,14 @@ class Localizations extends Container implements Helper
             'restrictedText' => __(
                 'Restricted',
                 'visualcomposer'
+            ),
+            'getVisualComposerPremium' => __(
+                'Get Visual Composer Premium',
+                'visualcomposer'
+            ),
+            'getAllTheseAndManyMoreFeatures' => __(
+                'Get all these and many more features with Visual Composer premium.',
+                'visualcomposer'
             )
         ];
 
