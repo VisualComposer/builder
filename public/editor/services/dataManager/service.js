@@ -88,7 +88,8 @@ const dataManager = {
       pluginSourceUrl: () => { return window.vcvPluginSourceUrl },
       gutenbergEditorUrl: () => { return window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' },
       hubGetTemplates: () => { return window.VCV_HUB_GET_TEMPLATES && window.VCV_HUB_GET_TEMPLATES() },
-      agreeHubTerms: () => { return window.vcvAgreeHubTerms }
+      agreeHubTerms: () => { return window.vcvAgreeHubTerms },
+      showPricingPopup: () => { return window.vcvShowPricingPopup }
     }
   }
 }
