@@ -178,6 +178,25 @@ STYLE;
     color: #8E8F9F;
   }
 
+  .vcv-dashboard-sidebar-navigation-menu .vcv-dashboard-sidebar-navigation-menu-item {
+      margin-right: -12px;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
+    color: #6476BD;
+  }
+
+  .vcv-dashboard-sidebar-navigation-link--active .vcv-available-in-premium.vcv-ui-icon-dashboard-star,
+  .vcv-dashboard-sidebar-navigation-link:hover .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
+      color: #FFB718;
+  }
+
+  .vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star::before {
+      font-size: 13px;
+      margin: 0;
+      padding: 0 0 0 8px;
+  }
+
   @-webkit-keyframes vcv-ui-wp-spinner-animation {
     from {
       -webkit-transform: translate(-50%, -50%) rotate(0deg);
@@ -279,6 +298,9 @@ STYLE;
                                                         href="<?php echo $subMenuLink ?>"
                                                         data-value="<?php echo esc_attr($tabKey) ?>">
                                                     <?php echo $tabTitle; ?>
+                                                    <?php if (isset($tab['premiumActionBundle'])) { ?>
+                                                        <span class="vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star vcv-available-in-premium" title="<?php echo __('This feature is available in Visual Composer Premium', 'visualcomposer');?>"/>
+                                                    <?php } ?>
                                                 </a>
                                             </li>
                                         <?php endforeach; ?>
