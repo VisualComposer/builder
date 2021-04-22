@@ -56,7 +56,6 @@ export default class HubContainer extends React.Component {
     this.handleWorkspaceSettingsChange = this.handleWorkspaceSettingsChange.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
     this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
-
   }
 
   componentDidMount () {
