@@ -298,7 +298,7 @@ STYLE;
                                                         data-value="<?php echo esc_attr($tabKey) ?>">
                                                     <?php echo $tabTitle; ?>
                                                     <?php if (isset($tab['premiumActionBundle'])) { ?>
-                                                        <span class="vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star vcv-available-in-premium" title="This feature is available in Visual Composer Premium"/>
+                                                        <span class="vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star vcv-available-in-premium" title="<?php echo __('This feature is available in Visual Composer Premium', 'visualcomposer');?>"/>
                                                     <?php } ?>
                                                 </a>
                                             </li>
