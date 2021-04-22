@@ -5,6 +5,7 @@ import VotePopup from './popups/votePopup'
 import ReviewPopup from './popups/reviewPopup'
 import DataCollectionPopup from './popups/dataCollectionPopup'
 import PremiumPromoPopup from './popups/premiumPromoPopup'
+import PricingPopup from './popups/pricingPopup'
 
 const editorPopupStorage = getStorage('editorPopup')
 const elementsStorage = getStorage('elements')
@@ -95,6 +96,8 @@ export default class PopupContainer extends React.Component {
       activePopupHtml = <DataCollectionPopup {...popupProps} />
     } else if (activePopup === 'premiumPromoPopup') {
       activePopupHtml = <PremiumPromoPopup {...popupProps} />
+    } else if (activePopup === 'pricingPopup') {
+      activePopupHtml = <PricingPopup {...popupProps} />
     }
 
     return (
