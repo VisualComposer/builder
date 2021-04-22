@@ -31,11 +31,11 @@ export default class NavbarContainer extends React.Component {
 
     let hubControl
     if (
-      (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()))
-      || (roleManager.can('hub_addons', roleManager.defaultTrue()))
-      || (roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue()))
-      || (roleManager.can('hub_unsplash', roleManager.defaultTrue()))
-      || (roleManager.can('hub_giphy', roleManager.defaultTrue()))
+      (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) ||
+      (roleManager.can('hub_addons', roleManager.defaultTrue())) ||
+      (roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue())) ||
+      (roleManager.can('hub_unsplash', roleManager.defaultTrue())) ||
+      (roleManager.can('hub_giphy', roleManager.defaultTrue()))
     ) {
       hubControl = <PlusTeaserControl />
     }
