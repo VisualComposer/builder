@@ -25,10 +25,11 @@ class MostUsedItemsController extends Container implements Module
 
     protected function updateItemUsage(
         $response,
+        $payload,
         Request $requestHelper,
         Options $optionsHelper
     ) {
-        $itemTag = $requestHelper->input('vcv-item-tag');
+        $itemTag = isset($payload['tag']) ? $payload['tag'] : $requestHelper->input('vcv-item-tag');
         if ($itemTag) {
             $usageCount = $optionsHelper->get('usageCount', []);
             if (isset($usageCount[ $itemTag ])) {
