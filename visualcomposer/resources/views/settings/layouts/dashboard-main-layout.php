@@ -186,7 +186,8 @@ STYLE;
     color: #6476BD;
   }
 
-  .vcv-dashboard-sidebar-navigation-menu-item .vcv-available-in-premium.vcv-ui-icon-dashboard-star:hover {
+  .vcv-dashboard-sidebar-navigation-link--active .vcv-available-in-premium.vcv-ui-icon-dashboard-star,
+  .vcv-dashboard-sidebar-navigation-link:hover .vcv-available-in-premium.vcv-ui-icon-dashboard-star {
       color: #FFB718;
   }
 
