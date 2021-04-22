@@ -298,6 +298,7 @@ addStorage('wordpressData', (storage) => {
   }
 
   function setTitle () {
+    // TODO: Check
     if (!titles.length) {
       return
     }

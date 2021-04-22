@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
 
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 const hubElementsService = vcCake.getService('hubElements')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -406,12 +407,14 @@ export default class Groups extends React.Component {
   }
 
   getMoreButton () {
-    const buttonText = Groups.localizations ? Groups.localizations.getMoreElements : 'Get More Elements'
-    return (
-      <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
-        {buttonText}
-      </button>
-    )
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      const buttonText = Groups.localizations ? Groups.localizations.getMoreElements : 'Get More Elements'
+      return (
+        <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
+          {buttonText}
+        </button>
+      )
+    }
   }
 
   setFocusedElement (element) {
@@ -431,7 +434,7 @@ export default class Groups extends React.Component {
       moreButton = (
         <div className='vcv-ui-editor-get-more'>
           {this.getMoreButton()}
-          <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+          <span className='vcv-ui-editor-get-more-description'>{(roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) ? hubButtonDescriptionText : ''}</span>
         </div>
       )
     }
