@@ -220,7 +220,7 @@ export default class AddTemplatePanel extends React.Component {
             {this.getMoreButton()}
           </div>
           <div className='vcv-ui-editor-no-items-content'>
-            <p className='vcv-start-blank-helper'>{helperText}</p>
+            <p className='vcv-start-blank-helper'>{(roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) ? helperText : ''}</p>
           </div>
         </div>
       </div>
@@ -228,8 +228,10 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getMoreButton () {
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
-    return <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>{buttonText}</button>
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
+      return <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>{buttonText}</button>
+    }
   }
 
   getTemplateControl (template) {

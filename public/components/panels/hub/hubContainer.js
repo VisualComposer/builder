@@ -6,7 +6,7 @@ import Scrollbar from '../../scrollbar/scrollbar.js'
 import SearchElement from './searchElement'
 import vcCake from 'vc-cake'
 import lodash from 'lodash'
-import categories from './categoriesSettings.json'
+import getHubControls from './categoriesSettings.js'
 import GiphyContainer from '../../stockMedia/giphyContainer'
 import UnsplashContainer from '../../stockMedia/unsplashContainer'
 import Notifications from '../../notifications/notifications'
@@ -31,9 +31,11 @@ export default class HubContainer extends React.Component {
 
   constructor (props) {
     super(props)
+    this.categories = getHubControls()
+    const firstKey = Object.keys(this.categories)[0]
     this.state = {
-      filterType: 'element',
-      activeCategoryIndex: 0,
+      filterType: firstKey,
+      activeCategoryIndex: this.categories[firstKey].index,
       isVisible: props.visible || workspaceContentState.get() === 'addHubElement'
     }
 
@@ -54,6 +56,7 @@ export default class HubContainer extends React.Component {
     this.handleWorkspaceSettingsChange = this.handleWorkspaceSettingsChange.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
     this.scrollToElementInsideFrame = this.scrollToElementInsideFrame.bind(this)
+
   }
 
   componentDidMount () {
@@ -108,15 +111,15 @@ export default class HubContainer extends React.Component {
 
   getAllCategories () {
     if (!this.allCategories) {
-      const elementGroup = this.getElementGroup(categories.element)
-      const templateGroup = this.getTemplateGroup(categories.template)
-      const blockGroup = this.getBlockGroup(categories.block)
-      const addonsGroup = this.getAddonsGroup(categories.addon)
-      const headerGroup = this.getHFSGroup(categories.hubHeader)
-      const footerGroup = this.getHFSGroup(categories.hubFooter)
-      const sidebarGroup = this.getHFSGroup(categories.hubSidebar)
+      const elementGroup = this.categories.element ? this.getElementGroup(this.categories.element) : null
+      const templateGroup = this.categories.template ? this.getTemplateGroup(this.categories.template) : null
+      const blockGroup = this.categories.block ? this.getBlockGroup(this.categories.block) : null
+      const addonsGroup = this.categories.addon ? this.getAddonsGroup(this.categories.addon) : null
+      const headerGroup = this.categories.hubHeader ? this.getHFSGroup(this.categories.hubHeader) : null
+      const footerGroup = this.categories.hubFooter ? this.getHFSGroup(this.categories.hubFooter) : null
+      const sidebarGroup = this.categories.hubSidebar ? this.getHFSGroup(this.categories.hubSidebar) : null
 
-      this.allCategories = [elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup]
+      this.allCategories = [elementGroup, templateGroup, blockGroup, addonsGroup, headerGroup, footerGroup, sidebarGroup].filter(a => a)
     }
     return this.allCategories
   }
@@ -392,7 +395,7 @@ export default class HubContainer extends React.Component {
     result = result.filter((item) => {
       let isClean = false
 
-      if (categories[filterType].templateType) {
+      if (this.categories[filterType].templateType) {
         isClean = item.props.type === 'template' && item.props.element.templateType === filterType
       } else {
         isClean = item.props.type === filterType
@@ -422,7 +425,7 @@ export default class HubContainer extends React.Component {
 
   getHubPanelControls () {
     const props = {
-      controls: categories,
+      controls: this.categories,
       activeSection: this.state.filterType,
       activeSubControl: this.state.bundleType,
       setActiveSection: this.setFilterType
@@ -446,7 +449,7 @@ export default class HubContainer extends React.Component {
       descriptionText = HubContainer.localizations ? HubContainer.localizations.getAccessToContentElements : 'Get access to more than 200 content elements with Visual Composer Premium.'
     }
 
-    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
+    const activeFilterType = this.categories[this.state.filterType].title.toLowerCase()
     const workspaceState = workspaceStorage.state('settings').get()
     const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add' + workspaceState.options.filterType : ''
 
@@ -468,7 +471,7 @@ export default class HubContainer extends React.Component {
   }
 
   getUtmMedium () {
-    const activeFilterType = categories[this.state.filterType].title.toLowerCase()
+    const activeFilterType = this.categories[this.state.filterType].title.toLowerCase()
     const workspaceState = workspaceStorage.state('settings').get()
     const initialFilterType = workspaceState && workspaceState.options && workspaceState.options.filterType ? '-add' + workspaceState.options.filterType : ''
     return `${activeFilterType}${initialFilterType}-hub-${this.props.namespace}`
