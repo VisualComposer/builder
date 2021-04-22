@@ -29,6 +29,16 @@ export default class NavbarContainer extends React.Component {
       settingsButton = <SettingsButtonControl />
     }
 
+    let hubControl
+    if (
+      (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()))
+      || (roleManager.can('hub_addons', roleManager.defaultTrue()))
+      || (roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue()))
+      || (roleManager.can('hub_unsplash', roleManager.defaultTrue()))
+      || (roleManager.can('hub_giphy', roleManager.defaultTrue()))
+    ) {
+      hubControl = <PlusTeaserControl />
+    }
     return (
       <NavbarWrapper wrapperRef={this.props.wrapperRef}>
         <Navbar draggable getNavbarPosition={this.props.getNavbarPosition}>
@@ -39,7 +49,7 @@ export default class NavbarContainer extends React.Component {
           <UndoRedoControl />
           {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl /> : null}
           <LayoutControl visibility='pinned' />
-          <PlusTeaserControl />
+          {hubControl}
           {settingsButton}
           <NavbarSeparator visibility='pinned' />
           <WordPressPostSaveControl visibility='pinned' />
