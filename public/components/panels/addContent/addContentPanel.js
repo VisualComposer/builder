@@ -107,14 +107,19 @@ export default class AddContentPanel extends React.Component {
   }
 
   render () {
-    const controls = {
-      addElement: {
+    const controls = {}
+
+    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+      controls.addElement = {
         index: 0,
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements'
-      },
-      addTemplate: {
+      }
+    }
+
+    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+      controls.addTemplate = {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',

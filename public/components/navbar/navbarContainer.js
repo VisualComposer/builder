@@ -19,9 +19,17 @@ const roleManager = getService('roleManager')
 
 export default class NavbarContainer extends React.Component {
   render () {
-    let settingsButton = null
+    let addContentButton = null
+    if (
+      roleManager.can('editor_content_element_add', roleManager.defaultTrue()) ||
+      roleManager.can('editor_content_template_add', roleManager.defaultTrue())
+    ) {
+      addContentButton = <PlusControl visibility='pinned' />
+    }
 
-    if (roleManager.can('editor_settings_page', roleManager.defaultTrue()) ||
+    let settingsButton = null
+    if (
+      roleManager.can('editor_settings_page', roleManager.defaultTrue()) ||
       roleManager.can('settings_custom_html', roleManager.defaultTrue()) ||
       roleManager.can('editor_settings_popup', roleManager.defaultTrue()) ||
       roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())
@@ -31,20 +39,21 @@ export default class NavbarContainer extends React.Component {
 
     let hubControl
     if (
-      (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) ||
-      (roleManager.can('hub_addons', roleManager.defaultTrue())) ||
-      (roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue())) ||
-      (roleManager.can('hub_unsplash', roleManager.defaultTrue())) ||
-      (roleManager.can('hub_giphy', roleManager.defaultTrue()))
+      roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()) ||
+      roleManager.can('hub_addons', roleManager.defaultTrue()) ||
+      roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue()) ||
+      roleManager.can('hub_unsplash', roleManager.defaultTrue()) ||
+      roleManager.can('hub_giphy', roleManager.defaultTrue())
     ) {
       hubControl = <PlusTeaserControl />
     }
+
     return (
       <NavbarWrapper wrapperRef={this.props.wrapperRef}>
         <Navbar draggable getNavbarPosition={this.props.getNavbarPosition}>
           <GoPremiumControl visibility='hidden' />
           <Logo visibility='pinned' editor='frontend' />
-          <PlusControl visibility='pinned' />
+          {addContentButton}
           <TreeViewControl visibility='pinned' />
           <UndoRedoControl />
           {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl /> : null}
