@@ -2,7 +2,7 @@
   "lazyLoad": {
     "type": "toggle",
     "access": "public",
-    "value": false,
+    "value": true,
     "options": {
       "label": "Lazy load"
     }
