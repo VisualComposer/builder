@@ -205,6 +205,19 @@ export default class AddTemplatePanel extends React.Component {
     } else {
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
     }
+    let moreButtonOutput = null
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      moreButtonOutput = (
+        <div>
+          <div className='vcv-ui-editor-no-items-content'>
+            {this.getMoreButton()}
+          </div>
+          <div className='vcv-ui-editor-no-items-content'>
+            <p className='vcv-start-blank-helper'>{helperText}</p>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div className='vcv-ui-editor-no-items-container'>
@@ -215,23 +228,14 @@ export default class AddTemplatePanel extends React.Component {
             alt={nothingFoundText}
           />
         </div>
-        <div>
-          <div className='vcv-ui-editor-no-items-content'>
-            {this.getMoreButton()}
-          </div>
-          <div className='vcv-ui-editor-no-items-content'>
-            <p className='vcv-start-blank-helper'>{(roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) ? helperText : ''}</p>
-          </div>
-        </div>
+        {moreButtonOutput}
       </div>
     )
   }
 
   getMoreButton () {
-    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
-      const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
-      return <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>{buttonText}</button>
-    }
+    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
+    return <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>{buttonText}</button>
   }
 
   getTemplateControl (template) {
@@ -541,9 +545,9 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-tree-content-error-message--visible': this.state.error
     })
 
-    let moreButton = null
-    if (itemsOutput.length) {
-      moreButton = (
+    let moreButtonOutput = null
+    if (itemsOutput.length && roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      moreButtonOutput = (
         <div className='vcv-ui-editor-get-more'>
           {this.getMoreButton()}
           <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
@@ -604,7 +608,7 @@ export default class AddTemplatePanel extends React.Component {
                     </div>
                   </div>
                 </div>
-                {moreButton}
+                {moreButtonOutput}
               </div>
             </Scrollbar>
           </div>

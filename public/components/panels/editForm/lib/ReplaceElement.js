@@ -133,9 +133,9 @@ export default class ReplaceElement extends React.Component {
       </div>
     )
 
-    let moreButton
+    let moreButtonOutput
     if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
-      moreButton = (
+      moreButtonOutput = (
         <div className='vcv-ui-editor-get-more'>
           <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
             {getMoreButtonText}
@@ -149,7 +149,7 @@ export default class ReplaceElement extends React.Component {
       <div className='vcv-ui-form-element'>
         <div className='vcv-ui-replace-element-block'>
           {replacements}
-          {moreButton}
+          {moreButtonOutput}
         </div>
       </div>
     )
