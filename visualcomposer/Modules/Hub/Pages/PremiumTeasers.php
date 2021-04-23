@@ -160,13 +160,14 @@ class PremiumTeasers extends Container implements Module
             'slug' => 'vcv-import',
             'name' => __('Import', 'visualcomposer'),
             'subTitle' => '',
-            'parent' => 'vcv_templates',
+            'parent' => 'vcv-import',
             'premiumTitle' => __('TEMPLATE IMPORT AND EXPORT IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
                 'Migrate your templates from site to site with the Export/Import addon available in Premium.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'templatesimport-vcdashboard', $utmTemplate),
+            'iconClass' => 'vcv-ui-icon-dashboard-import',
             'premiumActionBundle' => 'exportImport',
             'position' => -2,
         ];
@@ -207,42 +208,46 @@ class PremiumTeasers extends Container implements Module
             $this->dashboardSections
         );
 
-        $this->wpAddAction(
-            'admin_menu',
-            'outputDashboardMenu',
-            60
-        );
-        $this->addFilter(
-            'vcv:helper:tabsRegistry:all',
-            function ($allTabs, $payload) {
-                $addons = vchelper('HubAddons')->getAddons();
-                $dataHelper = vchelper('Data');
-                $haveUpdates = false;
-                foreach ($this->dashboardSections as $section) {
-                    // Addon installed, skip teaser
-                    if (array_key_exists($section['premiumActionBundle'], $addons)) {
-                        continue;
+        $currentUserAccess = vchelper('AccessCurrentUser');
+        $isHubAddonsEnabled = $currentUserAccess->part('hub')->can('addons')->get();
+        if ($isHubAddonsEnabled) {
+            $this->wpAddAction(
+                'admin_menu',
+                'outputDashboardMenu',
+                60
+            );
+            $this->addFilter(
+                'vcv:helper:tabsRegistry:all',
+                function ($allTabs, $payload) {
+                    $addons = vchelper('HubAddons')->getAddons();
+                    $dataHelper = vchelper('Data');
+                    $haveUpdates = false;
+                    foreach ($this->dashboardSections as $section) {
+                        // Addon installed, skip teaser
+                        if (array_key_exists($section['premiumActionBundle'], $addons)) {
+                            continue;
+                        }
+                        if (!$dataHelper->arraySearch($allTabs, 'slug', $section['slug'])) {
+                            $section['callback'] = function () use ($section) {
+                                echo vcview(
+                                    'settings/layouts/dashboard-premium-teaser',
+                                    ['page' => $section, 'slug' => $section['slug']]
+                                );
+                            };
+                            $allTabs[] = $section;
+                            $haveUpdates = true;
+                        }
                     }
-                    if (!$dataHelper->arraySearch($allTabs, 'slug', $section['slug'])) {
-                        $section['callback'] = function () use ($section) {
-                            echo vcview(
-                                'settings/layouts/dashboard-premium-teaser',
-                                ['page' => $section, 'slug' => $section['slug']]
-                            );
-                        };
-                        $allTabs[] = $section;
-                        $haveUpdates = true;
+
+                    // sort allTabs properly depending on position
+                    if ($haveUpdates) {
+                        $allTabs = $this->sortAllTabs($allTabs, $dataHelper);
                     }
-                }
 
-                // sort allTabs properly depending on position
-                if ($haveUpdates) {
-                    $allTabs = $this->sortAllTabs($allTabs, $dataHelper);
+                    return $allTabs;
                 }
-
-                return $allTabs;
-            }
-        );
+            );
+        }
     }
 
     protected function outputDashboardMenu()
