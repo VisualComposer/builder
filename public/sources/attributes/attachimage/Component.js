@@ -15,6 +15,7 @@ import GiphyMediaTab from './giphyMediaTab'
 import { getService, getStorage } from 'vc-cake'
 
 const { getBlockRegexp } = getService('utils')
+const roleManager = getService('roleManager')
 const blockRegexp = getBlockRegexp()
 const notificationsStorage = getStorage('notifications')
 const SortableList = SortableContainer((props) => {
@@ -121,17 +122,22 @@ export default class AttachImage extends Attribute {
        */
       browseRouter: function (routerView) {
         oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
-        routerView.set('unsplash', {
-          text: 'Unsplash',
-          priority: 60
-        })
-        if (attributeOptions.gif) {
-          routerView.set('giphy', {
-            text: 'Giphy',
-            priority: 70
+        if (roleManager.can('hub_unsplash', roleManager.defaultTrue())) {
+          routerView.set('unsplash', {
+            text: 'Unsplash',
+            priority: 60
           })
-        } else {
-          routerView.unset('giphy')
+        }
+
+        if (roleManager.can('hub_giphy', roleManager.defaultTrue())) {
+          if (attributeOptions.gif) {
+            routerView.set('giphy', {
+              text: 'Giphy',
+              priority: 70
+            })
+          } else {
+            routerView.unset('giphy')
+          }
         }
       }
     })

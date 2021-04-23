@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
 
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 const hubElementsService = vcCake.getService('hubElements')
 const sharedAssetsLibraryService = vcCake.getService('sharedAssetsLibrary')
 const workspaceStorage = vcCake.getStorage('workspace')
@@ -244,6 +245,20 @@ export default class Groups extends React.Component {
     const helperText = Groups.localizations ? Groups.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
     const source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
 
+    let moreButtonOutput = null
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      moreButtonOutput = (
+        <div>
+          <div className='vcv-ui-editor-no-items-content'>
+            {this.getMoreButton()}
+          </div>
+          <div className='vcv-ui-editor-no-items-content'>
+            <p className='vcv-start-blank-helper'>{helperText}</p>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className='vcv-ui-editor-no-items-container'>
         <div className='vcv-ui-editor-no-items-content'>
@@ -253,14 +268,7 @@ export default class Groups extends React.Component {
             alt={nothingFoundText}
           />
         </div>
-        <div>
-          <div className='vcv-ui-editor-no-items-content'>
-            {this.getMoreButton()}
-          </div>
-          <div className='vcv-ui-editor-no-items-content'>
-            <p className='vcv-start-blank-helper'>{helperText}</p>
-          </div>
-        </div>
+        {moreButtonOutput}
       </div>
     )
   }
@@ -426,9 +434,9 @@ export default class Groups extends React.Component {
       'vcv-ui-state--centered-content': !itemsOutput.length,
       'vcv-ui-state--remove-mode-active': this.state.isRemoveStateActive
     })
-    let moreButton = null
-    if (itemsOutput.length) {
-      moreButton = (
+    let moreButtonOutput = null
+    if (itemsOutput.length && roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      moreButtonOutput = (
         <div className='vcv-ui-editor-get-more'>
           {this.getMoreButton()}
           <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
@@ -448,7 +456,7 @@ export default class Groups extends React.Component {
                   </div>
                 </div>
               </div>
-              {moreButton}
+              {moreButtonOutput}
             </div>
           </Scrollbar>
         </div>

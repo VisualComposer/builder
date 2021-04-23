@@ -42,6 +42,7 @@ class EnqueueController extends Container implements Module
         }
         $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 11);
         $this->wpAddAction('wp_footer', 'enqueueVcvAssets');
+        $this->wpAddAction('wp_head', 'enqueueNoscript');
 
         // Used in 3rd party places, like elements/addons/widgets
         $this->addEvent(
@@ -172,6 +173,11 @@ class EnqueueController extends Container implements Module
             $sourceIds = [get_the_ID()];
         }
         $this->enqueueAssetsVendorListener($sourceIds);
+    }
+
+    protected function enqueueNoscript()
+    {
+        echo '<noscript><style>.vce-row-container .vcv-lozad {display: none}</style></noscript>';
     }
 
     protected function setCustomWpScripts()
