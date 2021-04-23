@@ -297,6 +297,10 @@ class Controller extends Container implements Module
         );
         // Clearing wp cache
         wp_cache_flush();
+        vcevent(
+            'vcv:api:postSaved',
+            ['sourceId' => $sourceId, 'post' => $post]
+        );
         // Flush global $post cache
         $postTypeHelper->setupPost($sourceId);
         $responseExtra['postData'] = $postTypeHelper->getPostData();
