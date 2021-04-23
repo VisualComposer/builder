@@ -196,8 +196,15 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getImageShortcode (options) {
-    const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes } = options
-    let shortcode = `[vcvSingleImage class="${classes}" data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${src}" data-img-src="${props['data-img-src']}"`
+    const { props, classes, isDefaultImage, src, isDynamicImage, naturalSizes, lazyLoad } = options
+    const imageSource = lazyLoad ? '' : src
+    let imageClasses = classes
+    let lazyLoadAttr = ''
+    if (lazyLoad) {
+      imageClasses += ' vcv-lozad'
+      lazyLoadAttr = `data-src="${src}"`
+    }
+    let shortcode = `[vcvSingleImage class="${imageClasses}" ${lazyLoadAttr} data-width="${this.state.parsedWidth || 0}" data-height="${this.state.parsedHeight || 0}" src="${imageSource}" data-img-src="${props['data-img-src']}"`
 
     let alt = props.alt
     let title = props.title
@@ -230,13 +237,18 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
     }
 
     shortcode += ` alt="${alt}" title="${title}" ]`
+    if (lazyLoad) {
+      shortcode += `<noscript>
+        <img class="${classes}" src="${src}" width="${this.state.parsedWidth || 0}" height="${this.state.parsedHeight || 0}" alt="${alt}" title="${title}" />
+      </noscript>`
+    }
 
     return shortcode
   }
 
   render () {
     const { id, atts, editor } = this.props
-    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image } = atts
+    const { shape, clickableOptions, showCaption, customClass, size, alignment, metaCustomId, image, lazyLoad } = atts
     let containerClasses = 'vce-single-image-container'
     const wrapperClasses = 'vce vce-single-image-wrapper'
     let classes = 'vce-single-image-inner vce-single-image--absolute'
@@ -352,7 +364,8 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
       isDefaultImage: !(image && image.id),
       src: imgSrc,
       isDynamicImage: isDynamic,
-      naturalSizes: naturalDynamicSizes
+      naturalSizes: naturalDynamicSizes,
+      lazyLoad: lazyLoad
     }
 
     if (imgSrc) {
