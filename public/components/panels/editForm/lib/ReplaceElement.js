@@ -9,6 +9,7 @@ const hubElementsService = vcCake.getService('hubElements')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 
 export default class ReplaceElement extends React.Component {
   static propTypes = {
@@ -132,20 +133,23 @@ export default class ReplaceElement extends React.Component {
       </div>
     )
 
-    const moreButton = (
-      <div className='vcv-ui-editor-get-more'>
-        <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
-          {getMoreButtonText}
-        </button>
-        <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
-      </div>
-    )
+    let moreButtonOutput
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      moreButtonOutput = (
+        <div className='vcv-ui-editor-get-more'>
+          <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
+            {getMoreButtonText}
+          </button>
+          <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+        </div>
+      )
+    }
 
     return (
       <div className='vcv-ui-form-element'>
         <div className='vcv-ui-replace-element-block'>
           {replacements}
-          {moreButton}
+          {moreButtonOutput}
         </div>
       </div>
     )
