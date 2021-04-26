@@ -203,7 +203,7 @@ export default class DesignOptions extends Attribute {
     devices: {},
     attributeMixins: {},
     defaultStyles: null,
-    lazyLoad: false
+    lazyLoad: true
   }
 
   static localizations = dataManager.get('localizations')
@@ -459,9 +459,9 @@ export default class DesignOptions extends Attribute {
   }
 
   static getBackgroundMixin (newValue, device, newMixins) {
-    if (newValue[device] && (newValue[device].backgroundColor || newValue[device].image)) {
+    if (newValue[device] && (newValue[device].backgroundColor || (newValue[device].image && newValue[device].image.urls && newValue[device].image.urls.length))) {
       const mixinName = `backgroundColorMixin:${device}`
-      const mixinNameImage = newValue[device].lazyLoad ? `backgroundLazyImageMixin:${device}` :`backgroundImageMixin:${device}`
+      const mixinNameImage = newValue[device].lazyLoad ? `backgroundLazyImageMixin:${device}` : `backgroundImageMixin:${device}`
       newMixins[mixinName] = {}
       newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
       if (newValue[device].lazyLoad) {
@@ -919,7 +919,8 @@ export default class DesignOptions extends Attribute {
 
   /**
    * Update and apply the same lazyLoad property state for each device
-   * @returns {*}
+   * @param fieldKey
+   * @param value
    */
   handleBackgroundImageLazyLoad (fieldKey, value) {
     const newState = lodash.defaultsDeep({}, this.state)
@@ -936,7 +937,12 @@ export default class DesignOptions extends Attribute {
    */
   getImageLazyLoadRender () {
     const lazyLoadToggleText = DesignOptions.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
-    const value = this.state.devices[this.state.currentDevice].lazyLoad || DesignOptions.defaultState.lazyLoad
+    let value
+    if (Object.prototype.hasOwnProperty.call(this.state.devices[this.state.currentDevice], 'lazyLoad')) {
+      value = this.state.devices[this.state.currentDevice].lazyLoad
+    } else {
+      value = DesignOptions.defaultState.lazyLoad
+    }
     return (
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <Toggle
