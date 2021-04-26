@@ -223,7 +223,7 @@ export default class DesignOptions extends Attribute {
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.handleElementChange = this.handleElementChange.bind(this)
-    this.handleBackgroundImageLazyLoad = this.handleBackgroundImageLazyLoad.bind(this)
+    this.backgroundImageLazyLoadHandler = this.backgroundImageLazyLoadHandler.bind(this)
   }
 
   componentDidMount () {
@@ -922,7 +922,7 @@ export default class DesignOptions extends Attribute {
    * @param fieldKey
    * @param value
    */
-  handleBackgroundImageLazyLoad (fieldKey, value) {
+  backgroundImageLazyLoadHandler (fieldKey, value) {
     const newState = lodash.defaultsDeep({}, this.state)
     const deviceKeys = Object.keys(newState.devices)
     deviceKeys.forEach((device) => {
@@ -948,7 +948,7 @@ export default class DesignOptions extends Attribute {
         <Toggle
           api={this.props.api}
           fieldKey='backgroundImageLazyLoad'
-          updater={this.handleBackgroundImageLazyLoad}
+          updater={this.backgroundImageLazyLoadHandler}
           options={{ labelText: 'Lazy load' }}
           value={value}
         />
