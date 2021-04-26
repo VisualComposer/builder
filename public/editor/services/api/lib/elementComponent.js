@@ -146,7 +146,7 @@ export default class ElementComponent extends React.Component {
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
         if (isLazyLoad) {
           Object.keys(doDevices).forEach((device) => {
-            if (doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
+            if (doDevices[device].image && doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
               const dataAttribute = `data-vce-background-image-${device}`
               propObj[dataAttribute] = doDevices[device].image.urls[0].full
             }
