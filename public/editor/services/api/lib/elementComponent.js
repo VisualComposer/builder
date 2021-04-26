@@ -141,7 +141,7 @@ export default class ElementComponent extends React.Component {
         propObj = Object.assign({}, propObj, this.getImageData())
       }
       const desingOptions = this.props.atts.designOptions || this.props.atts.designOptionsAdvanced
-      if (Object.prototype.hasOwnProperty.call(desingOptions, 'device')) {
+      if (desingOptions && Object.prototype.hasOwnProperty.call(desingOptions, 'device')) {
         const doDevices = desingOptions.device
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
         if (isLazyLoad) {
