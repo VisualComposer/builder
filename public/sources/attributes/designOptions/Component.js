@@ -149,6 +149,17 @@ export default class DesignOptions extends Attribute {
         }
       }
     },
+    backgroundLazyImageMixin: {
+      src: require('raw-loader!./cssMixins/backgroundLazyImage.pcss'),
+      variables: {
+        device: {
+          value: 'all'
+        },
+        backgroundImage: {
+          value: false
+        }
+      }
+    },
     backgroundColorMixin: {
       src: require('raw-loader!./cssMixins/backgroundStyles.pcss'),
       variables: {
@@ -191,7 +202,8 @@ export default class DesignOptions extends Attribute {
     backgroundPosition: 'center top',
     devices: {},
     attributeMixins: {},
-    defaultStyles: null
+    defaultStyles: null,
+    lazyLoad: false
   }
 
   static localizations = dataManager.get('localizations')
@@ -211,6 +223,7 @@ export default class DesignOptions extends Attribute {
     this.animationChangeHandler = this.animationChangeHandler.bind(this)
     this.borderStyleChangeHandler = this.borderStyleChangeHandler.bind(this)
     this.handleElementChange = this.handleElementChange.bind(this)
+    this.handleBackgroundImageLazyLoad = this.handleBackgroundImageLazyLoad.bind(this)
   }
 
   componentDidMount () {
@@ -448,10 +461,14 @@ export default class DesignOptions extends Attribute {
   static getBackgroundMixin (newValue, device, newMixins) {
     if (newValue[device] && (newValue[device].backgroundColor || newValue[device].image)) {
       const mixinName = `backgroundColorMixin:${device}`
-      const mixinNameImage = `backgroundImageMixin:${device}`
+      const mixinNameImage = newValue[device].lazyLoad ? `backgroundLazyImageMixin:${device}` :`backgroundImageMixin:${device}`
       newMixins[mixinName] = {}
       newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
-      newMixins[mixinNameImage] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundImageMixin)
+      if (newValue[device].lazyLoad) {
+        newMixins[mixinNameImage] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundLazyImageMixin)
+      } else {
+        newMixins[mixinNameImage] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundImageMixin)
+      }
 
       if (newValue[device].backgroundColor) {
         newMixins[mixinName].variables.backgroundColor = {
@@ -898,6 +915,42 @@ export default class DesignOptions extends Attribute {
       }
       this.updateValue(newState, fieldKey)
     }
+  }
+
+  /**
+   * Update and apply the same lazyLoad property state for each device
+   * @returns {*}
+   */
+  handleBackgroundImageLazyLoad (fieldKey, value) {
+    const newState = lodash.defaultsDeep({}, this.state)
+    const deviceKeys = Object.keys(newState.devices)
+    deviceKeys.forEach((device) => {
+      newState.devices[device].lazyLoad = value
+    })
+    this.updateValue(newState, fieldKey)
+  }
+
+  /**
+   * Render lazy load toggle control for background image
+   * @returns {*}
+   */
+  getImageLazyLoadRender () {
+    const lazyLoadToggleText = DesignOptions.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
+    const value = this.state.devices[this.state.currentDevice].lazyLoad || DesignOptions.defaultState.lazyLoad
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey='backgroundImageLazyLoad'
+          updater={this.handleBackgroundImageLazyLoad}
+          options={{ labelText: 'Lazy load' }}
+          value={value}
+        />
+        <Tooltip>
+          {lazyLoadToggleText}
+        </Tooltip>
+      </div>
+    )
   }
 
   /**
@@ -1348,6 +1401,7 @@ export default class DesignOptions extends Attribute {
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}
+            {this.getImageLazyLoadRender()}
             {this.getAttachImageRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
