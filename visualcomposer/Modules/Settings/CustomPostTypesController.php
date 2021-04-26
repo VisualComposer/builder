@@ -24,8 +24,19 @@ class CustomPostTypesController extends Container implements Module
 
     protected $postType;
 
+    protected $customPostTypes;
+
     public function __construct()
     {
+        $this->customPostTypes = [
+            'vcv_headers',
+            'vcv_footers',
+            'vcv_sidebars',
+            'vcv_archives',
+            'vcv_layouts',
+            'vcv_templates',
+        ];
+
         // Hook once screen is determined to handle VC custom post types listings
         $this->wpAddAction(
             'current_screen',
@@ -42,6 +53,74 @@ class CustomPostTypesController extends Container implements Module
                 return $show;
             }
         );
+        $this->wpAddAction('admin_init', 'redirectEditPage', 9);
+        $this->wpAddAction('admin_init', 'manipulateGlobalVariables');
+        $this->wpAddFilter('admin_title', 'manipulateTitle');
+    }
+
+    /**
+     * Manipulate global request and pagenow for custom listing pages
+     * Fix for custom column of translate plugins
+     */
+    protected function manipulateGlobalVariables()
+    {
+        global $pagenow;
+        if (isset($_REQUEST['page'])
+            && $pagenow === 'admin.php'
+            && in_array(
+                $_REQUEST['page'],
+                $this->customPostTypes,
+                true
+            )
+        ) {
+            $pagenow = 'edit.php';
+            $_REQUEST['post_type'] = $_REQUEST['page'];
+        }
+    }
+
+    /**
+     * Redirect edit page to VC Dashboard page
+     * Fix for duplicate plugins
+     */
+    protected function redirectEditPage()
+    {
+        global $pagenow;
+        if (isset($_REQUEST['post_type'])
+            && $pagenow === 'edit.php'
+            && in_array(
+                $_REQUEST['post_type'],
+                $this->customPostTypes,
+                true
+            )
+        ) {
+            wp_redirect(admin_url('admin.php?page=' . $_REQUEST['post_type']));
+            exit;
+        }
+    }
+
+    /**
+     * Change title of the admin page.
+     *
+     * @param $adminTitle
+     *
+     * @return string
+     */
+    protected function manipulateTitle($adminTitle)
+    {
+        global $post_type_object;
+        if (isset($_REQUEST['page'])
+            && in_array(
+                $_REQUEST['page'],
+                $this->customPostTypes,
+                true
+            ))
+        {
+            $blogTitle = get_bloginfo( 'name' );
+            $title = $post_type_object->labels->name;
+            $adminTitle = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $blogTitle );
+        }
+
+        return $adminTitle;
     }
 
     protected function hookCurrentScreen($screen)
