@@ -85,7 +85,7 @@ export default class HtmlEditorWrapper extends Attribute {
         oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
         if (roleManager.can('hub_unsplash', roleManager.defaultTrue())) {
           routerView.set('unsplash', {
-            text: 'Unsplash',
+            text: 'Stock Images',
             priority: 60
           })
         }
