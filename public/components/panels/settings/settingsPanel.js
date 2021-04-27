@@ -22,22 +22,15 @@ const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 
 const controls = {}
-let activeSection = null
 
-if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
-  activeSection = 'pageSettings'
-  controls.pageSettings = {
-    index: 0,
-    type: 'pageSettings',
-    title: settingsText,
-    content: <PageSettings />
-  }
+controls.pageSettings = {
+  index: 0,
+  type: 'pageSettings',
+  title: settingsText,
+  content: <PageSettings />
 }
 
 if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
-  if (!activeSection) {
-    activeSection = 'customCss'
-  }
   controls.customCss = {
     index: 1,
     type: 'customCss',
@@ -55,9 +48,6 @@ if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
 const editorType = dataManager.get('editorType')
 const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
 if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
-  if (!activeSection) {
-    activeSection = 'popup'
-  }
   controls.popup = {
     index: 3,
     type: 'popup',
@@ -67,9 +57,6 @@ if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_setting
 }
 
 if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
-  if (!activeSection) {
-    activeSection = 'elementsLock'
-  }
   controls.elementsLock = {
     index: 4,
     type: 'elementsLock',
@@ -83,7 +70,7 @@ export default class SettingsPanel extends React.Component {
     super(props)
 
     this.state = {
-      activeSection: activeSection,
+      activeSection: 'pageSettings',
       isVisible: workspaceContentState.get() === 'settings'
     }
 

@@ -19,16 +19,6 @@ const roleManager = getService('roleManager')
 
 export default class NavbarContainer extends React.Component {
   render () {
-    let settingsButton = null
-
-    if (roleManager.can('editor_settings_page', roleManager.defaultTrue()) ||
-      roleManager.can('settings_custom_html', roleManager.defaultTrue()) ||
-      roleManager.can('editor_settings_popup', roleManager.defaultTrue()) ||
-      roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())
-    ) {
-      settingsButton = <SettingsButtonControl />
-    }
-
     let hubControl
     if (
       (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) ||
@@ -50,7 +40,7 @@ export default class NavbarContainer extends React.Component {
           {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl /> : null}
           <LayoutControl visibility='pinned' />
           {hubControl}
-          {settingsButton}
+          <SettingsButtonControl />
           <NavbarSeparator visibility='pinned' />
           <WordPressPostSaveControl visibility='pinned' />
           <WordPressAdminControl visibility='hidden' />
