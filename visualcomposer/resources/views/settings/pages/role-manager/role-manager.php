@@ -183,6 +183,11 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                 '<p class="description">%s</p>',
                 __('All options are disabled for the Subscriber user role.', 'visualcomposer')
             );
+        } elseif (!$roleObject->has_cap('edit_posts')) {
+            echo sprintf(
+                '<p class="description">%s</p>',
+                __('All options are disabled for this user role. No `edit_posts` capability enabled.', 'visualcomposer')
+            );
         } else {
             foreach ($accessParts as $part) {
                 $stateValue = $roleAccessHelper->who($role)->part($part)->getState();
