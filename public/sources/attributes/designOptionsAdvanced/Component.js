@@ -236,7 +236,8 @@ export default class DesignOptionsAdvanced extends Attribute {
     currentDevice: 'all',
     devices: {},
     attributeMixins: {},
-    defaultStyles: null
+    defaultStyles: null,
+    lazyLoad: true // TODO: Set default state to be true for element
   }
 
   constructor (props) {
@@ -250,6 +251,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     this.sliderTimeoutChangeHandler = this.sliderTimeoutChangeHandler.bind(this)
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
     this.handleElementChange = this.handleElementChange.bind(this)
+    this.backgroundLazyLoadHandler = this.backgroundLazyLoadHandler.bind(this)
   }
 
   componentDidMount () {
@@ -879,6 +881,49 @@ export default class DesignOptionsAdvanced extends Attribute {
     }
 
     this.updateValue(newState, fieldKey)
+  }
+
+  /**
+   * Update and apply the same lazyLoad property state for each device
+   * @param fieldKey
+   * @param value
+   */
+  backgroundLazyLoadHandler (fieldKey, value) {
+    const newState = lodash.defaultsDeep({}, this.state)
+    const deviceKeys = Object.keys(newState.devices)
+    deviceKeys.forEach((device) => {
+      newState.devices[device].lazyLoad = value
+    })
+    this.updateValue(newState, fieldKey)
+  }
+
+  /**
+   * Render lazy load toggle control for background image
+   * @returns {*}
+   */
+  getLazyLoadRender () {
+    const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
+    let value
+    if (Object.prototype.hasOwnProperty.call(this.state.devices[this.state.currentDevice], 'lazyLoad')) {
+      value = this.state.devices[this.state.currentDevice].lazyLoad
+    } else {
+      value = DesignOptionsAdvanced.defaultState.lazyLoad
+    }
+
+    return (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <Toggle
+          api={this.props.api}
+          fieldKey='lazyLoad'
+          updater={this.backgroundLazyLoadHandler}
+          options={{ labelText: 'Lazy load' }}
+          value={value}
+        />
+        <Tooltip>
+          {lazyLoadToggleText}
+        </Tooltip>
+      </div>
+    )
   }
 
   /**
@@ -1969,6 +2014,7 @@ export default class DesignOptionsAdvanced extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBorderStyleRender()}
             {this.getBorderColorRender()}
+            {this.getLazyLoadRender()}
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
             {this.getSliderEffectRender()}
