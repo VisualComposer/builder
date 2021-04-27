@@ -12,6 +12,7 @@ const settingsStorage = getStorage('settings')
 const notificationsStorage = getStorage('notifications')
 const utils = getService('utils')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 add('wordpressWorkspace', (api) => {
   api.reply('start', () => {
@@ -122,6 +123,9 @@ add('wordpressWorkspace', (api) => {
       if (status === 'started') {
         const elements = elementsStorage.state('document').get()
         if (!elements.length && editorType === 'default') {
+          if (!roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
+            return
+          }
           const settings = {
             action: 'add',
             element: {},
