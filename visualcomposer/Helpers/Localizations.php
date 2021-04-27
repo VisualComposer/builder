@@ -883,7 +883,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'lockElementNotificationText' => __(
-                'The element has been locked and can be edited only by the Administrator role.',
+                'The element has been locked and can be edited only by users with editing locked elements permission.',
                 'visualcomposer'
             ),
             'unlockElementNotificationText' => __(
@@ -891,7 +891,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'lockContainerNotificationText' => __(
-                'The element and all inner elements have been locked and can be edited only by the Administrator role.',
+                'The element and all inner elements have been locked and can be edited only by users with editing locked elements permission.',
                 'visualcomposer'
             ),
             'unlockContainerNotificationText' => __(
