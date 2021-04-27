@@ -127,7 +127,11 @@ class Controller extends Container implements Module
         CurrentUser $currentUserAccessHelper,
         EditorTemplates $editorTemplatesHelper
     ) {
-        if ($currentUserAccessHelper->wpAll('publish_posts')->get()) {
+        $haveAccess = $currentUserAccessHelper->wpAll('edit_posts')->get();
+        if (vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+            $haveAccess = $currentUserAccessHelper->part('editor_content')->can('user_templates_management')->get();
+        }
+        if ($haveAccess) {
             $templateId = $editorTemplatesHelper->create($type);
             if ($templateId) {
                 return $templateId;
@@ -142,35 +146,23 @@ class Controller extends Container implements Module
      *
      * @param \VisualComposer\Helpers\Request $requestHelper
      * @param \VisualComposer\Helpers\PostType $postTypeHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccessHelper
      *
      * @return array
      */
     protected function delete(
         Request $requestHelper,
-        PostType $postTypeHelper,
-        CurrentUser $currentUserAccessHelper
+        PostType $postTypeHelper
     ) {
-        /**
-         * Note: `ss` at the end is not a typo!
-         * @see visualcomposer/Modules/Editors/Templates/PostType.php:62
-         */
-        if ($currentUserAccessHelper->wpAll('delete_published_vcv_templatess')->get()) {
-            $id = $requestHelper->input('vcv-template-id');
-            $template = $postTypeHelper->get($id, 'vcv_templates');
-            $status = false;
-            if ($template) {
-                $status = $postTypeHelper->trash($id, 'vcv_templates');
-            }
-
-            return [
-                'status' => $status,
-            ];
+        $id = (int)$requestHelper->input('vcv-template-id');
+        $template = $postTypeHelper->get($id, 'vcv_templates');
+        $status = false;
+        if ($template) {
+            $status = $postTypeHelper->trash($id, 'vcv_templates');
         }
 
         return [
-            'status' => false,
-            'message' => __('You are not allowed to delete templates.', 'visualcomposer'),
+            'status' => $status,
+            'message' => !$status ? __('You are not allowed to delete templates.', 'visualcomposer') : '',
         ];
     }
 
@@ -219,7 +211,7 @@ class Controller extends Container implements Module
         CurrentUser $currentUserHelper
     ) {
         $id = $requestHelper->input('vcv-template-id');
-        if ($currentUserHelper->wpAll(['edit_post', $id])) {
+        if ($currentUserHelper->wpAll(['read_post', $id])) {
             $template = $editorTemplatesHelper->read($id);
             if ($template) {
                 $optionsHelper = vchelper('Options');
@@ -227,7 +219,7 @@ class Controller extends Container implements Module
                 vcfilter(
                     'vcv:ajax:usageCount:updateUsage:adminNonce',
                     [],
-                    [ 'tag' => 'template/' . $id ]
+                    ['tag' => 'template/' . $id]
                 );
                 // Data usage statistics
                 $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
@@ -271,7 +263,11 @@ class Controller extends Container implements Module
                     update_post_meta($sourceId, '_' . VCV_PREFIX . 'id', uniqid('', true));
                 }
 
-                return $templateId;
+                return [
+                    'status' => true,
+                    'sourceId' => $templateId,
+                    'accessCheck' => false, // we already checked for access: skip ->canEdit check in DataAjax/Controller
+                ];
             }
 
             return ['status' => false];

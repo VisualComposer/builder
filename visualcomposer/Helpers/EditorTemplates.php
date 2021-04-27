@@ -222,7 +222,7 @@ class EditorTemplates implements Helper
         $postTypeHelper = vchelper('PostType');
         $data = [
             'post_type' => 'vcv_templates',
-            'post_status' => 'vcv_templates',
+            'post_status' => 'publish',
         ];
 
         $templateId = $postTypeHelper->create($data);
