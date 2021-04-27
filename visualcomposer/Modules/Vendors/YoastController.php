@@ -19,7 +19,7 @@ class YoastController extends Container implements Module
 
     public function __construct()
     {
-       $this->addEvent('vcv:inited', 'initializeYoast');
+        $this->addEvent('vcv:inited', 'initializeYoast');
     }
 
     protected function initializeYoast(Frontend $frontendHelper)
