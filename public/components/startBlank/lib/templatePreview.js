@@ -96,7 +96,9 @@ export default class TemplatePreview extends React.Component {
     const firstElement = container.querySelector('.vcv-ui-item-list-item')
     const trigger = element.querySelector('.vcv-start-blank-content')
     const preview = element.querySelector('.vcv-ui-item-preview-container')
-
+    if (!preview) {
+      return false
+    }
     const triggerSizes = trigger.getBoundingClientRect()
     const firsElementSize = firstElement.getBoundingClientRect()
     const previewSizes = preview.getBoundingClientRect()

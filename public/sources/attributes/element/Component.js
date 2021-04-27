@@ -13,6 +13,7 @@ const hubElementsService = vcCake.getService('hubElements')
 const hubElementsStorage = vcCake.getStorage('hubElements')
 const workspaceStorage = vcCake.getStorage('workspace')
 const dataManager = vcCake.getService('dataManager')
+const roleManager = vcCake.getService('roleManager')
 
 export default class ElementAttribute extends Attribute {
   static defaultProps = {
@@ -295,14 +296,17 @@ export default class ElementAttribute extends Attribute {
         const getMoreButtonText = ElementAttribute.localizations ? ElementAttribute.localizations.getMoreElements : 'Get More Elements'
         const hubButtonDescriptionText = ElementAttribute.localizations ? ElementAttribute.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
-        const moreButton = (
-          <div className='vcv-ui-editor-get-more'>
-            <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
-              {getMoreButtonText}
-            </button>
-            <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
-          </div>
-        )
+        let moreButtonOutput = null
+        if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+          moreButtonOutput = (
+            <div className='vcv-ui-editor-get-more'>
+              <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>
+                {getMoreButtonText}
+              </button>
+              <span className='vcv-ui-editor-get-more-description'>{hubButtonDescriptionText}</span>
+            </div>
+          )
+        }
 
         replacementBlock = (
           <div className='vcv-ui-replace-element-block vcv-ui-replace-element-block--inner'>
@@ -316,7 +320,7 @@ export default class ElementAttribute extends Attribute {
                 {replacementItemsOutput}
               </ul>
             </div>
-            {moreButton}
+            {moreButtonOutput}
           </div>
         )
       }

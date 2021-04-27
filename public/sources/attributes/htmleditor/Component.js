@@ -9,6 +9,7 @@ import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
+const roleManager = getService('roleManager')
 const settingsStorage = getStorage('settings')
 const notificationsStorage = getStorage('notifications')
 const blockRegexp = getBlockRegexp()
@@ -82,14 +83,18 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       browseRouter: function (routerView) {
         oldMediaFrameSelect.prototype.browseRouter.apply(this, arguments)
-        routerView.set('unsplash', {
-          text: 'Unsplash',
-          priority: 60
-        })
-        routerView.set('giphy', {
-          text: 'Giphy',
-          priority: 70
-        })
+        if (roleManager.can('hub_unsplash', roleManager.defaultTrue())) {
+          routerView.set('unsplash', {
+            text: 'Stock Images',
+            priority: 60
+          })
+        }
+        if (roleManager.can('hub_giphy', roleManager.defaultTrue())) {
+          routerView.set('giphy', {
+            text: 'Giphy',
+            priority: 70
+          })
+        }
       }
     })
 

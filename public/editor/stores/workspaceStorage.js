@@ -278,9 +278,9 @@ addStorage('workspace', (storage) => {
 
     let messageText
     const localizations = dataManager.get('localizations')
-    const lockElementMessage = localizations.lockElementNotificationText || 'The element has been locked and can be edited only by the Administrator role.'
+    const lockElementMessage = localizations.lockElementNotificationText || 'The element has been locked and can be edited only by users with editing locked elements permission.'
     const unlockElementMessage = localizations.unlockElementNotificationText || 'The element has been unlocked and can be edited by all roles with the edit option.'
-    const lockContainerMessage = localizations.lockContainerNotificationText || 'The element and all inner elements have been locked and can be edited only by the Administrator role.'
+    const lockContainerMessage = localizations.lockContainerNotificationText || 'The element and all inner elements have been locked and can be edited only by users with editing locked elements permission.'
     const unlockContainerMessage = localizations.unlockContainerNotificationText || 'The element and all inner elements have been unlocked and can be edited by all roles with the edit option.'
 
     if (!options.isChild) {

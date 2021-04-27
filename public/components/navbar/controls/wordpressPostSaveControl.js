@@ -187,6 +187,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
             title={localizations.saveDraft}
             onClick={this.handleClickSaveDraft}
             data-href={PostData.permalink()}
+            data-vcv-control='saveDraft'
           >
             <span className='vcv-ui-navbar-control-content'>{localizations.saveDraft}</span>
           </span>
@@ -195,6 +196,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
             title={titleText}
             onClick={this.handleClickSaveData}
             data-href={PostData.permalink()}
+            data-vcv-control='publish'
           >
             <span className='vcv-ui-navbar-control-content'>{saveText}</span>
           </span>
@@ -211,6 +213,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
           className={saveButtonClasses}
           title={controlTitle}
           onClick={this.handleSave}
+          data-vcv-control='publish'
         >
           <span className='vcv-ui-navbar-control-content'>
             <i className={saveIconClasses} />

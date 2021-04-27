@@ -77,6 +77,9 @@ class Utm implements Helper
             // Review Popup Button direct URL
             'editor-feedback-review-popup-button' => 'https://my.visualcomposer.com/feedback/visualcomposer/?utm_source=' . $source . '&utm_medium=editor&utm_campaign=feedback&utm_content=leave-your-feedback-popup-button',
 
+            // VC Demo Popup direct URL
+            'vc-demo-popup-button' => 'https://visualcomposer.com/pricing/?utm_source=demovc&utm_medium=demopage&campaign=gopremium&content=button-popup',
+
             // vcv-activate-license myVC licenses URL
             'activate-license-myvc-license-url' => rtrim($myVc, '\//')
                 . '/licenses/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=info&utm_content=my-visual-composer-text',

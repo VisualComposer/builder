@@ -1,4 +1,12 @@
 {
+  "lazyLoad": {
+    "type": "toggle",
+    "access": "public",
+    "value": true,
+    "options": {
+      "label": "Lazy load"
+    }
+  },
   "image": {
     "type": "attachimage",
     "access": "public",
@@ -63,6 +71,7 @@
     "type": "group",
     "access": "protected",
     "value": [
+      "lazyLoad",
       "clickableOptions",
       "showCaption",
       "image",
@@ -274,6 +283,16 @@
           },
           "libsNames": [
             "photoswipe"
+          ]
+        },
+        {
+          "rules": {
+            "lazyLoad": {
+              "rule": "toggle"
+            }
+          },
+          "libsNames": [
+            "lazyLoad"
           ]
         }
       ]

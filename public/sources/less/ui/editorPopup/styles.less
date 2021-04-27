@@ -137,16 +137,35 @@
   position: relative;
   margin: 0 0 16px;
   padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vcv-layout-popup-header-badge {
+  width: 66px;
+  height: 66px;
+  background-color: #0D267C;
+  border-radius: 50%;
+  align-self: center;
+  margin: 20px 0 50px 20px;
+  position: relative;
+
+  svg {
+    position: absolute;
+    left: -12px;
+    top: 11px;
+  }
 }
 
 .vcv-layout-popup-heading {
   margin: 0;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 700;
   text-transform: uppercase;
-  line-height: 19px;
+  line-height: 22px;
   letter-spacing: 1px;
   color: inherit;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .vcv-layout-popup-close {
@@ -198,15 +217,26 @@
     background: transparent;
     border-color: @vcv-color-white;
   }
+
+  &.vcv-pricing-popup-button {
+    background: @vcv-color-juicy-yellow;
+    border-color: @vcv-color-juicy-yellow;
+
+    &:hover {
+      background: @vcv-color-mango-tango;
+      border-color: @vcv-color-mango-tango;
+    }
+  }
 }
 
 .vcv-layout-popup-text {
   margin: 0 0 17px;
   font-size: 13px;
-  font-style: italic;
   line-height: 24px;
   letter-spacing: 1px;
   color: inherit;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
 }
 
 .vcv-layout-popup-checkbox-option-wrapper {
