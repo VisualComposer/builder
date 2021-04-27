@@ -158,7 +158,11 @@ export default class AddContentPanel extends React.Component {
     })
 
     let settingsControl
-    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) || hubElementsStorage.state('elementPresets').get().length || Object.keys(hubTemplatesStorage.state('templates').get()).length) {
+    if (
+      roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) ||
+      (roleManager.can('editor_content_user_templates_management', roleManager.defaultAdmin()) && Object.keys(hubTemplatesStorage.state('templates').get()).length) ||
+      (roleManager.can('editor_content_presets_management', roleManager.defaultAdmin()) && hubElementsStorage.state('elementPresets').get().length)
+    ) {
       settingsControl = (
         <span className={settingsClasses} title={settingsTitle} onClick={this.handleSettingsClick}>
           <i className='vcv-ui-icon vcv-ui-icon-cog' />
