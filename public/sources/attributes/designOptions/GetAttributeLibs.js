@@ -20,10 +20,8 @@ export default (value) => {
     },
     {
       fieldKey: 'lazyLoad',
-      library: 'lazyLoad',
-      value: (value) => {
-        return value
-      }
+      value: true,
+      library: 'lazyLoad'
     }
   ]
 
