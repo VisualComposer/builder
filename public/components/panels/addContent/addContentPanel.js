@@ -128,7 +128,7 @@ export default class AddContentPanel extends React.Component {
     }
 
     let content = null
-    if (this.props.activeTab === 'addElement') {
+    if (this.props.activeTab === 'addElement' && controls.addElement) {
       content = (
         <AddElementPanel
           key='addElementPanel'
@@ -138,7 +138,7 @@ export default class AddContentPanel extends React.Component {
           setFirstElement={this.setFirstElement}
         />
       )
-    } else if (this.props.activeTab === 'addTemplate') {
+    } else if (this.props.activeTab === 'addTemplate' && controls.addTemplate) {
       content = (
         <AddTemplatePanel key='addTemplatePanel' searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       )
@@ -186,7 +186,7 @@ export default class AddContentPanel extends React.Component {
           <Search
             onSearchChange={this.handleSearch}
             searchValue={this.state.searchValue}
-            searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
+            searchPlaceholder={controls[this.props.activeTab]?.searchPlaceholder}
             setFirstElement={this.setFirstElement}
             autoFocus={this.state.isVisible}
           />

@@ -9,6 +9,7 @@ const workspace = getStorage('workspace')
 const workspaceSettings = workspace.state('settings')
 const workspaceContentState = workspace.state('content')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class PlusControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
@@ -30,9 +31,17 @@ export default class PlusControl extends NavbarContent {
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    innerAPI.mount('panel:addElement', () => <AddContentPanel key='panels-container-addElement' activeTab='addElement' />)
+    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+      innerAPI.mount('panel:addElement', () => {
+        return <AddContentPanel key='panels-container-addElement' activeTab='addElement' />
+      })
+    }
 
-    innerAPI.mount('panel:addTemplate', () => <AddContentPanel key='panels-container-addTemplate' activeTab='addTemplate' />)
+    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+      innerAPI.mount('panel:addTemplate', () => {
+        return <AddContentPanel key='panels-container-addTemplate' activeTab='addTemplate' />
+      })
+    }
   }
 
   componentWillUnmount () {
@@ -42,7 +51,7 @@ export default class PlusControl extends NavbarContent {
   handleClickAddContent (e) {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
-      action: 'add',
+      action: roleManager.can('editor_content_element_add', roleManager.defaultAdmin()) ? 'add' : 'addTemplate',
       element: {},
       tag: '',
       options: {}
