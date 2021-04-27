@@ -8,7 +8,6 @@ import innerAPI from 'public/components/api/innerAPI'
 import { getStorage, getService } from 'vc-cake'
 
 const workspace = getStorage('workspace')
-const roleManager = getService('roleManager')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
