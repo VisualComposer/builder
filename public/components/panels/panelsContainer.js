@@ -5,7 +5,7 @@ import EditFormPanel from './editForm/lib/editFormPanel'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import innerAPI from 'public/components/api/innerAPI'
-import { getStorage, getService } from 'vc-cake'
+import { getStorage } from 'vc-cake'
 
 const workspace = getStorage('workspace')
 
