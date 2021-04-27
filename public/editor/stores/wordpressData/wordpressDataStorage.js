@@ -3,6 +3,7 @@ import SaveController from './lib/saveController'
 import { getResponse } from 'public/tools/response'
 import Permalink from 'public/components/permalink/permalink'
 import MobileDetect from 'mobile-detect'
+import innerAPI from '../../../components/api/innerAPI'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -86,6 +87,7 @@ addStorage('wordpressData', (storage) => {
        * @property {string} data saved data
        */
       const responseData = getResponse(request)
+      innerAPI.dispatch('savedDataLoad', responseData)
       const pageTitleData = responseData.pageTitle ? responseData.pageTitle : {}
       const pageTemplateData = dataManager.get('pageTemplates')
       const initialContent = responseData.post_content
