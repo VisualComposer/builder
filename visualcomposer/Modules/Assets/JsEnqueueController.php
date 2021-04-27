@@ -30,7 +30,7 @@ class JsEnqueueController extends Container implements Module
 
     public function __construct()
     {
-        $this->wpAddAction('init', 'initialize');
+        $this->addEvent('vcv:inited', 'initialize');
     }
 
     protected function initialize(Frontend $frontendHelper)
