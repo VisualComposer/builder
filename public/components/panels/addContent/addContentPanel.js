@@ -107,14 +107,19 @@ export default class AddContentPanel extends React.Component {
   }
 
   render () {
-    const controls = {
-      addElement: {
+    const controls = {}
+
+    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+      controls.addElement = {
         index: 0,
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements'
-      },
-      addTemplate: {
+      }
+    }
+
+    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+      controls.addTemplate = {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
@@ -158,7 +163,11 @@ export default class AddContentPanel extends React.Component {
     })
 
     let settingsControl
-    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) || hubElementsStorage.state('elementPresets').get().length || Object.keys(hubTemplatesStorage.state('templates').get()).length) {
+    if (
+      roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) ||
+      (roleManager.can('editor_content_user_templates_management', roleManager.defaultAdmin()) && Object.keys(hubTemplatesStorage.state('templates').get()).length) ||
+      (roleManager.can('editor_content_presets_management', roleManager.defaultAdmin()) && hubElementsStorage.state('elementPresets').get().length)
+    ) {
       settingsControl = (
         <span className={settingsClasses} title={settingsTitle} onClick={this.handleSettingsClick}>
           <i className='vcv-ui-icon vcv-ui-icon-cog' />

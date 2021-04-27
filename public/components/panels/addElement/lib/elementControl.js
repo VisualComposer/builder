@@ -135,6 +135,9 @@ export default class ElementControl extends React.Component {
     const firstElement = container.querySelector('.vcv-ui-item-list-item')
     const trigger = element.querySelector('.vcv-ui-item-element-content')
     const preview = element.querySelector('.vcv-ui-item-preview-container')
+    if (!preview) {
+      return false
+    }
 
     const triggerSizes = trigger.getBoundingClientRect()
     const firsElementSize = firstElement.getBoundingClientRect()

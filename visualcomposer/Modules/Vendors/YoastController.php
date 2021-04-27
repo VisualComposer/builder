@@ -11,15 +11,15 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
-use VisualComposer\Helpers\Traits\WpFiltersActions;
+use VisualComposer\Helpers\Traits\EventsFilters;
 
 class YoastController extends Container implements Module
 {
-    use WpFiltersActions;
+    use EventsFilters;
 
     public function __construct()
     {
-        $this->wpAddAction('plugins_loaded', 'initializeYoast', 16);
+        $this->addEvent('vcv:inited', 'initializeYoast');
     }
 
     protected function initializeYoast(Frontend $frontendHelper)
