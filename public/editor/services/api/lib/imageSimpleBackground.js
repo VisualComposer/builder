@@ -28,7 +28,7 @@ export default class ImageSimpleBackground extends React.Component {
           }
           const itemClasses = classNames({
             'vce-asset-background-simple-item': true,
-            'vcvhelper': deviceData.lazyLoad,
+            vcvhelper: deviceData.lazyLoad
           })
           const props = {
             style: {
@@ -45,15 +45,15 @@ export default class ImageSimpleBackground extends React.Component {
         images.forEach((imgData, index) => {
           const props = {
             style: {
-              backgroundImage: `url(${imgData.full})`
+              backgroundImage: `url(${this.getPublicImage(imgData)})`
             }
           }
           const itemClasses = classNames({
             'vce-asset-background-simple-item': true,
-            'vcvhelper': deviceData.lazyLoad,
+            vcvhelper: deviceData.lazyLoad
           })
           if (deviceData.lazyLoad) {
-            props['data-vcvs-html'] = `<div class="vce-asset-background-simple-item vcv-lozad" data-background-image="${imgData.full}"></div>`
+            props['data-vcvs-html'] = `<div class="vce-asset-background-simple-item vcv-lozad" data-background-image="${this.getPublicImage(imgData)}"></div>`
           }
           const imgKey = `${reactKey}-${imgData}-${index}`
           imagesJSX.push((
