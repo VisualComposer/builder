@@ -74,8 +74,7 @@ export default class PanelsContainer extends React.Component {
     const { content } = this.props
     const layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': !!content && (roleManager.can('editor_content_element_add', roleManager.defaultTrue()) ||
-        roleManager.can('editor_content_template_add', roleManager.defaultTrue())),
+      'vcv-ui-state--visible': !!content,
       'vcv-layout-bar-content-mobile': this.isMobile,
       'vcv-content-full-size': content === 'addHubElement'
     })
