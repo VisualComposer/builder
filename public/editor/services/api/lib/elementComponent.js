@@ -140,7 +140,10 @@ export default class ElementComponent extends React.Component {
       if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
         propObj = Object.assign({}, propObj, this.getImageData())
       }
-      const desingOptions = this.props.atts.designOptions || this.props.atts.designOptionsAdvanced
+
+      // Apply lazy load attributes only for Design Options,
+      // Design Options Advanced has own separate logic with rendering additional containers
+      const desingOptions = this.props.atts.designOptions
       if (desingOptions && Object.prototype.hasOwnProperty.call(desingOptions, 'device')) {
         const doDevices = desingOptions.device
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)

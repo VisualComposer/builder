@@ -203,7 +203,7 @@ export default class DesignOptions extends Attribute {
     devices: {},
     attributeMixins: {},
     defaultStyles: null,
-    lazyLoad: true
+    lazyLoad: true // TODO: Set default state to be true for element
   }
 
   static localizations = dataManager.get('localizations')
@@ -947,7 +947,7 @@ export default class DesignOptions extends Attribute {
       <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
         <Toggle
           api={this.props.api}
-          fieldKey='backgroundImageLazyLoad'
+          fieldKey='lazyLoad'
           updater={this.backgroundImageLazyLoadHandler}
           options={{ labelText: 'Lazy load' }}
           value={value}
