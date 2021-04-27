@@ -30,7 +30,7 @@ controls.pageSettings = {
   content: <PageSettings />
 }
 
-if (roleManager.can('settings_custom_html', roleManager.defaultTrue())) {
+if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultTrue())) {
   controls.customCss = {
     index: 1,
     type: 'customCss',
