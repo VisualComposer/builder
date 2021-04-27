@@ -22,27 +22,41 @@ export default class ImageBackgroundZoom extends React.Component {
       const imagesJSX = []
       if (images.urls && images.urls.length) {
         images.urls.forEach((imgData, index) => {
-          const styles = {
-            backgroundImage: `url(${imgData.full})`
-          }
           let customKey = imgData.id
           if (!imgData.id) {
             customKey = `${imgData.full}-${index}`
           }
+          const itemClasses = classNames({
+            'vce-asset-background-zoom-item': true,
+            vcvhelper: deviceData.lazyLoad
+          })
+          const props = {
+            style: {
+              backgroundImage: `url(${imgData.full})`
+            }
+          }
           const imgKey = `${reactKey}-${customKey}`
-          imagesJSX.push((
-            <div className='vce-asset-background-zoom-item' style={styles} key={imgKey} />
-          ))
+          if (deviceData.lazyLoad) {
+            props['data-vcvs-html'] = `<div class="vce-asset-background-zoom-item vcv-lozad" data-background-image="${imgData.full}"></div>`
+          }
+          imagesJSX.push(<div className={itemClasses} {...props} key={imgKey} />)
         })
       } else if (images.length) {
         images.forEach((imgData, index) => {
-          const styles = {
-            backgroundImage: `url(${this.getPublicImage(imgData)})`
-          }
           const imgKey = `${reactKey}-${imgData}-${index}`
-          imagesJSX.push((
-            <div className='vce-asset-background-zoom-item' style={styles} key={imgKey} />
-          ))
+          const itemClasses = classNames({
+            'vce-asset-background-zoom-item': true,
+            vcvhelper: deviceData.lazyLoad
+          })
+          const props = {
+            style: {
+              backgroundImage: `url(${this.getPublicImage(imgData)})`
+            }
+          }
+          if (deviceData.lazyLoad) {
+            props['data-vcvs-html'] = `<div class="vce-asset-background-zoom-item vcv-lozad" data-background-image="${this.getPublicImage(imgData)}"></div>`
+          }
+          imagesJSX.push(<div className={itemClasses} {...props} key={imgKey} />)
         })
       }
       const containerClasses = [
