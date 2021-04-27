@@ -5,9 +5,10 @@ import EditFormPanel from './editForm/lib/editFormPanel'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import innerAPI from 'public/components/api/innerAPI'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
 const workspace = getStorage('workspace')
+const roleManager = getService('roleManager')
 
 export default class PanelsContainer extends React.Component {
   static propTypes = {
@@ -73,7 +74,8 @@ export default class PanelsContainer extends React.Component {
     const { content } = this.props
     const layoutClasses = classNames({
       'vcv-layout-bar-content': true,
-      'vcv-ui-state--visible': !!content,
+      'vcv-ui-state--visible': !!content && (roleManager.can('editor_content_element_add', roleManager.defaultTrue()) ||
+        roleManager.can('editor_content_template_add', roleManager.defaultTrue())),
       'vcv-layout-bar-content-mobile': this.isMobile,
       'vcv-content-full-size': content === 'addHubElement'
     })
