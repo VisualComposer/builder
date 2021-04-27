@@ -95,9 +95,9 @@ export default class HubElementControl extends ElementControl {
     const itemProps = {}
     const overlayProps = {}
 
-    let action = this.isHubInWpDashboard || !isAbleToAdd ? null : this.addElement
+    let action = (this.isHubInWpDashboard || !isAbleToAdd) ? null : this.addElement
 
-    if (!isAbleToAdd) {
+    if (!isAbleToAdd && elementState === 'success') {
       overlayProps.style = {
         cursor: 'not-allowed'
       }
