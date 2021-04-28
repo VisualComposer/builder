@@ -107,6 +107,7 @@
           element.classList.toggle(element.getAttribute('data-toggle-class'))
         }
 
+        // VC DO Background image
         if (element.getAttribute('data-vce-background-image')) {
           const elementIdPos = element.closest('[data-vce-do-apply]').getAttribute('data-vce-do-apply').indexOf('el-')
           const elementId = element.closest('[data-vce-do-apply]').getAttribute('data-vce-do-apply').slice(elementIdPos, elementIdPos+11)
@@ -118,6 +119,16 @@
             stylesString += `--${elementId}-${device}-backgroundImage: url(${imagePath}); `
           })
           element.style = stylesString
+        }
+
+        // VC DOA Background Video YouTube
+        if (element.closest('[data-vce-assets-video-yt]')) {
+          window.vceAssetsBackgroundVideoYoutube('[data-vce-assets-video-yt]')
+        }
+
+        // VC DOA Background Video Vimeo
+        if (element.closest('[data-vce-assets-video-vimeo]')) {
+          window.vceAssetsBackgroundVideoVimeo('[data-vce-assets-video-vimeo]')
         }
       },
       loaded: function loaded() {}
