@@ -1423,7 +1423,6 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   render () {
-    console.log('DO render state', this.state)
     return (
       <div className='advanced-design-options'>
         {this.getDevicesRender()}
