@@ -47,6 +47,27 @@ class Controller extends Container implements Module
     }
 
     /**
+     * @param $sourceId
+     *
+     * @return array
+     */
+    protected function checkSourceId($sourceId)
+    {
+        $accessCheck = true;
+        if (!is_numeric($sourceId)) {
+            $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
+            if (is_array($sourceId) && $sourceId['status'] === true) {
+                if (isset($sourceId['accessCheck'])) {
+                    $accessCheck = $sourceId['accessCheck'];
+                }
+                $sourceId = $sourceId['sourceId'];
+            }
+        }
+
+        return [$accessCheck, $sourceId];
+    }
+
+    /**
      * Get post content.
      *
      * @param $response
@@ -102,7 +123,6 @@ class Controller extends Container implements Module
         $elementsCssData = get_post_meta($sourceId, VCV_PREFIX . 'globalElementsCssData', true);
         $response['elementsCssData'] = $elementsCssData;
 
-
         return $response;
     }
 
@@ -126,9 +146,7 @@ class Controller extends Container implements Module
             return ['status' => false]; // sourceId must be provided
         }
         $sourceId = $payload['sourceId'];
-        if (!is_numeric($sourceId)) {
-            $sourceId = vcfilter('vcv:dataAjax:setData:sourceId', $sourceId);
-        }
+        list($accessCheck, $sourceId) = $this->checkSourceId($sourceId);
         if ($requestHelper->input('vcv-ready') !== '1') {
             return $response;
         }
@@ -137,7 +155,8 @@ class Controller extends Container implements Module
             $response = [];
         }
 
-        if (is_numeric($sourceId) && $userCapabilitiesHelper->canEdit($sourceId)) {
+        $hasAccess = $accessCheck ? $userCapabilitiesHelper->canEdit($sourceId) : true;
+        if (is_numeric($sourceId) && $hasAccess) {
             $sourceId = (int)$sourceId;
             $post = get_post($sourceId);
             if ($post) {
@@ -279,7 +298,13 @@ class Controller extends Container implements Module
         if ($isAllowed) {
             $licenseType = $requestHelper->input('vcv-license-type');
             $elements = $requestHelper->input('vcv-elements');
-            vcevent('vcv:saveUsageStats', ['response' => [], 'payload' => ['sourceId' => $sourceId, 'elements' => $elements, 'licenseType' => $licenseType]]);
+            vcevent(
+                'vcv:saveUsageStats',
+                [
+                    'response' => [],
+                    'payload' => ['sourceId' => $sourceId, 'elements' => $elements, 'licenseType' => $licenseType],
+                ]
+            );
         }
 
         //bring it back once you're done posting
@@ -287,7 +312,7 @@ class Controller extends Container implements Module
         $responseExtra = $filterHelper->fire(
             'vcv:dataAjax:setData',
             [
-                'status' => true
+                'status' => true,
             ],
             [
                 'sourceId' => $sourceId,

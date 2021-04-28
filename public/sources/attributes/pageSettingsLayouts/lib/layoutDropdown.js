@@ -8,6 +8,7 @@ const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const settingsStorage = getStorage('settings')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class LayoutDropdown extends React.Component {
   static propTypes = {
@@ -182,7 +183,7 @@ export default class LayoutDropdown extends React.Component {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const chooseHFSText = this.getHFSText()
+    const chooseHFSText = roleManager.can('dashboard_addon_theme_builder', roleManager.defaultTrue()) ? this.getHFSText() : ''
     const noneText = localizations ? localizations.none : 'None'
 
     let spinnerHtml = null
