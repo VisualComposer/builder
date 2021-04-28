@@ -14,6 +14,7 @@ import { getService } from 'vc-cake'
 import AccordionPanel from '../../accordionPanel'
 
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 const localizations = dataManager.get('localizations')
 const menuText = localizations ? localizations.menu : 'Menu'
 const manageYourSiteMenu = localizations ? localizations.manageYourSiteMenu : 'Manage your site menus'
@@ -41,23 +42,25 @@ export default class PageSettings extends React.Component {
       )
     }
 
-    content.push(
-      <PageSettingsLayouts
-        key={`layouts-${content.length}`}
-        fieldKey='pageSettingsLayouts'
-        updater={() => {}} // required for attributes
-        value='' // required for attributes
-      />
-    )
+    if (roleManager.can('editor_settings_page', roleManager.defaultTrue())) {
+      content.push(
+        <PageSettingsLayouts
+          key={`layouts-${content.length}`}
+          fieldKey='pageSettingsLayouts'
+          updater={() => {}} // required for attributes
+          value='' // required for attributes
+        />
+      )
 
-    content.push(
-      <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu' key={content.length}>
-        <span className='vcv-ui-form-group-heading'>{menuText}</span>
-        <p className='vcv-ui-form-helper'>
-          <a className='vcv-ui-form-link' href={dataManager.get('manageMenuUrl')} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
-        </p>
-      </div>
-    )
+      content.push(
+        <div className='vcv-ui-form-group vcv-ui-form-group--wp-menu' key={content.length}>
+          <span className='vcv-ui-form-group-heading'>{menuText}</span>
+          <p className='vcv-ui-form-helper'>
+            <a className='vcv-ui-form-link' href={dataManager.get('manageMenuUrl')} target='_blank' rel='noopener noreferrer'>{manageYourSiteMenu}</a> {viaWPAdminMenu}
+          </p>
+        </div>
+      )
+    }
 
     if (dataManager.get('categories')) {
       const categoriesTitle = localizations ? localizations.categories : 'Categories'
