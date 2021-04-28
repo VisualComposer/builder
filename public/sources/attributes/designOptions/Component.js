@@ -203,7 +203,7 @@ export default class DesignOptions extends Attribute {
     devices: {},
     attributeMixins: {},
     defaultStyles: null,
-    lazyLoad: true // TODO: Set default state to be true for element
+    lazyLoad: true
   }
 
   static localizations = dataManager.get('localizations')
@@ -228,6 +228,7 @@ export default class DesignOptions extends Attribute {
 
   componentDidMount () {
     this.getDefaultStyles()
+    this.setDefaultState()
 
     const id = this.props.elementAccessPoint.id
     elementsStorage.on(`element:${id}`, this.handleElementChange)
@@ -250,6 +251,31 @@ export default class DesignOptions extends Attribute {
       }, 200)
     } else {
       this.forceUpdate()
+    }
+  }
+
+  /**
+   * Set component's default state for lazy load option
+   */
+  setDefaultState () {
+    const { devices } = this.state
+    const newState = lodash.defaultsDeep({}, this.state)
+    let isLazyLoadSet = {
+      isValueExists: false,
+      value: null
+    }
+    Object.keys(devices).forEach((device) => {
+      if (Object.prototype.hasOwnProperty.call(devices[device], 'lazyLoad')) {
+        isLazyLoadSet.isValueExists = true
+        isLazyLoadSet.value = devices[device].lazyLoad
+      }
+    })
+
+    if (!isLazyLoadSet.isValueExists) {
+      Object.keys(devices).forEach((device) => {
+        newState.devices[device].lazyLoad = DesignOptions.defaultState.lazyLoad
+      })
+      this.updateValue(newState, 'lazyLoad')
     }
   }
 
@@ -1397,6 +1423,7 @@ export default class DesignOptions extends Attribute {
    * @returns {XML}
    */
   render () {
+    console.log('DO render state', this.state)
     return (
       <div className='advanced-design-options'>
         {this.getDevicesRender()}

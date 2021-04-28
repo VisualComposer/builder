@@ -237,7 +237,7 @@ export default class DesignOptionsAdvanced extends Attribute {
     devices: {},
     attributeMixins: {},
     defaultStyles: null,
-    lazyLoad: true // TODO: Set default state to be true for element
+    lazyLoad: true
   }
 
   constructor (props) {
@@ -256,6 +256,7 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   componentDidMount () {
     this.getDefaultStyles()
+    this.setDefaultState()
     const id = this.props.elementAccessPoint.id
     elementsStorage.on(`element:${id}`, this.handleElementChange)
   }
@@ -278,6 +279,31 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   componentDidUpdate () {
     this.getDefaultStyles()
+  }
+
+  /**
+   * Set component's default state for lazy load option
+   */
+  setDefaultState () {
+    const { devices } = this.state
+    const newState = lodash.defaultsDeep({}, this.state)
+    let isLazyLoadSet = {
+      isValueExists: false,
+      value: null
+    }
+    Object.keys(devices).forEach((device) => {
+      if (Object.prototype.hasOwnProperty.call(devices[device], 'lazyLoad')) {
+        isLazyLoadSet.isValueExists = true
+        isLazyLoadSet.value = devices[device].lazyLoad
+      }
+    })
+
+    if (!isLazyLoadSet.isValueExists) {
+      Object.keys(devices).forEach((device) => {
+        newState.devices[device].lazyLoad = DesignOptionsAdvanced.defaultState.lazyLoad
+      })
+      this.updateValue(newState, 'lazyLoad')
+    }
   }
 
   /**
