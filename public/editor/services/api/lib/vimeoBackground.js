@@ -24,7 +24,7 @@ export default class VimeoBackground extends React.Component {
         'vce-asset-video-vimeo-player': true,
         'vcv-lozad': deviceData.lazyLoad
       })
-      const vcvHelperHTML = `<div class="vce-asset-video-vimeo-player" />`
+      const vcvHelperHTML = '<div class="vce-asset-video-vimeo-player" />'
       const vcvHelper = `<div class="${helperClasses}" />`
       const containerClasses = [
         'vce-asset-video-vimeo-container',
