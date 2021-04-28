@@ -476,8 +476,8 @@ export default class TreeViewElement extends React.Component {
             title={title}
             onClick={this.clickAddChild.bind(this, addElementTag)}
           >
-          <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
-        </span>
+            <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
+          </span>
         )
       }
       if (this.props.element.tag === 'row') {
