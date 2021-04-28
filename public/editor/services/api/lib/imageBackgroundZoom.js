@@ -37,7 +37,12 @@ export default class ImageBackgroundZoom extends React.Component {
           }
           const imgKey = `${reactKey}-${customKey}`
           if (deviceData.lazyLoad) {
-            props['data-vcvs-html'] = `<div class="vce-asset-background-zoom-item vcv-lozad" data-background-image="${imgData.full}"></div>`
+            props['data-vcvs-html'] = `
+              <div class="vce-asset-background-zoom-item vcv-lozad" data-background-image="${imgData.full}"></div>
+              <noscript>
+                <div class="vce-asset-background-zoom-item" style="background-image: url(${imgData.full})"></div>
+              </noscript>
+            `
           }
           imagesJSX.push(<div className={itemClasses} {...props} key={imgKey} />)
         })
@@ -54,7 +59,12 @@ export default class ImageBackgroundZoom extends React.Component {
             }
           }
           if (deviceData.lazyLoad) {
-            props['data-vcvs-html'] = `<div class="vce-asset-background-zoom-item vcv-lozad" data-background-image="${this.getPublicImage(imgData)}"></div>`
+            props['data-vcvs-html'] = `
+              <div class="vce-asset-background-zoom-item vcv-lozad" data-background-image="${this.getPublicImage(imgData)}"></div>
+              <noscript>
+                <div class="vce-asset-background-zoom-item" style="background-image: url(${this.getPublicImage(imgData)})"></div>
+              </noscript>
+            `
           }
           imagesJSX.push(<div className={itemClasses} {...props} key={imgKey} />)
         })
