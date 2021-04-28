@@ -260,7 +260,7 @@ export default class DesignOptions extends Attribute {
   setDefaultState () {
     const { devices } = this.state
     const newState = lodash.defaultsDeep({}, this.state)
-    let isLazyLoadSet = {
+    const isLazyLoadSet = {
       isValueExists: false,
       value: null
     }
