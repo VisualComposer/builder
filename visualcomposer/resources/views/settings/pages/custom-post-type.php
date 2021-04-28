@@ -7,9 +7,13 @@ if (!defined('ABSPATH')) {
 }
 /** @var $controller \VisualComposer\Modules\Settings\Pages\Settings */
 /** @var string $slug */
+if ($slug !== vchelper('Request')->input('page')) {
+    return;
+}
 // @codingStandardsIgnoreFile
 global $typenow;
 $typenow = $slug;
+
 $screen = \WP_Screen::get('edit-' . $slug);
 ob_start();
 
