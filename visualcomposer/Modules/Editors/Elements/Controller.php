@@ -38,7 +38,11 @@ class Controller extends Container implements Module
         Elements $elementsHelper,
         CurrentUser $currentUserAccess
     ) {
-        if (!$currentUserAccess->wpAll('manage_options')->get()) {
+        $hasAccess = $currentUserAccess->wpAll('manage_options')->get();
+        if (vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+            $hasAccess = $currentUserAccess->part('hub')->can('elements_templates_blocks')->get();
+        }
+        if (!$hasAccess) {
             return [
                 'status' => false,
                 'message' => __(

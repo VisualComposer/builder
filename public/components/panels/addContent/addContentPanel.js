@@ -107,14 +107,19 @@ export default class AddContentPanel extends React.Component {
   }
 
   render () {
-    const controls = {
-      addElement: {
+    const controls = {}
+
+    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+      controls.addElement = {
         index: 0,
         type: 'addElement',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.elements : 'Elements',
         searchPlaceholder: AddContentPanel.localizations ? AddContentPanel.localizations.searchContentElements : 'Search for content elements'
-      },
-      addTemplate: {
+      }
+    }
+
+    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+      controls.addTemplate = {
         index: 1,
         type: 'addTemplate',
         title: AddContentPanel.localizations ? AddContentPanel.localizations.templates : 'Templates',
@@ -123,7 +128,7 @@ export default class AddContentPanel extends React.Component {
     }
 
     let content = null
-    if (this.props.activeTab === 'addElement') {
+    if (this.props.activeTab === 'addElement' && controls.addElement) {
       content = (
         <AddElementPanel
           key='addElementPanel'
@@ -133,7 +138,7 @@ export default class AddContentPanel extends React.Component {
           setFirstElement={this.setFirstElement}
         />
       )
-    } else if (this.props.activeTab === 'addTemplate') {
+    } else if (this.props.activeTab === 'addTemplate' && controls.addTemplate) {
       content = (
         <AddTemplatePanel key='addTemplatePanel' searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       )
@@ -158,7 +163,25 @@ export default class AddContentPanel extends React.Component {
     })
 
     let settingsControl
-    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) || hubElementsStorage.state('elementPresets').get().length || Object.keys(hubTemplatesStorage.state('templates').get()).length) {
+    if (
+      (
+        roleManager.can('editor_content_element_add', roleManager.defaultAdmin()) &&
+        (
+          // user have access to remove elements
+          roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) ||
+          (
+            // or user have access to manage presents and there are presets available
+            roleManager.can('editor_content_presets_management', roleManager.defaultAdmin()) && hubElementsStorage.state('elementPresets').get().length
+          )
+        )
+      ) || (
+        // Must be able to add templates
+        roleManager.can('editor_content_template_add', roleManager.defaultAdmin()) &&
+        // And must be able to remove templates
+        roleManager.can('editor_content_user_templates_management', roleManager.defaultAdmin()) &&
+        Object.keys(hubTemplatesStorage.state('templates').get()).length
+      )
+    ) {
       settingsControl = (
         <span className={settingsClasses} title={settingsTitle} onClick={this.handleSettingsClick}>
           <i className='vcv-ui-icon vcv-ui-icon-cog' />
@@ -177,7 +200,7 @@ export default class AddContentPanel extends React.Component {
           <Search
             onSearchChange={this.handleSearch}
             searchValue={this.state.searchValue}
-            searchPlaceholder={controls[this.props.activeTab].searchPlaceholder}
+            searchPlaceholder={controls[this.props.activeTab]?.searchPlaceholder}
             setFirstElement={this.setFirstElement}
             autoFocus={this.state.isVisible}
           />

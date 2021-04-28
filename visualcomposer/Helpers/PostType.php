@@ -48,26 +48,23 @@ class PostType implements Helper
             $currentUserAccessHelper = vchelper('AccessCurrentUser');
             $metaValue = get_post_meta($post->ID, $metaKey, true);
             // @codingStandardsIgnoreLine
-            if ($currentUserAccessHelper->wpAll([get_post_type_object($post->post_type)->cap->read, $post->ID])->get()
-            ) {
-                if ($metaValue) {
-                    if (!is_string($metaValue)) {
-                        $results[ $post->ID ] = [
-                            'post' => $post,
-                            'value' => $metaValue,
-                        ];
-                    } else {
-                        if (!isset($results[ $metaValue ])) {
-                            $results[ $metaValue ] = [];
-                        }
-                        $results[ $metaValue ][] = $post;
+            if ($metaValue) {
+                if (!is_string($metaValue)) {
+                    $results[ $post->ID ] = [
+                        'post' => $post,
+                        'value' => $metaValue,
+                    ];
+                } else {
+                    if (!isset($results[ $metaValue ])) {
+                        $results[ $metaValue ] = [];
                     }
-                } elseif (!$skipEmpty) {
-                    if (!isset($results[''])) {
-                        $results[''] = [];
-                    }
-                    $results[''][] = $post;
+                    $results[ $metaValue ][] = $post;
                 }
+            } elseif (!$skipEmpty) {
+                if (!isset($results[''])) {
+                    $results[''] = [];
+                }
+                $results[''][] = $post;
             }
         }
 
@@ -106,18 +103,7 @@ class PostType implements Helper
      */
     public function create($data)
     {
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        $hasAccess = $currentUserAccessHelper->wpAll('edit_posts')->get();
-        // TODO: Check for vcv_templates, vcv_popups (&hfs)
-//        if (isset($data['post_status']) && $data['post_status'] === 'publish') {
-//            $hasAccess = $currentUserAccessHelper->wpAll('publish_posts')->get();
-//        }
-
-        if ($hasAccess) {
-            return wp_insert_post($data);
-        }
-
-        return false;
+        return wp_insert_post($data);
     }
 
     /**
@@ -184,12 +170,7 @@ class PostType implements Helper
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
         $post = $this->get($id);
 
-        // @codingStandardsIgnoreLine
-        $postTypeObject = get_post_type_object($post->post_type);
-        if (
-            $postTypeObject
-            && $currentUserAccessHelper->wpAll([$postTypeObject->cap->delete_posts, $post->ID])->get()
-        ) {
+        if ($currentUserAccessHelper->wpAll(['delete_post', $post->ID])->get()) {
             if ($postType) {
                 // @codingStandardsIgnoreLine
                 return $post && $post->post_type == $postType ? (bool)wp_trash_post($id) : !$post;
@@ -211,11 +192,11 @@ class PostType implements Helper
         // @codingStandardsIgnoreStart
         global $post_type, $post_type_object, $post, $wp_query;
         $queryPost = get_post($sourceId);
-        $currentUserAccessHelper = vchelper('AccessCurrentUser');
 
-        // TODO: check caps
-        if (isset($queryPost->post_type) && post_type_exists($queryPost->post_type)
-            && $currentUserAccessHelper->wpAll(get_post_type_object($queryPost->post_type)->cap->read)->get()) {
+        if (
+            isset($queryPost->post_type)
+            && post_type_exists($queryPost->post_type)
+        ) {
             $post = $queryPost;
             setup_postdata($post);
             /** @var \WP_Query $wp_query */

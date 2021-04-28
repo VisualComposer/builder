@@ -13,6 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
+use VisualComposer\Helpers\Access\CurrentUser;
 
 class PremiumTeasers extends Container implements Module
 {
@@ -40,6 +41,7 @@ class PremiumTeasers extends Container implements Module
             ),
             'premiumUrl' => str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'maintenanceMode',
+            'capability' => 'manage_options',
             'position' => -9,
         ];
         $this->dashboardSections[] = [
@@ -56,6 +58,7 @@ class PremiumTeasers extends Container implements Module
             'iconClass' => 'vcv-ui-icon-dashboard-popup-builder',
             'parent' => 'vcv-custom-site-popups',
             'position' => -1,
+            'capabilityPart' => 'dashboard_addon_popup_builder',
             'hideInWpMenu' => false,
         ];
         $this->dashboardSections[] = [
@@ -72,6 +75,7 @@ class PremiumTeasers extends Container implements Module
             'subTitle' => __('Templates', 'visualcomposer'),
             'parent' => 'vcv_templates',
             'iconClass' => 'vcv-ui-icon-dashboard-template',
+            'capabilityPart' => 'dashboard_addon_global_templates',
             'hideInWpMenu' => false,
         ];
         $this->dashboardSections[] = [
@@ -88,6 +92,7 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'themeEditor',
             'iconClass' => 'vcv-ui-icon-dashboard-theme-builder',
             'position' => -9,
+            'capabilityPart' => 'dashboard_addon_theme_builder',
             'hideInWpMenu' => false,
         ];
 
@@ -102,6 +107,7 @@ class PremiumTeasers extends Container implements Module
             'premiumUrl' => str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'themeBuilder',
             'position' => -8,
+            'capabilityPart' => 'dashboard_addon_theme_builder',
             'parent' => 'vcv-headers-footers',
         ];
         $this->dashboardSections[] = [
@@ -115,6 +121,7 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'themeEditor',
             'name' => __('Headers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
+            'capabilityPart' => 'dashboard_addon_theme_builder',
             'position' => -7,
         ];
         $this->dashboardSections[] = [
@@ -128,6 +135,7 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'themeEditor',
             'name' => __('Footers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
+            'capabilityPart' => 'dashboard_addon_theme_builder',
             'position' => -6,
         ];
         $this->dashboardSections[] = [
@@ -141,6 +149,7 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'themeEditor',
             'name' => __('Sidebars', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
+            'capabilityPart' => 'dashboard_addon_theme_builder',
             'position' => -5,
         ];
         $this->dashboardSections[] = [
@@ -154,6 +163,7 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'themeBuilder',
             'name' => __('Archives', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
+            'capabilityPart' => 'dashboard_addon_theme_builder',
             'position' => 15,
         ];
         $this->dashboardSections[] = [
@@ -169,6 +179,7 @@ class PremiumTeasers extends Container implements Module
             'premiumUrl' => str_replace('{medium}', 'templatesimport-vcdashboard', $utmTemplate),
             'iconClass' => 'vcv-ui-icon-dashboard-import',
             'premiumActionBundle' => 'exportImport',
+            'capabilityPart' => 'dashboard_addon_export_import',
             'position' => -2,
         ];
         $this->dashboardSections[] = [
@@ -183,6 +194,7 @@ class PremiumTeasers extends Container implements Module
             'premiumUrl' => str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'popupBuilder',
             'position' => -1,
+            'capabilityPart' => 'dashboard_addon_popup_builder',
         ];
 
         // Append defaults for all sections
@@ -209,6 +221,7 @@ class PremiumTeasers extends Container implements Module
         );
 
         $currentUserAccess = vchelper('AccessCurrentUser');
+        // If user cannot download addons then no need to show teaser
         $isHubAddonsEnabled = $currentUserAccess->part('hub')->can('addons')->get();
         if ($isHubAddonsEnabled) {
             $this->wpAddAction(
@@ -222,12 +235,19 @@ class PremiumTeasers extends Container implements Module
                     $addons = vchelper('HubAddons')->getAddons();
                     $dataHelper = vchelper('Data');
                     $haveUpdates = false;
+                    $currentUserAccess = vchelper('AccessCurrentUser');
                     foreach ($this->dashboardSections as $section) {
                         // Addon installed, skip teaser
                         if (array_key_exists($section['premiumActionBundle'], $addons)) {
                             continue;
                         }
-                        if (!$dataHelper->arraySearch($allTabs, 'slug', $section['slug'])) {
+                        if (
+                            !$dataHelper->arraySearch($allTabs, 'slug', $section['slug'])
+                            && $this->hasAccess(
+                                $section,
+                                $currentUserAccess
+                            )
+                        ) {
                             $section['callback'] = function () use ($section) {
                                 echo vcview(
                                     'settings/layouts/dashboard-premium-teaser',
@@ -255,11 +275,16 @@ class PremiumTeasers extends Container implements Module
         global $submenu;
         if (isset($submenu['vcv-settings'])) {
             $columnsData = array_column($submenu['vcv-settings'], 2);
+            $currentUserAccess = vchelper('AccessCurrentUser');
             foreach ($this->dashboardSections as $teaser) {
                 if (in_array($teaser['slug'], $columnsData, true)) {
                     continue;
                 }
+                $hasAccess = $this->hasAccess($teaser, $currentUserAccess);
 
+                if (!$hasAccess) {
+                    continue;
+                }
                 add_submenu_page(
                     'vcv-settings',
                     $teaser['name'],
@@ -334,5 +359,31 @@ class PremiumTeasers extends Container implements Module
         );
 
         return $allTabs;
+    }
+
+    /**
+     * @param array $teaser
+     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     *
+     * @return array
+     */
+    protected function hasAccess(array $teaser, CurrentUser $currentUserAccess)
+    {
+        $capability = 'read';
+        if (isset($teaser['capability'])) {
+            $capability = $teaser['capability'];
+        }
+
+        if (isset($teaser['capabilityPart']) && vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+            $part = $teaser['capabilityPart'];
+        }
+        if (!empty($part)) {
+            $hasAccess = $currentUserAccess->part($part)->checkState(true)->get();
+        } else {
+            // Fallback to default logic
+            $hasAccess = $currentUserAccess->wpAll($capability)->get();
+        }
+
+        return $hasAccess;
     }
 }

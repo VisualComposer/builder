@@ -1,0 +1,139 @@
+import React from 'react'
+import { getStorage, getService } from 'vc-cake'
+import PanelNavigation from '../panelNavigation'
+import InsightGroup from './insightGroup'
+import vcLogo from 'public/sources/images/brandLogo/vcLogo.raw'
+
+const insightsStorage = getStorage('insights')
+const dataManager = getService('dataManager')
+const localizations = dataManager.get('localizations')
+
+const controls = {
+  all: {
+    index: 0,
+    type: 'all',
+    title: localizations ? localizations.all : 'All'
+  },
+  critical: {
+    index: 1,
+    type: 'critical',
+    title: localizations ? localizations.critical : 'Critical'
+  },
+  warning: {
+    index: 2,
+    type: 'warning',
+    title: localizations ? localizations.warnings : 'Warnings'
+  },
+  success: {
+    index: 3,
+    type: 'success',
+    title: localizations ? localizations.success : 'Success'
+  }
+}
+
+export default class DefaultInsights extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      activeSection: 'all',
+      insightData: insightsStorage.state('insights').get() || {},
+      currentControls: this.getCurrentControls(insightsStorage.state('insights').get())
+    }
+
+    this.setActiveSection = this.setActiveSection.bind(this)
+    this.handleInsightsChange = this.handleInsightsChange.bind(this)
+
+    insightsStorage.state('insights').onChange(this.handleInsightsChange)
+  }
+
+  componentWillUnmount () {
+    insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
+  }
+
+  setActiveSection (type) {
+    const currentControl = Object.keys(this.state.currentControls).find(control => control === type)
+    this.setState({ activeSection: currentControl || 'all' })
+  }
+
+  handleInsightsChange (data) {
+    const currentControls = this.getCurrentControls(data)
+    const currentActiveSection = Object.keys(currentControls).find(control => control === this.state.activeSection)
+    this.setState({
+      insightData: data || {},
+      currentControls: currentControls,
+      activeSection: currentActiveSection || 'all'
+    })
+  }
+
+  getInsightsHTML (insightData) {
+    let insightsHTML = Object.keys(insightData).map((type, index) => {
+      const insightGroup = insightData[type]
+
+      if (this.state.activeSection === 'all' || this.state.activeSection === insightGroup.state) {
+        return (
+          <InsightGroup
+            key={`insight-group-${type}-${index}`}
+            type={type}
+            insightGroup={insightGroup}
+          />
+        )
+      }
+    })
+
+    if (!insightsHTML.length) {
+      insightsHTML = <span className='vcv-ui-insights-spinner vcv-vcv-ui-icon vcv-ui-wp-spinner' />
+    } else if (insightsHTML.filter(item => item === undefined).length === Object.keys(insightData).length) {
+      let insightsNoIssuesFoundTitle, insightsNoIssuesFoundDescription
+      if (this.state.activeSection === 'critical') {
+        insightsNoIssuesFoundTitle = localizations.insightsNoCriticalIssuesFoundTitle ? localizations.insightsNoCriticalIssuesFoundTitle : 'No Critical Issues Found'
+        insightsNoIssuesFoundDescription = localizations.insightsNoCriticalIssuesFoundDescription ? localizations.insightsNoCriticalIssuesFoundDescription : 'There are no critical issues on the page. Congratulations and keep up the good work!'
+      } else if (this.state.activeSection === 'warning') {
+        insightsNoIssuesFoundTitle = localizations.insightsNoWarningsFoundTitle ? localizations.insightsNoWarningsFoundTitle : 'No Warnings Found'
+        insightsNoIssuesFoundDescription = localizations.insightsNoWarningsFoundDescription ? localizations.insightsNoWarningsFoundDescription : 'There are no warnings on the page. Congratulations and keep up the good work!'
+      }
+      insightsHTML = (
+        <div className='vcv-insight-no-issues'>
+          <span
+            className=''
+            dangerouslySetInnerHTML={{ __html: vcLogo }}
+          />
+          <h2 className='vcv-no-issues-heading'>{insightsNoIssuesFoundTitle}</h2>
+          <span className='vcv-insight-description'>{insightsNoIssuesFoundDescription}</span>
+        </div>
+      )
+    }
+
+    return insightsHTML
+  }
+
+  getCurrentControls (insightData) {
+    const insightsControls = Object.assign({}, controls)
+    let successNotifications = false
+    if (Object.keys(insightData).length) {
+      Object.keys(insightData).forEach((item) => {
+        if (insightData[item].state === 'success') {
+          successNotifications = true
+        }
+      })
+      if (!successNotifications) {
+        delete insightsControls.success
+      }
+    }
+    return insightsControls
+  }
+
+  render () {
+    const insightsHTML = this.getInsightsHTML(this.state.insightData)
+    return (
+      <>
+        <PanelNavigation controls={this.state.currentControls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
+        <div className='vcv-ui-tree-content-section'>
+          <div className='vcv-insights vcv-ui-tree-content-section-inner'>
+            {insightsHTML}
+          </div>
+        </div>
+      </>
+    )
+  }
+}

@@ -65,14 +65,17 @@ if ($hideMenu) {
     // Hide only when existing addons where updated to dashboard menu updates version
     echo <<<STYLE
 <style>
-  #toplevel_page_vcv-settings.wp-menu-open .vcv-submenu-dashboard-page {
+  #toplevel_page_vcv-settings.wp-menu-open .vcv-submenu-dashboard-page,
+  #toplevel_page_vcv-getting-started.wp-menu-open .vcv-submenu-dashboard-page {
     display:none;
   }
-  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap {
+  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap,
+  #toplevel_page_vcv-getting-started.wp-menu-open .wp-submenu.wp-submenu-wrap {
     padding: 0;
   }
   /* add extra paddings for 3rd party */
-  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a {
+  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a,
+  #toplevel_page_vcv-getting-started.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a {
     padding-top: 11px;
     padding-bottom: 11px;
   }
@@ -298,7 +301,7 @@ STYLE;
                                                         href="<?php echo $subMenuLink ?>"
                                                         data-value="<?php echo esc_attr($tabKey) ?>">
                                                     <?php echo $tabTitle; ?>
-                                                    <?php if (isset($tab['premiumActionBundle']) && !vchelper('License')->isPremiumActivated())  { ?>
+                                                    <?php if (isset($tab['premiumActionBundle']) && !vchelper('License')->isPremiumActivated()) { ?>
                                                         <span class="vcv-ui-icon-dashboard vcv-ui-icon-dashboard-star vcv-available-in-premium" title="<?php echo __('This feature is available in Visual Composer Premium', 'visualcomposer');?>"/>
                                                     <?php } ?>
                                                 </a>
