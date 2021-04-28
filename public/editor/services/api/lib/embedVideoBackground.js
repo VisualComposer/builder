@@ -31,6 +31,11 @@ export default class VideoEmbedBackground extends React.Component {
           <video class="vce-asset-video-embed-player vcv-lozad" playsinline="${playsInline}" loop="true" autoplay="true" muted="true">
             <source data-src="${videoData.url}" type="video/mp4" />
           </video>
+          <noscript>
+            <video class="vce-asset-video-embed-player" playsinline="${playsInline}" loop="true" autoplay="true" muted="true">
+              <source src="${videoData.url}" type="video/mp4" />
+            </video>
+          </noscript>
         `
         videoElement = (
           <div className='vcvhelper' data-vcvs-html={videoElementString}>
