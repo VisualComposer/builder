@@ -25,5 +25,8 @@ export default {
   },
   subscribe (event, callback, once = false) {
     return innerAPI.subscribe(event, callback, once)
+  },
+  unsubscribe (event, callback) {
+    return innerAPI.unsubscribe(event, callback)
   }
 }
