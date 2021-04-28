@@ -65,14 +65,17 @@ if ($hideMenu) {
     // Hide only when existing addons where updated to dashboard menu updates version
     echo <<<STYLE
 <style>
-  #toplevel_page_vcv-settings.wp-menu-open .vcv-submenu-dashboard-page {
+  #toplevel_page_vcv-settings.wp-menu-open .vcv-submenu-dashboard-page,
+  #toplevel_page_vcv-getting-started.wp-menu-open .vcv-submenu-dashboard-page {
     display:none;
   }
-  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap {
+  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap,
+  #toplevel_page_vcv-getting-started.wp-menu-open .wp-submenu.wp-submenu-wrap {
     padding: 0;
   }
   /* add extra paddings for 3rd party */
-  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a {
+  #toplevel_page_vcv-settings.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a,
+  #toplevel_page_vcv-getting-started.wp-menu-open .wp-submenu.wp-submenu-wrap li:not([class]) a {
     padding-top: 11px;
     padding-bottom: 11px;
   }
