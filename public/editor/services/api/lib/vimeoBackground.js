@@ -20,7 +20,12 @@ export default class VimeoBackground extends React.Component {
       const playerSettings = {
         videoId: videoId
       }
-      const vcvHelperHTML = '<div class="vce-asset-video-vimeo-player" />'
+      const helperClasses = classNames({
+        'vce-asset-video-vimeo-player': true,
+        'vcv-lozad': deviceData.lazyLoad
+      })
+      const vcvHelperHTML = `<div class="vce-asset-video-vimeo-player" />`
+      const vcvHelper = `<div class="${helperClasses}" />`
       const containerClasses = [
         'vce-asset-video-vimeo-container',
         `vce-visible-${deviceKey}-only`
@@ -36,7 +41,7 @@ export default class VimeoBackground extends React.Component {
               data-vce-assets-video-orientation-class='vce-asset-video-vimeo--state-landscape'
             >
               <svg className='vce-asset-video-vimeo-sizer' />
-              <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+              <div className='vcvhelper' data-vcvs-html={vcvHelper} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
             </div>
           </div>
         </div>
