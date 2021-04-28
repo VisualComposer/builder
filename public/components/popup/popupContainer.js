@@ -79,7 +79,8 @@ export default class PopupContainer extends React.Component {
     const popupClasses = classNames({
       'vcv-layout-popup': true,
       'vcv-layout-popup--visible': popupVisible,
-      'vcv-layout-popup--action-clicked': actionClicked
+      'vcv-layout-popup--action-clicked': actionClicked,
+      'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'
     })
 
     const popupProps = {
