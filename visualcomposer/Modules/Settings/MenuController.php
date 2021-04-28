@@ -88,7 +88,8 @@ class MenuController extends Container implements Module
     {
         echo <<<CSS
     <style>
-        #toplevel_page_vcv-settings .wp-submenu .vcv-ui-state--hidden {
+        #toplevel_page_vcv-settings .wp-submenu .vcv-ui-state--hidden,
+        #toplevel_page_vcv-getting-started .wp-submenu .vcv-ui-state--hidden {
             display: none;
         }
     </style>
