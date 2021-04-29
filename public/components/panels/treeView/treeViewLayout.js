@@ -212,10 +212,14 @@ export default class TreeViewLayout extends React.Component {
 
   handleAddElement (e) {
     e && e.preventDefault()
-    if (this.props.isAttribute) {
-      workspaceStorage.trigger('add', this.props.element.get('id'), this.props.element.get('tag'))
+    if (roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
+      if (this.props.isAttribute) {
+        workspaceStorage.trigger('add', this.props.element.get('id'), this.props.element.get('tag'))
+      } else {
+        workspaceStorage.trigger('add', null)
+      }
     } else {
-      workspaceStorage.trigger('add', null)
+      workspaceStorage.trigger('addTemplate', null)
     }
   }
 
@@ -262,7 +266,7 @@ export default class TreeViewLayout extends React.Component {
     const localizations = dataManager.get('localizations')
     const addElementText = localizations ? localizations.addElement : 'Add Element'
     const removeAllText = localizations ? localizations.removeAll : 'Remove All'
-    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue()) || roleManager.can('editor_content_template_add', roleManager.defaultTrue())
     let addElementControl = null
     if (isAbleToAdd) {
       addElementControl = (

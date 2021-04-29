@@ -467,15 +467,19 @@ export default class TreeViewElement extends React.Component {
         addElementTag = children[0].tag
         title = `${addText} ${children[0].name}`
       }
-      addChildControl = (
-        <span
-          className='vcv-ui-tree-layout-control-action'
-          title={title}
-          onClick={this.clickAddChild.bind(this, addElementTag)}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
-        </span>
-      )
+      if (
+        roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+      ) {
+        addChildControl = (
+          <span
+            className='vcv-ui-tree-layout-control-action'
+            title={title}
+            onClick={this.clickAddChild.bind(this, addElementTag)}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
+          </span>
+        )
+      }
       if (this.props.element.tag === 'row') {
         editRowLayoutControl = (
           <span
