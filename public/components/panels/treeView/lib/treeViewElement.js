@@ -441,6 +441,7 @@ export default class TreeViewElement extends React.Component {
       return null
     }
     const isElementLocked = env('VCV_ADDON_ROLE_MANAGER_ENABLED') && element.get('metaIsElementLocked') && !roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())
+    const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const isDraggable = element.get('metaIsDraggable')
     const treeChildClasses = classNames({
       'vcv-ui-tree-layout-node-child': true,
@@ -467,15 +468,17 @@ export default class TreeViewElement extends React.Component {
         addElementTag = children[0].tag
         title = `${addText} ${children[0].name}`
       }
-      addChildControl = (
-        <span
-          className='vcv-ui-tree-layout-control-action'
-          title={title}
-          onClick={this.clickAddChild.bind(this, addElementTag)}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
-        </span>
-      )
+      if (isAbleToAdd) {
+        addChildControl = (
+          <span
+            className='vcv-ui-tree-layout-control-action'
+            title={title}
+            onClick={this.clickAddChild.bind(this, addElementTag)}
+          >
+            <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
+          </span>
+        )
+      }
       if (this.props.element.tag === 'row') {
         editRowLayoutControl = (
           <span
@@ -515,7 +518,7 @@ export default class TreeViewElement extends React.Component {
 
     let pasteControl = false
 
-    let copyControl = isElementLocked ? null : (
+    let copyControl = (isElementLocked || !isAbleToAdd) ? null : (
       <span
         className='vcv-ui-tree-layout-control-action'
         title={copyText}
@@ -525,7 +528,7 @@ export default class TreeViewElement extends React.Component {
       </span>
     )
 
-    let cloneControl = isElementLocked ? null : (
+    let cloneControl = (isElementLocked || !isAbleToAdd) ? null : (
       <span className='vcv-ui-tree-layout-control-action' title={cloneText} onClick={this.handleClickClone}>
         <i className='vcv-ui-icon vcv-ui-icon-copy' />
       </span>
@@ -547,7 +550,7 @@ export default class TreeViewElement extends React.Component {
     const pasteElContainerFor = cookElement && cookElement.get('containerFor')
     const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
-    if (isPasteAvailable && !isElementLocked) {
+    if (isPasteAvailable && !isElementLocked && isAbleToAdd) {
       const pasteOptions = this.getPasteOptions(copyData, this.state.element)
 
       const attrs = {}
@@ -625,6 +628,18 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
+    const showDropdown = addChildControl || editRowLayoutControl || cloneControl || visibilityControl || copyControl || pasteControl
+    const sandwichControls = (
+      <>
+        {addChildControl}
+        {editRowLayoutControl}
+        {cloneControl}
+        {visibilityControl}
+        {copyControl}
+        {pasteControl}
+      </>
+    )
+
     const baseControlsItems = isElementLocked ? null : (
       <div className='vcv-ui-tree-layout-control-actions'>
         {lockControl}
@@ -634,13 +649,16 @@ export default class TreeViewElement extends React.Component {
         <span className='vcv-ui-tree-layout-control-action' title={removeText} onClick={this.handleClickDelete}>
           <i className='vcv-ui-icon vcv-ui-icon-trash' />
         </span>
-        <span
-          className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
-          onMouseEnter={this.handleSandwichMouseEnter}
-          onMouseLeave={this.handleSandwichMouseLeave}
-        >
-          <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
-        </span>
+        {showDropdown
+          ? (
+            <span
+              className='vcv-ui-tree-layout-control-action vcv-ui-tree-layout-controls-trigger'
+              onMouseEnter={this.handleSandwichMouseEnter}
+              onMouseLeave={this.handleSandwichMouseLeave}
+            >
+              <i className='vcv-ui-icon vcv-ui-icon-mobile-menu' />
+            </span>
+          ) : null}
       </div>
     )
 
@@ -654,30 +672,22 @@ export default class TreeViewElement extends React.Component {
       </>
     )
 
-    const sandwichControls = (
-      <>
-        {addChildControl}
-        {editRowLayoutControl}
-        {cloneControl}
-        {visibilityControl}
-        {copyControl}
-        {pasteControl}
-      </>
-    )
-
     const dropdownClasses = classNames({
       'vcv-ui-tree-layout-control-dropdown-content': true,
       'vcv-ui-state--active': this.state.showDropdown
     })
-    const dropdown = (
-      <div
-        className={dropdownClasses}
-        onMouseEnter={this.handleSandwichMouseEnter}
-        onMouseLeave={this.handleSandwichMouseLeave}
-      >
-        {sandwichControls}
-      </div>
-    )
+    let dropdown = null
+    if (showDropdown) {
+      dropdown = (
+        <div
+          className={dropdownClasses}
+          onMouseEnter={this.handleSandwichMouseEnter}
+          onMouseLeave={this.handleSandwichMouseLeave}
+        >
+          {sandwichControls}
+        </div>
+      )
+    }
 
     const controlClasses = classNames({
       'vcv-ui-tree-layout-control': true,
