@@ -962,7 +962,8 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
-    const lazyLoadToggleText = DesignOptions.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
+    const lazyLoadToggleText = DesignOptions.localizations.lazyLoad || 'Lazy load'
+    const lazyLoadTooltipText = DesignOptions.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
     let value
     if (Object.prototype.hasOwnProperty.call(this.state.devices[this.state.currentDevice], 'lazyLoad')) {
       value = this.state.devices[this.state.currentDevice].lazyLoad
@@ -975,11 +976,11 @@ export default class DesignOptions extends Attribute {
           api={this.props.api}
           fieldKey='lazyLoad'
           updater={this.backgroundImageLazyLoadHandler}
-          options={{ labelText: 'Lazy load' }}
+          options={{ labelText: lazyLoadToggleText }}
           value={value}
         />
         <Tooltip>
-          {lazyLoadToggleText}
+          {lazyLoadTooltipText}
         </Tooltip>
       </div>
     )

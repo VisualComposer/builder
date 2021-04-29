@@ -928,7 +928,8 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getLazyLoadRender () {
-    const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
+    const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoad || 'Lazy load'
+    const lazyLoadTooltipText = DesignOptionsAdvanced.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
     let value
     if (Object.prototype.hasOwnProperty.call(this.state.devices[this.state.currentDevice], 'lazyLoad')) {
       value = this.state.devices[this.state.currentDevice].lazyLoad
@@ -942,11 +943,11 @@ export default class DesignOptionsAdvanced extends Attribute {
           api={this.props.api}
           fieldKey='lazyLoad'
           updater={this.backgroundLazyLoadHandler}
-          options={{ labelText: 'Lazy load' }}
+          options={{ labelText: lazyLoadToggleText }}
           value={value}
         />
         <Tooltip>
-          {lazyLoadToggleText}
+          {lazyLoadTooltipText}
         </Tooltip>
       </div>
     )
