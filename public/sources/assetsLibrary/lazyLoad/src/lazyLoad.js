@@ -106,6 +106,30 @@
         if (element.getAttribute('data-toggle-class')) {
           element.classList.toggle(element.getAttribute('data-toggle-class'))
         }
+
+        // VC DO Background image
+        if (element.getAttribute('data-vce-background-image')) {
+          const elementIdPos = element.closest('[data-vce-do-apply]').getAttribute('data-vce-do-apply').indexOf('el-')
+          const elementId = element.closest('[data-vce-do-apply]').getAttribute('data-vce-do-apply').slice(elementIdPos, elementIdPos+11)
+          const devices = element.getAttribute('data-vce-background-image').split(',')
+
+          let stylesString = ''
+          devices.forEach((device) => {
+            const imagePath = element.getAttribute(`data-vce-background-image-${device}`)
+            stylesString += `--${elementId}-${device}-backgroundImage: url(${imagePath}); `
+          })
+          element.style = stylesString
+        }
+
+        // VC DOA Background Video YouTube
+        if (element.closest('[data-vce-assets-video-yt]')) {
+          window.vceAssetsBackgroundVideoYoutube('[data-vce-assets-video-yt]')
+        }
+
+        // VC DOA Background Video Vimeo
+        if (element.closest('[data-vce-assets-video-vimeo]')) {
+          window.vceAssetsBackgroundVideoVimeo('[data-vce-assets-video-vimeo]')
+        }
       },
       loaded: function loaded() {}
     }
@@ -165,7 +189,7 @@
     }
 
     function vcvLozad () {
-      const selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '.vcv-lozad'
+      const selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '.vcv-lozad, [data-vce-lozad="true"]:not([data-vcv-lozad])'
       const options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}
 
       const _Object$assign = Object.assign({}, defaultConfig, options),

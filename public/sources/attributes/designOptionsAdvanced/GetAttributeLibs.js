@@ -68,6 +68,11 @@ export default (value) => {
       value: 'mouse-move',
       library: 'parallaxMouseMove',
       dependencies: []
+    },
+    {
+      fieldKey: 'lazyLoad',
+      value: true,
+      library: 'lazyLoad'
     }
   ]
 

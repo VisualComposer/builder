@@ -1704,6 +1704,14 @@ class Localizations extends Container implements Helper
             'getAllTheseAndManyMoreFeatures' => __(
                 'Get all these and many more features with Visual Composer premium.',
                 'visualcomposer'
+            ),
+            'lazyLoad' => __(
+                'Lazy load',
+                'visualcomposer'
+            ),
+            'lazyLoadBackground' => __(
+                'Apply lazy load to the selected background',
+                'visualcomposer'
             )
         ];
 
