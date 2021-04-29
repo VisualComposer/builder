@@ -35,6 +35,9 @@ class CustomPostTypesController extends Container implements Module
                     remove_all_actions('admin_notices');
                     echo <<<STYLE
 <style>
+body {
+   overflow-y: hidden;
+}
 #adminmenumain, #wpadminbar {
     display: none !important;
 }
@@ -61,10 +64,13 @@ html, #wpcontent, #wpbody, #wpbody-content {
 (function() {
   var handler = function() {
       // This page used in iframe - on click we should modify iframe parent window
-      var linksToParent = ['a.row-title', '.vcv-edit-with-vcwb', '.page-title-action']
+      var linksToParent = ['a']
       linksToParent.forEach(function(item) {
         document.querySelectorAll(item).forEach(function(node) {
-          node.target = '_parent'
+          if(node.href.indexOf('action=edit') !== -1 || node.href.indexOf('post-new.php') !== -1) {
+            // if not row-action parent then reload parent page
+            node.target = '_parent'
+          }
         })
       })
   }
