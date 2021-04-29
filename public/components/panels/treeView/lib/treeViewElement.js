@@ -468,6 +468,7 @@ export default class TreeViewElement extends React.Component {
         addElementTag = children[0].tag
         title = `${addText} ${children[0].name}`
       }
+
       if (isAbleToAdd) {
         addChildControl = (
           <span
