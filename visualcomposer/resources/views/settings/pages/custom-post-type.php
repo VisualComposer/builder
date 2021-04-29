@@ -46,20 +46,15 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
 
     window.setInterval(setScrollHeight.bind(null, iframe), 100)
 
-    function unloadHandler () {
-      // Timeout needed because the URL changes immediately after
-      // the `unload` event is dispatched.
-      setTimeout(function () {
-        overlay.classList.add('vcv-dashboard-iframe-loader--visible')
-        iframe.style.opacity = 0
-      }, 0);
-    }
-
     function attachUnload () {
       // Remove the unloadHandler in case it was already attached.
       // Otherwise, the change will be dispatched twice.
-      iframe.contentWindow.removeEventListener('unload', unloadHandler)
-      iframe.contentWindow.addEventListener('unload', unloadHandler)
+      iframe.contentWindow.onbeforeunload = function () {
+        setTimeout(function () {
+          overlay.classList.add('vcv-dashboard-iframe-loader--visible')
+          iframe.style.opacity = 0
+        }, 0)
+      }
 
       var style = document.createElement('style');
       style.innerHTML = 'body {\
