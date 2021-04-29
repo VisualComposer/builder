@@ -33,7 +33,8 @@ class MenuController extends Container implements Module
         /** @see \VisualComposer\Modules\Settings\MenuController::removeFirstMenuItem */
         $this->wpAddAction(
             'admin_menu',
-            'removeFirstMenuItem'
+            'removeFirstMenuItem',
+            100
         );
 
         /** @see \VisualComposer\Modules\Settings\MenuController::addMenuPage */
