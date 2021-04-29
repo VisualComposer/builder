@@ -212,7 +212,7 @@ export default class TokenizationList extends React.Component {
     const suggestions = this.getSuggestions()
     const index = this.state.activeSuggestion + incr
     if (suggestions[index] !== undefined) {
-      this.setState({ activeSuggestion: index, suggestedValue: this.state.value + suggestions[index] })
+      this.setState({ activeSuggestion: index, suggestedValue: this.state.value + suggestions[index].name })
     }
   }
 
@@ -282,9 +282,9 @@ export default class TokenizationList extends React.Component {
           key={'vcvSuggestBoxItem' + index}
           className={cssClasses}
           onMouseDown={this.handleSuggestionMouseDown}
-          data-vcv-suggest={item}
+          data-vcv-suggest={item.name}
         >
-          {item}
+          {item.name}
         </span>
       )
     })
