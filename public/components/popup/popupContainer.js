@@ -45,7 +45,7 @@ export default class PopupContainer extends React.Component {
           popupVisible: !!this.state.activePopup
         })
         elementsStorage.state('document').ignoreChange(this.handleDocumentChange)
-      }, 500)
+      }, this.state.activePopup === 'pricingPopup' ? 20000 : 500)
     }
   }
 

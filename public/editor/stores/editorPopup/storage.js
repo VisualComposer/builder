@@ -49,13 +49,7 @@ addStorage('editorPopup', (storage) => {
     const oldActivePopup = storage.state('activePopup').get()
     if (activePopup !== oldActivePopup) {
       // Set initial active popup
-      if (activePopup === 'pricingPopup') {
-        setTimeout(() => {
-          storage.state('activePopup').set(activePopup)
-        }, 20000)
-      } else {
-        storage.state('activePopup').set(activePopup)
-      }
+      storage.state('activePopup').set(activePopup)
     }
   })
 
