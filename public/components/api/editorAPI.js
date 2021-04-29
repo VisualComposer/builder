@@ -13,7 +13,7 @@ export default {
     return innerAPI.applyFilter(name, value, options)
   },
   addFilter (name, callback) {
-    const allowedFilters = ['saveRequestData', 'insightPanelsData', 'getSavedData']
+    const allowedFilters = ['saveRequestData', 'insightPanelsData']
     if (allowedFilters.indexOf(name) < 0) {
       console.warn('Filter point not allowed', name)
       return
