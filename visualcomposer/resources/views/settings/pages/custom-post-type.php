@@ -13,7 +13,6 @@ if ($slug !== vchelper('Request')->input('page')) {
 $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true], admin_url('edit.php'));
 ?>
 <div class="vcv-dashboard-iframe-loader-wrapper vcv-dashboard-iframe-loader--visible">
-    <div class="vcv-dashboard-iframe-loader-overlay"></div>
     <div class="vcv-dashboard-loader vcv-dashboard-iframe-loader">
         <svg version="1.1" id="vc_wp-spinner-holeifr" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px" y="0px" width="16px" height="16px">

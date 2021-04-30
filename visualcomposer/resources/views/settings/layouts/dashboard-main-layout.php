@@ -154,13 +154,17 @@ STYLE;
     animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
   }
 
-  .vcv-dashboard-iframe-loader-wrapper.vcv-dashboard-iframe-loader--visible .vcv-dashboard-iframe-loader-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #f1f1f1;
-    z-index: 100;
+  .vcv-dashboard-iframe-loader-wrapper {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #f1f1f1;
   }
+
+  .vcv-dashboard-iframe-loader-wrapper.vcv-dashboard-iframe-loader--visible,
   .vcv-dashboard-iframe-loader-wrapper.vcv-dashboard-iframe-loader--visible .vcv-dashboard-loader.vcv-dashboard-iframe-loader {
     display: block;
     z-index: 1001;
