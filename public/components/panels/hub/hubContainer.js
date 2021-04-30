@@ -423,8 +423,16 @@ export default class HubContainer extends React.Component {
   }
 
   getHubPanelControls () {
+    let controls = {}
+
+    Object.keys(this.categories).forEach(key => {
+      if (this.categories[key].visible) {
+        controls[key] = this.categories[key]
+      }
+    })
+
     const props = {
-      controls: this.categories,
+      controls: controls,
       activeSection: this.state.filterType,
       activeSubControl: this.state.bundleType,
       setActiveSection: this.setFilterType
