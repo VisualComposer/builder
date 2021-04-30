@@ -39,7 +39,7 @@ export default class PlusTeaserControl extends NavbarContent {
   handleClickHub (e) {
     e && e.preventDefault()
 
-    let options = { bundleType: undefined }
+    const options = { bundleType: undefined }
     if (roleManager.can('hub_giphy', roleManager.defaultTrue())) {
       options.filterType = 'giphy'
       options.id = 8
