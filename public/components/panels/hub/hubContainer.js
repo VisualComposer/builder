@@ -423,7 +423,7 @@ export default class HubContainer extends React.Component {
   }
 
   getHubPanelControls () {
-    let controls = {}
+    const controls = {}
 
     Object.keys(this.categories).forEach(key => {
       if (this.categories[key].visible) {
