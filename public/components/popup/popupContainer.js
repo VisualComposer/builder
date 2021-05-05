@@ -45,7 +45,7 @@ export default class PopupContainer extends React.Component {
           popupVisible: !!this.state.activePopup
         })
         elementsStorage.state('document').ignoreChange(this.handleDocumentChange)
-      }, 500)
+      }, this.state.activePopup === 'pricingPopup' ? 20000 : 500)
     }
   }
 
@@ -79,7 +79,8 @@ export default class PopupContainer extends React.Component {
     const popupClasses = classNames({
       'vcv-layout-popup': true,
       'vcv-layout-popup--visible': popupVisible,
-      'vcv-layout-popup--action-clicked': actionClicked
+      'vcv-layout-popup--action-clicked': actionClicked,
+      'vcv-layout-popup--pricing-popup': activePopup === 'pricingPopup'
     })
 
     const popupProps = {

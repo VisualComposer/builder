@@ -26,26 +26,52 @@ export default class ImageSlideshowBackground extends React.Component {
       const imagesJSX = []
       if (images.urls && images.urls.length) {
         images.urls.forEach((imgData, index) => {
-          const styles = {
-            backgroundImage: `url(${imgData.full})`
-          }
           let customKey = imgData.id
           if (!imgData.id) {
             customKey = `${imgData.full}-${index}`
           }
+          const itemClasses = classNames({
+            'vce-asset-background-slider-item': true,
+            vcvhelper: deviceData.lazyLoad
+          })
+          const props = {
+            style: {
+              backgroundImage: `url(${imgData.full})`
+            }
+          }
           const imgKey = `${reactKey}-${customKey}`
-          imagesJSX.push((
-            <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
-          ))
+          if (deviceData.lazyLoad) {
+            props['data-vcvs-html'] = `
+              <div class="vce-asset-background-slider-item vcv-lozad" data-background-image="${imgData.full}"></div>
+              <noscript>
+                <div class="vce-asset-background-slider-item" style="background-image: url(${imgData.full}); visibility: visible;"></div>
+              </noscript>
+            `
+          }
+          imagesJSX.push(<div className={itemClasses} {...props} key={imgKey} />)
         })
       } else if (images.length) {
         images.forEach((imgData, index) => {
-          const styles = {
-            backgroundImage: `url(${this.getPublicImage(imgData)})`
+          const props = {
+            style: {
+              backgroundImage: `url(${this.getPublicImage(imgData)})`
+            }
+          }
+          const itemClasses = classNames({
+            'vce-asset-background-slider-item': true,
+            vcvhelper: deviceData.lazyLoad
+          })
+          if (deviceData.lazyLoad) {
+            props['data-vcvs-html'] = `
+              <div class="vce-asset-background-slider-item vcv-lozad" data-background-image="${this.getPublicImage(imgData)}"></div>
+              <noscript>
+                <div class="vce-asset-background-slider-item" style="background-image: url(${this.getPublicImage(imgData)}); visibility: visible;"></div>
+              </noscript>
+            `
           }
           const imgKey = `${reactKey}-${imgData}-${index}`
           imagesJSX.push((
-            <div className='vce-asset-background-slider-item' style={styles} key={imgKey} />
+            <div className={itemClasses} {...props} key={imgKey} />
           ))
         })
       }
