@@ -33,6 +33,15 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
   (function () {
     var iframe = document.querySelector('.vcv-dashboard-section-custom-post-type-iframe')
     var overlay = document.querySelector('.vcv-dashboard-iframe-loader-wrapper')
+    var isVcvClick = false
+
+    function handleIframeBodyClick (e) {
+      if (e.target.href && e.target.href.includes('vcv-action')) {
+        isVcvClick = true
+      } else {
+        isVcvClick = false
+      }
+    }
 
     function setScrollHeight () {
       if (iframe && iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.body) {
@@ -40,22 +49,26 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
         if (Math.abs(parseInt(iframe.style.height || 0, 10) - iframe.contentWindow.document.body.scrollHeight) > 50) {
           iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 50 + 'px'
         }
+        iframe.contentWindow.document.body.addEventListener('click', handleIframeBodyClick)
       }
     }
 
     window.setInterval(setScrollHeight.bind(null, iframe), 100)
 
     function attachUnload () {
+      isVcvClick = false
       // Remove the unloadHandler in case it was already attached.
       // Otherwise, the change will be dispatched twice.
-      iframe.contentWindow.onbeforeunload = function () {
-        setTimeout(function () {
-          overlay.classList.add('vcv-dashboard-iframe-loader--visible')
-          iframe.style.opacity = 0
-        }, 0)
+      iframe.contentWindow.onbeforeunload = function (e) {
+        if (!isVcvClick) {
+          setTimeout(function () {
+            overlay.classList.add('vcv-dashboard-iframe-loader--visible')
+            iframe.style.opacity = 0
+          }, 0)
+        }
       }
 
-      var style = document.createElement('style');
+      var style = document.createElement('style')
       style.innerHTML = 'body {\
       overflow-y: hidden;\
     }\
@@ -79,7 +92,7 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
     }\
   .wp-heading-inline {\
       padding-top: 0 !important;\
-    }';
+    }'
       iframe.contentWindow.document.body.appendChild(style)
 
       window.setTimeout(function () {
