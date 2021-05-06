@@ -221,7 +221,10 @@ add('insights', () => {
       const images = env('iframe').document.body.querySelectorAll('img')
       const promises = []
       images.forEach((image) => {
-        promises.push(this.getImageSize(image.src, image))
+        // Skip checking for our images
+        if (image.src.indexOf('cdn.hub.visualcomposer.com') === -1) {
+          promises.push(this.getImageSize(image.src, image))
+        }
       })
       return promises
     }
@@ -230,7 +233,8 @@ add('insights', () => {
       function getBgImgs (doc) {
         const srcChecker = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i
         return Array.from(
-          Array.from(doc.querySelectorAll('*')).reduce((collection, node) => {
+          // Remove .mce-tinymce, script, style from checking bg image
+          Array.from(doc.querySelectorAll('body > *:not(.mce-tinymce, script, style) *:not(script, style), body')).reduce((collection, node) => {
             const prop = window.getComputedStyle(node, null)
               .getPropertyValue('background-image')
             const match = srcChecker.exec(prop)
