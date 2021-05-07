@@ -43,6 +43,9 @@ export default class FacebookLike extends vcvAPI.elementComponent {
 
   setPlaceholder () {
     const likeBtn = this.getDomNode().querySelector('.fb-like')
+    if (!likeBtn) {
+      return
+    }
     const helper = document.createElement('div')
     helper.className = 'vcvhelper vce-facebook-like-placeholder'
     this.refs.facebookLikeInner.appendChild(helper)
