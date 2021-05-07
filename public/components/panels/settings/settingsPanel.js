@@ -20,6 +20,7 @@ const popupText = localizations ? localizations.popup : 'Popup'
 const elementsLockText = localizations ? localizations.elementsLock : 'Element Lock'
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
+const workspaceSettingsTabState = workspaceStorage.state('settingsTab')
 
 const controls = {}
 
@@ -79,10 +80,12 @@ export default class SettingsPanel extends React.Component {
   }
 
   componentDidMount () {
+    workspaceSettingsTabState.onChange(this.setActiveSection)
     workspaceContentState.onChange(this.setVisibility)
   }
 
   componentWillUnmount () {
+    workspaceSettingsTabState.ignoreChange(this.setActiveSection)
     workspaceContentState.ignoreChange(this.setVisibility)
   }
 
