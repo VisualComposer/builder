@@ -297,7 +297,6 @@ export default class DndDataSet {
     const blankRow = this.checkBlankRow(point)
     const hfs = this.checkHFS(point)
 
-    // console.log('checkItems', point)
     if (blankRow) {
       const position = this.placeholder && this.placeholder.redraw(blankRow, point)
       if (position) {
