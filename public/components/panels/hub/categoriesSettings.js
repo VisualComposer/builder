@@ -3,13 +3,12 @@ import { getService } from 'vc-cake'
 const roleManager = getService('roleManager')
 
 export default function getHubControls () {
-  const controls = {}
-
-  if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
-    controls.element = {
+  const controls = {
+    element: {
       index: 0,
       type: 'element',
       title: 'Elements',
+      visible: roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()),
       subControls: [
         {
           title: 'Free',
@@ -20,11 +19,12 @@ export default function getHubControls () {
           type: 'premium'
         }
       ]
-    }
-    controls.template = {
+    },
+    template: {
       index: 1,
       type: 'template',
       title: 'Templates',
+      visible: roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()),
       subControls: [
         {
           title: 'Free',
@@ -35,56 +35,52 @@ export default function getHubControls () {
           type: 'premium'
         }
       ]
-    }
-    controls.block = {
+    },
+    block: {
       index: 2,
       type: 'block',
       title: 'Blocks',
+      visible: roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()),
       templateType: true
-    }
-  }
-
-  if (roleManager.can('hub_addons', roleManager.defaultTrue())) {
-    controls.addon = {
+    },
+    addon: {
       index: 3,
       type: 'addon',
-      title: 'Addons'
-    }
-  }
-
-  if (roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue())) {
-    controls.hubHeader = {
+      title: 'Addons',
+      visible: roleManager.can('hub_addons', roleManager.defaultTrue())
+    },
+    hubHeader: {
       index: 4,
       type: 'hubHeader',
       title: 'Headers',
+      visible: roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue()),
       templateType: true
-    }
-    controls.hubFooter = {
+    },
+    hubFooter: {
       index: 5,
       type: 'hubFooter',
       title: 'Footers',
+      visible: roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue()),
       templateType: true
-    }
-    controls.hubSidebar = {
+    },
+    hubSidebar: {
       index: 6,
       type: 'hubSidebar',
       title: 'Sidebars',
+      visible: roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue()),
       templateType: true
-    }
-  }
-
-  if (roleManager.can('hub_unsplash', roleManager.defaultTrue())) {
-    controls.unsplash = {
+    },
+    unsplash: {
       index: 7,
       type: 'unsplash',
-      title: 'Stock Images'
-    }
-  }
-  if (roleManager.can('hub_giphy', roleManager.defaultTrue())) {
-    controls.giphy = {
+      title: 'Stock Images',
+      visible: roleManager.can('hub_unsplash', roleManager.defaultTrue())
+    },
+    giphy: {
       index: 8,
       type: 'giphy',
-      title: 'Giphy'
+      title: 'Giphy',
+      visible: roleManager.can('hub_giphy', roleManager.defaultTrue())
     }
   }
 

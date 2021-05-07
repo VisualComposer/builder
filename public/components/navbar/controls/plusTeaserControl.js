@@ -9,6 +9,7 @@ const dataProcessor = getService('dataProcessor')
 const workspaceSettings = getStorage('workspace').state('settings')
 const workspaceContentState = getStorage('workspace').state('content')
 const dataManager = getService('dataManager')
+const roleManager = getService('roleManager')
 
 export default class PlusTeaserControl extends NavbarContent {
   constructor (props) {
@@ -37,11 +38,34 @@ export default class PlusTeaserControl extends NavbarContent {
 
   handleClickHub (e) {
     e && e.preventDefault()
+
+    const options = { bundleType: undefined }
+    if (roleManager.can('hub_giphy', roleManager.defaultTrue())) {
+      options.filterType = 'giphy'
+      options.id = 8
+    }
+    if (roleManager.can('hub_unsplash', roleManager.defaultTrue())) {
+      options.filterType = 'unsplash'
+      options.id = 7
+    }
+    if (roleManager.can('hub_headers_footers_sidebars', roleManager.defaultTrue())) {
+      options.filterType = 'hubHeader'
+      options.id = 4
+    }
+    if (roleManager.can('hub_addons', roleManager.defaultTrue())) {
+      options.filterType = 'addon'
+      options.id = 3
+    }
+    if (roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())) {
+      options.filterType = 'element'
+      options.id = 0
+    }
+
     const settings = this.state.isActive ? false : {
       action: 'addHub',
       elementAccessPoint: null,
       activeTab: '',
-      options: {}
+      options: options
     }
     workspaceSettings.set(settings)
     if (dataManager.get('hubTeaserShowBadge') || this.state.showBadge) {
