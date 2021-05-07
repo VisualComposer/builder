@@ -17,7 +17,7 @@ export default class HtmlEditorComponent extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
-    this.handleChangeWpEditor = lodash.debounce(this.handleChangeWpEditor.bind(this), 400, { 'maxWait': 400 })
+    this.handleChangeWpEditor = lodash.debounce(this.handleChangeWpEditor.bind(this), 400, { maxWait: 400 })
     this.skinChange = this.skinChange.bind(this)
     this.handleFontChange = this.handleFontChange.bind(this)
     this.initWpEditorJs = this.initWpEditorJs.bind(this)
@@ -158,7 +158,6 @@ export default class HtmlEditorComponent extends React.Component {
     const { updater, fieldKey, fieldType, setValueState } = this.props
     this.editorValue = true
     setValueState(value)
-
     window.setTimeout(() => {
       updater(fieldKey, value, null, fieldType)
     }, 0)
