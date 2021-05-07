@@ -83,6 +83,7 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
     }\
     html, #wpcontent, #wpbody, #wpbody-content {\
       padding: 1px !important;\
+      padding-top: 0 !important;\
     }\
   .wrap, #screen-meta, #screen-meta-links {\
       margin: 0 !important;\
