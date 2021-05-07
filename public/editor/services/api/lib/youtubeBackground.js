@@ -20,7 +20,12 @@ export default class YoutubeBackground extends React.Component {
       const playerSettings = {
         videoId: videoId
       }
+      const helperClasses = classNames({
+        'vce-asset-video-yt-player': true,
+        'vcv-lozad': deviceData.lazyLoad
+      })
       const vcvHelperHTML = '<div class="vce-asset-video-yt-player" />'
+      const vcvHelper = `<div class="${helperClasses}" />`
       const containerClasses = [
         'vce-asset-video-yt-container',
         `vce-visible-${deviceKey}-only`
@@ -36,7 +41,7 @@ export default class YoutubeBackground extends React.Component {
               data-vce-assets-video-orientation-class='vce-asset-video-yt--state-landscape'
             >
               <svg className='vce-asset-video-yt-sizer' width='0' height='0' />
-              <div className='vcvhelper' data-vcvs-html={vcvHelperHTML} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
+              <div className='vcvhelper' data-vcvs-html={vcvHelper} dangerouslySetInnerHTML={{ __html: vcvHelperHTML }} />
             </div>
           </div>
         </div>

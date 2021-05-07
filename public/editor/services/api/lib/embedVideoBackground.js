@@ -20,6 +20,29 @@ export default class VideoEmbedBackground extends React.Component {
         `vce-visible-${deviceKey}-only`
       ]
       const playsInline = true
+      let videoElement = (
+        <video key={videoKey} className='vce-asset-video-embed-player' playsInline={playsInline}>
+          <source src={videoData.url} type='video/mp4' />
+        </video>
+      )
+
+      if (deviceData.lazyLoad) {
+        const videoElementString = `
+          <video class="vce-asset-video-embed-player vcv-lozad" playsinline="${playsInline}" loop="true" autoplay="true" muted="true">
+            <source data-src="${videoData.url}" type="video/mp4" />
+          </video>
+          <noscript>
+            <video class="vce-asset-video-embed-player" playsinline="${playsInline}" loop="true" autoplay="true" muted="true">
+              <source src="${videoData.url}" type="video/mp4" />
+            </video>
+          </noscript>
+        `
+        videoElement = (
+          <div className='vcvhelper' data-vcvs-html={videoElementString}>
+            {videoElement}
+          </div>
+        )
+      }
 
       return (
         <div className={classNames(containerClasses)}>
@@ -31,9 +54,7 @@ export default class VideoEmbedBackground extends React.Component {
               data-vce-assets-video-orientation-class='vce-asset-video-embed--state-landscape'
             >
               <svg className='vce-asset-video-embed-sizer' />
-              <video key={videoKey} className='vce-asset-video-embed-player' playsInline={playsInline}>
-                <source src={videoData.url} type='video/mp4' />
-              </video>
+              {videoElement}
             </div>
           </div>
         </div>

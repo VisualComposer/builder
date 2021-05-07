@@ -314,6 +314,7 @@ addStorage('wordpressData', (storage) => {
       title.innerText = current
       title.style.display = disabled ? 'none' : ''
       title.onclick = () => {
+        workspaceStorage.state('settingsTab').set('pageSettings')
         workspaceContentState.set('settings')
         settingsStorage.state('isTitleFocused').set(true)
       }

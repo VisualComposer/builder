@@ -322,9 +322,14 @@ export default class DndDataSet {
       if (this.isDraggingElementParent(domElement)) {
         return
       }
+      const isChildren = documentManager.children(domElement.id).length
       let afterLastContainerElement = false
-      let allowApend = !documentManager.children(domElement.id).length
+      let allowApend = !isChildren
       if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
+        allowApend = true
+      }
+
+      if (!allowApend && isChildren) {
         allowApend = true
       }
 

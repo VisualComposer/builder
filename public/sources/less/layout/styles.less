@@ -7,7 +7,6 @@
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
-  //overflow: auto;
 }
 
 //== base layout
@@ -58,6 +57,7 @@
   width: 100%;
   background: @editor-layout-iframe-background;
   margin: auto;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 10%);
 }
 
 .vcv-layout-iframe-container--mobile {
@@ -76,7 +76,6 @@
   left: 0;
   bottom: 0;
   right: 0;
-  //overflow: hidden;
 }
 
 .vcv-layout-iframe-wrapper {
@@ -93,7 +92,6 @@
   overflow: auto;
   border: 0;
   position: absolute;
-  //z-index: @editor-content-zindex;
 }
 
 //== Editor bar
@@ -235,7 +233,7 @@
   }
 }
 
-//== tohhle start content
+//== toggle start content
 .vcv-layout-bar-content-toggle {
   position: absolute;
   left: 0;
@@ -333,7 +331,7 @@
 .vcv-layout-iframe-container[data-vcv-device='tablet-landscape'] {
   flex: initial;
   position: relative;
-  border-color: #F6F6F6;
+  border-color: #fff;
   border-style: solid;
   border-radius: 25px;
 

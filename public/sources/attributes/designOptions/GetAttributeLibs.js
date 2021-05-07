@@ -17,6 +17,13 @@ export default (value) => {
       value: (value) => {
         return value && value.ids && value.urls && value.ids.length && value.urls.length
       }
+    },
+    {
+      fieldKey: 'lazyLoad',
+      library: 'lazyLoad',
+      value: (value) => {
+        return value
+      }
     }
   ]
 

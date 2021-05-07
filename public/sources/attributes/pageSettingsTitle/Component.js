@@ -42,6 +42,7 @@ export default class PageSettingsTitle extends Attribute {
   componentWillUnmount () {
     workspaceIFrame.ignoreChange(this.onIframeChange)
     settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
+    settingsStorage.state('isTitleFocused').ignoreChange(this.toggleFocusTitle)
   }
 
   checkShowToggle (themeType) {

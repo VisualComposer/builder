@@ -136,8 +136,29 @@ export default class ElementComponent extends React.Component {
   applyDO (prop) {
     let propObj = {}
 
-    if (env('VCV_JS_FT_DYNAMIC_FIELDS') && (prop === 'all' || prop.indexOf('background') > -1)) {
-      propObj = Object.assign({}, propObj, this.getImageData())
+    if (prop === 'all' || prop.indexOf('background') > -1) {
+      if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        propObj = Object.assign({}, propObj, this.getImageData())
+      }
+
+      // Apply lazy load attributes only for Design Options,
+      // Design Options Advanced has own separate logic with rendering additional containers
+      const desingOptions = this.props.atts.designOptions
+      if (desingOptions && Object.prototype.hasOwnProperty.call(desingOptions, 'device')) {
+        const doDevices = desingOptions.device
+        const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
+        if (isLazyLoad) {
+          Object.keys(doDevices).forEach((device) => {
+            if (doDevices[device].image && doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
+              const dataAttribute = `data-vce-background-image-${device}`
+              propObj[dataAttribute] = doDevices[device].image.urls[0].full
+            }
+          })
+          propObj['data-vce-background-image'] = Object.keys(doDevices)
+          propObj['data-vce-lozad'] = true
+          propObj['data-vcv-lozad'] = true // only for editor
+        }
+      }
     }
 
     // checking all
