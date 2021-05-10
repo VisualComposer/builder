@@ -118,6 +118,9 @@
             const imagePath = element.getAttribute(`data-vce-background-image-${device}`)
             stylesString += `--${elementId}-${device}-backgroundImage: url(${imagePath}); `
           })
+          if (element.getAttribute('style')) {
+            stylesString += element.getAttribute('style')
+          }
           element.style = stylesString
         }
 
