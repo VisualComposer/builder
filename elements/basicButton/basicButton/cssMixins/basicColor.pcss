@@ -1,7 +1,7 @@
 .vce-button--style-basic.vce-button--style-basic--color-$selector {
   a&,
   button& {
-    &, &:hover{
+    &, &:not(:hover){
     @if $color != false {
       color: $color;
     }
