@@ -134,7 +134,6 @@ export default class ElementComponent extends React.Component {
   }
 
   applyDO (prop) {
-    // console.log('applyDO')
     let propObj = {}
 
     if (prop === 'all' || prop.indexOf('background') > -1) {
