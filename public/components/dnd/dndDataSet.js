@@ -261,8 +261,13 @@ export default class DndDataSet {
     return domElement.$node.parents('[data-vcv-dnd-element="' + this.draggingElement.id + '"]').length > 0
   }
 
-  findDOMNode (point) {
-    let domNode = this.options.document.elementFromPoint(point.x, point.y)
+  findDOMNode (point, id = null) {
+    let domNode
+    if (id) {
+      domNode = this.options.document.getElementById(id)
+    } else {
+      domNode = this.options.document.elementFromPoint(point.x, point.y)
+    }
     const domNodeAttr = domNode && domNode.getAttribute('data-vcv-dnd-element')
     const domNodeDomElementAttr = domNode && domNode.getAttribute('data-vcv-dnd-dom-element')
     const domNodeDomElement = window.jQuery(domNode).closest(`.${domNodeDomElementAttr}`).get(0)
@@ -322,15 +327,38 @@ export default class DndDataSet {
       if (this.isDraggingElementParent(domElement)) {
         return
       }
-      const isChildren = documentManager.children(domElement.id).length
+      const children = documentManager.children(domElement.id)
       let afterLastContainerElement = false
-      let allowApend = !isChildren
+      let allowApend = !children.length
       if (!allowApend && domElement.node && domElement.node.classList && domElement.node.dataset.vcvDndElementExpandStatus === 'closed') {
         allowApend = true
       }
 
-      if (!allowApend && isChildren) {
+      if (!allowApend && children.length) {
         allowApend = true
+      }
+
+      // Columns drop hack
+      // Made for dropping element only when over a Row element
+      const isRow = domElement.options &&
+        domElement.options.containerFor &&
+        domElement.options.containerFor.includes('Column') &&
+        parentDOMElement.options &&
+        parentDOMElement.options.relatedTo &&
+        parentDOMElement.options.relatedTo.includes('Column')
+
+      if (parentDOMElement.id === this.options.rootID || isRow) {
+        const columnsRect = children.map((child) => {
+          const element = this.options.document.getElementById(`el-${child.id}`)
+          return element.getBoundingClientRect()
+        })
+        const targetColumn = columnsRect.findIndex(column => point && point.x > column.left && point.x < column.right)
+        if (targetColumn) {
+          const columnId = `el-${children[targetColumn].id}`
+          domNode = this.findDOMNode({}, columnId)
+          domElement = this.getDomElement(domNode)
+          parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+        }
       }
 
       this.removeHFSActive()

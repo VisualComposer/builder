@@ -7,6 +7,7 @@ import './css/wpEditor.css'
 import ToggleSmall from '../toggleSmall/Component'
 import webFontLoader from 'webfontloader'
 import { getService } from 'vc-cake'
+import lodash from 'lodash'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
@@ -16,6 +17,7 @@ export default class HtmlEditorComponent extends React.Component {
     super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeQtagsEditor = this.handleChangeQtagsEditor.bind(this)
+    this.handleChangeWpEditor = lodash.debounce(this.handleChangeWpEditor.bind(this), 400, { maxWait: 400 })
     this.skinChange = this.skinChange.bind(this)
     this.handleFontChange = this.handleFontChange.bind(this)
     this.initWpEditorJs = this.initWpEditorJs.bind(this)

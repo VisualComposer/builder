@@ -154,6 +154,22 @@ STYLE;
     animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
   }
 
+  .vcv-dashboard-iframe-loader-wrapper {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #f1f1f1;
+  }
+
+  .vcv-dashboard-iframe-loader-wrapper.vcv-dashboard-iframe-loader--visible,
+  .vcv-dashboard-iframe-loader-wrapper.vcv-dashboard-iframe-loader--visible .vcv-dashboard-loader.vcv-dashboard-iframe-loader {
+    display: block;
+    z-index: 1001;
+  }
+
   .vcv-dashboard-sidebar-navigation-link {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -292,7 +308,10 @@ STYLE;
                                             $tabTitle = empty($tab['subTitle']) ? $tab['name'] : $tab['subTitle'];
                                             $subMenuLink = '?page=' . esc_attr($tabKey);
 
-                                            if ($menuKey === $parentSlug) {
+                                            $sameParent = $menuKey === $parentSlug;
+                                            $forceReload = isset($tab['forceReloadOnOpen']) && $tab['forceReloadOnOpen'];
+
+                                            if ($sameParent && !$forceReload) {
                                                 $activeClass .= ' vcv-dashboard-sidebar-navigation-link--same-parent';
                                             }
                                             ?>
