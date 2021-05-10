@@ -134,6 +134,7 @@ export default class ElementComponent extends React.Component {
   }
 
   applyDO (prop) {
+    // console.log('applyDO')
     let propObj = {}
 
     if (prop === 'all' || prop.indexOf('background') > -1) {
@@ -148,15 +149,19 @@ export default class ElementComponent extends React.Component {
         const doDevices = desingOptions.device
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
         if (isLazyLoad) {
+          let isImagesSet = false
           Object.keys(doDevices).forEach((device) => {
             if (doDevices[device].image && doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
               const dataAttribute = `data-vce-background-image-${device}`
               propObj[dataAttribute] = doDevices[device].image.urls[0].full
+              isImagesSet = true
             }
           })
-          propObj['data-vce-background-image'] = Object.keys(doDevices)
-          propObj['data-vce-lozad'] = true
-          propObj['data-vcv-lozad'] = true // only for editor
+          if (isImagesSet) {
+            propObj['data-vce-background-image'] = Object.keys(doDevices)
+            propObj['data-vce-lozad'] = true
+            propObj['data-vcv-lozad'] = true // only for editor
+          }
         }
       }
     }
