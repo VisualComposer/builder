@@ -23,7 +23,7 @@ $utmHelper = vchelper('Utm');
             max-width: 100%;
         }
         .vcwb-rss-widget-bottom{
-            padding: 12px 0 0 0;
+            padding: 12px 0 0;
         }
     </style>
     <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
