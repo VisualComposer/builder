@@ -22,7 +22,7 @@ $utmHelper = vchelper('Utm');
             width: 250px;
             max-width: 100%;
         }
-        .vcwb-rss-widget-bottom{
+        .vcwb-rss-widget-bottom {
             padding: 12px 0 0;
         }
     </style>
