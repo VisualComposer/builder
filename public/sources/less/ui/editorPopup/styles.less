@@ -88,7 +88,7 @@
 
 .vcv-layout-popup-container {
   margin: 30px;
-  max-width: 440px;
+  max-width: 410px;
   pointer-events: all;
 }
 
@@ -130,12 +130,12 @@
   position: relative;
   background: @vcv-color-lucky-point;
   border-radius: 5px;
-  padding: 20px;
+  padding: 23px 26px;
 }
 
 .vcv-layout-popup-header {
   position: relative;
-  margin: 0 0 16px;
+  margin: 0 0 10px;
   padding-right: 20px;
   display: flex;
   flex-direction: column;
@@ -147,7 +147,7 @@
   background-color: #0D267C;
   border-radius: 50%;
   align-self: center;
-  margin: 20px 0 50px 29px;
+  margin: 16px 0 50px 29px;
   position: relative;
 
   svg {
@@ -170,10 +170,9 @@
 
 .vcv-layout-popup-close {
   position: absolute;
-  margin-top: 1px;
-  top: -10px;
+  padding: 0;
+  top: -5px;
   right: -10px;
-  padding: 10px;
   background: transparent;
   border: none;
   color: inherit;
@@ -187,12 +186,12 @@
 }
 
 .vcv-layout-popup-content {
-  margin-bottom: 16px;
+  margin-bottom: 15px;
 }
 
 .vcv-layout-popup-btn {
   display: inline-block;
-  padding: 9px 27px;
+  padding: 9px 37px;
   background: transparent;
   border: 2px solid @vcv-color-white;
   border-radius: 3px;
@@ -230,13 +229,14 @@
 }
 
 .vcv-layout-popup-text {
-  margin: 0 0 17px;
+  margin: 0 0 15px;
   font-size: 13px;
   line-height: 24px;
   letter-spacing: 1px;
   color: inherit;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
+  font-style: italic;
 }
 
 .vcv-layout-popup-checkbox-option-wrapper {
@@ -317,10 +317,6 @@
 }
 
 .vcv-layout-popup.vcv-layout-popup--pricing-popup {
-  .vcv-layout-popup-container {
-    max-width: 410px;
-  }
-
   .vcv-layout-popup-content {
     margin-right: 38px;
   }
