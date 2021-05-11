@@ -15,7 +15,7 @@ body:not(.vcv-wb-editor) {
 
   div.mce-panel.mce-tinymce-inline {
     background: transparent;
-    border: none!important;
+    border: none !important;
   }
 
   div.mce-toolbar-grp {
@@ -67,7 +67,8 @@ body:not(.vcv-wb-editor) {
 
   .mce-toolbar .mce-btn-group .mce-btn:focus,
   .mce-toolbar .mce-btn-group .mce-btn:hover,
-  .qt-dfw:focus, .qt-dfw:hover,
+  .qt-dfw:focus,
+  .qt-dfw:hover,
   .mce-toolbar .mce-btn-group .mce-btn.mce-active,
   .mce-toolbar .mce-btn-group .mce-btn:active,
   .qt-dfw.active {
@@ -89,7 +90,12 @@ body:not(.vcv-wb-editor) {
     text-transform: none;
   }
 
-  .mce-container-body.mce-stack-layout > .mce-toolbar:not(:first-child) {
+  .mce-btn button:not(:hover),
+  .mce-menubtn button:not(:hover) {
+    background: transparent;
+  }
+
+  .mce-container-body.mce-stack-layout>.mce-toolbar:not(:first-child) {
     border-top: 1px solid @inline-editor-control-separator-color;
   }
 

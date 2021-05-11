@@ -262,9 +262,10 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getSearchResults () {
-    const { searchValue } = this.props
+    const searchValue = this.props.searchValue.toLowerCase()
+    const allCategories = this.state.categories.find(category => category.id === 'all')
 
-    return this.state.categories[0].templates.filter((template) => {
+    return allCategories.templates.filter((template) => {
       const name = template.name && template.name.toLowerCase()
       if (name && name.indexOf(searchValue) !== -1) {
         return true
