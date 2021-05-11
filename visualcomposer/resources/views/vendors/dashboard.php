@@ -22,6 +22,7 @@ $utmHelper = vchelper('Utm');
             width: 250px;
             max-width: 100%;
         }
+<<<<<<< HEAD
         #visualcomposer-blog-dashboard .inside {
             padding: 0;
         }
@@ -30,6 +31,10 @@ $utmHelper = vchelper('Utm');
         }
         #visualcomposer-blog-dashboard .rss-widget:last-of-type {
             padding-bottom: 8px;
+=======
+        .vcwb-rss-widget-bottom {
+            padding: 12px 0 0;
+>>>>>>> master
         }
     </style>
     <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
