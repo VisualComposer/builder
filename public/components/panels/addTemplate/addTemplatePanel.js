@@ -262,7 +262,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getSearchResults () {
-    const { searchValue } = this.props
+    const searchValue = this.props.searchValue.toLowerCase()
 
     return this.state.categories[0].templates.filter((template) => {
       const name = template.name && template.name.toLowerCase()
