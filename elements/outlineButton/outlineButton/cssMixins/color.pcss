@@ -2,7 +2,9 @@
   &--style-outline--color-$selector {
     a&,
     button& {
-      color: $color;
+      &, &:not(:hover):not(:active) {
+        color: $color;
+      }
       &:hover {
         color: $color;
       }
@@ -17,7 +19,9 @@
   &--style-outline-animated-slidein--color-$selector {
     a&,
     button& {
-      color: $color;
+      &, &:not(:hover):not(:active) {
+        color: $color;
+      }
       &:hover {
         color: $color;
       }

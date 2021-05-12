@@ -80,6 +80,9 @@ button.vce-button--style-outline {
   z-index: 1;
   border-radius: 0;
 }
+button:not(:hover):not(:active).vce-button--style-outline {
+  background-color: transparent;
+}
 a.vce-button--style-outline .vce-button--style-outline-text,
 button.vce-button--style-outline .vce-button--style-outline-text {
   transition: none;
@@ -193,6 +196,10 @@ button.vce-button--style-outline-animated-slidein {
   transition: all 0.2s ease-in-out;
   z-index: 1;
   border-radius: 0;
+}
+button:not(:hover):not(:active).vce-button--style-outline-animated,
+button:not(:hover):not(:active).vce-button--style-outline-animated-slidein {
+  background-color: transparent;
 }
 a.vce-button--style-outline-animated .vce-button--style-outline-text,
 a.vce-button--style-outline-animated-slidein .vce-button--style-outline-text,
