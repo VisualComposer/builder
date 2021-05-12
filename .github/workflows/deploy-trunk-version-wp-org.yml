@@ -4,6 +4,7 @@ on:
     - cron:  '10 10 * * 1'
 jobs:
   build-plugin:
+    if: github.repository == 'VisualComposer/builder'
     name: Build the latest version of the Visual Composer plugin dev version
     runs-on: ubuntu-20.04
     steps:
@@ -24,6 +25,7 @@ jobs:
           name: visualcomposer.zip
           path: visualcomposer.zip
   deploy-trunk:
+    if: github.repository == 'VisualComposer/builder'
     name: Update trunk on WordPress.org
     needs: [build-plugin]
     runs-on: ubuntu-latest
