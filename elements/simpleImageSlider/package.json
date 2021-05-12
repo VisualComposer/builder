@@ -10,12 +10,12 @@
   },
   "scripts": {
     "standard": "standard --version && standard",
-    "build": "../node_modules/.bin/webpack --config=../node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors",
-    "build-production": "../node_modules/.bin/webpack --config=../node_modules/vc-webpack-vendors/webpack.v4.config.production.js --progress -p",
-    "watch": "../node_modules/.bin/webpack --config=../node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors --watch"
+    "build": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors",
+    "build-production": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.production.js -p",
+    "watch": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors --watch"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "2.7.0"
+    "vc-webpack-vendors": "2.4.0"
   },
   "babel": {
     "presets": [

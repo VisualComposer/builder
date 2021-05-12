@@ -168,8 +168,13 @@
   padding: 0;
 }
 
+.vce-simple-image-slider-dots .slick-dots button:not(:hover):not(:active) {
+  background: #fff;
+}
+
 .vce-simple-image-slider-dots .slick-dots button:hover,
-.vce-simple-image-slider-dots .slick-dots .slick-active button {
+.vce-simple-image-slider-dots .slick-dots .slick-active button,
+.vce-simple-image-slider-dots .slick-dots .slick-active button:not(:hover):not(:active) {
   background: #fd9a00;
 }
 
