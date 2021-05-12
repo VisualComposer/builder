@@ -1,6 +1,6 @@
 === Visual Composer Website Builder ===
 Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cagdasdag,alperbulut,cozmoslabs
-Tags: visual composer, page builder, drag-and-drop editor, website builder, site-builder, front-end builder, editor, visual editor, wysiwyg, design, landing page builder, front-end builder
+Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.7
@@ -13,19 +13,18 @@ Website builder for WordPress comes with 500+ elements, templates, addons, and d
 
 == Description ==
 
-**Visual Composer Website Builder** is an intuitive **drag and drop Frontend editor** that gives you powerful tools and assets to create a WordPress website. No coding!
+Visual Composer is the best drag and drop frontend editor that gives you design tools of **WordPress page builder & website builder** (premium) to create a business site, portfolio, landing page, or blog.
+No coding required!
 
-**It's a brand new Visual Composer made entirely from scratch!** No more [shortcodes] hell, content locking, or performance compromises. Instead, you get a fast, powerful, and easy-to-use website builder that gives you tools to create any kind of website.
+It's a brand new website builder - made from scratch! No [shortcodes], no content locking, or performance issues. You get a powerful editor of superb performance to create any page layout you need.
 
-**[Visual Composer Free](https://visualcomposer.com/download/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-free-text-link)** contains everything that you need to create a simple website. It is the most powerful free version page builder on the market with 40+ ready-made elements and templates, as well as mighty design options.
+See it for yourself! Try **[Visual Composer DEMO](https://demo.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-demo-text-link)**, make a page while playing, and get an idea of the easy-to-use interface.
 
 https://youtu.be/T4c--KVXXbg
 
-**[Visual Composer Premium](https://visualcomposer.com/pricing/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=gopremium&utm_content=visual-composer-premium-text-link)** unlocks even more tools and functionality stored in the [Visual Composer Hub](https://visualcomposer.com/features/visual-composer-hub/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-hub-text-link) - a cloud library that makes sure your website stays lightweight and clean.
+Visual Composer is a free, fast, and SEO-friendly builder - all you need to create a website. More than that, it is the most feature-rich free page builder on the market with 40+ free elements, 10+ free landing page templates, and mighty design options with background and parallax effects.
 
-Premium gives you a **500+ Elements**, **Templates**, **Addons**, **Integrations**, and powerful **Design Options**.
-
-See it for yourself! Try **[Visual Composer DEMO](https://demo.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-demo-text-link)**, make a page while playing, and get an idea of the easy-to-use interface.
+With an easy-to-use live editor, you can create any type of WordPress site - personal site, business website, portfolio, landing page, blog, online store - you name it. Plus, you can always apply Visual Composer to your existing website. Yes, Visual Composer recognizes and works with your existing content.
 
 **TRUE DRAG & DROP WEBSITE BUILDER**
 
@@ -69,6 +68,10 @@ Visual Composer is an all-in-one plugin that lets you make beautiful websites fr
 Build better websites by using an in-built qualitative analysis of your page content with Visual Composer Insights - an in-built SEO tool.
 
 [Visual Composer Insights](https://visualcomposer.com/blog/wordpress-content-analysis-tool-insights/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-insights-text-link) is a free extension that analyzes your page content according to multiple scenarios to improve the quality, performance, and SEO of your site. Finally, you don't have to be a developer, designer, or marketer to create a website that boosts your business.
+
+**USER ROLE MANAGER**
+
+Build sites for your clients like never before. With the Visual Composer role manager, you can set up and control the accessibility to any feature or element of your site. Ensure that your beautiful design stays the way you want it to be by allowing customers to edit only certain parts of a page or use only certain features. And, with the role manager presets, it has never been easier to apply the access rights.
 
 **POPUP BUILDER FOR WORDPRESS**
 
@@ -170,6 +173,14 @@ Visual Composer Free version is the ultimate page builder to get your web design
 = Can I edit the Header, Footer, and Sidebar? =
 
 Yes! Header, Footer, Sidebar, and overall theme edit and design options are available in the Visual Composer Website Builder Premium version.
+
+= Can I create a landing page with Visual Composer? =
+
+Yes! The free page builder version comes with a blank page layout option that allows you to create a complete landing page from scratch or by using one of the Visual Composer Hub templates. You can create a landing page on your existing site and it will completely stand out from the rest of your pages - perfect for running your marketing campaigns.
+
+= Is Visual Composer a page builder or website builder? =
+
+It is both! Visual Composer’s free version works like a page builder where you have full control over the content area defined by your WordPress theme. Want to design a full site including headers and footers? Choose Visual Composer premium as it allows you to go beyond the content area and create a full site just like you want it.
 
 = Do you have an online community? =
 
