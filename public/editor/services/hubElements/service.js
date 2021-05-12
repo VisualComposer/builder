@@ -27,10 +27,8 @@ const API = {
     return elName.toLowerCase()
   },
   getElementDescription: (elementData) => {
-    let elDescription = ''
-    if (elementData.metaDescription) {
-      elDescription = elementData.metaDescription
-    } else if (elementData.tag) {
+    let elDescription = elementData.description || elementData.metaDescription || ''
+    if (!elDescription && elementData.tag) {
       const element = cook.get(elementData)
       const cookElementDescription = element.get('metaDescription')
       if (cookElementDescription) {
