@@ -124,7 +124,7 @@ export default class AddTemplatePanel extends React.Component {
       // Merge hub and predefined groups together for BC
       if (group === 'predefined' && this.templatesCategories.find(category => category.id === 'predefined')) {
         const predefinedTemplates = data[group] && data[group].templates ? data[group].templates : []
-        let hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
+        const hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
         if (hubTemplates) {
           hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
         }
