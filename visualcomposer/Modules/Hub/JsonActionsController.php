@@ -20,8 +20,11 @@ class JsonActionsController extends Container implements Module
 {
     use EventsFilters;
 
-    public function __construct()
+    protected $optionsHelper;
+
+    public function __construct(Options $optionsHelper)
     {
+        $this->optionsHelper = $optionsHelper;
         $this->addFilter('vcv:ajax:hub:action:adminNonce', 'ajaxProcessAction');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
     }
@@ -30,7 +33,6 @@ class JsonActionsController extends Container implements Module
         $response,
         $payload,
         Request $requestHelper,
-        Options $optionsHelper,
         Logger $loggerHelper,
         Str $strHelper
     ) {
@@ -47,11 +49,11 @@ class JsonActionsController extends Container implements Module
             return ['status' => true];
         }
 
-        $newActionData = $optionsHelper->get('hubA:d:' . md5($requestAction['key']), false);
+        $newActionData = $this->optionsHelper->get('hubA:d:' . md5($requestAction['key']), false);
         $actionName = $newActionData['action'];
 
         $newActionVersion = $newActionData['version'];
-        $previousActionVersion = $optionsHelper->get('hubAction:' . $actionName, '0');
+        $previousActionVersion = $this->optionsHelper->get('hubAction:' . $actionName, '0');
         $elementTag = str_replace('element/', '', $actionName);
 
         // FIX: For cases when hubElements wasnt updated but hubAction already exists
@@ -65,7 +67,7 @@ class JsonActionsController extends Container implements Module
 
         $elementsToRegister = vchelper('DefaultElements')->all();
         if (in_array($elementTag, $elementsToRegister)) {
-            $optionsHelper->delete('hubAction:' . $actionName);
+            $this->optionsHelper->delete('hubAction:' . $actionName);
 
             return $response;
         }
@@ -75,7 +77,7 @@ class JsonActionsController extends Container implements Module
             return $response;
         }
 
-        $locked = $this->checkForLock($optionsHelper);
+        $locked = $this->checkForLock($this->optionsHelper);
         if ($locked) {
             sleep(5); // Just to avoid collisions
 
@@ -109,11 +111,10 @@ class JsonActionsController extends Container implements Module
         $version,
         $checksum
     ) {
-        $optionsHelper = vchelper('Options');
         $response = $this->triggerAction($response, $action, $data, $version, $checksum);
         if (is_array($response) && $response['status']) {
-            $optionsHelper->set('hubAction:' . $action, $version);
-            $optionsHelper->deleteTransient('vcv:hub:action:request');
+            $this->optionsHelper->set('hubAction:' . $action, $version);
+            $this->optionsHelper->deleteTransient('vcv:hub:action:request');
         }
 
         return $response;
@@ -121,6 +122,7 @@ class JsonActionsController extends Container implements Module
 
     protected function triggerAction($response, $action, $data, $version, $checksum)
     {
+        $this->clearAutoloadCache();
         $response = vcfilter(
             'vcv:hub:process:action:' . $action,
             $response,
@@ -133,16 +135,22 @@ class JsonActionsController extends Container implements Module
             true
         );
         if (!$response) {
-            vchelper('Options')->deleteTransient('vcv:hub:action:request');
+            $this->optionsHelper->deleteTransient('vcv:hub:action:request');
         }
 
         return $response;
     }
 
-    protected function unsetOptions(Options $optionsHelper)
+    protected function clearAutoloadCache()
     {
-        $optionsHelper->deleteTransient('vcv:activation:request');
-        $optionsHelper->deleteTransient('vcv:hub:action:request');
+        $this->optionsHelper->deleteTransient('addons:autoload:all');
+        $this->optionsHelper->deleteTransient('elements:autoload:all');
+    }
+
+    protected function unsetOptions()
+    {
+        $this->optionsHelper->deleteTransient('vcv:activation:request');
+        $this->optionsHelper->deleteTransient('vcv:hub:action:request');
         global $wpdb;
         $wpdb->query(
             $wpdb->prepare(
@@ -168,18 +176,16 @@ class JsonActionsController extends Container implements Module
     }
 
     /**
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
      * @return bool
      */
-    protected function checkForLock(Options $optionsHelper)
+    protected function checkForLock()
     {
-        $currentRequest = $optionsHelper->getTransient('vcv:hub:action:request');
+        $currentRequest = $this->optionsHelper->getTransient('vcv:hub:action:request');
         if ($currentRequest) {
             // We have parallel request
             for ($tries = 0; $tries < 3; $tries++) {
                 sleep(10);
-                $newRequest = $optionsHelper->getTransient('vcv:hub:action:request');
+                $newRequest = $this->optionsHelper->getTransient('vcv:hub:action:request');
                 if (!$newRequest || $currentRequest !== $newRequest) {
                     // Process completed, we can return result
                     break;
@@ -188,7 +194,7 @@ class JsonActionsController extends Container implements Module
 
             return true;
         }
-        $optionsHelper->setTransient('vcv:hub:action:request', time(), 60);
+        $this->optionsHelper->setTransient('vcv:hub:action:request', time(), 60);
 
         return false;
     }
