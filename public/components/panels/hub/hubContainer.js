@@ -46,6 +46,12 @@ export default class HubContainer extends React.Component {
       this.state.activeCategoryIndex = id
       this.state.bundleType = bundleType
     }
+    if (props.namespace === 'vcdashboard') {
+      const filterType = Object.keys(this.categories).filter(category => this.categories[category].visible)
+      const firstCategory = filterType[0]
+      this.state.filterType = firstCategory
+      this.state.activeCategoryIndex = this.categories[firstCategory].index
+    }
     this.changeInput = this.changeInput.bind(this)
     this.addElement = this.addElement.bind(this)
     this.openEditForm = this.openEditForm.bind(this)
