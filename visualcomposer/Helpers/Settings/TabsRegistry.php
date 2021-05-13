@@ -48,6 +48,10 @@ class TabsRegistry extends Container implements Helper
                 if ($slug === $parentSlug) {
                     $hierarchyArray[ $slug ] = $value;
                 }
+                // In case if children was registered before parent (or parent doesn't exists)
+                if (!isset($hierarchyArray[ $parentSlug ])) {
+                    continue;
+                }
                 $hierarchyArray[ $parentSlug ]['children'][ $slug ] = $value;
             } else {
                 $hierarchyArray[ $slug ] = $value;
