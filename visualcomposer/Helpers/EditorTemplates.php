@@ -16,11 +16,16 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class EditorTemplates implements Helper
 {
+    protected static $allTemplates = [];
+
     /**
      * @return array
      */
     public function all()
     {
+        if (!empty(self::$allTemplates)) {
+            return self::$allTemplates;
+        }
         $args = [
             'posts_per_page' => '-1',
             'post_type' => 'vcv_templates',
@@ -38,9 +43,9 @@ class EditorTemplates implements Helper
                 $groupTemplates = [];
                 foreach ($templates as $key => $template) {
                     /** @var $template \WP_Post */
-                    $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
                     $templateElements = [];
                     if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+                        $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
                         $templateElements = $this->getTemplateElements($meta, $template);
                     }
                     $groupTemplates = $this->processTemplateElements($templateElements, $template, $groupTemplates);
@@ -63,6 +68,7 @@ class EditorTemplates implements Helper
                 }
             }
         }
+        self::$allTemplates = $outputTemplates;
 
         return $outputTemplates;
     }
@@ -183,6 +189,8 @@ class EditorTemplates implements Helper
 
     public function getCustomTemplateOptions()
     {
+        // TODO: Optimize it, we must not use "->all()" there (as only custom templates outputed)
+        // TODO: VC-1904 performance improvements change to pagination(via ajax)
         $templateGroups = $this->all();
         $options = [];
         $options[] = [

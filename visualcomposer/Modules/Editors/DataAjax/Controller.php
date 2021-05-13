@@ -48,6 +48,44 @@ class Controller extends Container implements Module
 
     /**
      * @param $sourceId
+     * @param \WP_Post $post
+     *
+     * @return mixed|string
+     */
+    protected function getContentData($sourceId, $post)
+    {
+        if ($post->post_type === 'vcv_templates') {
+            // remove pageContent (moved from migration FixPredefinedTemplateUpdate)
+            $type = get_post_meta($post->ID, '_' . VCV_PREFIX . 'type', true);
+            if ($type === 'hub') {
+                delete_post_meta($post->ID, VCV_PREFIX . 'pageContent');
+            }
+        }
+
+        $data = '';
+        // @codingStandardsIgnoreLine
+        $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
+        if (!empty($postMeta)) {
+            $data = $postMeta;
+        } else {
+            // BC for hub templates and old templates
+            // @codingStandardsIgnoreLine
+            if ($post->post_type === 'vcv_templates' || $post->post_type === 'vcv_tutorials') {
+                $data = rawurlencode(
+                    wp_json_encode(
+                        [
+                            'elements' => get_post_meta($sourceId, 'vcvEditorTemplateElements', true),
+                        ]
+                    )
+                );
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param $sourceId
      *
      * @return array
      */
@@ -90,23 +128,7 @@ class Controller extends Container implements Module
         }
         $data = '';
         if ($post) {
-            // @codingStandardsIgnoreLine
-            $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
-            if (!empty($postMeta)) {
-                $data = $postMeta;
-            } else {
-                // BC for hub templates and old templates
-                // @codingStandardsIgnoreLine
-                if ($post->post_type === 'vcv_templates' || $post->post_type === 'vcv_tutorials') {
-                    $data = rawurlencode(
-                        wp_json_encode(
-                            [
-                                'elements' => get_post_meta($sourceId, 'vcvEditorTemplateElements', true),
-                            ]
-                        )
-                    );
-                }
-            }
+            $data = $this->getContentData($sourceId, $post);
             // @codingStandardsIgnoreLine
             $response['post_content'] = $post->post_content;
             $responseExtra = $filterHelper->fire(
