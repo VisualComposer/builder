@@ -54,6 +54,7 @@ class Controller extends Container implements Module
      */
     protected function getContentData($sourceId, $post)
     {
+        // @codingStandardsIgnoreLine
         if ($post->post_type === 'vcv_templates') {
             // remove pageContent (moved from migration FixPredefinedTemplateUpdate)
             $type = get_post_meta($post->ID, '_' . VCV_PREFIX . 'type', true);
@@ -63,7 +64,6 @@ class Controller extends Container implements Module
         }
 
         $data = '';
-        // @codingStandardsIgnoreLine
         $postMeta = get_post_meta($sourceId, VCV_PREFIX . 'pageContent', true);
         if (!empty($postMeta)) {
             $data = $postMeta;
