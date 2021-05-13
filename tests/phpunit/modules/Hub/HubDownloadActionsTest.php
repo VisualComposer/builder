@@ -82,6 +82,7 @@ class HubDownloadActionsTest extends WP_UnitTestCase
             $hubBundle->getTempBundleFolder()
         );
         wp_set_current_user(1);
+        vchelper('EditorTemplates')->clearCache();
         $templates = vchelper('EditorTemplates')->all();
         $usageCount = vchelper('Options')->get('usageCount', []);
         $templateId = (string)$result['templates'][0]['id'];
