@@ -100,6 +100,7 @@ export default class AddTemplatePanel extends React.Component {
 
   setCategoryArray (data) {
     const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
+    console.log('allTemplates', allTemplates)
     this.templatesCategories = [
       {
         index: 0,
@@ -111,6 +112,7 @@ export default class AddTemplatePanel extends React.Component {
     ]
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
+    console.log('sortedGroups Before', getStorage('hubTemplates').state('templatesGroupsSorted').get())
     // Sort categories according to predefined order in AddTemplatePanel.categoriesOrder
     const sorter = (a, b) => {
       return AddTemplatePanel.categoriesOrder.indexOf(a) - AddTemplatePanel.categoriesOrder.indexOf(b)
@@ -122,10 +124,12 @@ export default class AddTemplatePanel extends React.Component {
         return
       }
       // Merge hub and predefined groups together for BC
-      if (group === 'predefined') {
+      if (group === 'predefined' && this.templatesCategories.find(category => category.id === 'predefined')) {
         const predefinedTemplates = data[group] && data[group].templates ? data[group].templates : []
-        const hubTemplates = this.templatesCategories.find(category => category.id === 'hub').templates
-        this.templatesCategories.find(category => category.id === 'hub').templates = [...hubTemplates, ...predefinedTemplates]
+        let hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
+        if (hubTemplates) {
+          hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
+        }
       } else {
         const groupData = {
           index: index + 1,
