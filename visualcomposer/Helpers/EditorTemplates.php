@@ -18,6 +18,11 @@ class EditorTemplates implements Helper
 {
     protected static $allTemplates = [];
 
+    public function clearCache()
+    {
+        self::$allTemplates = [];
+    }
+
     /**
      * @return array
      */
@@ -143,7 +148,8 @@ class EditorTemplates implements Helper
                 'name' => $template->post_title,
                 'bundle' => $bundle,
                 'id' => (string)$template->ID,
-                'usageCount' => isset($usageCount[ 'template/' . $template->ID ]) ? $usageCount[ 'template/' . $template->ID ] : 0
+                'usageCount' => isset($usageCount[ 'template/' . $template->ID ]) ? $usageCount[ 'template/'
+                . $template->ID ] : 0,
             ];
             if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
                 $data['data'] = $templateElements;
