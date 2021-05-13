@@ -15,7 +15,7 @@
     "watch": "webpack --version && webpack --config=./node_modules/vc-webpack-vendors/webpack.v4.config.js --progress --colors --watch"
   },
   "devDependencies": {
-    "vc-webpack-vendors": "2.4.0"
+    "vc-webpack-vendors": "2.7.0"
   },
   "babel": {
     "presets": [
