@@ -168,8 +168,13 @@
   padding: 0;
 }
 
+.vce-simple-image-slider-dots .slick-dots button:not(:hover):not(:active) {
+  background: #fff;
+}
+
 .vce-simple-image-slider-dots .slick-dots button:hover,
-.vce-simple-image-slider-dots .slick-dots .slick-active button {
+.vce-simple-image-slider-dots .slick-dots .slick-active button,
+.vce-simple-image-slider-dots .slick-dots .slick-active button:not(:hover):not(:active) {
   background: #fd9a00;
 }
 
@@ -256,8 +261,7 @@ a.vce-simple-image-slider-img:focus {
 .vce-simple-image-slider .slick-slide {
   display: none;
   float: left;
-  height: 100%!important;
-  width: 100%!important;
+  height: 100%;
   min-height: 1px;
 }
 
