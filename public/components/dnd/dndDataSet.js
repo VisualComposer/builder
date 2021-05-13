@@ -342,18 +342,15 @@ export default class DndDataSet {
       // Made for dropping element only when over a Row element
       const isRow = domElement.options &&
         domElement.options.containerFor &&
-        domElement.options.containerFor.includes('Column') &&
-        parentDOMElement.options &&
-        parentDOMElement.options.relatedTo &&
-        parentDOMElement.options.relatedTo.includes('Column')
+        domElement.options.containerFor.includes('Column')
 
-      if (parentDOMElement.id === this.options.rootID || isRow) {
+      if (isRow) {
         const columnsRect = children.map((child) => {
           const element = this.options.document.getElementById(`el-${child.id}`)
           return element.getBoundingClientRect()
         })
         const targetColumn = columnsRect.findIndex(column => point && point.x > column.left && point.x < column.right)
-        if (targetColumn) {
+        if (targetColumn > -1 && children[targetColumn]) {
           const columnId = `el-${children[targetColumn].id}`
           domNode = this.findDOMNode({}, columnId)
           domElement = this.getDomElement(domNode)

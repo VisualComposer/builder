@@ -68,18 +68,18 @@ class Hub extends Container implements Module
     protected function addPage()
     {
         $currentUserAccessHelper = vchelper('AccessCurrentUser');
-        $atleastOneTabAvailableInHub = (
-            vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')
-            && (
+        if (vcvenv('VCV_ADDON_ROLE_MANAGER_ENABLED')) {
+            $atleastOneTabAvailableInHub = (
                 $currentUserAccessHelper->part('hub')->can('elements_templates_blocks')->get()
                 || $currentUserAccessHelper->part('hub')->can('addons')->get()
                 || $currentUserAccessHelper->part('hub')->can('headers_footers_sidebars')->get()
                 || $currentUserAccessHelper->part('hub')->can('unsplash')->get()
                 || $currentUserAccessHelper->part('hub')->can('giphy')->get()
-            )
-        );
-        if (!$atleastOneTabAvailableInHub) {
-            return;
+            );
+
+            if (!$atleastOneTabAvailableInHub) {
+                return;
+            }
         }
         $page = [
             'slug' => $this->getSlug(),
