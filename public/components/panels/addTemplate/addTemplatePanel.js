@@ -100,7 +100,6 @@ export default class AddTemplatePanel extends React.Component {
 
   setCategoryArray (data) {
     const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
-    console.log('allTemplates', allTemplates)
     this.templatesCategories = [
       {
         index: 0,
@@ -112,7 +111,6 @@ export default class AddTemplatePanel extends React.Component {
     ]
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
-    console.log('sortedGroups Before', getStorage('hubTemplates').state('templatesGroupsSorted').get())
     // Sort categories according to predefined order in AddTemplatePanel.categoriesOrder
     const sorter = (a, b) => {
       return AddTemplatePanel.categoriesOrder.indexOf(a) - AddTemplatePanel.categoriesOrder.indexOf(b)
