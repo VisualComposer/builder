@@ -55,13 +55,19 @@ class AddonsAutoload extends Autoload implements Module
             'helpers' => [],
             'modules' => [],
         ];
+        $optionsHelper = vchelper('Options');
+        $allCached = $optionsHelper->getTransient('addons:autoload:all');
 
+        if (!empty($allCached)) {
+            return $allCached;
+        }
         foreach ($hubHelper->getAddons(true) as $key => $addon) {
             $phpFiles = $hubHelper->getAddonPhpFiles($key, $addon);
             if (is_array($phpFiles) && !empty($phpFiles)) {
                 $all = array_merge_recursive($all, $this->getSingleComponent($phpFiles));
             }
         }
+        $optionsHelper->setTransient('addons:autoload:all', $all, DAY_IN_SECONDS);
 
         return $all;
     }
