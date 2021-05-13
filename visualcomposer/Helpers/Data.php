@@ -77,6 +77,10 @@ class Data implements Helper
     {
         return array_map(
             function ($element) use ($columnName) {
+                if (is_object($element)) {
+                    $element = (array)$element;
+                }
+
                 return is_array($element) && isset($element[ $columnName ]) ? $element[ $columnName ] : null;
             },
             $array
@@ -91,8 +95,8 @@ class Data implements Helper
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param  array $array
-     * @param  array|string $keys
+     * @param array $array
+     * @param array|string $keys
      *
      * @return void
      */
@@ -151,8 +155,8 @@ class Data implements Helper
     /**
      * Determine if the given key exists in the provided array.
      *
-     * @param  \ArrayAccess|array $array
-     * @param  string|int $key
+     * @param \ArrayAccess|array $array
+     * @param string|int $key
      *
      * @return bool
      */

@@ -189,25 +189,31 @@ class EditorTemplates implements Helper
 
     public function getCustomTemplateOptions()
     {
-        // TODO: Optimize it, we must not use "->all()" there (as only custom templates outputed)
-        // TODO: VC-1904 performance improvements change to pagination(via ajax)
-        $templateGroups = $this->all();
+        $args = [
+            'posts_per_page' => '-1',
+            'post_type' => 'vcv_templates',
+            'order' => 'asc',
+        ];
+        $args['meta_query'] = [
+            'relation' => 'OR',
+            ['key' => '_vcv-type', 'compare' => 'NOT EXISTS'],
+            ['key' => '_vcv-type', 'compare' => '=', 'value' => 'custom'],
+        ];
+        $templates = get_posts($args);
         $options = [];
         $options[] = [
             'label' => __('Select a template', 'visualcomposer'),
             'value' => '',
         ];
 
-        if (!empty($templateGroups) && isset($templateGroups['custom']) && isset($templateGroups['custom']['name'])) {
+        if (!empty($templates)) {
             $dataHelper = vchelper('Data');
-            $groupData = $templateGroups['custom'];
-            $name = $groupData['name'];
-            $templateNames = $dataHelper->arrayColumn($groupData['templates'], 'name');
-            $templateIds = $dataHelper->arrayColumn($groupData['templates'], 'id');
+            $templateNames = $dataHelper->arrayColumn($templates, 'post_title');
+            $templateIds = $dataHelper->arrayColumn($templates, 'ID');
 
             $options[] = [
                 'group' => [
-                    'label' => $name,
+                    'label' => $this->getGroupName('custom'),
                     'values' => array_map(
                         function ($templateName, $templateId) {
                             return [
