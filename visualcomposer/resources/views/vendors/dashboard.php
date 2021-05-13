@@ -22,8 +22,14 @@ $utmHelper = vchelper('Utm');
             width: 250px;
             max-width: 100%;
         }
-        .vcwb-rss-widget-bottom {
-            padding: 12px 0 0;
+        #visualcomposer-blog-dashboard .inside {
+            padding: 0;
+        }
+        #visualcomposer-blog-dashboard .rss-widget {
+            padding: 0 12px;
+        }
+        #visualcomposer-blog-dashboard .rss-widget:last-of-type {
+            padding-bottom: 8px;
         }
     </style>
     <a href="<?php echo $utmHelper->get('wpdashboard-news-logo'); ?>" target="_blank" rel="noopener noreferrer" class="vcwb-logo">
@@ -58,19 +64,19 @@ $utmHelper = vchelper('Utm');
             <li><?php echo esc_html__('No news found.', 'visualcomposer'); ?></li>;
         <?php endif; ?>
     </ul>
-    <p class="vcwb-rss-widget-bottom community-events-footer">
-        <a href="<?php echo $utmHelper->get('wpdashboard-news-blog'); ?>" target="_blank" rel="noopener noreferrer"
-           class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
-            <?php echo esc_html__('Blog', 'visualcomposer'); ?>
+</div>
+<p class="vcwb-rss-widget-bottom community-events-footer">
+    <a href="<?php echo $utmHelper->get('wpdashboard-news-blog'); ?>" target="_blank" rel="noopener noreferrer"
+        class="vcwb-rss-widget-link vcwb-rss-widget-link--blog">
+        <?php echo esc_html__('Blog', 'visualcomposer'); ?>
+        <span aria-hidden="true" class="dashicons dashicons-external"></span>
+    </a>
+    <?php if (!vchelper('License')->isPremiumActivated()) : ?>
+        |
+        <a href="<?php echo $utmHelper->get('wpdashboard-news-gopremium'); ?>" target="_blank"  rel="noopener noreferrer"
+            class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
+            <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
             <span aria-hidden="true" class="dashicons dashicons-external"></span>
         </a>
-        <?php if (!vchelper('License')->isPremiumActivated()) : ?>
-            |
-            <a href="<?php echo $utmHelper->get('wpdashboard-news-gopremium'); ?>" target="_blank"  rel="noopener noreferrer"
-               class="vcwb-rss-widget-link vcwb-rss-widget-link--go-premium">
-                <?php echo esc_html__('Go Premium', 'visualcomposer'); ?>
-                <span aria-hidden="true" class="dashicons dashicons-external"></span>
-            </a>
-        <?php endif; ?>
-    </p>
-</div>
+    <?php endif; ?>
+</p>
