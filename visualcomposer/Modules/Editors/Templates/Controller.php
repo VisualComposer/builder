@@ -90,6 +90,8 @@ class Controller extends Container implements Module
      */
     protected function allTemplatesAsync($response, EditorTemplates $editorTemplatesHelper)
     {
+        // TODO: Optimize, use pagination via ajax don't "all" output instantly
+        // TODO: consider preload only 5 templates, the rest only via ajax/pagination VC-1904
         if (!vcIsBadResponse($response)) {
             $templates = $editorTemplatesHelper->all();
             $response['templates'] = $templates;
@@ -266,7 +268,8 @@ class Controller extends Container implements Module
                 return [
                     'status' => true,
                     'sourceId' => $templateId,
-                    'accessCheck' => false, // we already checked for access: skip ->canEdit check in DataAjax/Controller
+                    'accessCheck' => false,
+                    // we already checked for access: skip ->canEdit check in DataAjax/Controller
                 ];
             }
 

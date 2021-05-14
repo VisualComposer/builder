@@ -51,12 +51,18 @@ class ElementsAutoload extends Autoload implements Module
             'helpers' => [],
             'modules' => [],
         ];
+        $optionsHelper = vchelper('Options');
+        $allCached = $optionsHelper->getTransient('elements:autoload:all');
 
+        if (!empty($allCached)) {
+            return $allCached;
+        }
         foreach ($hubHelper->getElements() as $key => $element) {
             if (isset($element['elementRealPath'])) {
                 $all = array_merge_recursive($all, $this->getSingleComponent($element));
             }
         }
+        $optionsHelper->setTransient('elements:autoload:all', $all, DAY_IN_SECONDS);
 
         return $all;
     }

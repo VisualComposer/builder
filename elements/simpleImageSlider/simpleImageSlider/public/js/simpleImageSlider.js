@@ -36,7 +36,9 @@
   }
 
   window.vcv.on('ready', () => {
-    initialize()
+    window.setTimeout(() => {
+      initialize()
+    }, 50)
   })
 
   window.vcv.on('reInit', (action, id = '') => {

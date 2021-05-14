@@ -42,10 +42,11 @@ class PostType implements Helper
      */
     public function queryGroupByMetaKey($query, $metaKey, $skipEmpty = false)
     {
+        // TODO: causes a lot memory usage, need to optimize
+        // TODO: VC-1904 performance improvements change to pagination(via ajax)
         $posts = get_posts($query);
         $results = [];
         foreach ($posts as $post) {
-            $currentUserAccessHelper = vchelper('AccessCurrentUser');
             $metaValue = get_post_meta($post->ID, $metaKey, true);
             // @codingStandardsIgnoreLine
             if ($metaValue) {

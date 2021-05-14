@@ -16,11 +16,21 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class EditorTemplates implements Helper
 {
+    protected static $allTemplates = [];
+
+    public function clearCache()
+    {
+        self::$allTemplates = [];
+    }
+
     /**
      * @return array
      */
     public function all()
     {
+        if (!empty(self::$allTemplates)) {
+            return self::$allTemplates;
+        }
         $args = [
             'posts_per_page' => '-1',
             'post_type' => 'vcv_templates',
@@ -38,9 +48,9 @@ class EditorTemplates implements Helper
                 $groupTemplates = [];
                 foreach ($templates as $key => $template) {
                     /** @var $template \WP_Post */
-                    $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
                     $templateElements = [];
                     if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
+                        $meta = get_post_meta($template->ID, VCV_PREFIX . 'pageContent', true);
                         $templateElements = $this->getTemplateElements($meta, $template);
                     }
                     $groupTemplates = $this->processTemplateElements($templateElements, $template, $groupTemplates);
@@ -63,6 +73,7 @@ class EditorTemplates implements Helper
                 }
             }
         }
+        self::$allTemplates = $outputTemplates;
 
         return $outputTemplates;
     }
@@ -137,7 +148,8 @@ class EditorTemplates implements Helper
                 'name' => $template->post_title,
                 'bundle' => $bundle,
                 'id' => (string)$template->ID,
-                'usageCount' => isset($usageCount[ 'template/' . $template->ID ]) ? $usageCount[ 'template/' . $template->ID ] : 0
+                'usageCount' => isset($usageCount[ 'template/' . $template->ID ]) ? $usageCount[ 'template/'
+                . $template->ID ] : 0,
             ];
             if (!vcvenv('VCV_FT_TEMPLATE_DATA_ASYNC')) {
                 $data['data'] = $templateElements;
@@ -183,23 +195,31 @@ class EditorTemplates implements Helper
 
     public function getCustomTemplateOptions()
     {
-        $templateGroups = $this->all();
+        $args = [
+            'posts_per_page' => '-1',
+            'post_type' => 'vcv_templates',
+            'order' => 'asc',
+        ];
+        $args['meta_query'] = [
+            'relation' => 'OR',
+            ['key' => '_vcv-type', 'compare' => 'NOT EXISTS'],
+            ['key' => '_vcv-type', 'compare' => '=', 'value' => 'custom'],
+        ];
+        $templates = get_posts($args);
         $options = [];
         $options[] = [
             'label' => __('Select a template', 'visualcomposer'),
             'value' => '',
         ];
 
-        if (!empty($templateGroups) && isset($templateGroups['custom']) && isset($templateGroups['custom']['name'])) {
+        if (!empty($templates)) {
             $dataHelper = vchelper('Data');
-            $groupData = $templateGroups['custom'];
-            $name = $groupData['name'];
-            $templateNames = $dataHelper->arrayColumn($groupData['templates'], 'name');
-            $templateIds = $dataHelper->arrayColumn($groupData['templates'], 'id');
+            $templateNames = $dataHelper->arrayColumn($templates, 'post_title');
+            $templateIds = $dataHelper->arrayColumn($templates, 'ID');
 
             $options[] = [
                 'group' => [
-                    'label' => $name,
+                    'label' => $this->getGroupName('custom'),
                     'values' => array_map(
                         function ($templateName, $templateId) {
                             return [
