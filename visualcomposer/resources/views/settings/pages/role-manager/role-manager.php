@@ -42,7 +42,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     font-family: 'Montserrat', sans-serif;
     line-height: 22px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 22px;
     color: #515162;
     position: relative;
     cursor: pointer;
@@ -77,6 +77,10 @@ $accessParts = $roleAccessHelper->getAvailableParts();
 
   .vcv-role-manager-capabilities-form--item--content p.admin-description {
       margin-top: -20px;
+  }
+
+  .vcv-role-manager-capabilities-form--item .vcv-role-manager-capabilities-form--item--content h2 {
+      font-size: 16px;
   }
 
   .vcv-role-manager-capabilities-form--item--active .vcv-role-manager-capabilities-form--item--content {
