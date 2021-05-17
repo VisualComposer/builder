@@ -190,12 +190,12 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             );
             echo sprintf(
                 '<p class="description admin-description">%s</p>',
-                __('All other options are enabled for the Administrator user role.', 'visualcomposer')
+                __('All other features are enabled for the Administrator user role.', 'visualcomposer')
             );
         } elseif ($role === 'subscriber') {
             echo sprintf(
                 '<p class="description">%s</p>',
-                __('All options are disabled for the Subscriber user role.', 'visualcomposer')
+                __('All features are disabled for the Subscriber user role.', 'visualcomposer')
             );
         } elseif (!$roleObject->has_cap('edit_posts')) {
             echo sprintf(
