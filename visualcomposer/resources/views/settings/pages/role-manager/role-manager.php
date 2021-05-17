@@ -75,6 +75,10 @@ $accessParts = $roleAccessHelper->getAvailableParts();
       font-family: 'Roboto', sans-serif;
   }
 
+  .vcv-role-manager-capabilities-form--item--content p.admin-description {
+      margin-top: -20px;
+  }
+
   .vcv-role-manager-capabilities-form--item--active .vcv-role-manager-capabilities-form--item--content {
     display: block;
   }
@@ -181,7 +185,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                 ]
             );
             echo sprintf(
-                '<p class="description">%s</p>',
+                '<p class="description admin-description">%s</p>',
                 __('All other options are enabled for the Administrator user role.', 'visualcomposer')
             );
         } elseif ($role === 'subscriber') {
