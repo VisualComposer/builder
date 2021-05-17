@@ -69,6 +69,12 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     display: none;
   }
 
+  .vcv-role-manager-capabilities-form--item--content .vcv-ui-form-switch input,
+  .vcv-role-manager-capabilities-form--item--content .vcv-ui-form-switch .vcv-ui-form-switch-indicator,
+  .vcv-role-manager-capabilities-form--item--content .vcv-ui-form-switch .vcv-ui-form-switch-label {
+      font-family: 'Roboto', sans-serif;
+  }
+
   .vcv-role-manager-capabilities-form--item--active .vcv-role-manager-capabilities-form--item--content {
     display: block;
   }
