@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
     <h2><?php echo __('Post Types', 'visualcomposer'); ?></h2>
     <div class="vcv-ui-settings-status-tables-wrapper">
         <div class="vcv-ui-settings-status-table">
-            <p class="description"><?php echo __('Enable or disable Visual Composer on these post types.', 'visualcomposer'); ?></p>
+            <p class="description"><?php echo __('Specify post types where you want to use Visual Composer editor.', 'visualcomposer'); ?></p>
         </div>
         <div class="vcv-ui-settings-status-table">
             <?php
