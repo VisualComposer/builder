@@ -42,7 +42,7 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     font-family: 'Montserrat', sans-serif;
     line-height: 22px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 22px;
     color: #515162;
     position: relative;
     cursor: pointer;
@@ -67,6 +67,20 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     padding: 16px;
     border-top: 1px solid #f1f1f1;
     display: none;
+  }
+
+  .vcv-role-manager-capabilities-form--item--content .vcv-ui-form-switch input,
+  .vcv-role-manager-capabilities-form--item--content .vcv-ui-form-switch .vcv-ui-form-switch-indicator,
+  .vcv-role-manager-capabilities-form--item--content .vcv-ui-form-switch .vcv-ui-form-switch-label {
+      font-family: 'Roboto', sans-serif;
+  }
+
+  .vcv-role-manager-capabilities-form--item--content p.admin-description {
+      margin-top: -20px;
+  }
+
+  .vcv-role-manager-capabilities-form--item .vcv-role-manager-capabilities-form--item--content h2 {
+      font-size: 16px;
   }
 
   .vcv-role-manager-capabilities-form--item--active .vcv-role-manager-capabilities-form--item--content {
@@ -118,6 +132,21 @@ $accessParts = $roleAccessHelper->getAvailableParts();
 
   .vcv-role-manager-capabilities-form .vcv-submit-button-container {
     align-self: flex-start;
+  }
+
+  .vcv-ui-settings-status-table .vcv-ui-settings-status-table-title.vcv-help {
+      overflow: visible;
+  }
+
+  .vcv-ui-settings-status-table-title.vcv-help .vcv-help-tooltip-container {
+      position: relative;
+  }
+
+  .vcv-ui-settings-status-table-title.vcv-help .vcv-help-tooltip-container:hover .vcv-help-tooltip {
+      opacity: 1;
+      z-index: 9999;
+      top: calc(100% + 10px);
+      left: -69px;
   }
 
   @media screen and (max-width: 1024px) {
@@ -175,13 +204,13 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                 ]
             );
             echo sprintf(
-                '<p class="description">%s</p>',
-                __('All other options are enabled for the Administrator user role.', 'visualcomposer')
+                '<p class="description admin-description">%s</p>',
+                __('All other features are enabled for the Administrator user role.', 'visualcomposer')
             );
         } elseif ($role === 'subscriber') {
             echo sprintf(
                 '<p class="description">%s</p>',
-                __('All options are disabled for the Subscriber user role.', 'visualcomposer')
+                __('All features are disabled for the Subscriber user role.', 'visualcomposer')
             );
         } elseif (!$roleObject->has_cap('edit_posts')) {
             echo sprintf(
