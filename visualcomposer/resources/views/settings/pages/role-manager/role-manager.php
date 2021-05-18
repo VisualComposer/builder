@@ -134,6 +134,21 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     align-self: flex-start;
   }
 
+  .vcv-ui-settings-status-table .vcv-ui-settings-status-table-title.vcv-help {
+      overflow: visible;
+  }
+
+  .vcv-ui-settings-status-table-title.vcv-help .vcv-help-tooltip-container {
+      position: relative;
+  }
+
+  .vcv-ui-settings-status-table-title.vcv-help .vcv-help-tooltip-container:hover .vcv-help-tooltip {
+      opacity: 1;
+      z-index: 9999;
+      top: calc(100% + 10px);
+      left: -69px;
+  }
+
   @media screen and (max-width: 1024px) {
     .vcv-ui-settings-status-table-row {
       flex: 0 0 100%;
