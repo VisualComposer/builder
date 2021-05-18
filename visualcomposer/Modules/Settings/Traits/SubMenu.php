@@ -44,25 +44,23 @@ trait SubMenu
             if (isset($page['external'])) {
                 $submenu[ $parentSlug ][] = [$page['title'], $capability, $page['external']];
             } else {
-                if (isset($page['isDashboardPage']) && $page['isDashboardPage']) {
-                    $tabsHelper = vchelper('SettingsTabsRegistry');
-                    $tabsHelper->set(
-                        array_merge(
-                            [
-                                'name' => isset($page['innerTitle']) ? $page['innerTitle'] : $page['title'],
-                                'parent' => $parentSlug,
-                                'isDashboardPage' => true,
-                                'hideTitle' => '',
-                                'iconClass' => '',
-                                'callback' => function () use ($page) {
-                                    /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
-                                    echo $this->call('renderContent', ['page' => $page]);
-                                },
-                            ],
-                            $page
-                        )
-                    );
-                }
+                $tabsHelper = vchelper('SettingsTabsRegistry');
+                $tabsHelper->set(
+                    array_merge(
+                        [
+                            'name' => isset($page['innerTitle']) ? $page['innerTitle'] : $page['title'],
+                            'parent' => $parentSlug,
+                            'isDashboardPage' => isset($page['isDashboardPage']) && $page['isDashboardPage'],
+                            'hideTitle' => '',
+                            'iconClass' => '',
+                            'callback' => function () use ($page) {
+                                /** @see \VisualComposer\Modules\Settings\Traits\SubMenu::renderPage */
+                                echo $this->call('renderContent', ['page' => $page]);
+                            },
+                        ],
+                        $page
+                    )
+                );
 
                 $mainPageSlug = vcapp(\VisualComposer\Modules\Settings\Pages\Settings::class)->getMainPageSlug();
                 add_submenu_page(
