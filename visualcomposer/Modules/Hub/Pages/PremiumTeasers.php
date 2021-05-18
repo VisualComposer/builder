@@ -276,8 +276,14 @@ class PremiumTeasers extends Container implements Module
         if (isset($submenu['vcv-settings'])) {
             $columnsData = array_column($submenu['vcv-settings'], 2);
             $currentUserAccess = vchelper('AccessCurrentUser');
+            $addons = vchelper('HubAddons')->getAddons();
+
             foreach ($this->dashboardSections as $teaser) {
                 if (in_array($teaser['slug'], $columnsData, true)) {
+                    continue;
+                }
+                // Addon installed, skip teaser
+                if (array_key_exists($teaser['premiumActionBundle'], $addons)) {
                     continue;
                 }
                 $hasAccess = $this->hasAccess($teaser, $currentUserAccess);
