@@ -40,9 +40,9 @@ $accessParts = $roleAccessHelper->getAvailableParts();
   .vcv-role-manager-capabilities-form--item--heading {
     padding: 16px;
     font-family: 'Montserrat', sans-serif;
-    line-height: 22px;
+    line-height: 18px;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 18px;
     color: #515162;
     position: relative;
     cursor: pointer;
