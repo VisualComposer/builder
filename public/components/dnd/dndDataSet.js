@@ -350,7 +350,7 @@ export default class DndDataSet {
       const isTreeView = domNode.closest('.vcv-ui-tree-layout')
 
       if (isRow && !isTreeView) {
-          const columnsRect = children.map((child) => {
+        const columnsRect = children.map((child) => {
           const element = this.options.document.getElementById(`el-${child.id}`)
           return element.getBoundingClientRect()
         })
