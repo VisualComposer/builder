@@ -20,7 +20,7 @@ export default class CustomStyles extends React.Component {
 
   constructor (props) {
     super(props)
-    if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultTrue())) {
+    if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultAdmin())) {
       this.styleData.push(
         {
           buttonTitle: CustomStyles.localizations ? CustomStyles.localizations.globalCSS : 'Global CSS',
