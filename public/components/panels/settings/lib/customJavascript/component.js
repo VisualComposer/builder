@@ -44,7 +44,7 @@ export default class CustomJavascript extends React.Component {
       />
     )
 
-    if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultTrue())) {
+    if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultAdmin())) {
       allButtons.push(
         <ScriptControl
           key='vcv-settings-custom-js-global'
