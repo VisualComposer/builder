@@ -339,7 +339,7 @@ export default class DndDataSet {
       }
 
       // Columns drop hack
-      // Made for dropping element only when over a Row element
+      // Made for dropping element only when over a Row element and NOT inside Tree View
       const isRow = domElement.options &&
         domElement.options.containerFor &&
         domElement.options.containerFor.includes('Column') &&
@@ -347,8 +347,10 @@ export default class DndDataSet {
         parentDOMElement.options.relatedTo &&
         parentDOMElement.options.relatedTo.includes('Column')
 
-      if (parentDOMElement.id === this.options.rootID || isRow) {
-        const columnsRect = children.map((child) => {
+      const isTreeView = domNode.closest('.vcv-ui-tree-layout')
+
+      if (isRow && !isTreeView) {
+          const columnsRect = children.map((child) => {
           const element = this.options.document.getElementById(`el-${child.id}`)
           return element.getBoundingClientRect()
         })
