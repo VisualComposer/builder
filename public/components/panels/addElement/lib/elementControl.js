@@ -488,7 +488,7 @@ export default class ElementControl extends React.Component {
       'layoutWpCommentsArea',
       'layoutWpContentArea'
     ]
-    const vcvIsUserAdmin = roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue())
+    const vcvIsUserAdmin = roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin())
 
     return vcvIsUserAdmin && !element.metaIsDefaultElement && !element.thirdParty && addonElements.indexOf(element.tag) === -1
   }
