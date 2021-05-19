@@ -109,7 +109,7 @@ export default class AddContentPanel extends React.Component {
   render () {
     const controls = {}
 
-    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+    if (roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
       controls.addElement = {
         index: 0,
         type: 'addElement',
@@ -118,7 +118,7 @@ export default class AddContentPanel extends React.Component {
       }
     }
 
-    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+    if (roleManager.can('editor_content_template_add', roleManager.defaultTrue())) {
       controls.addTemplate = {
         index: 1,
         type: 'addTemplate',
