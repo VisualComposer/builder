@@ -31,13 +31,13 @@ export default class PlusControl extends NavbarContent {
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+    if (roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
       innerAPI.mount('panel:addElement', () => {
         return <AddContentPanel key='panels-container-addElement' activeTab='addElement' />
       })
     }
 
-    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+    if (roleManager.can('editor_content_template_add', roleManager.defaultTrue())) {
       innerAPI.mount('panel:addTemplate', () => {
         return <AddContentPanel key='panels-container-addTemplate' activeTab='addTemplate' />
       })
@@ -51,7 +51,7 @@ export default class PlusControl extends NavbarContent {
   handleClickAddContent (e) {
     e && e.preventDefault()
     const settings = this.state.isActive ? false : {
-      action: roleManager.can('editor_content_element_add', roleManager.defaultAdmin()) ? 'add' : 'addTemplate',
+      action: roleManager.can('editor_content_element_add', roleManager.defaultTrue()) ? 'add' : 'addTemplate',
       element: {},
       tag: '',
       options: {}

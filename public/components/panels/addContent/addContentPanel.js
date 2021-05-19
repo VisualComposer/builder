@@ -109,7 +109,7 @@ export default class AddContentPanel extends React.Component {
   render () {
     const controls = {}
 
-    if (roleManager.can('editor_content_element_add', roleManager.defaultAdmin())) {
+    if (roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
       controls.addElement = {
         index: 0,
         type: 'addElement',
@@ -118,7 +118,7 @@ export default class AddContentPanel extends React.Component {
       }
     }
 
-    if (roleManager.can('editor_content_template_add', roleManager.defaultAdmin())) {
+    if (roleManager.can('editor_content_template_add', roleManager.defaultTrue())) {
       controls.addTemplate = {
         index: 1,
         type: 'addTemplate',
@@ -165,20 +165,20 @@ export default class AddContentPanel extends React.Component {
     let settingsControl
     if (
       (
-        roleManager.can('editor_content_element_add', roleManager.defaultAdmin()) &&
+        roleManager.can('editor_content_element_add', roleManager.defaultTrue()) &&
         (
           // user have access to remove elements
-          roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) ||
+          roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()) ||
           (
             // or user have access to manage presents and there are presets available
-            roleManager.can('editor_content_presets_management', roleManager.defaultAdmin()) && hubElementsStorage.state('elementPresets').get().length
+            roleManager.can('editor_content_presets_management', roleManager.defaultTrue()) && hubElementsStorage.state('elementPresets').get().length
           )
         )
       ) || (
         // Must be able to add templates
-        roleManager.can('editor_content_template_add', roleManager.defaultAdmin()) &&
+        roleManager.can('editor_content_template_add', roleManager.defaultTrue()) &&
         // And must be able to remove templates
-        roleManager.can('editor_content_user_templates_management', roleManager.defaultAdmin()) &&
+        roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue()) &&
         Object.keys(hubTemplatesStorage.state('templates').get()).length
       )
     ) {
