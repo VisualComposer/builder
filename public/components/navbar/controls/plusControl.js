@@ -25,7 +25,8 @@ export default class PlusControl extends NavbarContent {
   }
 
   setActiveState (contentState) {
-    this.setState({ isActive: contentState === 'addElement' || contentState === 'addTemplate' })
+    const isActive = contentState === 'addElement' || contentState === 'addTemplate' || contentState === 'addBlock'
+    this.setState({ isActive: isActive })
   }
 
   componentDidMount () {
@@ -40,6 +41,13 @@ export default class PlusControl extends NavbarContent {
     if (roleManager.can('editor_content_template_add', roleManager.defaultTrue())) {
       innerAPI.mount('panel:addTemplate', () => {
         return <AddContentPanel key='panels-container-addTemplate' activeTab='addTemplate' />
+      })
+    }
+
+    // if (roleManager.can('editor_content_block_add', roleManager.defaultAdmin())) {
+    if (true) {
+      innerAPI.mount('panel:addBlock', () => {
+        return <AddContentPanel key='panels-container-addBlock' activeTab='addBlock' />
       })
     }
   }

@@ -31,6 +31,8 @@ add('wordpressWorkspace', (api) => {
       workspaceStorage.state('content').set('editElement')
     } else if (settings.action === 'addTemplate') {
       workspaceStorage.state('content').set('addTemplate')
+    } else if (settings.action === 'addBlock') {
+      workspaceStorage.state('content').set('addBlock')
     }
   })
 
