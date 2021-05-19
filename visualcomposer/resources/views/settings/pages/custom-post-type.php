@@ -81,17 +81,19 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
     #wpfooter {\
       display: none !important;\
     }\
-    html, #wpcontent, #wpbody, #wpbody-content {\
-      padding: 1px !important;\
+    html, #wpbody {\
       padding-top: 0 !important;\
     }\
-  .wrap, #screen-meta, #screen-meta-links {\
+    #wpcontent {\
+      padding: 1px !important;\
+    }\
+    .wrap, #screen-meta, #screen-meta-links {\
       margin: 0 !important;\
     }\
-  .wrap {\
+    .wrap {\
       margin-top: 50px !important;\
     }\
-  .wp-heading-inline {\
+    .wp-heading-inline {\
       padding-top: 0 !important;\
     }'
       iframe.contentWindow.document.body.appendChild(style)
