@@ -164,24 +164,22 @@ export default class AddContentPanel extends React.Component {
 
     let settingsControl
     if (
-      roleManager.defaultAdmin() && (
+      (
+        roleManager.can('editor_content_element_add', roleManager.defaultTrue()) &&
         (
-          roleManager.can('editor_content_element_add', roleManager.defaultAdmin()) &&
+          // user have access to remove elements
+          roleManager.can('hub_elements_templates_blocks', roleManager.defaultTrue()) ||
           (
-            // user have access to remove elements
-            roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin()) ||
-            (
-              // or user have access to manage presents and there are presets available
-              roleManager.can('editor_content_presets_management', roleManager.defaultAdmin()) && hubElementsStorage.state('elementPresets').get().length
-            )
+            // or user have access to manage presents and there are presets available
+            roleManager.can('editor_content_presets_management', roleManager.defaultAdmin()) && hubElementsStorage.state('elementPresets').get().length
           )
-        ) || (
-          // Must be able to add templates
-          roleManager.can('editor_content_template_add', roleManager.defaultAdmin()) &&
-          // And must be able to remove templates
-          roleManager.can('editor_content_user_templates_management', roleManager.defaultAdmin()) &&
-          Object.keys(hubTemplatesStorage.state('templates').get()).length
         )
+      ) || (
+        // Must be able to add templates
+        roleManager.can('editor_content_template_add', roleManager.defaultTrue()) &&
+        // And must be able to remove templates
+        roleManager.can('editor_content_user_templates_management', roleManager.defaultAdmin()) &&
+        Object.keys(hubTemplatesStorage.state('templates').get()).length
       )
     ) {
       settingsControl = (
