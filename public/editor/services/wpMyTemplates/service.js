@@ -61,7 +61,7 @@ addService('myTemplates', {
 
     return true
   },
-  addElementTemplate (id, name, successCallback, errorCallback) {
+  addElementTemplate (id, name, successCallback, errorCallback, templateType) {
     const documentManager = getService('document')
     const currentLayout = documentManager.getDescendants(id)
     const elementsStorage = getStorage('elements')
@@ -70,7 +70,7 @@ addService('myTemplates', {
     const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
     currentLayout[id].parent = false
     if (getType.call(name) === '[object String]' && name.length) {
-      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true, 'template')
+      return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true, templateType)
     }
     return false
   },
