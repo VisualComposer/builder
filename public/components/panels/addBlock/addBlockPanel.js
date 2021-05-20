@@ -42,9 +42,7 @@ export default class AddBlockPanel extends React.Component {
     this.state = {
       activeCategoryIndex: 0,
       categoryTitle: 'My Blocks',
-      // templateName: '',
       error: false,
-      // errorName: '',
       showSpinner: false,
       categories: this.templatesCategories,
       showLoading: false,
@@ -52,14 +50,10 @@ export default class AddBlockPanel extends React.Component {
       isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
-    // this.handleChangeTemplateName = this.handleChangeTemplateName.bind(this)
     this.displayError = this.displayError.bind(this)
-    // this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
     this.handleApplyBlock = this.handleApplyBlock.bind(this)
     this.handleRemoveBlock = this.handleRemoveBlock.bind(this)
-    // this.onSaveSuccess = this.onSaveSuccess.bind(this)
-    // this.onSaveFailed = this.onSaveFailed.bind(this)
     this.onRemoveSuccess = this.onRemoveSuccess.bind(this)
     this.onRemoveFailed = this.onRemoveFailed.bind(this)
     this.handleTemplateStorageStateChange = this.handleTemplateStorageStateChange.bind(this)
@@ -91,38 +85,15 @@ export default class AddBlockPanel extends React.Component {
 
   setCategoryArray (data) {
     const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
-    console.log('allTemplates', allTemplates)
-    console.log('data', data)
-    this.templatesCategories = [
-      {
-        index: 0,
-        title: AddBlockPanel.localizations.all,
-        id: 'all',
-        visible: true,
-        templates: allTemplates
-      }
-    ]
+    this.templatesCategories = []
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
-    console.log('sortedGroups', sortedGroups)
-    // Sort categories according to predefined order in AddTemplatePanel.categoriesOrder
-    const sorter = (a, b) => {
-      return AddBlockPanel.categoriesOrder.indexOf(a) - AddBlockPanel.categoriesOrder.indexOf(b)
-    }
-    sortedGroups.sort(sorter)
 
     sortedGroups.forEach((group, index) => {
       if (!data[group] || !data[group].templates || !data[group].templates.length) {
         return
       }
-      // Merge hub and predefined groups together for BC
-      if (group === 'predefined' && this.templatesCategories.find(category => category.id === 'predefined')) {
-        const predefinedTemplates = data[group] && data[group].templates ? data[group].templates : []
-        const hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
-        if (hubTemplates) {
-          hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
-        }
-      } else {
+      if (AddBlockPanel.categoriesOrder.includes(group)) {
         const groupData = {
           index: index + 1,
           id: group,
@@ -137,14 +108,14 @@ export default class AddBlockPanel extends React.Component {
     })
 
     const mostUsedItems = allTemplates.filter(template => template.usageCount > 9).sort((templateA, templateB) => templateB.usageCount - templateA.usageCount).slice(0, 9)
-    // Most User Group
+    // Most Used Group
     if (mostUsedItems.length > 0) {
-      const mostUsedTemplatesGroup = {
+      const mostUsedBlocksGroup = {
         id: 'usageCount',
         title: 'Most Used',
         templates: mostUsedItems
       }
-      this.templatesCategories.unshift(mostUsedTemplatesGroup)
+      this.templatesCategories.unshift(mostUsedBlocksGroup)
     }
   }
 
@@ -159,15 +130,6 @@ export default class AddBlockPanel extends React.Component {
   isSearching () {
     return this.props.searchValue ? this.props.searchValue.trim() : false
   }
-
-  // Change state
-
-  // handleChangeTemplateName (e) {
-  //   this.setState({
-  //     templateName: e.currentTarget.value,
-  //     error: false
-  //   })
-  // }
 
   displaySuccess (successText) {
     notificationsStorage.trigger('add', {
@@ -336,57 +298,6 @@ export default class AddBlockPanel extends React.Component {
 
   // Event handlers
 
-  // handleSaveTemplate (e) {
-  //   e && e.preventDefault()
-  //   const templateAlreadyExistsText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateAlreadyExists : 'A template with this name already exists. Choose a different template name.'
-  //   const templateContentEmptyText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateContentEmpty : 'There is no content on the page to be saved.'
-  //   const templateSaveFailedText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateSaveFailed : 'Failed to save the template.'
-  //   const specifyTemplateNameText = AddBlockPanel.localizations ? AddBlockPanel.localizations.specifyTemplateName : 'Enter the template name to save this page as a template.'
-  //   let { templateName } = this.state
-  //   templateName = templateName.trim()
-  //   if (templateName) {
-  //     if (myTemplatesService.findBy('name', templateName)) {
-  //       this.displayError(templateAlreadyExistsText)
-  //     } else if (!documentManager.size()) {
-  //       this.displayError(templateContentEmptyText)
-  //     } else {
-  //       this.setState({ showSpinner: templateName })
-  //       const templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
-  //       if (!templateAddResult) {
-  //         this.setState({
-  //           showSpinner: false
-  //         })
-  //         this.displayError(templateSaveFailedText)
-  //       }
-  //     }
-  //   } else {
-  //     this.displayError(specifyTemplateNameText)
-  //   }
-  // }
-
-  // onSaveSuccess () {
-  //   this.setState({
-  //     templateName: '',
-  //     categoryTitle: this.state.categories[1].title,
-  //     isSearching: false,
-  //     showSpinner: false
-  //   })
-  //
-  //   const successText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateSaved : 'The template has been successfully saved.'
-  //
-  //   notificationsStorage.trigger('add', {
-  //     position: 'bottom',
-  //     text: successText,
-  //     time: 5000,
-  //     usePortal: true
-  //   })
-  // }
-  //
-  // onSaveFailed () {
-  //   const errorText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateSaveFailed : 'Failed to save the template.'
-  //   this.displayError(errorText)
-  // }
-
   handleGoToHub () {
     const settings = {
       action: 'addHub',
@@ -463,7 +374,7 @@ export default class AddBlockPanel extends React.Component {
             if (limitData.hasExceeded) {
               const cookElement = cook.get(element)
               const elementName = cookElement.get('name')
-              let errorText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
+              let errorText = AddBlockPanel.localizations.templateContainsLimitElement || 'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.'
               errorText = errorText.split('%element').join(elementName)
               notificationsStorage.trigger('add', {
                 position: 'top',
@@ -504,7 +415,7 @@ export default class AddBlockPanel extends React.Component {
   }
 
   handleRemoveBlock (id, type) {
-    const removeBlockWarning = AddBlockPanel.localizations ? AddBlockPanel.localizations.removeBlockWarning : 'Do you want to delete this template?'
+    const removeBlockWarning = AddBlockPanel.localizations.removeBlockWarning || 'Do you want to delete this block?'
     if (window.confirm(removeBlockWarning)) {
       const newRemovingState = this.state.removing
       newRemovingState.push(id)
@@ -519,7 +430,7 @@ export default class AddBlockPanel extends React.Component {
 
   onRemoveSuccess (id) {
     const index = !this.state.categories[this.state.activeCategoryIndex].templates.length ? 0 : this.state.activeCategoryIndex
-    const templateRemovedSuccessfullyText = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateRemoved : 'The template has been successfully removed.'
+    const templateRemovedSuccessfullyText = AddBlockPanel.localizations.blockRemoved || 'The block has been successfully removed.'
     this.displaySuccess(templateRemovedSuccessfullyText)
     const newRemoveState = this.state.removing
     newRemoveState.splice(newRemoveState.indexOf(id), 1)
@@ -532,33 +443,20 @@ export default class AddBlockPanel extends React.Component {
   }
 
   onRemoveFailed (response) {
-    const templateRemoveFailed = AddBlockPanel.localizations ? AddBlockPanel.localizations.templateRemoveFailed : 'Failed to remove the template'
+    const templateRemoveFailed = AddBlockPanel.localizations.blockRemoveFailed || 'Failed to remove the block'
 
     this.displayError(response && response.message ? response.message : templateRemoveFailed)
     this.setState({ showSpinner: false })
   }
 
   render () {
-    // const enterTemplateNameText = AddBlockPanel.localizations ? AddBlockPanel.localizations.enterTemplateName : 'Enter template name'
-    // const saveTemplateText = AddBlockPanel.localizations ? AddBlockPanel.localizations.saveTemplate : 'Save Template'
-    const hubButtonDescriptionText = AddBlockPanel.localizations ? AddBlockPanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
+    const hubButtonDescriptionText = AddBlockPanel.localizations.goToHubButtonDescription || 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
     const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getBlocksByGroup()
-    // if (this.state.showSpinner && !this.state.removing.length) {
-    //   itemsOutput.push(this.getBlockControl({
-    //     name: this.state.templateName,
-    //     data: {},
-    //     spinner: true
-    //   }))
-    // }
 
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': itemsOutput && !itemsOutput.length
-    })
-    const errorMessageClasses = classNames({
-      'vcv-ui-tree-content-error-message': true,
-      'vcv-ui-tree-content-error-message--visible': this.state.error
     })
 
     let moreButtonOutput = null
@@ -576,47 +474,14 @@ export default class AddBlockPanel extends React.Component {
       transparentOverlay = <TransparentOverlayComponent disableNavBar parent='.vcv-layout' />
     }
 
-    // const isAbleToSave = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
-    // const saveTemplate = this.state.isRemoveStateActive || !isAbleToSave ? null : (
-    //   <div className='vcv-ui-form-dependency'>
-    //     <div className='vcv-ui-form-group'>
-    //       <form
-    //         className='vcv-ui-save-template-form'
-    //         onSubmit={this.handleSaveTemplate}
-    //         disabled={!!this.state.showSpinner}
-    //       >
-    //         <input
-    //           className='vcv-ui-form-input vcv-ui-editor-save-template-field'
-    //           type='text'
-    //           value={this.state.templateName}
-    //           onChange={this.handleChangeTemplateName}
-    //           disabled={!!this.state.showSpinner}
-    //           placeholder={enterTemplateNameText}
-    //         />
-    //         <button
-    //           className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
-    //           type='submit'
-    //           title={saveTemplateText}
-    //           disabled={!!this.state.showSpinner}
-    //         >{saveTemplateText}
-    //         </button>
-    //       </form>
-    //     </div>
-    //   </div>
-    // )
-
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         {transparentOverlay}
         {this.state.showLoading ? <LoadingOverlayComponent /> : null}
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
-            {/*<div className='vcv-ui-tree-content-error-message-container'>*/}
-            {/*  <div className={errorMessageClasses}>{this.state.errorName}</div>*/}
-            {/*</div>*/}
             <Scrollbar>
               <div className={innerSectionClasses}>
-                {/*{saveTemplate}*/}
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
                     <div className='vcv-ui-editor-plate vcv-ui-state--active'>
