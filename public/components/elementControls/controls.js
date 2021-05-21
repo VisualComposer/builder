@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { getStorage, getService } from 'vc-cake'
-import { Control } from './control'
-import { ControlAction } from './controlAction'
+import Control from './control'
+import ControlAction from './controlAction'
 
 const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
 const dataManager = getService('dataManager')
 
-function updateContainerPosition (data, controlsContainer) {
+const getContainerPosition = (data, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
@@ -41,7 +41,7 @@ function updateContainerPosition (data, controlsContainer) {
   return position
 }
 
-function updateControlsPosition (data, controlsContainer) {
+const getControlsPosition = (data, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
@@ -52,7 +52,7 @@ function updateControlsPosition (data, controlsContainer) {
   return elementRect.left + controlsListPos.width > iframeRect.width
 }
 
-function getVisibleControls (elementIds, controls) {
+const getVisibleControls = (elementIds, controls) => {
   controls = controls.current
   if (!controls) {
     return false
@@ -75,7 +75,8 @@ function getVisibleControls (elementIds, controls) {
   return false
 }
 
-function getControls (data, visibleControls) {
+function ControlItems (props) {
+  const { data, visibleControls } = props
   const { vcvDraggableIds, vcvEditableElements } = data
   const controls = []
   const iterableControls = visibleControls || vcvEditableElements
@@ -104,19 +105,19 @@ function getControls (data, visibleControls) {
   return controls.reverse()
 }
 
-export function Controls (props) {
+export default function Controls (props) {
   const controlsContainer = useRef()
   const controls = useRef()
   const { vcvEditableElements } = props.data
-  const [containerPos, setContainerPos] = useState(updateContainerPosition(props.data, controlsContainer))
-  const [controlsPos, setControlsPos] = useState(updateControlsPosition(props.data, controlsContainer))
+  const [containerPos, setContainerPos] = useState(getContainerPosition(props.data, controlsContainer))
+  const [controlsPos, setControlsPos] = useState(getControlsPosition(props.data, controlsContainer))
   const [visibleControls, setVisibleControls] = useState(false)
 
   useEffect(() => {
     if (!containerPos) {
-      setContainerPos(updateContainerPosition(props.data, controlsContainer))
+      setContainerPos(getContainerPosition(props.data, controlsContainer))
     }
-    setControlsPos(updateControlsPosition(props.data, controlsContainer))
+    setControlsPos(getControlsPosition(props.data, controlsContainer))
     if (!visibleControls) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
@@ -159,7 +160,7 @@ export function Controls (props) {
   return (
     <div className={containerClasses} ref={controlsContainer} style={{ ...styles }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <nav className='vcv-ui-outline-controls' ref={controls}>
-        {getControls(props.data, visibleControls)}
+        <ControlItems data={props.data} visibleControls={visibleControls} />
       </nav>
     </div>
   )
