@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { getService, getStorage, setData } from 'vc-cake'
-import { ControlDropdown } from './controlDropdown'
+import ControlDropdown from './controlDropdown'
 import { ControlHelpers } from './controlHelpers'
 
 const hubElementsService = getService('hubElements')
@@ -9,7 +9,7 @@ const layoutStorage = getStorage('layout')
 let clickState = 'mouseUp'
 let mouseDownTimeout = false
 
-export function Control (props) {
+export default function Control (props) {
   const [activeDropdown, setActiveDropdown] = useState(false)
   const [hoverClasses, setHoverClasses] = useState([])
 
