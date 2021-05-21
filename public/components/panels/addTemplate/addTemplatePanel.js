@@ -34,7 +34,6 @@ export default class AddTemplatePanel extends React.Component {
     'customFooter',
     'customSidebar',
     'popup',
-    'block',
     'hubHeader',
     'hubFooter',
     'hubSidebar',
@@ -128,7 +127,7 @@ export default class AddTemplatePanel extends React.Component {
         if (hubTemplates) {
           hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
         }
-      } else {
+      } else if (!group.toLowerCase().includes('block')) {
         const groupData = {
           index: index + 1,
           id: group,
@@ -292,7 +291,7 @@ export default class AddTemplatePanel extends React.Component {
 
   getTemplatesByGroup () {
     const allGroups = this.state.categories.filter(category => category.id !== 'all')
-    const allTemlates = []
+    const allTemplates = []
 
     allGroups.forEach((groupData) => {
       const groupTemplates = []
@@ -304,7 +303,7 @@ export default class AddTemplatePanel extends React.Component {
         const y = b.props.name
         return ((x < y) ? -1 : ((x > y) ? 1 : 0))
       })
-      allTemlates.push(
+      allTemplates.push(
         <TemplatesGroup
           key={`vcv-element-category-${groupData.id}`}
           groupData={groupData}
@@ -316,7 +315,7 @@ export default class AddTemplatePanel extends React.Component {
       )
     })
 
-    return allTemlates
+    return allTemplates
   }
 
   handleGroupToggle (groupID, isOpened) {
