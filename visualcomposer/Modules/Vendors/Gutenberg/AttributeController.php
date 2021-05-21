@@ -54,7 +54,7 @@ class AttributeController extends Container implements Module
                 'post-new.php' === $pagenow
                 && $requestHelper->input('post_type') === $this->postTypeSlug
                 && $currentUserAccessHelper->wpAll(
-                    ['edit_post', $postID]
+                    ['edit_posts']
                 )->get()
             )
         ) {
