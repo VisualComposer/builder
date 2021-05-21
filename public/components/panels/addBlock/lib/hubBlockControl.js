@@ -28,7 +28,7 @@ export default class HubBlockControl extends React.Component {
   }
 
   render () {
-    const { name, spinner, thumbnail, preview, description, handleapplyBlock, handleRemoveBlock, showPreview, hidePreview, previewVisible, previewStyle, handleUpdatePreviewPosition } = this.props
+    const { name, spinner, thumbnail, preview, description, handleApplyBlock, handleRemoveBlock, showPreview, hidePreview, previewVisible, previewStyle, handleUpdatePreviewPosition } = this.props
     const localizations = dataManager.get('localizations')
     const nameClasses = classNames({
       'vcv-ui-item-badge vcv-ui-badge--success': false,
@@ -97,7 +97,7 @@ export default class HubBlockControl extends React.Component {
       itemButton = roleManager.can('editor_content_template_add', roleManager.defaultTrue()) ? (
         <span
           className={applyClasses}
-          onClick={handleapplyBlock}
+          onClick={handleApplyBlock}
           title={localizations.addPlaceholder.replace('%', name)}
         />
       ) : null
