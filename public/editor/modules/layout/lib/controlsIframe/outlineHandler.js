@@ -1,4 +1,4 @@
-import { ControlHelpers } from './elementControls/controlHelpers'
+import { ControlHelpers } from 'public/components/elementControls/controlHelpers'
 
 export default class Outline {
   constructor (props) {

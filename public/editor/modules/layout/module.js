@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom'
 import Editor from './lib/editor'
 import DndManager from './lib/dndManager'
 import ControlsManager from './lib/controlsIframe/controlsManager'
+import RightClickMenu from 'public/components/rightClickMenu/rightClickMenu'
 import MobileControlsManager from './lib/controlsIframe/mobileControlsManager'
 import MobileDetect from 'mobile-detect'
 import OopsScreen from 'public/components/account/oopsScreen'
@@ -26,6 +27,8 @@ vcCake.add('contentLayout', (api) => {
   const iframeContent = document.getElementById('vcv-layout-iframe-content')
   const dnd = new DndManager(api)
   const controls = new ControlsManager(api)
+  const rightClick = new RightClickMenu()
+
   const localizations = dataManager.get('localizations')
   if (Utils.isRTL()) {
     document.body && document.body.classList.add('rtl')
@@ -58,6 +61,7 @@ vcCake.add('contentLayout', (api) => {
       )
 
       !reload && dnd.init()
+      !reload && rightClick.init()
 
       workspaceIFrame.onChange(reloadLayout)
 
