@@ -151,7 +151,7 @@ export default class AttachImage extends Attribute {
         query: false
       },
       button: {
-        text: 'Select'
+        text: 'Update'
       },
       multiple: this.props.options.multiple ? 'add' : false
     })
