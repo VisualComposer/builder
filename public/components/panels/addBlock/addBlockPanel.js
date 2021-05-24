@@ -177,7 +177,7 @@ export default class AddBlockPanel extends React.Component {
     const nothingFoundText = AddBlockPanel.localizations.nothingFound || 'Nothing found'
 
     let source
-    if (!this.state.categories[0].templates.length && !this.state.isSearching) {
+    if (this.state.categories[0] && !this.state.categories[0].templates.length && !this.state.isSearching) {
       source = sharedAssetsLibraryService.getSourcePath('images/add-item.png')
     } else {
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
