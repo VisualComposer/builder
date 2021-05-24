@@ -9,7 +9,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 
-Website builder for WordPress comes with 500+ elements, templates, addons, and design options: All you need to create a beautiful website!
+Website builder for WordPress comes with 500+ elements, templates, addons, and design options: No coding! No shortcodes! Clean code!
 
 == Description ==
 
@@ -52,7 +52,7 @@ Discover what's inside the **Visual Composer Hub**:
 * **Addons**: Extensions allow you to enhance your Visual Composer experience with advanced addons. Global Templates, Import/Export, Gutenberg Block template, **[Popup Builder](https://visualcomposer.com/features/popup-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=popup-builder-text-link)** and others.
 
 
-* **Integrations**: Stock images from **[Unsplash](https://visualcomposer.com/blog/unsplash-in-wordpress/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=unsplash-text-link)** and GIFs from **[GIPHY](https://visualcomposer.com/blog/add-gifs-from-giphy-in-wordpress/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=giphy-text-link)** are available straight from the Visual Composer editor. The graphics can be used for both personal and commercial projects.
+* **Integrations**: Stock images and GIFs from **[GIPHY](https://visualcomposer.com/blog/add-gifs-from-giphy-in-wordpress/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=giphy-text-link)** are available straight from the Visual Composer editor. The graphics can be used for both personal and commercial projects.
 
 
 * **Endless [Design Options](https://visualcomposer.com/features/design-options/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=design-options-text-link)**: Website builder includes powerful design options that allow beginners and experts to create unique page designs. Make custom background effects, take advantage of modern parallax background, control paddings, margins, borders, and radius of any element.
@@ -61,7 +61,7 @@ Discover what's inside the **Visual Composer Hub**:
 
 Visual Composer is an all-in-one plugin that lets you make beautiful websites from header to footer. You can create custom page layouts in a code-free way.
 
-[Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=make-unique-header-footer-sidebar-templates-text-link) to use them throughout your entire WordPress site with the help of **Global Templates**. Additionally, there's a **Dynamic Content** feature that allows you to design templates with dynamic content placeholders (*devs will love it*).
+[Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=make-unique-header-footer-sidebar-templates-text-link) to use them throughout your entire WordPress site with the help of **Global Templates**. Additionally, a **Dynamic Content** feature allows you to design templates with dynamic content placeholders (*devs will love it*).
 
 **VISUAL COMPOSER INSIGHTS**
 
@@ -69,9 +69,17 @@ Build better websites by using an in-built qualitative analysis of your page con
 
 [Visual Composer Insights](https://visualcomposer.com/blog/wordpress-content-analysis-tool-insights/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-insights-text-link) is a free extension that analyzes your page content according to multiple scenarios to improve the quality, performance, and SEO of your site. Finally, you don't have to be a developer, designer, or marketer to create a website that boosts your business.
 
-**USER ROLE MANAGER**
+**VISUAL COMPOSER ROLE MANAGER**
 
-Build sites for your clients like never before. With the Visual Composer role manager, you can set up and control the accessibility to any feature or element of your site. Ensure that your beautiful design stays the way you want it to be by allowing customers to edit only certain parts of a page or use only certain features. And, with the role manager presets, it has never been easier to apply the access rights.
+With the Visual Composer Role Manager, you can set up and control the accessibility to any feature or element of your site. Ensure that your beautiful design stays the way you want it to be by allowing customers to edit only certain parts of a page or use only certain features. And, with the role manager presets, it has never been easier to apply the access rights. Here are the user roles you can manage:
+
+* Administrator
+* Editor
+* Author
+* Contributor
+* Subscriber
+* SEO Manager
+* SEO Editor
 
 **POPUP BUILDER FOR WORDPRESS**
 
@@ -97,7 +105,7 @@ Visual Composer is compatible with other popular plugins, offering compatibility
 
 **DEVELOPERS API**
 
-Visual Composer is not only for the front-end users. With its API in front, developers can integrate the editor in WordPress themes, build extensions, and create custom tools for clients.
+Visual Composer is not only for front-end users. With its API in front, developers can integrate the editor in WordPress themes, build extensions, and create custom tools for clients.
 
 **Resources for Visual Composer API**:
 
@@ -197,6 +205,52 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 36.0 =
+*Release Date - 2021-05-25*
+
+### Free:
+- New: Visual Composer Dashboard structure updated by including all Visual Composer related content
+- New: Template categories introduced for better sorting and managing templates
+- New: Lazy load option introduced for the single image element to improve performance
+- New: Delay introduced for TinyMCE to improve UI/UX
+- Update: Insights panel colors updated for consistent UI
+- Update: Image and Video selectors updated for consistent UI
+- Update: Background update introduced for the device preview option to improve UI
+- Update: 'Created with Visual Composer' badge updated
+- Update: Getting started video updated with the latest content included
+- Fix: Typo fixed in the Visual Composer Settings tabs
+- Fix: Custom responsiveness works properly in row layout options
+- Fix: Facebook 'Like' option works properly
+- Fix: Visual Composer works properly with Polylang installed
+- Fix: The text inline editing option works properly on all WordPress setups
+- Fix: The text update in TinyMCE works properly
+- Fix: Clicking on page title works properly to allow changing the title of the page
+- Fix: Page structure is displayed properly in the parent page settings
+- Fix: 3rd party 'Finder' option does not interfere with the work of Visual Composer
+- Fix: Unsplash and Giphy images are displayed properly on the hover state in the Visual Composer Dashboard Hub version
+- Fix: RawJS element renders properly
+- Fix: The drag and drop option works properly in the Tree View
+- Fix: WordPress page settings option improved for security
+- Fix: Giphy pagination works properly
+- Fix: The lightbox option works properly in the Image Gallery elements
+- Fix: Attaching image option works properly in the image gallery elements
+- Fix: Using keyword to add element adds chosen element
+- Fix: Param group attribute position is correct
+- Fix: Old version templates work properly
+- Fix: Premium teasers work properly
+
+### Premium:
+- New: Role Manager add-on extended to control user role access to the Visual Composer features and page edit options
+- Fix: The popup option work properly in the Logo Slider
+- Fix: Video player with custom URL works properly
+- Fix: Accordions work properly on pages with fixed headers enabled
+- Fix: Global template saving with a shortcut (Cmd+S/Ctrl+S) works properly
+- Fix: Content Slider element works properly
+- Fix: Attributes work properly in the Logo Slider elements
+- Fix: Premium version feature popups are not displayed for the premium users
+- Fix: Featured Image Post Grid has a proper color for backgrounds
+- Fix: Typewriter element works properly
 
 = 35.1 =
 *Release Date - 2021-03-12*
