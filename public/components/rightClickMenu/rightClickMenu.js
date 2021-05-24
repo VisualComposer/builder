@@ -35,12 +35,16 @@ export default class RightClickMenu extends React.Component {
   }
 
   handleRightClick (e) {
+    const targetElement = e.target
+    let id = targetElement.getAttribute('data-vcv-element')
+    const currentElement = workspaceStorage.state('userInteractWith').get()
+    if (id === currentElement) {
+      this.unmountMenuComponent()
+      return false
+    }
     this.iframeWindow.document.addEventListener('click', this.unmountMenuComponent)
     window.document.addEventListener('click', this.unmountMenuComponent)
     workspaceStorage.state('userInteractWith').set(null)
-
-    const targetElement = e.target
-    let id = targetElement.getAttribute('data-vcv-element')
 
     if (!id) {
       const closest = targetElement.closest('[data-vcv-element]')
