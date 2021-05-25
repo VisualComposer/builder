@@ -270,12 +270,12 @@ export default class EditFormSection extends React.Component {
     this.setState({
       name: ''
     })
-    const templateSaved = EditFormSection.localizations ? EditFormSection.localizations.templateSaved : 'The template has been successfully saved.'
-    this.displaySuccess(templateSaved)
+    const blockSaved = EditFormSection.localizations.blockSaved || 'The block has been successfully saved.'
+    this.displaySuccess(blockSaved)
   }
 
   onSaveFailed () {
-    const errorText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Failed to save the template.'
+    const errorText = EditFormSection.localizations.blockSaveFailed || 'Failed to save the block.'
     this.displayError(errorText)
   }
 

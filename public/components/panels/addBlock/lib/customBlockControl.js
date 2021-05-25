@@ -55,7 +55,7 @@ export default class CustomBlockControl extends React.Component {
     const overlayProps = {}
     let itemButton = null
     if (this.props.isRemoveStateActive) {
-      const isAbleToRemove = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
+      const isAbleToRemove = roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
       if (isAbleToRemove) {
         itemButton = (
           <span

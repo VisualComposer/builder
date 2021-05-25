@@ -1748,6 +1748,10 @@ class Localizations extends Container implements Helper
             'blockContainsLimitElement' => __(
                 'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.',
                 'visualcomposer'
+            ),
+            'blockSaved' => __(
+                'The block has been successfully saved.',
+                'visualcomposer'
             )
         ];
 
