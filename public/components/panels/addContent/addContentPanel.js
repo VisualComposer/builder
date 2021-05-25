@@ -129,8 +129,7 @@ export default class AddContentPanel extends React.Component {
       }
     }
 
-    // if (roleManager.can('editor_content_block_add', roleManager.defaultAdmin()) || true) {
-    if (true) {
+    if (roleManager.can('editor_content_block_add', roleManager.defaultAdmin()) || true) {
       controls.addBlock = {
         index: 2,
         type: 'addBlock',
