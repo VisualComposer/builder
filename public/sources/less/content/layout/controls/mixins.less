@@ -83,6 +83,18 @@
         }
       }
     }
+  }
 
+  .create-type-right-click-with-active(@type-name, @text, @background, @activeBackground) {
+    .vcv-ui-right-click-menu-dropdown-@{type-name}  {
+      background-color: @background;
+
+      .vcv-ui-outline-control {
+        color: @text;
+        &:hover {
+          background-color: darken(@activeBackground, 7%);
+        }
+      }
+    }
   }
 }
