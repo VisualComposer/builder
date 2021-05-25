@@ -44,8 +44,7 @@ export default class PlusControl extends NavbarContent {
       })
     }
 
-    // if (roleManager.can('editor_content_block_add', roleManager.defaultAdmin())) {
-    if (true) {
+    if (roleManager.can('editor_content_block_add', roleManager.defaultAdmin())) {
       innerAPI.mount('panel:addBlock', () => {
         return <AddContentPanel key='panels-container-addBlock' activeTab='addBlock' />
       })
