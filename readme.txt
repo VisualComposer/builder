@@ -78,8 +78,7 @@ With the Visual Composer Role Manager, you can set up and control the accessibil
 * Author
 * Contributor
 * Subscriber
-* SEO Manager
-* SEO Editor
+* Custom roles (from plugins like Yoast, WooCommerce, etc.)
 
 **POPUP BUILDER FOR WORDPRESS**
 
