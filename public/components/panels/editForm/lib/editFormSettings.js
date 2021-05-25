@@ -9,7 +9,7 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
   const saveAsPreset = localizations ? localizations.saveAsPreset : 'Save as a Preset'
   const saveAsTemplate = localizations ? localizations.saveAsBlock : 'Save as a Block'
   const presetPlaceholderText = localizations.enterPresetName || 'Enter preset name'
-  const bloksPlaceholderText = localizations.enterBlocksName || `Enter block's name`
+  const bloksPlaceholderText = localizations.enterBlocksName || 'Enter block\'s name'
   const enterPresetNameText = isRootElement ? bloksPlaceholderText : presetPlaceholderText
   const buttonText = isRootElement ? saveAsTemplate : saveAsPreset
 
