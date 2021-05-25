@@ -58,7 +58,7 @@ export default class RightClickMenu extends React.Component {
 
       disableScroll(this.iframeWindow)
 
-      let controls = document.querySelector('.vcv-ui-outline-controls-wrapper')
+      const controls = document.querySelector('.vcv-ui-outline-controls-wrapper')
       ReactDOM.unmountComponentAtNode(controls)
       layoutStorage.state('rightClickMenuActive').set(true)
 
