@@ -114,6 +114,11 @@ export default class ControlsManager {
 
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+
+    if (layoutStorage.state('rightClickMenuActive').get() === true) {
+      return null
+    }
+
     if (data && data.vcvEditableElements.length) {
       ReactDOM.render(<Controls data={data} />, this.controlsWrapper)
       if (isAbleToAdd) {
