@@ -3,6 +3,7 @@ import React from 'react'
 import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import { ControlHelpers } from 'public/components/elementControls/controlHelpers'
 
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
@@ -346,61 +347,6 @@ export default class TreeViewElement extends React.Component {
     })
   }
 
-  getPasteOptions (copyData, pasteEl) {
-    const pasteOptions = {
-      disabled: !copyData,
-      pasteAfter: false
-    }
-
-    if (!copyData) {
-      return pasteOptions
-    }
-
-    if (copyData.constructor === String) {
-      try {
-        copyData = JSON.parse(copyData)
-      } catch (err) {
-        console.error(err)
-        return pasteOptions
-      }
-    }
-
-    const copiedEl = copyData && copyData.element && copyData.element.element
-    const copiedElCook = copiedEl && cook.get(copiedEl)
-    const copiedElRelatedTo = copiedElCook.get('relatedTo')
-    const copiedElRelatedToValue = copiedElRelatedTo && copiedElRelatedTo.value
-
-    const pasteElCook = pasteEl && cook.get(pasteEl)
-    const pasteElContainerFor = pasteElCook.get('containerFor')
-    const pasteElContainerForValue = pasteElContainerFor && pasteElContainerFor.value
-
-    if (
-      copiedElRelatedToValue &&
-      pasteElContainerForValue &&
-      copiedElRelatedToValue.length &&
-      pasteElContainerForValue.length
-    ) {
-      if (pasteElContainerForValue.indexOf('General') < 0 || copiedElRelatedToValue.indexOf('General') < 0) {
-        pasteOptions.disabled = true
-
-        pasteElContainerForValue.forEach((item) => {
-          if (copiedElRelatedToValue.indexOf(item) >= 0) {
-            pasteOptions.disabled = false
-          }
-        })
-      }
-
-      if (pasteOptions.disabled && pasteElContainerForValue.indexOf('General') < 0) {
-        if (pasteElCook.get('tag') === copiedElCook.get('tag')) {
-          pasteOptions.disabled = false
-          pasteOptions.pasteAfter = true
-        }
-      }
-    }
-
-    return pasteOptions
-  }
-
   handleSandwichMouseEnter () {
     this.setState({
       showDropdown: true
@@ -551,7 +497,7 @@ export default class TreeViewElement extends React.Component {
     const isPasteAvailable = pasteElContainerFor && pasteElContainerFor.value && pasteElContainerFor.value.length
 
     if (isPasteAvailable && !isElementLocked && isAbleToAdd) {
-      const pasteOptions = this.getPasteOptions(copyData, this.state.element)
+      const pasteOptions = ControlHelpers.getPasteOptions(copyData, this.state.element)
 
       const attrs = {}
 
