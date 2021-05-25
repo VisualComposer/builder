@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import OutlineHandler from './outlineHandler'
 import FramesHandler from './framesHandler'
-import { Controls } from './elementControls/controls'
-import { AppendControl } from './elementControls/appendControl'
+import Controls from 'public/components/elementControls/controls'
+import AppendControl from 'public/components/elementControls/appendControl'
 
 const layoutStorage = vcCake.getStorage('layout')
 const workspaceStorage = vcCake.getStorage('workspace')

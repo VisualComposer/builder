@@ -330,6 +330,18 @@ export default class ElementAttribute extends Attribute {
     const editableElement = workspaceSettings && workspaceSettings.elementAccessPoint ? workspaceSettings.elementAccessPoint.id : false
     const currentElement = this.props.elementAccessPoint.id
 
+    const attributeElementFieldWrapper = (
+      <AttributeElementFieldWrapper
+        {...this.props}
+        onChange={this.handleAttributeChange}
+        elementAccessPoint={this.state.elementAccessPoint}
+        onDynamicFieldOpen={this.props.onDynamicFieldOpen}
+        onDynamicFieldChange={this.props.onDynamicFieldChange}
+        onDynamicFieldClose={this.props.onDynamicFieldClose}
+        allTabs={this.state.allTabs}
+        exclude={exclude}
+      />
+    )
     if (editableElement !== currentElement) {
       const { options } = this.props
       let { isActive } = this.state
@@ -380,12 +392,7 @@ export default class ElementAttribute extends Attribute {
             {replacementBlock && (!replaceView || replaceView !== 'dropdown') ? replacementBlock : (
               <>
                 {replacementBlock}
-                <AttributeElementFieldWrapper
-                  onChange={this.handleAttributeChange}
-                  elementAccessPoint={this.state.elementAccessPoint}
-                  allTabs={this.state.allTabs}
-                  exclude={exclude}
-                />
+                {attributeElementFieldWrapper}
               </>
             )}
           </div>
@@ -397,16 +404,7 @@ export default class ElementAttribute extends Attribute {
           {replacementBlock && (!replaceView || replaceView !== 'dropdown') ? replacementBlock : (
             <>
               {replacementBlock}
-              <AttributeElementFieldWrapper
-                {...this.props}
-                onChange={this.handleAttributeChange}
-                elementAccessPoint={this.state.elementAccessPoint}
-                onDynamicFieldOpen={this.props.onDynamicFieldOpen}
-                onDynamicFieldChange={this.props.onDynamicFieldChange}
-                onDynamicFieldClose={this.props.onDynamicFieldClose}
-                allTabs={this.state.allTabs}
-                exclude={exclude}
-              />
+              {attributeElementFieldWrapper}
             </>
           )}
         </div>

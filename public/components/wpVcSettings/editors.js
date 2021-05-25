@@ -23,7 +23,7 @@ export const initEditors = () => {
   const globalCssTextarea = document.querySelector('#vcv-settingsGlobalCss')
   const globalCssTextareaCompiled = document.querySelector('#vcv-settingsGlobalCss-compiled')
   if (globalCssTextarea !== null) {
-    const globalCssEditor = codeEditor.getEditor(globalCssTextarea, 'text/css', globalCssTextarea.value)
+    const globalCssEditor = codeEditor.getEditor(globalCssTextarea, 'css', globalCssTextarea.value)
     globalCssEditor.on('change', async () => {
       const newValue = globalCssEditor.getValue()
       setStatus('compiling')
