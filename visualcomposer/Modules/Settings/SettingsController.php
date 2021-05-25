@@ -86,7 +86,7 @@ class SettingsController extends Container implements Module
                 foreach ($updatedFields as $field) {
                     $optionsHelper->set(
                         $field['name'],
-                        esc_sql($requestHelper->input(VCV_PREFIX . $field['name'], ''))
+                        $requestHelper->input(VCV_PREFIX . $field['name'], '')
                     );
                 }
             }

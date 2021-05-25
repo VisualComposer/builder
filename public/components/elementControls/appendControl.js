@@ -33,7 +33,7 @@ function updateAppendContainerPosition (data, appendControlContainer) {
   }
 }
 
-export function AppendControl (props) {
+export default function AppendControl (props) {
   const controlContainer = useRef()
   const [containerPos, setContainerPos] = useState(updateAppendContainerPosition(props.data, controlContainer))
 

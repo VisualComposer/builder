@@ -6,7 +6,7 @@ const workspaceContentState = workspaceStorage.state('content')
 const workspaceTreeViewId = workspaceStorage.state('treeViewId')
 const layoutStorage = getStorage('layout')
 
-export function ControlAction (props) {
+export default function ControlAction (props) {
   const { id, options } = props
   const iconClasses = `vcv-ui-outline-control-icon vcv-ui-icon ${options.icon}`
   const title = options.title || options.label
