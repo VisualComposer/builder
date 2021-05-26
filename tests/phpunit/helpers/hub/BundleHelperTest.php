@@ -6,7 +6,7 @@ class BundleHelperTest extends WP_UnitTestCase
 
     public static $releaseJson;
 
-    public static $elementJson;
+    public static $elementJson = [];
 
     public static $addonJson;
 
