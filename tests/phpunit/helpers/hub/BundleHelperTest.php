@@ -42,21 +42,22 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertNotEmpty(BundleHelperTest::$releaseJson['actions']);
     }
 
-    public function testFreeElementJson()
-    {
-        $version = $this->getLatestWpVersion();
-        $helper = vchelper('HubBundle');
-        $url = str_replace(
-            VCV_VERSION,
-            $version,
-            $helper->getElementDownloadUrl(['token' => 'free-token', 'bundle' => 'element/icon'])
-        );
-
-        BundleHelperTest::$elementJson = $helper->getRemoteBundleJson($url);
-        $this->assertIsArray(BundleHelperTest::$elementJson);
-        $this->assertArrayHasKey('actions', BundleHelperTest::$elementJson);
-        $this->assertNotEmpty(BundleHelperTest::$elementJson['actions']);
-    }
+    //    public function testFreeElementJson()
+    // DIsabled because there is no free elements in release json anymore
+    //    {
+    //        $version = $this->getLatestWpVersion();
+    //        $helper = vchelper('HubBundle');
+    //        $url = str_replace(
+    //            VCV_VERSION,
+    //            $version,
+    //            $helper->getElementDownloadUrl(['token' => 'free-token', 'bundle' => 'element/icon'])
+    //        );
+    //
+    //        BundleHelperTest::$elementJson = $helper->getRemoteBundleJson($url);
+    //        $this->assertIsArray(BundleHelperTest::$elementJson);
+    //        $this->assertArrayHasKey('actions', BundleHelperTest::$elementJson);
+    //        $this->assertNotEmpty(BundleHelperTest::$elementJson['actions']);
+    //    }
 
     public function testFreeTemplateJson()
     {
@@ -105,56 +106,57 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/element-tmp', $helper->getTempBundleFolder());
     }
 
-    public function testElementActionDownload()
-    {
-        $helper = vcapp(TestHubElementDownload::class);
-        $this->assertArrayHasKey('actions', BundleHelperTest::$elementJson);
-        $elementAction = BundleHelperTest::$elementJson['actions'][0];
-        $downloadedArchive = $helper->requestBundleDownload($elementAction['data']['url']);
-        $this->assertTrue(is_file($downloadedArchive));
-        $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/element-tmp', $helper->getTempBundleFolder());
-
-        // unzip
-        // force set bundle path again to fix downloaded override
-        $helper->bundlePath = rtrim(__DIR__, '\//') . '/tmp-dir/element-tmp';
-        $result = $helper->unzipDownloadedBundle($downloadedArchive);
-        $this->assertTrue($result);
-        $manifest = $helper->readBundleJson($helper->getTempBundleFolder('bundle.json'));
-        $this->assertEquals(
-            [
-                'elements' =>
-                    [
-                        'icon' =>
-                            [
-                                'settings' =>
-                                    [
-                                        'name' => 'Icon',
-                                        'metaThumbnailUrl' => '[publicPath]/thumbnail-icon.jpg',
-                                        'metaPreviewUrl' => '[publicPath]/preview-icon.jpg',
-                                        'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
-                                    ],
-                            ],
-                    ],
-                'categories' =>
-                    [
-                        'Icon' =>
-                            [
-                                'elements' =>
-                                    [
-                                        0 => 'icon',
-                                    ],
-                            ],
-                    ],
-            ],
-            $manifest
-        );
-
-        // remove downloaded
-        $this->assertFileExists($helper->getTempBundleFolder());
-        $removeResult = $helper->removeTempBundleFolder();
-        $this->assertTrue($removeResult);
-        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
-    }
+    //    public function testElementActionDownload()
+    // DISABLED Because free elements are built-in since v36
+    //    {
+    //        $helper = vcapp(TestHubElementDownload::class);
+    //        $this->assertArrayHasKey('actions', BundleHelperTest::$elementJson);
+    //        $elementAction = BundleHelperTest::$elementJson['actions'][0];
+    //        $downloadedArchive = $helper->requestBundleDownload($elementAction['data']['url']);
+    //        $this->assertTrue(is_file($downloadedArchive));
+    //        $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/element-tmp', $helper->getTempBundleFolder());
+    //
+    //        // unzip
+    //        // force set bundle path again to fix downloaded override
+    //        $helper->bundlePath = rtrim(__DIR__, '\//') . '/tmp-dir/element-tmp';
+    //        $result = $helper->unzipDownloadedBundle($downloadedArchive);
+    //        $this->assertTrue($result);
+    //        $manifest = $helper->readBundleJson($helper->getTempBundleFolder('bundle.json'));
+    //        $this->assertEquals(
+    //            [
+    //                'elements' =>
+    //                    [
+    //                        'icon' =>
+    //                            [
+    //                                'settings' =>
+    //                                    [
+    //                                        'name' => 'Icon',
+    //                                        'metaThumbnailUrl' => '[publicPath]/thumbnail-icon.jpg',
+    //                                        'metaPreviewUrl' => '[publicPath]/preview-icon.jpg',
+    //                                        'metaDescription' => 'Simple icon element with various icons from library and background shape control options.',
+    //                                    ],
+    //                            ],
+    //                    ],
+    //                'categories' =>
+    //                    [
+    //                        'Icon' =>
+    //                            [
+    //                                'elements' =>
+    //                                    [
+    //                                        0 => 'icon',
+    //                                    ],
+    //                            ],
+    //                    ],
+    //            ],
+    //            $manifest
+    //        );
+    //
+    //        // remove downloaded
+    //        $this->assertFileExists($helper->getTempBundleFolder());
+    //        $removeResult = $helper->removeTempBundleFolder();
+    //        $this->assertTrue($removeResult);
+    //        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
+    //    }
 
     public function testAddonActionBundle()
     {
@@ -190,7 +192,7 @@ class BundleHelperTest extends WP_UnitTestCase
                         ],
                         'phpFiles' => [
                             0 => 'SettingsController.php',
-                            1 => 'EnqueueController.php'
+                            1 => 'EnqueueController.php',
                         ],
                     ],
                 ],
