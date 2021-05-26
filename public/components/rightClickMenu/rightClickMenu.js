@@ -55,15 +55,8 @@ export default class RightClickMenu extends React.Component {
       e.preventDefault()
 
       workspaceStorage.state('userInteractWith').set(id)
-
       disableScroll(this.iframeWindow)
-
-      const outlineControls = document.querySelector('.vcv-ui-outline-controls-wrapper')
-      ReactDOM.unmountComponentAtNode(outlineControls)
-      const appendControls = document.querySelector('.vcv-ui-append-control-wrapper')
-      ReactDOM.unmountComponentAtNode(appendControls)
       layoutStorage.state('rightClickMenuActive').set(true)
-
       ReactDOM.render(<MenuDropdown id={id} position={{ top: e.clientY, left: e.clientX }} />, this.menuWrapper)
 
       return false

@@ -114,7 +114,6 @@ export default class ControlsManager {
 
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
-
     if (data && data.vcvEditableElements.length) {
       ReactDOM.render(<Controls data={data} />, this.controlsWrapper)
       if (isAbleToAdd) {
@@ -319,6 +318,13 @@ export default class ControlsManager {
       if (data && data.type === 'mouseLeaveContainer') {
         this.handleControlsMouseLeave(data.vcElementId)
       }
+    })
+
+    layoutStorage.state('rightClickMenuActive').onChange(() => {
+      const outlineControls = document.querySelector('.vcv-ui-outline-controls-wrapper')
+      ReactDOM.unmountComponentAtNode(outlineControls)
+      const appendControls = document.querySelector('.vcv-ui-append-control-wrapper')
+      ReactDOM.unmountComponentAtNode(appendControls)
     })
   }
 
