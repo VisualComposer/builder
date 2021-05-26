@@ -5,7 +5,7 @@ class HubDownloadActionsTest extends WP_UnitTestCase
     public function testAvailableVariables()
     {
         $this->assertIsArray(BundleHelperTest::$releaseJson);
-        $this->assertIsArray(BundleHelperTest::$elementJson);
+        //        $this->assertIsArray(BundleHelperTest::$elementJson);
         $this->assertIsArray(BundleHelperTest::$addonJson);
         $this->assertIsArray(BundleHelperTest::$templateJson);
     }
@@ -96,7 +96,8 @@ class HubDownloadActionsTest extends WP_UnitTestCase
                             'name' => 'Wedding Page',
                             'bundle' => 'predefinedTemplate/weddingPage',
                             'id' => $templateId,
-                            'usageCount' => isset($usageCount[ 'template/' . $templateId ]) ? $usageCount[ 'template/' . $templateId ] : 0,
+                            'usageCount' => isset($usageCount[ 'template/' . $templateId ]) ? $usageCount[ 'template/'
+                            . $templateId ] : 0,
                             'thumbnail' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
                                 . '/templates/TP11000008/1556191390.weddingpage-thumbnail.png',
                             'preview' => 'http://localhost/wp-content/uploads/' . VCV_PLUGIN_ASSETS_DIRNAME
