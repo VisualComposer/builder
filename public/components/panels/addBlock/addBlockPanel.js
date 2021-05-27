@@ -86,6 +86,7 @@ export default class AddBlockPanel extends React.Component {
   setCategoryArray (data) {
     const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
     this.templatesCategories = []
+    let allBlocksArray = []
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
 
@@ -94,18 +95,28 @@ export default class AddBlockPanel extends React.Component {
         return
       }
       if (AddBlockPanel.categoriesOrder.includes(group)) {
+        const blocks = data[group] && data[group].templates ? data[group].templates : []
         const groupData = {
           index: index + 1,
           id: group,
           title: data[group].name,
           visible: data[group] && data[group].templates && data[group].templates.length,
-          templates: data[group] && data[group].templates ? data[group].templates : []
+          templates: blocks
         }
+        allBlocksArray = allBlocksArray.concat(blocks)
         this.templatesCategories.push(groupData)
       }
 
       delete data[group]
     })
+
+    const allBlocksItems = {
+      title: AddBlockPanel.localizations.all,
+      id: 'all',
+      visible: true,
+      templates: allBlocksArray
+    }
+    this.templatesCategories.unshift(allBlocksItems)
 
     const mostUsedItems = allTemplates.filter(template => template.usageCount > 9).sort((templateA, templateB) => templateB.usageCount - templateA.usageCount).slice(0, 9)
     // Most Used Group
