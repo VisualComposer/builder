@@ -20,7 +20,7 @@ export default class DynamicAttribute extends React.Component {
     this.onLoadPostFields = this.onLoadPostFields.bind(this)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleHide = this.handleHide.bind(this)
-    const isInnerMultipleLevel = props.elementAccessPoint.innerMultipleLevel
+    const isInnerMultipleLevel = props && props.elementAccessPoint && props.elementAccessPoint.innerMultipleLevel
     // Disable dynamic content for multiple element nesting element > innerElement > innerElement (dynamic disabled for 3rd level)
     const isDynamic = isInnerMultipleLevel ? false : this.props.options && this.props.options.dynamicField
     let state = {
