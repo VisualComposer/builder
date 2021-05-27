@@ -10,7 +10,7 @@ class BundleHelperTest extends WP_UnitTestCase
 
     public static $addonJson;
 
-    public static $templateJson;
+    public static $templateJson = [];
 
     protected function getLatestWpVersion()
     {
@@ -91,14 +91,14 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertNotEmpty(BundleHelperTest::$addonJson['actions']);
     }
 
-    public function testFreeAssetJson()
-    {
-        // ASSETS doesn't have different url, it located on release json
-        $findAsset = BundleHelperTest::$releaseJson['actions']['asset/faqToggle'];
-        $this->assertIsArray($findAsset);
-        $this->assertArrayHasKey('data', $findAsset);
-        $this->assertNotEmpty($findAsset['data']);
-    }
+    //    public function testFreeAssetJson()
+    //    {
+    //        // ASSETS doesn't have different url, it located on release json
+    //        $findAsset = BundleHelperTest::$releaseJson['actions']['asset/faqToggle'];
+    //        $this->assertIsArray($findAsset);
+    //        $this->assertArrayHasKey('data', $findAsset);
+    //        $this->assertNotEmpty($findAsset['data']);
+    //    }
 
     public function testElementActionBundle()
     {
@@ -247,17 +247,17 @@ class BundleHelperTest extends WP_UnitTestCase
          */
         $this->assertEquals('TP11000008', $manifest['id']);
         $this->assertEquals('custom', $manifest['type']);
-        $this->assertEquals(
-            [
-                'element/singleImage',
-                'element/column',
-                'element/basicButton',
-                'element/row',
-                'element/textBlock',
-                'element/icon',
-            ],
-            $manifest['tags']
-        );
+        //        $this->assertEquals(
+        //            [
+        //                'element/singleImage',
+        //                'element/column',
+        //                'element/basicButton',
+        //                'element/row',
+        //                'element/textBlock',
+        //                'element/icon',
+        //            ],
+        //            $manifest['tags']
+        //        );
         $this->assertArrayHasKey('data', $manifest);
 
         // remove downloaded
@@ -267,42 +267,44 @@ class BundleHelperTest extends WP_UnitTestCase
         $this->assertFileDoesNotExist($helper->getTempBundleFolder());
     }
 
-    public function testFreeAssetDownload()
-    {
-        // ASSETS doesn't have different url, it located on release json
-        $findAsset = BundleHelperTest::$releaseJson['actions']['asset/faqToggle'];
-        $helper = vcapp(TestAssetDownload::class);
-        $downloadedArchive = $helper->requestBundleDownload($findAsset['data']['url']);
-        $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/shared-tmp', $helper->getTempBundleFolder());
-
-        $this->assertTrue(is_file($downloadedArchive));
-
-        // unzip
-        // force set bundle path again to fix downloaded override
-        $helper->bundlePath = rtrim(__DIR__, '\//') . '/tmp-dir/shared-tmp';
-        $result = $helper->unzipDownloadedBundle($downloadedArchive);
-        $this->assertTrue($result);
-        $manifest = $helper->readBundleJson($helper->getTempBundleFolder('bundle.json'));
-        $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/shared-tmp', $helper->getTempBundleFolder());
-        $this->assertEquals(
-            [
-                'assetsLibrary' => [
-                    [
-                        'name' => 'faqToggle',
-                        'dependencies' => [],
-                        'jsBundle' => '[publicPath]/dist/faqToggle.bundle.js',
-                    ],
-                ],
-            ],
-            $manifest
-        );
-
-        // remove downloaded
-        $this->assertFileExists($helper->getTempBundleFolder());
-        $removeResult = $helper->removeTempBundleFolder();
-        $this->assertTrue($removeResult);
-        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
-    }
+    //    public function testFreeAssetDownload()
+    // Also disabled because now it is built-in
+    // TODO: update disabled tests for premium checks.
+    //    {
+    //        // ASSETS doesn't have different url, it located on release json
+    //        $findAsset = BundleHelperTest::$releaseJson['actions']['asset/faqToggle'];
+    //        $helper = vcapp(TestAssetDownload::class);
+    //        $downloadedArchive = $helper->requestBundleDownload($findAsset['data']['url']);
+    //        $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/shared-tmp', $helper->getTempBundleFolder());
+    //
+    //        $this->assertTrue(is_file($downloadedArchive));
+    //
+    //        // unzip
+    //        // force set bundle path again to fix downloaded override
+    //        $helper->bundlePath = rtrim(__DIR__, '\//') . '/tmp-dir/shared-tmp';
+    //        $result = $helper->unzipDownloadedBundle($downloadedArchive);
+    //        $this->assertTrue($result);
+    //        $manifest = $helper->readBundleJson($helper->getTempBundleFolder('bundle.json'));
+    //        $this->assertEquals(rtrim(__DIR__, '\//') . '/tmp-dir/shared-tmp', $helper->getTempBundleFolder());
+    //        $this->assertEquals(
+    //            [
+    //                'assetsLibrary' => [
+    //                    [
+    //                        'name' => 'faqToggle',
+    //                        'dependencies' => [],
+    //                        'jsBundle' => '[publicPath]/dist/faqToggle.bundle.js',
+    //                    ],
+    //                ],
+    //            ],
+    //            $manifest
+    //        );
+    //
+    //        // remove downloaded
+    //        $this->assertFileExists($helper->getTempBundleFolder());
+    //        $removeResult = $helper->removeTempBundleFolder();
+    //        $this->assertTrue($removeResult);
+    //        $this->assertFileDoesNotExist($helper->getTempBundleFolder());
+    //    }
 }
 
 class TestHubElementDownload extends \VisualComposer\Helpers\Hub\Actions\ActionBundle
