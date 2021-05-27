@@ -1,10 +1,7 @@
 import React from 'react'
-import { getService } from 'vc-cake'
 import ControlDropdownInner from 'public/components/elementControls/controlDropdownInner'
 import { ControlHelpers } from '../elementControls/controlHelpers'
 import classNames from 'classnames'
-
-const hubElementsService = getService('hubElements')
 
 export default class MenuDropdown extends React.Component {
   constructor (props) {
@@ -56,6 +53,8 @@ export default class MenuDropdown extends React.Component {
 
   render () {
     const vcElement = ControlHelpers.getVcElement(this.props.id)
+    const colorIndex = ControlHelpers.getElementColorIndex(vcElement)
+
     if (!vcElement) {
       return null
     }
@@ -65,16 +64,9 @@ export default class MenuDropdown extends React.Component {
       top: this.props.position.top + 'px'
     }
 
-    const title = vcElement.get('customHeaderTitle') || vcElement.get('name')
-    const icon = hubElementsService.getElementIcon(vcElement.get('tag'))
-
-    const iconStyles = {
-      mask: `url(${icon}), no-repeat left`,
-      WebkitMask: `url(${icon}), no-repeat left`
-    }
-
     const dropdownClasses = classNames({
       'vcv-ui-right-click-menu-dropdown-content': true,
+      [`vcv-ui-right-click-menu-dropdown-index-${colorIndex}`]: true,
       [`vcv-ui-right-click-menu-dropdown-position--${this.state.dropdownVerticalPosition}`]: true,
       [`vcv-ui-right-click-menu-dropdown-position--${this.state.dropdownHorizontalPosition}`]: true
     })
@@ -82,10 +74,6 @@ export default class MenuDropdown extends React.Component {
     return (
       <div className='vcv-ui-right-click-menu-container' style={styles}>
         <div className={dropdownClasses} ref={this.rightClickDropdown}>
-          <span className='vcv-ui-right-click-description-item'>
-            <span className='vcv-ui-outline-control-icon' style={iconStyles} />
-            <span className='vcv-ui-outline-control-element-title'>{title}</span>
-          </span>
           <ControlDropdownInner elementId={this.props.id} />
         </div>
       </div>
