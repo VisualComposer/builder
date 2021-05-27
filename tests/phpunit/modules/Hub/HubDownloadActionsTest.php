@@ -7,7 +7,7 @@ class HubDownloadActionsTest extends WP_UnitTestCase
         $this->assertIsArray(BundleHelperTest::$releaseJson);
         //        $this->assertIsArray(BundleHelperTest::$elementJson);
         $this->assertIsArray(BundleHelperTest::$addonJson);
-        $this->assertIsArray(BundleHelperTest::$templateJson);
+//        $this->assertIsArray(BundleHelperTest::$templateJson);
     }
 
     public function testAddonDownloadAction()
