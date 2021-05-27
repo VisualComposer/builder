@@ -237,6 +237,9 @@ STYLE;
       transform: translate(-50%, -50%) rotate(360deg);
     }
   }
+  #adminmenu .wp-not-current-submenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu {
+    margin-top: 0 !important;
+  }
 </style>
 <div class="wrap vcv-settings">
     <div class="vcv-dashboard-loader">
