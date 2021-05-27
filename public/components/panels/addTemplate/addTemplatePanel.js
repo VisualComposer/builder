@@ -98,7 +98,7 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   setCategoryArray (data) {
-    const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
+    const allTemplates = myTemplatesService.getAllTemplates(null, null, data).filter(template => !['customBlock', 'block'].includes(template.type))
     this.templatesCategories = [
       {
         index: 0,
