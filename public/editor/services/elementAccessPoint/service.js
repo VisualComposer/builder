@@ -11,7 +11,7 @@ const storages = {
 }
 
 const ElementAPI = {
-  getInstance: (id, elementData) => {
+  getInstance: (id, elementData, elementParentProps) => {
     if (id) {
       elementData = services.document.get(id)
       if (elementData) {
@@ -19,6 +19,9 @@ const ElementAPI = {
       }
     } else if (elementData) {
       elementData.inner = true
+      if (elementParentProps && elementParentProps.elementAccessPoint.inner) {
+        elementData.innerMultipleLevel = true
+      }
       return new Element(elementData, services, storages)
     }
     return null

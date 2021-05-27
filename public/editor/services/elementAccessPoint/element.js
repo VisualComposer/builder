@@ -4,6 +4,7 @@ const privateDataElementKey = Symbol(' _data')
 export default class Element {
   constructor (data, services, storages) {
     this.inner = data.inner
+    this.innerMultipleLevel = data.innerMultipleLevel
     this.id = data.id
     this.tag = data.tag
     this.services = services
