@@ -5,6 +5,7 @@ import MenuDropdown from './menuDropdown'
 import { disableScroll, enableScroll } from 'public/tools/disableScroll'
 
 const workspaceStorage = getStorage('workspace')
+const layoutStorage = getStorage('layout')
 
 export default class RightClickMenu extends React.Component {
   constructor (props) {
@@ -32,6 +33,7 @@ export default class RightClickMenu extends React.Component {
     enableScroll(this.iframeWindow)
 
     ReactDOM.unmountComponentAtNode(this.menuWrapper)
+    layoutStorage.state('rightClickMenuActive').set(false)
   }
 
   handleRightClick (e) {
@@ -53,9 +55,8 @@ export default class RightClickMenu extends React.Component {
       e.preventDefault()
 
       workspaceStorage.state('userInteractWith').set(id)
-
       disableScroll(this.iframeWindow)
-
+      layoutStorage.state('rightClickMenuActive').set(true)
       ReactDOM.render(<MenuDropdown id={id} position={{ top: e.clientY, left: e.clientX }} />, this.menuWrapper)
 
       return false

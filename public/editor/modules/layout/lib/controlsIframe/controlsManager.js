@@ -142,6 +142,10 @@ export default class ControlsManager {
    * @param e
    */
   findElement (e = null) {
+    if (layoutStorage.state('rightClickMenuActive').get() === true) {
+      return null
+    }
+
     // need to run all events, so creating fake event
     if (!e) {
       e = {
@@ -314,6 +318,13 @@ export default class ControlsManager {
       if (data && data.type === 'mouseLeaveContainer') {
         this.handleControlsMouseLeave(data.vcElementId)
       }
+    })
+
+    layoutStorage.state('rightClickMenuActive').onChange(() => {
+      const outlineControls = document.querySelector('.vcv-ui-outline-controls-wrapper')
+      ReactDOM.unmountComponentAtNode(outlineControls)
+      const appendControls = document.querySelector('.vcv-ui-append-control-wrapper')
+      ReactDOM.unmountComponentAtNode(appendControls)
     })
   }
 
