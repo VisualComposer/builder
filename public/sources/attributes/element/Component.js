@@ -45,7 +45,7 @@ export default class ElementAttribute extends Attribute {
     if (!props.value.id && props.fieldKeyInner) {
       props.value.id = props.fieldKeyInner
     }
-    const valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value)
+    const valueElementAccessPoint = elementAccessPointService.getInstance(null, props.value, props)
     valueElementAccessPoint.parentElementAccessPoint = this.props.elementAccessPoint
 
     return {
