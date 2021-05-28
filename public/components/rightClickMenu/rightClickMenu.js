@@ -37,6 +37,7 @@ export default class RightClickMenu extends React.Component {
   }
 
   handleRightClick (e) {
+    e.target.blur()
     this.iframeWindow.document.addEventListener('click', this.unmountMenuComponent)
     window.document.addEventListener('click', this.unmountMenuComponent)
     workspaceStorage.state('userInteractWith').set(null)
