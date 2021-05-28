@@ -246,6 +246,7 @@ class Localizations extends Container implements Helper
             'hideOn' => __('Show Element', 'visualcomposer'),
             'elementIsHidden' => __('Element is Hidden', 'visualcomposer'),
             'editFormSettingsText' => __('Element Settings', 'visualcomposer'),
+            'editRowSettingsText' => __('Block Template', 'visualcomposer'),
             'presetsHelperText' => __(
                 'Change the default parameters to create a unique element. The new element will be added to your library.',
                 'visualcomposer'
