@@ -310,9 +310,12 @@ export default class EditFormHeader extends React.Component {
 
     let settingsControl = null
     const cookElement = elementAccessPoint.cook()
-    const isGeneral = cookElement.relatedTo('General') || cookElement.relatedTo('RootElements')
+    const isRoot = cookElement.relatedTo('RootElements')
+    const isGeneral = cookElement.relatedTo('General') && !isRoot
+    const isPresetsEnabled = isGeneral && roleManager.can('editor_content_presets_management', roleManager.defaultTrue())
+    const isBlocksEnabled = isRoot && roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
 
-    if (isGeneral && roleManager.can('editor_content_presets_management', roleManager.defaultTrue())) {
+    if (isPresetsEnabled || isBlocksEnabled) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span

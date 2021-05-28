@@ -164,16 +164,16 @@ export default class EditFormSection extends React.Component {
     e.preventDefault()
 
     if (this.props.isRootElement) {
-      this.saveAsTemplate()
+      this.saveAsBlock()
     } else {
       this.saveAsPreset()
     }
   }
 
-  saveAsTemplate () {
-    const templateAlreadyExistsText = EditFormSection.localizations ? EditFormSection.localizations.templateAlreadyExists : 'A template with this name already exists. Choose a different template name.'
-    const templateSaveFailedText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Failed to save the template.'
-    const specifyTemplateNameText = EditFormSection.localizations ? EditFormSection.localizations.specifyTemplateName : 'Enter the template name to save this page as a template.'
+  saveAsBlock () {
+    const templateAlreadyExistsText = EditFormSection.localizations.blockAlreadyExists || 'A block with this name already exists. Choose a different block name.'
+    const templateSaveFailedText = EditFormSection.localizations.blockSaveFailed || 'Failed to save the block.'
+    const specifyTemplateNameText = EditFormSection.localizations.specifyBlockName || 'Enter the block name to save this Row as a block template.'
 
     let { name } = this.state
     name = name.trim()
@@ -182,7 +182,7 @@ export default class EditFormSection extends React.Component {
         this.displayError(templateAlreadyExistsText)
       } else {
         this.setState({ showSpinner: name })
-        const templateAddResult = myTemplatesService.addElementTemplate(this.props.elementId, name, this.onSaveSuccess, this.onSaveFailed)
+        const templateAddResult = myTemplatesService.addElementTemplate(this.props.elementId, name, this.onSaveSuccess, this.onSaveFailed, 'customBlock')
         if (!templateAddResult) {
           this.displayError(templateSaveFailedText)
         }
@@ -270,12 +270,12 @@ export default class EditFormSection extends React.Component {
     this.setState({
       name: ''
     })
-    const templateSaved = EditFormSection.localizations ? EditFormSection.localizations.templateSaved : 'The template has been successfully saved.'
-    this.displaySuccess(templateSaved)
+    const blockSaved = EditFormSection.localizations.blockSaved || 'The block has been successfully saved.'
+    this.displaySuccess(blockSaved)
   }
 
   onSaveFailed () {
-    const errorText = EditFormSection.localizations ? EditFormSection.localizations.templateSaveFailed : 'Failed to save the template.'
+    const errorText = EditFormSection.localizations.blockSaveFailed || 'Failed to save the block.'
     this.displayError(errorText)
   }
 

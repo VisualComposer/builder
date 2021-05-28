@@ -1712,6 +1712,46 @@ class Localizations extends Container implements Helper
             'lazyLoadBackground' => __(
                 'Apply lazy load to the selected background',
                 'visualcomposer'
+            ),
+            'saveAsBlock' => __(
+                'Save as a Block',
+                'visualcomposer'
+            ),
+            'getMoreBlocks' => __(
+                'Get More Blocks',
+                'visualcomposer'
+            ),
+            'removeBlockWarning' => __(
+                'Do you want to delete this block?',
+                'visualcomposer'
+            ),
+            'blockRemoved' => __(
+                'The block has been successfully removed.',
+                'visualcomposer'
+            ),
+            'blockRemoveFailed' => __(
+                'Failed to remove the block',
+                'visualcomposer'
+            ),
+            'blockAlreadyExists' => __(
+                'A block with this name already exists. Choose a different block name.',
+                'visualcomposer'
+            ),
+            'blockSaveFailed' => __(
+                'Failed to save the block.',
+                'visualcomposer'
+            ),
+            'specifyBlockName' => __(
+                'Enter the block name to save this Row as a block template.',
+                'visualcomposer'
+            ),
+            'blockContainsLimitElement' => __(
+                'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.',
+                'visualcomposer'
+            ),
+            'blockSaved' => __(
+                'The block has been successfully saved.',
+                'visualcomposer'
             )
         ];
 

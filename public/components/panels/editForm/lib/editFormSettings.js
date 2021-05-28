@@ -7,8 +7,10 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
   const presetsHelperText = localizations ? localizations.presetsHelperText : 'Change the default parameters to create a unique element. The new element will be added to your library.'
   const templateHelperText = localizations ? localizations.templateHelperText : 'Change the default parameters of the section to save it as a unique block template. The new block template will be added to your library.'
   const saveAsPreset = localizations ? localizations.saveAsPreset : 'Save as a Preset'
-  const saveAsTemplate = localizations ? localizations.saveAsTemplate : 'Save as a Template'
-  const enterPresetNameText = localizations ? localizations.enterPresetName : 'Enter preset name'
+  const saveAsTemplate = localizations ? localizations.saveAsBlock : 'Save as a Block'
+  const presetPlaceholderText = localizations.enterPresetName || 'Enter preset name'
+  const bloksPlaceholderText = localizations.enterBlocksName || 'Enter block\'s name'
+  const enterPresetNameText = isRootElement ? bloksPlaceholderText : presetPlaceholderText
   const buttonText = isRootElement ? saveAsTemplate : saveAsPreset
 
   return (

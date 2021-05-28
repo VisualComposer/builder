@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Scrollbar from '../../scrollbar/scrollbar.js'
-import TemplateControl from './lib/templateControl'
+import BlockControl from './lib/blockControl'
 import TransparentOverlayComponent from '../../overlays/transparentOverlay/transparentOverlayComponent'
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
-import TemplatesGroup from './lib/templatesGroup'
+import BlockGroup from './lib/blockGroup'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -21,7 +21,7 @@ const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
 
-export default class AddTemplatePanel extends React.Component {
+export default class AddBlockPanel extends React.Component {
   static propTypes = {
     searchValue: PropTypes.string,
     handleScrollToElement: PropTypes.func
@@ -29,16 +29,8 @@ export default class AddTemplatePanel extends React.Component {
 
   static localizations = dataManager.get('localizations')
   static categoriesOrder = [
-    'custom',
-    'customHeader',
-    'customFooter',
-    'customSidebar',
-    'popup',
-    'hubHeader',
-    'hubFooter',
-    'hubSidebar',
-    'hub',
-    'predefined'
+    'customBlock',
+    'block'
   ]
 
   errorTimeout = 0
@@ -49,10 +41,8 @@ export default class AddTemplatePanel extends React.Component {
     this.setCategoryArray(this.templateServiceData)
     this.state = {
       activeCategoryIndex: 0,
-      categoryTitle: 'My Templates',
-      templateName: '',
+      categoryTitle: 'My Blocks',
       error: false,
-      errorName: '',
       showSpinner: false,
       categories: this.templatesCategories,
       showLoading: false,
@@ -60,14 +50,10 @@ export default class AddTemplatePanel extends React.Component {
       isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
-    this.handleChangeTemplateName = this.handleChangeTemplateName.bind(this)
     this.displayError = this.displayError.bind(this)
-    this.handleSaveTemplate = this.handleSaveTemplate.bind(this)
     this.handleGoToHub = this.handleGoToHub.bind(this)
-    this.handleApplyTemplate = this.handleApplyTemplate.bind(this)
-    this.handleRemoveTemplate = this.handleRemoveTemplate.bind(this)
-    this.onSaveSuccess = this.onSaveSuccess.bind(this)
-    this.onSaveFailed = this.onSaveFailed.bind(this)
+    this.handleApplyBlock = this.handleApplyBlock.bind(this)
+    this.handleRemoveBlock = this.handleRemoveBlock.bind(this)
     this.onRemoveSuccess = this.onRemoveSuccess.bind(this)
     this.onRemoveFailed = this.onRemoveFailed.bind(this)
     this.handleTemplateStorageStateChange = this.handleTemplateStorageStateChange.bind(this)
@@ -98,58 +84,49 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   setCategoryArray (data) {
-    const allTemplates = myTemplatesService.getAllTemplates(null, null, data).filter(template => !['customBlock', 'block'].includes(template.type))
-    this.templatesCategories = [
-      {
-        index: 0,
-        title: AddTemplatePanel.localizations.all,
-        id: 'all',
-        visible: true,
-        templates: allTemplates
-      }
-    ]
+    const allTemplates = myTemplatesService.getAllTemplates(null, null, data)
+    this.templatesCategories = []
+    let allBlocksArray = []
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
-    // Sort categories according to predefined order in AddTemplatePanel.categoriesOrder
-    const sorter = (a, b) => {
-      return AddTemplatePanel.categoriesOrder.indexOf(a) - AddTemplatePanel.categoriesOrder.indexOf(b)
-    }
-    sortedGroups.sort(sorter)
 
     sortedGroups.forEach((group, index) => {
       if (!data[group] || !data[group].templates || !data[group].templates.length) {
         return
       }
-      // Merge hub and predefined groups together for BC
-      if (group === 'predefined' && this.templatesCategories.find(category => category.id === 'predefined')) {
-        const predefinedTemplates = data[group] && data[group].templates ? data[group].templates : []
-        const hubTemplates = this.templatesCategories.find(category => category.id === 'hub')
-        if (hubTemplates) {
-          hubTemplates.templates = [...hubTemplates.templates, ...predefinedTemplates]
-        }
-      } else if (!group.toLowerCase().includes('block')) {
+      if (AddBlockPanel.categoriesOrder.includes(group)) {
+        const blocks = data[group] && data[group].templates ? data[group].templates : []
         const groupData = {
           index: index + 1,
           id: group,
           title: data[group].name,
           visible: data[group] && data[group].templates && data[group].templates.length,
-          templates: data[group] && data[group].templates ? data[group].templates : []
+          templates: blocks
         }
+        allBlocksArray = allBlocksArray.concat(blocks)
         this.templatesCategories.push(groupData)
       }
 
       delete data[group]
     })
 
+    const allBlocksItems = {
+      title: AddBlockPanel.localizations.all,
+      id: 'all',
+      visible: true,
+      templates: allBlocksArray
+    }
+    this.templatesCategories.unshift(allBlocksItems)
+
     const mostUsedItems = allTemplates.filter(template => template.usageCount > 9).sort((templateA, templateB) => templateB.usageCount - templateA.usageCount).slice(0, 9)
-    // Most User Group
+    // Most Used Group
     if (mostUsedItems.length > 0) {
-      const mostUsedTemplatesGroup = {
+      const mostUsedBlocksGroup = {
         id: 'usageCount',
         title: 'Most Used',
         templates: mostUsedItems
       }
-      this.templatesCategories.unshift(mostUsedTemplatesGroup)
+      this.templatesCategories.unshift(mostUsedBlocksGroup)
     }
   }
 
@@ -163,15 +140,6 @@ export default class AddTemplatePanel extends React.Component {
 
   isSearching () {
     return this.props.searchValue ? this.props.searchValue.trim() : false
-  }
-
-  // Change state
-
-  handleChangeTemplateName (e) {
-    this.setState({
-      templateName: e.currentTarget.value,
-      error: false
-    })
   }
 
   displaySuccess (successText) {
@@ -194,7 +162,7 @@ export default class AddTemplatePanel extends React.Component {
     })
   }
 
-  getTemplateControlProps (template) {
+  getBlockControlProps (template) {
     template = Object.assign({}, template)
     if (
       (env('VCV_FT_TEMPLATE_DATA_ASYNC') && this.state.showLoading === template.id) ||
@@ -208,19 +176,19 @@ export default class AddTemplatePanel extends React.Component {
 
     return {
       key: 'vcv-element-control-' + template.id,
-      applyTemplate: this.handleApplyTemplate,
-      removeTemplate: this.handleRemoveTemplate,
+      applyBlock: this.handleApplyBlock,
+      removeBlock: this.handleRemoveBlock,
       isRemoveStateActive: this.state.isRemoveStateActive,
       ...template
     }
   }
 
   getNoResultsElement () {
-    const helperText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.accessVisualComposerHubToDownload : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
-    const nothingFoundText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.nothingFound : 'Nothing found'
+    const helperText = AddBlockPanel.localizations.accessVisualComposerHubToDownload || 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
+    const nothingFoundText = AddBlockPanel.localizations.nothingFound || 'Nothing found'
 
     let source
-    if (!this.state.categories[0].templates.length && !this.state.isSearching) {
+    if (this.state.categories[0] && !this.state.categories[0].templates.length && !this.state.isSearching) {
       source = sharedAssetsLibraryService.getSourcePath('images/add-item.png')
     } else {
       source = sharedAssetsLibraryService.getSourcePath('images/search-no-result.png')
@@ -254,12 +222,12 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   getMoreButton () {
-    const buttonText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.getMoreTemplates : 'Get More Templates'
+    const buttonText = AddBlockPanel.localizations.getMoreBlocks || 'Get More Blocks'
     return <button className='vcv-ui-form-button vcv-ui-form-button--large' onClick={this.handleGoToHub}>{buttonText}</button>
   }
 
-  getTemplateControl (template) {
-    return <TemplateControl {...this.getTemplateControlProps(template)} />
+  getBlockControl (block) {
+    return <BlockControl {...this.getBlockControlProps(block)} />
   }
 
   getSearchResults () {
@@ -285,37 +253,37 @@ export default class AddTemplatePanel extends React.Component {
       return firstIndex - secondIndex
     })
       .map((template) => {
-        return this.getTemplateControl(template)
+        return this.getBlockControl(template)
       })
   }
 
-  getTemplatesByGroup () {
+  getBlocksByGroup () {
     const allGroups = this.state.categories.filter(category => category.id !== 'all')
-    const allTemplates = []
+    const allBlocks = []
 
     allGroups.forEach((groupData) => {
       const groupTemplates = []
       groupData.templates.forEach((template) => {
-        groupTemplates.push(this.getTemplateControl(template))
+        groupTemplates.push(this.getBlockControl(template))
       })
       groupTemplates.sort((a, b) => {
         const x = a.props.name
         const y = b.props.name
         return ((x < y) ? -1 : ((x > y) ? 1 : 0))
       })
-      allTemplates.push(
-        <TemplatesGroup
+      allBlocks.push(
+        <BlockGroup
           key={`vcv-element-category-${groupData.id}`}
           groupData={groupData}
           isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
           onGroupToggle={this.handleGroupToggle}
         >
           {groupTemplates}
-        </TemplatesGroup>
+        </BlockGroup>
       )
     })
 
-    return allTemplates
+    return allBlocks
   }
 
   handleGroupToggle (groupID, isOpened) {
@@ -325,7 +293,7 @@ export default class AddTemplatePanel extends React.Component {
     }
   }
 
-  getTemplateListContainer (itemsOutput) {
+  getBlockListContainer (itemsOutput) {
     if (itemsOutput.length) {
       return (
         <div className='vcv-ui-item-list-container'>
@@ -341,65 +309,14 @@ export default class AddTemplatePanel extends React.Component {
 
   // Event handlers
 
-  handleSaveTemplate (e) {
-    e && e.preventDefault()
-    const templateAlreadyExistsText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateAlreadyExists : 'A template with this name already exists. Choose a different template name.'
-    const templateContentEmptyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContentEmpty : 'There is no content on the page to be saved.'
-    const templateSaveFailedText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Failed to save the template.'
-    const specifyTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.specifyTemplateName : 'Enter the template name to save this page as a template.'
-    let { templateName } = this.state
-    templateName = templateName.trim()
-    if (templateName) {
-      if (myTemplatesService.findBy('name', templateName)) {
-        this.displayError(templateAlreadyExistsText)
-      } else if (!documentManager.size()) {
-        this.displayError(templateContentEmptyText)
-      } else {
-        this.setState({ showSpinner: templateName })
-        const templateAddResult = myTemplatesService.addCurrentLayout(templateName, this.onSaveSuccess, this.onSaveFailed)
-        if (!templateAddResult) {
-          this.setState({
-            showSpinner: false
-          })
-          this.displayError(templateSaveFailedText)
-        }
-      }
-    } else {
-      this.displayError(specifyTemplateNameText)
-    }
-  }
-
-  onSaveSuccess () {
-    this.setState({
-      templateName: '',
-      categoryTitle: this.state.categories[1].title,
-      isSearching: false,
-      showSpinner: false
-    })
-
-    const successText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaved : 'The template has been successfully saved.'
-
-    notificationsStorage.trigger('add', {
-      position: 'bottom',
-      text: successText,
-      time: 5000,
-      usePortal: true
-    })
-  }
-
-  onSaveFailed () {
-    const errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaveFailed : 'Failed to save the template.'
-    this.displayError(errorText)
-  }
-
   handleGoToHub () {
     const settings = {
       action: 'addHub',
       element: {},
       tag: '',
       options: {
-        filterType: 'template',
-        id: 1,
+        filterType: 'block',
+        id: 2,
         bundleType: undefined
       }
     }
@@ -419,11 +336,11 @@ export default class AddTemplatePanel extends React.Component {
     return limitData
   }
 
-  handleApplyTemplate (id, templateType) {
+  handleApplyBlock (id, templateType) {
     elementsStorage.state('elementAddList').set([])
     const editorType = dataManager.get('editorType')
     if (templateType === 'popup' && editorType === 'popup' && documentManager.children(false).length > 0) {
-      const replacePopupTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.replacePopupTemplateText : 'The current popup will be replaced with the popup template.'
+      const replacePopupTemplateText = AddBlockPanel.localizations ? AddBlockPanel.localizations.replacePopupTemplateText : 'The current popup will be replaced with the popup template.'
       if (!window.confirm(replacePopupTemplateText)) {
         return
       }
@@ -468,7 +385,7 @@ export default class AddTemplatePanel extends React.Component {
             if (limitData.hasExceeded) {
               const cookElement = cook.get(element)
               const elementName = cookElement.get('name')
-              let errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
+              let errorText = AddBlockPanel.localizations.templateContainsLimitElement || 'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.'
               errorText = errorText.split('%element').join(elementName)
               notificationsStorage.trigger('add', {
                 position: 'top',
@@ -508,9 +425,9 @@ export default class AddTemplatePanel extends React.Component {
     }
   }
 
-  handleRemoveTemplate (id, type) {
-    const removeTemplateWarning = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.removeTemplateWarning : 'Do you want to delete this template?'
-    if (window.confirm(removeTemplateWarning)) {
+  handleRemoveBlock (id, type) {
+    const removeBlockWarning = AddBlockPanel.localizations.removeBlockWarning || 'Do you want to delete this block?'
+    if (window.confirm(removeBlockWarning)) {
       const newRemovingState = this.state.removing
       newRemovingState.push(id)
       this.setState({
@@ -524,7 +441,7 @@ export default class AddTemplatePanel extends React.Component {
 
   onRemoveSuccess (id) {
     const index = !this.state.categories[this.state.activeCategoryIndex].templates.length ? 0 : this.state.activeCategoryIndex
-    const templateRemovedSuccessfullyText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoved : 'The template has been successfully removed.'
+    const templateRemovedSuccessfullyText = AddBlockPanel.localizations.blockRemoved || 'The block has been successfully removed.'
     this.displaySuccess(templateRemovedSuccessfullyText)
     const newRemoveState = this.state.removing
     newRemoveState.splice(newRemoveState.indexOf(id), 1)
@@ -537,33 +454,20 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   onRemoveFailed (response) {
-    const templateRemoveFailed = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateRemoveFailed : 'Failed to remove the template'
+    const templateRemoveFailed = AddBlockPanel.localizations.blockRemoveFailed || 'Failed to remove the block'
 
     this.displayError(response && response.message ? response.message : templateRemoveFailed)
     this.setState({ showSpinner: false })
   }
 
   render () {
-    const enterTemplateNameText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.enterTemplateName : 'Enter template name'
-    const saveTemplateText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.saveTemplate : 'Save Template'
-    const hubButtonDescriptionText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.goToHubButtonDescription : 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
+    const hubButtonDescriptionText = AddBlockPanel.localizations.goToHubButtonDescription || 'Access the Visual Composer Hub - download additional elements, blocks, templates, and addons.'
 
-    const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getTemplatesByGroup()
-    if (this.state.showSpinner && !this.state.removing.length) {
-      itemsOutput.push(this.getTemplateControl({
-        name: this.state.templateName,
-        data: {},
-        spinner: true
-      }))
-    }
+    const itemsOutput = this.isSearching() ? this.getSearchResults() : this.getBlocksByGroup()
 
     const innerSectionClasses = classNames({
       'vcv-ui-tree-content-section-inner': true,
       'vcv-ui-state--centered-content': itemsOutput && !itemsOutput.length
-    })
-    const errorMessageClasses = classNames({
-      'vcv-ui-tree-content-error-message': true,
-      'vcv-ui-tree-content-error-message--visible': this.state.error
     })
 
     let moreButtonOutput = null
@@ -581,51 +485,18 @@ export default class AddTemplatePanel extends React.Component {
       transparentOverlay = <TransparentOverlayComponent disableNavBar parent='.vcv-layout' />
     }
 
-    const isAbleToSave = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
-    const saveTemplate = this.state.isRemoveStateActive || !isAbleToSave ? null : (
-      <div className='vcv-ui-form-dependency'>
-        <div className='vcv-ui-form-group'>
-          <form
-            className='vcv-ui-save-template-form'
-            onSubmit={this.handleSaveTemplate}
-            disabled={!!this.state.showSpinner}
-          >
-            <input
-              className='vcv-ui-form-input vcv-ui-editor-save-template-field'
-              type='text'
-              value={this.state.templateName}
-              onChange={this.handleChangeTemplateName}
-              disabled={!!this.state.showSpinner}
-              placeholder={enterTemplateNameText}
-            />
-            <button
-              className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
-              type='submit'
-              title={saveTemplateText}
-              disabled={!!this.state.showSpinner}
-            >{saveTemplateText}
-            </button>
-          </form>
-        </div>
-      </div>
-    )
-
     return (
       <div className='vcv-ui-tree-view-content vcv-ui-add-template-content'>
         {transparentOverlay}
         {this.state.showLoading ? <LoadingOverlayComponent /> : null}
         <div className='vcv-ui-tree-content'>
           <div className='vcv-ui-tree-content-section'>
-            <div className='vcv-ui-tree-content-error-message-container'>
-              <div className={errorMessageClasses}>{this.state.errorName}</div>
-            </div>
             <Scrollbar>
               <div className={innerSectionClasses}>
-                {saveTemplate}
                 <div className='vcv-ui-editor-plates-container'>
                   <div className='vcv-ui-editor-plates'>
                     <div className='vcv-ui-editor-plate vcv-ui-state--active'>
-                      {this.getTemplateListContainer(itemsOutput)}
+                      {this.getBlockListContainer(itemsOutput)}
                     </div>
                   </div>
                 </div>

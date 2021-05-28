@@ -249,11 +249,11 @@ class Controller extends Container implements Module
      */
     protected function saveTemplateId($sourceId)
     {
-        if ($sourceId === 'template') {
+        if (in_array($sourceId, ['template', 'customBlock'])) {
             /** @see \VisualComposer\Modules\Editors\Templates\Controller::create */
             $type = vcfilter(
                 'vcv:editorTemplates:template:type',
-                'custom',
+                $sourceId === 'template' ? 'custom' : 'customBlock',
                 [
                     'sourceId' => $sourceId,
                 ]

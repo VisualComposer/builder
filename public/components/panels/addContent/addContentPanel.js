@@ -1,6 +1,7 @@
 import React from 'react'
 import AddElementPanel from '../addElement/addElementPanel'
 import AddTemplatePanel from '../addTemplate/addTemplatePanel'
+import AddBlockPanel from '../addBlock/addBlockPanel'
 import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
 import Search from './lib/search'
@@ -61,7 +62,8 @@ export default class AddContentPanel extends React.Component {
   }
 
   setActiveSection (type) {
-    const action = type === 'addTemplate' ? 'addTemplate' : 'add'
+    const action = type !== 'addElement' ? type : 'add'
+
     workspaceSettings.set({
       action: action,
       element: {},
@@ -127,6 +129,15 @@ export default class AddContentPanel extends React.Component {
       }
     }
 
+    if (roleManager.can('editor_content_block_add', roleManager.defaultAdmin())) {
+      controls.addBlock = {
+        index: 2,
+        type: 'addBlock',
+        title: AddContentPanel.localizations.blocks || 'Blocks',
+        searchPlaceholder: AddContentPanel.localizations.searchContentBlocks || 'Search for blocks'
+      }
+    }
+
     let content = null
     if (this.props.activeTab === 'addElement' && controls.addElement) {
       content = (
@@ -141,6 +152,10 @@ export default class AddContentPanel extends React.Component {
     } else if (this.props.activeTab === 'addTemplate' && controls.addTemplate) {
       content = (
         <AddTemplatePanel key='addTemplatePanel' searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
+      )
+    } else if (this.props.activeTab === 'addBlock' && controls.addBlock) {
+      content = (
+        <AddBlockPanel key='addBlockPanel' searchValue={this.state.searchValue} handleScrollToElement={this.scrollToElementInsideFrame} />
       )
     }
 
