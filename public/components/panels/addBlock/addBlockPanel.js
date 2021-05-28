@@ -171,7 +171,7 @@ export default class AddBlockPanel extends React.Component {
       template.spinner = true
     }
     if (!template.type) {
-      template.type = 'custom'
+      template.type = 'customBlock'
     }
 
     return {

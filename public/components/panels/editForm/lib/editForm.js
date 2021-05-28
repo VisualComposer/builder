@@ -182,7 +182,9 @@ export default class EditForm extends React.Component {
   getEditFormSettingsSections () {
     const isRootElement = this.props.elementAccessPoint.cook().relatedTo('RootElements')
     const localizations = dataManager.get('localizations')
-    const tabLabel = localizations ? localizations.editFormSettingsText : 'Element Presets'
+    const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
+    const editRowSettingsText = localizations ? localizations.editRowSettingsText : 'Block Template'
+    const tabLabel = isRootElement ? editRowSettingsText : editFormSettingsText
 
     return (
       <EditFormSection
