@@ -156,6 +156,7 @@ vcCake.add('contentLayout', (api) => {
   }
 
   const reloadLayout = ({ type, template, header, sidebar, footer }) => {
+    rightClick.init()
     if (type === 'reload') {
       createLoadingScreen()
       const iframe = window.document.getElementById('vcv-editor-iframe')

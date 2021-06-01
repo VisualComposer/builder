@@ -6,7 +6,6 @@ import { disableScroll, enableScroll } from 'public/tools/disableScroll'
 
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
-const settingsStorage = getStorage('settings')
 
 export default class RightClickMenu extends React.Component {
   constructor (props) {
@@ -66,15 +65,10 @@ export default class RightClickMenu extends React.Component {
   }
 
   init () {
-    let iframe = document.getElementById('vcv-editor-iframe')
+    const iframe = document.getElementById('vcv-editor-iframe')
     this.iframeWindow = iframe.contentWindow
-    settingsStorage.state('pageTemplate').onChange(() => {
-      window.setTimeout(() => {
-        iframe = document.getElementById('vcv-editor-iframe')
-        if (iframe && this.iframeWindow.document) {
-          this.iframeWindow.document.addEventListener('contextmenu', this.handleRightClick)
-        }
-      }, 1000)
-    })
+    if (iframe && this.iframeWindow.document) {
+      this.iframeWindow.document.addEventListener('contextmenu', this.handleRightClick)
+    }
   }
 }
