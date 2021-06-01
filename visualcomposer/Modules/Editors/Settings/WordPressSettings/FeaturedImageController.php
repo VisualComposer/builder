@@ -48,56 +48,66 @@ class FeaturedImageController extends Container implements Module
         if (
             // @codingStandardsIgnoreLine
             isset($currentPost->post_type)
-            && current_theme_supports('post-thumbnails')
-            // @codingStandardsIgnoreLine
-            && post_type_supports($currentPost->post_type, 'thumbnail')
         ) {
-            $featuredImageId = get_post_thumbnail_id($currentPost->ID);
-
-            // Is featured image exist
-            if ($featuredImageId) {
-                $attachmentData = wp_get_attachment_metadata($featuredImageId);
-                $attachmentPostData = get_post($featuredImageId);
-
-                // Get all size urls of image
-                $sizes = [];
-                foreach ($attachmentData['sizes'] as $key => $size) {
-                    $imageSizeData = wp_get_attachment_image_src($featuredImageId, $key);
-                    $sizes[ $key ] = $imageSizeData[0];
+            // @codingStandardsIgnoreLine
+            $thumbnailSupport = current_theme_supports('post-thumbnails', $currentPost->post_type) && post_type_supports($currentPost->post_type, 'thumbnail');
+            // @codingStandardsIgnoreLine
+            if (!$thumbnailSupport && 'attachment' === $currentPost->post_type && $currentPost->post_mime_type) {
+                if (wp_attachment_is('audio', $currentPost)) {
+                    $thumbnailSupport = post_type_supports('attachment:audio', 'thumbnail') || current_theme_supports('post-thumbnails', 'attachment:audio');
+                } elseif (wp_attachment_is('video', $currentPost)) {
+                    $thumbnailSupport = post_type_supports('attachment:video', 'thumbnail') || current_theme_supports('post-thumbnails', 'attachment:video');
                 }
-                $fullImageUrl = wp_get_attachment_image_src($featuredImageId, 'full');
-                if (isset($fullImageUrl[0])) {
-                    $sizes['full'] = $fullImageUrl[0];
-                }
-
-                // Get image text data
-                $imageData = [
-                    "id" => $featuredImageId,
-                    // @codingStandardsIgnoreLine
-                    "title" => $attachmentPostData->post_title,
-                    "alt" => get_post_meta($featuredImageId, '_wp_attachment_image_alt', true),
-                    // @codingStandardsIgnoreLine
-                    "caption" => $attachmentPostData->post_excerpt,
-                    "link" => [],
-                ];
-
-                $urls = array_merge($sizes, $imageData);
-                $result = [
-                    "ids" => [$featuredImageId],
-                    "urls" => [$urls],
-                ];
-            } else {
-                $result = [
-                    "ids" => [],
-                    "urls" => [],
-                ];
             }
 
-            $variables[] = [
-                'key' => 'VCV_FEATURED_IMAGE',
-                'value' => $result,
-                'type' => 'constant',
-            ];
+            if ($thumbnailSupport && current_user_can('upload_files')) {
+                $featuredImageId = get_post_thumbnail_id($currentPost->ID);
+
+                // Is featured image exist
+                if ($featuredImageId) {
+                    $attachmentData = wp_get_attachment_metadata($featuredImageId);
+                    $attachmentPostData = get_post($featuredImageId);
+
+                    // Get all size urls of image
+                    $sizes = [];
+                    foreach ($attachmentData['sizes'] as $key => $size) {
+                        $imageSizeData = wp_get_attachment_image_src($featuredImageId, $key);
+                        $sizes[$key] = $imageSizeData[0];
+                    }
+                    $fullImageUrl = wp_get_attachment_image_src($featuredImageId, 'full');
+                    if (isset($fullImageUrl[0])) {
+                        $sizes['full'] = $fullImageUrl[0];
+                    }
+
+                    // Get image text data
+                    $imageData = [
+                        "id" => $featuredImageId,
+                        // @codingStandardsIgnoreLine
+                        "title" => $attachmentPostData->post_title,
+                        "alt" => get_post_meta($featuredImageId, '_wp_attachment_image_alt', true),
+                        // @codingStandardsIgnoreLine
+                        "caption" => $attachmentPostData->post_excerpt,
+                        "link" => [],
+                    ];
+
+                    $urls = array_merge($sizes, $imageData);
+                    $result = [
+                        "ids" => [$featuredImageId],
+                        "urls" => [$urls],
+                    ];
+                } else {
+                    $result = [
+                        "ids" => [],
+                        "urls" => [],
+                    ];
+                }
+
+                $variables[] = [
+                    'key' => 'VCV_FEATURED_IMAGE',
+                    'value' => $result,
+                    'type' => 'constant',
+                ];
+            }
         }
 
         return $variables;
