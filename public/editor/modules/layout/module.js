@@ -61,7 +61,7 @@ vcCake.add('contentLayout', (api) => {
       )
 
       !reload && dnd.init()
-      !reload && rightClick.init()
+      rightClick.init()
 
       workspaceIFrame.onChange(reloadLayout)
 
@@ -156,7 +156,6 @@ vcCake.add('contentLayout', (api) => {
   }
 
   const reloadLayout = ({ type, template, header, sidebar, footer }) => {
-    rightClick.init()
     if (type === 'reload') {
       createLoadingScreen()
       const iframe = window.document.getElementById('vcv-editor-iframe')
