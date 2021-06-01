@@ -18,7 +18,9 @@ export default class Dropdown extends Attribute {
     defaultValue: PropTypes.any,
     options: PropTypes.any,
     extraClass: PropTypes.any,
-    description: PropTypes.string
+    description: PropTypes.string,
+    noValueDescription: PropTypes.string,
+    hasValueDescription: PropTypes.string
   }
 
   static defaultProps = {
@@ -179,18 +181,52 @@ export default class Dropdown extends Attribute {
     })
   }
 
+  replaceVariablesInText (text) {
+    let newText = text
+    const regex = /{([^}]*)}/g
+    let curMatch = ''
+    while ((curMatch = regex.exec(newText)) !== null) {
+      const globalVariable = curMatch[1]
+      if (window[globalVariable]) {
+        newText = newText.replace(`{${globalVariable}}`, window[globalVariable])
+      }
+    }
+    return newText
+  }
+
   render () {
     const { value } = this.state
+    const { options } = this.props
     const selectClass = classNames({
       'vcv-ui-form-dropdown': true
     }, this.props.extraClass)
-    let description = ''
+    let descriptionHtml = ''
     if (this.props.description) {
-      description = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
+      descriptionHtml = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
+    } else if (options && options.description) {
+      descriptionHtml = (<p className='vcv-ui-form-helper'>{options.description}</p>)
+    }
+
+    let valueDescription = ''
+    if (this.state.value) {
+      if (options && options.hasValueDescription) {
+        let text = ''
+        let editLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
+        editLink += `post.php?post=${value}&action=edit`
+        text = options.hasValueDescription.replace('{editLink}', editLink)
+        text = this.replaceVariablesInText(text)
+        valueDescription = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: text }} />)
+      }
+    } else {
+      if (options && options.noValueDescription) {
+        let text = options.noValueDescription
+        text = this.replaceVariablesInText(text)
+        valueDescription = (<p className='vcv-ui-form-helper' dangerouslySetInnerHTML={{ __html: text }} />)
+      }
     }
 
     const customProps = {}
-    if (this.props.options && this.props.options.reloadAction) {
+    if (options && options.reloadAction) {
       customProps.onClick = this.handleUpdateList
     }
 
@@ -204,7 +240,8 @@ export default class Dropdown extends Attribute {
         >
           {this.generateSelectChildren(this.props)}
         </select>
-        {description}
+        {valueDescription}
+        {descriptionHtml}
       </>
     )
   }
