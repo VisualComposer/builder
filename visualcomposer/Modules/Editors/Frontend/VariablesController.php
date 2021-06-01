@@ -100,6 +100,11 @@ class VariablesController extends Container implements Module
             'value' => set_url_scheme(admin_url()),
             'type' => 'variable',
         ];
+        $variables[] = [
+            'key' => 'vcvCreateTemplateUrl',
+            'value' => set_url_scheme(admin_url('post-new.php?post_type=vcv_templates')),
+            'type' => 'variable',
+        ];
 
         return $variables;
     }
