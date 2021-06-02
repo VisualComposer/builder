@@ -418,6 +418,7 @@ export default class Url extends Attribute {
         dynamicContent = `${dynamicContent} (${availableInPremiumText})`
       }
     }
+
     let dynamicOption = <option value='dynamic-content' disabled={!isAddonAvailable.dynamicFields}>{dynamicContent}</option>
     // Remove dynamic option for multiple image URL
     if (this.props.fieldType === 'url' && this.props.options && this.props.options.multiple) {
