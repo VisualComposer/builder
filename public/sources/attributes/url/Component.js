@@ -418,6 +418,11 @@ export default class Url extends Attribute {
         dynamicContent = `${dynamicContent} (${availableInPremiumText})`
       }
     }
+    let dynamicOption = <option value='dynamic-content' disabled={!isAddonAvailable.dynamicFields}>{dynamicContent}</option>
+    // Remove dynamic option for multiple image URL
+    if (this.props.fieldType === 'url' && this.props.options && this.props.options.multiple) {
+      dynamicOption = null
+    }
 
     const optionDropdown = (
       <div className='vcv-ui-form-group'>
@@ -430,7 +435,7 @@ export default class Url extends Attribute {
           value={dropdownValue}
         >
           <option value='url'>{urlText}</option>
-          <option value='dynamic-content' disabled={!isAddonAvailable.dynamicFields}>{dynamicContent}</option>
+          {dynamicOption}
           <option value='popup' disabled={!isAddonAvailable.popupBuilder}>{openPopupText}</option>
           {editorType === 'popup' ? <option value='close-popup'>{closePopupText}</option> : null}
         </select>
