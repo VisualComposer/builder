@@ -220,8 +220,16 @@ class PremiumTeasers extends Container implements Module
             $this->dashboardSections
         );
 
+        // Call this function after init for multisite WordPress instances
+        $this->wpAddAction('init', 'checkTeaserVisibility');
+    }
+
+    /**
+     * If user cannot download addons then no need to show teaser
+     */
+    protected function checkTeaserVisibility()
+    {
         $currentUserAccess = vchelper('AccessCurrentUser');
-        // If user cannot download addons then no need to show teaser
         $isHubAddonsEnabled = $currentUserAccess->part('hub')->can('addons')->get();
         if ($isHubAddonsEnabled) {
             $this->wpAddAction(
