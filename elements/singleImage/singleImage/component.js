@@ -118,6 +118,12 @@ export default class SingleImageElement extends vcvAPI.elementComponent {
   }
 
   getSizes (atts, img) {
+    if (!img) {
+      return {
+        width: '',
+        height: ''
+      }
+    }
     let { size, shape } = atts
     size = size.replace(/\s/g, '').replace(/px/g, '').toLowerCase()
 
