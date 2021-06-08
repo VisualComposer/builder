@@ -335,7 +335,7 @@ export default class EditFormHeader extends React.Component {
     })
 
     let lockControl = null
-    if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && isGeneral || isRoot) {
+    if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()) && (isGeneral || isRoot)) {
       const isAddonAvailable = hubStorage.state('addons').get() && hubStorage.state('addons').get().roleManager
       const lockElementText = localizations ? localizations.lockElementText : 'Lock Element'
       const lockClasses = classNames({
