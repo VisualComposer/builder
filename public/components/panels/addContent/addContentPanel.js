@@ -19,7 +19,7 @@ const workspaceContentState = workspaceStorage.state('content')
 export default class AddContentPanel extends React.Component {
   static localizations = dataManager.get('localizations')
 
-  iframe = document.getElementById('vcv-editor-iframe') && document.getElementById('vcv-editor-iframe').contentWindow.document
+  iframe = document.getElementById('vcv-editor-iframe')
 
   constructor (props) {
     super(props)
@@ -84,7 +84,8 @@ export default class AddContentPanel extends React.Component {
   }
 
   scrollToElementInsideFrame (id, isElement) {
-    const editorEl = this.iframe.querySelector(`#el-${id}`)
+    const iframeDocument = this.iframe.contentWindow.document
+    const editorEl = iframeDocument.querySelector(`#el-${id}`)
     if (!editorEl) {
       return
     }
