@@ -12,6 +12,8 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class UserCapabilities implements Helper
 {
+    protected static $prefixedCapabilities = [];
+
     public function canEdit($sourceId)
     {
         $post = get_post($sourceId);
@@ -60,5 +62,113 @@ class UserCapabilities implements Helper
         }
 
         return $hasAccess;
+    }
+
+    public function getPrefixedCapabilities()
+    {
+        if (!empty(self::$prefixedCapabilities)) {
+            return self::$prefixedCapabilities;
+        }
+        $defaultCapabilities = $this->getDefaultCapabilities();
+        $prefixedCapabilities = [];
+        foreach ($defaultCapabilities as $role => $parts) {
+            $prefixedCapabilities[$role] = [];
+            foreach ($parts as $part => $capabilities) {
+                foreach ($capabilities as $capability) {
+                    $prefixedCapabilities[$role][] = 'vcv_access_rules__' . $part . '_' . $capability;
+                }
+            }
+        }
+
+        self::$prefixedCapabilities = $prefixedCapabilities;
+
+        return self::$prefixedCapabilities;
+    }
+
+    public function getDefaultCapabilities()
+    {
+        $defaultCapabilities = [
+            'administrator' => [],
+            'editor' => [
+                'dashboard' => [
+                    'addon_global_templates',
+                    'addon_popup_builder',
+                    'settings_custom_html',
+                ],
+                'hub' => [
+                    'elements_templates_blocks',
+                    'unsplash',
+                    'giphy',
+                ],
+                'editor_settings' => [
+                    'page',
+                    'popup',
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
+                    'user_templates_management',
+                    'presets_management',
+                ],
+            ],
+            'author' => [
+                'hub' => [
+                    'unsplash',
+                    'giphy',
+                ],
+                'editor_settings' => [
+                    'page',
+                    'popup',
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
+                ],
+            ],
+            'contributor' => [
+                'editor_settings' => [
+                    'page',
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
+                ],
+            ],
+            'subscriber' => [],
+            'senior_editor' => [
+                'dashboard' => [
+                    'addon_theme_builder',
+                    'addon_global_templates',
+                    'addon_popup_builder',
+                    'settings_custom_html',
+                ],
+                'hub' => [
+                    'elements_templates_blocks',
+                    'headers_footers_sidebars',
+                    'unsplash',
+                    'giphy',
+                ],
+                'editor_settings' => [
+                    'page',
+                    'popup',
+                ],
+                'editor_content' => [
+                    'element_add',
+                    'template_add',
+                    'user_templates_management',
+                    'presets_management',
+                ],
+            ],
+            'content_manager' => [
+                'hub' => [
+                    'unsplash',
+                    'giphy',
+                ],
+            ]
+        ];
+
+        $defaultCapabilities = vcfilter('vcv:helper:access:role:defaultCapabilities', $defaultCapabilities);
+
+        return $defaultCapabilities;
     }
 }
