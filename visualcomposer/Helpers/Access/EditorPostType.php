@@ -14,11 +14,13 @@ class EditorPostType implements Helper
 {
     public function isEditorEnabled($postType)
     {
-        return in_array($postType, $this->getEnabledPostTypes(), true);
+        // Note: cannot be removed because of BC (fatal error can arise if some addon uses this helper function)
+        return vchelper('AccessUserCapabilities')->isEditorEnabled($postType);
     }
 
     public function getEnabledPostTypes()
     {
+        // DEPRECATED: TODO: USE $currentUserAccessHelper->part('post_types')
         $optionsHelper = vchelper('Options');
         $postTypes = $optionsHelper->get('post-types', ['post', 'page']);
 
