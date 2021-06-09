@@ -90,79 +90,32 @@ class UserCapabilities implements Helper
         $defaultCapabilities = [
             'administrator' => [],
             'editor' => [
-                'dashboard' => [
-                    'addon_global_templates',
-                    'addon_popup_builder',
-                    'settings_custom_html',
-                ],
-                'hub' => [
-                    'elements_templates_blocks',
-                    'unsplash',
-                    'giphy',
-                ],
-                'editor_settings' => [
-                    'page',
-                    'popup',
-                ],
-                'editor_content' => [
-                    'element_add',
-                    'template_add',
-                    'user_templates_management',
-                    'presets_management',
+                'post_types' => [
+                    'edit_post',
+                    'edit_page'
                 ],
             ],
             'author' => [
-                'hub' => [
-                    'unsplash',
-                    'giphy',
-                ],
-                'editor_settings' => [
-                    'page',
-                    'popup',
-                ],
-                'editor_content' => [
-                    'element_add',
-                    'template_add',
+                'post_types' => [
+                    'edit_post'
                 ],
             ],
             'contributor' => [
-                'editor_settings' => [
-                    'page',
-                ],
-                'editor_content' => [
-                    'element_add',
-                    'template_add',
+                'post_types' => [
+                    'edit_post'
                 ],
             ],
             'subscriber' => [],
             'senior_editor' => [
-                'dashboard' => [
-                    'addon_theme_builder',
-                    'addon_global_templates',
-                    'addon_popup_builder',
-                    'settings_custom_html',
-                ],
-                'hub' => [
-                    'elements_templates_blocks',
-                    'headers_footers_sidebars',
-                    'unsplash',
-                    'giphy',
-                ],
-                'editor_settings' => [
-                    'page',
-                    'popup',
-                ],
-                'editor_content' => [
-                    'element_add',
-                    'template_add',
-                    'user_templates_management',
-                    'presets_management',
+                'post_types' => [
+                    'edit_post',
+                    'edit_page'
                 ],
             ],
             'content_manager' => [
-                'hub' => [
-                    'unsplash',
-                    'giphy',
+                'post_types' => [
+                    'edit_post',
+                    'edit_page'
                 ],
             ]
         ];
