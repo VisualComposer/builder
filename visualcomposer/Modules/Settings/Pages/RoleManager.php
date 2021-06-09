@@ -201,7 +201,7 @@ class RoleManager extends Container implements Module
         }
     }
 
-    protected function addVariables()
+    protected function addVariables($variables, $payload)
     {
         $variables[] = [
             'key' => 'VCV_DEFAULT_CAPABILITIES',
