@@ -43,6 +43,10 @@ class RoleManager extends Container implements Module
         );
 
         $this->addFilter('vcv:ajax:settings:roles:save:adminNonce', 'saveRoles');
+        $this->addFilter('vcv:wp:dashboard:variables', 'addVariables');
+        $this->addFilter('vcv:helper:access:role:defaultCapabilities', 'addDefaultCapability');
+        $this->wpAddFilter('role_has_cap', 'checkPresetUpdate');
+
 
         // Default Fallback for rendering parts in role-manager page
         $this->addFilter(
@@ -84,7 +88,7 @@ class RoleManager extends Container implements Module
         $page = [
             'slug' => $this->slug,
             'title' => __('Role Manager', 'visualcomposer'),
-            'description' => __('Use these settings to control which Visual Composer features each user role can access.', 'visualcomposer'),
+            'description' => __('Use these settings to control which Visual Composer features each user role can access. These changes doesn\'t affect default WordPress capabilities.', 'visualcomposer'),
             'layout' => 'dashboard-tab-content-standalone',
             'capability' => 'manage_options',
             'iconClass' => 'vcv-ui-icon-dashboard-lock',
@@ -152,6 +156,10 @@ class RoleManager extends Container implements Module
             foreach ($roleCapabilities as $roleKey => $partData) {
                 $this->updatePartsLoop($roleAccessHelper, $partData, $roleKey);
             }
+            $rolePresets = (array)$requestHelper->input('vcv-settings-role-preset');
+            $optionsHelper = vchelper('Options');
+            $optionsHelper->set('role-presets', $rolePresets);
+
             echo 'OK!';
             exit;
         }
@@ -191,5 +199,42 @@ class RoleManager extends Container implements Module
                 $this->updatePart($partData, $part, $roleAccessHelper, $roleKey);
             }
         }
+    }
+
+    protected function addVariables()
+    {
+        $variables[] = [
+            'key' => 'VCV_DEFAULT_CAPABILITIES',
+            'type' => 'constant',
+            'value' => vchelper('AccessUserCapabilities')->getDefaultCapabilities(),
+        ];
+
+        return $variables;
+    }
+
+    protected function addDefaultCapability($defaultCapabilities)
+    {
+        $defaultCapabilities['custom'] = [];
+
+        return $defaultCapabilities;
+    }
+
+    protected function checkPresetUpdate($capabilities, $cap, $name)
+    {
+        if (strpos($cap, 'vcv_access_rules__')) {
+            // check if role using preset
+            $optionsHelper = vchelper('Options');
+            $rolePresets = $optionsHelper->get('role-presets', []);
+            $presetValue = isset($rolePresets[$name]) ? $rolePresets[$name] : 'custom';
+            // if custom DO NOTHING
+            if ($presetValue !== 'custom') {
+                $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
+                $presetCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
+                $rolePresetCapabilities = isset($presetCapabilities[$presetValue]) ? $presetCapabilities[$presetValue] : [];
+                $capabilities = array_merge($capabilities, $rolePresetCapabilities);
+            }
+        }
+
+        return $capabilities;
     }
 }
