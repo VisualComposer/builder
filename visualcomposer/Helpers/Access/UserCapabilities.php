@@ -89,7 +89,19 @@ class UserCapabilities implements Helper
     {
         $defaultCapabilities = [
             'administrator' => [],
+            'senior_editor' => [
+                'post_types' => [
+                    'edit_post',
+                    'edit_page'
+                ],
+            ],
             'editor' => [
+                'post_types' => [
+                    'edit_post',
+                    'edit_page'
+                ],
+            ],
+            'content_manager' => [
                 'post_types' => [
                     'edit_post',
                     'edit_page'
@@ -106,18 +118,6 @@ class UserCapabilities implements Helper
                 ],
             ],
             'subscriber' => [],
-            'senior_editor' => [
-                'post_types' => [
-                    'edit_post',
-                    'edit_page'
-                ],
-            ],
-            'content_manager' => [
-                'post_types' => [
-                    'edit_post',
-                    'edit_page'
-                ],
-            ]
         ];
 
         $defaultCapabilities = vcfilter('vcv:helper:access:role:defaultCapabilities', $defaultCapabilities);
