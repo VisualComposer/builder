@@ -203,9 +203,15 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     $prefixedDefaultCapabilities = $userCapabilitiesHelper->getPrefixedCapabilities();
     $dropdownOptions = [];
     foreach ($defaultCapabilities as $key => $value) {
+        $presetPostfix = '';
+        if ($key === 'administrator') {
+            $presetPostfix = __(' (full access)', 'visualcomposer');
+        } elseif ($key === 'subscriber') {
+            $presetPostfix = __(' (no access)', 'visualcomposer');
+        }
         $dropdownOptions[$key] = [
             'id' => $key,
-            'title' => ucwords(str_replace('_', ' ', $key)),
+            'title' => ucwords(str_replace('_', ' ', $key)) . $presetPostfix,
         ];
     }
     foreach ($editableRoles as $role => $details) {
