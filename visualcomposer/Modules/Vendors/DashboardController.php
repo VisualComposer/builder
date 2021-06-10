@@ -42,7 +42,7 @@ class DashboardController extends Container implements Module
         global $wp_meta_boxes;
 
         // @codingStandardsIgnoreLine
-        $dashboardWidgets = $wp_meta_boxes['dashboard']['normal']['core'];
+        $dashboardWidgets = isset($wp_meta_boxes['dashboard']) ? $wp_meta_boxes['dashboard']['normal']['core'] : $wp_meta_boxes['dashboard-network']['normal']['core'];
         $visualcomposerBlogDashboard = ['visualcomposer-blog-dashboard' => $dashboardWidgets['visualcomposer-blog-dashboard']];
 
         unset($dashboardWidgets['visualcomposer-blog-dashboard']);

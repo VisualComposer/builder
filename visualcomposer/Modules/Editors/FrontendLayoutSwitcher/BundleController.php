@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\EditorPostType;
 use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Options;
@@ -64,14 +63,14 @@ class BundleController extends Container implements Module
     protected function addBundleStyle(
         Url $urlHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper
+        UserCapabilities $userCapabilitiesHelper
     ) {
         $screen = get_current_screen();
         if (
             // @codingStandardsIgnoreLine
             $screen->post_type === get_post_type()
             && !$frontendHelper->isFrontend()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && $userCapabilitiesHelper->isEditorEnabled(get_post_type())
         ) {
             // Add CSS
             wp_enqueue_style(
@@ -86,14 +85,14 @@ class BundleController extends Container implements Module
     protected function addBundleScript(
         Url $urlHelper,
         Frontend $frontendHelper,
-        EditorPostType $editorPostTypeHelper
+        UserCapabilities $userCapabilitiesHelper
     ) {
         $screen = get_current_screen();
         if (
             // @codingStandardsIgnoreLine
             $screen->post_type === get_post_type()
             && !$frontendHelper->isFrontend()
-            && $editorPostTypeHelper->isEditorEnabled(get_post_type())
+            && $userCapabilitiesHelper->isEditorEnabled(get_post_type())
         ) {
             wp_register_script(
                 'vcv:editors:backendswitcher:script',

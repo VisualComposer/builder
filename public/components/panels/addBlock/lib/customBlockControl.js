@@ -54,13 +54,12 @@ export default class CustomBlockControl extends React.Component {
 
     const overlayProps = {}
     let itemButton = null
+    const isAbleToRemove = roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
     if (this.props.isRemoveStateActive) {
-      const isAbleToRemove = roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
       if (isAbleToRemove) {
         itemButton = (
           <span
             className={removeClasses}
-            onClick={handleRemoveBlock}
             title={localizations.removePlaceholder.replace('%', name)}
           />
         )
@@ -75,7 +74,6 @@ export default class CustomBlockControl extends React.Component {
         itemButton = (
           <span
             className={applyClasses}
-            onClick={handleApplyBlock}
             title={localizations.addPlaceholder.replace('%', name)}
           />
         )
@@ -88,7 +86,10 @@ export default class CustomBlockControl extends React.Component {
 
     return (
       <div className='vcv-ui-item-list-item'>
-        <span className='vcv-ui-item-element'>
+        <span
+          className='vcv-ui-item-element'
+          onClick={this.props.isRemoveStateActive && isAbleToRemove ? handleRemoveBlock : handleApplyBlock}
+        >
           <span
             className='vcv-ui-item-element-content vcv-ui-item-element-constant-bg'
             data-letter={letter}
