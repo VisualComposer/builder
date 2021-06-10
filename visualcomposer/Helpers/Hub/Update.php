@@ -92,10 +92,11 @@ class Update implements Helper
         $updatePosts = $optionsHelper->get('hubAction:updatePosts', []);
         $canUpdate = [];
 
+        $accessUserCapabilitiesHelper = vchelper('AccessUserCapabilities');
         foreach ($updatePosts as $updatePost) {
             $post = get_post($updatePost);
             // @codingStandardsIgnoreLine
-            if ($post && $post->post_status !== 'trash') {
+            if ($post && $post->post_status !== 'trash' && $accessUserCapabilitiesHelper->canEdit($post->ID)) {
                 $canUpdate[] = $updatePost;
             }
         }
