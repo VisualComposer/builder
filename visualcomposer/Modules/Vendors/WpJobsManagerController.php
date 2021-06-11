@@ -30,6 +30,7 @@ class WpJobsManagerController extends Container implements Module
                 'job_content_start',
                 function () {
                     global $post;
+                    // @codingStandardsIgnoreLine
                     $post->post_content = vcfilter('vcv:frontView:content:encode', $post->post_content);
                 }
             );
