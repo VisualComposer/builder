@@ -74,7 +74,12 @@ class FrontViewController extends Container implements Module
         $content = preg_replace_callback(
             '/<p><!--vcv no format-->(.*)<!--vcv no format--><\/p>/si',
             function ($matches) {
-                return base64_decode($matches[1]);
+                $decoded = base64_decode($matches[1], true);
+                if ($decoded) {
+                    return $decoded;
+                }
+
+                return $matches[1];
             },
             $content
         );
