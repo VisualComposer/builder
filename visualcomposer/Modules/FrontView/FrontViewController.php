@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
@@ -19,6 +20,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 class FrontViewController extends Container implements Module
 {
     use WpFiltersActions;
+    use EventsFilters;
 
     /**
      * Controller constructor.
@@ -33,6 +35,8 @@ class FrontViewController extends Container implements Module
         $this->wpAddFilter('the_content', 'removeOldCommentTags');
         /** @see \VisualComposer\Modules\FrontView\FrontViewController::removeIpadMeta */
         $this->wpAddAction('admin_enqueue_scripts', 'removeIpadMeta');
+        $this->addFilter('vcv:frontView:content:encode', 'encode');
+        $this->addFilter('vcv:frontView:content:decode', 'decode');
     }
 
     /**
