@@ -39,6 +39,8 @@ class EnqueueController extends Container implements Module
             || $requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)
         ) {
             $this->wpAddAction('init', 'setCustomWpScripts');
+            // fix for Gravity Forms 2.5+
+            add_filter('gform_init_scripts_footer', '__return_false');
         }
         $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 11);
         $this->wpAddAction('wp_footer', 'enqueueVcvAssets');
