@@ -78,13 +78,12 @@ export default class HubTemplateControl extends React.Component {
 
     const overlayProps = {}
     let itemButton = null
+    const isAbleToRemove = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
     if (this.props.isRemoveStateActive) {
-      const isAbleToRemove = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
       if (isAbleToRemove) {
         itemButton = (
           <span
             className={removeClasses}
-            onClick={handleRemoveTemplate}
             title={localizations.removePlaceholder.replace('%', name)}
           />
         )
@@ -97,7 +96,6 @@ export default class HubTemplateControl extends React.Component {
       itemButton = roleManager.can('editor_content_template_add', roleManager.defaultTrue()) ? (
         <span
           className={applyClasses}
-          onClick={handleApplyTemplate}
           title={localizations.addPlaceholder.replace('%', name)}
         />
       ) : null
@@ -109,6 +107,7 @@ export default class HubTemplateControl extends React.Component {
           className='vcv-ui-item-element'
           onMouseEnter={!disablePreview ? showPreview : null}
           onMouseLeave={!disablePreview ? hidePreview : null}
+          onClick={this.props.isRemoveStateActive && isAbleToRemove ? handleRemoveTemplate : handleApplyTemplate}
         >
           <span className='vcv-ui-item-element-content'>
             <img

@@ -154,6 +154,12 @@ $accessParts = $roleAccessHelper->getAvailableParts();
     overflow: visible;
   }
 
+  .vcv-dashboard-main .vcv-settings-tab-content .vcv-ui-settings-status-table select.vcv-ui-form-dropdown.vcv-ui-form-presets-dropdown {
+    min-width: 300px;
+    margin-bottom: 8px;
+    margin-top: 5px;
+  }
+
   .vcv-ui-settings-status-table-title.vcv-help .vcv-help-tooltip-container {
     position: relative;
   }
@@ -192,6 +198,22 @@ $accessParts = $roleAccessHelper->getAvailableParts();
         $submitButtonAttributes,
         $slug
     );
+    $userCapabilitiesHelper = vchelper('AccessUserCapabilities');
+    $defaultCapabilities = $userCapabilitiesHelper->getDefaultCapabilities();
+    $prefixedDefaultCapabilities = $userCapabilitiesHelper->getPrefixedCapabilities();
+    $dropdownOptions = [];
+    foreach ($defaultCapabilities as $key => $value) {
+        $presetPostfix = '';
+        if ($key === 'administrator') {
+            $presetPostfix = __(' (full access)', 'visualcomposer');
+        } elseif ($key === 'subscriber') {
+            $presetPostfix = __(' (no access)', 'visualcomposer');
+        }
+        $dropdownOptions[$key] = [
+            'id' => $key,
+            'title' => ucwords(str_replace('_', ' ', $key)) . $presetPostfix,
+        ];
+    }
     foreach ($editableRoles as $role => $details) {
         $roleObject = get_role($role);
         if (!$roleObject) {
@@ -234,6 +256,37 @@ $accessParts = $roleAccessHelper->getAvailableParts();
                 __('All options are disabled for this user role. No `edit_posts` capability enabled.', 'visualcomposer')
             );
         } else {
+            $presetPart = 'role_presets';
+            $optionsHelper = vchelper('Options');
+            $rolePresets = $optionsHelper->get('role-presets', []);
+
+            $rolePresetValue = isset($rolePresets[$role]) ? $rolePresets[$role] : '';
+            if (empty($rolePresetValue)) {
+                $roleCapabilities = array_filter(
+                    array_keys(get_role($role)->capabilities),
+                    function ($item) {
+                        return strpos($item, 'vcv_access_rules__') !== false;
+                    }
+                );
+                if (
+                    count(array_diff(
+                        isset($prefixedDefaultCapabilities[$role]) ? $prefixedDefaultCapabilities[$role] : [],
+                        $roleCapabilities
+                    )) > 0
+                ) {
+                    $rolePresetValue = 'custom';
+                }
+            }
+            echo vcfilter(
+                'vcv:render:settings:roleManager:part:' . $presetPart,
+                '',
+                [
+                    'part' => $presetPart,
+                    'role' => $role,
+                    'dropdownOptions' => $dropdownOptions,
+                    'presetValue' => $rolePresetValue
+                ]
+            );
             foreach ($accessParts as $part) {
                 $stateValue = $roleAccessHelper->who($role)->part($part)->getState();
                 echo vcfilter(
@@ -288,6 +341,39 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             }
           }
         }, false);
+
+        const presetDropdowns = document.querySelectorAll('[id^="vcv-settings-role-preset"]');
+        const capabilityToggles = document.querySelectorAll('input[type=checkbox][name^="vcv-role-manager"]');
+        capabilityToggles.forEach(toggle => {
+            toggle.addEventListener('change', function () {
+                const roleContent = toggle.closest('.vcv-role-manager-capabilities-form--item--content')
+                const presetDropdown = roleContent.querySelector('select[id^="vcv-settings-role-preset"]')
+                presetDropdown.value = 'custom';
+            })
+        })
+        presetDropdowns.forEach(preset => {
+            preset.addEventListener('change', function() {
+                const role = preset.value
+                const defaultCapabilities = window.VCV_DEFAULT_CAPABILITIES ? window.VCV_DEFAULT_CAPABILITIES() : null
+                const roleContent = preset.closest('.vcv-role-manager-capabilities-form--item--content')
+                const capSwitches = roleContent.querySelectorAll('.vcv-ui-form-switch > input[type=checkbox]')
+                capSwitches.forEach(capSwitch => {
+                    if (role === 'administrator') {
+                        capSwitch.checked = true
+                        return
+                    }
+                    const args = capSwitch.name.match(/[^[\]]+(?=\])/g)
+                    const capabilityPart = args[1]
+                    const capabilityKey = capSwitch.value
+
+                    if (defaultCapabilities && defaultCapabilities[role] && defaultCapabilities[role][capabilityPart] && defaultCapabilities[role][capabilityPart].includes(capabilityKey)) {
+                        capSwitch.checked = true
+                    } else {
+                        capSwitch.checked = false
+                    }
+                })
+            })
+        })
       })()
     </script>
 </form>

@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\Access\EditorPostType;
+use VisualComposer\Helpers\Access\UserCapabilities;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Localizations;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -71,14 +71,14 @@ class Locale extends Container implements Module
 
     protected function printLocalizations(
         Localizations $localizationsHelper,
-        EditorPostType $editorPostTypeHelper,
+        UserCapabilities $userCapabilitiesHelper,
         Frontend $frontendHelper
     ) {
         if ($this->printed) {
             return;
         }
         if (
-            ($editorPostTypeHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend())
+            ($userCapabilitiesHelper->isEditorEnabled(get_post_type()) && !$frontendHelper->isFrontend())
             || vcfilter('vcv:editors:internationalization:printLocalizations', false)
         ) {
             $this->printed = true;

@@ -206,7 +206,11 @@ export default class WordPressAdminControl extends NavbarContent {
   }
 
   handleResetClick () {
-    historyStorage.state('canUndo').get() && historyStorage.trigger('reset')
+    workspaceStorage.state('settings').set(false)
+
+    window.setTimeout(() => {
+      historyStorage.state('canUndo').get() && historyStorage.trigger('reset')
+    }, 50)
 
     const initialPageTemplate = dataManager.get('pageTemplatesLayoutsCurrent')
     const lastSavedPageTemplate = settingsStorage.state('pageTemplate').get()
