@@ -1,5 +1,5 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,orkunaybek,alperbulut,filipsmasolovs,konutis,cagdasdag,cozmoslabs
+Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,konutis,alperbulut,orkunaybek,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
