@@ -189,7 +189,7 @@ export default class DndDataSet {
     const parent = element.get('parent')
     const parentCookElement = cook.getById(parent)
     let parentId
-    if (parent && (parentCookElement.get('metaIsDraggable') === undefined || parentCookElement.get('metaIsDraggable'))) {
+    if (parent && parentCookElement && (parentCookElement.get('metaIsDraggable') === undefined || parentCookElement.get('metaIsDraggable'))) {
       parentId = parent || this.options.rootID
     } else {
       parentId = this.options.rootID
