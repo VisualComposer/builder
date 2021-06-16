@@ -51,6 +51,8 @@ class Controller extends Container implements Module
 
         // In case if Trashed template removed
         $this->wpAddAction('before_delete_post', 'deleteTemplateData');
+
+        $this->wpAddFilter('save_post_vcv_templates', 'clearCache');
     }
 
     /**
@@ -294,5 +296,10 @@ class Controller extends Container implements Module
         }
 
         return $response;
+    }
+
+    protected function clearCache()
+    {
+        wp_cache_delete('vcv:helpers:templates:all', 'vcwb');
     }
 }
