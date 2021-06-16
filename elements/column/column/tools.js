@@ -2,6 +2,10 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
   const rowSettings = documentManager.get(parentId)
   const rowChildren = documentManager.children(parentId)
 
+  if(!rowChildren.length){
+    return
+  }
+
   const columnBackgrounds = []
 
   const pushBackground = (element) => {
@@ -53,17 +57,21 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
     }
   })
 
-  rowSettings.columnBackground = columnBackgrounds.reduce((result, currentObject) => {
-    for (const key in currentObject) {
-      if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
-        result[key] = currentObject[key]
+
+    rowSettings.columnBackground = columnBackgrounds.reduce((result, currentObject) => {
+      for (const key in currentObject) {
+        if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
+          result[key] = currentObject[key]
+        }
       }
-    }
-    return result
-  }, {})
+      return result
+    }, {})
+
+  console.log('rowSettings', rowSettings)
 
   window.setTimeout(() => {
     documentManager.update(rowSettings.id, rowSettings)
     elementsStorage.trigger('update', parentId, rowSettings, '', { silent: true })
   }, 0)
+
 }
