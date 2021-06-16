@@ -34,9 +34,9 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
       } else {
         for (const device in designOptions.device) {
           if (Object.prototype.hasOwnProperty.call(designOptions.device, device)) {
-            const deviceSettings = designOptions.device[ device ]
+            const deviceSettings = designOptions.device[device]
             if (deviceSettings.backgroundColor || typeof deviceSettings.images === 'string' || (deviceSettings.images && deviceSettings.images.urls && deviceSettings.images.urls.length)) {
-              elementBackground[ device ] = true
+              elementBackground[device] = true
               backgroundUsed = true
             }
           }
@@ -60,7 +60,7 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
   rowSettings.columnBackground = columnBackgrounds.reduce((result, currentObject) => {
     for (const key in currentObject) {
       if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
-        result[ key ] = currentObject[ key ]
+        result[key] = currentObject[key]
       }
     }
     return result
