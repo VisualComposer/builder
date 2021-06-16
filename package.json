@@ -54,6 +54,11 @@
       "@babel/plugin-proposal-class-properties"
     ]
   },
+  "eslintConfig": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "standard": {
     "parser": "babel-eslint",
     "ignore": [
@@ -88,7 +93,9 @@
       "\\.(css|less)$": "identity-obj-proxy",
       "^public(.*)$": "<rootDir>/public$1"
     },
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "_analyzeDependencies": {
     "duplicate-package-checker-webpack-plugin": "3.0.0",
