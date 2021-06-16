@@ -148,7 +148,7 @@ export default class DndDataSet {
   }
 
   option (name, value) {
-    this.options[name] = value
+    this.options[ name ] = value
   }
 
   init () {
@@ -352,8 +352,8 @@ export default class DndDataSet {
           return element.getBoundingClientRect()
         })
         const targetColumn = columnsRect.findIndex(column => point && point.x > column.left && point.x < column.right)
-        if (targetColumn > -1 && children[targetColumn]) {
-          const columnId = `el-${children[targetColumn].id}`
+        if (targetColumn > -1 && children[ targetColumn ]) {
+          const columnId = `el-${children[ targetColumn ].id}`
           domNode = this.findDOMNode({}, columnId)
           domElement = this.getDomElement(domNode)
           parentDOMElement = this.getDomElementParent(domElement.parent()) || null
@@ -621,9 +621,9 @@ export default class DndDataSet {
     }
     const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
     const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
-    if (e.touches && e.touches[0] && this.dragStartHandled) {
+    if (e.touches && e.touches[ 0 ] && this.dragStartHandled) {
       e.preventDefault()
-      e.touches[0].clientX !== undefined && e.touches[0].clientY !== undefined && this.check({ x: e.touches[0].clientX - offsetX, y: e.touches[0].clientY - offsetY, left: scrollX, top: scrollY })
+      e.touches[ 0 ].clientX !== undefined && e.touches[ 0 ].clientY !== undefined && this.check({ x: e.touches[ 0 ].clientX - offsetX, y: e.touches[ 0 ].clientY - offsetY, left: scrollX, top: scrollY })
     } else {
       e.clientX !== undefined && e.clientY !== undefined && this.check({ x: e.clientX - offsetX, y: e.clientY - offsetY, left: scrollX, top: scrollY })
     }
@@ -654,9 +654,9 @@ export default class DndDataSet {
     const scrollX = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollLeft ? this.options.wrapper.scrollLeft : 0
     const scrollY = this.options.isIframe && this.options.wrapper && this.options.wrapper.scrollTop ? this.options.wrapper.scrollTop : 0
     const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
+    if (e.touches && e.touches[ 0 ]) {
       e.preventDefault()
-      this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
+      this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     } else {
       this.start(id, { x: e.clientX, y: e.clientY, left: scrollX, top: scrollY }, null, e.currentTarget)
     }
@@ -683,11 +683,11 @@ export default class DndDataSet {
       return
     }
     const id = e.currentTarget.getAttribute('data-vcv-dnd-element-handler')
-    if (e.touches && e.touches[0]) {
+    if (e.touches && e.touches[ 0 ]) {
       this.startDragTimeout = setTimeout(() => {
         this.startDragTimeout = null
         e.preventDefault()
-        this.start(id, { x: e.touches[0].clientX, y: e.touches[0].clientY }, null, this.findDOMNode({ x: e.touches[0].clientX, y: e.touches[0].clientY }))
+        this.start(id, { x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY }, null, this.findDOMNode({ x: e.touches[ 0 ].clientX, y: e.touches[ 0 ].clientY }))
       }, 450)
     }
   }
