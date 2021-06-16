@@ -57,7 +57,6 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
     }
   })
 
-
   rowSettings.columnBackground = columnBackgrounds.reduce((result, currentObject) => {
     for (const key in currentObject) {
       if (Object.prototype.hasOwnProperty.call(currentObject, key)) {
