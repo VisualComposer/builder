@@ -33,7 +33,10 @@ class CustomPostTypesController extends Container implements Module
                         return;
                     }
                     remove_all_actions('admin_notices');
-                    echo <<<STYLE
+                    $this->wpAddAction(
+                        'admin_footer',
+                        function () {
+                            echo <<<STYLE
 <script>
 (function() {
   var handler = function() {
@@ -52,6 +55,8 @@ class CustomPostTypesController extends Container implements Module
 })()
 </script>
 STYLE;
+                        }
+                    );
                 }
             }
         );
