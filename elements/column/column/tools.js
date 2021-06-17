@@ -2,6 +2,10 @@ export const addRowColumnBackground = (id, colSettings, parentId, documentManage
   const rowSettings = documentManager.get(parentId)
   const rowChildren = documentManager.children(parentId)
 
+  if (!rowChildren.length) {
+    return
+  }
+
   const columnBackgrounds = []
 
   const pushBackground = (element) => {
