@@ -16,13 +16,6 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
  */
 class EditorTemplates implements Helper
 {
-    protected static $allTemplates = [];
-
-    public function clearCache()
-    {
-        self::$allTemplates = [];
-    }
-
     protected function queryTemplates()
     {
         // We cannot use get_posts because of high memory usage (>100mb on 60 templates)
@@ -48,9 +41,6 @@ order by a.post_modified desc
      */
     public function all()
     {
-        if (!empty(self::$allTemplates)) {
-            return self::$allTemplates;
-        }
         $cache = wp_cache_get('vcv:helpers:templates:all', 'vcwb');
         if (!empty($cache)) {
             return $cache;
@@ -58,8 +48,6 @@ order by a.post_modified desc
 
         $templates = $this->queryTemplates();
         $groupedResults = $this->groupQueryTemplates($templates);
-
-        self::$allTemplates = $groupedResults;
         wp_cache_set('vcv:helpers:templates:all', $groupedResults, 'vcwb', 3600);
 
         return $groupedResults;
