@@ -1,10 +1,10 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,filipsmasolovs,konutis,cagdasdag,alperbulut,cozmoslabs
+Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,konutis,alperbulut,orkunaybek,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.7.2
-Stable tag: 36.0
+Stable tag: 37.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -212,6 +212,44 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 37.0 =
+*Release Date - 2021-06-17*
+
+### Free:
+- New: Visual Composer element controls on right-click introduced for better UX
+- New: Block template section introduced in the Add Element window
+- Update: UI for adding templates improved to be consistent with adding element
+- Update: Visual Composer Insights for images updated properly after changes
+- Compatibility: Visual Composer and WPJobsManager compatibility improved
+- Fix: Single Image element editing works properly when no image is selected
+- Fix: Scroll to element option after adding the element works properly
+- Fix: “Edit with Visual Composer“ button works properly for custom post types
+- Fix: Row layout input has consistent styling
+- Fix: Memory usage is normal during migration
+- Fix: Row block template saving works properly
+- Fix: Reset option works properly in the demo template
+
+### Premium:
+- New: Role Manager presets for quick user role management added and contain most used editing scenarios
+- New: Edit option introduced for the Global Templates dropdown in the Global Templates element
+- Update: Performance improvements for the Tree View and Undo/Redo
+- Update: Video Player helpers updated for more information
+- Compatibility: Visual Composer and HootKit works properly in the WordPress widget area
+- Fix: WordPress admin panel menu works properly in Visual Composer Dashboard
+- Fix: Visual Composer Dashboard widget styles have proper styling
+- Fix: Featured image controls are not available for user roles with no permission to edit featured images
+- Fix: Dynamic content works properly in Post Grid elements
+- Fix: Dynamic Advanced Custom Fields work properly
+- Fix: Logo slider images work properly
+- Fix: Title color attribute works properly in the Button Group element
+- Fix: Three color button works properly in the WordPress theme 2021
+- Fix: Video Player works properly
+- Fix: YouTube videos work properly in the Video Popup element
+- Fix: Cover images for the self-hosted videos work properly on iPhone
+- Fix: Gravity Forms element works properly after the Gravity Forms update
+- Fix: Multisite works properly with Visual Composer installed
+- Fix: Basic Menu works properly and does not display glitches when loading
 
 = 36.0 =
 *Release Date - 2021-05-25*
