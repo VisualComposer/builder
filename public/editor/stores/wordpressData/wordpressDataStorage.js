@@ -152,6 +152,9 @@ addStorage('wordpressData', (storage) => {
       if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsFooter')) {
         settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
       }
+      if (responseData.pageDesignOptions) {
+        settingsStorage.state('pageDesignOptions').set(JSON.parse(responseData.pageDesignOptions ? decodeURIComponent(responseData.pageDesignOptions) : '{}'))
+      }
       if (responseData.templates && !Array.isArray(responseData.templates)) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
       }

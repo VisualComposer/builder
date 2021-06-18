@@ -113,4 +113,21 @@ class AssetsEnqueue extends Container implements Helper
 
         return $response;
     }
+
+    public function enqueuePageSettingsCss($sourceId)
+    {
+        $styles = get_post_meta(
+            $sourceId,
+            '_' . VCV_PREFIX . 'pageDesignOptionsCompiledCss',
+            true
+        );
+        if (!empty($styles)) {
+            // Output inline via native API
+            wp_register_style('vcv:assets:pageDesignOptions:' . $sourceId, false);
+            wp_enqueue_style('vcv:assets:pageDesignOptions:' . $sourceId);
+            $sourceId = get_the_ID();
+
+            wp_add_inline_style('vcv:assets:pageDesignOptions:' . $sourceId, $styles);
+        }
+    }
 }

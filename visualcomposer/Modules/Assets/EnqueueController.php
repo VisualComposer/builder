@@ -212,8 +212,8 @@ class EnqueueController extends Container implements Module
             if (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
                 continue;
             }
-            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
             $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
+            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
         }
     }
 
@@ -268,6 +268,7 @@ class EnqueueController extends Container implements Module
     protected function enqueueSourceAssetsBySourceId(
         Str $strHelper,
         Assets $assetsHelper,
+        AssetsEnqueue $assetsEnqueueHelper,
         Options $optionsHelper,
         $sourceId = null
     ) {
@@ -305,6 +306,7 @@ class EnqueueController extends Container implements Module
                 VCV_VERSION . '.' . $version . '-' . $sourceId
             );
         }
+        $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
     }
 
     /**
