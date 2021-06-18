@@ -134,6 +134,8 @@ export default class HtmlEditorComponent extends React.Component {
       sharedGoogleFonts[fieldPathKey] = usedGoogleFonts
       sharedAssetsData.googleFonts = sharedGoogleFonts
       elementAccessPoint.set('metaElementAssets', sharedAssetsData)
+    } else {
+      elementAccessPoint.set('metaElementAssets', {})
     }
   }
 
