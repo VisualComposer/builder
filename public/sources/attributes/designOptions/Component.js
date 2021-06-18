@@ -13,7 +13,7 @@ import Animate from '../animateDropdown/Component'
 import ButtonGroup from '../buttonGroup/Component'
 import { getStorage, getService } from 'vc-cake'
 import Number from '../number/Component'
-import Tooltip from '../../../components/tooltip/tooltip'
+import Tooltip from 'public/components/tooltip/tooltip'
 
 const elementsStorage = getStorage('elements')
 const workspaceStorage = getStorage('workspace')
@@ -194,6 +194,24 @@ export default class DesignOptions extends Attribute {
   }
 
   /**
+   * Simple attribute Mixins
+   */
+  static simpleAttributeMixins = {
+    boxModelMixin: {
+      src: require('raw-loader!./cssMixinsSimple/boxModel.pcss'),
+      variables: DesignOptions.attributeMixins.boxModelMixin.variables
+    },
+    backgroundImageMixin: {
+      src: require('raw-loader!./cssMixinsSimple/backgroundImage.pcss'),
+      variables: DesignOptions.attributeMixins.backgroundImageMixin.variables
+    },
+    backgroundColorMixin: {
+      src: require('raw-loader!./cssMixinsSimple/backgroundStyles.pcss'),
+      variables: DesignOptions.attributeMixins.backgroundColorMixin.variables
+    }
+  }
+
+  /**
    * Default state values
    */
   static defaultState = {
@@ -201,7 +219,6 @@ export default class DesignOptions extends Attribute {
     borderStyle: 'solid',
     backgroundPosition: 'center top',
     devices: {},
-    attributeMixins: {},
     defaultStyles: null,
     lazyLoad: true
   }
@@ -211,6 +228,9 @@ export default class DesignOptions extends Attribute {
   constructor (props) {
     super(props)
     props.setInnerFieldStatus && props.setInnerFieldStatus()
+    if (props.elementSelector) {
+      this.state.lazyLoad = false
+    }
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
     this.deviceVisibilityChangeHandler = this.deviceVisibilityChangeHandler.bind(this)
@@ -228,16 +248,22 @@ export default class DesignOptions extends Attribute {
 
   componentDidMount () {
     this.getDefaultStyles()
-    this.setDefaultState()
+    if (!this.props.elementSelector) {
+      this.setDefaultState()
+    }
 
-    const id = this.props.elementAccessPoint.id
-    elementsStorage.on(`element:${id}`, this.handleElementChange)
+    if (this.props.elementAccessPoint) {
+      const id = this.props.elementAccessPoint.id
+      elementsStorage.on(`element:${id}`, this.handleElementChange)
+    }
   }
 
   componentWillUnmount () {
-    const id = this.props.elementAccessPoint.id
-    elementsStorage.off(`element:${id}`, this.handleElementChange)
-    ReactDOM.unmountComponentAtNode(this.boxModelRef)
+    if (this.props.elementAccessPoint) {
+      const id = this.props.elementAccessPoint.id
+      elementsStorage.off(`element:${id}`, this.handleElementChange)
+      ReactDOM.unmountComponentAtNode(this.boxModelRef)
+    }
   }
 
   componentDidUpdate () {
@@ -404,7 +430,7 @@ export default class DesignOptions extends Attribute {
             delete newValue[device].borderColor
           }
         }
-        DesignOptions.getMixins(newValue, device, newMixins)
+        DesignOptions.getMixins(newValue, device, newMixins, !!this.props.elementSelector)
 
         // remove device from list if it's empty
         if (!Object.keys(newValue[device]).length) {
@@ -422,14 +448,14 @@ export default class DesignOptions extends Attribute {
     const devices = ['all', 'xs', 'sm', 'md', 'lg', 'xl']
     devices.forEach((device) => {
       if (value.device && typeof value.device[device] !== 'undefined') {
-        DesignOptions.getMixins(value.device, device, mixins)
+        DesignOptions.getMixins(value.device, device, mixins, false)
       }
     })
 
     return mixins
   }
 
-  static getMixins (newValue, device, newMixins) {
+  static getMixins (newValue, device, newMixins, isSimple) {
     // mixins
     if (Object.prototype.hasOwnProperty.call(newValue[device], 'display')) {
       newMixins[`visibilityMixin:${device}`] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.visibilityMixin)
@@ -440,22 +466,23 @@ export default class DesignOptions extends Attribute {
       }
     } else {
       // boxModelMixin
-      DesignOptions.getBoxModelMixin(newValue, device, newMixins)
+      DesignOptions.getBoxModelMixin(newValue, device, newMixins, isSimple)
       // backgroundMixin
-      DesignOptions.getBackgroundMixin(newValue, device, newMixins)
+      DesignOptions.getBackgroundMixin(newValue, device, newMixins, isSimple)
       // animationDelayMixin
       DesignOptions.getAnimationDelayMixin(newValue, device, newMixins)
     }
   }
 
-  static getBoxModelMixin (newValue, device, newMixins) {
+  static getBoxModelMixin (newValue, device, newMixins, isSimple) {
     if (Object.prototype.hasOwnProperty.call(newValue[device], 'boxModel')) {
       const value = newValue[device].boxModel
       if (!lodash.isEmpty(value)) {
         // update mixin
         const mixinName = `boxModelMixin:${device}`
         newMixins[mixinName] = {}
-        newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.boxModelMixin)
+        const attributeMixins = isSimple ? DesignOptions.simpleAttributeMixins : DesignOptions.attributeMixins
+        newMixins[mixinName] = lodash.defaultsDeep({}, attributeMixins.boxModelMixin)
         const syncData = {
           borderWidth: [{ key: 'borderStyle', value: 'borderStyle' }, { key: 'borderColor', value: 'borderColor' }],
           borderTopWidth: [{ key: 'borderTopStyle', value: 'borderStyle' }, { key: 'borderTopColor', value: 'borderColor' }],
@@ -484,16 +511,17 @@ export default class DesignOptions extends Attribute {
     }
   }
 
-  static getBackgroundMixin (newValue, device, newMixins) {
+  static getBackgroundMixin (newValue, device, newMixins, isSimple) {
     if (newValue[device] && (newValue[device].backgroundColor || (newValue[device].image && newValue[device].image.urls && newValue[device].image.urls.length))) {
       const mixinName = `backgroundColorMixin:${device}`
       const mixinNameImage = newValue[device].lazyLoad ? `backgroundLazyImageMixin:${device}` : `backgroundImageMixin:${device}`
       newMixins[mixinName] = {}
-      newMixins[mixinName] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundColorMixin)
+      const attributeMixins = isSimple ? DesignOptions.simpleAttributeMixins : DesignOptions.attributeMixins
+      newMixins[mixinName] = lodash.defaultsDeep({}, attributeMixins.backgroundColorMixin)
       if (newValue[device].lazyLoad) {
-        newMixins[mixinNameImage] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundLazyImageMixin)
+        newMixins[mixinNameImage] = lodash.defaultsDeep({}, attributeMixins.backgroundLazyImageMixin)
       } else {
-        newMixins[mixinNameImage] = lodash.defaultsDeep({}, DesignOptions.attributeMixins.backgroundImageMixin)
+        newMixins[mixinNameImage] = lodash.defaultsDeep({}, attributeMixins.backgroundImageMixin)
       }
 
       if (newValue[device].backgroundColor) {
@@ -607,9 +635,11 @@ export default class DesignOptions extends Attribute {
    */
   setFieldValue (value, mixins, innerFieldKey) {
     const { updater, fieldKey } = this.props
-    updater(fieldKey, {
-      device: value
-    }, innerFieldKey)
+    const newValue = { device: value }
+    if (this.props.elementSelector) {
+      newValue.attributeMixins = mixins
+    }
+    updater(fieldKey, newValue, innerFieldKey)
   }
 
   /**
@@ -714,6 +744,10 @@ export default class DesignOptions extends Attribute {
   getDeviceVisibilityRender () {
     const useTheShowElementToggle = DesignOptions.localizations ? DesignOptions.localizations.useTheShowElementToggle : 'Use the Show element toggle to hide or show elements on all or custom devices.'
 
+    if (!this.props.elementAccessPoint) {
+      return null
+    }
+
     if (this.state.currentDevice === 'all') {
       const id = this.props.elementAccessPoint.id
       const element = documentService.get(id)
@@ -816,8 +850,16 @@ export default class DesignOptions extends Attribute {
     const doAttribute = 'data-vce-do-apply'
     const frame = document.querySelector('#vcv-editor-iframe')
     const frameDocument = frame.contentDocument || frame.contentWindow.document
-    const elementIdSelector = `el-${this.props.elementAccessPoint.id}`
-    const domElement = frameDocument.querySelector(`#${elementIdSelector}`)
+    let domElement = null
+    let elementIdSelector = ''
+
+    if (this.props.elementAccessPoint) {
+      elementIdSelector = `el-${this.props.elementAccessPoint.id}`
+      domElement = frameDocument.querySelector(`#${elementIdSelector}`)
+    } else if (this.props.elementSelector) {
+      domElement = frameDocument.querySelector(this.props.elementSelector)
+    }
+
     const styles = ['border', 'padding', 'margin']
 
     if (domElement) {
@@ -835,7 +877,9 @@ export default class DesignOptions extends Attribute {
       setTimeout(() => {
         const elementDOAttribute = domElement.getAttribute(doAttribute)
 
-        if (elementDOAttribute) {
+        if (this.props.elementSelector) {
+          mainDefaultStyles.all = this.getElementStyles(dolly)
+        } else if (elementDOAttribute) {
           const allDefaultStyles = this.getElementStyles(dolly)
 
           if (elementDOAttribute.indexOf('all') >= 0) {
@@ -1434,13 +1478,13 @@ export default class DesignOptions extends Attribute {
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}
-            {this.getImageLazyLoadRender()}
+            {this.props.elementSelector ? null : this.getImageLazyLoadRender()}
             {this.getAttachImageRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBorderStyleRender()}
             {this.getBorderColorRender()}
-            {this.getAnimationRender()}
+            {this.props.elementSelector ? null : this.getAnimationRender()}
           </div>
         </div>
       </div>

@@ -49,6 +49,10 @@ class PublicApi {
     return storage.getElementGlobalAttributesCssMixins(elementData)
   }
 
+  getPageDesignOptionsMixins (elementData) {
+    return storage.getPageDesignOptionsMixins(elementData)
+  }
+
   getElementLocalAttributesCssMixins (elementData) {
     return storage.getElementLocalAttributesCssMixins(elementData)
   }

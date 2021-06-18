@@ -48,6 +48,7 @@ addStorage('settings', (storage) => {
       data['vcv-settings-source-local-footer-js'] = storage.state('localJsFooter').get() || ''
       data['vcv-settings-global-head-js'] = storage.state('globalJsHead').get() || ''
       data['vcv-settings-global-footer-js'] = storage.state('globalJsFooter').get() || ''
+      data['vcv-settings-page-design-options'] = encodeURIComponent(JSON.stringify(storage.state('pageDesignOptions').get() || {}))
       data['vcv-settings-parent-page'] = storage.state('parentPage').get() || ''
       data['vcv-settings-tags'] = JSON.stringify(storage.state('tags').get() || '')
       data['vcv-settings-excerpt'] = storage.state('excerpt').get() || ''

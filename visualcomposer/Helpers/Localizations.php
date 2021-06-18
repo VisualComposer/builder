@@ -1452,6 +1452,14 @@ class Localizations extends Container implements Helper
                 'Page Settings',
                 'visualcomposer'
             ),
+            'designOptions' => __(
+                'Design Options',
+                'visualcomposer'
+            ),
+            'pageDesignOptionsDescription' => __(
+                'The global Design Options might not work with all themes. Use any of the Visual Composer layouts or get the Visual Composer Starter Theme to access this feature.',
+                'visualcomposer'
+            ),
             'featuredImage' => __(
                 'Featured Image',
                 'visualcomposer'

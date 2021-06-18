@@ -498,4 +498,44 @@ export default class {
 
     return styles
   }
+
+  getPageDesignOptionsMixins (data) {
+    const elementMixins = Object.assign({}, data.attributeMixins)
+    const foundMixins = {}
+    const mixins = {}
+    const tag = 'pageDesignOptions'
+
+    if (elementMixins) {
+      Object.keys(elementMixins).forEach((mixinName) => {
+        foundMixins[`${tag}:${mixinName}`] = lodash.defaultsDeep({}, elementMixins[mixinName])
+      })
+    }
+
+    for (const mixin in foundMixins) {
+      const variables = {}
+      let useMixin = false
+      // get variables
+      Object.keys(foundMixins[mixin].variables).sort().forEach((variable) => {
+        variables[variable] = foundMixins[mixin].variables[variable].value || false
+        // if any variable is set we can use mixin
+        if (variables[variable]) {
+          useMixin = true
+        }
+      })
+      if (useMixin) {
+        if (!mixins[tag]) {
+          mixins[tag] = {}
+        }
+        if (!mixins[tag][mixin]) {
+          mixins[tag][mixin] = Object.assign({}, foundMixins[mixin])
+        }
+        if (!variables.selector) {
+          variables.selector = data.selector || 'body'
+        }
+        mixins[tag][mixin].src = foundMixins[mixin].src
+        mixins[tag][mixin].variables = variables
+      }
+    }
+    return mixins
+  }
 }

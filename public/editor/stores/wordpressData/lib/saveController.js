@@ -33,6 +33,7 @@ export default class SaveController {
   save (id, data, status, options) {
     let globalStylesCompiled = ''
     let pageStylesCompiled = ''
+    let pageDesignOptionsCompiled = ''
     const promises = []
     const assetsStorageInstance = modernAssetsStorage.create()
     const globalStylesManager = stylesManager.create()
@@ -101,6 +102,22 @@ export default class SaveController {
       }
     })
 
+    const pageDesignOptionsManager = stylesManager.create()
+    const pageDesignOptionsData = settingsStorage.state('pageDesignOptions').get() || {}
+
+    const pageMixins = assetsStorageInstance.getPageDesignOptionsMixins(pageDesignOptionsData)
+    const tempStyles = []
+    // get attribute mixins styles
+    Object.keys(pageMixins).forEach((tag) => {
+      Object.keys(pageMixins[tag]).forEach((attribute) => {
+        tempStyles.push(pageMixins[tag][attribute])
+      })
+    })
+    pageDesignOptionsManager.add(tempStyles)
+    promises.push(pageDesignOptionsManager.compile().then((result) => {
+      pageDesignOptionsCompiled = result
+    }))
+
     if (popupSettings) {
       if (popupSettings.popupOnPageLoad && popupSettings.popupOnPageLoad !== 'none') {
         const popupAssets = sharedAssetsLibraryService.getAssetsLibraryFiles('popupOnPageLoad')
@@ -139,6 +156,7 @@ export default class SaveController {
         'vcv-elements-css-data': encodeURIComponent(JSON.stringify(elementsCss)),
         'vcv-source-assets-files': encodeURIComponent(JSON.stringify(assetsFiles)),
         'vcv-source-css-compiled': pageStylesCompiled,
+        'vcv-settings-page-design-options-compiled': pageDesignOptionsCompiled,
         'vcv-be-editor': 'fe',
         'wp-preview': vcCake.getData('wp-preview'),
         'vcv-updatePost': '1'
