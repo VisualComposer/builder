@@ -68,7 +68,7 @@ if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()))
   }
 }
 
-if (allowedPostTypes.indexOf(editorType) > -1) {
+if (roleManager.can('editor_settings_page_design_options', roleManager.defaultTrue()) && allowedPostTypes.indexOf(editorType) > -1) {
   controls.designOptions = {
     index: 5,
     type: 'designOptions',

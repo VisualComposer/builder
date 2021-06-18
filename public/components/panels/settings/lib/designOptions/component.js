@@ -9,7 +9,7 @@ const localizations = dataManager.get('localizations')
 export default class PageDesignOptions extends React.Component {
   constructor (props) {
     super(props)
-    this.selector = 'body'
+    this.selector = 'body.vcwb'
     this.valueChangeHandler = this.valueChangeHandler.bind(this)
   }
 
