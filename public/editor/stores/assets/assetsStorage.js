@@ -12,6 +12,7 @@ addStorage('assets', (storage) => {
   const assetsStorage = getService('modernAssetsStorage')
   const wordpressDataStorage = getStorage('wordpressData')
   const utils = getService('utils')
+  const workspaceStorage = getStorage('workspace')
   const globalAssetsStorage = assetsStorage.create()
   const settingsStorage = getStorage('settings')
   const assetsLibraryManager = new AssetsLibraryManager()
@@ -88,8 +89,13 @@ addStorage('assets', (storage) => {
     const customCss = settingsStorage.state('customCss').get() || ''
     builder && builder.updateSettingsStyles(globalCss + customCss)
   }
+  const updatePageDesignOptions = () => {
+    const pageDesignOptionsData = settingsStorage.state('pageDesignOptions').get() || {}
+    builder && builder.updatePageDesignOptionsStyles(pageDesignOptionsData)
+  }
   settingsStorage.state('globalCss').onChange(updateSettingsCss)
   settingsStorage.state('customCss').onChange(updateSettingsCss)
+  settingsStorage.state('pageDesignOptions').onChange(updatePageDesignOptions)
 
   const updateMixinsState = (cookElement) => {
     const cssMixins = storage.state('cssMixins').get() || {}
@@ -115,4 +121,11 @@ addStorage('assets', (storage) => {
   storage.on('updateElement', updateMixins)
   storage.on('updateInnerElementByData', updateMixinsByData)
   storage.on('removeElement', removeMixins)
+
+  workspaceStorage.state('iframe').onChange(({ type }) => {
+    if (type === 'loaded') {
+      updateSettingsCss()
+      updatePageDesignOptions()
+    }
+  })
 })

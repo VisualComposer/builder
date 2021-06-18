@@ -323,9 +323,10 @@ export default class CssBuilder {
 
   addElementLocalAttributesCssMixins (data, cache = false) {
     const styles = this.stylesManager.create()
-    if (cache && this.getCachedCSS(data.id, 'attributesCss')) {
+    const cachedCSS = this.getCachedCSS(data.id, 'attributesCss')
+    if (cache && cachedCSS) {
       const file = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
-      file.innerHTML = this.getCachedCSS(data.id, 'attributesCss')
+      file.innerHTML = cachedCSS
       return
     }
     const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
@@ -374,10 +375,11 @@ export default class CssBuilder {
     const elementTags = this.globalAssetsStorageService.getElementTagsByData(data) || []
     elementTags.forEach((tag) => {
       if (this.addedBaseStylesTagList.indexOf(tag) === -1) {
-        if (cache && this.getCachedCSS(data.id, 'baseCss')) {
+        const cachedCSS = this.getCachedCSS(data.id, 'baseCss')
+        if (cache && cachedCSS) {
           const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
           if (style) {
-            style.innerHTML = this.getCachedCSS(data.id, 'baseCss')
+            style.innerHTML = cachedCSS
           }
           return
         }
@@ -395,10 +397,11 @@ export default class CssBuilder {
 
   addElementGlobalAttributesCssMixins (data, cache = false) {
     const styles = this.stylesManager.create()
-    if (cache && this.getCachedCSS(data.id, 'mixinsCss')) {
+    const cachedCSS = this.getCachedCSS(data.id, 'mixinsCss')
+    if (cache && cachedCSS) {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
-        style.innerHTML = this.getCachedCSS(data.id, 'mixinsCss')
+        style.innerHTML = cachedCSS
       }
       return
     }
@@ -457,6 +460,34 @@ export default class CssBuilder {
   updateSettingsStyles (cssStyles) {
     const container = this.window.document.querySelector('#vcv-settings-css-styles')
     container.innerHTML = cssStyles
+  }
+
+  updatePageDesignOptionsStyles (data) {
+    const styles = this.stylesManager.create()
+    const pageMixins = this.globalAssetsStorageService.getPageDesignOptionsMixins(data)
+    const tempStyles = []
+    // get attribute mixins styles
+    Object.keys(pageMixins).forEach((tag) => {
+      Object.keys(pageMixins[tag]).forEach((attribute) => {
+        tempStyles.push(pageMixins[tag][attribute])
+      })
+    })
+
+    styles.add(tempStyles)
+
+    let doStyleElement = this.window.document.getElementById('vcv-page-do-styles')
+
+    if (!doStyleElement) {
+      doStyleElement = this.window.document.createElement('style')
+      doStyleElement.id = 'vcv-page-do-styles'
+      this.window.document.body.appendChild(doStyleElement)
+    }
+
+    styles.compile().then((result) => {
+      if (doStyleElement) {
+        doStyleElement.innerHTML = result
+      }
+    })
   }
 
   addJob (job) {

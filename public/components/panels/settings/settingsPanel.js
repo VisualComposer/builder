@@ -6,6 +6,7 @@ import PageSettings from './lib/pageSettings/component'
 import CustomScripts from './lib/customJavascript/component'
 import Popup from './lib/popup/component'
 import ElementsLock from './lib/elementsLock/component'
+import PageDesignOptions from './lib/designOptions/component'
 
 import PanelNavigation from '../panelNavigation'
 import Scrollbar from '../../scrollbar/scrollbar'
@@ -18,6 +19,7 @@ const settingsText = localizations ? localizations.pageSettings : 'Page Settings
 const customJSText = localizations ? localizations.customJS : 'Custom JavaScript'
 const popupText = localizations ? localizations.popup : 'Popup'
 const elementsLockText = localizations ? localizations.elementsLock : 'Element Lock'
+const designOptionsText = localizations ? localizations.designOptions : 'Design Options'
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceSettingsTabState = workspaceStorage.state('settingsTab')
@@ -63,6 +65,15 @@ if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()))
     type: 'elementsLock',
     title: elementsLockText,
     content: <ElementsLock />
+  }
+}
+
+if (roleManager.can('editor_settings_page_design_options', roleManager.defaultTrue()) && allowedPostTypes.indexOf(editorType) > -1) {
+  controls.designOptions = {
+    index: 5,
+    type: 'designOptions',
+    title: designOptionsText,
+    content: <PageDesignOptions />
   }
 }
 
