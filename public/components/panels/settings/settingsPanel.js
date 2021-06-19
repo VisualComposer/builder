@@ -33,26 +33,36 @@ controls.pageSettings = {
   content: <PageSettings />
 }
 
+const editorType = dataManager.get('editorType')
+const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
+
+if (roleManager.can('editor_settings_page_design_options', roleManager.defaultTrue()) && allowedPostTypes.indexOf(editorType) > -1) {
+  controls.designOptions = {
+    index: 1,
+    type: 'designOptions',
+    title: designOptionsText,
+    content: <PageDesignOptions />
+  }
+}
+
 if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultTrue())) {
   controls.customCss = {
-    index: 1,
+    index: 2,
     type: 'customCss',
     title: customCSSText,
     content: <CustomStyles />
   }
   controls.customJs = {
-    index: 2,
+    index: 3,
     type: 'customJs',
     title: customJSText,
     content: <CustomScripts />
   }
 }
 
-const editorType = dataManager.get('editorType')
-const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
 if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
   controls.popup = {
-    index: 3,
+    index: 4,
     type: 'popup',
     title: popupText,
     content: <Popup />
@@ -61,19 +71,10 @@ if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_setting
 
 if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin())) {
   controls.elementsLock = {
-    index: 4,
+    index: 5,
     type: 'elementsLock',
     title: elementsLockText,
     content: <ElementsLock />
-  }
-}
-
-if (roleManager.can('editor_settings_page_design_options', roleManager.defaultTrue()) && allowedPostTypes.indexOf(editorType) > -1) {
-  controls.designOptions = {
-    index: 5,
-    type: 'designOptions',
-    title: designOptionsText,
-    content: <PageDesignOptions />
   }
 }
 
