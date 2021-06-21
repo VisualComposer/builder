@@ -8,7 +8,7 @@ import UrlDropdownInput from './UrlDropdownInput'
 import PostsBlock from './PostsBlock'
 import PostsDropdown from './PostsDropdown'
 import { getResponse } from 'public/tools/response'
-import { getService, getStorage, env } from 'vc-cake'
+import { getService, getStorage } from 'vc-cake'
 import Tooltip from 'public/components/tooltip/tooltip'
 import DynamicPopupContent from 'public/sources/attributes/dynamicField/dynamicPopupContent'
 
@@ -84,13 +84,10 @@ export default class Url extends Attribute {
       value = {
         url: '',
         title: '',
+        type: '',
         targetBlank: false,
         relNofollow: false
       }
-    }
-
-    if (env('VCV_POPUP_BUILDER') && this.props.value.type) {
-      value.type = this.props.value.type
     }
 
     pagePosts.clear()
