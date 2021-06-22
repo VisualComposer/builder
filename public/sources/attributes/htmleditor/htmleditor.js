@@ -305,6 +305,12 @@ export default class HtmlEditorComponent extends React.Component {
                 window.QTags.instances[id].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
               }
             }
+            const iframe = document.getElementById('vcv-wpeditor-output_ifr')
+            iframe.contentWindow.addEventListener('mouseup', (e) => {
+              if (typeof e === 'object' && e.button && e.button > 2) {
+                e.preventDefault()
+              }
+            })
           }
         }, 10)
       }
