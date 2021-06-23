@@ -96,7 +96,14 @@
             this.element.classList.remove(orientationClass);
           }
         }
-      }
+        // Detect Firefox browser
+        // Firefox's API to install add-ons: InstallTrigger
+        var isFirefox = typeof window.InstallTrigger !== 'undefined';
+        if (isFirefox) {
+          clearTimeout(this.timeoutId);
+          this.timeoutId = setTimeout(this.element.style.width = (100 + '%'), 50);
+        }
+      },
     };
     return Plugin.setup(element);
   }
