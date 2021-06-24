@@ -15,7 +15,7 @@ export default class Modal extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      innerClick: false,
+      innerClick: false
     }
     this.handleHideOnOuterClick = this.handleHideOnOuterClick.bind(this)
     this.handleShowOnInnerClick = this.handleShowOnInnerClick.bind(this)
