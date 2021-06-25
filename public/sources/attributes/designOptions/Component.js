@@ -288,16 +288,18 @@ export default class DesignOptions extends Attribute {
     const newState = lodash.defaultsDeep({}, this.state)
     const isLazyLoadSet = {
       isValueExists: false,
-      value: null
+      value: null,
+      isImageSet: false
     }
     Object.keys(devices).forEach((device) => {
-      if (Object.prototype.hasOwnProperty.call(devices[device], 'lazyLoad')) {
+      if (Object.prototype.hasOwnProperty.call(devices[device], 'lazyLoad') && Object.prototype.hasOwnProperty.call(devices[device], 'images')) {
         isLazyLoadSet.isValueExists = true
         isLazyLoadSet.value = devices[device].lazyLoad
+        isLazyLoadSet.isImageSet = true
       }
     })
 
-    if (!isLazyLoadSet.isValueExists) {
+    if (!isLazyLoadSet.isValueExists && isLazyLoadSet.isImageSet) {
       Object.keys(devices).forEach((device) => {
         newState.devices[device].lazyLoad = DesignOptions.defaultState.lazyLoad
       })
