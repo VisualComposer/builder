@@ -5,14 +5,12 @@
     zoomItem.each(function () {
       var $source = $(this)
       $source.trigger('zoom.destroy')
-      var imgSrc = $source.find('.vce-single-image').data('img-src')
-
       $source.find('.zoomImg').each(function () {
         $(this).remove()
       })
 
       $source.zoom({
-        url: imgSrc
+        url: ''
       })
     })
   })
