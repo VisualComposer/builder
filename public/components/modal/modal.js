@@ -14,11 +14,20 @@ export default class Modal extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      innerClick: false
+    }
     this.handleHideOnOuterClick = this.handleHideOnOuterClick.bind(this)
+    this.handleShowOnInnerClick = this.handleShowOnInnerClick.bind(this)
+  }
+
+  handleShowOnInnerClick (e) {
+    this.setState({ innerClick: e.type === 'mousedown' })
   }
 
   handleHideOnOuterClick (event) {
-    if (this.props.closeOnOuterClick === false) {
+    setTimeout(() => this.setState({ innerClick: false }), 0)
+    if (this.props.closeOnOuterClick === false || this.state.innerClick) {
       return
     }
     if (event.target.dataset.modal && this.props.onClose instanceof Function) {
@@ -33,7 +42,7 @@ export default class Modal extends React.Component {
 
     return (
       <div className='vcv-ui-modal-overlay' onClick={this.handleHideOnOuterClick} data-modal='true'>
-        <div className='vcv-ui-modal-container'>
+        <div className='vcv-ui-modal-container' onMouseDown={this.handleShowOnInnerClick} onMouseUp={this.handleShowOnInnerClick}>
           {this.props.children}
         </div>
       </div>
