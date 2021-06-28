@@ -210,23 +210,49 @@ export default class BoxShadow extends Attribute {
     // data came from props if there is set value
     if (props.value) {
       newState = this.parseValue(props.value)
-      this.setFieldValue(newState.devices, newState.attributeMixins)
+      if (newState.devices) {
+        this.setFieldValue(newState.devices, newState.attributeMixins)
+      }
     } else {
       // data came from state update
+      if (!this.hasEnabledOptions(props.devices)) {
+        return newState
+      }
       newState = lodash.defaultsDeep({}, props, BoxShadow.defaultState)
     }
     return newState
   }
 
   valueChangeHandler (fieldKey, value) {
-    const newState = lodash.defaultsDeep({}, this.state)
+    let newState = lodash.defaultsDeep({}, this.state)
+    if (!newState.currentDevice) {
+      newState = lodash.defaultsDeep({}, BoxShadow.defaultState)
+      newState.devices.all = lodash.defaultsDeep({}, BoxShadow.deviceDefaults)
+    } else {
+      // add updated to be able to disable toggles when !hasEnabledOptions
+      newState.devices[newState.currentDevice].updated = true
+    }
     newState.devices[newState.currentDevice][fieldKey] = value
     this.updateValue(newState, fieldKey)
   }
 
+  // Checks if shadow toggles are enabled and if component updated before to prevent applying default values without a change
+  hasEnabledOptions (value) {
+    if (!value) {
+      return false
+    }
+    return Object.keys(value).find(device => value[device].boxShadowEnable || value[device].hoverBoxShadowEnable || value[device].updated)
+  }
+
   parseValue (value) {
     // set default values
-    const newState = lodash.defaultsDeep({}, BoxShadow.defaultState)
+    let newState = {}
+
+    if (!this.hasEnabledOptions(value.device)) {
+      return newState
+    }
+
+    newState = lodash.defaultsDeep({}, BoxShadow.defaultState)
     const newMixins = {}
     // get devices data
     const devices = []
@@ -259,8 +285,8 @@ export default class BoxShadow extends Attribute {
 
   getBoxShadowToggle (hover) {
     const fieldKey = hover ? 'hoverBoxShadowEnable' : 'boxShadowEnable'
-    const deviceData = this.state.devices[this.state.currentDevice]
-    const value = deviceData[fieldKey] || false
+    const deviceData = this.state.devices && this.state.currentDevice ? this.state.devices[this.state.currentDevice] : null
+    const value = deviceData && deviceData[fieldKey] ? deviceData[fieldKey] : false
     const labelText = hover ? 'Enable hover box shadow' : 'Enable box shadow'
 
     return (
@@ -277,10 +303,10 @@ export default class BoxShadow extends Attribute {
   }
 
   getBoxShadowFields (hover) {
-    const deviceData = this.state.devices[this.state.currentDevice]
+    const deviceData = this.state.devices && this.state.currentDevice ? this.state.devices[this.state.currentDevice] : null
     const enableToggleKey = hover ? 'hoverBoxShadowEnable' : 'boxShadowEnable'
 
-    if (!deviceData[enableToggleKey]) {
+    if (!(deviceData && deviceData[enableToggleKey])) {
       return null
     }
 

@@ -96,6 +96,26 @@
             this.element.classList.remove(orientationClass);
           }
         }
+        // Detect Firefox browser
+        // Firefox's API to install add-ons: InstallTrigger
+        var isFirefox = typeof window.InstallTrigger !== 'undefined';
+        if (isFirefox) {
+          clearTimeout(this.timeoutId);
+          this.timeoutId = setTimeout(this.videoBackgroundEnlarge.bind(this), 50);
+        }
+      },
+      videoBackgroundEnlarge: function videoBackgroundEnlarge () {
+        if (!this.iframe) {
+          this.iframe = this.element.querySelector('iframe');
+          this.iframeAspect = parseInt(this.iframe.getAttribute('height')) / parseInt(this.iframe.getAttribute('width'))
+        }
+
+        var windowAspect = (window.innerHeight / window.innerWidth);
+        if (windowAspect > this.iframeAspect) {
+          this.element.style.width = ((windowAspect / this.iframeAspect) * 110 + '%');
+        } else {
+          this.element.style.width = (100 + '%');
+        }
       }
     };
     return Plugin.setup(element);
