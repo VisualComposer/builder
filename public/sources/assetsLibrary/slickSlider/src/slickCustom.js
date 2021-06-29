@@ -2440,18 +2440,22 @@ import './slickCustom.less';
         for (i = _.slideCount; i > (_.slideCount -
           infiniteCount); i -= 1) {
           slideIndex = i - 1;
-          $(_.$slides[ slideIndex ]).clone(true).attr('id', '')
+          const originalId = $(_.$slides[ slideIndex ]).attr('id')
+          $(_.$slides[ slideIndex ]).clone(true).attr('id', `clone-${originalId}`)
             .attr('data-slick-index', slideIndex - _.slideCount)
             .prependTo(_.$slideTrack).addClass('slick-cloned');
         }
         for (i = 0; i < infiniteCount + _.slideCount; i += 1) {
           slideIndex = i;
-          $(_.$slides[ slideIndex ]).clone(true).attr('id', '')
+          const originalId = $(_.$slides[ slideIndex ]).attr('id')
+
+          $(_.$slides[ slideIndex ]).clone(true).attr('id', `clone-${originalId}`)
             .attr('data-slick-index', slideIndex + _.slideCount)
             .appendTo(_.$slideTrack).addClass('slick-cloned');
         }
         _.$slideTrack.find('.slick-cloned').find('[id]').each(function () {
-          $(this).attr('id', '');
+          const originalId = $(this).attr('id')
+          $(this).attr('id', `clone-${originalId}`)
         });
 
       }

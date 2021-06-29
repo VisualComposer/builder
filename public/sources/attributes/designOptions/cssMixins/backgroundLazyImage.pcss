@@ -1,7 +1,11 @@
 #$selector[data-vce-do-apply*="all"],
 #$selector [data-vce-do-apply*="all"],
 #$selector[data-vce-do-apply*="background"],
-#$selector [data-vce-do-apply*="background"] {
+#$selector [data-vce-do-apply*="background"],
+#clone-$selector[data-vce-do-apply*="all"],
+#clone-$selector [data-vce-do-apply*="all"],
+#clone-$selector[data-vce-do-apply*="background"],
+#clone-$selector [data-vce-do-apply*="background"] {
   &[data-vce-do-apply*="$selector"] {
     @media (--$(device)-only) {
       @if $backgroundImage != false {
@@ -14,7 +18,11 @@
 #$selector[data-vce-do-apply*="all"][data-vcv-lozad],
 #$selector [data-vce-do-apply*="all"][data-vcv-lozad],
 #$selector[data-vce-do-apply*="background"][data-vcv-lozad],
-#$selector [data-vce-do-apply*="background"][data-vcv-lozad] {
+#$selector [data-vce-do-apply*="background"][data-vcv-lozad],
+#clone-$selector[data-vce-do-apply*="all"][data-vcv-lozad],
+#clone-$selector [data-vce-do-apply*="all"][data-vcv-lozad],
+#clone-$selector[data-vce-do-apply*="background"][data-vcv-lozad],
+#clone-$selector [data-vce-do-apply*="background"][data-vcv-lozad] {
   &[data-vce-do-apply*="$selector"] {
     @media (--$(device)-only) {
       @if $backgroundImage != false {
