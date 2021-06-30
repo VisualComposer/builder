@@ -20,7 +20,9 @@ export default class TermsBox extends React.Component {
   }
 
   handleClick () {
-    const utmLink = dataManager.get('slug') === 'vcv-hub' ? 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=vcwb&utm_medium[…]cdashboard&utm_campaign=get-free-license&utm_content=button' : 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=vcwb&utm_medium=hub-editor&utm_campaign=get-free-license&utm_content=button'
+    const editorLink = 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=vcwb&utm_medium=hub-editor&utm_campaign=get-free-license&utm_content=button'
+    const dashboardLink = 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=vcwb&utm_medium[…]cdashboard&utm_campaign=get-free-license&utm_content=button'
+    const utmLink = dataManager.get('slug') === 'vcv-hub' ? dashboardLink : editorLink
     window.open(utmLink)
     this.setState({ isLoading: true })
     settingsStorage.state('agreeHubTerms').set(true)
