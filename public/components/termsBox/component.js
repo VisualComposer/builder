@@ -20,10 +20,7 @@ export default class TermsBox extends React.Component {
   }
 
   handleClick () {
-    const editorLink = 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=vcwb&utm_medium=hub-editor&utm_campaign=get-free-license&utm_content=button'
-    const dashboardLink = 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=vcwb&utm_medium[…]cdashboard&utm_campaign=get-free-license&utm_content=button'
-    const utmLink = dataManager.get('slug') === 'vcv-hub' ? dashboardLink : editorLink
-    window.open(utmLink)
+    this.handleUtmRedirect()
     this.setState({ isLoading: true })
     settingsStorage.state('agreeHubTerms').set(true)
     dataProcessor.appAdminServerRequest({
@@ -35,6 +32,14 @@ export default class TermsBox extends React.Component {
       this.setState({ isLoading: false })
       this.props.onClose()
     })
+  }
+
+  handleUtmRedirect () {
+    const utm = dataManager.get('utm')
+    const dashboardLink = utm['vc-dashboard-hub-terms']
+    const editorLink = utm['editor-hub-terms']
+    const utmLink = dataManager.get('slug') === 'vcv-hub' ? dashboardLink : editorLink
+    window.open(utmLink)
   }
 
   render () {
