@@ -36,10 +36,13 @@ export default class TermsBox extends React.Component {
 
   handleUtmRedirect () {
     const utm = dataManager.get('utm')
-    const dashboardLink = utm['vc-dashboard-hub-terms']
-    const editorLink = utm['editor-hub-terms']
-    const utmLink = dataManager.get('slug') === 'vcv-hub' ? dashboardLink : editorLink
-    window.open(utmLink)
+    const editorMedium = 'hub-editor'
+    const dashboardMedium = 'hub-vcdashboard'
+    const utmMedium = dataManager.get('slug') === 'vcv-hub' ? dashboardMedium : editorMedium
+    const utmLink = utm['hub-terms-box-button']
+    const hubUtmLink = utmLink.replace('{medium}', utmMedium)
+
+    window.open(hubUtmLink)
   }
 
   render () {
