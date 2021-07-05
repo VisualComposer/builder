@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 import MenuDropdown from './menuDropdown'
 import { disableScroll, enableScroll } from 'public/tools/disableScroll'
 
 const workspaceStorage = getStorage('workspace')
 const layoutStorage = getStorage('layout')
+const roleManager = getService('roleManager')
 
 export default class RightClickMenu extends React.Component {
   constructor (props) {
@@ -37,6 +38,7 @@ export default class RightClickMenu extends React.Component {
   }
 
   handleRightClick (e) {
+    // console.log('roleManager.can(\'editor_content_element_add\', roleManager.defaultTrue())', roleManager.can('editor_content_element_add', roleManager.defaultTrue()))
     e.target.blur()
     this.iframeWindow.document.addEventListener('click', this.unmountMenuComponent)
     window.document.addEventListener('click', this.unmountMenuComponent)
@@ -45,6 +47,7 @@ export default class RightClickMenu extends React.Component {
     const targetElement = e.target
     let id = targetElement.getAttribute('data-vcv-element')
 
+    console.log('id', id)
     if (!id) {
       const closest = targetElement.closest('[data-vcv-element]')
       if (closest) {
