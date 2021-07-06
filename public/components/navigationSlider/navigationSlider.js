@@ -123,11 +123,14 @@ export default class NavigationSlider extends React.Component {
   getNavigationItems () {
     const controls = Object.values(this.props.controls)
     return controls.map((control, i) => {
-      const { type, title, subControls } = control
+      const { type, title, subControls, level } = control
       const isActive = type === this.props.activeSection
       const itemClasses = classNames({
         'vcv-ui-navigation-slider-item': true,
-        'vcv-ui-navigation-slider-item--active': isActive
+        'vcv-ui-navigation-slider-item--active': isActive,
+        'vcv-ui-badge--error': level === 'critical',
+        'vcv-ui-badge--warning': level === 'warning',
+        'vcv-ui-badge--success': level === 'success'
       })
       let index = control.index
       if (control.subIndex !== undefined) {

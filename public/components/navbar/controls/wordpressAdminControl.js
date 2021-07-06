@@ -278,19 +278,6 @@ export default class WordPressAdminControl extends NavbarContent {
       </span>
     )
 
-    const backendEditorButton = (
-      <span
-        className='vcv-ui-navbar-control'
-        onClick={this.handleClick}
-        title={backToWordpress}
-        data-href={PostData.backendEditorUrl()}
-        data-backend-editor='backendEditor'
-        data-vcv-control='backToWP'
-      >
-        <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
-      </span>
-    )
-
     let dataHref = PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()
     if (this.editorType === 'vcv_tutorials') {
       dataHref = dataManager.get('gettingStartedUrl')
@@ -333,7 +320,6 @@ export default class WordPressAdminControl extends NavbarContent {
         <div className='vcv-ui-navbar-controls-set'>
           {previewButton}
           {viewButton}
-          {backendEditorButton}
           {wordpressDashboardButton}
         </div>
       )
