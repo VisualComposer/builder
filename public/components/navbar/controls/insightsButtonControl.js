@@ -81,7 +81,7 @@ export default class InsightsButtonControl extends NavbarContent {
 
     const subMenuIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,
-      'vcv-ui-icon': true,
+      'vcv-ui-icon': true
     })
 
     const navbarContentClasses = classNames({
@@ -90,7 +90,7 @@ export default class InsightsButtonControl extends NavbarContent {
     })
 
     const subMenus = controlsArray.map((control, index) => {
-      let subMenuIconClass = subMenuIconClasses + ` vcv-ui-icon-${control.icon}`
+      const subMenuIconClass = subMenuIconClasses + ` vcv-ui-icon-${control.icon}`
       return (
         <span
           onClick={(e) => this.handleClickInsights(e, control.type)}

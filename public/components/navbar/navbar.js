@@ -591,14 +591,14 @@ export default class Navbar extends React.Component {
           {dragHandler}
           {this.getVisibleControls(this.state.visibleControls)}
           {this.buildHiddenControls(this.state.visibleControls)}
-          <NavbarSeparator/>
+          <NavbarSeparator />
           <WordpressPostSaveControl>
             {saveSubMenus}
           </WordpressPostSaveControl>
           <div
-          className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
-          onMouseDown={(e) => this.handleDragStart(e, false)}
-          ref={this.spacerRef}
+            className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
+            onMouseDown={(e) => this.handleDragStart(e, false)}
+            ref={this.spacerRef}
           />
         </nav>
       </div>

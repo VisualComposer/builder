@@ -21,7 +21,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       saving: false,
       loading: false,
       status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : '',
-      isOptionsActive: false,
+      isOptionsActive: false
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
@@ -181,7 +181,6 @@ export default class WordPressPostSaveControl extends NavbarContent {
     let controlTitle = titleText
     let saveDraftOptions = null
     if (PostData.isDraft()) {
-
       controlTitle = publishingOptions
 
       saveDraftOptions = (
