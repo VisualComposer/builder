@@ -1,14 +1,14 @@
 import React from 'react'
 import { getStorage, getService } from 'vc-cake'
-import PanelNavigation from '../panelNavigation'
 import InsightGroup from './insightGroup'
 import vcLogo from 'public/sources/images/brandLogo/vcLogo.raw'
+import Dropdown from 'public/sources/attributes/dropdown/Component'
 
 const insightsStorage = getStorage('insights')
 const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 
-const controls = {
+const insightsTypeControls = {
   all: {
     index: 0,
     type: 'all',
@@ -36,6 +36,7 @@ export default class DefaultInsights extends React.Component {
     super(props)
 
     this.state = {
+      activeControl: 'insights',
       activeSection: 'all',
       insightData: insightsStorage.state('insights').get() || {},
       currentControls: this.getCurrentControls(insightsStorage.state('insights').get())
@@ -51,7 +52,12 @@ export default class DefaultInsights extends React.Component {
     insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
   }
 
-  setActiveSection (type) {
+  setActiveSection (fieldKey, type) {
+    const currentControl = Object.keys(this.state.currentControls).find(control => control === type)
+    this.setState({ activeSection: currentControl || 'all' })
+  }
+
+  setActiveControl (type) {
     const currentControl = Object.keys(this.state.currentControls).find(control => control === type)
     this.setState({ activeSection: currentControl || 'all' })
   }
@@ -108,7 +114,7 @@ export default class DefaultInsights extends React.Component {
   }
 
   getCurrentControls (insightData) {
-    const insightsControls = Object.assign({}, controls)
+    const insightsControls = Object.assign({}, insightsTypeControls)
     let successNotifications = false
     if (Object.keys(insightData).length) {
       Object.keys(insightData).forEach((item) => {
@@ -125,11 +131,25 @@ export default class DefaultInsights extends React.Component {
 
   render () {
     const insightsHTML = this.getInsightsHTML(this.state.insightData)
+    const dropdownControls = {
+      values: Object.keys(this.state.currentControls).map(key => ({
+        value: this.state.currentControls[key].type,
+        label: this.state.currentControls[key].title
+      }))
+    }
+
     return (
       <>
-        <PanelNavigation controls={this.state.currentControls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <div className='vcv-insights vcv-ui-tree-content-section-inner'>
+            <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+              <Dropdown
+                fieldKey='insightControls'
+                options={dropdownControls}
+                updater={this.setActiveSection}
+                value={this.state.activeSection}
+              />
+            </div>
             {insightsHTML}
           </div>
         </div>

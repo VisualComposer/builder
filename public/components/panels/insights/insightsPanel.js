@@ -12,41 +12,52 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
-
-const activeSection = 'default'
+const workspaceInsightsTabState = workspaceStorage.state('insightsTab')
+const workspaceInsightsControls = workspaceStorage.state('insightsControls')
+const currentInsightsLevel = insightsStorage.state('currentLevel')
 
 const controls = innerAPI.applyFilter('insightPanelsData', {
-  default: {
+  insights: {
     index: 0,
-    type: 'default',
-    title: 'Insights'
+    type: 'insights',
+    title: 'Insights',
+    icon: 'lamp'
   }
 })
+
+workspaceInsightsControls.set({ ...controls })
 
 export default class InsightsPanel extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      activeSection: activeSection,
+      controls: controls,
+      activeSection: workspaceInsightsTabState.get() ? workspaceInsightsTabState.get() : 'insights',
       isVisible: workspaceContentState.get() === 'insights'
     }
 
-    innerAPI.mount('panelInsights:default', () => {
+    innerAPI.mount('panelInsights:insights', () => {
       return <DefaultInsights key='panel-insights-default' />
     })
 
     this.setActiveSection = this.setActiveSection.bind(this)
     this.setVisibility = this.setVisibility.bind(this)
+    this.handleLevelChange = this.handleLevelChange.bind(this)
   }
 
   componentDidMount () {
+    this.handleLevelChange(controls)
+    currentInsightsLevel.onChange(this.handleLevelChange)
     workspaceContentState.onChange(this.setVisibility)
+    workspaceInsightsTabState.onChange(this.setActiveSection)
   }
 
   componentWillUnmount () {
     insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
     workspaceContentState.ignoreChange(this.setVisibility)
+    workspaceInsightsTabState.ignoreChange(this.setActiveSection)
+    currentInsightsLevel.ignoreChange(this.handleLevelChange)
   }
 
   setActiveSection (type) {
@@ -59,10 +70,15 @@ export default class InsightsPanel extends React.Component {
     })
   }
 
+  handleLevelChange (data) {
+    const newControls = { ...this.state.controls }
+    controls.insights.level = currentInsightsLevel.get()
+    this.setState({ newControls })
+  }
+
   render () {
     const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
     const insightsIsAContentAnalysisTool = localizations ? localizations.insightsIsAContentAnalysisTool : 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.'
-
     const panelClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-tree-view-content--full-width': true,
@@ -72,7 +88,7 @@ export default class InsightsPanel extends React.Component {
     return (
       <div className={panelClasses} data-vcv-disable-on-demo>
         <div className='vcv-ui-panel-heading'>
-          <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-lamp' />
+          <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-bell' />
           <span className='vcv-ui-panel-heading-text'>
             {VCInsights}
           </span>
@@ -80,10 +96,10 @@ export default class InsightsPanel extends React.Component {
             {insightsIsAContentAnalysisTool}
           </Tooltip>
         </div>
-        {Object.keys(controls).length > 1 ? <PanelNavigation controls={controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} /> : null}
+        <PanelNavigation controls={this.state.controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
-            {innerAPI.pick(`panelInsights:${controls[this.state.activeSection].type}`, null)}
+            {innerAPI.pick(`panelInsights:${this.state.controls[this.state.activeSection].type}`, null)}
           </Scrollbar>
         </div>
       </div>

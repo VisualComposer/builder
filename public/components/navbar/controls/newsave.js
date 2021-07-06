@@ -21,7 +21,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
       saving: false,
       loading: false,
       status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : '',
-      isOptionsActive: false,
+      isOptionsActive: false
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
@@ -142,28 +142,6 @@ export default class WordPressPostSaveControl extends NavbarContent {
   render () {
     const localizations = dataManager.get('localizations')
 
-    const saveButtonClasses = classNames({
-      'vcv-ui-navbar-control': true,
-      'vcv-ui-navbar-dropdown-trigger': true,
-      'vcv-ui-state--success': this.state.status === 'success',
-      'vcv-ui-state--error': this.state.status === 'error',
-      'vcv-ui-state--disabled': this.state.status === 'disabled'
-    })
-
-    const saveIconClasses = classNames({
-      'vcv-ui-navbar-control-icon': true,
-      'vcv-ui-wp-spinner-light': this.state.status === 'saving',
-      'vcv-ui-icon': this.state.status !== 'saving',
-      'vcv-ui-icon-save': this.state.status !== 'saving'
-    })
-
-    const saveControlClasses = classNames({
-      'vcv-ui-navbar-dropdown': true,
-      'vcv-ui-navbar-save': true,
-      'vcv-ui-pull-end': true,
-      'vcv-ui-navbar-dropdown--active': this.state.isOptionsActive
-    })
-
     const publishingOptions = localizations.publishingOptions
     let saveText = localizations.publish
     if (!PostData.canPublish()) {
@@ -172,18 +150,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
     if (PostData.isPublished()) {
       saveText = localizations.update
     }
-    const navbarContentClasses = classNames({
-      'vcv-ui-navbar-dropdown-content': true,
-      'vcv-ui-navbar-show-labels': true,
-      'vcv-ui-navbar-dropdown-content--save': true
-    })
+
     const titleText = WordPressPostSaveControl.isMacLike ? saveText + ' (⌘S)' : saveText + ' (Ctrl + S)'
     let controlTitle = titleText
+
     let saveDraftOptions = null
     if (PostData.isDraft()) {
-
       controlTitle = publishingOptions
-
       saveDraftOptions = (
         <>
           <span
@@ -202,34 +175,18 @@ export default class WordPressPostSaveControl extends NavbarContent {
             data-href={PostData.permalink()}
             data-vcv-control='publish'
           >
-            <span className='vcv-ui-navbar-control-content'>{saveText}</span>
+            <span className='vcv-ui-navbar-control-content'>{controlTitle}</span>
           </span>
         </>
+
       )
     }
 
-    return (
-      <dl
-        className={saveControlClasses}
-        data-vcv-guide-helper='save-control'
-      >
-        <dt
-          className={saveButtonClasses}
-          title={controlTitle}
-          onClick={this.handleSave}
-          data-vcv-control='publish'
-        >
-          <span className='vcv-ui-navbar-control-content'>
-            <i className={saveIconClasses} />
-            <span>{controlTitle}</span>
-          </span>
 
-        </dt>
-        <dd className={navbarContentClasses}>
-          {this.props.children}
-          {saveDraftOptions}
-        </dd>
-      </dl>
+    return (
+      <>
+        {saveDraftOptions}
+      </>
     )
   }
 }
