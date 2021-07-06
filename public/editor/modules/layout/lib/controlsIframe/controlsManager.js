@@ -323,8 +323,10 @@ export default class ControlsManager {
     layoutStorage.state('rightClickMenuActive').onChange(() => {
       const outlineControls = document.querySelector('.vcv-ui-outline-controls-wrapper')
       ReactDOM.unmountComponentAtNode(outlineControls)
-      const appendControls = document.querySelector('.vcv-ui-append-control-wrapper')
-      ReactDOM.unmountComponentAtNode(appendControls)
+      if (roleManager.can('editor_content_element_add', roleManager.defaultTrue())) {
+        const appendControls = document.querySelector('.vcv-ui-append-control-wrapper')
+        ReactDOM.unmountComponentAtNode(appendControls)
+      }
     })
   }
 
