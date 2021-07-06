@@ -248,7 +248,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const { backToWordpress, wordPressDashboard, preview, previewChanges, reset } = localizations
+    const { wordPressDashboard, preview, previewChanges, reset } = localizations
 
     let viewButton = ''
     if (PostData.isViewable() && PostData.isPublished()) {
