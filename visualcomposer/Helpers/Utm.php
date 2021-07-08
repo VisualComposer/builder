@@ -111,6 +111,9 @@ class Utm implements Helper
 
             // Created with badge button
             'created-with-badge-button' => 'https://visualcomposer.com/?utm_source=' . $source . '&utm_medium=vcbadge&utm_campaign=info&utm_content=createdwith-text&utm_term="' . $activeTheme . '"',
+
+            // Hub Terms Box Button
+            'hub-terms-box-button' => 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=get-free-license&utm_content=button',
         ];
 
         return $utm;
