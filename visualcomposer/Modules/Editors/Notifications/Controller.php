@@ -42,9 +42,11 @@ class Controller extends Container implements Module
                     'timeout' => 30,
                 ]
             );
-            $body = $response['body'];
-            $optionsHelper->set('notifications', $body);
-            $optionsHelper->setTransient('lastNotificationUpdate', 1, 3600);
+            if (!vcIsBadResponse($response)) {
+                $body = $response['body'];
+                $optionsHelper->set('notifications', $body);
+                $optionsHelper->setTransient('lastNotificationUpdate', 1, DAY_IN_SECONDS);
+            }
         }
     }
 
