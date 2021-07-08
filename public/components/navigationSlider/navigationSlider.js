@@ -53,6 +53,15 @@ export default class NavigationSlider extends React.Component {
     this.navigationSliderRef.current.removeEventListener('wheel', this.handleHorizontalScroll)
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if ((prevState.showControls !== this.state.showControls) || (prevProps.activeSection !== this.props.activeSection)) {
+      const activeItem = this.navigationContainerRef.current ? this.navigationContainerRef.current.querySelector('.vcv-ui-navigation-slider-item--active') : null
+      if (activeItem) {
+        this.navigationScrollHandler(activeItem)
+      }
+    }
+  }
+
   handleHorizontalScroll (event) {
     if (event.deltaY !== 0) {
       event.preventDefault()
@@ -88,6 +97,10 @@ export default class NavigationSlider extends React.Component {
     this.props.setActiveSection(type, index, activeSubControl)
 
     const clickedItem = event && event.target && event.target.closest('.vcv-ui-navigation-slider-item')
+    this.navigationScrollHandler(clickedItem)
+  }
+
+  navigationScrollHandler (clickedItem) {
     if (clickedItem) {
       const clickedItemRect = clickedItem.getBoundingClientRect()
       const slider = this.navigationSliderRef.current
