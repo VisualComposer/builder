@@ -248,7 +248,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const { backToWordpress, wordPressDashboard, preview, previewChanges, reset } = localizations
+    const { wordPressDashboard, preview, previewChanges, reset } = localizations
 
     let viewButton = ''
     if (PostData.isViewable() && PostData.isPublished()) {
@@ -275,19 +275,6 @@ export default class WordPressAdminControl extends NavbarContent {
         data-vcv-control='preview'
       >
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>
-      </span>
-    )
-
-    const backendEditorButton = (
-      <span
-        className='vcv-ui-navbar-control'
-        onClick={this.handleClick}
-        title={backToWordpress}
-        data-href={PostData.backendEditorUrl()}
-        data-backend-editor='backendEditor'
-        data-vcv-control='backToWP'
-      >
-        <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
       </span>
     )
 
@@ -333,7 +320,6 @@ export default class WordPressAdminControl extends NavbarContent {
         <div className='vcv-ui-navbar-controls-set'>
           {previewButton}
           {viewButton}
-          {backendEditorButton}
           {wordpressDashboardButton}
         </div>
       )

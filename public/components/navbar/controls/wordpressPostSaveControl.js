@@ -141,6 +141,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
 
   render () {
     const localizations = dataManager.get('localizations')
+
     const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-navbar-dropdown-trigger': true,
@@ -148,18 +149,21 @@ export default class WordPressPostSaveControl extends NavbarContent {
       'vcv-ui-state--error': this.state.status === 'error',
       'vcv-ui-state--disabled': this.state.status === 'disabled'
     })
+
     const saveIconClasses = classNames({
       'vcv-ui-navbar-control-icon': true,
       'vcv-ui-wp-spinner-light': this.state.status === 'saving',
       'vcv-ui-icon': this.state.status !== 'saving',
       'vcv-ui-icon-save': this.state.status !== 'saving'
     })
+
     const saveControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-navbar-save': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-navbar-dropdown--active': this.state.isOptionsActive
     })
+
     const publishingOptions = localizations.publishingOptions
     let saveText = localizations.publish
     if (!PostData.canPublish()) {
@@ -168,20 +172,19 @@ export default class WordPressPostSaveControl extends NavbarContent {
     if (PostData.isPublished()) {
       saveText = localizations.update
     }
-
+    const navbarContentClasses = classNames({
+      'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-show-labels': true,
+      'vcv-ui-navbar-dropdown-content--save': true
+    })
     const titleText = WordPressPostSaveControl.isMacLike ? saveText + ' (⌘S)' : saveText + ' (Ctrl + S)'
     let controlTitle = titleText
-
     let saveDraftOptions = null
     if (PostData.isDraft()) {
-      const navbarContentClasses = classNames({
-        'vcv-ui-navbar-dropdown-content': true,
-        'vcv-ui-navbar-show-labels': true,
-        'vcv-ui-navbar-dropdown-content--save': true
-      })
       controlTitle = publishingOptions
+
       saveDraftOptions = (
-        <dd className={navbarContentClasses}>
+        <>
           <span
             className='vcv-ui-navbar-control'
             title={localizations.saveDraft}
@@ -200,7 +203,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
           >
             <span className='vcv-ui-navbar-control-content'>{saveText}</span>
           </span>
-        </dd>
+        </>
       )
     }
 
@@ -219,8 +222,12 @@ export default class WordPressPostSaveControl extends NavbarContent {
             <i className={saveIconClasses} />
             <span>{controlTitle}</span>
           </span>
+
         </dt>
-        {saveDraftOptions}
+        <dd className={navbarContentClasses}>
+          {this.props.children}
+          {saveDraftOptions}
+        </dd>
       </dl>
     )
   }

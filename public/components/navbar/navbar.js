@@ -6,6 +6,8 @@ import { getRealSize } from './tools'
 import { Scrollbars } from 'react-custom-scrollbars'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
+import WordpressPostSaveControl from './controls/wordpressPostSaveControl'
+import NavbarSeparator from './controls/navbarSeparator'
 
 const Utils = vcCake.getService('utils')
 const boundingRectState = vcCake.getStorage('workspace').state('navbarBoundingRect')
@@ -117,29 +119,30 @@ export default class Navbar extends React.Component {
       return
     }
     // TODO: move all this logic to wrapper
-    const cookieState = {}
-    if (Utils.hasCookie('navPosition')) {
-      cookieState.navbarPosition = Utils.getCookie('navPosition')
-    }
-    if (Utils.hasCookie('navPosX') && Utils.hasCookie('navPosY')) {
-      cookieState.navPosX = Utils.getCookie('navPosX')
-      cookieState.navPosY = Utils.getCookie('navPosY')
-      if (cookieState.navPosX > this.state.windowSize.width) {
-        if (Utils.hasCookie('navPosXr')) {
-          cookieState.navPosX = Math.ceil(this.state.windowSize.width * Utils.getCookie('navPosXr'))
-        } else {
-          cookieState.navPosX = 0
-        }
-      }
-      if (cookieState.navPosY > this.state.windowSize.height) {
-        if (Utils.hasCookie('navPosYr')) {
-          cookieState.navPosY = Math.ceil(this.state.windowSize.height * Utils.getCookie('navPosYr'))
-        } else {
-          cookieState.navPosY = 0
-        }
-      }
-    }
-    this.setState(cookieState)
+    // Don't remove navbar position related code, just disable it VC-2108
+    // const cookieState = {}
+    // if (Utils.hasCookie('navPosition')) {
+    //   cookieState.navbarPosition = Utils.getCookie('navPosition')
+    // }
+    // if (Utils.hasCookie('navPosX') && Utils.hasCookie('navPosY')) {
+    //   cookieState.navPosX = Utils.getCookie('navPosX')
+    //   cookieState.navPosY = Utils.getCookie('navPosY')
+    //   if (cookieState.navPosX > this.state.windowSize.width) {
+    //     if (Utils.hasCookie('navPosXr')) {
+    //       cookieState.navPosX = Math.ceil(this.state.windowSize.width * Utils.getCookie('navPosXr'))
+    //     } else {
+    //       cookieState.navPosX = 0
+    //     }
+    //   }
+    //   if (cookieState.navPosY > this.state.windowSize.height) {
+    //     if (Utils.hasCookie('navPosYr')) {
+    //       cookieState.navPosY = Math.ceil(this.state.windowSize.height * Utils.getCookie('navPosYr'))
+    //     } else {
+    //       cookieState.navPosY = 0
+    //     }
+    //   }
+    // }
+    // this.setState(cookieState)
     boundingRectState.onChange(this.updateNavbarBounding)
     const spacerElement = this.spacerRef && this.spacerRef.current
     if (spacerElement) {
@@ -250,7 +253,7 @@ export default class Navbar extends React.Component {
   getVisibleControls (visibleControls) {
     const children = React.Children.toArray(this.props.children)
     return children.filter((node) => {
-      return visibleControls.includes(node.key)
+      return visibleControls.includes(node.key) && node.props.visibility !== 'save'
     })
   }
 
@@ -258,7 +261,7 @@ export default class Navbar extends React.Component {
     const children = React.Children.toArray(this.props.children)
     this.hiddenControlsIndex = []
     const controls = children.filter((node) => {
-      if (!visibleControls.includes(node.key)) {
+      if (!visibleControls.includes(node.key) && node.props.visibility !== 'save') {
         this.hiddenControlsIndex.push(node.key)
         return true
       }
@@ -286,6 +289,14 @@ export default class Navbar extends React.Component {
     if (!controls.length) {
       return
     }
+
+    const singleControls = controls.filter(control => !control.props.isDropdown)
+    let dropdownControls = controls.filter(control => control.props.isDropdown)
+    dropdownControls = dropdownControls.map(control => {
+      const elementWithDropdownProp = React.cloneElement(control, { insideDropdown: true })
+      return elementWithDropdownProp
+    })
+
     const sandwichClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
       'vcv-ui-pull-end': true,
@@ -293,7 +304,6 @@ export default class Navbar extends React.Component {
     })
 
     const hideTracksWhenNotNeeded = true
-
     return (
       <dl className={sandwichClasses}>
         <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
@@ -315,12 +325,27 @@ export default class Navbar extends React.Component {
             autoHeightMax='80vh'
           >
             <div ref={this.setHiddenControlsReference}>
-              {controls}
+              {dropdownControls}
+              {singleControls}
             </div>
           </Scrollbars>
         </dd>
       </dl>
     )
+  }
+
+  getSaveControls () {
+    const children = React.Children.toArray(this.props.children)
+    this.saveControlsIndex = []
+    const controls = children.filter((node) => {
+      if (node.props.visibility === 'save') {
+        this.saveControlsIndex.push(node.key)
+        return true
+      }
+    })
+    this.saveControlsIndex.reverse()
+    controls.reverse()
+    return controls
   }
 
   /**
@@ -546,6 +571,7 @@ export default class Navbar extends React.Component {
   }
 
   render () {
+    const saveSubMenus = this.getSaveControls()
     const { isDragging } = this.state
     const navbarContainerClasses = classNames({
       'vcv-ui-navbar-container': true,
@@ -556,12 +582,19 @@ export default class Navbar extends React.Component {
       this.props.getNavbarPosition(this.state.navbarPosition)
     }
 
+    // Don't remove drag handler related code, just disable it VC-2108
+    // const dragHandler = this.renderDragHandler()
+    const dragHandler = null
     return (
       <div className={navbarContainerClasses} ref={this.navbarContainer}>
         <nav className='vcv-ui-navbar vcv-ui-navbar-hide-labels'>
-          {this.renderDragHandler()}
+          {dragHandler}
           {this.getVisibleControls(this.state.visibleControls)}
           {this.buildHiddenControls(this.state.visibleControls)}
+          <NavbarSeparator />
+          <WordpressPostSaveControl>
+            {saveSubMenus}
+          </WordpressPostSaveControl>
           <div
             className='vcv-ui-navbar-drag-handler vcv-ui-navbar-controls-spacer'
             onMouseDown={(e) => this.handleDragStart(e, false)}

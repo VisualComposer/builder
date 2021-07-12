@@ -2687,7 +2687,7 @@ import './slickCustom.less';
       direction;
 
     _.dragging = false;
-    _.swiping = false;
+    _.swiping = _.options.swipe
 
     if (_.scrolling) {
       _.scrolling = false;
@@ -2833,7 +2833,7 @@ import './slickCustom.less';
     verticalSwipeLength = Math.round(Math.sqrt(
       Math.pow(_.touchObject.curY - _.touchObject.startY, 2)));
 
-    if (!_.options.verticalSwiping && !_.swiping && verticalSwipeLength > 4) {
+    if (!_.options.verticalSwiping && !_.swiping && verticalSwipeLength > 4 && !_.options.swipe) {
       _.scrolling = true;
       return false;
     }
@@ -2901,7 +2901,7 @@ import './slickCustom.less';
 
     if (event.originalEvent !== undefined && event.originalEvent.touches !== undefined) {
       touches = event.originalEvent.touches[ 0 ];
-    } else if (event !== undefined && event.touches !== undefined && event.type === 'touch') {
+    } else if (event !== undefined && event.touches !== undefined && event.type === 'touchstart') {
       touches = event.touches[ 0 ];
     }
 

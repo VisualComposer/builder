@@ -66,8 +66,42 @@ export default class UndoRedoControl extends NavbarContent {
     const undoTitleName = UndoRedoControl.isMacLike ? undoName + ' (⌘Z)' : undoName + ' (Ctrl + Z)'
     const redoName = localizations ? localizations.redo : 'Redo'
     const redoTitleName = UndoRedoControl.isMacLike ? redoName + ' (⌘⇧Z)' : redoName + ' (Ctrl + Shift + Z)'
-    return (
-      <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
+
+    const redo = (
+      <span
+        className='vcv-ui-navbar-control'
+        title={redoTitleName}
+        disabled={this.state.redoDisabled}
+        onClick={this.handleRedo}
+      >
+        <span className='vcv-ui-navbar-control-content'>
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' />
+          <span>{redoName}</span>
+        </span>
+      </span>
+    )
+
+    const undoRedoControl = (
+      <dl className='vcv-ui-navbar-controls-group vcv-ui-navbar-dropdown vcv-ui-navbar-sandwich--stop-close'>
+        <dt
+          className='vcv-ui-navbar-control vcv-ui-navbar-dropdown-trigger'
+          title={undoTitleName}
+          disabled={this.state.undoDisabled}
+          onClick={this.handleUndo}
+        >
+          <span className='vcv-ui-navbar-control-content'>
+            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-undo' />
+            <span>{undoName}</span>
+          </span>
+        </dt>
+        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-dropdown-content--sm'>
+          {redo}
+        </dd>
+      </dl>
+    )
+
+    const undoRedoControlsInsideDropdown = (
+      <div className='vcv-ui-navbar-controls-set vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
         <span
           className='vcv-ui-navbar-control'
           title={undoTitleName}
@@ -79,18 +113,12 @@ export default class UndoRedoControl extends NavbarContent {
             <span>{undoName}</span>
           </span>
         </span>
-        <span
-          className='vcv-ui-navbar-control'
-          title={redoTitleName}
-          disabled={this.state.redoDisabled}
-          onClick={this.handleRedo}
-        >
-          <span className='vcv-ui-navbar-control-content'>
-            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' />
-            <span>{redoName}</span>
-          </span>
-        </span>
+        {redo}
       </div>
+    )
+
+    return (
+      this.props.insideDropdown ? undoRedoControlsInsideDropdown : undoRedoControl
     )
   }
 }

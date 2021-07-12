@@ -64,6 +64,41 @@
   letter-spacing: 0.5px;
   white-space: nowrap;
 
+  &[class*=vcv-ui-badge--] button{
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      display: block;
+      height: @badge-size;
+      width: @badge-size;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+  }
+
+  &.vcv-ui-badge--warning button {
+
+    &::before {
+      background-color: @badge-state-color-warning;
+    }
+  }
+
+  &.vcv-ui-badge--success button {
+
+    &::before {
+      background-color: @badge-state-color-success;
+    }
+  }
+
+  &.vcv-ui-badge--error button {
+
+    &::before {
+      background-color: @badge-state-color-error;
+    }
+  }
+
   &:hover,
   &:focus {
     .vcv-ui-navigation-slider-dropdown {
