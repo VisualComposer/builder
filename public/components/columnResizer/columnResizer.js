@@ -402,9 +402,9 @@ export default class ColumnResizer extends React.Component {
     const parentRow = vcCake.getService('document').get(this.resizerData.rowId)
     const layoutData = this.getLayoutData(this.resizerData.rowId)
 
-    let leftSize = (Math.round(this.state.leftColPercentage * 10000) / 10000) * 100
+    let leftSize = Math.round(this.state.leftColPercentage * 100)
     leftSize = leftSize.toString().slice(0, leftSize.toString().indexOf('.') + 3)
-    let rightSize = (Math.round(this.state.rightColPercentage * 10000) / 10000) * 100
+    let rightSize = Math.round(this.state.rightColPercentage * 100)
     rightSize = rightSize.toString().slice(0, rightSize.toString().indexOf('.') + 3)
 
     const device = Object.prototype.hasOwnProperty.call(layoutData, 'all') ? 'all' : this.resizerData.currentDevice
