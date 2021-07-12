@@ -67,6 +67,7 @@ export default class InsightsButtonControl extends NavbarContent {
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
+      'vcv-ui-navbar-dropdown-trigger': true,
       'vcv-ui-state--active': this.state.isActive,
       'vcv-ui-badge--error': currentLevel === 'critical',
       'vcv-ui-badge--warning': currentLevel === 'warning',
