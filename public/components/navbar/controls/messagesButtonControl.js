@@ -3,25 +3,25 @@ import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
 import innerAPI from 'public/components/api/innerAPI'
-import InsightsPanel from 'public/components/panels/insights/insightsPanel'
+import MessagesPanel from 'public/components/panels/messages/messagesPanel'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceSettings = workspaceStorage.state('settings')
-const workspaceInsightsTabState = workspaceStorage.state('insightsTab')
-const workspaceInsightsControls = workspaceStorage.state('insightsControls')
+const workspaceMessagesTabState = workspaceStorage.state('messagesTab')
+const workspaceMessagesControls = workspaceStorage.state('messagesControls')
 const insightsStorage = getStorage('insights')
 const dataManager = getService('dataManager')
 
-export default class InsightsButtonControl extends NavbarContent {
+export default class MessagesButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
     this.state = {
-      isActive: workspaceContentState.get() === 'insights',
+      isActive: workspaceContentState.get() === 'messages',
       showWarning: false, // !!assetsStorage.getCustomCss()
       insightData: insightsStorage.state('insights').get() || []
     }
-    this.handleClickInsights = this.handleClickInsights.bind(this)
+    this.handleTabClick = this.handleTabClick.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.handleInsightsChange = this.handleInsightsChange.bind(this)
 
@@ -30,13 +30,13 @@ export default class InsightsButtonControl extends NavbarContent {
 
   /* eslint-enable */
   setActiveState (state) {
-    this.setState({ isActive: state === 'insights' })
+    this.setState({ isActive: state === 'messages' })
   }
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
 
-    innerAPI.mount('panel:insights', () => <InsightsPanel key='panels-container-insights' />)
+    innerAPI.mount('panel:messages', () => <MessagesPanel key='panels-container-messages' />)
   }
 
   componentWillUnmount () {
@@ -50,17 +50,17 @@ export default class InsightsButtonControl extends NavbarContent {
     })
   }
 
-  handleClickInsights (e, type) {
+  handleTabClick (e, type) {
     e && e.preventDefault()
-    type ? workspaceInsightsTabState.set(type) : workspaceInsightsTabState.set('insights')
-    workspaceContentState.set(!this.state.isActive || type ? 'insights' : false)
-    workspaceSettings.set({ action: 'insights' })
+    type ? workspaceMessagesTabState.set(type) : workspaceMessagesTabState.set('insights')
+    workspaceContentState.set(!this.state.isActive || type ? 'messages' : false)
+    workspaceSettings.set({ action: 'messages' })
   }
 
   render () {
     const localizations = dataManager.get('localizations')
-    const name = localizations ? localizations.VCInsights : 'Visual Composer Insights'
-    const controls = workspaceInsightsControls.get()
+    const name = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
+    const controls = workspaceMessagesControls.get()
     const controlsArray = Object.keys(controls).map(key => controls[key])
     const currentLevel = insightsStorage.state('currentLevel').get()
 
@@ -70,7 +70,8 @@ export default class InsightsButtonControl extends NavbarContent {
       'vcv-ui-state--active': this.state.isActive,
       'vcv-ui-badge--error': currentLevel === 'critical',
       'vcv-ui-badge--warning': currentLevel === 'warning',
-      'vcv-ui-badge--success': currentLevel === 'success'
+      'vcv-ui-badge--success': currentLevel === 'success',
+      'vcv-ui-navbar-dropdown-trigger': true
     })
 
     const iconClass = classNames({
@@ -93,7 +94,7 @@ export default class InsightsButtonControl extends NavbarContent {
       const subMenuIconClass = subMenuIconClasses + ` vcv-ui-icon-${control.icon}`
       return (
         <span
-          onClick={(e) => this.handleClickInsights(e, control.type)}
+          onClick={(e) => this.handleTabClick(e, control.type)}
           key={index}
           className='vcv-ui-navbar-control'
           title={control.title}
@@ -106,9 +107,9 @@ export default class InsightsButtonControl extends NavbarContent {
       )
     })
 
-    const insightsControls = (
+    const messagesControls = (
       <dl className='vcv-ui-navbar-dropdown'>
-        <dt className={controlClass} title={name} onClick={this.handleClickInsights} data-vcv-guide-helper='insights-control'>
+        <dt className={controlClass} title={name} onClick={this.handleTabClick} data-vcv-guide-helper='insights-control'>
           <span className='vcv-ui-navbar-control-content'>
             <i className={iconClass} />
             <span>{name}</span>
@@ -120,14 +121,14 @@ export default class InsightsButtonControl extends NavbarContent {
       </dl>
     )
 
-    const insightsControlsInsideDropdown = (
+    const messagesControlsInsideDropdown = (
       <div className='vcv-ui-navbar-controls-set'>
         {subMenus}
       </div>
     )
 
     return (
-      this.props.insideDropdown ? insightsControlsInsideDropdown : insightsControls
+      this.props.insideDropdown ? messagesControlsInsideDropdown : messagesControls
     )
   }
 }
