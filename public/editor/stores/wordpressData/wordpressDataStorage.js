@@ -155,10 +155,6 @@ addStorage('wordpressData', (storage) => {
       if (responseData.pageDesignOptions) {
         settingsStorage.state('pageDesignOptions').set(JSON.parse(responseData.pageDesignOptions ? decodeURIComponent(responseData.pageDesignOptions) : '{}'))
       }
-      // TODO: Consider proper storage for the notification center data
-      if (responseData.notificationCenterData) {
-        settingsStorage.state('notificationCenterData').set(JSON.parse(decodeURIComponent(responseData.notificationCenterData)))
-      }
       if (responseData.templates && !Array.isArray(responseData.templates)) {
         hubTemplatesStorage.state('templates').set(responseData.templates)
       }
