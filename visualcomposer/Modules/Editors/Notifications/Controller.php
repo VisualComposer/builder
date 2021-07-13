@@ -45,8 +45,8 @@ class Controller extends Container implements Module
             if (!vcIsBadResponse($response)) {
                 $body = $response['body'];
                 $optionsHelper->set('notifications', $body);
-                $optionsHelper->setTransient('lastNotificationUpdate', 1, DAY_IN_SECONDS);
             }
+            $optionsHelper->setTransient('lastNotificationUpdate', 1, DAY_IN_SECONDS);
         }
     }
 
