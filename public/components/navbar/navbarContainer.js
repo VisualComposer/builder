@@ -7,7 +7,7 @@ import TreeViewControl from './controls/treeViewControl'
 import UndoRedoControl from './controls/undoRedoControl'
 import LayoutControl from './controls/layout/layoutControl'
 import SettingsButtonControl from './controls/settingsButtonControl'
-import InsightsButtonControl from './controls/insightsButtonControl'
+import MessagesButtonControl from './controls/messagesButtonControl'
 import WordPressAdminControl from './controls/wordpressAdminControl'
 import Navbar from './navbar'
 import NavbarWrapper from './navbarWrapper'
@@ -44,7 +44,7 @@ export default class NavbarContainer extends React.Component {
           {addContentButton}
           <TreeViewControl visibility='pinned' />
           <UndoRedoControl isDropdown='true' />
-          {env('VCV_FT_INSIGHTS') ? <InsightsButtonControl isDropdown='true' /> : null}
+          {env('VCV_FT_INSIGHTS') ? <MessagesButtonControl isDropdown='true' /> : null}
           <LayoutControl visibility='pinned' />
           {hubControl}
           <SettingsButtonControl isDropdown='true' />

@@ -907,6 +907,10 @@ class Localizations extends Container implements Helper
                 'Visual Composer Insights',
                 'visualcomposer'
             ),
+            'insightsAndNotifications' => __(
+                'Insights & Notifications',
+                'visualcomposer'
+            ),
             'all' => __(
                 'All',
                 'visualcomposer'
