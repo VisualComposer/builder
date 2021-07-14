@@ -3,8 +3,7 @@ import classNames from 'classnames'
 import { getStorage, getService } from 'vc-cake'
 import Scrollbar from 'public/components/scrollbar/scrollbar'
 import PanelNavigation from '../panelNavigation'
-import Tooltip from 'public/components/tooltip/tooltip'
-import DefaultInsights from './defaultInsights'
+import DefaultInsights from '../insights/defaultInsights'
 import innerAPI from '../../api/innerAPI'
 
 const insightsStorage = getStorage('insights')
@@ -12,8 +11,8 @@ const dataManager = getService('dataManager')
 const localizations = dataManager.get('localizations')
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
-const workspaceInsightsTabState = workspaceStorage.state('insightsTab')
-const workspaceInsightsControls = workspaceStorage.state('insightsControls')
+const workspaceMessagesTabState = workspaceStorage.state('messagesTab')
+const workspaceMessagesControls = workspaceStorage.state('messagesControls')
 const currentInsightsLevel = insightsStorage.state('currentLevel')
 
 const controls = innerAPI.applyFilter('insightPanelsData', {
@@ -25,19 +24,19 @@ const controls = innerAPI.applyFilter('insightPanelsData', {
   }
 })
 
-workspaceInsightsControls.set({ ...controls })
+workspaceMessagesControls.set({ ...controls })
 
-export default class InsightsPanel extends React.Component {
+export default class MessagesPanel extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
       controls: controls,
-      activeSection: workspaceInsightsTabState.get() ? workspaceInsightsTabState.get() : 'insights',
-      isVisible: workspaceContentState.get() === 'insights'
+      activeSection: workspaceMessagesTabState.get() ? workspaceMessagesTabState.get() : 'insights',
+      isVisible: workspaceContentState.get() === 'messages'
     }
 
-    innerAPI.mount('panelInsights:insights', () => {
+    innerAPI.mount('panelMessages:insights', () => {
       return <DefaultInsights key='panel-insights-default' />
     })
 
@@ -50,13 +49,13 @@ export default class InsightsPanel extends React.Component {
     this.handleLevelChange(controls)
     currentInsightsLevel.onChange(this.handleLevelChange)
     workspaceContentState.onChange(this.setVisibility)
-    workspaceInsightsTabState.onChange(this.setActiveSection)
+    workspaceMessagesTabState.onChange(this.setActiveSection)
   }
 
   componentWillUnmount () {
     insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
     workspaceContentState.ignoreChange(this.setVisibility)
-    workspaceInsightsTabState.ignoreChange(this.setActiveSection)
+    workspaceMessagesTabState.ignoreChange(this.setActiveSection)
     currentInsightsLevel.ignoreChange(this.handleLevelChange)
   }
 
@@ -66,7 +65,7 @@ export default class InsightsPanel extends React.Component {
 
   setVisibility (activePanel) {
     this.setState({
-      isVisible: activePanel === 'insights'
+      isVisible: activePanel === 'messages'
     })
   }
 
@@ -77,8 +76,7 @@ export default class InsightsPanel extends React.Component {
   }
 
   render () {
-    const VCInsights = localizations ? localizations.VCInsights : 'Visual Composer Insights'
-    const insightsIsAContentAnalysisTool = localizations ? localizations.insightsIsAContentAnalysisTool : 'Insights is a content analysis tool that helps to improve the quality, performance, and SEO ranking of the page.'
+    const title = localizations ? localizations.insightsAndNotifications : 'Insights & Notifications'
     const panelClasses = classNames({
       'vcv-ui-tree-view-content': true,
       'vcv-ui-tree-view-content--full-width': true,
@@ -90,16 +88,13 @@ export default class InsightsPanel extends React.Component {
         <div className='vcv-ui-panel-heading'>
           <i className='vcv-ui-panel-heading-icon vcv-ui-icon vcv-ui-icon-bell' />
           <span className='vcv-ui-panel-heading-text'>
-            {VCInsights}
+            {title}
           </span>
-          <Tooltip>
-            {insightsIsAContentAnalysisTool}
-          </Tooltip>
         </div>
         <PanelNavigation controls={this.state.controls} activeSection={this.state.activeSection} setActiveSection={this.setActiveSection} />
         <div className='vcv-ui-tree-content-section'>
           <Scrollbar>
-            {innerAPI.pick(`panelInsights:${this.state.controls[this.state.activeSection].type}`, null)}
+            {innerAPI.pick(`panelMessages:${this.state.controls[this.state.activeSection].type}`, null)}
           </Scrollbar>
         </div>
       </div>
