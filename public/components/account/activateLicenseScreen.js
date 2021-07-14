@@ -155,7 +155,7 @@ export default class ActivateLicenseScreen extends React.Component {
 
     let errorBox = null
     if (errorText) {
-      errorBox = <div className='vcv-activation-box-error-box'>{errorText}</div>
+      errorBox = <div className='vcv-activation-box-error-box' dangerouslySetInnerHTML={{ __html: errorText }} />
     }
 
     const authorApiKey = dataManager.get('authorApiKey')
