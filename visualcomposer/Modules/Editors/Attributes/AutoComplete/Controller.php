@@ -196,6 +196,12 @@ class Controller extends Container implements Module
                     $tokenLabels[ $token ] = $term->name;
                 }
                 break;
+            case 'term':
+                $term = get_term_by('term_taxonomy_id', (int)preg_replace('/\D/', '', $token));
+                if ($term) {
+                    $tokenLabels[ $token ] = $term->name;
+                }
+                break;
             default:
                 $post = get_post((int)$token);
                 // @codingStandardsIgnoreLine
