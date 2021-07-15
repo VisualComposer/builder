@@ -29,6 +29,9 @@ export default class ParallaxBackground extends React.Component {
         if (parallax) {
           customProps['data-vce-assets-parallax'] = '.vce-asset-parallax'
         }
+        if (parallax === 'fixed' && !divider) {
+          customProps['data-vce-assets-parallax-fixed'] = true
+        }
         if (parallax === 'simple-fade' && !divider) {
           customProps['data-vce-assets-parallax-fade'] = true
         }
