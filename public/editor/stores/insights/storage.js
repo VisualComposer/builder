@@ -37,4 +37,8 @@ addStorage('insights', (storage) => {
     storage.state('currentLevel').set('none')
     storage.state('insights').set({})
   })
+
+  storage.state('notifications').set([])
+  const seenMessages = JSON.parse(window.localStorage.getItem('vcv-seen-messages'))
+  storage.state('seenMessages').set(seenMessages || [])
 })
