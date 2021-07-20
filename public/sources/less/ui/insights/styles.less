@@ -143,9 +143,6 @@
 }
 
 .vcv-no-issues-heading {
-  //font-weight: 600;
-  //font-size: 16px;
-  //line-height: 22px;
   letter-spacing: 1px;
   margin: 20px 0 10px;
   font: normal 600 16px/22px 'Montserrat', sans-serif;
@@ -167,5 +164,97 @@
   .vcv-ui-tree-view-content .vcv-ui-tree-content-section .vcv-insight .vcv-insight-title:before {
     left: auto;
     right: 0;
+  }
+  .vcv-insight-collapse-button {
+    left: 0;
+    right: auto;
+  }
+}
+
+.vcv-notification-item {
+  position: relative;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 5px;
+  color: #5c5b5b;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  padding: 14px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  transition: box-shadow @vcv-transition-duration @vcv-transition-timing-function;
+  -webkit-font-smoothing: antialiased;
+
+  &:hover {
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+
+    .vcv-notification-item-url-icon {
+      color: #9aa3b3;
+    }
+  }
+}
+
+.vcv-notification-item-image {
+  width: 70px;
+  height: 70px;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.vcv-notification-item-content {
+  flex-grow: 1;
+}
+
+.vcv-notification-item-title {
+  color: #5c5b5b;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 0.3px;
+}
+
+.vcv-notification-item-text {
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.92px;
+  color: #999;
+}
+
+.vcv-notification-item .vcv-notification-item-url {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  outline: none;
+  z-index: 1;
+  box-shadow: none;
+  border: none;
+}
+
+.vcv-notification-item-url-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  color: #C6CBD4;
+  font-size: 16px;
+  transition: color .2s;
+}
+
+.rtl {
+  .vcv-notification-item-image {
+    margin-right: 0;
+    margin-left: 15px;
+  }
+
+  .vcv-notification-item-url-icon {
+    margin-left: 0;
+    margin-right: 15px;
   }
 }
