@@ -147,7 +147,7 @@ class License extends Container implements Helper
             case 'expired':
             case 1:
                 $message = sprintf(
-                    __('Your license key has been expired. <a class="vcv-activation-box-link" href="%s">Renew</a> your license and continue to enjoy Premium features.', 'visualcomposer'),
+                    __('Your license key has been expired. <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">Renew</a> your license and continue to enjoy Premium features.', 'visualcomposer'),
                     $utmHelper->get('license-activation-renewal')
                 );
                 break;
@@ -155,7 +155,7 @@ class License extends Container implements Helper
             case 'item_name_mismatch':
             case 2:
                 $message = sprintf(
-                    __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s">here</a>.', 'visualcomposer'),
+                    __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'visualcomposer'),
                     $utmHelper->get('license-activation-purchase')
                 );
                 break;
@@ -180,7 +180,7 @@ class License extends Container implements Helper
                 break;
             case 'no_activations_left':
                 $message = sprintf(
-                    __('This license key has reached its activation limit. <a class="vcv-activation-box-link" href="test.com">Upgrade</a> it by paying only the difference.', 'visualcomposer'),
+                    __('This license key has reached its activation limit. <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">Upgrade</a> it by paying only the difference.', 'visualcomposer'),
                     $utmHelper->get('license-activation-upgrade')
                 );
                 break;
