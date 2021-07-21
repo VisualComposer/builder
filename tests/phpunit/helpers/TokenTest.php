@@ -25,7 +25,7 @@ class TokenTest extends WP_UnitTestCase
         $this->assertFalse($tokenHelper->getToken());
         $this->assertEquals(
             sprintf(
-                __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s">here</a>.', 'visualcomposer'),
+                __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'visualcomposer'),
                 $utmHelper->get('license-activation-purchase')
             ),
             vchelper('Logger')->all()
