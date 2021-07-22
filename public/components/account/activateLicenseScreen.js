@@ -73,9 +73,7 @@ export default class ActivateLicenseScreen extends React.Component {
         console.warn(error)
       })
     } else {
-      this.setState({
-        hasError: true
-      })
+      this.setError(ActivateLicenseScreen.localizations ? ActivateLicenseScreen.localizations.noSuchLicenseFound : `No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="${dataManager.get('utm')['license-activation-purchase']}" target="_blank" rel="noopener noreferrer">here</a>.`)
     }
   }
 
