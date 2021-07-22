@@ -65,10 +65,10 @@ export default class DefaultInsights extends React.Component {
   handleInsightsChange (data) {
     let sortedData = data
     // Sorting insights by criticality
-    if(Object.keys(data).length) {
+    if (Object.keys(data).length) {
       sortedData = Object.fromEntries(
         Object.entries(data).sort(([, a], [, b]) => insightsTypeControls[a.state].index - insightsTypeControls[b.state].index)
-      );
+      )
     }
     const currentControls = this.getCurrentControls(sortedData)
     const currentActiveSection = Object.keys(currentControls).find(control => control === this.state.activeSection)
