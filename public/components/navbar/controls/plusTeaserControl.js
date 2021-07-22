@@ -87,7 +87,7 @@ export default class PlusTeaserControl extends NavbarContent {
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isActive,
-      'vcv-ui-badge--warning': this.state.showBadge
+      'vcv-ui-badge--error': this.state.showBadge
     })
 
     return (
