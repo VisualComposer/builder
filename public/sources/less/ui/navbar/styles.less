@@ -164,23 +164,8 @@
     flex-direction: column;
   }
   &:hover {
-    .vcv-ui-navbar-dropdown-content {
-      visibility: visible;
-      opacity: 1;
-      max-height: none;
-    }
     .vcv-ui-navbar-dropdown-trigger {
       background-color: @navbar-bg-dropdown;
-    }
-    .vcv-ui-navbar-dropdown-content {
-      z-index: @navbar-dropdown-z-index-hover;
-    }
-
-    .vcv-ui-navbar-dropdown-content {
-      visibility: visible;
-      opacity: 1;
-      max-height: none;
-      overflow: initial;
     }
   }
   &[disabled] {
@@ -228,6 +213,13 @@
   visibility: hidden;
   opacity: 0;
   box-shadow: @navbar-dropdown-shadow;
+  &.vcv-ui-show-dropdown-content {
+    visibility: visible;
+    opacity: 1;
+    max-height: none;
+    overflow: initial;
+    z-index: @navbar-dropdown-z-index-hover;
+  }
   .vcv-ui-navbar-control {
     text-align: left;
     &:hover,

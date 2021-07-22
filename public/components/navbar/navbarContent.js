@@ -7,6 +7,21 @@ export default class NavbarContent extends React.Component {
     name: PropTypes.string
   }
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      showDropdown: false
+    }
+
+    this.handleDropdownVisibility = this.handleDropdownVisibility.bind(this)
+  }
+
+  handleDropdownVisibility (e) {
+    this.setState({
+      showDropdown: e && e.type && e.type === 'mouseenter'
+    })
+  }
+
   render () {
     return null
   }

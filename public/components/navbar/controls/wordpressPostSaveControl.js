@@ -126,17 +126,23 @@ export default class WordPressPostSaveControl extends NavbarContent {
         options: e ? e.options : {}
       }, 'postSaveControl')
     }, 1)
+    this.handleDropdownVisibility(e)
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   handleClickSaveDraft (e) {
     e && e.preventDefault && e.preventDefault()
     wordpressDataStorage.trigger('save', { draft: true }, 'wordpressAdminControl')
+    this.handleDropdownVisibility(e)
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   handleSave (e) {
     if (!PostData.isDraft()) {
       this.handleClickSaveData(e)
     }
+    this.handleDropdownVisibility(e)
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   render () {
@@ -174,6 +180,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     }
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-show-dropdown-content': this.state.showDropdown,
       'vcv-ui-navbar-show-labels': true,
       'vcv-ui-navbar-dropdown-content--save': true
     })
@@ -210,12 +217,14 @@ export default class WordPressPostSaveControl extends NavbarContent {
     return (
       <dl
         className={saveControlClasses}
+        onMouseLeave={this.handleDropdownVisibility}
         data-vcv-guide-helper='save-control'
       >
         <dt
           className={saveButtonClasses}
           title={controlTitle}
           onClick={this.handleSave}
+          onMouseEnter={this.handleDropdownVisibility}
           data-vcv-control='publish'
         >
           <span className='vcv-ui-navbar-control-content'>
