@@ -41,9 +41,11 @@ export default class SettingsButtonControl extends NavbarContent {
 
   handleClickSettings (e, type) {
     e && e.preventDefault()
-    type ? workspaceSettingsTabState.set(type) : workspaceSettingsTabState.set('pageSettings')
+    type ? workspaceSettingsTabState.set(type) : !this.state.isActive ? workspaceSettingsTabState.set('pageSettings') : null
     workspaceContentState.set(!this.state.isActive || type ? 'settings' : false)
     workspaceSettings.set({ action: 'settings' })
+    this.handleDropdownVisibility(e)
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   render () {
@@ -75,6 +77,7 @@ export default class SettingsButtonControl extends NavbarContent {
 
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-show-dropdown-content': this.state.showDropdown,
       'vcv-ui-navbar-show-labels': true
     })
 
@@ -92,8 +95,8 @@ export default class SettingsButtonControl extends NavbarContent {
     )
 
     const settingsControls = (
-      <dl className={settingsControlClasses}>
-        <dt className={controlClass} title={title} onClick={this.handleClickSettings} data-vcv-guide-helper='settings-control' data-vcv-control='settings'>
+      <dl className={settingsControlClasses} onMouseLeave={this.handleDropdownVisibility}>
+        <dt className={controlClass} title={title} onClick={this.handleClickSettings} onMouseEnter={this.handleDropdownVisibility} data-vcv-guide-helper='settings-control' data-vcv-control='settings'>
           <span className='vcv-ui-navbar-control-content'>
             <i className={iconClass} />
             <span>{name}</span>

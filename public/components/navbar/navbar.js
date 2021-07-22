@@ -271,9 +271,9 @@ export default class Navbar extends React.Component {
     return controls
   }
 
-  handleDropdown () {
+  handleDropdown (e) {
     this.setState({
-      isActiveSandwich: !this.state.isActiveSandwich
+      isActiveSandwich: e.type === 'mouseenter'
     })
   }
 
@@ -290,11 +290,12 @@ export default class Navbar extends React.Component {
       return
     }
 
-    const singleControls = controls.filter(control => !control.props.isDropdown)
+    const singleControls = controls.filter(control => !control.props.isDropdown).map((control) => {
+      return React.cloneElement(control, { handleOnClick: this.handleDropdown })
+    })
     let dropdownControls = controls.filter(control => control.props.isDropdown)
     dropdownControls = dropdownControls.map(control => {
-      const elementWithDropdownProp = React.cloneElement(control, { insideDropdown: true })
-      return elementWithDropdownProp
+      return React.cloneElement(control, { insideDropdown: true, handleOnClick: this.handleDropdown })
     })
 
     const sandwichClasses = classNames({
@@ -303,16 +304,22 @@ export default class Navbar extends React.Component {
       'vcv-ui-navbar-sandwich': true
     })
 
+    const navbarContentClasses = classNames({
+      'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-show-labels': true,
+      'vcv-ui-show-dropdown-content': this.state.isActiveSandwich
+    })
+
     const hideTracksWhenNotNeeded = true
     return (
-      <dl className={sandwichClasses}>
-        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' title={menuTitle}>
+      <dl className={sandwichClasses} onMouseLeave={this.handleDropdown}>
+        <dt className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control' onMouseEnter={this.handleDropdown} title={menuTitle}>
           <span className='vcv-ui-navbar-control-content'>
             <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-mobile-menu' />
             <span>{menuTitle}</span>
           </span>
         </dt>
-        <dd className='vcv-ui-navbar-dropdown-content vcv-ui-navbar-show-labels'>
+        <dd className={navbarContentClasses}>
           <Scrollbars
             ref='scrollbars'
             renderTrackHorizontal={props => <div {...props} className='vcv-ui-scroll-track--horizontal' />}
@@ -421,7 +428,8 @@ export default class Navbar extends React.Component {
       while (freeSpace > 0 && hiddenAndUnpinnedControls.length) {
         const lastControl = hiddenAndUnpinnedControls.pop()
         const lastControlIndex = this.hiddenControlsIndex.indexOf(lastControl.key)
-        const controlDOM = this.hiddenControlsWrapper.childNodes[lastControlIndex]
+        const isControlSet = !this.hiddenControlsWrapper.childNodes[lastControlIndex].classList.contains('vcv-ui-navbar-control')
+        const controlDOM = isControlSet ? this.hiddenControlsWrapper.childNodes[lastControlIndex].querySelector('.vcv-ui-navbar-control') : this.hiddenControlsWrapper.childNodes[lastControlIndex]
         if (!controlDOM || controlDOM.nodeType !== controlDOM.ELEMENT_NODE) {
           break
         }
