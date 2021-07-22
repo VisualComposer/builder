@@ -13,17 +13,26 @@ const workspaceMessagesControls = workspaceStorage.state('messagesControls')
 const insightsStorage = getStorage('insights')
 const dataManager = getService('dataManager')
 
+const isUnseenMessages = (allMessages, seenMessages) => {
+  const unseenMessages = allMessages.filter(n => !seenMessages.includes(n))
+  return !!unseenMessages.length
+}
+
 export default class MessagesButtonControl extends NavbarContent {
   constructor (props) {
     super(props)
+    const notificationIds = insightsStorage.state('notifications').get().map(item => item.ID)
     this.state = {
       isActive: workspaceContentState.get() === 'messages',
       showWarning: false, // !!assetsStorage.getCustomCss()
-      insightData: insightsStorage.state('insights').get() || []
+      insightData: insightsStorage.state('insights').get() || [],
+      isUnseenMessages: isUnseenMessages(notificationIds, insightsStorage.state('seenMessages').get())
     }
     this.handleTabClick = this.handleTabClick.bind(this)
     this.setActiveState = this.setActiveState.bind(this)
     this.handleInsightsChange = this.handleInsightsChange.bind(this)
+    this.handleSeenMessagesChange = this.handleSeenMessagesChange.bind(this)
+    this.handleMessagesChange = this.handleMessagesChange.bind(this)
 
     insightsStorage.state('insights').onChange(this.handleInsightsChange)
   }
@@ -35,6 +44,8 @@ export default class MessagesButtonControl extends NavbarContent {
 
   componentDidMount () {
     workspaceContentState.onChange(this.setActiveState)
+    insightsStorage.state('seenMessages').onChange(this.handleSeenMessagesChange)
+    insightsStorage.state('notifications').onChange(this.handleMessagesChange)
 
     innerAPI.mount('panel:messages', () => <MessagesPanel key='panels-container-messages' />)
   }
@@ -42,6 +53,22 @@ export default class MessagesButtonControl extends NavbarContent {
   componentWillUnmount () {
     workspaceContentState.ignoreChange(this.setActiveState)
     insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
+    insightsStorage.state('seenMessages').ignoreChange(this.handleSeenMessagesChange)
+    insightsStorage.state('notifications').ignoreChange(this.handleMessagesChange)
+  }
+
+  handleSeenMessagesChange (newSeenState) {
+    const notificationIds = insightsStorage.state('notifications').get().map(item => item.ID)
+    this.setState({
+      isUnseenMessages: isUnseenMessages(notificationIds, newSeenState)
+    })
+  }
+
+  handleMessagesChange (newSeenState) {
+    const notificationIds = newSeenState.map(item => item.ID)
+    this.setState({
+      isUnseenMessages: isUnseenMessages(notificationIds, insightsStorage.state('seenMessages').get())
+    })
   }
 
   handleInsightsChange (data) {
@@ -68,9 +95,7 @@ export default class MessagesButtonControl extends NavbarContent {
       'vcv-ui-navbar-control': true,
       'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isActive,
-      'vcv-ui-badge--error': currentLevel === 'critical',
-      'vcv-ui-badge--warning': currentLevel === 'warning',
-      'vcv-ui-badge--success': currentLevel === 'success',
+      'vcv-ui-badge--error': currentLevel === 'critical' || currentLevel === 'warning' || this.state.isUnseenMessages,
       'vcv-ui-navbar-dropdown-trigger': true
     })
 

@@ -19,6 +19,7 @@ addStorage('wordpressData', (storage) => {
   const notificationsStorage = getStorage('notifications')
   const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
+  const insightsStorage = getStorage('insights')
 
   storage.on('start', () => {
     if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
@@ -151,6 +152,20 @@ addStorage('wordpressData', (storage) => {
       }
       if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsFooter')) {
         settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
+      }
+      if (responseData.notificationCenterData) {
+        const allMessages = JSON.parse(responseData.notificationCenterData)
+        const licenseType = dataManager.get('isPremiumActivated') ? 'premium' : 'free'
+
+        const isMessageOld = (dueDate) => {
+          const ToDate = new Date()
+          return new Date(dueDate).getTime() <= ToDate.getTime()
+        }
+
+        const messagesByType = allMessages.filter((item) => {
+          return item.notification_type.indexOf(licenseType) >= 0 && !isMessageOld(item.notification_duedate)
+        })
+        insightsStorage.state('notifications').set(messagesByType)
       }
       if (responseData.pageDesignOptions) {
         settingsStorage.state('pageDesignOptions').set(JSON.parse(responseData.pageDesignOptions ? decodeURIComponent(responseData.pageDesignOptions) : '{}'))

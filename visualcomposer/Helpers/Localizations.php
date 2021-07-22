@@ -1765,7 +1765,8 @@ class Localizations extends Container implements Helper
             'blockSaved' => __(
                 'The block has been successfully saved.',
                 'visualcomposer'
-            )
+            ),
+            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2)
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
