@@ -155,7 +155,7 @@ export default class Parallax extends Attribute {
         {
           label: 'Simple with fade',
           value: 'simple-fade'
-        },   {
+        }, {
           label: 'Fixed',
           value: 'fixed'
         },
