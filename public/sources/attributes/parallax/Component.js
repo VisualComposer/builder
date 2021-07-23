@@ -9,7 +9,7 @@ import Number from '../number/Component'
 import { getStorage, getService } from 'vc-cake'
 import Tooltip from 'public/components/tooltip/tooltip'
 const dataManager = getService('dataManager')
-const defaultValues = ['simple', 'simple-fade', 'mouse-move']
+const defaultValues = ['simple', 'simple-fade', 'fixed', 'mouse-move']
 
 export default class Parallax extends Attribute {
   static defaultProps = {
@@ -243,7 +243,7 @@ export default class Parallax extends Attribute {
   }
 
   getParallaxSpeedInput () {
-    if (!this.state.devices[this.state.currentDevice].parallaxEnable || !defaultValues.includes(this.state.devices[this.state.currentDevice].parallax)) {
+    if (!this.state.devices[this.state.currentDevice].parallaxEnable || this.state.devices[this.state.currentDevice].parallax === 'fixed' || !defaultValues.includes(this.state.devices[this.state.currentDevice].parallax)) {
       return null
     }
 
@@ -268,7 +268,7 @@ export default class Parallax extends Attribute {
   }
 
   getParallaxReverseToggle () {
-    if (!this.state.devices[this.state.currentDevice].parallaxEnable || !defaultValues.includes(this.state.devices[this.state.currentDevice].parallax)) {
+    if (!this.state.devices[this.state.currentDevice].parallaxEnable || this.state.devices[this.state.currentDevice].parallax === 'fixed' || !defaultValues.includes(this.state.devices[this.state.currentDevice].parallax)) {
       return null
     }
 
