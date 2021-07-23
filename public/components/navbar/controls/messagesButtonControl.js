@@ -80,7 +80,11 @@ export default class MessagesButtonControl extends NavbarContent {
   handleTabClick (e, type) {
     console.log('tab click', this.props)
     e && e.preventDefault()
-    type ? workspaceMessagesTabState.set(type) : !this.state.isActive ? workspaceMessagesTabState.set('insights') : null
+    if (type) {
+      workspaceMessagesTabState.set(type)
+    } else if (!this.state.isActive) {
+      workspaceMessagesTabState.set('insights')
+    }
     workspaceContentState.set(!this.state.isActive || type ? 'messages' : false)
     workspaceSettings.set({ action: 'messages' })
     this.handleDropdownVisibility(e)

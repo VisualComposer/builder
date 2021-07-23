@@ -41,7 +41,11 @@ export default class SettingsButtonControl extends NavbarContent {
 
   handleClickSettings (e, type) {
     e && e.preventDefault()
-    type ? workspaceSettingsTabState.set(type) : !this.state.isActive ? workspaceSettingsTabState.set('pageSettings') : null
+    if (type) {
+      workspaceSettingsTabState.set(type)
+    } else if (!this.state.isActive) {
+      workspaceSettingsTabState.set('pageSettings')
+    }
     workspaceContentState.set(!this.state.isActive || type ? 'settings' : false)
     workspaceSettings.set({ action: 'settings' })
     this.handleDropdownVisibility(e)
