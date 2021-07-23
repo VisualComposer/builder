@@ -77,6 +77,7 @@ export default class PlusTeaserControl extends NavbarContent {
         this.setState({ showBadge: false })
       })
     }
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   render () {

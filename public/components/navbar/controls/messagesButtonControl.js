@@ -78,10 +78,17 @@ export default class MessagesButtonControl extends NavbarContent {
   }
 
   handleTabClick (e, type) {
+    console.log('tab click', this.props)
     e && e.preventDefault()
-    type ? workspaceMessagesTabState.set(type) : workspaceMessagesTabState.set('insights')
+    if (type) {
+      workspaceMessagesTabState.set(type)
+    } else if (!this.state.isActive) {
+      workspaceMessagesTabState.set('insights')
+    }
     workspaceContentState.set(!this.state.isActive || type ? 'messages' : false)
     workspaceSettings.set({ action: 'messages' })
+    this.handleDropdownVisibility(e)
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   render () {
@@ -91,9 +98,13 @@ export default class MessagesButtonControl extends NavbarContent {
     const controlsArray = Object.keys(controls).map(key => controls[key])
     const currentLevel = insightsStorage.state('currentLevel').get()
 
+    const containerClasses = classNames({
+      'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-pull-end': true
+    })
+
     const controlClass = classNames({
       'vcv-ui-navbar-control': true,
-      'vcv-ui-pull-end': true,
       'vcv-ui-state--active': this.state.isActive,
       'vcv-ui-badge--error': currentLevel === 'critical' || currentLevel === 'warning' || this.state.isUnseenMessages,
       'vcv-ui-navbar-dropdown-trigger': true
@@ -112,6 +123,7 @@ export default class MessagesButtonControl extends NavbarContent {
 
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-show-dropdown-content': this.state.showDropdown,
       'vcv-ui-navbar-show-labels': true
     })
 
@@ -133,8 +145,8 @@ export default class MessagesButtonControl extends NavbarContent {
     })
 
     const messagesControls = (
-      <dl className='vcv-ui-navbar-dropdown'>
-        <dt className={controlClass} title={name} onClick={this.handleTabClick} data-vcv-guide-helper='insights-control'>
+      <dl className={containerClasses} onMouseLeave={this.handleDropdownVisibility}>
+        <dt className={controlClass} title={name} onClick={this.handleTabClick} onMouseEnter={this.handleDropdownVisibility} data-vcv-guide-helper='insights-control'>
           <span className='vcv-ui-navbar-control-content'>
             <i className={iconClass} />
             <span>{name}</span>

@@ -63,6 +63,15 @@
   },
   {
     "fieldKey": "parallax",
+    "value": "fixed",
+    "library": "parallaxBackground",
+    "dependencies": [
+      "waypoints",
+      "parallaxBackground"
+    ]
+  },
+  {
+    "fieldKey": "parallax",
     "value": "mouse-move",
     "library": "parallaxMouseMove",
     "dependencies": []

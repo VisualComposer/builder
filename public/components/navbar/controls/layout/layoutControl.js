@@ -2,11 +2,12 @@ import React from 'react'
 import classNames from 'classnames'
 import Item from './item'
 import { env, getService, getStorage } from 'vc-cake'
+import NavbarContent from '../../navbarContent'
 
 const dataManager = getService('dataManager')
 const settingsStorage = getStorage('settings')
 
-export default class LayoutButtonControl extends React.Component {
+export default class LayoutButtonControl extends NavbarContent {
   static localizations = dataManager.get('localizations')
   static devices = [
     {
@@ -117,6 +118,7 @@ export default class LayoutButtonControl extends React.Component {
     this.setState({
       activeDevice: index
     })
+    this.handleDropdownVisibility()
   }
 
   handleWindowResize () {
@@ -180,6 +182,7 @@ export default class LayoutButtonControl extends React.Component {
     })
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-show-dropdown-content': this.state.showDropdown,
       'vcv-ui-navbar-dropdown-content--layout': true,
       'vcv-ui-navbar-dropdown-content--vertical': this.state.isVerticalPositioned,
       'vcv-ui-navbar-dropdown-content--horizontal': this.state.isHorizontalPositioned
@@ -202,10 +205,12 @@ export default class LayoutButtonControl extends React.Component {
         tabIndex='0'
         data-vcv-guide-helper='layout-control'
         onMouseEnter={this.handleControlHover}
+        onMouseLeave={this.handleDropdownVisibility}
       >
         <dt
           className='vcv-ui-navbar-dropdown-trigger vcv-ui-navbar-control'
           title={LayoutButtonControl.devices[this.state.activeDevice].type}
+          onMouseEnter={this.handleDropdownVisibility}
         >
           {activeDevice}
         </dt>
