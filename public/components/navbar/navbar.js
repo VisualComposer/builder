@@ -329,7 +329,7 @@ export default class Navbar extends React.Component {
             renderView={props => <div {...props} className='vcv-ui-scroll-content' />}
             hideTracksWhenNotNeeded={hideTracksWhenNotNeeded}
             autoHeight
-            autoHeightMax='80vh'
+            autoHeightMax='100vh'
           >
             <div ref={this.setHiddenControlsReference}>
               {dropdownControls}
