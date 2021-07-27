@@ -453,13 +453,18 @@ class TemplatesUpdater extends Container implements Module
                         $element['elementId'] . '-' . $media['key'] . '-'
                     );
                 }
-                $newImageData = $imageData['newMedia'];
-                if (!is_wp_error($newImageData) && $newImageData) {
-                    if (isset($templateElements[ $element['elementId'] ][ $media['key'] ]['urls'])) {
-                        $templateElements[ $element['elementId'] ][ $media['key'] ]['urls'] = $imageData['newMedia'];
-                        $templateElements[ $element['elementId'] ][ $media['key'] ]['ids'] = $imageData['newIds'];
+
+                if ($imageData && !is_wp_error($imageData)) {
+                    if (is_array($imageData)) {
+                        if (isset($templateElements[ $element['elementId'] ][ $media['key'] ]['urls'])) {
+                            $templateElements[ $element['elementId'] ][ $media['key'] ]['urls'] = $imageData['newMedia'];
+                            $templateElements[ $element['elementId'] ][ $media['key'] ]['ids'] = $imageData['newIds'];
+                        } else {
+                            // Moved to simple url
+                            $templateElements[ $element['elementId'] ][ $media['key'] ][ $key ] = $imageData['newMedia'][0];
+                        }
                     } else {
-                        $templateElements[ $element['elementId'] ][ $media['key'] ][ $key ] = $newImageData[0];
+                        $templateElements[ $element['elementId'] ][ $media['key'] ][ $key ] = $imageData;
                     }
                 }
             }
