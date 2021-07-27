@@ -352,29 +352,43 @@ class Autoload extends Container
 
     protected function bootstrapFiles($components)
     {
+        $success = true;
         if (!empty($components['modules'])) {
             foreach ($components['modules'] as $module) {
                 /** @noinspection PhpIncludeInspection */
-                require_once($module['path']);
+                if (file_exists($module['path'])) {
+                    require_once($module['path']);
+                } else {
+                    $success = false;
+                }
             }
         }
         if (!empty($components['helpers'])) {
             foreach ($components['helpers'] as $module) {
                 /** @noinspection PhpIncludeInspection */
-                require_once($module['path']);
+                if (file_exists($module['path'])) {
+                    require_once($module['path']);
+                } else {
+                    $success = false;
+                }
             }
         }
+
+        return $success;
     }
 
     /**
      * @param $components
      *
+     * @return bool
      * @throws \Exception
      */
     protected function doComponents($components)
     {
-        $this->bootstrapFiles($components);
+        $success = $this->bootstrapFiles($components);
         $this->initComponents($components);
         $this->bootComponents($components);
+
+        return $success;
     }
 }
