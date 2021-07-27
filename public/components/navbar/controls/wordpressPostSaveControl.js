@@ -138,9 +138,9 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   handleSave (e) {
-    this.handleClickSaveData(e);
-    this.handleDropdownVisibility(e);
-    this.props.handleOnClick && this.props.handleOnClick(e);
+    this.handleClickSaveData(e)
+    this.handleDropdownVisibility(e)
+    this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
   render () {
