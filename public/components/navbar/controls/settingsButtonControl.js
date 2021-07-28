@@ -4,7 +4,7 @@ import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
 import innerAPI from 'public/components/api/innerAPI'
 import SettingsPanel from 'public/components/panels/settings/settingsPanel'
-import BackendEditorButton from './backendEditorButton'
+import BackendControl from './backendControl'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = getStorage('workspace').state('content')
@@ -108,7 +108,7 @@ export default class SettingsButtonControl extends NavbarContent {
         </dt>
         <dd className={navbarContentClasses}>
           {settings}
-          <BackendEditorButton />
+          <BackendControl />
         </dd>
       </dl>
     )
@@ -116,7 +116,7 @@ export default class SettingsButtonControl extends NavbarContent {
     const settingsControlsInsideDropdown = (
       <div className='vcv-ui-navbar-controls-set'>
         {settings}
-        <BackendEditorButton />
+        <BackendControl />
       </div>
     )
 
