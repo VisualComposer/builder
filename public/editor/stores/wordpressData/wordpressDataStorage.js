@@ -20,6 +20,7 @@ addStorage('wordpressData', (storage) => {
   const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
   const insightsStorage = getStorage('insights')
+  const utils = getService('utils')
 
   storage.on('start', () => {
     if (window.vcvPostUpdateAction && window.vcvPostUpdateAction === 'updatePosts') {
@@ -119,7 +120,7 @@ addStorage('wordpressData', (storage) => {
           console.warn('Failed to parse page elements', e)
           data = { elements: {} }
         }
-        elementsStorage.trigger('reset', data.elements || {})
+        elementsStorage.trigger('reset', utils.fixCorruptedElements(data.elements) || {})
         if (!data.elements) {
           empty = true
         }
