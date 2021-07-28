@@ -6,7 +6,6 @@ import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import PropTypes from 'prop-types'
 import { isEqual } from 'lodash'
 
-
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
@@ -27,11 +26,6 @@ export default class Element extends React.Component {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState){
-    assetsStorage.trigger('updateElement', prevState.element.id)
-    return { element: nextProps.element};
-  }
-
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
@@ -39,9 +33,9 @@ export default class Element extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if(!isEqual(prevProps.element, this.props.element)){
+    if (!isEqual(prevProps.element, this.props.element)) {
       assetsStorage.trigger('updateElement', prevState.element.id)
-      this.setState({element: this.props.element});
+      this.setState({ element: this.props.element })
     }
   }
 
