@@ -73,11 +73,11 @@ export default class Element extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if(!isEqual(prevProps.element, this.props.element)){
-      if (!isEqual(prevProps.element, this.props.element)){
+    if (!isEqual(prevProps.element, this.props.element)) {
+      if (!isEqual(prevProps.element, this.props.element)) {
         assetsStorage.trigger('updateElement', prevState.element.id)
       }
-      this.setState({element: this.props.element});
+      this.setState({ element: this.props.element })
     }
     this.props.api.notify('element:didUpdate', this.props.element.id)
     if (this.elementComponentRef.current) {
