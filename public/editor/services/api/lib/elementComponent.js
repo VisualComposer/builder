@@ -37,6 +37,17 @@ export default class ElementComponent extends React.Component {
     this.updateElementAssets = this.updateElementAssets.bind(this)
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    if (!nextProps.children && !this.props.children) { // Only general elements without children
+      const isStateEqual = lodash.isEqual(this.state, nextState)
+      const isRawAttsEqual = lodash.isEqual(this.props.rawAtts, nextProps.rawAtts)
+
+      return !(isStateEqual && isRawAttsEqual)
+    }
+
+    return true
+  }
+
   // [gallery ids="318,93"]
   getShortcodesRegexp () {
     return new RegExp('\\[(\\[?)([\\w|-]+\\b)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)')
