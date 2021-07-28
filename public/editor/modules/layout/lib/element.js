@@ -38,15 +38,6 @@ export default class Element extends React.Component {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (!isEqual(this.state.element, nextProps.element)) {
-      assetsStorage.trigger('updateElement', this.state.element.id)
-    }
-    this.setState({ element: nextProps.element })
-  }
-  /* eslint-enable */
-
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.trigger('addRef', this.state.element.id, this.elementComponentRef.current)
@@ -76,7 +67,13 @@ export default class Element extends React.Component {
     cleanComments(el, this.state.element.id)
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps, prevState) {
+    if(!isEqual(prevProps.element, this.props.element)){
+      if (!isEqual(prevProps.element, this.props.element)){
+        assetsStorage.trigger('updateElement', prevState.element.id)
+      }
+      this.setState({element: this.props.element});
+    }
     this.props.api.notify('element:didUpdate', this.props.element.id)
     elementsStorage.trigger('addRef', this.state.element.id, this.elementComponentRef.current)
     if (this.elementComponentRef && this.elementComponentRef.current) {
