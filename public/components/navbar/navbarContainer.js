@@ -8,7 +8,7 @@ import UndoRedoControl from './controls/undoRedoControl'
 import LayoutControl from './controls/layout/layoutControl'
 import SettingsButtonControl from './controls/settingsButtonControl'
 import MessagesButtonControl from './controls/messagesButtonControl'
-import WordPressAdminControl from './controls/wordpressAdminControl'
+import ViewControl from './controls/viewControl'
 import Navbar from './navbar'
 import NavbarWrapper from './navbarWrapper'
 import GoPremiumControl from './controls/goPremiumControl'
@@ -48,7 +48,7 @@ export default class NavbarContainer extends React.Component {
           <LayoutControl visibility='pinned' />
           {hubControl}
           <SettingsButtonControl isDropdown='true' />
-          <WordPressAdminControl visibility='save' />
+          <ViewControl visibility='save' />
         </Navbar>
       </NavbarWrapper>
     )
