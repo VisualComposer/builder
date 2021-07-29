@@ -443,11 +443,11 @@
     function getActiveTab (element) {
       let activeTab = null
       const $element = $(element)
-      const $tabs = $element.find(settings.tabDataSelector)
+      const $tabs = $element.find(settings.tabContainerSelector).eq(0).find('>' + settings.tabDataSelector)
 
       $tabs && $tabs.each(function (i, tab) {
         const $tab = $(tab)
-        if ($tab.attr('data-vcv-active')) {
+        if ($tab.attr('data-vcv-active') === 'true') {
           activeTab = $tab
         }
       })
@@ -459,7 +459,7 @@
       if (activeTab) {
         const activeTabId = activeTab.attr('data-vce-target-model-id')
         if (activeTabId) {
-          const dropdown = $(element).find(settings.dropdownSelector)
+          const dropdown = $(element).find(`${settings.dropdownSelector}`).eq(0)
           dropdown.val(activeTabId)
         }
       }
