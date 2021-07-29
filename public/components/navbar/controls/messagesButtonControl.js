@@ -78,7 +78,6 @@ export default class MessagesButtonControl extends NavbarContent {
   }
 
   handleTabClick (e, type) {
-    console.log('tab click', this.props)
     e && e.preventDefault()
     if (type) {
       workspaceMessagesTabState.set(type)
