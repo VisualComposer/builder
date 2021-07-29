@@ -247,6 +247,32 @@ const API = {
     })
     return visibleElements
   },
+  fixCorruptedElements (allElements) {
+    // it checks for corrupted element data, when it goes in loop - parent element is the child of his own child
+    const elements = Object.assign({}, allElements)
+    let parentIds = []
+    const checkIfValidParent = (el) => {
+      if (el.parent) {
+        if (parentIds.indexOf(el.parent) >= 0) {
+          el.parent = false
+          return false
+        } else {
+          parentIds.push(el.parent)
+          return checkIfValidParent(elements[el.parent])
+        }
+      } else {
+        parentIds = []
+        return true
+      }
+    }
+
+    Object.keys(elements).forEach((id) => {
+      const currentElement = elements[id]
+      checkIfValidParent(currentElement)
+      parentIds = []
+    })
+    return elements
+  },
   buildVariables (variables) {
     if (variables.length) {
       variables.forEach((item) => {

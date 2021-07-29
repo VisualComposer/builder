@@ -26,7 +26,10 @@ class AddonsAutoload extends Autoload implements Module
         $this->app = $app;
         if ($init) {
             $components = $this->getComponents();
-            $this->doComponents($components);
+            $success = $this->doComponents($components);
+            if (!$success) {
+                vchelper('Options')->deleteTransient('addons:autoload:all');
+            }
         }
 
         $this->addEvent(
@@ -40,7 +43,10 @@ class AddonsAutoload extends Autoload implements Module
                 if (is_array($phpFiles) && !empty($phpFiles)) {
                     $components = $this->getSingleComponent($phpFiles);
                 }
-                $this->doComponents($components);
+                $success = $this->doComponents($components);
+                if (!$success) {
+                    vchelper('Options')->deleteTransient('addons:autoload:all');
+                }
             }
         );
     }

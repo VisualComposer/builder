@@ -36,10 +36,10 @@ class Assets extends Container implements Helper
             true
         );
 
-        if (isset($headerId) && $headerId === 'default') {
+        if (empty($headerId) || $headerId === 'default') {
             $headerId = $this->getTemplatePartId('header');
         }
-        if (isset($footerId) && $footerId === 'default') {
+        if (empty($headerId) || $footerId === 'default') {
             $footerId = $this->getTemplatePartId('footer');
         }
 

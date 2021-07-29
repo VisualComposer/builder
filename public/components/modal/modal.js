@@ -21,12 +21,14 @@ export default class Modal extends React.Component {
     this.handleShowOnInnerClick = this.handleShowOnInnerClick.bind(this)
   }
 
-  handleShowOnInnerClick (e) {
-    this.setState({ innerClick: e.type === 'mousedown' })
+  handleShowOnInnerClick (event) {
+    if (event.target && event.target.closest('.vcv-ui-modal')) {
+      this.setState({ innerClick: true })
+    }
   }
 
   handleHideOnOuterClick (event) {
-    setTimeout(() => this.setState({ innerClick: false }), 0)
+    this.setState({ innerClick: false })
     if (this.props.closeOnOuterClick === false || this.state.innerClick) {
       return
     }
@@ -42,7 +44,7 @@ export default class Modal extends React.Component {
 
     return (
       <div className='vcv-ui-modal-overlay' onClick={this.handleHideOnOuterClick} data-modal='true'>
-        <div className='vcv-ui-modal-container' onMouseDown={this.handleShowOnInnerClick} onMouseUp={this.handleShowOnInnerClick}>
+        <div className='vcv-ui-modal-container' onMouseDown={this.handleShowOnInnerClick}>
           {this.props.children}
         </div>
       </div>
