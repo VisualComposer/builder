@@ -14,9 +14,39 @@
   const customContainerSelector = '.vce-full-width-custom-container'
 
   function getFullWidthElements() {
+    const visibleElements = []
+    const hiddenElements = []
     fullWidthElements = Array.prototype.slice.call(document.querySelectorAll('[data-vce-full-width="true"]:not([data-vcv-do-helper-clone]),[data-vce-full-width-section="true"]:not([data-vcv-do-helper-clone])'))
-    if (fullWidthElements.length) {
+
+    fullWidthElements.forEach(function (element) {
+      if (element.offsetHeight && element.offsetWidth) {
+        visibleElements.push(element)
+      } else {
+        hiddenElements.push(element)
+      }
+    })
+
+    if (visibleElements.length) {
       handleResize()
+    }
+
+    if (hiddenElements.length) {
+      const options = {
+        root: document.documentElement
+      }
+
+      const callback = (entries, observer) => {
+        entries.forEach(function (entry) {
+          if (entry.intersectionRatio > 0) {
+            handleResize()
+          }
+        });
+      };
+      
+      hiddenElements.forEach(function (element) {
+        let observer = new window.IntersectionObserver(callback, options)
+        observer.observe(element)
+      })
     }
   }
 
