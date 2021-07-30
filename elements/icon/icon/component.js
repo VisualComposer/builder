@@ -5,9 +5,9 @@ const vcvAPI = vcCake.getService('api')
 
 export default class IconElement extends vcvAPI.elementComponent {
   render () {
-    let classes = 'vce-features'
+    let classes = 'vce-features vce-var-icon'
     const { atts, editor, id } = this.props
-    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId } = atts
+    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId, iconColor, iconColorHover, shapeColor, shapeHoverColor } = atts
     let customProps = {}
     const containerProps = {}
     let customIconProps = {}
@@ -15,6 +15,7 @@ export default class IconElement extends vcvAPI.elementComponent {
     let CustomIconTag = 'span'
     const { url, title, targetBlank, relNofollow } = iconUrl
     const iconClasses = `vce-icon-container ${iconPicker.icon}`
+    const stylesVariables = {}
 
     if (url) {
       if (shape !== 'none') {
@@ -55,15 +56,12 @@ export default class IconElement extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    let mixinData = this.getMixinData('iconColor')
+    /*
+        let mixinData = this.getMixinData('iconColor')
 
-    if (mixinData) {
-      classes += ` vce-icon--style--icon-color-${mixinData.selector}`
-    }
-
-    mixinData = this.getMixinData('shapeColor')
-
-    if (mixinData) {
+        if (mixinData) {
+          classes += ` vce-icon--style--icon-color-${mixinData.selector}`
+              if (mixinData) {
       classes += ` vce-icon--style--shape-color-${mixinData.selector}`
     }
 
@@ -72,12 +70,27 @@ export default class IconElement extends vcvAPI.elementComponent {
     if (mixinData && toggleCustomHover) {
       classes += ` vce-icon--style--icon-color-hover-${mixinData.selector}`
     }
+    mixinData = this.getMixinData('shapeColor')
 
     mixinData = this.getMixinData('shapeColorHover')
 
     if (mixinData && toggleCustomHover) {
       classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
     }
+        }*/
+
+    console.log('atts', atts)
+    if(iconColor){
+      stylesVariables['--iconColor'] = iconColor
+    } if(iconColorHover && toggleCustomHover){
+      stylesVariables['--iconColorHover'] = iconColorHover
+    } if(shapeColor){
+      stylesVariables['--shapeColor'] = shapeColor
+    } if(shapeHoverColor && toggleCustomHover){
+      stylesVariables['--shapeHoverColor'] = shapeHoverColor
+    }
+
+
     if (metaCustomId) {
       containerProps.id = metaCustomId
     }
@@ -85,7 +98,7 @@ export default class IconElement extends vcvAPI.elementComponent {
     const doAll = this.applyDO('all')
 
     return (
-      <div className={classes} {...editor} {...containerProps}>
+      <div className={classes} {...editor} {...containerProps} style={stylesVariables}>
         <div id={'el-' + id} className='vce vce-features-icon-wrapper' {...doAll}>
           <CustomTag className='vce-features--icon vce-icon' {...customProps}>
             <svg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 769 769'>
