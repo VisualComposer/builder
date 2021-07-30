@@ -378,10 +378,10 @@ export default class EditFormHeader extends React.Component {
         {sectionImage}
         {headerTitle}
         <span className='vcv-ui-edit-form-header-control-container'>
-          {isNested ? null : replaceElementIcon}
-          {isNested ? null : lockControl}
-          {isNested ? null : hideControl}
-          {isNested ? null : settingsControl}
+          {options.nestedAttr ? null : replaceElementIcon}
+          {options.nestedAttr ? null : lockControl}
+          {options.nestedAttr ? null : hideControl}
+          {options.nestedAttr ? null : settingsControl}
           <span
             className='vcv-ui-edit-form-header-control'
             title={closeTitle}
