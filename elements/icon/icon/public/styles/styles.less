@@ -1,0 +1,351 @@
+/* ----------------------------------------------
+ * Feature Icon
+ * ---------------------------------------------- */
+.vce-features {
+  display: block;
+  a {
+    outline: none;
+    border: none;
+    box-shadow: none;
+    text-decoration: none;
+  }
+  &-icon-wrapper {
+    display: inline-block;
+  }
+  &--icon {
+    position: relative;
+    width: 2.9em;
+    height: 2.9em;
+    display: inline-block;
+    vertical-align: top;
+    & .vce-icon-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      &::before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    & svg {
+      display: none;
+      width: 2.9em;
+      height: 2.9em;
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      transition: inherit;
+    }
+  }
+}
+.vce-features--style-none .vce-features--icon {
+  margin-bottom: -0.85em;
+}
+.vce-features--style-filled {
+  &-circle, &-rounded, &-square, &-hexagon, &-diamond {
+  border: none;
+  }
+  &-circle .vce-features--icon {
+    border-radius: 50%;
+  }
+  &-rounded .vce-features--icon {
+    border-radius: 10px;
+  }
+  &-hexagon .vce-features--icon {
+    width: 3.1em;
+    height: 3.1em;
+  }
+  &-hexagon .vce-features--icon svg {
+    width: 3.1em;
+    height: 3.1em;
+    display: block;
+  }
+  &-diamond .vce-features--icon {
+    width: 2.1em;
+    height: 2.1em;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    margin: calc(2.1em / 4.85);
+  }
+  &-diamond .vce-features--icon span {
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    height: 0;
+    width: 0;
+  }
+}
+.vce-features--style-outlined {
+  &-circle, &-rounded, &-square, &-diamond {
+    background-color: transparent;
+    .vce-features--icon{
+      border-width: 3px;
+      border-style: solid;
+    }
+  }
+}
+.vce-features--style-outlined {
+  &-circle .vce-features--icon {
+    border-radius: 50%;
+  }
+  &-rounded .vce-features--icon {
+    border-radius: 10px;
+  }
+  &-hexagon .vce-features--icon {
+    width: 3.1em;
+    height: 3.1em;
+    svg {
+      width: 3.1em;
+      height: 3.1em;
+      display: block;
+      &::after {
+        border: none;
+      }
+    }
+  }
+  &-underlined .vce-features--icon::after {
+    content: '';
+    position: absolute;
+    height: 5px;
+    width: 2.9em;
+    left: 0;
+    bottom: 0;
+  }
+  &-diamond .vce-features--icon {
+    width: 2.1em;
+    height: 2.1em;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    margin: calc(0.43298969em);
+    span {
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      height: 0;
+      width: 0;
+    }
+  }
+}
+.vce-features--align {
+  &-left {
+    text-align: left;
+  }
+  &-center {
+    text-align: center;
+  }
+  &-right {
+    text-align: right;
+  }
+}
+.vce-features--size{
+  &-tiny {
+    font-size: @vce-icon-font-size-tiny;
+  }
+  &-small {
+    font-size: @vce-icon-font-size-small;
+  }
+  &-medium {
+    font-size: @vce-icon-font-size-medium;
+  }
+  &-large {
+    font-size: @vce-icon-font-size-large;
+  }
+}
+/*RTL support. */
+/*LTR support. */
+.rtl.vce-features,
+[dir="rtl"].vce-features,
+.rtl .vce-features,
+[dir="rtl"] .vce-features {
+  direction: rtl;
+  unicode-bidi: embed;
+  /*check if IE+10 and than hack hexagon to the center*/
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .rtl.vce-features .vce-features--icon svg,
+  [dir="rtl"].vce-features .vce-features--icon svg,
+  .rtl .vce-features .vce-features--icon svg,
+  [dir="rtl"] .vce-features .vce-features--icon svg {
+    right: 50%;
+  }
+}
+@supports (-ms-accelerator:true) {
+  .rtl.vce-features .vce-features--icon svg,
+  [dir="rtl"].vce-features .vce-features--icon svg,
+  .rtl .vce-features .vce-features--icon svg,
+  [dir="rtl"] .vce-features .vce-features--icon svg {
+    right: 50%;
+  }
+}
+.ltr.vce-features,
+[dir="ltr"].vce-features,
+.ltr .vce-features,
+[dir="ltr"] .vce-features {
+  direction: ltr;
+  unicode-bidi: normal;
+}
+.vce-features--icon {
+  .fa::before {
+    line-height: 0.9em;
+    height: 0.9em;
+  }
+  .typcn::before {
+    font-size: 1.3em;
+  }
+  .vcv-ui-icon-material::before {
+    font-size: 1.2em;
+    line-height: 0.95em;
+  }
+  .vcv-ui-icon-openiconic::before {
+    height: 0.9em;
+  }
+  .vcv-ui-icon-monosocial::before {
+    font-size: 2em;
+  }
+}
+.vce-var-icon .vce-icon .vce-icon-container {
+  color: var(--iconColor);
+  transition: color .2s ease-in-out;
+}
+.vce-features--style {
+  &-none {
+    .vce-icon-container {
+      &:hover {
+        color: var(--iconColorHover);
+      }
+    }
+  }
+  &-filled {
+    &-circle, &-rounded, &-square, &-diamond, &-hexagon {
+      .vce-features--icon {
+        &:hover {
+          .vce-icon-container {
+            color: var(--iconColorHover);
+          }
+        }
+      }
+    }
+  }
+  &-outlined {
+    &-circle, &-rounded, &-square, &-diamond, &-hexagon, &-underlined {
+      .vce-features--icon {
+        &:hover {
+          .vce-icon-container {
+            color: var(--iconColorHover);
+          }
+        }
+      }
+    }
+  }
+}
+.vce-features--style {
+  &-filled {
+    &-circle, &-rounded, &-square, &-diamond {
+      .vce-features--icon {
+        background-color: var(--shapeColor);
+        transition: background-color .2s ease-in-out;
+      }
+      a.vce-features--icon:hover {
+        background-color: var(--linkColorHover);
+      }
+    }
+    &-hexagon {
+      .vce-features--icon {
+        background-color: transparent;
+        svg{
+          fill: var(--shapeColor);
+          transition: fill .2s ease-in-out;
+        }
+      }
+      a.vce-features--icon:hover {
+        svg {
+          fill: var(--linkColorHover);
+        }
+      }
+    }
+  }
+  &-outlined {
+    &-circle, &-rounded, &-square, &-diamond {
+      .vce-features--icon {
+        border-color: var(--shapeColor);
+        transition: border-color .2s ease-in-out;
+      }
+      a.vce-features--icon:hover {
+        border-color: var(--linkColorHover);
+      }
+    }
+    &-hexagon {
+      .vce-features--icon {
+        background-color: transparent;
+        svg {
+          stroke: var(--shapeColor);
+          fill: transparent;
+          transition: stroke .2s ease-in-out;
+        }
+      }
+      a.vce-features--icon:hover svg{
+        stroke: var(--linkColorHover);
+      }
+    }
+    &-underlined {
+      .vce-features--icon {
+        &::after {
+          background-color: var(--shapeColor);
+          transition: background-color .2s ease-in-out;
+        }
+      }
+      a.vce-features--icon:hover {
+        &::after {
+          background-color: var(--linkColorHover);
+        }
+      }
+    }
+  }
+}
+.vce-features--style {
+  &-filled {
+    &-circle, &-rounded, &-square, &-diamond {
+      .vce-features--icon:hover {
+        background-color: var(--shapeColorHover);
+      }
+    }
+    &-hexagon {
+      .vce-features--icon:hover svg {
+        fill: var(--shapeColorHover);
+      }
+    }
+  }
+  &-outlined {
+    &-circle, &-rounded, &-square, &-diamond {
+      .vce-features--icon:hover {
+        border-color: var(--shapeColorHover);
+      }
+    }
+    &-hexagon {
+      .vce-features--icon:hover svg {
+        stroke: var(--shapeColorHover);
+      }
+    }
+    &-underlined {
+      .vce-features--icon:hover {
+        &::after {
+          background-color: var(--shapeColorHover);
+        }
+      }
+    }
+  }
+}

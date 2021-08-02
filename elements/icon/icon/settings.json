@@ -107,11 +107,6 @@
     "value": "#3cb878",
     "options": {
       "label": "Shape color",
-      "cssMixin": {
-        "mixin": "shapeColor",
-        "property": "shapeColor",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "shape": {
@@ -143,11 +138,6 @@
     "value": "#3cb878",
     "options": {
       "label": "Shape hover color",
-      "cssMixin": {
-        "mixin": "shapeColorHover",
-        "property": "shapeColorHover",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "shape": {
@@ -174,11 +164,6 @@
     "value": "#fff",
     "options": {
       "label": "Icon hover color",
-      "cssMixin": {
-        "mixin": "iconColorHover",
-        "property": "iconColorHover",
-        "namePattern": "[\\da-f]+"
-      },
       "onChange": {
         "rules": {
           "toggleCustomHover": {
@@ -209,12 +194,7 @@
     "access": "public",
     "value": "#fff",
     "options": {
-      "label": "Icon color",
-      "cssMixin": {
-        "mixin": "iconColor",
-        "property": "iconColor",
-        "namePattern": "[\\da-f]+"
-      }
+      "label": "Icon color"
     }
   },
   "iconAlignment": {
