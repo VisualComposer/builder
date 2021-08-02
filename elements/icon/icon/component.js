@@ -1,13 +1,13 @@
 import React from 'react'
 import vcCake from 'vc-cake'
-
+import pSBC from './tools'
 const vcvAPI = vcCake.getService('api')
 
 export default class IconElement extends vcvAPI.elementComponent {
   render () {
     let classes = 'vce-features vce-var-icon'
     const { atts, editor, id } = this.props
-    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId, iconColor, iconColorHover, shapeColor, shapeHoverColor } = atts
+    const { iconPicker, iconUrl, shape, iconAlignment, size, customClass, toggleCustomHover, metaCustomId, iconColor, iconColorHover, shapeColor, shapeColorHover } = atts
     let customProps = {}
     const containerProps = {}
     let customIconProps = {}
@@ -56,40 +56,25 @@ export default class IconElement extends vcvAPI.elementComponent {
       classes += ' ' + customClass
     }
 
-    /*
-        let mixinData = this.getMixinData('iconColor')
-
-        if (mixinData) {
-          classes += ` vce-icon--style--icon-color-${mixinData.selector}`
-              if (mixinData) {
-      classes += ` vce-icon--style--shape-color-${mixinData.selector}`
-    }
-
-    mixinData = this.getMixinData('iconColorHover')
-
-    if (mixinData && toggleCustomHover) {
-      classes += ` vce-icon--style--icon-color-hover-${mixinData.selector}`
-    }
-    mixinData = this.getMixinData('shapeColor')
-
-    mixinData = this.getMixinData('shapeColorHover')
-
-    if (mixinData && toggleCustomHover) {
-      classes += ` vce-icon--style--shape-color-hover-${mixinData.selector}`
-    }
-        }*/
-
-    console.log('atts', atts)
-    if(iconColor){
+    if (iconColor) {
       stylesVariables['--iconColor'] = iconColor
-    } if(iconColorHover && toggleCustomHover){
-      stylesVariables['--iconColorHover'] = iconColorHover
-    } if(shapeColor){
-      stylesVariables['--shapeColor'] = shapeColor
-    } if(shapeHoverColor && toggleCustomHover){
-      stylesVariables['--shapeHoverColor'] = shapeHoverColor
+      stylesVariables['--iconColorHover'] = iconColor
     }
 
+    if (shapeColor) {
+      stylesVariables['--shapeColor'] = shapeColor
+      stylesVariables['--shapeColorHover'] = shapeColor
+      stylesVariables['--linkColorHover'] = pSBC(-0.2, shapeColor)
+    }
+
+    if (iconColorHover && toggleCustomHover) {
+      stylesVariables['--iconColorHover'] = iconColorHover
+    }
+
+    if (shapeColorHover && toggleCustomHover) {
+      stylesVariables['--shapeColorHover'] = shapeColorHover
+      stylesVariables['--linkColorHover'] = shapeColorHover
+    }
 
     if (metaCustomId) {
       containerProps.id = metaCustomId

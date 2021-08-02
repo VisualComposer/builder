@@ -48,6 +48,7 @@
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  transition: inherit;
 }
 .vce-features--style-none .vce-features--icon {
   margin-bottom: -0.85em;
@@ -243,21 +244,21 @@
   background-color: var(--shapeColor);
   transition: background-color 0.2s ease-in-out;
 }
-.vce-features--style-filled-circle a:hover,
-.vce-features--style-filled-rounded a:hover,
-.vce-features--style-filled-square a:hover,
-.vce-features--style-filled-diamond a:hover {
-  background-color: var(--shapeColor);
-  /*     background-color: color($shapeColor shade(10%));*/
+.vce-features--style-filled-circle a.vce-features--icon:hover,
+.vce-features--style-filled-rounded a.vce-features--icon:hover,
+.vce-features--style-filled-square a.vce-features--icon:hover,
+.vce-features--style-filled-diamond a.vce-features--icon:hover {
+  background-color: var(--linkColorHover);
 }
 .vce-features--style-filled-hexagon .vce-features--icon {
-  fill: var(--shapeColor);
   background-color: transparent;
+}
+.vce-features--style-filled-hexagon .vce-features--icon svg {
+  fill: var(--shapeColor);
   transition: fill 0.2s ease-in-out;
 }
-.vce-features--style-filled-hexagon a:hover {
-  fill: var(--shapeColor);
-  /* fill: color($shapeColor shade(10%));*/
+.vce-features--style-filled-hexagon a.vce-features--icon:hover svg {
+  fill: var(--linkColorHover);
 }
 .vce-features--style-outlined-circle .vce-features--icon,
 .vce-features--style-outlined-rounded .vce-features--icon,
@@ -266,30 +267,29 @@
   border-color: var(--shapeColor);
   transition: border-color 0.2s ease-in-out;
 }
-.vce-features--style-outlined-circle a:hover,
-.vce-features--style-outlined-rounded a:hover,
-.vce-features--style-outlined-square a:hover,
-.vce-features--style-outlined-diamond a:hover {
-  boder-color: var(--shapeColor);
-  /*border-color: color($shapeColor shade(10%));*/
+.vce-features--style-outlined-circle a.vce-features--icon:hover,
+.vce-features--style-outlined-rounded a.vce-features--icon:hover,
+.vce-features--style-outlined-square a.vce-features--icon:hover,
+.vce-features--style-outlined-diamond a.vce-features--icon:hover {
+  border-color: var(--linkColorHover);
 }
 .vce-features--style-outlined-hexagon .vce-features--icon {
+  background-color: transparent;
+}
+.vce-features--style-outlined-hexagon .vce-features--icon svg {
   stroke: var(--shapeColor);
   fill: transparent;
-  background-color: transparent;
   transition: stroke 0.2s ease-in-out;
 }
-.vce-features--style-outlined-hexagon a:hover {
-  stroke: var(--shapeColor);
-  /*     stroke: color($shapeColor shade(10%));*/
+.vce-features--style-outlined-hexagon a.vce-features--icon:hover svg {
+  stroke: var(--linkColorHover);
 }
 .vce-features--style-outlined-underlined .vce-features--icon::after {
   background-color: var(--shapeColor);
   transition: background-color 0.2s ease-in-out;
 }
-.vce-features--style-outlined-underlined a:hover::after {
-  background-color: var(--shapeColor);
-  /*background-color: color($shapeColor shade(10%));*/
+.vce-features--style-outlined-underlined a.vce-features--icon:hover::after {
+  background-color: var(--linkColorHover);
 }
 .vce-features--style-filled-circle .vce-features--icon:hover,
 .vce-features--style-filled-rounded .vce-features--icon:hover,
@@ -297,7 +297,7 @@
 .vce-features--style-filled-diamond .vce-features--icon:hover {
   background-color: var(--shapeColorHover);
 }
-.vce-features--style-filled-hexagon .vce-features--icon:hover {
+.vce-features--style-filled-hexagon .vce-features--icon:hover svg {
   fill: var(--shapeColorHover);
 }
 .vce-features--style-outlined-circle .vce-features--icon:hover,
@@ -306,7 +306,7 @@
 .vce-features--style-outlined-diamond .vce-features--icon:hover {
   border-color: var(--shapeColorHover);
 }
-.vce-features--style-outlined-hexagon .vce-features--icon:hover {
+.vce-features--style-outlined-hexagon .vce-features--icon:hover svg {
   stroke: var(--shapeColorHover);
 }
 .vce-features--style-outlined-underlined .vce-features--icon:hover::after {
