@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,ko
 Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.7.2
-Stable tag: 37.0
+Tested up to: 5.8
+Stable tag: 38.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -212,6 +212,42 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 38.0 =
+*Release Date - 2021-08-04*
+
+### Free:
+- New: Visual Composer layouts have Design Options that apply to the whole page
+- New: Notification Center to inform you about new features, updates, and more
+- New: Visual Composer navigation bar updated for better UI/UX
+- Update: License input messages adjusted
+- Update: Font loading adjusted for performance
+- Update: SQL queries for posts improved for performance
+- Update: Parallax accepts negative values for reverse effects
+- Update: Visual Composer Insights notification order improved for better UI/UX
+- Fix: Emojis are displayed properly in articles created with Visual Composer
+- Fix: Link selector works properly for OnClick actions
+- Fix: TinyMCE works properly in Visual Composer
+- Fix: Lazy load option applies to Design Options properly
+- Fix: OnClick 'Zoom' option works properly
+- Fix: YouTube video element works properly in mobile Firefox
+- Fix: Copying elements from deleted rows work properly
+- Fix: Link Selector popup does not close upon text selection
+- Fix: List elements are displayed properly in the text editor
+- Fix: Utils service method works properly
+- Fix: Column resize works properly
+- Fix: Autoload cache works properly with different path
+- Fix: Template update works properly
+- Fix: Simple Image slider works properly
+- Compatibility: Visual Composer works properly with WP Export/Import
+
+### Premium:
+- Fix: Header controls work properly in Visual Composer Dashboard
+- Fix: Post Slider element does not crop featured image
+- Fix: Design Options of the Pageable Container element works properly
+- Fix: Dynamic Content works properly with ACF
+- Fix: Right-Click functionality works properly with Role Manager settings
+- Compatibility: Global site header option works properly with WooCommerce Search
 
 = 37.0 =
 *Release Date - 2021-06-17*
