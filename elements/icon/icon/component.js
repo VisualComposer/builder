@@ -44,16 +44,16 @@ export default class IconElement extends vcvAPI.elementComponent {
       classes += ` vce-features--style-${shape}`
     }
 
-    if (iconAlignment) {
-      classes += ` vce-features--align-${iconAlignment}`
-    }
-
     if (size) {
       classes += ` vce-features--size-${size}`
     }
 
     if (typeof customClass === 'string' && customClass) {
       classes += ' ' + customClass
+    }
+
+    if (iconAlignment) {
+      stylesVariables['--text-align'] = iconAlignment
     }
 
     if (iconColor) {

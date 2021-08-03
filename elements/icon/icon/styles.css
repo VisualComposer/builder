@@ -3,6 +3,13 @@
  * ---------------------------------------------- */
 .vce-features {
   display: block;
+  --iconColor: #FFFFFF;
+  --iconColorHover: #FFFFFF;
+  --shapeColor: #3CB878;
+  --shapeColorHover: #3CB878;
+  --linkColorHover: #36a56b;
+  --text-align: left;
+  text-align: var(--text-align);
 }
 .vce-features a {
   outline: none;
@@ -144,15 +151,7 @@
   height: 0;
   width: 0;
 }
-.vce-features--align-left {
-  text-align: left;
-}
-.vce-features--align-center {
-  text-align: center;
-}
-.vce-features--align-right {
-  text-align: right;
-}
+
 .vce-features--size-tiny {
   font-size: 18px;
 }
