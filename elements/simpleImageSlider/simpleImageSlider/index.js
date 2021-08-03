@@ -13,23 +13,6 @@ vcvAddElement(
   // css settings // css for element
   {
     css: require('raw-loader!./styles.css'),
-    editorCss: require('raw-loader!./editor.css'),
-    mixins: {
-      pointerColor: {
-        mixin: require('raw-loader!./cssMixins/pointerColor.pcss')
-      },
-      pointerColorHover: {
-        mixin: require('raw-loader!./cssMixins/pointerColorHover.pcss')
-      },
-      arrowColor: {
-        mixin: require('raw-loader!./cssMixins/arrowColor.pcss')
-      },
-      arrowColorHover: {
-        mixin: require('raw-loader!./cssMixins/arrowColorHover.pcss')
-      },
-      backgroundPosition: {
-        mixin: require('raw-loader!./cssMixins/backgroundPosition.pcss')
-      }
-    }
+    editorCss: require('raw-loader!./editor.css')
   }
 )
