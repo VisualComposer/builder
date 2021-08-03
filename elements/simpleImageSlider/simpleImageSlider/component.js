@@ -7,12 +7,13 @@ const vcvAPI = getService('api')
 export default class SimpleImageSlider extends vcvAPI.elementComponent {
   render () {
     const { id, atts, editor } = this.props
-    let { clickableOptions, showCaption, images, aspectRatio, customAspectRatio, scaleImage, shape, autoplay, autoplayDelay, effect, pointers, arrows, metaCustomId, customClass } = atts
+    let { clickableOptions, showCaption, images, aspectRatio, customAspectRatio, scaleImage, shape, autoplay, autoplayDelay, effect, pointers, arrows, metaCustomId, customClass, backgroundImagePosition, arrowColor, arrowColorHover, pointerColor, pointerColorHover } = atts
 
     let containerClasses = 'vce-simple-image-slider'
     let wrapperClasses = 'vce-simple-image-slider-wrapper vce'
     let aspectClasses = 'vce-simple-image-slider-helper'
-    let dotsClasses = 'vce-simple-image-slider-dots'
+    const dotsClasses = 'vce-simple-image-slider-dots'
+    const stylesVariables = {}
     const containerProps = {}
     const aspectProps = {}
     let aspectPercentage = 133
@@ -60,9 +61,8 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
         imgClasses += ' vce-simple-image-slider-img--scale'
       }
 
-      const mixinData = this.getMixinData('backgroundPosition')
-      if (mixinData) {
-        imgClasses += ` vce-simple-image-slider-img--background-position-${mixinData.selector}`
+      if (backgroundImagePosition) {
+        stylesVariables['--backgroundPosition'] = backgroundImagePosition
       }
 
       if (clickableOptions === 'url' && image.link && image.link.url) {
@@ -117,14 +117,12 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
 
     const doAll = this.applyDO('all')
 
-    let mixinData = this.getMixinData('pointerColor')
-    if (mixinData) {
-      dotsClasses += ` vce-simple-image-slider-dots-color--${mixinData.selector}`
+    if (pointerColor) {
+      stylesVariables['--pointerColor'] = pointerColor
     }
 
-    mixinData = this.getMixinData('pointerColorHover')
-    if (mixinData) {
-      dotsClasses += ` vce-simple-image-slider-dots-color-hover--${mixinData.selector}`
+    if (pointerColorHover) {
+      stylesVariables['--pointerColorHover'] = pointerColorHover
     }
 
     autoplayDelay *= 1000
@@ -133,16 +131,14 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
     let nextArrow = ''
 
     if (arrows) {
-      let arrowClasses = 'vce-simple-image-slider-arrow'
+      const arrowClasses = 'vce-simple-image-slider-arrow'
 
-      mixinData = this.getMixinData('arrowColor')
-      if (mixinData) {
-        arrowClasses += ` vce-simple-image-slider-arrows-color--${mixinData.selector}`
+      if (arrowColor) {
+        stylesVariables['--arrowColor'] = arrowColor
       }
 
-      mixinData = this.getMixinData('arrowColorHover')
-      if (mixinData) {
-        arrowClasses += ` vce-simple-image-slider-arrows-color-hover--${mixinData.selector}`
+      if (arrowColorHover) {
+        stylesVariables['--arrowColorHover'] = arrowColorHover
       }
 
       prevArrow = (
@@ -183,7 +179,7 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
     htmlString += renderToStaticMarkup(<div className={dotsClasses} />)
 
     return (
-      <div className={containerClasses} {...editor} {...containerProps}>
+      <div className={containerClasses} {...editor} {...containerProps} style={stylesVariables}>
         <div className={wrapperClasses} id={'el-' + id} {...doAll}>
           <div className={aspectClasses} {...aspectProps}>
             <div className='vcvhelper' data-vcvs-html={htmlString}>
