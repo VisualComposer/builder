@@ -3,11 +3,11 @@
   max-width: 100%;
   box-sizing: border-box;
   direction: ltr;
-  --backgroundPosition:center center;
+  --backgroundPosition: center center;
   --arrowColor: rgba(255, 255, 255, 0.5);
-  --arrowColorHover:#fff;
-  --pointerColor:#fff;
-  --pointerColorHover:#fd9a00;
+  --arrowColorHover: #fff;
+  --pointerColor: #fff;
+  --pointerColorHover: #fd9a00;
 }
 
 .vce-simple-image-slider-wrapper {
@@ -17,7 +17,6 @@
 }
 
 /* aspect ratio */
-
 .vce-simple-image-slider-helper {
   position: relative;
   padding-top: 133%;
@@ -118,7 +117,7 @@
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -205,7 +204,7 @@ a.vce-simple-image-slider-img:focus {
   box-shadow: none;
 }
 
-  /* slick css */
+/* slick css */
 .vce-simple-image-slider .slick-slider {
   display: block;
   box-sizing: border-box;
@@ -295,15 +294,15 @@ a.vce-simple-image-slider-img:focus {
 }
 
 .vce-simple-image-slider-list .vce-simple-image-slider-img {
-  background-position:  var(--backgroundPosition);
+  background-position: var(--backgroundPosition);
 }
 
-.vce-simple-image-slider .vce-simple-image-slider-arrow svg polygon{
+.vce-simple-image-slider .vce-simple-image-slider-arrow svg polygon {
   fill: var(--arrowColor);
 }
 
 .vce-simple-image-slider .vce-simple-image-slider-arrow:hover svg polygon {
-  fill:  var(--arrowColorHover);
+  fill: var(--arrowColorHover);
 }
 
 .vce-simple-image-slider .slick-dots button,
@@ -311,10 +310,8 @@ a.vce-simple-image-slider-img:focus {
   background: var(--pointerColor);
 }
 
-
 .vce-simple-image-slider .slick-dots button:hover,
 .vce-simple-image-slider .slick-dots .slick-active button,
 .vce-simple-image-slider .slick-dots .slick-active button:not(:hover):not(:active) {
   background: var(--pointerColorHover);
-
 }
