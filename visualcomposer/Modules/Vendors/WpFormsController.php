@@ -10,11 +10,23 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
+use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\Request;
+use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 class WpFormsController extends Container implements Module
 {
-    public function __construct()
+    use WpFiltersActions;
+
+    public function __construct(Request $requestHelper, Frontend $frontendHelper)
     {
-        add_filter('wpforms_frontend_missing_assets_error_js_disable', '__return_true');
+        if (
+            $frontendHelper->isFrontend()
+            || $frontendHelper->isPageEditable()
+            || $requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)
+            || $requestHelper->exists(VCV_AJAX_REQUEST)
+        ) {
+            $this->wpAddFilter('wpforms_frontend_missing_assets_error_js_disable', '__return_true');
+        }
     }
 }
