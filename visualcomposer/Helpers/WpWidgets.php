@@ -136,6 +136,7 @@ class WpWidgets implements Helper
                 'before_widget' => '',
                 'after_widget' => '',
                 'title' => '',
+                'visual' => false,
             ],
             $instance
         );
