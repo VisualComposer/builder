@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import { ControlHelpers } from 'public/components/elementControls/controlHelpers'
+import { isEqual } from 'lodash'
 
 const workspaceStorage = getStorage('workspace')
 const elementsStorage = getStorage('elements')
@@ -91,18 +92,8 @@ export default class TreeViewElement extends React.Component {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    const newShowOutline = nextProps.showOutlineCallback(nextProps.element.id)
-    newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
-    this.setState({ element: nextProps.element || this.props.element })
-  }
-
-  /* eslint-enable */
-
   componentDidMount () {
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
-
     this.props.onMountCallback(this.state.element.id)
     workspaceStorage.state('copyData').onChange(this.checkPaste)
   }
@@ -112,6 +103,14 @@ export default class TreeViewElement extends React.Component {
     this.props.onUnmountCallback(this.state.element.id)
     workspaceStorage.state('copyData').ignoreChange(this.checkPaste)
     workspaceStorage.state('userInteractWith').set(false)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (!isEqual(prevProps.element, this.props.element)) {
+      const newShowOutline = this.props.showOutlineCallback(this.props.element.id)
+      newShowOutline !== this.state.showOutline && this.setState({ showOutline: newShowOutline })
+      this.setState({ element: this.props.element || prevProps.element })
+    }
   }
 
   checkPaste (data) {

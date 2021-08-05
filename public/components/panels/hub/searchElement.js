@@ -20,7 +20,6 @@ export default class SearchElement extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputValue: this.props.inputValue || '',
       input: false
     }
     this.handleSearch = this.handleSearch.bind(this)
@@ -46,17 +45,6 @@ export default class SearchElement extends React.Component {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (nextProps && nextProps.inputValue !== this.state.inputValue) {
-      // Update search from props
-      this.setState({
-        inputValue: nextProps.inputValue
-      })
-    }
-  }
-
-  /* eslint-enable */
   componentWillUnmount () {
     if (this.inputTimeout) {
       window.clearTimeout(this.inputTimeout)
@@ -73,10 +61,6 @@ export default class SearchElement extends React.Component {
 
   handleSearch (e) {
     const inputVal = e.currentTarget.value
-    this.setState({
-      inputValue: inputVal
-    })
-
     this.props.changeInput(inputVal)
   }
 
@@ -117,7 +101,7 @@ export default class SearchElement extends React.Component {
             type='text'
             ref={this.autoFocusInputRef}
             placeholder={placeholder}
-            value={this.state.inputValue}
+            value={this.props.inputValue}
             autoFocus={typeof this.props.autoFocus !== 'undefined' ? this.props.autoFocus && autofocus : autofocus}
             onKeyPress={this.handleKeyPress}
             disabled={isDisabled}
