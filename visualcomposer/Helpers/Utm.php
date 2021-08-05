@@ -114,6 +114,15 @@ class Utm implements Helper
 
             // Hub Terms Box Button
             'hub-terms-box-button' => 'https://visualcomposer.com/cloud-access-terms/confirmation/?utm_source=' . $source . '&utm_medium={medium}&utm_campaign=get-free-license&utm_content=button',
+
+            // License activation renewal
+            'license-activation-renewal' => 'https://my.visualcomposer.com/licenses/?utm_source=' . $source . '&utm_medium=activatepremium&utm_campaign=renewal&utm_content=license-renewal-text',
+
+            // License activation upgrade
+            'license-activation-upgrade' => 'https://my.visualcomposer.com/licenses/?utm_source=' . $source . '&utm_medium=activatepremium&utm_campaign=upgrade&utm_content=license-upgrade-text',
+
+            // License activation purchase new
+            'license-activation-purchase' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=activatepremium&utm_campaign=gopremium&utm_content=no-license-found-text',
         ];
 
         return $utm;

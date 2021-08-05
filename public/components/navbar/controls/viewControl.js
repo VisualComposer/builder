@@ -1,4 +1,3 @@
-/* global setUserSetting */
 import React from 'react'
 import NavbarContent from '../navbarContent'
 
@@ -12,7 +11,7 @@ const historyStorage = getStorage('history')
 const settingsStorage = getStorage('settings')
 const workspaceIFrame = workspaceStorage.state('iframe')
 
-export default class WordPressAdminControl extends NavbarContent {
+export default class ViewControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
 
   previewWindow = false
@@ -21,7 +20,6 @@ export default class WordPressAdminControl extends NavbarContent {
 
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
     this.handleClickSavePreview = this.handleClickSavePreview.bind(this)
     this.triggerPreviewClick = this.triggerPreviewClick.bind(this)
     this.updateButtons = this.updateButtons.bind(this)
@@ -38,19 +36,6 @@ export default class WordPressAdminControl extends NavbarContent {
     if (data && data.status === 'success') {
       this.forceUpdate()
     }
-  }
-
-  handleClick (e) {
-    e && e.preventDefault && e.preventDefault()
-    const target = e.currentTarget
-    const isBackendEditor = target.dataset.backendEditor && target.dataset.backendEditor === 'backendEditor'
-    if (isBackendEditor) {
-      setUserSetting('vcvEditorsBackendLayoutSwitcher', '1') // Enable backend editor
-    }
-    window.open(
-      target.dataset.href,
-      target.dataset.target ? target.dataset.target : '_self'
-    )
   }
 
   handleClickSavePreview (e) {
@@ -248,7 +233,7 @@ export default class WordPressAdminControl extends NavbarContent {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const { backToWordpress, wordPressDashboard, preview, previewChanges, reset } = localizations
+    const { preview, previewChanges, reset } = localizations
 
     let viewButton = ''
     if (PostData.isViewable() && PostData.isPublished()) {
@@ -265,7 +250,7 @@ export default class WordPressAdminControl extends NavbarContent {
     }
 
     const previewText = PostData.isPublished() ? previewChanges : preview
-    const previewTitleText = WordPressAdminControl.isMacLike ? previewText + ' (⌘⇧P)' : previewText + ' (Ctrl + Shift + P)'
+    const previewTitleText = ViewControl.isMacLike ? previewText + ' (⌘⇧P)' : previewText + ' (Ctrl + Shift + P)'
     const previewButton = (
       <span
         className='vcv-ui-navbar-control'
@@ -277,38 +262,6 @@ export default class WordPressAdminControl extends NavbarContent {
         <span className='vcv-ui-navbar-control-content'>{previewText}</span>
       </span>
     )
-
-    const backendEditorButton = (
-      <span
-        className='vcv-ui-navbar-control'
-        onClick={this.handleClick}
-        title={backToWordpress}
-        data-href={PostData.backendEditorUrl()}
-        data-backend-editor='backendEditor'
-        data-vcv-control='backToWP'
-      >
-        <span className='vcv-ui-navbar-control-content'>{backToWordpress}</span>
-      </span>
-    )
-
-    let dataHref = PostData.vcvCustomPostType() ? PostData.adminDashboardPostTypeListUrl() : PostData.adminDashboardUrl()
-    if (this.editorType === 'vcv_tutorials') {
-      dataHref = dataManager.get('gettingStartedUrl')
-    }
-    let wordpressDashboardButton = (
-      <span
-        className='vcv-ui-navbar-control'
-        onClick={this.handleClick}
-        title={wordPressDashboard}
-        data-href={dataHref}
-        data-vcv-control='backToWP'
-      >
-        <span className='vcv-ui-navbar-control-content'>{wordPressDashboard}</span>
-      </span>
-    )
-    if (!PostData.vcvCustomPostType()) {
-      wordpressDashboardButton = null
-    }
 
     let resetButton = null
     if (this.editorType === 'vcv_tutorials') {
@@ -327,14 +280,11 @@ export default class WordPressAdminControl extends NavbarContent {
       PostData.vcvCustomPostType() ? (
         <div className='vcv-ui-navbar-controls-set'>
           {resetButton}
-          {wordpressDashboardButton}
         </div>
       ) : (
         <div className='vcv-ui-navbar-controls-set'>
           {previewButton}
           {viewButton}
-          {backendEditorButton}
-          {wordpressDashboardButton}
         </div>
       )
     )

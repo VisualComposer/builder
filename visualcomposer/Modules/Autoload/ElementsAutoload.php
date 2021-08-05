@@ -27,7 +27,10 @@ class ElementsAutoload extends Autoload implements Module
             function () use ($init) {
                 if ($init) {
                     $components = $this->getComponents();
-                    $this->doComponents($components);
+                    $success = $this->doComponents($components);
+                    if (!$success) {
+                        vchelper('Options')->deleteTransient('elements:autoload:all');
+                    }
                 }
             },
             11
@@ -36,7 +39,10 @@ class ElementsAutoload extends Autoload implements Module
             'vcv:hub:elements:autoload',
             function ($element) {
                 $components = $this->getSingleComponent($element);
-                $this->doComponents($components);
+                $success = $this->doComponents($components);
+                if (!$success) {
+                    vchelper('Options')->deleteTransient('elements:autoload:all');
+                }
             }
         );
     }

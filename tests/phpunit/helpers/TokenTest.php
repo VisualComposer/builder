@@ -10,6 +10,7 @@ class TokenTest extends WP_UnitTestCase
         $this->assertFalse($licenseHelper->isPremiumActivated());
 
         $tokenHelper = vchelper('Token');
+        $utmHelper = vchelper('Utm');
         // By default if nothing activated then token unable to get
         // Since VC-1253 we always fetch free-release even if not activated
         // Need to show HUB teasers
@@ -23,7 +24,10 @@ class TokenTest extends WP_UnitTestCase
         $licenseHelper->setType('premium');
         $this->assertFalse($tokenHelper->getToken());
         $this->assertEquals(
-            'Couldn\'t find a valid Visual Composer Website Builder license.',
+            sprintf(
+                __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'visualcomposer'),
+                $utmHelper->get('license-activation-purchase')
+            ),
             vchelper('Logger')->all()
         );
 

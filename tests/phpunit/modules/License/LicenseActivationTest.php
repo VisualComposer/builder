@@ -7,6 +7,7 @@ class LicenseActivationTest extends WP_UnitTestCase
         vchelper('Options')->setTransient('lastBundleUpdate', time());
         $this->assertNotEmpty(vcvenv('VCV_ACTIVATE_LICENSE_URL'));
         $loggerHelper = vchelper('Logger');
+        $utmHelper = vchelper('Utm');
         $loggerHelper->reset();
 
         $result = vchelper('Filters')->fire('vcv:ajax:license:activate:adminNonce');
@@ -27,7 +28,13 @@ class LicenseActivationTest extends WP_UnitTestCase
             ],
             $result
         );
-        $this->assertEquals('Couldn\'t find a valid Visual Composer Website Builder license.', $loggerHelper->all());
+        $this->assertEquals(
+            sprintf(
+                __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'visualcomposer'),
+                $utmHelper->get('license-activation-purchase')
+            ),
+            $loggerHelper->all()
+        );
         $loggerHelper->reset();
 
         // Now need to try to activate some unknown license
@@ -54,7 +61,13 @@ class LicenseActivationTest extends WP_UnitTestCase
             ],
             $result
         );
-        $this->assertEquals('Couldn\'t find a valid Visual Composer Website Builder license.', $loggerHelper->all());
+        $this->assertEquals(
+            sprintf(
+                __('No such license found. Make sure it is correct or buy a new one <a class="vcv-activation-box-link" href="%s" target="_blank" rel="noopener noreferrer">here</a>.', 'visualcomposer'),
+                $utmHelper->get('license-activation-purchase')
+            ),
+            $loggerHelper->all()
+        );
 
         $loggerHelper->reset();
     }

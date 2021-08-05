@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import ContentControls from 'public/components/layoutHelpers/contentControls/component'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
-import { isEqual, defer } from 'lodash'
+import { isEqual, defer, cloneDeep } from 'lodash'
 import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
@@ -184,6 +184,7 @@ export default class Element extends React.Component {
       return null
     }
     const editor = this.getEditorProps(id, cookElement)
+    const rawAtts = cloneDeep(cookElement.getAll(false))
 
     return (
       <ContentComponent
@@ -191,7 +192,7 @@ export default class Element extends React.Component {
         id={id}
         key={'vcvLayoutContentComponent' + id}
         atts={cook.visualizeAttributes(cookElement, api)}
-        rawAtts={cookElement.getAll(false)}
+        rawAtts={rawAtts}
         api={api}
         editor={editor}
         getEditorProps={this.getEditorProps}

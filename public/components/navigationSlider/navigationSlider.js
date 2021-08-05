@@ -53,6 +53,15 @@ export default class NavigationSlider extends React.Component {
     this.navigationSliderRef.current.removeEventListener('wheel', this.handleHorizontalScroll)
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if ((prevState.showControls !== this.state.showControls) || (prevProps.activeSection !== this.props.activeSection)) {
+      const activeItem = this.navigationContainerRef.current ? this.navigationContainerRef.current.querySelector('.vcv-ui-navigation-slider-item--active') : null
+      if (activeItem) {
+        this.navigationScrollHandler(activeItem)
+      }
+    }
+  }
+
   handleHorizontalScroll (event) {
     if (event.deltaY !== 0) {
       event.preventDefault()
@@ -88,6 +97,10 @@ export default class NavigationSlider extends React.Component {
     this.props.setActiveSection(type, index, activeSubControl)
 
     const clickedItem = event && event.target && event.target.closest('.vcv-ui-navigation-slider-item')
+    this.navigationScrollHandler(clickedItem)
+  }
+
+  navigationScrollHandler (clickedItem) {
     if (clickedItem) {
       const clickedItemRect = clickedItem.getBoundingClientRect()
       const slider = this.navigationSliderRef.current
@@ -123,11 +136,14 @@ export default class NavigationSlider extends React.Component {
   getNavigationItems () {
     const controls = Object.values(this.props.controls)
     return controls.map((control, i) => {
-      const { type, title, subControls } = control
+      const { type, title, subControls, level } = control
       const isActive = type === this.props.activeSection
       const itemClasses = classNames({
         'vcv-ui-navigation-slider-item': true,
-        'vcv-ui-navigation-slider-item--active': isActive
+        'vcv-ui-navigation-slider-item--active': isActive,
+        'vcv-ui-badge--error': level === 'critical',
+        'vcv-ui-badge--warning': level === 'warning',
+        'vcv-ui-badge--success': level === 'success'
       })
       let index = control.index
       if (control.subIndex !== undefined) {

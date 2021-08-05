@@ -48,11 +48,19 @@
         if (scrollHeight >= 0 && scrollHeight <= contentHeight) {
           scrollPercent = scrollHeight / contentHeight;
         }
-        var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
-        if (this.reverse === 'true') {
-          parallaxValue = parallaxValue * -1;
+        this.fixed = 'vceAssetsParallaxFixed' in element.dataset;
+        if(this.fixed){
+          this.bgElement.style.transform =  'translateY(0vh)';
+          this.bgElement.querySelector('.vce-asset-background-simple-item').style.backgroundAttachment = 'fixed'
         }
-        this.bgElement.style.transform = 'translateY(' + parallaxValue + 'vh)';
+        else{
+          var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
+          if (this.reverse === 'true') {
+            parallaxValue = parallaxValue * -1;
+          }
+          this.bgElement.querySelector('.vce-asset-background-simple-item').style.backgroundAttachment = 'unset'
+          this.bgElement.style.transform = 'translateY(' + parallaxValue + 'vh)';
+        }
       },
       prepareElement: function prepareElement() {
         var speed = parseInt(element.dataset.vceAssetsParallaxSpeed);
@@ -62,8 +70,10 @@
         if ('vceAssetsParallaxReverse' in element.dataset) {
           this.reverse = element.dataset.vceAssetsParallaxReverse;
         }
-        this.bgElement.style.top = '-' + this.speed + 'vh';
-        this.bgElement.style.bottom = '-' + this.speed + 'vh';
+        this.fixed = 'vceAssetsParallaxFixed' in element.dataset
+
+        this.bgElement.style.top = this.fixed ? '0vh' : '-' + this.speed + 'vh';
+        this.bgElement.style.bottom = this.fixed ? '0vh' : '-' + this.speed + 'vh';
       },
       create: function create() {
         var _this = this;

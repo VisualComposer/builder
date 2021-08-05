@@ -1,6 +1,7 @@
 import React from 'react'
 import { getStorage, getService } from 'vc-cake'
 import NavbarContent from '../navbarContent'
+import classNames from 'classnames'
 
 const historyStorage = getStorage('history')
 const dataManager = getService('dataManager')
@@ -66,8 +67,66 @@ export default class UndoRedoControl extends NavbarContent {
     const undoTitleName = UndoRedoControl.isMacLike ? undoName + ' (⌘Z)' : undoName + ' (Ctrl + Z)'
     const redoName = localizations ? localizations.redo : 'Redo'
     const redoTitleName = UndoRedoControl.isMacLike ? redoName + ' (⌘⇧Z)' : redoName + ' (Ctrl + Shift + Z)'
-    return (
-      <div className='vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
+
+    const redo = (
+      <span
+        className='vcv-ui-navbar-control'
+        title={redoTitleName}
+        disabled={this.state.redoDisabled}
+        onClick={this.handleRedo}
+      >
+        <span className='vcv-ui-navbar-control-content'>
+          <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' />
+          <span>{redoName}</span>
+        </span>
+      </span>
+    )
+
+    const containerClasses = classNames({
+      'vcv-ui-navbar-dropdown': true,
+      'vcv-ui-navbar-controls-group': true,
+      'vcv-ui-navbar-sandwich--stop-close': true
+    })
+
+    const controlClass = classNames({
+      'vcv-ui-navbar-control': true,
+      'vcv-ui-navbar-dropdown-trigger': true
+    })
+
+    const navbarContentClasses = classNames({
+      'vcv-ui-navbar-dropdown-content': true,
+      'vcv-ui-navbar-dropdown-content--sm': true,
+      'vcv-ui-show-dropdown-content': this.state.showDropdown
+    })
+
+    const iconClasses = classNames({
+      'vcv-ui-navbar-control-icon': true,
+      'vcv-ui-icon': true,
+      'vcv-ui-icon-undo': true
+    })
+
+    const undoRedoControl = (
+      <dl className={containerClasses} onMouseLeave={this.handleDropdownVisibility}>
+        <dt
+          className={controlClass}
+          title={undoTitleName}
+          disabled={this.state.undoDisabled}
+          onClick={this.handleUndo}
+          onMouseEnter={this.handleDropdownVisibility}
+        >
+          <span className='vcv-ui-navbar-control-content'>
+            <i className={iconClasses} />
+            <span>{undoName}</span>
+          </span>
+        </dt>
+        <dd className={navbarContentClasses}>
+          {redo}
+        </dd>
+      </dl>
+    )
+
+    const undoRedoControlsInsideDropdown = (
+      <div className='vcv-ui-navbar-controls-set vcv-ui-navbar-controls-group vcv-ui-navbar-sandwich--stop-close'>
         <span
           className='vcv-ui-navbar-control'
           title={undoTitleName}
@@ -79,18 +138,12 @@ export default class UndoRedoControl extends NavbarContent {
             <span>{undoName}</span>
           </span>
         </span>
-        <span
-          className='vcv-ui-navbar-control'
-          title={redoTitleName}
-          disabled={this.state.redoDisabled}
-          onClick={this.handleRedo}
-        >
-          <span className='vcv-ui-navbar-control-content'>
-            <i className='vcv-ui-navbar-control-icon vcv-ui-icon vcv-ui-icon-redo' />
-            <span>{redoName}</span>
-          </span>
-        </span>
+        {redo}
       </div>
+    )
+
+    return (
+      this.props.insideDropdown ? undoRedoControlsInsideDropdown : undoRedoControl
     )
   }
 }

@@ -23,6 +23,7 @@ const designOptionsText = localizations ? localizations.designOptions : 'Design 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceSettingsTabState = workspaceStorage.state('settingsTab')
+const workspaceSettingsControls = workspaceStorage.state('settingControls')
 
 const controls = {}
 
@@ -77,13 +78,14 @@ if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()))
     content: <ElementsLock />
   }
 }
+workspaceSettingsControls.set({ ...controls })
 
 export default class SettingsPanel extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      activeSection: 'pageSettings',
+      activeSection: workspaceSettingsTabState.get() ? workspaceSettingsTabState.get() : 'pageSettings',
       isVisible: workspaceContentState.get() === 'settings'
     }
 
@@ -93,11 +95,13 @@ export default class SettingsPanel extends React.Component {
 
   componentDidMount () {
     workspaceSettingsTabState.onChange(this.setActiveSection)
+    workspaceSettingsControls.onChange(this.setActiveSection)
     workspaceContentState.onChange(this.setVisibility)
   }
 
   componentWillUnmount () {
     workspaceSettingsTabState.ignoreChange(this.setActiveSection)
+    workspaceSettingsControls.ignoreChange(this.setActiveSection)
     workspaceContentState.ignoreChange(this.setVisibility)
   }
 
