@@ -20,12 +20,7 @@ class WpFormsController extends Container implements Module
 
     public function __construct(Request $requestHelper, Frontend $frontendHelper)
     {
-        if (
-            $frontendHelper->isFrontend()
-            || $frontendHelper->isPageEditable()
-            || $requestHelper->exists(VCV_ADMIN_AJAX_REQUEST)
-            || $requestHelper->exists(VCV_AJAX_REQUEST)
-        ) {
+        if ($requestHelper->exists(VCV_ADMIN_AJAX_REQUEST) || $requestHelper->exists(VCV_AJAX_REQUEST)) {
             $this->wpAddFilter('wpforms_frontend_missing_assets_error_js_disable', '__return_true');
         }
     }
