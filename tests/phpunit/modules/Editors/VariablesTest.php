@@ -195,4 +195,32 @@ class VariablesTest extends WP_UnitTestCase
 
         return $postId;
     }
+
+    public function testDataUsageVariables()
+    {
+        $dataHelper = vchelper('Data');
+        $variables = vcfilter('vcv:editor:variables', []);
+
+        $variableKeys = $dataHelper->arrayColumn($variables, 'key');
+        $this->assertContains('VCV_SHOW_DATA_COLLECTION_POPUP', $variableKeys, 'VCV_SHOW_DATA_COLLECTION_POPUP');
+        $this->assertContains('vcvIsDataCollectionEnabled', $variableKeys, 'vcvIsDataCollectionEnabled');
+    }
+
+    public function testInitialHelpersVariables()
+    {
+        wp_set_current_user(1);
+        $postId = $this->createPost();
+
+        $optionsHelper = vchelper('Options');
+        $dataHelper = vchelper('Data');
+
+        $isEnabled = $optionsHelper->get('settings-initial-helpers-enabled', true);
+        $optionsHelper->set('settings-initial-helpers-enabled', true);
+        $variables = vcfilter('vcv:editor:variables', [], ['sourceId' => $postId]);
+        $variableKeys = $dataHelper->arrayColumn($variables, 'key');
+
+        $this->assertContains('VCV_SHOW_INITIAL_HELPERS', $variableKeys, 'VCV_SHOW_INITIAL_HELPERS');
+        // Set it back to the previous value
+        $optionsHelper->set('settings-initial-helpers-enabled', $isEnabled);
+    }
 }

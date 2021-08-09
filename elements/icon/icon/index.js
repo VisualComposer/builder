@@ -14,21 +14,7 @@ vcvAddElement(
   // css settings // css for element
   {
     css: require('raw-loader!./styles.css'),
-    editorCss: require('raw-loader!./editor.css'),
-    mixins: {
-      iconColor: {
-        mixin: require('raw-loader!./cssMixins/iconColor.pcss')
-      },
-      iconColorHover: {
-        mixin: require('raw-loader!./cssMixins/iconColorHover.pcss')
-      },
-      shapeColor: {
-        mixin: require('raw-loader!./cssMixins/shapeColor.pcss')
-      },
-      shapeColorHover: {
-        mixin: require('raw-loader!./cssMixins/shapeColorHover.pcss')
-      }
-    }
+    editorCss: require('raw-loader!./editor.css')
   },
   // javascript callback
   ''
