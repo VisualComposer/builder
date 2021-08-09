@@ -3,6 +3,7 @@ import { format } from 'util'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../../../../components/tooltip/tooltip'
+import lodash from 'lodash'
 
 export default class EditFromField extends React.Component {
   static propTypes = {
@@ -15,16 +16,24 @@ export default class EditFromField extends React.Component {
 
   constructor (props) {
     super(props)
+    let value = props.elementAccessPoint.cook().toJS()[props.fieldKey]
+    if (props.options && props.options.nestedAttr) {
+      value = props.options.activeParamGroup[props.fieldKey]
+    }
     this.state = {
+      value: value,
       dependenciesClasses: [],
       hasInnerFields: false,
       isFieldLoading: false
     }
     this.setInnerFieldStatus = this.setInnerFieldStatus.bind(this)
+    this.updateValue = this.updateValue.bind(this)
+    this.updateElement = this.updateElement.bind(this)
     this.setLoadingState = this.setLoadingState.bind(this)
   }
 
   componentDidMount () {
+    this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldMount(this.props.fieldKey, {
       refWrapper: this.refs.fieldAttributeWrapper,
       refWrapperComponent: this,
@@ -33,17 +42,34 @@ export default class EditFromField extends React.Component {
   }
 
   componentWillUnmount () {
+    this.props.elementAccessPoint.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
+  }
+
+  updateValue (data) {
+    if (!lodash.isEqual(data, this.state.value)) {
+      this.setState({
+        value: data
+      })
+    }
+  }
+
+  updateElement (fieldKey, value) {
+    this.props.updater(fieldKey, value)
+    this.props.onAttributeChange(fieldKey)
   }
 
   /* eslint-disable */
   UNSAFE_componentWillReceiveProps (nextProps) {
+    this.props.elementAccessPoint.ignoreAttributeChange(nextProps.fieldKey, this.updateValue)
+    this.props.elementAccessPoint.onAttributeChange(nextProps.fieldKey, this.updateValue)
     this.props.setFieldMount(nextProps.fieldKey, {
       refWrapper: this.refs.fieldAttributeWrapper,
       refWrapperComponent: this,
       refAttributeComponent: this.refs.attributeComponent
     }, 'field')
   }
+
   /* eslint-enable */
 
   setInnerFieldStatus () {
@@ -129,7 +155,7 @@ export default class EditFromField extends React.Component {
             value={value}
             fieldKey={fieldKey}
             defaultValue={defaultValue}
-            updater={this.props.updater}
+            updater={this.updateElement}
             elementAccessPoint={elementAccessPoint}
             ref='attributeComponent'
             setLoadingState={this.setLoadingState}

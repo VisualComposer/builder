@@ -163,25 +163,23 @@ class Controller extends Container implements Module
      */
     protected function addDataCollectionVariables($variables, $payload)
     {
-        if (isset($payload['sourceId'])) {
-            $optionsHelper = vchelper('Options');
-            $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', null);
-            // Have at least 10 initial usages
-            $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
-            // @codingStandardsIgnoreLine
-            $dataCollectionPopupOk = $initialUsages >= 10;
+        $optionsHelper = vchelper('Options');
+        $isEnabled = $optionsHelper->get('settings-itemdatacollection-enabled', null);
+        // Have at least 10 initial usages
+        $initialUsages = (int)$optionsHelper->get('initialEditorUsage');
+        // @codingStandardsIgnoreLine
+        $dataCollectionPopupOk = $initialUsages >= 10;
 
-            $variables[] = [
-                'key' => 'VCV_SHOW_DATA_COLLECTION_POPUP',
-                'value' => is_null($isEnabled) && $dataCollectionPopupOk,
-                'type' => 'constant',
-            ];
-            $variables[] = [
-                'key' => 'VCV_DATA_COLLECTION_ENABLED',
-                'value' => $isEnabled,
-                'type' => 'variable',
-            ];
-        }
+        $variables[] = [
+            'key' => 'VCV_SHOW_DATA_COLLECTION_POPUP',
+            'value' => is_null($isEnabled) && $dataCollectionPopupOk,
+            'type' => 'constant',
+        ];
+        $variables[] = [
+            'key' => 'vcvIsDataCollectionEnabled',
+            'value' => $isEnabled,
+            'type' => 'variable',
+        ];
 
         return $variables;
     }
