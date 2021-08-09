@@ -49,16 +49,15 @@
           scrollPercent = scrollHeight / contentHeight;
         }
         this.fixed = 'vceAssetsParallaxFixed' in element.dataset;
-        if(this.fixed){
+        if (this.fixed) {
           this.bgElement.style.transform =  'translateY(0vh)';
-          this.bgElement.querySelector('.vce-asset-background-simple-item').style.backgroundAttachment = 'fixed'
-        }
-        else{
+          this.bgElement.style.top = -elementRect.top + 'px';
+          this.bgElement.style.bottom = elementRect.bottom - window.innerHeight + 'px';
+        } else {
           var parallaxValue = this.speed * 2 * scrollPercent * -1 + this.speed;
           if (this.reverse === 'true') {
             parallaxValue = parallaxValue * -1;
           }
-          this.bgElement.querySelector('.vce-asset-background-simple-item').style.backgroundAttachment = 'unset'
           this.bgElement.style.transform = 'translateY(' + parallaxValue + 'vh)';
         }
       },
