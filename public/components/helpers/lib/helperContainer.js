@@ -23,7 +23,9 @@ export default class HelperContainer extends React.Component {
 
     const helperClasses = classNames({
       'vcv-helper-box': true,
-      'vcv-helper-box-position--bottom': this.props.helperPosition.bottom
+      'vcv-helper-box-position--bottom': this.props.helperPosition.bottom,
+      'vcv-helper-box-position--horizontal-top': this.props.helperData.position && this.props.helperData.position.horizontal === 'top',
+      'vcv-helper-box-position--horizontal-bottom': this.props.helperData.position && this.props.helperData.position.horizontal === 'bottom'
     })
 
     const iconClasses = classNames({
