@@ -48,6 +48,10 @@ export default class DefaultInsights extends React.Component {
     insightsStorage.state('insights').onChange(this.handleInsightsChange)
   }
 
+  componentDidMount () {
+    this.handleInsightsChange(this.state.insightData)
+  }
+
   componentWillUnmount () {
     insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
   }
