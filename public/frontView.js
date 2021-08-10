@@ -11,5 +11,7 @@ if (!Object.prototype.hasOwnProperty.call(window, 'vcv')) {
 }
 
 window.jQuery(document).ready(() => {
-  window.vcv.trigger('ready')
+  if (typeof window.vcvFreezeReady === 'undefined') {
+    window.vcv.trigger('ready')
+  }
 }, false)
