@@ -1,5 +1,6 @@
 import React from 'react'
 import { getService } from 'vc-cake'
+import classNames from 'classnames'
 const dataManager = getService('dataManager')
 
 const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpinner, tabTitle }) => {
@@ -12,6 +13,12 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
   const bloksPlaceholderText = localizations.enterBlocksName || 'Enter block\'s name'
   const enterPresetNameText = isRootElement ? bloksPlaceholderText : presetPlaceholderText
   const buttonText = isRootElement ? saveAsTemplate : saveAsPreset
+
+  const buttonClasses = classNames({
+    'vcv-ui-form-button': true,
+    'vcv-ui-form-button--action': true,
+    'vcv-ui-form-button--loading': !!showSpinner
+  })
 
   return (
     <div className='vcv-ui-presets-form'>
@@ -26,7 +33,7 @@ const EditFormSettings = ({ isRootElement, handleNameChange, nameValue, showSpin
           disabled={!!showSpinner}
           placeholder={enterPresetNameText}
         />
-        <button className='vcv-ui-form-button vcv-ui-form-button--action' disabled={!!showSpinner}>
+        <button className={buttonClasses} disabled={!!showSpinner}>
           {buttonText}
         </button>
       </div>

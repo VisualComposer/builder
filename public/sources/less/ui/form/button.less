@@ -23,10 +23,46 @@
 
   &[disabled]:not(.vcv-ui-form-button-undisabled) {
     color: @vcui-button-disabled-color;
-    background-color: @vcui-button-disabled-background;
     cursor: not-allowed;
     &:hover {
-      background-color: @vcui-button-disabled-background-hover;
+      background-color: @tree-tab-bg;
+    }
+  }
+
+  &.vcv-ui-form-button--loading {
+    position: relative;
+    pointer-events: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: @tree-tab-bg;
+    }
+
+    &:hover,
+    &:focus {
+      &::before {
+        background: @vcv-color-mango-tango;
+      }
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      height: @wp-spinner-base-size;
+      width: @wp-spinner-base-size;
+      background: transparent url('../../../images/loaders/spinner-light.svg') 50% 50% no-repeat;
+      background-size: contain;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      animation: vcv-ui-wp-spinner-animation @wp-spinner-animation-duration linear infinite;
+      z-index: 1;
     }
   }
 
