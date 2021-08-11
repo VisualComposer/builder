@@ -155,13 +155,6 @@ export default class Categories extends React.Component {
   }
 
   render () {
-    let spinnerHtml = null
-    if (this.state.isSaving) {
-      spinnerHtml = (
-        <span className='vcv-ui-wp-spinner' />
-      )
-    }
-
     let newCategory = null
     if (this.state.isNewCategoryVisible) {
       if (!this.state.parentCategoryOptions.find(option => option.label === selectParentCategory)) {
@@ -171,6 +164,12 @@ export default class Categories extends React.Component {
         'vcv-ui-form-group-container': true,
         'vcv-ui-form-group-container--saving': this.state.isSaving
       })
+      const buttonClasses = classNames({
+        'vcv-ui-form-button': true,
+        'vcv-ui-form-button--action': true,
+        'vcv-ui-form-button--loading': this.state.isSaving
+      })
+
       newCategory = (
         <div className={containerClasses}>
           <div className='vcv-ui-form-group'>
@@ -201,12 +200,11 @@ export default class Categories extends React.Component {
           </div>
           <div className='vcv-ui-form-group'>
             <button
-              className='vcv-ui-form-button vcv-ui-form-button--action'
+              className={buttonClasses}
               onClick={this.handleAddCategory}
               disabled={this.state.isSaving}
             >
               {addNewCategory}
-              {spinnerHtml}
             </button>
           </div>
         </div>

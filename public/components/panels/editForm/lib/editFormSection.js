@@ -60,10 +60,6 @@ export default class EditFormSection extends React.Component {
         refWrapper: this.section
       }, 'section')
     }
-
-    if (this.props.isEditFormSettings) {
-      notificationsStorage.trigger('portalChange', '.vcv-ui-tree-content-section')
-    }
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -76,9 +72,6 @@ export default class EditFormSection extends React.Component {
     this._isMounted = false
     if (this.props.setFieldUnmount) {
       this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
-    }
-    if (this.props.isEditFormSettings) {
-      notificationsStorage.trigger('portalChange', null)
     }
   }
 
@@ -289,10 +282,11 @@ export default class EditFormSection extends React.Component {
   displaySuccess (successText) {
     this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       text: successText,
       time: 5000,
-      usePortal: true
+      position: 'bottom',
+      transparent: true,
+      rounded: true
     })
   }
 
@@ -302,8 +296,7 @@ export default class EditFormSection extends React.Component {
       position: 'bottom',
       type: 'error',
       text: errorText,
-      time: 5000,
-      usePortal: true
+      time: 5000
     })
   }
 
