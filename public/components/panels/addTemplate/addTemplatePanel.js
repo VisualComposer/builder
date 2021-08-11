@@ -187,7 +187,7 @@ export default class AddTemplatePanel extends React.Component {
       position: 'bottom',
       type: 'error',
       text: error,
-      time: 5000,
+      time: 5000
     })
   }
 
