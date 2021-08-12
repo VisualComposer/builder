@@ -15,13 +15,13 @@ Website builder for WordPress comes with 500+ elements, templates, addons, and d
 
 Visual Composer is the best drag and drop frontend editor that gives you elements and design tools to create your WordPress site. No coding required!
 
+new row
+
 It’s a brand new website builder – made from scratch! No [shortcodes], no content locking, or performance issues. You get a powerful editor of superb performance to create any page layout you need.
 
 Get the free page builder with hundreds of elements and an easy-to-use interface. Want a full-site editing experience with the Theme Builder - [upgrade to premium](https://visualcomposer.com/pricing/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=gopremium&utm_content=upgrade-to-premium-text-link) (or try our [free demo](https://demo.visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=free-demo-text-link) before you buy).
 
-https://youtu.be/T4c--KVXXbg
-
-Visual Composer is a free, fast, and SEO-friendly builder - all you need to create a website. More than that, it is the most feature-rich free page builder on the market with 50+ free elements, 10+ free landing page templates, and mighty design options with background and parallax effects.
+Visual Composer is a free, fast, and SEO-friendly builder - all you need to create a website. More than that, it is the most feature-rich free page builder on the market with 50+ free elements, 10+ free landing page templates apple, and mighty design options with background and parallax effects.
 
 With an easy-to-use live editor, you can create any type of WordPress site:
 
