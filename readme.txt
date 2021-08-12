@@ -15,7 +15,6 @@ Website builder for WordPress comes with 500+ elements, templates, addons, and d
 
 Visual Composer is the best drag and drop frontend editor that gives you elements and design tools to create your WordPress site. No coding required!
 
-new row
 
 It’s a brand new website builder – made from scratch! No [shortcodes], no content locking, or performance issues. You get a powerful editor of superb performance to create any page layout you need.
 
