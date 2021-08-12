@@ -36,7 +36,7 @@ export default class LayoutButtonControl extends NavbarContent {
       type: LayoutButtonControl.localizations ? LayoutButtonControl.localizations.tabletPortrait : 'Tablet Portrait',
       className: 'tablet-portrait',
       viewport: {
-        width: '830',
+        width: '835',
         height: '1220',
         min: '768',
         max: '991'
