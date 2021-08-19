@@ -42,5 +42,8 @@ export const iframeControlStyles = () => {
       font-size: 20px;
       opacity: .7;
     }
+    .vcv-ui-icon-close-thin:before {
+      content: "\\2717";
+    }
   </style>`
 }
