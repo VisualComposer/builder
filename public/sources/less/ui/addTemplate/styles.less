@@ -142,13 +142,9 @@
     cursor: default;
   }
 
-  .vcv-ui-save-template-submit[disabled] {
-    cursor: not-allowed;
-    color: @add-template-save-action-disabled-color;
-
-    &:hover {
-      background: @add-template-save-action-disabled-bg-hover;
-    }
+  .vcv-ui-form-button--action {
+    margin: 0 0 0 10px;
+    flex-shrink: 0;
   }
 }
 
@@ -158,6 +154,9 @@
       .vcv-ui-editor-no-items-action {
         margin: @add-template-save-action-margin-rtl;
       }
+    }
+    .vcv-ui-form-button--action {
+      margin: 0 10px 0 0;
     }
   }
 }

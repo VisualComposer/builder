@@ -267,7 +267,9 @@ export default class DesignOptions extends Attribute {
   }
 
   componentDidUpdate () {
-    this.getDefaultStyles()
+    window.setTimeout(() => {
+      this.getDefaultStyles()
+    }, 100)
   }
 
   handleElementChange (data, source, options) {

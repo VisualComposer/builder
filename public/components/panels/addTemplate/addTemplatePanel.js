@@ -80,7 +80,6 @@ export default class AddTemplatePanel extends React.Component {
 
   componentDidMount () {
     getStorage('hubTemplates').state('templates').onChange(this.handleTemplateStorageStateChange)
-    notificationsStorage.trigger('portalChange', '.vcv-ui-tree-content-section')
   }
 
   componentWillUnmount () {
@@ -90,7 +89,6 @@ export default class AddTemplatePanel extends React.Component {
     }
     workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
     getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
-    notificationsStorage.trigger('portalChange', null)
   }
 
   handleRemoveStateChange (newState) {
@@ -189,8 +187,7 @@ export default class AddTemplatePanel extends React.Component {
       position: 'bottom',
       type: 'error',
       text: error,
-      time: 5000,
-      usePortal: true
+      time: 5000
     })
   }
 
@@ -383,7 +380,8 @@ export default class AddTemplatePanel extends React.Component {
       position: 'bottom',
       text: successText,
       time: 5000,
-      usePortal: true
+      transparent: true,
+      rounded: true
     })
   }
 
@@ -582,6 +580,12 @@ export default class AddTemplatePanel extends React.Component {
     }
 
     const isAbleToSave = roleManager.can('editor_content_user_templates_management', roleManager.defaultTrue())
+    const buttonClasses = classNames({
+      'vcv-ui-form-button': true,
+      'vcv-ui-form-button--action': true,
+      'vcv-ui-form-button--loading': !!this.state.showSpinner
+    })
+
     const saveTemplate = this.state.isRemoveStateActive || !isAbleToSave ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
@@ -599,7 +603,7 @@ export default class AddTemplatePanel extends React.Component {
               placeholder={enterTemplateNameText}
             />
             <button
-              className='vcv-ui-save-template-submit vcv-ui-editor-no-items-action'
+              className={buttonClasses}
               type='submit'
               title={saveTemplateText}
               disabled={!!this.state.showSpinner}

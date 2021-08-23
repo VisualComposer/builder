@@ -58,6 +58,7 @@ export default class ContentEditableComponent extends React.Component {
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.updateElementData = this.updateElementData.bind(this)
     this.handleMoreButtonClick = this.handleMoreButtonClick.bind(this)
+    this.handleEscapeClick = this.handleEscapeClick.bind(this)
     this.debouncedUpdateHtml = lodash.debounce(this.debouncedUpdateHtml, 500)
 
     // Request server only once in 3s
@@ -72,6 +73,7 @@ export default class ContentEditableComponent extends React.Component {
     if (this.state.contentEditable) {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
       this.layoutHeader.removeEventListener('click', this.handleGlobalClick)
+      this.iframeWindow.removeEventListener('click', this.handleEscapeClick)
       this.editor && this.editor.remove()
       this.removeOverlay()
     }
@@ -96,6 +98,7 @@ export default class ContentEditableComponent extends React.Component {
     if (mode !== 'contentEditable') {
       this.iframeWindow.removeEventListener('click', this.handleGlobalClick)
       this.layoutHeader.removeEventListener('click', this.handleGlobalClick)
+      this.iframeWindow.removeEventListener('click', this.handleEscapeClick)
       this.editor && this.editor.remove()
       this.removeOverlay()
       // Save data to map to undo/Redo
@@ -385,14 +388,24 @@ export default class ContentEditableComponent extends React.Component {
     const $target = window.jQuery(e.target)
     const inlineEditorClick = $target.is('.mce-container') || $target.parents('.mce-container').length || ($target.attr('class') && ($target.attr('class').indexOf('mce-') > -1))
     if (!inlineEditorClick && !$target.is('[data-vcv-element="' + this.props.id + '"]') && !$target.parents('[data-vcv-element="' + this.props.id + '"]').length) {
-      this.editor && this.editor.remove()
-      if (vcCake.getData('vcv:layoutCustomMode') !== null) {
-        vcCake.setData('vcv:layoutCustomMode', null)
-        window.setTimeout(() => {
-          this.handleLayoutModeChange(null)
-        }, 0)
-      }
-      this.debouncedUpdateHtml(this.state.realContent)
+      this.closeInlineEditor()
+    }
+  }
+
+  closeInlineEditor () {
+    this.editor && this.editor.remove()
+    if (vcCake.getData('vcv:layoutCustomMode') !== null) {
+      vcCake.setData('vcv:layoutCustomMode', null)
+      window.setTimeout(() => {
+        this.handleLayoutModeChange(null)
+      }, 0)
+    }
+    this.debouncedUpdateHtml(this.state.realContent)
+  }
+
+  handleEscapeClick (event) {
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      this.closeInlineEditor()
     }
   }
 
@@ -414,6 +427,7 @@ export default class ContentEditableComponent extends React.Component {
         }
         this.iframeWindow.addEventListener('click', this.handleGlobalClick)
         this.layoutHeader.addEventListener('click', this.handleGlobalClick)
+        this.iframeWindow.addEventListener('keydown', this.handleEscapeClick)
         this.ref && (this.ref.innerHTML = this.state.realContent)
 
         if (!isHtmlEditor) {

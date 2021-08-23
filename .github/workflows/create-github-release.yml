@@ -1,0 +1,26 @@
+on:
+  push:
+    tags:
+      - '*'
+
+name: Create release
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Build project
+        run: |
+          yarn install
+          node _infrastructure/vcwb-builder/builder plugin -b ${{ steps.get_version.outputs.VERSION }} --isDev -p ./_infrastructure
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./_infrastructure/visualcomposer.zip
