@@ -63,6 +63,7 @@ export default class PlusControl extends NavbarContent {
       tag: '',
       options: {}
     }
+    workspace.state('focusedElement').set(null)
     workspaceSettings.set(settings)
   }
 

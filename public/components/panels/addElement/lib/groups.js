@@ -33,7 +33,7 @@ export default class Groups extends React.Component {
     super(props)
 
     this.state = {
-      focusedElement: null,
+      focusedElement: workspaceStorage.state('focusedElement').get() || null,
       isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
@@ -49,12 +49,14 @@ export default class Groups extends React.Component {
     hubElementsStorage.state('elementPresets').onChange(this.reset)
     hubElementsStorage.state('elements').onChange(this.reset)
     workspaceStorage.state('isRemoveStateActive').onChange(this.handleRemoveStateChange)
+    workspaceStorage.state('focusedElement').onChange(this.setFocusedElement)
   }
 
   componentWillUnmount () {
     this.isComponentMounted = false
 
     workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
+    workspaceStorage.state('focusedElement').ignoreChange(this.setFocusedElement)
   }
 
   componentDidMount () {
@@ -69,6 +71,7 @@ export default class Groups extends React.Component {
 
   handleRemoveStateChange (newState) {
     this.setState({ isRemoveStateActive: newState })
+    this.setState({ focusedElement: null })
   }
 
   reset () {
@@ -378,7 +381,7 @@ export default class Groups extends React.Component {
     const searchResults = this.getSearchResults(this.props.searchValue)
     const { focusedElement } = this.state
     if ((searchResults && searchResults.length) || focusedElement) {
-      const element = searchResults[0] || focusedElement
+      const element = focusedElement || searchResults[0]
       this.props.setFirstElement(true)
       this.setFocusedElement(null)
       this.addElement(element)
