@@ -378,7 +378,7 @@ export default class Groups extends React.Component {
     const searchResults = this.getSearchResults(this.props.searchValue)
     const { focusedElement } = this.state
     if ((searchResults && searchResults.length) || focusedElement) {
-      const element = focusedElement || searchResults[0]
+      const element = searchResults[0] || focusedElement
       this.props.setFirstElement(true)
       this.setFocusedElement(null)
       this.addElement(element)
