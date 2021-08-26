@@ -12,9 +12,8 @@
           max-width: none;
         }
       } @else {
-        $width: calc($(percentage)% - $(spaceForColumn)px);
-
         @if $percentageSelector != false {
+          $width: calc($(percentage)% - $(spaceForColumn)px);
           > .vce-col--$(device)-$(percentageSelector)p {
             -webkit-flex: 0;
                 -ms-flex: 0;
@@ -25,14 +24,28 @@
             max-width: $(width);
           }
         } @else {
-          > .vce-col--$(device)-$(numerator)-$(denominator) {
-            -webkit-flex: 0;
-                -ms-flex: 0;
-                    flex: 0;
-            -webkit-flex-basis: $(width);
-                -ms-flex-preferred-size: $(width);
-                    flex-basis: $(width);
-            max-width: $(width);
+          @if $percentage != false {
+            $width: calc($(percentage)% - $(spaceForColumn)px);
+            > .vce-col--$(device)-$(numerator)-$(denominator) {
+              -webkit-flex: 0;
+                  -ms-flex: 0;
+                      flex: 0;
+              -webkit-flex-basis: $(width);
+                  -ms-flex-preferred-size: $(width);
+                      flex-basis: $(width);
+              max-width: $(width);
+            }
+          } @else {
+            $width: $(pixels)px;
+            > .vce-col--$(device)-$(pixels)-px {
+              -webkit-flex: 0;
+                  -ms-flex: 0;
+                      flex: 0;
+              -webkit-flex-basis: $(width);
+                  -ms-flex-preferred-size: $(width);
+                      flex-basis: $(width);
+              max-width: $(width);
+            }
           }
         }
       }
