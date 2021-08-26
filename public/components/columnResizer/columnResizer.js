@@ -109,9 +109,8 @@ export default class ColumnResizer extends React.Component {
     const resizerRect = firstElementChild.getBoundingClientRect()
     const previousElementRect = previousElementSibling.getBoundingClientRect()
 
-    if (previousElementRect.left + previousElementRect.width > resizerRect.left) {
-      this.setState({ isResizerVisible: false })
-    } else if (nextElementSibling.getBoundingClientRect().left < resizerRect.left + resizerRect.width) {
+    // when columns are stacked and resizer is not needed (happens only in PX case)
+    if ((previousElementRect.left + previousElementRect.width > resizerRect.left) || (nextElementSibling.getBoundingClientRect().left < resizerRect.left + resizerRect.width)) {
       this.setState({ isResizerVisible: false })
     } else {
       this.setState({ isResizerVisible: true })
