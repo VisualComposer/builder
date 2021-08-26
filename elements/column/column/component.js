@@ -87,7 +87,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
   }
 
   getWidthClass (widthValue, device) {
-    let className = `vce-col--${device}-`
+    const className = `vce-col--${device}-`
 
     if (!widthValue) {
       return className + 'auto'
@@ -95,9 +95,8 @@ export default class ColumnElement extends vcvAPI.elementComponent {
 
     if (widthValue.includes('px')) {
       return className + widthValue.replace('px', '-px')
-    } else {
-      return className + (widthValue.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-'))
     }
+    return className + (widthValue.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-'))
   }
 
   render () {
