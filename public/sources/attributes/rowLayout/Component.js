@@ -38,6 +38,9 @@ export default class Layout extends Attribute {
       { name: '16.66%' },
       { name: '66.66%' },
       { name: '75%' },
+      { name: '100px' },
+      { name: '300px' },
+      { name: '500px' },
       { name: 'auto' },
       { name: 'hide' }
     ],
@@ -76,6 +79,9 @@ export default class Layout extends Attribute {
           value: false
         },
         percentageSelector: {
+          value: false
+        },
+        pixels: {
           value: false
         }
       }
@@ -141,15 +147,22 @@ export default class Layout extends Attribute {
         }
         let mixinName = ''
         let fraction = ''
+        let pixelsValue = ''
         if (col.indexOf('%') >= 0) {
           const numerator = parseFloat(col.replace('%', '').replace(',', '.'))
           fraction = [numerator, 100]
+        } else if (col.includes('px')) {
+          pixelsValue = parseInt(col)
         } else {
           fraction = col.split('/')
         }
 
         if (col !== 'auto') {
-          mixinName = `${'columnStyleMixin'}:col${fraction[0]}/${fraction[1]}:gap${columnGap}:${device}`
+          if (col.includes('px') && pixelsValue) {
+            mixinName = `${'columnStyleMixin'}:col${pixelsValue}-px:gap${columnGap}:${device}`
+          } else {
+            mixinName = `${'columnStyleMixin'}:col${fraction[0]}/${fraction[1]}:gap${columnGap}:${device}`
+          }
         } else {
           mixinName = `${'columnStyleMixin'}:col${col}:gap${columnGap}:${device}`
         }
@@ -175,13 +188,17 @@ export default class Layout extends Attribute {
         const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
 
         if (col !== 'auto') {
-          if (col.indexOf('%') >= 0) {
-            newMixin[mixinName].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
+          if (col.includes('px')) {
+            newMixin[mixinName].variables.pixels.value = pixelsValue
           } else {
-            newMixin[mixinName].variables.numerator.value = fraction[0]
-            newMixin[mixinName].variables.denominator.value = fraction[1]
+            if (col.indexOf('%') >= 0) {
+              newMixin[mixinName].variables.percentageSelector.value = col.replace('%', '').replace(',', '-').replace('.', '-')
+            } else {
+              newMixin[mixinName].variables.numerator.value = fraction[0]
+              newMixin[mixinName].variables.denominator.value = fraction[1]
+            }
+            newMixin[mixinName].variables.percentage.value = percentages
           }
-          newMixin[mixinName].variables.percentage.value = percentages
         } else {
           newMixin[mixinName].variables.autoColumn.value = true
         }
@@ -338,9 +355,9 @@ export default class Layout extends Attribute {
       layoutData.xl = layoutData.xl || layoutData.all
       delete layoutData.all
     } else {
-      const validValuesRegex = /\d+%|\W(auto|hide)\W/g
+      const validValuesRegex = /\d+%|\d+px/g
       const isInvalidLayoutValue = defaultLayoutData.length === 1 && (!defaultLayoutData[0] || !defaultLayoutData[0].match(validValuesRegex))
-      if (isInvalidLayoutValue) {
+      if (isInvalidLayoutValue && defaultLayoutData[0] !== 'hide') {
         defaultLayoutData[0] = 'auto'
       }
       layoutData.all = defaultLayoutData
@@ -400,6 +417,8 @@ export default class Layout extends Attribute {
       // test if percentage is more than 1 and less than 100
       const percentage = parseFloat(text.replace('%', '').replace(',', '.'))
       return percentage >= 1 && percentage <= 100
+    } else if (text.includes('px')) {
+      return parseFloat(text) > 0
     }
     return false
   }
@@ -537,7 +556,7 @@ export default class Layout extends Attribute {
           <div className='vcv-ui-form-group-heading-wrapper'>
             <span className='vcv-ui-form-group-heading'>Custom row layout</span>
             <Tooltip>
-              Enter custom layout option for columns by using percentages, fractions or ‘auto’ value (ex. 50% + 50%; 1/3 + 1/3 + 1/3; auto + auto).
+              Enter custom layout option for columns by using percentages, pixels, fractions or ‘auto’ value (ex. 300px + auto; 50% + 50%; 1/3 + 1/3 + 1/3).
             </Tooltip>
           </div>
           <div className='vcv-ui-row vcv-ui-row-gap--md'>

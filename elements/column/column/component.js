@@ -86,6 +86,20 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
   }
 
+  getWidthClass (widthValue, device) {
+    let className = `vce-col--${device}-`
+
+    if (!widthValue) {
+      return className + 'auto'
+    }
+
+    if (widthValue.includes('px')) {
+      return className + widthValue.replace('px', '-px')
+    } else {
+      return className + (widthValue.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-'))
+    }
+  }
+
   render () {
     // import variables
     const { id, atts, editor, isBackend } = this.props
@@ -103,7 +117,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
 
     if (disableStacking) {
-      classes.push('vce-col--xs-' + (size.all ? size.all.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+      classes.push(this.getWidthClass(size.all, 'xs'))
 
       if (lastInRow.all) {
         classes.push('vce-col--all-last')
@@ -117,7 +131,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
         if (size.all === 'hide') {
           classes.push('vce-col--all-hide')
         } else {
-          classes.push('vce-col--md-' + (size.all ? size.all.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+          classes.push(this.getWidthClass(size.all, 'md'))
           classes.push('vce-col--xs-1 vce-col--xs-last vce-col--xs-first vce-col--sm-last vce-col--sm-first')
 
           if (lastInRow.all) {
@@ -137,7 +151,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
           }
 
           if (device !== 'defaultSize') {
-            classes.push(`vce-col--${device}-` + (deviceSize ? deviceSize.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+            classes.push(this.getWidthClass(deviceSize, device))
 
             if (deviceSize !== 'hide') {
               classes.push(`vce-col--${device}-visible`)
