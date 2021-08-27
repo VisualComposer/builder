@@ -32,7 +32,7 @@ import { downloadAddon } from './components/wpVcSettings/downloadAddon'
 })(window.jQuery)
 
 function isSettingsPage (current) {
-  return current.indexOf('vcv') === 0
+  return current && current.indexOf('vcv') === 0
 }
 
 export default function importJS (currentSection) {
