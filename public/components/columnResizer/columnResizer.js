@@ -99,6 +99,7 @@ export default class ColumnResizer extends React.Component {
       iframeDocument.removeEventListener('mousemove', this.handleMouseMove)
       iframeDocument.removeEventListener('mouseup', this.handleMouseUp)
     }
+    this.setVisibility()
   }
 
   setVisibility () {
@@ -134,6 +135,8 @@ export default class ColumnResizer extends React.Component {
         const currentSize = Object.prototype.hasOwnProperty.call(leftColData.size, 'all') ? leftColData.size.all : leftColData.size[this.resizerData.currentDevice]
         if (!currentSize.includes('%')) {
           newState.leftColValue = currentSize
+        } else {
+          newState.leftColValue = null
         }
       }
 
@@ -141,14 +144,18 @@ export default class ColumnResizer extends React.Component {
         const currentSize = Object.prototype.hasOwnProperty.call(rightColData.size, 'all') ? rightColData.size.all : rightColData.size[this.resizerData.currentDevice]
         if (!currentSize.includes('%')) {
           newState.rightColValue = currentSize
+        } else {
+          newState.rightColValue = null
         }
       }
 
       newState.leftColPercentage = colSizes.leftCol
       newState.rightColPercentage = colSizes.rightCol
     } else {
-      newState.leftColValue = null
-      newState.rightColValue = null
+      window.setTimeout(() => {
+        newState.leftColValue = null
+        newState.rightColValue = null
+      }, 300)
     }
     this.setState(newState)
   }
