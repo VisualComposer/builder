@@ -14,7 +14,6 @@ export default class ColumnElement extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
     this.parentId = props.atts.parent
-    this.columnRef = React.createRef()
     this.handleStorageChange = this.handleStorageChange.bind(this)
     this.handleElementUpdate = this.handleElementUpdate.bind(this)
     this.handleElementRemove = this.handleElementRemove.bind(this)
@@ -81,8 +80,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
     const elementData = dataFromState.elements.find(el => el.id === this.props.id)
     if (elementData) {
-      const ref = this.columnRef.current
-      elementsSettingsStorage.state('elementOptions').set({ ...elementData, ref })
+      elementsSettingsStorage.state('elementOptions').set({ ...elementData })
     }
   }
 
@@ -199,7 +197,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     const doRest = this.applyDO('border margin background animation')
 
     return (
-      <div className={className} {...customColProps} id={'el-' + id} {...editor} ref={this.columnRef}>
+      <div className={className} {...customColProps} id={'el-' + id} {...editor}>
         <div className='vce-col-inner' {...doRest} {...innerProps} {...boxShadowAttributes}>
           {this.getBackgroundTypeContent()}
           {this.getContainerDivider()}

@@ -336,7 +336,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     this.state = {
       layout: {}
     }
-    this.rowRef = React.createRef()
+
     this.handleStorageChange = this.handleStorageChange.bind(this)
   }
 
@@ -368,8 +368,7 @@ export default class RowElement extends vcvAPI.elementComponent {
     }
     const elementData = dataFromState.elements.find(el => el.id === this.props.id)
     if (elementData) {
-      const ref = this.rowRef.current
-      elementsSettingsStorage.state('elementOptions').set({ ...elementData, ref })
+      elementsSettingsStorage.state('elementOptions').set({ ...elementData })
     }
   }
 
@@ -481,7 +480,7 @@ export default class RowElement extends vcvAPI.elementComponent {
 
     return (
       <div className={containerClasses} {...containerProps}>
-        <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll} ref={this.rowRef}>
+        <div className={className} {...customRowProps} {...stickyAttributes} {...boxShadowAttributes} {...editor} id={'el-' + id} {...doAll}>
           {this.getBackgroundTypeContent()}
           {this.getContainerDivider()}
           <div className='vce-row-content' {...customProps}>
