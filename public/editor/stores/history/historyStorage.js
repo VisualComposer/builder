@@ -21,7 +21,7 @@ addStorage('history', (storage) => {
     const allElements = elementsTimeMachine.get()
     elementsStorage.trigger('updateAll', allElements)
     cacheStorage.trigger('clear', 'elementsCssCache')
-    assetsStorage.trigger('updateAllElements',  allElements)
+    assetsStorage.trigger('updateAllElements', allElements)
   }
   storage.on('undo', () => {
     if (!inited) {
