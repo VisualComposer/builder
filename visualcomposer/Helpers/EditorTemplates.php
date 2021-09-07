@@ -36,6 +36,24 @@ order by a.post_modified desc
         return $results;
     }
 
+    protected function queryCustomTemplates()
+    {
+        global $wpdb;
+
+        return $wpdb->get_results(
+            "
+                    SELECT a.ID as `id`, a.post_title as `name`, b.meta_key, b.meta_value
+                    FROM {$wpdb->posts} as a
+                    LEFT JOIN {$wpdb->postmeta} as b on b.post_id = a.ID
+                    WHERE a.post_type = 'vcv_templates' and a.post_status in ('publish')
+                    AND b.meta_key in ('_vcv-type') AND b.meta_value LIKE 'custom%'
+                    OR b.meta_key
+                    ORDER BY a.post_modified ASC   
+            ",
+            ARRAY_A
+        );
+    }
+
     /**
      * @return array
      */
@@ -53,17 +71,43 @@ order by a.post_modified desc
         return $groupedResults;
     }
 
+    /**
+     * @return array
+     */
+    public function getCustomTemplates()
+    {
+        $cache = wp_cache_get('vcv:helpers:templates:all:custom', 'vcwb');
+        if (!empty($cache)) {
+            return $cache;
+        }
+
+        $templates = $this->queryCustomTemplates();
+        $groupedResults = $this->groupQueryTemplates($templates);
+        wp_cache_set('vcv:helpers:templates:all:custom', 'vcwb', 3600);
+
+        return $groupedResults;
+    }
+
     public function getGroupName($key)
     {
         $name = '';
         switch ($key) {
+            case 'customHeader':
+                $name = __('My Headers Templates', 'visualcomposer');
+                break;
             case '':
             case 'custom':
                 $name = __('My Templates', 'visualcomposer');
                 break;
+            case 'customBlock':
+                $name = __('My Blocks', 'visualcomposer');
+                break;
             case 'hub':
             case 'predefined':
                 $name = __('Hub Templates', 'visualcomposer');
+                break;
+            case 'customFooter':
+                $name = __('My Footers Templates', 'visualcomposer');
                 break;
         }
 
@@ -168,45 +212,35 @@ order by a.post_modified desc
         return $templateElements;
     }
 
+    /**
+     * @return array
+     */
     public function getCustomTemplateOptions()
     {
-        $args = [
-            'posts_per_page' => '-1',
-            'post_type' => 'vcv_templates',
-            'order' => 'asc',
-        ];
-        $args['meta_query'] = [
-            'relation' => 'OR',
-            ['key' => '_vcv-type', 'compare' => 'NOT EXISTS'],
-            ['key' => '_vcv-type', 'compare' => '=', 'value' => 'custom'],
-        ];
-        $templates = get_posts($args);
         $options = [];
         $options[] = [
             'label' => __('Select a template', 'visualcomposer'),
             'value' => '',
         ];
 
-        if (!empty($templates)) {
-            $dataHelper = vchelper('Data');
-            $templateNames = $dataHelper->arrayColumn($templates, 'post_title');
-            $templateIds = $dataHelper->arrayColumn($templates, 'ID');
-
-            $options[] = [
-                'group' => [
-                    'label' => $this->getGroupName('custom'),
-                    'values' => array_map(
-                        function ($templateName, $templateId) {
-                            return [
-                                'label' => $templateName,
-                                'value' => $templateId,
-                            ];
-                        },
-                        $templateNames,
-                        $templateIds
-                    ),
-                ],
-            ];
+        $custom_templates = $this->getCustomTemplates();
+        if (!empty($custom_templates)) {
+            foreach ($custom_templates as $templates) {
+                $options[] = [
+                    'group' => [
+                        'label' => $this->getGroupName($templates['type']),
+                        'values' => array_map(
+                            function ($template) {
+                                return [
+                                    'label' => $template['name'],
+                                    'value' => $template['id'],
+                                ];
+                            },
+                            $templates['templates']
+                        ),
+                    ],
+                ];
+            }
         }
 
         return $options;
@@ -266,7 +300,8 @@ order by a.post_modified desc
             if (!isset($result[ $post['id'] ])) {
                 $result[ $post['id'] ] = $post;
                 $result[ $post['id'] ]['type'] = 'custom'; // default type
-                $result[ $post['id'] ]['usageCount'] = isset($usageCount[ 'template/' . $post['id'] ]) ? $usageCount[ 'template/' . $post['id'] ] : 0;
+                $result[ $post['id'] ]['usageCount'] = isset($usageCount[ 'template/' . $post['id'] ])
+                    ? $usageCount[ 'template/' . $post['id'] ] : 0;
             }
             if (isset($post['meta_key']) && $post['meta_key'] === '_vcv-type') {
                 $result[ $post['id'] ]['type'] = $post['meta_value'];
