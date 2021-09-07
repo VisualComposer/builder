@@ -223,9 +223,9 @@ order by a.post_modified desc
             'value' => '',
         ];
 
-        $custom_templates = $this->getCustomTemplates();
-        if (!empty($custom_templates)) {
-            foreach ($custom_templates as $templates) {
+        $customTemplates = $this->getCustomTemplates();
+        if (!empty($customTemplates)) {
+            foreach ($customTemplates as $templates) {
                 $options[] = [
                     'group' => [
                         'label' => $this->getGroupName($templates['type']),
