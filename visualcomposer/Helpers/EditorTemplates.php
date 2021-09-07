@@ -300,8 +300,8 @@ order by a.post_modified desc
             if (!isset($result[ $post['id'] ])) {
                 $result[ $post['id'] ] = $post;
                 $result[ $post['id'] ]['type'] = 'custom'; // default type
-                $result[ $post['id'] ]['usageCount'] = isset($usageCount[ 'template/' . $post['id'] ])
-                    ? $usageCount[ 'template/' . $post['id'] ] : 0;
+                $usageCount = isset($usageCount[ 'template/' . $post['id'] ]) ? $usageCount[ 'template/' . $post['id'] ] : 0;
+                $result[ $post['id'] ]['usageCount'] = $usageCount;
             }
             if (isset($post['meta_key']) && $post['meta_key'] === '_vcv-type') {
                 $result[ $post['id'] ]['type'] = $post['meta_value'];
