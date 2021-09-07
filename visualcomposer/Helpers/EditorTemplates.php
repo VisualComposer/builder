@@ -233,7 +233,7 @@ order by a.post_modified desc
                             function ($template) {
                                 return [
                                     'label' => $template['name'],
-                                    'value' => $template['id'],
+                                    'value' => (int)$template['id'],
                                 ];
                             },
                             $templates['templates']
