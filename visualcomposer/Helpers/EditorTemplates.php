@@ -83,7 +83,7 @@ order by a.post_modified desc
 
         $templates = $this->queryCustomTemplates();
         $groupedResults = $this->groupQueryTemplates($templates);
-        wp_cache_set('vcv:helpers:templates:all:custom', 'vcwb', 3600);
+        wp_cache_set('vcv:helpers:templates:all:custom', $groupedResults, 'vcwb', 3600);
 
         return $groupedResults;
     }
