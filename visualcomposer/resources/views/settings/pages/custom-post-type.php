@@ -36,7 +36,12 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
     var isVcvClick = false
 
     function handleIframeBodyClick (e) {
-      if (e.target.href && e.target.href.includes('vcv-action')) {
+      // In case we have some mass actions with our custom post types
+      var is_bunch_action = e.target.id && e.target.id.includes('doaction')
+      // In case we have some action with our inner links
+      var is_vcv_action = e.target.href && e.target.href.includes('vcv-action')
+
+      if (is_vcv_action || is_bunch_action) {
         isVcvClick = true
       } else {
         isVcvClick = false
