@@ -70,9 +70,14 @@ define('VCV_PLUGIN_FULL_PATH', __FILE__);
 define('VCV_PLUGIN_DIRNAME', basename(dirname(VCV_PLUGIN_BASE_NAME)));
 define('VCV_PLUGIN_ASSETS_DIRNAME', 'visualcomposer-assets');
 /**
- * Plugin core prefix for options/meta and etc.
+ * Plugin core prefix for options/meta etc.
  */
 define('VCV_PREFIX', 'vcv-');
+
+/**
+ * Plugin brand prefix for user visible files, zip archives names etc.
+ */
+define('VC_PREFIX', 'vc-');
 
 // Used in requirements.php
 /**
