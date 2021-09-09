@@ -31,8 +31,8 @@ class Wp implements Helper
     {
         $settings = (string)get_user_option('user-settings', $userId);
 
-        if (isset($_COOKIE['wp-settings-' . $userId])) {
-            $cookie = preg_replace('/[^A-Za-z0-9=&_]/', '', $_COOKIE['wp-settings-' . $userId]);
+        if (isset($_COOKIE[ 'wp-settings-' . $userId ])) {
+            $cookie = preg_replace('/[^A-Za-z0-9=&_]/', '', $_COOKIE[ 'wp-settings-' . $userId ]);
 
             // No change or both empty
             if ($cookie == $settings) {
@@ -40,10 +40,10 @@ class Wp implements Helper
             }
 
             $lastSaved = (int)get_user_option('user-settings-time', $userId);
-            $current = isset($_COOKIE['wp-settings-time-' . $userId]) ? preg_replace(
+            $current = isset($_COOKIE[ 'wp-settings-time-' . $userId ]) ? preg_replace(
                 '/[^0-9]/',
                 '',
-                $_COOKIE['wp-settings-time-' . $userId]
+                $_COOKIE[ 'wp-settings-time-' . $userId ]
             ) : 0;
 
             // The cookie is newer than the saved value. Update the user_option and leave the cookie as-is
@@ -60,12 +60,22 @@ class Wp implements Helper
         $all = $this->getAllUserSettings($userId);
         parse_str($all, $parsed);
 
-        return isset($parsed[$key]) ? $parsed[$key] : $default;
+        return isset($parsed[ $key ]) ? $parsed[ $key ] : $default;
     }
 
     public function getUpdateVersionFromWordpressOrg()
     {
         $updatePlugins = get_plugin_updates();
-        return isset($updatePlugins[VCV_PLUGIN_BASE_NAME]) ? $updatePlugins[VCV_PLUGIN_BASE_NAME]->update->new_version : 0;
+
+        return isset($updatePlugins[ VCV_PLUGIN_BASE_NAME ]) ? $updatePlugins[ VCV_PLUGIN_BASE_NAME ]->update->new_version : 0;
+    }
+
+    /**
+     * Checking version differences
+     * @return bool
+     */
+    public function isNeedUpdate()
+    {
+        return ((int)$this->getUpdateVersionFromWordpressOrg() - (int)VCV_VERSION) >= 4;
     }
 }

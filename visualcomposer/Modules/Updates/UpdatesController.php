@@ -24,6 +24,16 @@ class UpdatesController extends Container implements Module
     use EventsFilters;
 
     /**
+     * @var string
+     */
+    protected $requiredVersion = '34.0';
+
+    /**
+     * @var int
+     */
+    protected $versionDifference = 4;
+
+    /**
      * UpdatesController constructor.
      */
     public function __construct()
@@ -43,10 +53,9 @@ class UpdatesController extends Container implements Module
     protected function addPluginUpdateNoticeVariable($variables, Wp $wpHelper)
     {
         $key = 'VCV_PLUGIN_UPDATE';
-        $value = $wpHelper->getUpdateVersionFromWordpressOrg();
         $variables[] = [
             'key' => $key,
-            'value' => (bool)$value,
+            'value' => $wpHelper->isNeedUpdate(),
             'type' => 'constant',
         ];
 
@@ -64,5 +73,14 @@ class UpdatesController extends Container implements Module
         if (!headers_sent()) {
             setcookie('vcv-update-notice', '', time() - (15 * 60));
         }
+    }
+
+    /**
+     * Checking version differences
+     * @return bool
+     */
+    protected function pluginCompareVersion($currentVersion)
+    {
+        return ((int)$currentVersion - (int)$this->requiredVersion) <= 4;
     }
 }
