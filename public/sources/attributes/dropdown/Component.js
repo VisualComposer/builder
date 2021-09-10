@@ -200,12 +200,6 @@ export default class Dropdown extends Attribute {
     const selectClass = classNames({
       'vcv-ui-form-dropdown': true
     }, this.props.extraClass)
-    let descriptionHtml = ''
-    if (this.props.description) {
-      descriptionHtml = (<p className='vcv-ui-form-helper'>{this.props.description}</p>)
-    } else if (options && options.description) {
-      descriptionHtml = (<p className='vcv-ui-form-helper'>{options.description}</p>)
-    }
 
     let valueDescription = ''
     if (this.state.value) {
@@ -241,7 +235,6 @@ export default class Dropdown extends Attribute {
           {this.generateSelectChildren(this.props)}
         </select>
         {valueDescription}
-        {descriptionHtml}
       </>
     )
   }
