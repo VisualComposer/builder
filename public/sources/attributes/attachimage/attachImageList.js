@@ -115,7 +115,8 @@ export default class AttachImageList extends React.Component {
         imgId: value.ids[index],
         metaAssetsPath: this.props.metaElementPath,
         indexValue: index,
-        index: index
+        index: index,
+        handleOpenLibrary: this.handleOpenLibrary
       }
 
       if (this.props.options.multiple) {
