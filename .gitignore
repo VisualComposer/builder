@@ -63,7 +63,7 @@ hubtools
 
 cache/*
 !cache/.gitkeep
-devElements/*
+devElements
 !devElements/.gitkeep
 devAddons/*
 !devAddons/.gitkeep
