@@ -26,7 +26,7 @@
   &:hover {
     cursor: pointer;
   }
-  > input {
+  > input[type="checkbox"] {
     position: absolute;
     z-index: -1;
     opacity: 0;
@@ -72,7 +72,7 @@
       margin-right: 2em;
     }
   }
-  > input {
+  > input[type="checkbox"] {
     ~ .vcv-ui-form-switch-label {
       &::after {
         opacity: 0;
@@ -122,7 +122,7 @@
       z-index: 10;
     }
   }
-  > input {
+  > input[type="checkbox"] {
     &:checked {
       ~ .vcv-ui-form-switch-indicator {
         background-color: @vcui-form-switch-on-background;
@@ -143,7 +143,7 @@
     }
   }
   &:hover {
-    > input {
+    > input[type="checkbox"] {
       &:checked {
         ~ .vcv-ui-form-switch-indicator {
           & when (lightness(@vcui-form-switch-on-background) > 70%) {
@@ -167,7 +167,7 @@
     }
   }
   > input,
-  &:hover > input {
+  &:hover > input[type="checkbox"] {
     &:disabled,
     &[disabled] {
       ~ .vcv-ui-form-switch-indicator {
