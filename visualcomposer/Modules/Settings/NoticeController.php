@@ -62,7 +62,7 @@ class NoticeController extends Container implements Module
 
                 $class = 'notice notice-' . $notice['type'];
 
-                if (isset($notice['wpDismissible'])) {
+                if (isset($notice['wpDismissible']) && $notice['wpDismissible'] === true) {
                     $class .= ' is-dismissible';
                     printf(
                         '<div class="%1$s"><p>%2$s</p></div>',
