@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
             .vcv-content--boxed .entry-content > [data-vce-boxed-width="true"],
             .vcv-content--boxed .vcv-layouts-html > [data-vce-boxed-width="true"],
             .vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
-            .vcv-footer > [data-vce-boxed-width="true"],
+            .vcv-header > [data-vce-boxed-width="true"],
             .vcv-footer > [data-vce-boxed-width="true"] {
                 max-width: <?php echo $customLayoutWidth ?> !important;
             }
