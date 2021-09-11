@@ -167,6 +167,23 @@ class PremiumTeasers extends Container implements Module
             'position' => 15,
         ];
         $this->dashboardSections[] = [
+            'slug' => 'vcv-font-manager',
+            'name' => __('Font Manager', 'visualcomposer'),
+            'subTitle' => __('Font Manager', 'visualcomposer'),
+            'premiumTitle' => __('FONT MANAGER IS A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumDescription' => __(
+                'Control the typography and other font styling of your site, including links, paragraphs, headings.',
+                'visualcomposer'
+            ),
+            'premiumUrl' => str_replace('{medium}', 'fontmanager-vcdashboard', $utmTemplate),
+            'premiumActionBundle' => 'fontManager',
+            'iconClass' => 'vcv-ui-icon-dashboard-a-letter',
+            'parent' => 'vcv-font-manager',
+            'position' => -7,
+            'capabilityPart' => 'dashboard_addon_font_manager',
+            'hideInWpMenu' => false,
+        ];
+        $this->dashboardSections[] = [
             'slug' => 'vcv-import',
             'name' => __('Import', 'visualcomposer'),
             'subTitle' => '',

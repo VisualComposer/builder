@@ -31,12 +31,17 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
 ); ?>" style="opacity:0"></iframe>
 <script>
   (function () {
-    var iframe = document.querySelector('.vcv-dashboard-section-custom-post-type-iframe')
-    var overlay = document.querySelector('.vcv-dashboard-iframe-loader-wrapper')
-    var isVcvClick = false
+    let iframe = document.querySelector('.vcv-dashboard-section-custom-post-type-iframe')
+    let overlay = document.querySelector('.vcv-dashboard-iframe-loader-wrapper')
+    let isVcvClick = false
 
     function handleIframeBodyClick (e) {
-      if (e.target.href && e.target.href.includes('vcv-action')) {
+      // In case we have some mass actions with our custom post types
+      let isBunchAction = e.target.id && e.target.id.includes('doaction')
+      // In case we have some action with our inner links
+      let isVcvAction = e.target.href && e.target.href.includes('vcv-action')
+
+      if (isVcvAction || isBunchAction) {
         isVcvClick = true
       } else {
         isVcvClick = false
@@ -59,7 +64,7 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
       isVcvClick = false
       // Remove the unloadHandler in case it was already attached.
       // Otherwise, the change will be dispatched twice.
-      iframe.contentWindow.onbeforeunload = function (e) {
+      iframe.contentWindow.onbeforeunload = function () {
         if (!isVcvClick) {
           setTimeout(function () {
             overlay.classList.add('vcv-dashboard-iframe-loader--visible')
@@ -68,7 +73,7 @@ $iframeUrl = add_query_arg(['post_type' => $slug, 'vcv-dashboard-iframe' => true
         }
       }
 
-      var style = document.createElement('style')
+      let style = document.createElement('style')
       style.innerHTML = 'body {\
       overflow-y: hidden;\
     }\

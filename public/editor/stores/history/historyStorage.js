@@ -7,6 +7,8 @@ import TimeMachine from './lib/timeMachine'
 addStorage('history', (storage) => {
   const elementsStorage = getStorage('elements')
   const workspaceStorage = getStorage('workspace')
+  const assetsStorage = getStorage('assets')
+  const cacheStorage = getStorage('cache')
   const elementsTimeMachine = new TimeMachine('layout')
   const documentService = getService('document')
   let inited = false
@@ -15,8 +17,11 @@ addStorage('history', (storage) => {
     storage.state('canRedo').set(inited && elementsTimeMachine.canRedo())
     storage.state('canUndo').set(inited && elementsTimeMachine.canUndo())
   }
-  const updateElementsStorage = () => {
-    elementsStorage.trigger('updateAll', elementsTimeMachine.get())
+  const updateAllElements = () => {
+    const allElements = elementsTimeMachine.get()
+    elementsStorage.trigger('updateAll', allElements)
+    cacheStorage.trigger('clear', 'elementsCssCache')
+    assetsStorage.trigger('updateAllElements', allElements)
   }
   storage.on('undo', () => {
     if (!inited) {
@@ -24,7 +29,7 @@ addStorage('history', (storage) => {
     }
     elementsTimeMachine.undo()
     // here comes get with undo data
-    updateElementsStorage()
+    updateAllElements()
     checkUndoRedo()
   })
   storage.on('redo', () => {
@@ -33,12 +38,12 @@ addStorage('history', (storage) => {
     }
     elementsTimeMachine.redo()
     // here comes get with redo data
-    updateElementsStorage()
+    updateAllElements()
     checkUndoRedo()
   })
   storage.on('reset', () => {
     elementsTimeMachine.reset()
-    updateElementsStorage()
+    updateAllElements()
     checkUndoRedo()
   })
   storage.on('init', (data = false) => {
