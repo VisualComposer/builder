@@ -4,6 +4,7 @@ import NotificationItem from './notificationItem'
 
 const notificationsStorage = getStorage('notifications')
 const notificationsState = notificationsStorage.state('notifications')
+const vcvLayout = document.getElementById('vcv-layout')
 
 export default class NotificationsContainer extends React.Component {
   constructor (props) {
@@ -38,6 +39,12 @@ export default class NotificationsContainer extends React.Component {
           }
         }
       })
+    }
+
+    if (!this.state.topNotifications.length && topNotifications.length > 0) {
+      vcvLayout.style.marginTop = '98px'
+    } else if (this.state.topNotifications.length && !topNotifications.length) {
+      vcvLayout.style = ''
     }
 
     this.setState({
