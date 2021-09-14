@@ -138,7 +138,7 @@ if (!VcvEnv::has('VCV_JS_FT_ROW_COLUMN_LOGIC_REFACTOR')) {
 }
 
 if (!VcvEnv::has('VCV_JS_FT_DYNAMIC_FIELDS')) {
-    VcvEnv::set('VCV_JS_FT_DYNAMIC_FIELDS', false); // Must be false! SEE the devAddons/dynamicFields/ env files
+    VcvEnv::set('VCV_JS_FT_DYNAMIC_FIELDS', false); // Must be false! SEE the devAddons/dynamicFields/ env files.
 }
 
 if (!VcvEnv::has('VCV_ACCOUNT_URL')) {
