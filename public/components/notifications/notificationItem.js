@@ -20,10 +20,12 @@ export default class NotificationItem extends React.Component {
 
   componentDidMount () {
     const { time } = this.props.data
-    const timeout = parseInt(time) || 3000
-    this.timer = window.setTimeout(() => {
-      this.handleClickHideNotification()
-    }, timeout)
+    const timeout = parseInt(time)
+    if (timeout !== -1) {
+      this.timer = window.setTimeout(() => {
+        this.handleClickHideNotification()
+      }, timeout)
+    }
   }
 
   componentWillUnmount () {

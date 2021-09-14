@@ -136,6 +136,8 @@ class LicenseController extends Container implements Module
     protected function refresh($response, $payload, License $licenseHelper, Options $optionsHelper)
     {
         $optionsHelper->deleteTransient('lastBundleUpdate');
+        $optionsHelper->deleteTransient('elements:autoload:all');
+        $optionsHelper->deleteTransient('addons:autoload:all');
         $licenseHelper->refresh('vcv-license');
 
         wp_redirect(admin_url('admin.php?page=vcv-license'));

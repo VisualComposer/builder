@@ -45,6 +45,8 @@ class TeasersDownloadController extends Container implements Module
     protected function unsetOptions(Options $optionsHelper)
     {
         $optionsHelper->delete('hubTeaserElements');
+        $optionsHelper->deleteTransient('elements:autoload:all');
+        $optionsHelper->deleteTransient('addons:autoload:all');
     }
 
     /**
