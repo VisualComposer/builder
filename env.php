@@ -163,3 +163,7 @@ if (!VcvEnv::has('VCV_FT_DYNAMIC_ARCHIVE_FIELDS')) {
 if (!VcvEnv::has('VCV_FT_THEME_BUILDER_LAYOUTS')) {
     VcvEnv::set('VCV_FT_THEME_BUILDER_LAYOUTS', true);
 }
+
+if (!VcvEnv::has('VCV_FT_UPDATE_NOTIFICATION') && !VcvEnv::has('VCV_DEBUG')) {
+    VcvEnv::set('VCV_FT_UPDATE_NOTIFICATION', true);
+}
