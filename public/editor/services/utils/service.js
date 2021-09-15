@@ -252,7 +252,7 @@ const API = {
     const elements = Object.assign({}, allElements)
     let parentIds = []
     const checkIfValidParent = (el) => {
-      if (el.parent) {
+      if (el && el.parent) {
         if (parentIds.indexOf(el.parent) >= 0) {
           el.parent = false
           return false
