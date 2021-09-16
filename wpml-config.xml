@@ -1,0 +1,42 @@
+<wpml-config>
+    <custom-fields>
+        <custom-field action="translate">vcv-pageContent</custom-field>
+        <custom-field action="copy-once">_vcv-editorStartedAt</custom-field>
+        <custom-field action="copy-once">_vcv-sourceChecksum</custom-field>
+        <custom-field action="copy-once">vcvSourceCssFileUrl</custom-field>
+        <custom-field action="copy-once">vcv-be-editor</custom-field>
+        <custom-field action="copy-once">_vcv-page-template</custom-field>
+        <custom-field action="copy-once">_vcv-page-template-type</custom-field>
+        <custom-field action="copy-once">_vcv-page-template-stretch</custom-field>
+        <custom-field action="copy-once">_vcv-pageTitleDisabled</custom-field>
+        <custom-field action="copy-once">_vcv-popupData</custom-field>
+        <custom-field action="copy-once">_vcv-HeaderTemplateId</custom-field>
+        <custom-field action="copy-once">_vcv-SidebarTemplateId</custom-field>
+        <custom-field action="copy-once">_vcv-FooterTemplateId</custom-field>
+        <custom-field action="copy-once">vcvSourceAssetsFiles</custom-field>
+        <custom-field action="copy-once">vcvSourceCss</custom-field>
+        <custom-field action="copy-once">vcvSettingsSourceCustomCss</custom-field>
+        <custom-field action="copy-once">vcv-globalElementsCssData</custom-field>
+        <custom-field action="copy-once">vcv-settingsLocalJsHead</custom-field>
+        <custom-field action="copy-once">vcv-settingsLocalJsFooter</custom-field>
+        <custom-field action="copy-once">_vcv-description</custom-field>
+        <custom-field action="copy-once">_vcv-type</custom-field>
+        <custom-field action="copy-once">_vcv-thumbnail</custom-field>
+        <custom-field action="copy-once">_vcv-preview</custom-field>
+        <custom-field action="copy-once">_vcv-id</custom-field>
+        <custom-field action="copy-once">_vcv-bundle</custom-field>
+        <custom-field action="copy-once">vcvEditorTemplateElements</custom-field>
+        <custom-field action="copy-once">_vcv-previewSourceAssetsFiles</custom-field>
+        <custom-field action="copy-once">_vcv-previewSourceCss</custom-field>
+        <custom-field action="copy-once">_vcv-previewElementsCssData</custom-field>
+        <custom-field action="copy-once">_vcv-previewGlobalElementsCss</custom-field>
+        <custom-field action="copy-once">_vcv-preview-settingsLocalJsHead</custom-field>
+        <custom-field action="copy-once">_vcv-preview-settingsLocalJsFooter</custom-field>
+        <custom-field action="copy-once">_vcv-preview-settingsGlobalJsHead</custom-field>
+        <custom-field action="copy-once">_vcv-preview-settingsGlobalJsFooter</custom-field>
+        <custom-field action="copy-once">_vcv-element-preset-value</custom-field>
+        <custom-field action="copy-once">_vcv-pageDesignOptionsData</custom-field>
+        <custom-field action="copy-once">_vcv-pageDesignOptionsCompiledCss</custom-field>
+        <custom-field action="copy-once">_vcv-settingsPopup</custom-field>
+    </custom-fields>
+</wpml-config>
