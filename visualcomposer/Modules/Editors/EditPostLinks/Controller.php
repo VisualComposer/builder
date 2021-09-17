@@ -104,11 +104,13 @@ class Controller extends Container implements Module
             // @codingStandardsIgnoreEnd
         }
 
+        $sourceId = get_the_ID();
         if (
-            is_singular()
-            && $userCapabilitiesHelper->canEdit(get_the_ID())
+            $userCapabilitiesHelper->canEdit($sourceId)
+            && (vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId])
+                || vchelper('Gutenberg')->isVisualComposerPage($sourceId))
         ) {
-            $url = $frontendHelper->getFrontendUrl(get_the_ID());
+            $url = $frontendHelper->getFrontendUrl($sourceId);
             $wpAdminBar->add_menu(
                 [
                     'id' => __('Edit with Visual Composer', 'visualcomposer'),
@@ -159,7 +161,8 @@ class Controller extends Container implements Module
         $sourceId = get_the_ID();
         if (
             $userCapabilitiesHelper->canEdit($sourceId)
-            && vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId])
+            && (vcfilter('vcv:editors:editPostLinks:adminRowLinks', true, ['sourceId' => $sourceId])
+            || vchelper('Gutenberg')->isVisualComposerPage($sourceId))
         ) {
             $url = $frontendHelper->getFrontendUrl($sourceId);
             $actions['edit_vc5'] = sprintf(
