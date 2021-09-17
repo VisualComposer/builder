@@ -606,10 +606,7 @@ class WooCommerceController extends Container implements Module
         $value = false;
         $wooCommerceLayouts = [
             'shop',
-            'cart',
-            'checkout',
-            'myaccount',
-            'terms',
+            'checkout'
         ];
         foreach ($wooCommerceLayouts as $layout) {
             if ($sourceId === wc_get_page_id($layout)) {
