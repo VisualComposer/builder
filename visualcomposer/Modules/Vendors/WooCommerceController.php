@@ -34,6 +34,7 @@ class WooCommerceController extends Container implements Module
         $this->addFilter('vcv:editors:editPostLinks:adminRowLinks', 'isShop');
         $this->addFilter('vcv:themeEditor:layoutController:getOtherPageTemplatePartData:isArchive', 'isCategory');
         $this->addFilter('vcv:ajax:elements:ajaxShortcode:adminNonce', 'removeGeoLocation', -1);
+        $this->wpAddAction('admin_print_scripts', 'outputWooCommerce');
     }
 
     /**
@@ -594,5 +595,34 @@ class WooCommerceController extends Container implements Module
         );
 
         return $response;
+    }
+
+    protected function outputWooCommerce()
+    {
+        $sourceId = get_the_ID();
+        if ($sourceId) {
+            $value = false;
+            $isVc = vchelper('Gutenberg')->isVisualComposerPage($sourceId);
+            if ($sourceId === wc_get_page_id('shop')) {
+                $value = true;
+            }
+
+            evcview(
+                'partials/constant-script',
+                [
+                    'key' => 'VCV_IS_SHOP',
+                    'value' => $value,
+                    'type' => 'constant',
+                ]
+            );
+            evcview(
+                'partials/constant-script',
+                [
+                    'key' => 'VCV_IS_VC_PAGE',
+                    'value' => $isVc,
+                    'type' => 'constant',
+                ]
+            );
+        }
     }
 }
