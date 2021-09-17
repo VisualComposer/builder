@@ -597,7 +597,8 @@ class WooCommerceController extends Container implements Module
         return $response;
     }
 
-    protected function isWooCommerceLayout($sourceId = false) {
+    protected function isWooCommerceLayout($sourceId = false)
+    {
         if (!$sourceId) {
             $sourceId = get_the_ID();
         }
