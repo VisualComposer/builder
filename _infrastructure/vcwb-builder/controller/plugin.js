@@ -189,6 +189,7 @@ class Plugin {
     const copyTestsPhpE2e = this.isDev ? 'cp -fr ' + repoPath + '/tests/php-e2e-actions ./tests &' : ''
     return this.execute('cp -fr ' + repoPath + '/index.php ./ &' +
       'cp -fr ' + repoPath + '/env.php ./ &' +
+      'cp -fr ' + repoPath + '/wpml-config.xml ./ &' +
       'cp -fr ' + repoPath + '/visualcomposer ./ &' +
       'cp -fr ' + repoPath + '/languages ./ &' +
       'cp -fr ' + repoPath + '/plugin-wordpress.php  ./ &' +
