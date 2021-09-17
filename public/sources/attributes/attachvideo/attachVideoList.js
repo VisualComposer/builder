@@ -123,22 +123,24 @@ export default class AttachVideoList extends React.Component {
         icon: value.icons && value.icons[index],
         oneMoreControl: oneMoreControl,
         handleRemove: this.props.onRemove,
-        getUrlHtml: this.props.getUrlHtml
+        getUrlHtml: this.props.getUrlHtml,
+        indexValue: index,
+        index: index,
+        handleOpenLibrary: this.handleOpenLibrary
       }
 
       if (this.props.options.multiple) {
         value.ids[index] && videos.push(
           <SortableItem
             key={`sortable-attach-image-item-${fieldKey}-${index}`}
-            childProps={childProps}
-            index={index}
+            {...childProps}
           />
         )
       } else {
         value.ids[index] && videos.push(
           <AttachVideoItem
             key={index}
-            childProps={childProps}
+            {...childProps}
           />
         )
       }

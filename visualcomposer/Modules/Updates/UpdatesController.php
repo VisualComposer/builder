@@ -43,10 +43,9 @@ class UpdatesController extends Container implements Module
     protected function addPluginUpdateNoticeVariable($variables, Wp $wpHelper)
     {
         $key = 'VCV_PLUGIN_UPDATE';
-        $value = $wpHelper->getUpdateVersionFromWordpressOrg();
         $variables[] = [
             'key' => $key,
-            'value' => (bool)$value,
+            'value' => $wpHelper->isUpdateNeeded(),
             'type' => 'constant',
         ];
 

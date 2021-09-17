@@ -8,7 +8,6 @@ const dataManager = getService('dataManager')
 
 export default class AttachVideoItem extends React.Component {
   static propTypes = {
-    childProps: PropTypes.object.isRequired,
     className: PropTypes.string
   }
 
@@ -23,8 +22,8 @@ export default class AttachVideoItem extends React.Component {
   }
 
   componentDidMount () {
-    if (this.props.childProps.url.url) {
-      this.getVideoDimensionsOf(this.props.childProps.url.url)
+    if (this.props.url.url) {
+      this.getVideoDimensionsOf(this.props.url.url)
         .then((size) => {
           this.setState({ videoSize: size })
         })
@@ -32,8 +31,8 @@ export default class AttachVideoItem extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.childProps.url.url) {
-      this.getVideoDimensionsOf(this.props.childProps.url.url)
+    if (this.props.url.url) {
+      this.getVideoDimensionsOf(this.props.url.url)
         .then((size) => {
           if (lodash.isEqual(prevState.videoSize, this.state.videoSize)) {
             this.setState({ videoSize: size })
@@ -43,11 +42,11 @@ export default class AttachVideoItem extends React.Component {
   }
 
   handleRemove (key) {
-    this.props.childProps.handleRemove(key)
+    this.props.handleRemove(key)
   }
 
   getLinkHtml (key) {
-    return this.props.childProps.getUrlHtml(key)
+    return this.props.getUrlHtml(key)
   }
 
   /**
@@ -77,8 +76,7 @@ export default class AttachVideoItem extends React.Component {
   }
 
   render () {
-    let { childProps, className, ...rest } = this.props
-    const { fieldKey, url, icon, oneMoreControl, key } = childProps
+    let { className, fieldKey, url, icon, oneMoreControl, indexValue } = this.props
     const localizations = dataManager.get('localizations')
     const removeVideo = localizations && localizations.removeVideo ? localizations.removeVideo : 'Remove the video'
 
@@ -94,9 +92,9 @@ export default class AttachVideoItem extends React.Component {
     }
 
     return (
-      <li {...rest} className={className}>
+      <li className={className}>
         <div className='vcv-ui-form-attach-image-item-inner'>
-          <figure className='vcv-ui-form-attach-image-thumbnail'>
+          <figure className='vcv-ui-form-attach-image-thumbnail' onClick={this.props.handleOpenLibrary}>
             <img key={fieldKey + '-li-img-:' + url.full} src={icon} />
           </figure>
           <div className='vcv-ui-form-attach-image-description'>
@@ -107,14 +105,14 @@ export default class AttachVideoItem extends React.Component {
             {oneMoreControl}
             <a
               className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
-              onClick={this.handleRemove.bind(this, key)}
+              onClick={this.handleRemove.bind(this, indexValue)}
               title={removeVideo}
             >
               <i className='vcv-ui-icon vcv-ui-icon-close-modern' />
             </a>
           </div>
         </div>
-        {this.getLinkHtml(key)}
+        {this.getLinkHtml(indexValue)}
       </li>
     )
   }
