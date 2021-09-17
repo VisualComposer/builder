@@ -34,7 +34,8 @@ class WooCommerceController extends Container implements Module
         $this->addFilter('vcv:editors:editPostLinks:adminRowLinks', 'isShop');
         $this->addFilter('vcv:themeEditor:layoutController:getOtherPageTemplatePartData:isArchive', 'isCategory');
         $this->addFilter('vcv:ajax:elements:ajaxShortcode:adminNonce', 'removeGeoLocation', -1);
-        $this->wpAddAction('admin_print_scripts', 'outputWooCommerce');
+        $this->wpAddAction('enqueue_block_editor_assets', 'outputWooCommerce');
+        $this->wpAddAction('edit_form_top', 'outputWooCommerce');
     }
 
     /**
