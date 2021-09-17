@@ -602,7 +602,6 @@ class WooCommerceController extends Container implements Module
         $sourceId = get_the_ID();
         if ($sourceId) {
             $value = false;
-            $isVc = vchelper('Gutenberg')->isVisualComposerPage($sourceId);
             if ($sourceId === wc_get_page_id('shop')) {
                 $value = true;
             }
@@ -612,14 +611,6 @@ class WooCommerceController extends Container implements Module
                 [
                     'key' => 'VCV_IS_SHOP',
                     'value' => $value,
-                    'type' => 'constant',
-                ]
-            );
-            evcview(
-                'partials/constant-script',
-                [
-                    'key' => 'VCV_IS_VC_PAGE',
-                    'value' => $isVc,
                     'type' => 'constant',
                 ]
             );
