@@ -228,7 +228,7 @@ class WooCommerceController extends Container implements Module
      */
     protected function isShop($response, $payload)
     {
-        if ($payload['sourceId'] === wc_get_page_id('shop')) {
+        if ($this->isWooCommerceLayout($payload['sourceId'])) {
             return false;
         }
 
@@ -597,23 +597,37 @@ class WooCommerceController extends Container implements Module
         return $response;
     }
 
-    protected function outputWooCommerce()
-    {
-        $sourceId = get_the_ID();
-        if ($sourceId) {
-            $value = false;
-            if ($sourceId === wc_get_page_id('shop')) {
+    protected function isWooCommerceLayout($sourceId = false) {
+        if (!$sourceId) {
+            $sourceId = get_the_ID();
+        }
+
+        $value = false;
+        $wooCommerceLayouts = [
+            'shop',
+            'cart',
+            'checkout',
+            'myaccount',
+            'terms',
+        ];
+        foreach ($wooCommerceLayouts as $layout) {
+            if ($sourceId === wc_get_page_id($layout)) {
                 $value = true;
             }
-
-            evcview(
-                'partials/constant-script',
-                [
-                    'key' => 'VCV_IS_SHOP',
-                    'value' => $value,
-                    'type' => 'constant',
-                ]
-            );
         }
+
+        return $value;
+    }
+
+    protected function outputWooCommerce()
+    {
+        evcview(
+            'partials/constant-script',
+            [
+                'key' => 'VCV_IS_WOOCOMMERCE_LAYOUT',
+                'value' => $this->isWooCommerceLayout(),
+                'type' => 'constant',
+            ]
+        );
     }
 }
