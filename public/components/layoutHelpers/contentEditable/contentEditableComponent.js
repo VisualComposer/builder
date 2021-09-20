@@ -83,7 +83,6 @@ export default class ContentEditableComponent extends React.Component {
   componentDidUpdate (prevProps) {
     if (!lodash.isEqual(prevProps, this.props)) {
       if (this.state.contentEditable !== true && this.props.children !== this.state.realContent) {
-        console.log('=?')
         this.setState({ realContent: this.props.children })
         this.debouncedUpdateHtml(this.props.children)
       }
