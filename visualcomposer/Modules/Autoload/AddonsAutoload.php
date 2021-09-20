@@ -62,7 +62,7 @@ class AddonsAutoload extends Autoload implements Module
             'modules' => [],
         ];
         $optionsHelper = vchelper('Options');
-        $allCached = $optionsHelper->getTransient('addons:autoload:all');
+        $allCached = \VcvEnv::get('VCV_DEBUG') ? [] : $optionsHelper->getTransient('addons:autoload:all');
 
         if (!empty($allCached)) {
             return $allCached;
