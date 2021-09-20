@@ -61,7 +61,7 @@ export default class SettingsButtonControl extends NavbarContent {
 
     const settingsControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
-      'vcv-ui-navbar-save': true,
+      'vcv-ui-navbar-settings': true,
       'vcv-ui-pull-end': true
     })
 

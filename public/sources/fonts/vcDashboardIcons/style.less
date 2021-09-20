@@ -3,9 +3,9 @@
 @font-face {
   font-family: '@{vcv-ui-icon-dashboard-font-family}';
   src:
-    url('@{vcv-ui-icon-dashboard-font-path}.ttf?qd0d2s') format('truetype'),
-    url('@{vcv-ui-icon-dashboard-font-path}.woff?qd0d2s') format('woff'),
-    url('@{vcv-ui-icon-dashboard-font-path}.svg?qd0d2s#@{vcv-ui-icon-dashboard-font-family}') format('svg');
+    url('@{vcv-ui-icon-dashboard-font-path}.ttf?ve59ft') format('truetype'),
+    url('@{vcv-ui-icon-dashboard-font-path}.woff?ve59ft') format('woff'),
+    url('@{vcv-ui-icon-dashboard-font-path}.svg?ve59ft#@{vcv-ui-icon-dashboard-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -26,6 +26,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.vcv-ui-icon-dashboard-a-letter {
+  &:before {
+    content: @vcv-ui-icon-dashboard-a-letter;
+  }
+}
 .vcv-ui-icon-dashboard-import {
   &:before {
     content: @vcv-ui-icon-dashboard-import;

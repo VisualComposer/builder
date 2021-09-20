@@ -34,6 +34,8 @@ class WooCommerceController extends Container implements Module
         $this->addFilter('vcv:editors:editPostLinks:adminRowLinks', 'isShop');
         $this->addFilter('vcv:themeEditor:layoutController:getOtherPageTemplatePartData:isArchive', 'isCategory');
         $this->addFilter('vcv:ajax:elements:ajaxShortcode:adminNonce', 'removeGeoLocation', -1);
+        $this->wpAddAction('enqueue_block_editor_assets', 'outputWooCommerce');
+        $this->wpAddAction('edit_form_top', 'outputWooCommerce');
     }
 
     /**
@@ -227,7 +229,7 @@ class WooCommerceController extends Container implements Module
      */
     protected function isShop($response, $payload)
     {
-        if ($payload['sourceId'] === wc_get_page_id('shop')) {
+        if ($this->isWooCommerceLayout($payload['sourceId'])) {
             return false;
         }
 
@@ -594,5 +596,37 @@ class WooCommerceController extends Container implements Module
         );
 
         return $response;
+    }
+
+    protected function isWooCommerceLayout($sourceId = false)
+    {
+        if (!$sourceId) {
+            $sourceId = get_the_ID();
+        }
+
+        $value = false;
+        $wooCommerceLayouts = [
+            'shop',
+            'checkout'
+        ];
+        foreach ($wooCommerceLayouts as $layout) {
+            if ($sourceId === wc_get_page_id($layout)) {
+                $value = true;
+            }
+        }
+
+        return $value;
+    }
+
+    protected function outputWooCommerce()
+    {
+        evcview(
+            'partials/constant-script',
+            [
+                'key' => 'VCV_IS_WOOCOMMERCE_LAYOUT',
+                'value' => $this->isWooCommerceLayout(),
+                'type' => 'constant',
+            ]
+        );
     }
 }

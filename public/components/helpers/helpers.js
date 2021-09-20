@@ -72,6 +72,9 @@ export default class Helpers extends React.Component {
         heading: addContent,
         description: thisIsYourContentLibrary,
         step: 1,
+        position: {
+          horizontal: 'bottom'
+        },
         icons: [{
           icon: 'add',
           left: -48,
@@ -124,6 +127,9 @@ export default class Helpers extends React.Component {
         heading: onPageSettings,
         description: changeSettingsOfYourPageOrPost,
         step: 7,
+        position: {
+          horizontal: 'top'
+        },
         icons: [{
           icon: 'cog',
           left: -48,
@@ -135,16 +141,12 @@ export default class Helpers extends React.Component {
         description: previewSaveAndPublish,
         step: 8,
         position: {
-          vertical: 'bottom'
+          horizontal: 'top'
         },
         icons: [{
           icon: 'save',
           left: -48,
-          top: -34
-        }, {
-          icon: 'mobile-menu',
-          left: -66,
-          top: 25
+          top: -5
         }]
       }
     }

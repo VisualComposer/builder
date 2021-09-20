@@ -66,7 +66,6 @@ export default class AddBlockPanel extends React.Component {
 
   componentDidMount () {
     getStorage('hubTemplates').state('templates').onChange(this.handleTemplateStorageStateChange)
-    notificationsStorage.trigger('portalChange', '.vcv-ui-tree-content-section')
   }
 
   componentWillUnmount () {
@@ -76,7 +75,6 @@ export default class AddBlockPanel extends React.Component {
     }
     workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
     getStorage('hubTemplates').state('templates').ignoreChange(this.handleTemplateStorageStateChange)
-    notificationsStorage.trigger('portalChange', null)
   }
 
   handleRemoveStateChange (newState) {
@@ -157,8 +155,7 @@ export default class AddBlockPanel extends React.Component {
       position: 'bottom',
       type: 'error',
       text: error,
-      time: 5000,
-      usePortal: true
+      time: 5000
     })
   }
 

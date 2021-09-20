@@ -65,8 +65,9 @@ vcCake.add('contentLayout', (api) => {
 
       workspaceIFrame.onChange(reloadLayout)
 
+      const updateNotificationEnabled = vcCake.env('VCV_FT_UPDATE_NOTIFICATION')
       const pluginUpdate = typeof VCV_PLUGIN_UPDATE === 'function' ? VCV_PLUGIN_UPDATE() : false
-      pluginUpdate && notificationsStorage.trigger('add', {
+      pluginUpdate && updateNotificationEnabled && notificationsStorage.trigger('add', {
         position: 'top',
         transparent: false,
         showCloseButton: true,
@@ -74,11 +75,7 @@ vcCake.add('contentLayout', (api) => {
         type: 'warning',
         text: localizations.newPluginVersionIsAvailable || 'There is a new version of Visual Composer Website Builder available',
         html: true,
-        cookie: {
-          name: 'vcv-update-notice',
-          expireInDays: 1
-        },
-        time: 5000
+        time: -1
       })
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)

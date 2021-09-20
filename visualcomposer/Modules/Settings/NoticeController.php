@@ -62,7 +62,14 @@ class NoticeController extends Container implements Module
 
                 $class = 'notice notice-' . $notice['type'];
 
-                if ($notice['dismissible']) {
+                if (isset($notice['wpDismissible']) && $notice['wpDismissible'] === true) {
+                    $class .= ' is-dismissible';
+                    printf(
+                        '<div class="%1$s"><p>%2$s</p></div>',
+                        esc_attr($class),
+                        $notice['message']
+                    );
+                } elseif ($notice['dismissible']) {
                     $dismissUrl = $urlHelper->adminAjax(
                         [
                             'vcv-action' => 'notice:dismiss:adminNonce',

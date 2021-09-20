@@ -55,8 +55,8 @@ export default class EditFromField extends React.Component {
   }
 
   updateElement (fieldKey, value) {
-    this.props.onAttributeChange(fieldKey)
     this.props.updater(fieldKey, value)
+    this.props.onAttributeChange(fieldKey)
   }
 
   /* eslint-disable */

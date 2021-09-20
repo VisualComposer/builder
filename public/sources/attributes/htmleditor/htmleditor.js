@@ -288,6 +288,14 @@ export default class HtmlEditorComponent extends React.Component {
           init_instance_callback: () => {
             this.loadUsedFonts(this.props)
             this.props.setEditorLoaded(true)
+
+            // Handle mouse back click on tinyMCE
+            const iframe = document.getElementById('vcv-wpeditor-output_ifr')
+            iframe && iframe.contentWindow.addEventListener('mouseup', (e) => {
+              if (typeof e === 'object' && e.button && e.button > 2) {
+                e.preventDefault()
+              }
+            })
           }
         })
         // classic text mode
@@ -305,12 +313,6 @@ export default class HtmlEditorComponent extends React.Component {
                 window.QTags.instances[id].canvas.addEventListener('keyup', this.handleChangeQtagsEditor)
               }
             }
-            const iframe = document.getElementById('vcv-wpeditor-output_ifr')
-            iframe.contentWindow.addEventListener('mouseup', (e) => {
-              if (typeof e === 'object' && e.button && e.button > 2) {
-                e.preventDefault()
-              }
-            })
           }
         }, 10)
       }

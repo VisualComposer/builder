@@ -4,7 +4,7 @@ Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.8
-Stable tag: 38.0
+Stable tag: 38.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -212,6 +212,14 @@ Yes, we have an awesome online community that you can join to share your experti
 8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
 
 == Changelog ==
+
+= 38.1 =
+*Release Date - 2021-08-10*
+
+### Free:
+- Update: Initial help updated for the new navigation bar structure
+- Fix: Insights are displayed properly
+- Fix: Parallax effect works properly
 
 = 38.0 =
 *Release Date - 2021-08-04*

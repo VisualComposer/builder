@@ -2,7 +2,7 @@
   "videoPlayer": {
     "type": "string",
     "access": "public",
-    "value": "https://www.youtube.com/watch?v=Im6gfxoiHeU",
+    "value": "https://youtu.be/5Iz5bXIr0IY",
     "options": {
       "label": "YouTube video link",
       "description": "Enter a link to the YouTube video.",
