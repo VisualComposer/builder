@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Themes;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,7 +13,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
 /**
- * Backward compatibility for storefront theme
+ * Backward compatibility with Storefront theme
  *
  * @see https://wordpress.org/themes/storefront
  */
