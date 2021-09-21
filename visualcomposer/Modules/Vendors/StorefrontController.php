@@ -43,9 +43,7 @@ class StorefrontController extends Container implements Module
      */
     protected function integrateThemeHeader()
     {
-        echo
-        "<div id='content' class='site-content' tabindex=''-1'>
-            <div class='col-full'>";
+        echo '<div id="content" class="site-content" tabindex=""-1"><div class="col-full">';
 
         do_action('storefront_content_top');
     }
@@ -55,7 +53,7 @@ class StorefrontController extends Container implements Module
      */
     protected function integrateThemeFooter()
     {
-        echo "</div></div>";
+        echo '</div></div>';
 
         do_action('storefront_before_footer');
     }
