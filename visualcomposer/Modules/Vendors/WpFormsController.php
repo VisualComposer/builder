@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors\Plugins;
+namespace VisualComposer\Modules\Vendors;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,11 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-/**
- * Plugin backward compatibility
- *
- * @see https://wordpress.org/plugins/wpforms-lite/
- */
 class WpFormsController extends Container implements Module
 {
     use WpFiltersActions;
