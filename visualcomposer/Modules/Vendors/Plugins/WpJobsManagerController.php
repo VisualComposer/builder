@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,6 +13,11 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://wordpress.org/plugins/wp-job-manager/
+ */
 class WpJobsManagerController extends Container implements Module
 {
     use WpFiltersActions;

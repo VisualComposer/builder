@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,6 +13,11 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://codecanyon.net/item/ajax-search-pro-for-wordpress-live-search-plugin/3357410
+ */
 class AjaxSearchProController extends Container implements Module
 {
     use WpFiltersActions;

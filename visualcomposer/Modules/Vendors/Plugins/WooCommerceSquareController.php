@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Plugins;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,6 +12,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://woocommerce.com/products/square/
+ */
 class WooCommerceSquareController extends Container implements Module
 {
     use EventsFilters;
