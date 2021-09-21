@@ -12,6 +12,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://wordpress.org/plugins/jetpack/
+ */
 class JetPack extends Container implements Module
 {
     use WpFiltersActions;

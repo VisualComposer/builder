@@ -13,6 +13,11 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Traits\EventsFilters;
 
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://wordpress.org/plugins/wordpress-seo/
+ */
 class YoastController extends Container implements Module
 {
     use EventsFilters;

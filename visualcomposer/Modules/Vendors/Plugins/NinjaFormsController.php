@@ -14,6 +14,11 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://wordpress.org/plugins/ninja-forms/
+ */
 class NinjaFormsController extends Container implements Module
 {
     use WpFiltersActions;
