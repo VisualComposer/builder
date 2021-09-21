@@ -13,7 +13,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-
+/**
+ * Plugin backward compatibility
+ *
+ * @see https://www.essential-grid.com
+ */
 class EssentialGridController extends Container implements Module
 {
     use WpFiltersActions;

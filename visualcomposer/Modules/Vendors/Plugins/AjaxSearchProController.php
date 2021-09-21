@@ -16,7 +16,7 @@ use VisualComposer\Helpers\Traits\WpFiltersActions;
 /**
  * Plugin backward compatibility
  *
- * @see  
+ * @see https://codecanyon.net/item/ajax-search-pro-for-wordpress-live-search-plugin/3357410
  */
 class AjaxSearchProController extends Container implements Module
 {
