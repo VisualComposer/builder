@@ -458,6 +458,66 @@ add('insights', () => {
         })
       }
     }
+
+    checkContrast () {
+      const iframe = env('iframe')
+      if (!iframe.document.body.querySelector('#vcv-axe-core')) {
+        const axeScript = document.createElement('script')
+        axeScript.id = 'vcv-axe-core'
+        axeScript.src = 'https://cdn.jsdelivr.net/npm/axe-core@4.3.3/axe.min.js'
+        iframe.document.body.appendChild(axeScript)
+      }
+
+      if (!iframe.axe) {
+        // Need to wait for the axe-core script to load
+        setTimeout(() => {
+          this.checkContrast()
+        }, 500)
+      } else {
+        iframe.axe
+          .run()
+          .then(results => {
+            const { violations } = results
+            const colorContrast = violations.find(violation => violation.id === 'color-contrast')
+            if (colorContrast) {
+              colorContrast.nodes.forEach((node) => {
+                let itemMessage = node.any[0].message
+                itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
+                const relatedNodes = node.any[0].relatedNodes[0]
+                let id = ''
+                if (relatedNodes.target[0].includes('#')) {
+                  id = relatedNodes.target[0]
+                } else if (relatedNodes.html.includes('el-')) {
+                  const idStartIndex = relatedNodes.html.indexOf('el-')
+                  const idLength = 11
+                  id = '#' + relatedNodes.html.slice(idStartIndex, idStartIndex + idLength)
+                }
+                const domNode = id ? iframe.document.querySelector(id) : ''
+                const elementID = id ? id.slice(4) : ''
+                insightsStorage.trigger('add', {
+                  state: 'warning',
+                  type: `colorContrast`,
+                  title: this.localizations.colorContrastTitleWarn,
+                  groupDescription: this.localizations.colorContrastDescriptionWarn,
+                  description: itemMessage,
+                  elementID: elementID,
+                  domNode: domNode
+                })
+              })
+            } else {
+              insightsStorage.trigger('add', {
+                state: 'success',
+                type: 'colorContrast',
+                title: this.localizations.colorContrastTitleOK,
+                groupDescription: this.localizations.colorContrastDescriptionOK
+              })
+            }
+          })
+          .catch(err => {
+            console.error('An error occurred on axe.run():', err);
+          });
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -482,6 +542,7 @@ add('insights', () => {
         insightsStorageInstance.checkPostContentLength()
         insightsStorageInstance.checkForGA()
         insightsStorageInstance.checkLinks()
+        insightsStorageInstance.checkContrast()
       }
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
