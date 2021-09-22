@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors\Plugins;
+namespace VisualComposer\Modules\Vendors;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -13,11 +13,6 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
-/**
- * Plugin backward compatibility
- *
- * @see https://wordpress.org/plugins/woocommerce/
- */
 class WooCommerceController extends Container implements Module
 {
     use EventsFilters;
