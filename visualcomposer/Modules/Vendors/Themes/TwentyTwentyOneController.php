@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Vendors;
+namespace VisualComposer\Modules\Vendors\Themes;
 
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -12,6 +12,11 @@ use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 
+/**
+ * Backward compatibility with TwentyTwentyOne theme
+ *
+ * @see https://wordpress.org/themes/twentytwentyone
+ */
 class TwentyTwentyOneController extends Container implements Module
 {
     use WpFiltersActions;
