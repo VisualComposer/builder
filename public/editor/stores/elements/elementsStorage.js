@@ -395,15 +395,15 @@ addStorage('elements', (storage) => {
       updateTimeMachine()
     }
   })
-  storage.on('addRef', (id, ref) => {
-    const elementRefState = storage.state('elementRefs').get() || {}
-    elementRefState[id] = ref
-    storage.state('elementRefs').set(elementRefState)
+  storage.on('addHtmlString', (id, ref) => {
+    const htmlStringState = storage.state('htmlStrings').get() || {}
+    htmlStringState[id] = ref
+    storage.state('htmlStrings').set(htmlStringState)
   })
-  storage.on('removeRef', (id) => {
-    const elementRefState = storage.state('elementRefs').get() || {}
-    delete elementRefState[id]
-    storage.state('elementRefs').set(elementRefState)
+  storage.on('removeHtmlString', (id) => {
+    const htmlStringState = storage.state('htmlStrings').get() || {}
+    delete htmlStringState[id]
+    storage.state('htmlStrings').set(htmlStringState)
   })
   storage.on('updateTimeMachine', updateTimeMachine)
 })
