@@ -298,12 +298,17 @@ class EnqueueController extends Container implements Module
                 }
             }
 
-            $handle = 'vcv:assets:source:main:styles:' . $strHelper->slugify($bundleUrl);
-            wp_enqueue_style(
-                $handle,
-                $assetsHelper->getAssetUrl($bundleUrl),
-                [],
-                VCV_VERSION . '.' . $version . '-' . $sourceId
+            $path = VCV_PLUGIN_ASSETS_DIR_PATH . $bundleUrl;
+            $fileContent = '';
+            if (file_exists($path)) {
+                $fileContent = file_get_contents($path);
+            } // todo: regenerate if not exists
+            wp_add_inline_style(
+                'vcv:assets:front:style',
+                vcfilter('vcv:assets:source:main:styles', $fileContent, [
+                    'sourceId' => $sourceId,
+                    'bundleUrl' => $bundleUrl,
+                ])
             );
         }
         $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
