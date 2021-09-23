@@ -495,7 +495,7 @@ add('insights', () => {
 
                 insightsStorage.trigger('add', {
                   state: 'warning',
-                  type: `colorContrast`,
+                  type: 'colorContrast',
                   thumbnail: cookElement.get('metaThumbnailUrl'),
                   title: this.localizations.colorContrastTitleWarn,
                   groupDescription: this.localizations.colorContrastDescriptionWarn,
@@ -514,8 +514,8 @@ add('insights', () => {
             }
           })
           .catch(err => {
-            console.error('An error occurred on axe.run():', err);
-          });
+            console.error('An error occurred on axe.run():', err)
+          })
       }
     }
   }
