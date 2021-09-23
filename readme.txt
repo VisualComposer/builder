@@ -213,6 +213,37 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 39.0 =
+*Release Date - 2021-09-27*
+
+### Free:
+- New: Row layout accept pixel sizes for the fixed column width
+- Update: Pure components introduced to speed up editor performance
+- Update: Dynamic content elements optimized to speed up editor performance
+- Update: Template, block, and preset saving buttons have similar UI/UX
+- Update: Esc key closes inline editor mode
+- Compatibility: Visual Composer and Essential Grid compatibility improved
+- Fix: WPML Translation Management works properly in Visual Composer
+- Fix: WordPress default text widget works properly
+- Fix: Design Options work properly in the tablet portrait view on Safari
+- Fix: Save button works properly on Safari
+- Fix: A proper icon is displayed in the Tree View for hidden elements
+- Fix: Deleted elements from the Add Content Window can not be added to the page
+- Fix: Default YouTube element video is displayed properly
+
+### Premium:
+- New: Font Manager to overwrite theme default fonts for Visual Composer layouts and Starter theme. Ability to change H1-H6, paragraph, and blockquote.
+- New: Filter option added to all post grid elements for categorizing
+- Fix: Template export works properly
+- Fix: Substitute element works properly for the Button Group element
+- Fix: WP Forms element works properly
+- Fix: Toggle container title is displayed properly on mobile devices
+- Fix: Toggle container active colors work properly
+- Fix: Stretched rows work properly inside the Toggle container
+- Fix: Popup Builder works properly when deleting rows
+- Fix: Basic menu dropdown is displayed properly
+- Fix: Gutenberg editor close button is displayed properly in Visual Composer
+
 = 38.1 =
 *Release Date - 2021-08-10*
 
