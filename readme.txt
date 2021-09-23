@@ -1,5 +1,5 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,konutis,alperbulut,orkunaybek,OlegApanovich,seahunter,filipsmasolovs,cagdasdag,cozmoslabs
+Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,konutis,alperbulut,orkunaybek,mrdollar4444,seahunter,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
@@ -202,14 +202,11 @@ It is both! Visual Composer’s free version works like a page builder where you
 Yes, we have an awesome online community that you can join to share your expertise, connect with power-users and the Visual Composer core team – slack.visualcomposer.com
 
 == Screenshots ==
-1. Easy-to-use drag and drop website builder - an intuitive editor that gives you design freedom and tools to create a beautiful website.
-2. Visual Composer Hub - WordPress a cloud marketplace of elements, templates, and extensions.
-3. The largest collection of Elements - an ever-growing collection of content elements to build a professional website without coding.
-4. Get online faster with designer-made templates for business, portfolio, online store, blog, and other types of websites.
-5. WordPress Theme Builder - an all-in-one tool to design your beautiful website from header to footer.
-6. Mobile and desktop optimized editor for WordPress - create a mobile-friendly website from the start.
-7. Endless WordPress site design options - build a website just the way you want it with powerful design options for beginners and pros.
-8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
+1. A friendly, intuitive website builder that gives you design freedom and tools to create a beautiful site.
+2. Create any layouts fast and easy with the pixel perfect Visual Composer builder. It helps you structure content in a way that’s exactly how it should be!
+3. The Visual Composer Hub is a cloud marketplace of elements, templates and extensions. You can find anything to help build your website in one place with ease!
+4. Create a website that will look great on any device with the mobile and desktop optimized WordPress editor.
+5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
 
