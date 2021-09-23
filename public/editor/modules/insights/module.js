@@ -488,12 +488,15 @@ add('insights', () => {
                 itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
                 const idStartIndex = node.xpath[0].indexOf('el-')
                 const idLength = 11
-                const elementID = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
-                const domNode = iframe.document.querySelector(`#${elementID}`)
+                const idSelector = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
+                const elementID = idSelector.slice(3)
+                const domNode = iframe.document.querySelector(`#${idSelector}`)
+                const cookElement = cookService.getById(elementID)
 
                 insightsStorage.trigger('add', {
                   state: 'warning',
                   type: `colorContrast`,
+                  thumbnail: cookElement.get('metaThumbnailUrl'),
                   title: this.localizations.colorContrastTitleWarn,
                   groupDescription: this.localizations.colorContrastDescriptionWarn,
                   description: itemMessage,
