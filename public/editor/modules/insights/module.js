@@ -475,7 +475,10 @@ add('insights', () => {
         }, 500)
       } else {
         iframe.axe
-          .run()
+          .run({
+            resultTypes: ['violations'],
+            xpath: true
+          })
           .then(results => {
             const { violations } = results
             const colorContrast = violations.find(violation => violation.id === 'color-contrast')
@@ -483,17 +486,11 @@ add('insights', () => {
               colorContrast.nodes.forEach((node) => {
                 let itemMessage = node.any[0].message
                 itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
-                const relatedNodes = node.any[0].relatedNodes[0]
-                let id = ''
-                if (relatedNodes.target[0].includes('#')) {
-                  id = relatedNodes.target[0]
-                } else if (relatedNodes.html.includes('el-')) {
-                  const idStartIndex = relatedNodes.html.indexOf('el-')
-                  const idLength = 11
-                  id = '#' + relatedNodes.html.slice(idStartIndex, idStartIndex + idLength)
-                }
-                const domNode = id ? iframe.document.querySelector(id) : ''
-                const elementID = id ? id.slice(4) : ''
+                const idStartIndex = node.xpath[0].indexOf('el-')
+                const idLength = 11
+                const elementID = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
+                const domNode = iframe.document.querySelector(`#${elementID}`)
+
                 insightsStorage.trigger('add', {
                   state: 'warning',
                   type: `colorContrast`,
