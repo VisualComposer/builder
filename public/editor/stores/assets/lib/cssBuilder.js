@@ -299,7 +299,7 @@ export default class CssBuilder {
           this.addedEditorStylesTagList.push(tag)
           const file = this.window.document.getElementById(`vcv-css-editor-styles-${tag}`)
           if (file) {
-            file.innerHTML = elementEditorCss[0].src
+            file.innerHTML = elementEditorCss[0].src.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
           }
         }
       }
@@ -326,7 +326,7 @@ export default class CssBuilder {
     const cachedCSS = this.getCachedCSS(data.id, 'attributesCss')
     if (cache && cachedCSS) {
       const file = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
-      file.innerHTML = cachedCSS
+      file.innerHTML = cachedCSS.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
       return
     }
     const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
@@ -339,7 +339,7 @@ export default class CssBuilder {
     const attributesStylesPromise = styles.compile().then((result) => {
       const style = this.window.document.getElementById(`vcv-css-styles-${data.id}`)
       if (style) {
-        style.innerHTML = result
+        style.innerHTML = result.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
       }
     })
     this.addJob(attributesStylesPromise)
@@ -358,7 +358,7 @@ export default class CssBuilder {
         const innerStylesPromise = innerStyles.compile().then((result) => {
           const style = this.window.document.getElementById(`vcv-css-styles-${data.id}-${checksum}`)
           if (style) {
-            style.innerHTML = result
+            style.innerHTML = result.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
           }
         })
         this.addJob(innerStylesPromise)
@@ -379,7 +379,7 @@ export default class CssBuilder {
         if (cache && cachedCSS) {
           const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
           if (style) {
-            style.innerHTML = cachedCSS
+            style.innerHTML = cachedCSS.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
           }
           return
         }
@@ -388,7 +388,7 @@ export default class CssBuilder {
           this.addedBaseStylesTagList.push(tag)
           const style = this.window.document.getElementById(`vcv-base-css-styles-${tag}`)
           if (style) {
-            style.innerHTML = elementCssBase[0].src
+            style.innerHTML = elementCssBase[0].src.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
           }
         }
       }
@@ -401,7 +401,7 @@ export default class CssBuilder {
     if (cache && cachedCSS) {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
-        style.innerHTML = cachedCSS
+        style.innerHTML = cachedCSS.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
       }
       return
     }
@@ -410,7 +410,7 @@ export default class CssBuilder {
     const stylesPromise = styles.compile().then((result) => {
       const style = this.window.document.getElementById(`vcv-do-styles-${data.id}`)
       if (style) {
-        style.innerHTML = result
+        style.innerHTML = result.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
       }
     })
     this.addJob(stylesPromise)
@@ -429,7 +429,7 @@ export default class CssBuilder {
         const innerStylesPromise = innerStyles.compile().then((result) => {
           const style = this.window.document.getElementById(`vcv-do-styles-${data.id}-${checksum}`)
           if (style) {
-            style.innerHTML = result
+            style.innerHTML = result.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
           }
         })
         this.addJob(innerStylesPromise)
@@ -459,7 +459,7 @@ export default class CssBuilder {
 
   updateSettingsStyles (cssStyles) {
     const container = this.window.document.querySelector('#vcv-settings-css-styles')
-    container.innerHTML = cssStyles
+    container.innerHTML = cssStyles.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
   }
 
   updatePageDesignOptionsStyles (data) {
@@ -485,7 +485,7 @@ export default class CssBuilder {
 
     styles.compile().then((result) => {
       if (doStyleElement) {
-        doStyleElement.innerHTML = result
+        doStyleElement.innerHTML = result.replace(/({font-family:)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:\\!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:\!important)))+)}/g, '$1$2 !important}')
       }
     })
   }
