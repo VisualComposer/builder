@@ -1,9 +1,9 @@
 {
-  "baseUrl": "http://localhost/",
+  "baseUrl": "http://localhost/Dev/Wordpress/Test4Ru/WordpressDev/",
   "env": {
-    "baseUrl": "http://localhost/",
+    "baseUrl": "http://localhost/Dev/Wordpress/Test4Ru/WordpressDev/",
     "wpUserName": "admin",
-    "wpPassword": "12345",
+    "wpPassword": "admin",
     "dataPlugin": "builder/plugin-wordpress.php",
     "newPage": "/wp-admin/post-new.php?post_type=page&vcv-action=frontend",
     "serverType": "ci",
