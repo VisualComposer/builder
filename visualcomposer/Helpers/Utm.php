@@ -123,6 +123,8 @@ class Utm implements Helper
 
             // License activation purchase new
             'license-activation-purchase' => 'https://visualcomposer.com/premium/?utm_source=' . $source . '&utm_medium=activatepremium&utm_campaign=gopremium&utm_content=no-license-found-text',
+
+            'vcdashboard-font-manager-feedback' => 'https://my.visualcomposer.com/support/?utm_source=' . $source . '&utm_medium=vcdashboard&utm_campaign=info&utm_content=share-your-feedback-font-manager-text'
         ];
 
         return $utm;
