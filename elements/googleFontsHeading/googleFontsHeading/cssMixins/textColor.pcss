@@ -2,7 +2,7 @@
   &--color-$selector {
     .vce-google-fonts-heading-inner {
       @if $color != false {
-        color: $color;
+        color: $color !important;
       }
     }
   }
@@ -12,7 +12,7 @@
         background-image: linear-gradient($(gradientAngle)deg, $gradientStart, $gradientEnd);
         background-clip: text;
         -webkit-background-clip: text;
-        color: transparent;
+        color: transparent !important;
       }
     }
   }
