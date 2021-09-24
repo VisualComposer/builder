@@ -46,9 +46,8 @@ Read our [contributing guide](./CONTRIBUTING.md) to learn about our development 
 
 ## Community
 
-* Learn about Visual Composer from tutorials on [YouTube](https://www.youtube.com/VisualComposer)
-* Join our community on [Slack](http://slack.visualcomposer.com/)
-* Follow us on Facebook and join our lovely [community](https://www.facebook.com/groups/VisualComposers)
+* Learn about Visual Composer from tutorials on [YouTube](https://www.youtube.com/VisualComposer/)
+* Follow us on Facebook(https://www.facebook.com/VisualComposerWebsiteBuilder/) and join our lovely [community](https://www.facebook.com/groups/VisualComposers/)
 
 ## License
 Visual Composer is [GPL licensed](http://www.gnu.org/licenses/gpl-3.0.html).
