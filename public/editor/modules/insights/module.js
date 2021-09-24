@@ -475,10 +475,14 @@ add('insights', () => {
         }, 500)
       } else {
         iframe.axe
-          .run({
-            resultTypes: ['violations'],
-            xpath: true
-          })
+          .run(
+            '#vcv-editor',
+            {
+              resultTypes: ['violations'],
+              xpath: true,
+              runOnly: 'color-contrast'
+            }
+          )
           .then(results => {
             const { violations } = results
             const colorContrast = violations.find(violation => violation.id === 'color-contrast')
@@ -488,27 +492,29 @@ add('insights', () => {
                 let itemMessage = node.any[0].message
                 itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
                 const idStartIndex = node.xpath[0].indexOf('el-')
-                const idLength = 11
-                const idSelector = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
-                const elementID = idSelector.slice(3)
-                const domNode = iframe.document.querySelector(`#${idSelector}`)
-                const cookElement = cookService.getById(elementID)
-                const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
+                if (idStartIndex > -1) {
+                  const idLength = 11
+                  const idSelector = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
+                  const elementID = idSelector.slice(3)
+                  const domNode = iframe.document.querySelector(`#${idSelector}`)
+                  const cookElement = cookService.getById(elementID)
+                  const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
 
-                if (isSameElementIndex > -1) {
-                  notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
-                } else {
-                  notificationItems.push({
-                    state: 'warning',
-                    type: 'colorContrast',
-                    thumbnail: cookElement.get('metaThumbnailUrl'),
-                    title: this.localizations.colorContrastTitleWarn,
-                    groupDescription: this.localizations.colorContrastDescriptionWarn,
-                    description: itemMessage,
-                    elementID: elementID,
-                    domNode: domNode,
-                    groupedItems: true
-                  })
+                  if (isSameElementIndex > -1) {
+                    notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
+                  } else {
+                    notificationItems.push({
+                      state: 'warning',
+                      type: 'colorContrast',
+                      thumbnail: cookElement.get('metaThumbnailUrl'),
+                      title: this.localizations.colorContrastTitleWarn,
+                      groupDescription: this.localizations.colorContrastDescriptionWarn,
+                      description: itemMessage,
+                      elementID: elementID,
+                      domNode: domNode,
+                      groupedItems: true
+                    })
+                  }
                 }
               })
               notificationItems.forEach(item => insightsStorage.trigger('add', item))
