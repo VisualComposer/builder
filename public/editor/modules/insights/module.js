@@ -483,7 +483,8 @@ add('insights', () => {
             const { violations } = results
             const colorContrast = violations.find(violation => violation.id === 'color-contrast')
             if (colorContrast) {
-              colorContrast.nodes.forEach((node) => {
+              const notificationItems = []
+              colorContrast.nodes.forEach((node, i) => {
                 let itemMessage = node.any[0].message
                 itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
                 const idStartIndex = node.xpath[0].indexOf('el-')
@@ -492,18 +493,25 @@ add('insights', () => {
                 const elementID = idSelector.slice(3)
                 const domNode = iframe.document.querySelector(`#${idSelector}`)
                 const cookElement = cookService.getById(elementID)
+                const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
 
-                insightsStorage.trigger('add', {
-                  state: 'warning',
-                  type: 'colorContrast',
-                  thumbnail: cookElement.get('metaThumbnailUrl'),
-                  title: this.localizations.colorContrastTitleWarn,
-                  groupDescription: this.localizations.colorContrastDescriptionWarn,
-                  description: itemMessage,
-                  elementID: elementID,
-                  domNode: domNode
-                })
+                if (isSameElementIndex > -1) {
+                  notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
+                } else {
+                  notificationItems.push({
+                    state: 'warning',
+                    type: 'colorContrast',
+                    thumbnail: cookElement.get('metaThumbnailUrl'),
+                    title: this.localizations.colorContrastTitleWarn,
+                    groupDescription: this.localizations.colorContrastDescriptionWarn,
+                    description: itemMessage,
+                    elementID: elementID,
+                    domNode: domNode,
+                    groupedItems: true
+                  })
+                }
               })
+              notificationItems.forEach(item => insightsStorage.trigger('add', item))
             } else {
               insightsStorage.trigger('add', {
                 state: 'success',
