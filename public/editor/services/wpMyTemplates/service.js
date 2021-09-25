@@ -1,6 +1,5 @@
 import { addService, getService, getStorage, env } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
-import ReactDOM from 'react-dom'
 
 const utils = getService('utils')
 const dataManager = getService('dataManager')
@@ -65,9 +64,8 @@ addService('myTemplates', {
     const documentManager = getService('document')
     const currentLayout = documentManager.getDescendants(id)
     const elementsStorage = getStorage('elements')
-    const elementRefs = elementsStorage.state('elementRefs').get()
-    const elementNode = ReactDOM.findDOMNode(elementRefs[id])
-    const currentLayoutHtml = elementNode ? utils.normalizeHtml(elementNode.parentElement.innerHTML) : ''
+    const htmlStrings = elementsStorage.state('htmlStrings').get()
+    const currentLayoutHtml = htmlStrings[id] || ''
     currentLayout[id].parent = false
     if (getType.call(name) === '[object String]' && name.length) {
       return this.add(name, currentLayout, currentLayoutHtml, successCallback, errorCallback, true, templateType)

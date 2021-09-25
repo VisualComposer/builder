@@ -458,6 +458,80 @@ add('insights', () => {
         })
       }
     }
+
+    checkContrast () {
+      const iframe = env('iframe')
+      if (!iframe.document.body.querySelector('#vcv-axe-core')) {
+        const axeScript = document.createElement('script')
+        axeScript.id = 'vcv-axe-core'
+        axeScript.src = 'https://cdn.jsdelivr.net/npm/axe-core@4.3.3/axe.min.js'
+        iframe.document.body.appendChild(axeScript)
+      }
+
+      if (!iframe.axe) {
+        // Need to wait for the axe-core script to load
+        setTimeout(() => {
+          this.checkContrast()
+        }, 500)
+      } else {
+        iframe.axe
+          .run(
+            '#vcv-editor',
+            {
+              resultTypes: ['violations'],
+              xpath: true,
+              runOnly: 'color-contrast'
+            }
+          )
+          .then(results => {
+            const { violations } = results
+            const colorContrast = violations.find(violation => violation.id === 'color-contrast')
+            if (colorContrast) {
+              const notificationItems = []
+              colorContrast.nodes.forEach((node, i) => {
+                let itemMessage = node.any[0].message
+                itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
+                const idStartIndex = node.xpath[0].indexOf('el-')
+                if (idStartIndex > -1) {
+                  const idLength = 11
+                  const idSelector = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
+                  const elementID = idSelector.slice(3)
+                  const domNode = iframe.document.querySelector(`#${idSelector}`)
+                  const cookElement = cookService.getById(elementID)
+                  const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
+
+                  if (isSameElementIndex > -1) {
+                    notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
+                  } else {
+                    notificationItems.push({
+                      state: 'warning',
+                      type: 'colorContrast',
+                      thumbnail: cookElement.get('metaThumbnailUrl'),
+                      title: this.localizations.colorContrastTitleWarn,
+                      groupDescription: this.localizations.colorContrastDescriptionWarn,
+                      description: itemMessage,
+                      elementID: elementID,
+                      domNode: domNode,
+                      groupedItems: true
+                    })
+                  }
+                }
+              })
+              notificationItems.forEach(item => insightsStorage.trigger('add', item))
+            } else {
+              insightsStorage.trigger('add', {
+                state: 'success',
+                type: 'colorContrast',
+                title: this.localizations.colorContrastTitleOK,
+                groupDescription: this.localizations.colorContrastDescriptionOK
+              })
+            }
+          })
+          .catch(err => {
+            console.error('An error occurred on axe.run():', err)
+          })
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -482,6 +556,7 @@ add('insights', () => {
         insightsStorageInstance.checkPostContentLength()
         insightsStorageInstance.checkForGA()
         insightsStorageInstance.checkLinks()
+        insightsStorageInstance.checkContrast()
       }
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
