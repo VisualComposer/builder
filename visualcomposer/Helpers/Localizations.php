@@ -1456,10 +1456,6 @@ class Localizations extends Container implements Helper
                 'Page Settings',
                 'visualcomposer'
             ),
-            'designOptions' => __(
-                'Design Options',
-                'visualcomposer'
-            ),
             'pageDesignOptionsDescription' => __(
                 'The global Design Options might not work with all themes. Use any of the Visual Composer layouts or get the Visual Composer Starter Theme to access this feature.',
                 'visualcomposer'
@@ -1764,6 +1760,22 @@ class Localizations extends Container implements Helper
             ),
             'blockSaved' => __(
                 'The block has been successfully saved.',
+                'visualcomposer'
+            ),
+            'colorContrastTitleWarn' => __(
+                'Your contrast ratio is low',
+                'visualcomposer'
+            ),
+            'colorContrastDescriptionWarn' => __(
+                'Your page foreground and background colors do not meet the WCAG 2 AA contrast ratio standards of 4.5:1.',
+                'visualcomposer'
+            ),
+            'colorContrastTitleOK' => __(
+                'The page meets the contrast ratio standards',
+                'visualcomposer'
+            ),
+            'colorContrastDescriptionOK' => __(
+                'Your page foreground and background colors meet the WCAG 2 AA contrast ratio standards of 4.5:1.',
                 'visualcomposer'
             ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2)
