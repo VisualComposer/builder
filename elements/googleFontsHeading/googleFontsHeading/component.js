@@ -98,8 +98,8 @@ export default class GoogleFontsHeadingElement extends vcvAPI.elementComponent {
     }
 
     if (font && font.status === 'active') {
-      const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? null : font.fontStyle.style) : null
-      innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : null
+      const fontStyle = font.fontStyle ? (font.fontStyle.style === 'regular' ? 'normal' : font.fontStyle.style) : 'normal'
+      innerCustomProps.style.fontWeight = font.fontStyle ? font.fontStyle.weight : 400
       innerCustomProps.style.fontStyle = fontStyle
     }
 
