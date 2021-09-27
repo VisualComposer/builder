@@ -15,6 +15,13 @@ class Groups implements Helper
     public function getGroups()
     {
         return [
+            'Theme Builder' => [
+                'title' => 'Theme Builder',
+                'categories' => [
+                    'Theme Builder',
+                ],
+                'elements' => [],
+            ],
             'Basic' => [
                 'title' => 'Basic',
                 'categories' => [
