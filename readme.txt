@@ -214,7 +214,7 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 39.0 =
-*Release Date - 2021-09-27*
+*Release Date - 2021-09-28*
 
 ### Free:
 - New: Row layout accept pixel sizes for the fixed column width
