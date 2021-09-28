@@ -230,6 +230,13 @@ class Categories implements Helper
                 'elements' => [
                     'section',
                     'popupRoot',
+                ],
+                'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
+                'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
+            ],
+            'Theme Builder' => [
+                'title' => 'Theme Builder',
+                'elements' => [
                     'layoutWpContentArea',
                     'layoutWpCommentsArea',
                     'layoutHeaderArea',

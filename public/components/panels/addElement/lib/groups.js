@@ -186,6 +186,12 @@ export default class Groups extends React.Component {
         }
       })
 
+      // Backup first item if it's theme builder
+      let backupThemeBuilder
+      if (Groups.allGroups[0].id.indexOf('Theme Builder') !== -1) {
+        backupThemeBuilder = Groups.allGroups.splice(0, 1)
+      }
+
       // Element Presets Group
       const presetElements = allElements.filter(element => element.presetId)
       if (presetElements.length > 0) {
@@ -206,6 +212,11 @@ export default class Groups extends React.Component {
           elements: mostUsedItems
         }
         Groups.allGroups.unshift(mostUsedElementsGroup)
+      }
+
+      // Add theme builder category to the first
+      if (backupThemeBuilder) {
+        Groups.allGroups.unshift(...backupThemeBuilder)
       }
 
       usedElements = [...new Set(usedElements)]
