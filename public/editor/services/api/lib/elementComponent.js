@@ -157,9 +157,18 @@ export default class ElementComponent extends React.Component {
       const designOptions = this.props.atts.designOptions
       if (designOptions && Object.prototype.hasOwnProperty.call(designOptions, 'device')) {
         const doDevices = designOptions.device
-        const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
+
+        let isLazyLoad = false
+        if (doDevices[prop] && doDevices[prop].image && doDevices[prop].image.ids.length > 0) {
+          if (doDevices[prop].lazyLoad !== undefined) {
+            isLazyLoad = doDevices[prop].lazyLoad
+          } else {
+            isLazyLoad = true
+          }
+        }
+
         if (isLazyLoad) {
-          var isImagesSet = false
+          let isImagesSet = false
           Object.keys(doDevices).forEach((device) => {
             if (doDevices[device].image && doDevices[device].image.urls && doDevices[device].image.urls[0] && doDevices[device].image.urls[0].full) {
               const dataAttribute = `data-vce-background-image-${device}`
