@@ -495,25 +495,35 @@ add('insights', () => {
                 if (idStartIndex > -1) {
                   const idLength = 11
                   const idSelector = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
-                  const elementID = idSelector.slice(3)
+                  let elementID = idSelector.slice(3)
+                  let cookElement = cookService.getById(elementID)
                   const domNode = iframe.document.querySelector(`#${idSelector}`)
-                  const cookElement = cookService.getById(elementID)
                   const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
 
-                  if (isSameElementIndex > -1) {
-                    notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
-                  } else {
-                    notificationItems.push({
-                      state: 'warning',
-                      type: 'colorContrast',
-                      thumbnail: cookElement.get('metaThumbnailUrl'),
-                      title: this.localizations.colorContrastTitleWarn,
-                      groupDescription: this.localizations.colorContrastDescriptionWarn,
-                      description: itemMessage,
-                      elementID: elementID,
-                      domNode: domNode,
-                      groupedItems: true
-                    })
+                  if (!cookElement) {
+                    const parent = domNode.closest('[data-vcv-element]')
+                    if (parent) {
+                      const parentElementID = parent.getAttribute('data-vcv-element')
+                      cookElement = cookService.getById(parentElementID)
+                      elementID = parentElementID
+                    }
+                  }
+                  if (cookElement) {
+                    if (isSameElementIndex > -1) {
+                      notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
+                    } else {
+                      notificationItems.push({
+                        state: 'warning',
+                        type: 'colorContrast',
+                        thumbnail: cookElement.get('metaThumbnailUrl'),
+                        title: this.localizations.colorContrastTitleWarn,
+                        groupDescription: this.localizations.colorContrastDescriptionWarn,
+                        description: itemMessage,
+                        elementID: elementID,
+                        domNode: domNode,
+                        groupedItems: true
+                      })
+                    }
                   }
                 }
               })
