@@ -930,6 +930,13 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getLazyLoadRender () {
+
+    const isGlobalLazyLoad = window.vcvGlobalLazyLoadOption
+
+    if (!isGlobalLazyLoad) {
+      return ('');
+    }
+
     const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoad || 'Lazy load'
     const lazyLoadTooltipText = DesignOptionsAdvanced.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
     let value
