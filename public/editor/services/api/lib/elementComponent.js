@@ -157,7 +157,14 @@ export default class ElementComponent extends React.Component {
       const designOptions = this.props.atts.designOptions
       if (designOptions && Object.prototype.hasOwnProperty.call(designOptions, 'device')) {
         const doDevices = designOptions.device
-        const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
+        let isLazyLoad = false
+        if (doDevices[prop] && doDevices[prop].image && doDevices[prop].image.ids.length > 0) {
+          if (doDevices[prop].lazyLoad !== undefined) {
+            isLazyLoad = doDevices[prop].lazyLoad
+          } else {
+            isLazyLoad = true
+          }
+        }
         if (isLazyLoad) {
           var isImagesSet = false
           Object.keys(doDevices).forEach((device) => {
@@ -454,7 +461,7 @@ export default class ElementComponent extends React.Component {
         backgroundData.push(getBackgroundDeviceData(deviceKey, device[deviceKey], parallaxDeviceData))
       })
     }
-    
+
     if (backgroundData.length) {
       return <div className='vce-content-background-container'>{backgroundData}</div>
     }
