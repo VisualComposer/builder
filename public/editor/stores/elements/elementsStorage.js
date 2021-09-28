@@ -281,6 +281,13 @@ addStorage('elements', (storage) => {
       storage.trigger(`element:${oldParent}`, documentManager.get(oldParent))
       if (oldParent !== updatedElement.parent) {
         storage.trigger(`element:${updatedElement.parent}`, documentManager.get(updatedElement.parent))
+        // Update workspace element
+        const settings = workspaceStorage.state('settings').get()
+        if (settings && settings.action === 'edit') {
+          const options = settings.options && settings.options.nestedAttr ? settings.options : ''
+          const activeTab = settings.options && settings.options.activeTab ? settings.options.activeTab : ''
+          workspaceStorage.trigger('edit', id, activeTab, options)
+        }
       }
     } else {
       storage.state('document').set(documentManager.children(false))
