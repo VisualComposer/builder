@@ -301,8 +301,10 @@ class EnqueueController extends Container implements Module
             if (file_exists($path)) {
                 $fileContent = file_get_contents($path);
             } // todo: regenerate if not exists
+            wp_register_style('vcv:assets:front:style:' . $sourceId, false);
+            wp_enqueue_style('vcv:assets:front:style:' . $sourceId);
             wp_add_inline_style(
-                'vcv:assets:front:style',
+                'vcv:assets:front:style:' . $sourceId,
                 vcfilter('vcv:assets:source:main:styles', $fileContent, [
                     'sourceId' => $sourceId,
                     'bundleUrl' => $bundleUrl,
