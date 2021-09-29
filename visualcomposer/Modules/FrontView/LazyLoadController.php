@@ -32,29 +32,9 @@ class LazyLoadController extends Container implements Module
     {
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
-//        $this->addFilter('vcv:helper:assetsShared:getLibraries', 'disableMainLib');
+        $this->wpAddFilter('the_content', 'removeFromDesignOptions', 100);
 
-//        $this->wpAddFilter('the_content', 'removeForDesignOptions', 100);
-
-//        $this->wpAddFilter('the_content', 'removeForSingleImageElement', 100);
-    }
-
-    /**
-     * Disable main lazy load library connection.
-     *
-     * @param array $libraries
-     * @param \VisualComposer\Helpers\Options $optionsHelper
-     *
-     * @return array
-     */
-    protected function disableMainLib($libraries, Options $optionsHelper) {
-        if ($this->isGlobalLazyLoad($optionsHelper) || !isset($libraries['lazyLoad'])) {
-             return $libraries;
-        }
-
-        unset($libraries['lazyLoad']);
-
-        return $libraries;
+        $this->wpAddFilter('the_content', 'removeFromElements', 100);
     }
 
     /**
@@ -65,10 +45,11 @@ class LazyLoadController extends Container implements Module
      *
      * @return array
      */
-    protected function addVariables($variables, Options $optionsHelper) {
+    protected function addVariables($variables, Options $optionsHelper)
+    {
         $variables[] = [
             'key' => 'vcvGlobalLazyLoadOption',
-            'value' => $optionsHelper->get( 'settings-lazy-load-enabled' ),
+            'value' => $optionsHelper->get('settings-lazy-load-enabled'),
             'type' => 'variable',
         ];
 
@@ -76,31 +57,44 @@ class LazyLoadController extends Container implements Module
     }
 
     /**
-     * Remove lazy load functionality from post content for design options.
+     * Remove lazy load functionality from vc elements.
      *
      * @param null|string|string[] $content
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return null|string|string[]
      */
-    protected function removeForSingleImageElement($content, Options $optionsHelper )
+    protected function removeFromElements($content, Options $optionsHelper)
     {
         if ($this->isGlobalLazyLoad($optionsHelper)) {
             return $content;
         }
 
-        $dom = new DOMDocument;
+        $dom = new DOMDocument();
+        // phpcs:ignore
         @ $dom->loadHTML($content);
         $xpath = new DOMXPath($dom);
 
-        $classname="vcv-lozad";
+        $classname = "vcv-lozad";
         $nodes = $xpath->query("//*[contains(@class, '$classname')]");
 
         foreach ($nodes as $node) {
-            $srcLazy = $node->getAttribute('data-src');
-            $node->removeAttribute('data-src');
+            // image
+            $srcLazyImage = $node->getAttribute('data-src');
+            if ($srcLazyImage) {
+                $node->removeAttribute('data-src');
+                $node->setAttribute('src', $srcLazyImage);
+            }
 
-            $node->setAttribute('src', $srcLazy);
+            // video
+            $node = $node->childNodes->item(0);
+            if ($node) {
+                $srcLazyVideo = $node->getAttribute('data-src');
+                if ($srcLazyVideo) {
+                    $node->removeAttribute('data-src');
+                    $node->setAttribute('src', $srcLazyVideo);
+                }
+            }
         }
 
         $modifyingContent = $dom->saveHTML();
@@ -120,13 +114,14 @@ class LazyLoadController extends Container implements Module
      *
      * @return null|string|string[]
      */
-    protected function removeForDesignOptions($content, Options $optionsHelper )
+    protected function removeFromDesignOptions($content, Options $optionsHelper)
     {
         if ($this->isGlobalLazyLoad($optionsHelper)) {
             return $content;
         }
 
-        $dom = new DOMDocument;
+        $dom = new DOMDocument();
+        // phpcs:ignore
         @ $dom->loadHTML($content);
         $xpath = new DOMXPath($dom);
 
@@ -156,7 +151,6 @@ class LazyLoadController extends Container implements Module
 
                 $node->setAttribute('style', 'background-image: url("' . $backgroundSrc . '");');
             }
-
         }
 
         $modifyingContent = $dom->saveHTML();
@@ -169,13 +163,14 @@ class LazyLoadController extends Container implements Module
     }
 
     /**
-     * Check if global lazy load option active
+     * Check if global lazy load option active.
      *
-     * @param object $optionsHelper
+     * @param Options $optionsHelper
      *
      * @return bool
      */
-    protected function isGlobalLazyLoad(Options $optionsHelper) {
+    protected function isGlobalLazyLoad(Options $optionsHelper)
+    {
         $isGlobalLazyOption = $optionsHelper->get('settings-lazy-load-enabled');
 
         if ($isGlobalLazyOption) {

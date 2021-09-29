@@ -467,7 +467,6 @@ export default class ElementComponent extends React.Component {
         backgroundData.push(getBackgroundDeviceData(deviceKey, device[deviceKey], parallaxDeviceData))
       })
     }
-    
     if (backgroundData.length) {
       return <div className='vce-content-background-container'>{backgroundData}</div>
     }

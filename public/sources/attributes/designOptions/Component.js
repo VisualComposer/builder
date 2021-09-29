@@ -1013,7 +1013,7 @@ export default class DesignOptions extends Attribute {
     const isGlobalLazyLoad = window.vcvGlobalLazyLoadOption
 
     if (!isGlobalLazyLoad) {
-      return ('');
+      return ('')
     }
 
     const lazyLoadToggleText = DesignOptions.localizations.lazyLoad || 'Lazy load'

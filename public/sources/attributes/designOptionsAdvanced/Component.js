@@ -930,11 +930,10 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getLazyLoadRender () {
-
     const isGlobalLazyLoad = window.vcvGlobalLazyLoadOption
 
     if (!isGlobalLazyLoad) {
-      return ('');
+      return ('')
     }
 
     const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoad || 'Lazy load'
