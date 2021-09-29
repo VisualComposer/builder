@@ -462,31 +462,26 @@ add('insights', () => {
 
     contrast (insightsStorageInstance) {
       const workspaceStorageState = workspaceStorage.state('content').get()
-      if (workspaceStorageState === 'messages' && !this.isColorContrastInProgress) {
+      const triggerCheckContrast = () => {
         insightsStorage.trigger('remove', 'colorContrast')
         insightsStorage.trigger('add', {
           state: 'warning',
           type: 'colorContrast',
-          title: 'Contrast ratio',
-          groupDescription: 'Contrast check is in progress ...',
+          title: this.localizations.contrastRatio,
+          groupDescription: this.localizations.contrastCheckInProgress,
           loading: true
         })
         insightsStorageInstance.checkContrast()
         this.isColorContrastInProgress = true
       }
 
+      if (workspaceStorageState === 'messages' && !this.isColorContrastInProgress) {
+        triggerCheckContrast()
+      }
+
       workspaceStorage.state('content').onChange((value) => {
         if (value === 'messages' && !this.isColorContrastInProgress) {
-          insightsStorage.trigger('remove', 'colorContrast')
-          insightsStorage.trigger('add', {
-            state: 'warning',
-            type: 'colorContrast',
-            title: 'Contrast ratio',
-            groupDescription: 'Contrast check is in progress ...',
-            loading: true
-          })
-          insightsStorageInstance.checkContrast()
-          this.isColorContrastInProgress = true
+          triggerCheckContrast()
         }
       })
     }
