@@ -119,6 +119,10 @@ export default class EditFormSection extends React.Component {
       if (fieldOptions && fieldOptions.hide) {
         return null
       }
+      if (!window.vcvGlobalLazyLoadOption && param.key === 'lazyLoad') {
+        return null
+      }
+
       const removeDependencies = fieldOptions && fieldOptions.removeDependencies
 
       return (
