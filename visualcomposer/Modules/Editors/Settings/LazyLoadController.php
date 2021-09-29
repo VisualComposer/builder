@@ -54,7 +54,7 @@ class LazyLoadController extends Container implements Module
         };
         $this->addSection(
             [
-                'title' => __('Disable Lazy Load', 'visualcomposer'),
+                'title' => __('Lazy Load', 'visualcomposer'),
                 'page' => $this->slug,
                 'callback' => $sectionCallback,
             ]
