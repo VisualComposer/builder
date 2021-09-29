@@ -14,6 +14,7 @@ add('insights', () => {
   // VC: Insights
   class InsightsChecks {
     isImagesSizeLarge = false
+    isColorContrastInProgress = false
     localizations = dataManager.get('localizations')
 
     checkTitleLength () {
@@ -459,6 +460,37 @@ add('insights', () => {
       }
     }
 
+    contrast (insightsStorageInstance) {
+      const workspaceStorageState = workspaceStorage.state('content').get()
+      if (workspaceStorageState === 'messages' && !this.isColorContrastInProgress) {
+        insightsStorage.trigger('remove', 'colorContrast')
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'colorContrast',
+          title: 'Contrast ratio',
+          groupDescription: 'Contrast check is in progress ...',
+          loading: true
+        })
+        insightsStorageInstance.checkContrast()
+        this.isColorContrastInProgress = true
+      }
+
+      workspaceStorage.state('content').onChange((value) => {
+        if (value === 'messages' && !this.isColorContrastInProgress) {
+          insightsStorage.trigger('remove', 'colorContrast')
+          insightsStorage.trigger('add', {
+            state: 'warning',
+            type: 'colorContrast',
+            title: 'Contrast ratio',
+            groupDescription: 'Contrast check is in progress ...',
+            loading: true
+          })
+          insightsStorageInstance.checkContrast()
+          this.isColorContrastInProgress = true
+        }
+      })
+    }
+
     checkContrast () {
       const iframe = env('iframe')
       if (!iframe.document.body.querySelector('#vcv-axe-core')) {
@@ -527,8 +559,10 @@ add('insights', () => {
                   }
                 }
               })
+              insightsStorage.trigger('remove', 'colorContrast')
               notificationItems.forEach(item => insightsStorage.trigger('add', item))
             } else {
+              insightsStorage.trigger('remove', 'colorContrast')
               insightsStorage.trigger('add', {
                 state: 'success',
                 type: 'colorContrast',
@@ -536,6 +570,7 @@ add('insights', () => {
                 groupDescription: this.localizations.colorContrastDescriptionOK
               })
             }
+            this.isColorContrastInProgress = false
           })
           .catch(err => {
             console.error('An error occurred on axe.run():', err)
@@ -566,7 +601,7 @@ add('insights', () => {
         insightsStorageInstance.checkPostContentLength()
         insightsStorageInstance.checkForGA()
         insightsStorageInstance.checkLinks()
-        insightsStorageInstance.checkContrast()
+        insightsStorageInstance.contrast(insightsStorageInstance)
       }
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
