@@ -34,7 +34,9 @@ class LazyLoadController extends Container implements Module
 
 //        $this->addFilter('vcv:helper:assetsShared:getLibraries', 'disableMainLib');
 
-//        $this->wpAddFilter('the_content', 'removeLazyLoadFromContent', 100);
+//        $this->wpAddFilter('the_content', 'removeForDesignOptions', 100);
+
+//        $this->wpAddFilter('the_content', 'removeForSingleImageElement', 100);
     }
 
     /**
@@ -74,14 +76,14 @@ class LazyLoadController extends Container implements Module
     }
 
     /**
-     * Remove lazy load functionality from post content.
+     * Remove lazy load functionality from post content for design options.
      *
      * @param null|string|string[] $content
      * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return null|string|string[]
      */
-    protected function removeLazyLoadFromContent($content, Options $optionsHelper )
+    protected function removeForSingleImageElement($content, Options $optionsHelper )
     {
         if ($this->isGlobalLazyLoad($optionsHelper)) {
             return $content;
@@ -89,18 +91,72 @@ class LazyLoadController extends Container implements Module
 
         $dom = new DOMDocument;
         @ $dom->loadHTML($content);
-
         $xpath = new DOMXPath($dom);
+
+        $classname="vcv-lozad";
+        $nodes = $xpath->query("//*[contains(@class, '$classname')]");
+
+        foreach ($nodes as $node) {
+            $srcLazy = $node->getAttribute('data-src');
+            $node->removeAttribute('data-src');
+
+            $node->setAttribute('src', $srcLazy);
+        }
+
+        $modifyingContent = $dom->saveHTML();
+
+        if ($modifyingContent) {
+            $content = $modifyingContent;
+        }
+
+        return $content;
+    }
+
+    /**
+     * Remove lazy load functionality from post content for design options.
+     *
+     * @param null|string|string[] $content
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     *
+     * @return null|string|string[]
+     */
+    protected function removeForDesignOptions($content, Options $optionsHelper )
+    {
+        if ($this->isGlobalLazyLoad($optionsHelper)) {
+            return $content;
+        }
+
+        $dom = new DOMDocument;
+        @ $dom->loadHTML($content);
+        $xpath = new DOMXPath($dom);
+
         $nodes = $xpath->query('//*[@data-vce-lozad]');
 
         foreach ($nodes as $node) {
-            $backgroundSrc = $node->getAttribute('data-vce-background-image-all');
-
             $node->removeAttribute('data-vce-lozad');
-            $node->removeAttribute('data-vce-background-image-all');
             $node->removeAttribute('style');
 
-            $node->setAttribute('style', 'background-image: url("' . $backgroundSrc . '");');
+            $backgroundSrcAll = $node->getAttribute('data-vce-background-image-all');
+            if ($backgroundSrcAll) {
+                $node->removeAttribute('data-vce-background-image-all');
+                $node->setAttribute('style', 'background-image: url("' . $backgroundSrcAll . '");');
+            } else {
+                $screenList = ['xl', 'lg', 'md', 'sm', 'xs'];
+
+                foreach ($screenList as $screenSize) {
+                    $backgroundSrc = $node->getAttribute('data-vce-background-image-' . $screenSize);
+                    if ($backgroundSrc) {
+                        break;
+                    }
+                }
+
+                foreach ($screenList as $screenSize) {
+                    $node->removeAttribute('data-vce-background-image-' . $screenSize);
+                }
+
+                $node->setAttribute('style', 'background-image: url("' . $backgroundSrc . '");');
+            }
+
         }
 
         $modifyingContent = $dom->saveHTML();
