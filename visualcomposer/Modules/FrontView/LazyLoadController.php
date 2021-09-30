@@ -37,8 +37,6 @@ class LazyLoadController extends Container implements Module
 
             $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
 
-            $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
-
             $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
         }
     }
@@ -63,7 +61,7 @@ class LazyLoadController extends Container implements Module
     {
         $variables[] = [
             'key' => 'VCV_GLOBAL_LAZY_LOAD_ENABLED',
-            'value' => $optionsHelper->get('settings-lazy-load-enabled'),
+            'value' => $optionsHelper->get('settings-lazy-load-enabled', true),
             'type' => 'constant',
         ];
 
