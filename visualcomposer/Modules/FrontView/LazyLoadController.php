@@ -36,7 +36,19 @@ class LazyLoadController extends Container implements Module
             $this->wpAddFilter('the_content', 'removeFromSingleImageElement', 100);
 
             $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
+
+            $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
+
+            $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
         }
+    }
+
+    /**
+     * Dequeue lazy load lib script.
+     */
+    protected function dequeueLazyLoad()
+    {
+        wp_dequeue_script('vcv:assets:source:scripts:assetslibrarylazyloaddistlazyloadbundlejs');
     }
 
     /**
@@ -87,10 +99,8 @@ class LazyLoadController extends Container implements Module
                     $parse = preg_replace($pattern, '', $parse);
 
                     // replace src attribute
-                    $pattern = '/src="[^\"]*"/';
                     $srcImage = ' src="' . $srcImage . '" ';
-                    $parse = preg_replace($pattern, '', $parse);
-                    $parse = substr_replace($parse, $srcImage, 4, 0);
+                    $parse = str_replace('src=""', $srcImage, $parse);
                 }
 
                 return $parse;
@@ -117,7 +127,6 @@ class LazyLoadController extends Container implements Module
 
                 // remove lazy load attributes
                 $parse = preg_replace('/data-vce-lozad="[^\"]*"/', '', $parse);
-                $parse = preg_replace('/style="[^\"]*"/', '', $parse);
 
                 $screenList = ['all', 'xl', 'lg', 'md', 'sm', 'xs'];
 
@@ -131,12 +140,6 @@ class LazyLoadController extends Container implements Module
                     if ($srcImage) {
                         break;
                     }
-                }
-
-                // remove data-vce-background-image attribute
-                foreach ($screenList as $screenSize) {
-                    $pattern = '/data-vce-background-image-' . $screenSize . '="[^\"]*"/';
-                    $parse = preg_replace($pattern, '', $parse);
                 }
 
                 // add style background-image
@@ -160,16 +163,12 @@ class LazyLoadController extends Container implements Module
      */
     protected function removeFromVideoElement($content)
     {
-        $pattern = '/<noscript><video[^>]*class="(.*?)vcv-lozad(.*?)"(.*?)><source (.*?)<\/video>/';
+        $pattern = '/\/noscript><video[^>]*class="(.*?)vcv-lozad(.*?)"(.*?)><source (.*?)<\/video>/';
 
         return preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
-
-                // remove lazy load related noscript attribute
-                $pattern = '/<noscript>((.|\R)*)<\/noscript>/';
-                $parse = preg_replace($pattern, '', $parse);
 
                 // find current src prepared for lazy loading
                 $src = '';
@@ -184,11 +183,8 @@ class LazyLoadController extends Container implements Module
                     $parse = preg_replace($pattern, '', $parse);
 
                     // replace src attribute
-                    $pattern = '/src="[^\"]*"/';
                     $src = ' src="' . $src . '" ';
-                    $parse = preg_replace($pattern, '', $parse);
-                    $position = strpos($parse, '<source');
-                    $parse = substr_replace($parse, $src, $position + 7, 0);
+                    $parse = str_replace('src=""', $src, $parse);
                 }
 
                 return $parse;
