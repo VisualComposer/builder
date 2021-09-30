@@ -558,7 +558,7 @@ add('insights', () => {
                 }
               })
               insightsStorage.trigger('remove', 'colorContrast')
-              notificationItems.forEach(item => insightsStorage.trigger('add', item))
+              notificationItems.reverse().forEach(item => insightsStorage.trigger('add', item))
             } else {
               insightsStorage.trigger('remove', 'colorContrast')
               insightsStorage.trigger('add', {
