@@ -4,7 +4,7 @@ Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.8.1
-Stable tag: 39.0
+Stable tag: 39.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -209,6 +209,12 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 39.1 =
+*Release Date - 2021-09-30*
+
+### Free:
+- Fix: Inline styles for elements work properly
 
 = 39.0 =
 *Release Date - 2021-09-28*
