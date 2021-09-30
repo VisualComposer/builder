@@ -38,6 +38,18 @@ addStorage('insights', (storage) => {
     storage.state('insights').set({})
   })
 
+  storage.on('remove', (type) => {
+    const notifications = storage.state('insights').get()
+
+    Object.keys(notifications).forEach((notification) => {
+      if (notification === type) {
+        delete notifications[type]
+      }
+    })
+
+    storage.state('insights').set(notifications)
+  })
+
   storage.state('notifications').set([])
   const seenMessages = JSON.parse(window.localStorage.getItem('vcv-seen-messages'))
   storage.state('seenMessages').set(seenMessages || [])
