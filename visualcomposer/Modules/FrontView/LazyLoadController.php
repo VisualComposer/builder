@@ -8,8 +8,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use DOMDocument;
-use DOMXPath;
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -28,13 +26,17 @@ class LazyLoadController extends Container implements Module
     /**
      * Controller constructor.
      */
-    public function __construct()
+    public function __construct(Options $optionsHelper)
     {
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
-        $this->wpAddFilter('the_content', 'removeFromDesignOptions', 100);
+        if (!$optionsHelper->get('settings-lazy-load-enabled', true)) {
+            $this->wpAddFilter('the_content', 'removeFromDesignOptions', 100);
 
-        $this->wpAddFilter('the_content', 'removeFromElements', 100);
+            $this->wpAddFilter('the_content', 'removeFromSingleImageElement', 100);
+
+            $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
+        }
     }
 
     /**
@@ -48,135 +50,150 @@ class LazyLoadController extends Container implements Module
     protected function addVariables($variables, Options $optionsHelper)
     {
         $variables[] = [
-            'key' => 'vcvGlobalLazyLoadOption',
+            'key' => 'VCV_GLOBAL_LAZY_LOAD_ENABLED',
             'value' => $optionsHelper->get('settings-lazy-load-enabled'),
-            'type' => 'variable',
+            'type' => 'constant',
         ];
 
         return $variables;
     }
 
     /**
-     * Remove lazy load functionality from vc elements.
+     * Remove lazy load functionality from vc single image element.
      *
      * @param null|string|string[] $content
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return null|string|string[]
      */
-    protected function removeFromElements($content, Options $optionsHelper)
+    protected function removeFromSingleImageElement($content)
     {
-        if ($this->isGlobalLazyLoad($optionsHelper)) {
-            return $content;
-        }
+        $pattern = '/<img[^>]*class="vce-single-image vcv-lozad"(.*?)>/';
 
-        $dom = new DOMDocument();
-        // phpcs:ignore
-        @ $dom->loadHTML($content);
-        $xpath = new DOMXPath($dom);
+        return preg_replace_callback(
+            $pattern,
+            function ($matches) {
+                $parse = $matches[0];
 
-        $classname = "vcv-lozad";
-        $nodes = $xpath->query("//*[contains(@class, '$classname')]");
-
-        foreach ($nodes as $node) {
-            // image
-            $srcLazyImage = $node->getAttribute('data-src');
-            if ($srcLazyImage) {
-                $node->removeAttribute('data-src');
-                $node->setAttribute('src', $srcLazyImage);
-            }
-
-            // video
-            $node = $node->childNodes->item(0);
-            if ($node) {
-                $srcLazyVideo = $node->getAttribute('data-src');
-                if ($srcLazyVideo) {
-                    $node->removeAttribute('data-src');
-                    $node->setAttribute('src', $srcLazyVideo);
+                // find current image src prepared for lazy loading
+                $srcImage = '';
+                $regex = '/data-src="(.*?)"/';
+                if (preg_match($regex, $parse, $match)) {
+                    $srcImage = $match[1];
                 }
-            }
-        }
 
-        $modifyingContent = $dom->saveHTML();
+                if ($srcImage) {
+                    // remove data-src attribute
+                    $pattern = '/data-src="[^\"]*"/';
+                    $parse = preg_replace($pattern, '', $parse);
 
-        if ($modifyingContent) {
-            $content = $modifyingContent;
-        }
+                    // replace src attribute
+                    $pattern = '/src="[^\"]*"/';
+                    $srcImage = ' src="' . $srcImage . '" ';
+                    $parse = preg_replace($pattern, '', $parse);
+                    $parse = substr_replace($parse, $srcImage, 4, 0);
+                }
 
-        return $content;
+                return $parse;
+            },
+            $content
+        );
     }
 
     /**
      * Remove lazy load functionality from post content for design options.
      *
      * @param null|string|string[] $content
-     * @param \VisualComposer\Helpers\Options $optionsHelper
      *
      * @return null|string|string[]
      */
-    protected function removeFromDesignOptions($content, Options $optionsHelper)
+    protected function removeFromDesignOptions($content)
     {
-        if ($this->isGlobalLazyLoad($optionsHelper)) {
-            return $content;
-        }
+        $pattern = '/<div[^>]*data-vce-lozad="true"(.*?)>/';
 
-        $dom = new DOMDocument();
-        // phpcs:ignore
-        @ $dom->loadHTML($content);
-        $xpath = new DOMXPath($dom);
+        return preg_replace_callback(
+            $pattern,
+            function ($matches) {
+                $parse = $matches[0];
 
-        $nodes = $xpath->query('//*[@data-vce-lozad]');
+                // remove lazy load attributes
+                $parse = preg_replace('/data-vce-lozad="[^\"]*"/', '', $parse);
+                $parse = preg_replace('/style="[^\"]*"/', '', $parse);
 
-        foreach ($nodes as $node) {
-            $node->removeAttribute('data-vce-lozad');
-            $node->removeAttribute('style');
+                $screenList = ['all', 'xl', 'lg', 'md', 'sm', 'xs'];
 
-            $backgroundSrcAll = $node->getAttribute('data-vce-background-image-all');
-            if ($backgroundSrcAll) {
-                $node->removeAttribute('data-vce-background-image-all');
-                $node->setAttribute('style', 'background-image: url("' . $backgroundSrcAll . '");');
-            } else {
-                $screenList = ['xl', 'lg', 'md', 'sm', 'xs'];
-
+                // find current image src prepared for lazy loading
+                $srcImage = '';
                 foreach ($screenList as $screenSize) {
-                    $backgroundSrc = $node->getAttribute('data-vce-background-image-' . $screenSize);
-                    if ($backgroundSrc) {
+                    $regex = '/data-vce-background-image-' . $screenSize . '="(.*?)"/';
+                    if (preg_match($regex, $parse, $match)) {
+                        $srcImage = $match[1];
+                    }
+                    if ($srcImage) {
                         break;
                     }
                 }
 
+                // remove data-vce-background-image attribute
                 foreach ($screenList as $screenSize) {
-                    $node->removeAttribute('data-vce-background-image-' . $screenSize);
+                    $pattern = '/data-vce-background-image-' . $screenSize . '="[^\"]*"/';
+                    $parse = preg_replace($pattern, '', $parse);
                 }
 
-                $node->setAttribute('style', 'background-image: url("' . $backgroundSrc . '");');
-            }
-        }
+                // add style background-image
+                if ($srcImage) {
+                    $srcImage = ' style=\'background-image: url("' . $srcImage . '");\' ';
+                    $parse = substr_replace($parse, $srcImage, 4, 0);
+                }
 
-        $modifyingContent = $dom->saveHTML();
-
-        if ($modifyingContent) {
-            $content = $modifyingContent;
-        }
-
-        return $content;
+                return $parse;
+            },
+            $content
+        );
     }
 
     /**
-     * Check if global lazy load option active.
+     * Remove lazy load functionality from vc video element.
      *
-     * @param Options $optionsHelper
+     * @param null|string|string[] $content
      *
-     * @return bool
+     * @return null|string|string[]
      */
-    protected function isGlobalLazyLoad(Options $optionsHelper)
+    protected function removeFromVideoElement($content)
     {
-        $isGlobalLazyOption = $optionsHelper->get('settings-lazy-load-enabled');
+        $pattern = '/<noscript><video[^>]*class="(.*?)vcv-lozad(.*?)"(.*?)><source (.*?)<\/video>/';
 
-        if ($isGlobalLazyOption) {
-            return true;
-        }
+        return preg_replace_callback(
+            $pattern,
+            function ($matches) {
+                $parse = $matches[0];
 
-        return false;
+                // remove lazy load related noscript attribute
+                $pattern = '/<noscript>((.|\R)*)<\/noscript>/';
+                $parse = preg_replace($pattern, '', $parse);
+
+                // find current src prepared for lazy loading
+                $src = '';
+                $regex = '/data-src="(.*?)"/';
+                if (preg_match($regex, $parse, $match)) {
+                    $src = $match[1];
+                }
+
+                if ($src) {
+                    // remove data-src attribute
+                    $pattern = '/data-src="[^\"]*"/';
+                    $parse = preg_replace($pattern, '', $parse);
+
+                    // replace src attribute
+                    $pattern = '/src="[^\"]*"/';
+                    $src = ' src="' . $src . '" ';
+                    $parse = preg_replace($pattern, '', $parse);
+                    $position = strpos($parse, '<source');
+                    $parse = substr_replace($parse, $src, $position + 7, 0);
+                }
+
+                return $parse;
+            },
+            $content
+        );
     }
 }

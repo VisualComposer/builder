@@ -1,6 +1,6 @@
 <?php
 
-namespace VisualComposer\Modules\Editors\Settings;
+namespace VisualComposer\Modules\Settings\Fields;
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
@@ -16,10 +16,10 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Class LazyLoadController
- * @package VisualComposer\Modules\Editors\Settings
+ * Class LazyLoad
+ * @package VisualComposer\Modules\Settings\Fields
  */
-class LazyLoadController extends Container implements Module
+class LazyLoad extends Container implements Module
 {
     use Fields;
     use WpFiltersActions;
@@ -31,7 +31,6 @@ class LazyLoadController extends Container implements Module
     {
         $this->optionGroup = $this->slug;
         $this->optionSlug = 'vcv-settings-lazy-load-enabled';
-        $this->addFilter('vcv:dataAjax:getData', 'outputItemPreview');
         $this->addEvent('vcv:system:factory:reset', 'unsetOptions');
 
         $this->wpAddAction(
@@ -94,14 +93,6 @@ class LazyLoadController extends Container implements Module
                 'isEnabled' => $isEnabled,
             ]
         );
-    }
-
-    protected function outputItemPreview($response, $payload, Options $optionsHelper)
-    {
-        $isEnabled = $optionsHelper->get('settings-lazy-load-enabled', true);
-        $response['lazyLoadDisabled'] = !$isEnabled;
-
-        return $response;
     }
 
     protected function unsetOptions(Options $optionsHelper)

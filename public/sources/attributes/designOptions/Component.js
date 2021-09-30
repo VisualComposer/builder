@@ -1010,10 +1010,8 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
-    const isGlobalLazyLoad = window.vcvGlobalLazyLoadOption
-
-    if (!isGlobalLazyLoad) {
-      return ('')
+    if (!dataManager.get('globalLazyloadEnabled')) {
+      return null
     }
 
     const lazyLoadToggleText = DesignOptions.localizations.lazyLoad || 'Lazy load'
