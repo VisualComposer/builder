@@ -24,7 +24,6 @@ class PluginsController extends Container implements Module
     {
         $this->wpAddAction('pre_current_active_plugins', 'enqueueJs');
         $this->wpAddFilter('plugin_row_meta', 'pluginRowMeta', 10, 2);
-        $this->addEvent('vcv:frontend:render', 'registerGlobalScreenId', 10);
 
         if (!$licenseHelper->isPremiumActivated()) {
             /** @see \VisualComposer\Modules\License\Pages\GoPremium::pluginsPageLink */
@@ -141,20 +140,5 @@ class PluginsController extends Container implements Module
         $links[] = $goPremiumLink;
 
         return $links;
-    }
-
-    /**
-     * Add global current screen id
-     */
-    protected function registerGlobalScreenId()
-    {
-        // @codingStandardsIgnoreStart
-        global $current_screen;
-        $sourceId = get_the_ID();
-
-        if (!$current_screen->id && $sourceId) {
-            $current_screen->id = $sourceId;
-        }
-        // @codingStandardsIgnoreEnd
     }
 }
