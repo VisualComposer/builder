@@ -14,6 +14,7 @@ add('insights', () => {
   // VC: Insights
   class InsightsChecks {
     isImagesSizeLarge = false
+    isColorContrastInProgress = false
     localizations = dataManager.get('localizations')
 
     checkTitleLength () {
@@ -459,6 +460,32 @@ add('insights', () => {
       }
     }
 
+    contrast (insightsStorageInstance) {
+      const workspaceStorageState = workspaceStorage.state('content').get()
+      const triggerCheckContrast = () => {
+        insightsStorage.trigger('remove', 'colorContrast')
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'colorContrast',
+          title: this.localizations.contrastRatio,
+          groupDescription: this.localizations.contrastCheckInProgress,
+          loading: true
+        })
+        insightsStorageInstance.checkContrast()
+        this.isColorContrastInProgress = true
+      }
+
+      if (workspaceStorageState === 'messages' && !this.isColorContrastInProgress) {
+        triggerCheckContrast()
+      }
+
+      workspaceStorage.state('content').onChange(debounce((value) => {
+        if (value === 'messages' && !this.isColorContrastInProgress) {
+          triggerCheckContrast()
+        }
+      }), 250)
+    }
+
     checkContrast () {
       const iframe = env('iframe')
       if (!iframe.document.body.querySelector('#vcv-axe-core')) {
@@ -527,8 +554,10 @@ add('insights', () => {
                   }
                 }
               })
-              notificationItems.forEach(item => insightsStorage.trigger('add', item))
+              insightsStorage.trigger('remove', 'colorContrast')
+              notificationItems.reverse().forEach(item => insightsStorage.trigger('add', item))
             } else {
+              insightsStorage.trigger('remove', 'colorContrast')
               insightsStorage.trigger('add', {
                 state: 'success',
                 type: 'colorContrast',
@@ -536,6 +565,7 @@ add('insights', () => {
                 groupDescription: this.localizations.colorContrastDescriptionOK
               })
             }
+            this.isColorContrastInProgress = false
           })
           .catch(err => {
             console.error('An error occurred on axe.run():', err)
@@ -566,7 +596,7 @@ add('insights', () => {
         insightsStorageInstance.checkPostContentLength()
         insightsStorageInstance.checkForGA()
         insightsStorageInstance.checkLinks()
-        insightsStorageInstance.checkContrast()
+        insightsStorageInstance.contrast(insightsStorageInstance)
       }
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)
