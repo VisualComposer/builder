@@ -1778,6 +1778,14 @@ class Localizations extends Container implements Helper
                 'Your page foreground and background colors meet the WCAG 2 AA contrast ratio standards of 4.5:1.',
                 'visualcomposer'
             ),
+            'contrastRatio' => __(
+                'Contrast ratio',
+                'visualcomposer'
+            ),
+            'contrastCheckInProgress' => __(
+                'Contrast check is in progress ...',
+                'visualcomposer'
+            ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2)
         ];
 
