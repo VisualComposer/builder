@@ -148,11 +148,13 @@ class PluginsController extends Container implements Module
      */
     protected function registerGlobalScreenId()
     {
+        // @codingStandardsIgnoreStart
         global $current_screen;
         $sourceId = get_the_ID();
 
         if (!$current_screen->id && $sourceId) {
             $current_screen->id = $sourceId;
         }
+        // @codingStandardsIgnoreEnd
     }
 }
