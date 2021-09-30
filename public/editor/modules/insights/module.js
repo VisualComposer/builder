@@ -481,7 +481,10 @@ add('insights', () => {
 
       workspaceStorage.state('content').onChange((value) => {
         if (value === 'messages' && !this.isColorContrastInProgress) {
-          debounce(triggerCheckContrast, 250)
+          const checkContrastDebounce = debounce(() => {
+            triggerCheckContrast()
+          }, 250)
+          checkContrastDebounce()
         }
       })
     }
