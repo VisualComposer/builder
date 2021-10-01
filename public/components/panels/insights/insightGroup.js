@@ -94,6 +94,8 @@ export default class InsightsGroup extends React.Component {
           className={expandClasses}
         />
       )
+    } else if (insightGroup.items.length === 1 && insightGroup.items[0].loading) {
+      collapseButton = <span className='vcv-ui-wp-spinner' />
     }
 
     return (
