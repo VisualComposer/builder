@@ -15,6 +15,10 @@ $wp_meta_boxes = [];
 if (empty($current_screen)) {
     set_current_screen();
 }
+global $current_screen;
+if (empty($current_screen->id)) {
+    $current_screen->id = $sourceId;
+}
 // @codingStandardsIgnoreEnd
 $typenow = get_post_type();
 /**
