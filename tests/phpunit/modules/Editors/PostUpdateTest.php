@@ -28,7 +28,7 @@ class PostUpdateTest extends WP_UnitTestCase
                 [
                     'id' => $postId,
                     'editableLink' => $editableUrl,
-                    'name' => '',
+                    'name' => 'Untitled',
                 ],
             ],
         ];
