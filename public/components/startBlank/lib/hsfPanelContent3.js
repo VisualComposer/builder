@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 
 const settingsStorage = vcCake.getStorage('settings')
 const dataManager = vcCake.getService('dataManager')
 
-export default function HfsPanelContent(props) {
-/*  static propTypes = {
+export default class HfsPanelContent extends React.Component {
+  static propTypes = {
     type: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired
   }
@@ -28,15 +28,6 @@ export default function HfsPanelContent(props) {
   componentWillUnmount () {
     settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
   }
-*/
-
-  [inputValue, setInputValue] = useState(settingsStorage.state('pageTitle').get() || '')
-
-  useEffect(() => {
-    settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
-    return () => settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
-  }, []);
-
 
   handleSubmit (e) {
     e && e.preventDefault()
