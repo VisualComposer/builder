@@ -251,7 +251,7 @@ class SystemStatus extends Container implements Module
 
     protected function getPluginFolderStatusForView()
     {
-        $check = VCV_PLUGIN_DIRNAME === 'visualcomposer';
+        $check = in_array(VCV_PLUGIN_DIRNAME, ['visualcomposer', 'builder']);
         $textResponse = $check ? VCV_PLUGIN_DIRNAME : sprintf(__('Incorrect plugin folder name: %s. Plugin folder name must be ‘visualcomposer’', 'visualcomposer'), VCV_PLUGIN_DIRNAME);
 
         return ['text' => $textResponse, 'status' => $this->getStatusCssClass($check)];
