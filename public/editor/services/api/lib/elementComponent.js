@@ -154,10 +154,23 @@ export default class ElementComponent extends React.Component {
 
       // Apply lazy load attributes only for Design Options,
       // Design Options Advanced has own separate logic with rendering additional containers
-      const desingOptions = this.props.atts.designOptions
-      if (desingOptions && Object.prototype.hasOwnProperty.call(desingOptions, 'device')) {
-        const doDevices = desingOptions.device
-        const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
+      const designOptions = this.props.atts.designOptions
+      if (designOptions && Object.prototype.hasOwnProperty.call(designOptions, 'device')) {
+        const doDevices = designOptions.device
+        let isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
+
+        if (isLazyLoad === undefined) {
+          isLazyLoad = false
+        }
+
+        if (doDevices[prop] && doDevices[prop].image && doDevices[prop].image.ids.length > 0) {
+          if (doDevices[prop].lazyLoad !== undefined) {
+            isLazyLoad = doDevices[prop].lazyLoad
+          } else {
+            isLazyLoad = true
+          }
+        }
+
         if (isLazyLoad) {
           let isImagesSet = false
           Object.keys(doDevices).forEach((device) => {
@@ -454,7 +467,6 @@ export default class ElementComponent extends React.Component {
         backgroundData.push(getBackgroundDeviceData(deviceKey, device[deviceKey], parallaxDeviceData))
       })
     }
-
     if (backgroundData.length) {
       return <div className='vce-content-background-container'>{backgroundData}</div>
     }

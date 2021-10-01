@@ -1010,6 +1010,10 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
+    if (!dataManager.get('globalLazyloadEnabled')) {
+      return null
+    }
+
     const lazyLoadToggleText = DesignOptions.localizations.lazyLoad || 'Lazy load'
     const lazyLoadTooltipText = DesignOptions.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
     let value
