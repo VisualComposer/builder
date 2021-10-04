@@ -1,70 +1,74 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import vcCake from 'vc-cake'
 
 const settingsStorage = vcCake.getStorage('settings')
 const dataManager = vcCake.getService('dataManager')
 
-function HfsPanelContent(props) {
-  console.log('test')
-  const [inputValue, setInputValue] = useState(settingsStorage.state('pageTitle').get() || '')
-
-  useEffect(() => {
-    settingsStorage.state('pageTitle').onChange(updatePageTitle)
-    return () => settingsStorage.state('pageTitle').ignoreChange(updatePageTitle)
-    console.log('useeffect')
-  }, []);
-
-
-  const handleSubmit = e => {
-    console.log('handlesubmit')
-    e && e.preventDefault()
-    props.onClick(inputValue.trim())
+export default class HfsPanelContent extends React.Component {
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
   }
 
-  const handleTitleChange = e => {
-    console.log('handletitleChange')
+  constructor (props) {
+    super(props)
+    this.state = {
+      inputValue: settingsStorage.state('pageTitle').get() || ''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.updatePageTitle = this.updatePageTitle.bind(this)
+  }
+
+  componentDidMount () {
+    settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
+  }
+
+  componentWillUnmount () {
+    settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
+  }
+
+  handleSubmit (e) {
     e && e.preventDefault()
-    const value = e.currentTarget.value;
-    setInputValue(value)
+    this.props.onClick(this.state.inputValue.trim())
+  }
+
+  handleTitleChange (e) {
+    e && e.preventDefault()
+    const value = e.currentTarget.value
+    this.setState({ inputValue: value })
     settingsStorage.state('pageTitle').set(value)
   }
 
-  const updatePageTitle = title => {
+  updatePageTitle (title) {
     if (title || title === '') {
-      setInputValue(title)
-      console.log('updatepagetitle')
-
+      this.setState({ inputValue: title })
     }
   }
 
+  render () {
+    const { inputValue } = this.state
+    const localizations = dataManager.get('localizations')
+    const btnText = localizations ? localizations.startBuildingHFSButton : 'Start Building'
+    const placeholder = localizations ? localizations.startPageHFSInputPlaceholder : '{name} Name'
 
-  const localizations = dataManager.get('localizations')
-  const btnText = localizations ? localizations.startBuildingHFSButton : 'Start Building'
-  const placeholder = localizations ? localizations.startPageHFSInputPlaceholder : '{name} Name'
-
-  return (
-    <div className='vcv-hfs-start-blank-container'>
-      <form className='vcv-hfs-start-blank-form' onSubmit={handleSubmit}>
-        <input
-          className='vcv-start-blank-title-input'
-          type='text'
-          placeholder={placeholder.replace('{name}', props.type)}
-          onChange={handleTitleChange}
-          value={inputValue || ''}
-          autoFocus
-        />
-        <button className='vcv-hfs-start-blank-start-button' type='submit'>
-          {btnText}
-        </button>
-      </form>
-    </div>
-  )
+    return (
+      <div className='vcv-hfs-start-blank-container'>
+        <form className='vcv-hfs-start-blank-form' onSubmit={this.handleSubmit}>
+          <input
+            className='vcv-start-blank-title-input'
+            type='text'
+            placeholder={placeholder.replace('{name}', this.props.type)}
+            onChange={this.handleTitleChange}
+            value={inputValue || ''}
+            autoFocus
+          />
+          <button className='vcv-hfs-start-blank-start-button' type='submit'>
+            {btnText}
+          </button>
+        </form>
+      </div>
+    )
+  }
 }
-
-HfsPanelContent.propTypes = {
-  type: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
-}
-
-export default HfsPanelContent
