@@ -56,7 +56,6 @@ export default class HubItemController extends ElementControl {
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',
-        icon: 'vcv-ui-icon vcv-ui-icon-error',
         time: 5000
       })
       return false

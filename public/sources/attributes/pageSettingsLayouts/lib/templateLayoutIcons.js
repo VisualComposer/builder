@@ -87,9 +87,6 @@ export default class TemplateLayoutIcons extends React.Component {
       if (allAddons.themeEditor && allAddons.themeBuilder) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
         notificationsStorage.trigger('add', {
-          position: 'top',
-          transparent: false,
-          rounded: false,
           type: 'warning',
           text: successMessage.replace('{name}', 'Theme Builder'),
           time: 8000
