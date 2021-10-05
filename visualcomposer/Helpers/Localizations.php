@@ -1768,19 +1768,22 @@ class Localizations extends Container implements Helper
             ),
             'colorContrastDescriptionWarn' => sprintf(
                 __(
-                'Your page foreground and background colors do not meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
-                'visualcomposer'
-            ), '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                    'Your page foreground and background colors do not meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'visualcomposer'
+                ),
+        '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'colorContrastTitleOK' => __(
                 'The page meets the contrast ratio standards',
                 'visualcomposer'
             ),
-            'colorContrastDescriptionOK' => sprintf(__(
-                'Your page foreground and background colors meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
-                'visualcomposer'
-            ),'<a href="{link}" target="_blank" rel="noopener noreferrer">',
+            'colorContrastDescriptionOK' => sprintf(
+                __(
+                    'Your page foreground and background colors meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'visualcomposer'
+                ),
+        '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'contrastRatio' => __(
