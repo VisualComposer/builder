@@ -158,7 +158,7 @@ export default class ElementComponent extends React.Component {
       if (designOptions && Object.prototype.hasOwnProperty.call(designOptions, 'device')) {
         const doDevices = designOptions.device
         const isLazyLoad = Object.keys(doDevices).find(device => doDevices[device].lazyLoad)
-        
+
         if (isLazyLoad) {
           var isImagesSet = false
           Object.keys(doDevices).forEach((device) => {
