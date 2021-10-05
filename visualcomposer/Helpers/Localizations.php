@@ -1771,7 +1771,7 @@ class Localizations extends Container implements Helper
                     'Your page foreground and background colors do not meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
                     'visualcomposer'
                 ),
-        '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'colorContrastTitleOK' => __(
@@ -1783,7 +1783,7 @@ class Localizations extends Container implements Helper
                     'Your page foreground and background colors meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
                     'visualcomposer'
                 ),
-        '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
                 '</a>'
             ),
             'contrastRatio' => __(
