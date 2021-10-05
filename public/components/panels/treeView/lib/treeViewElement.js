@@ -644,7 +644,7 @@ export default class TreeViewElement extends React.Component {
 
     const publicPath = hubElementsService.getElementIcon(element.get('tag'))
     const space = 0.8
-    const defaultSpace = utils.isRTL() ? 2 : 1
+    const defaultSpace = 1
 
     if (!content) {
       content = element.getName()

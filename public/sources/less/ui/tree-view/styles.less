@@ -200,6 +200,10 @@
   }
 }
 
+.rtl .vcv-ui-tree-layout-control {
+  padding-left: 8px;
+}
+
 .vcv-ui-tree-layout-control-content {
   white-space: nowrap;
   position: relative;
@@ -285,6 +289,10 @@
   &-container {
     margin-left: auto;
   }
+}
+
+.rtl .vcv-ui-tree-layout-control-actions {
+  text-align: left;
 }
 
 .vcv-ui-tree-layout-control-action {
@@ -376,10 +384,11 @@
   bottom: 0;
   min-width: 1em;
   min-height: 1em;
-  opacity: .2;
+  opacity: .6;
+  margin-left: 2px;
   transition: opacity @transition-duration @transition-timing-function;
   .vcv-ui-drag-handler-icon {
-    font-size: .9em;
+    font-size: 1em;
   }
   &.vcv-ui-tree-layout-control-drag-handler-mobile {
     position: relative;
@@ -391,7 +400,7 @@
 
 .rtl .vcv-ui-tree-layout-control-drag-handler {
   left: auto;
-  right: 0.9rem;
+  right: 0.05rem;
 }
 
 .vcv-ui-tree-layout-control-mobile .vcv-ui-tree-layout-controls-trigger {
@@ -423,6 +432,7 @@
   left: -1.25em;
   top: 50%;
   margin-top: -.5em;
+  margin-left: 4px;
   cursor: pointer;
   opacity: .6;
   font-size: @tree-control-expand-size;
@@ -431,7 +441,7 @@
 
 .rtl .vcv-ui-tree-layout-node-expand-trigger {
   left: auto;
-  right: -1.25em;
+  right: -0.95em;
   transform+: rotate(90deg);
 }
 
