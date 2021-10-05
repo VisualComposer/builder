@@ -73,9 +73,6 @@ addStorage('workspace', (storage) => {
       const localizations = dataManager.get('localizations')
       const successMessage = localizations.cloneElementWithId || 'The element was cloned without a unique Element ID. Adjust the Element ID by editing the element.'
       notificationsStorage.trigger('add', {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
         text: successMessage,
         time: 5000
       })
@@ -99,9 +96,6 @@ addStorage('workspace', (storage) => {
     cacheStorage.trigger('clear', 'controls')
     if (metaCustomId) {
       notificationsStorage.trigger('add', {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
         text: successMessage,
         time: 5000
       })
@@ -290,9 +284,6 @@ addStorage('workspace', (storage) => {
         messageText = options.lockInnerElements ? unlockContainerMessage : unlockElementMessage
       }
       notificationsStorage.trigger('add', {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
         text: messageText,
         time: 5000
       })
@@ -334,9 +325,6 @@ addStorage('workspace', (storage) => {
       const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
       const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
       notificationsStorage.trigger('add', {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
         text: locked ? lockAllMessage : unlockAllMessage,
         time: 5000
       })
