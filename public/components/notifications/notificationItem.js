@@ -47,7 +47,7 @@ export default class NotificationItem extends React.Component {
 
   render () {
     const localizations = dataManager.get('localizations')
-    const { data, position } = this.props
+    const { data } = this.props
     if (!data.text) {
       return null
     }

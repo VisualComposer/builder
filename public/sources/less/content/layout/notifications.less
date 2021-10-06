@@ -11,7 +11,7 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    left: 0;
+    left: 60px;
     z-index: 1140;
   }
 
@@ -41,15 +41,15 @@
   }
 
   .vcv-layout-notifications-type--success {
-    background: rgba(109, 171, 60, .9);
+    background: #6DAB3C;
   }
 
   .vcv-layout-notifications-type--warning {
-    background: rgba(255, 183, 22, .9);
+    background: #FFB716;
   }
 
   .vcv-layout-notifications-type--error {
-    background: rgba(240, 91, 89, .9);
+    background: #F05B59;
   }
 
   .vcv-layout-notifications-icon {
@@ -101,10 +101,16 @@
   }
 }
 
+.vcv-layout-dock--top .vcv-layout-notifications .vcv-layout-notifications-inner {
+  left: 0;
+  right: 0;
+  max-width: initial;
+}
 
 .media-modal-content .media-frame .vcv-layout-notifications {
   .vcv-layout-notifications-inner {
     bottom: 60px;
+    left: 0;
   }
 }
 
@@ -112,7 +118,11 @@
   .vcv-layout-notifications {
     .vcv-layout-notifications-inner {
       left: auto;
-      max-width: 390px;
+      max-width: 430px;
     }
+  }
+
+  .media-modal-content .media-frame .vcv-layout-notifications .vcv-layout-notifications-inner {
+    left: auto;
   }
 }
