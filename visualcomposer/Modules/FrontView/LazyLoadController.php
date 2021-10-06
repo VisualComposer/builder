@@ -33,6 +33,8 @@ class LazyLoadController extends Container implements Module
         if (!$optionsHelper->get('settings-lazy-load-enabled', true)) {
             $this->wpAddFilter('the_content', 'removeFromDesignOptions', 100);
 
+            $this->wpAddFilter('the_content', 'removeFromAdvancedDesignOptions', 100);
+
             $this->wpAddFilter('the_content', 'removeFromSingleImageElement', 100);
 
             $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
@@ -99,6 +101,46 @@ class LazyLoadController extends Container implements Module
                     // replace src attribute
                     $srcImage = ' src="' . $srcImage . '" ';
                     $parse = str_replace('src=""', $srcImage, $parse);
+                }
+
+                return $parse;
+            },
+            $content
+        );
+    }
+
+    /**
+     * Remove lazy load functionality from vc advanced design options element.
+     *
+     * @param null|string|string[] $content
+     *
+     * @return null|string|string[]
+     */
+    protected function removeFromAdvancedDesignOptions($content)
+    {
+        $pattern = '/<div[^>]*class="(.*?) vcv-lozad"(.*?)>/';
+
+        return preg_replace_callback(
+            $pattern,
+            function ($matches) {
+                $parse = $matches[0];
+
+                // find current src prepared for lazy loading
+                $src = '';
+                $regex = '/data-background-image="(.*?)"/';
+                if (preg_match($regex, $parse, $match)) {
+                    $src = $match[1];
+                }
+
+                if ($src) {
+                    // remove data-src attribute
+                    $pattern = '/data-background-image="[^\"]*"/';
+                    $parse = preg_replace($pattern, '', $parse);
+
+                    if ($src) {
+                        $src = ' style=\'background-image: url("' . $src . '");\' ';
+                        $parse = substr_replace($parse, $src, 4, 0);
+                    }
                 }
 
                 return $parse;
