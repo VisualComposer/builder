@@ -68,10 +68,7 @@ vcCake.add('contentLayout', (api) => {
       const updateNotificationEnabled = vcCake.env('VCV_FT_UPDATE_NOTIFICATION')
       const pluginUpdate = typeof VCV_PLUGIN_UPDATE === 'function' ? VCV_PLUGIN_UPDATE() : false
       pluginUpdate && updateNotificationEnabled && notificationsStorage.trigger('add', {
-        position: 'top',
-        transparent: false,
         showCloseButton: true,
-        rounded: false,
         type: 'warning',
         text: localizations.newPluginVersionIsAvailable || 'There is a new version of Visual Composer Website Builder available',
         html: true,
@@ -84,9 +81,6 @@ vcCake.add('contentLayout', (api) => {
         mobileControls.init()
 
         notificationsStorage.trigger('add', {
-          position: 'bottom',
-          transparent: true,
-          rounded: true,
           text: localizations.mobileTooltipText || 'Double-tap on an element to open the edit window. Tap and hold to initiate drag and drop.',
           cookie: 'vcv-mobile-tooltip',
           time: 10000

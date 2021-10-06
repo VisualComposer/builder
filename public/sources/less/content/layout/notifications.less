@@ -6,170 +6,50 @@
   bottom: 0;
   pointer-events: none;
 
-  .vcv-layout-notifications-top {
+  .vcv-layout-notifications-inner {
     pointer-events: none;
     position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 2000; // 1140; - not enough for migration popup
-
-    .vcv-layout-notifications-position--top:last-child {
-      border-bottom: 0;
-    }
-  }
-
-  .vcv-layout-notifications-bottom {
-    pointer-events: none;
-    position: absolute;
-    left: 0;
     bottom: 0;
     right: 0;
+    left: 60px;
     z-index: 1140;
-
-    .vcv-layout-notifications-position--bottom:first-child {
-      border-top: 0;
-    }
   }
 
-  .vcv-layout-notifications-position--top {
+  .vcv-layout-notifications-item {
     color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, .2);
-    padding: 30px;
     font-size: 14px;
     opacity: 1;
     transition: opacity .7s ease;
     pointer-events: all;
     position: relative;
     display: flex;
-
-    &.vcv-layout-notifications-shape--rounded {
-      margin: 15px 20px 0;
-      border-radius: 10px;
-      padding: 20px;
-      border-bottom: 0;
-    }
-
-    &.vcv-layout-notifications-type--disabled {
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .vcv-layout-notifications-close-btn {
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      right: 30px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-
-      &::before, &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        background: #fff;
-        width: 2px;
-        height: 20px;
-        transform: rotate(45deg);
-        left: 7px;
-        top: -2px;
-      }
-
-      &::after {
-        transform: rotate(-45deg);
-      }
-
-      + .vcv-layout-notifications-text {
-        width: calc(~"100% - 30px");
-      }
-    }
-  }
-
-  .vcv-layout-notifications-position--bottom {
-    color: #fff;
-    border-top: 1px solid rgba(255, 255, 255, .2);
-    padding: 30px;
-    font-size: 14px;
-    opacity: 1;
-    transition: opacity .7s ease;
-    pointer-events: all;
-    position: relative;
-    display: flex;
-
-    &.vcv-layout-notifications-shape--rounded {
-      margin: 0 20px 15px;
-      border-radius: 10px;
-      padding: 20px;
-      border-top: 0;
-    }
+    margin: 0 20px 15px;
+    border-radius: 10px;
+    padding: 13px 20px;
+    align-items: center;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
 
     &.vcv-layout-notifications-type--disabled {
       pointer-events: none;
       opacity: 0;
-    }
-
-    .vcv-layout-notifications-close-btn {
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-
-      &::before, &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        background: #fff;
-        width: 2px;
-        height: 20px;
-        transform: rotate(45deg);
-        left: 7px;
-        top: -2px;
-      }
-
-      &::after {
-        transform: rotate(-45deg);
-      }
-
-      + .vcv-layout-notifications-text {
-        width: calc(~"100% - 30px");
-      }
     }
   }
 
   .vcv-layout-notifications-type--default {
-    background: rgba(0, 0, 0, 1);
-
-    &.vcv-layout-notifications-style--transparent {
-      background: rgba(0, 0, 0, 0.75);
-    }
+    background: rgba(21, 24, 42, .9);
   }
 
   .vcv-layout-notifications-type--success {
-    background: rgba(76, 175, 80, 1);
-
-    &.vcv-layout-notifications-style--transparent {
-      background: rgba(76, 175, 80, .75);
-    }
+    background: #6DAB3C;
   }
 
   .vcv-layout-notifications-type--warning {
-    background: rgba(246, 199, 104, 1);
-
-    &.vcv-layout-notifications-style--transparent {
-      background: rgba(246, 199, 104, .9);
-    }
+    background: #FFB716;
   }
 
   .vcv-layout-notifications-type--error {
-    background: rgba(242, 88, 85, 1);
-
-    &.vcv-layout-notifications-style--transparent {
-      background: rgba(242, 88, 85, .9);
-    }
+    background: #F05B59;
   }
 
   .vcv-layout-notifications-icon {
@@ -186,6 +66,12 @@
 
   .vcv-layout-notifications-text {
     flex-grow: 1;
+    line-height: 22px;
+    font-size: 13px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+
     a {
       color: inherit;
       text-decoration: underline;
@@ -193,110 +79,50 @@
   }
 
   .vcv-layout-notifications-close {
-    width: 20px;
-    margin-left: 30px;
-  }
-}
+    cursor: pointer;
+    flex: 1 0 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 6px;
+    margin-right: -14px;
 
-.vcv-layout-dock--left {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-top,
-    .vcv-layout-notifications-bottom {
-      left: 60px;
+    .vcv-ui-icon:before {
+      transition: opacity .2s;
     }
-  }
-}
 
-.vcv-layout-dock--right {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-top,
-    .vcv-layout-notifications-bottom {
-      right: 60px;
-    }
-  }
-}
-
-.vcv-layout-dock--top {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-top {
-      top: 60px;
-    }
-  }
-}
-
-.vcv-layout-dock--bottom {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-bottom {
-      bottom: 60px;
-    }
-  }
-}
-
-.media-modal-content .media-frame .vcv-layout-notifications {
-  .vcv-layout-notifications-top {
-    left: 0;
-    right: 0;
-    top: 86px;
-  }
-
-  .vcv-layout-notifications-bottom {
-    left: 0;
-    right: 0;
-    bottom: 60px;
-  }
-}
-
-.vcv-layout-dock--left .vcv-ui-tree-content-section {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-top,
-    .vcv-layout-notifications-bottom {
-      left: 0;
-    }
-  }
-}
-.vcv-layout-dock--right .vcv-ui-tree-content-section {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-top,
-    .vcv-layout-notifications-bottom {
-      right: 0;
-    }
-  }
-}
-.vcv-layout-dock--bottom .vcv-ui-tree-content-section {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-bottom {
-      bottom: 0;
-    }
-  }
-}
-.vcv-ui-tree-content-section {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-position--top,
-    .vcv-layout-notifications-position--bottom {
-      padding: 15px 20px;
-      border: 0;
-    }
-  }
-}
-.vcv-ui-tree-content-section {
-  .vcv-layout-notifications-type--default {
-    background: #6DAB3C;
-  }
-}
-
-.rtl {
-  .vcv-layout-notifications {
-    .vcv-layout-notifications-position--top {
-      .vcv-layout-notifications-close-btn {
-        left: 30px;
-        right: auto;
+    &:hover,
+    &:focus {
+      .vcv-ui-icon:before {
+        opacity: .5;
       }
     }
   }
+}
+
+.vcv-layout-dock--top .vcv-layout-notifications .vcv-layout-notifications-inner {
+  left: 0;
+  right: 0;
+  max-width: initial;
+}
+
+.media-modal-content .media-frame .vcv-layout-notifications {
+  .vcv-layout-notifications-inner {
+    bottom: 60px;
+    left: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
   .vcv-layout-notifications {
-    .vcv-layout-notifications-close {
-      margin-left: 0;
-      margin-right: 30px;
+    .vcv-layout-notifications-inner {
+      left: auto;
+      max-width: 430px;
     }
+  }
+
+  .media-modal-content .media-frame .vcv-layout-notifications .vcv-layout-notifications-inner {
+    left: auto;
   }
 }
