@@ -453,6 +453,16 @@ export default class DesignOptionsAdvanced extends Attribute {
             }
           }
 
+          if (newValue[device].images) {
+            if (newValue[device].lazyLoad === undefined) {
+              newValue[device].lazyLoad = true
+            }
+          } else {
+            if (newValue[device].lazyLoad !== undefined) {
+              delete newValue[device].lazyLoad
+            }
+          }
+
           // Embed video bg
           const embedVideoTypeBackgrounds = [
             'videoEmbed'
