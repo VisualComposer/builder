@@ -13,6 +13,10 @@ const dataManager = getService('dataManager')
 add('insights', () => {
   // VC: Insights
   class InsightsChecks {
+    constructor () {
+      this.applyColorBox = this.applyColorBox.bind(this)
+    }
+
     isImagesSizeLarge = false
     isColorContrastInProgress = false
     localizations = dataManager.get('localizations')
@@ -486,6 +490,18 @@ add('insights', () => {
       }), 250)
     }
 
+    applyColorBox (message, fgColor, bgColor) {
+      const colorBox = (color) => `<div style="background-color: ${color}" class="vcv-color-box"></div>`
+      const fgString = 'foreground color: '
+      const bgString = 'background color: '
+      const foregroundIndex = message.indexOf(fgString) + fgString.length
+      const messageWithFgColor = message.slice(0, foregroundIndex) + colorBox(fgColor) + message.slice(foregroundIndex)
+      const backgroundIndex = messageWithFgColor.lastIndexOf(bgString) + bgString.length
+      const messageWithBgColor = messageWithFgColor.slice(0, backgroundIndex) + colorBox(bgColor) + messageWithFgColor.slice(backgroundIndex)
+
+      return messageWithBgColor
+    }
+
     checkContrast () {
       const iframe = env('iframe')
       if (!iframe.document.body.querySelector('#vcv-axe-core')) {
@@ -518,6 +534,7 @@ add('insights', () => {
               colorContrast.nodes.forEach((node, i) => {
                 let itemMessage = node.any[0].message
                 itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
+                itemMessage = this.applyColorBox(itemMessage, node.any[0].data.fgColor, node.any[0].data.bgColor)
                 const idStartIndex = node.xpath[0].indexOf('el-')
                 if (idStartIndex > -1) {
                   const idLength = 11
@@ -544,7 +561,7 @@ add('insights', () => {
                         type: 'colorContrast',
                         thumbnail: cookElement.get('metaThumbnailUrl'),
                         title: this.localizations.colorContrastTitleWarn,
-                        groupDescription: this.localizations.colorContrastDescriptionWarn,
+                        groupDescription: this.localizations.colorContrastDescriptionWarn.replace('{link}', 'https://dequeuniversity.com/rules/axe/4.3/color-contrast?application=axeAPI'),
                         description: itemMessage,
                         elementID: elementID,
                         domNode: domNode,
@@ -562,7 +579,7 @@ add('insights', () => {
                 state: 'success',
                 type: 'colorContrast',
                 title: this.localizations.colorContrastTitleOK,
-                groupDescription: this.localizations.colorContrastDescriptionOK
+                groupDescription: this.localizations.colorContrastDescriptionOK.replace('{link}', 'https://dequeuniversity.com/rules/axe/4.3/color-contrast?application=axeAPI')
               })
             }
             this.isColorContrastInProgress = false

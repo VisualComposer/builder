@@ -178,9 +178,6 @@ add('wordpressWorkspace', (api) => {
             const localizations = dataManager.get('localizations')
             const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
             notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
               text: tutorialPageMessage,
               time: 5000
             })
