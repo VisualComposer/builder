@@ -75,10 +75,10 @@ export default class ColumnResizer extends React.Component {
     iframeDocument.removeEventListener('resize', this.setVisibility)
   }
 
-  componentDidUpdate (props, state) {
+  componentDidUpdate (prevProps, prevState) {
     const iframeDocument = document.getElementById('vcv-editor-iframe').contentWindow
     let data = {}
-    if (this.state.dragging && !state.dragging) {
+    if (this.state.dragging && !prevState.dragging) {
       previousLayoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
       data = {
         mode: 'columnResizer',
@@ -88,7 +88,7 @@ export default class ColumnResizer extends React.Component {
       iframeDocument.addEventListener('mousemove', this.handleMouseMove)
       iframeDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
-    } else if (!this.state.dragging && state.dragging) {
+    } else if (!this.state.dragging && prevState.dragging) {
       const newLayoutMode = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
       data = {
         mode: newLayoutMode,
@@ -99,7 +99,9 @@ export default class ColumnResizer extends React.Component {
       iframeDocument.removeEventListener('mousemove', this.handleMouseMove)
       iframeDocument.removeEventListener('mouseup', this.handleMouseUp)
     }
-    this.setVisibility()
+    if (prevState.isResizerVisible !== this.state.isResizerVisible) {
+      this.setVisibility()
+    }
   }
 
   setVisibility () {
