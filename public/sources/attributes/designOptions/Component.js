@@ -398,13 +398,15 @@ export default class DesignOptions extends Attribute {
             delete newValue[device].backgroundStyle
           }
 
-          if (imageValue) {
-            if (newValue[device].lazyLoad === undefined) {
-              newValue[device].lazyLoad = true
-            }
-          } else {
-            if (newValue[device].lazyLoad !== undefined) {
-              delete newValue[device].lazyLoad
+          if (!this.props.elementSelector) {
+            if (imageValue) {
+              if (newValue[device].lazyLoad === undefined) {
+                newValue[device].lazyLoad = true
+              }
+            } else {
+              if (newValue[device].lazyLoad !== undefined) {
+                delete newValue[device].lazyLoad
+              }
             }
           }
 
