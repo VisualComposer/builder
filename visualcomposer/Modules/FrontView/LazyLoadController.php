@@ -31,13 +31,17 @@ class LazyLoadController extends Container implements Module
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
         if (!$optionsHelper->get('settings-lazy-load-enabled', true)) {
-            $this->wpAddFilter('the_content', 'removeFromDesignOptions', 100);
+            $methodList = [
+                'removeFromDesignOptions',
+                'removeFromAdvancedDesignOptions',
+                'removeFromSingleImageElement',
+                'removeFromVideoElement'
+            ];
 
-            $this->wpAddFilter('the_content', 'removeFromAdvancedDesignOptions', 100);
-
-            $this->wpAddFilter('the_content', 'removeFromSingleImageElement', 100);
-
-            $this->wpAddFilter('the_content', 'removeFromVideoElement', 100);
+            foreach ($methodList as $method) {
+                $this->wpAddFilter('the_content', $method, 100);
+                $this->addFilter('vcv:frontend:content', $method, 100);
+            }
 
             $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
         }
@@ -71,45 +75,6 @@ class LazyLoadController extends Container implements Module
     }
 
     /**
-     * Remove lazy load functionality from vc single image element.
-     *
-     * @param null|string|string[] $content
-     *
-     * @return null|string|string[]
-     */
-    protected function removeFromSingleImageElement($content)
-    {
-        $pattern = '/<img[^>]*class="vce-single-image vcv-lozad"(.*?)>/';
-
-        return preg_replace_callback(
-            $pattern,
-            function ($matches) {
-                $parse = $matches[0];
-
-                // find current image src prepared for lazy loading
-                $srcImage = '';
-                $regex = '/data-src="(.*?)"/';
-                if (preg_match($regex, $parse, $match)) {
-                    $srcImage = $match[1];
-                }
-
-                if ($srcImage) {
-                    // remove data-src attribute
-                    $pattern = '/data-src="[^\"]*"/';
-                    $parse = preg_replace($pattern, '', $parse);
-
-                    // replace src attribute
-                    $srcImage = ' src="' . $srcImage . '" ';
-                    $parse = str_replace('src=""', $srcImage, $parse);
-                }
-
-                return $parse;
-            },
-            $content
-        );
-    }
-
-    /**
      * Remove lazy load functionality from vc advanced design options element.
      *
      * @param null|string|string[] $content
@@ -137,10 +102,8 @@ class LazyLoadController extends Container implements Module
                     $pattern = '/data-background-image="[^\"]*"/';
                     $parse = preg_replace($pattern, '', $parse);
 
-                    if ($src) {
-                        $src = ' style=\'background-image: url("' . $src . '");\' ';
-                        $parse = substr_replace($parse, $src, 4, 0);
-                    }
+                    $src = ' style=\'background-image: url("' . $src . '");\' ';
+                    $parse = substr_replace($parse, $src, 4, 0);
                 }
 
                 return $parse;
@@ -195,6 +158,20 @@ class LazyLoadController extends Container implements Module
     }
 
     /**
+     * Remove lazy load functionality from vc single image element.
+     *
+     * @param null|string|string[] $content
+     *
+     * @return null|string|string[]
+     */
+    protected function removeFromSingleImageElement($content)
+    {
+        $pattern = '/<img[^>]*class="vce-single-image vcv-lozad"(.*?)>/';
+
+        return $this->removeFromElement($pattern, $content);
+    }
+
+    /**
      * Remove lazy load functionality from vc video element.
      *
      * @param null|string|string[] $content
@@ -205,6 +182,17 @@ class LazyLoadController extends Container implements Module
     {
         $pattern = '/\/noscript><video[^>]*class="(.*?)vcv-lozad(.*?)"(.*?)><source (.*?)<\/video>/';
 
+        return $this->removeFromElement($pattern, $content);
+    }
+
+    /**
+     * Callback function for preg_replace element lazy load remove.
+     *
+     * @param string $pattern Regex pattern.
+     * @param string $content
+     */
+    protected function removeFromElement($pattern, $content)
+    {
         return preg_replace_callback(
             $pattern,
             function ($matches) {
