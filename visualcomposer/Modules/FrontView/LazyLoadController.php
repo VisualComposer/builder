@@ -49,7 +49,8 @@ class LazyLoadController extends Container implements Module
      *
      * @param string $content
      */
-    protected function globalOptionParser($content) {
+    protected function globalOptionParser($content)
+    {
         $this->content = $content;
 
         $this->removeFromDesignOptions();
