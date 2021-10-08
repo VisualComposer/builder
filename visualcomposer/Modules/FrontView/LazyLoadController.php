@@ -24,12 +24,6 @@ class LazyLoadController extends Container implements Module
     use EventsFilters;
 
     /**
-     * Global site content
-     * @var string
-     */
-    public $content;
-
-    /**
      * Controller constructor.
      */
     public function __construct(Options $optionsHelper)
@@ -51,14 +45,12 @@ class LazyLoadController extends Container implements Module
      */
     protected function globalOptionParser($content)
     {
-        $this->content = $content;
+        $content = $this->removeFromDesignOptions($content);
+        $content = $this->removeFromAdvancedDesignOptions($content);
+        $content = $this->removeFromSingleImageElement($content);
+        $content = $this->removeFromVideoElement($content);
 
-        $this->removeFromDesignOptions();
-        $this->removeFromAdvancedDesignOptions();
-        $this->removeFromSingleImageElement();
-        $this->removeFromVideoElement();
-
-        return $this->content;
+        return $content;
     }
 
     /**
@@ -90,12 +82,16 @@ class LazyLoadController extends Container implements Module
 
     /**
      * Remove lazy load functionality from vc advanced design options element.
+     *
+     * @param null|string|string[] $content
+     *
+     * @return null|string|string[]
      */
-    protected function removeFromAdvancedDesignOptions()
+    protected function removeFromAdvancedDesignOptions($content)
     {
         $pattern = '/<div[^>]*class="(.*?) vcv-lozad"(.*?)>/';
 
-        $this->content = preg_replace_callback(
+        return preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
@@ -118,18 +114,22 @@ class LazyLoadController extends Container implements Module
 
                 return $parse;
             },
-            $this->content
+            $content
         );
     }
 
     /**
      * Remove lazy load functionality from post content for design options.
+     *
+     * @param null|string|string[] $content
+     *
+     * @return null|string|string[]
      */
-    protected function removeFromDesignOptions()
+    protected function removeFromDesignOptions($content)
     {
         $pattern = '/<div[^>]*data-vce-lozad="true"(.*?)>/';
 
-        $this->content = preg_replace_callback(
+        return preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
@@ -159,38 +159,47 @@ class LazyLoadController extends Container implements Module
 
                 return $parse;
             },
-            $this->content
+            $content
         );
     }
 
     /**
      * Remove lazy load functionality from vc single image element.
+     *
+     * @param null|string|string[] $content
+     *
+     * @return null|string|string[]
      */
-    protected function removeFromSingleImageElement()
+    protected function removeFromSingleImageElement($content)
     {
         $pattern = '/<img[^>]*class="vce-single-image vcv-lozad"(.*?)>/';
 
-        $this->removeFromElement($pattern);
+        return $this->removeFromElement($pattern, $content);
     }
 
     /**
      * Remove lazy load functionality from vc video element.
+     *
+     * @param null|string|string[] $content
+     *
+     * @return null|string|string[]
      */
-    protected function removeFromVideoElement()
+    protected function removeFromVideoElement($content)
     {
         $pattern = '/\/noscript><video[^>]*class="(.*?)vcv-lozad(.*?)"(.*?)><source (.*?)<\/video>/';
 
-        $this->removeFromElement($pattern);
+        return $this->removeFromElement($pattern, $content);
     }
 
     /**
      * Callback function for preg_replace element lazy load remove.
      *
-     * @param string $pattern
+     * @param string $pattern Regex pattern.
+     * @param string $content
      */
-    protected function removeFromElement($pattern)
+    protected function removeFromElement($pattern, $content)
     {
-        $this->content = preg_replace_callback(
+        return preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
@@ -214,7 +223,7 @@ class LazyLoadController extends Container implements Module
 
                 return $parse;
             },
-            $this->content
+            $content
         );
     }
 }
