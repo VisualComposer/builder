@@ -24,6 +24,12 @@ class LazyLoadController extends Container implements Module
     use EventsFilters;
 
     /**
+     * Global site content
+     * @var string
+     */
+    public $content;
+
+    /**
      * Controller constructor.
      */
     public function __construct(Options $optionsHelper)
@@ -31,20 +37,27 @@ class LazyLoadController extends Container implements Module
         $this->addFilter('vcv:editor:variables', 'addVariables');
 
         if (!$optionsHelper->get('settings-lazy-load-enabled', true)) {
-            $methodList = [
-                'removeFromDesignOptions',
-                'removeFromAdvancedDesignOptions',
-                'removeFromSingleImageElement',
-                'removeFromVideoElement'
-            ];
-
-            foreach ($methodList as $method) {
-                $this->wpAddFilter('the_content', $method, 100);
-                $this->addFilter('vcv:frontend:content', $method, 100);
-            }
+            $this->wpAddFilter('the_content', 'globalOptionParser', 100);
+            $this->addFilter('vcv:frontend:content', 'globalOptionParser', 100);
 
             $this->wpAddAction('wp_enqueue_scripts', 'dequeueLazyLoad', 100);
         }
+    }
+
+    /**
+     * Content parser for global lazy load optionality.
+     *
+     * @param string $content
+     */
+    protected function globalOptionParser($content) {
+        $this->content = $content;
+
+        $this->removeFromDesignOptions();
+        $this->removeFromAdvancedDesignOptions();
+        $this->removeFromSingleImageElement();
+        $this->removeFromVideoElement();
+
+        return $this->content;
     }
 
     /**
@@ -76,16 +89,12 @@ class LazyLoadController extends Container implements Module
 
     /**
      * Remove lazy load functionality from vc advanced design options element.
-     *
-     * @param null|string|string[] $content
-     *
-     * @return null|string|string[]
      */
-    protected function removeFromAdvancedDesignOptions($content)
+    protected function removeFromAdvancedDesignOptions()
     {
         $pattern = '/<div[^>]*class="(.*?) vcv-lozad"(.*?)>/';
 
-        return preg_replace_callback(
+        $this->content = preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
@@ -108,22 +117,18 @@ class LazyLoadController extends Container implements Module
 
                 return $parse;
             },
-            $content
+            $this->content
         );
     }
 
     /**
      * Remove lazy load functionality from post content for design options.
-     *
-     * @param null|string|string[] $content
-     *
-     * @return null|string|string[]
      */
-    protected function removeFromDesignOptions($content)
+    protected function removeFromDesignOptions()
     {
         $pattern = '/<div[^>]*data-vce-lozad="true"(.*?)>/';
 
-        return preg_replace_callback(
+        $this->content = preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
@@ -153,47 +158,38 @@ class LazyLoadController extends Container implements Module
 
                 return $parse;
             },
-            $content
+            $this->content
         );
     }
 
     /**
      * Remove lazy load functionality from vc single image element.
-     *
-     * @param null|string|string[] $content
-     *
-     * @return null|string|string[]
      */
-    protected function removeFromSingleImageElement($content)
+    protected function removeFromSingleImageElement()
     {
         $pattern = '/<img[^>]*class="vce-single-image vcv-lozad"(.*?)>/';
 
-        return $this->removeFromElement($pattern, $content);
+        $this->removeFromElement($pattern);
     }
 
     /**
      * Remove lazy load functionality from vc video element.
-     *
-     * @param null|string|string[] $content
-     *
-     * @return null|string|string[]
      */
-    protected function removeFromVideoElement($content)
+    protected function removeFromVideoElement()
     {
         $pattern = '/\/noscript><video[^>]*class="(.*?)vcv-lozad(.*?)"(.*?)><source (.*?)<\/video>/';
 
-        return $this->removeFromElement($pattern, $content);
+        $this->removeFromElement($pattern);
     }
 
     /**
      * Callback function for preg_replace element lazy load remove.
      *
-     * @param string $pattern Regex pattern.
-     * @param string $content
+     * @param string $pattern
      */
-    protected function removeFromElement($pattern, $content)
+    protected function removeFromElement($pattern)
     {
-        return preg_replace_callback(
+        $this->content = preg_replace_callback(
             $pattern,
             function ($matches) {
                 $parse = $matches[0];
@@ -217,7 +213,7 @@ class LazyLoadController extends Container implements Module
 
                 return $parse;
             },
-            $content
+            $this->content
         );
     }
 }
