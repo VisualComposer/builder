@@ -20,7 +20,7 @@ const mainPlugins = []
 mainPlugins.push(postcssEach)
 mainPlugins.push(colorBlend())
 mainPlugins.push(cssNano({
-  preset: 'default',
+  preset: 'default'
 }))
 const plugin = postcss.plugin('postcss-math', () => {
   return (css) => {
@@ -143,7 +143,7 @@ class StylesManager {
       if (Object.prototype.hasOwnProperty.call(style, 'variables')) {
         use.push(postcssAdvancedVars({
           variables: style.variables,
-          importRoot: '/',
+          importRoot: '/'
         }))
         use.push(postcssCustomProps(style.variables))
       } else {

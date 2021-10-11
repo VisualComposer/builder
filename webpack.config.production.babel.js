@@ -9,7 +9,7 @@ import config from './webpack.config.babel'
 import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
 
 const virtualModules = new VirtualModulesPlugin({
-  'node_modules/jquery/dist/jquery.js': 'module.exports = window.jQuery;',
+  'node_modules/jquery/dist/jquery.js': 'module.exports = window.jQuery;'
 })
 
 delete config.devtool
@@ -29,9 +29,9 @@ export default Object.assign({}, config, {
           chunks: 'initial',
           name: 'vendor',
           test: 'vendor',
-          enforce: true,
-        },
-      },
+          enforce: true
+        }
+      }
     },
     minimizer: [
       new TerserPlugin({
@@ -39,8 +39,8 @@ export default Object.assign({}, config, {
           safari10: true
         }
       }),
-      new CssMinimizerPlugin(),
-    ],
+      new CssMinimizerPlugin()
+    ]
   },
   plugins: [
     new Collector({
@@ -70,8 +70,8 @@ export default Object.assign({}, config, {
           'elementAccessPoint',
           'hubAddons',
           'renderProcessor',
-          'api',
-        ],
+          'api'
+        ]
       },
       hub: {
         services: [
@@ -93,12 +93,12 @@ export default Object.assign({}, config, {
           'elementAccessPoint',
           'hubAddons',
           'renderProcessor',
-          'api',
-        ],
-      },
+          'api'
+        ]
+      }
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].bundle.css',
+      filename: '[name].bundle.css'
     }),
     virtualModules,
     new VcWebpackCustomAliasPlugin(false, false),
@@ -107,11 +107,11 @@ export default Object.assign({}, config, {
         NODE_ENV: JSON.stringify('production'),
         DEBUG: JSON.stringify('false'),
         platform: JSON.stringify('unix'),
-        NODE_DEBUG: JSON.stringify('false'),
+        NODE_DEBUG: JSON.stringify('false')
       },
       'process.platform': JSON.stringify('unix'),
       'process.browser': JSON.stringify('chrome'),
-      'fs.promises.readFile': JSON.stringify(false),
-    }),
-  ],
+      'fs.promises.readFile': JSON.stringify(false)
+    })
+  ]
 })

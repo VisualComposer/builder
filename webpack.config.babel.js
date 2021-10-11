@@ -2,12 +2,12 @@ import path from 'path'
 import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
-import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias';
-import webpackVendors from 'vc-webpack-vendors';
-import Collector from './tools/webpack-collector-5x';
+import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
+import webpackVendors from 'vc-webpack-vendors'
+import Collector from './tools/webpack-collector-5x'
 
 const virtualModules = new VirtualModulesPlugin({
-  'node_modules/jquery/dist/jquery.js': 'module.exports = window.jQuery;',
+  'node_modules/jquery/dist/jquery.js': 'module.exports = window.jQuery;'
 })
 
 export default {
@@ -22,7 +22,7 @@ export default {
     wpUpdate: './public/activation',
     wpVcSettings: './public/wordpressSettings',
     hub: './public/hub',
-    vendor: webpackVendors(),
+    vendor: webpackVendors()
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -30,7 +30,7 @@ export default {
     assetModuleFilename: 'assets/[hash][ext][query]',
     filename: '[name].bundle.js', // Main bundle file
     chunkFilename: '[name].bundle.js',
-    chunkLoadingGlobal: 'vcvWebpackJsonp4x',
+    chunkLoadingGlobal: 'vcvWebpackJsonp4x'
   },
   optimization: {
     minimize: false,
@@ -44,10 +44,10 @@ export default {
           chunks: 'initial',
           name: 'vendor',
           test: 'vendor',
-          enforce: true,
-        },
-      },
-    },
+          enforce: true
+        }
+      }
+    }
   },
   plugins: [
     new Collector({
@@ -57,7 +57,7 @@ export default {
           'layout',
           'wordpressWorkspace',
           'insights',
-          'elementLimit',
+          'elementLimit'
         ],
         services: [
           'dataManager',
@@ -78,8 +78,8 @@ export default {
           'elementAccessPoint',
           'hubAddons',
           'renderProcessor',
-          'api',
-        ],
+          'api'
+        ]
       },
       hub: {
         services: [
@@ -101,26 +101,26 @@ export default {
           'elementAccessPoint',
           'hubAddons',
           'renderProcessor',
-          'api',
-        ],
-      },
+          'api'
+        ]
+      }
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].bundle.css',
+      filename: '[name].bundle.css'
     }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
         DEBUG: JSON.stringify('true'),
         platform: JSON.stringify('unix'),
-        NODE_DEBUG: JSON.stringify('true'),
+        NODE_DEBUG: JSON.stringify('true')
       },
       'process.platform': JSON.stringify('unix'),
       'process.browser': JSON.stringify('chrome'),
-      'fs.promises.readFile': JSON.stringify(false),
+      'fs.promises.readFile': JSON.stringify(false)
     }),
     virtualModules,
-    new VcWebpackCustomAliasPlugin(false, true),
+    new VcWebpackCustomAliasPlugin(false, true)
   ],
   amd: false,
   module: {
@@ -128,24 +128,24 @@ export default {
       {
         test: /\.mjs$/,
         include: /node_modules/,
-        type: 'javascript/auto',
+        type: 'javascript/auto'
       },
       {
         test: /\.js$/,
         use: {
-          loader: 'babel-loader',
+          loader: 'babel-loader'
         },
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.css|\.less$/,
         exclude: [/styles\.css/, /editor\.css/],
         use: [
           {
-            loader: MiniCssExtractPlugin.loader,
+            loader: MiniCssExtractPlugin.loader
           },
           {
-            loader: 'css-loader',
+            loader: 'css-loader'
           },
           {
             loader: 'postcss-loader',
@@ -153,23 +153,23 @@ export default {
               postcssOptions: {
                 plugins: function plugins () {
                   return [require('autoprefixer')()]
-                },
-              },
-            },
+                }
+              }
+            }
           },
           {
             loader: 'less-loader',
             options: {
               lessOptions: {
-                math: 'always',
-              },
-            },
-          },
-        ],
+                math: 'always'
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg|ttf|woff)$/,
-        type: 'asset/resource',
+        type: 'asset/resource'
       },
       // {
       //   test: /\.(png|jpe?g|gif|ttf|eof|woff)$/,
@@ -192,9 +192,9 @@ export default {
       // },
       {
         test: /\.raw(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'raw-loader', // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
-      },
-    ],
+        use: 'raw-loader' // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
+      }
+    ]
   },
   resolve: {
     alias: { public: path.resolve(__dirname, './public/') },
@@ -208,7 +208,7 @@ export default {
       fs: require.resolve('vc-webpack-vendors/lib/slim-fs.js'),
       http: false,
       https: false,
-      stream: require.resolve('stream-browserify'),
-    },
-  },
+      stream: require.resolve('stream-browserify')
+    }
+  }
 }
