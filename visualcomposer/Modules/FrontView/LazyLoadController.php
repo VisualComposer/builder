@@ -219,6 +219,7 @@ class LazyLoadController extends Container implements Module
                     // replace src attribute
                     $src = ' src="' . $src . '" ';
                     $parse = str_replace('src=""', $src, $parse);
+                    $parse = str_replace('vcv-lozad', '', $parse);
                 }
 
                 return $parse;
