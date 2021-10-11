@@ -1,5 +1,4 @@
 import React from 'react'
-import { format } from 'util'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import Tooltip from '../../../../components/tooltip/tooltip'
@@ -93,10 +92,10 @@ export default class EditFromField extends React.Component {
       return null
     }
     if (!settings) {
-      throw new Error(format('Wrong attribute settings %s', fieldKey))
+      throw new Error('Wrong attribute settings ' + fieldKey)
     }
     if (!type) {
-      throw new Error(format('Wrong attribute type %s', fieldKey))
+      throw new Error('Wrong attribute type ' + fieldKey)
     }
 
     const classes = classNames({
