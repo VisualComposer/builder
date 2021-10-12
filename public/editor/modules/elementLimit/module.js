@@ -26,9 +26,6 @@ const triggerNotification = (type, elementName, limit) => {
   limitText = limitText.replace('%element', elementName)
 
   notificationsStorage.trigger('add', {
-    position: 'top',
-    transparent: false,
-    rounded: false,
     type: type,
     text: limitText,
     time: 5000,

@@ -215,6 +215,7 @@ export default class HtmlEditorWrapper extends Attribute {
 
   render () {
     const isDynamic = this.props.options && this.props.options.dynamicField
+    const onlyDynamic = this.props.options && this.props.options.onlyDynamic
 
     const cssClasses = classNames({
       'vcv-ui-form-wp-tinymce': true,
@@ -222,8 +223,23 @@ export default class HtmlEditorWrapper extends Attribute {
       'vcv-ui-form-field-dynamic-is-opened': this.state.dynamicFieldOpened,
       'vcv-ui-form-field-dynamic-is-active': this.state.isDynamicSet,
       'vcv-ui-form-field-has-dynamic': isDynamic,
-      'vcv-ui-form-field-has-exception-field': this.state.exceptionField
+      'vcv-ui-form-field-has-exception-field': this.state.exceptionField,
+      'vcv-ui-form-field-only-dynamic': onlyDynamic
     })
+
+    let dynamicComponent = null
+
+    if (!onlyDynamic) {
+      dynamicComponent =
+        <DynamicAttribute
+          {...this.props}
+          onOpen={this.handleDynamicFieldOpen}
+          onClose={this.handleDynamicFieldClose}
+          onDynamicFieldChange={this.handleDynamicFieldChange}
+          setFieldValue={this.setFieldValue}
+          value={this.state.value} // Must be not encoded
+        />
+    }
 
     return (
       <div className={cssClasses}>
@@ -236,14 +252,7 @@ export default class HtmlEditorWrapper extends Attribute {
           dynamicFieldOpened={this.state.dynamicFieldOpened}
           editorLoaded={this.state.editorLoaded}
         />
-        <DynamicAttribute
-          {...this.props}
-          onOpen={this.handleDynamicFieldOpen}
-          onClose={this.handleDynamicFieldClose}
-          onDynamicFieldChange={this.handleDynamicFieldChange}
-          setFieldValue={this.setFieldValue}
-          value={this.state.value} // Must be not encoded
-        />
+        {dynamicComponent}
       </div>
     )
   }

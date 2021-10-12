@@ -140,16 +140,17 @@ export const start = (callback) => {
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
-        $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
-
-        const $layoutContainer = $('.vcv-layout-container')
-        if ($layoutContainer) {
-          $layoutContainer.height(window.innerHeight)
-          window.addEventListener('resize', () => {
-            const height = window.innerHeight
-            $layoutContainer.height(height)
-          })
-        }
+        window.addEventListener('load', (event) => {
+          $iframeContainer.find('.vcv-layout-iframe-wrapper').addClass('vcv-layout-iframe-container--mobile')
+          const $layoutContainer = $('.vcv-layout-container')
+          if ($layoutContainer) {
+            $layoutContainer.height(window.innerHeight)
+            window.addEventListener('resize', () => {
+              const height = window.innerHeight
+              $layoutContainer.height(height)
+            })
+          }
+        })
       }
     }
   }

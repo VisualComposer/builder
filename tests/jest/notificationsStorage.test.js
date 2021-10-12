@@ -14,9 +14,6 @@ describe('Test notificationsStorage', () => {
     let notificationId = null
     test('notificationsStorage add', () => {
       const testData = {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
         text: 'This test notification text',
         time: 5000
       }
@@ -50,9 +47,6 @@ describe('Test notificationsStorage', () => {
     test('notificationsStorage limiter', () => {
       for (let i = 0; i < 15; i++) {
         const testData = {
-          position: 'bottom',
-          transparent: true,
-          rounded: true,
           text: 'This test notification text',
           time: 5000
         }

@@ -142,9 +142,6 @@ export default class AddBlockPanel extends React.Component {
 
   displaySuccess (successText) {
     notificationsStorage.trigger('add', {
-      position: 'bottom',
-      transparent: true,
-      rounded: true,
       text: successText,
       time: 5000
     })
@@ -152,7 +149,6 @@ export default class AddBlockPanel extends React.Component {
 
   displayError (error) {
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       type: 'error',
       text: error,
       time: 5000
@@ -385,9 +381,6 @@ export default class AddBlockPanel extends React.Component {
               let errorText = AddBlockPanel.localizations.templateContainsLimitElement || 'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.'
               errorText = errorText.split('%element').join(elementName)
               notificationsStorage.trigger('add', {
-                position: 'top',
-                transparent: false,
-                rounded: false,
                 type: 'error',
                 text: errorText,
                 time: 5000,

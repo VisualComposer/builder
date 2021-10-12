@@ -360,7 +360,7 @@ export default class DesignOptions extends Attribute {
   /**
    * Update value
    * @param newState
-   * @param prevValue
+   * @param fieldKey
    */
   updateValue (newState, fieldKey) {
     const newValue = {}
@@ -396,6 +396,18 @@ export default class DesignOptions extends Attribute {
           if (!isDynamic && (!Object.prototype.hasOwnProperty.call(newValue[device], 'image') || ((!newValue[device].image.urls || newValue[device].image.urls.length === 0) && newValue[device].image.length === 0))) {
             delete newValue[device].image
             delete newValue[device].backgroundStyle
+          }
+
+          if (!this.props.elementSelector) {
+            if (imageValue) {
+              if (newValue[device].lazyLoad === undefined) {
+                newValue[device].lazyLoad = true
+              }
+            } else {
+              if (newValue[device].lazyLoad !== undefined) {
+                delete newValue[device].lazyLoad
+              }
+            }
           }
 
           // background style is empty

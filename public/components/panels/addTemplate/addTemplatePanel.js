@@ -174,9 +174,6 @@ export default class AddTemplatePanel extends React.Component {
 
   displaySuccess (successText) {
     notificationsStorage.trigger('add', {
-      position: 'bottom',
-      transparent: true,
-      rounded: true,
       text: successText,
       time: 5000
     })
@@ -184,7 +181,6 @@ export default class AddTemplatePanel extends React.Component {
 
   displayError (error) {
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       type: 'error',
       text: error,
       time: 5000
@@ -377,11 +373,8 @@ export default class AddTemplatePanel extends React.Component {
     const successText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaved : 'The template has been successfully saved.'
 
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       text: successText,
-      time: 5000,
-      transparent: true,
-      rounded: true
+      time: 5000
     })
   }
 
@@ -469,9 +462,6 @@ export default class AddTemplatePanel extends React.Component {
               let errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
               errorText = errorText.split('%element').join(elementName)
               notificationsStorage.trigger('add', {
-                position: 'top',
-                transparent: false,
-                rounded: false,
                 type: 'error',
                 text: errorText,
                 time: 5000,
