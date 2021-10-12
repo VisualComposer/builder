@@ -76,7 +76,6 @@ export default class MessagesPanel extends React.Component {
   }
 
   componentWillUnmount () {
-    insightsStorage.state('insights').ignoreChange(this.handleInsightsChange)
     workspaceContentState.ignoreChange(this.setVisibility)
     workspaceMessagesTabState.ignoreChange(this.setActiveSection)
     currentInsightsLevel.ignoreChange(this.handleLevelChange)

@@ -184,9 +184,6 @@ export default class StockMediaResultsPanel extends React.Component {
           }
           const errorText = stockMediaLocalizations && stockMediaLocalizations.noConnectionToStockMediaText
           notificationsStorage.trigger('add', {
-            position: 'bottom',
-            transparent: true,
-            rounded: true,
             text: errorText,
             time: 5000,
             type: 'error',
@@ -294,9 +291,6 @@ export default class StockMediaResultsPanel extends React.Component {
           const jsonData = JSON.parse(data)
           if (jsonData.status) {
             notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
               text: (stockMediaLocalizations && stockMediaLocalizations.hasBeenDownloadedText) || '',
               time: 5000,
               usePortal: notificationsStorage.state('portal').get() === '.media-frame'
@@ -305,9 +299,6 @@ export default class StockMediaResultsPanel extends React.Component {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
             errorMessage = errorMessage || `${StockMediaResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, check your license. #10087'
             notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
               text: errorMessage,
               time: 5000,
               type: 'error',
@@ -321,9 +312,6 @@ export default class StockMediaResultsPanel extends React.Component {
         } catch (e) {
           const exceptionErrorMessage = `${StockMediaResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from the server. #10086'
           notificationsStorage.trigger('add', {
-            position: 'bottom',
-            transparent: true,
-            rounded: true,
             text: exceptionErrorMessage,
             time: 5000,
             type: 'error',

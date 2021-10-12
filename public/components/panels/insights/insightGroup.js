@@ -99,10 +99,10 @@ export default class InsightsGroup extends React.Component {
     }
 
     return (
-      <div className={`vcv-insight vcv-insight-${insightGroup.state} vcv-insights-group-${type}`} key={`insights-group-${type}`}>
+      <div className={`vcv-insight vcv-ui-form-group vcv-insight-${insightGroup.state} vcv-insights-group-${type}`} key={`insights-group-${type}`}>
         <div className='vcv-insight-header'>
           <span className='vcv-insight-title'>{insightGroup.title}</span>
-          <span className='vcv-insight-description'>{insightGroup.description}</span>
+          <span className='vcv-insight-description' dangerouslySetInnerHTML={{ __html: insightGroup.description }} />
           {collapseButton}
         </div>
         {filteredItems.length && this.state.expanded ? (
