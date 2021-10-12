@@ -84,7 +84,7 @@ const API = {
 
       const getDefaultPlaceholder = (blockValue) => {
         if (blockValue === 'post_excerpt') {
-          result = 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+          return 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
         }
         return `No Value (${blockValue})`
       }
@@ -113,12 +113,8 @@ const API = {
         }
       }
 
-      if (!result) {
-        result = getDefaultPlaceholder(blockAtts.value)
-      }
-
       // Plain text
-      return !result ? `No Value (${blockAtts.value})` : result
+      return !result ? getDefaultPlaceholder(blockAtts.value) : result
     },
     cleanComments: (el, id) => {
       const clean = (el, type) => {
