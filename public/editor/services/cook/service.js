@@ -82,12 +82,19 @@ const API = {
         }
       }
 
+      const getDefaultPlaceholder = (blockValue) => {
+        if (blockValue === 'post_excerpt') {
+          result = 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+        }
+        return `No Value (${blockValue})`
+      }
+
       // In case if type===string and HTML Then:
       if (!raw && attribute && ['string', 'htmleditor', 'inputSelect'].indexOf(attribute.fieldType) !== -1) {
         const isHtmlAllowed = attribute.fieldOptions.dynamicField === true || (typeof attribute.fieldOptions.dynamicField.html !== 'undefined' && attribute.fieldOptions.dynamicField.html === true)
         if (isHtmlAllowed) {
           if (!result) {
-            result = `No Value (${blockAtts.value})`
+            result = getDefaultPlaceholder(blockAtts.value)
           }
           const dynamicProps = {
             value: blockAtts.value,
@@ -104,6 +111,10 @@ const API = {
             'data-vcvs-html': `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} -->${beforeBlock + result + afterBlock}<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
           })
         }
+      }
+
+      if (!result) {
+        result = getDefaultPlaceholder(blockAtts.value)
       }
 
       // Plain text
