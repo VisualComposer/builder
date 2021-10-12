@@ -210,6 +210,44 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 40.0 =
+*Release Date - 2021-10-15*
+
+### Free:
+- New: Templates have groups in the Add Content window
+- New: Content area width control (in pixels) added in Visual Composer Dashboard for the Visual Composer layouts
+- New: Auto Contrast Check added to Visual Composer Insights for accessibility tests in the editor for the content area
+- New: Lazyload option is available sitewide in Visual Composer Dashboard
+- Update: Plugin update notifications improved
+- Update: Image selector improved for usability
+- Compatibility: Visual Composer is compatible with the LearnPress theme
+- Compatibility: Visual Composer is compatible with the Storefront theme
+- Fix: Drag and drop works properly
+- Fix: Shop pages built with Visual Composer have proper styling
+- Fix: Gravity Form paragraph field works properly in Visual Composer
+- Fix: fixCorruptedElements method works properly
+- Fix: Columns work properly after Undo function usage
+- Fix: User interface icons displayed properly in the Visual Composer Hub
+
+### Premium:
+- New: Post grid elements have a custom excerpt length option
+- Update: Visual Composer native color picker added to the Font Manager for better UI
+- Update: WooCommerce elements have a lazy load feature
+- Update: Price currency type Philippine peso available in templates
+- Update: Elements with dropdown have design consistency
+- Update: Template widgets naming improved
+- Update: Video elements in popups are auto-pausing on popup close
+- Compatibility: Visual Composer and WPML compatibility improved
+- Fix: Stretched row works properly with fixed parallax effect enabled
+- Fix: Post grid elements are styled properly in the Generate Press theme
+- Fix: Giphy element works properly on column resizing
+- Fix: Gutenberg template block works properly
+- Fix: Template name displayed properly in the block and classic widgets
+- Fix: Tags archive page displays tags as title
+- Fix: WooCommerce Product 3.2 columns works properly in the Storefront theme
+- Fix: Hover image element works properly
+- Fix: WooCommerce "Add to Cart" notification works properly
+
 = 39.1 =
 *Release Date - 2021-09-30*
 
