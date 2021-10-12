@@ -123,7 +123,15 @@ class Views extends container implements Helper
                     echo '<th scope="row"><label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title']
                         . '</label></th>';
                 } else {
-                    echo '<th scope="row">' . $field['title'] . '</th>';
+                    echo '<th scope="row">';
+                    echo $field['title'];
+                    echo isset($field['help']) ? '<span class="vcv-help-tooltip-container">
+                        <span class="vcv-help-tooltip-icon"></span>
+                        <span class="vcv-help-tooltip">
+                        ' . $field['help'] . '
+                        </span>
+                      </span>' : '';
+                    echo '</th>';
                 }
             }
 
