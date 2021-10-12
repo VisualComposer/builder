@@ -1794,7 +1794,15 @@ class Localizations extends Container implements Helper
                 'Contrast check is in progress ...',
                 'visualcomposer'
             ),
-            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2)
+            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
+            'postTemplateText' => __(
+                'Post template',
+                'visualcomposer'
+            ),
+            'archiveTemplateText' => __(
+                'Archive template',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
