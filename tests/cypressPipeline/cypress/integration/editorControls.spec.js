@@ -67,11 +67,12 @@ describe('Editor controls', function () {
       cy.savePage()
       cy.viewPage()
 
-      cy.wait(1000)
+      cy.wait(1500)
       cy.get(`.${settings.customClass}.vce-button--style-basic-container--align-${settings.alignment}`)
         .should('have.css', 'text-align', settings.alignment)
 
       cy.get(`#${settings.customId}`)
+        .scrollIntoView()
         .contains(settings.buttonText)
         .should('have.css', 'border-radius', settings.shape.cssValue)
         .and('have.css', 'padding', settings.size.cssValue)
