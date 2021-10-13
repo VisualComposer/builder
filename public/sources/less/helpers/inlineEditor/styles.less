@@ -18,100 +18,100 @@ body:not(.vcv-wb-editor) {
     border: none !important;
   }
 
-  div.mce-toolbar-grp {
+  div.mce-abs-layout-item.mce-abs-layout-item {
     background: @inline-editor-control-background-color;
     border-radius: @inline-editor-control-border-radius;
     border: none;
-  }
 
-  .mce-btn-group:not(:first-child) {
-    border-left-color: @inline-editor-control-separator-color;
-    margin-left: 0;
-  }
+    .mce-btn-group:not(:first-child) {
+      border-left-color: @inline-editor-control-separator-color;
+      margin-left: 0;
+    }
 
-  .mce-flow-layout-item {
-    &.mce-first {
-      .mce-btn.mce-first {
-        border-top-left-radius: @inline-editor-control-border-radius;
-        border-bottom-left-radius: @inline-editor-control-border-radius;
+    .mce-flow-layout-item {
+      &.mce-first {
+        .mce-btn.mce-first {
+          border-top-left-radius: @inline-editor-control-border-radius;
+          border-bottom-left-radius: @inline-editor-control-border-radius;
+        }
+      }
+
+      &.mce-last {
+        margin: 0;
+
+        .mce-btn.mce-last {
+          border-top-right-radius: @inline-editor-control-border-radius;
+          border-bottom-right-radius: @inline-editor-control-border-radius;
+        }
       }
     }
 
-    &.mce-last {
+    .mce-toolbar .mce-btn-group {
+      padding: 0;
+    }
+
+    .mce-toolbar .mce-ico {
+      color: @inline-editor-control-font-color;
+      transition: none;
+    }
+
+    .mce-btn-group .mce-btn {
+      background: transparent;
+      border: none;
+      text-shadow: none;
+      padding: 5px 6px;
+      cursor: pointer;
       margin: 0;
-
-      .mce-btn.mce-last {
-        border-top-right-radius: @inline-editor-control-border-radius;
-        border-bottom-right-radius: @inline-editor-control-border-radius;
-      }
     }
-  }
 
-  .mce-toolbar .mce-btn-group {
-    padding: 0;
-  }
+    .mce-toolbar .mce-btn-group .mce-btn:focus,
+    .mce-toolbar .mce-btn-group .mce-btn:hover,
+    .qt-dfw:focus,
+    .qt-dfw:hover,
+    .mce-toolbar .mce-btn-group .mce-btn.mce-active,
+    .mce-toolbar .mce-btn-group .mce-btn:active,
+    .qt-dfw.active {
+      background-color: @inline-editor-control-background-color-active;
+      border-color: transparent;
+      box-shadow: none;
+    }
 
-  .mce-toolbar .mce-ico {
-    color: @inline-editor-control-font-color;
-    transition: none;
-  }
+    .mce-btn:hover .mce-caret,
+    .mce-caret {
+      border-top-color: @inline-editor-control-font-color;
+    }
 
-  .mce-btn-group .mce-btn {
-    background: transparent;
-    border: none;
-    text-shadow: none;
-    padding: 5px 6px;
-    cursor: pointer;
-    margin: 0;
-  }
+    .mce-btn button,
+    .mce-menubtn button {
+      color: @inline-editor-control-font-color;
+      background: transparent;
+      letter-spacing: normal;
+      text-transform: none;
+    }
 
-  .mce-toolbar .mce-btn-group .mce-btn:focus,
-  .mce-toolbar .mce-btn-group .mce-btn:hover,
-  .qt-dfw:focus,
-  .qt-dfw:hover,
-  .mce-toolbar .mce-btn-group .mce-btn.mce-active,
-  .mce-toolbar .mce-btn-group .mce-btn:active,
-  .qt-dfw.active {
-    background-color: @inline-editor-control-background-color-active;
-    border-color: transparent;
-    box-shadow: none;
-  }
+    .mce-btn button:not(:hover),
+    .mce-menubtn button:not(:hover) {
+      background: transparent;
+    }
 
-  .mce-btn:hover .mce-caret,
-  .mce-caret {
-    border-top-color: @inline-editor-control-font-color;
-  }
+    .mce-container-body.mce-stack-layout > .mce-toolbar:not(:first-child) {
+      border-top: 1px solid @inline-editor-control-separator-color;
+    }
 
-  .mce-btn button,
-  .mce-menubtn button {
-    color: @inline-editor-control-font-color;
-    background: transparent;
-    letter-spacing: normal;
-    text-transform: none;
-  }
+    .mce-ico.mce-i-vcv-ui-icon-edit {
+      font-family: 'VC-Icons' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
 
-  .mce-btn button:not(:hover),
-  .mce-menubtn button:not(:hover) {
-    background: transparent;
-  }
-
-  .mce-container-body.mce-stack-layout>.mce-toolbar:not(:first-child) {
-    border-top: 1px solid @inline-editor-control-separator-color;
-  }
-
-  .mce-ico.mce-i-vcv-ui-icon-edit {
-    font-family: 'VC-Icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    &:before {
-      content: @vcv-ui-icon-edit;
+      &:before {
+        content: @vcv-ui-icon-edit;
+      }
     }
   }
 

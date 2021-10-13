@@ -482,7 +482,7 @@ export default class ElementControl extends React.Component {
       'layoutHeaderArea',
       'layoutSidebarArea',
       'layoutWpCommentsArea',
-      'layoutWpContentArea'
+      'layoutContentArea'
     ]
     const vcvIsUserAdmin = roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin())
 
