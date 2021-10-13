@@ -102,8 +102,5 @@ class FrontendControllerTest extends WP_UnitTestCase
             $errorMessage = 'Failed to find `' . $pattern . '` in generated output: "' . $output . '"';
             $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
-        $this->assertContains('vcv:assets:runtime:script', wp_scripts()->done);
-        $this->assertContains('vcv:assets:vendor:script', wp_scripts()->done);
-        $this->assertContains('vcv:editors:frontend:script', wp_scripts()->done);
     }
 }

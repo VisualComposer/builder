@@ -88,8 +88,10 @@ class AssetBundleCompressionController extends Container implements Module
         }
 
         $compressList = [
+            'editor',
             'wp',
-            'vendor'
+            'vendor',
+            'runtime'
         ];
 
         $key = array_search($_GET['vcv-script'], $compressList);
