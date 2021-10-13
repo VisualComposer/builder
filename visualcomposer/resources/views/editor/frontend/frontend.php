@@ -109,9 +109,14 @@ if (is_array($extraOutput)) {
         </div>
     </div>
     <div class="vcv-layout-overlay"></div>
+
 </div>
+<script src="<?php echo get_site_url(null, '?vcv-script=vendor'); ?>"></script>
+<script src="<?php echo get_site_url(null, '?vcv-script=wp'); ?>"></script>
+
 <?php
 vcevent('vcv:frontend:render:footer', ['sourceId' => $sourceId]);
+
 wp_print_footer_scripts();
 do_action('admin_footer', '');
 do_action('admin_print_footer_scripts-' . $hookSuffix);

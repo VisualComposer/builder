@@ -5,6 +5,7 @@ import VirtualModulePlugin from 'virtual-module-webpack-plugin'
 import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
 import webpackVendors from 'vc-webpack-vendors'
 import Collector from './tools/webpack-collector-4x'
+import CompressionWebpackPlugin from 'compression-webpack-plugin'
 
 export default {
   devtool: 'eval',
@@ -111,7 +112,8 @@ export default {
       contents: 'module.exports = window.jQuery'
     }),
     new VcWebpackCustomAliasPlugin(false, true),
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new CompressionWebpackPlugin,
   ],
   module: {
     rules: [
