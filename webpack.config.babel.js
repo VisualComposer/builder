@@ -120,7 +120,7 @@ export default {
       'process.browser': JSON.stringify('chrome'),
       'fs.promises.readFile': JSON.stringify(false)
     }),
-    new CompressionWebpackPlugin,
+    new CompressionWebpackPlugin(),
     virtualModules,
     new VcWebpackCustomAliasPlugin(false, true)
   ],
