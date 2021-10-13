@@ -58,7 +58,7 @@ class ElementsAutoload extends Autoload implements Module
             'modules' => [],
         ];
         $optionsHelper = vchelper('Options');
-        $allCached = $optionsHelper->getTransient('elements:autoload:all');
+        $allCached = \VcvEnv::get('VCV_DEBUG') ? [] : $optionsHelper->getTransient('elements:autoload:all');
 
         if (!empty($allCached)) {
             return $allCached;

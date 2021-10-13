@@ -50,9 +50,6 @@ addStorage('hubTemplates', (storage) => {
           const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
               text: successMessage.replace('{name}', name),
               time: 5000
             })
@@ -105,7 +102,6 @@ addStorage('hubTemplates', (storage) => {
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
-                icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
               workspaceStorage.trigger('removeFromDownloading', tag)
@@ -121,7 +117,6 @@ addStorage('hubTemplates', (storage) => {
               type: 'error',
               text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
               showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
             })
             workspaceStorage.trigger('removeFromDownloading', tag)
@@ -139,7 +134,6 @@ addStorage('hubTemplates', (storage) => {
             type: 'error',
             text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
             showCloseButton: 'true',
-            icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000
           })
         }

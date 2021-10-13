@@ -143,7 +143,8 @@ add('wordpressWorkspace', (api) => {
       documentElements = elements
       if (data.length === 0) {
         const showBlank = editorType !== 'default'
-        if (showBlank && !settingsStorage.state('skipBlank').get()) {
+        // Show the start ui only in initial loading for custom types
+        if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addStartBlank()
           isBlank = true
           document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
@@ -178,9 +179,6 @@ add('wordpressWorkspace', (api) => {
             const localizations = dataManager.get('localizations')
             const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
             notificationsStorage.trigger('add', {
-              position: 'bottom',
-              transparent: true,
-              rounded: true,
               text: tutorialPageMessage,
               time: 5000
             })

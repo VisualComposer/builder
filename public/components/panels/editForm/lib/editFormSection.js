@@ -60,10 +60,6 @@ export default class EditFormSection extends React.Component {
         refWrapper: this.section
       }, 'section')
     }
-
-    if (this.props.isEditFormSettings) {
-      notificationsStorage.trigger('portalChange', '.vcv-ui-tree-content-section')
-    }
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -76,9 +72,6 @@ export default class EditFormSection extends React.Component {
     this._isMounted = false
     if (this.props.setFieldUnmount) {
       this.props.setFieldUnmount(this.props.tab.fieldKey, 'section')
-    }
-    if (this.props.isEditFormSettings) {
-      notificationsStorage.trigger('portalChange', null)
     }
   }
 
@@ -126,6 +119,12 @@ export default class EditFormSection extends React.Component {
       if (fieldOptions && fieldOptions.hide) {
         return null
       }
+      if (!dataManager.get('globalLazyloadEnabled')) {
+        if (param.key === 'lazyLoad') {
+          return null
+        }
+      }
+
       const removeDependencies = fieldOptions && fieldOptions.removeDependencies
 
       return (
@@ -289,21 +288,17 @@ export default class EditFormSection extends React.Component {
   displaySuccess (successText) {
     this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       text: successText,
-      time: 5000,
-      usePortal: true
+      time: 5000
     })
   }
 
   displayError (errorText) {
     this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       type: 'error',
       text: errorText,
-      time: 5000,
-      usePortal: true
+      time: 5000
     })
   }
 

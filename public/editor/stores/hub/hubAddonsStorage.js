@@ -61,9 +61,6 @@ addStorage('hubAddons', (storage) => {
           const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
             notificationsStorage.trigger('add', {
-              position: 'top',
-              transparent: false,
-              rounded: false,
               type: 'warning',
               text: successMessage.replace('{name}', name),
               time: 8000
@@ -100,7 +97,6 @@ addStorage('hubAddons', (storage) => {
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
-                icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
               workspaceStorage.trigger('removeFromDownloading', tag)
@@ -116,7 +112,6 @@ addStorage('hubAddons', (storage) => {
               type: 'error',
               text: localizations.defaultErrorAddonDownload || 'Failed to download addon',
               showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
             })
             workspaceStorage.trigger('removeFromDownloading', tag)
@@ -134,7 +129,6 @@ addStorage('hubAddons', (storage) => {
             type: 'error',
             text: localizations.defaultErrorAddonDownload || 'Failed to download addon',
             showCloseButton: 'true',
-            icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000
           })
         }

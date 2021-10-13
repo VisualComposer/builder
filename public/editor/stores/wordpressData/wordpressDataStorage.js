@@ -346,9 +346,6 @@ addStorage('wordpressData', (storage) => {
       if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
         featuredImageNotification = true
         notificationsStorage.trigger('add', {
-          position: 'bottom',
-          transparent: true,
-          rounded: true,
           text: localizations.featuredImageSet || 'Featured image is set. Save page and reload editor to see changes.',
           time: 8000
         })
@@ -360,9 +357,6 @@ addStorage('wordpressData', (storage) => {
     }
     if (current && current.urls && !current.urls.length) {
       notificationsStorage.trigger('add', {
-        position: 'bottom',
-        transparent: true,
-        rounded: true,
         text: localizations.featuredImageRemoved || 'Featured image is removed. Save page and reload editor to see changes.',
         time: 8000
       })

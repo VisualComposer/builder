@@ -14,7 +14,6 @@ export default class ColumnElement extends vcvAPI.elementComponent {
   constructor (props) {
     super(props)
     this.parentId = props.atts.parent
-    this.columnRef = React.createRef()
     this.handleStorageChange = this.handleStorageChange.bind(this)
     this.handleElementUpdate = this.handleElementUpdate.bind(this)
     this.handleElementRemove = this.handleElementRemove.bind(this)
@@ -81,9 +80,21 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
     const elementData = dataFromState.elements.find(el => el.id === this.props.id)
     if (elementData) {
-      const ref = this.columnRef.current
-      elementsSettingsStorage.state('elementOptions').set({ ...elementData, ref })
+      elementsSettingsStorage.state('elementOptions').set({ ...elementData })
     }
+  }
+
+  getWidthClass (widthValue, device) {
+    const className = `vce-col--${device}-`
+
+    if (!widthValue) {
+      return className + 'auto'
+    }
+
+    if (widthValue.includes('px')) {
+      return className + widthValue.replace('px', '-px')
+    }
+    return className + (widthValue.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-'))
   }
 
   render () {
@@ -103,7 +114,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     }
 
     if (disableStacking) {
-      classes.push('vce-col--xs-' + (size.all ? size.all.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+      classes.push(this.getWidthClass(size.all, 'xs'))
 
       if (lastInRow.all) {
         classes.push('vce-col--all-last')
@@ -117,7 +128,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
         if (size.all === 'hide') {
           classes.push('vce-col--all-hide')
         } else {
-          classes.push('vce-col--md-' + (size.all ? size.all.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+          classes.push(this.getWidthClass(size.all, 'md'))
           classes.push('vce-col--xs-1 vce-col--xs-last vce-col--xs-first vce-col--sm-last vce-col--sm-first')
 
           if (lastInRow.all) {
@@ -137,7 +148,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
           }
 
           if (device !== 'defaultSize') {
-            classes.push(`vce-col--${device}-` + (deviceSize ? deviceSize.replace('/', '-').replace('%', 'p').replace(',', '-').replace('.', '-') : 'auto'))
+            classes.push(this.getWidthClass(deviceSize, device))
 
             if (deviceSize !== 'hide') {
               classes.push(`vce-col--${device}-visible`)
@@ -186,7 +197,7 @@ export default class ColumnElement extends vcvAPI.elementComponent {
     const doRest = this.applyDO('border margin background animation')
 
     return (
-      <div className={className} {...customColProps} id={'el-' + id} {...editor} ref={this.columnRef}>
+      <div className={className} {...customColProps} id={'el-' + id} {...editor}>
         <div className='vce-col-inner' {...doRest} {...innerProps} {...boxShadowAttributes}>
           {this.getBackgroundTypeContent()}
           {this.getContainerDivider()}

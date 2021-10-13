@@ -11,6 +11,7 @@ const assetsStorage = vcCake.getStorage('assets')
 const cook = vcCake.getService('cook')
 const DocumentData = vcCake.getService('document')
 const roleManager = vcCake.getService('roleManager')
+const utils = vcCake.getService('utils')
 
 const {
   updateDynamicComments,
@@ -40,7 +41,11 @@ export default class Element extends React.Component {
 
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
-    elementsStorage.trigger('addRef', this.state.element.id, this.elementComponentRef.current)
+    if (this.elementComponentRef.current) {
+      const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current)
+      const htmlString = domNode ? utils.normalizeHtml(domNode.parentElement.innerHTML) : ''
+      elementsStorage.trigger('addHtmlString', this.state.element.id, htmlString)
+    }
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
     elementsStorage.on(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').onChange(this.elementComponentTransformation)
@@ -55,7 +60,7 @@ export default class Element extends React.Component {
 
   componentWillUnmount () {
     this.props.api.notify('element:unmount', this.state.element.id)
-    elementsStorage.trigger('removeRef', this.state.element.id)
+    elementsStorage.trigger('removeHtmlString', this.state.element.id)
     elementsStorage.off(`element:${this.state.element.id}`, this.dataUpdate)
     elementsStorage.off(`element:${this.state.element.id}:assets`, this.cssJobsUpdate)
     elementsStorage.state('elementComponentTransformation').ignoreChange(this.elementComponentTransformation)
@@ -75,7 +80,12 @@ export default class Element extends React.Component {
       this.setState({ element: this.props.element })
     }
     this.props.api.notify('element:didUpdate', this.props.element.id)
-    elementsStorage.trigger('addRef', this.state.element.id, this.elementComponentRef.current)
+    if (this.elementComponentRef.current) {
+      const domNode = ReactDOM.findDOMNode(this.elementComponentRef.current)
+      const htmlString = domNode ? utils.normalizeHtml(domNode.parentElement.innerHTML) : ''
+      elementsStorage.trigger('addHtmlString', this.state.element.id, htmlString)
+    }
+    elementsStorage.trigger('addHtmlString', this.state.element.id, this.elementComponentRef.current)
     if (this.elementComponentRef && this.elementComponentRef.current) {
       const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)

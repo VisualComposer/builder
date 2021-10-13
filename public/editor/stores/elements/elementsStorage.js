@@ -281,6 +281,13 @@ addStorage('elements', (storage) => {
       storage.trigger(`element:${oldParent}`, documentManager.get(oldParent))
       if (oldParent !== updatedElement.parent) {
         storage.trigger(`element:${updatedElement.parent}`, documentManager.get(updatedElement.parent))
+        // Update workspace element
+        const settings = workspaceStorage.state('settings').get()
+        if (settings && settings.action === 'edit') {
+          const options = settings.options && settings.options.nestedAttr ? settings.options : ''
+          const activeTab = settings.options && settings.options.activeTab ? settings.options.activeTab : ''
+          workspaceStorage.trigger('edit', id, activeTab, options)
+        }
       }
     } else {
       storage.state('document').set(documentManager.children(false))
@@ -395,15 +402,15 @@ addStorage('elements', (storage) => {
       updateTimeMachine()
     }
   })
-  storage.on('addRef', (id, ref) => {
-    const elementRefState = storage.state('elementRefs').get() || {}
-    elementRefState[id] = ref
-    storage.state('elementRefs').set(elementRefState)
+  storage.on('addHtmlString', (id, ref) => {
+    const htmlStringState = storage.state('htmlStrings').get() || {}
+    htmlStringState[id] = ref
+    storage.state('htmlStrings').set(htmlStringState)
   })
-  storage.on('removeRef', (id) => {
-    const elementRefState = storage.state('elementRefs').get() || {}
-    delete elementRefState[id]
-    storage.state('elementRefs').set(elementRefState)
+  storage.on('removeHtmlString', (id) => {
+    const htmlStringState = storage.state('htmlStrings').get() || {}
+    delete htmlStringState[id]
+    storage.state('htmlStrings').set(htmlStringState)
   })
   storage.on('updateTimeMachine', updateTimeMachine)
 })

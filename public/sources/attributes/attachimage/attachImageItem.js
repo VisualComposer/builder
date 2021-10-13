@@ -101,7 +101,7 @@ export default class AttachImageItem extends React.Component {
         <div className='vcv-ui-form-attach-image-item-wrapper'>
           <div className='vcv-ui-form-attach-image-item-inner'>
             {sortableControl}
-            <figure className='vcv-ui-form-attach-image-thumbnail'>
+            <figure className='vcv-ui-form-attach-image-thumbnail' onClick={this.props.handleOpenLibrary}>
               <img src={imgUrl} />
             </figure>
             <div className='vcv-ui-form-attach-image-description'>
@@ -109,9 +109,9 @@ export default class AttachImageItem extends React.Component {
               <i>{imageSize}</i>
             </div>
             <div className='vcv-ui-form-attach-image-item-controls' tabIndex='0'>
-              {dynamicControl}
-              {this.getLinkHtml(indexValue)}
               {editControl}
+              {this.getLinkHtml(indexValue)}
+              {dynamicControl}
               <a
                 className='vcv-ui-form-attach-image-item-control vcv-ui-form-attach-image-item-control-state--danger'
                 onClick={this.handleRemove.bind(this, indexValue)}

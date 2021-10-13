@@ -146,7 +146,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
       }
     }
 
-    source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&mute=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
+    source = `https://www.youtube.com/embed/${videoId}?autoplay=${autoplay}&mute=${autoplay}&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3&enablejsapi=1`
 
     if (metaCustomId) {
       customProps.id = metaCustomId
@@ -155,7 +155,7 @@ export default class YoutubePlayerComponent extends vcvAPI.elementComponent {
     const html = `<iframe class='vce-yt-video-player-iframe' src='${source}' width='640' height='390' allowFullScreen />`
 
     if (vcCake.env('editor') === 'backend') {
-      source = `https://www.youtube.com/embed/${videoId}?autoplay=false&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3`
+      source = `https://www.youtube.com/embed/${videoId}?autoplay=false&color=${color}&controls=${controls}${loop}&rel=${rel}&start=${start}${end}&cc_load_policy=0&iv_load_policy=3&enablejsapi=1`
     }
 
     const doAll = this.applyDO('all')

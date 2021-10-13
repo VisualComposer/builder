@@ -11,7 +11,6 @@ export default class ButtonElement extends vcvAPI.elementComponent {
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
     let classes = 'vce-button--style-basic'
-    const buttonHtml = buttonText
     let customProps = {}
     let CustomTag = 'button'
 
@@ -71,7 +70,7 @@ export default class ButtonElement extends vcvAPI.elementComponent {
       <div className={containerClasses} {...editor}>
         <span className={wrapperClasses} id={'el-' + id} {...doMargin}>
           <CustomTag className={classes} {...customProps} {...doRest}>
-            {buttonHtml}
+            {buttonText}
           </CustomTag>
         </span>
       </div>

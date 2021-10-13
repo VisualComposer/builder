@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import { getStorage } from 'vc-cake'
+import { getStorage, getService } from 'vc-cake'
 
+const dataManager = getService('dataManager')
 const notificationsStorage = getStorage('notifications')
 
 export default class NotificationItem extends React.Component {
@@ -20,10 +21,12 @@ export default class NotificationItem extends React.Component {
 
   componentDidMount () {
     const { time } = this.props.data
-    const timeout = parseInt(time) || 3000
-    this.timer = window.setTimeout(() => {
-      this.handleClickHideNotification()
-    }, timeout)
+    const timeout = parseInt(time)
+    if (timeout !== -1) {
+      this.timer = window.setTimeout(() => {
+        this.handleClickHideNotification()
+      }, timeout)
+    }
   }
 
   componentWillUnmount () {
@@ -43,12 +46,12 @@ export default class NotificationItem extends React.Component {
   }
 
   render () {
-    const { data, position } = this.props
+    const localizations = dataManager.get('localizations')
+    const { data } = this.props
     if (!data.text) {
       return null
     }
     let textHtml = ''
-    let iconHtml = ''
     let closeButton = ''
     const customProps = {}
 
@@ -58,14 +61,11 @@ export default class NotificationItem extends React.Component {
       textHtml = <div className='vcv-layout-notifications-text'>{data.text}</div>
     }
 
-    if (data.icon) {
-      iconHtml = <div className='vcv-layout-notifications-icon'><i className={data.icon} /></div>
-    }
-
     if (data.showCloseButton) {
+      const closeTitle = localizations ? localizations.close : 'Close'
       closeButton = (
-        <div className='vcv-layout-notifications-close' onClick={this.handleClickHideNotification}>
-          <div className='vcv-layout-notifications-close-btn' />
+        <div className='vcv-layout-notifications-close' title={closeTitle} onClick={this.handleClickHideNotification}>
+          <i className='vcv-ui-icon vcv-ui-icon-close-thin' />
         </div>
       )
     } else {
@@ -75,16 +75,13 @@ export default class NotificationItem extends React.Component {
     const type = data.type && ['default', 'success', 'warning', 'error'].indexOf(data.type) >= 0 ? data.type : 'default'
 
     const classes = classNames({
-      [`vcv-layout-notifications-position--${position}`]: true,
+      'vcv-layout-notifications-item': true,
       [`vcv-layout-notifications-type--${type}`]: true,
-      'vcv-layout-notifications-style--transparent': data.transparent,
-      'vcv-layout-notifications-shape--rounded': data.rounded,
       'vcv-layout-notifications-type--disabled': this.state.hidden
     })
 
     return (
       <div className={classes} {...customProps} ref={(element) => { this.textInput = element }}>
-        {iconHtml}
         {textHtml}
         {closeButton}
       </div>

@@ -19,7 +19,7 @@ export function renderInlineHtml (content, jsonData, ref, id, finishCallback) {
       freezeReady && freezeReady(id, true)
       const headerDom = window.jQuery('<div>' + headerContent + '</div>', document)
       headerDom.context = document
-      shortcodeAssetsStorage.trigger('add', { type: 'header', ref: ref, shadowDom: headerDom }, () => {
+      shortcodeAssetsStorage.trigger('add', { type: 'header', ref: ref, shadowDom: headerDom, ignoreCache: true }, () => {
         // Once Header assets is added continue with shortcodeContent
         const shortcodeDom = window.jQuery('<div>' + shortcodeContent + '</div>', document)
         shortcodeDom.context = document

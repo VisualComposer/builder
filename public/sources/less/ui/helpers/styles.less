@@ -84,6 +84,25 @@
       top: -19px;
     }
   }
+
+  &.vcv-helper-box-position--horizontal-top {
+    transform: translateX(40px);
+    bottom: -8px;
+
+    &:before {
+      bottom: 11px;
+      top: auto;
+    }
+  }
+
+  &.vcv-helper-box-position--horizontal-bottom {
+    transform: translateX(40px);
+    top: -8px;
+
+    &:before {
+      top: 8px;
+    }
+  }
 }
 
 .vcv-helpers-container .vcv-helper-box-heading {
@@ -222,4 +241,15 @@
   line-height: 26px;
   color: @vcv-color-white;
   margin: 0;
+}
+
+@media screen and (max-height: 700px){
+  .vcv-layout-guide-helper-controls {
+    top: 25px;
+  }
+  .vcv-helpers-container .vcv-helper-box-image.element-controls {
+    background-size: 210px;
+    background-repeat: no-repeat;
+    background-position: 30px 0;
+  }
 }

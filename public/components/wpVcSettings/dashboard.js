@@ -102,11 +102,10 @@ export const dashboard = () => {
     const submitButtonContainer = e.target.querySelector('.vcv-submit-button-container')
     const submitButton = e.target.querySelector('.vcv-dashboard-button--save')
     // this will get all form fields and encode it as a string
-    let data = Array.from(
+    const data = Array.from(
       new window.FormData(e.target),
       e => e.map(window.encodeURIComponent).join('=')
     ).join('&')
-    data += `&vcv-submitter=${e.submitter.name}`
     httpRequest = new window.XMLHttpRequest()
     httpRequest.onreadystatechange = handleFormResponse.bind(this, submitButtonContainer, submitButton)
     httpRequest.open('POST', action)

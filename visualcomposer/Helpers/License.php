@@ -111,6 +111,8 @@ class License extends Container implements Helper
         if ($token !== 'free-token') {
             // License is upgraded: fire check for update
             $optionsHelper->deleteTransient('lastBundleUpdate');
+            $optionsHelper->deleteTransient('elements:autoload:all');
+            $optionsHelper->deleteTransient('addons:autoload:all');
             vcevent('vcv:hub:checkForUpdate', ['token' => $token]);
             wp_redirect(admin_url('admin.php?page=' . $redirectTo));
             exit;

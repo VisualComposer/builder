@@ -180,6 +180,10 @@ const options = {
       label: 'Omani Rial'
     },
     {
+      value: 'PHP',
+      label: 'Philippine Peso'
+    },
+    {
       value: '_zł',
       label: 'Polish Zloty'
     },
@@ -230,6 +234,14 @@ const options = {
     {
       value: 'UAH_',
       label: 'Ukraine Hryvnia'
+    },
+    {
+      value: 'BTC',
+      label: 'Bitcoin'
+    },
+    {
+      value: 'ETH',
+      label: 'Ethereum'
     }
   ]
 }

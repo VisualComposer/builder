@@ -12,7 +12,7 @@ use VisualComposer\Framework\Illuminate\Support\Helper;
 
 class Notice implements Helper
 {
-    public function addNotice($name, $message, $type = 'warning', $dismissible = true)
+    public function addNotice($name, $message, $type = 'warning', $dismissible = true, $wpDismissible = false)
     {
         $notices = $this->all();
         if (!is_array($notices)) {
@@ -24,6 +24,7 @@ class Notice implements Helper
             'type' => $type,
             'time' => time(),
             'dismissible' => $dismissible,
+            'wpDismissible' => $wpDismissible
         ];
         $optionsHelper = vchelper('Options');
         $optionsHelper->setTransient('admin:notices', $notices);

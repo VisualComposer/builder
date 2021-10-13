@@ -159,3 +159,11 @@ if (!VcvEnv::has('VCV_FT_INSIGHTS')) {
 if (!VcvEnv::has('VCV_FT_DYNAMIC_ARCHIVE_FIELDS')) {
     VcvEnv::set('VCV_FT_DYNAMIC_ARCHIVE_FIELDS', true);
 }
+
+if (!VcvEnv::has('VCV_FT_UPDATE_NOTIFICATION') && !VcvEnv::has('VCV_DEBUG')) {
+    VcvEnv::set('VCV_FT_UPDATE_NOTIFICATION', true);
+}
+
+if (!VcvEnv::has('VCV_FT_THEME_BUILDER_LAYOUTS')) {
+    VcvEnv::set('VCV_FT_THEME_BUILDER_LAYOUTS', true);
+}

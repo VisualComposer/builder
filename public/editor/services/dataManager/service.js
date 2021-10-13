@@ -89,7 +89,8 @@ const dataManager = {
       gutenbergEditorUrl: () => { return window.vcvGutenbergEditorUrl ? window.vcvGutenbergEditorUrl : '/wp-admin/post-new.php?post_type=vcv_gutenberg_attr' },
       hubGetTemplates: () => { return window.VCV_HUB_GET_TEMPLATES && window.VCV_HUB_GET_TEMPLATES() },
       agreeHubTerms: () => { return window.vcvAgreeHubTerms },
-      showPricingPopup: () => { return window.vcvShowPricingPopup }
+      showPricingPopup: () => { return window.vcvShowPricingPopup },
+      globalLazyloadEnabled: () => { return window.VCV_GLOBAL_LAZY_LOAD_ENABLED && window.VCV_GLOBAL_LAZY_LOAD_ENABLED() }
     }
   }
 }

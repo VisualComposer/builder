@@ -33,7 +33,7 @@ export default class Groups extends React.Component {
     super(props)
 
     this.state = {
-      focusedElement: null,
+      focusedElement: workspaceStorage.state('focusedElement').get() || null,
       isRemoveStateActive: workspaceStorage.state('isRemoveStateActive').get() || false
     }
 
@@ -49,12 +49,14 @@ export default class Groups extends React.Component {
     hubElementsStorage.state('elementPresets').onChange(this.reset)
     hubElementsStorage.state('elements').onChange(this.reset)
     workspaceStorage.state('isRemoveStateActive').onChange(this.handleRemoveStateChange)
+    workspaceStorage.state('focusedElement').onChange(this.setFocusedElement)
   }
 
   componentWillUnmount () {
     this.isComponentMounted = false
 
     workspaceStorage.state('isRemoveStateActive').ignoreChange(this.handleRemoveStateChange)
+    workspaceStorage.state('focusedElement').ignoreChange(this.setFocusedElement)
   }
 
   componentDidMount () {
@@ -69,6 +71,7 @@ export default class Groups extends React.Component {
 
   handleRemoveStateChange (newState) {
     this.setState({ isRemoveStateActive: newState })
+    this.setState({ focusedElement: null })
   }
 
   reset () {
@@ -183,6 +186,12 @@ export default class Groups extends React.Component {
         }
       })
 
+      // Backup first item if it's theme builder
+      let backupThemeBuilder
+      if (Groups.allGroups[0].id.indexOf('Theme Builder') !== -1) {
+        backupThemeBuilder = Groups.allGroups.splice(0, 1)
+      }
+
       // Element Presets Group
       const presetElements = allElements.filter(element => element.presetId)
       if (presetElements.length > 0) {
@@ -203,6 +212,11 @@ export default class Groups extends React.Component {
           elements: mostUsedItems
         }
         Groups.allGroups.unshift(mostUsedElementsGroup)
+      }
+
+      // Add theme builder category to the first
+      if (backupThemeBuilder) {
+        Groups.allGroups.unshift(...backupThemeBuilder)
       }
 
       usedElements = [...new Set(usedElements)]

@@ -2,10 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import vcCake from 'vc-cake'
 import classNames from 'classnames'
-import Layout from '../../sources/attributes/rowLayout/Component'
+import Layout from 'public/sources/attributes/rowLayout/Component'
+import { debounce } from 'lodash'
 
 const elementsStorage = vcCake.getStorage('elements')
 const layoutStorage = vcCake.getStorage('layout')
+const documentService = vcCake.getService('document')
 let previousLayoutCustomMode = false
 
 export default class ColumnResizer extends React.Component {
@@ -45,38 +47,48 @@ export default class ColumnResizer extends React.Component {
       labelPosition: null,
       isVisible: true,
       isLabelsActive: false,
-      isResizerActive: false
+      isResizerActive: false,
+      isResizerVisible: true
     }
+    this.resizerRef = React.createRef()
     this.handleMouseDown = this.handleMouseDown.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
     this.handleMouseMove = this.handleMouseMove.bind(this)
     this.handleLabelState = this.handleLabelState.bind(this)
     this.handleResizerState = this.handleResizerState.bind(this)
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
+    this.setVisibility = debounce(this.setVisibility.bind(this), 50)
   }
 
   componentDidMount () {
     vcCake.onDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    const iframeDocument = document.getElementById('vcv-editor-iframe').contentWindow
+    iframeDocument.addEventListener('resize', this.setVisibility)
+    window.setTimeout(() => {
+      this.setVisibility()
+    }, 500)
   }
 
   componentWillUnmount () {
     vcCake.ignoreDataChange('vcv:layoutCustomMode', this.handleLayoutCustomModeChange)
+    const iframeDocument = document.getElementById('vcv-editor-iframe').contentWindow
+    iframeDocument.removeEventListener('resize', this.setVisibility)
   }
 
-  componentDidUpdate (props, state) {
-    const ifameDocument = document.querySelector('#vcv-editor-iframe').contentWindow
+  componentDidUpdate (prevProps, prevState) {
+    const iframeDocument = document.getElementById('vcv-editor-iframe').contentWindow
     let data = {}
-    if (this.state.dragging && !state.dragging) {
+    if (this.state.dragging && !prevState.dragging) {
       previousLayoutCustomMode = vcCake.getData('vcv:layoutCustomMode') && vcCake.getData('vcv:layoutCustomMode').mode
       data = {
         mode: 'columnResizer',
         options: {}
       }
       vcCake.setData('vcv:layoutCustomMode', data)
-      ifameDocument.addEventListener('mousemove', this.handleMouseMove)
-      ifameDocument.addEventListener('mouseup', this.handleMouseUp)
+      iframeDocument.addEventListener('mousemove', this.handleMouseMove)
+      iframeDocument.addEventListener('mouseup', this.handleMouseUp)
       vcCake.setData('vcv:layoutColumnResize', this.resizerData.rowId)
-    } else if (!this.state.dragging && state.dragging) {
+    } else if (!this.state.dragging && prevState.dragging) {
       const newLayoutMode = previousLayoutCustomMode === 'contentEditable' ? previousLayoutCustomMode : null
       data = {
         mode: newLayoutMode,
@@ -84,8 +96,27 @@ export default class ColumnResizer extends React.Component {
       }
       vcCake.setData('vcv:layoutCustomMode', newLayoutMode ? data : null)
       vcCake.setData('vcv:layoutColumnResize', null)
-      ifameDocument.removeEventListener('mousemove', this.handleMouseMove)
-      ifameDocument.removeEventListener('mouseup', this.handleMouseUp)
+      iframeDocument.removeEventListener('mousemove', this.handleMouseMove)
+      iframeDocument.removeEventListener('mouseup', this.handleMouseUp)
+    }
+    if (prevState.isResizerVisible !== this.state.isResizerVisible) {
+      this.setVisibility()
+    }
+  }
+
+  setVisibility () {
+    const { nextElementSibling, previousElementSibling, firstElementChild } = this.resizerRef.current
+    if (!nextElementSibling || !previousElementSibling) {
+      return
+    }
+    const resizerRect = firstElementChild.getBoundingClientRect()
+    const previousElementRect = previousElementSibling.getBoundingClientRect()
+
+    // when columns are stacked and resizer is not needed (happens only in PX case)
+    if ((previousElementRect.left + previousElementRect.width > resizerRect.left) || (nextElementSibling.getBoundingClientRect().left < resizerRect.left + resizerRect.width)) {
+      this.setState({ isResizerVisible: false })
+    } else {
+      this.setState({ isResizerVisible: true })
     }
   }
 
@@ -99,8 +130,34 @@ export default class ColumnResizer extends React.Component {
       })
       this.getRowData(Event)
       const colSizes = this.getResizedColumnsWidth(Event)
+
+      const leftColData = documentService.get(this.resizerData.leftColumn.id.replace('el-', ''))
+      const rightColData = documentService.get(this.resizerData.rightColumn.id.replace('el-', ''))
+      if (leftColData.size) {
+        const currentSize = Object.prototype.hasOwnProperty.call(leftColData.size, 'all') ? leftColData.size.all : leftColData.size[this.resizerData.currentDevice]
+        if (!currentSize.includes('%')) {
+          newState.leftColValue = currentSize
+        } else {
+          newState.leftColValue = null
+        }
+      }
+
+      if (rightColData.size) {
+        const currentSize = Object.prototype.hasOwnProperty.call(rightColData.size, 'all') ? rightColData.size.all : rightColData.size[this.resizerData.currentDevice]
+        if (!currentSize.includes('%')) {
+          newState.rightColValue = currentSize
+        } else {
+          newState.rightColValue = null
+        }
+      }
+
       newState.leftColPercentage = colSizes.leftCol
       newState.rightColPercentage = colSizes.rightCol
+    } else {
+      window.setTimeout(() => {
+        newState.leftColValue = null
+        newState.rightColValue = null
+      }, 300)
     }
     this.setState(newState)
   }
@@ -149,13 +206,13 @@ export default class ColumnResizer extends React.Component {
 
     const rightColId = $rightCol ? $rightCol.id.replace('el-', '') : null
     const leftColId = $leftCol ? $leftCol.id.replace('el-', '') : null
-    const rowId = vcCake.getService('document').get(rightColId || leftColId).parent
-    const rowData = vcCake.getService('document').get(rowId)
+    const rowId = documentService.get(rightColId || leftColId).parent
+    const rowData = documentService.get(rowId)
     const columnGap = rowData.columnGap ? parseInt(rowData.columnGap) : 0
     const rowWidth = $helper.parentElement.getBoundingClientRect().width + columnGap - parseFloat(window.getComputedStyle($helper.parentElement).paddingLeft) - parseFloat(window.getComputedStyle($helper.parentElement).paddingRight)
     const bothColumnsWidth = ($leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width + columnGap * 2) / rowWidth
     const bothColumnsWidthPx = $leftCol.getBoundingClientRect().width + $rightCol.getBoundingClientRect().width
-    const allColIds = vcCake.getService('document').children(rowId)
+    const allColIds = documentService.children(rowId)
     const allColumns = []
     allColIds.forEach((col) => {
       const colElement = $helper.parentElement.querySelector(`#el-${col.id}`)
@@ -192,6 +249,8 @@ export default class ColumnResizer extends React.Component {
 
       this.setState({
         dragging: true,
+        leftColValue: null,
+        rightColValue: null,
         leftColPercentage: colSizes.leftCol,
         rightColPercentage: colSizes.rightCol
       })
@@ -399,7 +458,7 @@ export default class ColumnResizer extends React.Component {
   }
 
   rebuildRowLayout () {
-    const parentRow = vcCake.getService('document').get(this.resizerData.rowId)
+    const parentRow = documentService.get(this.resizerData.rowId)
     const layoutData = this.getLayoutData(this.resizerData.rowId)
 
     let leftSize = Math.round(this.state.leftColPercentage * 100)
@@ -433,7 +492,7 @@ export default class ColumnResizer extends React.Component {
 
   getLayoutData (rowId) {
     const deviceLayoutData = {}
-    const rowChildren = vcCake.getService('document').children(rowId)
+    const rowChildren = documentService.children(rowId)
 
     // Get layout for 'all'
     rowChildren.forEach((element) => {
@@ -470,13 +529,14 @@ export default class ColumnResizer extends React.Component {
   }
 
   render () {
+    const { leftColPercentage, rightColPercentage, leftColValue, rightColValue, labelPosition } = this.state
     if (!this.state.isVisible) {
       return null
     }
 
-    const labelProps = this.state.labelPosition === null ? {} : {
+    const labelProps = labelPosition === null ? {} : {
       style: {
-        top: `${this.state.labelPosition}px`,
+        top: `${labelPosition}px`,
         position: 'absolute'
       }
     }
@@ -489,21 +549,27 @@ export default class ColumnResizer extends React.Component {
     const columnResizerClasses = classNames({
       'vce-column-resizer': true,
       vcvhelper: true,
-      'vce-column-resizer--active': this.state.isResizerActive
+      'vce-column-resizer--active': this.state.isResizerActive,
+      'vce-column-resizer--hidden': !this.state.isResizerVisible
     })
 
     return (
-      <div className={columnResizerClasses} onMouseOver={this.handleResizerState} onMouseOut={this.handleResizerState}>
+      <div
+        className={columnResizerClasses}
+        onMouseOver={this.handleResizerState}
+        onMouseOut={this.handleResizerState}
+        ref={this.resizerRef}
+      >
         <div className='vce-column-resizer-handler' data-vcv-linked-element={this.props.linkedElement} onMouseDown={this.handleMouseDown}>
           <div className={labelContainerClasses} {...labelProps} onMouseEnter={this.handleLabelState} onMouseLeave={this.handleLabelState}>
             <div className='vce-column-resizer-label vce-column-resizer-label-left'>
               <span className='vce-column-resizer-label-percentage'>
-                {Math.round(this.state.leftColPercentage * 100) + '%'}
+                {leftColValue || Math.round(leftColPercentage * 100) + '%'}
               </span>
             </div>
             <div className='vce-column-resizer-label vce-column-resizer-label-right'>
               <span className='vce-column-resizer-label-percentage'>
-                {Math.round(this.state.rightColPercentage * 100) + '%'}
+                {rightColValue || Math.round(rightColPercentage * 100) + '%'}
               </span>
             </div>
           </div>

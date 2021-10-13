@@ -336,7 +336,7 @@ class Localizations extends Container implements Helper
             ),
             'newPluginVersionIsAvailable' => sprintf(
                 __(
-                    'There is a new version of Visual Composer Website Builder available. <a href="%s">Update now</a> to version %s.',
+                    'You have an outdated version of Visual Composer that requires an update. Update the plugin to get new features, improve performance, avoid compatibility issues, and keep your site secure. <a href="%s">Update now</a> to version %s.',
                     'visualcomposer'
                 ),
                 self_admin_url('plugins.php'),
@@ -1456,10 +1456,6 @@ class Localizations extends Container implements Helper
                 'Page Settings',
                 'visualcomposer'
             ),
-            'designOptions' => __(
-                'Design Options',
-                'visualcomposer'
-            ),
             'pageDesignOptionsDescription' => __(
                 'The global Design Options might not work with all themes. Use any of the Visual Composer layouts or get the Visual Composer Starter Theme to access this feature.',
                 'visualcomposer'
@@ -1766,7 +1762,47 @@ class Localizations extends Container implements Helper
                 'The block has been successfully saved.',
                 'visualcomposer'
             ),
-            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2)
+            'colorContrastTitleWarn' => __(
+                'Your contrast ratio is low',
+                'visualcomposer'
+            ),
+            'colorContrastDescriptionWarn' => sprintf(
+                __(
+                    'Your page foreground and background colors do not meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'visualcomposer'
+                ),
+                '<a class="vcv-ui-form-link" href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'colorContrastTitleOK' => __(
+                'The page meets the contrast ratio standards',
+                'visualcomposer'
+            ),
+            'colorContrastDescriptionOK' => sprintf(
+                __(
+                    'Your page foreground and background colors meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'visualcomposer'
+                ),
+                '<a class="vcv-ui-form-link" href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'contrastRatio' => __(
+                'Contrast ratio',
+                'visualcomposer'
+            ),
+            'contrastCheckInProgress' => __(
+                'Contrast check is in progress ...',
+                'visualcomposer'
+            ),
+            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
+            'postTemplateText' => __(
+                'Post template',
+                'visualcomposer'
+            ),
+            'archiveTemplateText' => __(
+                'Archive template',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
