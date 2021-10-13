@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "### Build Default Script v1.0 12.11.2018 ### $(date)"
+echo "### Build Script ### $(date)"
 
 EXECDIR=`pwd`
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -16,7 +16,11 @@ do {
   CNT=$(($CNT+1))
   if cd $i; then
     cd $i
-    ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.v4.config.js --no-info & pid=$1
+    echo "building $i"
+    rm -rf $i/node_modules
+    rm -rf $i/package.json
+    rm -rf $i/yarn.lock
+    ../../node_modules/.bin/webpack --config=../../node_modules/vc-webpack-vendors/webpack.config.js & pid=$1
   fi
 
   PID_LIST+=" $pid";

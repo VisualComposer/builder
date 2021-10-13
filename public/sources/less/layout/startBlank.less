@@ -47,7 +47,31 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.vcv-start-blank-inner .vcv-start-blank-title-input {
+.vcv-start-blank-inner .vcv-start-blank-template-type-wrapper {
+  position: relative;
+}
+
+.vcv-start-blank-inner .vcv-start-blank-template-type-wrapper::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 6px solid #1a399d;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid transparent;
+  right: 15px;
+  top: 20px;
+}
+
+.vcv-start-blank-inner .vcv-start-blank-template-type {
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari and Chrome */
+  appearance:none;
+}
+
+.vcv-start-blank-inner .vcv-start-blank-title-input,
+.vcv-start-blank-inner .vcv-start-blank-template-type {
   width: 90%;
   border: 1px solid #e1e1e1;
   box-shadow: none;
@@ -64,7 +88,8 @@
   }
 }
 
-.vcv-start-blank-controls .vcv-start-blank-title-input {
+.vcv-start-blank-controls .vcv-start-blank-title-input,
+.vcv-start-blank-controls .vcv-start-blank-template-type {
   width: 100%;
 }
 
@@ -164,6 +189,7 @@
 
   .vcv-hfs-start-blank-container {
     .vcv-start-blank-title-input,
+    .vcv-start-blank-template-type,
     .vcv-hfs-start-blank-start-button {
       width: 390px;
     }
@@ -185,6 +211,7 @@
 
   .vcv-hfs-start-blank-container {
     .vcv-start-blank-title-input,
+    .vcv-start-blank-template-type,
     .vcv-hfs-start-blank-start-button {
       width: 390px;
     }
@@ -194,6 +221,7 @@
 @media screen and (min-width: @vcv-grid-breakpoint-md-min) {
   .vcv-hfs-start-blank-container {
     .vcv-start-blank-title-input,
+    .vcv-start-blank-template-type,
     .vcv-hfs-start-blank-start-button {
       width: 430px;
     }

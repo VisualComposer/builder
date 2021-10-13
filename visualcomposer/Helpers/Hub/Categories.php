@@ -237,7 +237,7 @@ class Categories implements Helper
             'Theme Builder' => [
                 'title' => 'Theme Builder',
                 'elements' => [
-                    'layoutWpContentArea',
+                    'layoutContentArea',
                     'layoutWpCommentsArea',
                     'layoutHeaderArea',
                     'layoutFooterArea',
