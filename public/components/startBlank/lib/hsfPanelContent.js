@@ -67,7 +67,7 @@ export default class HfsPanelContent extends React.Component {
     }
   }
 
-  addLayoutSelect() {
+  addLayoutSelect () {
     const editorType = dataManager.get('editorType')
     const localizations = dataManager.get('localizations')
     const postTemplateText = localizations ? localizations.postTemplateText : 'Post template'
