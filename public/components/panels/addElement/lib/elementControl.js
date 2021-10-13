@@ -456,9 +456,6 @@ export default class ElementControl extends React.Component {
 
   displaySuccess (successText) {
     notificationsStorage.trigger('add', {
-      position: 'bottom',
-      transparent: true,
-      rounded: true,
       text: successText,
       time: 5000
     })
@@ -467,7 +464,6 @@ export default class ElementControl extends React.Component {
   displayError (errorText) {
     this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       type: 'error',
       text: errorText,
       time: 5000
@@ -486,7 +482,7 @@ export default class ElementControl extends React.Component {
       'layoutHeaderArea',
       'layoutSidebarArea',
       'layoutWpCommentsArea',
-      'layoutWpContentArea'
+      'layoutContentArea'
     ]
     const vcvIsUserAdmin = roleManager.can('hub_elements_templates_blocks', roleManager.defaultAdmin())
 

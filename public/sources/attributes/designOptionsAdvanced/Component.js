@@ -453,6 +453,16 @@ export default class DesignOptionsAdvanced extends Attribute {
             }
           }
 
+          if (newValue[device].images) {
+            if (newValue[device].lazyLoad === undefined) {
+              newValue[device].lazyLoad = true
+            }
+          } else {
+            if (newValue[device].lazyLoad !== undefined) {
+              delete newValue[device].lazyLoad
+            }
+          }
+
           // Embed video bg
           const embedVideoTypeBackgrounds = [
             'videoEmbed'
@@ -930,6 +940,10 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getLazyLoadRender () {
+    if (!dataManager.get('globalLazyloadEnabled')) {
+      return null
+    }
+
     const lazyLoadToggleText = DesignOptionsAdvanced.localizations.lazyLoad || 'Lazy load'
     const lazyLoadTooltipText = DesignOptionsAdvanced.localizations.lazyLoadBackground || 'Apply lazy load to the selected background'
     let value

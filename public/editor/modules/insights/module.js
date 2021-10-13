@@ -13,7 +13,12 @@ const dataManager = getService('dataManager')
 add('insights', () => {
   // VC: Insights
   class InsightsChecks {
+    constructor () {
+      this.applyColorBox = this.applyColorBox.bind(this)
+    }
+
     isImagesSizeLarge = false
+    isColorContrastInProgress = false
     localizations = dataManager.get('localizations')
 
     checkTitleLength () {
@@ -458,6 +463,132 @@ add('insights', () => {
         })
       }
     }
+
+    contrast (insightsStorageInstance) {
+      const workspaceStorageState = workspaceStorage.state('content').get()
+      const triggerCheckContrast = () => {
+        insightsStorage.trigger('remove', 'colorContrast')
+        insightsStorage.trigger('add', {
+          state: 'warning',
+          type: 'colorContrast',
+          title: this.localizations.contrastRatio,
+          groupDescription: this.localizations.contrastCheckInProgress,
+          loading: true
+        })
+        insightsStorageInstance.checkContrast()
+        this.isColorContrastInProgress = true
+      }
+
+      if (workspaceStorageState === 'messages' && !this.isColorContrastInProgress) {
+        triggerCheckContrast()
+      }
+
+      workspaceStorage.state('content').onChange(debounce((value) => {
+        if (value === 'messages' && !this.isColorContrastInProgress) {
+          triggerCheckContrast()
+        }
+      }), 250)
+    }
+
+    applyColorBox (message, fgColor, bgColor) {
+      const colorBox = (color) => `<div style="background-color: ${color}" class="vcv-color-box"></div>`
+      const fgString = 'foreground color: '
+      const bgString = 'background color: '
+      const foregroundIndex = message.indexOf(fgString) + fgString.length
+      const messageWithFgColor = message.slice(0, foregroundIndex) + colorBox(fgColor) + message.slice(foregroundIndex)
+      const backgroundIndex = messageWithFgColor.lastIndexOf(bgString) + bgString.length
+      const messageWithBgColor = messageWithFgColor.slice(0, backgroundIndex) + colorBox(bgColor) + messageWithFgColor.slice(backgroundIndex)
+
+      return messageWithBgColor
+    }
+
+    checkContrast () {
+      const iframe = env('iframe')
+      if (!iframe.document.body.querySelector('#vcv-axe-core')) {
+        const axeScript = document.createElement('script')
+        axeScript.id = 'vcv-axe-core'
+        axeScript.src = 'https://cdn.jsdelivr.net/npm/axe-core@4.3.3/axe.min.js'
+        iframe.document.body.appendChild(axeScript)
+      }
+
+      if (!iframe.axe) {
+        // Need to wait for the axe-core script to load
+        setTimeout(() => {
+          this.checkContrast()
+        }, 500)
+      } else {
+        iframe.axe
+          .run(
+            '#vcv-editor',
+            {
+              resultTypes: ['violations'],
+              xpath: true,
+              runOnly: 'color-contrast'
+            }
+          )
+          .then(results => {
+            const { violations } = results
+            const colorContrast = violations.find(violation => violation.id === 'color-contrast')
+            if (colorContrast) {
+              const notificationItems = []
+              colorContrast.nodes.forEach((node, i) => {
+                let itemMessage = node.any[0].message
+                itemMessage = itemMessage.slice(0, itemMessage.indexOf('Expected'))
+                itemMessage = this.applyColorBox(itemMessage, node.any[0].data.fgColor, node.any[0].data.bgColor)
+                const idStartIndex = node.xpath[0].indexOf('el-')
+                if (idStartIndex > -1) {
+                  const idLength = 11
+                  const idSelector = node.xpath[0].slice(idStartIndex, idStartIndex + idLength)
+                  let elementID = idSelector.slice(3)
+                  let cookElement = cookService.getById(elementID)
+                  const domNode = iframe.document.querySelector(`#${idSelector}`)
+                  const isSameElementIndex = notificationItems.findIndex(item => item.elementID === elementID)
+
+                  if (!cookElement) {
+                    const parent = domNode.closest('[data-vcv-element]')
+                    if (parent) {
+                      const parentElementID = parent.getAttribute('data-vcv-element')
+                      cookElement = cookService.getById(parentElementID)
+                      elementID = parentElementID
+                    }
+                  }
+                  if (cookElement) {
+                    if (isSameElementIndex > -1) {
+                      notificationItems[isSameElementIndex].description += `<br><br>${itemMessage}`
+                    } else {
+                      notificationItems.push({
+                        state: 'warning',
+                        type: 'colorContrast',
+                        thumbnail: cookElement.get('metaThumbnailUrl'),
+                        title: this.localizations.colorContrastTitleWarn,
+                        groupDescription: this.localizations.colorContrastDescriptionWarn.replace('{link}', 'https://dequeuniversity.com/rules/axe/4.3/color-contrast?application=axeAPI'),
+                        description: itemMessage,
+                        elementID: elementID,
+                        domNode: domNode,
+                        groupedItems: true
+                      })
+                    }
+                  }
+                }
+              })
+              insightsStorage.trigger('remove', 'colorContrast')
+              notificationItems.reverse().forEach(item => insightsStorage.trigger('add', item))
+            } else {
+              insightsStorage.trigger('remove', 'colorContrast')
+              insightsStorage.trigger('add', {
+                state: 'success',
+                type: 'colorContrast',
+                title: this.localizations.colorContrastTitleOK,
+                groupDescription: this.localizations.colorContrastDescriptionOK.replace('{link}', 'https://dequeuniversity.com/rules/axe/4.3/color-contrast?application=axeAPI')
+              })
+            }
+            this.isColorContrastInProgress = false
+          })
+          .catch(err => {
+            console.error('An error occurred on axe.run():', err)
+          })
+      }
+    }
   }
 
   if (env('VCV_FT_INSIGHTS')) {
@@ -482,6 +613,7 @@ add('insights', () => {
         insightsStorageInstance.checkPostContentLength()
         insightsStorageInstance.checkForGA()
         insightsStorageInstance.checkLinks()
+        insightsStorageInstance.contrast(insightsStorageInstance)
       }
     }, 5000)
     historyStorage.on('init add undo redo', runChecksCallback)

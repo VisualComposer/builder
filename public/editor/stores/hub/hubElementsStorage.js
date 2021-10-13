@@ -118,9 +118,6 @@ addStorage('hubElements', (storage) => {
                 if (metaDescription) {
                   const name = element.settings.name
                   notificationsStorage.trigger('add', {
-                    position: 'bottom',
-                    transparent: true,
-                    rounded: true,
                     text: successMessage.replace('{name}', name),
                     time: 5000
                   })
@@ -161,7 +158,6 @@ addStorage('hubElements', (storage) => {
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
-                icon: 'vcv-ui-icon vcv-ui-icon-error',
                 time: 5000
               })
               workspaceStorage.trigger('removeFromDownloading', tag)
@@ -177,7 +173,6 @@ addStorage('hubElements', (storage) => {
               type: 'error',
               text: localizations.defaultErrorElementDownload || 'Failed to download the element',
               showCloseButton: 'true',
-              icon: 'vcv-ui-icon vcv-ui-icon-error',
               time: 5000
             })
             workspaceStorage.trigger('removeFromDownloading', tag)
@@ -195,7 +190,6 @@ addStorage('hubElements', (storage) => {
             type: 'error',
             text: localizations.defaultErrorElementDownload || 'Failed to download the element',
             showCloseButton: 'true',
-            icon: 'vcv-ui-icon vcv-ui-icon-error',
             time: 5000
           })
         }

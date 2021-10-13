@@ -9,6 +9,7 @@ const workspaceSettings = workspaceStorage.state('settings')
 const elementsStorage = vcCake.getStorage('elements')
 const cook = vcCake.getService('cook')
 const dataManager = vcCake.getService('dataManager')
+const settingsStorage = vcCake.getStorage('settings')
 
 export default class startBlank extends React.Component {
   static propTypes = {
@@ -35,6 +36,7 @@ export default class startBlank extends React.Component {
 
   handleStartClick () {
     const editorType = dataManager.get('editorType')
+    const templateType = settingsStorage.state('templateType').get()
     if (editorType === 'popup') {
       const cookElement = cook.get({ tag: 'popupRoot' }).toJS()
       const rowElement = cook.get({ tag: 'row', parent: cookElement.id }).toJS()
@@ -44,6 +46,13 @@ export default class startBlank extends React.Component {
       const iframe = document.getElementById('vcv-editor-iframe')
       this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
       this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
+    } else if (editorType === 'vcv_layouts' && templateType === 'postTemplate') {
+      const layoutContentElement = cook.get({ tag: 'layoutContentArea' }).toJS()
+      const layoutHeaderElement = cook.get({ tag: 'layoutHeaderArea' }).toJS()
+      const layoutFooterElement = cook.get({ tag: 'layoutFooterArea' }).toJS()
+      elementsStorage.trigger('add', layoutHeaderElement)
+      elementsStorage.trigger('add', layoutContentElement)
+      elementsStorage.trigger('add', layoutFooterElement)
     } else {
       const settings = {
         action: 'add',

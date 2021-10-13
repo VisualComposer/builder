@@ -7,8 +7,7 @@
   background-image: none;
   border-radius: 5px;
   color: #5c5b5b;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -42,6 +41,7 @@
 }
 
 .vcv-insight-item-description {
+  margin: 0 10px 0 0;
   padding: 0 0 0 20px;
   flex: 1 1 auto;
 }
@@ -101,6 +101,20 @@
   margin: 15px 0;
 }
 
+.vcv-insight-item--grouped {
+  align-items: stretch;
+  border-bottom: 1px solid #F4F4F4;
+  padding-bottom: 15px;
+
+  &:last-child {
+    border: none;
+    padding: 0;
+  }
+  .vcv-insight-item-thumbnail {
+    margin: 5px 0;
+  }
+}
+
 .vcv-insight-item .vcv-insight-item-thumbnail {
   width: 80px;
   height: 80px;
@@ -154,7 +168,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
+}
+
+.vcv-insight-header .vcv-ui-wp-spinner {
+  position: absolute;
+  right: 8px;
+  height: 100%;
+}
+
+.vcv-insight.vcv-ui-form-group .vcv-ui-form-link{
+    display: inline;
 }
 
 .rtl {
@@ -177,8 +200,7 @@
   background-image: none;
   border-radius: 5px;
   color: #5c5b5b;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   padding: 14px;
   display: flex;
   flex-direction: row;
@@ -208,17 +230,15 @@
 
 .vcv-notification-item-title {
   color: #5c5b5b;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14px;
   line-height: 19px;
   letter-spacing: 0.3px;
 }
 
 .vcv-notification-item-text {
-  font-family: 'Roboto', sans-serif;
   font-style: italic;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.92px;
@@ -257,4 +277,14 @@
     margin-left: 0;
     margin-right: 15px;
   }
+}
+
+.vcv-color-box {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  vertical-align: sub;
+  margin-right: 4px;
+  border-radius: 3px;
 }

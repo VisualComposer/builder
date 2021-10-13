@@ -46,9 +46,6 @@ export default class PremiumTeaser extends React.Component {
     if (downloadedAddons[addonData.tag]) {
       const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
       notificationsStorage.trigger('add', {
-        position: 'top',
-        transparent: false,
-        rounded: false,
         type: 'warning',
         text: successMessage.replace('{name}', addonData.name),
         time: 8000

@@ -375,7 +375,6 @@ export default class TreeViewElement extends React.Component {
     } else {
       visibilityText = localizations ? localizations.hideOff : 'Show Element'
     }
-    const rowLayoutText = localizations ? localizations.rowLayout : 'Row Layout'
     const lockedElementText = localizations ? localizations.lockedElementText : 'The element has been locked by your site Administrator.'
     const elementIsHidden = localizations ? localizations.elementIsHidden : 'Element is Hidden'
 
@@ -403,7 +402,6 @@ export default class TreeViewElement extends React.Component {
     this.state.hasChild = !!innerChildren.length
 
     let addChildControl = false
-    let editRowLayoutControl = false
     const elementContainerFor = element.containerFor()
     if (elementContainerFor.length) {
       let title = addElementText
@@ -421,17 +419,6 @@ export default class TreeViewElement extends React.Component {
             onClick={this.clickAddChild.bind(this, addElementTag)}
           >
             <i className='vcv-ui-icon vcv-ui-icon-add-thin' />
-          </span>
-        )
-      }
-      if (this.props.element.tag === 'row') {
-        editRowLayoutControl = (
-          <span
-            className='vcv-ui-tree-layout-control-action'
-            title={rowLayoutText}
-            onClick={this.handleClickEdit.bind(this, 'layout')}
-          >
-            <i className='vcv-ui-icon vcv-ui-icon-row-layout' />
           </span>
         )
       }
@@ -526,7 +513,6 @@ export default class TreeViewElement extends React.Component {
     const childControls = isElementLocked ? null : (
       <span className='vcv-ui-tree-layout-control-actions'>
         {addChildControl}
-        {editRowLayoutControl}
         <span className='vcv-ui-tree-layout-control-action' title={editText} onClick={this.handleClickEdit.bind(this, '')}>
           <i className='vcv-ui-icon vcv-ui-icon-edit' />
         </span>
@@ -573,11 +559,10 @@ export default class TreeViewElement extends React.Component {
       )
     }
 
-    const showDropdown = addChildControl || editRowLayoutControl || cloneControl || visibilityControl || copyControl || pasteControl
+    const showDropdown = addChildControl || cloneControl || visibilityControl || copyControl || pasteControl
     const sandwichControls = (
       <>
         {addChildControl}
-        {editRowLayoutControl}
         {cloneControl}
         {visibilityControl}
         {copyControl}
@@ -644,7 +629,7 @@ export default class TreeViewElement extends React.Component {
 
     const publicPath = hubElementsService.getElementIcon(element.get('tag'))
     const space = 0.8
-    const defaultSpace = utils.isRTL() ? 2 : 1
+    const defaultSpace = 1
 
     if (!content) {
       content = element.getName()

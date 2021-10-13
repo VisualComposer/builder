@@ -1,10 +1,10 @@
 === Visual Composer Website Builder ===
-Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,konutis,alperbulut,orkunaybek,filipsmasolovs,cagdasdag,cozmoslabs
+Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,konutis,alperbulut,orkunaybek,mrdollar4444,seahunter,filipsmasolovs,cagdasdag,cozmoslabs
 Tags: page builder, landing page, website builder, editor, visual composer
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.8
-Stable tag: 38.1
+Tested up to: 5.8.1
+Stable tag: 39.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -202,16 +202,50 @@ It is both! Visual Composer’s free version works like a page builder where you
 Yes, we have an awesome online community that you can join to share your expertise, connect with power-users and the Visual Composer core team – slack.visualcomposer.com
 
 == Screenshots ==
-1. Easy-to-use drag and drop website builder - an intuitive editor that gives you design freedom and tools to create a beautiful website.
-2. Visual Composer Hub - WordPress a cloud marketplace of elements, templates, and extensions.
-3. The largest collection of Elements - an ever-growing collection of content elements to build a professional website without coding.
-4. Get online faster with designer-made templates for business, portfolio, online store, blog, and other types of websites.
-5. WordPress Theme Builder - an all-in-one tool to design your beautiful website from header to footer.
-6. Mobile and desktop optimized editor for WordPress - create a mobile-friendly website from the start.
-7. Endless WordPress site design options - build a website just the way you want it with powerful design options for beginners and pros.
-8. Create any layouts fast and easy - Visual Composer is a pixel-perfect layout builder that helps to structure content the way you want it.
+1. A friendly, intuitive website builder that gives you design freedom and tools to create a beautiful site.
+2. Create any layouts fast and easy with the pixel perfect Visual Composer builder. It helps you structure content in a way that’s exactly how it should be!
+3. The Visual Composer Hub is a cloud marketplace of elements, templates and extensions. You can find anything to help build your website in one place with ease!
+4. Create a website that will look great on any device with the mobile and desktop optimized WordPress editor.
+5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 39.1 =
+*Release Date - 2021-09-30*
+
+### Free:
+- Fix: Inline styles for elements work properly
+
+= 39.0 =
+*Release Date - 2021-09-28*
+
+### Free:
+- New: Row layout accept pixel sizes for the fixed column width
+- Update: Pure components introduced to speed up editor performance
+- Update: Dynamic content elements optimized to speed up editor performance
+- Update: Template, block, and preset saving buttons have similar UI/UX
+- Update: Esc key closes inline editor mode
+- Compatibility: Visual Composer and Essential Grid compatibility improved
+- Fix: WPML Translation Management works properly in Visual Composer
+- Fix: WordPress default text widget works properly
+- Fix: Design Options work properly in the tablet portrait view on Safari
+- Fix: Save button works properly on Safari
+- Fix: A proper icon is displayed in the Tree View for hidden elements
+- Fix: Deleted elements from the Add Content Window can not be added to the page
+- Fix: Default YouTube element video is displayed properly
+
+### Premium:
+- New: Font Manager to overwrite theme default fonts for Visual Composer layouts and Starter theme. Ability to change H1-H6, paragraph, and blockquote.
+- New: Filter option added to all post grid elements for categorizing
+- Fix: Template export works properly
+- Fix: Substitute element works properly for the Button Group element
+- Fix: WP Forms element works properly
+- Fix: Toggle container title is displayed properly on mobile devices
+- Fix: Toggle container active colors work properly
+- Fix: Stretched rows work properly inside the Toggle container
+- Fix: Popup Builder works properly when deleting rows
+- Fix: Basic menu dropdown is displayed properly
+- Fix: Gutenberg editor close button is displayed properly in Visual Composer
 
 = 38.1 =
 *Release Date - 2021-08-10*

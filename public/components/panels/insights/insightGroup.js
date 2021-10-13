@@ -37,10 +37,14 @@ export default class InsightsGroup extends React.Component {
           />
         )
       }
+      const itemClasses = classNames({
+        'vcv-insight-item': true,
+        'vcv-insight-item--grouped': item.groupedItems
+      })
 
       return (
         <div
-          className='vcv-insight-item'
+          className={itemClasses}
           key={`insights-item-${item.type}-${index}`}
           onMouseOver={this.handleMouseEnter.bind(this, item.domNode)}
           onMouseLeave={this.handleMouseLeave}
@@ -48,7 +52,7 @@ export default class InsightsGroup extends React.Component {
           {item.thumbnail && (
             <img className='vcv-insight-item-thumbnail' src={item.thumbnail} alt='thumbnail' />
           )}
-          <span className='vcv-insight-item-description'>{item.description}</span>
+          <span className='vcv-insight-item-description' dangerouslySetInnerHTML={{ __html: item.description }} />
           {goToButton}
         </div>
       )
@@ -90,13 +94,15 @@ export default class InsightsGroup extends React.Component {
           className={expandClasses}
         />
       )
+    } else if (insightGroup.items.length === 1 && insightGroup.items[0].loading) {
+      collapseButton = <span className='vcv-ui-wp-spinner' />
     }
 
     return (
-      <div className={`vcv-insight vcv-insight-${insightGroup.state} vcv-insights-group-${type}`} key={`insights-group-${type}`}>
+      <div className={`vcv-insight vcv-ui-form-group vcv-insight-${insightGroup.state} vcv-insights-group-${type}`} key={`insights-group-${type}`}>
         <div className='vcv-insight-header'>
           <span className='vcv-insight-title'>{insightGroup.title}</span>
-          <span className='vcv-insight-description'>{insightGroup.description}</span>
+          <span className='vcv-insight-description' dangerouslySetInnerHTML={{ __html: insightGroup.description }} />
           {collapseButton}
         </div>
         {filteredItems.length && this.state.expanded ? (
