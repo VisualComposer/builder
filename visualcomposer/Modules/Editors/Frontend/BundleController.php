@@ -28,46 +28,8 @@ class BundleController extends Container implements Module
      */
     public function __construct()
     {
-        /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::registerEditorAssets */
-        $this->wpAddAction('init', 'registerEditorAssets', 10);
-
-        /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::addHeadBundleStyle */
-        $this->addEvent('vcv:frontend:render', 'addHeadBundleStyle');
-
         /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::addFooterBundleScript */
         $this->addEvent('vcv:frontend:render:footer vcv:frontend:postUpdate:render:footer', 'addFooterRuntimeScript');
-    }
-
-    /**
-     * @param \VisualComposer\Helpers\Url $urlHelper
-     */
-    protected function registerEditorAssets(Url $urlHelper)
-    {
-        wp_register_script(
-            'vcv:editors:frontend:script',
-            $urlHelper->to('public/dist/wp.bundle.js'),
-            [
-                'vcv:assets:vendor:script',
-            ],
-            VCV_VERSION,
-            true
-        );
-        wp_register_style(
-            'vcv:editors:frontend:style',
-            $urlHelper->to('public/dist/wp.bundle.css'),
-            [],
-            VCV_VERSION
-        );
-    }
-
-    /**
-     * Enqueue styles for frontend editor
-     */
-    protected function addHeadBundleStyle()
-    {
-        if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
-            wp_enqueue_style('vcv:editors:frontend:style');
-        }
     }
 
     /**

@@ -33,27 +33,51 @@ class AssetBundleCompressionController extends Container implements Module
      */
     protected function outputCompression()
     {
-        $name = $this->getCompressionRequestName();
-        if (!$name) {
+        if (empty($_GET['vcv-script']) && empty($_GET['vcv-style'])) {
             return;
         }
 
         if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === false) {
             // browser cannot accept compressed content, so need output standard JS/CSS
-            echo file_get_contents(VCV_PLUGIN_DIR_PATH . '/public/dist/' . $name . '.bundle.js');
+            echo file_get_contents($this->getBundlePath());
         } else {
             error_reporting(0);
-            header("Content-Encoding: gzip");
-            header("Content-Type: application/javascript");
+            $mimeType = $this->getMimeType();
+            header('Content-Encoding: gzip');
+            header('Content-Type: ' . $mimeType);
 
             if ($this->isPhpGzCompression()) {
-                echo file_get_contents(VCV_PLUGIN_DIR_PATH . '/public/dist/' . $name . '.bundle.js');
+                // let 3 party app gzip our content.
+                echo file_get_contents($this->getBundlePath());
             } else {
-                echo file_get_contents(VCV_PLUGIN_DIR_PATH . '/public/dist/' . $name . '.bundle.js.gz');
+                // output our gzip content.
+                echo file_get_contents($this->getBundlePath(true));
             }
         }
 
         exit;
+    }
+
+    /**
+     * Get current requested bundle path.
+     *
+     * @param bool $isCompress
+     *
+     * @return string
+     */
+    protected function getBundlePath($isCompress = false)
+    {
+        $assetType = $this->getAssetType();
+
+        $name = $this->getCompressionRequestName($assetType);
+
+        $path = VCV_PLUGIN_DIR_PATH . '/public/dist/' . $name . '.bundle.' . $assetType;
+
+        if ($isCompress) {
+            $path .= '.gz';
+        }
+
+        return $path;
     }
 
     /**
@@ -79,13 +103,9 @@ class AssetBundleCompressionController extends Container implements Module
      *
      * @return string
      */
-    protected function getCompressionRequestName()
+    protected function getCompressionRequestName($assetType)
     {
         $name = '';
-
-        if (!isset($_GET['vcv-script'])) {
-            return $name;
-        }
 
         $compressList = [
             'editor',
@@ -93,12 +113,44 @@ class AssetBundleCompressionController extends Container implements Module
             'vendor'
         ];
 
-        $key = array_search($_GET['vcv-script'], $compressList);
+        $searchKey = $assetType === 'js' ? $_GET['vcv-script'] : $_GET['vcv-style'];
+
+        $key = array_search($searchKey, $compressList);
 
         if ($key !== false) {
             $name = $compressList[$key];
         }
 
         return $name;
+    }
+
+    /**
+     * Check current requested asset type
+     *
+     * @return string
+     */
+    protected function getAssetType()
+    {
+        $type = 'js';
+
+        if (!empty($_GET['vcv-style'])) {
+            $type = 'css';
+        }
+
+        return $type;
+    }
+
+    /**
+     * Set current request asset mine type.
+     */
+    protected function getMimeType()
+    {
+        $type = 'application/javascript';
+
+        if (!empty($_GET['vcv-style'])) {
+            $type = 'text/css';
+        }
+
+        return $type;
     }
 }
