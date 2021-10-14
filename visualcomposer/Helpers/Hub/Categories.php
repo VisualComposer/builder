@@ -237,11 +237,16 @@ class Categories implements Helper
             'Theme Builder' => [
                 'title' => 'Theme Builder',
                 'elements' => [
-                    'layoutWpContentArea',
+                    'layoutContentArea',
                     'layoutWpCommentsArea',
                     'layoutHeaderArea',
                     'layoutFooterArea',
                     'layoutSidebarArea',
+                    'layoutPostTitle',
+                    'layoutPostExcerpt',
+                    'layoutPostDate',
+                    'layoutPostAuthor',
+                    'layoutPostAuthorBio',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),

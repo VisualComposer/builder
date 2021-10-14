@@ -1,10 +1,14 @@
 import path from 'path'
 import webpack from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import VirtualModulePlugin from 'virtual-module-webpack-plugin'
+import VirtualModulesPlugin from 'webpack-virtual-modules'
 import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
 import webpackVendors from 'vc-webpack-vendors'
-import Collector from './tools/webpack-collector-4x'
+import Collector from './tools/webpack-collector-5x'
+
+const virtualModules = new VirtualModulesPlugin({
+  'node_modules/jquery/dist/jquery.js': 'module.exports = window.jQuery;'
+})
 
 export default {
   devtool: 'eval',
@@ -22,19 +26,17 @@ export default {
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
-    publicPath: '.', // Used to generate URL's
+    publicPath: 'auto', // Used to generate URL's
+    assetModuleFilename: 'assets/[hash][ext][query]',
     filename: '[name].bundle.js', // Main bundle file
     chunkFilename: '[name].bundle.js',
-    jsonpFunction: 'vcvWebpackJsonp4x'
-  },
-  node: {
-    fs: 'empty'
+    chunkLoadingGlobal: 'vcvWebpackJsonp4x'
   },
   optimization: {
     minimize: false,
     runtimeChunk: 'single',
-    namedChunks: true, // MUST BE true even for production
-    namedModules: true, // MUST BE true even for production
+    chunkIds: 'named',
+    moduleIds: 'named',
     splitChunks: {
       cacheGroups: {
         default: false,
@@ -106,20 +108,26 @@ export default {
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css'
     }),
-    new VirtualModulePlugin({
-      moduleName: 'node_modules/jquery/dist/jquery.js',
-      contents: 'module.exports = window.jQuery'
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+        DEBUG: JSON.stringify('true'),
+        platform: JSON.stringify('unix'),
+        NODE_DEBUG: JSON.stringify('true')
+      },
+      'process.platform': JSON.stringify('unix'),
+      'process.browser': JSON.stringify('chrome'),
+      'fs.promises.readFile': JSON.stringify(false)
     }),
+    virtualModules,
     new VcWebpackCustomAliasPlugin(false, true),
-    new webpack.NamedModulesPlugin()
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
+    })
   ],
+  amd: false,
   module: {
     rules: [
-      {
-        parser: {
-          amd: false
-        }
-      },
       {
         test: /\.mjs$/,
         include: /node_modules/,
@@ -139,37 +147,52 @@ export default {
           {
             loader: MiniCssExtractPlugin.loader
           },
-          'css-loader',
+          {
+            loader: 'css-loader'
+          },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function plugins () {
-                return [require('autoprefixer')()]
+              postcssOptions: {
+                plugins: function plugins () {
+                  return [require('autoprefixer')()]
+                }
               }
             }
           },
-          'less-loader'
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                math: 'always'
+              }
+            }
+          }
         ]
       },
       {
-        test: /\.(png|jpe?g|gif)$/,
-        use: 'url-loader?limit=10000&name=/images/[name].[ext]?[hash]'
-      }, // inline base64 URLs for <=8k images, direct URLs for the rest.
-      {
-        test: /\.woff(2)?(\?.+)?$/,
-        use: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]'
+        test: /\.(png|jpe?g|gif|svg|ttf|woff)$/,
+        type: 'asset/resource'
       },
-      {
-        test: /\.svg/,
-        use: {
-          loader: 'svg-url-loader',
-          options: {}
-        }
-      },
-      {
-        test: /\.(ttf|eot)(\?.+)?$/,
-        use: 'file-loader?name=/fonts/[name].[ext]?[hash]'
-      },
+      // {
+      //   test: /\.(png|jpe?g|gif|ttf|eof|woff)$/,
+      //   use: 'url-loader?limit=20000&name=/images/[name].[ext]?[hash]',
+      // }, // inline base64 URLs for <=8k images, direct URLs for the rest.
+      // {
+      //   test: /\.woff(2)?(\?.+)?$/,
+      //   use: 'url-loader?limit=10000&mimetype=application/font-woff&name=/fonts/[name].[ext]?[hash]',
+      // },
+      // {
+      //   test: /\.svg/,
+      //   use: {
+      //     loader: 'svg-url-loader',
+      //     options: {},
+      //   },
+      // },
+      // {
+      //   test: /\.(ttf|eot)(\?.+)?$/,
+      //   use: 'file-loader?name=/fonts/[name].[ext]?[hash]',
+      // },
       {
         test: /\.raw(\?v=\d+\.\d+\.\d+)?$/,
         use: 'raw-loader' // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery&$=jquery' }
@@ -177,6 +200,18 @@ export default {
     ]
   },
   resolve: {
-    alias: { public: path.resolve(__dirname, 'public') }
+    alias: { public: path.resolve(__dirname, './public/') },
+    fallback: {
+      amd: false,
+      crypto: require.resolve('crypto-browserify'),
+      path: require.resolve('path-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      util: require.resolve('util/'),
+      buffer: require.resolve('buffer/'),
+      fs: require.resolve('vc-webpack-vendors/lib/slim-fs.js'),
+      http: false,
+      https: false,
+      stream: require.resolve('stream-browserify')
+    }
   }
 }
