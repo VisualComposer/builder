@@ -120,7 +120,10 @@ export default {
       'fs.promises.readFile': JSON.stringify(false)
     }),
     virtualModules,
-    new VcWebpackCustomAliasPlugin(false, true)
+    new VcWebpackCustomAliasPlugin(false, true),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    })
   ],
   amd: false,
   module: {
