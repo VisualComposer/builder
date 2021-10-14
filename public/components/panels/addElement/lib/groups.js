@@ -189,7 +189,7 @@ export default class Groups extends React.Component {
       // Backup first item if it's theme builder
       const editorType = dataManager.get('editorType')
       let backupThemeBuilder
-      if (Groups.allGroups[0].id.indexOf('Theme Builder') !== -1 && editorType === 'vcv_layouts') {
+      if (Groups.allGroups && Groups.allGroups[0] && Groups.allGroups[0].id && Groups.allGroups[0].id.indexOf('Theme Builder') !== -1 && editorType === 'vcv_layouts') {
         backupThemeBuilder = Groups.allGroups.splice(0, 1)
       }
 
