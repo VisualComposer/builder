@@ -4,6 +4,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import VirtualModulesPlugin from 'webpack-virtual-modules'
 import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
 import webpackVendors from 'vc-webpack-vendors'
+import CompressionWebpackPlugin from 'compression-webpack-plugin'
 import Collector from './tools/webpack-collector-5x'
 
 const virtualModules = new VirtualModulesPlugin({
@@ -119,6 +120,7 @@ export default {
       'process.browser': JSON.stringify('chrome'),
       'fs.promises.readFile': JSON.stringify(false)
     }),
+    new CompressionWebpackPlugin(),
     virtualModules,
     new VcWebpackCustomAliasPlugin(false, true),
     new webpack.ProvidePlugin({

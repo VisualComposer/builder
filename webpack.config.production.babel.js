@@ -7,6 +7,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import Collector from './tools/webpack-collector-5x'
 import config from './webpack.config.babel'
 import VcWebpackCustomAliasPlugin from 'vc-webpack-vendors/webpack.plugin.customAlias'
+import CompressionWebpackPlugin from 'compression-webpack-plugin'
 
 const virtualModules = new VirtualModulesPlugin({
   'node_modules/jquery/dist/jquery.js': 'module.exports = window.jQuery;'
@@ -101,6 +102,7 @@ export default Object.assign({}, config, {
       filename: '[name].bundle.css'
     }),
     virtualModules,
+    new CompressionWebpackPlugin(),
     new VcWebpackCustomAliasPlugin(false, false),
     new webpack.DefinePlugin({
       'process.env': {
