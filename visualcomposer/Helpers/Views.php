@@ -74,6 +74,15 @@ class Views extends container implements Helper
     {
         $class = isset($section['vcv-args']['class']) ? ' ' . esc_attr($section['vcv-args']['class']) : '';
 
+        if (isset($section['type']) && $section['type'] === 'accordion') {
+            // create accordion wrapper for child content
+            echo '<div class="vcv-settings-form--item">';
+            echo '<div class="vcv-settings-form--item--heading">
+                <span class="vcv-settings-form-item--heading-text">' . esc_html($section['title']) . '</span>
+                </div>';
+            echo '<div class="vcv-settings-form--item--content">';
+            echo isset($section['description']) ? ('<p class="description">' . esc_html($section['description']) . '</p>') : '';
+        }
         echo sprintf(
             '<div class="%s-section %s_%s%s">',
             esc_attr($slug),
@@ -104,6 +113,11 @@ class Views extends container implements Helper
             echo '</div>';
         }
         echo '</div>';
+        if (isset($section['type']) && $section['type'] === 'accordion') {
+            echo '</div></div>'; // close section item and section content
+        }
+
+        return isset($section['type']) && $section['type'] === 'accordion';
     }
 
     public function doNestedFields($fields)
