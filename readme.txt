@@ -211,7 +211,7 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 40.0 =
-*Release Date - 2021-10-15*
+*Release Date - 2021-10-14*
 
 ### Free:
 - New: Templates have groups in the Add Content window
