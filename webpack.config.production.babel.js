@@ -112,6 +112,9 @@ export default Object.assign({}, config, {
       'process.platform': JSON.stringify('unix'),
       'process.browser': JSON.stringify('chrome'),
       'fs.promises.readFile': JSON.stringify(false)
+    }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
     })
   ]
 })

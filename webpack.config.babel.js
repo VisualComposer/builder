@@ -122,7 +122,10 @@ export default {
     }),
     new CompressionWebpackPlugin(),
     virtualModules,
-    new VcWebpackCustomAliasPlugin(false, true)
+    new VcWebpackCustomAliasPlugin(false, true),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
+    })
   ],
   amd: false,
   module: {
