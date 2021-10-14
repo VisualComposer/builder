@@ -10,34 +10,134 @@ if (!defined('ABSPATH')) {
 ?>
 <?php if ($slug === 'vcv-headers-footers' || $slug === 'vcv-custom-page-templates') { ?>
     <style>
-        .vcv-settings-tab-content,
-        .vcv-headers-footers_headers-footers-all-site,
-        .vcv-headers-footers_headers-footers-separate-post-types {
-            visibility: hidden;
-        }
+      .vcv-settings-tab-content,
+      .vcv-headers-footers_headers-footers-all-site,
+      .vcv-headers-footers_headers-footers-separate-post-types {
+        visibility: hidden;
+      }
 
-        .vcv-table-loader-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-        }
+      .vcv-table-loader-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+      }
 
-        .vcv-table-loader {
-            height: 16px;
-            width: 16px;
-            margin-top: 40px;
-            transform: translate(-50%, -50%);
-            animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
-        }
+      .vcv-table-loader {
+        height: 16px;
+        width: 16px;
+        margin-top: 40px;
+        transform: translate(-50%, -50%);
+        animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+      }
 
-        @keyframes vcv-ui-wp-spinner-animation {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
+      @keyframes vcv-ui-wp-spinner-animation {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
         }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      .vcv-ui-settings-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .vcv-settings-form--item {
+        background-color: #fff;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .vcv-settings-form--item--teaser .vcv-settings-form--item--heading {
+        cursor: auto;
+      }
+
+      .vcv-settings-form--item--teaser .vcv-settings-form--item--heading::after {
+        display: none;
+      }
+
+      .vcv-settings-form-item--heading-text {
+        flex-grow: 1;
+        margin: 6px 0;
+      }
+
+      .vcv-settings-form--item--teaser .vcv-settings-form-item--heading-text {
+        opacity: .5;
+      }
+
+      .vcv-settings-form--item--heading {
+        padding: 10px 16px;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 18px;
+        font-weight: 600;
+        font-size: 18px;
+        color: #515162;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+
+      .vcv-settings-form--item--heading::after {
+        position: absolute;
+        right: 16px;
+        font-family: 'VC-Icons', serif;
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        content: "\25be";
+        color: #C6CBD4;
+        margin-top: 6px;
+      }
+
+      .vcv-settings-form--item--active .vcv-settings-form--item--heading::after {
+        content: "\25b4";
+      }
+
+      .vcv-settings-form--item--content {
+        padding: 16px;
+        border-top: 1px solid #f1f1f1;
+        display: none;
+      }
+
+      .vcv-settings-form--item .vcv-settings-form--item--content h2 {
+        font-size: 16px;
+      }
+
+      .vcv-settings-form--item--active .vcv-settings-form--item--content {
+        display: block;
+      }
+
+      .vcv-settings-form .vcv-ui-settings-status-table {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0 0 8px;
+      }
+
+      .vcv-settings-form--item .vcv-settings-section {
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #F1F1F1;
+      }
+
+      .vcv-settings-form--item .vcv-settings-section:last-of-type {
+        border: none;
+      }
+
+      .vcv-settings-section .vcv-ui-settings-status-table .description {
+        margin: 0;
+      }
+
+      .vcv-settings-section .vcv-ui-settings-status-table .vcv-ui-settings-status-table-title {
+        color: #5F5F70;
+      }
     </style>
     <div class="vcv-table-loader-wrapper">
         <div class="vcv-table-loader">
@@ -66,8 +166,20 @@ if (!defined('ABSPATH')) {
     $orderedSections = $sectionsRegistry->getHiearchy($sectionsRegistry->findBySlug($slug));
 
     $viewsHelper = vchelper('Views');
-    foreach ($orderedSections as $section) {
-        $viewsHelper->doNestedSection($section, $slug);
+    if (!empty($orderedSections)) {
+        $useAccordion = false;
+        ob_start();
+        foreach ($orderedSections as $section) {
+            $useAccordion = $viewsHelper->doNestedSection($section, $slug) || $useAccordion;
+        }
+        $content = ob_get_clean();
+        if ($useAccordion) {
+            echo '<div class="vcv-ui-settings-sections">';
+            echo $content;
+            echo '</div>';
+        } else {
+            echo $content;
+        }
     }
 
     $submitButtonAttributes = [
@@ -94,3 +206,19 @@ if (!defined('ABSPATH')) {
 
     <input type="hidden" name="vcv-page-slug" value="<?php echo $slug; ?>" />
 </form>
+
+
+<script>
+  (function () {
+    // global event listener (from youmightnotneedjquery)
+    document.addEventListener('click', function (e) {
+      // loop parent nodes from the target to the delegation node
+      for (let target = e.target; target && target !== this; target = target.parentNode) {
+        if (target.matches('.vcv-settings-form--item--heading')) {
+          target.parentElement.classList.toggle('vcv-settings-form--item--active')
+          break;
+        }
+      }
+    }, false);
+  })()
+</script>
