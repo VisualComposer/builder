@@ -122,7 +122,7 @@ export default {
     virtualModules,
     new VcWebpackCustomAliasPlugin(false, true),
     new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer'],
+      Buffer: ['buffer', 'Buffer']
     })
   ],
   amd: false,

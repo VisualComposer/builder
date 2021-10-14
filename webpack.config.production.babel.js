@@ -114,7 +114,7 @@ export default Object.assign({}, config, {
       'fs.promises.readFile': JSON.stringify(false)
     }),
     new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer'],
+      Buffer: ['buffer', 'Buffer']
     })
   ]
 })
