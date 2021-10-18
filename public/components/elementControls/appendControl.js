@@ -8,11 +8,12 @@ const dataManager = getService('dataManager')
 
 const iframe = document.getElementById('vcv-editor-iframe')
 
-function updateAppendContainerPosition (data, appendControlContainer) {
+function updateAppendContainerPosition (data, iframeDocument, appendControlContainer) {
   if (!appendControlContainer.current) {
     return false
   }
-  const elementRect = data.element.getBoundingClientRect()
+  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+  const elementRect = contentElement.getBoundingClientRect()
   const control = appendControlContainer.current.firstElementChild
   let controlPos = 0
   if (control) {
@@ -35,11 +36,11 @@ function updateAppendContainerPosition (data, appendControlContainer) {
 
 export default function AppendControl (props) {
   const controlContainer = useRef()
-  const [containerPos, setContainerPos] = useState(updateAppendContainerPosition(props.data, controlContainer))
+  const [containerPos, setContainerPos] = useState(updateAppendContainerPosition(props.data, props.iframeDocument, controlContainer))
 
   useEffect(() => {
     if (!containerPos) {
-      setContainerPos(updateAppendContainerPosition(props.data, controlContainer))
+      setContainerPos(updateAppendContainerPosition(props.data, props.iframeDocument, controlContainer))
     }
   })
 

@@ -115,9 +115,9 @@ export default class ControlsManager {
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (data && data.vcvEditableElements.length) {
-      ReactDOM.render(<Controls data={data} />, this.controlsWrapper)
+      ReactDOM.render(<Controls data={data} iframeDocument={this.iframeDocument} />, this.controlsWrapper)
       if (isAbleToAdd) {
-        ReactDOM.render(<AppendControl data={data} />, this.appendControlsWrapper)
+        ReactDOM.render(<AppendControl data={data} iframeDocument={this.iframeDocument} />, this.appendControlsWrapper)
       }
     } else {
       ReactDOM.unmountComponentAtNode(this.controlsWrapper)
@@ -176,7 +176,6 @@ export default class ControlsManager {
         if (this.state.prevElement) {
           layoutStorage.state('interactWithContent').set({
             type: 'mouseLeave',
-            element: this.state.prevElement,
             vcElementId: this.state.prevElement.dataset.vcvElement,
             path: this.state.prevElementPath,
             vcElementsPath: this.state.prevElementPath.map((el) => {
@@ -188,7 +187,6 @@ export default class ControlsManager {
         if (element) {
           layoutStorage.state('interactWithContent').set({
             type: 'mouseEnter',
-            element: element,
             vcElementId: element.dataset.vcvElement,
             path: elPath,
             vcElementsPath: elPath.map((el) => {
@@ -197,7 +195,6 @@ export default class ControlsManager {
           })
           layoutStorage.state('interactWithContent').set({
             type: 'mouseDown',
-            element: element,
             vcElementId: element.dataset.vcvElement,
             path: elPath,
             vcElementsPath: elPath.map((el) => {
@@ -487,7 +484,7 @@ export default class ControlsManager {
     elementsToShow = elementsToShow.filter((el) => {
       return el
     })
-    this.frames.show({ element: data.element, path: elementsToShow, tag: elementTag })
+    this.frames.show({ vcElementId: data.vcElementId, path: elementsToShow, tag: elementTag })
   }
 
   /**
