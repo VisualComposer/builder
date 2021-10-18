@@ -80,18 +80,17 @@ export default class ContentEditableComponent extends React.Component {
     vcCake.setData('vcv:layoutCustomMode', null)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.state.contentEditable !== true && nextProps.children !== this.state.realContent) {
-      this.setState({ realContent: nextProps.children })
-      this.debouncedUpdateHtml(nextProps.children)
-    }
-    if (this.props.options.allowInline !== nextProps.options.allowInline) {
-      this.setState({ allowInline: nextProps.options.allowInline })
+  componentDidUpdate (prevProps) {
+    if (!lodash.isEqual(prevProps, this.props)) {
+      if (this.state.contentEditable !== true && this.props.children !== this.state.realContent) {
+        this.setState({ realContent: this.props.children })
+        this.debouncedUpdateHtml(this.props.children)
+      }
+      if (prevProps.options.allowInline !== this.props.options.allowInline) {
+        this.setState({ allowInline: this.props.options.allowInline })
+      }
     }
   }
-
-  /* eslint-enable */
 
   handleLayoutModeChange (mode) {
     mode !== 'dnd' && this.setState({ contentEditable: mode === 'contentEditable', trackMouse: false })

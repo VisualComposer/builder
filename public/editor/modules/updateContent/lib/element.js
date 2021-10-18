@@ -4,6 +4,7 @@ import ContentControls from 'public/components/layoutHelpers/contentControls/com
 import ContentEditableComponent from 'public/components/layoutHelpers/contentEditable/contentEditableComponent'
 import ColumnResizer from 'public/components/columnResizer/columnResizer'
 import PropTypes from 'prop-types'
+import { isEqual } from 'lodash'
 
 const elementsStorage = vcCake.getStorage('elements')
 const assetsStorage = vcCake.getStorage('assets')
@@ -25,18 +26,17 @@ export default class Element extends React.Component {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    assetsStorage.trigger('updateElement', this.state.element.id)
-    this.setState({ element: nextProps.element })
-  }
-
-  /* eslint-enable */
-
   componentDidMount () {
     this.props.api.notify('element:mount', this.state.element.id)
     elementsStorage.on(`element:${this.state.element.id}`, this.dataUpdate)
     assetsStorage.trigger('addElement', this.state.element.id)
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (!isEqual(prevProps.element, this.props.element)) {
+      assetsStorage.trigger('updateElement', prevState.element.id)
+      this.setState({ element: this.props.element })
+    }
   }
 
   dataUpdate (data, source, options) {

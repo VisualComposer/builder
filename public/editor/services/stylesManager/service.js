@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
 import vcCake from 'vc-cake'
 import postcss from 'postcss'
-import postcssClean from 'postcss-clean'
+// import postcssClean from 'postcss-clean'
 import postcssCustomProps from 'postcss-custom-properties'
 import postcssAdvancedVars from 'postcss-advanced-variables'
 import postcssColor from 'postcss-color-function'
@@ -13,10 +13,15 @@ import colorBlend from 'color-blend'
 import functions from 'postcss-functions'
 import objectHash from 'node-object-hash'
 
+import cssNano from 'cssnano'
+
 const cssHashes = {}
 const mainPlugins = []
 mainPlugins.push(postcssEach)
 mainPlugins.push(colorBlend())
+mainPlugins.push(cssNano({
+  preset: 'default'
+}))
 const plugin = postcss.plugin('postcss-math', () => {
   return (css) => {
     // Transform CSS AST here
@@ -55,7 +60,7 @@ mainPlugins.push(functions({
 }))
 mainPlugins.push(postcssColor)
 mainPlugins.push(postcssNested)
-mainPlugins.push(postcssClean)
+// mainPlugins.push(postcssClean)
 
 class StylesManager {
   constructor (styles = []) {
@@ -137,11 +142,11 @@ class StylesManager {
       let use = []
       if (Object.prototype.hasOwnProperty.call(style, 'variables')) {
         use.push(postcssAdvancedVars({
-          variables: style.variables
+          variables: style.variables,
+          importRoot: '/'
         }))
         use.push(postcssCustomProps(style.variables))
       } else {
-        use.push(postcssAdvancedVars())
         use.push(postcssCustomProps())
       }
       cssHashes[hash] = {}

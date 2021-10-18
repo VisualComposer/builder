@@ -208,9 +208,6 @@ export default class EditFormHeader extends React.Component {
       if (allAddons.roleManager) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
         notificationsStorage.trigger('add', {
-          position: 'top',
-          transparent: false,
-          rounded: false,
           type: 'warning',
           text: successMessage.replace('{name}', 'Role Manager'),
           time: 8000

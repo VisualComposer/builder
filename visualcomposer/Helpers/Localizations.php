@@ -1766,19 +1766,43 @@ class Localizations extends Container implements Helper
                 'Your contrast ratio is low',
                 'visualcomposer'
             ),
-            'colorContrastDescriptionWarn' => __(
-                'Your page foreground and background colors do not meet the WCAG 2 AA contrast ratio standards of 4.5:1.',
-                'visualcomposer'
+            'colorContrastDescriptionWarn' => sprintf(
+                __(
+                    'Your page foreground and background colors do not meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'visualcomposer'
+                ),
+                '<a class="vcv-ui-form-link" href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
             ),
             'colorContrastTitleOK' => __(
                 'The page meets the contrast ratio standards',
                 'visualcomposer'
             ),
-            'colorContrastDescriptionOK' => __(
-                'Your page foreground and background colors meet the WCAG 2 AA contrast ratio standards of 4.5:1.',
+            'colorContrastDescriptionOK' => sprintf(
+                __(
+                    'Your page foreground and background colors meet the WCAG 2 AA %scontrast ratio standards%s of 4.5:1.',
+                    'visualcomposer'
+                ),
+                '<a class="vcv-ui-form-link" href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'contrastRatio' => __(
+                'Contrast ratio',
                 'visualcomposer'
             ),
-            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2)
+            'contrastCheckInProgress' => __(
+                'Contrast check is in progress ...',
+                'visualcomposer'
+            ),
+            'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
+            'postTemplateText' => __(
+                'Post template',
+                'visualcomposer'
+            ),
+            'archiveTemplateText' => __(
+                'Archive template',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

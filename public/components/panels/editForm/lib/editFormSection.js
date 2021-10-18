@@ -119,6 +119,12 @@ export default class EditFormSection extends React.Component {
       if (fieldOptions && fieldOptions.hide) {
         return null
       }
+      if (!dataManager.get('globalLazyloadEnabled')) {
+        if (param.key === 'lazyLoad') {
+          return null
+        }
+      }
+
       const removeDependencies = fieldOptions && fieldOptions.removeDependencies
 
       return (
@@ -283,17 +289,13 @@ export default class EditFormSection extends React.Component {
     this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
       text: successText,
-      time: 5000,
-      position: 'bottom',
-      transparent: true,
-      rounded: true
+      time: 5000
     })
   }
 
   displayError (errorText) {
     this.setState({ showSpinner: false })
     notificationsStorage.trigger('add', {
-      position: 'bottom',
       type: 'error',
       text: errorText,
       time: 5000

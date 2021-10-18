@@ -18,8 +18,8 @@ If you send a pull request, please do it against the master branch. We maintain 
 Make fork for of VCWB repo in GitHub. Go to your active WordPress `wp-content/plugins` directory.
 
 ```sh
-$ git clone git@github.com:<Username>/builder.git
-$ cd builder
+$ git clone git@github.com:<Username>/builder.git visualcomposer
+$ cd visualcomposer
 $ git remote add upstream git@github.com:VisualComposer/builder.git
 $ git remote set-url --push upstream no_push
 $ git remote -v

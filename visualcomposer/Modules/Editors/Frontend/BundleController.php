@@ -35,7 +35,6 @@ class BundleController extends Container implements Module
         $this->addEvent('vcv:frontend:render', 'addHeadBundleStyle');
 
         /** @see \VisualComposer\Modules\Editors\Frontend\BundleController::addFooterBundleScript */
-        $this->addEvent('vcv:frontend:render:footer', 'addFooterBundleScript');
         $this->addEvent('vcv:frontend:render:footer vcv:frontend:postUpdate:render:footer', 'addFooterRuntimeScript');
     }
 
@@ -44,15 +43,6 @@ class BundleController extends Container implements Module
      */
     protected function registerEditorAssets(Url $urlHelper)
     {
-        wp_register_script(
-            'vcv:editors:frontend:script',
-            $urlHelper->to('public/dist/wp.bundle.js'),
-            [
-                'vcv:assets:vendor:script',
-            ],
-            VCV_VERSION,
-            true
-        );
         wp_register_style(
             'vcv:editors:frontend:style',
             $urlHelper->to('public/dist/wp.bundle.css'),
@@ -68,18 +58,6 @@ class BundleController extends Container implements Module
     {
         if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
             wp_enqueue_style('vcv:editors:frontend:style');
-        }
-    }
-
-    /**
-     * Enqueue scripts for frontend editor
-     */
-    protected function addFooterBundleScript()
-    {
-        if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
-            wp_enqueue_script('vcv:editors:frontend:script');
-            // Runtime script must be present on the page
-            wp_enqueue_script('vcv:assets:runtime:script');
         }
     }
 
