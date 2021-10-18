@@ -61,7 +61,7 @@ class Controller extends Container implements Module
                 }
             );
             ob_start();
-            do_action('template_redirect'); // This fixes visual composer shortcodes
+            do_action('vcv:templateRedirect'); // This fixes visual composer shortcodes
             remove_action('wp_head', '_wp_render_title_tag', 1);
             //            remove_action( 'wp_head',             'wp_enqueue_scripts',              1     );
             remove_action('wp_head', 'wp_resource_hints', 2);
