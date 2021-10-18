@@ -8,6 +8,7 @@ const workspaceSettings = workspaceStorage.state('settings')
 const elementsStorage = vcCake.getStorage('elements')
 const cook = vcCake.getService('cook')
 const dataManager = vcCake.getService('dataManager')
+const settingsStorage = vcCake.getStorage('settings')
 let addedId, iframeWindow
 
 function startBlank (props) {
@@ -25,6 +26,7 @@ function startBlank (props) {
 
   const handleStartClick = () => {
     const editorType = dataManager.get('editorType')
+    const templateType = settingsStorage.state('templateType').get()
     if (editorType === 'popup') {
       const cookElement = cook.get({ tag: 'popupRoot' }).toJS()
       const rowElement = cook.get({ tag: 'row', parent: cookElement.id }).toJS()
@@ -34,6 +36,13 @@ function startBlank (props) {
       const iframe = document.getElementById('vcv-editor-iframe')
       iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
       iframeWindow.vcv && iframeWindow.vcv.on('ready', openEditForm)
+    } else if (editorType === 'vcv_layouts' && templateType === 'postTemplate') {
+      const layoutContentElement = cook.get({ tag: 'layoutContentArea' }).toJS()
+      const layoutHeaderElement = cook.get({ tag: 'layoutHeaderArea' }).toJS()
+      const layoutFooterElement = cook.get({ tag: 'layoutFooterArea' }).toJS()
+      elementsStorage.trigger('add', layoutHeaderElement)
+      elementsStorage.trigger('add', layoutContentElement)
+      elementsStorage.trigger('add', layoutFooterElement)
     } else {
       const settings = {
         action: 'add',
@@ -67,6 +76,7 @@ function startBlank (props) {
     />
   )
 
+  console.log('start render')
   return (
     <div ref={startContainer} className='vcv-start-blank-container' onMouseUp={handleMouseUp}>
       <div className='vcv-start-blank-scroll-container'>

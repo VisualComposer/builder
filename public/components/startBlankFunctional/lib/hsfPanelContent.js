@@ -34,7 +34,6 @@ function HfsPanelContent ({ onClick, type }) {
   const localizations = dataManager.get('localizations')
   const btnText = localizations ? localizations.startBuildingHFSButton : 'Start Building'
   const placeholder = localizations ? localizations.startPageHFSInputPlaceholder : '{name} Name'
-  console.log('hfs')
   return (
     <div className='vcv-hfs-start-blank-container'>
       <form className='vcv-hfs-start-blank-form' onSubmit={handleSubmit}>
