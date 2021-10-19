@@ -1022,7 +1022,7 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
-    if (!dataManager.get('globalLazyloadEnabled')) {
+    if (!dataManager.get('globalLazyLoadEnabled')) {
       return null
     }
 

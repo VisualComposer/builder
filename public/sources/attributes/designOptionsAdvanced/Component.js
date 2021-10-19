@@ -940,7 +940,7 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getLazyLoadRender () {
-    if (!dataManager.get('globalLazyloadEnabled')) {
+    if (!dataManager.get('globalLazyLoadEnabled')) {
       return null
     }
 
