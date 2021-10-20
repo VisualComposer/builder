@@ -1762,6 +1762,14 @@ class Localizations extends Container implements Helper
                 'The block has been successfully saved.',
                 'visualcomposer'
             ),
+            'postSaved' => __(
+                'The content has been successfully saved',
+                'visualcomposer'
+            ),
+            'postSavedFailed' => __(
+                'Failed to save the content.',
+                'visualcomposer'
+            ),
             'colorContrastTitleWarn' => __(
                 'Your contrast ratio is low',
                 'visualcomposer'
