@@ -36,7 +36,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
   updateControlOnStatusChange (data, source = '') {
     const status = data.status
     const successMessage = WordPressPostSaveControl.localizations ? WordPressPostSaveControl.localizations.postSaved : 'The content has been successfully saved.'
-    const failMessage = WordPressPostSaveControl.localizations ? WordPressPostSaveControl.localizations.postSavedFailed : 'The content has been successfully saved.'
+    const failMessage = WordPressPostSaveControl.localizations ? WordPressPostSaveControl.localizations.postSavedFailed : 'Failed to save the content.'
     if (status === 'saving' && source !== 'postSaveControl') {
       this.handleClickSaveData({ options: data.options }, {}, {}, true)
       return
