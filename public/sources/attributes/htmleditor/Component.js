@@ -7,6 +7,7 @@ import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
 import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
+import Toggle from '../toggle/Component'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const roleManager = getService('roleManager')
@@ -14,6 +15,7 @@ const settingsStorage = getStorage('settings')
 const notificationsStorage = getStorage('notifications')
 const blockRegexp = getBlockRegexp()
 const exceptionalFieldTypes = ['wysiwyg', 'textarea']
+const dataManager = getService('dataManager')
 
 export default class HtmlEditorWrapper extends Attribute {
   static defaultProps = {
@@ -29,11 +31,20 @@ export default class HtmlEditorWrapper extends Attribute {
     this.setValueState = this.setValueState.bind(this)
     this.setEditorLoaded = this.setEditorLoaded.bind(this)
     this.handleBodyClick = this.handleBodyClick.bind(this)
+    this.onToggleChange = this.onToggleChange.bind(this)
 
     const isDynamic = props.options && props.options.dynamicField
     const isDynamicSet = isDynamic && typeof this.state.value === 'string' && this.state.value.match(blockRegexp)
     this.state.dynamicFieldOpened = isDynamicSet
     this.state.isDynamicSet = isDynamicSet
+
+    if (props.options && props.options.extraToggle) {
+      const blockInfo = parseDynamicBlock(this.state.value)
+      if (blockInfo && blockInfo.blockAtts) {
+        this.state.dynamicExtraToggleValue = props.options.extraToggle.trueValue === blockInfo.blockAtts.value
+      }
+    }
+
     if (isDynamicSet) {
       this.state.exceptionField = this.getExceptionField(this.state.value, this.props.fieldType)
     }
@@ -213,6 +224,47 @@ export default class HtmlEditorWrapper extends Attribute {
     return isExceptionField
   }
 
+  onToggleChange (fieldKey, value) {
+    const { extraToggle } = this.props.options
+    this.setState({
+      dynamicExtraToggleValue: value
+    })
+    const changeValue = value ? extraToggle.trueValue : extraToggle.falseValue
+    let newDynamicValue = this.props.onDynamicFieldChange(changeValue, dataManager.get('sourceID'))
+
+    const blockInfo = parseDynamicBlock(this.state.value)
+
+    if (blockInfo) {
+      const before = blockInfo.beforeBlock || '<p>'
+      const after = blockInfo.afterBlock || '</p>'
+      newDynamicValue = before + newDynamicValue + after
+    } else {
+      newDynamicValue = `<p>${newDynamicValue}</p>`
+    }
+
+    this.setFieldValue(newDynamicValue)
+  }
+
+  getExtraToggle () {
+    const { options } = this.props
+    if (options && options.extraToggle) {
+      return (
+        <div className='vcv-ui-form-group'>
+          <div className='vcv-ui-form-group-heading-wrapper'>
+            <span className='vcv-ui-form-group-heading'>Add link</span>
+          </div>
+          <Toggle
+            fieldKey='html_editor_dynamic_extra_toggle'
+            updater={this.onToggleChange}
+            value={this.state.dynamicExtraToggleValue}
+          />
+        </div>
+      )
+    }
+
+    return null
+  }
+
   render () {
     const isDynamic = this.props.options && this.props.options.dynamicField
     const onlyDynamic = this.props.options && this.props.options.onlyDynamic
@@ -253,6 +305,7 @@ export default class HtmlEditorWrapper extends Attribute {
           editorLoaded={this.state.editorLoaded}
         />
         {dynamicComponent}
+        {this.getExtraToggle()}
       </div>
     )
   }
