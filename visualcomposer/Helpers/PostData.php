@@ -239,6 +239,26 @@ class PostData implements Helper
         return false;
     }
 
+    public function getPostAuthorLink($sourceId = '')
+    {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
+        // @codingStandardsIgnoreLine
+        $authorName = get_the_author_meta('display_name', $post->post_author);
+        $actualValue = sprintf(
+            '<a href="%1$s" rel="author">%2$s</a>',
+            // @codingStandardsIgnoreLine
+            esc_url(get_author_posts_url($post->post_author)),
+            $authorName
+        );
+
+        return $actualValue;
+    }
+
     public function getPostAuthorBio($sourceId = '')
     {
         $post = get_post($sourceId);
@@ -311,6 +331,7 @@ class PostData implements Helper
         $response['post_modify_date'] = $this->getPostModifyDate($sourceId);
         $response['post_parent_name'] = $this->getPostParentName($sourceId);
         $response['post_author_bio'] = $this->getPostAuthorBio($sourceId);
+        $response['post_author_link'] = $this->getPostAuthorLink($sourceId);
         $response['site_title'] = $this->getSiteTitle($sourceId);
         $response['site_tagline'] = $this->getSiteTagline($sourceId);
         $response['site_url'] = $this->getSiteUrl($sourceId);

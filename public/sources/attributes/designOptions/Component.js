@@ -1022,7 +1022,18 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
-    if (!dataManager.get('globalLazyloadEnabled')) {
+    if (!dataManager.get('globalLazyLoadEnabled')) {
+      return null
+    }
+
+    const { devices, currentDevice } = this.state
+    if (devices[currentDevice].display) {
+      return null
+    }
+
+    const imageData = devices[currentDevice].image || ''
+
+    if (!this.isBackgroundActive(imageData)) {
       return null
     }
 
@@ -1139,7 +1150,7 @@ export default class DesignOptions extends Attribute {
     }
     const imageData = devices[currentDevice].image || ''
 
-    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
+    if (!this.isBackgroundActive(imageData)) {
       return null
     }
 
@@ -1212,6 +1223,20 @@ export default class DesignOptions extends Attribute {
   }
 
   /**
+   * Check if background is set
+   * @param imageData
+   *
+   * @return bool
+   */
+  isBackgroundActive (imageData) {
+    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
+      return false
+    }
+
+    return true
+  }
+
+  /**
    * Render background position control
    * @returns {*}
    */
@@ -1223,7 +1248,7 @@ export default class DesignOptions extends Attribute {
 
     const imageData = devices[currentDevice].image || ''
 
-    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
+    if (!this.isBackgroundActive(imageData)) {
       return null
     }
 
@@ -1498,8 +1523,8 @@ export default class DesignOptions extends Attribute {
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}
-            {this.props.elementSelector ? null : this.getImageLazyLoadRender()}
             {this.getAttachImageRender()}
+            {this.props.elementSelector ? null : this.getImageLazyLoadRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBorderStyleRender()}
