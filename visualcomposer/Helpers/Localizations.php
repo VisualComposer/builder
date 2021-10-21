@@ -1763,7 +1763,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'postSaved' => __(
-                'The content has been successfully saved',
+                'The content has been successfully saved.',
                 'visualcomposer'
             ),
             'postSavedFailed' => __(

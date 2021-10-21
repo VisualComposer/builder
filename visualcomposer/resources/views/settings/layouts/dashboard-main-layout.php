@@ -151,8 +151,8 @@ STYLE;
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    -webkit-animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
-    animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+    -webkit-animation: vcv-ui-wp-spinner-animation .7s linear infinite;
+    animation: vcv-ui-wp-spinner-animation .7s linear infinite;
   }
 
   .vcv-dashboard-iframe-loader-wrapper {

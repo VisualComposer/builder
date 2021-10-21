@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
         width: 16px;
         margin-top: 40px;
         transform: translate(-50%, -50%);
-        animation: vcv-ui-wp-spinner-animation 1.08s linear infinite;
+        animation: vcv-ui-wp-spinner-animation .7s linear infinite;
       }
 
       @keyframes vcv-ui-wp-spinner-animation {
