@@ -251,7 +251,7 @@ export default class HtmlEditorWrapper extends Attribute {
       return (
         <div className='vcv-ui-form-group'>
           <div className='vcv-ui-form-group-heading-wrapper'>
-            <span className='vcv-ui-form-group-heading'>Add link</span>
+            <span className='vcv-ui-form-group-heading'>{options.extraToggle.title}</span>
           </div>
           <Toggle
             fieldKey='html_editor_dynamic_extra_toggle'
