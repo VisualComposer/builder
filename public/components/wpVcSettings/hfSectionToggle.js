@@ -37,22 +37,26 @@ export const hfSectionToggle = () => {
   handleToggleSections($mainHFSDropdown.val())
   $separatePostTypeToggle.each((index, item) => {
     const $item = $(item)
-    const $separatePostTypeToggleSections = $item.closest('.vcv-no-title').nextAll()
+    const $childSection = $item.closest('.vcv-headers-footers-section')
+    const $separatePostTypeToggleSections = $childSection.find('.vcv-no-title').nextAll()
     handleToggle($item, $separatePostTypeToggleSections)
   })
   $separatePageTypeToggle.each((index, item) => {
     const $item = $(item)
-    const $separatePageTypeToggleSections = $item.closest('.vcv-no-title').nextAll()
+    const $childSection = $item.closest('.vcv-headers-footers-section')
+    const $separatePageTypeToggleSections = $childSection.find('.vcv-no-title').nextAll()
     handleToggle($item, $separatePageTypeToggleSections)
   })
   $separatePostTypeToggle.on('change', function () {
     const $this = $(this)
-    const $separatePostTypeToggleSections = $this.closest('.vcv-no-title').nextAll()
+    const $childSection = $this.closest('.vcv-headers-footers-section')
+    const $separatePostTypeToggleSections = $childSection.find('.vcv-no-title').nextAll()
     handleToggle($this, $separatePostTypeToggleSections)
   })
   $separatePageTypeToggle.on('change', function () {
     const $this = $(this)
-    const $separatePageTypeToggleSections = $this.closest('.vcv-no-title').nextAll()
+    const $childSection = $this.closest('.vcv-headers-footers-section')
+    const $separatePageTypeToggleSections = $childSection.find('.vcv-no-title').nextAll()
     handleToggle($this, $separatePageTypeToggleSections)
   })
 

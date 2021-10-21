@@ -3,7 +3,7 @@ export const themeTemplatesToggle = () => {
 
   for (let i = 0, len = pageTemplateSwitchers.length; i < len; i++) {
     const switcher = pageTemplateSwitchers[i]
-    const pageTemplateDropdowns = switcher.closest('.vcv-custom-page-templates-section').querySelectorAll('.vcv-child-section')
+    const pageTemplateDropdowns = switcher.closest('.vcv-headers-footers-section').querySelectorAll('.vcv-child-section')
 
     const handleDropdownVisibility = (event) => {
       pageTemplateDropdowns.forEach((dropdown) => {
