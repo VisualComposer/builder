@@ -76,7 +76,7 @@ export default class startBlank extends React.Component {
     const localizations = dataManager.get('localizations')
     const editorType = dataManager.get('editorType')
     let type = editorType.replace('vcv_', '')
-    type = editorType === 'vcv_archives' ? 'Archive Page' : type.charAt(0).toUpperCase() + type.slice(1)
+    type = editorType === 'vcv_layouts' ? 'Layout' : type.charAt(0).toUpperCase() + type.slice(1)
     const headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
     const headingPart2 = localizations ? localizations.blankPageTitleHeadingPart2 : 'and Start Building'
     const startBlankContent = (

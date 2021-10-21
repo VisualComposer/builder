@@ -9,7 +9,6 @@ import Author from '../author/component'
 import FeaturedImage from '../featuredImage/component'
 import Tags from '../postTags/component'
 import Categories from '../categories/component'
-import PageDesignOptions from 'public/components/panels/settings/lib/designOptions/component'
 
 import { getService } from 'vc-cake'
 import AccordionPanel from '../../accordionPanel'
@@ -152,12 +151,6 @@ export default class PageSettings extends React.Component {
         >
           <Discussion />
         </AccordionPanel>
-      )
-    }
-
-    if (dataManager.get('editorType') === 'vcv_layouts') {
-      wordpressSettings.push(
-        <PageDesignOptions />
       )
     }
 

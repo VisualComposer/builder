@@ -52,6 +52,11 @@ if (!defined('ABSPATH')) {
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
       }
 
+      .vcv-settings-form--item .vcv-no-title.vcv-hidden {
+          visibility: hidden;
+          height: 0;
+      }
+
       .vcv-settings-form--item--teaser .vcv-settings-form--item--heading {
         cursor: auto;
       }
@@ -96,6 +101,14 @@ if (!defined('ABSPATH')) {
 
       .vcv-settings-form--item--active .vcv-settings-form--item--heading::after {
         content: "\25b4";
+      }
+
+      .vcv-settings-form-item--title {
+          display: flex;
+      }
+
+      .vcv-settings-form-item--title h2 {
+          flex: 0 0 250px;
       }
 
       .vcv-settings-form--item--content {
