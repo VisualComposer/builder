@@ -30,7 +30,6 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.handleIframeChange = this.handleIframeChange.bind(this)
     this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
     this.handleSave = this.handleSave.bind(this)
-    this.displayNotification = this.displayNotification.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
@@ -57,7 +56,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      this.displayNotification('success', successMessage)
+      notificationsStorage.trigger('add', {
+        type: 'success',
+        text: successMessage,
+        time: 5000
+      })
     } else if (status === 'failed') {
       this.setState({
         status: 'error'
@@ -73,7 +76,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      this.displayNotification('error', failMessage)
+      notificationsStorage.trigger('add', {
+        type: 'success',
+        text: failMessage,
+        time: 5000
+      })
     }
   }
 
@@ -150,19 +157,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
-  displayNotification (type, message) {
-    let notificationObject = {
-      type: type,
-      text: message,
-      time: 5000,
-    }
-
-    notificationsStorage.trigger('add', notificationObject)
-
-  }
-
   render () {
-
     const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-navbar-dropdown-trigger': true,
