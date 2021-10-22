@@ -156,7 +156,7 @@ class PostData implements Helper
         );
     }
 
-    public function getPostCategories($sourceId = '')
+    public function getPostCategories($sourceId = '', $payload = [])
     {
         $post = get_post($sourceId);
         // @codingStandardsIgnoreLine
@@ -164,7 +164,9 @@ class PostData implements Helper
             return false;
         }
 
-        $categoriesList = get_the_category_list(', ', '', $sourceId);
+        $separator = empty($payload['atts']['separator']) ? ', ' : $payload['atts']['separator'] . ' ';
+
+        $categoriesList = get_the_category_list($separator, '', $sourceId);
 
         return $categoriesList;
     }
@@ -177,9 +179,11 @@ class PostData implements Helper
             return false;
         }
 
-        $categoriesList = wp_get_object_terms($sourceId, 'category', array('fields' => 'names'));
+        $separator = '|vcv_separator|';
 
-        return $categoriesList;
+        $categoriesList = get_the_category_list($separator, '', $sourceId);
+
+        return explode($separator, $categoriesList);
     }
 
     public function getPostTags($sourceId = '')
