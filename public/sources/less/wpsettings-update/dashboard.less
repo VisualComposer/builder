@@ -253,9 +253,13 @@
   h3,
   h4,
   h5,
-  h6,
-  .form-table th {
+  h6 {
     color: @vcv-dashboard-headers-color;
+  }
+
+  .vcv-layout-settings-accordion .form-table th,
+  .vcv-headers-footers-section .form-table th {
+    color: @vcv-dashboard-text-color;
   }
 
   h1 {
@@ -420,7 +424,7 @@
       margin: 0 0 0 15px;
       font-size: @vcv-dashboard-text-font-size;
       font-weight: 500;
-      color: #555;
+      color: @vcv-dashboard-text-color;
       vertical-align: middle;
     }
   }

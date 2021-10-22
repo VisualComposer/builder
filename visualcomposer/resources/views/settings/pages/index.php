@@ -122,7 +122,8 @@ if (!defined('ABSPATH')) {
       }
 
       .vcv-settings-form--item .vcv-settings-form--item--content h2 {
-        font-size: 16px;
+        font-size: 15px;
+        color: #8E8E9E;
       }
 
       .vcv-settings-form--item--active .vcv-settings-form--item--content {
