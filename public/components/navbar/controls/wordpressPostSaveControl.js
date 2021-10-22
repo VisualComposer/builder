@@ -9,6 +9,7 @@ const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const notificationsStorage = vcCake.getStorage('notifications')
+const settingsStorage = vcCake.getStorage('settings')
 const SAVED_TIMEOUT = 3000
 
 export default class WordPressPostSaveControl extends NavbarContent {
@@ -23,13 +24,15 @@ export default class WordPressPostSaveControl extends NavbarContent {
       saving: false,
       loading: false,
       status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : '',
-      isOptionsActive: false
+      isOptionsActive: false,
+      isNewPost: dataManager.get('postData').status === 'auto-draft'
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
     this.handleIframeChange = this.handleIframeChange.bind(this)
     this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.layoutNotification = this.layoutNotification.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
@@ -41,9 +44,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
       return
     }
     if (status === 'success') {
+      this.layoutNotification()
       this.setState({
         status: 'success',
-        isOptionsActive: false
+        isOptionsActive: false,
+        isNewPost: dataManager.get('postData').status === 'auto-draft'
       })
       this.clearTimer()
       // Show success at least for 3 secs
@@ -63,7 +68,8 @@ export default class WordPressPostSaveControl extends NavbarContent {
       })
     } else if (status === 'failed') {
       this.setState({
-        status: 'error'
+        status: 'error',
+        isNewPost: dataManager.get('postData').status === 'auto-draft'
       })
       this.clearTimer()
       // Show error at least for 3 secs
@@ -77,7 +83,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         SAVED_TIMEOUT
       )
       notificationsStorage.trigger('add', {
-        type: 'success',
+        type: 'error',
         text: failMessage,
         time: 5000
       })
@@ -155,6 +161,33 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.handleClickSaveData(e)
     this.handleDropdownVisibility(e)
     this.props.handleOnClick && this.props.handleOnClick(e)
+  }
+
+  layoutNotification () {
+    const layoutTemplate = settingsStorage.state('templateType').get()
+    if (this.state.isNewPost === true && dataManager.get('editorType') === 'vcv_layouts' && typeof layoutTemplate !== 'undefined') {
+      let message = ''
+      const adminLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
+      const layoutSettingsLink = adminLink + 'admin.php?page=vcv-headers-footers'
+      const defaultMessage = `Created template is not assigned to any post {location}. To assign, navigate to <a href='${layoutSettingsLink}'>Theme Builder Settings</a>`
+      if (layoutTemplate === 'postTemplate') {
+        message = WordPressPostSaveControl.localizations.postTemplateNotification ? WordPressPostSaveControl.localizations.postTemplateNotification : defaultMessage.replace('{location}', 'type')
+      } else if (layoutTemplate === 'archiveTemplate') {
+        message = WordPressPostSaveControl.localizations.archiveTemplateNotification ? WordPressPostSaveControl.localizations.archiveTemplateNotification : defaultMessage.replace('{location}', 'archive')
+      }
+      if (message !== '') {
+        notificationsStorage.trigger('add', {
+          position: 'top',
+          transparent: false,
+          showCloseButton: true,
+          rounded: false,
+          type: 'warning',
+          text: message,
+          html: true,
+          time: 15000
+        })
+      }
+    }
   }
 
   render () {
