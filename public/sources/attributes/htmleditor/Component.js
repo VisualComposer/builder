@@ -8,6 +8,7 @@ import { getService, getStorage } from 'vc-cake'
 import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 import Toggle from '../toggle/Component'
+import Tooltip from 'public/components/tooltip/tooltip'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const roleManager = getService('roleManager')
@@ -248,10 +249,20 @@ export default class HtmlEditorWrapper extends Attribute {
   getExtraToggle () {
     const { options } = this.props
     if (options && options.extraToggle) {
+      let tooltip = null
+      if (options.extraToggle.description) {
+        tooltip = (
+          <Tooltip>
+            {options.extraToggle.description}
+          </Tooltip>
+        )
+      }
+
       return (
         <div className='vcv-ui-form-group'>
           <div className='vcv-ui-form-group-heading-wrapper'>
             <span className='vcv-ui-form-group-heading'>{options.extraToggle.title}</span>
+            {tooltip}
           </div>
           <Toggle
             fieldKey='html_editor_dynamic_extra_toggle'

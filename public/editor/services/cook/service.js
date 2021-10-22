@@ -96,6 +96,9 @@ const API = {
           if (!result) {
             result = getDefaultPlaceholder(blockAtts.value)
           }
+          if (dataManager.get('editorType') === 'vcv_layouts' && blockAtts.value === 'post_title') {
+            result = 'Post title'
+          }
           const dynamicProps = {
             value: blockAtts.value,
             currentValue: result
