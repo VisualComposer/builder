@@ -44,8 +44,6 @@ export default function importJS (currentSection) {
   } else if (currentSection === 'vcv-headers-footers') {
     hfSectionToggle()
     dropdownEditLink()
-  } else if (currentSection === 'vcv-custom-page-templates') {
-    dropdownEditLink()
     themeTemplatesToggle()
   } else if (currentSection === 'vcv-headers-footers' || currentSection === 'vcv-custom-site-popups' || currentSection === 'vcv-maintenance-mode') {
     dropdownEditLink()

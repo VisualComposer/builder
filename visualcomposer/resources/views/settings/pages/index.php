@@ -52,6 +52,15 @@ if (!defined('ABSPATH')) {
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
       }
 
+      .vcv-settings-form--item .vcv-no-title.vcv-hidden {
+          visibility: hidden;
+          height: 0;
+      }
+
+      .vcv-settings-form--item .vcv-no-title.vcv-hidden ~ tr.vcv-field-expand {
+          margin-left: 80px;
+      }
+
       .vcv-settings-form--item--teaser .vcv-settings-form--item--heading {
         cursor: auto;
       }
@@ -98,6 +107,14 @@ if (!defined('ABSPATH')) {
         content: "\25b4";
       }
 
+      .vcv-settings-form-item--title {
+          display: flex;
+      }
+
+      .vcv-settings-form-item--title h2 {
+          flex: 0 0 250px;
+      }
+
       .vcv-settings-form--item--content {
         padding: 16px;
         border-top: 1px solid #f1f1f1;
@@ -105,7 +122,10 @@ if (!defined('ABSPATH')) {
       }
 
       .vcv-settings-form--item .vcv-settings-form--item--content h2 {
-        font-size: 16px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        color: #8E8E9E;
       }
 
       .vcv-settings-form--item--active .vcv-settings-form--item--content {
