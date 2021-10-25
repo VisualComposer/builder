@@ -156,7 +156,7 @@ class PostData implements Helper
         );
     }
 
-    public function getPostCategories($sourceId = '')
+    public function getPostCategories($sourceId = '', $payload = [])
     {
         $post = get_post($sourceId);
         // @codingStandardsIgnoreLine
@@ -164,12 +164,13 @@ class PostData implements Helper
             return false;
         }
 
-        $categoriesList = get_the_category_list(', ', '', $sourceId);
+        $separator = empty($payload['atts']['separator']) ? ', ' : $payload['atts']['separator'] . ' ';
+        $categoriesList = get_the_category_list($separator, '', $sourceId);
 
         return $categoriesList;
     }
 
-    public function getPostTags($sourceId = '')
+    public function getPostTags($sourceId = '', $payload = [])
     {
         $post = get_post($sourceId);
         // @codingStandardsIgnoreLine
@@ -177,10 +178,40 @@ class PostData implements Helper
             return false;
         }
 
-        $tagsList = get_the_term_list($sourceId, 'post_tag', '', ', ', '');
+        $separator = empty($payload['atts']['separator']) ? ', ' : $payload['atts']['separator'] . ' ';
+        $tagsList = get_the_term_list($sourceId, 'post_tag', '', $separator, '');
 
         return $tagsList;
     }
+
+    public function getPostCategoriesList($sourceId = '')
+    {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
+        $separator = '|vcv_separator|';
+        $categoriesList = get_the_category_list($separator, '', $sourceId);
+
+        return explode($separator, $categoriesList);
+    }
+
+    public function getPostTagsList($sourceId = '')
+    {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
+        $separator = '|vcv_separator|';
+        $categoriesList = get_the_tag_list('', $separator, '', $sourceId);
+
+        return explode($separator, $categoriesList);
+    }
+
 
     public function getPostCommentCount($sourceId = '')
     {
@@ -325,6 +356,8 @@ class PostData implements Helper
         $response['post_excerpt'] = $this->getPostExcerpt($sourceId);
         $response['wp_blog_logo'] = $this->getBlogLogo($sourceId);
         $response['post_categories'] = $this->getPostCategories($sourceId);
+        $response['post_categories_list'] = $this->getPostCategoriesList($sourceId);
+        $response['post_tags_list'] = $this->getPostTagsList($sourceId);
         $response['post_tags'] = $this->getPostTags($sourceId);
         $response['post_comment_count'] = $this->getPostCommentCount($sourceId);
         $response['post_date'] = $this->getPostDate($sourceId);

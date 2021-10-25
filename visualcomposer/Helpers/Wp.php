@@ -65,6 +65,8 @@ class Wp implements Helper
 
     public function getUpdateVersionFromWordpressOrg()
     {
+        require_once ABSPATH . 'wp-admin/includes/update.php';
+
         $updatePlugins = get_plugin_updates();
 
         return isset($updatePlugins[ VCV_PLUGIN_BASE_NAME ]) ? $updatePlugins[ VCV_PLUGIN_BASE_NAME ]->update->new_version : 0;

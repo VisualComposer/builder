@@ -247,6 +247,8 @@ class Categories implements Helper
                     'layoutPostDate',
                     'layoutPostAuthor',
                     'layoutPostAuthorBio',
+                    'layoutPostCategories',
+                    'layoutPostTags',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
