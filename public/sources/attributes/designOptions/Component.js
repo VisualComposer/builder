@@ -888,11 +888,40 @@ export default class DesignOptions extends Attribute {
       dolly.style.bottom = '0'
       dolly.style.right = '0'
       dolly.setAttribute('data-vcv-do-helper-clone', true)
+
+      const elementDOAttribute = domElement.getAttribute(doAttribute)
+
+      // Clear Inner Html of dolly to prevent any js related issues
+      // Removes Children if they do not contain any do attributes
+      const clearInnerHtml = (el) => {
+        for (const child of el.children) {
+          if (!child.getAttribute(doAttribute)) {
+            el.removeChild(child)
+          }
+        }
+      }
+
+      const clearChildrenInnerHtml = (el, selector) => {
+        const innerEl = el && el.querySelector(selector)
+        innerEl && clearInnerHtml(innerEl)
+      }
+
+      if (elementDOAttribute.indexOf('all') >= 0) {
+        clearInnerHtml(dolly)
+      } else {
+        styles.forEach((style) => {
+          if (elementDOAttribute.indexOf(style) >= 0) {
+            clearInnerHtml(dolly)
+          } else {
+            const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+            clearChildrenInnerHtml(dolly, innerSelector)
+          }
+        })
+      }
+
       domElement.parentNode.appendChild(dolly)
 
       setTimeout(() => {
-        const elementDOAttribute = domElement.getAttribute(doAttribute)
-
         if (this.props.elementSelector) {
           mainDefaultStyles.all = this.getElementStyles(dolly)
         } else if (elementDOAttribute) {
