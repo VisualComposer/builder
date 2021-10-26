@@ -39,6 +39,7 @@ class AssetBundleController extends Container implements Module
             $urlHelper->to('public/dist/vendor.bundle.js'),
             [
                 'jquery',
+                'vcv:assets:runtime:script',
             ],
             VCV_VERSION,
             true
@@ -48,6 +49,7 @@ class AssetBundleController extends Container implements Module
             $urlHelper->to('public/dist/front.bundle.js'),
             [
                 'jquery',
+                'vcv:assets:runtime:script',
             ],
             VCV_VERSION,
             true

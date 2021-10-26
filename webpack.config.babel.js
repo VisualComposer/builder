@@ -23,7 +23,7 @@ export default {
     wpUpdate: './public/activation',
     wpVcSettings: './public/wordpressSettings',
     hub: './public/hub',
-    vendor: webpackVendors()
+    mustLibs: webpackVendors().concat('jquery/dist/jquery.js')
   },
   output: {
     path: path.resolve(__dirname, 'public/dist/'), // Assets dist path
@@ -42,9 +42,13 @@ export default {
       cacheGroups: {
         default: false,
         vendor: {
-          chunks: 'initial',
+          chunks (chunk) {
+            // exclude `front.bundle.js` chunk
+            return chunk.name !== 'front'
+          },
           name: 'vendor',
-          test: 'vendor',
+          // test: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
           enforce: true
         }
       }

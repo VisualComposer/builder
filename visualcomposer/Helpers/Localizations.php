@@ -74,6 +74,7 @@ class Localizations extends Container implements Helper
             'menu' => __('Menu', 'visualcomposer'),
             'viewPage' => __('View Page', 'visualcomposer'),
             'backToWordpress' => __('Back to WordPress', 'visualcomposer'),
+            'assignLayout' => __('Assign Layout to ..', 'visualcomposer'),
             'wordPressDashboard' => __('WordPress Dashboard', 'visualcomposer'),
             'publish' => __('Publish', 'visualcomposer'),
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
@@ -1769,6 +1770,20 @@ class Localizations extends Container implements Helper
             'postSavedFailed' => __(
                 'Failed to save the content.',
                 'visualcomposer'
+            ),
+            'postTemplateNotification' => sprintf(
+                __(
+                    'The layout template you have created is not assigned to any post type. To assign the template, navigate to <a href="%s">Theme Builder Settings</a>',
+                    'visualcomposer'
+                ),
+                admin_url('admin.php?page=vcv-headers-footers')
+            ),
+            'archiveTemplateNotification' => sprintf(
+                __(
+                    'The layout template you have created is not assigned to any post archive. To assign the template, navigate to <a href="%s">Theme Builder Settings</a>',
+                    'visualcomposer'
+                ),
+                admin_url('admin.php?page=vcv-headers-footers')
             ),
             'colorContrastTitleWarn' => __(
                 'Your contrast ratio is low',

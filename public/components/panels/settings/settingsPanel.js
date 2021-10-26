@@ -78,6 +78,7 @@ if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()))
     content: <ElementsLock />
   }
 }
+
 workspaceSettingsControls.set({ ...controls })
 
 export default class SettingsPanel extends React.Component {
