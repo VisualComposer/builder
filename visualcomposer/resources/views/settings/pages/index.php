@@ -57,10 +57,6 @@ if (!defined('ABSPATH')) {
           height: 0;
       }
 
-      .vcv-settings-form--item .vcv-no-title.vcv-hidden ~ tr.vcv-field-expand {
-          margin-left: 80px;
-      }
-
       .vcv-settings-form--item--teaser .vcv-settings-form--item--heading {
         cursor: auto;
       }
