@@ -202,7 +202,7 @@ class Controller extends Container implements Module
         $bundleJsUrl = $urlHelper->to('public/dist/pe.bundle.js');
         $bundleCssUrl = $urlHelper->to('public/dist/pe.bundle.css');
 
-        wp_register_script('vcv:pageEditable:bundle', $bundleJsUrl, [], VCV_VERSION, true);
+        wp_register_script('vcv:pageEditable:bundle', $bundleJsUrl, ['vcv:assets:runtime:script'], VCV_VERSION, true);
         wp_register_style('vcv:pageEditable:css', $bundleCssUrl, [], VCV_VERSION);
     }
 

@@ -27,9 +27,13 @@ export default Object.assign({}, config, {
       cacheGroups: {
         default: false,
         vendor: {
-          chunks: 'initial',
+          chunks(chunk) {
+            // exclude `front.bundle.js` chunk
+            return chunk.name !== 'front';
+          },
           name: 'vendor',
-          test: 'vendor',
+          // test: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
           enforce: true
         }
       }
