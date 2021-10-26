@@ -891,32 +891,9 @@ export default class DesignOptions extends Attribute {
 
       const elementDOAttribute = domElement.getAttribute(doAttribute)
 
-      // Clear Inner Html of dolly to prevent any js related issues
-      // Removes Children if they do not contain any do attributes
-      const clearInnerHtml = (el) => {
-        for (const child of el.children) {
-          if (!child.getAttribute(doAttribute)) {
-            el.removeChild(child)
-          }
-        }
-      }
-
-      const clearChildrenInnerHtml = (el, selector) => {
-        const innerEl = el && el.querySelector(selector)
-        innerEl && clearInnerHtml(innerEl)
-      }
-
+      // Clears innerHtml of dolly if it has 'doAll' to prevent any js related issues
       if (elementDOAttribute.indexOf('all') >= 0) {
-        clearInnerHtml(dolly)
-      } else {
-        styles.forEach((style) => {
-          if (elementDOAttribute.indexOf(style) >= 0) {
-            clearInnerHtml(dolly)
-          } else {
-            const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-            clearChildrenInnerHtml(dolly, innerSelector)
-          }
-        })
+        while (dolly.firstChild) dolly.removeChild(dolly.firstChild);
       }
 
       domElement.parentNode.appendChild(dolly)
