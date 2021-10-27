@@ -225,8 +225,8 @@ class EnqueueController extends Container implements Module
     {
         $sourceId = get_the_ID();
         wp_enqueue_style('vcv:assets:front:style');
-        wp_enqueue_script('vcv:assets:front:script');
         wp_enqueue_script('vcv:assets:runtime:script');
+        wp_enqueue_script('vcv:assets:front:script');
         if (
             $frontendHelper->isPreview()
             && (

@@ -888,11 +888,17 @@ export default class DesignOptions extends Attribute {
       dolly.style.bottom = '0'
       dolly.style.right = '0'
       dolly.setAttribute('data-vcv-do-helper-clone', true)
+
+      const elementDOAttribute = domElement.getAttribute(doAttribute)
+
+      // Clears innerHtml of dolly if it has 'doAll' to prevent any js related issues
+      if (elementDOAttribute.indexOf('all') >= 0) {
+        while (dolly.firstChild) dolly.removeChild(dolly.firstChild)
+      }
+
       domElement.parentNode.appendChild(dolly)
 
       setTimeout(() => {
-        const elementDOAttribute = domElement.getAttribute(doAttribute)
-
         if (this.props.elementSelector) {
           mainDefaultStyles.all = this.getElementStyles(dolly)
         } else if (elementDOAttribute) {

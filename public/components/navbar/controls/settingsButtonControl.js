@@ -4,6 +4,7 @@ import NavbarContent from '../navbarContent'
 import { getStorage, getService } from 'vc-cake'
 import innerAPI from 'public/components/api/innerAPI'
 import SettingsPanel from 'public/components/panels/settings/settingsPanel'
+import AssignLayoutControl from './assignLayoutControl'
 import BackendControl from './backendControl'
 
 const workspaceStorage = getStorage('workspace')
@@ -58,6 +59,7 @@ export default class SettingsButtonControl extends NavbarContent {
     const title = SettingsButtonControl.isMacLike ? name + ' (⇧S)' : name + ' (Shift + S)'
     const controls = workspaceSettingControls.get()
     const controlsArray = Object.keys(controls).map(key => controls[key])
+    const assignLayout = dataManager.get('editorType') === 'vcv_layouts' ? (<AssignLayoutControl />) : ''
 
     const settingsControlClasses = classNames({
       'vcv-ui-navbar-dropdown': true,
@@ -108,6 +110,7 @@ export default class SettingsButtonControl extends NavbarContent {
         </dt>
         <dd className={navbarContentClasses}>
           {settings}
+          {assignLayout}
           <BackendControl />
         </dd>
       </dl>
@@ -116,6 +119,7 @@ export default class SettingsButtonControl extends NavbarContent {
     const settingsControlsInsideDropdown = (
       <div className='vcv-ui-navbar-controls-set'>
         {settings}
+        {assignLayout}
         <BackendControl />
       </div>
     )
