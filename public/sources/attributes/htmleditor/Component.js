@@ -279,6 +279,7 @@ export default class HtmlEditorWrapper extends Attribute {
   render () {
     const isDynamic = this.props.options && this.props.options.dynamicField
     const onlyDynamic = this.props.options && this.props.options.onlyDynamic
+    const onlyDynamicCustomFields = this.props.options && this.props.options.onlyDynamicCustomFields
 
     const cssClasses = classNames({
       'vcv-ui-form-wp-tinymce': true,
@@ -292,7 +293,7 @@ export default class HtmlEditorWrapper extends Attribute {
 
     let dynamicComponent = null
 
-    if (!onlyDynamic) {
+    if (!onlyDynamic || onlyDynamicCustomFields) {
       dynamicComponent =
         <DynamicAttribute
           {...this.props}
@@ -301,6 +302,7 @@ export default class HtmlEditorWrapper extends Attribute {
           onDynamicFieldChange={this.handleDynamicFieldChange}
           setFieldValue={this.setFieldValue}
           value={this.state.value} // Must be not encoded
+          onlyDynamicCustomFields={onlyDynamicCustomFields}
         />
     }
 
