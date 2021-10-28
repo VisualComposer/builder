@@ -189,13 +189,25 @@ class PostData implements Helper
         $post = get_post($sourceId);
         // @codingStandardsIgnoreLine
         if (!isset($post) || $post->post_status === 'trash') {
-            return false;
+            return [];
+        }
+        if (get_post_type($sourceId) !== 'post') {
+            return [];
+        }
+        $categories = apply_filters('the_category_list', get_the_category($sourceId), $sourceId);
+        // Default category
+        $categoriesList = [
+            '<a href="#">' . __('Uncategorized') . '</a>',
+        ];
+
+        if (!empty($categories)) {
+            $categoriesList = [];
+            foreach ($categories as $category) {
+                $categoriesList[] = '<a href="' . esc_url(get_category_link($category->term_id)) . '"  rel="category">' . $category->name . '</a>';
+            }
         }
 
-        $separator = '|vcv_separator|';
-        $categoriesList = get_the_category_list($separator, '', $sourceId);
-
-        return explode($separator, $categoriesList);
+        return $categoriesList;
     }
 
     public function getPostTagsList($sourceId = '')
@@ -353,10 +365,14 @@ class PostData implements Helper
         $response['post_title'] = $this->getPostTitle($sourceId);
         $response['post_id'] = (string)$this->getPostId($sourceId);
         $response['post_type'] = $this->getPostType($sourceId);
+        $response['post_type_slug'] = get_post_type($sourceId);
         $response['post_excerpt'] = $this->getPostExcerpt($sourceId);
         $response['wp_blog_logo'] = $this->getBlogLogo($sourceId);
         $response['post_categories'] = $this->getPostCategories($sourceId);
-        $response['post_categories_list'] = $this->getPostCategoriesList($sourceId);
+        $response['layout_post_categories_list_placeholder'] = 'layout_placeholder';
+        $response['layout_post_categories_list_link'] = $this->getPostCategoriesList($sourceId);
+        $response['layout_post_tags_list_placeholder'] = 'layout_placeholder';
+        $response['layout_post_tags_list_link'] = $this->getPostTagsList($sourceId);
         $response['post_tags_list'] = $this->getPostTagsList($sourceId);
         $response['post_tags'] = $this->getPostTags($sourceId);
         $response['post_comment_count'] = $this->getPostCommentCount($sourceId);
