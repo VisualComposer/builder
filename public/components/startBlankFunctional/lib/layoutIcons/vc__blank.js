@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ classes }) => {
+const BlankTemplate = ({ classes }) => {
   return (
     <svg width='100px' height='100px' viewBox='0 0 100 100' version='1.1' xmlns='http://www.w3.org/2000/svg'>
       <g stroke='none' strokeWidth='1' fill='none' fillRule='evenodd'>
@@ -15,3 +15,5 @@ export default ({ classes }) => {
     </svg>
   )
 }
+
+export default BlankTemplate

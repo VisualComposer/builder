@@ -76,7 +76,6 @@ function startBlank (props) {
     />
   )
 
-  console.log('start render')
   return (
     <div ref={startContainer} className='vcv-start-blank-container' onMouseUp={handleMouseUp}>
       <div className='vcv-start-blank-scroll-container'>
