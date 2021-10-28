@@ -136,6 +136,17 @@ class PostData implements Helper
         return is_object($postTypeObject) ? $postTypeObject->labels->singular_name : $post->post_type;
     }
 
+    public function getPostTypeSlug($sourceId = '')
+    {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+
+        return $post->post_type;
+    }
+
     public function getBlogLogo()
     {
         $urlHelper = vchelper('Url');
@@ -353,6 +364,7 @@ class PostData implements Helper
         $response['post_title'] = $this->getPostTitle($sourceId);
         $response['post_id'] = (string)$this->getPostId($sourceId);
         $response['post_type'] = $this->getPostType($sourceId);
+        $response['post_type_slug'] = $this->getPostTypeSlug($sourceId);
         $response['post_excerpt'] = $this->getPostExcerpt($sourceId);
         $response['wp_blog_logo'] = $this->getBlogLogo($sourceId);
         $response['post_categories'] = $this->getPostCategories($sourceId);
