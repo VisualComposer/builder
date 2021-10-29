@@ -892,7 +892,7 @@ export default class DesignOptions extends Attribute {
       const elementDOAttribute = domElement.getAttribute(doAttribute)
 
       // Clears innerHtml of dolly if it has 'doAll' to prevent any js related issues
-      if (elementDOAttribute.indexOf('all') >= 0) {
+      if (elementDOAttribute && elementDOAttribute.indexOf('all') >= 0) {
         while (dolly.firstChild) dolly.removeChild(dolly.firstChild)
       }
 
