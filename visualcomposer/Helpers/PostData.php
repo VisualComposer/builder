@@ -16,7 +16,7 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
-        $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
+        $postThumbnailUrl = $urlHelper->assetUrl('images/featured-image-preview.png');
         $postThumbnailUrlDb = get_the_post_thumbnail_url($post->ID, 'full');
         $imageAttributes = [];
         // @codingStandardsIgnoreLine
@@ -56,7 +56,7 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
-        $url = $urlHelper->assetUrl('images/spacer.png');
+        $url = $urlHelper->assetUrl('images/featured-image-preview.png');
         // @codingStandardsIgnoreLine
         if (isset($post) && $post->post_status !== 'trash') {
             // @codingStandardsIgnoreLine
@@ -156,7 +156,7 @@ class PostData implements Helper
             $url = wp_get_attachment_image_url($customLogoId, 'full');
         }
         if (empty($url)) {
-            $url = $urlHelper->assetUrl('images/spacer.png');
+            $url = $urlHelper->assetUrl('images/featured-image-preview.png');
         }
 
         return $urlHelper->query(
