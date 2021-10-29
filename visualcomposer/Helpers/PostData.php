@@ -143,7 +143,7 @@ class PostData implements Helper
         if (!isset($post) || $post->post_status === 'trash') {
             return false;
         }
-
+        // @codingStandardsIgnoreLine
         return $post->post_type;
     }
 
