@@ -141,13 +141,7 @@ class Image implements Helper
         }
         $result = '';
         if ($dynamic) {
-            $isLazyload = strpos($attributes, 'data-src=') !== false;
-            if($isLazyload) {
-                preg_match('(\sdata-src=["|\'](.*?)["|\'])', $attributes, $matchesUrl);
-                if (isset($matchesUrl[1])) {
-                    $src = set_url_scheme($matchesUrl[1]);
-                }
-            }
+            $src = $this->getLazyLoadSrc($attributes, $src);
             $blockAttributes = wp_json_encode(
                 [
                     'type' => get_post_type(),
@@ -166,5 +160,24 @@ class Image implements Helper
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $attributes
+     * @param $src
+     *
+     * @return string
+     */
+    protected function getLazyLoadSrc($attributes, $src)
+    {
+        $isLazyload = strpos($attributes, 'data-src=') !== false;
+        if ($isLazyload) {
+            preg_match('(\sdata-src=["|\'](.*?)["|\'])', $attributes, $matchesUrl);
+            if (isset($matchesUrl[1])) {
+                $src = set_url_scheme($matchesUrl[1]);
+            }
+        }
+
+        return $src;
     }
 }
