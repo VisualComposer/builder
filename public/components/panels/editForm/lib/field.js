@@ -177,7 +177,7 @@ export default class Field extends React.Component {
         editFormOptions={this.props.options}
         isInnerElementReplaceOpened={isInnerElementReplaceOpened}
         onDynamicFieldChange={(dynamicFieldKey, sourceId, forceSaveSourceId = false) => {
-          const newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId })
+          const newValue = getDynamicValue(dynamicFieldKey, sourceId, null, { forceSaveSourceId, element: elementAccessPoint.cook().toJS(), fieldOptions: options })
           return newValue
         }}
         onDynamicFieldClose={(fieldKey, elementAccessPoint) => {
