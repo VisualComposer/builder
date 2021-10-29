@@ -388,9 +388,7 @@ class PostData implements Helper
         $response['post_excerpt'] = $this->getPostExcerpt($sourceId);
         $response['wp_blog_logo'] = $this->getBlogLogo();
         $response['post_tags'] = $this->getPostTags($sourceId);
-        $response['layout_post_tags_list_link'] = $this->getPostTagsList($sourceId);
         $response['post_categories'] = $this->getPostCategories($sourceId);
-        $response['layout_post_categories_list_link'] = $this->getPostCategoriesList($sourceId);
         $response['post_comment_count'] = $this->getPostCommentCount($sourceId);
         $response['post_date'] = $this->getPostDate($sourceId);
         $response['post_modify_date'] = $this->getPostModifyDate($sourceId);
@@ -404,6 +402,6 @@ class PostData implements Helper
         $response['post_url'] = $this->getPostUrl($sourceId);
         $response['comment_url'] = $this->getCommentUrl($sourceId);
 
-        return vcfilter('vcv:default:post:data', $response);
+        return $response;
     }
 }
