@@ -73,6 +73,7 @@ class Views extends container implements Helper
     public function doNestedSection($section, $slug)
     {
         $class = isset($section['vcv-args']['class']) ? ' ' . esc_attr($section['vcv-args']['class']) : '';
+        $hideTitle = isset($section['vcv-args']['hideTitle']) ? $section['vcv-args']['hideTitle'] : false;
 
         if (isset($section['type']) && $section['type'] === 'accordion') {
             // create accordion wrapper for child content
@@ -90,9 +91,14 @@ class Views extends container implements Helper
             esc_attr($section['slug']),
             $class
         );
-        if ($section['title']) {
+        echo '<div class="vcv-settings-form-item--title">';
+        if ($section['title'] && !$hideTitle) {
             echo "<h2>{$section['title']}</h2>\n";
         }
+        if (isset($section['headerFooterCallback'])) {
+            call_user_func($section['headerFooterCallback'], $section);
+        }
+        echo '</div>';
 
         if ($section['callback']) {
             call_user_func($section['callback'], $section);

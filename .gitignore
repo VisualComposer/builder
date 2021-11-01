@@ -64,11 +64,8 @@ hubtools
 cache/*
 !cache/.gitkeep
 devElements
-!devElements/.gitkeep
-devAddons/*
-!devAddons/.gitkeep
-devAssets/*
-!devAssets/.gitkeep
+devAddons
+devAssets
 !visualcomposer/resources/dist/.gitkeep
 
 .phpstorm.meta.php
