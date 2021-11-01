@@ -147,6 +147,13 @@ export default {
         exclude: /node_modules/
       },
       {
+        test: /\.ts$/,
+        use: {
+          loader: 'ts-loader'
+        },
+        include: [path.resolve(__dirname, 'public')]
+      },
+      {
         test: /\.css|\.less$/,
         exclude: [/styles\.css/, /editor\.css/],
         use: [

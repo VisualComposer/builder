@@ -7,11 +7,12 @@ const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
 const dataManager = getService('dataManager')
 
-const getContainerPosition = (data, controlsContainer) => {
+const getContainerPosition = (data, iframeDocument, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
-  const elementRect = data.element.getBoundingClientRect()
+  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+  const elementRect = contentElement.getBoundingClientRect()
   const controls = controlsContainer.current.firstElementChild
   let controlsHeight = 0
   if (controls) {
@@ -41,11 +42,12 @@ const getContainerPosition = (data, controlsContainer) => {
   return position
 }
 
-const getControlsPosition = (data, controlsContainer) => {
+const getControlsPosition = (data, iframeDocument, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
-  const elementRect = data.element.getBoundingClientRect()
+  const contentElement = iframeDocument.querySelector(`[data-vcv-element="${data.vcElementId}"]:not([data-vcv-interact-with-controls="false"])`)
+  const elementRect = contentElement.getBoundingClientRect()
   const controlsList = controlsContainer.current.querySelector('.vcv-ui-outline-controls')
   const controlsListPos = controlsList.getBoundingClientRect()
   const iframeRect = iframe.getBoundingClientRect()
@@ -109,15 +111,15 @@ export default function Controls (props) {
   const controlsContainer = useRef()
   const controls = useRef()
   const { vcvEditableElements } = props.data
-  const [containerPos, setContainerPos] = useState(getContainerPosition(props.data, controlsContainer))
-  const [controlsPos, setControlsPos] = useState(getControlsPosition(props.data, controlsContainer))
+  const [containerPos, setContainerPos] = useState(getContainerPosition(props.data, props.iframeDocument, controlsContainer))
+  const [controlsPos, setControlsPos] = useState(getControlsPosition(props.data, props.iframeDocument, controlsContainer))
   const [visibleControls, setVisibleControls] = useState(false)
 
   useEffect(() => {
     if (!containerPos) {
-      setContainerPos(getContainerPosition(props.data, controlsContainer))
+      setContainerPos(getContainerPosition(props.data, props.iframeDocument, controlsContainer))
     }
-    setControlsPos(getControlsPosition(props.data, controlsContainer))
+    setControlsPos(getControlsPosition(props.data, props.iframeDocument, controlsContainer))
     if (!visibleControls) {
       setVisibleControls(getVisibleControls(vcvEditableElements, controls))
     }
