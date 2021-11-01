@@ -45,18 +45,15 @@ export default class GoogleFonts extends Attribute {
     this.updateFieldValue = this.updateFieldValue.bind(this)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
-    let { value } = this.state
+  componentDidMount () {
+    const { value } = this.state
     if (!googleFonts.find(font => font.family === this.state.value.fontFamily)) {
       value.fontFamily = GoogleFonts.defaultFontOptions.fontFamily
       value.fontStyle = GoogleFonts.defaultFontOptions.fontStyle
     }
-    let mergedValue = lodash.defaultsDeep({}, value, GoogleFonts.defaultFontOptions)
+    const mergedValue = lodash.defaultsDeep({}, value, GoogleFonts.defaultFontOptions)
     this.loadFonts(mergedValue.fontFamily, mergedValue.fontStyle, mergedValue.fontText)
   }
-
-  /* eslint-enable */
 
   fontFamilyChange (fieldKey, value) {
     const fontStyleOptions = this.createStyleArray(value)

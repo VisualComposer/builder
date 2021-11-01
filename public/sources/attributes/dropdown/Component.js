@@ -36,11 +36,16 @@ export default class Dropdown extends Attribute {
   }
 
   /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    super.UNSAFE_componentWillReceiveProps(nextProps)
-    this.setState({ dropdownOptions: this.getSelectOptions(nextProps)})
-  }
+  // UNSAFE_componentWillReceiveProps (nextProps) {
+  //   super.UNSAFE_componentWillReceiveProps(nextProps)
+  //   this.setState({ dropdownOptions: this.getSelectOptions(nextProps)})
+  // }
   /* eslint-enable */
+
+  componentDidMount () {
+    super.componentDidMount()
+    this.setState({ dropdownOptions: this.getSelectOptions(this.props) })
+  }
 
   createGroup (key, groupObject, fieldKey) {
     const optionElements = []

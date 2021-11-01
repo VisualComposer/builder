@@ -75,7 +75,7 @@ export default class AttachImage extends Attribute {
   }
 
   /* eslint-disable */
-  UNSAFE_componentWillMount () {
+  componentDidMount () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false

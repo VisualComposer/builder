@@ -59,9 +59,10 @@ export default class TokenizationList extends React.Component {
   }
 
   /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
+/*  UNSAFE_componentWillReceiveProps (nextProps) {
+    console.log('neva', nextProps.value)
     this.setState({ value: nextProps.value })
-  }
+  }*/
 
   /* eslint-enable */
 
@@ -72,7 +73,10 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps) {
+    if (!_.isEqual(prevProps.value, this.props.value)) {
+      this.setState({ value: this.props.value })
+    }
     this.updateSuggestBoxPosition()
   }
 

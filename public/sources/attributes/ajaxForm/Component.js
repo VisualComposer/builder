@@ -29,10 +29,10 @@ export default class AjaxForm extends Attribute {
   }
 
   /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    // Intentionally left blank
-    // TODO: Possibly remove this hook in Attributes.js
-  }
+  // UNSAFE_componentWillReceiveProps (nextProps) {
+  //   // Intentionally left blank
+  //   // TODO: Possibly remove this hook in Attributes.js
+  // }
   /* eslint-enable */
 
   componentDidUpdate (prevProps, prevState) {

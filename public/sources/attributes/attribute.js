@@ -23,10 +23,15 @@ export default class Attribute extends React.Component {
   }
 
   /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.setState(this.updateState(nextProps))
-  }
+  // UNSAFE_componentWillReceiveProps (nextProps) {
+  //   console.log('Attribute componentWillReceiveProps', nextProps)
+  //   this.setState(this.updateState(nextProps))
+  // }
   /* eslint-enable */
+
+  componentDidMount () {
+    this.setState(this.updateState(this.props))
+  }
 
   updateState (props) {
     return {

@@ -45,6 +45,16 @@ export default class EditFromField extends React.Component {
     this.props.setFieldUnmount(this.props.fieldKey, 'field')
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    this.props.elementAccessPoint.ignoreAttributeChange(this.props.fieldKey, this.updateValue)
+    this.props.elementAccessPoint.onAttributeChange(this.props.fieldKey, this.updateValue)
+    this.props.setFieldMount(this.props.fieldKey, {
+      refWrapper: this.refs.fieldAttributeWrapper,
+      refWrapperComponent: this,
+      refAttributeComponent: this.refs.attributeComponent
+    }, 'field')
+  }
+
   updateValue (data) {
     if (!lodash.isEqual(data, this.state.value)) {
       this.setState({
@@ -59,15 +69,15 @@ export default class EditFromField extends React.Component {
   }
 
   /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.props.elementAccessPoint.ignoreAttributeChange(nextProps.fieldKey, this.updateValue)
-    this.props.elementAccessPoint.onAttributeChange(nextProps.fieldKey, this.updateValue)
-    this.props.setFieldMount(nextProps.fieldKey, {
-      refWrapper: this.refs.fieldAttributeWrapper,
-      refWrapperComponent: this,
-      refAttributeComponent: this.refs.attributeComponent
-    }, 'field')
-  }
+  // UNSAFE_componentWillReceiveProps (nextProps) {
+  //   this.props.elementAccessPoint.ignoreAttributeChange(nextProps.fieldKey, this.updateValue)
+  //   this.props.elementAccessPoint.onAttributeChange(nextProps.fieldKey, this.updateValue)
+  //   this.props.setFieldMount(nextProps.fieldKey, {
+  //     refWrapper: this.refs.fieldAttributeWrapper,
+  //     refWrapperComponent: this,
+  //     refAttributeComponent: this.refs.attributeComponent
+  //   }, 'field')
+  // }
 
   /* eslint-enable */
 
