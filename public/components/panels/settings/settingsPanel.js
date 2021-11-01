@@ -35,7 +35,7 @@ controls.pageSettings = {
 }
 
 const editorType = dataManager.get('editorType')
-const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
+const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials', 'vcv_layouts']
 
 if (roleManager.can('editor_settings_page_design_options', roleManager.defaultTrue()) && allowedPostTypes.indexOf(editorType) > -1) {
   controls.designOptions = {
@@ -78,6 +78,7 @@ if (roleManager.can('editor_settings_element_lock', roleManager.defaultAdmin()))
     content: <ElementsLock />
   }
 }
+
 workspaceSettingsControls.set({ ...controls })
 
 export default class SettingsPanel extends React.Component {

@@ -49,6 +49,7 @@
 
 .vcv-start-blank-inner .vcv-start-blank-template-type-wrapper {
   position: relative;
+  margin-bottom: 14px;
 }
 
 .vcv-start-blank-inner .vcv-start-blank-template-type-wrapper::after {
@@ -56,12 +57,14 @@
   content: "";
   width: 0;
   height: 0;
-  border-top: 6px solid #1a399d;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid transparent;
+  border-top: 5px solid #C6CBD4;
+  border-right: 5px solid transparent;
+  border-bottom: 0 solid transparent;
+  border-left: 5px solid transparent;
   right: 15px;
-  top: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .vcv-start-blank-inner .vcv-start-blank-template-type {
@@ -86,6 +89,10 @@
     opacity: 1;
     color: #bdbdbd;
   }
+}
+
+.vcv-start-blank-inner .vcv-start-blank-template-type {
+  margin: 0;
 }
 
 .vcv-start-blank-controls .vcv-start-blank-title-input,

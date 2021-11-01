@@ -223,8 +223,11 @@ export default class DynamicAttribute extends React.Component {
         placeholderTag = <span className='vcv-ui-dynamic-field-tag' onClick={this.handleOpen}>{label}</span>
         labelText = label
       } else {
+        const placeholderClass = this.props.onlyDynamicCustomFields ? 'vcv-ui-dynamic-field-tag--placeholder' : 'vcv-ui-dynamic-field-tag--inactive'
+        const className = 'vcv-ui-dynamic-field-tag ' + placeholderClass
+
         placeholderTag =
-          <span className='vcv-ui-dynamic-field-tag vcv-ui-dynamic-field-tag--inactive' onClick={this.handleOpen}>{blockInfo.blockAtts.value}</span>
+          <span className={className} onClick={this.handleOpen}>{blockInfo.blockAtts.value}</span>
         labelText = blockInfo.blockAtts.value
       }
     }
@@ -241,7 +244,7 @@ export default class DynamicAttribute extends React.Component {
         <span className='vcv-ui-dynamic-field-controls'>
           <span className='vcv-ui-icon vcv-ui-icon-plug vcv-ui-dynamic-field-control' onClick={this.handleOpen} title={plugIconTitle} />
           {urlHtml || null}
-          {this.renderCloseButton()}
+          {this.props.onlyDynamicCustomFields ? null : this.renderCloseButton()}
         </span>
       </div>
     )
@@ -259,6 +262,7 @@ export default class DynamicAttribute extends React.Component {
         value={this.state.prevDynamicValue || this.props.value}
         elementAccessPoint={this.props.elementAccessPoint}
         renderExtraOptions={this.props.renderExtraOptions}
+        onlyDynamicCustomFields={this.props.onlyDynamicCustomFields}
       />
     )
   }

@@ -888,11 +888,17 @@ export default class DesignOptions extends Attribute {
       dolly.style.bottom = '0'
       dolly.style.right = '0'
       dolly.setAttribute('data-vcv-do-helper-clone', true)
+
+      const elementDOAttribute = domElement.getAttribute(doAttribute)
+
+      // Clears innerHtml of dolly if it has 'doAll' to prevent any js related issues
+      if (elementDOAttribute && elementDOAttribute.indexOf('all') >= 0) {
+        while (dolly.firstChild) dolly.removeChild(dolly.firstChild)
+      }
+
       domElement.parentNode.appendChild(dolly)
 
       setTimeout(() => {
-        const elementDOAttribute = domElement.getAttribute(doAttribute)
-
         if (this.props.elementSelector) {
           mainDefaultStyles.all = this.getElementStyles(dolly)
         } else if (elementDOAttribute) {
@@ -1022,7 +1028,18 @@ export default class DesignOptions extends Attribute {
    * @returns {*}
    */
   getImageLazyLoadRender () {
-    if (!dataManager.get('globalLazyloadEnabled')) {
+    if (!dataManager.get('globalLazyLoadEnabled')) {
+      return null
+    }
+
+    const { devices, currentDevice } = this.state
+    if (devices[currentDevice].display) {
+      return null
+    }
+
+    const imageData = devices[currentDevice].image || ''
+
+    if (!this.isBackgroundActive(imageData)) {
       return null
     }
 
@@ -1139,7 +1156,7 @@ export default class DesignOptions extends Attribute {
     }
     const imageData = devices[currentDevice].image || ''
 
-    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
+    if (!this.isBackgroundActive(imageData)) {
       return null
     }
 
@@ -1212,6 +1229,20 @@ export default class DesignOptions extends Attribute {
   }
 
   /**
+   * Check if background is set
+   * @param imageData
+   *
+   * @return bool
+   */
+  isBackgroundActive (imageData) {
+    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
+      return false
+    }
+
+    return true
+  }
+
+  /**
    * Render background position control
    * @returns {*}
    */
@@ -1223,7 +1254,7 @@ export default class DesignOptions extends Attribute {
 
     const imageData = devices[currentDevice].image || ''
 
-    if (!imageData || !imageData.urls || imageData.urls.length === 0) {
+    if (!this.isBackgroundActive(imageData)) {
       return null
     }
 
@@ -1498,8 +1529,8 @@ export default class DesignOptions extends Attribute {
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}
-            {this.props.elementSelector ? null : this.getImageLazyLoadRender()}
             {this.getAttachImageRender()}
+            {this.props.elementSelector ? null : this.getImageLazyLoadRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBorderStyleRender()}

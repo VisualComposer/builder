@@ -940,7 +940,24 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   getLazyLoadRender () {
-    if (!dataManager.get('globalLazyloadEnabled')) {
+    if (!dataManager.get('globalLazyLoadEnabled')) {
+      return null
+    }
+
+    const allowedBackgroundTypes = [
+      'imagesSimple',
+      'backgroundZoom',
+      'imagesSlideshow'
+    ]
+    const deviceData = this.state.devices[this.state.currentDevice]
+    if (deviceData.display || allowedBackgroundTypes.indexOf(deviceData.backgroundType) === -1 || !Object.prototype.hasOwnProperty.call(deviceData, 'images')) {
+      return null
+    }
+
+    const images = deviceData.images
+    const isArray = images.constructor === Array
+
+    if ((isArray && images.length === 0) || (!isArray && (!images.urls || images.urls.length === 0))) {
       return null
     }
 
@@ -2057,7 +2074,6 @@ export default class DesignOptionsAdvanced extends Attribute {
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBorderStyleRender()}
             {this.getBorderColorRender()}
-            {this.getLazyLoadRender()}
             {this.getBackgroundTypeRender()}
             {this.getAttachImageRender()}
             {this.getSliderEffectRender()}
@@ -2066,6 +2082,7 @@ export default class DesignOptionsAdvanced extends Attribute {
             {this.getYoutubeVideoRender()}
             {this.getVimeoVideoRender()}
             {this.getEmbedVideoRender()}
+            {this.getLazyLoadRender()}
             {this.getBackgroundStyleRender()}
             {this.getBackgroundPositionRender()}
             {this.getBackgroundZoomRender()}

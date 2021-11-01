@@ -8,10 +8,13 @@ const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
+const notificationsStorage = vcCake.getStorage('notifications')
+const settingsStorage = vcCake.getStorage('settings')
 const SAVED_TIMEOUT = 3000
 
 export default class WordPressPostSaveControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
+  static localizations = dataManager.get('localizations')
 
   timer = 0
 
@@ -21,25 +24,31 @@ export default class WordPressPostSaveControl extends NavbarContent {
       saving: false,
       loading: false,
       status: dataManager.get('editorType') === 'vcv_tutorials' ? 'disabled' : '',
-      isOptionsActive: false
+      isOptionsActive: false,
+      isNewPost: dataManager.get('postData').status === 'auto-draft'
     }
     this.updateControlOnStatusChange = this.updateControlOnStatusChange.bind(this)
     this.handleClickSaveData = this.handleClickSaveData.bind(this)
     this.handleIframeChange = this.handleIframeChange.bind(this)
     this.handleClickSaveDraft = this.handleClickSaveDraft.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.layoutNotification = this.layoutNotification.bind(this)
   }
 
   updateControlOnStatusChange (data, source = '') {
     const status = data.status
+    const successMessage = WordPressPostSaveControl.localizations ? WordPressPostSaveControl.localizations.postSaved : 'The content has been successfully saved.'
+    const failMessage = WordPressPostSaveControl.localizations ? WordPressPostSaveControl.localizations.postSavedFailed : 'Failed to save the content.'
     if (status === 'saving' && source !== 'postSaveControl') {
       this.handleClickSaveData({ options: data.options }, {}, {}, true)
       return
     }
     if (status === 'success') {
+      this.layoutNotification()
       this.setState({
         status: 'success',
-        isOptionsActive: false
+        isOptionsActive: false,
+        isNewPost: dataManager.get('postData').status === 'auto-draft'
       })
       this.clearTimer()
       // Show success at least for 3 secs
@@ -52,9 +61,15 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
+      notificationsStorage.trigger('add', {
+        type: 'success',
+        text: successMessage,
+        time: 5000
+      })
     } else if (status === 'failed') {
       this.setState({
-        status: 'error'
+        status: 'error',
+        isNewPost: dataManager.get('postData').status === 'auto-draft'
       })
       this.clearTimer()
       // Show error at least for 3 secs
@@ -67,6 +82,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
+      notificationsStorage.trigger('add', {
+        type: 'error',
+        text: failMessage,
+        time: 5000
+      })
     }
   }
 
@@ -143,14 +163,37 @@ export default class WordPressPostSaveControl extends NavbarContent {
     this.props.handleOnClick && this.props.handleOnClick(e)
   }
 
-  render () {
-    const localizations = dataManager.get('localizations')
+  layoutNotification () {
+    const layoutTemplate = settingsStorage.state('templateType').get()
+    if (this.state.isNewPost === true && dataManager.get('editorType') === 'vcv_layouts' && typeof layoutTemplate !== 'undefined') {
+      let message = ''
+      const adminLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
+      const layoutSettingsLink = adminLink + 'admin.php?page=vcv-headers-footers'
+      const defaultMessage = `Created template is not assigned to any post {location}. To assign, navigate to <a href='${layoutSettingsLink}'>Theme Builder Settings</a>`
+      if (layoutTemplate === 'postTemplate') {
+        message = WordPressPostSaveControl.localizations.postTemplateNotification ? WordPressPostSaveControl.localizations.postTemplateNotification : defaultMessage.replace('{location}', 'type')
+      } else if (layoutTemplate === 'archiveTemplate') {
+        message = WordPressPostSaveControl.localizations.archiveTemplateNotification ? WordPressPostSaveControl.localizations.archiveTemplateNotification : defaultMessage.replace('{location}', 'archive')
+      }
+      if (message !== '') {
+        notificationsStorage.trigger('add', {
+          position: 'top',
+          transparent: false,
+          showCloseButton: true,
+          rounded: false,
+          type: 'warning',
+          text: message,
+          html: true,
+          time: 15000
+        })
+      }
+    }
+  }
 
+  render () {
     const saveButtonClasses = classNames({
       'vcv-ui-navbar-control': true,
       'vcv-ui-navbar-dropdown-trigger': true,
-      'vcv-ui-state--success': this.state.status === 'success',
-      'vcv-ui-state--error': this.state.status === 'error',
       'vcv-ui-state--disabled': this.state.status === 'disabled'
     })
 
@@ -168,13 +211,13 @@ export default class WordPressPostSaveControl extends NavbarContent {
       'vcv-ui-navbar-dropdown--active': this.state.isOptionsActive
     })
 
-    const publishingOptions = localizations.publishingOptions
-    let saveText = localizations.publish
+    const publishingOptions = WordPressPostSaveControl.localizations.publishingOptions
+    let saveText = WordPressPostSaveControl.localizations.publish
     if (!PostData.canPublish()) {
-      saveText = localizations.submitForReview
+      saveText = WordPressPostSaveControl.localizations.submitForReview
     }
     if (PostData.isPublished()) {
-      saveText = localizations.update
+      saveText = WordPressPostSaveControl.localizations.update
     }
     const navbarContentClasses = classNames({
       'vcv-ui-navbar-dropdown-content': true,
@@ -192,12 +235,12 @@ export default class WordPressPostSaveControl extends NavbarContent {
         <>
           <span
             className='vcv-ui-navbar-control'
-            title={localizations.saveDraft}
+            title={WordPressPostSaveControl.localizations.saveDraft}
             onClick={this.handleClickSaveDraft}
             data-href={PostData.permalink()}
             data-vcv-control='saveDraft'
           >
-            <span className='vcv-ui-navbar-control-content'>{localizations.saveDraft}</span>
+            <span className='vcv-ui-navbar-control-content'>{WordPressPostSaveControl.localizations.saveDraft}</span>
           </span>
           <span
             className='vcv-ui-navbar-control'
