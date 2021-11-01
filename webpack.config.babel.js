@@ -213,6 +213,7 @@ export default {
     ]
   },
   resolve: {
+    extensions: ['.ts', '.js', '.json', '.wasm'],
     alias: { public: path.resolve(__dirname, './public/') },
     fallback: {
       amd: false,
