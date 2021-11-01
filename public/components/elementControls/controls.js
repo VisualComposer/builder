@@ -7,7 +7,7 @@ const layoutStorage = getStorage('layout')
 const iframe = document.getElementById('vcv-editor-iframe')
 const dataManager = getService('dataManager')
 
-const getContainerPosition = (data, iframeDocument ,controlsContainer) => {
+const getContainerPosition = (data, iframeDocument, controlsContainer) => {
   if (!controlsContainer.current) {
     return false
   }
