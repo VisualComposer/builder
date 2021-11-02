@@ -18,7 +18,7 @@ export default class AssignLayoutControl extends React.Component {
   }
 
   render () {
-    const assignLayoutTitle = localizations ? localizations.assignLayout : 'Assign Layout to ..'
+    const assignLayoutTitle = localizations ? localizations.assignLayout : 'Assign Layout to ...'
     return (
       <>
         <div className='vcv-ui-navbar-controls-set'>
