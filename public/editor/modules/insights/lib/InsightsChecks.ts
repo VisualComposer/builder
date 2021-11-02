@@ -234,7 +234,7 @@ export default class InsightsChecks {
   }
 
   checkForBgImageSize () {
-    interface BgImage {
+    type BgImage = {
       src: string,
       domNode: HTMLElement
     }
