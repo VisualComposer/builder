@@ -123,9 +123,9 @@ export default class HtmlEditorComponent extends React.Component {
     }
   }
 
-  handleFontChange (editor) {
+  handleFontChange (editorBody) {
     const { fieldKey, elementAccessPoint, options } = this.props
-    const usedGoogleFonts = getUsedFonts(editor.getBody())
+    const usedGoogleFonts = getUsedFonts(editorBody)
     const element = elementAccessPoint.cook()
     const sharedAssetsData = element.get('metaElementAssets')
     const fieldPathKey = options.nestedAttrPath ? options.nestedAttrPath : fieldKey
@@ -146,7 +146,11 @@ export default class HtmlEditorComponent extends React.Component {
 
   handleChangeWpEditor (editor) {
     let value = editor.getContent()
-    this.handleFontChange(editor)
+    const editorBody = editor.getBody()
+    if (!editorBody) {
+      return
+    }
+    this.handleFontChange(editorBody)
     if (this.props.dynamicFieldOpened) {
       // the value html comment is encoded in this moment
       value = decodeURIComponent(value)
