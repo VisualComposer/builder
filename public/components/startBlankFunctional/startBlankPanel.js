@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import vcCake from 'vc-cake'
 import HfsPanelContent from './lib/hsfPanelContent'
 import PropTypes from 'prop-types'
@@ -11,10 +11,11 @@ const dataManager = vcCake.getService('dataManager')
 const settingsStorage = vcCake.getStorage('settings')
 let addedId, iframeWindow
 
-function startBlank (props) {
-  const startContainer = useRef()
+function StartBlankPanel (props) {
+  const [containerClasses, setContainerClasses] = useState('vcv-start-blank-container')
+
   useEffect(() => {
-    startContainer.current.classList.add('vcv-ui-state--visible')
+    setContainerClasses(containerClasses + ' vcv-ui-state--visible')
   }, [])
 
   const handleMouseUp = () => {
@@ -69,30 +70,26 @@ function startBlank (props) {
   const headingPart1 = `${localizations ? localizations.blankPageTitleHeadingPart1 : 'Name Your '} ${type}`
   const headingPart2 = localizations ? localizations.blankPageTitleHeadingPart2 : 'and Start Building'
 
-  const startBlankContent = (
-    <HfsPanelContent
-      type={type}
-      onClick={handleStartClick}
-    />
-  )
-
   return (
-    <div ref={startContainer} className='vcv-start-blank-container' onMouseUp={handleMouseUp}>
+    <div className={containerClasses} onMouseUp={handleMouseUp}>
       <div className='vcv-start-blank-scroll-container'>
         <div className='vcv-start-blank-inner'>
           <div className='vcv-start-blank-heading-container'>
             <div className='vcv-start-blank-page-heading'>{headingPart1}</div>
             <div className='vcv-start-blank-page-heading'>{headingPart2}</div>
           </div>
-          {startBlankContent}
+          <HfsPanelContent
+            type={type}
+            onClick={handleStartClick}
+          />
         </div>
       </div>
     </div>
   )
 }
 
-startBlank.propTypes = {
+StartBlankPanel.propTypes = {
   unmountStartBlank: PropTypes.func.isRequired
 }
 
-export default startBlank
+export default StartBlankPanel

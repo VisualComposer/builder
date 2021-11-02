@@ -21,7 +21,6 @@ function HfsPanelContent ({ onClick, type }) {
   const handleTitleChange = e => {
     e && e.preventDefault()
     const value = e.currentTarget.value
-    setInputValue(value)
     settingsStorage.state('pageTitle').set(value)
   }
 

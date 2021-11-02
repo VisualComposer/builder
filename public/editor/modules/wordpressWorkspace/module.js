@@ -2,7 +2,7 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
-import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
+import StartBlankPanel from 'public/components/startBlankFunctional/startBlankPanel'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
