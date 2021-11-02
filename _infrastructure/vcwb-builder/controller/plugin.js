@@ -175,7 +175,7 @@ class Plugin {
   async copyFiles () {
     const bundlePath = this.bundlePath
     const repoPath = this.repoPath
-    fs.ensureDirSync(path.join(bundlePath, 'public/dist/fonts'))
+    fs.ensureDirSync(path.join(bundlePath, 'public/dist/assets'))
     fs.ensureDirSync(path.join(bundlePath, 'public/sources'))
     this.isDev && fs.ensureDirSync(path.join(bundlePath, 'tests'))
     process.chdir(bundlePath)
@@ -200,7 +200,7 @@ class Plugin {
       'cp -fr ' + repoPath + '/public/dist/wp.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpbackendswitch.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpbase.* ./public/dist/ &' +
-      'cp -fr ' + repoPath + '/public/dist/vendor.bundle.js ./public/dist/ &' +
+      'cp -fr ' + repoPath + '/public/dist/vendor.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/front.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpVcSettings.* ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/dist/wpUpdate.* ./public/dist/ &' +
@@ -211,7 +211,7 @@ class Plugin {
       copyTests +
       copyTestsPhpE2e +
       // JUST MOVE ALL fonts
-      'cp -fr ' + repoPath + '/public/dist/fonts ./public/dist/ &' +
+      'cp -fr ' + repoPath + '/public/dist/assets ./public/dist/ &' +
       // 'cp -fr ' + repoPath + '/public/dist/images ./public/dist/ &' +
       'cp -fr ' + repoPath + '/public/sources/assetsLibrary ./public/sources &' +
       'rsync -r --exclude predefinedTemplates ' + repoPath + '/public/sources/images ' + bundlePath + '/public/sources/ &' +
