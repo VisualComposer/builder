@@ -74,7 +74,7 @@ class Localizations extends Container implements Helper
             'menu' => __('Menu', 'visualcomposer'),
             'viewPage' => __('View Page', 'visualcomposer'),
             'backToWordpress' => __('Back to WordPress', 'visualcomposer'),
-            'assignLayout' => __('Assign Layout to ..', 'visualcomposer'),
+            'assignLayout' => __('Assign Layout to ...', 'visualcomposer'),
             'wordPressDashboard' => __('WordPress Dashboard', 'visualcomposer'),
             'publish' => __('Publish', 'visualcomposer'),
             'submitForReview' => __('Submit for Review', 'visualcomposer'),
@@ -1819,7 +1819,7 @@ class Localizations extends Container implements Helper
             ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
             'postTemplateText' => __(
-                'Post template',
+                'Post & Page template',
                 'visualcomposer'
             ),
             'archiveTemplateText' => __(
