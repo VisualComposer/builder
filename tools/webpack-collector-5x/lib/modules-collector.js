@@ -1,14 +1,21 @@
-var path = require('path')
-var fs = require('fs')
-var uf = require('util').format
-var config = require('./settings')
+let path = require('path')
+let fs = require('fs')
+let uf = require('util').format
+let config = require('./settings')
 
-var ServicesCollector = {
+let ServicesCollector = {
   directory: '',
   buildFile: function (prefix, services) {
-    var content = "var join = require('path').join\n"
+    let content = "let join = require('path').join\n"
     services.forEach(function (f) {
-      content += uf("require('../%s/%s/module.js')\n", config.modulePath, f)
+      let modulePath = path.join(config.publicDir, config.modulePath, f)
+      if (fs.existsSync(modulePath + '/module.js')) {
+        content += uf("require('../%s/%s/module.js')\n", config.modulePath, f)
+      } else if (fs.existsSync(modulePath + '/module.ts')) {
+        content += uf("require('../%s/%s/module.ts')\n", config.modulePath, f)
+      } else {
+        console.error('Module: ' + f + ' doesnt exists in: ' + modulePath)
+      }
     })
     this.writeToFile(prefix, content)
   },
