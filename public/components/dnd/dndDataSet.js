@@ -347,16 +347,21 @@ export default class DndDataSet {
       const isTreeView = domNode.closest('.vcv-ui-tree-layout')
 
       if (isRow && !isTreeView) {
-        const columnsRect = children.map((child) => {
-          const element = this.options.document.getElementById(`el-${child.id}`)
-          return element.getBoundingClientRect()
-        })
-        const targetColumn = columnsRect.findIndex(column => point && point.x > column.left && point.x < column.right)
-        if (targetColumn > -1 && children[targetColumn]) {
-          const columnId = `el-${children[targetColumn].id}`
-          domNode = this.findDOMNode({}, columnId)
-          domElement = this.getDomElement(domNode)
-          parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+        const rowRect = domElement.node?.getBoundingClientRect()
+        const borderGap = 5
+        // don't make this logic if near row boundaries
+        if (rowRect && ((point.y > rowRect.top + borderGap) && (point.y < rowRect.top + rowRect.height - borderGap))) {
+          const columnsRect = children.map((child) => {
+            const element = this.options.document.getElementById(`el-${child.id}`)
+            return element.getBoundingClientRect()
+          })
+          const targetColumn = columnsRect.findIndex(column => point && point.x > column.left && point.x < column.right)
+          if (targetColumn > -1 && children[targetColumn]) {
+            const columnId = `el-${children[targetColumn].id}`
+            domNode = this.findDOMNode({}, columnId)
+            domElement = this.getDomElement(domNode)
+            parentDOMElement = this.getDomElementParent(domElement.parent()) || null
+          }
         }
       }
 
