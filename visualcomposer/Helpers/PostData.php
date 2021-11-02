@@ -16,7 +16,7 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
-        $postThumbnailUrl = $urlHelper->assetUrl('images/featured-image-preview.png');
+        $postThumbnailUrl = $urlHelper->assetUrl('images/spacer.png');
         $postThumbnailUrlDb = get_the_post_thumbnail_url($post->ID, 'full');
         $imageAttributes = [];
         // @codingStandardsIgnoreLine
@@ -56,7 +56,7 @@ class PostData implements Helper
     {
         $post = get_post($sourceId);
         $urlHelper = vchelper('Url');
-        $url = $urlHelper->assetUrl('images/featured-image-preview.png');
+        $url = $urlHelper->assetUrl('images/spacer.png');
         // @codingStandardsIgnoreLine
         if (isset($post) && $post->post_status !== 'trash') {
             // @codingStandardsIgnoreLine
@@ -156,7 +156,7 @@ class PostData implements Helper
             $url = wp_get_attachment_image_url($customLogoId, 'full');
         }
         if (empty($url)) {
-            $url = $urlHelper->assetUrl('images/featured-image-preview.png');
+            $url = $urlHelper->assetUrl('images/spacer.png');
         }
 
         return $urlHelper->query(
@@ -389,7 +389,7 @@ class PostData implements Helper
     public function getDefaultPostData($sourceId = '')
     {
         $response = [];
-        $response['featured_image'] = $this->getFeaturedImage($sourceId);
+        $response['featured_image'] = str_replace('images/spacer.png', 'images/featured-image-preview.png', $this->getFeaturedImage($sourceId));
         $response['post_author_image'] = $this->getPostAuthorImage($sourceId);
         $response['post_author'] = $this->getPostAuthor($sourceId);
         $response['post_title'] = $this->getPostTitle($sourceId);
