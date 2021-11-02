@@ -27,8 +27,7 @@ export default class InsightsChecks {
     let pageTitleLength = settingsStorage.state('pageTitle').get().length
     if (settingsStorage.state('pageTitleDisabled').get()) {
       const headings = env('iframe').document.body.querySelectorAll('h1')
-      for (let i = 0; i < headings.length; i++) {
-        const heading = headings[i]
+      for (let heading of headings) {
         if (heading.offsetParent !== null && heading.getBoundingClientRect().height) {
           pageTitleLength = heading.innerText.length
           break
@@ -266,8 +265,8 @@ export default class InsightsChecks {
   }
 
   async checkForImagesSize () {
-    const promises = this.checkForImageSize()
-    promises.concat(this.checkForBgImageSize())
+    let promises = this.checkForImageSize()
+    promises = promises.concat(this.checkForBgImageSize())
     await Promise.all(promises)
 
     if (promises.length && !this.isImagesSizeLarge) {
@@ -598,7 +597,8 @@ export default class InsightsChecks {
             }
           })
           insightsStorage.trigger('remove', 'colorContrast')
-          notificationItems.reverse().forEach(item => insightsStorage.trigger('add', item))
+          const reversedNotifications = notificationItems.reverse()
+          reversedNotifications.forEach(item => insightsStorage.trigger('add', item))
         } else {
           insightsStorage.trigger('remove', 'colorContrast')
           insightsStorage.trigger('add', {
