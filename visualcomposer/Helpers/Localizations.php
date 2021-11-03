@@ -1132,8 +1132,20 @@ class Localizations extends Container implements Helper
                 'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
+            'headerAreaPlaceholderText' => __(
+                'This is your header area placeholder - page or post header will be displayed here.',
+                'visualcomposer'
+            ),
             'contentAreaPlaceholderText' => __(
-                'This is a default WordPress content area where the post or page content will be displayed.',
+                'This is your content area placeholder - page or post content will be displayed here.',
+                'visualcomposer'
+            ),
+            'sidebarAreaPlaceholderText' => __(
+                'This is your sidebar area placeholder - page or post sidebar will be displayed here.',
+                'visualcomposer'
+            ),
+            'footerAreaPlaceholderText' => __(
+                'This is your footer area placeholder - page or post header will be displayed here.',
                 'visualcomposer'
             ),
             'activateHub' => __(

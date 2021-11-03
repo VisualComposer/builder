@@ -587,8 +587,9 @@ export default class AttachImage extends Attribute {
       dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
 
-    return (
-      <>
+    let dynamicAttribute = null
+    if (options && (typeof options.imageSelector === 'undefined' || options.imageSelector === true)) {
+      dynamicAttribute = (
         <DynamicAttribute
           {...this.props}
           setFieldValue={this.setFieldValue}
@@ -604,6 +605,12 @@ export default class AttachImage extends Attribute {
             {this.getAttachImageComponent(false)}
           </div>
         </DynamicAttribute>
+      )
+    }
+
+    return (
+      <>
+        {dynamicAttribute}
         {filterControl}
         {filterList}
       </>
