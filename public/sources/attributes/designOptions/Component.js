@@ -931,21 +931,24 @@ export default class DesignOptions extends Attribute {
 
   /**
    * Gets additional style (margin, padding, border) element styles
-   * @param clonedElement
+   * @param domElement
    * @param innerSelector
    * @returns {{}}
    */
-  getElementStyles (clonedElement, innerSelector) {
+  getElementStyles (domElement, innerSelector) {
     const styles = {}
-    if (clonedElement) {
+    if (domElement) {
       let computedStyles = ''
-      if (innerSelector) {
-        const domElement = clonedElement.querySelector(innerSelector)
-        if (domElement) {
-          computedStyles = window.getComputedStyle(domElement)
-        }
-      } else {
-        computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
+      const styleElement = innerSelector ? domElement.querySelector(innerSelector) : domElement
+      if (styleElement) {
+        // Remove transition for correct default value calculation
+        styleElement.setAttribute('data-vcv-transition-disabled', true)
+
+        computedStyles = window.getComputedStyle(styleElement)
+
+        window.setTimeout(() => {
+          styleElement.removeAttribute('data-vcv-transition-disabled')
+        }, 100)
       }
 
       for (const style in BoxModel.defaultState) {
