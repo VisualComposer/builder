@@ -10,8 +10,8 @@ export function bindEditorKeys (document) {
 
   let combokeysInstance = new Combokeys(document)
 
-  combokeysInstance.stopCallback = function(){
-    return false;
+  combokeysInstance.stopCallback = function(e){
+    return e.which !== 27;
   };
   combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
     e.preventDefault()
