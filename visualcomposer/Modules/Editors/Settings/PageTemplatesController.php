@@ -47,77 +47,82 @@ class PageTemplatesController extends Container implements Module
         }
 
         $post = $postTypeHelper->get($postId);
-        if ($post) {
-            if ($frontendHelper->isPreview()) {
-                $preview = wp_get_post_autosave($post->ID);
-                if (is_object($preview)) {
-                    $post = $preview;
-                }
-            }
-            // @codingStandardsIgnoreLine
-            if ($post->page_template === 'default' && isset($output['value'])) {
-                $currentPostTemplate = $output['value'];
-            } else {
-                // @codingStandardsIgnoreLine
-                $currentPostTemplate = $post->page_template;
-            }
-            $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
-            $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
-            $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
 
-            // BC: For TemplateFilterController.php
-            if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
-                $customTemplateType = 'vc';
-                $currentPostTemplate = str_replace('-template.php', '', $currentPostTemplate);
-                $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
-            }
+        if (!$post) {
+            return $output;
+        }
 
-            $customTemplate = $this->getCustomTemplate($post->ID, $customTemplate, $customTemplateType);
-
-            // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
-            list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
-                $customTemplateType,
-                $templateStretch,
-                $customTemplate
-            );
-
-            if (!empty($customTemplateType) && !empty($customTemplate)) {
-                $output = [
-                    'type' => $customTemplateType,
-                    'value' => $customTemplate,
-                    'stretchedContent' => intval($templateStretch),
-                ];
-            } else {
-                if (
-                    ($frontendHelper->isFrontend() || $frontendHelper->isPageEditable())
-                    && !get_post($post->ID)->post_content
-                    && !get_post_meta(
-                        $post->ID,
-                        VCV_PREFIX . 'pageContent',
-                        true
-                    )
-                ) {
-                    if (vcvenv('VCV_FT_THEME_BUILDER_LAYOUTS')) {
-                        $output = [
-                            'type' => 'vc-custom-layout',
-                            'value' => 'default',
-                        ];
-                    } else {
-                        $output = [
-                            'type' => 'theme',
-                            'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
-                        ];
-                    }
-                } else {
-                    $output = [
-                        'type' => 'theme',
-                        'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
-                    ];
-                }
+        if ($frontendHelper->isPreview()) {
+            $preview = wp_get_post_autosave($post->ID);
+            if (is_object($preview)) {
+                $post = $preview;
             }
         }
 
-        return $output;
+        $currentPostTemplate = $this->getCurrentPostTemplate($post, $output);
+
+        $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
+        $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+        $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
+
+        // BC: For TemplateFilterController.php
+        if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
+            $customTemplateType = 'vc';
+            $currentPostTemplate = str_replace('-template.php', '', $currentPostTemplate);
+            $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
+        }
+
+        $customTemplate = $this->getCustomTemplate($post->ID, $customTemplate, $customTemplateType);
+
+        // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
+        list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
+            $customTemplateType,
+            $templateStretch,
+            $customTemplate
+        );
+
+        if (empty($customTemplate) && empty($customTemplateType)) {
+            $output = [
+                'type' => 'theme',
+                'value' => empty($currentPostTemplate) ? 'default' : $currentPostTemplate ,
+            ];
+            $isCustomTemplate = false;
+        } else {
+            $output = [
+                'type' => $customTemplateType,
+                'value' => $customTemplate,
+                'stretchedContent' => intval($templateStretch),
+            ];
+            $isCustomTemplate = true;
+        }
+
+        return vcfilter(
+            'vcv:editor:settings:pageTemplatesLayouts:current:output',
+            $output,
+            $customTemplate,
+            $isCustomTemplate
+        );
+    }
+
+    /**
+     * Retrieve current post template
+     *
+     * @param object $post
+     * @param array $output
+     *
+     * @return string
+     */
+    protected function getCurrentPostTemplate($post, $output)
+    {
+        // @codingStandardsIgnoreLine
+        if ($post->page_template === 'default' && isset($output['value'])) {
+            $currentPostTemplate = $output['value'];
+        } else {
+            // @codingStandardsIgnoreLine
+            $currentPostTemplate = $post->page_template;
+        }
+
+        return $currentPostTemplate;
     }
 
     protected function getCustomTemplate($postId, $customTemplate, $customTemplateType)
