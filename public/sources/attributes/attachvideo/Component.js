@@ -5,7 +5,9 @@ import Url from '../url/Component'
 import AttachVideoList from './attachVideoList'
 import { SortableContainer, arrayMove } from 'react-sortable-hoc'
 import PropTypes from 'prop-types'
+import { getStorage } from 'vc-cake'
 
+const workspaceStorage = getStorage('workspace')
 const SortableList = SortableContainer((props) => {
   return (
     <AttachVideoList {...props} />
@@ -30,6 +32,8 @@ export default class AttachVideo extends Attribute {
     this.handleUrlChange = this.handleUrlChange.bind(this)
     this.onMediaSelect = this.onMediaSelect.bind(this)
     this.onMediaOpen = this.onMediaOpen.bind(this)
+    this.onMediaClose = this.onMediaClose.bind(this)
+    this.closeMediaPopup = this.closeMediaPopup.bind(this)
     this.openLibrary = this.openLibrary.bind(this)
     this.getUrlHtml = this.getUrlHtml.bind(this)
     this.handleSortEnd = this.handleSortEnd.bind(this)
@@ -57,6 +61,12 @@ export default class AttachVideo extends Attribute {
     // Create a callback when the uploader is called
     this.mediaUploader.on('select', this.onMediaSelect)
     this.mediaUploader.on('open', this.onMediaOpen)
+    this.mediaUploader.on('close', this.onMediaClose)
+    document.addEventListener('keyup', this.closeMediaPopup)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('keyup', this.closeMediaPopup)
   }
 
   updateState (props) {
@@ -180,6 +190,19 @@ export default class AttachVideo extends Attribute {
         }
       }
     })
+    workspaceStorage.state('hasModal').set(true)
+  }
+
+  onMediaClose () {
+    setTimeout(() =>
+      workspaceStorage.state('hasModal').set(false)
+    , 100)
+  }
+
+  closeMediaPopup (e) {
+    if (e?.which === 27) {
+      this.mediaUploader.close()
+    }
   }
 
   getUrlHtml (key) {
