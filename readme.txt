@@ -21,7 +21,7 @@ Get the free page builder with hundreds of elements and an easy-to-use interface
 
 https://youtu.be/T4c--KVXXbg
 
-Visual Composer is a free, fast, and SEO-friendly builder - all you need to create a website. More than that, it is the most feature-rich free page builder on the market with 50+ free elements, 10+ free landing page templates, and mighty design options with background and parallax effects.
+Visual Composer is a free, and SEO-friendly builder - all you need to create a website. More than that, it is the most feature-rich free page builder on the market with 50+ free elements, 10+ free landing page templates, and mighty design options with background and parallax effects.
 
 With an easy-to-use live editor, you can create any type of WordPress site:
 
