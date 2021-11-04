@@ -15,7 +15,7 @@ export default class PageSettingsLayouts extends Attribute {
   render () {
     const content = []
     const editorType = dataManager.get('editorType')
-    const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials']
+    const allowedPostTypes = ['default', 'vcv_tutorials']
     const localizations = dataManager.get('localizations')
     const selectOrChangeTheLayoutOfThePage = localizations ? localizations.selectOrChangeTheLayoutOfThePage : 'Select or change the layout of the page, post, or custom post type.'
 
