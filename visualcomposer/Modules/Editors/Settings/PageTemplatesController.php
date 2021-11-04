@@ -81,26 +81,29 @@ class PageTemplatesController extends Container implements Module
             $customTemplate
         );
 
-        if (empty($customTemplate) && empty($customTemplateType)) {
+        $isCustomTemplate = empty($customTemplate) && empty($customTemplateType);
+
+        if ($isCustomTemplate) {
             $output = [
                 'type' => 'theme',
                 'value' => empty($currentPostTemplate) ? 'default' : $currentPostTemplate ,
             ];
-            $isCustomTemplate = false;
         } else {
             $output = [
                 'type' => $customTemplateType,
                 'value' => $customTemplate,
                 'stretchedContent' => intval($templateStretch),
             ];
-            $isCustomTemplate = true;
         }
 
         return vcfilter(
             'vcv:editor:settings:pageTemplatesLayouts:current:output',
             $output,
             $customTemplate,
-            $isCustomTemplate
+            [
+                'isCustomTemplate' => $isCustomTemplate,
+                'currentPostTemplate' => $currentPostTemplate,
+            ]
         );
     }
 
