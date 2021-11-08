@@ -13,12 +13,15 @@ New Visual Composer Website Builder is an easy-to-use drag and drop page builder
 
 == Description ==
 
+Visual Composer is the ultimate WordPress website builder, with no limitations on design. Designed for web creators who need more power to create professional websites efficiently.
+
+It's a brand new website builder – made from scratch! No [shortcodes], no content locking, or performance issues. You get a powerful editor and superb performance to create any page layout, for any kind of website.
+
 https://youtu.be/T4c--KVXXbg
 
-Try free WordPress website builder that gives you the freedom to create websites. A website builder with advanced design features, easy to use interface, and a seamless drag and drop editor powered by React.
+Visual Composer is loaded with must-have features, elements, templates, and design options. It is compatible with other plugins, offering compatibility features as well as offering a theme builder, providing users with an all-in-one website builder.
 
-Try new [Visual Composer Website Builder](https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=info&utm_content=try-new-visualcomposer-text-link).
-
+You will need fewer plugins, you will save time, and be able to deliver beautiful websites to your customers much faster.
 
 = Not just Website & Page Builder. It Is So Much More =
 
@@ -90,6 +93,12 @@ With the Visual Composer Role Manager, you can set up and control access to any 
 - Contributor
 - Subscriber
 - Custom roles (from plugins like Yoast, WooCommerce, etc.)
+
+= Font Manager =
+
+The [Visual Composer Font Manager] (https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=visual-composer-text) is a built-in addon for customizing the fonts, sizes, and styles of your headings, paragraphs, and blockquotes. You can also change link color options like underlines or hovering effects to make them stand out from the regular text.
+
+For a more customized experience, you can change the letter spacing and line-height as well as margins. You may also capitalize, lowercase, and uppercase letters.
 
 = Popup Builder for WordPress =
 
