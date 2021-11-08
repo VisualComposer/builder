@@ -76,11 +76,7 @@ export default class HFSDropdowns extends React.Component {
       (this.props.options &&
       Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
       Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addHeader') &&
-      !this.props.options.HFSDropdowns.addHeader) ||
-      (
-        editorType === 'vcv_layouts' &&
-        !this.hasLayoutElement('layoutHeaderArea')
-      )
+      !this.props.options.HFSDropdowns.addHeader) || editorType === 'vcv_layouts' || currentLayout.type === 'vc-custom-layout'
     ) {
       addHeader = false
     }
@@ -88,11 +84,7 @@ export default class HFSDropdowns extends React.Component {
       (this.props.options &&
       Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
       Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addSidebar') &&
-      !this.props.options.HFSDropdowns.addSidebar) ||
-      (
-        editorType === 'vcv_layouts' &&
-        !this.hasLayoutElement('layoutSidebarArea')
-      )
+      !this.props.options.HFSDropdowns.addSidebar) || editorType === 'vcv_layouts' || currentLayout.type === 'vc-custom-layout'
     ) {
       addSidebar = false
     }
@@ -100,11 +92,7 @@ export default class HFSDropdowns extends React.Component {
       (this.props.options &&
       Object.prototype.hasOwnProperty.call(this.props.options, 'HFSDropdowns') &&
       Object.prototype.hasOwnProperty.call(this.props.options.HFSDropdowns, 'addFooter') &&
-      !this.props.options.HFSDropdowns.addFooter) ||
-      (
-        editorType === 'vcv_layouts' &&
-        !this.hasLayoutElement('layoutFooterArea')
-      )
+      !this.props.options.HFSDropdowns.addFooter) || editorType === 'vcv_layouts' || currentLayout.type === 'vc-custom-layout'
     ) {
       addFooter = false
     }
