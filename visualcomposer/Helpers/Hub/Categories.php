@@ -239,9 +239,6 @@ class Categories implements Helper
                 'elements' => [
                     'layoutContentArea',
                     'layoutWpCommentsArea',
-                    'layoutHeaderArea',
-                    'layoutFooterArea',
-                    'layoutSidebarArea',
                     'layoutPostTitle',
                     'layoutPostExcerpt',
                     'layoutPostDate',
