@@ -250,6 +250,7 @@ class Categories implements Helper
                     'layoutPostCustomFields',
                     'layoutPostList',
                     'layoutPostFeaturedImage',
+                    'logoWidget',
                 ],
                 'icon' => $urlHelper->to('public/categories/icons/Section.svg'),
                 'iconDark' => $urlHelper->to('public/categories/iconsDark/Section.svg'),
