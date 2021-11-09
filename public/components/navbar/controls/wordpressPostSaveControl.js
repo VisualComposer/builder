@@ -164,15 +164,15 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   layoutNotification () {
-    const layoutTemplate = settingsStorage.state('templateType').get()
-    if (this.state.isNewPost === true && dataManager.get('editorType') === 'vcv_layouts' && typeof layoutTemplate !== 'undefined') {
+    if (this.state.isNewPost === true && dataManager.get('editorType') === 'vcv_layouts') {
+      const layoutType = settingsStorage.state('layoutType').get()
       let message = ''
       const adminLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
       const layoutSettingsLink = adminLink + 'admin.php?page=vcv-headers-footers'
       const defaultMessage = `Created template is not assigned to any post {location}. To assign, navigate to <a href='${layoutSettingsLink}'>Theme Builder Settings</a>`
-      if (layoutTemplate === 'postTemplate') {
+      if (layoutType === 'postTemplate') {
         message = WordPressPostSaveControl.localizations.postTemplateNotification ? WordPressPostSaveControl.localizations.postTemplateNotification : defaultMessage.replace('{location}', 'type')
-      } else if (layoutTemplate === 'archiveTemplate') {
+      } else if (layoutType === 'archiveTemplate') {
         message = WordPressPostSaveControl.localizations.archiveTemplateNotification ? WordPressPostSaveControl.localizations.archiveTemplateNotification : defaultMessage.replace('{location}', 'archive')
       }
       if (message !== '') {
