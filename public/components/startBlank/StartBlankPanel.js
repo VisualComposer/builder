@@ -36,7 +36,6 @@ export default class startBlank extends React.Component {
 
   handleStartClick () {
     const editorType = dataManager.get('editorType')
-    const templateType = settingsStorage.state('templateType').get()
     if (editorType === 'popup') {
       const cookElement = cook.get({ tag: 'popupRoot' }).toJS()
       const rowElement = cook.get({ tag: 'row', parent: cookElement.id }).toJS()
@@ -46,9 +45,12 @@ export default class startBlank extends React.Component {
       const iframe = document.getElementById('vcv-editor-iframe')
       this.iframeWindow = iframe && iframe.contentWindow && iframe.contentWindow.window
       this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
-    } else if (editorType === 'vcv_layouts' && templateType === 'postTemplate') {
-      const layoutContentElement = cook.get({ tag: 'layoutContentArea' }).toJS()
-      elementsStorage.trigger('add', layoutContentElement)
+    } else if (editorType === 'vcv_layouts') {
+      const layoutType = settingsStorage.state('layoutType').get()
+      if (layoutType === 'postTemplate') {
+        const layoutContentElement = cook.get({ tag: 'layoutContentArea' }).toJS()
+        elementsStorage.trigger('add', layoutContentElement)
+      }
     } else {
       const settings = {
         action: 'add',
