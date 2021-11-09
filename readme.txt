@@ -13,13 +13,15 @@ New Visual Composer Website Builder is an easy-to-use drag and drop page builder
 
 == Description ==
 
-Visual Composer is the ultimate WordPress website builder, with no limitations on design. Designed for web creators who need more power to create professional websites efficiently.
-
-It's a brand new website builder – made from scratch! No [shortcodes], no content locking, or performance issues. You get a powerful editor and superb performance to create any page layout, for any kind of website.
-
 https://youtu.be/T4c--KVXXbg
 
-Visual Composer is loaded with must-have features, elements, templates, and design options. It is compatible with other plugins, offering compatibility features as well as offering a theme builder, providing users with an all-in-one website builder.
+Try free WordPress website builder that gives you the freedom to create websites. A page builder with advanced design features, easy to use interface, and a seamless drag and drop editor powered by React.
+
+Try new [Visual Composer Website Builder](https://visualcomposer.com/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=info&utm_content=try-new-visualcomposer-text-link).
+
+Visual Composer is the ultimate WordPress website builder designed for web creators who need more power to create professional websites efficiently.
+
+A website builder with must-have features, elements, templates, and design options. It is compatible with other plugins, offering compatibility features as well as offering a theme builder, providing users with an all-in-one website builder.
 
 You will need fewer plugins, you will save time, and be able to deliver beautiful websites to your customers much faster.
 
