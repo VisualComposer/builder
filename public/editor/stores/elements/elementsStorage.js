@@ -413,4 +413,17 @@ addStorage('elements', (storage) => {
     storage.state('htmlStrings').set(htmlStringState)
   })
   storage.on('updateTimeMachine', updateTimeMachine)
+
+  // Remove previously loaded page assets as they are rebuild from scratch.
+  storage.on('elementsCssBuildDone', function () {
+    const removeAssetsFile = () => {
+      const source = dataManager.get('sourceID')
+      const assetsFrontStyle = env('iframe').document.getElementById(`vcv:assets:front:style:${source}-inline-css`)
+      if (assetsFrontStyle) {
+        assetsFrontStyle.parentNode.removeChild(assetsFrontStyle)
+      }
+    }
+    // Remove after a second (css should be completely loaded and rebuild)
+    window.setTimeout(removeAssetsFile, 1000)
+  })
 })
