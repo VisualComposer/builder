@@ -139,25 +139,7 @@ class Image implements Helper
         if (!$dynamic) {
             $attributes = str_replace(['data-height', 'data-width'], ['height', 'width'], $attributes);
         }
-        $result = '';
-        if ($dynamic) {
-            $src = $this->getLazyLoadSrc($attributes, $src);
-            $blockAttributes = wp_json_encode(
-                [
-                    'type' => get_post_type(),
-                    'value' => $dynamic,
-                    'currentValue' => $src,
-                    'atts' => urlencode($attributes),
-                ]
-            );
-            $result .= '<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ' . $blockAttributes . ' -->';
-        }
-
-        $result .= '<img ' . $attributes . '/>';
-
-        if ($dynamic) {
-            $result .= '<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->';
-        }
+        $result = '<img ' . $attributes . '/>';
 
         return $result;
     }
@@ -168,7 +150,7 @@ class Image implements Helper
      *
      * @return string
      */
-    protected function getLazyLoadSrc($attributes, $src)
+    public function getLazyLoadSrc($attributes, $src)
     {
         $isLazyload = strpos($attributes, 'data-src=') !== false;
         if ($isLazyload) {
