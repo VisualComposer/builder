@@ -389,7 +389,7 @@ class PostData implements Helper
     public function getDefaultPostData($sourceId = '')
     {
         $response = [];
-        $response['featured_image'] = $this->getFeaturedImage($sourceId);
+        $response['featured_image'] = str_replace('images/spacer.png', 'images/featured-image-preview.png', $this->getFeaturedImage($sourceId));
         $response['post_author_image'] = $this->getPostAuthorImage($sourceId);
         $response['post_author'] = $this->getPostAuthor($sourceId);
         $response['post_title'] = $this->getPostTitle($sourceId);

@@ -79,46 +79,5 @@
         border-top-right-radius: 0;
       }
     }
-
-    // addon
-    .vcv-ui-form-input-group-addon {
-      &:extend(.vcv-ui-form-input);
-      background: @vcui-form-input-disabled-background;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: auto;
-      margin-left: -1px;
-      &:not(:first-child) {
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
-      }
-      &:not(:last-child) {
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 0;
-      }
-    }
-
-    // button
-    .vcv-ui-form-input-group-button {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: auto;
-      margin-left: -1px;
-      position: relative;
-      &:not(:first-child) {
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
-      }
-      &:not(:last-child) {
-        border-bottom-right-radius: 0;
-        border-top-right-radius: 0;
-      }
-      &:hover,
-      &:focus {
-        z-index: 10;
-      }
-    }
   }
 }

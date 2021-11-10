@@ -18,6 +18,8 @@ const { getBlockRegexp } = getService('utils')
 const roleManager = getService('roleManager')
 const blockRegexp = getBlockRegexp()
 const notificationsStorage = getStorage('notifications')
+const workspaceStorage = getStorage('workspace')
+
 const SortableList = SortableContainer((props) => {
   return (
     <AttachImageList {...props} />
@@ -62,6 +64,7 @@ export default class AttachImage extends Attribute {
     this.customDynamicRender = this.customDynamicRender.bind(this)
     this.handleDrop = this.handleDrop.bind(this)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
+    this.closeMediaPopup = this.closeMediaPopup.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
@@ -213,6 +216,14 @@ export default class AttachImage extends Attribute {
     this.mediaUploader.on('open', this.onMediaOpen)
     this.mediaUploader.on('close', this.onMediaClose)
     this.mediaUploader.on('uploader:ready', this.onMediaOpen)
+  }
+
+  componentDidMount () {
+    document.addEventListener('keyup', this.closeMediaPopup)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('keyup', this.closeMediaPopup)
   }
 
   /* eslint-enable */
@@ -395,10 +406,20 @@ export default class AttachImage extends Attribute {
       }
     })
     notificationsStorage.trigger('portalChange', '.media-frame')
+    workspaceStorage.state('hasModal').set(true)
   }
 
   onMediaClose () {
     notificationsStorage.trigger('portalChange', null)
+    setTimeout(() =>
+      workspaceStorage.state('hasModal').set(false)
+    , 100)
+  }
+
+  closeMediaPopup (e) {
+    if (e?.which === 27) {
+      this.mediaUploader.close()
+    }
   }
 
   getUrlHtml (key) {
@@ -587,8 +608,9 @@ export default class AttachImage extends Attribute {
       dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
 
-    return (
-      <>
+    let dynamicAttribute = null
+    if (options && (typeof options.imageSelector === 'undefined' || options.imageSelector === true)) {
+      dynamicAttribute = (
         <DynamicAttribute
           {...this.props}
           setFieldValue={this.setFieldValue}
@@ -604,6 +626,12 @@ export default class AttachImage extends Attribute {
             {this.getAttachImageComponent(false)}
           </div>
         </DynamicAttribute>
+      )
+    }
+
+    return (
+      <>
+        {dynamicAttribute}
         {filterControl}
         {filterList}
       </>

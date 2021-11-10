@@ -48,11 +48,7 @@ export default class startBlank extends React.Component {
       this.iframeWindow.vcv && this.iframeWindow.vcv.on('ready', this.openEditForm)
     } else if (editorType === 'vcv_layouts' && templateType === 'postTemplate') {
       const layoutContentElement = cook.get({ tag: 'layoutContentArea' }).toJS()
-      const layoutHeaderElement = cook.get({ tag: 'layoutHeaderArea' }).toJS()
-      const layoutFooterElement = cook.get({ tag: 'layoutFooterArea' }).toJS()
-      elementsStorage.trigger('add', layoutHeaderElement)
       elementsStorage.trigger('add', layoutContentElement)
-      elementsStorage.trigger('add', layoutFooterElement)
     } else {
       const settings = {
         action: 'add',
