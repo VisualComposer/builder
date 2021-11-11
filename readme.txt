@@ -248,6 +248,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - New: Post Date element added to the Layout Builder
 - New: Post Excerpt element added to the Layout Builder
 - New: Post Title element added to the Layout Builder
+- New: Post List element added
 - Update: Theme Builder section in the Dashboard re-structured for the Layout Builder support
 - Update: Default and Theme default layouts merged in the Page Layout settings for the Layout Builder
 - Update: Lazy load option is available for Woo Commerce elements
