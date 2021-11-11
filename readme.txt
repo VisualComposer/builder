@@ -225,6 +225,50 @@ Yes, we have an awesome online community that you can join to share your experti
 
 == Changelog ==
 
+= 41.0 =
+*Release Date - 2021-11-23*
+
+### Free:
+- Update: Editor notifications improved for consistency and user experience
+- Update: Editor's loading speed improved for performance
+- Update: Drag and drop interface improved in the Tree View
+- Update: Visual Composer Insights fonts updated for consistency
+- Update: Plugin JS dependencies improved
+- Fix: Twitter Button element works properly
+- Fix: Lazy loading toggle works properly
+- Fix: Undo and Redo works properly for the Page Settings
+- Fix: Tree View icons work properly
+- Fix: Row removing works properly
+- Fix: Visual Composer Hub templates have proper icons
+- Fix: Helper content displaying properly
+
+### Premium:
+- New: Layout Builder added to create global layout templates for pages and posts
+- New: Layout Builder merged with the Archive Builder for better user interface
+- New: Option to assign layouts to pages and posts added to the Theme Builder section in Dashboard
+- New: Theme Builder category added to the Add Content Window
+- New: Content Area element added to the Layout Builder
+- New: Custom Fields element added to the Layout Builder
+- New: Post Category element added to the Layout Builder
+- New: Post Tags element added to the Layout Builder
+- New: Featured Image element added to the Layout Builder
+- New: Post Author element added to the Layout Builder
+- New: Post Author Bio element added to the Layout Builder
+- New: Post Author Photo element added to the Layout Builder
+- New: Post Date element added to the Layout Builder
+- New: Post Excerpt element added to the Layout Builder
+- New: Post Title element added to the Layout Builder
+- Update: Theme Builder section in the Dashboard re-structured for the Layout Builder support
+- Update: Default and Theme default layouts merged in the Page Layout settings for the Layout Builder
+- Update: Lazy load option is available for Woo Commerce elements
+- Fix: Social Profile Icons work properly
+- Fix: Mono Social icons work properly
+- Fix: FlipBox element works properly inside accordions
+- Fix: Sidebar styles work properly in the editor
+- Fix: Post Slider block works properly
+- Fix: TinyMCE styles are applied properly
+- Fix: Video Player background works properly
+
 = 40.0 =
 *Release Date - 2021-10-14*
 
