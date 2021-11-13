@@ -1838,6 +1838,10 @@ class Localizations extends Container implements Helper
                 'Archive template',
                 'visualcomposer'
             ),
+            'archiveGridElementMissingNotification' => __(
+                'It seems you don’t have a post grid element on your page. Your archive page may not work properly. If you are using a custom grid element, feel free to ignore this message.',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);

@@ -143,7 +143,7 @@ class AuthorController extends Container implements Module
             }
             $authorData = get_userdata((int)$authorId);
 
-            if (!$authorData) {
+            if ($authorData) {
                 wp_update_post(['ID' => $currentPageId, 'post_author' => $authorData->ID]);
             }
         }
