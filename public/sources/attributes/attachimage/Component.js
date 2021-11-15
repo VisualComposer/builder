@@ -65,10 +65,14 @@ export default class AttachImage extends Attribute {
     this.handleDrop = this.handleDrop.bind(this)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
     this.closeMediaPopup = this.closeMediaPopup.bind(this)
+    this.init = this.init.bind(this)
+
 
     this.state.extraAttributes = {
       url: props.options.url
     }
+
+    this.init();
   }
 
   componentWillUnmount () {
@@ -77,8 +81,7 @@ export default class AttachImage extends Attribute {
     }
   }
 
-  /* eslint-disable */
-  componentDidMount () {
+  init () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
@@ -225,8 +228,6 @@ export default class AttachImage extends Attribute {
   componentWillUnmount () {
     document.removeEventListener('keyup', this.closeMediaPopup)
   }
-
-  /* eslint-enable */
 
   updateState (props) {
     let value = props.value

@@ -10,7 +10,7 @@ export default class Datalist extends Attribute {
 
   constructor (props) {
     super(props)
-    this.generateSelectChildren(this.props)
+    this.generateSelectChildren(props)
   }
 
   /* eslint-disable */
