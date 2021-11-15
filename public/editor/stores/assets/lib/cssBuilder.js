@@ -330,10 +330,6 @@ export default class CssBuilder {
       return
     }
     const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
-
-    if (!localElementStyles.length) {
-      return
-    }
     styles.add(localElementStyles)
 
     const attributesStylesPromise = styles.compile().then((result) => {

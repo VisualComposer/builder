@@ -316,13 +316,6 @@ class Controller extends Container implements Module
             update_post_meta($sourceId, VCV_PREFIX . 'pageContent', $data);
         }
 
-        // Dont do anything if previous type is filled already
-        $templateType = $requestHelper->input('vcv-template-type');
-        $savedTemplateType = get_post_meta($sourceId, VCV_PREFIX . 'templateType', true);
-        if ($templateType && empty($savedTemplateType)) {
-            update_post_meta($sourceId, VCV_PREFIX . 'templateType', $templateType);
-        }
-
         $isAllowed = $optionsHelper->get('settings-itemdatacollection-enabled', false);
         if ($isAllowed) {
             $licenseType = $requestHelper->input('vcv-license-type');
