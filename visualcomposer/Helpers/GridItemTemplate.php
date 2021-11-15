@@ -55,19 +55,25 @@ class GridItemTemplate extends Container implements Helper
     {
         list($fullMatch, $key, $value) = array_pad($matches, 3, null);
         $result = '';
-        if ($key) {
-            $result = vcfilter(
-                'vcv:elements:grid_item_template:variable:' . $key,
-                '',
-                [
-                    'fullMatch' => $fullMatch,
-                    'key' => $key,
-                    'value' => $value,
-                    'post' => $post,
-                ]
-            );
+        if (!$key) {
+            return $result;
         }
 
-        return $result;
+        $result = vcfilter(
+            'vcv:elements:grid_item_template:variable:' . $key,
+            '',
+            [
+                'fullMatch' => $fullMatch,
+                'key' => $key,
+                'value' => $value,
+                'post' => $post,
+            ]
+        );
+
+        if (empty($result)) {
+            return '';
+        } else {
+            return $result;
+        }
     }
 }
