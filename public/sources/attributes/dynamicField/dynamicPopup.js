@@ -127,6 +127,7 @@ export default class DynamicPopup extends React.Component {
               sourceId={this.state.sourceId}
               currentPostField={this.state.currentPostField}
               showAutocomplete={this.state.showAutocomplete}
+              onlyDynamicCustomFields={this.props.onlyDynamicCustomFields}
             />
           </section>
           <footer className='vcv-ui-modal-footer'>

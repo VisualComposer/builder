@@ -63,7 +63,7 @@ const API = {
     }
   },
   dynamicFields: {
-    getDynamicFieldsData: (props, attribute = null, raw = false) => {
+    getDynamicFieldsData: (props, attribute = null, raw = false, options = {}) => {
       const { blockAtts, beforeBlock, afterBlock } = props
       let postData = settingsStorage.state('postData').get()
 
@@ -106,6 +106,14 @@ const API = {
           if (dataManager.get('sourceID') !== sourceId || blockAtts.sourceId) {
             dynamicProps.sourceId = sourceId
           }
+          if (attribute?.fieldOptions?.dynamicFieldsOptions?.addAttributes) {
+            const element = options?.element || {}
+            dynamicProps.attributes = {}
+            attribute.fieldOptions.dynamicFieldsOptions.addAttributes.forEach((fieldKey) => {
+              dynamicProps.attributes[fieldKey] = element[fieldKey]
+            })
+          }
+
           return React.createElement(attribute.fieldType === 'htmleditor' ? 'div' : 'span', {
             className: 'vcvhelper',
             dangerouslySetInnerHTML: {
@@ -237,7 +245,7 @@ const API = {
             blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, {
               fieldType: typeName,
               fieldOptions: options
-            }, true)
+            }, true, { element: cookElement.toJS() })
           }
           if (cookElement.paramGroupItemId) {
             blockInfo.blockAtts.paramGroupItemId = cookElement.paramGroupItemId
@@ -258,7 +266,7 @@ const API = {
                 blockInfo.blockAtts.device = device
                 blockInfo.blockAtts.elementId = id
                 if (typeof blockInfo.blockAtts.currentValue !== 'undefined') {
-                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true)
+                  blockInfo.blockAtts.currentValue = API.dynamicFields.getDynamicFieldsData(blockInfo, null, true, { element: cookElement.toJS() })
                 }
                 attributesLevel++
                 commentStack.push({ blockInfo, attributesLevel })
@@ -314,15 +322,15 @@ const API = {
       const { dynamicTemplateProps, forceSaveSourceId } = options
       let newValue = null
 
+      let dynamicProps = {}
       if (dynamicTemplateProps) {
-        const dynamicProps = Object.assign({}, dynamicTemplateProps)
+        dynamicProps = Object.assign({}, dynamicTemplateProps)
         dynamicProps.value = dynamicFieldKey
         if (!forceSaveSourceId && (dataManager.get('sourceID') === sourceId)) {
           delete dynamicProps.sourceId
         } else {
           dynamicProps.sourceId = sourceId
         }
-        newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       } else {
         const currentValue = API.dynamicFields.getDynamicFieldsData(
           {
@@ -332,17 +340,28 @@ const API = {
             }
           },
           attribute,
-          true
+          true,
+          options
         )
-        const dynamicProps = {
+        dynamicProps = {
           value: dynamicFieldKey,
           currentValue: currentValue
         }
         if (dataManager.get('sourceID') !== sourceId || forceSaveSourceId) {
           dynamicProps.sourceId = sourceId
         }
-        newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
       }
+
+      if (options?.fieldOptions?.dynamicFieldsOptions?.addAttributes) {
+        const element = options?.element || {}
+        dynamicProps.attributes = {}
+        options.fieldOptions.dynamicFieldsOptions.addAttributes.forEach((fieldKey) => {
+          dynamicProps.attributes[fieldKey] = element[fieldKey]
+        })
+      }
+
+      newValue = `<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ${JSON.stringify(dynamicProps)} --><!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->`
+
       return newValue
     },
     getDefaultDynamicFieldKey: (fieldType) => {
@@ -518,7 +537,9 @@ const API = {
             fieldKey: fieldKey,
             fieldType: typeName,
             fieldOptions: options
-          }
+          },
+          false,
+          { element: atts }
         )
 
         if (['attachimage'].indexOf(typeName) !== -1) {
@@ -585,8 +606,9 @@ const API = {
         })
         layoutAtts[fieldKey] = fieldValue
       } else if ((typeName === 'htmleditor' && (!options || !options.inline)) || (isNested && options && options.inline)) {
-        layoutAtts[fieldKey] =
+        layoutAtts[fieldKey] = (
           <div className='vcvhelper' data-vcvs-html={value} dangerouslySetInnerHTML={{ __html: value }} />
+        )
       } else if (typeName === 'dropdown' && !value && Object.prototype.hasOwnProperty.call(options, 'global') && options.global) {
         let globalOptions
         if (typeof window[options.global] === 'function') {

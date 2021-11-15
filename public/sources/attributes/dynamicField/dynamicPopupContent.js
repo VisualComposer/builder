@@ -149,9 +149,17 @@ export default class DynamicPopupContent extends React.Component {
     const dropdownLabel = DynamicPopupContent.localizations.dynamicSelectCustomField || 'Select a custom field'
     const newFieldsList = Object.values(fieldsList)
     newFieldsList.unshift({ label: dropdownLabel, value: '', disabled: true })
+
+    let currentValue = ''
+    if (this.props.onlyDynamicCustomFields && this.props.currentPostField === 'Select Custom Field') {
+      currentValue = 'customMetaField::'
+    } else {
+      currentValue = this.props.currentPostField ? this.props.currentPostField.replace(/^(.+)(::)(.+)$/, '$1$2') : ''
+    }
+
     return (
       <Dropdown
-        value={this.props.currentPostField ? this.props.currentPostField.replace(/^(.+)(::)(.+)$/, '$1$2') : ''}
+        value={currentValue}
         fieldKey={`${this.props.fieldKey}-dynamic-dropdown`}
         options={{
           values: newFieldsList
@@ -199,6 +207,7 @@ export default class DynamicPopupContent extends React.Component {
     let loader = null
     let fieldComponent = null
     let extraDynamicComponent = null
+
     if (!this.state.dataLoaded) {
       loader = <span className='vcv-ui-icon vcv-ui-wp-spinner' />
     } else {
@@ -216,7 +225,7 @@ export default class DynamicPopupContent extends React.Component {
           {loader}
         </div>
         <div className='vcv-ui-form-group'>
-          {this.renderAutocompleteToggle()}
+          {this.props.onlyDynamicCustomFields ? null : this.renderAutocompleteToggle()}
         </div>
         {autoCompleteComponent}
         {this.props.renderExtraOptions && this.props.renderExtraOptions()}

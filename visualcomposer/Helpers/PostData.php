@@ -136,6 +136,17 @@ class PostData implements Helper
         return is_object($postTypeObject) ? $postTypeObject->labels->singular_name : $post->post_type;
     }
 
+    public function getPostTypeSlug($sourceId = '')
+    {
+        $post = get_post($sourceId);
+        // @codingStandardsIgnoreLine
+        if (!isset($post) || $post->post_status === 'trash') {
+            return false;
+        }
+        // @codingStandardsIgnoreLine
+        return $post->post_type;
+    }
+
     public function getBlogLogo()
     {
         $urlHelper = vchelper('Url');
@@ -189,13 +200,26 @@ class PostData implements Helper
         $post = get_post($sourceId);
         // @codingStandardsIgnoreLine
         if (!isset($post) || $post->post_status === 'trash') {
-            return false;
+            return [];
+        }
+        if (get_post_type($sourceId) !== 'post') {
+            return [];
+        }
+        $categories = apply_filters('the_category_list', get_the_category($sourceId), $sourceId);
+        // Default category
+        $categoriesList = [
+            '<a href="#">' . __('Uncategorized') . '</a>',
+        ];
+
+        if (!empty($categories)) {
+            $categoriesList = [];
+            foreach ($categories as $category) {
+                // phpcs:ignore
+                $categoriesList[] = '<a href="' . esc_url(get_category_link($category->term_id)) . '"  rel="category">' . $category->name . '</a>';
+            }
         }
 
-        $separator = '|vcv_separator|';
-        $categoriesList = get_the_category_list($separator, '', $sourceId);
-
-        return explode($separator, $categoriesList);
+        return $categoriesList;
     }
 
     public function getPostTagsList($sourceId = '')
@@ -206,10 +230,28 @@ class PostData implements Helper
             return false;
         }
 
-        $separator = '|vcv_separator|';
-        $categoriesList = get_the_tag_list('', $separator, '', $sourceId);
+        if (get_post_type($sourceId) !== 'post') {
+            return [];
+        }
+        $tags = apply_filters('the_tags_list', get_the_tags($sourceId), $sourceId);
 
-        return explode($separator, $categoriesList);
+        // Default
+        $tagsList = [];
+        if (is_admin()) {
+            $tagsList = [
+                __("This post type doesn't have tags", 'visualcomposer'),
+            ];
+        }
+
+        if (!empty($tags)) {
+            $tagsList = [];
+            foreach ($tags as $tag) {
+                // phpcs:ignore
+                $tagsList[] = '<a href="' . esc_url(get_term_link($tag->term_id, 'post_tag')) . '"  rel="tag">' . $tag->name . '</a>';
+            }
+        }
+
+        return $tagsList;
     }
 
 
@@ -347,28 +389,27 @@ class PostData implements Helper
     public function getDefaultPostData($sourceId = '')
     {
         $response = [];
-        $response['featured_image'] = $this->getFeaturedImage($sourceId);
+        $response['featured_image'] = str_replace('images/spacer.png', 'images/featured-image-preview.png', $this->getFeaturedImage($sourceId));
         $response['post_author_image'] = $this->getPostAuthorImage($sourceId);
         $response['post_author'] = $this->getPostAuthor($sourceId);
         $response['post_title'] = $this->getPostTitle($sourceId);
         $response['post_id'] = (string)$this->getPostId($sourceId);
         $response['post_type'] = $this->getPostType($sourceId);
+        $response['post_type_slug'] = get_post_type($sourceId);
         $response['post_excerpt'] = $this->getPostExcerpt($sourceId);
-        $response['wp_blog_logo'] = $this->getBlogLogo($sourceId);
-        $response['post_categories'] = $this->getPostCategories($sourceId);
-        $response['post_categories_list'] = $this->getPostCategoriesList($sourceId);
-        $response['post_tags_list'] = $this->getPostTagsList($sourceId);
+        $response['wp_blog_logo'] = $this->getBlogLogo();
         $response['post_tags'] = $this->getPostTags($sourceId);
+        $response['post_categories'] = $this->getPostCategories($sourceId);
         $response['post_comment_count'] = $this->getPostCommentCount($sourceId);
         $response['post_date'] = $this->getPostDate($sourceId);
         $response['post_modify_date'] = $this->getPostModifyDate($sourceId);
         $response['post_parent_name'] = $this->getPostParentName($sourceId);
         $response['post_author_bio'] = $this->getPostAuthorBio($sourceId);
         $response['post_author_link'] = $this->getPostAuthorLink($sourceId);
-        $response['site_title'] = $this->getSiteTitle($sourceId);
-        $response['site_tagline'] = $this->getSiteTagline($sourceId);
-        $response['site_url'] = $this->getSiteUrl($sourceId);
-        $response['current_year'] = $this->getCurrentYear($sourceId);
+        $response['site_title'] = $this->getSiteTitle();
+        $response['site_tagline'] = $this->getSiteTagline();
+        $response['site_url'] = $this->getSiteUrl();
+        $response['current_year'] = $this->getCurrentYear();
         $response['post_url'] = $this->getPostUrl($sourceId);
         $response['comment_url'] = $this->getCommentUrl($sourceId);
 

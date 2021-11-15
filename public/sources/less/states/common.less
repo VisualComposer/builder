@@ -1,20 +1,20 @@
 // VC-Icons
-@import "../../fonts/VC-Icons/style";
+@import "../../fonts/VC-Icons/style.less";
 // VC Attribute icons
-@import "../../fonts/vcAttributeIcons/style";
+@import "../../fonts/vcAttributeIcons/style.less";
 // Add helpers
-@import "../helpers/layoutHelper/init";
-@import "../helpers/blankPageHelper/init";
-@import "../helpers/blankRowPlaceholder/init";
-@import "../helpers/pageEditable/init";
-@import "../helpers/rowPlaceholder/init";
-@import "../helpers/columnResizer/init";
-@import "../helpers/blankElement/init";
-@import "../helpers/layoutZonesHelper/init";
-@import "../helpers/migrationNotice/init";
-@import "../primitives/text/init";
-@import "../helpers/inlineEditor/init";
-@import "../helpers/permalink/init";
+@import "../helpers/layoutHelper/init.less";
+@import "../helpers/blankPageHelper/init.less";
+@import "../helpers/blankRowPlaceholder/init.less";
+@import "../helpers/pageEditable/init.less";
+@import "../helpers/rowPlaceholder/init.less";
+@import "../helpers/columnResizer/init.less";
+@import "../helpers/blankElement/init.less";
+@import "../helpers/layoutZonesHelper/init.less";
+@import "../helpers/migrationNotice/init.less";
+@import "../primitives/text/init.less";
+@import "../helpers/inlineEditor/init.less";
+@import "../helpers/permalink/init.less";
 
 .vcv-is-no-selection {
   user-select: none;
@@ -48,4 +48,8 @@ vcvhelper {
       outline: none;
     }
   }
+}
+
+[data-vcv-transition-disabled="true"] {
+  transition: none!important;
 }
