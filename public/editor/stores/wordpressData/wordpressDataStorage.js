@@ -154,6 +154,11 @@ addStorage('wordpressData', (storage) => {
       if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsFooter')) {
         settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
       }
+
+      if (responseData.layoutType && dataManager.get('editorType') === 'vcv_layouts') {
+        settingsStorage.state('layoutType').set(responseData.layoutType)
+      }
+
       if (responseData.notificationCenterData) {
         const allMessages = JSON.parse(responseData.notificationCenterData)
         const licenseType = dataManager.get('isPremiumActivated') ? 'premium' : 'free'

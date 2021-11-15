@@ -1132,8 +1132,20 @@ class Localizations extends Container implements Helper
                 'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
+            'headerAreaPlaceholderText' => __(
+                'This is your header area placeholder - page or post header will be displayed here.',
+                'visualcomposer'
+            ),
             'contentAreaPlaceholderText' => __(
-                'This is a default WordPress content area where the post or page content will be displayed.',
+                'This is your content area placeholder - page or post content will be displayed here.',
+                'visualcomposer'
+            ),
+            'sidebarAreaPlaceholderText' => __(
+                'This is your sidebar area placeholder - page or post sidebar will be displayed here.',
+                'visualcomposer'
+            ),
+            'footerAreaPlaceholderText' => __(
+                'This is your footer area placeholder - page or post header will be displayed here.',
                 'visualcomposer'
             ),
             'activateHub' => __(
@@ -1824,6 +1836,10 @@ class Localizations extends Container implements Helper
             ),
             'archiveTemplateText' => __(
                 'Archive template',
+                'visualcomposer'
+            ),
+            'archiveGridElementMissingNotification' => __(
+                'It seems you don’t have a post grid element on your page. Your archive page may not work properly. If you are using a custom grid element, feel free to ignore this message.',
                 'visualcomposer'
             ),
         ];

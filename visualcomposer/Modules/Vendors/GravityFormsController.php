@@ -46,6 +46,6 @@ class GravityFormsController extends Container implements Module
      */
     protected function addInlineScripts()
     {
-        echo '<script>gform.initializeOnLoaded( function() { jQuery(document).trigger("gform_post_render", [1,1]) } );</script>';
+        echo '<script>window.gform && window.gform.initializeOnLoaded( function() { jQuery(document).trigger("gform_post_render", [1,1]) } );</script>';
     }
 }

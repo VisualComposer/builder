@@ -153,15 +153,15 @@ class PremiumTeasers extends Container implements Module
             'position' => -5,
         ];
         $this->dashboardSections[] = [
-            'slug' => 'vcv_archives',
-            'premiumTitle' => __('ARCHIVE EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
+            'slug' => 'vcv_layouts',
+            'premiumTitle' => __('LAYOUT EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
                 'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'archives-vcdashboard', $utmTemplate),
+            'premiumUrl' => str_replace('{medium}', 'layouts-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'themeBuilder',
-            'name' => __('Archives', 'visualcomposer'),
+            'name' => __('Layouts', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
             'position' => 15,
