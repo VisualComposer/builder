@@ -59,7 +59,7 @@ class GridItemTemplate extends Container implements Helper
             return $result;
         }
 
-        $result = vcfilter(
+        return vcfilter(
             'vcv:elements:grid_item_template:variable:' . $key,
             '',
             [
@@ -69,11 +69,5 @@ class GridItemTemplate extends Container implements Helper
                 'post' => $post,
             ]
         );
-
-        if (empty($result)) {
-            return '';
-        } else {
-            return $result;
-        }
     }
 }
