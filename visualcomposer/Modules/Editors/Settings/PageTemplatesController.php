@@ -41,7 +41,7 @@ class PageTemplatesController extends Container implements Module
     {
         $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
 
-        //always return default template for search and archive page
+        // always return default template for search and archive page
         if ((is_search() || is_archive()) && !vcvenv('VCV_IS_ARCHIVE_TEMPLATE')) {
             return $output;
         }
@@ -59,20 +59,22 @@ class PageTemplatesController extends Container implements Module
             }
         }
 
+        // get current wp template
         $currentPostTemplate = $this->getCurrentPostTemplate($post, $output);
 
+        // check if custom vc template is set
         $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
         $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+        if ($customTemplateType === 'theme') {
+            $currentPostTemplate = $customTemplate;
+        }
         $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
-
         // BC: For TemplateFilterController.php
         if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
             $customTemplateType = 'vc';
             $currentPostTemplate = str_replace('-template.php', '', $currentPostTemplate);
             $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
         }
-
-        $customTemplate = $this->getCustomTemplate($post->ID, $customTemplate, $customTemplateType);
 
         // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
         list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
@@ -82,28 +84,20 @@ class PageTemplatesController extends Container implements Module
         );
 
         $isCustomTemplate = !empty($customTemplate) && !empty($customTemplateType);
+        $output = [
+            'type' => 'theme',
+            'value' => empty($currentPostTemplate) ? 'default' : $currentPostTemplate,
+        ];
 
         if ($isCustomTemplate) {
             $output = [
                 'type' => $customTemplateType,
                 'value' => $customTemplate,
-                'stretchedContent' => intval($templateStretch),
-            ];
-        } else {
-            $output = [
-                'type' => 'theme',
-                'value' => empty($currentPostTemplate) ? 'default' : $currentPostTemplate ,
+                'stretchedContent' => (int)$templateStretch,
             ];
         }
 
-        return vcfilter(
-            'vcv:editor:settings:pageTemplatesLayouts:current:output',
-            $output,
-            [
-                'isCustomTemplate' => $isCustomTemplate,
-                'currentPostTemplate' => $currentPostTemplate,
-            ]
-        );
+        return $output;
     }
 
     /**
@@ -125,15 +119,6 @@ class PageTemplatesController extends Container implements Module
         }
 
         return $currentPostTemplate;
-    }
-
-    protected function getCustomTemplate($postId, $customTemplate, $customTemplateType)
-    {
-        if ($customTemplateType === 'theme') {
-            $customTemplate = get_post_meta($postId, '_wp_page_template', true);
-        }
-
-        return $customTemplate;
     }
 
     protected function viewPageTemplate($originalTemplate, Request $requestHelper)

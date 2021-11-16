@@ -23,16 +23,40 @@ class PageEditableTemplatesController extends Container implements Module
 
     public function __construct()
     {
+        // set initial defaults
+        $this->wpAddFilter(
+            'template_include',
+            'viewPeThemeDefaultTemplate',
+            1
+        );
+
         $this->wpAddFilter(
             'template_include',
             'viewPePageTemplate',
-            12
+            15
         );
 
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewThemeTemplate');
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewVcTemplate');
         $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewThemeTemplate');
         $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewVcTemplate');
+    }
+
+    protected function viewPeThemeDefaultTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
+    {
+        // set initial value to default
+        // later other 3rd party plugins like woocommerce could override defaults to some specific
+        if (
+            $frontendHelper->isPageEditable() &&
+            $requestHelper->exists('vcv-template') &&
+            $requestHelper->exists('vcv-template-type') &&
+            $requestHelper->input('vcv-template-type') === 'theme' &&
+            $requestHelper->input('vcv-template') === 'default'
+        ) {
+            return $this->getDefaultTheme();
+        }
+
+        return $originalTemplate;
     }
 
     protected function viewPePageTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
@@ -58,14 +82,9 @@ class PageEditableTemplatesController extends Container implements Module
     {
         if ($payload && $payload['type'] === 'theme') {
             $templateList = wp_get_theme()->get_page_templates();
+
             if (isset($templateList[ $payload['value'] ])) {
                 return locate_template($payload['value']);
-            } elseif ($payload['value'] === 'default') {
-                if ($fileHelper->isFile($originalTemplate)) {
-                    return $originalTemplate;
-                }
-
-                return $this->getDefaultTheme();
             }
         }
 
