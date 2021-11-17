@@ -75,6 +75,7 @@
               _this.ratio = parseInt(width) / parseInt(height);
               _this.checkOrientation();
               event.target.mute();
+              event.target.playVideo();
             }
           }
         });
