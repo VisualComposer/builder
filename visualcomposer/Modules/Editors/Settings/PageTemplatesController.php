@@ -69,14 +69,14 @@ class PageTemplatesController extends Container implements Module
         // dont use custom template type value if type is theme, use native wp template type
         if ($customTemplateType === 'theme') {
             // @codingStandardsIgnoreLine
-            $currentPostTemplate = $post->page_template;
+            $customTemplate = $post->page_template;
         }
         $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
         // BC: For TemplateFilterController.php
-        if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
+        if (in_array($customTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
             $customTemplateType = 'vc';
-            $currentPostTemplate = str_replace('-template.php', '', $currentPostTemplate);
-            $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
+            $customTemplate = str_replace('-template.php', '', $customTemplate);
+            $customTemplate = str_replace('boxed-blank', 'boxed', $customTemplate);
         }
 
         // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
@@ -89,7 +89,7 @@ class PageTemplatesController extends Container implements Module
         $isCustomTemplate = !empty($customTemplate) && !empty($customTemplateType) && $customTemplateType !== 'theme';
         $output = [
             'type' => 'theme',
-            'value' => empty($currentPostTemplate) ? 'default' : $currentPostTemplate,
+            'value' => empty($customTemplate) ? 'default' : $customTemplate,
         ];
 
         if ($isCustomTemplate) {
