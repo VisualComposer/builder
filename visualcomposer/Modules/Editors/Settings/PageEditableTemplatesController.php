@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -78,7 +77,7 @@ class PageEditableTemplatesController extends Container implements Module
         return $originalTemplate;
     }
 
-    protected function viewThemeTemplate($originalTemplate, $payload, File $fileHelper)
+    protected function viewThemeTemplate($originalTemplate, $payload)
     {
         if ($payload && $payload['type'] === 'theme') {
             $templateList = wp_get_theme()->get_page_templates();
