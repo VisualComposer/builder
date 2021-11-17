@@ -60,13 +60,16 @@ class PageTemplatesController extends Container implements Module
         }
 
         // get current wp template
-        $currentPostTemplate = $this->getCurrentPostTemplate($post, $output);
+        // $currentPostTemplate = $this->getCurrentPostTemplate($post, $output);
 
         // check if custom vc template is set
         $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
         $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+
+        // dont use custom template type value if type is theme, use native wp template type
         if ($customTemplateType === 'theme') {
-            $currentPostTemplate = $customTemplate;
+            // @codingStandardsIgnoreLine
+            $currentPostTemplate = $post->page_template;
         }
         $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
         // BC: For TemplateFilterController.php
@@ -83,7 +86,7 @@ class PageTemplatesController extends Container implements Module
             $customTemplate
         );
 
-        $isCustomTemplate = !empty($customTemplate) && !empty($customTemplateType);
+        $isCustomTemplate = !empty($customTemplate) && !empty($customTemplateType) && $customTemplateType !== 'theme';
         $output = [
             'type' => 'theme',
             'value' => empty($currentPostTemplate) ? 'default' : $currentPostTemplate,
@@ -98,27 +101,6 @@ class PageTemplatesController extends Container implements Module
         }
 
         return $output;
-    }
-
-    /**
-     * Retrieve current post template
-     *
-     * @param object $post
-     * @param array $output
-     *
-     * @return string
-     */
-    protected function getCurrentPostTemplate($post, $output)
-    {
-        // @codingStandardsIgnoreLine
-        if ($post->page_template === 'default' && isset($output['value'])) {
-            $currentPostTemplate = $output['value'];
-        } else {
-            // @codingStandardsIgnoreLine
-            $currentPostTemplate = $post->page_template;
-        }
-
-        return $currentPostTemplate;
     }
 
     protected function viewPageTemplate($originalTemplate, Request $requestHelper)
