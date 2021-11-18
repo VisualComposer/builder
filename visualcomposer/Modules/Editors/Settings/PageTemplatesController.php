@@ -174,6 +174,17 @@ class PageTemplatesController extends Container implements Module
             return $template;
         }
 
+        // we need filter these behavior in cases when 3 party plugins
+        // process includes directly in 'template_include' filter
+        $isFallbackTemplate = vcfilter(
+            'vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
+            true
+        );
+
+        if (!$isFallbackTemplate) {
+            return $template;
+        }
+
         $templateGroups = [
             'is_embed' => 'get_embed_template',
             'is_404' => 'get_404_template',
