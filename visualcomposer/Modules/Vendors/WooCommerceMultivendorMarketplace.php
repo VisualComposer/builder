@@ -35,9 +35,11 @@ class WooCommerceMultivendorMarketplace extends Container implements Module
             return;
         }
 
-        $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
-            function() {
-            return false;
-        });
+        $this->addFilter(
+            'vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
+            function () {
+                return false;
+            }
+        );
     }
 }
