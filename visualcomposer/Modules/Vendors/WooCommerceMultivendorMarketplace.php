@@ -37,9 +37,31 @@ class WooCommerceMultivendorMarketplace extends Container implements Module
 
         $this->addFilter(
             'vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
-            function () {
-                return false;
-            }
+            'disableFallbackTemplate'
         );
+    }
+
+    /**
+     * We should disable our fallback template cos these plugins includes directly
+     * templates on 'template_include' wp action
+     *
+     * @see WCFMmp_Rewrites::store_template
+     *
+     * @return bool
+     */
+    protected function disableFallbackTemplate()
+    {
+        if( function_exists( 'wcfm_get_option' ) ) {
+            $storeUrl = wcfm_get_option( 'wcfm_store_url', 'store' );
+        } else {
+            $storeUrl = get_option( 'wcfm_store_url', 'store' );
+        }
+
+        $storeName = get_query_var($storeUrl);
+        if (empty($storeName)) {
+            return true;
+        }
+
+        return false;
     }
 }
