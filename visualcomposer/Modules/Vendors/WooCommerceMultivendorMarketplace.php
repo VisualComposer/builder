@@ -51,10 +51,10 @@ class WooCommerceMultivendorMarketplace extends Container implements Module
      */
     protected function disableFallbackTemplate()
     {
-        if( function_exists( 'wcfm_get_option' ) ) {
-            $storeUrl = wcfm_get_option( 'wcfm_store_url', 'store' );
+        if (function_exists('wcfm_get_option')) {
+            $storeUrl = wcfm_get_option('wcfm_store_url', 'store');
         } else {
-            $storeUrl = get_option( 'wcfm_store_url', 'store' );
+            $storeUrl = get_option('wcfm_store_url', 'store');
         }
 
         $storeName = get_query_var($storeUrl);
