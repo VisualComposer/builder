@@ -81,7 +81,7 @@ class PremiumTeasers extends Container implements Module
         $this->dashboardSections[] = [
             'slug' => 'vcv-headers-footers',
             'name' => __('Theme Builder', 'visualcomposer'),
-            'subTitle' => __('Layout Settings', 'visualcomposer'),
+            'subTitle' => __('Theme Builder Settings', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
