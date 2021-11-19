@@ -97,32 +97,47 @@ export default class ControlsManager {
     })
 
     this.subscribeToCurrentIframe()
+    this.controlsStackPosition = 0
+    this.maxStackPosition = 3
     this.createControlsWrapper()
   }
 
   createControlsWrapper () {
-    this.controlsWrapper = document.createElement('div')
-    this.controlsWrapper.classList.add('vcv-ui-outline-controls-wrapper')
-    this.iframeOverlay.appendChild(this.controlsWrapper)
+    this.controlsWrapper = []
+    let controlsNode = document.createElement('div')
+    controlsNode.classList.add('vcv-ui-outline-controls-wrapper')
+    for (let i = 0; i < this.maxStackPosition; i++) {
+      this.controlsWrapper.push(controlsNode.cloneNode(true))
+      this.iframeOverlay.appendChild(this.controlsWrapper[i])
+    }
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (isAbleToAdd) {
-      this.appendControlsWrapper = document.createElement('div')
-      this.appendControlsWrapper.classList.add('vcv-ui-append-control-wrapper')
-      this.iframeOverlay.appendChild(this.appendControlsWrapper)
+      this.appendControlsWrapper = []
+      let appendControlsNode = document.createElement('div')
+      appendControlsNode.classList.add('vcv-ui-append-control-wrapper')
+      for (let i = 0; i < this.maxStackPosition; i++) {
+        this.appendControlsWrapper.push(appendControlsNode.cloneNode(true))
+        this.iframeOverlay.appendChild(this.appendControlsWrapper[i])
+      }
     }
   }
 
   toggleControls (data) {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
+    const newControlPosition = this.controlsStackPosition++ % this.maxStackPosition
     if (data && data.vcvEditableElements.length) {
-      ReactDOM.render(<Controls data={data} iframeDocument={this.iframeDocument} />, this.controlsWrapper)
+      ReactDOM.render(<Controls data={data} iframeDocument={this.iframeDocument} />, this.controlsWrapper[newControlPosition])
       if (isAbleToAdd) {
-        ReactDOM.render(<AppendControl data={data} iframeDocument={this.iframeDocument} />, this.appendControlsWrapper)
+        ReactDOM.render(<AppendControl data={data} iframeDocument={this.iframeDocument} />, this.appendControlsWrapper[newControlPosition])
       }
     } else {
-      ReactDOM.unmountComponentAtNode(this.controlsWrapper)
-      if (isAbleToAdd) {
-        ReactDOM.unmountComponentAtNode(this.appendControlsWrapper)
+      try {
+        ReactDOM.unmountComponentAtNode(this.controlsWrapper[newControlPosition])
+        if (isAbleToAdd) {
+          ReactDOM.unmountComponentAtNode(this.appendControlsWrapper[newControlPosition])
+        }
+      } catch (e) {
+        console.error(e)
       }
     }
   }
@@ -358,6 +373,7 @@ export default class ControlsManager {
     })
     // Content interaction
     layoutStorage.state('interactWithContent').onChange((data) => {
+      console.log('interactWithContent', data)
       if (this.resizeColumns && data && data.type === 'mouseDown') {
         this.frames.hide()
         this.showFrames(data)
@@ -406,7 +422,7 @@ export default class ControlsManager {
           this.toggleControls(data)
         }
         if (this.state.showFrames) {
-          this.showFrames(data)
+          // this.showFrames(data)
         }
       }
       if (data && data.type === 'mouseLeave') {
