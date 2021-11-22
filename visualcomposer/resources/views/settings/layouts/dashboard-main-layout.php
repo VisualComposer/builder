@@ -242,6 +242,7 @@ STYLE;
     margin-top: 0 !important;
   }
 </style>
+<script src="<?php echo get_site_url(null, '?vcv-script=vendor'); ?>"></script>
 <div class="wrap vcv-settings">
     <div class="vcv-dashboard-loader">
         <svg version="1.1" id="vc_wp-spinner" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
