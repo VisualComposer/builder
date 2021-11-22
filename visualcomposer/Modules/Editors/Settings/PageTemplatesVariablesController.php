@@ -34,6 +34,7 @@ class PageTemplatesVariablesController extends Container implements Module
                 'vcv:editor:settings:pageTemplatesLayouts:current',
                 [
                     'type' => 'theme',
+                    // @codingStandardsIgnoreLine
                     'value' => empty($post->page_template) ? 'default' : $post->page_template,
                 ]
             ),
