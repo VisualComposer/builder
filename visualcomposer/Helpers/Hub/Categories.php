@@ -248,7 +248,6 @@ class Categories implements Helper
                     'layoutPostCategories',
                     'layoutPostTags',
                     'layoutPostCustomFields',
-                    'layoutPostList',
                     'layoutPostFeaturedImage',
                     'logoWidget',
                 ],
