@@ -81,7 +81,7 @@ class PremiumTeasers extends Container implements Module
         $this->dashboardSections[] = [
             'slug' => 'vcv-headers-footers',
             'name' => __('Theme Builder', 'visualcomposer'),
-            'subTitle' => __('Header and Footer Settings', 'visualcomposer'),
+            'subTitle' => __('Theme Builder Settings', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
@@ -91,24 +91,9 @@ class PremiumTeasers extends Container implements Module
             'premiumUrl' => str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'themeEditor',
             'iconClass' => 'vcv-ui-icon-dashboard-theme-builder',
-            'position' => -9,
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-            'hideInWpMenu' => false,
-        ];
-
-        $this->dashboardSections[] = [
-            'slug' => 'vcv-custom-page-templates',
-            'name' => __('Layout Settings', 'visualcomposer'),
-            'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Change the default theme\'s 404 page, search, author, and post archive pages with your custom templates created with Visual Composer Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
-            'premiumActionBundle' => 'themeBuilder',
             'position' => -8,
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'parent' => 'vcv-headers-footers',
+            'hideInWpMenu' => false,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_headers',
