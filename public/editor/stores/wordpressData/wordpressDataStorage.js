@@ -345,7 +345,10 @@ addStorage('wordpressData', (storage) => {
     })
   }
 
-  function setFeaturedImage () {
+  function setFeaturedImage (data) {
+    if (!data) {
+      return
+    }
     const current = settingsStorage.state('featuredImage').get()
     if (!featuredImage) {
       if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
