@@ -176,9 +176,10 @@ class PageTemplatesController extends Container implements Module
 
         // we need filter these behavior in cases when 3 party plugins
         // process includes directly in 'template_include' filter
+        $result = true;
         $isFallbackTemplate = vcfilter(
             'vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
-            true
+            $result
         );
 
         if (!$isFallbackTemplate) {

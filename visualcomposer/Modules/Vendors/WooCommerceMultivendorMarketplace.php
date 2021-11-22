@@ -47,9 +47,11 @@ class WooCommerceMultivendorMarketplace extends Container implements Module
      *
      * @see WCFMmp_Rewrites::store_template
      *
+     * @param bool $response
+     *
      * @return bool
      */
-    protected function disableFallbackTemplate()
+    protected function disableFallbackTemplate($response)
     {
         if (function_exists('wcfm_get_option')) {
             $storeUrl = wcfm_get_option('wcfm_store_url', 'store');
@@ -58,10 +60,10 @@ class WooCommerceMultivendorMarketplace extends Container implements Module
         }
 
         $storeName = get_query_var($storeUrl);
-        if (empty($storeName)) {
-            return true;
+        if (!empty($storeName)) {
+            $response = false;
         }
 
-        return false;
+        return $response;
     }
 }
