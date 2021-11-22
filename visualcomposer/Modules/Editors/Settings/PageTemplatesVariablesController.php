@@ -27,13 +27,14 @@ class PageTemplatesVariablesController extends Container implements Module
 
     protected function outputCurrentTemplatesLayouts($variables, $payload)
     {
+        $post = get_post($payload['sourceId']);
         $variables[] = [
             'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT',
             'value' => vcfilter(
                 'vcv:editor:settings:pageTemplatesLayouts:current',
                 [
                     'type' => 'theme',
-                    'value' => 'default',
+                    'value' => empty($post->page_template) ? 'default' : $post->page_template,
                 ]
             ),
             'type' => 'constant',
