@@ -71,6 +71,7 @@ wp_enqueue_media();
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
+<script src="<?php echo get_site_url(null, '?vcv-script=vendor'); ?>"></script>
 
 <div class="vcv-settings" data-section="vcv-update">
     <?php echo $content; ?>
