@@ -121,14 +121,6 @@ if (!VcvEnv::has('VCV_JS_THEME_EDITOR')) {
     VcvEnv::set('VCV_JS_THEME_EDITOR', false); // SEE the devAddons/themeEditor/themeEditor/src/*.js files
 }
 
-if (!VcvEnv::has('VCV_JS_ARCHIVE_TEMPLATE')) {
-    VcvEnv::set('VCV_JS_ARCHIVE_TEMPLATE', false);
-}
-
-if (!VcvEnv::has('VCV_IS_ARCHIVE_TEMPLATE')) {
-    VcvEnv::set('VCV_IS_ARCHIVE_TEMPLATE', false);
-}
-
 if (!VcvEnv::has('VCV_JS_SAVE_ZIP')) {
     VcvEnv::set('VCV_JS_SAVE_ZIP', true);
 }
