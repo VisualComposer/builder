@@ -67,6 +67,9 @@ class PageTemplatesController extends Container implements Module
         $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
 
         // don't use custom template type value if type is theme, use native wp template type
+        if (empty($customTemplateType)) {
+            $customTemplateType = 'theme';
+        }
         if ($customTemplateType === 'theme') {
             // @codingStandardsIgnoreLine
             $customTemplate = $post->page_template;
