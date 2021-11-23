@@ -170,6 +170,8 @@ export default class Element {
     data.metaBundlePath = this[elData].metaBundlePath
     data.metaElementAssets = this[elData].metaElementAssets
     data.metaIsElementLocked = this[elData].metaIsElementLocked
+    data.metaReplaceCategory = this[elData].metaReplaceCategory
+
     if (this[elData].customHeaderTitle !== undefined) {
       data.customHeaderTitle = this[elData].customHeaderTitle
     }
