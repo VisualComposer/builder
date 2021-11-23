@@ -142,22 +142,9 @@ export default class LayoutDropdown extends React.Component {
       return null
     }
     const localizations = dataManager.get('localizations')
-    let selectHFSText = localizations ? localizations.selectHFS : 'Default'
-    const templateStorageData = settingsStorage.state('pageTemplate').get() || (dataManager.get('pageTemplatesLayoutsCurrent')) || {
-      type: 'vc', value: 'blank'
-    }
+    const selectHFSText = localizations ? localizations.selectHFS : 'Default'
 
-    if (templateStorageData.type === 'vc-custom-layout') {
-      selectHFSText = localizations ? localizations.selectHFSGlobal : 'Global Default'
-      const selectHFSLayoutText = localizations ? localizations.selectHFSLayout : 'Layout Default'
-
-      return ([
-        <option value='defaultGlobal' key='defaultGlobal'>{selectHFSText}</option>,
-        <option value='defaultLayout' key='defaultLayout'>{selectHFSLayoutText}</option>
-      ])
-    } else {
-      return <option value='default'>{selectHFSText}</option>
-    }
+    return <option value='default'>{selectHFSText}</option>
   }
 
   getHFSText () {
