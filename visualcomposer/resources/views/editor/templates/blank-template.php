@@ -12,7 +12,9 @@ if (!defined('ABSPATH')) {
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php
+    do_action('vcHeadStart');
     wp_head();
+    do_action('vcHeadEnd');
     $customLayoutWidth = vchelper('Options')->get('custom-page-templates-section-layout-width', '1140px');
     ?>
     <!-- Override the main container width styles -->
