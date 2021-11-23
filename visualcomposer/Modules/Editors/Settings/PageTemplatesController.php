@@ -108,7 +108,7 @@ class PageTemplatesController extends Container implements Module
 
     protected function viewPageTemplate($originalTemplate, Request $requestHelper)
     {
-        if ($requestHelper->input('vcv-template') === 'default') {
+        if ($requestHelper->input('vcv-template') === 'default' || $requestHelper->input('vcv-template') === 'theme:default') {
             return $originalTemplate;
         }
 
@@ -126,6 +126,12 @@ class PageTemplatesController extends Container implements Module
         }
 
         $result = $originalTemplate;
+        // Since v41 we merging vc-custom-layout and theme
+        if ($current['type'] === 'vc-custom-layout' && strpos($current['value'], 'theme:') !== false) {
+            $current['type'] = 'theme';
+            $current['value'] = str_replace('theme:', '', $current['value']);
+        }
+
         if ($current['type'] === 'theme') {
             $result = locate_template($current['value']);
             if (empty($result)) {

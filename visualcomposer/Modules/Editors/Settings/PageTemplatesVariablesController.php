@@ -118,7 +118,7 @@ class PageTemplatesVariablesController extends Container implements Module
         if (!empty($pageTemplates)) {
             foreach ($pageTemplates as $key => $template) {
                 $pageTemplatesList[] = [
-                    'label' => $key,
+                    'label' => sprintf('%s %s', __('Theme:', 'visualcomposer'), $key),
                     'value' => $template,
                 ];
             }
@@ -126,16 +126,11 @@ class PageTemplatesVariablesController extends Container implements Module
 
         $variables[] = [
             'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_THEME',
-            'value' => vcfilter(
-                'vcv:editor:settings:pageTemplatesLayouts:theme',
-                [
-                    [
-                        'type' => 'theme',
-                        'title' => __('Theme Templates', 'visualcomposer'),
-                        'values' => $pageTemplatesList,
-                    ],
-                ]
-            ),
+            'value' => [
+                'type' => 'theme',
+                'title' => __('Theme Templates', 'visualcomposer'),
+                'values' => vcfilter('vcv:editor:settings:pageTemplatesLayouts:theme', $pageTemplatesList),
+            ],
             'type' => 'constant',
         ];
 
