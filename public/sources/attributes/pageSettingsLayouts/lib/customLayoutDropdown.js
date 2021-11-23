@@ -1,22 +1,8 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
-
-const settingsStorage = getStorage('settings')
 
 export default class CustomLayoutDropdown extends React.Component {
   constructor (props) {
     super(props)
-
-    const templateStorageData = settingsStorage.state('pageTemplate').get()
-    const templateData = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT ? window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() : {
-      type: 'vc', value: 'blank'
-    }
-    const currentTemplate = templateStorageData || templateData
-
-    // TODO get correct current state if page was saved
-    this.state = {
-      current: currentTemplate.value && currentTemplate.value !== 'default' ? parseInt(currentTemplate.value) : 'default'
-    }
 
     this.handleChangeUpdateLayout = this.handleChangeUpdateLayout.bind(this)
     this.getLayoutOptions = this.getLayoutOptions.bind(this)
@@ -24,29 +10,35 @@ export default class CustomLayoutDropdown extends React.Component {
 
   handleChangeUpdateLayout (event) {
     const value = event.target.value
-    this.setState({
-      current: value
-    })
     this.props.onTemplateChange(`vc-custom-layout__${value}`)
   }
 
   getLayoutOptions () {
+    // since v41 we merging theme options and layout options
     const allLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+    const themeLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME()
     const customLayouts = allLayouts.find(item => item.type === 'vc-custom-layout')
 
-    if (customLayouts && customLayouts.values) {
-      return customLayouts.values.map((item) => (
-        <option key={`custom-layout-template-${item.value}`} value={item.value}>{item.label}</option>
-      ))
+    let options = []
+    if (themeLayouts && themeLayouts.values) {
+      options = options.concat(themeLayouts.values.map((item) => (
+        <option key={`theme-layout-template-${item.value}`} value={item.value}>{item.label}</option>
+      )))
     }
-    return null
+    if (customLayouts && customLayouts.values) {
+      options = options.concat(customLayouts.values.map((item) => (
+        <option key={`custom-layout-template-${item.value}`} value={item.value}>{item.label}</option>
+      )))
+    }
+
+    return options
   }
 
   render () {
     return (
       <div className='vcv-ui-form-group'>
         <span className='vcv-ui-form-group-heading'>Choose layout</span>
-        <select className='vcv-ui-form-dropdown' value={this.state.current} onChange={this.handleChangeUpdateLayout}>
+        <select className='vcv-ui-form-dropdown' value={this.props.current.value} onChange={this.handleChangeUpdateLayout}>
           <option value='default'>
             Default
           </option>
