@@ -49,7 +49,7 @@ class Hub extends Container implements Module
         wp_register_script(
             'vcv:hub:script',
             $urlHelper->to('public/dist/hub.bundle.js'),
-            ['vcv:assets:vendor:script', 'vcv:assets:runtime:script'],
+            ['vcv:assets:runtime:script'],
             VCV_VERSION
         );
         wp_register_style(

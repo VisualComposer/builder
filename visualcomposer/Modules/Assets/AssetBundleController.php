@@ -35,16 +35,6 @@ class AssetBundleController extends Container implements Module
     protected function registerAssets(Url $urlHelper)
     {
         wp_register_script(
-            'vcv:assets:vendor:script',
-            $urlHelper->to('public/dist/vendor.bundle.js'),
-            [
-                'jquery',
-                'vcv:assets:runtime:script',
-            ],
-            VCV_VERSION,
-            true
-        );
-        wp_register_script(
             'vcv:assets:front:script',
             $urlHelper->to('public/dist/front.bundle.js'),
             [
@@ -78,13 +68,13 @@ class AssetBundleController extends Container implements Module
         wp_register_script(
             'vcv:wpVcSettings:script',
             $urlHelper->to('public/dist/wpVcSettings.bundle.js'),
-            ['vcv:assets:vendor:script'],
+            [],
             VCV_VERSION
         );
         wp_register_script(
             'vcv:wpUpdate:script',
             $urlHelper->to('public/dist/wpUpdate.bundle.js'),
-            ['vcv:assets:vendor:script'],
+            [],
             VCV_VERSION
         );
     }

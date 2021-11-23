@@ -97,7 +97,7 @@ class BundleController extends Container implements Module
             wp_register_script(
                 'vcv:editors:backendswitcher:script',
                 $urlHelper->to('public/dist/wpbackendswitch.bundle.js'),
-                ['vcv:assets:vendor:script'],
+                [],
                 VCV_VERSION
             );
             wp_enqueue_script('vcv:editors:backendswitcher:script');
