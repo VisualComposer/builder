@@ -104,7 +104,7 @@ export default class ControlsManager {
 
   createControlsWrapper () {
     this.controlsWrapper = []
-    let controlsNode = document.createElement('div')
+    const controlsNode = document.createElement('div')
     controlsNode.classList.add('vcv-ui-outline-controls-wrapper')
     for (let i = 0; i < this.maxStackPosition; i++) {
       this.controlsWrapper.push(controlsNode.cloneNode(true))
@@ -113,7 +113,7 @@ export default class ControlsManager {
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     if (isAbleToAdd) {
       this.appendControlsWrapper = []
-      let appendControlsNode = document.createElement('div')
+      const appendControlsNode = document.createElement('div')
       appendControlsNode.classList.add('vcv-ui-append-control-wrapper')
       for (let i = 0; i < this.maxStackPosition; i++) {
         this.appendControlsWrapper.push(appendControlsNode.cloneNode(true))
