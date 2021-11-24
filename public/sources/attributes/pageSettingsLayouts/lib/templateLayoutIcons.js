@@ -14,7 +14,7 @@ const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
 const notificationsStorage = getStorage('notifications')
-const themeBuilder = env('VCV_FT_THEME_BUILDER_LAYOUTS')
+const themeBuilder = env('VCV_FT_JS_THEME_BUILDER_CUSTOM_LAYOUTS')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
