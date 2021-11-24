@@ -118,7 +118,7 @@ class PageTemplatesVariablesController extends Container implements Module
         if (!empty($pageTemplates)) {
             foreach ($pageTemplates as $key => $template) {
                 $pageTemplatesList[] = [
-                    'label' => sprintf('%s %s', __('Theme:', 'visualcomposer'), $key),
+                    'label' => sprintf('%s %s', __('WordPress:', 'visualcomposer'), $key),
                     'value' => $template,
                 ];
             }
