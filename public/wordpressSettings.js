@@ -25,7 +25,14 @@ import { downloadAddon } from './components/wpVcSettings/downloadAddon'
       deactivationFeedbackPopup()
     }
     if (isSettingsPage(current)) {
-      dashboard()
+      if (window.VCV_DASHBOARD_REACT_RENDER) {
+        // Need to wait for font manager to build (react)
+        window.document.addEventListener('vcv-dashboard-rendered', () => {
+          dashboard()
+        }, false)
+      } else {
+        dashboard()
+      }
       downloadAddon()
     }
   })
