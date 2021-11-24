@@ -373,7 +373,6 @@ export default class ControlsManager {
     })
     // Content interaction
     layoutStorage.state('interactWithContent').onChange((data) => {
-      console.log('interactWithContent', data)
       if (this.resizeColumns && data && data.type === 'mouseDown') {
         this.frames.hide()
         this.showFrames(data)
@@ -422,7 +421,7 @@ export default class ControlsManager {
           this.toggleControls(data)
         }
         if (this.state.showFrames) {
-          // this.showFrames(data)
+          this.showFrames(data)
         }
       }
       if (data && data.type === 'mouseLeave') {
