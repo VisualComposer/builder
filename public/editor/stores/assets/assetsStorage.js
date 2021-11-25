@@ -39,6 +39,9 @@ addStorage('assets', (storage) => {
     const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)
+      if (!element) {
+        return
+      }
       data.elements[id] = element
       storage.trigger('addSharedLibrary', element)
       builder && builder.add(element)
@@ -48,6 +51,9 @@ addStorage('assets', (storage) => {
     const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)
+      if (!element) {
+        return
+      }
       data.elements[id] = element
       storage.trigger('editSharedLibrary', element)
       builder && builder.update(element, options)
@@ -105,6 +111,9 @@ addStorage('assets', (storage) => {
 
   const updateMixins = (id) => {
     const cookElement = cook.getById(id)
+    if (!cookElement) {
+      return
+    }
     updateMixinsState(cookElement)
   }
   const updateMixinsByData = (data) => {
