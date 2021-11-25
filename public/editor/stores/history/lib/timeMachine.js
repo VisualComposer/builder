@@ -125,9 +125,9 @@ export default class TimeMachine {
 
   get () {
     if (this.stackPosition < 1) {
-      return this.zeroState
+      return JSON.parse(JSON.stringify(this.zeroState))
     } else {
-      return this.stack[this.stackPosition - 1]
+      return JSON.parse(JSON.stringify(this.stack[this.stackPosition - 1]))
     }
   }
 
