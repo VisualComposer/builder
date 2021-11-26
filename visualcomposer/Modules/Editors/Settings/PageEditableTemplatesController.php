@@ -45,13 +45,10 @@ class PageEditableTemplatesController extends Container implements Module
     {
         // set initial value to default
         // later other 3rd party plugins like woocommerce could override defaults to some specific
-        if (
-            $frontendHelper->isPageEditable() &&
-            $requestHelper->exists('vcv-template') &&
-            $requestHelper->exists('vcv-template-type') &&
-            $requestHelper->input('vcv-template-type') === 'theme' &&
-            $requestHelper->input('vcv-template') === 'default'
-        ) {
+        $templateType = $requestHelper->input('vcv-template-type');
+        $template = $requestHelper->input('vcv-template');
+        $isThemeDefault = ($templateType === 'theme' && $template === 'default') || ($templateType === 'vc-custom-layout' && $template === 'theme:default');
+        if ($frontendHelper->isPageEditable() && $isThemeDefault) {
             return $this->getDefaultTheme();
         }
 
@@ -79,9 +76,12 @@ class PageEditableTemplatesController extends Container implements Module
 
     protected function viewThemeTemplate($originalTemplate, $payload)
     {
-        if ($payload && $payload['type'] === 'theme') {
+        $isTheme = ($payload['type'] === 'theme' || ($payload['type'] === 'vc-custom-layout' && strpos($payload['value'], 'theme:') !== false));
+        if ($payload && $isTheme) {
             $templateList = wp_get_theme()->get_page_templates();
-
+            if ($payload['type'] === 'vc-custom-layout') {
+                $payload['value'] = str_replace('theme:', '', $payload['value']);
+            }
             if (isset($templateList[ $payload['value'] ])) {
                 return locate_template($payload['value']);
             }

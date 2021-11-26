@@ -1,6 +1,6 @@
 import { addStorage, getStorage, getService } from 'vc-cake'
 import TimeMachine from './lib/timeMachine'
-
+import debounce from 'lodash/debounce'
 /**
  * History storage
  */
@@ -17,12 +17,12 @@ addStorage('history', (storage) => {
     storage.state('canRedo').set(inited && elementsTimeMachine.canRedo())
     storage.state('canUndo').set(inited && elementsTimeMachine.canUndo())
   }
-  const updateAllElements = () => {
+  const updateAllElements = debounce(() => {
     const allElements = elementsTimeMachine.get()
     elementsStorage.trigger('updateAll', allElements)
     cacheStorage.trigger('clear', 'elementsCssCache')
     assetsStorage.trigger('updateAllElements', allElements)
-  }
+  }, 300)
   storage.on('undo', () => {
     if (!inited) {
       return
