@@ -86,12 +86,6 @@ class UpdateFePage extends Container implements Module
                     )
                 ),
                 sprintf(
-                    '<script id="vcv-script-vendor-bundle-update" type="text/javascript" src="%s"></script>',
-                    $urlHelper->to(
-                        'public/dist/vendor.bundle.js?v=' . VCV_VERSION
-                    )
-                ),
-                sprintf(
                     '<script id="vcv-script-wpUpdate-bundle-update" type="text/javascript" src="%s"></script>',
                     $urlHelper->to(
                         'public/dist/wpUpdate.bundle.js?v=' . VCV_VERSION
