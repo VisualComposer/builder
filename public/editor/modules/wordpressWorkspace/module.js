@@ -60,7 +60,7 @@ add('wordpressWorkspace', (api) => {
   const handleBodyMouseUp = () => {
     const data = getData('vcv:layoutCustomMode')
     let newData
-    if (data.options.container && data.options.container.id === 'vcv-editor-iframe-overlay') {
+    if (data.options.containerId === 'vcv-editor-iframe-overlay') {
       newData = {
         mode: 'headerDrop',
         options: {}
