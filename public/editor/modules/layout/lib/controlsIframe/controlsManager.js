@@ -177,7 +177,6 @@ export default class ControlsManager {
           layoutStorage.state('interactWithContent').set({
             type: 'mouseLeave',
             vcElementId: this.state.prevElement.dataset.vcvElement,
-            path: this.state.prevElementPath,
             vcElementsPath: this.state.prevElementPath.map((el) => {
               return el.dataset.vcvElement
             })
@@ -188,7 +187,6 @@ export default class ControlsManager {
           layoutStorage.state('interactWithContent').set({
             type: 'mouseEnter',
             vcElementId: element.dataset.vcvElement,
-            path: elPath,
             vcElementsPath: elPath.map((el) => {
               return el.dataset.vcvElement
             })
@@ -196,7 +194,6 @@ export default class ControlsManager {
           layoutStorage.state('interactWithContent').set({
             type: 'mouseDown',
             vcElementId: element.dataset.vcvElement,
-            path: elPath,
             vcElementsPath: elPath.map((el) => {
               return el.dataset.vcvElement
             })
