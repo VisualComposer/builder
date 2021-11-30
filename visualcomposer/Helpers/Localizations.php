@@ -1854,6 +1854,18 @@ class Localizations extends Container implements Helper
                 'Coming Soon',
                 'visualcomposer'
             ),
+            'excerptPlaceholderText' => __(
+                'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.',
+                'visualcomposer'
+            ),
+            'authorBioPlaceholderText' => __(
+                'This is a placeholder for the Author Bio element. It will be replaced by the actual content.',
+                'visualcomposer'
+            ),
+            'noValue' => __(
+                'No Value',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
