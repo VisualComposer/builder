@@ -14,6 +14,7 @@ const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
+const localizations = dataManager.get('localizations')
 
 const hubElementsStorage = getStorage('hubElements')
 const settingsStorage = getStorage('settings')
@@ -84,9 +85,12 @@ const API = {
 
       const getDefaultPlaceholder = (blockValue) => {
         if (blockValue === 'post_excerpt') {
-          return 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+          return localizations ? localizations.excerptPlaceholderText : 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+        } else if (blockValue === 'post_author_bio') {
+          return localizations ? localizations.authorBioPlaceholderText : 'This is a placeholder for the Author Bio element. It will be replaced by the actual content.'
         }
-        return `No Value (${blockValue})`
+        const noValueText = localizations ? localizations.noValue : 'No Value'
+        return `${noValueText} (${blockValue})`
       }
 
       // In case if type===string and HTML Then:
