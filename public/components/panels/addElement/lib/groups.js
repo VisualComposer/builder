@@ -205,7 +205,7 @@ export default class Groups extends React.Component {
           let filterValue
           if (element.title === 'Theme Builder') {
             backupThemeBuilder = element
-            filterValue =  null
+            filterValue = null
           } else {
             filterValue = element
           }
