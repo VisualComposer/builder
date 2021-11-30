@@ -201,12 +201,12 @@ export default class Groups extends React.Component {
       const editorType = dataManager.get('editorType')
       if (editorType === 'vcv_layouts') {
         let backupThemeBuilder
-        Groups.allGroups.forEach( function( group, key) {
+        Groups.allGroups.forEach(function (group, key) {
           if (group.title === 'Theme Builder') {
             backupThemeBuilder = group
-            Groups.allGroups.splice(key, 1);
+            Groups.allGroups.splice(key, 1)
           }
-        });
+        })
 
         if (backupThemeBuilder) {
           Groups.allGroups.unshift(backupThemeBuilder)
