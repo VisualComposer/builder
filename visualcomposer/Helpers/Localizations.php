@@ -131,6 +131,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'blankPageInputPlaceholderText' => __('Page title', 'visualcomposer'),
+            "blankHeaderTitle" => __('Design your header here as a part of your layout. You can also download header templates from the Visual Composer Hub.', 'visualcomposer'),
+            "blankFooterTitle" => __('Design your footer here as a part of your layout. You can also download footer templates from the Visual Composer Hub.', 'visualcomposer'),
             'addTemplateHelperText' => __(
             // @codingStandardsIgnoreLine
                 'Didn\'t find a perfect template? Get a premium license to download templates from the Visual Composer Hub.',
