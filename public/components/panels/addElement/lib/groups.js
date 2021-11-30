@@ -202,11 +202,15 @@ export default class Groups extends React.Component {
       if (editorType === 'vcv_layouts') {
         let backupThemeBuilder = []
         Groups.allGroups.filter(function (element, index) {
+          let filterValue
           if (element.title === 'Theme Builder') {
             backupThemeBuilder = element
+            filterValue =  null
           } else {
-            return element
+            filterValue = element
           }
+
+          return filterValue
         })
 
         Groups.allGroups.unshift(backupThemeBuilder)
