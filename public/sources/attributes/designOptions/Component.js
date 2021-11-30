@@ -222,6 +222,7 @@ export default class DesignOptions extends Attribute {
     lazyLoad: true
   }
 
+  static backgroundDynamic = true
   static localizations = dataManager.get('localizations')
 
   constructor (props) {
@@ -229,6 +230,9 @@ export default class DesignOptions extends Attribute {
     props.setInnerFieldStatus && props.setInnerFieldStatus()
     if (props.elementSelector) {
       this.state.lazyLoad = false
+    }
+    if (props.backgroundDynamic === false) {
+      DesignOptions.backgroundDynamic = false
     }
 
     this.devicesChangeHandler = this.devicesChangeHandler.bind(this)
@@ -1072,7 +1076,7 @@ export default class DesignOptions extends Attribute {
           key={`${this.state.currentDevice}-${fieldKey}`}
           options={{
             multiple: true,
-            dynamicField: true
+            dynamicField: DesignOptions.backgroundDynamic
           }}
           updater={this.attachImageChangeHandler}
           value={value}
