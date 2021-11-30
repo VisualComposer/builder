@@ -197,6 +197,17 @@ export default class Groups extends React.Component {
         Groups.allGroups.unshift(presetElementsGroup)
       }
 
+      // Most User Group
+      const mostUsedItems = allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
+      if (mostUsedItems.length > 0) {
+        const mostUsedElementsGroup = {
+          id: 'usageCount',
+          title: 'Most Used',
+          elements: mostUsedItems
+        }
+        Groups.allGroups.unshift(mostUsedElementsGroup)
+      }
+
       // Add theme builder category to the first
       const editorType = dataManager.get('editorType')
       if (editorType === 'vcv_layouts') {
@@ -211,17 +222,6 @@ export default class Groups extends React.Component {
         if (backupThemeBuilder) {
           Groups.allGroups.unshift(backupThemeBuilder)
         }
-      }
-
-      // Most User Group
-      const mostUsedItems = allElements.filter(element => element.usageCount > 9).sort((elementA, elementB) => elementB.usageCount - elementA.usageCount).slice(0, 9)
-      if (mostUsedItems.length > 0) {
-        const mostUsedElementsGroup = {
-          id: 'usageCount',
-          title: 'Most Used',
-          elements: mostUsedItems
-        }
-        Groups.allGroups.unshift(mostUsedElementsGroup)
       }
 
       usedElements = [...new Set(usedElements)]
