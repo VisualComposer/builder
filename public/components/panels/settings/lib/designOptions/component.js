@@ -32,6 +32,7 @@ export default class PageDesignOptions extends React.Component {
           options={{}}
           elementSelector={this.selector}
           value={value}
+          isBackgroundDynamic={false}
         />
       </div>
     )
