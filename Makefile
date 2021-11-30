@@ -1,1 +1,0 @@
-../../../../VisualcomposerComDocker/common/Makefile
