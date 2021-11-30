@@ -330,10 +330,6 @@ addStorage('wordpressData', (storage) => {
     if (!elementTitles.length) {
       return
     }
-    const current = settingsStorage.state('pageTitle').get()
-    if (typeof current === 'undefined') {
-      return
-    }
     elementTitles.forEach(title => {
       title.onclick = () => {
         workspaceStorage.state('settingsTab').set('pageSettings')
