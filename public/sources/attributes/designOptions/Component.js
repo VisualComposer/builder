@@ -24,7 +24,8 @@ const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {
   static defaultProps = {
-    fieldType: 'designOptions'
+    fieldType: 'designOptions',
+    backgroundDynamic: true
   }
 
   /**
@@ -222,7 +223,6 @@ export default class DesignOptions extends Attribute {
     lazyLoad: true
   }
 
-  static backgroundDynamic = true
   static localizations = dataManager.get('localizations')
 
   constructor (props) {
@@ -1076,7 +1076,7 @@ export default class DesignOptions extends Attribute {
           key={`${this.state.currentDevice}-${fieldKey}`}
           options={{
             multiple: true,
-            dynamicField: DesignOptions.backgroundDynamic
+            dynamicField: this.props.backgroundDynamic
           }}
           updater={this.attachImageChangeHandler}
           value={value}
