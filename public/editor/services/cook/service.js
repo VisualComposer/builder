@@ -85,6 +85,8 @@ const API = {
       const getDefaultPlaceholder = (blockValue) => {
         if (blockValue === 'post_excerpt') {
           return 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+        } else if (blockValue === 'post_author_bio') {
+          return 'This is a placeholder for the Author Bio element. It will be replaced by the actual content.'
         }
         return `No Value (${blockValue})`
       }
