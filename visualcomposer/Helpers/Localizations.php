@@ -1830,6 +1830,30 @@ class Localizations extends Container implements Helper
                 'It seems you don’t have a post grid element on your page. Your archive page may not work properly. If you are using a custom grid element, feel free to ignore this message.',
                 'visualcomposer'
             ),
+            'enableFontManager' => __(
+                'Enable Font Manager',
+                'visualcomposer'
+            ),
+            'saveChanges' => __(
+                'Save Changes',
+                'visualcomposer'
+            ),
+            'comingSoon' => __(
+                'Coming Soon',
+                'visualcomposer'
+            ),
+            'excerptPlaceholderText' => __(
+                'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.',
+                'visualcomposer'
+            ),
+            'authorBioPlaceholderText' => __(
+                'This is a placeholder for the Author Bio element. It will be replaced by the actual content.',
+                'visualcomposer'
+            ),
+            'noValue' => __(
+                'No Value',
+                'visualcomposer'
+            ),
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
