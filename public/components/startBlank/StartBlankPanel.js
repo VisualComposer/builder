@@ -57,9 +57,10 @@ export default class startBlank extends React.Component {
         elementTag = 'layoutPostList'
       }
 
-      const headerElement = cook.get({ tag: 'textBlock', output: `<p style="text-align:center;padding:50px 0">${blankHeaderTitle}</p>` }).toJS()
+      const commonDesignOptions = { device: { all: { boxModel: { paddingTop: '50px', paddingBottom: '50px' } } } }
+      const headerElement = cook.get({ tag: 'textBlock', designOptions: commonDesignOptions, output: `<p style="text-align:center;">${blankHeaderTitle}</p>` }).toJS()
       const initialElement = cook.get({ tag: elementTag }).toJS()
-      const footerElement = cook.get({ tag: 'textBlock', output: `<p style="text-align:center;padding:50px 0">${blankFooterTitle}</p>` }).toJS()
+      const footerElement = cook.get({ tag: 'textBlock', designOptions: commonDesignOptions, output: `<p style="text-align:center;">${blankFooterTitle}</p>` }).toJS()
       elementsStorage.trigger('add', headerElement)
       elementsStorage.trigger('add', initialElement)
       elementsStorage.trigger('add', footerElement)
