@@ -43,9 +43,12 @@ export default class GoogleFonts extends Attribute {
     this.fontStyleChange = this.fontStyleChange.bind(this)
     this.createFieldValue = this.createFieldValue.bind(this)
     this.updateFieldValue = this.updateFieldValue.bind(this)
+    this.init = this.init.bind(this)
+
+    this.init()
   }
 
-  componentDidMount () {
+  init () {
     const { value } = this.state
     if (!googleFonts.find(font => font.family === this.state.value.fontFamily)) {
       value.fontFamily = GoogleFonts.defaultFontOptions.fontFamily

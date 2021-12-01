@@ -206,7 +206,7 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  getSnapshotBeforeUpdate (prevProps, prevState) {
     this.updateSuggestBoxPosition()
     if (this.state.callSuggestionAjax && this.state.inputValue) {
       const value = this.state.inputValue.split(',')

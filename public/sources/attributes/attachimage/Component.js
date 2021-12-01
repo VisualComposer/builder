@@ -67,18 +67,11 @@ export default class AttachImage extends Attribute {
     this.closeMediaPopup = this.closeMediaPopup.bind(this)
     this.init = this.init.bind(this)
 
-
     this.state.extraAttributes = {
       url: props.options.url
     }
 
-    this.init();
-  }
-
-  componentWillUnmount () {
-    if (this.tabsContainer) {
-      ReactDOM.unmountComponentAtNode(this.tabsContainer)
-    }
+    this.init()
   }
 
   init () {
@@ -87,7 +80,7 @@ export default class AttachImage extends Attribute {
       return false
     }
 
-    let oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
+    const oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
 
     const attributeOptions = this.props.options
     window.wp.media.view.MediaFrame.Select = oldMediaFrameSelect.extend({
@@ -226,6 +219,9 @@ export default class AttachImage extends Attribute {
   }
 
   componentWillUnmount () {
+    if (this.tabsContainer) {
+      ReactDOM.unmountComponentAtNode(this.tabsContainer)
+    }
     document.removeEventListener('keyup', this.closeMediaPopup)
   }
 
