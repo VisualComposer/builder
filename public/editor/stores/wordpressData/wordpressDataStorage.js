@@ -301,7 +301,6 @@ addStorage('wordpressData', (storage) => {
   settingsStorage.state('featuredImage').onChange(setFeaturedImage)
   workspaceIFrame.onChange(onIframeChange)
   let titles = []
-  let elementTitles = []
   let featuredImage
   let featuredImageNotification = false
 
@@ -312,31 +311,19 @@ addStorage('wordpressData', (storage) => {
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
         featuredImage = iframe.contentDocument.querySelector('.wp-post-image')
-        elementTitles = [].slice.call(iframe.contentDocument.querySelectorAll('.vce-layouts-post-title h1'))
+        const elementTitles = [].slice.call(iframe.contentDocument.querySelectorAll('.vce-layouts-post-title h1'))
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
-        setElementTitles()
+        titles = titles.concat(elementTitles)
+
         setTitle()
         setFeaturedImage()
       }
     }
-  }
-
-  function setElementTitles () {
-    if (!elementTitles.length) {
-      return
-    }
-    elementTitles.forEach(title => {
-      title.onclick = () => {
-        workspaceStorage.state('settingsTab').set('pageSettings')
-        workspaceContentState.set('settings')
-        settingsStorage.state('isTitleFocused').set(true)
-      }
-    })
   }
 
   function setTitle () {

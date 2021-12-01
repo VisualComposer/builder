@@ -3,8 +3,6 @@ import { getStorage, getService, env } from 'vc-cake'
 import Attribute from '../attribute'
 
 const settingsStorage = getStorage('settings')
-const workspaceStorage = getStorage('workspace')
-const workspaceIFrame = workspaceStorage.state('iframe')
 const dataManager = getService('dataManager')
 
 export default class PageSettingsTitle extends Attribute {
@@ -19,19 +17,13 @@ export default class PageSettingsTitle extends Attribute {
     const pageTitleDisabled = settingsStorage.state('pageTitleDisabled').get()
     this.state = {
       current: pageTitle,
-      disabled: pageTitleDisabled,
-      showToggle: this.getShowToggle()
+      disabled: pageTitleDisabled
     }
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
     this.handleChangeUpdateTitleToggle = this.handleChangeUpdateTitleToggle.bind(this)
-    this.onIframeChange = this.onIframeChange.bind(this)
-    this.getShowToggle = this.getShowToggle.bind(this)
-    this.getThemeType = this.getThemeType.bind(this)
-    this.checkShowToggle = this.checkShowToggle.bind(this)
-    this.updateShowToggle = this.updateShowToggle.bind(this)
+
     this.updatePageTitle = this.updatePageTitle.bind(this)
     this.toggleFocusTitle = this.toggleFocusTitle.bind(this)
-    workspaceIFrame.onChange(this.onIframeChange)
   }
 
   componentDidMount () {
@@ -40,39 +32,8 @@ export default class PageSettingsTitle extends Attribute {
   }
 
   componentWillUnmount () {
-    workspaceIFrame.ignoreChange(this.onIframeChange)
     settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
     settingsStorage.state('isTitleFocused').ignoreChange(this.toggleFocusTitle)
-  }
-
-  checkShowToggle (themeType) {
-    return themeType === 'theme'
-  }
-
-  getShowToggle () {
-    const currentLayout = dataManager.get('pageTemplatesLayoutsCurrent')
-    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type === 'theme') || (currentLayout && currentLayout.type === 'theme')
-  }
-
-  getThemeType () {
-    const currentLayout = dataManager.get('pageTemplatesLayoutsCurrent')
-    return (window.vcvLastLoadedPageTemplate && window.vcvLastLoadedPageTemplate.type) || (currentLayout && currentLayout.type)
-  }
-
-  updateShowToggle (themeType) {
-    const toggleCheckResult = this.checkShowToggle(themeType)
-    if (toggleCheckResult !== this.state.showToggle) {
-      this.setState({
-        showToggle: toggleCheckResult
-      })
-    }
-  }
-
-  onIframeChange (data = {}) {
-    const { type = 'loaded' } = data
-    if (type === 'reload') {
-      data && data.template && data.template.type && this.updateShowToggle(data.template.type)
-    }
   }
 
   handleChangeTitle (event) {
@@ -125,27 +86,25 @@ export default class PageSettingsTitle extends Attribute {
     const pageTitleDisableDescription = localizations ? localizations.pageTitleDisableDescription : 'Disable the page title'
     const checked = (this.state.disabled) ? 'checked' : ''
 
-    let toggleHTML = null
-    if (this.state.showToggle) {
-      toggleHTML = (
-        <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
-          <div className='vcv-ui-form-switch-container'>
-            <label className='vcv-ui-form-switch'>
-              <input type='checkbox' onChange={this.handleChangeUpdateTitleToggle} id='vcv-page-title-disable' checked={checked} />
-              <span className='vcv-ui-form-switch-indicator' />
-              <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
-              <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
-            </label>
-            <label
-              htmlFor='vcv-page-title-disable'
-              className='vcv-ui-form-switch-trigger-label'
-            >{pageTitleDisableDescription}
-            </label>
-          </div>
+    const toggleHTML = (
+      <div className='vcv-ui-form-group vcv-ui-form-group-style--inline'>
+        <div className='vcv-ui-form-switch-container'>
+          <label className='vcv-ui-form-switch'>
+            <input type='checkbox' onChange={this.handleChangeUpdateTitleToggle} id='vcv-page-title-disable' checked={checked} />
+            <span className='vcv-ui-form-switch-indicator' />
+            <span className='vcv-ui-form-switch-label' data-vc-switch-on='on' />
+            <span className='vcv-ui-form-switch-label' data-vc-switch-off='off' />
+          </label>
+          <label
+            htmlFor='vcv-page-title-disable'
+            className='vcv-ui-form-switch-trigger-label'
+          >{pageTitleDisableDescription}
+          </label>
         </div>
-      )
-    }
-    const disableTitleToggleControl = !env('VCV_JS_THEME_EDITOR') ? toggleHTML : ''
+      </div>
+    )
+
+    const disableTitleToggleControl = !env('VCV_JS_THEME_EDITOR') && dataManager.get('editorType') === 'default' ? toggleHTML : ''
 
     return (
       <>
