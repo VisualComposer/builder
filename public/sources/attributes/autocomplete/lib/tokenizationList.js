@@ -186,17 +186,6 @@ export default class TokenizationList extends React.Component {
     this.stayEditing = true
   }
 
-  // componentDidUpdate () {
-  //   this.updateSuggestBoxPosition()
-  // }
-
-  /* eslint-disable */
-  // UNSAFE_componentWillMount () {
-  //   this.loadTokenLabels(this.state.value)
-  // }
-
-  /* eslint-enable */
-
   componentWillUnmount () {
     if (this.serverRequest) {
       this.serverRequest.abort()
@@ -206,7 +195,7 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  getSnapshotBeforeUpdate (prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     this.updateSuggestBoxPosition()
     if (this.state.callSuggestionAjax && this.state.inputValue) {
       const value = this.state.inputValue.split(',')

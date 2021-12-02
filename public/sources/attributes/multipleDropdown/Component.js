@@ -8,16 +8,10 @@ export default class MultipleDropdown extends Attribute {
 
   selectChildren = null
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    super.UNSAFE_componentWillReceiveProps(nextProps)
-    this.generateSelectChildren(nextProps)
-  }
-
-  UNSAFE_componentWillMount () {
+  constructor (props) {
+    super(props)
     this.generateSelectChildren(this.props)
   }
-  /* eslint-enable */
 
   createGroup (key, groupObject, fieldKey) {
     const optionElements = []

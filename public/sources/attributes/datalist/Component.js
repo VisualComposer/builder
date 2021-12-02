@@ -13,17 +13,6 @@ export default class Datalist extends Attribute {
     this.generateSelectChildren(props)
   }
 
-  /* eslint-disable */
-  // UNSAFE_componentWillReceiveProps (nextProps) {
-  //   super.UNSAFE_componentWillReceiveProps(nextProps)
-  //   this.generateSelectChildren(nextProps)
-  // }
-  //
-  // UNSAFE_componentWillMount () {
-  //   this.generateSelectChildren(this.props)
-  // }
-  /* eslint-enable */
-
   createOptions (key, values, fieldKey) {
     const value = values[key].value
     const label = values[key].label
