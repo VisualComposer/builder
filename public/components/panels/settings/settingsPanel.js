@@ -61,7 +61,7 @@ if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultTrue())
   }
 }
 
-if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
+if (['default', 'vcv_tutorials'].includes(editorType) && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
   controls.popup = {
     index: 4,
     type: 'popup',

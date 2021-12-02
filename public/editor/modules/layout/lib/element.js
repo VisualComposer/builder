@@ -85,7 +85,6 @@ export default class Element extends React.Component {
       const htmlString = domNode ? utils.normalizeHtml(domNode.parentElement.innerHTML) : ''
       elementsStorage.trigger('addHtmlString', this.state.element.id, htmlString)
     }
-    elementsStorage.trigger('addHtmlString', this.state.element.id, this.elementComponentRef.current)
     if (this.elementComponentRef && this.elementComponentRef.current) {
       const cookElement = cook.get(this.state.element)
       updateDynamicComments(this.elementComponentRef.current, this.state.element.id, cookElement)
