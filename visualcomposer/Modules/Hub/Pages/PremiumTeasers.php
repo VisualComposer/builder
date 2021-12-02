@@ -149,7 +149,7 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Layouts', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => 15,
+            'position' => 4,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv-font-manager',
