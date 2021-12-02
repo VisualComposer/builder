@@ -311,12 +311,15 @@ addStorage('wordpressData', (storage) => {
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
         featuredImage = iframe.contentDocument.querySelector('.wp-post-image')
+        const elementTitles = [].slice.call(iframe.contentDocument.querySelectorAll('.vce-layouts-post-title h1'))
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
+        titles = titles.concat(elementTitles)
+
         setTitle()
         setFeaturedImage()
       }
