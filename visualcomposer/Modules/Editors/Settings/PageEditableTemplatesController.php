@@ -10,7 +10,6 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
-use VisualComposer\Helpers\File;
 use VisualComposer\Helpers\Frontend;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\EventsFilters;
@@ -23,16 +22,37 @@ class PageEditableTemplatesController extends Container implements Module
 
     public function __construct()
     {
+        // set initial defaults
+        $this->wpAddFilter(
+            'template_include',
+            'viewPeThemeDefaultTemplate',
+            1
+        );
+
         $this->wpAddFilter(
             'template_include',
             'viewPePageTemplate',
-            12
+            15
         );
 
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewThemeTemplate');
         $this->addFilter('vcv:editor:settings:peTemplate', 'viewVcTemplate');
         $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewThemeTemplate');
         $this->addFilter('vcv:editor:settings:viewPageTemplate', 'viewVcTemplate');
+    }
+
+    protected function viewPeThemeDefaultTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
+    {
+        // set initial value to default
+        // later other 3rd party plugins like woocommerce could override defaults to some specific
+        $templateType = $requestHelper->input('vcv-template-type');
+        $template = $requestHelper->input('vcv-template');
+        $isThemeDefault = ($templateType === 'theme' && $template === 'default') || ($templateType === 'vc-custom-layout' && $template === 'theme:default');
+        if ($frontendHelper->isPageEditable() && $isThemeDefault) {
+            return $this->getDefaultTheme();
+        }
+
+        return $originalTemplate;
     }
 
     protected function viewPePageTemplate($originalTemplate, Frontend $frontendHelper, Request $requestHelper)
@@ -54,18 +74,16 @@ class PageEditableTemplatesController extends Container implements Module
         return $originalTemplate;
     }
 
-    protected function viewThemeTemplate($originalTemplate, $payload, File $fileHelper)
+    protected function viewThemeTemplate($originalTemplate, $payload)
     {
-        if ($payload && $payload['type'] === 'theme') {
+        $isTheme = ($payload['type'] === 'theme' || ($payload['type'] === 'vc-custom-layout' && strpos($payload['value'], 'theme:') !== false));
+        if ($payload && $isTheme) {
             $templateList = wp_get_theme()->get_page_templates();
+            if ($payload['type'] === 'vc-custom-layout') {
+                $payload['value'] = str_replace('theme:', '', $payload['value']);
+            }
             if (isset($templateList[ $payload['value'] ])) {
                 return locate_template($payload['value']);
-            } elseif ($payload['value'] === 'default') {
-                if ($fileHelper->isFile($originalTemplate)) {
-                    return $originalTemplate;
-                }
-
-                return $this->getDefaultTheme();
             }
         }
 
