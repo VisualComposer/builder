@@ -96,6 +96,20 @@ class PremiumTeasers extends Container implements Module
             'hideInWpMenu' => false,
         ];
         $this->dashboardSections[] = [
+            'slug' => 'vcv_layouts',
+            'premiumTitle' => __('LAYOUT EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
+            'premiumDescription' => __(
+                'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
+                'visualcomposer'
+            ),
+            'premiumUrl' => str_replace('{medium}', 'layouts-vcdashboard', $utmTemplate),
+            'premiumActionBundle' => 'themeBuilder',
+            'name' => __('Layouts', 'visualcomposer'),
+            'parent' => 'vcv-headers-footers',
+            'capabilityPart' => 'dashboard_addon_theme_builder',
+            'position' => -7,
+        ];
+        $this->dashboardSections[] = [
             'slug' => 'vcv_headers',
             'premiumTitle' => __('HEADER BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
@@ -107,7 +121,7 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Headers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => -7,
+            'position' => -6,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_footers',
@@ -121,7 +135,7 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Footers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => -6,
+            'position' => -5,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_sidebars',
@@ -135,21 +149,7 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Sidebars', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => -5,
-        ];
-        $this->dashboardSections[] = [
-            'slug' => 'vcv_layouts',
-            'premiumTitle' => __('LAYOUT EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => str_replace('{medium}', 'layouts-vcdashboard', $utmTemplate),
-            'premiumActionBundle' => 'themeBuilder',
-            'name' => __('Layouts', 'visualcomposer'),
-            'parent' => 'vcv-headers-footers',
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => 4,
+            'position' => -4,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv-font-manager',
