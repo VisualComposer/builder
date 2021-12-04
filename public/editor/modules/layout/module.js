@@ -55,6 +55,9 @@ vcCake.add('contentLayout', (api) => {
     const iframeWindow = iframe ? iframe.contentWindow : null
     const domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
     if (domContainer) {
+      if (iframeWindow.vcv) {
+        iframeWindow.vcv.trigger('ready')
+      }
       ReactDOM.render(
         <Editor api={api} />,
         domContainer
