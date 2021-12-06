@@ -32,6 +32,8 @@ class UpdateController extends Container implements Module
     {
         /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdateAction */
         $this->addEvent('vcv:admin:inited vcv:system:activation:hook vcv:hub:checkForUpdate', 'checkForUpdateAction');
+        /** @see \VisualComposer\Modules\Hub\UpdateController::createActivationTimestamp */
+        $this->addEvent('vcv:system:activation:hook', 'createActivationTimestamp');
         /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
         $this->wpAddAction('admin_menu', 'checkForUpdate', 9);
         /** @see \VisualComposer\Modules\Hub\UpdateController::checkForUpdate */
@@ -59,6 +61,14 @@ class UpdateController extends Container implements Module
         License $licenseHelper
     ) {
         return $this->call('checkForUpdate', ['response' => [], 'payload' => $payload]);
+    }
+
+    /**
+     * @param \VisualComposer\Helpers\Options $optionsHelper
+     */
+    protected function createActivationTimestamp(Options $optionsHelper)
+    {
+        $optionsHelper->set('activationTimestamp', time());
     }
 
     /**
