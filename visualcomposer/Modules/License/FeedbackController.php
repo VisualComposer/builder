@@ -95,7 +95,7 @@ class FeedbackController extends Container implements Module
      *
      * @return array
      */
-    protected function deactivationSubmitForm($response, Request $requestHelper, Url $urlHelper, License $licenseHelper)
+    protected function deactivationSubmitForm($response, Request $requestHelper, Url $urlHelper, License $licenseHelper, Options $optionsHelper)
     {
         $reasonId = $requestHelper->input('vcv-reason');
         $feedback = $requestHelper->input('vcv-extra-feedback');
@@ -108,6 +108,7 @@ class FeedbackController extends Container implements Module
                 'vcv-deactivation-reason' => $reasonId,
                 'vcv-deactivation-feedback' => $feedback,
                 'vcv-license-type' => $licenseType,
+                'vcv-activation-time' => $optionsHelper->get('activationTimestamp'),
             ]
         );
 
