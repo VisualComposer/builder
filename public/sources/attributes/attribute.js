@@ -22,8 +22,10 @@ export default class Attribute extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount () {
-    this.setState(this.updateState(this.props))
+  componentDidUpdate (prevProps) {
+    if (!lodash.isEqual(prevProps, this.props)) {
+      this.setState(this.updateState(this.props))
+    }
   }
 
   updateState (props) {
@@ -93,7 +95,6 @@ export default class Attribute extends React.Component {
         newState.devices[device] = lodash.defaultsDeep({}, newState.devices.all)
       })
     }
-
     this.updateValue(newState, fieldKey)
   }
 

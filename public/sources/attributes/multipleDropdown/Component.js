@@ -1,5 +1,6 @@
 import React from 'react'
 import Attribute from '../attribute'
+import { isEqual } from 'lodash'
 
 export default class MultipleDropdown extends Attribute {
   static defaultProps = {
@@ -11,6 +12,13 @@ export default class MultipleDropdown extends Attribute {
   constructor (props) {
     super(props)
     this.generateSelectChildren(this.props)
+  }
+
+  componentDidUpdate (prevProps) {
+    super.componentDidUpdate(prevProps)
+    if (!isEqual(prevProps, this.props)) {
+      this.generateSelectChildren(this.props)
+    }
   }
 
   createGroup (key, groupObject, fieldKey) {
