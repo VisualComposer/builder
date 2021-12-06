@@ -111,8 +111,6 @@ if (is_array($extraOutput)) {
     <div class="vcv-layout-overlay"></div>
 
 </div>
-<script src="<?php echo get_site_url(null, '?vcv-script=vendor'); ?>"></script>
-<script src="<?php echo get_site_url(null, '?vcv-script=wp'); ?>"></script>
 
 <?php
 vcevent('vcv:frontend:render:footer', ['sourceId' => $sourceId]);
