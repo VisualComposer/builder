@@ -1821,11 +1821,11 @@ class Localizations extends Container implements Helper
             ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
             'postTemplateText' => __(
-                'Post & Page template',
+                'Singular layout',
                 'visualcomposer'
             ),
             'archiveTemplateText' => __(
-                'Archive template',
+                'Archive layout',
                 'visualcomposer'
             ),
             'archiveGridElementMissingNotification' => __(
