@@ -108,7 +108,7 @@ class FeedbackController extends Container implements Module
                 'vcv-deactivation-reason' => $reasonId,
                 'vcv-deactivation-feedback' => $feedback,
                 'vcv-license-type' => $licenseType,
-                'vcv-activation-time' => $optionsHelper->get('activationTimestamp'),
+                'vcv-activation-time' => $optionsHelper->get('plugin-activation'),
             ]
         );
 
