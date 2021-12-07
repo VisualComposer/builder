@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,ko
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, landing page, landing page builder, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.8.1
-Stable tag: 40.0
+Tested up to: 5.8.2
+Stable tag: 41.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -205,14 +205,16 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 41.0 =
-*Release Date - 2021-11-23*
+*Release Date - 2021-12-14*
 
 ### Free:
+- Update: Page layouts default and theme default merged under one option
 - Update: Editor notifications improved for consistency and user experience
 - Update: Editor's loading speed improved for performance
 - Update: Drag and drop interface improved in the Tree View
 - Update: Visual Composer Insights fonts updated for consistency
 - Update: Plugin JS dependencies improved
+- Compatibility: Visual Composer works properly with WCFM
 - Fix: Twitter Button element works properly
 - Fix: Lazy loading toggle works properly
 - Fix: Undo and Redo works properly for the Page Settings
@@ -222,7 +224,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Helper content displaying properly
 
 ### Premium:
-- New: Layout Builder added to create global layout templates for pages and posts
+- New: Layout Builder added to create global layout templates for singular (pages and posts)
 - New: Layout Builder merged with the Archive Builder for better user interface
 - New: Option to assign layouts to pages and posts added to the Theme Builder section in Dashboard
 - New: Theme Builder category added to the Add Content Window
@@ -248,6 +250,7 @@ Yes, we have an awesome online community that you can join to share your experti
 - Fix: Post Slider block works properly
 - Fix: TinyMCE styles are applied properly
 - Fix: Video Player background works properly
+- Fix: Single Image works properly in Pageable Container inside Accordion
 
 = 40.0 =
 *Release Date - 2021-10-14*
