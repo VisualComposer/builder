@@ -47,7 +47,11 @@ class FieldsRegistry extends Container implements Helper
         $result = array_filter(
             $all,
             function ($item) use ($slug, $key) {
-                return $item[ $key ] === $slug;
+                if (empty($item[ $key ])) {
+                    return false;
+                } else {
+                    return $item[ $key ] === $slug;
+                }
             }
         );
 
