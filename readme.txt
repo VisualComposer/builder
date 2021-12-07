@@ -75,6 +75,11 @@ Visual Composer Hub, a cloud-based marketplace allows you to download elements, 
 
 = WordPress Theme Builder =
 
+Visual Composer is an all-in-one plugin that lets you make beautiful websites from header and footer to archive page and 404 page. You can completely overwrite themes by creating custom post, page, and archive layouts in a code-free way. Assign your custom layouts sitewide or override it on a page level, and reuse them as much as you like.
+
+Make fully custom layouts (*including header, footer, and sidebar templates*) with the **[Layout Builder](https://visualcomposer.com/blog/visual-composer-layout-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=layout-builder-text-link)**, or save your [unique headers, footers, and sidebars](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=make-unique-header-footer-sidebar-templates-text-link) as **Global Templates** to reuse them and save time. Additionally, the **Dynamic Content** feature allows you to design templates with dynamic content placeholders (*devs will love it*).
+This means that web creators now have all the creative freedom and the topmost control over their website design — all from one place!
+
 Visual Composer is an all-in-one editor plugin that lets you make beautiful websites from header to footer. You can create custom page layouts in a code-free way.
 
 [Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=make-unique-header-footer-sidebar-templates-text-link) to use them throughout your entire WordPress site with the help of **Global Templates**. Additionally, a **Dynamic Content** feature allows you to design templates with dynamic content placeholders (*devs will love it*).
