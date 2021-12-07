@@ -47,11 +47,11 @@ class SettingsController extends Container implements Module
      * @param $response
      * @param $payload
      * @param \VisualComposer\Helpers\Request $requestHelper
-     * @param \VisualComposer\Helpers\Access\CurrentUser $currentUserAccess
+     * @param bool $isExit
      *
      * @throws \Exception
      */
-    protected function saveSettings($response, $payload, Request $requestHelper, CurrentUser $currentUserAccess)
+    public function saveSettings($response, $payload, Request $requestHelper, $isExit = true)
     {
         vcevent('vcv:settings:save');
         $hasAccess = null;
@@ -91,14 +91,18 @@ class SettingsController extends Container implements Module
                 }
             }
 
-            $response = ['status' => true];
-            wp_send_json($response);
-            exit;
+            if ($isExit) {
+                $response = ['status' => true];
+                wp_send_json($response);
+                exit;
+            }
         }
 
-        header('Status: 403 Forbidden');
-        header('HTTP/1.1 403 Forbidden');
-        exit;
+        if ($isExit) {
+            header('Status: 403 Forbidden');
+            header('HTTP/1.1 403 Forbidden');
+            exit;
+        }
     }
 
     /**
