@@ -68,7 +68,7 @@ class UpdateController extends Container implements Module
      */
     protected function createActivationTimestamp(Options $optionsHelper)
     {
-        $optionsHelper->set('activationTimestamp', time());
+        $optionsHelper->set('activationTimestamp', date('d/m/Y H:i:s'));
     }
 
     /**
