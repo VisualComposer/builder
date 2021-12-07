@@ -40,7 +40,7 @@ class LazyLoad extends Container implements Module
         );
     }
 
-    protected function buildPage()
+    public function buildPage()
     {
         $sectionCallback = function () {
             echo sprintf(
@@ -81,7 +81,7 @@ class LazyLoad extends Container implements Module
      *
      * @return mixed|string
      */
-    protected function renderToggle($value, Options $optionsHelper)
+    public function renderToggle($value, Options $optionsHelper)
     {
         $isEnabled = (bool)$optionsHelper->get('settings-lazy-load-enabled', true);
 

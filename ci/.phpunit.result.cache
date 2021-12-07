@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":179:{a:2:{s:7:"defects";a:0:{}s:5:"times";a:3:{s:27:"LazyLoadTest::testBuildPage";d:0.019;s:30:"LazyLoadTest::testUnsetOptions";d:0.018;s:30:"LazyLoadTest::testRenderToggle";d:0.005;}}}
