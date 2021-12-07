@@ -27,7 +27,7 @@ class ActivationTimestampMigration extends MigrationsController implements Modul
     /**
      * @param \VisualComposer\Helpers\Options $optionsHelper
      */
-    protected function run( Options $optionsHelper )
+    protected function run(Options $optionsHelper)
     {
         $timestamp = $optionsHelper->get('activationTimestamp', 'not-exist');
         if ($timestamp === 'not-exist') {
