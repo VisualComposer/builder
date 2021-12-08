@@ -9111,10 +9111,10 @@ vc-cake@0.9.0:
     lodash "4.17.13"
     murmurhash "0.0.2"
 
-vc-webpack-vendors@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.1.0.tgz#47a3e56a7fa58032c6de79841bc6f38f53f125e7"
-  integrity sha512-DKDgEhoSHE7bWOVAu3txTp9QI35AR6dglc9uI9gCbJySUzeKyzWA1eaSw1DpgR/AUENDwxy6JDITCl+9lVAWQg==
+vc-webpack-vendors@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/vc-webpack-vendors/-/vc-webpack-vendors-3.1.1.tgz#40fee350e011b68670d5d83f33174ef0c8b3adab"
+  integrity sha512-6APE9tW2vAO5OnlSZZrPqLES6gGUraRWk3MaFE1hP07AySlp+z8RM9LZwmnuga11jg1endi4DzKxsIvFLwaFug==
   dependencies:
     "@babel/cli" "7.16.0"
     "@babel/core" "7.16.0"
