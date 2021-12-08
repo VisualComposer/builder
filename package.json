@@ -72,6 +72,7 @@
     "less": "4.1.2",
     "postcss": "8.3.11",
     "raw-loader": "1.0.0",
+    "postcss-normalize-url": "git+https://github.com/pavelthq/postcss-normalize-url-7.0.2-normalize-url.git#master",
     "normalize-url": "7.0.2"
   },
   "dependencies": {
