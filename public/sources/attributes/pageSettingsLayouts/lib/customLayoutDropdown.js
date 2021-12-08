@@ -47,6 +47,9 @@ export default class CustomLayoutDropdown extends React.Component {
   }
 
   handleUpdateList () {
+    if (!themeBuilder) {
+      return null
+    }
     this.setState({ isListLoading: true })
 
     const ajax = utils.ajax
