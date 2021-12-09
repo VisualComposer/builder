@@ -82,11 +82,6 @@ export default class CustomLayoutDropdown extends React.Component {
     const createLayoutText = localizations ? localizations.createLayout : '<a href="{link}" target="_blank">Create</a> a new layout.'
     const editLayoutText = localizations ? localizations.editLayout : '<a href="{editLink}" target="_blank">Edit</a> this layout or <a href="{createLink}" target="_blank">create</a> a new one.'
 
-    // if selected value begins with theme:
-    if (typeof selectedValue === 'string' && selectedValue.indexOf('theme:') === 0) {
-      return null
-    }
-
     let text
     if (typeof selectedValue !== 'number') {
       text = createLayoutText.replace('{link}', createNewUrl)
