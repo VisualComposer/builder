@@ -62,7 +62,9 @@ class PageTemplatesSaveController extends Container implements Module
                     update_metadata('post', $post->ID, '_vcv-page-template', $value);
                     update_metadata('post', $post->ID, '_vcv-page-template-type', $type);
                     update_metadata('post', $post->ID, '_vcv-page-template-stretch', $stretchedContent);
-                    if ($type === 'theme') {
+                    $isLayoutTheme = $type === 'vc-custom-layout' && strpos($value, 'theme:') !== false;
+                    if ($type === 'theme' || $isLayoutTheme) {
+                        $value = str_replace('theme:', '', $value);
                         // @codingStandardsIgnoreLine
                         $post->page_template = $value === 'default' ? '' : $value;
                         update_metadata('post', $post->ID, '_wp_page_template', $value === 'default' ? '' : $value);

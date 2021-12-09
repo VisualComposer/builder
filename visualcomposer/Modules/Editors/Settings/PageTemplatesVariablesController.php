@@ -27,13 +27,15 @@ class PageTemplatesVariablesController extends Container implements Module
 
     protected function outputCurrentTemplatesLayouts($variables, $payload)
     {
+        $post = get_post(isset($payload['sourceId']) ? $payload['sourceId'] : null);
         $variables[] = [
             'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT',
             'value' => vcfilter(
                 'vcv:editor:settings:pageTemplatesLayouts:current',
                 [
                     'type' => 'theme',
-                    'value' => 'default',
+                    // @codingStandardsIgnoreLine
+                    'value' => empty($post->page_template) ? 'default' : $post->page_template,
                 ]
             ),
             'type' => 'constant',
@@ -116,7 +118,7 @@ class PageTemplatesVariablesController extends Container implements Module
         if (!empty($pageTemplates)) {
             foreach ($pageTemplates as $key => $template) {
                 $pageTemplatesList[] = [
-                    'label' => $key,
+                    'label' => sprintf('%s %s', __('WordPress:', 'visualcomposer'), $key),
                     'value' => $template,
                 ];
             }
@@ -124,16 +126,11 @@ class PageTemplatesVariablesController extends Container implements Module
 
         $variables[] = [
             'key' => 'VCV_PAGE_TEMPLATES_LAYOUTS_THEME',
-            'value' => vcfilter(
-                'vcv:editor:settings:pageTemplatesLayouts:theme',
-                [
-                    [
-                        'type' => 'theme',
-                        'title' => __('Theme Templates', 'visualcomposer'),
-                        'values' => $pageTemplatesList,
-                    ],
-                ]
-            ),
+            'value' => [
+                'type' => 'theme',
+                'title' => __('Theme Templates', 'visualcomposer'),
+                'values' => vcfilter('vcv:editor:settings:pageTemplatesLayouts:theme', $pageTemplatesList),
+            ],
             'type' => 'constant',
         ];
 

@@ -55,6 +55,9 @@ vcCake.add('contentLayout', (api) => {
     const iframeWindow = iframe ? iframe.contentWindow : null
     const domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
     if (domContainer) {
+      if (iframeWindow.vcv) {
+        iframeWindow.vcv.trigger('ready')
+      }
       ReactDOM.render(
         <Editor api={api} />,
         domContainer
@@ -213,7 +216,8 @@ vcCake.add('contentLayout', (api) => {
             hasFooter = currentTemplate.footer
           }
         }
-        if (template.type === 'theme') {
+        const isLayoutTheme = template.type === 'vc-custom-layout' && (template.value + '').indexOf('theme:') !== -1
+        if (template.type === 'theme' || isLayoutTheme) {
           hasHeader = true
           hasFooter = true
         }

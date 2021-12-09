@@ -311,12 +311,15 @@ addStorage('wordpressData', (storage) => {
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
         featuredImage = iframe.contentDocument.querySelector('.wp-post-image')
+        const elementTitles = [].slice.call(iframe.contentDocument.querySelectorAll('.vce-layouts-post-title h1'))
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
+        titles = titles.concat(elementTitles)
+
         setTitle()
         setFeaturedImage()
       }
@@ -345,7 +348,10 @@ addStorage('wordpressData', (storage) => {
     })
   }
 
-  function setFeaturedImage () {
+  function setFeaturedImage (data) {
+    if (!data) {
+      return
+    }
     const current = settingsStorage.state('featuredImage').get()
     if (!featuredImage) {
       if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {

@@ -110,7 +110,8 @@ class AssetBundleCompressionController extends Container implements Module
         $compressList = [
             'editor',
             'wp',
-            'vendor'
+            'vendor',
+            'runtime',
         ];
 
         $searchKey = $assetType === 'js' ? $_GET['vcv-script'] : $_GET['vcv-style'];
