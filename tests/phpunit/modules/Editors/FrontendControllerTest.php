@@ -103,5 +103,10 @@ class FrontendControllerTest extends WP_UnitTestCase
             $this->assertEquals(1, preg_match('/' . $pattern . '/', $output), $errorMessage);
         }
         $this->assertContains('vcv:assets:runtime:script', wp_scripts()->done);
+        $this->assertContains('vcv:assets:vendor:script', wp_scripts()->done);
+        $this->assertContains('vcv:editors:frontend:script', wp_scripts()->done);
+
+        $this->assertTrue(wp_style_is('vcv:editors:frontend:vendor', 'done'));
+        $this->assertTrue(wp_style_is('vcv:editors:frontend:style', 'done'));
     }
 }
