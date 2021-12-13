@@ -205,7 +205,7 @@ Yes, we have an awesome online community that you can join to share your experti
 == Changelog ==
 
 = 41.0 =
-*Release Date - 2021-12-14*
+*Release Date - 2021-12-13*
 
 ### Free:
 - Update: Page layouts default and theme default merged under one option
