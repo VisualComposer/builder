@@ -54,6 +54,12 @@ class BundleController extends Container implements Module
             true
         );
         wp_register_style(
+            'vcv:editors:frontend:vendor',
+            $urlHelper->to('public/dist/vendor.bundle.css'),
+            [],
+            VCV_VERSION
+        );
+        wp_register_style(
             'vcv:editors:frontend:style',
             $urlHelper->to('public/dist/wp.bundle.css'),
             [],
@@ -68,6 +74,7 @@ class BundleController extends Container implements Module
     {
         if (vcfilter('vcv:frontend:enqueue:bundle', true)) {
             wp_enqueue_style('vcv:editors:frontend:style');
+            wp_enqueue_style('vcv:editors:frontend:vendor');
         }
     }
 
