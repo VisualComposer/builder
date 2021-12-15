@@ -49,7 +49,7 @@ import './slickCustom.less';
         centerPadding: '50px',
         cssEase: 'ease',
         customPaging: function (slider, i) {
-          return $('<button type="button" data-role="none" role="button" tabindex="0" />').text(i + 1);
+          return $('<button type="button" tabindex="0" />').text(i + 1);
         },
         dots: false,
         dotsClass: 'slick-dots',
@@ -490,7 +490,7 @@ import './slickCustom.less';
 
       _.$dots = dot.appendTo(_.options.appendDots);
 
-      _.$dots.find('li').first().addClass('slick-active').attr('aria-hidden', 'false');
+      _.$dots.find('li').first().addClass('slick-active')
 
     }
 
@@ -1331,27 +1331,22 @@ import './slickCustom.less';
         }
       });
 
-      _.$dots.attr('role', 'tablist').find('li').each(function (i) {
-
-        $(this).attr({
-          'role': 'presentation'
-        });
+      // Dots navigation is not a tablist,
+      // no need for the role="tablist" and related aria-* attributes
+      // as suggested in following issue: https://github.com/kenwheeler/slick/issues/3268
+      _.$dots.find('li').each(function (i) {
 
         var slideData = slidesData.find(function (slide) {
           return i === slide.index;
         });
 
         $(this).find('button').first().attr({
-          'role': 'tab',
           'id': 'slick-slide-control' + _.instanceUid + i,
-          'aria-controls': slideData.id,
           'aria-label': (i + 1) + ' of ' + numDotGroups,
-          'aria-selected': null,
           'tabindex': '-1'
         });
 
       }).eq(_.currentSlide).find('button').attr({
-        'aria-selected': 'true',
         'tabindex': '0'
       }).end();
     }
@@ -1462,7 +1457,7 @@ import './slickCustom.less';
 
     _.$list[0].addEventListener('touchcancel', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
     _.$list[0].addEventListener('mouseleave', _.swipeHandler.bind(window, 'end'), supportsPassive ? { passive: true } : false)
-    //
+
     _.$list[0].addEventListener('click', _.clickHandler, supportsPassive ? {passive: true} : false)
 
     $(document).on(_.visibilityChange, $.proxy(_.visibility, _));
@@ -2440,21 +2435,36 @@ import './slickCustom.less';
         for (i = _.slideCount; i > (_.slideCount -
           infiniteCount); i -= 1) {
           slideIndex = i - 1;
-          const originalId = $(_.$slides[ slideIndex ]).attr('id')
+          let originalId = $(_.$slides[ slideIndex ]).attr('id')
+          const date = new Date()
+          if (originalId === undefined) {
+            originalId = 'slick-slide' + _.instanceUid + i
+          }
+          originalId = `${originalId}-${date.getTime()}`
           $(_.$slides[ slideIndex ]).clone(true).attr('id', `clone-${originalId}`)
             .attr('data-slick-index', slideIndex - _.slideCount)
             .prependTo(_.$slideTrack).addClass('slick-cloned');
         }
         for (i = 0; i < infiniteCount + _.slideCount; i += 1) {
           slideIndex = i;
-          const originalId = $(_.$slides[ slideIndex ]).attr('id')
+          let originalId = $(_.$slides[ slideIndex ]).attr('id')
+          const date = new Date()
+          if (originalId === undefined) {
+            originalId = 'slick-slide' + _.instanceUid + i
+          }
+          originalId = `${originalId}-${date.getTime()}`
 
           $(_.$slides[ slideIndex ]).clone(true).attr('id', `clone-${originalId}`)
             .attr('data-slick-index', slideIndex + _.slideCount)
             .appendTo(_.$slideTrack).addClass('slick-cloned');
         }
         _.$slideTrack.find('.slick-cloned').find('[id]').each(function () {
-          const originalId = $(this).attr('id')
+          let originalId = $(this).attr('id')
+          const date = new Date()
+          if (originalId === undefined) {
+            originalId = `slick-slide-${_.instanceUid}-${date.getTime()}`
+          }
+          originalId = `${originalId}-${date.getTime()}`
           $(this).attr('id', `clone-${originalId}`)
         });
 
@@ -3007,14 +3017,12 @@ import './slickCustom.less';
       _.$dots
         .find('li')
         .removeClass('slick-active')
-        .attr('aria-hidden', 'true')
         .end();
 
       _.$dots
         .find('li')
         .eq(Math.floor(_.currentSlide / _.options.slidesToScroll))
         .addClass('slick-active')
-        .attr('aria-hidden', 'false');
 
     }
 
