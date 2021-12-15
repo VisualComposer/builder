@@ -109,7 +109,7 @@ export default class SimpleImageSlider extends vcvAPI.elementComponent {
       return (
         <div className='vce-simple-image-slider-item vc-slick-item' key={`vce-simple-image-slider-item-${index}-${id}`} {...itemProps}>
           <CustomTag {...customProps} className={imgClasses}>
-            <img className={imgTagClasses} src={imgSrc} style={{ display: 'none' }} alt={(image && image.alt) || ''} />
+            <img className={imgTagClasses} src={imgSrc} style={{ opacity: '0' }} alt={(image && image.alt) || ''} />
           </CustomTag>
         </div>
       )
