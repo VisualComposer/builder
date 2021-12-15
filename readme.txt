@@ -4,7 +4,7 @@ Tags: page builder, website builder, editor, drag and drop, visual composer, pop
 Requires PHP: 5.6
 Requires at least: 4.6
 Tested up to: 5.8.2
-Stable tag: 41.0
+Stable tag: 41.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -224,6 +224,12 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 41.1 =
+*Release Date - 2021-12-15*
+
+### Free:
+- Fix: Editor works properly on SiteGround hosting
 
 = 41.0 =
 *Release Date - 2021-12-13*
