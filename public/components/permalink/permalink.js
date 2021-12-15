@@ -62,7 +62,7 @@ export default class Permalink extends React.Component {
       {
         'vcv-action': 'settings:parseSlug:adminNonce',
         'vcv-post-name': value,
-        'vcv-page-title': settingsStorage.state('pageTitle').get(),
+        'vcv-page-title': settingsStorage.state('pageTitle').get()
       },
       this.loadSuccess.bind(this),
       this.loadFailed.bind(this)
@@ -98,7 +98,7 @@ export default class Permalink extends React.Component {
         baseUrlLast: childNodes && childNodes[2] && childNodes[2].textContent,
         permalink: childNodes && childNodes[1] && childNodes[1].innerHTML,
         permalinkFull: full && full.innerHTML,
-        value: childNodes && childNodes[1] && childNodes[1].innerHTML,
+        value: childNodes && childNodes[1] && childNodes[1].innerHTML
       }
     } else {
       const url = documentFragment.querySelector('#sample-permalink')
