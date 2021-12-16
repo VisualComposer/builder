@@ -116,7 +116,7 @@ class SlugController extends Container implements Module
         $postName = $requestHelper->input('vcv-post-name');
         $postTitle = $requestHelper->input('vcv-page-title');
         $slug = $postName ? $postName : $postTitle;
-        if (is_object($post) && $postName && get_option('permalink_structure')) {
+        if (is_object($post) && get_option('permalink_structure')) {
             // @codingStandardsIgnoreStart
             $postName = $post->post_name = wp_unique_post_slug(
                 sanitize_title($slug),
