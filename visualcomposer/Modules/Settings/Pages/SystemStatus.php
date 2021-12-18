@@ -45,8 +45,7 @@ class SystemStatus extends Container implements Module
     {
         $this->wpAddAction(
             'admin_menu',
-            'addPage',
-            80
+            'addPage'
         );
 
         $this->wpAddAction(
