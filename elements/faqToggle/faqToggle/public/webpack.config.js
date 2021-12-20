@@ -3,6 +3,6 @@ module.exports = {
     faqToggle: ['./js/faqToggle.js']
   },
   output: {
-    filename: 'dist/[name].min.js'
+    filename: '[name].min.js'
   }
 }
