@@ -486,6 +486,8 @@
               complete: function () {
                 if (!$targetContent.data('events')) {
                   $targetContent.attr('style', '')
+                  $target.find(settings.tabPanelBodySelector).removeAttr('hidden')
+                  $target.find(settings.slidePanelTitleSelector).attr('aria-selected', true)
                 }
               }
             })
@@ -503,18 +505,24 @@
               const $elem = $(elem)
               $elem.attr(that.positionToActive, 'before')
               $elem.removeAttr(that.activeAttribute)
+              $target.find(settings.tabPanelBodySelector).attr('hidden', true)
+              $target.find(settings.slidePanelTitleSelector).attr('aria-selected', false)
             })
 
             nextTabs.each(function (i, elem) {
               const $elem = $(elem)
               $elem.attr(that.positionToActive, 'after')
               $elem.removeAttr(that.activeAttribute)
+              $target.find(settings.tabPanelBodySelector).attr('hidden', true)
+              $target.find(settings.slidePanelTitleSelector).attr('aria-selected', false)
             })
 
             next()
           })
       } else {
         $target.attr(that.activeAttribute, true)
+        $target.find(settings.tabPanelBodySelector).removeAttr('hidden')
+        $target.find(settings.slidePanelTitleSelector).attr('aria-selected', false)
         that.triggerEvent(settings.showAccordionSelector, opt)
       }
     }
@@ -549,6 +557,8 @@
             $targetContentHeight = $targetContent.height()
             $target.attr(that.animatingAttribute, true)
             $target.removeAttr(that.activeAttribute)
+            $target.find(settings.tabPanelBodySelector).attr('hidden', true)
+            $target.find(settings.slidePanelTitleSelector).attr('aria-selected', false)
             that.triggerEvent(settings.hideAccordionSelector, opt)
             next()
           })
@@ -566,6 +576,8 @@
           })
       } else {
         $target.removeAttr(that.activeAttribute)
+        $target.find(settings.tabPanelBodySelector).attr('hidden', true)
+        $target.find(settings.slidePanelTitleSelector).attr('aria-selected', false)
         that.triggerEvent(settings.hideAccordionSelector, opt)
       }
     }
@@ -816,10 +828,14 @@
         $(accordionPanels).each(function (i, elem) {
           const $elem = $(elem)
           $elem.removeAttr(settings.activeAttribute)
+          $elem.find(settings.tabPanelBodySelector).attr('hidden', true)
+          $elem.find(settings.slidePanelTitleSelector).attr('aria-selected', false)
 
           if (i < activeTabIndex) {
             $elem.attr(settings.positionToActive, 'before')
           } else if (i === activeTabIndex) {
+            $elem.find(settings.tabPanelBodySelector).removeAttr('hidden')
+            $elem.find(settings.slidePanelTitleSelector).attr('aria-selected', true)
             $elem.attr(settings.activeAttribute, true)
             $elem.find(settings.tabPanelBodySelector).get(0).style.height = ''
             activeId = $elem.attr('data-model-id')
@@ -832,9 +848,11 @@
           $(tabHeadings).each(function (i, elem) {
             const $elem = $(elem)
             $elem.removeAttr(settings.activeAttribute)
+            $elem.find(settings.tabsTitleSelector).attr('aria-selected', false)
 
             if (i === activeTabIndex) {
               $elem.attr(settings.activeAttribute, true)
+              $elem.find(settings.tabsTitleSelector).attr('aria-selected', true)
             }
           })
         }

@@ -255,6 +255,7 @@
 
       this.triggerEvent(settings.showTabSelector)
       targetTab.attr(this.activeAttribute, true)
+      targetTab.find(settings.tabsTitleSelector).attr('aria-selected', true)
 
       if (window.dispatchEvent) {
         window.setTimeout(() => {
@@ -275,6 +276,7 @@
 
       this.triggerEvent(settings.hideTabSelector)
       targetTab.removeAttr(this.activeAttribute)
+      targetTab.find(settings.tabsTitleSelector).attr('aria-selected', false)
     }
 
     // Tabs.prototype
