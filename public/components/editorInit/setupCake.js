@@ -17,7 +17,6 @@ export const setupCake = () => {
     require('../../editor/stores/history/historyStorage')
     require('../../editor/stores/settingsStorage')
     require('../../editor/stores/attributes/attributesStorage')
-    require('../../editor/stores/notifications/storage')
     require('../../editor/stores/wordpressData/wordpressDataStorage')
     require('../../editor/stores/elements/elementSettings')
     require('../../editor/stores/popup/storage')

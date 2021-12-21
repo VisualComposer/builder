@@ -51,7 +51,3 @@ const slice = createSlice({
 
 export const { notificationAdded, notificationRemoved, portalChanged } = slice.actions
 export default slice.reducer
-
-export const getPortalState = (state) => {
-
-}
