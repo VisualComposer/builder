@@ -7,12 +7,13 @@ import DOMElement from '../../../dnd/domElement'
 import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 import { getResponse } from 'public/tools/response'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsService = vcCake.getService('hubElements')
 const settingsStorage = vcCake.getStorage('settings')
-const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
 const documentService = vcCake.getService('document')
 const hubElementsStorage = vcCake.getStorage('hubElements')
@@ -455,19 +456,19 @@ export default class ElementControl extends React.Component {
   }
 
   displaySuccess (successText) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   displayError (errorText) {
     this.setState({ showSpinner: false })
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       type: 'error',
       text: errorText,
       time: 5000
-    })
+    }))
   }
 
   isElementRemovable (element) {

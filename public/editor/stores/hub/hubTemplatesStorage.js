@@ -1,5 +1,7 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
 import { getResponse } from 'public/tools/response'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const getCategory = (tag, categories) => {
   return categories ? categories.find(category => Object.values(category).find(value => value.elements.indexOf(tag) > -1)) : 'All'
@@ -7,7 +9,6 @@ const getCategory = (tag, categories) => {
 
 addStorage('hubTemplates', (storage) => {
   const workspaceStorage = getStorage('workspace')
-  const notificationsStorage = getStorage('notifications')
   const utils = getService('utils')
   const sharedAssetsStorage = getStorage('sharedAssets')
   const hubElementsStorage = getStorage('hubElements')
@@ -49,10 +50,10 @@ addStorage('hubTemplates', (storage) => {
         try {
           const jsonResponse = getResponse(response)
           if (jsonResponse && jsonResponse.status) {
-            notificationsStorage.trigger('add', {
+            store.dispatch(notificationAdded({
               text: successMessage.replace('{name}', name),
               time: 5000
-            })
+            }))
             utils.buildVariables(jsonResponse.variables || [])
             // Initialize template depended elements
             if (jsonResponse.elements && Array.isArray(jsonResponse.elements)) {
@@ -98,12 +99,12 @@ addStorage('hubTemplates', (storage) => {
               }
 
               console.warn('failed to download template status is false', errorMessage, response)
-              notificationsStorage.trigger('add', {
+              store.dispatch(notificationAdded({
                 type: 'error',
                 text: errorMessage,
                 showCloseButton: 'true',
                 time: 5000
-              })
+              }))
               workspaceStorage.trigger('removeFromDownloading', tag)
             }
           }
@@ -113,12 +114,12 @@ addStorage('hubTemplates', (storage) => {
           if (tries < 2) {
             tryDownload()
           } else {
-            notificationsStorage.trigger('add', {
+            store.dispatch(notificationAdded({
               type: 'error',
               text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
               showCloseButton: 'true',
               time: 5000
-            })
+            }))
             workspaceStorage.trigger('removeFromDownloading', tag)
           }
         }
@@ -130,12 +131,12 @@ addStorage('hubTemplates', (storage) => {
         if (tries < 2) {
           tryDownload()
         } else {
-          notificationsStorage.trigger('add', {
+          store.dispatch(notificationAdded({
             type: 'error',
             text: localizations.defaultErrorTemplateDownload || 'Failed to download template.',
             showCloseButton: 'true',
             time: 5000
-          })
+          }))
         }
       }
       utils.startDownload(bundle, data, successCallback, errorCallback)

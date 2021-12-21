@@ -55,6 +55,8 @@ export default class TokenizationList extends React.Component {
     this.handleSuggestionMouseDown = this.handleSuggestionMouseDown.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.updateValue = this.updateValue.bind(this)
+
+    this.loadTokenLabels(this.state.value)
   }
 
   handleKeyDown (e) {
@@ -184,17 +186,6 @@ export default class TokenizationList extends React.Component {
     this.stayEditing = true
   }
 
-  componentDidUpdate () {
-    this.updateSuggestBoxPosition()
-  }
-
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
-    this.loadTokenLabels(this.state.value)
-  }
-
-  /* eslint-enable */
-
   componentWillUnmount () {
     if (this.serverRequest) {
       this.serverRequest.abort()
@@ -204,21 +195,19 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillUpdate (nextProps, nextState) {
-    if (nextState.callSuggestionAjax && nextState.inputValue) {
-      let value = nextState.inputValue.split(',')
-      if (!this.checkValue(nextState.inputValue)) {
+  componentDidUpdate (prevProps, prevState) {
+    this.updateSuggestBoxPosition()
+    if (this.state.callSuggestionAjax && this.state.inputValue) {
+      const value = this.state.inputValue.split(',')
+      if (!this.checkValue(this.state.inputValue)) {
         this.loadSuggestionsAfterStoppedTyping(value)
       } else {
-        if (_.size(this.state.suggestedItems) > 0) {
+        if (_.size(prevState.suggestedItems) > 0) {
           this.setState({ suggestedItems: [], loading: false })
         }
       }
     }
   }
-
-  /* eslint-enable */
 
   updateSuggestBoxPosition () {
     if (this.state.editing === false) {

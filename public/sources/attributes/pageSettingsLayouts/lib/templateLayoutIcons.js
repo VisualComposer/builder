@@ -3,6 +3,8 @@ import { getStorage, getService, env } from 'vc-cake'
 import LayoutIcons from './layoutIcons'
 import lodash from 'lodash'
 import CustomLayoutDropdown from './customLayoutDropdown'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const settingsStorage = getStorage('settings')
 const enabledVcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -13,7 +15,6 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
-const notificationsStorage = getStorage('notifications')
 const themeBuilder = env('VCV_FT_JS_THEME_BUILDER_CUSTOM_LAYOUTS')
 
 export default class TemplateLayoutIcons extends React.Component {
@@ -88,11 +89,11 @@ export default class TemplateLayoutIcons extends React.Component {
       const allAddons = hubAddonsStorage.state('addons').get()
       if (allAddons.themeEditor && allAddons.themeBuilder) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           type: 'warning',
           text: successMessage.replace('{name}', 'Theme Builder'),
           time: 8000
-        })
+        }))
       } else {
         editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
         editorPopupStorage.state('activeFullPopup').set('premium-teaser')

@@ -1,5 +1,7 @@
 import vcCake from 'vc-cake'
+import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
 export const setupCake = () => {
+  vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
     require('../../editor/stores/fieldOptionsStorage')
@@ -17,7 +19,6 @@ export const setupCake = () => {
     require('../../editor/stores/history/historyStorage')
     require('../../editor/stores/settingsStorage')
     require('../../editor/stores/attributes/attributesStorage')
-    require('../../editor/stores/notifications/storage')
     require('../../editor/stores/wordpressData/wordpressDataStorage')
     require('../../editor/stores/elements/elementSettings')
     require('../../editor/stores/popup/storage')

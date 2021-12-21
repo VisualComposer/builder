@@ -5,15 +5,17 @@ import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
+import { Provider } from 'react-redux'
 import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 import Toggle from '../toggle/Component'
 import Tooltip from 'public/components/tooltip/tooltip'
+import store from 'public/editor/stores/store'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const roleManager = getService('roleManager')
 const settingsStorage = getStorage('settings')
-const notificationsStorage = getStorage('notifications')
 const blockRegexp = getBlockRegexp()
 const exceptionalFieldTypes = ['wysiwyg', 'textarea']
 const dataManager = getService('dataManager')
@@ -118,7 +120,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -129,7 +131,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -144,9 +146,9 @@ export default class HtmlEditorWrapper extends Attribute {
 
   handleBodyClick (e) {
     if (e.target.classList.contains('insert-media')) {
-      notificationsStorage.trigger('portalChange', '.media-frame')
+      store.dispatch(portalChanged('.media-frame'))
     } else if (e.target.classList.contains('media-modal-icon') || e.target.classList.contains('media-button-insert')) {
-      notificationsStorage.trigger('portalChange', null)
+      store.dispatch(portalChanged(null))
     }
   }
 

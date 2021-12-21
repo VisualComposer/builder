@@ -2,6 +2,8 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Editor from './lib/editor'
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
 
 vcCake.add('updateContent', (api) => {
   const iframe = document.getElementById('vcv-editor-iframe')
@@ -9,7 +11,9 @@ vcCake.add('updateContent', (api) => {
   const domContainer = iframeWindow ? iframeWindow.document.getElementById('vcv-editor') : null
   if (domContainer) {
     ReactDOM.render(
-      <Editor api={api} />,
+      <Provider store={store}>
+        <Editor api={api} />
+      </Provider>,
       domContainer
     )
   }

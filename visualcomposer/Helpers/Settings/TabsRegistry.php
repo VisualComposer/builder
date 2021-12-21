@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\License;
 
 class TabsRegistry extends Container implements Helper
 {
@@ -17,8 +18,45 @@ class TabsRegistry extends Container implements Helper
 
     protected $dataHelper;
 
-    public function __construct()
+    /**
+     * Menu items tree list.
+     * We change it when want to change position item in plugin settings menu.
+     *
+     * @var array
+     */
+    public $menuTree = [
+        'vcv-settings' => [
+            'vcv-maintenance-mode',
+            'vcv-system-status',
+            'vcv-license',
+        ],
+        'vcv-headers-footers' => [
+            'vcv_layouts',
+            'vcv_headers',
+            'vcv_footers',
+            'vcv_sidebars',
+        ],
+        'vcv-font-manager',
+        'vcv_templates',
+        'vcv-custom-site-popups' => [
+            'vcv_popups',
+        ],
+        'vcv-role-manager',
+        'vcv-import',
+        'vcv-global-css-js',
+        'vcv-hub',
+    ];
+
+    public function __construct(License $licenseHelper)
     {
+        if (!$licenseHelper->isPremiumActivated() || $licenseHelper->isThemeActivated()) {
+            $this->menuTree[] = 'vcv-activate-license';
+        } else {
+            $this->menuTree[] = 'vcv-getting-started';
+        }
+
+        $this->menuTree = vcfilter('vcv:helpers:settings:menuTree', $this->menuTree);
+
         $this->dataHelper = vchelper('Data');
     }
 
@@ -37,27 +75,64 @@ class TabsRegistry extends Container implements Helper
         return vcfilter('vcv:helper:tabsRegistry:all', self::$tabs);
     }
 
+    /**
+     * Get menu items in hierarchical order.
+     *
+     * @param array $tabs
+     *
+     * @return array
+     */
     public function getHierarchy($tabs)
     {
-        $allTabs = $tabs;
-        $hierarchyArray = [];
-        foreach ($allTabs as $key => $value) {
-            $slug = $value['slug'];
-            if (isset($value['parent']) && $value['parent'] !== false) {
-                $parentSlug = $value['parent'];
-                if ($slug === $parentSlug) {
-                    $hierarchyArray[ $slug ] = $value;
-                }
-                // In case if children was registered before parent (or parent doesn't exists)
-                if (!isset($hierarchyArray[ $parentSlug ])) {
+        $hierarchy = [];
+
+        foreach ($this->menuTree as $slug => $item) {
+            if (is_array($item)) {
+                $indexParent = array_search($slug, array_column($tabs, 'slug'));
+
+                if ($indexParent === false) {
                     continue;
                 }
-                $hierarchyArray[ $parentSlug ]['children'][ $slug ] = $value;
+
+                $hierarchy = $this->getGroupHierarchyItem($hierarchy, $tabs, $slug, $item, $indexParent);
             } else {
-                $hierarchyArray[ $slug ] = $value;
+                $index = array_search($item, array_column($tabs, 'slug'));
+
+                $hierarchy[$item] = $tabs[$index];
             }
         }
 
-        return $hierarchyArray;
+        return $hierarchy;
+    }
+
+    /**
+     * Add group items to menu hierarchy.
+     *
+     * @param array $hierarchy
+     * @param array $tabs
+     * @param string $slug
+     * @param integer $indexParent
+     * @param array $item
+     * @param integer $indexParent
+     *
+     * @return array
+     */
+    public function getGroupHierarchyItem($hierarchy, $tabs, $slug, $item, $indexParent)
+    {
+        $hierarchy[$slug] = $tabs[$indexParent];
+
+        $hierarchy[$slug]['children'][$slug] = $tabs[$indexParent];
+
+        foreach ($item as $subItemSlug) {
+            $indexChild = array_search($subItemSlug, array_column($tabs, 'slug'));
+
+            if ($indexChild === false) {
+                continue;
+            }
+
+            $hierarchy[$slug]['children'][$subItemSlug] = $tabs[$indexChild];
+        }
+
+        return $hierarchy;
     }
 }

@@ -7,6 +7,8 @@ import TransparentOverlayComponent from '../../overlays/transparentOverlay/trans
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
 import BlockGroup from './lib/blockGroup'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -17,7 +19,6 @@ const workspaceStorage = getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
-const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
 
@@ -141,18 +142,18 @@ export default class AddBlockPanel extends React.Component {
   }
 
   displaySuccess (successText) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   displayError (error) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       type: 'error',
       text: error,
       time: 5000
-    })
+    }))
   }
 
   getBlockControlProps (template) {
@@ -380,12 +381,12 @@ export default class AddBlockPanel extends React.Component {
               const elementName = cookElement.get('name')
               let errorText = AddBlockPanel.localizations.templateContainsLimitElement || 'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.'
               errorText = errorText.split('%element').join(elementName)
-              notificationsStorage.trigger('add', {
+              store.dispatch(notificationAdded({
                 type: 'error',
                 text: errorText,
                 time: 5000,
                 showCloseButton: true
-              })
+              }))
               elementLimitHasExceeded = true
             }
           })

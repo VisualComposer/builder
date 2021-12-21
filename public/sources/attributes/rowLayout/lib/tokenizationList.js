@@ -58,13 +58,6 @@ export default class TokenizationList extends React.Component {
     this.handleMouseOut = this.handleMouseOut.bind(this)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.setState({ value: nextProps.value })
-  }
-
-  /* eslint-enable */
-
   componentWillUnmount () {
     if (this.keydownTimeout) {
       window.clearTimeout(this.keydownTimeout)
@@ -72,7 +65,10 @@ export default class TokenizationList extends React.Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps) {
+    if (!_.isEqual(prevProps.value, this.props.value)) {
+      this.setState({ value: this.props.value })
+    }
     this.updateSuggestBoxPosition()
   }
 

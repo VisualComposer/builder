@@ -2,13 +2,14 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const PostData = vcCake.getService('wordpress-post-data')
 const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-const notificationsStorage = vcCake.getStorage('notifications')
 const settingsStorage = vcCake.getStorage('settings')
 const SAVED_TIMEOUT = 3000
 
@@ -61,11 +62,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         type: 'success',
         text: successMessage,
         time: 5000
-      })
+      }))
     } else if (status === 'failed') {
       this.setState({
         status: 'error',
@@ -82,11 +83,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         type: 'error',
         text: failMessage,
         time: 5000
-      })
+      }))
     }
   }
 
@@ -176,7 +177,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         message = WordPressPostSaveControl.localizations.archiveTemplateNotification ? WordPressPostSaveControl.localizations.archiveTemplateNotification : defaultMessage.replace('{location}', 'archive')
       }
       if (message !== '') {
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           position: 'top',
           transparent: false,
           showCloseButton: true,
@@ -185,7 +186,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
           text: message,
           html: true,
           time: 15000
-        })
+        }))
       }
     }
   }

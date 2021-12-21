@@ -4,8 +4,9 @@ import HubTemplateControl from './hubItems/hubTemplateControl'
 import HubAddonControl from './hubItems/hubAddonControl'
 import ElementControl from '../addElement/lib/elementControl'
 import { getStorage, getService } from 'vc-cake'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
-const notificationsStorage = getStorage('notifications')
 const workspaceStorage = getStorage('workspace')
 const roleManager = getService('roleManager')
 
@@ -52,12 +53,12 @@ export default class HubItemController extends ElementControl {
     }
 
     if (element.update) {
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',
         time: 5000
-      })
+      }))
       return false
     }
     this.setState({ isDownloading: true })

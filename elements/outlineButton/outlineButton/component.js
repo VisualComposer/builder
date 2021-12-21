@@ -11,7 +11,7 @@ export default class OutlineButtonElement extends vcvAPI.elementComponent {
     const wrapperClasses = ['vce-button--style-outline-wrapper', 'vce']
     const containerClasses = ['vce-button--style-outline-container']
 
-    const classes = []
+    const classes = ['vce-button']
 
     const buttonHtml = buttonText
     let customProps = {}

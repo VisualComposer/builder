@@ -22,11 +22,11 @@ export default class Attribute extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    this.setState(this.updateState(nextProps))
+  componentDidUpdate (prevProps) {
+    if (!lodash.isEqual(prevProps, this.props)) {
+      this.setState(this.updateState(this.props))
+    }
   }
-  /* eslint-enable */
 
   updateState (props) {
     return {

@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import lodash from 'lodash'
 import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { connect } from 'react-redux'
 
 const dataProcessor = getService('dataProcessor')
-const notificationsStorage = getStorage('notifications')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
 const dataManager = getService('dataManager')
 const editorPopupStorage = getStorage('editorPopup')
 const workspaceStorage = getStorage('workspace')
 
-export default class StockMediaResultsPanel extends React.Component {
+class StockMediaResultsPanel extends React.Component {
   static propTypes = {
     searchValue: PropTypes.string,
     scrolledToBottom: PropTypes.bool,
@@ -183,12 +184,12 @@ export default class StockMediaResultsPanel extends React.Component {
             return
           }
           const errorText = stockMediaLocalizations && stockMediaLocalizations.noConnectionToStockMediaText
-          notificationsStorage.trigger('add', {
+          this.props.addNotification({
             text: errorText,
             time: 5000,
             type: 'error',
             id: `stock-media-error--${apiUrlKey}`,
-            usePortal: notificationsStorage.state('portal').get() === '.media-frame'
+            usePortal: this.props.portal === '.media-frame'
           })
           this.setState({
             hasError: true
@@ -290,20 +291,20 @@ export default class StockMediaResultsPanel extends React.Component {
         try {
           const jsonData = JSON.parse(data)
           if (jsonData.status) {
-            notificationsStorage.trigger('add', {
+            this.props.addNotification({
               text: (stockMediaLocalizations && stockMediaLocalizations.hasBeenDownloadedText) || '',
               time: 5000,
-              usePortal: notificationsStorage.state('portal').get() === '.media-frame'
+              usePortal: this.props.portal === '.media-frame'
             })
           } else {
             let errorMessage = jsonData.response ? jsonData.response.message : jsonData.message
             errorMessage = errorMessage || `${StockMediaResultsPanel.localizations.noAccessCheckLicence} #10087` || 'No access, check your license. #10087'
-            notificationsStorage.trigger('add', {
+            this.props.addNotification({
               text: errorMessage,
               time: 5000,
               type: 'error',
               id: `stock-media-error--${apiUrlKey}`,
-              usePortal: notificationsStorage.state('portal').get() === '.media-frame'
+              usePortal: this.props.portal === '.media-frame'
             })
             if (env('VCV_DEBUG')) {
               console.warn(errorMessage, jsonData)
@@ -311,12 +312,12 @@ export default class StockMediaResultsPanel extends React.Component {
           }
         } catch (e) {
           const exceptionErrorMessage = `${StockMediaResultsPanel.localizations.coundNotParseData} #10086` || 'Could not parse data from the server. #10086'
-          notificationsStorage.trigger('add', {
+          this.props.addNotification({
             text: exceptionErrorMessage,
             time: 5000,
             type: 'error',
             id: `stock-media-error--${apiUrlKey}`,
-            usePortal: notificationsStorage.state('portal').get() === '.media-frame'
+            usePortal: this.props.portal === '.media-frame'
           })
           if (env('VCV_DEBUG')) {
             console.warn(exceptionErrorMessage, e)
@@ -546,3 +547,13 @@ export default class StockMediaResultsPanel extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addNotification: (data) => dispatch(notificationAdded(data))
+})
+
+const mapStateToProps = state => ({
+  portal: state.notifications.portal
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(StockMediaResultsPanel)

@@ -3,6 +3,7 @@ import { getStorage, getService, env } from 'vc-cake'
 import classNames from 'classnames'
 import { getResponse } from 'public/tools/response'
 import Tooltip from '../tooltip/tooltip'
+
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
 const settingsStorage = getStorage('settings')
@@ -60,7 +61,8 @@ export default class Permalink extends React.Component {
     this.ajax(
       {
         'vcv-action': 'settings:parseSlug:adminNonce',
-        'vcv-post-name': value
+        'vcv-post-name': value,
+        'vcv-page-title': settingsStorage.state('pageTitle').get()
       },
       this.loadSuccess.bind(this),
       this.loadFailed.bind(this)
@@ -110,9 +112,11 @@ export default class Permalink extends React.Component {
   handleBlurUpdateContent (event) {
     this.focused = false
     const value = event.currentTarget.innerText
-    if (value) {
+    const postName = settingsStorage.state('postName').get()
+    if (value !== postName) {
       this.setNewPermalinkHtml(value)
-    } else {
+    }
+    if (!value) {
       event.currentTarget.innerText = this.state.value
     }
   }

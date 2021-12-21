@@ -3,8 +3,8 @@ Contributors: VisualComposer,slavavc,veidenbaums,nikitahl,pavelvisualcomposer,ko
 Tags: page builder, website builder, editor, drag and drop, visual composer, popup builder, sitebuilder, wysiwyg web builder, ecommerce website builder, drag and drop website builder, SEO website builder, landing page, landing page builder, landingpages, SEO landing page, lead generation landing page, ecommerce landing page, event landing page, frontend builder, drag and drop editor, coming soon, under construction, maintenance mode
 Requires PHP: 5.6
 Requires at least: 4.6
-Tested up to: 5.8.1
-Stable tag: 40.0
+Tested up to: 5.8.2
+Stable tag: 41.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -75,9 +75,11 @@ Visual Composer Hub, a cloud-based marketplace allows you to download elements, 
 
 = WordPress Theme Builder =
 
-Visual Composer is an all-in-one editor plugin that lets you make beautiful websites from header to footer. You can create custom page layouts in a code-free way.
+Visual Composer is an all-in-one plugin that lets you make beautiful websites from header and footer to archive page and 404 page. You can completely overwrite themes by creating custom post, page, and archive layouts in a code-free way. Assign your custom layouts sitewide or override it on a page level, and reuse them as much as you like.
 
-[Make unique header, footer, and sidebar templates](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=make-unique-header-footer-sidebar-templates-text-link) to use them throughout your entire WordPress site with the help of **Global Templates**. Additionally, a **Dynamic Content** feature allows you to design templates with dynamic content placeholders (*devs will love it*).
+Make fully custom layouts (*including header, footer, and sidebar templates*) with the **[Layout Builder](https://visualcomposer.com/blog/visual-composer-layout-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=layout-builder-text-link)**, or save your [unique headers, footers, and sidebars](https://visualcomposer.com/features/wordpress-theme-builder/?utm_source=wordpress.org&utm_medium=readme&utm_campaign=free-download&utm_content=make-unique-header-footer-sidebar-templates-text-link) as **Global Templates** to reuse them and save time. Additionally, the **Dynamic Content** feature allows you to design templates with dynamic content placeholders (*devs will love it*).
+
+This means that web creators now have all the creative freedom and the topmost control over their website design — all from one place!
 
 = Ecommerce Website Builder =
 
@@ -222,6 +224,60 @@ Yes, we have an awesome online community that you can join to share your experti
 5. Endless WordPress site design options - build a website just the way you want it with powerful features for beginners and pros.
 
 == Changelog ==
+
+= 41.1 =
+*Release Date - 2021-12-15*
+
+### Free:
+- Fix: Editor works properly on SiteGround hosting
+
+= 41.0 =
+*Release Date - 2021-12-13*
+
+### Free:
+- Update: Page layouts default and theme default merged under one option
+- Update: Editor notifications improved for consistency and user experience
+- Update: Editor's loading speed improved for performance
+- Update: Drag and drop interface improved in the Tree View
+- Update: Visual Composer Insights fonts updated for consistency
+- Update: Plugin JS dependencies improved
+- Compatibility: Visual Composer works properly with WCFM
+- Fix: Twitter Button element works properly
+- Fix: Lazy loading toggle works properly
+- Fix: Undo and Redo works properly for the Page Settings
+- Fix: Tree View icons work properly
+- Fix: Row removing works properly
+- Fix: Visual Composer Hub templates have proper icons
+- Fix: Helper content displaying properly
+
+### Premium:
+- New: Layout Builder added to create global layout templates for singular (pages and posts)
+- New: Layout Builder merged with the Archive Builder for better user interface
+- New: Option to assign layouts to pages and posts added to the Theme Builder section in Dashboard
+- New: Theme Builder category added to the Add Content Window
+- New: Content Area element added to the Layout Builder
+- New: Custom Fields element added to the Layout Builder
+- New: Post Category element added to the Layout Builder
+- New: Post Tags element added to the Layout Builder
+- New: Featured Image element added to the Layout Builder
+- New: Post Author element added to the Layout Builder
+- New: Post Author Bio element added to the Layout Builder
+- New: Post Author Photo element added to the Layout Builder
+- New: Post Date element added to the Layout Builder
+- New: Post Excerpt element added to the Layout Builder
+- New: Post Title element added to the Layout Builder
+- New: Post List element added
+- Update: Theme Builder section in the Dashboard re-structured for the Layout Builder support
+- Update: Default and Theme default layouts merged in the Page Layout settings for the Layout Builder
+- Update: Lazy load option is available for Woo Commerce elements
+- Fix: Social Profile Icons work properly
+- Fix: Mono Social icons work properly
+- Fix: FlipBox element works properly inside accordions
+- Fix: Sidebar styles work properly in the editor
+- Fix: Post Slider block works properly
+- Fix: TinyMCE styles are applied properly
+- Fix: Video Player background works properly
+- Fix: Single Image works properly in Pageable Container inside Accordion
 
 = 40.0 =
 *Release Date - 2021-10-14*

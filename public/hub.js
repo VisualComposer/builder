@@ -12,9 +12,14 @@ import 'public/sources/css/wordpress.less'
 import HubContainer from './components/panels/hub/hubContainer'
 import FullPopup from 'public/components/popup/fullPagePopupContainer'
 
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
+
 const dataManager = vcCake.getService('dataManager')
 
 export const setupCake = () => {
+  vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
     // require('./editor/stores/fieldOptionsStorage')
@@ -32,7 +37,6 @@ export const setupCake = () => {
     // require('./editor/stores/history/historyStorage')
     require('./editor/stores/settingsStorage')
     // require('./editor/stores/attributes/attributesStorage')
-    require('./editor/stores/notifications/storage')
     // require('./editor/stores/wordpressData/wordpressDataStorage')
     require('./editor/stores/elements/elementSettings')
     require('./editor/stores/editorPopup/storage')
@@ -64,7 +68,9 @@ export const setupCake = () => {
     const addNotifications = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vcdashboard' />,
+        <Provider store={store}>
+          <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vcdashboard' />
+        </Provider>,
         document.querySelector('#vcv-hub')
       )
 
@@ -72,7 +78,9 @@ export const setupCake = () => {
       document.body.appendChild(popupWrapper)
 
       ReactDOM.render(
-        <FullPopup />,
+        <Provider store={store}>
+          <FullPopup />
+        </Provider>,
         popupWrapper
       )
     })

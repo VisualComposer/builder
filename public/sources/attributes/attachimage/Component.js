@@ -13,11 +13,13 @@ import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
 import { getService, getStorage } from 'vc-cake'
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
 
 const { getBlockRegexp } = getService('utils')
 const roleManager = getService('roleManager')
 const blockRegexp = getBlockRegexp()
-const notificationsStorage = getStorage('notifications')
 const workspaceStorage = getStorage('workspace')
 
 const SortableList = SortableContainer((props) => {
@@ -65,26 +67,22 @@ export default class AttachImage extends Attribute {
     this.handleDrop = this.handleDrop.bind(this)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
     this.closeMediaPopup = this.closeMediaPopup.bind(this)
+    this.init = this.init.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
     }
+
+    this.init()
   }
 
-  componentWillUnmount () {
-    if (this.tabsContainer) {
-      ReactDOM.unmountComponentAtNode(this.tabsContainer)
-    }
-  }
-
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
+  init () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
     }
 
-    let oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
+    const oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
 
     const attributeOptions = this.props.options
     window.wp.media.view.MediaFrame.Select = oldMediaFrameSelect.extend({
@@ -179,7 +177,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -203,7 +201,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -223,10 +221,11 @@ export default class AttachImage extends Attribute {
   }
 
   componentWillUnmount () {
+    if (this.tabsContainer) {
+      ReactDOM.unmountComponentAtNode(this.tabsContainer)
+    }
     document.removeEventListener('keyup', this.closeMediaPopup)
   }
-
-  /* eslint-enable */
 
   updateState (props) {
     let value = props.value
@@ -405,12 +404,13 @@ export default class AttachImage extends Attribute {
         }
       }
     })
-    notificationsStorage.trigger('portalChange', '.media-frame')
+    store.dispatch(portalChanged('.media-frame'))
     workspaceStorage.state('hasModal').set(true)
   }
 
   onMediaClose () {
-    notificationsStorage.trigger('portalChange', null)
+    store.dispatch(portalChanged(null))
+
     setTimeout(() =>
       workspaceStorage.state('hasModal').set(false)
     , 100)

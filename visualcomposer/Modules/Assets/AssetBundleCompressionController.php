@@ -37,14 +37,15 @@ class AssetBundleCompressionController extends Container implements Module
             return;
         }
 
+        error_reporting(0);
+        $mimeType = $this->getMimeType();
+        header('Content-Type: ' . $mimeType);
+
         if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === false) {
             // browser cannot accept compressed content, so need output standard JS/CSS
             echo file_get_contents($this->getBundlePath());
         } else {
-            error_reporting(0);
-            $mimeType = $this->getMimeType();
             header('Content-Encoding: gzip');
-            header('Content-Type: ' . $mimeType);
 
             if ($this->isPhpGzCompression()) {
                 // let 3 party app gzip our content.
@@ -110,7 +111,8 @@ class AssetBundleCompressionController extends Container implements Module
         $compressList = [
             'editor',
             'wp',
-            'vendor'
+            'vendor',
+            'runtime',
         ];
 
         $searchKey = $assetType === 'js' ? $_GET['vcv-script'] : $_GET['vcv-style'];
