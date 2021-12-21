@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
-const Utils = getService('utils')
-const createKey = Utils.createKey
 
 const slice = createSlice({
   name: 'notifications',
@@ -11,6 +9,8 @@ const slice = createSlice({
   },
   reducers: {
     notificationAdded: (notifications, action) => {
+      const Utils = getService('utils')
+      const createKey = Utils.createKey
       const data = action.payload
       const limit = 10
 
@@ -40,8 +40,20 @@ const slice = createSlice({
       }
     },
     notificationRemoved: (notifications, action) => {
+      const Utils = getService('utils')
       const index = notifications.list.findIndex((item) => item.id === action.payload)
-      notifications.list.splice(index, 1)
+      if (index >= 0) {
+        const cookie = notifications.list[index].cookie
+        if (cookie) {
+          if (cookie.constructor === Object) {
+            Utils.setCookie(cookie.name, true, cookie.expireInDays)
+          } else if (cookie.constructor === String) {
+            Utils.setCookie(cookie, true)
+          }
+        }
+
+        notifications.list.splice(index, 1)
+      }
     },
     portalChanged: (notifications, action) => {
       notifications.portal = action.payload
