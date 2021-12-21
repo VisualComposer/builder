@@ -47,7 +47,11 @@ describe('Tests editor navbar', () => {
     })
     test('Render navbar component', () => {
       let navbarRef
-      const navbarContainer = mount(<NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />)
+      const navbarContainer = mount(
+        <Provider store={store}>
+          <NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />
+        </Provider>
+      )
       expect(navbarContainer.exists()).toBe(true)
       const navbar = navbarContainer.find('.vcv-ui-navbar')
       expect(navbar.exists()).toBe(true)
