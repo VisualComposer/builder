@@ -12,7 +12,6 @@ const dataManager = vcCake.getService('dataManager')
 const workspaceStorage = vcCake.getStorage('workspace')
 const hubElementsService = vcCake.getService('hubElements')
 const settingsStorage = vcCake.getStorage('settings')
-const notificationsStorage = vcCake.getStorage('notifications')
 const dataProcessor = vcCake.getService('dataProcessor')
 const documentService = vcCake.getService('document')
 const hubElementsStorage = vcCake.getStorage('hubElements')
@@ -455,7 +454,7 @@ export default class ElementControl extends React.Component {
   }
 
   displaySuccess (successText) {
-    notificationsStorage.trigger('add', {
+    this.props.addNotification({
       text: successText,
       time: 5000
     })
@@ -463,7 +462,7 @@ export default class ElementControl extends React.Component {
 
   displayError (errorText) {
     this.setState({ showSpinner: false })
-    notificationsStorage.trigger('add', {
+    this.props.addNotification({
       type: 'error',
       text: errorText,
       time: 5000

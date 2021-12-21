@@ -13,11 +13,13 @@ import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
 import { getService, getStorage } from 'vc-cake'
+import { connect, Provider } from 'react-redux'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
+import store from 'public/editor/stores/store'
 
 const { getBlockRegexp } = getService('utils')
 const roleManager = getService('roleManager')
 const blockRegexp = getBlockRegexp()
-const notificationsStorage = getStorage('notifications')
 const workspaceStorage = getStorage('workspace')
 
 const SortableList = SortableContainer((props) => {
@@ -26,7 +28,7 @@ const SortableList = SortableContainer((props) => {
   )
 })
 
-export default class AttachImage extends Attribute {
+class AttachImage extends Attribute {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
     fieldKey: PropTypes.string.isRequired,
@@ -75,6 +77,7 @@ export default class AttachImage extends Attribute {
     if (this.tabsContainer) {
       ReactDOM.unmountComponentAtNode(this.tabsContainer)
     }
+    document.removeEventListener('keyup', this.closeMediaPopup)
   }
 
   /* eslint-disable */
@@ -179,7 +182,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -203,7 +206,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -220,10 +223,6 @@ export default class AttachImage extends Attribute {
 
   componentDidMount () {
     document.addEventListener('keyup', this.closeMediaPopup)
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener('keyup', this.closeMediaPopup)
   }
 
   /* eslint-enable */
@@ -405,12 +404,13 @@ export default class AttachImage extends Attribute {
         }
       }
     })
-    notificationsStorage.trigger('portalChange', '.media-frame')
+    this.props.changePortal('.media-frame')
     workspaceStorage.state('hasModal').set(true)
   }
 
   onMediaClose () {
-    notificationsStorage.trigger('portalChange', null)
+    this.props.changePortal(null)
+
     setTimeout(() =>
       workspaceStorage.state('hasModal').set(false)
     , 100)
@@ -638,3 +638,9 @@ export default class AttachImage extends Attribute {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  changePortal: (data) => dispatch(portalChanged(data))
+})
+
+export default connect(null, mapDispatchToProps, null, { forwardRef: true })(AttachImage)

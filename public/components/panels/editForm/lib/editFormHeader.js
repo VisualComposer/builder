@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { connect } from 'react-redux'
+
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
 const workspaceStorage = getStorage('workspace')
@@ -11,10 +14,9 @@ const documentManager = getService('document')
 const hubStorage = getStorage('hubAddons')
 const editorPopupStorage = getStorage('editorPopup')
 const hubAddonsStorage = getStorage('hubAddons')
-const notificationsStorage = getStorage('notifications')
 const roleManager = getService('roleManager')
 
-export default class EditFormHeader extends React.Component {
+class EditFormHeader extends React.Component {
   static propTypes = {
     elementAccessPoint: PropTypes.object.isRequired,
     options: PropTypes.object
@@ -207,7 +209,7 @@ export default class EditFormHeader extends React.Component {
       const allAddons = hubAddonsStorage.state('addons').get()
       if (allAddons.roleManager) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
-        notificationsStorage.trigger('add', {
+        this.props.addNotification({
           type: 'warning',
           text: successMessage.replace('{name}', 'Role Manager'),
           time: 8000
@@ -392,3 +394,9 @@ export default class EditFormHeader extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addNotification: (data) => dispatch(notificationAdded(data))
+})
+
+export default connect(null, mapDispatchToProps)(EditFormHeader)

@@ -3,6 +3,8 @@ import { getStorage, getService, env } from 'vc-cake'
 import LayoutIcons from './layoutIcons'
 import lodash from 'lodash'
 import CustomLayoutDropdown from './customLayoutDropdown'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { connect } from 'react-redux'
 
 const settingsStorage = getStorage('settings')
 const enabledVcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
@@ -13,10 +15,9 @@ const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
-const notificationsStorage = getStorage('notifications')
 const themeBuilder = env('VCV_FT_JS_THEME_BUILDER_CUSTOM_LAYOUTS')
 
-export default class TemplateLayoutIcons extends React.Component {
+class TemplateLayoutIcons extends React.Component {
   constructor (props) {
     super(props)
     const templateStorageData = settingsStorage.state('pageTemplate').get()
@@ -88,7 +89,7 @@ export default class TemplateLayoutIcons extends React.Component {
       const allAddons = hubAddonsStorage.state('addons').get()
       if (allAddons.themeEditor && allAddons.themeBuilder) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
-        notificationsStorage.trigger('add', {
+        this.props.addNotification({
           type: 'warning',
           text: successMessage.replace('{name}', 'Theme Builder'),
           time: 8000
@@ -367,3 +368,9 @@ export default class TemplateLayoutIcons extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addNotification: (data) => dispatch(notificationAdded(data))
+})
+
+export default connect(null, mapDispatchToProps)(TemplateLayoutIcons)

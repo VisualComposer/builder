@@ -4,12 +4,13 @@ import HubTemplateControl from './hubItems/hubTemplateControl'
 import HubAddonControl from './hubItems/hubAddonControl'
 import ElementControl from '../addElement/lib/elementControl'
 import { getStorage, getService } from 'vc-cake'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { connect } from 'react-redux'
 
-const notificationsStorage = getStorage('notifications')
 const workspaceStorage = getStorage('workspace')
 const roleManager = getService('roleManager')
 
-export default class HubItemController extends ElementControl {
+class HubItemController extends ElementControl {
   constructor (props) {
     super(props)
 
@@ -52,7 +53,7 @@ export default class HubItemController extends ElementControl {
     }
 
     if (element.update) {
-      notificationsStorage.trigger('add', {
+      this.props.addNotification({
         type: 'error',
         text: errorMessage,
         showCloseButton: 'true',
@@ -94,3 +95,9 @@ export default class HubItemController extends ElementControl {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addNotification: (data) => dispatch(notificationAdded(data))
+})
+
+export default connect(null, mapDispatchToProps)(HubItemController)

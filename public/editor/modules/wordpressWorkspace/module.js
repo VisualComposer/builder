@@ -3,13 +3,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
 import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
 const settingsStorage = getStorage('settings')
-const notificationsStorage = getStorage('notifications')
 const utils = getService('utils')
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
@@ -89,7 +91,9 @@ add('wordpressWorkspace', (api) => {
     })
 
     ReactDOM.render(
-      <WorkspaceCont />,
+      <Provider store={store}>
+        <WorkspaceCont />
+      </Provider>,
       layoutHeader
     )
   }
@@ -178,10 +182,10 @@ add('wordpressWorkspace', (api) => {
             isTutorialNotificationShown = true
             const localizations = dataManager.get('localizations')
             const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
-            notificationsStorage.trigger('add', {
+            store.dispatch(notificationAdded({
               text: tutorialPageMessage,
               time: 5000
-            })
+            }))
           }
         }
       }

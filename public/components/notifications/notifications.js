@@ -1,30 +1,9 @@
 import React from 'react'
-import vcCake from 'vc-cake'
 import NotificationContainer from './notificationsContainer'
 import NotificationPortal from './notificationPortal'
+import { connect } from 'react-redux'
 
-const notificationsStorage = vcCake.getStorage('notifications')
-const notificationsPortalState = notificationsStorage.state('portal')
-
-export default class Notifications extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      portalContainer: null
-    }
-
-    this.changePortalContainer = this.changePortalContainer.bind(this)
-  }
-
-  componentDidMount () {
-    notificationsPortalState.onChange(this.changePortalContainer)
-  }
-
-  componentWillUnmount () {
-    notificationsPortalState.ignoreChange(this.changePortalContainer)
-  }
-
+class Notifications extends React.Component {
   getVisibleContainer (selector) {
     const portals = [].slice.call(document.querySelectorAll(selector))
     if (portals.length) {
@@ -36,21 +15,23 @@ export default class Notifications extends React.Component {
     return null
   }
 
-  changePortalContainer (selector) {
-    this.setState({
-      portalContainer: selector ? this.getVisibleContainer(selector) : selector
-    })
-  }
-
   render () {
+    const { portal } = this.props
     const isPortal = true
+    const portalContainer = portal ? this.getVisibleContainer(portal) : portal
     return (
       <>
         <NotificationContainer />
-        <NotificationPortal portalContainer={this.state.portalContainer}>
+        <NotificationPortal portalContainer={portalContainer}>
           <NotificationContainer isPortal={isPortal} />
         </NotificationPortal>
       </>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  portal: state.notifications.portal
+})
+
+export default connect(mapStateToProps)(Notifications)

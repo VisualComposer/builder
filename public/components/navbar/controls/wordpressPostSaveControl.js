@@ -2,17 +2,18 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+import { connect } from 'react-redux'
 
 const PostData = vcCake.getService('wordpress-post-data')
 const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-const notificationsStorage = vcCake.getStorage('notifications')
 const settingsStorage = vcCake.getStorage('settings')
 const SAVED_TIMEOUT = 3000
 
-export default class WordPressPostSaveControl extends NavbarContent {
+class WordPressPostSaveControl extends NavbarContent {
   static isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(window.navigator.platform)
   static localizations = dataManager.get('localizations')
 
@@ -61,7 +62,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      notificationsStorage.trigger('add', {
+      this.props.addNotification({
         type: 'success',
         text: successMessage,
         time: 5000
@@ -82,7 +83,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      notificationsStorage.trigger('add', {
+      this.props.addNotification({
         type: 'error',
         text: failMessage,
         time: 5000
@@ -176,7 +177,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
         message = WordPressPostSaveControl.localizations.archiveTemplateNotification ? WordPressPostSaveControl.localizations.archiveTemplateNotification : defaultMessage.replace('{location}', 'archive')
       }
       if (message !== '') {
-        notificationsStorage.trigger('add', {
+        this.props.addNotification({
           position: 'top',
           transparent: false,
           showCloseButton: true,
@@ -282,3 +283,9 @@ export default class WordPressPostSaveControl extends NavbarContent {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addNotification: (data) => dispatch(notificationAdded(data))
+})
+
+export default connect(null, mapDispatchToProps)(WordPressPostSaveControl)

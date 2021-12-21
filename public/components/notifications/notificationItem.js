@@ -1,12 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import { getStorage, getService } from 'vc-cake'
+import { getService } from 'vc-cake'
+import { notificationRemoved } from '../../editor/stores/notifications/slice'
+import { connect } from 'react-redux'
 
 const dataManager = getService('dataManager')
-const notificationsStorage = getStorage('notifications')
 
-export default class NotificationItem extends React.Component {
+class NotificationItem extends React.Component {
   constructor (props) {
     super(props)
 
@@ -31,11 +32,11 @@ export default class NotificationItem extends React.Component {
 
   componentWillUnmount () {
     window.clearTimeout(this.timer)
-    notificationsStorage.trigger('remove', this.props.data.id)
+    this.props.removeNotification(this.props.data.id)
   }
 
   handleRemoveNotification () {
-    notificationsStorage.trigger('remove', this.props.data.id)
+    this.props.removeNotification(this.props.data.id)
   }
 
   handleClickHideNotification () {
@@ -88,3 +89,9 @@ export default class NotificationItem extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  removeNotification: (id) => dispatch(notificationRemoved(id))
+})
+
+export default connect(null, mapDispatchToProps)(NotificationItem)

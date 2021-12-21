@@ -9,16 +9,18 @@ import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 import Toggle from '../toggle/Component'
 import Tooltip from 'public/components/tooltip/tooltip'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
+import { connect, Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const roleManager = getService('roleManager')
 const settingsStorage = getStorage('settings')
-const notificationsStorage = getStorage('notifications')
 const blockRegexp = getBlockRegexp()
 const exceptionalFieldTypes = ['wysiwyg', 'textarea']
 const dataManager = getService('dataManager')
 
-export default class HtmlEditorWrapper extends Attribute {
+class HtmlEditorWrapper extends Attribute {
   static defaultProps = {
     fieldType: 'htmleditor'
   }
@@ -118,7 +120,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -129,7 +131,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -144,9 +146,9 @@ export default class HtmlEditorWrapper extends Attribute {
 
   handleBodyClick (e) {
     if (e.target.classList.contains('insert-media')) {
-      notificationsStorage.trigger('portalChange', '.media-frame')
+      this.props.changePortal('.media-frame')
     } else if (e.target.classList.contains('media-modal-icon') || e.target.classList.contains('media-button-insert')) {
-      notificationsStorage.trigger('portalChange', null)
+      this.props.changePortal(null)
     }
   }
 
@@ -323,3 +325,9 @@ export default class HtmlEditorWrapper extends Attribute {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  changePortal: (data) => dispatch(portalChanged(data))
+})
+
+export default connect(null, mapDispatchToProps, null, { forwardRef: true })(HtmlEditorWrapper)

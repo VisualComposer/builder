@@ -12,6 +12,9 @@ import 'public/sources/css/wordpress.less'
 import HubContainer from './components/panels/hub/hubContainer'
 import FullPopup from 'public/components/popup/fullPagePopupContainer'
 
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+
 const dataManager = vcCake.getService('dataManager')
 
 export const setupCake = () => {
@@ -64,7 +67,9 @@ export const setupCake = () => {
     const addNotifications = true
     window.setTimeout(() => {
       ReactDOM.render(
-        <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vcdashboard' />,
+        <Provider store={store}>
+          <HubContainer parent={{}} hideScrollbar={hideScrollbar} addNotifications={addNotifications} visible namespace='vcdashboard' />
+        </Provider>,
         document.querySelector('#vcv-hub')
       )
 
@@ -72,7 +77,9 @@ export const setupCake = () => {
       document.body.appendChild(popupWrapper)
 
       ReactDOM.render(
-        <FullPopup />,
+        <Provider store={store}>
+          <FullPopup />
+        </Provider>,
         popupWrapper
       )
     })
