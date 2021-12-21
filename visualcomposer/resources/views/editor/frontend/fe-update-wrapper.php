@@ -2,6 +2,7 @@
 /**
  * @var array $posts
  * @var array $actions
+ * @var string $content
  */
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
