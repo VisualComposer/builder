@@ -1,6 +1,8 @@
 /* global describe, test, expect */
 import vcCake from 'vc-cake'
+import { Provider } from 'react-redux'
 import '../../public/variables'
+import store from 'public/editor/stores/store'
 // Services & Storages
 import '../../public/editor/services/utils/service.js'
 import '../../public/editor/services/dataManager/service.js'
@@ -35,7 +37,9 @@ describe('Tests editor navbar', () => {
         let navbarRef
         window.ResizeObserver = ResizeObserverMock
         const navbar = renderer.create(
-          <NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />
+          <Provider store={store}>
+            <NavbarContainer getNavbarPosition={() => {}} wrapperRef={(navbar) => { navbarRef = navbar }} />
+          </Provider>
         )
         let tree = navbar.toJSON()
         expect(tree).toMatchSnapshot()
