@@ -137,12 +137,12 @@ class Update implements Helper
         ];
         $variables[] = [
             'key' => 'VCV_UPDATE_WP_BUNDLE_URL',
-            'value' => get_site_url(null, '?vcv-script=wp'),
+            'value' => get_site_url(null, 'index.php?vcv-script=wp'),
             'type' => 'constant',
         ];
         $variables[] = [
             'key' => 'VCV_UPDATE_VENDOR_URL',
-            'value' => get_site_url(null, '?vcv-script=vendor'),
+            'value' => get_site_url(null, 'index.php?vcv-script=vendor'),
             'type' => 'constant',
         ];
         $variables[] = [
