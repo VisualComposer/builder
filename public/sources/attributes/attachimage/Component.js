@@ -68,6 +68,8 @@ export default class AttachImage extends Attribute {
     this.closeMediaPopup = this.closeMediaPopup.bind(this)
     this.init = this.init.bind(this)
 
+    this.init()
+
     this.state.extraAttributes = {
       url: props.options.url
     }
