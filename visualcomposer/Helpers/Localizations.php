@@ -131,6 +131,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'blankPageInputPlaceholderText' => __('Page title', 'visualcomposer'),
+            "blankHeaderTitle" => __('Design your header here as a part of your layout. You can also download header templates from the Visual Composer Hub.', 'visualcomposer'),
+            "blankFooterTitle" => __('Design your footer here as a part of your layout. You can also download footer templates from the Visual Composer Hub.', 'visualcomposer'),
             'addTemplateHelperText' => __(
             // @codingStandardsIgnoreLine
                 'Didn\'t find a perfect template? Get a premium license to download templates from the Visual Composer Hub.',
@@ -1704,6 +1706,24 @@ class Localizations extends Container implements Helper
                 '</a>',
                 '{name}'
             ),
+            'createLayout' => sprintf(
+                __(
+                    '%sCreate%s a new layout.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'editLayout' => sprintf(
+                __(
+                    '%sEdit%s this layout or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank">',
+                '</a>',
+                '<a href="{createLink}" target="_blank">',
+                '</a>'
+            ),
             'editHFSTemplate' => sprintf(
                 __(
                     '%sEdit%s this %s template or %screate%s a new one.',
@@ -1831,11 +1851,11 @@ class Localizations extends Container implements Helper
             ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
             'postTemplateText' => __(
-                'Post & Page template',
+                'Singular layout',
                 'visualcomposer'
             ),
             'archiveTemplateText' => __(
-                'Archive template',
+                'Archive layout',
                 'visualcomposer'
             ),
             'archiveGridElementMissingNotification' => __(
@@ -1852,6 +1872,18 @@ class Localizations extends Container implements Helper
             ),
             'comingSoon' => __(
                 'Coming Soon',
+                'visualcomposer'
+            ),
+            'excerptPlaceholderText' => __(
+                'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.',
+                'visualcomposer'
+            ),
+            'authorBioPlaceholderText' => __(
+                'This is a placeholder for the Author Bio element. It will be replaced by the actual content.',
+                'visualcomposer'
+            ),
+            'noValue' => __(
+                'No Value',
                 'visualcomposer'
             ),
         ];

@@ -234,6 +234,7 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       active: editable
     })
+    const editorType = dataManager.get('editorType')
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const localizations = dataManager.get('localizations')
     const closeTitle = localizations ? localizations.close : 'Close'
@@ -312,7 +313,7 @@ export default class EditFormHeader extends React.Component {
     const isPresetsEnabled = isGeneral && roleManager.can('editor_content_presets_management', roleManager.defaultTrue())
     const isBlocksEnabled = isRoot && roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
 
-    if (isPresetsEnabled || isBlocksEnabled) {
+    if (isPresetsEnabled || (isBlocksEnabled && editorType !== 'vcv_layouts')) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span

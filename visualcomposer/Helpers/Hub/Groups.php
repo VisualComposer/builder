@@ -15,13 +15,6 @@ class Groups implements Helper
     public function getGroups()
     {
         return [
-            'Theme Builder' => [
-                'title' => 'Theme Builder',
-                'categories' => [
-                    'Theme Builder',
-                ],
-                'elements' => [],
-            ],
             'Basic' => [
                 'title' => 'Basic',
                 'categories' => [
@@ -132,6 +125,13 @@ class Groups implements Helper
                     'Section',
                     'Accordions',
                     'Tabs',
+                ],
+                'elements' => [],
+            ],
+            'Theme Builder' => [
+                'title' => 'Theme Builder',
+                'categories' => [
+                    'Theme Builder',
                 ],
                 'elements' => [],
             ],

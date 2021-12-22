@@ -36,7 +36,7 @@ class AssetBundleController extends Container implements Module
     {
         wp_register_script(
             'vcv:assets:vendor:script',
-            get_site_url(null, '?vcv-script=vendor'),
+            get_site_url(null, 'index.php?vcv-script=vendor'),
             [],
             VCV_VERSION
         );
@@ -58,7 +58,7 @@ class AssetBundleController extends Container implements Module
         );
         wp_register_script(
             'vcv:assets:runtime:script',
-            $urlHelper->to('public/dist/runtime.bundle.js'),
+            get_site_url(null, 'index.php?vcv-script=runtime'),
             [
                 'jquery',
             ],

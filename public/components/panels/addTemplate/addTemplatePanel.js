@@ -575,8 +575,9 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-form-button--action': true,
       'vcv-ui-form-button--loading': !!this.state.showSpinner
     })
+    const editorType = dataManager.get('editorType')
 
-    const saveTemplate = this.state.isRemoveStateActive || !isAbleToSave ? null : (
+    const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) || (editorType === 'vcv_layouts') ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
           <form

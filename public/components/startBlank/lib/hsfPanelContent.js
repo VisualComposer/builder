@@ -70,8 +70,8 @@ export default class HfsPanelContent extends React.Component {
   addLayoutSelect () {
     const editorType = dataManager.get('editorType')
     const localizations = dataManager.get('localizations')
-    const postTemplateText = localizations ? localizations.postTemplateText : 'Post & Page template'
-    const archiveTemplateText = localizations ? localizations.archiveTemplateText : 'Archive template'
+    const postTemplateText = localizations ? localizations.postTemplateText : 'Singular layout'
+    const archiveTemplateText = localizations ? localizations.archiveTemplateText : 'Archive layout'
     let layoutSelect = null
 
     if (editorType === 'vcv_layouts') {

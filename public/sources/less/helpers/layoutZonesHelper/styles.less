@@ -26,13 +26,13 @@
     &:hover {
       background: @zone-overlay-background;
 
-      .vcv-zone-button {
+      .vcv-zone-button-container .vcv-zone-button, .vcv-zone-button-container a.vcv-zone-button {
         opacity: 1;
       }
     }
   }
 
-  .vcv-zone-button {
+  .vcv-zone-button-container .vcv-zone-button, .vcv-zone-button-container a.vcv-zone-button {
     position: -webkit-sticky;
     position: sticky;
     top: @zone-sticky-button-offset;
@@ -106,7 +106,7 @@
     bottom: @zone-sticky-button-offset;
     z-index: 100;
 
-    .vcv-zone-button {
+    .vcv-zone-button, a.vcv-zone-button {
       position: relative;
       top: auto;
       bottom: auto;
@@ -119,7 +119,7 @@
     flex-direction: column;
   }
 
-  .vcv-zone-button {
+  .vcv-zone-button-container .vcv-zone-button, .vcv-zone-button-container a.vcv-zone-button {
     margin: @zone-button-spacing 0;
   }
 

@@ -186,13 +186,6 @@ export default class Groups extends React.Component {
         }
       })
 
-      // Backup first item if it's theme builder
-      const editorType = dataManager.get('editorType')
-      let backupThemeBuilder
-      if (Groups.allGroups && Groups.allGroups[0] && Groups.allGroups[0].id && Groups.allGroups[0].id.indexOf('Theme Builder') !== -1 && editorType === 'vcv_layouts') {
-        backupThemeBuilder = Groups.allGroups.splice(0, 1)
-      }
-
       // Element Presets Group
       const presetElements = allElements.filter(element => element.presetId)
       if (presetElements.length > 0) {
@@ -216,8 +209,19 @@ export default class Groups extends React.Component {
       }
 
       // Add theme builder category to the first
-      if (backupThemeBuilder && editorType === 'vcv_layouts') {
-        Groups.allGroups.unshift(...backupThemeBuilder)
+      const editorType = dataManager.get('editorType')
+      if (editorType === 'vcv_layouts') {
+        let backupThemeBuilder
+        Groups.allGroups.forEach(function (group, key) {
+          if (group.title === 'Theme Builder') {
+            backupThemeBuilder = group
+            Groups.allGroups.splice(key, 1)
+          }
+        })
+
+        if (backupThemeBuilder) {
+          Groups.allGroups.unshift(backupThemeBuilder)
+        }
       }
 
       usedElements = [...new Set(usedElements)]
