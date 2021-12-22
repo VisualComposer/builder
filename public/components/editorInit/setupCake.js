@@ -1,5 +1,7 @@
 import vcCake from 'vc-cake'
+import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
 export const setupCake = () => {
+  vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
     require('../../editor/stores/fieldOptionsStorage')

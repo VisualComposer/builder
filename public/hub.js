@@ -14,10 +14,12 @@ import FullPopup from 'public/components/popup/fullPagePopupContainer'
 
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
+import globalStoreInstance from 'public/editor/stores/globalStoreInstance'
 
 const dataManager = vcCake.getService('dataManager')
 
 export const setupCake = () => {
+  vcCake.env('globalStore', globalStoreInstance)
   vcCake.env('platform', 'wordpress').start(() => {
     vcCake.env('editor', 'frontend')
     // require('./editor/stores/fieldOptionsStorage')
