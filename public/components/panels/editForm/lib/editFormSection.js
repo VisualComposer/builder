@@ -5,8 +5,8 @@ import Field from './field'
 import EditFormSettings from './editFormSettings'
 import { env, getService, getStorage } from 'vc-cake'
 import Tooltip from '../../../tooltip/tooltip'
+import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
-import { connect } from 'react-redux'
 
 const dataManager = getService('dataManager')
 const dataProcessor = getService('dataProcessor')
@@ -15,7 +15,7 @@ const myTemplatesService = getService('myTemplates')
 const hubElementsStorage = getStorage('hubElements')
 const cook = getService('cook')
 
-class EditFormSection extends React.Component {
+export default class EditFormSection extends React.Component {
   _isMounted = false
 
   static propTypes = {
@@ -289,19 +289,19 @@ class EditFormSection extends React.Component {
 
   displaySuccess (successText) {
     this.setState({ showSpinner: false })
-    this.props.addNotification({
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   displayError (errorText) {
     this.setState({ showSpinner: false })
-    this.props.addNotification({
+    store.dispatch(notificationAdded({
       type: 'error',
       text: errorText,
       time: 5000
-    })
+    }))
   }
 
   handleToggleShowReplace () {
@@ -403,9 +403,3 @@ class EditFormSection extends React.Component {
     )
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  addNotification: (data) => dispatch(notificationAdded(data))
-})
-
-export default connect(null, mapDispatchToProps)(EditFormSection)

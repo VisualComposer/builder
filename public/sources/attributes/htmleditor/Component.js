@@ -9,9 +9,8 @@ import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 import Toggle from '../toggle/Component'
 import Tooltip from 'public/components/tooltip/tooltip'
-import { portalChanged } from 'public/editor/stores/notifications/slice'
-import { connect, Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
 
 const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const roleManager = getService('roleManager')
@@ -20,7 +19,7 @@ const blockRegexp = getBlockRegexp()
 const exceptionalFieldTypes = ['wysiwyg', 'textarea']
 const dataManager = getService('dataManager')
 
-class HtmlEditorWrapper extends Attribute {
+export default class HtmlEditorWrapper extends Attribute {
   static defaultProps = {
     fieldType: 'htmleditor'
   }
@@ -120,7 +119,7 @@ class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
+        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
         return this
       }
     })
@@ -131,7 +130,7 @@ class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
+        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
         return this
       }
     })
@@ -146,9 +145,9 @@ class HtmlEditorWrapper extends Attribute {
 
   handleBodyClick (e) {
     if (e.target.classList.contains('insert-media')) {
-      this.props.changePortal('.media-frame')
+      store.dispatch(portalChanged('.media-frame'))
     } else if (e.target.classList.contains('media-modal-icon') || e.target.classList.contains('media-button-insert')) {
-      this.props.changePortal(null)
+      store.dispatch(portalChanged(null))
     }
   }
 
@@ -325,9 +324,3 @@ class HtmlEditorWrapper extends Attribute {
     )
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  changePortal: (data) => dispatch(portalChanged(data))
-})
-
-export default connect(null, mapDispatchToProps, null, { forwardRef: true })(HtmlEditorWrapper)

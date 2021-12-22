@@ -13,9 +13,8 @@ import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
 import { getService, getStorage } from 'vc-cake'
-import { connect, Provider } from 'react-redux'
-import { portalChanged } from 'public/editor/stores/notifications/slice'
 import store from 'public/editor/stores/store'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
 
 const { getBlockRegexp } = getService('utils')
 const roleManager = getService('roleManager')
@@ -28,7 +27,7 @@ const SortableList = SortableContainer((props) => {
   )
 })
 
-class AttachImage extends Attribute {
+export default class AttachImage extends Attribute {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.array]).isRequired,
     fieldKey: PropTypes.string.isRequired,
@@ -182,7 +181,7 @@ class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
+        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
         return this
       }
     })
@@ -206,7 +205,7 @@ class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
+        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
         return this
       }
     })
@@ -404,12 +403,12 @@ class AttachImage extends Attribute {
         }
       }
     })
-    this.props.changePortal('.media-frame')
+    store.dispatch(portalChanged('.media-frame'))
     workspaceStorage.state('hasModal').set(true)
   }
 
   onMediaClose () {
-    this.props.changePortal(null)
+    store.dispatch(portalChanged(null))
 
     setTimeout(() =>
       workspaceStorage.state('hasModal').set(false)
@@ -638,9 +637,3 @@ class AttachImage extends Attribute {
     )
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  changePortal: (data) => dispatch(portalChanged(data))
-})
-
-export default connect(null, mapDispatchToProps, null, { forwardRef: true })(AttachImage)

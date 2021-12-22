@@ -5,8 +5,6 @@ import Scrollbar from '../../../scrollbar/scrollbar.js'
 import vcCake from 'vc-cake'
 import PropTypes from 'prop-types'
 import ElementsGroup from './elementsGroup'
-import { notificationAdded } from 'public/editor/stores/notifications/slice'
-import { connect } from 'react-redux'
 
 const dataManager = vcCake.getService('dataManager')
 const roleManager = vcCake.getService('roleManager')
@@ -18,7 +16,7 @@ const cook = vcCake.getService('cook')
 const elementsStorage = vcCake.getStorage('elements')
 const dataProcessor = vcCake.getService('dataProcessor')
 
-class Groups extends React.Component {
+export default class Groups extends React.Component {
   static propTypes = {
     parent: PropTypes.object,
     onScrollToElement: PropTypes.func
@@ -302,7 +300,6 @@ class Groups extends React.Component {
       <ElementControl
         key={key}
         elementPresetId={elementData.presetId}
-        addNotification={this.props.addNotification}
         element={elementData}
         thirdParty={elementData.thirdParty}
         tag={tag}
@@ -486,9 +483,3 @@ class Groups extends React.Component {
     )
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  addNotification: (data) => dispatch(notificationAdded(data))
-})
-
-export default connect(null, mapDispatchToProps)(Groups)

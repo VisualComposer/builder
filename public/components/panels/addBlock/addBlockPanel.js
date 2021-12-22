@@ -7,8 +7,8 @@ import TransparentOverlayComponent from '../../overlays/transparentOverlay/trans
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
 import BlockGroup from './lib/blockGroup'
+import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
-import { connect } from 'react-redux'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -22,7 +22,7 @@ const assetsStorage = getStorage('assets')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
 
-class AddBlockPanel extends React.Component {
+export default class AddBlockPanel extends React.Component {
   static propTypes = {
     searchValue: PropTypes.string,
     handleScrollToElement: PropTypes.func
@@ -142,18 +142,18 @@ class AddBlockPanel extends React.Component {
   }
 
   displaySuccess (successText) {
-    this.props.addNotification({
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   displayError (error) {
-    this.props.addNotification({
+    store.dispatch(notificationAdded({
       type: 'error',
       text: error,
       time: 5000
-    })
+    }))
   }
 
   getBlockControlProps (template) {
@@ -381,12 +381,12 @@ class AddBlockPanel extends React.Component {
               const elementName = cookElement.get('name')
               let errorText = AddBlockPanel.localizations.templateContainsLimitElement || 'The block you want to add contains %element element. You already have %element element added - remove it before adding the block.'
               errorText = errorText.split('%element').join(elementName)
-              this.props.addNotification({
+              store.dispatch(notificationAdded({
                 type: 'error',
                 text: errorText,
                 time: 5000,
                 showCloseButton: true
-              })
+              }))
               elementLimitHasExceeded = true
             }
           })
@@ -500,9 +500,3 @@ class AddBlockPanel extends React.Component {
     )
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  addNotification: (data) => dispatch(notificationAdded(data))
-})
-
-export default connect(null, mapDispatchToProps)(AddBlockPanel)

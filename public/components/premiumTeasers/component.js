@@ -1,15 +1,15 @@
 import React from 'react'
 import { getService, getStorage } from 'vc-cake'
 import classNames from 'classnames'
+import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'
-import { connect } from 'react-redux'
 
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
 const workspaceStorage = getStorage('workspace')
 const localizations = dataManager.get('localizations')
 
-class PremiumTeaser extends React.Component {
+export default class PremiumTeaser extends React.Component {
   constructor (props) {
     super(props)
     let isDownloading = false
@@ -60,11 +60,11 @@ class PremiumTeaser extends React.Component {
 
     if (downloadedAddons[addonData.tag]) {
       const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
-      this.props.addNotification({
+      store.dispatch(notificationAdded({
         type: 'warning',
         text: successMessage.replace('{name}', addonData.name),
         time: 8000
-      })
+      }))
     } else {
       this.setState({ isDownloading: true })
       hubAddonsStorage.trigger('downloadAddon', addonData)
@@ -115,9 +115,3 @@ class PremiumTeaser extends React.Component {
     )
   }
 }
-
-const mapDispatchToProps = (dispatch) => ({
-  addNotification: (data) => dispatch(notificationAdded(data))
-})
-
-export default connect(null, mapDispatchToProps)(PremiumTeaser)
