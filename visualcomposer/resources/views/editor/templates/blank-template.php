@@ -23,7 +23,12 @@ if (!defined('ABSPATH')) {
             .vcv-content--boxed .entry-content .vcv-layouts-html > [data-vce-boxed-width="true"],
             .vcv-editor-theme-hf .vcv-layouts-html > [data-vce-boxed-width="true"],
             .vcv-header > [data-vce-boxed-width="true"],
-            .vcv-footer > [data-vce-boxed-width="true"] {
+            .vcv-footer > [data-vce-boxed-width="true"],
+            .vcv-content--boxed .entry-content > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
+            .vcv-content--boxed .vcv-layouts-html > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
+            .vcv-editor-theme-hf .vcv-layouts-html > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
+            .vcv-header > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"],
+            .vcv-footer > * > [data-vce-full-width="true"]:not([data-vce-stretch-content="true"]) > [data-vce-element-content="true"] {
                 max-width: <?php echo $customLayoutWidth ?> !important;
             }
         }
