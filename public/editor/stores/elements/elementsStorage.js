@@ -1,6 +1,7 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
+import { debounce } from 'lodash'
 import { rebuildRawLayout } from './lib/tools'
-
+import ModuleAPI from 'vc-cake/lib/module-api-constructor'
 import innerAPI from 'public/components/api/innerAPI'
 
 addStorage('elements', (storage) => {
@@ -425,5 +426,15 @@ addStorage('elements', (storage) => {
     }
     // Remove after a second (css should be completely loaded and rebuild)
     window.setTimeout(removeAssetsFile, 1000)
+  })
+
+  const renderDone = debounce(() => {
+    storage.trigger('elementsRenderDone')
+  }, 200)
+
+  const moduleLayoutApi = new ModuleAPI('contentLayout')
+  storage.on('elementsCssBuildDone', () => {
+    moduleLayoutApi.on('element:didUpdate', renderDone)
+    renderDone()
   })
 })

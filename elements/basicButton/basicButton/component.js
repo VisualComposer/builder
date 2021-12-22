@@ -10,7 +10,7 @@ export default class ButtonElement extends vcvAPI.elementComponent {
 
     let containerClasses = 'vce-button--style-basic-container'
     let wrapperClasses = 'vce-button--style-basic-wrapper vce'
-    let classes = 'vce-button--style-basic'
+    let classes = 'vce-button vce-button--style-basic'
     let customProps = {}
     let CustomTag = 'button'
 

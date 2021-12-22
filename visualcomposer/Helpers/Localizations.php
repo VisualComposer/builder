@@ -1706,6 +1706,24 @@ class Localizations extends Container implements Helper
                 '</a>',
                 '{name}'
             ),
+            'createLayout' => sprintf(
+                __(
+                    '%sCreate%s a new layout.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'editLayout' => sprintf(
+                __(
+                    '%sEdit%s this layout or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank">',
+                '</a>',
+                '<a href="{createLink}" target="_blank">',
+                '</a>'
+            ),
             'editHFSTemplate' => sprintf(
                 __(
                     '%sEdit%s this %s template or %screate%s a new one.',
@@ -1833,11 +1851,11 @@ class Localizations extends Container implements Helper
             ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
             'postTemplateText' => __(
-                'Post & Page template',
+                'Singular layout',
                 'visualcomposer'
             ),
             'archiveTemplateText' => __(
-                'Archive template',
+                'Archive layout',
                 'visualcomposer'
             ),
             'archiveGridElementMissingNotification' => __(
