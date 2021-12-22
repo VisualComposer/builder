@@ -39,7 +39,7 @@ class RoleManager extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            9
+            20
         );
 
         $this->addFilter('vcv:ajax:settings:roles:save:adminNonce', 'saveRoles');

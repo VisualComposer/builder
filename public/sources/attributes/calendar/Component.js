@@ -41,17 +41,26 @@ export default class CalendarAttribute extends Attribute {
       popperClassName: 'vcv-ui-form-datepicker-popper',
       dateFormat: 'MMMM d, yyyy',
       popperPlacement: 'bottom-start',
-      popperModifiers: {
-        flip: {
-          behavior: ['bottom']
+      popperModifiers: [
+        {
+          name: 'flip',
+          options: {
+            behavior: ['bottom']
+          }
         },
-        preventOverflow: {
-          enabled: false
+        {
+          name: 'preventOverflow',
+          options: {
+            enabled: false
+          }
         },
-        hide: {
-          enabled: false
+        {
+          name: 'hide',
+          options: {
+            enabled: false
+          }
         }
-      }
+      ]
     }
     if (Object.prototype.hasOwnProperty.call(this.props.options, 'time') && this.props.options.time) {
       props.calendarClassName = 'vcv-ui-form-datepicker vcv-ui-form-datepicker-time'
