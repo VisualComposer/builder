@@ -71,8 +71,6 @@ export default class AttachImage extends Attribute {
     this.state.extraAttributes = {
       url: props.options.url
     }
-
-    this.init()
   }
 
   init () {
