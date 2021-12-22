@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
 import { getService, getStorage } from 'vc-cake'
+import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { portalChanged } from 'public/editor/stores/notifications/slice'
 
@@ -68,11 +69,11 @@ export default class AttachImage extends Attribute {
     this.closeMediaPopup = this.closeMediaPopup.bind(this)
     this.init = this.init.bind(this)
 
-    this.init()
-
     this.state.extraAttributes = {
       url: props.options.url
     }
+
+    this.init()
   }
 
   init () {
@@ -176,7 +177,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -200,7 +201,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })

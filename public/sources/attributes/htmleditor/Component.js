@@ -5,6 +5,7 @@ import Attribute from '../attribute'
 import DynamicAttribute from '../dynamicField/dynamicAttribute'
 import classNames from 'classnames'
 import { getService, getStorage } from 'vc-cake'
+import { Provider } from 'react-redux'
 import StockMediaTab from '../attachimage/stockMediaTab'
 import GiphyMediaTab from '../attachimage/giphyMediaTab'
 import Toggle from '../toggle/Component'
@@ -119,7 +120,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -130,7 +131,7 @@ export default class HtmlEditorWrapper extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
