@@ -246,35 +246,4 @@ vcCake.add('contentLayout', (api) => {
   }
 
   renderLayout()
-
-  assetsStorage.state('jobs').onChange((data) => {
-    const documentElements = vcCake.getService('document').all()
-    if (documentElements) {
-      const visibleJobs = data.elements.filter(element => !element.hidden)
-      const visibleElements = Utils.getVisibleElements(documentElements)
-      const documentIds = Object.keys(visibleElements)
-      if (documentIds.length === visibleJobs.length) {
-        const jobsInprogress = data.elements.find(element => element.jobs)
-        if (jobsInprogress) {
-          return
-        }
-        elementsStorage.trigger('elementsCssBuildDone', data)
-      }
-    }
-  })
-
-  elementsStorage.on('elementsCssBuildDone', () => {
-    // need wait until latest element will be rendered
-    let timer = null
-    const renderDone = () => {
-      elementsStorage.trigger('elementsRenderDone')
-    }
-    api.on('element:didUpdate', () => {
-      window.clearTimeout(timer)
-      timer = null
-      timer = window.setTimeout(renderDone, 150)
-    })
-
-    timer = window.setTimeout(renderDone, 200)
-  })
 })

@@ -66,27 +66,22 @@ export default class AttachImage extends Attribute {
     this.handleDrop = this.handleDrop.bind(this)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
     this.closeMediaPopup = this.closeMediaPopup.bind(this)
+    this.init = this.init.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
     }
+
+    this.init()
   }
 
-  componentWillUnmount () {
-    if (this.tabsContainer) {
-      ReactDOM.unmountComponentAtNode(this.tabsContainer)
-    }
-    document.removeEventListener('keyup', this.closeMediaPopup)
-  }
-
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
+  init () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
     }
 
-    let oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
+    const oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
 
     const attributeOptions = this.props.options
     window.wp.media.view.MediaFrame.Select = oldMediaFrameSelect.extend({
@@ -224,7 +219,12 @@ export default class AttachImage extends Attribute {
     document.addEventListener('keyup', this.closeMediaPopup)
   }
 
-  /* eslint-enable */
+  componentWillUnmount () {
+    if (this.tabsContainer) {
+      ReactDOM.unmountComponentAtNode(this.tabsContainer)
+    }
+    document.removeEventListener('keyup', this.closeMediaPopup)
+  }
 
   updateState (props) {
     let value = props.value
