@@ -1,4 +1,6 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const createKey = getService('utils').createKey
 const cacheStorage = getStorage('cache')
@@ -6,7 +8,6 @@ const cacheStorage = getStorage('cache')
 addStorage('workspace', (storage) => {
   const elementsStorage = getStorage('elements')
   const documentManager = getService('document')
-  const notificationsStorage = getStorage('notifications')
   const cook = getService('cook')
   const dataManager = getService('dataManager')
   const isElementOneRelation = (parent) => {
@@ -72,10 +73,10 @@ addStorage('workspace', (storage) => {
     if (metaCustomId) {
       const localizations = dataManager.get('localizations')
       const successMessage = localizations.cloneElementWithId || 'The element was cloned without a unique Element ID. Adjust the Element ID by editing the element.'
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         text: successMessage,
         time: 5000
-      })
+      }))
     }
   }, {
     debounce: 250
@@ -95,10 +96,10 @@ addStorage('workspace', (storage) => {
     }
     cacheStorage.trigger('clear', 'controls')
     if (metaCustomId) {
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         text: successMessage,
         time: 5000
-      })
+      }))
     }
   })
   const markLastChild = (data) => {
@@ -283,10 +284,10 @@ addStorage('workspace', (storage) => {
       } else {
         messageText = options.lockInnerElements ? unlockContainerMessage : unlockElementMessage
       }
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         text: messageText,
         time: 5000
-      })
+      }))
     }
   })
 
@@ -324,10 +325,10 @@ addStorage('workspace', (storage) => {
       const localizations = dataManager.get('localizations')
       const lockAllMessage = localizations.lockAllNotificationText || 'All elements on the page have been locked. Only the Administrator role can edit the content.'
       const unlockAllMessage = localizations.unlockAllNotificationText || 'All elements on the page have been unlocked. All users with the edit option can edit the content.'
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         text: locked ? lockAllMessage : unlockAllMessage,
         time: 5000
-      })
+      }))
       storage.state('lockUnlockDone').set(true)
     }, 1000)
   }
