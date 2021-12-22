@@ -1,7 +1,8 @@
 import { getStorage, getService } from 'vc-cake'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const elementsStorage = getStorage('elements')
-const notificationsStorage = getStorage('notifications')
 const documentManager = getService('document')
 const cook = getService('cook')
 const dataManager = getService('dataManager')
@@ -25,12 +26,12 @@ const triggerNotification = (type, elementName, limit) => {
   }
   limitText = limitText.replace('%element', elementName)
 
-  notificationsStorage.trigger('add', {
+  store.dispatch(notificationAdded({
     type: type,
     text: limitText,
     time: 5000,
     showCloseButton: true
-  })
+  }))
 }
 
 const getElementExceededLimitStatus = (element) => {
