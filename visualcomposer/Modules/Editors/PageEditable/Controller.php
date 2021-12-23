@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Assets;
 use VisualComposer\Helpers\Frontend;
+use VisualComposer\Helpers\PostType;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Url;
 use VisualComposer\Framework\Container;
@@ -66,28 +67,12 @@ class Controller extends Container implements Module
         return $response;
     }
 
-    protected function inject404Page($wpQuery, Frontend $frontendHelper)
+    protected function inject404Page($wpQuery, Frontend $frontendHelper, PostType $postTypeHelper)
     {
         if ($frontendHelper->isPageEditable()) {
-            $wpQuery->query['post_status'] = [
-                'publish',
-                'unpublish',
-                'draft',
-                'pending',
-                'auto-draft',
-                'private',
-                'future',
-            ];
+            $wpQuery->query['post_status'] = $postTypeHelper->getPage404StatusList();
             // @codingStandardsIgnoreLine
-            $wpQuery->query_vars['post_status'] = [
-                'publish',
-                'unpublish',
-                'draft',
-                'pending',
-                'auto-draft',
-                'private',
-                'future',
-            ];
+            $wpQuery->query_vars['post_status'] = $postTypeHelper->getPage404StatusList();
 
             $post = get_post(vchelper('Request')->input('vcv-source-id'));
             $wpQuery->posts = [

@@ -39,7 +39,7 @@ export default class SaveController {
     const globalStylesManager = stylesManager.create()
     const popupSettings = settingsStorage.state('settingsPopup').get()
     const globalCss = settingsStorage.state('globalCss').get() || ''
-    const templateType = settingsStorage.state('templateType').get() || 'postTemplate'
+
     globalStylesManager.add([{
       src: globalCss
     }])
@@ -150,7 +150,6 @@ export default class SaveController {
       const requestData = {
         'vcv-action': 'setData:adminNonce',
         'vcv-source-id': id,
-        'vcv-template-type': templateType,
         'vcv-ready': '1', // Used for backend editor when post being saved
         'vcv-content': '<!--vcv no format-->' + content + '<!--vcv no format-->',
         'vcv-data': encodeURIComponent(JSON.stringify(data)),

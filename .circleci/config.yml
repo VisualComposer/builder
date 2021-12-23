@@ -136,6 +136,7 @@ jobs:
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
+      - run: yarn run cypress install
       - run: yarn run cypress run --browser=chrome --project ./tests/cypressChrome
       - store_artifacts:
           path: ./tests/cypressChrome/cypress/snapshots
@@ -211,6 +212,7 @@ jobs:
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
+      - run: yarn run cypress install
       - run: yarn run cypress run --project ./tests/cypressElectron
       - store_artifacts:
           path: ./tests/cypressElectron/cypress/snapshots
@@ -286,6 +288,7 @@ jobs:
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-type', 'free', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-license-expiration', 'lifetime', 'yes');"
             mysql -h 127.0.0.1 --user="root" --execute="REPLACE INTO test.wp_options (option_name, option_value, autoload)  VALUES ('vcv-settings-initial-helpers-enabled', '', 'yes');"
+      - run: yarn run cypress install
       - run: yarn run cypress run --project ./tests/cypressPipeline
       - store_artifacts:
           path: ./tests/cypressPipeline/cypress/snapshots

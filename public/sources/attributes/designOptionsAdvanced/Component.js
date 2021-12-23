@@ -1,6 +1,5 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import React from 'react'
-import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import { getStorage, getService } from 'vc-cake'
 import Attribute from '../attribute'
@@ -255,7 +254,9 @@ export default class DesignOptionsAdvanced extends Attribute {
   }
 
   componentDidMount () {
-    this.getDefaultStyles()
+    window.setTimeout(() => {
+      this.getDefaultStyles()
+    }, 200)
     this.setDefaultState()
     const id = this.props.elementAccessPoint.id
     elementsStorage.on(`element:${id}`, this.handleElementChange)
@@ -264,7 +265,6 @@ export default class DesignOptionsAdvanced extends Attribute {
   componentWillUnmount () {
     const id = this.props.elementAccessPoint.id
     elementsStorage.off(`element:${id}`, this.handleElementChange)
-    ReactDOM.unmountComponentAtNode(this.boxModelRef)
   }
 
   handleElementChange (data, source, options) {
@@ -275,10 +275,6 @@ export default class DesignOptionsAdvanced extends Attribute {
     } else {
       this.forceUpdate()
     }
-  }
-
-  componentDidUpdate () {
-    this.getDefaultStyles()
   }
 
   /**
@@ -1055,23 +1051,22 @@ export default class DesignOptionsAdvanced extends Attribute {
    * @returns {*}
    */
   renderBoxModel (defaultStyles) {
-    if (this.boxModelRef) {
-      if (this.state.devices[this.state.currentDevice].display) {
-        return null
-      }
-      const value = this.state.devices[this.state.currentDevice].boxModel || {}
+    if (this.state.devices[this.state.currentDevice].display) {
+      return null
+    }
+    const value = this.state.devices[this.state.currentDevice].boxModel || {}
 
-      ReactDOM.render(
+    return (
+      <div className='vcv-ui-form-group'>
         <BoxModel
           api={this.props.api}
           fieldKey='boxModel'
           updater={this.boxModelChangeHandler}
-          placeholder={defaultStyles}
+          placeholder={this.state.defaultStyles}
           value={value}
-        />,
-        this.boxModelRef
-      )
-    }
+        />
+      </div>
+    )
   }
 
   /**
@@ -1092,57 +1087,41 @@ export default class DesignOptionsAdvanced extends Attribute {
     const styles = ['border', 'padding', 'margin']
 
     if (element) {
-      let dolly = element.cloneNode(true)
-      dolly.id = ''
-      dolly.style.height = '0'
-      dolly.style.width = '0'
-      dolly.style.overflow = 'hidden'
-      dolly.style.position = 'fixed'
-      dolly.style.bottom = '0'
-      dolly.style.right = '0'
-      dolly.setAttribute('data-vcv-do-helper-clone', true)
-      element.parentNode.appendChild(dolly)
+      const elementDOAttribute = element.getAttribute(doAttribute)
 
-      setTimeout(() => {
-        const elementDOAttribute = element.getAttribute(doAttribute)
+      if (elementDOAttribute) {
+        const allDefaultStyles = this.getElementStyles(element)
 
-        if (elementDOAttribute) {
-          const allDefaultStyles = this.getElementStyles(dolly)
-
-          if (elementDOAttribute.indexOf('all') >= 0) {
-            mainDefaultStyles.all = allDefaultStyles
-          } else {
-            styles.forEach((style) => {
-              if (elementDOAttribute.indexOf(style) >= 0) {
-                mainDefaultStyles[style] = allDefaultStyles
-              } else {
-                const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-                mainDefaultStyles[style] = this.getElementStyles(dolly, innerSelector)
-              }
-            })
-          }
+        if (elementDOAttribute.indexOf('all') >= 0) {
+          mainDefaultStyles.all = allDefaultStyles
         } else {
-          const allStyleElement = (dolly).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
-
-          if (allStyleElement) {
-            mainDefaultStyles.all = this.getElementStyles(allStyleElement)
-          } else {
-            styles.forEach((style) => {
+          styles.forEach((style) => {
+            if (elementDOAttribute.indexOf(style) >= 0) {
+              mainDefaultStyles[style] = allDefaultStyles
+            } else {
               const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-              mainDefaultStyles[style] = this.getElementStyles(dolly, innerSelector)
-            })
-          }
+              mainDefaultStyles[style] = this.getElementStyles(element, innerSelector)
+            }
+          })
         }
+      } else {
+        const allStyleElement = (element).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
 
-        dolly.remove()
-        dolly = null
-        const parsedStyles = this.parseStyles(mainDefaultStyles)
-        this.renderBoxModel(parsedStyles)
-      }, 0)
-    } else {
-      const parsedStyles = this.parseStyles(mainDefaultStyles)
-      this.renderBoxModel(parsedStyles)
+        if (allStyleElement) {
+          mainDefaultStyles.all = this.getElementStyles(allStyleElement)
+        } else {
+          styles.forEach((style) => {
+            const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+            mainDefaultStyles[style] = this.getElementStyles(element, innerSelector)
+          })
+        }
+      }
     }
+
+    const parsedStyles = this.parseStyles(mainDefaultStyles)
+    this.setState({
+      defaultStyles: parsedStyles
+    })
   }
 
   /**
@@ -1164,21 +1143,24 @@ export default class DesignOptionsAdvanced extends Attribute {
 
   /**
    * Gets additional style (margin, padding, border) element styles
-   * @param clonedElement
+   * @param domElement
    * @param innerSelector
    * @returns {{}}
    */
-  getElementStyles (clonedElement, innerSelector) {
+  getElementStyles (domElement, innerSelector) {
     const styles = {}
-    if (clonedElement) {
+    if (domElement) {
       let computedStyles = ''
-      if (innerSelector) {
-        const domElement = clonedElement.querySelector(innerSelector)
-        if (domElement) {
-          computedStyles = window.getComputedStyle(domElement)
-        }
-      } else {
-        computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
+      const styleElement = innerSelector ? domElement.querySelector(innerSelector) : domElement
+      if (styleElement) {
+        // Remove transition for correct default value calculation
+        styleElement.setAttribute('data-vcv-transition-disabled', true)
+
+        computedStyles = window.getComputedStyle(styleElement)
+
+        window.setTimeout(() => {
+          styleElement.removeAttribute('data-vcv-transition-disabled')
+        }, 100)
       }
 
       for (const style in BoxModel.defaultState) {
@@ -2069,7 +2051,7 @@ export default class DesignOptionsAdvanced extends Attribute {
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
-            <div className='vcv-ui-form-group' ref={ref => { this.boxModelRef = ref }} />
+            {this.renderBoxModel()}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBorderStyleRender()}

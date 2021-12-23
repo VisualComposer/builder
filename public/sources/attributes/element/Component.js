@@ -264,16 +264,21 @@ export default class ElementAttribute extends Attribute {
     if (replaceView && replaceView === 'dropdown') {
       const dropdownValues = categorySettings.elements.map(
         (tag) => {
+          const cookElementSettings = Cook.getSettings(tag)
+          if (!cookElementSettings) {
+            return null
+          }
           const cookElement = Cook.get({ tag: tag })
           if (!cookElement) {
-            return {}
+            return null
           }
+
           return {
             label: cookElement.get('name'),
             value: tag
           }
         }
-      )
+      ).filter(Boolean)
       replacementBlock = (
         <div className='vcv-ui-form-group vcv-ui-replace-element-block-dropdown'>
           <Dropdown

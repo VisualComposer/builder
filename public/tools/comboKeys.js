@@ -9,6 +9,10 @@ export function bindEditorKeys (document) {
   const historyStorage = getStorage('history')
 
   let combokeysInstance = new Combokeys(document)
+
+  combokeysInstance.stopCallback = function(e){
+    return e.which !== 27;
+  };
   combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
     e.preventDefault()
     historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
@@ -52,6 +56,9 @@ export function bindEditorKeys (document) {
   })
   combokeysInstance.bind('esc', (e) => {
     e.preventDefault()
+    if(workspaceStorage.state('hasModal')?.get()){
+      return
+    }
     workspaceStorage.state('settings').set(false)
   }, 'keyup')
   combokeysInstance.bind('shift+s', (e) => {

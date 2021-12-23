@@ -43,7 +43,7 @@ class CssJsSettings extends Container implements Module
         $this->wpAddAction(
             'admin_menu',
             'addPage',
-            10
+            20
         );
 
         $this->addEvent(

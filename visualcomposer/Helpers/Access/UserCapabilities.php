@@ -53,7 +53,7 @@ class UserCapabilities implements Helper
         $hasAccess = $currentUserAccessHelper->part('post_types')->getCapRule('edit_' . $postType);
 
         // Override hasAccess for VCWB post types
-        if (in_array($postType, ['vcv_headers', 'vcv_footers', 'vcv_sidebars', 'vcv_archives', 'vcv_layouts'])) {
+        if (in_array($postType, ['vcv_headers', 'vcv_footers', 'vcv_sidebars', 'vcv_layouts'])) {
             $hasAccess = $currentUserAccessHelper->part('dashboard')->can('addon_theme_builder', false)->get();
         } elseif (in_array($postType, ['vcv_templates'])) {
             $hasAccess = $currentUserAccessHelper->part('dashboard')->can('addon_global_templates', false)->get();

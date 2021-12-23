@@ -1,6 +1,5 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import React from 'react'
-import ReactDOM from 'react-dom'
 import lodash from 'lodash'
 import Attribute from '../attribute'
 import Devices from '../devices/Component'
@@ -25,7 +24,8 @@ const blockRegexp = getBlockRegexp()
 
 export default class DesignOptions extends Attribute {
   static defaultProps = {
-    fieldType: 'designOptions'
+    fieldType: 'designOptions',
+    isBackgroundDynamic: true
   }
 
   /**
@@ -247,7 +247,10 @@ export default class DesignOptions extends Attribute {
   }
 
   componentDidMount () {
-    this.getDefaultStyles()
+    window.setTimeout(() => {
+      this.getDefaultStyles()
+    }, 200)
+
     if (!this.props.elementSelector) {
       this.setDefaultState()
     }
@@ -262,14 +265,7 @@ export default class DesignOptions extends Attribute {
     if (this.props.elementAccessPoint) {
       const id = this.props.elementAccessPoint.id
       elementsStorage.off(`element:${id}`, this.handleElementChange)
-      ReactDOM.unmountComponentAtNode(this.boxModelRef)
     }
-  }
-
-  componentDidUpdate () {
-    window.setTimeout(() => {
-      this.getDefaultStyles()
-    }, 100)
   }
 
   handleElementChange (data, source, options) {
@@ -833,24 +829,23 @@ export default class DesignOptions extends Attribute {
    * Render box model
    * @returns {*}
    */
-  renderBoxModel (defaultStyles) {
-    if (this.boxModelRef) {
-      if (this.state.devices[this.state.currentDevice].display) {
-        return null
-      }
-      const value = this.state.devices[this.state.currentDevice].boxModel || {}
+  renderBoxModel () {
+    if (this.state.devices[this.state.currentDevice].display) {
+      return null
+    }
+    const value = this.state.devices[this.state.currentDevice].boxModel || {}
 
-      ReactDOM.render(
+    return (
+      <div className='vcv-ui-form-group'>
         <BoxModel
           api={this.props.api}
           fieldKey='boxModel'
           updater={this.boxModelChangeHandler}
-          placeholder={defaultStyles}
+          placeholder={this.state.defaultStyles}
           value={value}
-        />,
-        this.boxModelRef
-      )
-    }
+        />
+      </div>
+    )
   }
 
   /**
@@ -879,66 +874,43 @@ export default class DesignOptions extends Attribute {
     const styles = ['border', 'padding', 'margin']
 
     if (domElement) {
-      let dolly = domElement.cloneNode(true)
-      dolly.id = ''
-      dolly.style.height = '0'
-      dolly.style.width = '0'
-      dolly.style.overflow = 'hidden'
-      dolly.style.position = 'fixed'
-      dolly.style.bottom = '0'
-      dolly.style.right = '0'
-      dolly.setAttribute('data-vcv-do-helper-clone', true)
-
       const elementDOAttribute = domElement.getAttribute(doAttribute)
 
-      // Clears innerHtml of dolly if it has 'doAll' to prevent any js related issues
-      if (elementDOAttribute && elementDOAttribute.indexOf('all') >= 0) {
-        while (dolly.firstChild) dolly.removeChild(dolly.firstChild)
-      }
+      if (this.props.elementSelector) {
+        mainDefaultStyles.all = this.getElementStyles(domElement)
+      } else if (elementDOAttribute) {
+        const allDefaultStyles = this.getElementStyles(domElement)
 
-      domElement.parentNode.appendChild(dolly)
-
-      setTimeout(() => {
-        if (this.props.elementSelector) {
-          mainDefaultStyles.all = this.getElementStyles(dolly)
-        } else if (elementDOAttribute) {
-          const allDefaultStyles = this.getElementStyles(dolly)
-
-          if (elementDOAttribute.indexOf('all') >= 0) {
-            mainDefaultStyles.all = allDefaultStyles
-          } else {
-            styles.forEach((style) => {
-              if (elementDOAttribute.indexOf(style) >= 0) {
-                mainDefaultStyles[style] = allDefaultStyles
-              } else {
-                const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-                mainDefaultStyles[style] = this.getElementStyles(dolly, innerSelector)
-              }
-            })
-          }
+        if (elementDOAttribute.indexOf('all') >= 0) {
+          mainDefaultStyles.all = allDefaultStyles
         } else {
-          const allStyleElement = (dolly).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
-
-          if (allStyleElement) {
-            const allDefaultStyles = this.getElementStyles(allStyleElement)
-            mainDefaultStyles.all = allDefaultStyles
-          } else {
-            styles.forEach((style) => {
+          styles.forEach((style) => {
+            if (elementDOAttribute.indexOf(style) >= 0) {
+              mainDefaultStyles[style] = allDefaultStyles
+            } else {
               const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
-              mainDefaultStyles[style] = this.getElementStyles(dolly, innerSelector)
-            })
-          }
+              mainDefaultStyles[style] = this.getElementStyles(domElement, innerSelector)
+            }
+          })
         }
+      } else {
+        const allStyleElement = (domElement).querySelector(`[${doAttribute}*='all'][${doAttribute}*='${elementIdSelector}']`)
 
-        dolly.remove()
-        dolly = null
-        const parsedStyles = this.parseStyles(mainDefaultStyles)
-        this.renderBoxModel(parsedStyles)
-      }, 0)
-    } else {
-      const parsedStyles = this.parseStyles(mainDefaultStyles)
-      this.renderBoxModel(parsedStyles)
+        if (allStyleElement) {
+          mainDefaultStyles.all = this.getElementStyles(allStyleElement)
+        } else {
+          styles.forEach((style) => {
+            const innerSelector = `[${doAttribute}*='${style}'][${doAttribute}*='${elementIdSelector}']`
+            mainDefaultStyles[style] = this.getElementStyles(domElement, innerSelector)
+          })
+        }
+      }
     }
+
+    const parsedStyles = this.parseStyles(mainDefaultStyles)
+    this.setState({
+      defaultStyles: parsedStyles
+    })
   }
 
   /**
@@ -960,21 +932,24 @@ export default class DesignOptions extends Attribute {
 
   /**
    * Gets additional style (margin, padding, border) element styles
-   * @param clonedElement
+   * @param domElement
    * @param innerSelector
    * @returns {{}}
    */
-  getElementStyles (clonedElement, innerSelector) {
+  getElementStyles (domElement, innerSelector) {
     const styles = {}
-    if (clonedElement) {
+    if (domElement) {
       let computedStyles = ''
-      if (innerSelector) {
-        const domElement = clonedElement.querySelector(innerSelector)
-        if (domElement) {
-          computedStyles = window.getComputedStyle(domElement)
-        }
-      } else {
-        computedStyles = clonedElement ? window.getComputedStyle(clonedElement) : ''
+      const styleElement = innerSelector ? domElement.querySelector(innerSelector) : domElement
+      if (styleElement) {
+        // Remove transition for correct default value calculation
+        styleElement.setAttribute('data-vcv-transition-disabled', true)
+
+        computedStyles = window.getComputedStyle(styleElement)
+
+        window.setTimeout(() => {
+          styleElement.removeAttribute('data-vcv-transition-disabled')
+        }, 100)
       }
 
       for (const style in BoxModel.defaultState) {
@@ -1098,7 +1073,7 @@ export default class DesignOptions extends Attribute {
           key={`${this.state.currentDevice}-${fieldKey}`}
           options={{
             multiple: true,
-            dynamicField: true
+            dynamicField: this.props.isBackgroundDynamic
           }}
           updater={this.attachImageChangeHandler}
           value={value}
@@ -1525,7 +1500,7 @@ export default class DesignOptions extends Attribute {
         <div className='vcv-ui-row vcv-ui-row-gap--md'>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getDeviceVisibilityRender()}
-            <div className='vcv-ui-form-group' ref={ref => { this.boxModelRef = ref }} />
+            {this.renderBoxModel()}
           </div>
           <div className='vcv-ui-col vcv-ui-col--fixed-width'>
             {this.getBackgroundColorRender()}

@@ -80,17 +80,63 @@ class Image implements Helper
      */
     protected function generateImage($content, $src, $width = false, $height = false, $dynamic = false)
     {
+        $src = $this->getLazyLoadSrc($content[1], $src);
         $imageData = $this->getImageData($src);
         $image = wp_get_image_editor($imageData['path']);
         $srcset = [];
-        if (!$dynamic && !is_wp_error($image) && $width && $height) {
+        list($src, $srcset) = $this->getImageSrcsets($dynamic, $image, $width, $height, $imageData, $src, $srcset);
+
+        $newSrc = '';
+        if (!empty($srcset) && !$dynamic) {
+            $newSrc .= ' srcset="' . implode(',', $srcset) . '"';
+        }
+        $attributes = $content[1];
+        $isLazyload = strpos($content[1], 'data-src=') !== false;
+        $attributes = $this->getImageAttributes($isLazyload, $newSrc, $src, $attributes, $dynamic);
+        $result = '<img ' . $attributes . '/>';
+
+        return $result;
+    }
+
+    /**
+     * @param string $attributes
+     * @param $src
+     *
+     * @return string
+     */
+    public function getLazyLoadSrc($attributes, $src)
+    {
+        $isLazyload = strpos($attributes, 'data-src=') !== false;
+        if ($isLazyload) {
+            preg_match('(\sdata-src=["|\'](.*?)["|\'])', $attributes, $matchesUrl);
+            if (isset($matchesUrl[1])) {
+                $src = set_url_scheme($matchesUrl[1]);
+            }
+        }
+
+        return $src;
+    }
+
+    /**
+     * @param $dynamic
+     * @param $image
+     * @param $width
+     * @param $height
+     * @param array $imageData
+     * @param $src
+     * @param array $srcset
+     *
+     * @return array
+     */
+    protected function getImageSrcsets($dynamic, $image, $width, $height, array $imageData, $src, array $srcset)
+    {
+        if (!$dynamic && $width && $height && !is_wp_error($image)) {
             $originalSizes = $image->get_size();
             $originalWidth = $originalSizes['width'];
             $image->resize($width, $height, true);
 
             $uploadDir = wp_upload_dir();
-            $newPath = $uploadDir['path'] . '/' . $imageData['filename'] . '-' . $width . 'x' . $height
-                . '.' . $imageData['extension'];
+            $newPath = $uploadDir['path'] . '/' . $imageData['filename'] . '-' . $width . 'x' . $height . '.' . $imageData['extension'];
             $newfile = $image->save($newPath);
 
             if (file_exists($uploadDir['path'] . '/' . $newfile['file'])) {
@@ -111,51 +157,50 @@ class Image implements Helper
             }
             $aspectRatio = $resizedWidth / $height;
 
-            foreach ($sizes as $widthAttr => $width) {
-                if ($width > $resizedWidth && !$retinaImage) {
+            foreach ($sizes as $widthAttr => $iWidth) {
+                if ($iWidth > $resizedWidth && !$retinaImage) {
                     continue;
                 }
                 $image = wp_get_image_editor($imageData['path']);
-                $height = round($width / $aspectRatio);
-                $image->resize($width, $height, true);
+                $height = round($iWidth / $aspectRatio);
+                $image->resize($iWidth, $height, true);
 
                 $uploadDir = wp_upload_dir();
-                $newPath = $uploadDir['path'] . '/' . $imageData['filename'] . '-' . $width . 'x' . $height
-                    . '.' . $imageData['extension'];
+                $newPath = $uploadDir['path'] . '/' . $imageData['filename'] . '-' . $iWidth . 'x' . $height . '.' . $imageData['extension'];
                 $newfile = $image->save($newPath);
 
                 $srcset[] = $uploadDir['url'] . '/' . $newfile['file'] . ' ' . $widthAttr;
             }
         }
 
-        $newSrc = ' src="' . set_url_scheme($src) . '"';
-        if (!empty($srcset) && !$dynamic) {
-            $newSrc .= ' srcset="' . implode(',', $srcset) . '"';
-        }
+        return [$src, $srcset];
+    }
 
-        $attributes = preg_replace('(\ssrc=["|\'](.*?)["|\'])', $newSrc, $content[1]);
+    /**
+     * @param $isLazyload
+     * @param $newSrc
+     * @param $src
+     * @param $attributes
+     * @param $dynamic
+     *
+     * @return string
+     */
+    protected function getImageAttributes($isLazyload, $newSrc, $src, $attributes, $dynamic)
+    {
+        if ($isLazyload) {
+            $newSrc .= ' src=""';
+            $newDataSrc = ' data-src="' . set_url_scheme($src) . '"';
+            $attributes = preg_replace('(\sdata-src=["|\'](.*?)["|\'])', $newDataSrc, $attributes);
+        } else {
+            $urlSchemeSrc = set_url_scheme($src);
+            $newSrc .= ' src="' . $urlSchemeSrc . '"';
+        }
+        $attributes = preg_replace('(\ssrc=["|\'](.*?)["|\'])', $newSrc, $attributes);
         $attributes = preg_replace('(data-default-image=["|\'](true|false)["|\'])', '', $attributes);
         if (!$dynamic) {
             $attributes = str_replace(['data-height', 'data-width'], ['height', 'width'], $attributes);
         }
-        $result = '';
-        if ($dynamic) {
-            $blockAttributes = wp_json_encode(
-                [
-                    'type' => get_post_type(),
-                    'value' => $dynamic,
-                    'atts' => urlencode($attributes),
-                ]
-            );
-            $result .= '<!-- wp:vcv-gutenberg-blocks/dynamic-field-block ' . $blockAttributes . ' -->';
-        }
 
-        $result .= '<img ' . $attributes . '/>';
-
-        if ($dynamic) {
-            $result .= '<!-- /wp:vcv-gutenberg-blocks/dynamic-field-block -->';
-        }
-
-        return $result;
+        return $attributes;
     }
 }

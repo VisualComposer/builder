@@ -346,4 +346,22 @@ class PostType implements Helper
 
         return $label;
     }
+
+    /**
+     * Post status list for 404 page.
+     *
+     * @return array
+     */
+    public function getPage404StatusList()
+    {
+        return [
+            'publish',
+            'unpublish',
+            'draft',
+            'pending',
+            'auto-draft',
+            'private',
+            'future',
+        ];
+    }
 }

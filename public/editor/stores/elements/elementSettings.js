@@ -9,6 +9,18 @@ const items = {}
 addStorage('elementSettings', (storage) => {
   const dataManager = getService('dataManager')
 
+  fieldOptionsStorage.state('elementInitialValue').onChange((elementInitialValue) => {
+    if (elementInitialValue) {
+      Object.keys(elementInitialValue).forEach((elementTag) => {
+        Object.keys(elementInitialValue[elementTag]).forEach((itemKey) => {
+          if (items[elementTag] && items[elementTag].settings && items[elementTag].settings[itemKey]) {
+            items[elementTag].settings[itemKey].value = elementInitialValue[elementTag][itemKey]
+          }
+        })
+      })
+    }
+  })
+
   storage.on('add', (settings, componentCallback, cssSettings, modifierOnCreate) => {
     const allElementsSettings = getStorage('hubElements').state('elements').get() || dataManager.get('hubGetElements')
     let settingsCloneJsonString = JSON.stringify(settings)

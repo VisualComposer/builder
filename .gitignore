@@ -41,7 +41,6 @@ vc-cli.json
 node_modules
 npm-debug.log
 package-lock.json
-yarn.lock
 yarn-error.log
 
 *.diff.png
@@ -67,6 +66,7 @@ devElements
 devAddons
 devAssets
 !visualcomposer/resources/dist/.gitkeep
+ci/.phpunit.result.cache
 
 .phpstorm.meta.php
 tools/vcwb-builder/temp/**/

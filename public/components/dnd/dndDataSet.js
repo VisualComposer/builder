@@ -583,7 +583,9 @@ export default class DndDataSet {
     if (this.draggingElement && layoutCustomMode !== 'dnd') {
       const data = {
         mode: 'dnd',
-        options: this.options
+        options: {
+          containerId: this.options.container.id
+        }
       }
       setData('vcv:layoutCustomMode', data)
     }

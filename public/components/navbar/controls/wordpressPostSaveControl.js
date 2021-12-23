@@ -2,13 +2,14 @@ import vcCake from 'vc-cake'
 import React from 'react'
 import classNames from 'classnames'
 import NavbarContent from '../navbarContent'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const PostData = vcCake.getService('wordpress-post-data')
 const dataManager = vcCake.getService('dataManager')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
-const notificationsStorage = vcCake.getStorage('notifications')
 const settingsStorage = vcCake.getStorage('settings')
 const SAVED_TIMEOUT = 3000
 
@@ -61,11 +62,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         type: 'success',
         text: successMessage,
         time: 5000
-      })
+      }))
     } else if (status === 'failed') {
       this.setState({
         status: 'error',
@@ -82,11 +83,11 @@ export default class WordPressPostSaveControl extends NavbarContent {
         },
         SAVED_TIMEOUT
       )
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         type: 'error',
         text: failMessage,
         time: 5000
-      })
+      }))
     }
   }
 
@@ -164,19 +165,19 @@ export default class WordPressPostSaveControl extends NavbarContent {
   }
 
   layoutNotification () {
-    const layoutTemplate = settingsStorage.state('templateType').get()
-    if (this.state.isNewPost === true && dataManager.get('editorType') === 'vcv_layouts' && typeof layoutTemplate !== 'undefined') {
+    if (this.state.isNewPost === true && dataManager.get('editorType') === 'vcv_layouts') {
+      const layoutType = settingsStorage.state('layoutType').get()
       let message = ''
       const adminLink = window && window.vcvWpAdminUrl ? window.vcvWpAdminUrl : ''
       const layoutSettingsLink = adminLink + 'admin.php?page=vcv-headers-footers'
       const defaultMessage = `Created template is not assigned to any post {location}. To assign, navigate to <a href='${layoutSettingsLink}'>Theme Builder Settings</a>`
-      if (layoutTemplate === 'postTemplate') {
+      if (layoutType === 'postTemplate') {
         message = WordPressPostSaveControl.localizations.postTemplateNotification ? WordPressPostSaveControl.localizations.postTemplateNotification : defaultMessage.replace('{location}', 'type')
-      } else if (layoutTemplate === 'archiveTemplate') {
+      } else if (layoutType === 'archiveTemplate') {
         message = WordPressPostSaveControl.localizations.archiveTemplateNotification ? WordPressPostSaveControl.localizations.archiveTemplateNotification : defaultMessage.replace('{location}', 'archive')
       }
       if (message !== '') {
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           position: 'top',
           transparent: false,
           showCloseButton: true,
@@ -185,7 +186,7 @@ export default class WordPressPostSaveControl extends NavbarContent {
           text: message,
           html: true,
           time: 15000
-        })
+        }))
       }
     }
   }

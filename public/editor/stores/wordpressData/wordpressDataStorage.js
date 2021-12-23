@@ -4,6 +4,8 @@ import { getResponse } from 'public/tools/response'
 import Permalink from 'public/components/permalink/permalink'
 import MobileDetect from 'mobile-detect'
 import innerAPI from '../../../components/api/innerAPI'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 addStorage('wordpressData', (storage) => {
   const controller = new SaveController()
@@ -16,7 +18,6 @@ addStorage('wordpressData', (storage) => {
   const dataManager = getService('dataManager')
   const wordpressDataStorage = getStorage('wordpressData')
   const popupStorage = getStorage('popup')
-  const notificationsStorage = getStorage('notifications')
   const cacheStorage = getStorage('cache')
   const localizations = dataManager.get('localizations')
   const insightsStorage = getStorage('insights')
@@ -154,6 +155,11 @@ addStorage('wordpressData', (storage) => {
       if (responseData.jsSettings && Object.prototype.hasOwnProperty.call(responseData.jsSettings, 'globalJsFooter')) {
         settingsStorage.state('globalJsFooter').set(responseData.jsSettings.globalJsFooter || '')
       }
+
+      if (responseData.layoutType && dataManager.get('editorType') === 'vcv_layouts') {
+        settingsStorage.state('layoutType').set(responseData.layoutType)
+      }
+
       if (responseData.notificationCenterData) {
         const allMessages = JSON.parse(responseData.notificationCenterData)
         const licenseType = dataManager.get('isPremiumActivated') ? 'premium' : 'free'
@@ -306,12 +312,15 @@ addStorage('wordpressData', (storage) => {
       if (iframe) {
         titles = [].slice.call(iframe.contentDocument.querySelectorAll('vcvtitle'))
         featuredImage = iframe.contentDocument.querySelector('.wp-post-image')
+        const elementTitles = [].slice.call(iframe.contentDocument.querySelectorAll('.vce-layouts-post-title h1'))
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1.entry-title'))
         }
         if (!titles.length) {
           titles = [].slice.call(iframe.contentDocument.querySelectorAll('h1[class*="title"]'))
         }
+        titles = titles.concat(elementTitles)
+
         setTitle()
         setFeaturedImage()
       }
@@ -340,15 +349,18 @@ addStorage('wordpressData', (storage) => {
     })
   }
 
-  function setFeaturedImage () {
+  function setFeaturedImage (data) {
+    if (!data) {
+      return
+    }
     const current = settingsStorage.state('featuredImage').get()
     if (!featuredImage) {
       if (!featuredImageNotification && current && !current.initialSet && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)) {
         featuredImageNotification = true
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           text: localizations.featuredImageSet || 'Featured image is set. Save page and reload editor to see changes.',
           time: 8000
-        })
+        }))
       }
       return
     }
@@ -356,10 +368,10 @@ addStorage('wordpressData', (storage) => {
       return
     }
     if (current && current.urls && !current.urls.length) {
-      notificationsStorage.trigger('add', {
+      store.dispatch(notificationAdded({
         text: localizations.featuredImageRemoved || 'Featured image is removed. Save page and reload editor to see changes.',
         time: 8000
-      })
+      }))
     }
     const imageSource = current && current.urls && current.urls[0] && (current.urls[0].full || current.urls[0].large)
     featuredImage.src = imageSource || ''

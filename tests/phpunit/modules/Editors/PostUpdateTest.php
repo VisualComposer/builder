@@ -162,11 +162,11 @@ class PostUpdateTest extends WP_UnitTestCase
         preg_match_all('/Object\.defineProperty\(window, \'VCV_UTM\', {/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'VCV_UTM');
 
+        preg_match_all('/\?vcv-script=vendor/', $output, $matches);
+        $this->assertEquals(2, count($matches[0]), 'vendor');
+
         preg_match_all('/public\/dist\/wpVcSettings\.bundle\.css/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'wpVcSettings css');
-
-        preg_match_all('/public\/dist\/vendor\.bundle\.js/', $output, $matches);
-        $this->assertEquals(1, count($matches[0]), 'vendor');
 
         preg_match_all('/public\/dist\/wpUpdate\.bundle\.js/', $output, $matches);
         $this->assertEquals(1, count($matches[0]), 'wpUpdate');

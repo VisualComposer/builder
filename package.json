@@ -2,33 +2,88 @@
   "name": "vcwb",
   "version": "1.0.0",
   "description": "Visual Composer Website Builder",
-  "main": "index.php",
   "repository": {
     "type": "git",
     "url": "git@github.com:Visualcomposer/builder.git"
   },
+  "license": "GPL-2.0+",
+  "author": "@visualcomposer",
+  "main": "index.php",
   "scripts": {
-    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest --env=jsdom",
-    "standard": "standard --version && standard",
     "build": "webpack --version && webpack --config webpack.config.babel.js --progress",
     "build-production": "webpack --version && webpack --config webpack.config.production.babel.js",
     "build-production-silent": "webpack --version && webpack --config webpack.config.production.babel.js --silent",
-    "watch": "webpack --version && webpack --config webpack.config.babel.js --progress --watch",
     "build-settings": "echo 'nothing';exit 0",
     "build-settings-production": "echo 'nothing';exit 0",
+    "standard": "standard --version && standard",
+    "test": "BABEL_ENV=test BABEL_JEST_STAGE=0 jest --env=jsdom",
+    "watch": "webpack --version && webpack --config webpack.config.babel.js --progress --watch",
     "watch-settings": "echo 'nothing';exit 0"
   },
-  "author": "@visualcomposer",
-  "license": "GPL-2.0+",
-  "engines": {
-    "node": ">=8",
-    "npm": ">=5.8"
+  "babel": {
+    "plugins": [
+      "@babel/plugin-transform-runtime",
+      "@babel/plugin-proposal-class-properties"
+    ],
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   },
-  "devDependencies": {
+  "browserslist": [
+    ">1%",
+    "ios_saf 8",
+    "ie 10",
+    "ie 11"
+  ],
+  "eslintConfig": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^raw-loader\\!": "<rootDir>/tests/jest/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|raw)$": "<rootDir>/tests/jest/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy",
+      "^public(.*)$": "<rootDir>/public$1"
+    },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/devElements/",
+      "__mocks__"
+    ],
+    "testRegex": "(/tests/jest/.*)\\.jsx?$",
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.jsx?$": "./tests/jest/__mocks__/jest.transform.js"
+    },
+    "verbose": true
+  },
+  "resolutions": {
+    "@babel/runtime": "7.16.0",
+    "color-name": "1.1.4",
+    "core-js": "3.19.0",
+    "css-loader": "6.5.0",
+    "eslint": "7.32.0",
+    "less": "4.1.2",
+    "postcss": "8.3.11",
+    "raw-loader": "1.0.0",
+    "postcss-normalize-url": "git+https://github.com/pavelthq/postcss-normalize-url-7.0.2-normalize-url.git#master",
+    "normalize-url": "7.0.2",
+    "react-datepicker": "4.5.0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "1.7.1",
     "@types/lodash": "4.14.176",
-    "color-blend": "git://github.com/wpbakery/color-blend.git#5dd059a6dbdc6754f53f4eca09800953534d8322",
+    "@wojtekmaj/enzyme-adapter-react-17": "0.6.5",
     "combokeys": "3.0.1",
     "compression-webpack-plugin": "6.0.5",
+    "enzyme": "3.11.0",
+    "enzyme-to-json": "3.6.2",
     "event-emitter": "0.3.5",
     "form-serialize": "0.7.2",
     "immutable": "4.0.0",
@@ -37,31 +92,23 @@
     "react-addons-shallow-compare": "15.6.3",
     "react-color": "2.19.3",
     "react-custom-scrollbars": "4.2.1",
-    "react-datepicker": "3.5.0",
+    "react-datepicker": "4.5.0",
+    "react-redux": "7.2.6",
     "react-slick": "0.28.1",
     "react-sortable-hoc": "1.11.0",
     "react-textarea-autosize": "8.3.3",
     "reactcss": "1.2.3",
+    "redux": "4.1.2",
     "standard": "14.3.4",
     "ts-loader": "9.2.6",
     "typescript": "4.4.4",
-    "vc-webpack-vendors": "3.0.5",
+    "vc-webpack-vendors": "3.1.0",
     "webfontloader": "1.6.28"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-transform-runtime",
-      "@babel/plugin-proposal-class-properties"
-    ]
-  },
-  "eslintConfig": {
-    "react": {
-      "version": "detect"
-    }
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14",
+    "npm": ">=5.8"
   },
   "standard": {
     "parser": "babel-eslint",
@@ -79,51 +126,8 @@
       "import/no-webpack-loader-syntax": "off"
     }
   },
-  "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/devElements/",
-      "__mocks__"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "./tests/jest/__mocks__/jest.transform.js"
-    },
-    "testRegex": "(/tests/jest/.*)\\.jsx?$",
-    "moduleNameMapper": {
-      "^raw-loader\\!": "<rootDir>/tests/jest/__mocks__/fileMock.js",
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|raw)$": "<rootDir>/tests/jest/__mocks__/fileMock.js",
-      "\\.(css|less)$": "identity-obj-proxy",
-      "^public(.*)$": "<rootDir>/public$1"
-    },
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
   "_analyzeDependencies": {
     "duplicate-package-checker-webpack-plugin": "3.0.0",
     "webpack-bundle-analyzer": "3.1.0"
-  },
-  "resolutions": {
-    "core-js": "3.18.2",
-    "postcss": "8.3.9",
-    "css-loader": "6.3.0",
-    "color-name": "1.1.4",
-    "eslint": "7.32.0",
-    "less": "4.1.2",
-    "raw-loader": "1.0.0",
-    "@babel/runtime": "7.15.4"
-  },
-  "browserslist": [
-    ">1%",
-    "ios_saf 8",
-    "ie 10",
-    "ie 11"
-  ],
-  "dependencies": {
-    "@wojtekmaj/enzyme-adapter-react-17": "0.6.3",
-    "enzyme": "3.11.0",
-    "enzyme-to-json": "3.6.2"
   }
 }

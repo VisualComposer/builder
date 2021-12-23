@@ -1,6 +1,7 @@
 import { getService, getStorage, env } from 'vc-cake'
 
 const cook = getService('cook')
+const dataManager = getService('dataManager')
 const assetsStorage = getStorage('assets')
 const elementsStorage = getStorage('elements')
 const cacheStorage = getStorage('cache')
@@ -330,10 +331,6 @@ export default class CssBuilder {
       return
     }
     const localElementStyles = this.globalAssetsStorageService.getElementLocalAttributesCssMixins(data)
-
-    if (!localElementStyles.length) {
-      return
-    }
     styles.add(localElementStyles)
 
     const attributesStylesPromise = styles.compile().then((result) => {
@@ -487,6 +484,16 @@ export default class CssBuilder {
       if (doStyleElement) {
         doStyleElement.innerHTML = result.replace(/({font-family:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-size:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({color:#)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-weight:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({font-style:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({line-height:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}').replace(/({letter-spacing:)((?:[^}](?!(?:!important)))+)}/g, '$1$2 !important}')
       }
+      // Remove previously loaded page design options as they are rebuild from scratch.
+      const removeAssetsFile = () => {
+        const source = dataManager.get('sourceID')
+        const pageDesignStyles = env('iframe').document.getElementById(`vcv:assets:pageDesignOptions:${source}-inline-css`)
+        if (pageDesignStyles) {
+          pageDesignStyles.parentNode.removeChild(pageDesignStyles)
+        }
+      }
+      // Remove after a second (css should be completely loaded and rebuild)
+      window.setTimeout(removeAssetsFile, 1000)
     })
   }
 

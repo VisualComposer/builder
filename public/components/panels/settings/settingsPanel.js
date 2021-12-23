@@ -35,7 +35,7 @@ controls.pageSettings = {
 }
 
 const editorType = dataManager.get('editorType')
-const allowedPostTypes = ['default', 'vcv_archives', 'vcv_tutorials', 'vcv_layouts']
+const allowedPostTypes = ['default', 'vcv_tutorials', 'vcv_layouts']
 
 if (roleManager.can('editor_settings_page_design_options', roleManager.defaultTrue()) && allowedPostTypes.indexOf(editorType) > -1) {
   controls.designOptions = {
@@ -61,7 +61,7 @@ if (roleManager.can('dashboard_settings_custom_html', roleManager.defaultTrue())
   }
 }
 
-if (allowedPostTypes.indexOf(editorType) > -1 && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
+if (['default', 'vcv_tutorials'].includes(editorType) && roleManager.can('editor_settings_popup', roleManager.defaultTrue())) {
   controls.popup = {
     index: 4,
     type: 'popup',

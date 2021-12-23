@@ -105,6 +105,9 @@ export default class ColumnResizer extends React.Component {
   }
 
   setVisibility () {
+    if (!this.resizerRef.current) {
+      return
+    }
     const { nextElementSibling, previousElementSibling, firstElementChild } = this.resizerRef.current
     if (!nextElementSibling || !previousElementSibling) {
       return

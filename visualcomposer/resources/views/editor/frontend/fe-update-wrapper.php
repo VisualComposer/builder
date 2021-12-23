@@ -2,6 +2,7 @@
 /**
  * @var array $posts
  * @var array $actions
+ * @var string $content
  */
 if (!defined('ABSPATH')) {
     header('Status: 403 Forbidden');
@@ -70,6 +71,8 @@ wp_enqueue_media();
     ?>
 </head>
 <body class="vcv-wb-editor vcv-is-disabled-outline">
+<script src="<?php echo get_site_url(null, 'index.php?vcv-script=vendor'); ?>"></script>
+
 <div class="vcv-settings" data-section="vcv-update">
     <?php echo $content; ?>
 </div>

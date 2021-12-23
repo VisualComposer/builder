@@ -74,7 +74,8 @@ export default class EditFormReplaceElement extends React.Component {
     const { elementAccessPoint } = this.props
     const cookElement = elementAccessPoint.cook()
     const tag = cookElement.get('tag')
-    const category = hubElementsService.getElementCategoryName(tag) || ''
+    const category = cookElement.get('metaReplaceCategory') || hubElementsService.getElementCategoryName(tag)
+
     const options = {
       category: category || '*',
       elementLabel: cookElement.get('name') || category.toLowerCase() || 'element'

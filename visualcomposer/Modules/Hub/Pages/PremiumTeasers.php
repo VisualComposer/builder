@@ -42,7 +42,6 @@ class PremiumTeasers extends Container implements Module
             'premiumUrl' => str_replace('{medium}', 'maintenancemode-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'maintenanceMode',
             'capability' => 'manage_options',
-            'position' => -9,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv-custom-site-popups',
@@ -57,7 +56,6 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'popupBuilder',
             'iconClass' => 'vcv-ui-icon-dashboard-popup-builder',
             'parent' => 'vcv-custom-site-popups',
-            'position' => -1,
             'capabilityPart' => 'dashboard_addon_popup_builder',
             'hideInWpMenu' => false,
         ];
@@ -70,7 +68,6 @@ class PremiumTeasers extends Container implements Module
             ),
             'premiumUrl' => str_replace('{medium}', 'templates-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'globalTemplate',
-            'position' => -3,
             'name' => __('Global Templates', 'visualcomposer'),
             'subTitle' => __('Templates', 'visualcomposer'),
             'parent' => 'vcv_templates',
@@ -81,7 +78,7 @@ class PremiumTeasers extends Container implements Module
         $this->dashboardSections[] = [
             'slug' => 'vcv-headers-footers',
             'name' => __('Theme Builder', 'visualcomposer'),
-            'subTitle' => __('Header and Footer Settings', 'visualcomposer'),
+            'subTitle' => __('Theme Builder Settings', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
@@ -91,24 +88,8 @@ class PremiumTeasers extends Container implements Module
             'premiumUrl' => str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'themeEditor',
             'iconClass' => 'vcv-ui-icon-dashboard-theme-builder',
-            'position' => -9,
             'capabilityPart' => 'dashboard_addon_theme_builder',
             'hideInWpMenu' => false,
-        ];
-
-        $this->dashboardSections[] = [
-            'slug' => 'vcv-custom-page-templates',
-            'name' => __('Layout Settings', 'visualcomposer'),
-            'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
-            'premiumDescription' => __(
-                'Change the default theme\'s 404 page, search, author, and post archive pages with your custom templates created with Visual Composer Premium.',
-                'visualcomposer'
-            ),
-            'premiumUrl' => str_replace('{medium}', 'custompagetemplates-vcdashboard', $utmTemplate),
-            'premiumActionBundle' => 'themeBuilder',
-            'position' => -8,
-            'capabilityPart' => 'dashboard_addon_theme_builder',
-            'parent' => 'vcv-headers-footers',
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_headers',
@@ -122,7 +103,6 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Headers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => -7,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_footers',
@@ -136,7 +116,6 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Footers', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => -6,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_sidebars',
@@ -150,21 +129,19 @@ class PremiumTeasers extends Container implements Module
             'name' => __('Sidebars', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => -5,
         ];
         $this->dashboardSections[] = [
-            'slug' => 'vcv_archives',
-            'premiumTitle' => __('ARCHIVE EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
+            'slug' => 'vcv_layouts',
+            'premiumTitle' => __('LAYOUT EDITOR IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
                 'Design custom archive pages for your blog, portfolio, and more. Define templates for post archive, categories, tags, author, and search results with the Archive Editor available in Premium.',
                 'visualcomposer'
             ),
-            'premiumUrl' => str_replace('{medium}', 'archives-vcdashboard', $utmTemplate),
+            'premiumUrl' => str_replace('{medium}', 'layouts-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'themeBuilder',
-            'name' => __('Archives', 'visualcomposer'),
+            'name' => __('Layouts', 'visualcomposer'),
             'parent' => 'vcv-headers-footers',
             'capabilityPart' => 'dashboard_addon_theme_builder',
-            'position' => 15,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv-font-manager',
@@ -179,7 +156,6 @@ class PremiumTeasers extends Container implements Module
             'premiumActionBundle' => 'fontManager',
             'iconClass' => 'vcv-ui-icon-dashboard-a-letter',
             'parent' => 'vcv-font-manager',
-            'position' => -7,
             'capabilityPart' => 'dashboard_addon_font_manager',
             'hideInWpMenu' => false,
         ];
@@ -197,7 +173,6 @@ class PremiumTeasers extends Container implements Module
             'iconClass' => 'vcv-ui-icon-dashboard-import',
             'premiumActionBundle' => 'exportImport',
             'capabilityPart' => 'dashboard_addon_export_import',
-            'position' => -2,
         ];
         $this->dashboardSections[] = [
             'slug' => 'vcv_popups',
@@ -210,7 +185,6 @@ class PremiumTeasers extends Container implements Module
             ),
             'premiumUrl' => str_replace('{medium}', 'customsitepopups-vcdashboard', $utmTemplate),
             'premiumActionBundle' => 'popupBuilder',
-            'position' => -1,
             'capabilityPart' => 'dashboard_addon_popup_builder',
         ];
 

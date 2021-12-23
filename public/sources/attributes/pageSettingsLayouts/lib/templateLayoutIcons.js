@@ -1,36 +1,36 @@
 import React from 'react'
 import { getStorage, getService, env } from 'vc-cake'
-import LayoutIcons from 'public/components/startBlank/lib/layoutIcons'
+import LayoutIcons from './layoutIcons'
 import lodash from 'lodash'
 import CustomLayoutDropdown from './customLayoutDropdown'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const settingsStorage = getStorage('settings')
-const vcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
-const vcLayoutsAll = window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL && window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL()
+const enabledVcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS && window.VCV_PAGE_TEMPLATES_LAYOUTS()
+const allAvailableVcLayouts = window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL && window.VCV_PAGE_TEMPLATES_LAYOUTS_ALL()
 const themeTemplates = window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME && window.VCV_PAGE_TEMPLATES_LAYOUTS_THEME()
 const workspaceStorage = getStorage('workspace')
 const workspaceIFrame = workspaceStorage.state('iframe')
 const editorPopupStorage = getStorage('editorPopup')
 const dataManager = getService('dataManager')
 const hubAddonsStorage = getStorage('hubAddons')
-const notificationsStorage = getStorage('notifications')
+const themeBuilder = env('VCV_FT_JS_THEME_BUILDER_CUSTOM_LAYOUTS')
 
 export default class TemplateLayoutIcons extends React.Component {
   constructor (props) {
     super(props)
     const templateStorageData = settingsStorage.state('pageTemplate').get()
-    const templateData = window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT ? window.VCV_PAGE_TEMPLATES_LAYOUTS_CURRENT() : {
-      type: 'vc', value: 'blank'
+    if (themeBuilder && templateStorageData.type === 'theme') {
+      templateStorageData.type = 'vc-custom-layout'
     }
-    const currentTemplate = templateStorageData || templateData
     this.state = {
-      current: currentTemplate
+      current: templateStorageData
     }
-    settingsStorage.state('pageTemplate').set(currentTemplate)
-    if (window.VCV_ENV().VCV_FT_THEME_BUILDER_LAYOUTS) {
-      this.allowedTypes = ['vc', 'vc-theme', 'vc-custom-layout', 'theme']
+    if (themeBuilder) {
+      this.allowedTypes = ['vc', 'vc-theme', 'vc-custom-layout']
     } else {
-      this.allowedTypes = ['vc', 'vc-theme', 'theme']
+      this.allowedTypes = ['vc', 'vc-theme']
     }
     this.updateTemplate = this.updateTemplate.bind(this)
     this.updateState = this.updateState.bind(this)
@@ -51,6 +51,9 @@ export default class TemplateLayoutIcons extends React.Component {
 
   updateState (data) {
     if (data) {
+      if (themeBuilder && data.type === 'theme') {
+        data.type = 'vc-custom-layout'
+      }
       this.setState({
         current: data
       })
@@ -86,11 +89,11 @@ export default class TemplateLayoutIcons extends React.Component {
       const allAddons = hubAddonsStorage.state('addons').get()
       if (allAddons.themeEditor && allAddons.themeBuilder) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           type: 'warning',
           text: successMessage.replace('{name}', 'Theme Builder'),
           time: 8000
-        })
+        }))
       } else {
         editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
         editorPopupStorage.state('activeFullPopup').set('premium-teaser')
@@ -177,39 +180,42 @@ export default class TemplateLayoutIcons extends React.Component {
     )
   }
 
+  addDefaultIcon () {
+    const iconProps = {
+      classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
+    }
+
+    let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
+    const Icon = LayoutIcons['vc-custom-layout'] && LayoutIcons['vc-custom-layout'].icon.default
+
+    // Merge theme and vc-custom-layout
+    if (this.state.current.type === 'theme' || this.state.current.type === 'vc-custom-layout') {
+      classes += ' vcv-ui-start-layout-list-item-active'
+    }
+
+    return (
+      <span
+        className={classes}
+        title='Default'
+        key='settings-layout-theme-default'
+        onClick={() => { this.handleTemplateChange((themeBuilder ? 'vc-custom-layout' : 'theme') + '__default') }}
+      >
+        <Icon {...iconProps} />
+      </span>
+    )
+  }
+
   getTemplateLayoutIcons () {
     const icons = []
     const iconProps = {
       classes: 'vcv-ui-template-options-item vcv-ui-start-layout-list-item-icon'
     }
-
-    const customLayout = vcLayouts.find(item => item.type === 'vc-custom-layout')
-
-    if (customLayout) {
-      const Icon = LayoutIcons[customLayout.type] && LayoutIcons[customLayout.type].icon.default
-      let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-
-      if (this.state.current.type === 'vc-custom-layout') {
-        classes += ' vcv-ui-start-layout-list-item-active'
-      }
-
-      icons.push(
-        <span
-          className={classes}
-          title='Default'
-          key='settings-layout-custom'
-          onClick={() => { this.handleTemplateChange('vc-custom-layout__default') }}
-        >
-          <Icon {...iconProps} />
-        </span>
-      )
-    }
-
-    if (vcLayouts && vcLayoutsAll && vcLayouts.length && vcLayoutsAll.length) {
-      vcLayoutsAll.forEach((templateList, index) => {
+    icons.push(this.addDefaultIcon())
+    if (enabledVcLayouts && allAvailableVcLayouts && enabledVcLayouts.length && allAvailableVcLayouts.length) {
+      allAvailableVcLayouts.forEach((templateList, index) => {
         let isLocked = false
         let lockControl = null
-        const isLayoutAllowed = vcLayouts.find(item => item.type === templateList.type)
+        const isLayoutAllowed = enabledVcLayouts.find(item => item.type === templateList.type)
         if (!isLayoutAllowed) {
           lockControl = this.getLockControl()
           isLocked = true
@@ -241,23 +247,6 @@ export default class TemplateLayoutIcons extends React.Component {
       })
     }
 
-    let classes = 'vcv-ui-start-layout-list-item vcv-ui-template-options-item-icon'
-    const Icon = LayoutIcons['theme-default'] && LayoutIcons['theme-default'].icon.default
-
-    if (this.state.current.type === 'theme') {
-      classes += ' vcv-ui-start-layout-list-item-active'
-    }
-    icons.push(
-      <span
-        className={classes}
-        title='Theme'
-        key='settings-layout-theme-default'
-        onClick={() => { this.handleTemplateChange('theme__default') }}
-      >
-        <Icon {...iconProps} />
-      </span>
-    )
-
     return (
       <div className='vcv-ui-template-options-wrapper'>
         {icons}
@@ -265,79 +254,22 @@ export default class TemplateLayoutIcons extends React.Component {
     )
   }
 
-  getLayoutsDropdown () {
-    let value = `${this.state.current.type}__${this.state.current.value}`
-    if (this.state.current.type === 'theme') {
-      value = 'theme__default'
-    }
-
-    return (
-      <select className='vcv-ui-form-dropdown' value={value} onChange={this.handleTemplateChange}>
-        {this.getTemplateOptions()}
-      </select>
-    )
-  }
-
-  getTemplateOptions () {
-    const optGroups = []
-    if (vcLayouts && vcLayouts.length) {
-      vcLayouts.forEach((templateList, index) => {
-        if (this.allowedTypes.indexOf(templateList.type) < 0) {
-          return
-        }
-        const group = []
-        templateList.values.forEach((template, tIndex) => {
-          group.push(
-            <option
-              value={`${templateList.type}__${template.value}`}
-              key={`template-opt-group-vc-${index}-opt-${tIndex}`}
-            >
-              {template.label}
-            </option>
-          )
-        })
-        group.length && optGroups.push(
-          <optgroup label={templateList.title} key={`template-opt-group-vc-${index}`}>
-            {group}
-          </optgroup>
+  getThemeTemplateOptions () {
+    const options = []
+    if (themeTemplates) {
+      themeTemplates.values.forEach((template, tIndex) => {
+        options.push(
+          <option
+            value={`${themeTemplates.type}__${template.value}`}
+            key={`template-opt-group-theme-${themeTemplates.type}-opt-${tIndex}`}
+          >
+            {template.label}
+          </option>
         )
       })
     }
 
-    optGroups.push(<option key='default' value='theme__default'>Theme</option>)
-
-    return (
-      <>
-        {optGroups}
-      </>
-    )
-  }
-
-  getThemeTemplateOptions () {
-    const options = []
-    if (themeTemplates) {
-      themeTemplates.forEach((templateList, index) => {
-        if (this.allowedTypes.indexOf(templateList.type) < 0) {
-          return
-        }
-        templateList.values.forEach((template, tIndex) => {
-          options.push(
-            <option
-              value={`${templateList.type}__${template.value}`}
-              key={`template-opt-group-theme-${templateList.type}-${index}-opt-${tIndex}`}
-            >
-              {template.label}
-            </option>
-          )
-        })
-      })
-    }
-
-    return (
-      <>
-        {options}
-      </>
-    )
+    return options
   }
 
   getThemeTemplateDropdown () {
@@ -418,6 +350,7 @@ export default class TemplateLayoutIcons extends React.Component {
     return (
       <CustomLayoutDropdown
         onTemplateChange={this.handleTemplateChange}
+        current={this.state.current}
       />
     )
   }

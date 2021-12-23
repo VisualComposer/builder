@@ -13,11 +13,15 @@ import PropTypes from 'prop-types'
 import StockMediaTab from './stockMediaTab'
 import GiphyMediaTab from './giphyMediaTab'
 import { getService, getStorage } from 'vc-cake'
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+import { portalChanged } from 'public/editor/stores/notifications/slice'
 
 const { getBlockRegexp } = getService('utils')
 const roleManager = getService('roleManager')
 const blockRegexp = getBlockRegexp()
-const notificationsStorage = getStorage('notifications')
+const workspaceStorage = getStorage('workspace')
+
 const SortableList = SortableContainer((props) => {
   return (
     <AttachImageList {...props} />
@@ -62,26 +66,23 @@ export default class AttachImage extends Attribute {
     this.customDynamicRender = this.customDynamicRender.bind(this)
     this.handleDrop = this.handleDrop.bind(this)
     this.handleUploadFiles = this.handleUploadFiles.bind(this)
+    this.closeMediaPopup = this.closeMediaPopup.bind(this)
+    this.init = this.init.bind(this)
 
     this.state.extraAttributes = {
       url: props.options.url
     }
+
+    this.init()
   }
 
-  componentWillUnmount () {
-    if (this.tabsContainer) {
-      ReactDOM.unmountComponentAtNode(this.tabsContainer)
-    }
-  }
-
-  /* eslint-disable */
-  UNSAFE_componentWillMount () {
+  init () {
     // Create the media uploader.
     if (typeof window.wp === 'undefined') {
       return false
     }
 
-    let oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
+    const oldMediaFrameSelect = window.wp.media.view.MediaFrame.Select
 
     const attributeOptions = this.props.options
     window.wp.media.view.MediaFrame.Select = oldMediaFrameSelect.extend({
@@ -176,7 +177,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<StockMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><StockMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -200,7 +201,7 @@ export default class AttachImage extends Attribute {
        */
       render: function () {
         _this.tabsContainer = this.$el.get(0)
-        ReactDOM.render(<GiphyMediaTab />, _this.tabsContainer)
+        ReactDOM.render(<Provider store={store}><GiphyMediaTab /></Provider>, _this.tabsContainer)
         return this
       }
     })
@@ -215,7 +216,16 @@ export default class AttachImage extends Attribute {
     this.mediaUploader.on('uploader:ready', this.onMediaOpen)
   }
 
-  /* eslint-enable */
+  componentDidMount () {
+    document.addEventListener('keyup', this.closeMediaPopup)
+  }
+
+  componentWillUnmount () {
+    if (this.tabsContainer) {
+      ReactDOM.unmountComponentAtNode(this.tabsContainer)
+    }
+    document.removeEventListener('keyup', this.closeMediaPopup)
+  }
 
   updateState (props) {
     let value = props.value
@@ -394,11 +404,22 @@ export default class AttachImage extends Attribute {
         }
       }
     })
-    notificationsStorage.trigger('portalChange', '.media-frame')
+    store.dispatch(portalChanged('.media-frame'))
+    workspaceStorage.state('hasModal').set(true)
   }
 
   onMediaClose () {
-    notificationsStorage.trigger('portalChange', null)
+    store.dispatch(portalChanged(null))
+
+    setTimeout(() =>
+      workspaceStorage.state('hasModal').set(false)
+    , 100)
+  }
+
+  closeMediaPopup (e) {
+    if (e?.which === 27) {
+      this.mediaUploader.close()
+    }
   }
 
   getUrlHtml (key) {
@@ -587,8 +608,9 @@ export default class AttachImage extends Attribute {
       dynamicValue = value.urls[0] && value.urls[0].full ? value.urls[0].full : ''
     }
 
-    return (
-      <>
+    let dynamicAttribute = null
+    if (options && (typeof options.imageSelector === 'undefined' || options.imageSelector === true)) {
+      dynamicAttribute = (
         <DynamicAttribute
           {...this.props}
           setFieldValue={this.setFieldValue}
@@ -604,6 +626,12 @@ export default class AttachImage extends Attribute {
             {this.getAttachImageComponent(false)}
           </div>
         </DynamicAttribute>
+      )
+    }
+
+    return (
+      <>
+        {dynamicAttribute}
         {filterControl}
         {filterList}
       </>

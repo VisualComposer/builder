@@ -12,7 +12,7 @@ use VisualComposer\Framework\Illuminate\Support\Module;
 
 class MergeArchivesLayoutsMigration extends MigrationsController implements Module
 {
-    protected $migrationId = 'mergeArchivesLayoutsMigrationv39';
+    protected $migrationId = 'mergeArchivesLayoutsMigrationv40';
 
     protected $migrationPriority = 1;
 
@@ -29,7 +29,7 @@ class MergeArchivesLayoutsMigration extends MigrationsController implements Modu
 
         foreach ($archives as $archive) {
             set_post_type($archive->ID, 'vcv_layouts');
-            update_post_meta($archive->ID, VCV_PREFIX . 'templateType', 'archiveTemplate');
+            update_post_meta($archive->ID, VCV_PREFIX . 'layoutType', 'archiveTemplate');
         }
 
         return true;

@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import { getService, getStorage, env } from 'vc-cake'
 import PropTypes from 'prop-types'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
+
 const dataManager = getService('dataManager')
 const hubElementsService = getService('hubElements')
 const workspaceStorage = getStorage('workspace')
@@ -11,7 +14,6 @@ const documentManager = getService('document')
 const hubStorage = getStorage('hubAddons')
 const editorPopupStorage = getStorage('editorPopup')
 const hubAddonsStorage = getStorage('hubAddons')
-const notificationsStorage = getStorage('notifications')
 const roleManager = getService('roleManager')
 
 export default class EditFormHeader extends React.Component {
@@ -207,11 +209,11 @@ export default class EditFormHeader extends React.Component {
       const allAddons = hubAddonsStorage.state('addons').get()
       if (allAddons.roleManager) {
         const successMessage = localizations.successAddonDownload || '{name} has been successfully downloaded from the Visual Composer Hub and added to your content library. To finish the installation process reload the page.'
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           type: 'warning',
           text: successMessage.replace('{name}', 'Role Manager'),
           time: 8000
-        })
+        }))
       } else {
         editorPopupStorage.state('fullScreenPopupData').set(fullScreenPopupData)
         editorPopupStorage.state('activeFullPopup').set('premium-teaser')
@@ -234,6 +236,7 @@ export default class EditFormHeader extends React.Component {
       'vcv-ui-edit-form-header-title': true,
       active: editable
     })
+    const editorType = dataManager.get('editorType')
     const isAbleToAdd = roleManager.can('editor_content_element_add', roleManager.defaultTrue())
     const localizations = dataManager.get('localizations')
     const closeTitle = localizations ? localizations.close : 'Close'
@@ -312,7 +315,7 @@ export default class EditFormHeader extends React.Component {
     const isPresetsEnabled = isGeneral && roleManager.can('editor_content_presets_management', roleManager.defaultTrue())
     const isBlocksEnabled = isRoot && roleManager.can('editor_content_user_blocks_management', roleManager.defaultTrue())
 
-    if (isPresetsEnabled || isBlocksEnabled) {
+    if (isPresetsEnabled || (isBlocksEnabled && editorType !== 'vcv_layouts')) {
       const editFormSettingsText = localizations ? localizations.editFormSettingsText : 'Element Settings'
       settingsControl = (
         <span

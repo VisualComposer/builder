@@ -15,25 +15,25 @@ export default class HfsPanelContent extends React.Component {
     super(props)
     this.state = {
       inputValue: settingsStorage.state('pageTitle').get() || '',
-      templateType: settingsStorage.state('templateType').get() || 'postTemplate'
+      layoutType: settingsStorage.state('layoutType').get()
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleTemplateChange = this.handleTemplateChange.bind(this)
     this.updatePageTitle = this.updatePageTitle.bind(this)
-    this.updateTemplateType = this.updateTemplateType.bind(this)
+    this.updateLayoutType = this.updateLayoutType.bind(this)
     this.addLayoutSelect = this.addLayoutSelect.bind(this)
   }
 
   componentDidMount () {
-    settingsStorage.state('templateType').set(this.state.templateType)
+    // settingsStorage.state('templateType').set(this.state.templateType)
     settingsStorage.state('pageTitle').onChange(this.updatePageTitle)
-    settingsStorage.state('templateType').onChange(this.updateTemplateType)
+    settingsStorage.state('layoutType').onChange(this.updateLayoutType)
   }
 
   componentWillUnmount () {
     settingsStorage.state('pageTitle').ignoreChange(this.updatePageTitle)
-    settingsStorage.state('templateType').ignoreChange(this.updateTemplateType)
+    settingsStorage.state('layoutType').ignoreChange(this.updateLayoutType)
   }
 
   handleSubmit (e) {
@@ -51,8 +51,8 @@ export default class HfsPanelContent extends React.Component {
   handleTemplateChange (e) {
     e && e.preventDefault()
     const value = e.currentTarget.value
-    this.setState({ templateType: value })
-    settingsStorage.state('templateType').set(value)
+    this.setState({ layoutType: value })
+    settingsStorage.state('layoutType').set(value)
   }
 
   updatePageTitle (title) {
@@ -61,17 +61,17 @@ export default class HfsPanelContent extends React.Component {
     }
   }
 
-  updateTemplateType (type) {
+  updateLayoutType (type) {
     if (type || type === '') {
-      this.setState({ templateType: type })
+      this.setState({ layoutType: type })
     }
   }
 
   addLayoutSelect () {
     const editorType = dataManager.get('editorType')
     const localizations = dataManager.get('localizations')
-    const postTemplateText = localizations ? localizations.postTemplateText : 'Post & Page template'
-    const archiveTemplateText = localizations ? localizations.archiveTemplateText : 'Archive template'
+    const postTemplateText = localizations ? localizations.postTemplateText : 'Singular layout'
+    const archiveTemplateText = localizations ? localizations.archiveTemplateText : 'Archive layout'
     let layoutSelect = null
 
     if (editorType === 'vcv_layouts') {
@@ -80,7 +80,7 @@ export default class HfsPanelContent extends React.Component {
           <select
             className='vcv-start-blank-template-type'
             onChange={this.handleTemplateChange}
-            value={this.state.templateType}
+            value={this.state.layoutType}
           >
             <option value='postTemplate'>{postTemplateText}</option>
             <option value='archiveTemplate'>{archiveTemplateText}</option>

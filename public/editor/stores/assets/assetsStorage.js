@@ -1,4 +1,5 @@
 import { addStorage, getService, getStorage } from 'vc-cake'
+import { debounce } from 'lodash'
 
 import CssBuilder from './lib/cssBuilder'
 import AssetsLibraryManager from './lib/assetsLibraryManager'
@@ -11,6 +12,7 @@ addStorage('assets', (storage) => {
   const elementAssetsLibrary = getService('elementAssetsLibrary')
   const assetsStorage = getService('modernAssetsStorage')
   const wordpressDataStorage = getStorage('wordpressData')
+  const elementsStorage = getStorage('elements')
   const utils = getService('utils')
   const workspaceStorage = getStorage('workspace')
   const globalAssetsStorage = assetsStorage.create()
@@ -39,6 +41,9 @@ addStorage('assets', (storage) => {
     const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)
+      if (!element) {
+        return
+      }
       data.elements[id] = element
       storage.trigger('addSharedLibrary', element)
       builder && builder.add(element)
@@ -48,6 +53,9 @@ addStorage('assets', (storage) => {
     const ids = Array.isArray(id) ? id : [id]
     ids.forEach((id) => {
       const element = documentManager.get(id)
+      if (!element) {
+        return
+      }
       data.elements[id] = element
       storage.trigger('editSharedLibrary', element)
       builder && builder.update(element, options)
@@ -105,6 +113,9 @@ addStorage('assets', (storage) => {
 
   const updateMixins = (id) => {
     const cookElement = cook.getById(id)
+    if (!cookElement) {
+      return
+    }
     updateMixinsState(cookElement)
   }
   const updateMixinsByData = (data) => {
@@ -126,6 +137,26 @@ addStorage('assets', (storage) => {
     if (type === 'loaded') {
       updateSettingsCss()
       updatePageDesignOptions()
+    }
+  })
+
+  const renderDone = debounce(() => {
+    elementsStorage.trigger('elementsCssBuildDone', data)
+  }, 50)
+
+  storage.state('jobs').onChange((data) => {
+    const documentElements = documentManager.all()
+    if (documentElements) {
+      const visibleJobs = data.elements.filter(element => !element.hidden)
+      const visibleElements = utils.getVisibleElements(documentElements)
+      const documentIds = Object.keys(visibleElements)
+      if (documentIds.length === visibleJobs.length) {
+        const jobsInprogress = data.elements.find(element => element.jobs)
+        if (jobsInprogress) {
+          return
+        }
+        renderDone()
+      }
     }
   })
 })

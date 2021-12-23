@@ -31,6 +31,7 @@ class EnqueueController extends Container implements Module
 
     public function __construct(Request $requestHelper)
     {
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssetsFromList');
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', 50);
         if (
             (defined('DOING_AJAX') && DOING_AJAX)
@@ -311,6 +312,8 @@ class EnqueueController extends Container implements Module
                 ])
             );
         }
+
+
         $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
     }
 

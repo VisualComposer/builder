@@ -23,7 +23,10 @@ class PageTemplatesController extends Container implements Module
 
     public function __construct()
     {
-        $this->addFilter('vcv:editor:settings:pageTemplatesLayouts:current', 'getCurrentTemplateLayout');
+        $this->addFilter(
+            'vcv:editor:settings:pageTemplatesLayouts:current',
+            'getCurrentTemplateLayout'
+        );
 
         $this->wpAddFilter(
             'template_include',
@@ -41,97 +44,71 @@ class PageTemplatesController extends Container implements Module
     {
         $postId = vcfilter('vcv:editor:settings:pageTemplatesLayouts:current:custom');
 
-        //always return default template for search and archive page
+        // always return default template for search and archive page
         if ((is_search() || is_archive()) && !vcvenv('VCV_IS_ARCHIVE_TEMPLATE')) {
             return $output;
         }
 
         $post = $postTypeHelper->get($postId);
-        if ($post) {
-            if ($frontendHelper->isPreview()) {
-                $preview = wp_get_post_autosave($post->ID);
-                if (is_object($preview)) {
-                    $post = $preview;
-                }
+
+        if (!$post) {
+            return $output;
+        }
+
+        if ($frontendHelper->isPreview()) {
+            $preview = wp_get_post_autosave($post->ID);
+            if (is_object($preview)) {
+                $post = $preview;
             }
+        }
+
+        // check if custom vc template is set
+        $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
+        $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
+
+        // don't use custom template type value if type is theme, use native wp template type
+        if (empty($customTemplateType)) {
+            $customTemplateType = 'theme';
+        }
+        if ($customTemplateType === 'theme') {
             // @codingStandardsIgnoreLine
-            if ($post->page_template === 'default' && isset($output['value'])) {
-                $currentPostTemplate = $output['value'];
-            } else {
-                // @codingStandardsIgnoreLine
-                $currentPostTemplate = $post->page_template;
-            }
-            $customTemplate = get_post_meta($post->ID, '_vcv-page-template', true);
-            $customTemplateType = get_post_meta($post->ID, '_vcv-page-template-type', true);
-            $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
+            $customTemplate = $post->page_template;
+        }
+        $templateStretch = get_post_meta($post->ID, '_vcv-page-template-stretch', true);
+        // BC: For TemplateFilterController.php
+        if (in_array($customTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
+            $customTemplateType = 'vc';
+            $customTemplate = str_replace('-template.php', '', $customTemplate);
+            $customTemplate = str_replace('boxed-blank', 'boxed', $customTemplate);
+        }
 
-            // BC: For TemplateFilterController.php
-            if (in_array($currentPostTemplate, ['boxed-blank-template.php', 'blank-template.php'])) {
-                $customTemplateType = 'vc';
-                $currentPostTemplate = str_replace('-template.php', '', $currentPostTemplate);
-                $customTemplate = str_replace('boxed-blank', 'boxed', $currentPostTemplate);
-            }
+        // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
+        list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
+            $customTemplateType,
+            $templateStretch,
+            $customTemplate
+        );
 
-            $customTemplate = $this->getCustomTemplate($post->ID, $customTemplate, $customTemplateType);
+        $output = [
+            'type' => 'theme',
+            'value' => empty($customTemplate) ? 'default' : $customTemplate,
+        ];
 
-            // BC: For 2.9 blank page update to stretchedContent/notStretchedContent options
-            list($templateStretch, $customTemplate) = $this->bcBlankPageUpdate(
-                $customTemplateType,
-                $templateStretch,
-                $customTemplate
-            );
-
-            if (!empty($customTemplateType) && !empty($customTemplate)) {
-                $output = [
-                    'type' => $customTemplateType,
-                    'value' => $customTemplate,
-                    'stretchedContent' => intval($templateStretch),
-                ];
-            } else {
-                if (
-                    ($frontendHelper->isFrontend() || $frontendHelper->isPageEditable())
-                    && !get_post($post->ID)->post_content
-                    && !get_post_meta(
-                        $post->ID,
-                        VCV_PREFIX . 'pageContent',
-                        true
-                    )
-                ) {
-                    if (vcvenv('VCV_FT_THEME_BUILDER_LAYOUTS')) {
-                        $output = [
-                            'type' => 'vc-custom-layout',
-                            'value' => 'default',
-                        ];
-                    } else {
-                        $output = [
-                            'type' => 'theme',
-                            'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
-                        ];
-                    }
-                } else {
-                    $output = [
-                        'type' => 'theme',
-                        'value' => !empty($currentPostTemplate) ? $currentPostTemplate : 'default',
-                    ];
-                }
-            }
+        $isCustomTemplate = !empty($customTemplate) && !empty($customTemplateType) && $customTemplateType !== 'theme';
+        if ($isCustomTemplate) {
+            $output = [
+                'type' => $customTemplateType,
+                'value' => $customTemplate,
+                'stretchedContent' => (int)$templateStretch,
+            ];
         }
 
         return $output;
     }
 
-    protected function getCustomTemplate($postId, $customTemplate, $customTemplateType)
-    {
-        if ($customTemplateType === 'theme') {
-            $customTemplate = get_post_meta($postId, '_wp_page_template', true);
-        }
-
-        return $customTemplate;
-    }
-
     protected function viewPageTemplate($originalTemplate, Request $requestHelper)
     {
-        if ($requestHelper->input('vcv-template') === 'default') {
+        if ($requestHelper->input('vcv-template') === 'default' || $requestHelper->input('vcv-template') === 'theme:default') {
             return $originalTemplate;
         }
 
@@ -144,21 +121,27 @@ class PageTemplatesController extends Container implements Module
             ]
         );
 
-        if (!empty($current)) {
-            $result = $originalTemplate;
-            if ($current['type'] !== 'theme') {
-                $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
-            } elseif ($current['value'] && $current['value'] !== 'default') {
-                $result = locate_template($current['value']);
-                if (empty($result)) {
-                    $result = $originalTemplate;
-                }
-            }
-
-            return $result;
+        if (empty($current)) {
+            return $originalTemplate;
         }
 
-        return $originalTemplate;
+        $result = $originalTemplate;
+        // Since v41 we merging vc-custom-layout and theme
+        if ($current['type'] === 'vc-custom-layout' && strpos($current['value'], 'theme:') !== false) {
+            $current['type'] = 'theme';
+            $current['value'] = str_replace('theme:', '', $current['value']);
+        }
+
+        if ($current['type'] === 'theme') {
+            $result = locate_template($current['value']);
+            if (empty($result)) {
+                $result = $originalTemplate;
+            }
+        } elseif ($current['value'] && $current['value'] !== 'default') {
+            $result = vcfilter('vcv:editor:settings:viewPageTemplate', $current['value'], $current);
+        }
+
+        return $result;
     }
 
     /**
@@ -188,7 +171,7 @@ class PageTemplatesController extends Container implements Module
 
     /**
      * Prevents issues when themeEditor/themeBuilder addons are disabled
-     * Also, fixes issues when layout doesn't exists (removed)
+     * Also, fixes issues when layout doesn't exist (removed)
      *
      * @param $template
      *
@@ -196,48 +179,59 @@ class PageTemplatesController extends Container implements Module
      */
     protected function fallbackTemplate($template)
     {
-        if (empty($template) || !file_exists($template)) {
-            $templateGroups = [
-                'is_embed' => 'get_embed_template',
-                'is_404' => 'get_404_template',
-                'is_search' => 'get_search_template',
-                'is_front_page' => 'get_front_page_template',
-                'is_home' => 'get_home_template',
-                'is_privacy_policy' => 'get_privacy_policy_template',
-                'is_post_type_archive' => 'get_post_type_archive_template',
-                'is_tax' => 'get_taxonomy_template',
-                'is_attachment' => 'get_attachment_template',
-                'is_single' => 'get_single_template',
-                'is_page' => 'get_page_template',
-                'is_singular' => 'get_singular_template',
-                'is_category' => 'get_category_template',
-                'is_tag' => 'get_tag_template',
-                'is_author' => 'get_author_template',
-                'is_date' => 'get_date_template',
-                'is_archive' => 'get_archive_template',
-            ];
-            $template = false;
-
-            // Loop through each of the template conditionals, and find the appropriate template file.
-            foreach ($templateGroups as $tag => $templateCallback) {
-                if (call_user_func($tag)) {
-                    $template = call_user_func($templateCallback);
-                }
-
-                if ($template) {
-                    if ($tag === 'is_attachment') {
-                        remove_filter('the_content', 'prepend_attachment');
-                    }
-
-                    break;
-                }
-            }
-
-            if (!$template) {
-                $template = get_index_template();
-            }
-
+        if (!empty($template) && file_exists($template)) {
             return $template;
+        }
+
+        // we need filter these behavior in cases when 3 party plugins
+        // process includes directly in 'template_include' filter
+        $isFallbackTemplate = vcfilter(
+            'vcv:editor:settings:pageTemplatesLayouts:fallbackTemplate',
+            true
+        );
+
+        if (!$isFallbackTemplate) {
+            return $template;
+        }
+
+        $templateGroups = [
+            'is_embed' => 'get_embed_template',
+            'is_404' => 'get_404_template',
+            'is_search' => 'get_search_template',
+            'is_front_page' => 'get_front_page_template',
+            'is_home' => 'get_home_template',
+            'is_privacy_policy' => 'get_privacy_policy_template',
+            'is_post_type_archive' => 'get_post_type_archive_template',
+            'is_tax' => 'get_taxonomy_template',
+            'is_attachment' => 'get_attachment_template',
+            'is_single' => 'get_single_template',
+            'is_page' => 'get_page_template',
+            'is_singular' => 'get_singular_template',
+            'is_category' => 'get_category_template',
+            'is_tag' => 'get_tag_template',
+            'is_author' => 'get_author_template',
+            'is_date' => 'get_date_template',
+            'is_archive' => 'get_archive_template',
+        ];
+        $template = false;
+
+        // Loop through each of the template conditionals, and find the appropriate template file.
+        foreach ($templateGroups as $tag => $templateCallback) {
+            if (call_user_func($tag)) {
+                $template = call_user_func($templateCallback);
+            }
+
+            if ($template) {
+                if ($tag === 'is_attachment') {
+                    remove_filter('the_content', 'prepend_attachment');
+                }
+
+                break;
+            }
+        }
+
+        if (!$template) {
+            $template = get_index_template();
         }
 
         return $template;

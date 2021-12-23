@@ -14,6 +14,7 @@ const { getBlockRegexp, parseDynamicBlock } = getService('utils')
 const blockRegexp = getBlockRegexp()
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
+const localizations = dataManager.get('localizations')
 
 const hubElementsStorage = getStorage('hubElements')
 const settingsStorage = getStorage('settings')
@@ -84,9 +85,12 @@ const API = {
 
       const getDefaultPlaceholder = (blockValue) => {
         if (blockValue === 'post_excerpt') {
-          return 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+          return localizations ? localizations.excerptPlaceholderText : 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
+        } else if (blockValue === 'post_author_bio') {
+          return localizations ? localizations.authorBioPlaceholderText : 'This is a placeholder for the Author Bio element. It will be replaced by the actual content.'
         }
-        return `No Value (${blockValue})`
+        const noValueText = localizations ? localizations.noValue : 'No Value'
+        return `${noValueText} (${blockValue})`
       }
 
       // In case if type===string and HTML Then:
@@ -136,6 +140,12 @@ const API = {
               const textContent = node.textContent
               if (textContent.indexOf('/dynamicElementComment') !== -1) {
                 if (textContent.indexOf(`/dynamicElementComment:${id}`) !== -1) {
+                  // This is comment of element so we can remove it
+                  node.remove()
+                }
+                break
+              } else if (textContent.indexOf('vcwb-view-page-render-element') !== -1) {
+                if (textContent.indexOf(id) !== -1) {
                   // This is comment of element so we can remove it
                   node.remove()
                 }
@@ -283,6 +293,11 @@ const API = {
     },
     updateDynamicComments: (ref, id, cookElement, inner) => {
       if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        const el = ReactDOM.findDOMNode(ref)
+        // Clean all comments before/after element dom ref
+        API.dynamicFields.cleanComments(el, id)
+        API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+
         return
       }
       if (!ref || !cookElement) {
@@ -309,6 +324,22 @@ const API = {
           el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
         })
       }
+
+      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+    },
+    updateViewPageRenderComments: (ref, id, cookElement, inner) => {
+      if (!ref || !cookElement) {
+        return
+      }
+      const el = ReactDOM.findDOMNode(ref)
+      // Clean all comments before/after element dom ref
+      const tag = cookElement.get('tag')
+      const atts = JSON.stringify({
+        id: id,
+        tag: tag
+      })
+      el.insertAdjacentHTML('beforebegin', `<!-- wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
     },
     getDynamicFieldsList: (fieldType) => {
       const postFields = settingsStorage.state('postFields').get() || []

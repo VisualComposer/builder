@@ -7,6 +7,8 @@ import TransparentOverlayComponent from '../../overlays/transparentOverlay/trans
 import { getService, getStorage, env } from 'vc-cake'
 import LoadingOverlayComponent from 'public/components/overlays/loadingOverlay/loadingOverlayComponent'
 import TemplatesGroup from './lib/templatesGroup'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const dataManager = getService('dataManager')
 const sharedAssetsLibraryService = getService('sharedAssetsLibrary')
@@ -17,7 +19,6 @@ const workspaceStorage = getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
 const settingsStorage = getStorage('settings')
 const assetsStorage = getStorage('assets')
-const notificationsStorage = getStorage('notifications')
 const cook = getService('cook')
 const roleManager = getService('roleManager')
 
@@ -173,18 +174,18 @@ export default class AddTemplatePanel extends React.Component {
   }
 
   displaySuccess (successText) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   displayError (error) {
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       type: 'error',
       text: error,
       time: 5000
-    })
+    }))
   }
 
   getTemplateControlProps (template) {
@@ -372,10 +373,10 @@ export default class AddTemplatePanel extends React.Component {
 
     const successText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateSaved : 'The template has been successfully saved.'
 
-    notificationsStorage.trigger('add', {
+    store.dispatch(notificationAdded({
       text: successText,
       time: 5000
-    })
+    }))
   }
 
   onSaveFailed () {
@@ -461,12 +462,12 @@ export default class AddTemplatePanel extends React.Component {
               const elementName = cookElement.get('name')
               let errorText = AddTemplatePanel.localizations ? AddTemplatePanel.localizations.templateContainsLimitElement : 'The template you want to add contains %element element. You already have %element element added - remove it before adding the template.'
               errorText = errorText.split('%element').join(elementName)
-              notificationsStorage.trigger('add', {
+              store.dispatch(notificationAdded({
                 type: 'error',
                 text: errorText,
                 time: 5000,
                 showCloseButton: true
-              })
+              }))
               elementLimitHasExceeded = true
             }
           })
@@ -575,8 +576,9 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-form-button--action': true,
       'vcv-ui-form-button--loading': !!this.state.showSpinner
     })
+    const editorType = dataManager.get('editorType')
 
-    const saveTemplate = this.state.isRemoveStateActive || !isAbleToSave ? null : (
+    const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) || (editorType === 'vcv_layouts') ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
           <form

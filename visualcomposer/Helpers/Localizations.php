@@ -131,6 +131,8 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'blankPageInputPlaceholderText' => __('Page title', 'visualcomposer'),
+            "blankHeaderTitle" => __('Design your header here as a part of your layout. You can also download header templates from the Visual Composer Hub.', 'visualcomposer'),
+            "blankFooterTitle" => __('Design your footer here as a part of your layout. You can also download footer templates from the Visual Composer Hub.', 'visualcomposer'),
             'addTemplateHelperText' => __(
             // @codingStandardsIgnoreLine
                 'Didn\'t find a perfect template? Get a premium license to download templates from the Visual Composer Hub.',
@@ -1132,8 +1134,20 @@ class Localizations extends Container implements Helper
                 'Only %count %element elements can be added to the page.',
                 'visualcomposer'
             ),
+            'headerAreaPlaceholderText' => __(
+                'This is your header area placeholder - page or post header will be displayed here.',
+                'visualcomposer'
+            ),
             'contentAreaPlaceholderText' => __(
-                'This is a default WordPress content area where the post or page content will be displayed.',
+                'This is your content area placeholder - page or post content will be displayed here.',
+                'visualcomposer'
+            ),
+            'sidebarAreaPlaceholderText' => __(
+                'This is your sidebar area placeholder - page or post sidebar will be displayed here.',
+                'visualcomposer'
+            ),
+            'footerAreaPlaceholderText' => __(
+                'This is your footer area placeholder - page or post header will be displayed here.',
                 'visualcomposer'
             ),
             'activateHub' => __(
@@ -1692,6 +1706,24 @@ class Localizations extends Container implements Helper
                 '</a>',
                 '{name}'
             ),
+            'createLayout' => sprintf(
+                __(
+                    '%sCreate%s a new layout.',
+                    'visualcomposer'
+                ),
+                '<a href="{link}" target="_blank" rel="noopener noreferrer">',
+                '</a>'
+            ),
+            'editLayout' => sprintf(
+                __(
+                    '%sEdit%s this layout or %screate%s a new one.',
+                    'visualcomposer'
+                ),
+                '<a href="{editLink}" target="_blank">',
+                '</a>',
+                '<a href="{createLink}" target="_blank">',
+                '</a>'
+            ),
             'editHFSTemplate' => sprintf(
                 __(
                     '%sEdit%s this %s template or %screate%s a new one.',
@@ -1819,11 +1851,39 @@ class Localizations extends Container implements Helper
             ),
             'noSuchLicenseFound' => vchelper('License')->licenseErrorCodes(2),
             'postTemplateText' => __(
-                'Post & Page template',
+                'Singular layout',
                 'visualcomposer'
             ),
             'archiveTemplateText' => __(
-                'Archive template',
+                'Archive layout',
+                'visualcomposer'
+            ),
+            'archiveGridElementMissingNotification' => __(
+                'It seems you don’t have a post grid element on your page. Your archive page may not work properly. If you are using a custom grid element, feel free to ignore this message.',
+                'visualcomposer'
+            ),
+            'enableFontManager' => __(
+                'Enable Font Manager',
+                'visualcomposer'
+            ),
+            'saveChanges' => __(
+                'Save Changes',
+                'visualcomposer'
+            ),
+            'comingSoon' => __(
+                'Coming Soon',
+                'visualcomposer'
+            ),
+            'excerptPlaceholderText' => __(
+                'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.',
+                'visualcomposer'
+            ),
+            'authorBioPlaceholderText' => __(
+                'This is a placeholder for the Author Bio element. It will be replaced by the actual content.',
+                'visualcomposer'
+            ),
+            'noValue' => __(
+                'No Value',
                 'visualcomposer'
             ),
         ];

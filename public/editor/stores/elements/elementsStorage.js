@@ -1,6 +1,7 @@
 import { addStorage, getStorage, getService, env } from 'vc-cake'
+import { debounce } from 'lodash'
 import { rebuildRawLayout } from './lib/tools'
-
+import ModuleAPI from 'vc-cake/lib/module-api-constructor'
 import innerAPI from 'public/components/api/innerAPI'
 
 addStorage('elements', (storage) => {
@@ -413,4 +414,27 @@ addStorage('elements', (storage) => {
     storage.state('htmlStrings').set(htmlStringState)
   })
   storage.on('updateTimeMachine', updateTimeMachine)
+
+  // Remove previously loaded page assets as they are rebuild from scratch.
+  storage.on('elementsCssBuildDone', function () {
+    const removeAssetsFile = () => {
+      const source = dataManager.get('sourceID')
+      const assetsFrontStyle = env('iframe').document.getElementById(`vcv:assets:front:style:${source}-inline-css`)
+      if (assetsFrontStyle) {
+        assetsFrontStyle.parentNode.removeChild(assetsFrontStyle)
+      }
+    }
+    // Remove after a second (css should be completely loaded and rebuild)
+    window.setTimeout(removeAssetsFile, 1000)
+  })
+
+  const renderDone = debounce(() => {
+    storage.trigger('elementsRenderDone')
+  }, 200)
+
+  const moduleLayoutApi = new ModuleAPI('contentLayout')
+  storage.on('elementsCssBuildDone', () => {
+    moduleLayoutApi.on('element:didUpdate', renderDone)
+    renderDone()
+  })
 })

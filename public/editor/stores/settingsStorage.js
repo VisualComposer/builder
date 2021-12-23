@@ -15,7 +15,8 @@ addStorage('settings', (storage) => {
   })
   storage.on('start', () => {
     let pageTemplate
-    if (dataManager.get('editorType') === 'vcv_tutorials') {
+    const editorType = dataManager.get('editorType')
+    if (editorType === 'vcv_tutorials') {
       pageTemplate = { type: 'vc', value: 'blank' }
     } else if (dataManager.get('pageTemplatesLayoutsCurrent')) {
       pageTemplate = dataManager.get('pageTemplatesLayoutsCurrent')
@@ -63,6 +64,11 @@ addStorage('settings', (storage) => {
       data['vcv-page-title-disabled'] = storage.state('pageTitleDisabled').get() || ''
       data['vcv-post-name'] = storage.state('postName').get() || ''
       data['vcv-item-preview-disabled'] = storage.state('itemPreviewDisabled').get() || ''
+
+      if (editorType === 'vcv_layouts') {
+        const layoutType = storage.state('layoutType').get()
+        data['vcv-layout-type'] = layoutType
+      }
 
       const pageTemplateData = storage.state('pageTemplate').get()
       if (pageTemplateData) {

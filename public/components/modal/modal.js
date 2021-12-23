@@ -1,53 +1,62 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import { getStorage } from 'vc-cake'
 
-export default class Modal extends React.Component {
-  static propTypes = {
-    closeOnOuterClick: PropTypes.bool,
-    onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired,
-    children: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ])
-  }
+const workspaceStorage = getStorage('workspace')
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      innerClick: false
+const Modal = ({ children, onClose, closeOnOuterClick, show }) => {
+  const [innerClick, setInnerClick] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('keyup', handleHideOnOuterClick)
+    return () => {
+      window.removeEventListener('keyup', handleHideOnOuterClick)
+      workspaceStorage.state('hasModal').set(false)
     }
-    this.handleHideOnOuterClick = this.handleHideOnOuterClick.bind(this)
-    this.handleShowOnInnerClick = this.handleShowOnInnerClick.bind(this)
-  }
+  }, [])
 
-  handleShowOnInnerClick (event) {
-    if (event.target && event.target.closest('.vcv-ui-modal')) {
-      this.setState({ innerClick: true })
+  useEffect(() => {
+    workspaceStorage.state('hasModal').set(show)
+  }, [show])
+
+  const handleShowOnInnerClick = useCallback(event => {
+    if (event.currentTarget && event.currentTarget.closest('.vcv-ui-modal')) {
+      setInnerClick(true)
     }
-  }
+  }, [])
 
-  handleHideOnOuterClick (event) {
-    this.setState({ innerClick: false })
-    if (this.props.closeOnOuterClick === false || this.state.innerClick) {
+  const handleHideOnOuterClick = useCallback(event => {
+    setInnerClick(false)
+
+    if (closeOnOuterClick === false || innerClick) {
       return
     }
-    if (event.target.dataset.modal && this.props.onClose instanceof Function) {
-      this.props.onClose(event)
+
+    if ((event.target.dataset.modal && onClose instanceof Function) ||
+      (event.type === 'keyup' && event.which === 27)) {
+      onClose(event)
     }
+  }, [])
+
+  if (!show) {
+    return null
   }
-
-  render () {
-    if (!this.props.show) {
-      return null
-    }
-
-    return (
-      <div className='vcv-ui-modal-overlay' onClick={this.handleHideOnOuterClick} data-modal='true'>
-        <div className='vcv-ui-modal-container' onMouseDown={this.handleShowOnInnerClick}>
-          {this.props.children}
-        </div>
+  return (
+    <div className='vcv-ui-modal-overlay' onClick={handleHideOnOuterClick} data-modal='true'>
+      <div className='vcv-ui-modal-container' onMouseDown={handleShowOnInnerClick}>
+        {children}
       </div>
-    )
-  }
+    </div>
+  )
 }
+
+Modal.propTypes = {
+  closeOnOuterClick: PropTypes.bool,
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ])
+}
+
+export default React.memo(Modal)
