@@ -55,10 +55,15 @@ export default class ContentControls extends React.Component {
     if (children.length === 1) {
       options = children[0].tag
     }
-    workspaceSettings.set(false)
-    setTimeout(() => {
+    const currentState = workspaceSettings.get()
+    if (currentState && currentState.action === 'add') {
+      workspaceSettings.set(false)
+      setTimeout(() => {
+        workspaceStorage.trigger('add', this.props.id, options)
+      }, 300)
+    } else {
       workspaceStorage.trigger('add', this.props.id, options)
-    }, 300)
+    }
   }
 
   render () {

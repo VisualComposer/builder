@@ -45,13 +45,12 @@ class AssetBundleCompressionController extends Container implements Module
             // browser cannot accept compressed content, so need output standard JS/CSS
             echo file_get_contents($this->getBundlePath());
         } else {
-            header('Content-Encoding: gzip');
-
-            if ($this->isPhpGzCompression()) {
+            if ($this->isPhpGzCompressionInProcess()) {
                 // let 3 party app gzip our content.
                 echo file_get_contents($this->getBundlePath());
             } else {
                 // output our gzip content.
+                header("Content-Encoding: gzip");
                 echo file_get_contents($this->getBundlePath(true));
             }
         }
@@ -82,18 +81,23 @@ class AssetBundleCompressionController extends Container implements Module
     }
 
     /**
-     * Check if php compression is enabled.
+     * Check if php compression is already enabled.
      *
      * @return bool
      */
-    protected function isPhpGzCompression()
+    protected function isPhpGzCompressionInProcess()
     {
         if (in_array('ob_gzhandler', ob_list_handlers())) {
             return true;
         }
 
-        if (ini_get('zlib.output_compression')) {
-            return true;
+        if (extension_loaded('zlib')) {
+            // phpcs:ignore
+            @ini_set('zlib.output_compression_level', 1);
+
+            if (ini_get('zlib.output_compression_level') === '1') {
+                return true;
+            }
         }
 
         return false;

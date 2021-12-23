@@ -67,7 +67,7 @@ export default class VimeoPlayerComponent extends vcvAPI.elementComponent {
 
     source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=${autoplay}&muted=${autoplay}&color=${color}&loop=${loop}`
 
-    const html = `<iframe class='vce-vim-video-player-iframe' src='${source}' frameBorder='0' allowFullScreen='true' />`
+    const html = `<iframe class='vce-vim-video-player-iframe' src='${source}' frameBorder='0' allowFullScreen='true' title='Vimeo video' />`
 
     if (vcCake.env('editor') === 'backend') {
       source = `//player.vimeo.com/video/${videoId}?autopause=${autopause}&autoplay=false&color=${color}&loop=${loop}`
