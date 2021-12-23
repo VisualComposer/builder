@@ -338,8 +338,8 @@ const API = {
         id: id,
         tag: tag
       })
-      el.insertAdjacentHTML('beforebegin', `<!-- wp:vcwb-view-page-render-element/${tag.toLowerCase()}-${id} ${atts} -->`)
-      el.insertAdjacentHTML('afterend', `<!-- /wp:vcwb-view-page-render-element/${tag.toLowerCase()}-${id} ${atts} -->`)
+      el.insertAdjacentHTML('beforebegin', `<!-- wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
     },
     getDynamicFieldsList: (fieldType) => {
       const postFields = settingsStorage.state('postFields').get() || []
