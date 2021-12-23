@@ -5,14 +5,14 @@ import vcCake from 'vc-cake'
 import '../../public/editor/services/dataManager/service.js'
 import '../../public/editor/services/roleManager/service.js'
 import '../../public/editor/services/utils/service.js'
-import '../../public/editor/stores/notifications/storage'
+import store from 'public/editor/stores/store'
+import {notificationAdded, notificationRemoved, portalChanged} from 'public/editor/stores/notifications/slice'
 
-describe('Test notificationsStorage', () => {
-  const notificationsStorage = vcCake.getStorage('notifications')
+describe('Test notifications store', () => {
   vcCake.env('debug', true)
   vcCake.start(() => {
     let notificationId = null
-    test('notificationsStorage add', () => {
+    test('notificationsAdded', () => {
       const testData = {
         text: 'This test notification text',
         time: 5000
@@ -20,8 +20,8 @@ describe('Test notificationsStorage', () => {
 
       const copiedData = Object.assign({}, testData)
 
-      notificationsStorage.trigger('add', testData)
-      let notificationsState = notificationsStorage.state('notifications').get()
+      store.dispatch(notificationAdded(testData))
+      let notificationsState = store.getState().notifications.list
       let notificationData = Object.assign({}, notificationsState[ 0 ])
 
       expect(!!notificationData.id).toEqual(true)
@@ -31,29 +31,29 @@ describe('Test notificationsStorage', () => {
       expect(notificationData).toEqual(copiedData)
     })
 
-    test('notificationsStorage remove', () => {
-      notificationsStorage.trigger('remove', notificationId)
-      const notificationsState = notificationsStorage.state('notifications').get()
+    test('notificationsRemoved', () => {
+      store.dispatch(notificationRemoved(notificationId))
+      const notificationsState = store.getState().notifications.list
       expect(notificationsState).toEqual([])
     })
 
-    test('notificationsStorage portal change', () => {
+    test('portalChanged', () => {
       let portalData = '.test-selector'
-      notificationsStorage.trigger('portalChange', portalData)
-      const portalState = notificationsStorage.state('portal').get()
+      store.dispatch(portalChanged(portalData))
+      const portalState = store.getState().notifications.portal
       expect(portalState).toEqual(portalData)
     })
 
-    test('notificationsStorage limiter', () => {
+    test('notifications store limiter', () => {
       for (let i = 0; i < 15; i++) {
         const testData = {
           text: 'This test notification text',
           time: 5000
         }
-        notificationsStorage.trigger('add', testData)
+        store.dispatch(notificationAdded(testData))
       }
 
-      let notificationsState = notificationsStorage.state('notifications').get()
+      let notificationsState = store.getState().notifications.list
       expect(notificationsState.length).toEqual(10)
     })
   })

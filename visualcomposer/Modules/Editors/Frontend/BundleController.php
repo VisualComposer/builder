@@ -46,7 +46,7 @@ class BundleController extends Container implements Module
     {
         wp_register_script(
             'vcv:editors:frontend:script',
-            get_site_url(null, '?vcv-script=wp'),
+            get_site_url(null, 'index.php?vcv-script=wp'),
             [
                 'vcv:assets:vendor:script',
             ],

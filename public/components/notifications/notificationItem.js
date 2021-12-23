@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames'
-import { getStorage, getService } from 'vc-cake'
+import { getService } from 'vc-cake'
+import store from 'public/editor/stores/store'
+import { notificationRemoved } from 'public/editor/stores/notifications/slice'
 
 const dataManager = getService('dataManager')
-const notificationsStorage = getStorage('notifications')
 
 export default class NotificationItem extends React.Component {
   constructor (props) {
@@ -31,11 +32,11 @@ export default class NotificationItem extends React.Component {
 
   componentWillUnmount () {
     window.clearTimeout(this.timer)
-    notificationsStorage.trigger('remove', this.props.data.id)
+    store.dispatch(notificationRemoved(this.props.data.id))
   }
 
   handleRemoveNotification () {
-    notificationsStorage.trigger('remove', this.props.data.id)
+    store.dispatch(notificationRemoved(this.props.data.id))
   }
 
   handleClickHideNotification () {
