@@ -144,6 +144,12 @@ const API = {
                   node.remove()
                 }
                 break
+              } else if (textContent.indexOf('vcwb-view-page-render-element') !== -1) {
+                if (textContent.indexOf(id) !== -1) {
+                  // This is comment of element so we can remove it
+                  node.remove()
+                }
+                break
               } else {
                 node.remove()
               }
@@ -287,6 +293,11 @@ const API = {
     },
     updateDynamicComments: (ref, id, cookElement, inner) => {
       if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        const el = ReactDOM.findDOMNode(ref)
+        // Clean all comments before/after element dom ref
+        API.dynamicFields.cleanComments(el, id)
+        API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+
         return
       }
       if (!ref || !cookElement) {
@@ -313,6 +324,22 @@ const API = {
           el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
         })
       }
+
+      API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
+    },
+    updateViewPageRenderComments: (ref, id, cookElement, inner) => {
+      if (!ref || !cookElement) {
+        return
+      }
+      const el = ReactDOM.findDOMNode(ref)
+      // Clean all comments before/after element dom ref
+      const tag = cookElement.get('tag')
+      const atts = JSON.stringify({
+        id: id,
+        tag: tag
+      })
+      el.insertAdjacentHTML('beforebegin', `<!-- wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /wp:vcwb-view-page-render-element/el-${tag.toLowerCase()}-${id} ${atts} -->`)
     },
     getDynamicFieldsList: (fieldType) => {
       const postFields = settingsStorage.state('postFields').get() || []

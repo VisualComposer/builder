@@ -2,6 +2,9 @@
 import vcCake from 'vc-cake'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 import Editor from './lib/editor'
 import DndManager from './lib/dndManager'
 import ControlsManager from './lib/controlsIframe/controlsManager'
@@ -14,7 +17,6 @@ import Popup from 'public/components/popup/popupContainer'
 import FullPagePopupContainer from 'public/components/popup/fullPagePopupContainer'
 import Helpers from 'public/components/helpers/helpers'
 
-const notificationsStorage = vcCake.getStorage('notifications')
 const Utils = vcCake.getService('utils')
 const workspaceStorage = vcCake.getStorage('workspace')
 const workspaceSettings = workspaceStorage.state('settings')
@@ -38,12 +40,12 @@ vcCake.add('contentLayout', (api) => {
   const layoutOverlay = document.querySelector('.vcv-layout-overlay')
   if (layoutOverlay) {
     ReactDOM.render(
-      <>
+      <Provider store={store}>
         <Notifications />
         <Popup />
         <FullPagePopupContainer />
         {dataManager.get('showInitialHelpers') && <Helpers />}
-      </>,
+      </Provider>,
       layoutOverlay
     )
   }
@@ -59,7 +61,9 @@ vcCake.add('contentLayout', (api) => {
         iframeWindow.vcv.trigger('ready')
       }
       ReactDOM.render(
-        <Editor api={api} />,
+        <Provider store={store}>
+          <Editor api={api} />
+        </Provider>,
         domContainer
       )
 
@@ -70,24 +74,23 @@ vcCake.add('contentLayout', (api) => {
 
       const updateNotificationEnabled = vcCake.env('VCV_FT_UPDATE_NOTIFICATION')
       const pluginUpdate = typeof VCV_PLUGIN_UPDATE === 'function' ? VCV_PLUGIN_UPDATE() : false
-      pluginUpdate && updateNotificationEnabled && notificationsStorage.trigger('add', {
+      pluginUpdate && updateNotificationEnabled && store.dispatch(notificationAdded({
         showCloseButton: true,
         type: 'warning',
         text: localizations.newPluginVersionIsAvailable || 'There is a new version of Visual Composer Website Builder available',
         html: true,
         time: -1
-      })
+      }))
 
       const mobileDetect = new MobileDetect(window.navigator.userAgent)
       if (mobileDetect.mobile() && (mobileDetect.tablet() || mobileDetect.phone())) {
         const mobileControls = new MobileControlsManager(api)
         mobileControls.init()
-
-        notificationsStorage.trigger('add', {
+        store.dispatch(notificationAdded({
           text: localizations.mobileTooltipText || 'Double-tap on an element to open the edit window. Tap and hold to initiate drag and drop.',
           cookie: 'vcv-mobile-tooltip',
           time: 10000
-        })
+        }))
         return
       }
 
@@ -243,35 +246,4 @@ vcCake.add('contentLayout', (api) => {
   }
 
   renderLayout()
-
-  assetsStorage.state('jobs').onChange((data) => {
-    const documentElements = vcCake.getService('document').all()
-    if (documentElements) {
-      const visibleJobs = data.elements.filter(element => !element.hidden)
-      const visibleElements = Utils.getVisibleElements(documentElements)
-      const documentIds = Object.keys(visibleElements)
-      if (documentIds.length === visibleJobs.length) {
-        const jobsInprogress = data.elements.find(element => element.jobs)
-        if (jobsInprogress) {
-          return
-        }
-        elementsStorage.trigger('elementsCssBuildDone', data)
-      }
-    }
-  })
-
-  elementsStorage.on('elementsCssBuildDone', () => {
-    // need wait until latest element will be rendered
-    let timer = null
-    const renderDone = () => {
-      elementsStorage.trigger('elementsRenderDone')
-    }
-    api.on('element:didUpdate', () => {
-      window.clearTimeout(timer)
-      timer = null
-      timer = window.setTimeout(renderDone, 150)
-    })
-
-    timer = window.setTimeout(renderDone, 200)
-  })
 })
