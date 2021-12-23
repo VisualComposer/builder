@@ -13,12 +13,12 @@ export default class FaqToggle extends vcvAPI.elementComponent {
     return (
       <div className='vce-faq-toggle-inner'>
         <div className='vce-faq-toggle-title'>
-          <CustomTag className='vce-faq-toggle-title-text'>
+          <CustomTag className='vce-faq-toggle-title-text' aria-controls={`${atts.tag}-${this.props.id}`} aria-expanded='false'>
             <i className='vce-faq-toggle-icon' />
             {titleText}
           </CustomTag>
         </div>
-        <div className='vce-faq-toggle-text-block'>{textBlock}</div>
+        <div className='vce-faq-toggle-text-block' role='region' id={`${atts.tag}-${this.props.id}`}>{textBlock}</div>
       </div>
     )
   }

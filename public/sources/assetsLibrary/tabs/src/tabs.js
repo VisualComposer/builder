@@ -255,6 +255,7 @@
 
       this.triggerEvent(settings.showTabSelector)
       targetTab.attr(this.activeAttribute, true)
+      targetTab.find(settings.tabsTitleSelector).attr('aria-selected', true)
 
       if (window.dispatchEvent) {
         window.setTimeout(() => {
@@ -275,6 +276,7 @@
 
       this.triggerEvent(settings.hideTabSelector)
       targetTab.removeAttr(this.activeAttribute)
+      targetTab.find(settings.tabsTitleSelector).attr('aria-selected', false)
     }
 
     // Tabs.prototype
@@ -489,6 +491,7 @@
       }
     }
 
+    // TODO: Refactor to ResizeObserver
     function addResizeListener (element, fn, options) {
       const _this = this
       if ($(element).find('> object').length) {
@@ -498,8 +501,9 @@
       if (window.getComputedStyle(element).position === 'static') {
         element.style.position = 'relative'
       }
-      const obj = element.__resizeTrigger__ = document.createElement('object')
+      const obj = element.__resizeTrigger__ = document.createElement('iframe')
       obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; opacity: 0; pointer-events: none; z-index: -1;')
+      obj.setAttribute('title', 'Resize helper')
       obj.__resizeElement__ = element
       obj.onload = function () {
         obj.contentDocument.defaultView.addEventListener('resize', fn.bind(_this, element, options))

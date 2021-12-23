@@ -4,7 +4,7 @@ import Attribute from '../attribute'
 import PropTypes from 'prop-types'
 import { getResponse } from '../../../tools/response'
 import { getService } from 'vc-cake'
-import { cloneDeep } from 'lodash'
+import { isEqual, cloneDeep } from 'lodash'
 
 const dataManager = getService('dataManager')
 const Utils = getService('utils')
@@ -35,12 +35,12 @@ export default class Dropdown extends Attribute {
     this.handleUpdateList = this.handleUpdateList.bind(this)
   }
 
-  /* eslint-disable */
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    super.UNSAFE_componentWillReceiveProps(nextProps)
-    this.setState({ dropdownOptions: this.getSelectOptions(nextProps)})
+  componentDidUpdate (prevProps) {
+    super.componentDidUpdate(prevProps)
+    if (!isEqual(prevProps, this.props)) {
+      this.setState({ dropdownOptions: this.getSelectOptions(this.props) })
+    }
   }
-  /* eslint-enable */
 
   createGroup (key, groupObject, fieldKey) {
     const optionElements = []
