@@ -45,12 +45,11 @@ class AssetBundleCompressionController extends Container implements Module
             // browser cannot accept compressed content, so need output standard JS/CSS
             echo file_get_contents($this->getBundlePath());
         } else {
-            header('Content-Encoding: gzip');
-
             if ($this->isPhpGzCompression()) {
                 // let 3 party app gzip our content.
                 echo file_get_contents($this->getBundlePath());
             } else {
+                header('Content-Encoding: gzip');
                 // output our gzip content.
                 echo file_get_contents($this->getBundlePath(true));
             }
