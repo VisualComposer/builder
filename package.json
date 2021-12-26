@@ -79,6 +79,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "1.7.1",
     "@types/lodash": "4.14.178",
+    "@types/react": "^17.0.38",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.5",
     "combokeys": "3.0.1",
     "compression-webpack-plugin": "9.2.0",

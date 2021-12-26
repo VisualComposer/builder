@@ -38,7 +38,8 @@ if (!defined('ABSPATH')) {
         text-transform: uppercase;
     }
 
-    .vcv-premium-teaser-content .vcv-premium-teaser-text {
+    .vcv-premium-teaser-content .vcv-premium-teaser-text,
+    .vcv-download-addon-button-container .vcv-premium-teaser-text {
         font-family: Roboto, sans-serif;
         font-size: 15px;
         color: #9494A3;
@@ -47,6 +48,11 @@ if (!defined('ABSPATH')) {
         margin: 0 0 25px;
         letter-spacing: 0;
         font-weight: 500;
+    }
+
+    .vcv-download-addon-button-container .vcv-premium-teaser-text {
+      font-size: 13px;
+      margin: 15px 0;
     }
 
     .vcv-download-addon-button-container {

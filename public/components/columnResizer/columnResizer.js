@@ -272,16 +272,16 @@ export default class ColumnResizer extends React.Component {
     const resizerRow = currentResizer.parentElement.parentElement
     // row first and last column position
     let firstInRow, lastInRow
-    for (let i = 0; i < resizerRow.childNodes.length; i++) {
-      const elementClasses = resizerRow.childNodes[i].classList
-      if (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-first')) {
-        firstInRow = resizerRow.childNodes[i].getBoundingClientRect()
+    for (let i = 0; i < resizerRow.children.length; i++) {
+      const elementClasses = resizerRow.children[i].classList
+      if (elementClasses && (elementClasses.contains('vce-col--all-first') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-first'))) {
+        firstInRow = resizerRow.children[i].getBoundingClientRect()
       }
-      if (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-last')) {
-        lastInRow = resizerRow.childNodes[i].getBoundingClientRect()
+      if (elementClasses && (elementClasses.contains('vce-col--all-last') || elementClasses.contains('vce-col--' + this.resizerData.currentDevice + '-last'))) {
+        lastInRow = resizerRow.children[i].getBoundingClientRect()
       }
       if (firstInRow && lastInRow) {
-        i = resizerRow.childNodes.length
+        i = resizerRow.children.length
       }
     }
     // get content part position and width relative to window,
