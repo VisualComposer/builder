@@ -24,7 +24,7 @@ export default function ControlAction (props) {
     if (event === 'treeView') {
       workspaceTreeViewId.set(id)
       workspaceContentState.set('treeView')
-    }  else if (event === 'edit') {
+    } else if (event === 'edit') {
       const settings = workspaceStorage.state('settings').get()
       if (settings && settings.action === 'edit') {
         workspaceStorage.state('settings').set(false)
