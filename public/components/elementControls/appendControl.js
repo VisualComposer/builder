@@ -81,7 +81,8 @@ export default function AppendControl (props) {
       }, 300)
     } else {
       workspaceStorage.trigger('add', containerElement.get('id'), false, options)
-    }  }
+    }
+  }
 
   let styles = {}
   if (containerPos) {
