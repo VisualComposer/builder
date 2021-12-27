@@ -18,15 +18,16 @@ function HsfPanelContent ({ onClick, type }) {
     onClick(inputValue.trim())
   }
 
-  const handleTitleChange = e => {
-    e && e.preventDefault()
-    const value = e.currentTarget.value
-    settingsStorage.state('pageTitle').set(value)
-  }
-
-  const updatePageTitle = title => {
-    if (title || title === '') {
-      setInputValue(title)
+  const updatePageTitle = arg => {
+    // checks if arg is an event object
+    if (arg && arg.preventDefault) {
+      arg.preventDefault()
+      const value = arg.currentTarget.value
+      settingsStorage.state('pageTitle').set(value)
+    } else {
+      if (arg || arg === '') {
+        setInputValue(arg)
+      }
     }
   }
 
@@ -40,7 +41,7 @@ function HsfPanelContent ({ onClick, type }) {
           className='vcv-start-blank-title-input'
           type='text'
           placeholder={placeholder.replace('{name}', type)}
-          onChange={handleTitleChange}
+          onChange={updatePageTitle}
           value={inputValue || ''}
           autoFocus
         />
