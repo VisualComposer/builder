@@ -26,7 +26,7 @@ export default function ControlAction (props) {
       workspaceContentState.set('treeView')
     } else if (event === 'edit') {
       const settings = workspaceStorage.state('settings').get()
-      if (settings && settings.action === 'edit') {
+      if (settings && settings.action === 'edit' && settings.elementAccessPoint.id === id) {
         workspaceStorage.state('settings').set(false)
         setTimeout(() => {
           workspaceStorage.trigger(event, id, tag, eventOptions)
