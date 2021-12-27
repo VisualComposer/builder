@@ -24,14 +24,18 @@ export default function ControlAction (props) {
     if (event === 'treeView') {
       workspaceTreeViewId.set(id)
       workspaceContentState.set('treeView')
-    } else {
-      if (event === 'edit') {
-        workspaceContentState.set(false)
-        const settings = workspaceStorage.state('settings').get()
-        if (settings && settings.action === 'edit') {
-          workspaceStorage.state('settings').set(false)
-        }
+    }  else if (event === 'edit') {
+      const settings = workspaceStorage.state('settings').get()
+      if (settings && settings.action === 'edit') {
+        workspaceStorage.state('settings').set(false)
+        setTimeout(() => {
+          workspaceStorage.trigger(event, id, tag, eventOptions)
+        }, 300)
+      } else {
+        workspaceStorage.trigger(event, id, tag, eventOptions)
       }
+    } else {
+      workspaceContentState.set(false)
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
     layoutStorage.state('interactWithControls').set({
