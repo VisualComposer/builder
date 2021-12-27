@@ -6,6 +6,7 @@ const documentManager = getService('document')
 const workspaceStorage = getStorage('workspace')
 const dataManager = getService('dataManager')
 
+const workspaceSettings = workspaceStorage.state('settings')
 const iframe = document.getElementById('vcv-editor-iframe')
 
 function updateAppendContainerPosition (data, iframeDocument, appendControlContainer) {
@@ -72,8 +73,15 @@ export default function AppendControl (props) {
     const options = {
       insertAfter: insertAfterElement
     }
-    workspaceStorage.trigger('add', containerElement.get('id'), false, options)
-  }
+    const currentState = workspaceSettings.get()
+    if (currentState && currentState.action === 'add') {
+      workspaceSettings.set(false)
+      setTimeout(() => {
+        workspaceStorage.trigger('add', containerElement.get('id'), false, options)
+      }, 300)
+    } else {
+      workspaceStorage.trigger('add', containerElement.get('id'), false, options)
+    }  }
 
   let styles = {}
   if (containerPos) {
