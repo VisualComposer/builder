@@ -7,10 +7,15 @@ const dataManager = vcCake.getService('dataManager')
 
 function HsfPanelContent ({ onClick, type }) {
   const [inputValue, setInputValue] = useState(settingsStorage.state('pageTitle').get() || '')
+  const [layoutType, setLayoutType] = useState(settingsStorage.state('layoutType').get())
 
   useEffect(() => {
+    settingsStorage.state('layoutType').onChange(updateLayoutType)
     settingsStorage.state('pageTitle').onChange(updatePageTitle)
-    return () => settingsStorage.state('pageTitle').ignoreChange(updatePageTitle)
+    return () => {
+      settingsStorage.state('pageTitle').ignoreChange(updatePageTitle)
+      settingsStorage.state('layoutType').ignoreChange(updateLayoutType)
+    }
   }, [])
 
   const handleSubmit = e => {
@@ -24,10 +29,48 @@ function HsfPanelContent ({ onClick, type }) {
     settingsStorage.state('pageTitle').set(value)
   }
 
+  const handleTemplateChange = e => {
+    e && e.preventDefault()
+    const value = e.currentTarget.value
+    setLayoutType(value)
+    settingsStorage.state('layoutType').set(value)
+  }
+
   const updatePageTitle = title => {
     if (title || title === '') {
       setInputValue(title)
     }
+  }
+
+  const updateLayoutType = (type) => {
+    if (type || type === '') {
+      setLayoutType(type)
+    }
+  }
+
+  const addLayoutSelect = () => {
+    const editorType = dataManager.get('editorType')
+    const localizations = dataManager.get('localizations')
+    const postTemplateText = localizations ? localizations.postTemplateText : 'Singular layout'
+    const archiveTemplateText = localizations ? localizations.archiveTemplateText : 'Archive layout'
+    let layoutSelect = null
+
+    if (editorType === 'vcv_layouts') {
+      layoutSelect = (
+        <div className='vcv-start-blank-template-type-wrapper'>
+          <select
+            className='vcv-start-blank-template-type'
+            onChange={handleTemplateChange}
+            value={layoutType}
+          >
+            <option value='postTemplate'>{postTemplateText}</option>
+            <option value='archiveTemplate'>{archiveTemplateText}</option>
+          </select>
+        </div>
+      )
+    }
+
+    return layoutSelect
   }
 
   const localizations = dataManager.get('localizations')
@@ -44,6 +87,7 @@ function HsfPanelContent ({ onClick, type }) {
           value={inputValue || ''}
           autoFocus
         />
+        {addLayoutSelect()}
         <button className='vcv-hfs-start-blank-start-button' type='submit'>
           {btnText}
         </button>
