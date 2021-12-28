@@ -132,7 +132,30 @@ export default class Layout extends Attribute {
     const disableStacking = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'disableStacking') ? data.layout.disableStacking : false
     const responsivenessSettings = data && data.layout && Object.prototype.hasOwnProperty.call(data.layout, 'responsivenessSettings') ? data.layout.responsivenessSettings : false
 
-    Layout.devices.forEach((device) => {
+    Layout.devices.forEach((device, index) => {
+      if (disableStacking && device !== 'xs') {
+        return
+      }
+
+      if (!disableStacking && !responsivenessSettings) {
+        if (device === 'xs' || device === 'sm') {
+          // No need to create styles for 100% width columns
+          return
+        }
+        if (device === 'lg' || device === 'xl') {
+          // No need to duplicate CSS for these devices, they are the same as md
+          return
+        }
+      }
+
+      if (!disableStacking && responsivenessSettings) {
+        // Skip devices with same columns
+        const prevDevice = Layout.devices[index - 1]
+        if (device !== 'xs' && (lodash.isEqual(layoutData[prevDevice], layoutData[device]))) {
+          return
+        }
+      }
+
       const currentLayout = layoutData.all || layoutData[device]
       const reducedLayout = []
       currentLayout.forEach((col) => {
@@ -179,11 +202,6 @@ export default class Layout extends Attribute {
         newMixin[mixinName].variables.selector.value = selector
         newMixin[mixinName].variables.device.value = device
 
-        if (device === 'xs') {
-          if (!disableStacking && !responsivenessSettings) {
-            newMixin[mixinName].variables.fullColumn.value = true
-          }
-        }
         const percentages = (fraction[0] / fraction[1] * 100).toFixed(2)
         const spaceForColumn = (columnGap - (columnGap * (parseFloat(percentages) / 100))).toString()
 
@@ -206,6 +224,7 @@ export default class Layout extends Attribute {
         newMixin[mixinName].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
       })
     })
+    console.log(newMixin)
     return newMixin
   }
 
