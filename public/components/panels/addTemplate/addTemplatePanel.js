@@ -259,8 +259,20 @@ export default class AddTemplatePanel extends React.Component {
   getSearchResults () {
     const searchValue = this.props.searchValue.toLowerCase()
     const allCategories = this.state.categories.find(category => category.id === 'all')
-
+    let checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    let layoutType = ''
+    if (checkForLayoutTemplates) {
+      layoutType = settingsStorage.state('layoutType').get()
+    }
     return allCategories.templates.filter((template) => {
+      if (!checkForLayoutTemplates && template.type && template.type.indexOf('customLayout') !== -1) {
+        // Remove layout template from regular pages
+        return false
+      }
+      if (template.type && template.type.indexOf('customLayout') !== -1 && template.type.indexOf('customLayout' + layoutType) === -1) {
+        // Remove layout template from other type
+        return false
+      }
       const name = template.name && template.name.toLowerCase()
       if (name && name.indexOf(searchValue) !== -1) {
         return true
@@ -286,10 +298,22 @@ export default class AddTemplatePanel extends React.Component {
   getTemplatesByGroup () {
     const allGroups = this.state.categories.filter(category => category.id !== 'all')
     const allTemplates = []
-
+    let checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    let layoutType = ''
+    if (checkForLayoutTemplates) {
+      layoutType = settingsStorage.state('layoutType').get()
+    }
     allGroups.forEach((groupData) => {
       const groupTemplates = []
       groupData.templates.forEach((template) => {
+        if (!checkForLayoutTemplates && template.type && template.type.indexOf('customLayout') !== -1) {
+          // Remove layout template from regular pages
+          return
+        }
+        if (template.type && template.type.indexOf('customLayout') !== -1 && template.type.indexOf('customLayout' + layoutType) === -1) {
+          // Remove layout template from other type
+          return
+        }
         groupTemplates.push(this.getTemplateControl(template))
       })
       groupTemplates.sort((a, b) => {
@@ -297,16 +321,18 @@ export default class AddTemplatePanel extends React.Component {
         const y = b.props.name
         return ((x < y) ? -1 : ((x > y) ? 1 : 0))
       })
-      allTemplates.push(
-        <TemplatesGroup
-          key={`vcv-element-category-${groupData.id}`}
-          groupData={groupData}
-          isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
-          onGroupToggle={this.handleGroupToggle}
-        >
-          {groupTemplates}
-        </TemplatesGroup>
-      )
+      if (groupTemplates.length) {
+        allTemplates.push(
+          <TemplatesGroup
+            key={`vcv-element-category-${groupData.id}`}
+            groupData={groupData}
+            isOpened={Object.prototype.hasOwnProperty.call(groupData, 'isOpened') ? groupData.isOpened : true}
+            onGroupToggle={this.handleGroupToggle}
+          >
+            {groupTemplates}
+          </TemplatesGroup>
+        )
+      }
     })
 
     return allTemplates
@@ -578,7 +604,7 @@ export default class AddTemplatePanel extends React.Component {
     })
     const editorType = dataManager.get('editorType')
 
-    const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) || (editorType === 'vcv_layouts') ? null : (
+    const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) ? null : (
       <div className='vcv-ui-form-dependency'>
         <div className='vcv-ui-form-group'>
           <form
