@@ -1,51 +1,40 @@
 .$selector > .vce-row-content {
-  @media (--$(device)), print {
-    @if $fullColumn != false {
-
+  @media print,(--$(device)){
+    @if $autoColumn != false {
+      > .vce-col--$(device)-auto {
+        -webkit-flex: 1 1 0;
+                flex: 1 1 0;
+        width: auto;
+        max-width: none;
+      }
     } @else {
-      @if $autoColumn != false {
-        > .vce-col--$(device)-auto {
-          -webkit-flex: 1 1 0;
-              -ms-flex: 1 1 0px;
-                  flex: 1 1 0;
-          width: auto;
-          max-width: none;
+      @if $percentageSelector != false {
+        $width: calc($(percentage)% - $(spaceForColumn)px);
+        > .vce-col--$(device)-$(percentageSelector)p {
+          -webkit-flex: 0;
+                  flex: 0;
+          -webkit-flex-basis: $(width);
+                  flex-basis: $(width);
+          max-width: $(width);
         }
       } @else {
-        @if $percentageSelector != false {
+        @if $percentage != false {
           $width: calc($(percentage)% - $(spaceForColumn)px);
-          > .vce-col--$(device)-$(percentageSelector)p {
+          > .vce-col--$(device)-$(numerator)-$(denominator) {
             -webkit-flex: 0;
-                -ms-flex: 0;
                     flex: 0;
             -webkit-flex-basis: $(width);
-                -ms-flex-preferred-size: $(width);
                     flex-basis: $(width);
             max-width: $(width);
           }
         } @else {
-          @if $percentage != false {
-            $width: calc($(percentage)% - $(spaceForColumn)px);
-            > .vce-col--$(device)-$(numerator)-$(denominator) {
-              -webkit-flex: 0;
-                  -ms-flex: 0;
-                      flex: 0;
-              -webkit-flex-basis: $(width);
-                  -ms-flex-preferred-size: $(width);
-                      flex-basis: $(width);
-              max-width: $(width);
-            }
-          } @else {
-            $width: $(pixels)px;
-            > .vce-col--$(device)-$(pixels)-px {
-              -webkit-flex: 0;
-                  -ms-flex: 0;
-                      flex: 0;
-              -webkit-flex-basis: $(width);
-                  -ms-flex-preferred-size: $(width);
-                      flex-basis: $(width);
-              max-width: $(width);
-            }
+          $width: $(pixels)px;
+          > .vce-col--$(device)-$(pixels)-px {
+            -webkit-flex: 0;
+                    flex: 0;
+            -webkit-flex-basis: $(width);
+                    flex-basis: $(width);
+            max-width: $(width);
           }
         }
       }
