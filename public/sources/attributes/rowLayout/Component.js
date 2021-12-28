@@ -224,7 +224,6 @@ export default class Layout extends Attribute {
         newMixin[mixinName].variables.spaceForColumn.value = (Math.round(spaceForColumn * 100) / 100).toFixed(2)
       })
     })
-    console.log(newMixin)
     return newMixin
   }
 
