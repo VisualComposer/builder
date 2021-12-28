@@ -4,7 +4,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 
-module.exports = {
+export default {
   mode: 'production',
   entry: {
     accordion: ['./src/accordion.js']
@@ -15,14 +15,16 @@ module.exports = {
     filename: '[name].bundle.js', // Main bundle file
     chunkFilename: '[id].js'
   },
-  node: {
-    fs: 'empty'
+  resolve: {
+    fallback: {
+      fs: false
+    },
   },
   optimization: {
     minimize: true,
     runtimeChunk: false,
-    namedChunks: true, // MUST BE true even for production
-    namedModules: true, // MUST BE true even for production
+    chunkIds: 'named',
+    moduleIds: 'named',
     minimizer: [new TerserWebpackPlugin({
       terserOptions: {
         safari10: true
@@ -33,7 +35,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].bundle.css'
     }),
-    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -55,12 +56,16 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
           },
-          'css-loader',
+          {
+            loader: 'css-loader'
+          },
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function plugins () {
-                return [require('autoprefixer')()];
+              postcssOptions: {
+                plugins: function plugins () {
+                  return [require('autoprefixer')()]
+                }
               }
             }
           },

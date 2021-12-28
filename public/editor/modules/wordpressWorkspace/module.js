@@ -2,7 +2,7 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
-import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
+import StartBlankPanel from 'public/components/startBlankFunctional/startBlankPanel'
 import { Provider } from 'react-redux'
 import store from 'public/editor/stores/store'
 import { notificationAdded } from 'public/editor/stores/notifications/slice'

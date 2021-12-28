@@ -202,7 +202,15 @@ export default class BlankRowPlaceholder extends React.Component {
    * Handle click for add element control, open add element form
    */
   handleAddElementControl () {
-    workspaceStorage.trigger('add', '')
+    const currentState = workspaceStorage.state('settings').get()
+    if (currentState && currentState.action === 'add') {
+      workspaceStorage.state('settings').set(false)
+      setTimeout(() => {
+        workspaceStorage.trigger('add', '')
+      }, 300)
+    } else {
+      workspaceStorage.trigger('add', '')
+    }
   }
 
   /**
