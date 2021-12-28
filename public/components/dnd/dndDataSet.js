@@ -348,7 +348,7 @@ export default class DndDataSet {
 
       if (isRow && !isTreeView) {
         const rowRect = domElement.node?.getBoundingClientRect()
-        const borderGap = 5
+        const borderGap = 30
         // don't make this logic if near row boundaries
         if (rowRect && ((point.y > rowRect.top + borderGap) && (point.y < rowRect.top + rowRect.height - borderGap))) {
           const columnsRect = children.map((child) => {
