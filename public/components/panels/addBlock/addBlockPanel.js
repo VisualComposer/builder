@@ -93,7 +93,7 @@ export default class AddBlockPanel extends React.Component {
     let allBlocksArray = []
 
     const sortedGroups = getStorage('hubTemplates').state('templatesGroupsSorted').get()
-    let checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    const checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
     let layoutType = ''
     if (checkForLayoutTemplates) {
       layoutType = settingsStorage.state('layoutType').get()

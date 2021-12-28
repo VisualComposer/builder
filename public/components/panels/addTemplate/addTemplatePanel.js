@@ -259,7 +259,7 @@ export default class AddTemplatePanel extends React.Component {
   getSearchResults () {
     const searchValue = this.props.searchValue.toLowerCase()
     const allCategories = this.state.categories.find(category => category.id === 'all')
-    let checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    const checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
     let layoutType = ''
     if (checkForLayoutTemplates) {
       layoutType = settingsStorage.state('layoutType').get()
@@ -298,7 +298,7 @@ export default class AddTemplatePanel extends React.Component {
   getTemplatesByGroup () {
     const allGroups = this.state.categories.filter(category => category.id !== 'all')
     const allTemplates = []
-    let checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
+    const checkForLayoutTemplates = dataManager.get('editorType') === 'vcv_layouts'
     let layoutType = ''
     if (checkForLayoutTemplates) {
       layoutType = settingsStorage.state('layoutType').get()
@@ -602,7 +602,6 @@ export default class AddTemplatePanel extends React.Component {
       'vcv-ui-form-button--action': true,
       'vcv-ui-form-button--loading': !!this.state.showSpinner
     })
-    const editorType = dataManager.get('editorType')
 
     const saveTemplate = (this.state.isRemoveStateActive || !isAbleToSave) ? null : (
       <div className='vcv-ui-form-dependency'>
