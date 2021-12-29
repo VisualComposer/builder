@@ -87,10 +87,12 @@
 
     .vce-content-background-container {
       @if $borderWidth != false {
-        border-radius: calc($borderRadius - $borderWidth);
+        @if $borderRadius != false {
+          border-radius: calc($borderRadius - $borderWidth);
+        }
       } @else {
-      border-radius: inherit;
-    }
+        border-radius: inherit;
+      }
     }
   }
 }
