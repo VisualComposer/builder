@@ -165,8 +165,8 @@ export default class HubContainer extends React.Component {
       }
     })
 
-    let freeElements = elementCategories[0].elements.filter(element => defaultElementTags.indexOf(element.tag) === -1 && element.bundleType.includes('free'))
-    let premiumElements = elementCategories[0].elements.filter(element => element.bundleType.includes('premium') && !element.bundleType.includes('free'))
+    let freeElements = elementCategories[0].elements.filter(element => !element.disabledOnHub && defaultElementTags.indexOf(element.tag) === -1 && element.bundleType.includes('free'))
+    let premiumElements = elementCategories[0].elements.filter(element => !element.disabledOnHub && element.bundleType.includes('premium') && !element.bundleType.includes('free'))
 
     defaultElements = lodash.sortBy(defaultElements, ['name'])
     freeElements = lodash.sortBy(freeElements, ['name'])
