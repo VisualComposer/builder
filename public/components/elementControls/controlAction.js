@@ -1,10 +1,12 @@
 import React from 'react'
-import { getStorage, setData } from 'vc-cake'
+import { getStorage, setData, getService } from 'vc-cake'
 
 const workspaceStorage = getStorage('workspace')
 const workspaceContentState = workspaceStorage.state('content')
 const workspaceTreeViewId = workspaceStorage.state('treeViewId')
 const layoutStorage = getStorage('layout')
+const dataManager = getService('dataManager')
+const cook = getService('cook')
 
 export default function ControlAction (props) {
   const { id, options } = props
@@ -14,7 +16,7 @@ export default function ControlAction (props) {
 
   const handleClick = () => {
     const event = options.data.vcControlEvent
-    const tag = options.data.vcControlEventOptions || false
+    let tag = options.data.vcControlEventOptions || false
     const eventOptions = {
       insertAfter: options.data.vcControlEventOptionInsertAfter || false
     }
@@ -35,6 +37,15 @@ export default function ControlAction (props) {
         workspaceStorage.trigger(event, id, tag, eventOptions)
       }
     } else {
+      if (event === 'copy') {
+        if (!tag) {
+          tag = cook.getById(id).get('tag')
+        }
+
+        if (dataManager.get('editorType') === 'vcv_layouts' && tag === 'layoutContentArea') {
+          eventOptions.editorTypeRelation = dataManager.get('editorType')
+        }
+      }
       workspaceContentState.set(false)
       workspaceStorage.trigger(event, id, tag, eventOptions)
     }
