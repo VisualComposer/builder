@@ -229,7 +229,7 @@ addStorage('workspace', (storage) => {
     storage.trigger('edit', data.toJS().id, '')
   })
   storage.on('start', () => {
-    storage.state('app').set('started')
+    storage.state('navbarDisabled').set(true)
   })
   storage.on('addTemplate', () => {
     storage.state('settings').set({
