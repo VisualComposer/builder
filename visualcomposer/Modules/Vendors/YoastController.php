@@ -84,20 +84,18 @@ class YoastController extends Container implements Module
             return $contextPresentation;
         }
 
-        $repository = YoastSEO()->classes->get('Yoast\WP\SEO\Repositories\Indexable_Repository');
-        $model = $repository->for_current_page();
-
-        if (empty($model)) {
-            return $contextPresentation;
-        }
-
         $backWpQuery = $wp_query;
         $backupWpTheQuery = $wp_the_query;
 
         $wp_query = $backWpQuery->query['queriedPage'];
         $wp_the_query = $backupWpTheQuery->query['queriedPage'];
 
-        $contextPresentation->model = $model;
+        $repository = YoastSEO()->classes->get('Yoast\WP\SEO\Repositories\Indexable_Repository');
+        $model = $repository->for_current_page();
+
+        if ($model) {
+            $contextPresentation->model = $model;
+        }
 
         $wp_query = $backWpQuery;
         $wp_the_query = $backupWpTheQuery;
