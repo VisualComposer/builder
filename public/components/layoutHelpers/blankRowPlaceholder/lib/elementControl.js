@@ -45,7 +45,7 @@ export default class ElementControl extends React.Component {
   setDisabledState (copyData) {
     const editorType = dataManager.get('editorType')
     const layoutType = settingsStorage.state('layoutType').get()
-    const isEditorRelatedElement = copyData.options?.editorTypeRelation && copyData.options.editorTypeRelation === 'vcv_layouts' && (editorType !== 'vcv_layouts' || layoutType === 'archiveTemplate')
+    const isEditorRelatedElement = copyData && copyData.options && copyData.options.editorTypeRelation && copyData.options.editorTypeRelation === 'vcv_layouts' && (editorType !== 'vcv_layouts' || layoutType === 'archiveTemplate')
 
     if (isEditorRelatedElement && !this.state.isDisabled) {
       this.setState({ isDisabled: true })
