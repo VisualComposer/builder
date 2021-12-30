@@ -144,12 +144,6 @@ const API = {
                   node.remove()
                 }
                 break
-              } else if (textContent.indexOf('vcwb-view-page-render-element') !== -1) {
-                if (textContent.indexOf(id) !== -1) {
-                  // This is comment of element so we can remove it
-                  node.remove()
-                }
-                break
               } else {
                 node.remove()
               }
@@ -292,14 +286,6 @@ const API = {
       }
     },
     updateDynamicComments: (ref, id, cookElement, inner) => {
-      if (!env('VCV_JS_FT_DYNAMIC_FIELDS')) {
-        const el = ReactDOM.findDOMNode(ref)
-        // Clean all comments before/after element dom ref
-        API.dynamicFields.cleanComments(el, id)
-        API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
-
-        return
-      }
       if (!ref || !cookElement) {
         return
       }
@@ -308,23 +294,23 @@ const API = {
       // Clean all comments before/after element dom ref
       API.dynamicFields.cleanComments(el, id)
 
-      const commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
-
-      if (commentsStackResult.commentStack.length) {
-        if (inner) {
-          innerRenderCount++
+      el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
+      el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
+      if (env('VCV_JS_FT_DYNAMIC_FIELDS')) {
+        const commentsStackResult = API.dynamicFields.getCommentsStack(id, cookElement, inner)
+        if (commentsStackResult.commentStack.length) {
+          if (inner) {
+            innerRenderCount++
+          }
+          const nestingLevel = API.getParentCount(id)
+          const innerNestingLevel = inner ? innerRenderCount : 0
+          commentsStackResult.commentStack.forEach((commentData) => {
+            const { blockInfo, attributesLevel } = commentData
+            el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+            el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+          })
         }
-        const nestingLevel = API.getParentCount(id)
-        const innerNestingLevel = inner ? innerRenderCount : 0
-        el.insertAdjacentHTML('beforebegin', `<!-- vcwb/dynamicElementComment:${id} -->`)
-        el.insertAdjacentHTML('afterend', `<!-- /vcwb/dynamicElementComment:${id} -->`)
-        commentsStackResult.commentStack.forEach((commentData) => {
-          const { blockInfo, attributesLevel } = commentData
-          el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-          el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-        })
       }
-
       API.dynamicFields.updateViewPageRenderComments(ref, id, cookElement, inner)
     },
     updateViewPageRenderComments: (ref, id, cookElement, inner) => {
