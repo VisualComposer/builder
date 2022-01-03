@@ -88,6 +88,8 @@ class FrontViewController extends Container implements Module
             $content
         );
 
+        $content = preg_replace('/<!-- \/?vcwb\/dynamicElementComment:([^--]+) -->/', '', $content);
+
         return $content;
     }
 
