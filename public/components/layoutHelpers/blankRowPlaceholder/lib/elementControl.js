@@ -17,6 +17,7 @@ export default class ElementControl extends React.Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleCopyStateChange = this.handleCopyStateChange.bind(this)
+    this.handleLayoutChange = this.handleLayoutChange.bind(this)
     this.state = {
       isDisabled: false
     }
@@ -31,6 +32,7 @@ export default class ElementControl extends React.Component {
       this.setDisabledState(copyData)
 
       workspaceStorage.state('copyData').onChange(this.handleCopyStateChange)
+      settingsStorage.state('layoutType').onChange(this.handleLayoutChange)
       window.addEventListener('storage', this.handleCopyStateChange)
     }
   }
@@ -38,6 +40,7 @@ export default class ElementControl extends React.Component {
   componentWillUnmount () {
     if (this.props.control.tag === 'paste') {
       workspaceStorage.state('copyData').ignoreChange(this.handleCopyStateChange)
+      settingsStorage.state('layoutType').ignoreChange(this.handleLayoutChange)
       window.removeEventListener('storage', this.handleCopyStateChange)
     }
   }
@@ -45,7 +48,17 @@ export default class ElementControl extends React.Component {
   setDisabledState (copyData) {
     const editorType = dataManager.get('editorType')
     const layoutType = settingsStorage.state('layoutType').get()
-    const isEditorRelatedElement = copyData && copyData.options && copyData.options.editorTypeRelation && copyData.options.editorTypeRelation === 'vcv_layouts' && (editorType !== 'vcv_layouts' || layoutType === 'archiveTemplate')
+    const copyOptions = copyData.options
+    const isEditorRelatedElement =
+      copyData &&
+      copyOptions.editorTypeRelation &&
+      copyOptions.editorTypeRelation === 'vcv_layouts' &&
+      (editorType !== 'vcv_layouts' ||
+        (
+          (layoutType === 'archiveTemplate' && copyOptions.elementTag === 'layoutContentArea') ||
+          (layoutType === 'postTemplate' && copyOptions.elementTag === 'postsGridDataSourceArchive')
+        )
+      )
 
     if (isEditorRelatedElement && !this.state.isDisabled) {
       this.setState({ isDisabled: true })
@@ -59,6 +72,14 @@ export default class ElementControl extends React.Component {
       const copyData = data.key === 'vcv-copy-data' ? JSON.parse(data.newValue) : data
       this.setDisabledState(copyData)
     }
+  }
+
+  handleLayoutChange () {
+    let copyData = (window.localStorage && window.localStorage.getItem('vcv-copy-data')) || workspaceStorage.state('copyData').get()
+    if (typeof copyData === 'string') {
+      copyData = JSON.parse(copyData)
+    }
+    this.setDisabledState(copyData)
   }
 
   handleClick (e) {

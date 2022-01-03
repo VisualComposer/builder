@@ -48,7 +48,19 @@ export const ControlHelpers = {
     const editorType = dataManager.get('editorType')
     const layoutType = settingsStorage.state('layoutType').get()
 
-    if (copyData.options && copyData.options.editorTypeRelation && copyData.options.editorTypeRelation === 'vcv_layouts' && (editorType !== 'vcv_layouts' || layoutType === 'archiveTemplate')) {
+    const copyOptions = copyData.options
+    const isEditorSpecific =
+      copyData &&
+      copyOptions.editorTypeRelation &&
+      copyOptions.editorTypeRelation === 'vcv_layouts' &&
+      (editorType !== 'vcv_layouts' ||
+        (
+          (layoutType === 'archiveTemplate' && copyOptions.elementTag === 'layoutContentArea') ||
+          (layoutType === 'postTemplate' && copyOptions.elementTag === 'postsGridDataSourceArchive')
+        )
+      )
+
+    if (isEditorSpecific) {
       pasteOptions.disabled = true
     } else if (
       copiedElRelatedToValue &&
