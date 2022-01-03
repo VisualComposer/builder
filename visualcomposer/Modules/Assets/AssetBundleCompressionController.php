@@ -37,7 +37,7 @@ class AssetBundleCompressionController extends Container implements Module
             return;
         }
 
-        error_reporting(0);
+        //        error_reporting(0);
         $mimeType = $this->getMimeType();
         header('Content-Type: ' . $mimeType);
 
@@ -71,7 +71,7 @@ class AssetBundleCompressionController extends Container implements Module
 
         $name = $this->getCompressionRequestName($assetType);
 
-        $path = VCV_PLUGIN_DIR_PATH . '/public/dist/' . $name . '.bundle.' . $assetType;
+        $path = VCV_PLUGIN_DIR_PATH . 'public/dist/' . $name . '.bundle.' . $assetType;
 
         if ($isCompress) {
             $path .= '.gz';
@@ -115,7 +115,8 @@ class AssetBundleCompressionController extends Container implements Module
         $compressList = [
             'editor',
             'wp',
-            'vendor'
+            'vendor',
+            'runtime',
         ];
 
         $searchKey = $assetType === 'js' ? $_GET['vcv-script'] : $_GET['vcv-style'];
@@ -123,7 +124,7 @@ class AssetBundleCompressionController extends Container implements Module
         $key = array_search($searchKey, $compressList);
 
         if ($key !== false) {
-            $name = $compressList[$key];
+            $name = $compressList[ $key ];
         }
 
         return $name;
