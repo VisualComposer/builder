@@ -37,7 +37,7 @@ class AssetBundleCompressionController extends Container implements Module
             return;
         }
 
-        //        error_reporting(0);
+        error_reporting(0);
         $mimeType = $this->getMimeType();
         header('Content-Type: ' . $mimeType);
 
