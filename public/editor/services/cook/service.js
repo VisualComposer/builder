@@ -67,6 +67,7 @@ const API = {
     getDynamicFieldsData: (props, attribute = null, raw = false, options = {}) => {
       const { blockAtts, beforeBlock, afterBlock } = props
       let postData = settingsStorage.state('postData').get()
+      const postFields = settingsStorage.state('postFields').get()
 
       const key = blockAtts.value.replace('::', ':')
       let result = null
@@ -82,12 +83,26 @@ const API = {
           result = postData[key]
         }
       }
-
       const getDefaultPlaceholder = (blockValue) => {
+        const isDefaultPlaceholderAcfImage = function (metaValue) {
+          let isImage = false
+          if (postFields?.attachimage?.acf?.group?.values) {
+            for (const acf of postFields.attachimage.acf.group.values) {
+              if (acf.fieldType === 'image' && acf.fieldMetaSlug === metaValue) {
+                isImage = true
+              }
+            }
+          }
+
+          return isImage
+        }
+
         if (blockValue === 'post_excerpt') {
           return localizations ? localizations.excerptPlaceholderText : 'This is a sample excerpt placeholder that will be replaced with the actual content. You can style this excerpt to your liking using the editor controls.'
         } else if (blockValue === 'post_author_bio') {
           return localizations ? localizations.authorBioPlaceholderText : 'This is a placeholder for the Author Bio element. It will be replaced by the actual content.'
+        } else if (isDefaultPlaceholderAcfImage(blockValue)) {
+          return '<img src="' + postData.featured_image + '">'
         }
         const noValueText = localizations ? localizations.noValue : 'No Value'
         return `${noValueText} (${blockValue})`
