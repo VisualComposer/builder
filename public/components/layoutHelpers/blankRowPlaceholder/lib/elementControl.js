@@ -48,7 +48,7 @@ export default class ElementControl extends React.Component {
   setDisabledState (copyData) {
     const editorType = dataManager.get('editorType')
     const layoutType = settingsStorage.state('layoutType').get()
-    const copyOptions = copyData.options
+    const copyOptions = copyData && copyData.options
     const isEditorRelatedElement =
       copyData &&
       copyOptions.editorTypeRelation &&

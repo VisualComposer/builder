@@ -48,7 +48,7 @@ export const ControlHelpers = {
     const editorType = dataManager.get('editorType')
     const layoutType = settingsStorage.state('layoutType').get()
 
-    const copyOptions = copyData.options
+    const copyOptions = copyData && copyData.options
     const isEditorSpecific =
       copyData &&
       copyOptions.editorTypeRelation &&
