@@ -12,18 +12,23 @@ export default class NavbarWrapper extends React.Component {
     isDisabled: true
   }
 
+  constructor (props) {
+    super(props)
+    this.handleDisableChange = this.handleDisableChange.bind(this)
+  }
+
   componentDidMount () {
     document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
     document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
     document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
-    workspaceStorage.state('navbarDisabled').onChange(this.handleDisableChange.bind(this))
+    workspaceStorage.state('navbarDisabled').onChange(this.handleDisableChange)
   }
 
   componentWillUnmount () {
     document.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
     document.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
     document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
-    workspaceStorage.state('navbarDisabled').ignoreChange(this.handleDisableChange.bind(this))
+    workspaceStorage.state('navbarDisabled').ignoreChange(this.handleDisableChange)
   }
 
   handleDisableChange (isDisabled) {
