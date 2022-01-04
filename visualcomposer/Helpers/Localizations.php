@@ -1369,7 +1369,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'VCHubIsAnOnlineLibrary' => __(
-                '<a href="https://visualcomposer.com/help/visual-composer-hub/?utm_source=' . $source
+                '<a href="https://help.visualcomposer.com/visual-composer-hub/?utm_source=' . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
                 'visualcomposer'
             ),
@@ -1378,7 +1378,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'replaceStaticContentWithDynamicContent' => __(
-                'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/?utm_source='
+                'Replace static content with <a href="https://help.visualcomposer.com/docs/features/dynamic-content/?utm_source='
                 . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">dynamic content</a> placeholders (WordPress default and custom fields).',
                 'visualcomposer'
@@ -1886,6 +1886,12 @@ class Localizations extends Container implements Helper
                 'No Value',
                 'visualcomposer'
             ),
+            'designOptionsTooltip' => __(
+                'Apply the most common style properties and effects to content elements with <a href="https://help.visualcomposer.com/design-options/?utm_source='
+                . $source
+                .'&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.',
+                'visualcomposer'
+            )
         ];
 
         return vcfilter('vcv:helpers:localizations:i18n', $locale);
