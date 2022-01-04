@@ -147,7 +147,7 @@ export default {
         exclude: /node_modules/
       },
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         use: {
           loader: 'ts-loader'
         },
@@ -213,7 +213,7 @@ export default {
     ]
   },
   resolve: {
-    extensions: ['.ts', '.js', '.json', '.wasm'],
+    extensions: ['.ts', '.tsx', '.js', '.json', '.wasm'],
     alias: { public: path.resolve(__dirname, './public/') },
     fallback: {
       amd: false,
