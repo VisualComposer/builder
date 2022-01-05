@@ -1369,7 +1369,7 @@ class Localizations extends Container implements Helper
                 'visualcomposer'
             ),
             'VCHubIsAnOnlineLibrary' => __(
-                '<a href="https://help.visualcomposer.com/visual-composer-hub/?utm_source=' . $source
+                '<a href="https://help.visualcomposer.com/docs/visual-composer-hub/what-is-visual-composer-hub/?utm_source=' . $source
                 . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Visual Composer Hub</a> is an online library where to search and download content elements, templates, add-ons, stock images, and GIFs.',
                 'visualcomposer'
             ),
