@@ -101,7 +101,10 @@ export default class GutenbergEditorComponent extends Attribute {
     if (notice) {
       notice.classList.add('hidden')
     }
-    this.renderGutenbergControls(window)
+    window.setTimeout(() => {
+      // wait for gutenberg initialization
+      this.renderGutenbergControls(window)
+    }, 300)
     this.setState({ loadingEditor: false })
   }
 
@@ -121,12 +124,20 @@ export default class GutenbergEditorComponent extends Attribute {
 
   renderGutenbergControls (iframe) {
     const postToolbar = iframe.document.querySelector('.edit-post-header-toolbar')
-    const controlHTML = this.getControlsHTML()
-    postToolbar.insertAdjacentHTML('afterend', controlHTML)
-    const updateButton = iframe.document.querySelector('.vcv-gutenberg-modal-update-button')
-    const closeButton = iframe.document.querySelector('.vcv-gutenberg-modal-close-button')
-    updateButton.addEventListener('click', this.updateEditor)
-    closeButton.addEventListener('click', this.closeEditor)
+    if (postToolbar) {
+      const controlHTML = this.getControlsHTML()
+      postToolbar.insertAdjacentHTML('afterend', controlHTML)
+      const updateButton = iframe.document.querySelector('.vcv-gutenberg-modal-update-button')
+      const closeButton = iframe.document.querySelector('.vcv-gutenberg-modal-close-button')
+      updateButton.addEventListener('click', this.updateEditor)
+      closeButton.addEventListener('click', this.closeEditor)
+    } else {
+      // postpone initialization until gutenberg fully loaded
+      window.setTimeout(() => {
+        // wait for gutenberg initialization
+        this.renderGutenbergControls(iframe)
+      }, 300)
+    }
   }
 
   updateValueFromIframe () {

@@ -71,7 +71,7 @@ class AssetBundleCompressionController extends Container implements Module
 
         $name = $this->getCompressionRequestName($assetType);
 
-        $path = VCV_PLUGIN_DIR_PATH . '/public/dist/' . $name . '.bundle.' . $assetType;
+        $path = VCV_PLUGIN_DIR_PATH . 'public/dist/' . $name . '.bundle.' . $assetType;
 
         if ($isCompress) {
             $path .= '.gz';

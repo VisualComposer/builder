@@ -42,6 +42,9 @@ class ViewPageRender extends Container implements Module
             return $response;
         }
 
+        if (strpos($block['blockName'], 'vcwb/empty-comment-element-wrapper') !== false) {
+            return ''; // clear all the content
+        }
         $isDynamicViewPageRender = strpos($block['blockName'], 'vcwb-view-page-render-element') !== false;
         if (!$isDynamicViewPageRender) {
             return $response;

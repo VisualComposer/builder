@@ -104,6 +104,7 @@ add('wordpressWorkspace', (api) => {
   if (iframeContent) {
     const removeStartBlank = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
+      workspaceStorage.state('navbarDisabled').set(false)
     }
     const addStartBlank = () => {
       ReactDOM.render(
@@ -113,7 +114,7 @@ add('wordpressWorkspace', (api) => {
     }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-      document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
+      workspaceStorage.state('navbarDisabled').set(false)
       // Remove Current Post Source-CSS to avoid cascading issues
       const sourceCss = env('iframe').document.querySelector('link[id*="assets:source:main:styles"][href$="-' + dataManager.get('sourceID') + '"]')
       if (sourceCss) {
@@ -151,7 +152,6 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addStartBlank()
           isBlank = true
-          document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
         } else {
           removeOverlay()
         }

@@ -38,12 +38,16 @@ export default function ControlAction (props) {
       }
     } else {
       if (event === 'copy') {
+        const cookElement = cook.getById(id)
         if (!tag) {
-          tag = cook.getById(id).get('tag')
+          tag = cookElement.get('tag')
         }
+        const elementSetting = cookElement.getAll()
+        const isEditorTypeRelated = dataManager.get('editorType') === 'vcv_layouts' && (tag === 'layoutContentArea' || (elementSetting.sourceItem && elementSetting.sourceItem.tag === 'postsGridDataSourceArchive'))
 
-        if (dataManager.get('editorType') === 'vcv_layouts' && tag === 'layoutContentArea') {
+        if (isEditorTypeRelated) {
           eventOptions.editorTypeRelation = dataManager.get('editorType')
+          eventOptions.elementTag = tag === 'layoutContentArea' ? 'layoutContentArea' : 'postsGridDataSourceArchive'
         }
       }
       workspaceContentState.set(false)
