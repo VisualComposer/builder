@@ -148,5 +148,7 @@ class PostType extends Container implements Module
                 $optionsHelper->set($this->postType . '-capabilities-set', 1);
             }
         }
+        // reset current user all caps
+        wp_get_current_user()->get_role_caps();
     }
 }
