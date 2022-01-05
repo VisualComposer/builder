@@ -38,7 +38,6 @@ class ViewPageRender extends Container implements Module
      */
     protected function renderDynamicBlock($response, $block)
     {
-//        var_dump($block);
         if (!isset($block) || !is_array($block) || !array_key_exists('blockName', $block)) {
             return $response;
         }
