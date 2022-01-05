@@ -38,10 +38,14 @@ class ViewPageRender extends Container implements Module
      */
     protected function renderDynamicBlock($response, $block)
     {
+//        var_dump($block);
         if (!isset($block) || !is_array($block) || !array_key_exists('blockName', $block)) {
             return $response;
         }
 
+        if (strpos($block['blockName'], 'vcwb/empty-comment-element-wrapper') !== false) {
+            return ''; // clear all the content
+        }
         $isDynamicViewPageRender = strpos($block['blockName'], 'vcwb-view-page-render-element') !== false;
         if (!$isDynamicViewPageRender) {
             return $response;
