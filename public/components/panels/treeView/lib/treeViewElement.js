@@ -151,7 +151,18 @@ export default class TreeViewElement extends React.Component {
 
   handleClickCopy = (e) => {
     e && e.preventDefault()
-    workspaceStorage.trigger('copy', this.state.element.id)
+    const options = {}
+    const cookElement = cook.getById(this.state.element.id)
+    const tag = cookElement.get('tag')
+    const elementSetting = cookElement.getAll()
+    const isEditorTypeRelated = dataManager.get('editorType') === 'vcv_layouts' && (tag === 'layoutContentArea' || (elementSetting.sourceItem && elementSetting.sourceItem.tag === 'postsGridDataSourceArchive'))
+
+    if (isEditorTypeRelated) {
+      options.editorTypeRelation = dataManager.get('editorType')
+      options.elementTag = tag === 'layoutContentArea' ? 'layoutContentArea' : 'postsGridDataSourceArchive'
+    }
+    console.log('this.state.element', this.state.element)
+    workspaceStorage.trigger('copy', this.state.element.id, tag, options)
   }
 
   clickPaste = (e) => {
