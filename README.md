@@ -33,7 +33,7 @@ Visual Composer API allows you to develop your own custom elements for the websi
 
 ### Resources for Visual Composer API:
 
-* [API Documentation](https://visualcomposer.com/help/api/)
+* [API Documentation](https://dev.visualcomposer.com/)
 * [Custom Element & Add-on Development](https://visualcomposer.com/blog/visual-composer-api-custom-elements-and-add-ons/)
 * [Theme Integration](https://visualcomposer.com/blog/visual-composer-theme-integration/)
 * [Staging Environment](https://visualcomposer.com/blog/visual-composer-on-staging/)
