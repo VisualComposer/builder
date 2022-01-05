@@ -10,9 +10,11 @@ export function bindEditorKeys (document) {
 
   let combokeysInstance = new Combokeys(document)
 
-  combokeysInstance.stopCallback = function(e){
-    return e.which !== 27;
-  };
+  combokeysInstance.stopCallback = function (e,element, combo) {
+    const workspaceState = workspaceStorage.state('settings').get()
+
+    return !workspaceState && (e.which === 27)
+  }
   combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
     e.preventDefault()
     historyStorage.state('canUndo').get() && historyStorage.trigger('undo')
