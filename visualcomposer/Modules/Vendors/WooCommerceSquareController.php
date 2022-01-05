@@ -35,8 +35,8 @@ class WooCommerceSquareController extends Container implements Module
                 $closureInfo = $payload['closureInfo'];
                 if ($closureInfo instanceof \ReflectionMethod) {
                     if (
-                        !empty($closureInfo->getDeclaringClass()->name) &&
-                        strpos($closureInfo->getDeclaringClass()->name, 'SV_WC_Payment_Gateway')
+                        !empty($closureInfo->getDeclaringClass()->getName()) &&
+                        strpos($closureInfo->getDeclaringClass()->getName(), 'SV_WC_Payment_Gateway')
                     ) {
                         return true;
                     }
