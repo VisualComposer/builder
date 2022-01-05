@@ -1,22 +1,38 @@
 import React from 'react'
+import classNames from 'classnames'
+import { getStorage } from 'vc-cake'
+
+const workspaceStorage = getStorage('workspace')
 
 export default class NavbarWrapper extends React.Component {
   state = {
     showGuideline: false,
     guidelinePosition: 'top',
-    isDragging: false
+    isDragging: false,
+    isDisabled: true
+  }
+
+  constructor (props) {
+    super(props)
+    this.handleDisableChange = this.handleDisableChange.bind(this)
   }
 
   componentDidMount () {
     document.addEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
     document.addEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
     document.addEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
+    workspaceStorage.state('navbarDisabled').onChange(this.handleDisableChange)
   }
 
   componentWillUnmount () {
     document.removeEventListener('vc.ui.navbar.drag-start', this.handleNavbarDragStart)
     document.removeEventListener('vc.ui.navbar.drag-end', this.handleNavbarDragEnd)
     document.removeEventListener('vc.ui.navbar.dragging', this.handleNavbarDragging)
+    workspaceStorage.state('navbarDisabled').ignoreChange(this.handleDisableChange)
+  }
+
+  handleDisableChange (isDisabled) {
+    this.setState({ isDisabled })
   }
 
   handleNavbarDragStart = (e) => {
@@ -86,8 +102,13 @@ export default class NavbarWrapper extends React.Component {
       draggingContent = (<div className={guidelineClasses} />)
     }
 
+    const classes = classNames({
+      'vcv-layout-bar-header': true,
+      'vcv-layout-bar-header--loading': this.state.isDisabled
+    })
+
     return (
-      <div ref={this.props.wrapperRef} className='vcv-layout-bar-header vcv-layout-bar-header--loading' id='vcv-editor-header'>
+      <div ref={this.props.wrapperRef} className={classes} id='vcv-editor-header'>
         <div id='vc-navbar-container'>
           {draggingContent}
           {this.props.children}
