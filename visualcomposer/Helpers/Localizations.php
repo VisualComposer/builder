@@ -1889,7 +1889,7 @@ class Localizations extends Container implements Helper
             'designOptionsTooltip' => __(
                 'Apply the most common style properties and effects to content elements with <a href="https://help.visualcomposer.com/design-options/?utm_source='
                 . $source
-                .'&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.',
+                . '&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">Design Options</a>.',
                 'visualcomposer'
             )
         ];
