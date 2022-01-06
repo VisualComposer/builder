@@ -82,7 +82,7 @@ class PremiumTeasers extends Container implements Module
             'parent' => 'vcv-headers-footers',
             'premiumTitle' => __('THEME BUILDER IS A PREMIUM FEATURE', 'visualcomposer'),
             'premiumDescription' => __(
-                'Replace the theme default header and footer with custom header and footer templates using Visual Composer Header and Footer Builder.',
+                'Replace the theme default layout for pages, posts, and archives with custom layouts using Visual Composer.',
                 'visualcomposer'
             ),
             'premiumUrl' => str_replace('{medium}', 'headersfooters-vcdashboard', $utmTemplate),
