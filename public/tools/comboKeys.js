@@ -10,7 +10,7 @@ export function bindEditorKeys (document) {
 
   let combokeysInstance = new Combokeys(document)
 
-  combokeysInstance.stopCallback = function (e,element, combo) {
+  combokeysInstance.stopCallback = function (e) {
     const workspaceState = workspaceStorage.state('settings').get()
 
     return !workspaceState && (e.which === 27)
