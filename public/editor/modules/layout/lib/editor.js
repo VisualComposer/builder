@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 
 const elementsStorage = vcCake.getStorage('elements')
 const wordpressDataStorage = vcCake.getStorage('wordpressData')
+const workspaceStorage = vcCake.getStorage('workspace')
 
 export default class LayoutEditor extends React.Component {
   static propTypes = {
@@ -19,6 +20,7 @@ export default class LayoutEditor extends React.Component {
       data
     }
     this.updateState = this.updateState.bind(this)
+    this.handleNavbarStateChange = this.handleNavbarStateChange.bind(this)
   }
 
   updateState (data) {
@@ -30,11 +32,18 @@ export default class LayoutEditor extends React.Component {
   componentDidMount () {
     elementsStorage.state('document').onChange(this.updateState)
     this.props.api.notify('editor:mount')
-    bindEditorKeys(this.document)
+    workspaceStorage.state('navbarDisabled').onChange(this.handleNavbarStateChange)
   }
 
   componentWillUnmount () {
     elementsStorage.state('document').ignoreChange(this.updateState)
+    workspaceStorage.state('navbarDisabled').ignoreChange(this.handleNavbarStateChange)
+  }
+
+  handleNavbarStateChange (isDisabled) {
+    if (!isDisabled) {
+      bindEditorKeys(this.document)
+    }
   }
 
   getContent () {
