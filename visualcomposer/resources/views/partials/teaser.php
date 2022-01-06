@@ -22,6 +22,9 @@ if (!defined('ABSPATH')) {
             <a class="vcv-premium-teaser-btn vcv-premium-teaser-download-addon-btn" data-vcv-action="download" data-vcv-action-bundle="<?php echo $page['premiumActionBundle']; ?>"><?php esc_html_e('Download Addon', 'visualcomposer'); ?></a>
         <?php else : ?>
             <a class="vcv-premium-teaser-btn" href="<?php echo $page['premiumUrl']; ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Go Premium', 'visualcomposer'); ?></a>
+            <p class="vcv-premium-teaser-text">
+                <?php esc_html_e('Already have a Premium license?', 'visualcomposer'); ?> <a href="http://localhost:8888/wp-one/wp-admin/admin.php?page=vcv-activate-license&vcv-ref=elements-addelement-hub-editor" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Activate here', 'visualcomposer'); ?></a>
+            </p>
         <?php endif; ?>
     </div>
 </div>
