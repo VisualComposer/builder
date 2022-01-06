@@ -9,7 +9,8 @@ export default function EmptyCommentElementWrapper({ children }: EmptyCommentEle
 
   useEffect(() => {
     if (ref && ref.current) {
-      ref.current.insertAdjacentHTML('beforebegin', '<!-- wp:vcwb/empty-comment-element-wrapper /-->')
+      ref.current.insertAdjacentHTML('beforebegin', '<!-- wp:vcwb/empty-comment-element-wrapper -->')
+      ref.current.insertAdjacentHTML('afterend', '<!-- /wp:vcwb/empty-comment-element-wrapper -->')
     }
 
     return () => {
