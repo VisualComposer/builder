@@ -383,7 +383,7 @@ STYLE;
         <main class="vcv-dashboard-main">
             <div class="vcv-dashboard-content">
                 <?php
-                if (isset($allTabs[ $parentSlug ]['children'])) {
+                if (isset($allTabs[ $parentSlug ]['children']) && !empty($allTabs[ $parentSlug ]['children'])) {
                     $renderedTabs = $allTabs[ $parentSlug ]['children'];
                     foreach ($renderedTabs as $tabKey => $tab) {
                         $tab['callback']();

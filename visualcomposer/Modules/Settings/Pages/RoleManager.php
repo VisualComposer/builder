@@ -96,6 +96,7 @@ class RoleManager extends Container implements Module
             'premiumTitle' => __('PREMIUM ROLE MANAGER', 'visualcomposer'),
             'premiumDescription' => __('Control feature access for certain user roles. Lock functionality, restrict elements, and more.', 'visualcomposer'),
             'premiumUrl' => vchelper('Utm')->get('vcdashboard-teaser-rolemanager'),
+            'activationUrl' => vchelper('Utm')->getActivationUrl('rolemanager-vcdashboard'),
             'premiumActionBundle' => 'roleManager',
         ];
         $this->addSubmenuPage($page, false);
