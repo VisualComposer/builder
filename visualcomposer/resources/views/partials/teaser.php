@@ -4,11 +4,10 @@ if (!defined('ABSPATH')) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-/**
- * @var array[string#premiumTitle, string#premiumDescription, string#premiumButton] $page
- */
 
-$rel = empty($page['slug']) ? '' : '&vcv-ref=' . $page['slug'];
+/**
+ * @var array $page [string#premiumTitle, string#premiumDescription, string#premiumButton, string#activationUrl]
+ */
 ?>
 <div class="vcv-premium-teaser-inner">
     <div class="vcv-premium-teaser-image"></div>
@@ -24,7 +23,9 @@ $rel = empty($page['slug']) ? '' : '&vcv-ref=' . $page['slug'];
         <?php else : ?>
             <a class="vcv-premium-teaser-btn" href="<?php echo $page['premiumUrl']; ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Go Premium', 'visualcomposer'); ?></a>
             <p class="vcv-premium-teaser-text">
-                <?php esc_html_e('Already have a Premium license?', 'visualcomposer'); ?> <a href="<?php echo set_url_scheme(admin_url('admin.php?page=vcv-activate-license' . $rel)); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Activate here', 'visualcomposer'); ?></a>
+                <?php if (!empty($page['activationUrl'])) : ?>
+                    <?php esc_html_e('Already have a Premium license?', 'visualcomposer'); ?> <a href="<?php echo $page['activationUrl']; ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e('Activate here', 'visualcomposer'); ?></a>
+                <?php endif; ?>
             </p>
         <?php endif; ?>
     </div>

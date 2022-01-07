@@ -141,4 +141,16 @@ class Utm implements Helper
         // Default fallback (note: it is error-state)
         return $all['editor-gopremium-popup-button'];
     }
+
+    /**
+     * Get activation url with UTM
+     *
+     * @param $urmSlug
+     *
+     * @return string
+     */
+    public function getActivationUrl($urmSlug)
+    {
+        return set_url_scheme(admin_url('admin.php?page=vcv-activate-license&vcv-ref=' . $urmSlug));
+    }
 }
