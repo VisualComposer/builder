@@ -236,7 +236,7 @@ class PremiumTeasers extends Container implements Module
             $dashboard[$index]['premiumUrl']
                 = str_replace('{medium}', $premiumUrlSlug, $utmTemplate);
             $dashboard[$index]['activationUrl']
-                = $utmTemplate = vchelper('Utm')->getActivationUrl($premiumUrlSlug);
+                 = vchelper('Utm')->getActivationUrl($premiumUrlSlug);
         }
 
         return $dashboard;
