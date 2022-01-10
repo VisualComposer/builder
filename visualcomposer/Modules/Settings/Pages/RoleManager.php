@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
@@ -242,15 +243,20 @@ class RoleManager extends Container implements Module
 
 
     /**
-     * For some user roles we need remove all capabilities due to secure reason.
+     * For some user roles we need remove all capabilities.
      *
      * @param string $rolePresetValue
      * @param array $payload
      *
-     * @return void
+     * @return string
      */
-    protected function changeRolePreset($rolePresetValue, $payload)
+    protected function changeRolePreset($rolePresetValue, $payload, Options $optionsHelper)
     {
+        $savedPresets = $optionsHelper->get('role-presets', false);
+        if ($savedPresets && array_search($payload['role'], $savedPresets ) ) {
+            return $rolePresetValue;
+        }
+
         $secureVulnerableRoleList = [
             'author',
             'contributor',
