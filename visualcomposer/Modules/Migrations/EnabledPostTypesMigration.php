@@ -29,7 +29,7 @@ class EnabledPostTypesMigration extends MigrationsController implements Module
     protected function run(Options $optionsHelper)
     {
         $enabledPostTypes = $optionsHelper->get('post-types', ['page', 'post']);
-        $roles = ['administrator', 'editor', 'author', 'contributor'];
+        $roles = ['administrator', 'editor'];
         $roleHelper = vchelper('AccessRole');
         if (!empty($enabledPostTypes) && is_array($enabledPostTypes)) {
             foreach ($roles as $role) {

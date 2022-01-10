@@ -107,16 +107,8 @@ class UserCapabilities implements Helper
                     'edit_page'
                 ],
             ],
-            'author' => [
-                'post_types' => [
-                    'edit_post'
-                ],
-            ],
-            'contributor' => [
-                'post_types' => [
-                    'edit_post'
-                ],
-            ],
+            'author' => [],
+            'contributor' => [],
             'subscriber' => [],
         ];
 

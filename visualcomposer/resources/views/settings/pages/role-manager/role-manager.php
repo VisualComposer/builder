@@ -261,6 +261,11 @@ $accessParts = $roleAccessHelper->getAvailableParts();
             $rolePresets = $optionsHelper->get('role-presets', []);
 
             $rolePresetValue = isset($rolePresets[$role]) ? $rolePresets[$role] : '';
+            $rolePresetValue = vcfilter(
+                'vcv:render:settings:roleManager:rolePreset',
+                $rolePresetValue,
+                ['role' => $role]
+            );
             if (empty($rolePresetValue)) {
                 $roleCapabilities = array_filter(
                     array_keys(get_role($role)->capabilities),
