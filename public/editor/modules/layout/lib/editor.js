@@ -17,7 +17,8 @@ export default class LayoutEditor extends React.Component {
     super(props)
     const data = elementsStorage.state('document').get() || []
     this.state = {
-      data
+      data,
+      isNavbarDisabled: true
     }
     this.updateState = this.updateState.bind(this)
     this.handleNavbarStateChange = this.handleNavbarStateChange.bind(this)
@@ -41,8 +42,9 @@ export default class LayoutEditor extends React.Component {
   }
 
   handleNavbarStateChange (isDisabled) {
-    if (!isDisabled) {
+    if (this.state.isNavbarDisabled && !isDisabled) {
       bindEditorKeys(this.document)
+      this.setState({ isNavbarDisabled: false })
     }
   }
 

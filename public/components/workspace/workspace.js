@@ -21,7 +21,8 @@ export default class Workspace extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentEditableMode: false
+      contentEditableMode: false,
+      isNavbarDisabled: true
     }
     this.handleLayoutCustomModeChange = this.handleLayoutCustomModeChange.bind(this)
     this.handleMouseUp = this.handleMouseUp.bind(this)
@@ -40,8 +41,9 @@ export default class Workspace extends React.Component {
   }
 
   handleNavbarStateChange (isDisabled) {
-    if (!isDisabled) {
+    if (this.state.isNavbarDisabled && !isDisabled) {
       bindEditorKeys(this.document)
+      this.setState({ isNavbarDisabled: false })
     }
   }
 
