@@ -8,6 +8,7 @@ import { log as logError, send as sendErrorReport } from './logger'
 import { getResponse } from '../../tools/response'
 import VideoScreen from './videoScreen'
 import { getService } from 'vc-cake'
+import ActivationSurvey from './activationSurvey'
 
 const $ = window.jQuery
 const ActivationSectionContext = React.createContext()
@@ -89,7 +90,8 @@ export default class ActivationSectionProvider extends React.Component {
       sendingErrorReport: false,
       errorReported: false,
       loadingText: null,
-      loadingDescription: null
+      loadingDescription: null,
+      showSurvey: false
     }
 
     this.doAction = this.doAction.bind(this)
@@ -99,11 +101,14 @@ export default class ActivationSectionProvider extends React.Component {
     this.setError = this.setError.bind(this)
     this.sendErrorReport = this.sendErrorReport.bind(this)
     this.sendErrorCallback = this.sendErrorCallback.bind(this)
+    this.handleCloseSurvey = this.handleCloseSurvey.bind(this)
+    this.handleSubmitSurvey = this.handleSubmitSurvey.bind(this)
   }
 
   componentDidMount () {
     const { isLoadingFinished, assetsActions, postUpdateActions } = this.state
     const { shouldDoUpdate } = ActivationSectionProvider
+    this.setState({ showSurvey: true })
     if (shouldDoUpdate && !isLoadingFinished) {
       const cnt = assetsActions.length
 
@@ -281,6 +286,16 @@ export default class ActivationSectionProvider extends React.Component {
     })
   }
 
+  handleSubmitSurvey (value) {
+    console.log('submit', value)
+  }
+
+  handleCloseSurvey () {
+    this.setState({
+      showSurvey: false
+    })
+  }
+
   render () {
     return (
       <ActivationSectionContext.Provider
@@ -288,6 +303,7 @@ export default class ActivationSectionProvider extends React.Component {
           ...this.state
         }}
       >
+        <ActivationSurvey show={this.state.showSurvey} onClose={this.handleCloseSurvey} onSubmitSurvey={this.handleSubmitSurvey} />
         <div className='vcv-activation-section'>
           {this.getActiveScreen()}
         </div>
