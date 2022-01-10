@@ -10,10 +10,10 @@ export function bindEditorKeys (document) {
 
   let combokeysInstance = new Combokeys(document)
 
-  combokeysInstance.stopCallback = function (e) {
+  combokeysInstance.stopCallback = function (e, element) {
     const workspaceState = workspaceStorage.state('settings').get()
 
-    return !workspaceState && (e.which === 27)
+    return (!workspaceState && e.which === 27) || (element.tagName === 'INPUT' && e.which !== 27)
   }
   combokeysInstance.bind([ 'command+z', 'ctrl+z' ], (e) => {
     e.preventDefault()
