@@ -90,7 +90,7 @@ class PostType extends Container implements Module
             return;
         }
 
-        $roles = ['administrator', 'editor', 'author', 'contributor'];
+        $roles = ['administrator', 'editor'];
 
         foreach ($roles as $role) {
             $roleObject = get_role($role);

@@ -64,6 +64,8 @@ class RoleManager extends Container implements Module
         );
 
         $this->wpAddFilter('user_has_cap', 'addRoleManagerCaps');
+
+        $this->addFilter('vcv:render:settings:roleManager:rolePreset', 'changeRolePreset');
     }
 
     protected function addRoleManagerCaps($allcaps, $caps, $args, $user)
@@ -236,5 +238,28 @@ class RoleManager extends Container implements Module
         }
 
         return $capabilities;
+    }
+
+
+    /**
+     * For some user roles we need remove all capabilities due to secure reason.
+     *
+     * @param string $rolePresetValue
+     * @param array $payload
+     *
+     * @return void
+     */
+    protected function changeRolePreset($rolePresetValue, $payload)
+    {
+        $secureVulnerableRoleList = [
+            'author',
+            'contributor',
+        ];
+
+        if (in_array($payload['role'], $secureVulnerableRoleList)) {
+            $rolePresetValue = 'subscriber';
+        }
+
+        return $rolePresetValue;
     }
 }
