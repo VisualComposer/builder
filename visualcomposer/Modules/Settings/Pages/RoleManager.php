@@ -257,12 +257,12 @@ class RoleManager extends Container implements Module
             return $rolePresetValue;
         }
 
-        $secureVulnerableRoleList = [
+        $roleList = [
             'author',
             'contributor',
         ];
 
-        if (in_array($payload['role'], $secureVulnerableRoleList)) {
+        if (in_array($payload['role'], $roleList)) {
             $rolePresetValue = 'subscriber';
         }
 
