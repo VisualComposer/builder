@@ -253,7 +253,7 @@ class RoleManager extends Container implements Module
     protected function changeRolePreset($rolePresetValue, $payload, Options $optionsHelper)
     {
         $savedPresets = $optionsHelper->get('role-presets', false);
-        if ($savedPresets && array_search($payload['role'], $savedPresets ) ) {
+        if ($savedPresets && array_search($payload['role'], $savedPresets)) {
             return $rolePresetValue;
         }
 
