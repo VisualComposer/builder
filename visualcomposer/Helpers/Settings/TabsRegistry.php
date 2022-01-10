@@ -98,6 +98,10 @@ class TabsRegistry extends Container implements Helper
             } else {
                 $index = array_search($item, array_column($tabs, 'slug'));
 
+                if ($index === false) {
+                    continue;
+                }
+
                 $hierarchy[$item] = $tabs[$index];
             }
         }
