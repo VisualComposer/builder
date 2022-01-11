@@ -81,6 +81,10 @@ const API = {
         if (postData && postData[key].length) {
           // Value should be NEVER empty
           result = postData[key]
+
+          if (dataManager.get('editorType') === 'vcv_layouts' && blockAtts.value === 'post_title') {
+            result = 'Post title'
+          }
         }
       }
       const getDefaultPlaceholder = (blockValue) => {
@@ -326,7 +330,7 @@ const API = {
           commentsStackResult.commentStack.forEach((commentData) => {
             const { blockInfo, attributesLevel } = commentData
             el.insertAdjacentHTML('beforebegin', `<!-- wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
-            el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} ${JSON.stringify(blockInfo.blockAtts)} -->`)
+            el.insertAdjacentHTML('afterend', `<!-- /wp:${blockInfo.blockScope}${blockInfo.blockName}-${nestingLevel}-${attributesLevel}-${innerNestingLevel} -->`)
           })
         }
       }
