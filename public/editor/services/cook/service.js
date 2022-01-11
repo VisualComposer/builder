@@ -88,7 +88,7 @@ const API = {
           let isImage = false
           if (postFields?.attachimage?.acf?.group?.values) {
             for (const acf of postFields.attachimage.acf.group.values) {
-              if (acf.fieldType === 'image' && acf.fieldMetaSlug === metaValue) {
+              if (acf.fieldType === 'image' && (acf.fieldMetaSlug === metaValue || acf.value === metaValue)) {
                 isImage = true
               }
             }
@@ -102,7 +102,11 @@ const API = {
         } else if (blockValue === 'post_author_bio') {
           return localizations ? localizations.authorBioPlaceholderText : 'This is a placeholder for the Author Bio element. It will be replaced by the actual content.'
         } else if (isDefaultPlaceholderAcfImage(blockValue)) {
-          return '<img src="' + postData.featured_image + '">'
+          if (attribute?.fieldType && attribute.fieldType === 'attachimage') {
+            return postData.featured_image
+          } else {
+            return '<img src="' + postData.featured_image + '">'
+          }
         }
         const noValueText = localizations ? localizations.noValue : 'No Value'
         return `${noValueText} (${blockValue})`

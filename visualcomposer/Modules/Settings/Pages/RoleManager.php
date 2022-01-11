@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Module;
 use VisualComposer\Helpers\Access\CurrentUser;
+use VisualComposer\Helpers\Options;
 use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
 use VisualComposer\Modules\Settings\Traits\SubMenu;
@@ -64,6 +65,8 @@ class RoleManager extends Container implements Module
         );
 
         $this->wpAddFilter('user_has_cap', 'addRoleManagerCaps');
+
+        $this->addFilter('vcv:render:settings:roleManager:rolePreset', 'changeRolePreset');
     }
 
     protected function addRoleManagerCaps($allcaps, $caps, $args, $user)
@@ -237,5 +240,33 @@ class RoleManager extends Container implements Module
         }
 
         return $capabilities;
+    }
+
+
+    /**
+     * For some user roles we need remove all capabilities.
+     *
+     * @param string $rolePresetValue
+     * @param array $payload
+     *
+     * @return string
+     */
+    protected function changeRolePreset($rolePresetValue, $payload, Options $optionsHelper)
+    {
+        $savedPresets = $optionsHelper->get('role-presets', false);
+        if ($savedPresets && array_search($payload['role'], $savedPresets)) {
+            return $rolePresetValue;
+        }
+
+        $roleList = [
+            'author',
+            'contributor',
+        ];
+
+        if (in_array($payload['role'], $roleList)) {
+            $rolePresetValue = 'subscriber';
+        }
+
+        return $rolePresetValue;
     }
 }
