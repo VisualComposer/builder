@@ -19,6 +19,7 @@ use VisualComposer\Helpers\Request;
 use VisualComposer\Helpers\Str;
 use VisualComposer\Helpers\Traits\EventsFilters;
 use VisualComposer\Helpers\Traits\WpFiltersActions;
+use WP_Query;
 
 class EnqueueController extends Container implements Module
 {
@@ -31,7 +32,7 @@ class EnqueueController extends Container implements Module
 
     public function __construct(Request $requestHelper)
     {
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssetsFromList');
+        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssetsFromList', 11);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', 50);
         if (
             (defined('DOING_AJAX') && DOING_AJAX)
@@ -41,7 +42,7 @@ class EnqueueController extends Container implements Module
         ) {
             $this->wpAddAction('init', 'setCustomWpScripts');
         }
-        $this->wpAddAction('wp_footer', 'enqueueAssetsFromList', 11);
+        $this->wpAddAction('wp_footer', 'printAssetsFromList', 11);
         $this->wpAddAction('wp_footer', 'enqueueVcvAssets');
         $this->wpAddAction('wp_head', 'enqueueNoscript');
 
@@ -50,7 +51,7 @@ class EnqueueController extends Container implements Module
             'vcv:assets:enqueue:css:list',
             function () {
                 $this->call(
-                    'enqueueAssetsFromList',
+                    'printAssetsFromList',
                     [
                         'payload' => [
                             'printJs' => false,
@@ -63,7 +64,7 @@ class EnqueueController extends Container implements Module
             'vcv:assets:enqueue:js:list',
             function () {
                 $this->call(
-                    'enqueueAssetsFromList',
+                    'printAssetsFromList',
                     [
                         'payload' => [
                             'printJs' => true,
@@ -74,60 +75,102 @@ class EnqueueController extends Container implements Module
         );
     }
 
+    /**
+     * Process script enqueue action for post list.
+     *
+     * @param array $payload
+     * @param AssetsEnqueue $assetsEnqueueHelper
+     */
     protected function enqueueAssetsFromList($payload, AssetsEnqueue $assetsEnqueueHelper)
     {
-        // NOTE: This is not an feature toggler, it is local env to avoid recursion
+        $actionList = [
+            'wp_enqueue_scripts',
+        ];
+
+        $this->processPostList($actionList, $assetsEnqueueHelper, true);
+    }
+
+    /**
+     * Process script printing actions for post list.
+     *
+     * @param array $payload
+     * @param AssetsEnqueue $assetsEnqueueHelper
+     */
+    protected function printAssetsFromList($payload, AssetsEnqueue $assetsEnqueueHelper)
+    {
+        $printJs = isset($payload['printJs']) ? $payload['printJs'] : true;
+
+        $actionList = [
+            'wp_print_scripts',
+            'wp_print_footer_scripts',
+            'google_analytics'
+        ];
+
+        $this->processPostList($actionList, $assetsEnqueueHelper, $printJs);
+    }
+
+    /**
+     * Process action list for post list.
+     *
+     * @param array $actionList
+     * @param AssetsEnqueue $assetsEnqueueHelper
+     * @param bool $printJs
+     */
+    protected function processPostList($actionList, $assetsEnqueueHelper, $printJs = true)
+    {
+        // NOTE: This is not a feature toggle, it is local env to avoid recursion
         if (vcvenv('ENQUEUE_INNER_ASSETS')) {
             return;
         }
         VcvEnv::set('ENQUEUE_INNER_ASSETS', true);
-        $printJs = isset($payload['printJs']) ? $payload['printJs'] : true;
         $enqueueList = $assetsEnqueueHelper->getEnqueueList();
-        if (!empty($enqueueList)) {
-            foreach ($enqueueList as $sourceId) {
-                // @codingStandardsIgnoreStart
-                global $wp_query, $wp_the_query;
-                $backup = $wp_query;
-                $backupGlobal = $wp_the_query;
+        if (empty($enqueueList)) {
+            VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
+        }
 
-                $tempPostQuery = new \WP_Query(
-                    [
-                        'p' => $sourceId,
-                        'post_status' => get_post_status($sourceId),
-                        'post_type' => get_post_type($sourceId),
-                        'posts_per_page' => 1,
-                    ]
-                );
-                $wp_query = $tempPostQuery;
-                $wp_the_query = $tempPostQuery;
-                if ($wp_query->have_posts()) {
-                    $wp_query->the_post();
-                    $this->callNonWordpressActionCallbacks('wp_enqueue_scripts');
+        foreach ($enqueueList as $sourceId) {
+            // @codingStandardsIgnoreStart
+            global $wp_query, $wp_the_query;
+            $backup = $wp_query;
+            $backupGlobal = $wp_the_query;
 
-                    // queue of assets to be outputted later with print_late_styles() and do_action('wp_print_footer_script')
-                    // Output JS only if printJs is true (used to output only CSS)
-                    if ($printJs) {
-                        $this->callNonWordpressActionCallbacks('wp_print_scripts');
-                        $this->callNonWordpressActionCallbacks('wp_print_footer_scripts');
+            $tempPostQuery = new WP_Query(
+                [
+                    'p' => $sourceId,
+                    'post_status' => get_post_status($sourceId),
+                    'post_type' => get_post_type($sourceId),
+                    'posts_per_page' => 1,
+                ]
+            );
+            $wp_query = $tempPostQuery;
+            $wp_the_query = $tempPostQuery;
+            if ($wp_query->have_posts()) {
+                $wp_query->the_post();
+
+                foreach ($actionList as $actionName) {
+                    if ($actionName == 'google_analytics') {
+                        ob_start();
+                        if ($printJs) {
+                            //fix for WooCommerce Google Analytics Pro plugin
+                            add_filter('wc_google_analytics_pro_do_not_track', '__return_true');
+                            // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
+                            $this->callNonWordpressActionCallbacks('wp_footer');
+                        }
+                        ob_end_clean();
+                    } elseif ($printJs) {
+                        $this->callNonWordpressActionCallbacks($actionName);
                     }
-                    ob_start();
-                    if ($printJs) {
-                        //fix for WooCommerce Google Analytics Pro plugin
-                        add_filter('wc_google_analytics_pro_do_not_track', '__return_true');
-                        // This action needed to add all 3rd party localizations/scripts queue in footer for exact post id
-                        $this->callNonWordpressActionCallbacks('wp_footer');
-                    }
-                    ob_end_clean();
-                }
-                $wp_query = $backup;
-                $wp_the_query = $backupGlobal; // fix wp_reset_query
-                // Remove from list only if printJs is true (footer side)
-                if ($printJs) {
-                    $assetsEnqueueHelper->removeFromList($sourceId);
                 }
             }
-            wp_reset_postdata();
+            $wp_query = $backup;
+            $wp_the_query = $backupGlobal; // fix wp_reset_query
+            // Remove from list only if printJs is true (footer side)
+            if ($printJs) {
+                $assetsEnqueueHelper->removeFromList($sourceId);
+            }
         }
+        wp_reset_postdata();
+
         VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
     }
 
@@ -228,6 +271,7 @@ class EnqueueController extends Container implements Module
         wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('vcv:assets:runtime:script');
         wp_enqueue_script('vcv:assets:front:script');
+
         if (
             $frontendHelper->isPreview()
             && (
