@@ -229,11 +229,13 @@ Yes, we have an awesome online community that you can join to share your experti
 *Release Date - 2022-01-19*
 
 ### Free:
+- New: Maintenance mode option is available for free
 - New: Ability to close editor windows with 'Esc' button added
 - New: Authors and Contributors don not have access to Visual Composer by default for security reasons
 - Update: Help Center links in the editor updated with the pathes to the new Help Center
 - Update: Drag and Drop improved for better user experience
 - Update: Editor windows have transitions for better user experience
+- Update: Getting Started screen updated for better user experience
 - Fix: Disable row stacking works properly
 - Fix: YouTube background video works properly on iPhone
 - Fix: Background color can be removed to make background transparent
