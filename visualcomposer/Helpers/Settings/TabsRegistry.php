@@ -64,8 +64,6 @@ class TabsRegistry extends Container implements Helper
             if (!empty($actions['actions']) || !empty($actions['posts'])) {
                 $this->menuTree[] = 'vcv-update';
             }
-
-            $optionsHelper->set('bundleUpdateRequired', false);
         }
 
         $this->menuTree = vcfilter('vcv:helpers:settings:menuTree', $this->menuTree);
