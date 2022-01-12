@@ -29,6 +29,8 @@ class EnqueueController extends Container implements Module
 
     protected $globalCssAdded = false;
 
+    protected static $initialPostId = null;
+
     public function __construct(Request $requestHelper)
     {
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', 50);
@@ -98,8 +100,8 @@ class EnqueueController extends Container implements Module
                     ]
                 );
                 $wp_query = $tempPostQuery;
-                if (empty($wp_query->query['vcv_initial_post'])) {
-                    $wp_query->query['vcv_initial_post'] = get_the_ID();
+                if (is_null(self::$initialPostId)) {
+                    self::$initialPostId = get_the_ID();
                 }
                 $wp_the_query = $tempPostQuery;
                 if ($wp_query->have_posts()) {
@@ -214,10 +216,8 @@ class EnqueueController extends Container implements Module
 
         // @codingStandardsIgnoreStart
         global $wp_query;
-        if (empty($wp_query->query['vcv_initial_post'])) {
-            $initPostId = get_the_ID();
-        } else {
-            $initPostId = $wp_query->query['vcv_initial_post'];
+        if (is_null(self::$initialPostId)) {
+            self::$initialPostId = get_the_ID();
         }
         // @codingStandardsIgnoreEnd
 
@@ -227,7 +227,7 @@ class EnqueueController extends Container implements Module
                 continue;
             }
             $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
-            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId, 'postId' => $initPostId,]);
+            $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
         }
     }
 
@@ -241,10 +241,8 @@ class EnqueueController extends Container implements Module
     {
         // @codingStandardsIgnoreStart
         global $wp_query;
-        if (empty($wp_query->query['vcv_initial_post'])) {
+        if (is_null(self::$initialPostId)) {
             $initPostId = get_the_ID();
-        } else {
-            $initPostId = $wp_query->query['vcv_initial_post'];
         }
         // @codingStandardsIgnoreEnd
 
@@ -264,7 +262,7 @@ class EnqueueController extends Container implements Module
             // @codingStandardsIgnoreLine
             foreach ($wp_query->posts as $post) {
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
-                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID, 'postId' => $initPostId,]);
+                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $post->ID]);
             }
         }
         vcevent('vcv:assets:enqueueVendorAssets');
@@ -273,7 +271,7 @@ class EnqueueController extends Container implements Module
         if (!empty($idList) && is_array($idList)) {
             foreach ($idList as $sourceId) {
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $sourceId]);
-                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId, 'postId' => $initPostId,]);
+                $this->call('enqueueSourceAssetsBySourceId', ['sourceId' => $sourceId]);
             }
         }
     }
@@ -291,8 +289,7 @@ class EnqueueController extends Container implements Module
         Assets $assetsHelper,
         AssetsEnqueue $assetsEnqueueHelper,
         Options $optionsHelper,
-        $sourceId = null,
-        $postId = false
+        $sourceId = null
     ) {
         if (!$sourceId) {
             $sourceId = get_the_ID();
@@ -336,13 +333,17 @@ class EnqueueController extends Container implements Module
             );
         }
 
-        $enqueueList = $assetsEnqueueHelper->getEnqueueList();
-        $styles = get_post_meta(
-            $postId,
-            '_' . VCV_PREFIX . 'pageDesignOptionsCompiledCss',
-            true
-        );
-        if (!$enqueueList || !$styles) {
+        if (is_null(self::$initialPostId)) {
+            $enqueueList = $assetsEnqueueHelper->getEnqueueList();
+            $styles = get_post_meta(
+                self::$initialPostId,
+                '_' . VCV_PREFIX . 'pageDesignOptionsCompiledCss',
+                true
+            );
+            if (!$enqueueList || !$styles) {
+                $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
+            }
+        } else {
             $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
         }
     }
