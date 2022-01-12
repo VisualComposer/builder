@@ -91,7 +91,7 @@ export default class DynamicPopup extends React.Component {
     const popupTitle = DynamicPopup.localizations.dynamicContent || 'Dynamic Content'
     const saveText = DynamicPopup.localizations.save || 'Save'
     const closeText = DynamicPopup.localizations.close || 'Close'
-    const replaceStaticContentWithDynamicContent = DynamicPopup.localizations ? DynamicPopup.localizations.replaceStaticContentWithDynamicContent : 'Replace static content with <a href="https://visualcomposer.com/help/theme-builder/dynamic-content/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">dynamic content</a> placeholders (WordPress default and custom fields).'
+    const replaceStaticContentWithDynamicContent = DynamicPopup.localizations ? DynamicPopup.localizations.replaceStaticContentWithDynamicContent : 'Replace static content with <a href="https://help.visualcomposer.com/docs/features/dynamic-content/?utm_source=vcwb&utm_medium=editor&utm_campaign=info&utm_content=helper-point" target="_blank" rel="noopener noreferrer">dynamic content</a> placeholders (WordPress default and custom fields).'
 
     const showModal = true
     const { elementAccessPoint, fieldType, value, renderExtraOptions } = this.props

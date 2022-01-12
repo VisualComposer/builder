@@ -71,7 +71,6 @@ class Settings extends Container implements Module
             'iconClass' => 'vcv-ui-icon-dashboard-settings',
             'isDashboardPage' => true,
             'hideInWpMenu' => false,
-            'position' => -100,
         ];
         $this->addSubmenuPage($page);
     }

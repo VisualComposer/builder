@@ -2,14 +2,16 @@ import { add, getStorage, getService, env, setData, getData, onDataChange } from
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WorkspaceCont from 'public/components/workspace/workspaceCont'
-import StartBlankPanel from 'public/components/startBlank/StartBlankPanel'
+import StartBlankPanel from 'public/components/startBlankFunctional/startBlankPanel'
+import { Provider } from 'react-redux'
+import store from 'public/editor/stores/store'
+import { notificationAdded } from 'public/editor/stores/notifications/slice'
 
 const workspaceStorage = getStorage('workspace')
 const wordpressDataStorage = getStorage('wordpressData')
 const elementsStorage = getStorage('elements')
 const assetsStorage = getStorage('assets')
 const settingsStorage = getStorage('settings')
-const notificationsStorage = getStorage('notifications')
 const utils = getService('utils')
 const dataManager = getService('dataManager')
 const roleManager = getService('roleManager')
@@ -89,7 +91,9 @@ add('wordpressWorkspace', (api) => {
     })
 
     ReactDOM.render(
-      <WorkspaceCont />,
+      <Provider store={store}>
+        <WorkspaceCont />
+      </Provider>,
       layoutHeader
     )
   }
@@ -100,6 +104,7 @@ add('wordpressWorkspace', (api) => {
   if (iframeContent) {
     const removeStartBlank = () => {
       ReactDOM.unmountComponentAtNode(iframeContent)
+      workspaceStorage.state('navbarDisabled').set(false)
     }
     const addStartBlank = () => {
       ReactDOM.render(
@@ -109,7 +114,7 @@ add('wordpressWorkspace', (api) => {
     }
     const removeOverlay = () => {
       iframeContent.querySelector('.vcv-loading-overlay') && iframeContent.querySelector('.vcv-loading-overlay').remove()
-      document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
+      workspaceStorage.state('navbarDisabled').set(false)
       // Remove Current Post Source-CSS to avoid cascading issues
       const sourceCss = env('iframe').document.querySelector('link[id*="assets:source:main:styles"][href$="-' + dataManager.get('sourceID') + '"]')
       if (sourceCss) {
@@ -147,7 +152,6 @@ add('wordpressWorkspace', (api) => {
         if (showBlank && typeof settingsStorage.state('skipBlank').get() === 'undefined') {
           addStartBlank()
           isBlank = true
-          document.querySelector('.vcv-layout-bar-header') && document.querySelector('.vcv-layout-bar-header').classList.remove('vcv-layout-bar-header--loading')
         } else {
           removeOverlay()
         }
@@ -178,10 +182,10 @@ add('wordpressWorkspace', (api) => {
             isTutorialNotificationShown = true
             const localizations = dataManager.get('localizations')
             const tutorialPageMessage = localizations.tutorialPageNotification || 'This page can not be saved, because it is made for the demo purposes only.'
-            notificationsStorage.trigger('add', {
+            store.dispatch(notificationAdded({
               text: tutorialPageMessage,
               time: 5000
-            })
+            }))
           }
         }
       }

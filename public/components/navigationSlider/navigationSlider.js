@@ -36,7 +36,7 @@ export default class NavigationSlider extends React.Component {
     this.navigationSliderRef.current.addEventListener('scroll', this.handleSliderScroll)
     this.navigationSliderRef.current.addEventListener('wheel', this.handleHorizontalScroll)
 
-    const sliderItems = this.navigationSliderRef.current && this.navigationSliderRef.current.childNodes
+    const sliderItems = this.navigationSliderRef.current ? Array.from(this.navigationSliderRef.current.children) : []
     let sliderWidth = 0
     sliderItems.forEach((item) => {
       sliderWidth += item.getBoundingClientRect().width
@@ -203,7 +203,7 @@ export default class NavigationSlider extends React.Component {
     const sliderWidth = sliderRect.width
     let scrollLength = direction === 'left' ? -sliderWidth : sliderWidth
 
-    slider.childNodes.forEach((item) => {
+    Array.from(slider.children).forEach((item) => {
       const itemRect = item.getBoundingClientRect()
       const offsetLeft = itemRect.left - sliderRect.left
       const offsetRight = offsetLeft + itemRect.width

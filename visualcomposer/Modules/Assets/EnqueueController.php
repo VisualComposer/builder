@@ -29,9 +29,10 @@ class EnqueueController extends Container implements Module
 
     protected $globalCssAdded = false;
 
+    protected static $initialPostId = null;
+
     public function __construct(Request $requestHelper)
     {
-        $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssetsFromList', 40);
         $this->wpAddAction('wp_enqueue_scripts', 'enqueueAssets', 50);
         if (
             (defined('DOING_AJAX') && DOING_AJAX)
@@ -99,6 +100,9 @@ class EnqueueController extends Container implements Module
                     ]
                 );
                 $wp_query = $tempPostQuery;
+                if (is_null(self::$initialPostId)) {
+                    self::$initialPostId = get_the_ID();
+                }
                 $wp_the_query = $tempPostQuery;
                 if ($wp_query->have_posts()) {
                     $wp_query->the_post();
@@ -128,6 +132,9 @@ class EnqueueController extends Container implements Module
             }
             wp_reset_postdata();
         }
+
+        $assetsEnqueueHelper->enqueuePageSettingsCss(get_the_ID());
+
         VcvEnv::set('ENQUEUE_INNER_ASSETS', false);
     }
 
@@ -206,6 +213,14 @@ class EnqueueController extends Container implements Module
         if (empty($sourceIds)) {
             return;
         }
+
+        // @codingStandardsIgnoreStart
+        global $wp_query;
+        if (is_null(self::$initialPostId)) {
+            self::$initialPostId = get_the_ID();
+        }
+        // @codingStandardsIgnoreEnd
+
         $sourceIds = array_unique($sourceIds);
         foreach ($sourceIds as $sourceId) {
             if (in_array($sourceId, $this->lastEnqueueIdAssetsAll, true)) {
@@ -224,6 +239,13 @@ class EnqueueController extends Container implements Module
      */
     protected function enqueueAssets(Frontend $frontendHelper, Assets $assetsHelper)
     {
+        // @codingStandardsIgnoreStart
+        global $wp_query;
+        if (is_null(self::$initialPostId)) {
+            $initPostId = get_the_ID();
+        }
+        // @codingStandardsIgnoreEnd
+
         $sourceId = get_the_ID();
         wp_enqueue_style('vcv:assets:front:style');
         wp_enqueue_script('vcv:assets:runtime:script');
@@ -237,8 +259,6 @@ class EnqueueController extends Container implements Module
             // To avoid enqueue assets inside preview page
             $this->addEnqueuedId($sourceId);
         } elseif (is_home() || is_archive() || is_category() || is_tag()) {
-            // @codingStandardsIgnoreLine
-            global $wp_query;
             // @codingStandardsIgnoreLine
             foreach ($wp_query->posts as $post) {
                 $this->call('enqueueAssetsBySourceId', ['sourceId' => $post->ID]);
@@ -313,8 +333,19 @@ class EnqueueController extends Container implements Module
             );
         }
 
-
-        $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
+        if (is_null(self::$initialPostId)) {
+            $enqueueList = $assetsEnqueueHelper->getEnqueueList();
+            $styles = get_post_meta(
+                self::$initialPostId,
+                '_' . VCV_PREFIX . 'pageDesignOptionsCompiledCss',
+                true
+            );
+            if (!$enqueueList || !$styles) {
+                $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
+            }
+        } else {
+            $assetsEnqueueHelper->enqueuePageSettingsCss($sourceId);
+        }
     }
 
     /**

@@ -37,13 +37,13 @@
   background-color: @vcv-dnd-frame-border-color;
   opacity: 0;
   &.vcv-is-shown {
-    transition: opacity .5s;
+    transition: opacity .25s;
     opacity: 1;
   }
   &.vcv-smart-line-transition {
     transform: scale(1, 4);
     background-color: @vcv-dnd-frame-border-color-transition;
-    transition: opacity .5s, background-color .5s, transform .3s ease .2s;
+    transition: opacity .25s, background-color .25s, transform .15s ease .1s;
 
     &.vcv-smart-line-vertical {
       transform: scale(4, 1);
@@ -53,12 +53,12 @@
     transform: scale(1);
     border: @vcv-dnd-frame-border-width solid @vcv-dnd-frame-border-color-transition;
     background-color: transparent;
-    transition: opacity .5s;
+    transition: opacity .25s;
 
     &.vcv-smart-line-transition {
       box-shadow: 0 0 0 @vcv-dnd-frame-border-width @vcv-dnd-frame-border-color-transition,
       inset 0 0 0 @vcv-dnd-frame-border-width @vcv-dnd-frame-border-color-transition;
-      transition: opacity .5s, box-shadow .3s ease .2s;
+      transition: opacity .25s, box-shadow .15s ease .1s;
     }
   }
 }

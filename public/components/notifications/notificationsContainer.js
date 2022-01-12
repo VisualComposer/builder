@@ -1,50 +1,17 @@
 import React from 'react'
-import { getStorage } from 'vc-cake'
 import NotificationItem from './notificationItem'
+import { connect } from 'react-redux'
 
-const notificationsStorage = getStorage('notifications')
-const notificationsState = notificationsStorage.state('notifications')
-
-export default class NotificationsContainer extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      notifications: []
-    }
-
-    this.update = this.update.bind(this)
-
-    notificationsState.onChange(this.update)
-  }
-
-  componentWillUnmount () {
-    notificationsState.ignoreChange(this.update)
-  }
-
-  update (data) {
-    const notifications = []
-    const { isPortal } = this.props
-
-    if (data && data.length) {
-      data.forEach((item) => {
-        if ((isPortal && item.usePortal) || (!isPortal && !item.usePortal)) {
-          notifications.push(item)
-        }
-      })
-    }
-
-    this.setState({
-      notifications: notifications
-    })
-  }
-
+class NotificationsContainer extends React.Component {
   renderItems () {
-    if (!this.state.notifications) {
+    const { notifications, isPortal } = this.props
+    if (!notifications || !notifications.length) {
       return null
     }
 
-    return this.state.notifications.map((item) => {
+    const filteredNotifications = notifications.filter(item => !(isPortal ^ item.usePortal))
+
+    return filteredNotifications.map((item) => {
       return (
         <NotificationItem
           data={item}
@@ -64,3 +31,9 @@ export default class NotificationsContainer extends React.Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  notifications: state.notifications.list
+})
+
+export default connect(mapStateToProps)(NotificationsContainer)

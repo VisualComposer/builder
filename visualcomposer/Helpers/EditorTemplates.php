@@ -243,7 +243,7 @@ order by a.post_modified desc
             }
         }
 
-        return $options;
+        return vcfilter('vcv:helpers:templates:getCustomTemplates', $options);
     }
 
     public function create($type = 'custom')

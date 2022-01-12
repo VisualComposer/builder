@@ -5,6 +5,7 @@ import MobileDetect from 'mobile-detect'
 import PropTypes from 'prop-types'
 
 const workspaceStorage = vcCake.getStorage('workspace')
+const workspaceSettings = workspaceStorage.state('settings')
 const dataManager = vcCake.getService('dataManager')
 const roleManager = vcCake.getService('roleManager')
 
@@ -54,7 +55,15 @@ export default class ContentControls extends React.Component {
     if (children.length === 1) {
       options = children[0].tag
     }
-    workspaceStorage.trigger('add', this.props.id, options)
+    const currentState = workspaceSettings.get()
+    if (currentState && currentState.action === 'add') {
+      workspaceSettings.set(false)
+      setTimeout(() => {
+        workspaceStorage.trigger('add', this.props.id, options)
+      }, 300)
+    } else {
+      workspaceStorage.trigger('add', this.props.id, options)
+    }
   }
 
   render () {
