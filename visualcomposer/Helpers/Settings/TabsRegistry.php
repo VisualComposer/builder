@@ -10,7 +10,9 @@ if (!defined('ABSPATH')) {
 
 use VisualComposer\Framework\Container;
 use VisualComposer\Framework\Illuminate\Support\Helper;
+use VisualComposer\Helpers\Hub\Update;
 use VisualComposer\Helpers\License;
+use VisualComposer\Helpers\Options;
 
 class TabsRegistry extends Container implements Helper
 {
@@ -45,14 +47,25 @@ class TabsRegistry extends Container implements Helper
         'vcv-import',
         'vcv-global-css-js',
         'vcv-hub',
+        'vcv-getting-started'
     ];
 
-    public function __construct(License $licenseHelper)
+    public function __construct(License $licenseHelper, Options $optionsHelper, Update $updateHelper)
     {
         if (!$licenseHelper->isPremiumActivated() || $licenseHelper->isThemeActivated()) {
             $this->menuTree[] = 'vcv-activate-license';
-        } else {
-            $this->menuTree[] = 'vcv-getting-started';
+        }
+
+        if (
+            ($licenseHelper->isPremiumActivated() || $optionsHelper->get('agreeHubTerms'))
+            && $optionsHelper->get('bundleUpdateRequired')
+        ) {
+            $actions = $updateHelper->getRequiredActions();
+            if (!empty($actions['actions']) || !empty($actions['posts'])) {
+                $this->menuTree[] = 'vcv-update';
+            }
+
+            $optionsHelper->set('bundleUpdateRequired', false);
         }
 
         $this->menuTree = vcfilter('vcv:helpers:settings:menuTree', $this->menuTree);
