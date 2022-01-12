@@ -1,10 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 import { getService } from 'vc-cake'
+import store from '../store'
 
 const slice = createSlice({
   name: 'notifications',
   initialState: {
     list: [],
+    queue: [],
     portal: ''
   },
   reducers: {
@@ -12,11 +14,12 @@ const slice = createSlice({
       const Utils = getService('utils')
       const createKey = Utils.createKey
       const data = action.payload
-      const limit = 10
+      const limit = 5
 
       if (!data) {
         return
       }
+
       if (data.cookie) {
         let cookieName = ''
         if (data.cookie.constructor === Object && data.cookie.name) {
@@ -28,15 +31,20 @@ const slice = createSlice({
           return
         }
       }
+
       if (!data.id) {
         data.id = createKey()
       } else if (notifications.list.find(item => item.id === data.id)) { // Already added notification
         return
       }
-      notifications.list.push(action.payload)
 
-      if (notifications.list.length > limit) { // Remove first one if limit
-        notifications.list.splice(0, 1)
+      if (notifications.list.length >= limit) {
+        notifications.queue.push(action.payload)
+      } else {
+        notifications.list.push(action.payload)
+        window.setTimeout(() => {
+          store.dispatch(notificationRemoved(data.id))
+        }, data.time)
       }
     },
     notificationRemoved: (notifications, action) => {
@@ -53,6 +61,18 @@ const slice = createSlice({
         }
 
         notifications.list.splice(index, 1)
+
+        if (current(notifications).queue[0]) {
+          const clone = { ...current(notifications).queue[0] }
+          notifications.queue.splice(0, 1)
+
+          window.setTimeout(() => {
+            store.dispatch(notificationAdded({
+              text: clone.text,
+              time: clone.time
+            }))
+          }, 10)
+        }
       }
     },
     portalChanged: (notifications, action) => {
